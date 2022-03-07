@@ -75,3 +75,17 @@ type Guild = {
 };
 
 export const guilds = base.table<Guild>('Guilds');
+
+type Contribution = {
+  Member?: string;
+  ActivityType?: string;
+  Score?: number;
+  ActivityCategory?: string;
+  DecayedAScore?: number | null;
+  DateOfSubmission?: Date;
+  CreatedBy?: string;
+};
+
+export const contributions = base.table<Contribution>(
+  'Activity History Staging'
+);
