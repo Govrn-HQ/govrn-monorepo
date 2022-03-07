@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -22,21 +22,60 @@ const FormContainer = styled.form`
 `;
 
 const Form = ({ users, activites }) => {
+  const { guild_id } = useParams();
   const [value, setValue] = React.useState(null);
+  const [userValue, setUserValue] = React.useState(null);
+  const [activityValue, setActivityValue] = React.useState(null);
+  const [guildImg, setGuildImg] = useState('');
+  useEffect(() => {
+    if (!guild_id) {
+      return;
+    }
+    const fetchGuild = async () => {
+      const resp = await axios.get(`/guild?guild_id=${guild_id}`, {
+        baseURL: (VITE_URL || '') as string,
+        headers,
+      });
+      console.log(resp.data);
+      setGuildImg(resp.data.logo[0].url);
+    };
+    fetchGuild();
+  }, [guild_id]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const onSubmit = useCallback(
+    async (data) => {
+      console.log(data);
+      console.log(activityValue);
+      console.log(userValue);
+      const resp = await axios.post(
+        `/contribution`,
+        {
+          ActivityType: [activityValue],
+          Member: [userValue],
+          DateOfEngagement: data.date,
+          Description: data.description,
+        },
+        {
+          baseURL: (VITE_URL || '') as string,
+          headers,
+        }
+      );
+    },
+    [activityValue, userValue]
+  );
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      {guildImg && <Logo src={guildImg} />}
       <Autocomplete
         id="user-select"
         options={users}
         sx={{ width: 300 }}
+        onChange={(e, v) => setUserValue(v.id)}
         renderInput={(params) => (
           <TextField {...params} {...register('user')} label="User" />
         )}
@@ -45,6 +84,7 @@ const Form = ({ users, activites }) => {
         id="activity-select"
         options={activites}
         sx={{ width: 300 }}
+        onChange={(e, v) => setActivityValue(v.id)}
         renderInput={(params) => (
           <TextField {...params} {...register('activity')} label="Activity" />
         )}
@@ -79,12 +119,18 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8rem;
+  gap: 3rem;
 `;
 
 const headers = {
   'Content-Type': 'application/json',
 };
+
+const Logo = styled.img`
+  height: 128px;
+  object-fit: contain;
+  margin: 2rem;
+`;
 
 const VITE_URL = 'http://localhost:3333';
 // fetch users
@@ -95,7 +141,6 @@ export const App = () => {
   const [activities, setActivities] = useState<{ label: string; id: string }[]>(
     []
   );
-  console.log(import.meta.env);
 
   useEffect(() => {
     if (!guild_id) {
@@ -109,10 +154,10 @@ export const App = () => {
       console.log(resp.data);
       setUsers([
         ...resp.data.map(
-          (user: { display_name?: string; global_id: string }) => {
+          (user: { display_name?: string; Members: string[] }) => {
             return {
               label: user?.display_name || 'Missing',
-              id: user.global_id,
+              id: user.Members[0],
             };
           }
         ),
@@ -136,10 +181,10 @@ export const App = () => {
       console.log(resp.data);
       setActivities([
         ...resp.data.map(
-          (user: { activity_name_only?: string; Name: string }) => {
+          (user: { activity_name_only?: string; id: string }) => {
             return {
               label: user?.activity_name_only || 'Missing',
-              id: user.Name,
+              id: user.id,
             };
           }
         ),

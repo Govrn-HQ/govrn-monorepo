@@ -45,7 +45,7 @@ app.get('/contribution/types', async (req, res) => {
 
   const u = [];
   for await (const activity of activityTypes.select(query)) {
-    u.push(activity.data);
+    u.push({ ...activity.data, id: activity.id });
   }
   res.send(u);
 });
@@ -101,12 +101,9 @@ app.post(
     // TODO: I am guessing over 1000 users
     // this will start to become slow
 
-    try {
-      const rep = await contributions.create(req.body);
-      return res.send(rep);
-    } catch (err) {
-      return res.status(500).send(err.message);
-    }
+    console.log(req.body);
+    const rep = await contributions.create(req.body);
+    return res.send(rep);
   })
 );
 
