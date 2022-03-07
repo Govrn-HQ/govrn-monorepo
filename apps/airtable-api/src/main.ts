@@ -4,12 +4,14 @@
  */
 
 import util = require('util');
+import cors = require('cors');
 import * as express from 'express';
 import { activityTypes, contributions, guilds, users } from './lib/airtable';
 import { Formula } from '@qualifyze/airtable-formulator';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Endpoint to fetch users
 app.get(
