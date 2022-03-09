@@ -14,6 +14,11 @@ import styled from '@emotion/styled';
 const staticUsers = [{ label: 'Keating', id: 1 }];
 const staticActivities = [{ label: 'Make pr', id: 1 }];
 
+type Option = {
+  label: string;
+  id: string;
+};
+
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -21,7 +26,13 @@ const FormContainer = styled.form`
   justify-content: center;
 `;
 
-const Form = ({ users, activites }) => {
+const Form = ({
+  users,
+  activities,
+}: {
+  users: Option[];
+  activities: Option[];
+}) => {
   const { guild_id } = useParams();
   const [value, setValue] = React.useState(null);
   const [userValue, setUserValue] = React.useState(null);
@@ -36,7 +47,6 @@ const Form = ({ users, activites }) => {
         baseURL: (VITE_URL || '') as string,
         headers,
       });
-      console.log(resp.data);
       setGuildImg(resp.data.logo[0].url);
     };
     fetchGuild();
@@ -49,9 +59,6 @@ const Form = ({ users, activites }) => {
   } = useForm();
   const onSubmit = useCallback(
     async (data) => {
-      console.log(data);
-      console.log(activityValue);
-      console.log(userValue);
       const resp = await axios.post(
         `/contribution`,
         {
@@ -82,7 +89,7 @@ const Form = ({ users, activites }) => {
       />
       <Autocomplete
         id="activity-select"
-        options={activites}
+        options={activities}
         sx={{ width: 300 }}
         onChange={(e, v) => setActivityValue(v.id)}
         renderInput={(params) => (
@@ -109,7 +116,7 @@ const Form = ({ users, activites }) => {
         )}
       />
       <Button type="submit" variant="contained">
-        Contained
+        Submit
       </Button>
     </FormContainer>
   );
@@ -151,7 +158,6 @@ export const App = () => {
         baseURL: (VITE_URL || '') as string,
         headers,
       });
-      console.log(resp.data);
       setUsers([
         ...resp.data.map(
           (user: { display_name?: string; Members: string[] }) => {
@@ -178,7 +184,6 @@ export const App = () => {
           headers,
         }
       );
-      console.log(resp.data);
       setActivities([
         ...resp.data.map(
           (user: { activity_name_only?: string; id: string }) => {
