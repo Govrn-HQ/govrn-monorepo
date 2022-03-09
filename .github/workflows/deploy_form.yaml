@@ -14,6 +14,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16.x
+      - run: cat secrets.SKYNET_REGISTRY_SEED
       - run: yarn
       - run: npm install -g nx
       - run: nx build contribution-report
