@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 16.x
       - run: yarn
-      - run: yarn add nx
+      - run: npm install -g nx
       - run: nx build contribution-report
 
       - name: 'Deploy to Skynet'
