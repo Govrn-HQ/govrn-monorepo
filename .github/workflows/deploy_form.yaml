@@ -24,5 +24,4 @@ jobs:
           upload-dir: dist/apps/contribution-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
           registry-seed: ${{ secrets.SKYNET_REGISTRY_SEED || '' }}
-          portal-url: https://skynetpro.net
-          skynet-jwt: ${{ secrets.SKYNET_JWT || '' }}
+          portal-url: https://fileportal.org
