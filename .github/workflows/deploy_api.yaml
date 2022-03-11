@@ -20,5 +20,7 @@ jobs:
         run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
       - name: Install nx
         run: yarn install
+      - name: Build
+        run: npx nx build airtable-api
       - name: Push heroku
         run: npx nx run airtable-api:docker
