@@ -19,5 +19,5 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
 
-      - name: Push to Heroku
-        run: docker push registry.heroku.com/govrnairtable-api
+      - name: Push heroku
+        run: run: npx nx affected --target=docker 
