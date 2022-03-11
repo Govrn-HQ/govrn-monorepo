@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'add-console'
 
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
