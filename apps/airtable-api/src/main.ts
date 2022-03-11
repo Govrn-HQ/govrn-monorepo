@@ -1,4 +1,5 @@
 import util = require('util');
+import tslib = require('tslib');
 import cors = require('cors');
 import * as express from 'express';
 import { activityTypes, contributions, guilds, users } from './lib/airtable';
