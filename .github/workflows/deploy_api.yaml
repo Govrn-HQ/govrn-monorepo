@@ -21,4 +21,4 @@ jobs:
       - name: Install nx
         run: yarn install
       - name: Push heroku
-        run: npx nx affected --target=docker
+        run: npx nx affected --target=docker --base=master
