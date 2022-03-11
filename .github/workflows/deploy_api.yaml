@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - 'master'
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
+
 jobs:
   # Run code tests before building the image, to ensure it is good to go
   build:
@@ -17,6 +21,7 @@ jobs:
         run: |
           yarn install
           npx nx build airtable-api
+          sudo apt-get install -y heroku
 
       - name: Push to Heroku
-        run: git push -f https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/govrnairtable-api.git origin/master:master
+        run: heroku git:remote -a govrnairtable-api
