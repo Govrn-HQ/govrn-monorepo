@@ -21,7 +21,7 @@ jobs:
         run: |
           yarn install
           npx nx build airtable-api
-          sudo apt-get install -y heroku
+          snap install heroku
 
       - name: Push to Heroku
         run: heroku git:remote -a govrnairtable-api
