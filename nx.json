@@ -22,6 +22,12 @@
     }
   },
   "targetDependencies": {
+    "docker": [
+      {
+        "target": "build",
+        "projects": "self"
+      }
+    ],
     "build": [
       {
         "target": "build",
