@@ -13,8 +13,8 @@ WORKDIR /usr/src/app
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S express -u 1001
 COPY --chown=express:nodejs dist/apps/airtable-api .
-COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY --from=deps /usr/src/app/package.json ./package.json
+# COPY --from=deps /usr/src/app/node_modules ./node_modules
+# COPY --from=deps /usr/src/app/package.json ./package.json
 USER express
 EXPOSE 80
 ENV PORT 80
