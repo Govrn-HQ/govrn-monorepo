@@ -46,6 +46,13 @@
         "jestConfig": "apps/airtable-api/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": false,
+        "tags": ["registry.heroku.com/govrnairtable-api"]
+      }
     }
   },
   "tags": []
