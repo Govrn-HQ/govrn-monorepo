@@ -25,4 +25,4 @@ jobs:
       - name: Push heroku
         run: npx nx run airtable-api:docker
       - name: release
-        run: heroku container:release web
+        run: heroku container:release web --app govrnairtable-api
