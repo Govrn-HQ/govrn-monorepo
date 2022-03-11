@@ -10,7 +10,8 @@
         "outputPath": "dist/apps/airtable-api",
         "main": "apps/airtable-api/src/main.ts",
         "tsConfig": "apps/airtable-api/tsconfig.app.json",
-        "assets": ["apps/airtable-api/src/assets"]
+        "assets": ["apps/airtable-api/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
