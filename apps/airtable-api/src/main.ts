@@ -1,8 +1,3 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import util = require('util');
 import cors = require('cors');
 import * as express from 'express';
