@@ -1,0 +1,22 @@
+name: Deploy Api
+
+on:
+  push:
+    branches:
+      - 'master'
+jobs:
+  # Run code tests before building the image, to ensure it is good to go
+  build:
+    name: Run code tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        run: |
+          yarn install
+          npx nx build airtable-api
+
+      - name: Push to Heroku
+        run: git push -f https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/govrnairtable-api.git origin/master:master
