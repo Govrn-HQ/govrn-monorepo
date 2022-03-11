@@ -50,7 +50,7 @@
     "docker": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
-        "push": false,
+        "push": true,
         "tags": ["registry.heroku.com/govrnairtable-api"]
       }
     }
