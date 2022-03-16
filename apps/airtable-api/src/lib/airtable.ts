@@ -17,19 +17,21 @@ type User = {
   wallet?: string;
   discourse?: string;
   reason_to_join?: string;
+  community_id: string;
+  global_id: string;
 };
 
 export const users = base.table<User>('users');
 
 type ActivityType = {
-  activity_name_only: string;
-  category: string;
-  score: number;
-  active: number;
-  activity_history: string;
-  activities_completed_count: number;
-  guild: string;
-  guild_name: string;
+  activity_name_only?: string;
+  category?: string;
+  score?: number;
+  active?: number;
+  activity_history?: string;
+  activities_completed_count?: number;
+  guild?: string[];
+  guild_name?: string;
 };
 
 export const activityTypes = base.table<ActivityType>('Activity Types');
@@ -64,14 +66,15 @@ export const activityTypes = base.table<ActivityType>('Activity Types');
 //        }
 //    ],
 type Guild = {
-  guild_name: string;
-  govrn_supported: boolean;
-  Status: string;
-  activity_types: string[];
-  members: string;
-  total_members: number;
-  contribution_flow: string[];
-  congrats_channel_id: string;
+  guild_name?: string;
+  govrn_supported?: boolean;
+  Status?: string;
+  activity_types?: string[];
+  members?: string;
+  total_members?: number;
+  contribution_flow?: string[];
+  congrats_channel_id?: string;
+  guild_id?: string;
 };
 
 export const guilds = base.table<Guild>('Guilds');

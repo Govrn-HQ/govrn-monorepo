@@ -62,7 +62,7 @@ const Form = ({
       const resp = await axios.post(
         `/contribution`,
         {
-          ActivityType: [activityValue],
+          ActivityType: activityValue,
           Member: [userValue],
           DateOfEngagement: data.date,
           Description: data.description,
@@ -90,8 +90,9 @@ const Form = ({
       <Autocomplete
         id="activity-select"
         options={activities}
+        freeSolo={true}
         sx={{ width: 300 }}
-        onChange={(e, v) => setActivityValue(v.id)}
+        onChange={(e, v) => setActivityValue(v)}
         renderInput={(params) => (
           <TextField {...params} {...register('activity')} label="Activity" />
         )}
@@ -184,6 +185,8 @@ export const App = () => {
           headers,
         }
       );
+      console.log('Activity Types');
+      console.log(resp);
       setActivities([
         ...resp.data.map(
           (user: { activity_name_only?: string; id: string }) => {
@@ -202,7 +205,7 @@ export const App = () => {
     <PageContainer>
       <Typography variant="h2">Add a new Activity</Typography>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Form users={users} activites={activities} />
+        <Form users={users} activities={activities} />
       </LocalizationProvider>
     </PageContainer>
   );

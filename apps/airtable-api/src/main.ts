@@ -3,6 +3,7 @@ import tslib = require('tslib');
 import cors = require('cors');
 import * as express from 'express';
 import { activityTypes, contributions, guilds, users } from './lib/airtable';
+import { createAndGetActivityType } from './lib/utils';
 import { Formula } from '@qualifyze/airtable-formulator';
 
 const app = express();
@@ -96,8 +97,21 @@ app.post(
   util.callbackify(async (req, res) => {
     // TODO: I am guessing over 1000 users
     // this will start to become slow
-
-    console.log(req.body);
+    const contribution = req.body.ActivityType?.id;
+    if (!req.body.ActivityType?.id) {
+      // contribution = req.body
+      // create new guild if this one does not exist
+      // create new activity type
+      const activity = await createAndGetActivityType(
+        req.body.Member[0],
+        'Called reinforcements'
+      );
+      const rep = await contributions.create({
+        ...req.body,
+        ActivityType: [activity.id],
+      });
+      return res.send(rep);
+    }
     const rep = await contributions.create(req.body);
     return res.send(rep);
   })
