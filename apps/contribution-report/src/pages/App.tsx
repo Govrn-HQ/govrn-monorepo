@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -33,6 +34,8 @@ const Form = ({
   users: Option[];
   activities: Option[];
 }) => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const { guild_id } = useParams();
   const [value, setValue] = React.useState(null);
   const [userValue, setUserValue] = React.useState(null);
@@ -43,10 +46,13 @@ const Form = ({
       return;
     }
     const fetchGuild = async () => {
-      const resp = await axios.get(`/guild?guild_id=${guild_id}`, {
-        baseURL: (VITE_URL || '') as string,
-        headers,
-      });
+      const resp = await axios.get(
+        `/guild?guild_id=${guild_id}&user_id=${userValue}`,
+        {
+          baseURL: (VITE_URL || '') as string,
+          headers,
+        }
+      );
       setGuildImg(resp.data.logo[0].url);
     };
     fetchGuild();
@@ -56,24 +62,32 @@ const Form = ({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const onSubmit = useCallback(
     async (data) => {
-      const resp = await axios.post(
-        `/contribution`,
-        {
-          ActivityType: activityValue,
-          Member: [userValue],
-          DateOfEngagement: data.date,
-          Description: data.description,
-        },
-        {
-          baseURL: (VITE_URL || '') as string,
-          headers,
-        }
-      );
+      try {
+        const resp = await axios.post(
+          `/contribution`,
+          {
+            ActivityType: activityValue,
+            Member: [userValue],
+            DateOfEngagement: value.format('MM/DD/YYYY'),
+            Description: data.description,
+          },
+          {
+            baseURL: (VITE_URL || '') as string,
+            headers,
+          }
+        );
+        setValue(null);
+        reset();
+        enqueueSnackbar('Sucessfully submitted', { variant: 'success' });
+      } catch {
+        enqueueSnackbar('Failed to submit', { variant: 'error' });
+      }
     },
-    [activityValue, userValue]
+    [activityValue, userValue, value]
   );
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -84,9 +98,14 @@ const Form = ({
         sx={{ width: 300 }}
         onChange={(e, v) => setUserValue(v.id)}
         renderInput={(params) => (
-          <TextField {...params} {...register('user')} label="User" />
+          <TextField
+            {...params}
+            {...(register('user'), { required: true })}
+            label="User"
+          />
         )}
       />
+      {errors.user && <TextField>{errors.user}</TextField>}
       <Autocomplete
         id="activity-select"
         options={activities}
@@ -94,15 +113,21 @@ const Form = ({
         sx={{ width: 300 }}
         onChange={(e, v) => setActivityValue(v)}
         renderInput={(params) => (
-          <TextField {...params} {...register('activity')} label="Activity" />
+          <TextField
+            {...params}
+            {...(register('activity'), { required: true })}
+            label="Activity"
+          />
         )}
       />
+      {errors.activity && <TextField>{errors.activity}</TextField>}
       <TextField
         id="outlined-textarea"
         label="Description"
         multiline
         {...register('description')}
       />
+      {errors.description && <TextField>{errors.description}</TextField>}
       <DatePicker
         disableFuture
         label="Date Completed"
@@ -113,9 +138,10 @@ const Form = ({
           setValue(newValue);
         }}
         renderInput={(params) => (
-          <TextField {...params} {...register('date')} />
+          <TextField {...params} {...(register('date'), { required: true })} />
         )}
       />
+      {errors.date && <TextField>{errors.date}</TextField>}
       <Button type="submit" variant="contained">
         Submit
       </Button>
