@@ -3,6 +3,7 @@ import tslib = require('tslib');
 import cors = require('cors');
 import * as express from 'express';
 import { activityTypes, contributions, guilds, users } from './lib/airtable';
+import { createAndGetActivityType } from './lib/utils';
 import { Formula } from '@qualifyze/airtable-formulator';
 
 const app = express();
@@ -36,7 +37,11 @@ app.get('/contribution/types', async (req, res) => {
   // TODO: I am guessing over 1000 users
   // this will start to become slow
   const query = {
-    filterByFormula: ['=', { field: 'guild' }, req.query.guild_id] as Formula,
+    filterByFormula: [
+      'OR',
+      ['=', { field: 'guild' }, req.query.guild_id],
+      ['=', { field: 'guild' }, req.query?.user_id || ''],
+    ] as Formula,
   };
 
   const u = [];
@@ -96,10 +101,26 @@ app.post(
   util.callbackify(async (req, res) => {
     // TODO: I am guessing over 1000 users
     // this will start to become slow
-
-    console.log(req.body);
-    const rep = await contributions.create(req.body);
-    return res.send(rep);
+    const contribution = req.body.ActivityType?.id;
+    if (!req.body.ActivityType?.id) {
+      const activity = await createAndGetActivityType(
+        req.body.Member[0],
+        req.body.ActivityType
+      );
+      const rep = await contributions.create({
+        ...req.body,
+        ActivityType: [activity.id],
+      });
+      console.log(rep);
+      return res.send(rep);
+    } else {
+      const rep = await contributions.create({
+        ...req.body,
+        ActivityType: [req.body.ActivityType.id],
+      });
+      console.log(rep);
+      return res.send(rep);
+    }
   })
 );
 
@@ -108,5 +129,3 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
-console.log('New');
-console.log('New 2');

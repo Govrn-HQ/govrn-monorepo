@@ -16,8 +16,12 @@ jobs:
           node-version: 16.x
       - run: yarn
       - run: npm install -g nx
+      - name: Create env file
+        run: |
+          touch .env
+          echo VITE_URL={{secrets.VITE_URL}} >> .env
+          cat .env
       - run: nx build contribution-report
-
       - name: 'Deploy to Skynet'
         uses: SkynetLabs/deploy-to-skynet-action@v2
         with:
