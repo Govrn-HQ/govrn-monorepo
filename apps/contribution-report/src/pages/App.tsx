@@ -27,13 +27,7 @@ const FormContainer = styled.form`
   justify-content: center;
 `;
 
-const Form = ({
-  users,
-  activities,
-}: {
-  users: Option[];
-  activities: Option[];
-}) => {
+const Form = ({ users }: { users: Option[] }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const { guild_id } = useParams();
@@ -41,18 +35,19 @@ const Form = ({
   const [userValue, setUserValue] = React.useState(null);
   const [activityValue, setActivityValue] = React.useState(null);
   const [guildImg, setGuildImg] = useState('');
+  const [activities, setActivities] = useState<{ label: string; id: string }[]>(
+    []
+  );
+
   useEffect(() => {
     if (!guild_id) {
       return;
     }
     const fetchGuild = async () => {
-      const resp = await axios.get(
-        `/guild?guild_id=${guild_id}&user_id=${userValue}`,
-        {
-          baseURL: (VITE_URL || '') as string,
-          headers,
-        }
-      );
+      const resp = await axios.get(`/guild?guild_id=${guild_id}`, {
+        baseURL: (VITE_URL || '') as string,
+        headers,
+      });
       setGuildImg(resp.data.logo[0].url);
     };
     fetchGuild();
@@ -89,6 +84,34 @@ const Form = ({
     },
     [activityValue, userValue, value]
   );
+  useEffect(() => {
+    if (!guild_id) {
+      return;
+    }
+    const fetchActivityTypes = async () => {
+      const resp = await axios.get(
+        `/contribution/types/?guild_id=${guild_id}&user_id=${userValue}`,
+        {
+          baseURL: (VITE_URL || '') as string,
+          headers,
+        }
+      );
+      console.log('Activity Types');
+      console.log(resp);
+      setActivities([
+        ...resp.data.map(
+          (user: { activity_name_only?: string; id: string }) => {
+            return {
+              label: user?.activity_name_only || 'Missing',
+              id: user.id,
+            };
+          }
+        ),
+      ]);
+    };
+    fetchActivityTypes();
+  }, [guild_id, userValue]);
+
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       {guildImg && <Logo src={guildImg} />}
@@ -172,9 +195,6 @@ const VITE_URL = 'http://localhost:3333';
 export const App = () => {
   const { guild_id } = useParams();
   const [users, setUsers] = useState<{ label: string; id: string }[]>([]);
-  const [activities, setActivities] = useState<{ label: string; id: string }[]>(
-    []
-  );
 
   useEffect(() => {
     if (!guild_id) {
@@ -199,39 +219,11 @@ export const App = () => {
     fetchUsers();
   }, [guild_id]);
 
-  useEffect(() => {
-    if (!guild_id) {
-      return;
-    }
-    const fetchActivityTypes = async () => {
-      const resp = await axios.get(
-        `/contribution/types/?guild_id=${guild_id}`,
-        {
-          baseURL: (VITE_URL || '') as string,
-          headers,
-        }
-      );
-      console.log('Activity Types');
-      console.log(resp);
-      setActivities([
-        ...resp.data.map(
-          (user: { activity_name_only?: string; id: string }) => {
-            return {
-              label: user?.activity_name_only || 'Missing',
-              id: user.id,
-            };
-          }
-        ),
-      ]);
-    };
-    fetchActivityTypes();
-  }, [guild_id]);
-
   return (
     <PageContainer>
       <Typography variant="h2">Add a new Activity</Typography>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Form users={users} activities={activities} />
+        <Form users={users} />
       </LocalizationProvider>
     </PageContainer>
   );
