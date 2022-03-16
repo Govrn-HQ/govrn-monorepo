@@ -103,9 +103,6 @@ app.post(
     // this will start to become slow
     const contribution = req.body.ActivityType?.id;
     if (!req.body.ActivityType?.id) {
-      // contribution = req.body
-      // create new guild if this one does not exist
-      // create new activity type
       const activity = await createAndGetActivityType(
         req.body.Member[0],
         req.body.ActivityType
@@ -132,5 +129,3 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
-console.log('New');
-console.log('New 2');
