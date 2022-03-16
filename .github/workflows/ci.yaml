@@ -15,5 +15,5 @@ jobs:
         with:
           node-version: 16.x
       - run: yarn install
-      - run: yarn add nx
+      - run: npm install -g nx
       - run: nx affected lint
