@@ -46,7 +46,7 @@ const Form = ({ users }: { users: Option[] }) => {
     const fetchGuild = async () => {
       const resp = await axios.get(`/guild?guild_id=${guild_id}`, {
         baseURL: (VITE_URL || '') as string,
-        headers
+        headers,
       });
       setGuildImg(resp.data.logo[0].url);
     };
@@ -57,10 +57,10 @@ const Form = ({ users }: { users: Option[] }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
   const onSubmit = useCallback(
-    async data => {
+    async (data) => {
       try {
         const resp = await axios.post(
           `/contribution`,
@@ -68,11 +68,11 @@ const Form = ({ users }: { users: Option[] }) => {
             ActivityType: activityValue,
             Member: [userValue],
             DateOfEngagement: value.format('MM/DD/YYYY'),
-            Description: data.description
+            Description: data.description,
           },
           {
             baseURL: (VITE_URL || '') as string,
-            headers
+            headers,
           }
         );
         setValue(null);
@@ -93,7 +93,7 @@ const Form = ({ users }: { users: Option[] }) => {
         `/contribution/types/?guild_id=${guild_id}&user_id=${userValue}`,
         {
           baseURL: (VITE_URL || '') as string,
-          headers
+          headers,
         }
       );
       console.log('Activity Types');
@@ -103,10 +103,10 @@ const Form = ({ users }: { users: Option[] }) => {
           (user: { activity_name_only?: string; id: string }) => {
             return {
               label: user?.activity_name_only || 'Missing',
-              id: user.id
+              id: user.id,
             };
           }
-        )
+        ),
       ]);
     };
     fetchActivityTypes();
@@ -120,7 +120,7 @@ const Form = ({ users }: { users: Option[] }) => {
         options={users}
         sx={{ width: 300 }}
         onChange={(e, v) => setUserValue(v.id)}
-        renderInput={params => (
+        renderInput={(params) => (
           <TextField
             {...params}
             {...(register('user'), { required: true })}
@@ -135,11 +135,12 @@ const Form = ({ users }: { users: Option[] }) => {
         freeSolo={true}
         sx={{ width: 300 }}
         onChange={(e, v) => setActivityValue(v)}
-        renderInput={params => (
+        renderInput={(params) => (
           <TextField
             {...params}
             {...(register('activity'), { required: true })}
             label="Activity"
+            onChange={(e) => setActivityValue(e.target.value)}
           />
         )}
       />
@@ -157,10 +158,10 @@ const Form = ({ users }: { users: Option[] }) => {
         openTo="year"
         views={['year', 'month', 'day']}
         value={value}
-        onChange={newValue => {
+        onChange={(newValue) => {
           setValue(newValue);
         }}
-        renderInput={params => (
+        renderInput={(params) => (
           <TextField {...params} {...(register('date'), { required: true })} />
         )}
       />
@@ -180,7 +181,7 @@ const PageContainer = styled.div`
 `;
 
 const headers = {
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
 };
 
 const Logo = styled.img`
@@ -203,17 +204,17 @@ export const App = () => {
     const fetchUsers = async () => {
       const resp = await axios.get(`/users/?guild_id=${guild_id}`, {
         baseURL: (VITE_URL || '') as string,
-        headers
+        headers,
       });
       setUsers([
         ...resp.data.map(
           (user: { display_name?: string; Members: string[] }) => {
             return {
               label: user?.display_name || 'Missing',
-              id: user.Members[0]
+              id: user.Members[0],
             };
           }
-        )
+        ),
       ]);
     };
     fetchUsers();
