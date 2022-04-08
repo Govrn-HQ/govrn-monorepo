@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "airtable-api": "apps/airtable-api",
-    "contribution-report": "apps/contribution-report"
+    "contribution-report": "apps/contribution-report",
+    "protocol-api": "apps/protocol-api"
   }
 }
