@@ -46,6 +46,12 @@
         "jestConfig": "apps/protocol-api/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "migrate": {
+      "builder": "@nx-tools/nx-prisma:migrate",
+      "options": {
+        "schema": "apps/protocol-api/src/prisma/schema.prisma"
+      }
     }
   },
   "tags": []

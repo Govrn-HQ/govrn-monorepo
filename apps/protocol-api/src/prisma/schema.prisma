@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      =  env("DATABASE_URL")
+  url      = env(DATABASE_URL)
+
 }
 
 model User {
@@ -14,8 +15,13 @@ model User {
   name  String?
   dispaly_name String?
   address String
-  chainType ChainType @relation(fields: [chainType], references: [id])
+  chain_type_id Int
+  chain_type ChainType @relation(fields: [chain_type_id], references: [id])
   full_name String?
+  activities UserActivity[]
+  attestations Attestation[]
+  contributionPartners Partner[]
+  contributions Contribution[]
 }
 
 model Guild {
@@ -25,15 +31,18 @@ model Guild {
   discord_id Int? // legacy
   name String? // legacy
   congrats_channel Int? // legacy
-  logo: String?
+  logo String?
+  contributions GuildContribution[]
 }
 
 model GuildContribution {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  guild_id @relation(fields: [guild_id], references: [id])
-  contribution_id @relation(fields: [contribution_id], references: [id])
+  guild_id Int
+  guild Guild @relation(fields: [guild_id], references: [id])
+  contribution_id Int
+  contribution Contribution @relation(fields: [contribution_id], references: [id])
 
   @@unique([guild_id, contribution_id])
 }
@@ -44,27 +53,36 @@ model ChainType {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name String @unique
+  users User[]
 }
 
 
 model Contribution {
   id Int @id @default(autoincrement())
   updatedAt DateTime @updatedAt
-  status ContributionStatus @relation(fields: [status], references: [id])
-  activity_type ActivityType @relation(fields: [activity_type], references: [id])
-  user User @relation(fields: [user], references: [id])
-  date_of_submission DateTime default(now())
+  status_id Int
+  status ContributionStatus @relation(fields: [status_id], references: [id])
+  activity_type_id Int
+  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  date_of_submission DateTime @default(now())
   date_of_engagement DateTime
   details String?
   proof String?
+  attestations Attestation[]
+  partners Partner[]
+  guilds GuildContribution[]
 }
 
-model Partners {
+model Partner {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user_id User @relation(fields: [user_id], references: [id])
-  contribution_id Contribution @relation(fields: [contribution_id], references: [id])
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  contribution_id Int
+  contribution Contribution @relation(fields: [contribution_id], references: [id])
   
   @@unique([user_id, contribution_id])
 }
@@ -73,26 +91,31 @@ model Attestation {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  confidence AttestationConfidence @relation(fields: [confidence], references: [id])
-  user User @relation(fields: [user], references: [id])
-  contribution @relation(fields: [contribution], references: [id])
+  confidence_id Int
+  confidence AttestationConfidence @relation(fields: [confidence_id], references: [id])
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  contribution_id Int
+  contribution Contribution @relation(fields: [contribution_id], references: [id])
   date_of_attestation DateTime @default(now())
 
-  @@unique([user, contribution])
+  @@unique([user_id, contribution_id])
 }
 
-model AttestattionConfidence {
+model AttestationConfidence {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name String @unique
+  attestations Attestation[]
 }
 
-model ContributionsStatus {
+model ContributionStatus {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name string @unique
+  name String @unique
+  contributions Contribution[]
 }
 
 // There should be a mapping
@@ -102,16 +125,21 @@ model ActivityType {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name String @unique
-  active boolean @default(true)
-  category_activity CategoryActivity @relation(fields: [category_activity], references: [id])
+  active Boolean @default(true)
+  category_activity_id Int
+  category_activity CategoryActivity @relation(fields: [category_activity_id], references: [id])
+  users UserActivity[]
+  contributions Contribution[]
 }
 
 model UserActivity {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user_id User @relation(fields: [user_id], references: [id])
-  activity_type_id ActivityType @relation(fields: [activity_type_id], references: [id])
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  activity_type_id Int
+  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
 
   @@unique([user_id, activity_type_id])
 }
@@ -121,16 +149,5 @@ model CategoryActivity {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name String @unique
+  activityTypes ActivityType[]
 }
-
-# model Post {
-#   id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-   title     String
-#   content   String?
-#   published Boolean  @default(false)
-#   viewCount Int      @default(0)
-#   author    User?    @relation(fields: [authorId], references: [id])
-#   authorId  Int?
-# }
