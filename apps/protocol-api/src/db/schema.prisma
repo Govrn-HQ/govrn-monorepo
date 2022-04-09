@@ -9,15 +9,125 @@ datasource db {
 
 model User {
   id    Int     @id @default(autoincrement())
-  email String  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name  String?
+  dispaly_name String?
+  address String
+  chainType ChainType @relation(fields: [chainType], references: [id])
+  full_name String?
+}
+
+model Guild {
+  id    Int     @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  discord_id Int? // legacy
+  name String? // legacy
+  congrats_channel Int? // legacy
+  logo: String?
+}
+
+model GuildContribution {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  guild_id @relation(fields: [guild_id], references: [id])
+  contribution_id @relation(fields: [contribution_id], references: [id])
+
+  @@unique([guild_id, contribution_id])
+}
+
+
+model ChainType {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+}
+
+
+model Contribution {
+  id Int @id @default(autoincrement())
+  updatedAt DateTime @updatedAt
+  status ContributionStatus @relation(fields: [status], references: [id])
+  activity_type ActivityType @relation(fields: [activity_type], references: [id])
+  user User @relation(fields: [user], references: [id])
+  date_of_submission DateTime default(now())
+  date_of_engagement DateTime
+  details String?
+  proof String?
+}
+
+model Partners {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user_id User @relation(fields: [user_id], references: [id])
+  contribution_id Contribution @relation(fields: [contribution_id], references: [id])
+  
+  @@unique([user_id, contribution_id])
+}
+
+model Attestation {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  confidence AttestationConfidence @relation(fields: [confidence], references: [id])
+  user User @relation(fields: [user], references: [id])
+  contribution @relation(fields: [contribution], references: [id])
+  date_of_attestation DateTime @default(now())
+
+  @@unique([user, contribution])
+}
+
+model AttestattionConfidence {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+}
+
+model ContributionsStatus {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name string @unique
+}
+
+// There should be a mapping
+// activity to user
+model ActivityType {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+  active boolean @default(true)
+  category_activity CategoryActivity @relation(fields: [category_activity], references: [id])
+}
+
+model UserActivity {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user_id User @relation(fields: [user_id], references: [id])
+  activity_type_id ActivityType @relation(fields: [activity_type_id], references: [id])
+
+  @@unique([user_id, activity_type_id])
+}
+
+model CategoryActivity {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
 }
 
 # model Post {
 #   id        Int      @id @default(autoincrement())
-#   createdAt DateTime @default(now())
-#   updatedAt DateTime @updatedAt
-#   title     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+   title     String
 #   content   String?
 #   published Boolean  @default(false)
 #   viewCount Int      @default(0)
