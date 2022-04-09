@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env(DATABASE_URL)
+
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name  String?
+  dispaly_name String?
+  address String
+  chain_type_id Int
+  chain_type ChainType @relation(fields: [chain_type_id], references: [id])
+  full_name String?
+  activities UserActivity[]
+  attestations Attestation[]
+  contributionPartners Partner[]
+  contributions Contribution[]
+}
+
+model Guild {
+  id    Int     @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  discord_id Int? // legacy
+  name String? // legacy
+  congrats_channel Int? // legacy
+  logo String?
+  contributions GuildContribution[]
+}
+
+model GuildContribution {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  guild_id Int
+  guild Guild @relation(fields: [guild_id], references: [id])
+  contribution_id Int
+  contribution Contribution @relation(fields: [contribution_id], references: [id])
+
+  @@unique([guild_id, contribution_id])
+}
+
+
+model ChainType {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+  users User[]
+}
+
+
+model Contribution {
+  id Int @id @default(autoincrement())
+  updatedAt DateTime @updatedAt
+  status_id Int
+  status ContributionStatus @relation(fields: [status_id], references: [id])
+  activity_type_id Int
+  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  date_of_submission DateTime @default(now())
+  date_of_engagement DateTime
+  details String?
+  proof String?
+  attestations Attestation[]
+  partners Partner[]
+  guilds GuildContribution[]
+}
+
+model Partner {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  contribution_id Int
+  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  
+  @@unique([user_id, contribution_id])
+}
+
+model Attestation {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  confidence_id Int
+  confidence AttestationConfidence @relation(fields: [confidence_id], references: [id])
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  contribution_id Int
+  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  date_of_attestation DateTime @default(now())
+
+  @@unique([user_id, contribution_id])
+}
+
+model AttestationConfidence {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+  attestations Attestation[]
+}
+
+model ContributionStatus {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+  contributions Contribution[]
+}
+
+// There should be a mapping
+// activity to user
+model ActivityType {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+  active Boolean @default(true)
+  category_activity_id Int
+  category_activity CategoryActivity @relation(fields: [category_activity_id], references: [id])
+  users UserActivity[]
+  contributions Contribution[]
+}
+
+model UserActivity {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  activity_type_id Int
+  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
+
+  @@unique([user_id, activity_type_id])
+}
+
+model CategoryActivity {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String @unique
+  activityTypes ActivityType[]
+}
