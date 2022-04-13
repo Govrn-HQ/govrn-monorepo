@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { buildSchemaSync } from 'type-graphql';
 import express from 'express';
 import { resolvers } from './prisma/generated/type-graphql';

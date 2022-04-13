@@ -1957,40 +1957,9 @@
     tmp "~0.2.1"
     tslib "^2.3.0"
 
-"@nrwl/node@13.10.2":
+"@nrwl/node@13.10.2", "@nrwl/node@^13.10.2":
   version "13.10.2"
   resolved "https://registry.npmjs.org/@nrwl/node/-/node-13.10.2.tgz"
-  integrity sha512-ipGLjTDd0CZv7pSnqt+U65p8z3oaVwsh2zQF8ePczxfiePgwML3SQyIYMSFbgP4pjd3K56u6D/gSG3SkAg+gmQ==
-  dependencies:
-    "@nrwl/devkit" "13.10.2"
-    "@nrwl/jest" "13.10.2"
-    "@nrwl/js" "13.10.2"
-    "@nrwl/linter" "13.10.2"
-    "@nrwl/workspace" "13.10.2"
-    chalk "4.1.0"
-    copy-webpack-plugin "^9.0.1"
-    enhanced-resolve "^5.8.3"
-    fork-ts-checker-webpack-plugin "6.2.10"
-    fs-extra "^9.1.0"
-    glob "7.1.4"
-    license-webpack-plugin "^4.0.2"
-    rxjs "^6.5.4"
-    rxjs-for-await "0.0.2"
-    source-map-support "0.5.19"
-    terser-webpack-plugin "^5.3.0"
-    tree-kill "1.2.2"
-    ts-loader "^9.2.6"
-    ts-node "~9.1.1"
-    tsconfig-paths "^3.9.0"
-    tsconfig-paths-webpack-plugin "3.5.2"
-    tslib "^2.3.0"
-    webpack "^5.58.1"
-    webpack-merge "^5.8.0"
-    webpack-node-externals "^3.0.0"
-
-"@nrwl/node@^13.10.2":
-  version "13.10.2"
-  resolved "https://registry.yarnpkg.com/@nrwl/node/-/node-13.10.2.tgz#a923fdf0decde53283de54cac411631bbcdccbc7"
   integrity sha512-ipGLjTDd0CZv7pSnqt+U65p8z3oaVwsh2zQF8ePczxfiePgwML3SQyIYMSFbgP4pjd3K56u6D/gSG3SkAg+gmQ==
   dependencies:
     "@nrwl/devkit" "13.10.2"
@@ -9458,6 +9427,11 @@ recrawl-sync@^2.0.3:
     glob-regex "^0.3.0"
     slash "^3.0.0"
     tslib "^1.9.3"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
 regenerate-unicode-properties@^10.0.1:
   version "10.0.1"
