@@ -102,7 +102,7 @@ app.post(
     // TODO: I am guessing over 1000 users
     // this will start to become slow
     const contribution = req.body.ActivityType?.id;
-    if (!req.body.ActivityType?.id) {
+    if (!contribution) {
       const activity = await createAndGetActivityType(
         req.body.Member[0],
         req.body.ActivityType
@@ -116,7 +116,7 @@ app.post(
     } else {
       const rep = await contributions.create({
         ...req.body,
-        ActivityType: [req.body.ActivityType.id],
+        ActivityType: [contribution],
       });
       console.log(rep);
       return res.send(rep);

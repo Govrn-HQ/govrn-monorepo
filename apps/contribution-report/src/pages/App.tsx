@@ -69,6 +69,7 @@ const Form = ({ users }: { users: Option[] }) => {
             Member: [userValue],
             DateOfEngagement: value.format('MM/DD/YYYY'),
             Description: data.description,
+            reportedToGuild: guild_id
           },
           {
             baseURL: (VITE_URL || '') as string,

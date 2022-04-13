@@ -5,15 +5,19 @@ on:
     branches:
       - 'master'
 
+env:
+  BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master' }}
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
           node-version: 16.x
       - run: yarn install
       - run: npm install -g nx
-      - run: nx affected --target lint
+      - run: nx affected:lint --base $BASE
