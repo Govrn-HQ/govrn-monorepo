@@ -6,7 +6,7 @@ on:
       - 'master'
 
 env:
-  BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master' }}
+  BASE: ${{ github.ref == 'refs/heads/master' && 'master~1' || 'master' }}
 jobs:
   build:
     runs-on: ubuntu-latest
