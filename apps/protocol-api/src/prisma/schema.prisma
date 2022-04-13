@@ -4,8 +4,13 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env(DATABASE_URL)
+  url      = env("DATABASE_URL")
 
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "../prisma/generated/type-graphql"
 }
 
 model User {

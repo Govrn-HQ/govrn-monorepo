@@ -1,0 +1,12 @@
+export { AggregateAttestationArgs } from "./AggregateAttestationArgs";
+export { CreateAttestationArgs } from "./CreateAttestationArgs";
+export { CreateManyAttestationArgs } from "./CreateManyAttestationArgs";
+export { DeleteAttestationArgs } from "./DeleteAttestationArgs";
+export { DeleteManyAttestationArgs } from "./DeleteManyAttestationArgs";
+export { FindFirstAttestationArgs } from "./FindFirstAttestationArgs";
+export { FindManyAttestationArgs } from "./FindManyAttestationArgs";
+export { FindUniqueAttestationArgs } from "./FindUniqueAttestationArgs";
+export { GroupByAttestationArgs } from "./GroupByAttestationArgs";
+export { UpdateAttestationArgs } from "./UpdateAttestationArgs";
+export { UpdateManyAttestationArgs } from "./UpdateManyAttestationArgs";
+export { UpsertAttestationArgs } from "./UpsertAttestationArgs";
