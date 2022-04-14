@@ -6,6 +6,7 @@ import { AttestationUpdateManyWithoutUserInput } from "../inputs/AttestationUpda
 import { ChainTypeUpdateOneRequiredWithoutUsersInput } from "../inputs/ChainTypeUpdateOneRequiredWithoutUsersInput";
 import { ContributionUpdateManyWithoutUserInput } from "../inputs/ContributionUpdateManyWithoutUserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { LinearUserUpdateManyWithoutUserInput } from "../inputs/LinearUserUpdateManyWithoutUserInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PartnerUpdateManyWithoutUserInput } from "../inputs/PartnerUpdateManyWithoutUserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
@@ -69,4 +70,9 @@ export class UserUpdateInput {
     nullable: true
   })
   contributions?: ContributionUpdateManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => LinearUserUpdateManyWithoutUserInput, {
+    nullable: true
+  })
+  linear_users?: LinearUserUpdateManyWithoutUserInput | undefined;
 }

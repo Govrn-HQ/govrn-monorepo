@@ -7,6 +7,7 @@ import { AttestationUpdateManyWithoutContributionInput } from "../inputs/Attesta
 import { ContributionStatusUpdateOneRequiredWithoutContributionsInput } from "../inputs/ContributionStatusUpdateOneRequiredWithoutContributionsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { GuildContributionUpdateManyWithoutContributionInput } from "../inputs/GuildContributionUpdateManyWithoutContributionInput";
+import { LinearIssueUpdateOneWithoutContributionInput } from "../inputs/LinearIssueUpdateOneWithoutContributionInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PartnerUpdateManyWithoutContributionInput } from "../inputs/PartnerUpdateManyWithoutContributionInput";
 import { UserUpdateOneRequiredWithoutContributionsInput } from "../inputs/UserUpdateOneRequiredWithoutContributionsInput";
@@ -69,4 +70,9 @@ export class ContributionUpdateInput {
     nullable: true
   })
   guilds?: GuildContributionUpdateManyWithoutContributionInput | undefined;
+
+  @TypeGraphQL.Field(_type => LinearIssueUpdateOneWithoutContributionInput, {
+    nullable: true
+  })
+  linear_issue?: LinearIssueUpdateOneWithoutContributionInput | undefined;
 }

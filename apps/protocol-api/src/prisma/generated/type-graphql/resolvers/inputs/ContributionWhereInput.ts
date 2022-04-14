@@ -8,6 +8,7 @@ import { ContributionStatusRelationFilter } from "../inputs/ContributionStatusRe
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { LinearIssueRelationFilter } from "../inputs/LinearIssueRelationFilter";
 import { PartnerListRelationFilter } from "../inputs/PartnerListRelationFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
@@ -105,4 +106,9 @@ export class ContributionWhereInput {
     nullable: true
   })
   guilds?: GuildContributionListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => LinearIssueRelationFilter, {
+    nullable: true
+  })
+  linear_issue?: LinearIssueRelationFilter | undefined;
 }

@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { AttestationUpdateManyWithoutUserInput } from "../inputs/AttestationUpdateManyWithoutUserInput";
 import { ContributionUpdateManyWithoutUserInput } from "../inputs/ContributionUpdateManyWithoutUserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { LinearUserUpdateManyWithoutUserInput } from "../inputs/LinearUserUpdateManyWithoutUserInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PartnerUpdateManyWithoutUserInput } from "../inputs/PartnerUpdateManyWithoutUserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
@@ -63,4 +64,9 @@ export class UserUpdateWithoutChain_typeInput {
     nullable: true
   })
   contributions?: ContributionUpdateManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => LinearUserUpdateManyWithoutUserInput, {
+    nullable: true
+  })
+  linear_users?: LinearUserUpdateManyWithoutUserInput | undefined;
 }

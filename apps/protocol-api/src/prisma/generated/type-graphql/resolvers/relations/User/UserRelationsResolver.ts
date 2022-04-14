@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { Attestation } from "../../../models/Attestation";
 import { ChainType } from "../../../models/ChainType";
 import { Contribution } from "../../../models/Contribution";
+import { LinearUser } from "../../../models/LinearUser";
 import { Partner } from "../../../models/Partner";
 import { User } from "../../../models/User";
 import { UserActivity } from "../../../models/UserActivity";
@@ -9,6 +10,7 @@ import { UserActivitiesArgs } from "./args/UserActivitiesArgs";
 import { UserAttestationsArgs } from "./args/UserAttestationsArgs";
 import { UserContributionPartnersArgs } from "./args/UserContributionPartnersArgs";
 import { UserContributionsArgs } from "./args/UserContributionsArgs";
+import { UserLinear_usersArgs } from "./args/UserLinear_usersArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => User)
@@ -66,5 +68,16 @@ export class UserRelationsResolver {
         id: user.id,
       },
     }).contributions(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [LinearUser], {
+    nullable: false
+  })
+  async linear_users(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserLinear_usersArgs): Promise<LinearUser[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        id: user.id,
+      },
+    }).linear_users(args);
   }
 }

@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../scalars";
 import { Attestation } from "../models/Attestation";
 import { ChainType } from "../models/ChainType";
 import { Contribution } from "../models/Contribution";
+import { LinearUser } from "../models/LinearUser";
 import { Partner } from "../models/Partner";
 import { UserActivity } from "../models/UserActivity";
 import { UserCount } from "../resolvers/outputs/UserCount";
@@ -62,6 +63,8 @@ export class User {
   contributionPartners?: Partner[];
 
   contributions?: Contribution[];
+
+  linear_users?: LinearUser[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

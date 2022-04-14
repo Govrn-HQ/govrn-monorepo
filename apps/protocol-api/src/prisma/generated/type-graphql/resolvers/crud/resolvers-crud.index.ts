@@ -7,6 +7,11 @@ export { ContributionCrudResolver } from "./Contribution/ContributionCrudResolve
 export { ContributionStatusCrudResolver } from "./ContributionStatus/ContributionStatusCrudResolver";
 export { GuildCrudResolver } from "./Guild/GuildCrudResolver";
 export { GuildContributionCrudResolver } from "./GuildContribution/GuildContributionCrudResolver";
+export { LinearCycleCrudResolver } from "./LinearCycle/LinearCycleCrudResolver";
+export { LinearIssueCrudResolver } from "./LinearIssue/LinearIssueCrudResolver";
+export { LinearProjectCrudResolver } from "./LinearProject/LinearProjectCrudResolver";
+export { LinearTeamCrudResolver } from "./LinearTeam/LinearTeamCrudResolver";
+export { LinearUserCrudResolver } from "./LinearUser/LinearUserCrudResolver";
 export { PartnerCrudResolver } from "./Partner/PartnerCrudResolver";
 export { UserCrudResolver } from "./User/UserCrudResolver";
 export { UserActivityCrudResolver } from "./UserActivity/UserActivityCrudResolver";

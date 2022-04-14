@@ -7,6 +7,11 @@ export { ContributionRelationsResolver } from "./Contribution/ContributionRelati
 export { ContributionStatusRelationsResolver } from "./ContributionStatus/ContributionStatusRelationsResolver";
 export { GuildRelationsResolver } from "./Guild/GuildRelationsResolver";
 export { GuildContributionRelationsResolver } from "./GuildContribution/GuildContributionRelationsResolver";
+export { LinearCycleRelationsResolver } from "./LinearCycle/LinearCycleRelationsResolver";
+export { LinearIssueRelationsResolver } from "./LinearIssue/LinearIssueRelationsResolver";
+export { LinearProjectRelationsResolver } from "./LinearProject/LinearProjectRelationsResolver";
+export { LinearTeamRelationsResolver } from "./LinearTeam/LinearTeamRelationsResolver";
+export { LinearUserRelationsResolver } from "./LinearUser/LinearUserRelationsResolver";
 export { PartnerRelationsResolver } from "./Partner/PartnerRelationsResolver";
 export { UserRelationsResolver } from "./User/UserRelationsResolver";
 export { UserActivityRelationsResolver } from "./UserActivity/UserActivityRelationsResolver";

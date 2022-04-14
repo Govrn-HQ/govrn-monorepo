@@ -6,6 +6,7 @@ import { ActivityType } from "../models/ActivityType";
 import { Attestation } from "../models/Attestation";
 import { ContributionStatus } from "../models/ContributionStatus";
 import { GuildContribution } from "../models/GuildContribution";
+import { LinearIssue } from "../models/LinearIssue";
 import { Partner } from "../models/Partner";
 import { User } from "../models/User";
 import { ContributionCount } from "../resolvers/outputs/ContributionCount";
@@ -70,6 +71,8 @@ export class Contribution {
   partners?: Partner[];
 
   guilds?: GuildContribution[];
+
+  linear_issue?: LinearIssue | null;
 
   @TypeGraphQL.Field(_type => ContributionCount, {
     nullable: true

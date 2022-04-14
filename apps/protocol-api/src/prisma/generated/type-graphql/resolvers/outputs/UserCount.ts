@@ -26,4 +26,9 @@ export class UserCount {
     nullable: false
   })
   contributions!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  linear_users!: number;
 }

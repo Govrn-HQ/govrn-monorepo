@@ -6,6 +6,7 @@ import { ActivityTypeOrderByWithRelationInput } from "../inputs/ActivityTypeOrde
 import { AttestationOrderByRelationAggregateInput } from "../inputs/AttestationOrderByRelationAggregateInput";
 import { ContributionStatusOrderByWithRelationInput } from "../inputs/ContributionStatusOrderByWithRelationInput";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
+import { LinearIssueOrderByWithRelationInput } from "../inputs/LinearIssueOrderByWithRelationInput";
 import { PartnerOrderByRelationAggregateInput } from "../inputs/PartnerOrderByRelationAggregateInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -88,4 +89,9 @@ export class ContributionOrderByWithRelationInput {
     nullable: true
   })
   guilds?: GuildContributionOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => LinearIssueOrderByWithRelationInput, {
+    nullable: true
+  })
+  linear_issue?: LinearIssueOrderByWithRelationInput | undefined;
 }

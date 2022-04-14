@@ -4,6 +4,7 @@ import { Attestation } from "../../../models/Attestation";
 import { Contribution } from "../../../models/Contribution";
 import { ContributionStatus } from "../../../models/ContributionStatus";
 import { GuildContribution } from "../../../models/GuildContribution";
+import { LinearIssue } from "../../../models/LinearIssue";
 import { Partner } from "../../../models/Partner";
 import { User } from "../../../models/User";
 import { ContributionAttestationsArgs } from "./args/ContributionAttestationsArgs";
@@ -77,5 +78,16 @@ export class ContributionRelationsResolver {
         id: contribution.id,
       },
     }).guilds(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => LinearIssue, {
+    nullable: true
+  })
+  async linear_issue(@TypeGraphQL.Root() contribution: Contribution, @TypeGraphQL.Ctx() ctx: any): Promise<LinearIssue | null> {
+    return getPrismaFromContext(ctx).contribution.findUnique({
+      where: {
+        id: contribution.id,
+      },
+    }).linear_issue({});
   }
 }

@@ -7,6 +7,7 @@ import { ChainTypeRelationFilter } from "../inputs/ChainTypeRelationFilter";
 import { ContributionListRelationFilter } from "../inputs/ContributionListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { LinearUserListRelationFilter } from "../inputs/LinearUserListRelationFilter";
 import { PartnerListRelationFilter } from "../inputs/PartnerListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
@@ -95,4 +96,9 @@ export class UserWhereInput {
     nullable: true
   })
   contributions?: ContributionListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => LinearUserListRelationFilter, {
+    nullable: true
+  })
+  linear_users?: LinearUserListRelationFilter | undefined;
 }

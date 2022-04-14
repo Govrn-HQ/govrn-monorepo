@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { AttestationCreateNestedManyWithoutUserInput } from "../inputs/AttestationCreateNestedManyWithoutUserInput";
 import { ChainTypeCreateNestedOneWithoutUsersInput } from "../inputs/ChainTypeCreateNestedOneWithoutUsersInput";
 import { ContributionCreateNestedManyWithoutUserInput } from "../inputs/ContributionCreateNestedManyWithoutUserInput";
+import { LinearUserCreateNestedManyWithoutUserInput } from "../inputs/LinearUserCreateNestedManyWithoutUserInput";
 import { PartnerCreateNestedManyWithoutUserInput } from "../inputs/PartnerCreateNestedManyWithoutUserInput";
 
 @TypeGraphQL.InputType("UserCreateWithoutActivitiesInput", {
@@ -60,4 +61,9 @@ export class UserCreateWithoutActivitiesInput {
     nullable: true
   })
   contributions?: ContributionCreateNestedManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => LinearUserCreateNestedManyWithoutUserInput, {
+    nullable: true
+  })
+  linear_users?: LinearUserCreateNestedManyWithoutUserInput | undefined;
 }

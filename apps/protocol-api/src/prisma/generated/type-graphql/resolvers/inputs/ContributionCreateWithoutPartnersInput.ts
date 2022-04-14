@@ -6,6 +6,7 @@ import { ActivityTypeCreateNestedOneWithoutContributionsInput } from "../inputs/
 import { AttestationCreateNestedManyWithoutContributionInput } from "../inputs/AttestationCreateNestedManyWithoutContributionInput";
 import { ContributionStatusCreateNestedOneWithoutContributionsInput } from "../inputs/ContributionStatusCreateNestedOneWithoutContributionsInput";
 import { GuildContributionCreateNestedManyWithoutContributionInput } from "../inputs/GuildContributionCreateNestedManyWithoutContributionInput";
+import { LinearIssueCreateNestedOneWithoutContributionInput } from "../inputs/LinearIssueCreateNestedOneWithoutContributionInput";
 import { UserCreateNestedOneWithoutContributionsInput } from "../inputs/UserCreateNestedOneWithoutContributionsInput";
 
 @TypeGraphQL.InputType("ContributionCreateWithoutPartnersInput", {
@@ -61,4 +62,9 @@ export class ContributionCreateWithoutPartnersInput {
     nullable: true
   })
   guilds?: GuildContributionCreateNestedManyWithoutContributionInput | undefined;
+
+  @TypeGraphQL.Field(_type => LinearIssueCreateNestedOneWithoutContributionInput, {
+    nullable: true
+  })
+  linear_issue?: LinearIssueCreateNestedOneWithoutContributionInput | undefined;
 }
