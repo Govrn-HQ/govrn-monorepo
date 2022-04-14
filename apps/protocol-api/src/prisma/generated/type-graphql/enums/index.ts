@@ -9,6 +9,7 @@ export { GuildContributionScalarFieldEnum } from "./GuildContributionScalarField
 export { GuildScalarFieldEnum } from "./GuildScalarFieldEnum";
 export { LinearCycleScalarFieldEnum } from "./LinearCycleScalarFieldEnum";
 export { LinearIssueScalarFieldEnum } from "./LinearIssueScalarFieldEnum";
+export { LinearJobRunScalarFieldEnum } from "./LinearJobRunScalarFieldEnum";
 export { LinearProjectScalarFieldEnum } from "./LinearProjectScalarFieldEnum";
 export { LinearTeamScalarFieldEnum } from "./LinearTeamScalarFieldEnum";
 export { LinearUserScalarFieldEnum } from "./LinearUserScalarFieldEnum";

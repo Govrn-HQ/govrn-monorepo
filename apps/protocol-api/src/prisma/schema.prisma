@@ -246,3 +246,16 @@ model LinearTeam {
   key String
   issues LinearIssue[]
 }
+
+
+////
+// Job specific model
+////
+
+model LinearJobRun {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  completedDate DateTime
+  startDate DateTime
+}

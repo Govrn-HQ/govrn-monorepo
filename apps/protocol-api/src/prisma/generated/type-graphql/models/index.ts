@@ -9,6 +9,7 @@ export { Guild } from "./Guild";
 export { GuildContribution } from "./GuildContribution";
 export { LinearCycle } from "./LinearCycle";
 export { LinearIssue } from "./LinearIssue";
+export { LinearJobRun } from "./LinearJobRun";
 export { LinearProject } from "./LinearProject";
 export { LinearTeam } from "./LinearTeam";
 export { LinearUser } from "./LinearUser";

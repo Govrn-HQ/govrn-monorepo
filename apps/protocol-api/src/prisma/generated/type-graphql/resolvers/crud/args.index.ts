@@ -9,6 +9,7 @@ export * from "./Guild/args";
 export * from "./GuildContribution/args";
 export * from "./LinearCycle/args";
 export * from "./LinearIssue/args";
+export * from "./LinearJobRun/args";
 export * from "./LinearProject/args";
 export * from "./LinearTeam/args";
 export * from "./LinearUser/args";

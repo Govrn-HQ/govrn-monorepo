@@ -9,6 +9,7 @@ export { GuildCrudResolver } from "./Guild/GuildCrudResolver";
 export { GuildContributionCrudResolver } from "./GuildContribution/GuildContributionCrudResolver";
 export { LinearCycleCrudResolver } from "./LinearCycle/LinearCycleCrudResolver";
 export { LinearIssueCrudResolver } from "./LinearIssue/LinearIssueCrudResolver";
+export { LinearJobRunCrudResolver } from "./LinearJobRun/LinearJobRunCrudResolver";
 export { LinearProjectCrudResolver } from "./LinearProject/LinearProjectCrudResolver";
 export { LinearTeamCrudResolver } from "./LinearTeam/LinearTeamCrudResolver";
 export { LinearUserCrudResolver } from "./LinearUser/LinearUserCrudResolver";

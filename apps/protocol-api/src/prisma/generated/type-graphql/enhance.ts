@@ -25,7 +25,8 @@ const crudResolversMap = {
   LinearUser: crudResolvers.LinearUserCrudResolver,
   LinearCycle: crudResolvers.LinearCycleCrudResolver,
   LinearProject: crudResolvers.LinearProjectCrudResolver,
-  LinearTeam: crudResolvers.LinearTeamCrudResolver
+  LinearTeam: crudResolvers.LinearTeamCrudResolver,
+  LinearJobRun: crudResolvers.LinearJobRunCrudResolver
 };
 const actionResolversMap = {
   User: {
@@ -265,6 +266,20 @@ const actionResolversMap = {
     upsertLinearTeam: actionResolvers.UpsertLinearTeamResolver,
     aggregateLinearTeam: actionResolvers.AggregateLinearTeamResolver,
     groupByLinearTeam: actionResolvers.GroupByLinearTeamResolver
+  },
+  LinearJobRun: {
+    linearJobRun: actionResolvers.FindUniqueLinearJobRunResolver,
+    findFirstLinearJobRun: actionResolvers.FindFirstLinearJobRunResolver,
+    linearJobRuns: actionResolvers.FindManyLinearJobRunResolver,
+    createLinearJobRun: actionResolvers.CreateLinearJobRunResolver,
+    createManyLinearJobRun: actionResolvers.CreateManyLinearJobRunResolver,
+    deleteLinearJobRun: actionResolvers.DeleteLinearJobRunResolver,
+    updateLinearJobRun: actionResolvers.UpdateLinearJobRunResolver,
+    deleteManyLinearJobRun: actionResolvers.DeleteManyLinearJobRunResolver,
+    updateManyLinearJobRun: actionResolvers.UpdateManyLinearJobRunResolver,
+    upsertLinearJobRun: actionResolvers.UpsertLinearJobRunResolver,
+    aggregateLinearJobRun: actionResolvers.AggregateLinearJobRunResolver,
+    groupByLinearJobRun: actionResolvers.GroupByLinearJobRunResolver
   }
 };
 const crudResolversInfo = {
@@ -284,7 +299,8 @@ const crudResolversInfo = {
   LinearUser: ["linearUser", "findFirstLinearUser", "linearUsers", "createLinearUser", "createManyLinearUser", "deleteLinearUser", "updateLinearUser", "deleteManyLinearUser", "updateManyLinearUser", "upsertLinearUser", "aggregateLinearUser", "groupByLinearUser"],
   LinearCycle: ["linearCycle", "findFirstLinearCycle", "linearCycles", "createLinearCycle", "createManyLinearCycle", "deleteLinearCycle", "updateLinearCycle", "deleteManyLinearCycle", "updateManyLinearCycle", "upsertLinearCycle", "aggregateLinearCycle", "groupByLinearCycle"],
   LinearProject: ["linearProject", "findFirstLinearProject", "linearProjects", "createLinearProject", "createManyLinearProject", "deleteLinearProject", "updateLinearProject", "deleteManyLinearProject", "updateManyLinearProject", "upsertLinearProject", "aggregateLinearProject", "groupByLinearProject"],
-  LinearTeam: ["linearTeam", "findFirstLinearTeam", "linearTeams", "createLinearTeam", "createManyLinearTeam", "deleteLinearTeam", "updateLinearTeam", "deleteManyLinearTeam", "updateManyLinearTeam", "upsertLinearTeam", "aggregateLinearTeam", "groupByLinearTeam"]
+  LinearTeam: ["linearTeam", "findFirstLinearTeam", "linearTeams", "createLinearTeam", "createManyLinearTeam", "deleteLinearTeam", "updateLinearTeam", "deleteManyLinearTeam", "updateManyLinearTeam", "upsertLinearTeam", "aggregateLinearTeam", "groupByLinearTeam"],
+  LinearJobRun: ["linearJobRun", "findFirstLinearJobRun", "linearJobRuns", "createLinearJobRun", "createManyLinearJobRun", "deleteLinearJobRun", "updateLinearJobRun", "deleteManyLinearJobRun", "updateManyLinearJobRun", "upsertLinearJobRun", "aggregateLinearJobRun", "groupByLinearJobRun"]
 };
 const argsInfo = {
   FindUniqueUserArgs: ["where"],
@@ -490,7 +506,19 @@ const argsInfo = {
   UpdateManyLinearTeamArgs: ["data", "where"],
   UpsertLinearTeamArgs: ["where", "create", "update"],
   AggregateLinearTeamArgs: ["where", "orderBy", "cursor", "take", "skip"],
-  GroupByLinearTeamArgs: ["where", "orderBy", "by", "having", "take", "skip"]
+  GroupByLinearTeamArgs: ["where", "orderBy", "by", "having", "take", "skip"],
+  FindUniqueLinearJobRunArgs: ["where"],
+  FindFirstLinearJobRunArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  FindManyLinearJobRunArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  CreateLinearJobRunArgs: ["data"],
+  CreateManyLinearJobRunArgs: ["data", "skipDuplicates"],
+  DeleteLinearJobRunArgs: ["where"],
+  UpdateLinearJobRunArgs: ["data", "where"],
+  DeleteManyLinearJobRunArgs: ["where"],
+  UpdateManyLinearJobRunArgs: ["data", "where"],
+  UpsertLinearJobRunArgs: ["where", "create", "update"],
+  AggregateLinearJobRunArgs: ["where", "orderBy", "cursor", "take", "skip"],
+  GroupByLinearJobRunArgs: ["where", "orderBy", "by", "having", "take", "skip"]
 };
 
 type ResolverModelNames = keyof typeof crudResolversMap;
@@ -712,7 +740,8 @@ const modelsInfo = {
   LinearUser: ["id", "active", "createdAt", "displayName", "email", "linear_id", "name", "url", "user_id"],
   LinearCycle: ["id", "number", "startsAt", "endsAt", "linear_id"],
   LinearProject: ["id", "name", "linear_id"],
-  LinearTeam: ["id", "linear_id", "name", "key"]
+  LinearTeam: ["id", "linear_id", "name", "key"],
+  LinearJobRun: ["id", "createdAt", "updatedAt", "completedDate", "startDate"]
 };
 
 type ModelNames = keyof typeof models;
@@ -785,6 +814,8 @@ const outputsInfo = {
   LinearProjectGroupBy: ["id", "name", "linear_id", "_count", "_avg", "_sum", "_min", "_max"],
   AggregateLinearTeam: ["_count", "_avg", "_sum", "_min", "_max"],
   LinearTeamGroupBy: ["id", "linear_id", "name", "key", "_count", "_avg", "_sum", "_min", "_max"],
+  AggregateLinearJobRun: ["_count", "_avg", "_sum", "_min", "_max"],
+  LinearJobRunGroupBy: ["id", "createdAt", "updatedAt", "completedDate", "startDate", "_count", "_avg", "_sum", "_min", "_max"],
   AffectedRowsOutput: ["count"],
   UserCount: ["activities", "attestations", "contributionPartners", "contributions", "linear_users"],
   UserCountAggregate: ["id", "createdAt", "updatedAt", "name", "dispaly_name", "address", "chain_type_id", "full_name", "_all"],
@@ -882,7 +913,12 @@ const outputsInfo = {
   LinearTeamAvgAggregate: ["id"],
   LinearTeamSumAggregate: ["id"],
   LinearTeamMinAggregate: ["id", "linear_id", "name", "key"],
-  LinearTeamMaxAggregate: ["id", "linear_id", "name", "key"]
+  LinearTeamMaxAggregate: ["id", "linear_id", "name", "key"],
+  LinearJobRunCountAggregate: ["id", "createdAt", "updatedAt", "completedDate", "startDate", "_all"],
+  LinearJobRunAvgAggregate: ["id"],
+  LinearJobRunSumAggregate: ["id"],
+  LinearJobRunMinAggregate: ["id", "createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunMaxAggregate: ["id", "createdAt", "updatedAt", "completedDate", "startDate"]
 };
 
 type OutputTypesNames = keyof typeof outputTypes;
@@ -1008,6 +1044,11 @@ const inputsInfo = {
   LinearTeamWhereUniqueInput: ["id", "linear_id"],
   LinearTeamOrderByWithAggregationInput: ["id", "linear_id", "name", "key", "_count", "_avg", "_max", "_min", "_sum"],
   LinearTeamScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "linear_id", "name", "key"],
+  LinearJobRunWhereInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunOrderByWithRelationInput: ["id", "createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunWhereUniqueInput: ["id"],
+  LinearJobRunOrderByWithAggregationInput: ["id", "createdAt", "updatedAt", "completedDate", "startDate", "_count", "_avg", "_max", "_min", "_sum"],
+  LinearJobRunScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "completedDate", "startDate"],
   UserCreateInput: ["createdAt", "updatedAt", "name", "dispaly_name", "address", "chain_type", "full_name", "activities", "attestations", "contributionPartners", "contributions", "linear_users"],
   UserUpdateInput: ["createdAt", "updatedAt", "name", "dispaly_name", "address", "chain_type", "full_name", "activities", "attestations", "contributionPartners", "contributions", "linear_users"],
   UserCreateManyInput: ["id", "createdAt", "updatedAt", "name", "dispaly_name", "address", "chain_type_id", "full_name"],
@@ -1076,6 +1117,10 @@ const inputsInfo = {
   LinearTeamUpdateInput: ["linear_id", "name", "key", "issues"],
   LinearTeamCreateManyInput: ["id", "linear_id", "name", "key"],
   LinearTeamUpdateManyMutationInput: ["linear_id", "name", "key"],
+  LinearJobRunCreateInput: ["createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunUpdateInput: ["createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunCreateManyInput: ["id", "createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunUpdateManyMutationInput: ["createdAt", "updatedAt", "completedDate", "startDate"],
   IntFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
   DateTimeFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
   StringNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "mode", "not"],
@@ -1214,6 +1259,11 @@ const inputsInfo = {
   LinearTeamMaxOrderByAggregateInput: ["id", "linear_id", "name", "key"],
   LinearTeamMinOrderByAggregateInput: ["id", "linear_id", "name", "key"],
   LinearTeamSumOrderByAggregateInput: ["id"],
+  LinearJobRunCountOrderByAggregateInput: ["id", "createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunAvgOrderByAggregateInput: ["id"],
+  LinearJobRunMaxOrderByAggregateInput: ["id", "createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunMinOrderByAggregateInput: ["id", "createdAt", "updatedAt", "completedDate", "startDate"],
+  LinearJobRunSumOrderByAggregateInput: ["id"],
   ChainTypeCreateNestedOneWithoutUsersInput: ["create", "connectOrCreate", "connect"],
   UserActivityCreateNestedManyWithoutUserInput: ["create", "connectOrCreate", "createMany", "connect"],
   AttestationCreateNestedManyWithoutUserInput: ["create", "connectOrCreate", "createMany", "connect"],
