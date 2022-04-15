@@ -46,6 +46,13 @@
         "jestConfig": "apps/linear-sync-job/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "generate-gql": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn graphql-codegen --config apps/linear-sync-job/codegen.yaml",
+        "outputPath": "apps/linear-sync-job/src"
+      }
     }
   },
   "tags": []

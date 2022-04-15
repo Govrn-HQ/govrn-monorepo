@@ -1,0 +1,6 @@
+schema: http://localhost:4000/graphql # Protocol api
+generates:
+  ./apps/linear-sync-job/src/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
