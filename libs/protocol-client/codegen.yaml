@@ -1,0 +1,16 @@
+schema: http://localhost:4000/graphql # Protocol api
+documents: './libs/protocol-client/src/lib/graphql'
+overwrite: true
+generates:
+  ./libs/protocol-client/src/lib/protocol-types.ts:
+    config:
+      dedupeFragments: true
+      nonOptionalTypename: false
+      skipTypename: true
+      documentMode: docementNode
+    presetConfig:
+      baseTypesPath: ../schema.generated.ts
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-graphql-request'

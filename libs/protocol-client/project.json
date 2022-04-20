@@ -1,0 +1,39 @@
+{
+  "root": "libs/protocol-client",
+  "sourceRoot": "libs/protocol-client/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/protocol-client",
+        "main": "libs/protocol-client/src/index.ts",
+        "tsConfig": "libs/protocol-client/tsconfig.lib.json",
+        "assets": ["libs/protocol-client/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/protocol-client/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/protocol-client"],
+      "options": {
+        "jestConfig": "libs/protocol-client/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "generate-gql": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn graphql-codegen --config libs/protocol-client/codegen.yaml",
+        "outputPath": "libs/protocol-client/src/lib/client"
+      }
+    }
+  },
+  "tags": []
+}

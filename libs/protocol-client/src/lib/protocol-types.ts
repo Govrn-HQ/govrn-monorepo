@@ -1,3 +1,5 @@
+import { GraphQLClient } from 'graphql-request';
+import * as Dom from 'graphql-request/dist/types.dom';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -15,7 +17,6 @@ export type Scalars = {
 };
 
 export type ActivityType = {
-  __typename?: 'ActivityType';
   _count?: Maybe<ActivityTypeCount>;
   active: Scalars['Boolean'];
   category_activity: CategoryActivity;
@@ -49,7 +50,6 @@ export type ActivityTypeUsersArgs = {
 };
 
 export type ActivityTypeAvgAggregate = {
-  __typename?: 'ActivityTypeAvgAggregate';
   category_activity_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
@@ -60,13 +60,11 @@ export type ActivityTypeAvgOrderByAggregateInput = {
 };
 
 export type ActivityTypeCount = {
-  __typename?: 'ActivityTypeCount';
   contributions: Scalars['Int'];
   users: Scalars['Int'];
 };
 
 export type ActivityTypeCountAggregate = {
-  __typename?: 'ActivityTypeCountAggregate';
   _all: Scalars['Int'];
   active: Scalars['Int'];
   category_activity_id: Scalars['Int'];
@@ -179,7 +177,6 @@ export type ActivityTypeCreateWithoutUsersInput = {
 };
 
 export type ActivityTypeGroupBy = {
-  __typename?: 'ActivityTypeGroupBy';
   _avg?: Maybe<ActivityTypeAvgAggregate>;
   _count?: Maybe<ActivityTypeCountAggregate>;
   _max?: Maybe<ActivityTypeMaxAggregate>;
@@ -200,7 +197,6 @@ export type ActivityTypeListRelationFilter = {
 };
 
 export type ActivityTypeMaxAggregate = {
-  __typename?: 'ActivityTypeMaxAggregate';
   active?: Maybe<Scalars['Boolean']>;
   category_activity_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -219,7 +215,6 @@ export type ActivityTypeMaxOrderByAggregateInput = {
 };
 
 export type ActivityTypeMinAggregate = {
-  __typename?: 'ActivityTypeMinAggregate';
   active?: Maybe<Scalars['Boolean']>;
   category_activity_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -306,7 +301,6 @@ export type ActivityTypeScalarWhereWithAggregatesInput = {
 };
 
 export type ActivityTypeSumAggregate = {
-  __typename?: 'ActivityTypeSumAggregate';
   category_activity_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
 };
@@ -437,12 +431,10 @@ export type ActivityTypeWhereUniqueInput = {
 };
 
 export type AffectedRowsOutput = {
-  __typename?: 'AffectedRowsOutput';
   count: Scalars['Int'];
 };
 
 export type AggregateActivityType = {
-  __typename?: 'AggregateActivityType';
   _avg?: Maybe<ActivityTypeAvgAggregate>;
   _count?: Maybe<ActivityTypeCountAggregate>;
   _max?: Maybe<ActivityTypeMaxAggregate>;
@@ -451,7 +443,6 @@ export type AggregateActivityType = {
 };
 
 export type AggregateAttestation = {
-  __typename?: 'AggregateAttestation';
   _avg?: Maybe<AttestationAvgAggregate>;
   _count?: Maybe<AttestationCountAggregate>;
   _max?: Maybe<AttestationMaxAggregate>;
@@ -460,7 +451,6 @@ export type AggregateAttestation = {
 };
 
 export type AggregateAttestationConfidence = {
-  __typename?: 'AggregateAttestationConfidence';
   _avg?: Maybe<AttestationConfidenceAvgAggregate>;
   _count?: Maybe<AttestationConfidenceCountAggregate>;
   _max?: Maybe<AttestationConfidenceMaxAggregate>;
@@ -469,7 +459,6 @@ export type AggregateAttestationConfidence = {
 };
 
 export type AggregateCategoryActivity = {
-  __typename?: 'AggregateCategoryActivity';
   _avg?: Maybe<CategoryActivityAvgAggregate>;
   _count?: Maybe<CategoryActivityCountAggregate>;
   _max?: Maybe<CategoryActivityMaxAggregate>;
@@ -478,7 +467,6 @@ export type AggregateCategoryActivity = {
 };
 
 export type AggregateChainType = {
-  __typename?: 'AggregateChainType';
   _avg?: Maybe<ChainTypeAvgAggregate>;
   _count?: Maybe<ChainTypeCountAggregate>;
   _max?: Maybe<ChainTypeMaxAggregate>;
@@ -487,7 +475,6 @@ export type AggregateChainType = {
 };
 
 export type AggregateContribution = {
-  __typename?: 'AggregateContribution';
   _avg?: Maybe<ContributionAvgAggregate>;
   _count?: Maybe<ContributionCountAggregate>;
   _max?: Maybe<ContributionMaxAggregate>;
@@ -496,7 +483,6 @@ export type AggregateContribution = {
 };
 
 export type AggregateContributionStatus = {
-  __typename?: 'AggregateContributionStatus';
   _avg?: Maybe<ContributionStatusAvgAggregate>;
   _count?: Maybe<ContributionStatusCountAggregate>;
   _max?: Maybe<ContributionStatusMaxAggregate>;
@@ -505,7 +491,6 @@ export type AggregateContributionStatus = {
 };
 
 export type AggregateGuild = {
-  __typename?: 'AggregateGuild';
   _avg?: Maybe<GuildAvgAggregate>;
   _count?: Maybe<GuildCountAggregate>;
   _max?: Maybe<GuildMaxAggregate>;
@@ -514,7 +499,6 @@ export type AggregateGuild = {
 };
 
 export type AggregateGuildContribution = {
-  __typename?: 'AggregateGuildContribution';
   _avg?: Maybe<GuildContributionAvgAggregate>;
   _count?: Maybe<GuildContributionCountAggregate>;
   _max?: Maybe<GuildContributionMaxAggregate>;
@@ -523,7 +507,6 @@ export type AggregateGuildContribution = {
 };
 
 export type AggregateLinearCycle = {
-  __typename?: 'AggregateLinearCycle';
   _avg?: Maybe<LinearCycleAvgAggregate>;
   _count?: Maybe<LinearCycleCountAggregate>;
   _max?: Maybe<LinearCycleMaxAggregate>;
@@ -532,7 +515,6 @@ export type AggregateLinearCycle = {
 };
 
 export type AggregateLinearIssue = {
-  __typename?: 'AggregateLinearIssue';
   _avg?: Maybe<LinearIssueAvgAggregate>;
   _count?: Maybe<LinearIssueCountAggregate>;
   _max?: Maybe<LinearIssueMaxAggregate>;
@@ -541,7 +523,6 @@ export type AggregateLinearIssue = {
 };
 
 export type AggregateLinearJobRun = {
-  __typename?: 'AggregateLinearJobRun';
   _avg?: Maybe<LinearJobRunAvgAggregate>;
   _count?: Maybe<LinearJobRunCountAggregate>;
   _max?: Maybe<LinearJobRunMaxAggregate>;
@@ -550,7 +531,6 @@ export type AggregateLinearJobRun = {
 };
 
 export type AggregateLinearProject = {
-  __typename?: 'AggregateLinearProject';
   _avg?: Maybe<LinearProjectAvgAggregate>;
   _count?: Maybe<LinearProjectCountAggregate>;
   _max?: Maybe<LinearProjectMaxAggregate>;
@@ -559,7 +539,6 @@ export type AggregateLinearProject = {
 };
 
 export type AggregateLinearTeam = {
-  __typename?: 'AggregateLinearTeam';
   _avg?: Maybe<LinearTeamAvgAggregate>;
   _count?: Maybe<LinearTeamCountAggregate>;
   _max?: Maybe<LinearTeamMaxAggregate>;
@@ -568,7 +547,6 @@ export type AggregateLinearTeam = {
 };
 
 export type AggregateLinearUser = {
-  __typename?: 'AggregateLinearUser';
   _avg?: Maybe<LinearUserAvgAggregate>;
   _count?: Maybe<LinearUserCountAggregate>;
   _max?: Maybe<LinearUserMaxAggregate>;
@@ -577,7 +555,6 @@ export type AggregateLinearUser = {
 };
 
 export type AggregatePartner = {
-  __typename?: 'AggregatePartner';
   _avg?: Maybe<PartnerAvgAggregate>;
   _count?: Maybe<PartnerCountAggregate>;
   _max?: Maybe<PartnerMaxAggregate>;
@@ -586,7 +563,6 @@ export type AggregatePartner = {
 };
 
 export type AggregateUser = {
-  __typename?: 'AggregateUser';
   _avg?: Maybe<UserAvgAggregate>;
   _count?: Maybe<UserCountAggregate>;
   _max?: Maybe<UserMaxAggregate>;
@@ -595,7 +571,6 @@ export type AggregateUser = {
 };
 
 export type AggregateUserActivity = {
-  __typename?: 'AggregateUserActivity';
   _avg?: Maybe<UserActivityAvgAggregate>;
   _count?: Maybe<UserActivityCountAggregate>;
   _max?: Maybe<UserActivityMaxAggregate>;
@@ -604,7 +579,6 @@ export type AggregateUserActivity = {
 };
 
 export type Attestation = {
-  __typename?: 'Attestation';
   confidence: AttestationConfidence;
   confidence_id: Scalars['Int'];
   contribution: Contribution;
@@ -618,7 +592,6 @@ export type Attestation = {
 };
 
 export type AttestationAvgAggregate = {
-  __typename?: 'AttestationAvgAggregate';
   confidence_id?: Maybe<Scalars['Float']>;
   contribution_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
@@ -633,7 +606,6 @@ export type AttestationAvgOrderByAggregateInput = {
 };
 
 export type AttestationConfidence = {
-  __typename?: 'AttestationConfidence';
   _count?: Maybe<AttestationConfidenceCount>;
   attestations: Array<Attestation>;
   createdAt: Scalars['DateTime'];
@@ -653,7 +625,6 @@ export type AttestationConfidenceAttestationsArgs = {
 };
 
 export type AttestationConfidenceAvgAggregate = {
-  __typename?: 'AttestationConfidenceAvgAggregate';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -662,12 +633,10 @@ export type AttestationConfidenceAvgOrderByAggregateInput = {
 };
 
 export type AttestationConfidenceCount = {
-  __typename?: 'AttestationConfidenceCount';
   attestations: Scalars['Int'];
 };
 
 export type AttestationConfidenceCountAggregate = {
-  __typename?: 'AttestationConfidenceCountAggregate';
   _all: Scalars['Int'];
   createdAt: Scalars['Int'];
   id: Scalars['Int'];
@@ -714,7 +683,6 @@ export type AttestationConfidenceCreateWithoutAttestationsInput = {
 };
 
 export type AttestationConfidenceGroupBy = {
-  __typename?: 'AttestationConfidenceGroupBy';
   _avg?: Maybe<AttestationConfidenceAvgAggregate>;
   _count?: Maybe<AttestationConfidenceCountAggregate>;
   _max?: Maybe<AttestationConfidenceMaxAggregate>;
@@ -727,7 +695,6 @@ export type AttestationConfidenceGroupBy = {
 };
 
 export type AttestationConfidenceMaxAggregate = {
-  __typename?: 'AttestationConfidenceMaxAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -742,7 +709,6 @@ export type AttestationConfidenceMaxOrderByAggregateInput = {
 };
 
 export type AttestationConfidenceMinAggregate = {
-  __typename?: 'AttestationConfidenceMinAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -799,7 +765,6 @@ export type AttestationConfidenceScalarWhereWithAggregatesInput = {
 };
 
 export type AttestationConfidenceSumAggregate = {
-  __typename?: 'AttestationConfidenceSumAggregate';
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -856,7 +821,6 @@ export type AttestationConfidenceWhereUniqueInput = {
 };
 
 export type AttestationCountAggregate = {
-  __typename?: 'AttestationCountAggregate';
   _all: Scalars['Int'];
   confidence_id: Scalars['Int'];
   contribution_id: Scalars['Int'];
@@ -999,7 +963,6 @@ export type AttestationCreateWithoutUserInput = {
 };
 
 export type AttestationGroupBy = {
-  __typename?: 'AttestationGroupBy';
   _avg?: Maybe<AttestationAvgAggregate>;
   _count?: Maybe<AttestationCountAggregate>;
   _max?: Maybe<AttestationMaxAggregate>;
@@ -1021,7 +984,6 @@ export type AttestationListRelationFilter = {
 };
 
 export type AttestationMaxAggregate = {
-  __typename?: 'AttestationMaxAggregate';
   confidence_id?: Maybe<Scalars['Int']>;
   contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -1042,7 +1004,6 @@ export type AttestationMaxOrderByAggregateInput = {
 };
 
 export type AttestationMinAggregate = {
-  __typename?: 'AttestationMinAggregate';
   confidence_id?: Maybe<Scalars['Int']>;
   contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -1131,7 +1092,6 @@ export type AttestationScalarWhereWithAggregatesInput = {
 };
 
 export type AttestationSumAggregate = {
-  __typename?: 'AttestationSumAggregate';
   confidence_id?: Maybe<Scalars['Int']>;
   contribution_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -1331,7 +1291,6 @@ export type BoolWithAggregatesFilter = {
 };
 
 export type CategoryActivity = {
-  __typename?: 'CategoryActivity';
   _count?: Maybe<CategoryActivityCount>;
   activityTypes: Array<ActivityType>;
   createdAt: Scalars['DateTime'];
@@ -1351,7 +1310,6 @@ export type CategoryActivityActivityTypesArgs = {
 };
 
 export type CategoryActivityAvgAggregate = {
-  __typename?: 'CategoryActivityAvgAggregate';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -1360,12 +1318,10 @@ export type CategoryActivityAvgOrderByAggregateInput = {
 };
 
 export type CategoryActivityCount = {
-  __typename?: 'CategoryActivityCount';
   activityTypes: Scalars['Int'];
 };
 
 export type CategoryActivityCountAggregate = {
-  __typename?: 'CategoryActivityCountAggregate';
   _all: Scalars['Int'];
   createdAt: Scalars['Int'];
   id: Scalars['Int'];
@@ -1412,7 +1368,6 @@ export type CategoryActivityCreateWithoutActivityTypesInput = {
 };
 
 export type CategoryActivityGroupBy = {
-  __typename?: 'CategoryActivityGroupBy';
   _avg?: Maybe<CategoryActivityAvgAggregate>;
   _count?: Maybe<CategoryActivityCountAggregate>;
   _max?: Maybe<CategoryActivityMaxAggregate>;
@@ -1425,7 +1380,6 @@ export type CategoryActivityGroupBy = {
 };
 
 export type CategoryActivityMaxAggregate = {
-  __typename?: 'CategoryActivityMaxAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1440,7 +1394,6 @@ export type CategoryActivityMaxOrderByAggregateInput = {
 };
 
 export type CategoryActivityMinAggregate = {
-  __typename?: 'CategoryActivityMinAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1497,7 +1450,6 @@ export type CategoryActivityScalarWhereWithAggregatesInput = {
 };
 
 export type CategoryActivitySumAggregate = {
-  __typename?: 'CategoryActivitySumAggregate';
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -1554,7 +1506,6 @@ export type CategoryActivityWhereUniqueInput = {
 };
 
 export type ChainType = {
-  __typename?: 'ChainType';
   _count?: Maybe<ChainTypeCount>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
@@ -1574,7 +1525,6 @@ export type ChainTypeUsersArgs = {
 };
 
 export type ChainTypeAvgAggregate = {
-  __typename?: 'ChainTypeAvgAggregate';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -1583,12 +1533,10 @@ export type ChainTypeAvgOrderByAggregateInput = {
 };
 
 export type ChainTypeCount = {
-  __typename?: 'ChainTypeCount';
   users: Scalars['Int'];
 };
 
 export type ChainTypeCountAggregate = {
-  __typename?: 'ChainTypeCountAggregate';
   _all: Scalars['Int'];
   createdAt: Scalars['Int'];
   id: Scalars['Int'];
@@ -1635,7 +1583,6 @@ export type ChainTypeCreateWithoutUsersInput = {
 };
 
 export type ChainTypeGroupBy = {
-  __typename?: 'ChainTypeGroupBy';
   _avg?: Maybe<ChainTypeAvgAggregate>;
   _count?: Maybe<ChainTypeCountAggregate>;
   _max?: Maybe<ChainTypeMaxAggregate>;
@@ -1648,7 +1595,6 @@ export type ChainTypeGroupBy = {
 };
 
 export type ChainTypeMaxAggregate = {
-  __typename?: 'ChainTypeMaxAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1663,7 +1609,6 @@ export type ChainTypeMaxOrderByAggregateInput = {
 };
 
 export type ChainTypeMinAggregate = {
-  __typename?: 'ChainTypeMinAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1720,7 +1665,6 @@ export type ChainTypeScalarWhereWithAggregatesInput = {
 };
 
 export type ChainTypeSumAggregate = {
-  __typename?: 'ChainTypeSumAggregate';
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -1777,7 +1721,6 @@ export type ChainTypeWhereUniqueInput = {
 };
 
 export type Contribution = {
-  __typename?: 'Contribution';
   _count?: Maybe<ContributionCount>;
   activity_type: ActivityType;
   activity_type_id: Scalars['Int'];
@@ -1828,7 +1771,6 @@ export type ContributionPartnersArgs = {
 };
 
 export type ContributionAvgAggregate = {
-  __typename?: 'ContributionAvgAggregate';
   activity_type_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   status_id?: Maybe<Scalars['Float']>;
@@ -1843,14 +1785,12 @@ export type ContributionAvgOrderByAggregateInput = {
 };
 
 export type ContributionCount = {
-  __typename?: 'ContributionCount';
   attestations: Scalars['Int'];
   guilds: Scalars['Int'];
   partners: Scalars['Int'];
 };
 
 export type ContributionCountAggregate = {
-  __typename?: 'ContributionCountAggregate';
   _all: Scalars['Int'];
   activity_type_id: Scalars['Int'];
   date_of_engagement: Scalars['Int'];
@@ -2129,7 +2069,6 @@ export type ContributionCreateWithoutUserInput = {
 };
 
 export type ContributionGroupBy = {
-  __typename?: 'ContributionGroupBy';
   _avg?: Maybe<ContributionAvgAggregate>;
   _count?: Maybe<ContributionCountAggregate>;
   _max?: Maybe<ContributionMaxAggregate>;
@@ -2153,7 +2092,6 @@ export type ContributionListRelationFilter = {
 };
 
 export type ContributionMaxAggregate = {
-  __typename?: 'ContributionMaxAggregate';
   activity_type_id?: Maybe<Scalars['Int']>;
   date_of_engagement?: Maybe<Scalars['DateTime']>;
   date_of_submission?: Maybe<Scalars['DateTime']>;
@@ -2178,7 +2116,6 @@ export type ContributionMaxOrderByAggregateInput = {
 };
 
 export type ContributionMinAggregate = {
-  __typename?: 'ContributionMinAggregate';
   activity_type_id?: Maybe<Scalars['Int']>;
   date_of_engagement?: Maybe<Scalars['DateTime']>;
   date_of_submission?: Maybe<Scalars['DateTime']>;
@@ -2290,7 +2227,6 @@ export type ContributionScalarWhereWithAggregatesInput = {
 };
 
 export type ContributionStatus = {
-  __typename?: 'ContributionStatus';
   _count?: Maybe<ContributionStatusCount>;
   contributions: Array<Contribution>;
   createdAt: Scalars['DateTime'];
@@ -2310,7 +2246,6 @@ export type ContributionStatusContributionsArgs = {
 };
 
 export type ContributionStatusAvgAggregate = {
-  __typename?: 'ContributionStatusAvgAggregate';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -2319,12 +2254,10 @@ export type ContributionStatusAvgOrderByAggregateInput = {
 };
 
 export type ContributionStatusCount = {
-  __typename?: 'ContributionStatusCount';
   contributions: Scalars['Int'];
 };
 
 export type ContributionStatusCountAggregate = {
-  __typename?: 'ContributionStatusCountAggregate';
   _all: Scalars['Int'];
   createdAt: Scalars['Int'];
   id: Scalars['Int'];
@@ -2371,7 +2304,6 @@ export type ContributionStatusCreateWithoutContributionsInput = {
 };
 
 export type ContributionStatusGroupBy = {
-  __typename?: 'ContributionStatusGroupBy';
   _avg?: Maybe<ContributionStatusAvgAggregate>;
   _count?: Maybe<ContributionStatusCountAggregate>;
   _max?: Maybe<ContributionStatusMaxAggregate>;
@@ -2384,7 +2316,6 @@ export type ContributionStatusGroupBy = {
 };
 
 export type ContributionStatusMaxAggregate = {
-  __typename?: 'ContributionStatusMaxAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -2399,7 +2330,6 @@ export type ContributionStatusMaxOrderByAggregateInput = {
 };
 
 export type ContributionStatusMinAggregate = {
-  __typename?: 'ContributionStatusMinAggregate';
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -2456,7 +2386,6 @@ export type ContributionStatusScalarWhereWithAggregatesInput = {
 };
 
 export type ContributionStatusSumAggregate = {
-  __typename?: 'ContributionStatusSumAggregate';
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -2513,7 +2442,6 @@ export type ContributionStatusWhereUniqueInput = {
 };
 
 export type ContributionSumAggregate = {
-  __typename?: 'ContributionSumAggregate';
   activity_type_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   status_id?: Maybe<Scalars['Int']>;
@@ -2898,7 +2826,6 @@ export type FloatNullableWithAggregatesFilter = {
 };
 
 export type Guild = {
-  __typename?: 'Guild';
   _count?: Maybe<GuildCount>;
   congrats_channel?: Maybe<Scalars['Int']>;
   contributions: Array<GuildContribution>;
@@ -2921,7 +2848,6 @@ export type GuildContributionsArgs = {
 };
 
 export type GuildAvgAggregate = {
-  __typename?: 'GuildAvgAggregate';
   congrats_channel?: Maybe<Scalars['Float']>;
   discord_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
@@ -2934,7 +2860,6 @@ export type GuildAvgOrderByAggregateInput = {
 };
 
 export type GuildContribution = {
-  __typename?: 'GuildContribution';
   contribution: Contribution;
   contribution_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
@@ -2945,7 +2870,6 @@ export type GuildContribution = {
 };
 
 export type GuildContributionAvgAggregate = {
-  __typename?: 'GuildContributionAvgAggregate';
   contribution_id?: Maybe<Scalars['Float']>;
   guild_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
@@ -2958,7 +2882,6 @@ export type GuildContributionAvgOrderByAggregateInput = {
 };
 
 export type GuildContributionCountAggregate = {
-  __typename?: 'GuildContributionCountAggregate';
   _all: Scalars['Int'];
   contribution_id: Scalars['Int'];
   createdAt: Scalars['Int'];
@@ -3051,7 +2974,6 @@ export type GuildContributionCreateWithoutGuildInput = {
 };
 
 export type GuildContributionGroupBy = {
-  __typename?: 'GuildContributionGroupBy';
   _avg?: Maybe<GuildContributionAvgAggregate>;
   _count?: Maybe<GuildContributionCountAggregate>;
   _max?: Maybe<GuildContributionMaxAggregate>;
@@ -3076,7 +2998,6 @@ export type GuildContributionListRelationFilter = {
 };
 
 export type GuildContributionMaxAggregate = {
-  __typename?: 'GuildContributionMaxAggregate';
   contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   guild_id?: Maybe<Scalars['Int']>;
@@ -3093,7 +3014,6 @@ export type GuildContributionMaxOrderByAggregateInput = {
 };
 
 export type GuildContributionMinAggregate = {
-  __typename?: 'GuildContributionMinAggregate';
   contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   guild_id?: Maybe<Scalars['Int']>;
@@ -3167,7 +3087,6 @@ export type GuildContributionScalarWhereWithAggregatesInput = {
 };
 
 export type GuildContributionSumAggregate = {
-  __typename?: 'GuildContributionSumAggregate';
   contribution_id?: Maybe<Scalars['Int']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -3282,12 +3201,10 @@ export type GuildContributionWhereUniqueInput = {
 };
 
 export type GuildCount = {
-  __typename?: 'GuildCount';
   contributions: Scalars['Int'];
 };
 
 export type GuildCountAggregate = {
-  __typename?: 'GuildCountAggregate';
   _all: Scalars['Int'];
   congrats_channel: Scalars['Int'];
   createdAt: Scalars['Int'];
@@ -3349,7 +3266,6 @@ export type GuildCreateWithoutContributionsInput = {
 };
 
 export type GuildGroupBy = {
-  __typename?: 'GuildGroupBy';
   _avg?: Maybe<GuildAvgAggregate>;
   _count?: Maybe<GuildCountAggregate>;
   _max?: Maybe<GuildMaxAggregate>;
@@ -3365,7 +3281,6 @@ export type GuildGroupBy = {
 };
 
 export type GuildMaxAggregate = {
-  __typename?: 'GuildMaxAggregate';
   congrats_channel?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   discord_id?: Maybe<Scalars['Int']>;
@@ -3386,7 +3301,6 @@ export type GuildMaxOrderByAggregateInput = {
 };
 
 export type GuildMinAggregate = {
-  __typename?: 'GuildMinAggregate';
   congrats_channel?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   discord_id?: Maybe<Scalars['Int']>;
@@ -3461,7 +3375,6 @@ export type GuildScalarWhereWithAggregatesInput = {
 };
 
 export type GuildSumAggregate = {
-  __typename?: 'GuildSumAggregate';
   congrats_channel?: Maybe<Scalars['Int']>;
   discord_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -3595,7 +3508,6 @@ export type IntWithAggregatesFilter = {
 };
 
 export type LinearCycle = {
-  __typename?: 'LinearCycle';
   _count?: Maybe<LinearCycleCount>;
   endsAt: Scalars['DateTime'];
   id: Scalars['Int'];
@@ -3616,7 +3528,6 @@ export type LinearCycleIssuesArgs = {
 };
 
 export type LinearCycleAvgAggregate = {
-  __typename?: 'LinearCycleAvgAggregate';
   id?: Maybe<Scalars['Float']>;
   number?: Maybe<Scalars['Float']>;
 };
@@ -3627,12 +3538,10 @@ export type LinearCycleAvgOrderByAggregateInput = {
 };
 
 export type LinearCycleCount = {
-  __typename?: 'LinearCycleCount';
   issues: Scalars['Int'];
 };
 
 export type LinearCycleCountAggregate = {
-  __typename?: 'LinearCycleCountAggregate';
   _all: Scalars['Int'];
   endsAt: Scalars['Int'];
   id: Scalars['Int'];
@@ -3684,7 +3593,6 @@ export type LinearCycleCreateWithoutIssuesInput = {
 };
 
 export type LinearCycleGroupBy = {
-  __typename?: 'LinearCycleGroupBy';
   _avg?: Maybe<LinearCycleAvgAggregate>;
   _count?: Maybe<LinearCycleCountAggregate>;
   _max?: Maybe<LinearCycleMaxAggregate>;
@@ -3698,7 +3606,6 @@ export type LinearCycleGroupBy = {
 };
 
 export type LinearCycleMaxAggregate = {
-  __typename?: 'LinearCycleMaxAggregate';
   endsAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   linear_id?: Maybe<Scalars['String']>;
@@ -3715,7 +3622,6 @@ export type LinearCycleMaxOrderByAggregateInput = {
 };
 
 export type LinearCycleMinAggregate = {
-  __typename?: 'LinearCycleMinAggregate';
   endsAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   linear_id?: Maybe<Scalars['String']>;
@@ -3778,7 +3684,6 @@ export type LinearCycleScalarWhereWithAggregatesInput = {
 };
 
 export type LinearCycleSumAggregate = {
-  __typename?: 'LinearCycleSumAggregate';
   id?: Maybe<Scalars['Int']>;
   number?: Maybe<Scalars['Int']>;
 };
@@ -3841,7 +3746,6 @@ export type LinearCycleWhereUniqueInput = {
 };
 
 export type LinearIssue = {
-  __typename?: 'LinearIssue';
   archivedAt?: Maybe<Scalars['DateTime']>;
   assignee?: Maybe<LinearUser>;
   assignee_id?: Maybe<Scalars['Int']>;
@@ -3882,7 +3786,6 @@ export type LinearIssue = {
 };
 
 export type LinearIssueAvgAggregate = {
-  __typename?: 'LinearIssueAvgAggregate';
   assignee_id?: Maybe<Scalars['Float']>;
   boardOrder?: Maybe<Scalars['Float']>;
   contribution_id?: Maybe<Scalars['Float']>;
@@ -3915,7 +3818,6 @@ export type LinearIssueAvgOrderByAggregateInput = {
 };
 
 export type LinearIssueCountAggregate = {
-  __typename?: 'LinearIssueCountAggregate';
   _all: Scalars['Int'];
   archivedAt: Scalars['Int'];
   assignee_id: Scalars['Int'];
@@ -4505,7 +4407,6 @@ export type LinearIssueCreateWithoutTeamInput = {
 };
 
 export type LinearIssueGroupBy = {
-  __typename?: 'LinearIssueGroupBy';
   _avg?: Maybe<LinearIssueAvgAggregate>;
   _count?: Maybe<LinearIssueCountAggregate>;
   _max?: Maybe<LinearIssueMaxAggregate>;
@@ -4551,7 +4452,6 @@ export type LinearIssueListRelationFilter = {
 };
 
 export type LinearIssueMaxAggregate = {
-  __typename?: 'LinearIssueMaxAggregate';
   archivedAt?: Maybe<Scalars['DateTime']>;
   assignee_id?: Maybe<Scalars['Int']>;
   autoArchivedAt?: Maybe<Scalars['DateTime']>;
@@ -4620,7 +4520,6 @@ export type LinearIssueMaxOrderByAggregateInput = {
 };
 
 export type LinearIssueMinAggregate = {
-  __typename?: 'LinearIssueMinAggregate';
   archivedAt?: Maybe<Scalars['DateTime']>;
   assignee_id?: Maybe<Scalars['Int']>;
   autoArchivedAt?: Maybe<Scalars['DateTime']>;
@@ -4885,7 +4784,6 @@ export type LinearIssueScalarWhereWithAggregatesInput = {
 };
 
 export type LinearIssueSumAggregate = {
-  __typename?: 'LinearIssueSumAggregate';
   assignee_id?: Maybe<Scalars['Int']>;
   boardOrder?: Maybe<Scalars['Int']>;
   contribution_id?: Maybe<Scalars['Int']>;
@@ -5384,7 +5282,6 @@ export type LinearIssueWhereUniqueInput = {
 };
 
 export type LinearJobRun = {
-  __typename?: 'LinearJobRun';
   completedDate: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
@@ -5393,7 +5290,6 @@ export type LinearJobRun = {
 };
 
 export type LinearJobRunAvgAggregate = {
-  __typename?: 'LinearJobRunAvgAggregate';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -5402,7 +5298,6 @@ export type LinearJobRunAvgOrderByAggregateInput = {
 };
 
 export type LinearJobRunCountAggregate = {
-  __typename?: 'LinearJobRunCountAggregate';
   _all: Scalars['Int'];
   completedDate: Scalars['Int'];
   createdAt: Scalars['Int'];
@@ -5435,7 +5330,6 @@ export type LinearJobRunCreateManyInput = {
 };
 
 export type LinearJobRunGroupBy = {
-  __typename?: 'LinearJobRunGroupBy';
   _avg?: Maybe<LinearJobRunAvgAggregate>;
   _count?: Maybe<LinearJobRunCountAggregate>;
   _max?: Maybe<LinearJobRunMaxAggregate>;
@@ -5449,7 +5343,6 @@ export type LinearJobRunGroupBy = {
 };
 
 export type LinearJobRunMaxAggregate = {
-  __typename?: 'LinearJobRunMaxAggregate';
   completedDate?: Maybe<Scalars['DateTime']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
@@ -5466,7 +5359,6 @@ export type LinearJobRunMaxOrderByAggregateInput = {
 };
 
 export type LinearJobRunMinAggregate = {
-  __typename?: 'LinearJobRunMinAggregate';
   completedDate?: Maybe<Scalars['DateTime']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
@@ -5523,7 +5415,6 @@ export type LinearJobRunScalarWhereWithAggregatesInput = {
 };
 
 export type LinearJobRunSumAggregate = {
-  __typename?: 'LinearJobRunSumAggregate';
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -5561,7 +5452,6 @@ export type LinearJobRunWhereUniqueInput = {
 };
 
 export type LinearProject = {
-  __typename?: 'LinearProject';
   _count?: Maybe<LinearProjectCount>;
   id: Scalars['Int'];
   issues: Array<LinearIssue>;
@@ -5580,7 +5470,6 @@ export type LinearProjectIssuesArgs = {
 };
 
 export type LinearProjectAvgAggregate = {
-  __typename?: 'LinearProjectAvgAggregate';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -5589,12 +5478,10 @@ export type LinearProjectAvgOrderByAggregateInput = {
 };
 
 export type LinearProjectCount = {
-  __typename?: 'LinearProjectCount';
   issues: Scalars['Int'];
 };
 
 export type LinearProjectCountAggregate = {
-  __typename?: 'LinearProjectCountAggregate';
   _all: Scalars['Int'];
   id: Scalars['Int'];
   linear_id: Scalars['Int'];
@@ -5636,7 +5523,6 @@ export type LinearProjectCreateWithoutIssuesInput = {
 };
 
 export type LinearProjectGroupBy = {
-  __typename?: 'LinearProjectGroupBy';
   _avg?: Maybe<LinearProjectAvgAggregate>;
   _count?: Maybe<LinearProjectCountAggregate>;
   _max?: Maybe<LinearProjectMaxAggregate>;
@@ -5648,7 +5534,6 @@ export type LinearProjectGroupBy = {
 };
 
 export type LinearProjectMaxAggregate = {
-  __typename?: 'LinearProjectMaxAggregate';
   id?: Maybe<Scalars['Int']>;
   linear_id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -5661,7 +5546,6 @@ export type LinearProjectMaxOrderByAggregateInput = {
 };
 
 export type LinearProjectMinAggregate = {
-  __typename?: 'LinearProjectMinAggregate';
   id?: Maybe<Scalars['Int']>;
   linear_id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -5712,7 +5596,6 @@ export type LinearProjectScalarWhereWithAggregatesInput = {
 };
 
 export type LinearProjectSumAggregate = {
-  __typename?: 'LinearProjectSumAggregate';
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -5765,7 +5648,6 @@ export type LinearProjectWhereUniqueInput = {
 };
 
 export type LinearTeam = {
-  __typename?: 'LinearTeam';
   _count?: Maybe<LinearTeamCount>;
   id: Scalars['Int'];
   issues: Array<LinearIssue>;
@@ -5785,7 +5667,6 @@ export type LinearTeamIssuesArgs = {
 };
 
 export type LinearTeamAvgAggregate = {
-  __typename?: 'LinearTeamAvgAggregate';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -5794,12 +5675,10 @@ export type LinearTeamAvgOrderByAggregateInput = {
 };
 
 export type LinearTeamCount = {
-  __typename?: 'LinearTeamCount';
   issues: Scalars['Int'];
 };
 
 export type LinearTeamCountAggregate = {
-  __typename?: 'LinearTeamCountAggregate';
   _all: Scalars['Int'];
   id: Scalars['Int'];
   key: Scalars['Int'];
@@ -5846,7 +5725,6 @@ export type LinearTeamCreateWithoutIssuesInput = {
 };
 
 export type LinearTeamGroupBy = {
-  __typename?: 'LinearTeamGroupBy';
   _avg?: Maybe<LinearTeamAvgAggregate>;
   _count?: Maybe<LinearTeamCountAggregate>;
   _max?: Maybe<LinearTeamMaxAggregate>;
@@ -5859,7 +5737,6 @@ export type LinearTeamGroupBy = {
 };
 
 export type LinearTeamMaxAggregate = {
-  __typename?: 'LinearTeamMaxAggregate';
   id?: Maybe<Scalars['Int']>;
   key?: Maybe<Scalars['String']>;
   linear_id?: Maybe<Scalars['String']>;
@@ -5874,7 +5751,6 @@ export type LinearTeamMaxOrderByAggregateInput = {
 };
 
 export type LinearTeamMinAggregate = {
-  __typename?: 'LinearTeamMinAggregate';
   id?: Maybe<Scalars['Int']>;
   key?: Maybe<Scalars['String']>;
   linear_id?: Maybe<Scalars['String']>;
@@ -5931,7 +5807,6 @@ export type LinearTeamScalarWhereWithAggregatesInput = {
 };
 
 export type LinearTeamSumAggregate = {
-  __typename?: 'LinearTeamSumAggregate';
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -5988,7 +5863,6 @@ export type LinearTeamWhereUniqueInput = {
 };
 
 export type LinearUser = {
-  __typename?: 'LinearUser';
   _count?: Maybe<LinearUserCount>;
   active: Scalars['Boolean'];
   assingned_issues: Array<LinearIssue>;
@@ -6025,7 +5899,6 @@ export type LinearUserCreated_IssuesArgs = {
 };
 
 export type LinearUserAvgAggregate = {
-  __typename?: 'LinearUserAvgAggregate';
   id?: Maybe<Scalars['Float']>;
   user_id?: Maybe<Scalars['Float']>;
 };
@@ -6036,13 +5909,11 @@ export type LinearUserAvgOrderByAggregateInput = {
 };
 
 export type LinearUserCount = {
-  __typename?: 'LinearUserCount';
   assingned_issues: Scalars['Int'];
   created_issues: Scalars['Int'];
 };
 
 export type LinearUserCountAggregate = {
-  __typename?: 'LinearUserCountAggregate';
   _all: Scalars['Int'];
   active: Scalars['Int'];
   createdAt: Scalars['Int'];
@@ -6179,7 +6050,6 @@ export type LinearUserCreateWithoutUserInput = {
 };
 
 export type LinearUserGroupBy = {
-  __typename?: 'LinearUserGroupBy';
   _avg?: Maybe<LinearUserAvgAggregate>;
   _count?: Maybe<LinearUserCountAggregate>;
   _max?: Maybe<LinearUserMaxAggregate>;
@@ -6203,7 +6073,6 @@ export type LinearUserListRelationFilter = {
 };
 
 export type LinearUserMaxAggregate = {
-  __typename?: 'LinearUserMaxAggregate';
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   displayName?: Maybe<Scalars['String']>;
@@ -6228,7 +6097,6 @@ export type LinearUserMaxOrderByAggregateInput = {
 };
 
 export type LinearUserMinAggregate = {
-  __typename?: 'LinearUserMinAggregate';
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   displayName?: Maybe<Scalars['String']>;
@@ -6336,7 +6204,6 @@ export type LinearUserScalarWhereWithAggregatesInput = {
 };
 
 export type LinearUserSumAggregate = {
-  __typename?: 'LinearUserSumAggregate';
   id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
 };
@@ -6487,7 +6354,6 @@ export type LinearUserWhereUniqueInput = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
   createActivityType: ActivityType;
   createAttestation: Attestation;
   createAttestationConfidence: AttestationConfidence;
@@ -7595,7 +7461,6 @@ export type NullableStringFieldUpdateOperationsInput = {
 };
 
 export type Partner = {
-  __typename?: 'Partner';
   contribution: Contribution;
   contribution_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
@@ -7606,7 +7471,6 @@ export type Partner = {
 };
 
 export type PartnerAvgAggregate = {
-  __typename?: 'PartnerAvgAggregate';
   contribution_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   user_id?: Maybe<Scalars['Float']>;
@@ -7619,7 +7483,6 @@ export type PartnerAvgOrderByAggregateInput = {
 };
 
 export type PartnerCountAggregate = {
-  __typename?: 'PartnerCountAggregate';
   _all: Scalars['Int'];
   contribution_id: Scalars['Int'];
   createdAt: Scalars['Int'];
@@ -7712,7 +7575,6 @@ export type PartnerCreateWithoutUserInput = {
 };
 
 export type PartnerGroupBy = {
-  __typename?: 'PartnerGroupBy';
   _avg?: Maybe<PartnerAvgAggregate>;
   _count?: Maybe<PartnerCountAggregate>;
   _max?: Maybe<PartnerMaxAggregate>;
@@ -7732,7 +7594,6 @@ export type PartnerListRelationFilter = {
 };
 
 export type PartnerMaxAggregate = {
-  __typename?: 'PartnerMaxAggregate';
   contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
@@ -7749,7 +7610,6 @@ export type PartnerMaxOrderByAggregateInput = {
 };
 
 export type PartnerMinAggregate = {
-  __typename?: 'PartnerMinAggregate';
   contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
@@ -7823,7 +7683,6 @@ export type PartnerScalarWhereWithAggregatesInput = {
 };
 
 export type PartnerSumAggregate = {
-  __typename?: 'PartnerSumAggregate';
   contribution_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
@@ -7943,7 +7802,6 @@ export type PartnerWhereUniqueInput = {
 };
 
 export type Query = {
-  __typename?: 'Query';
   activityType?: Maybe<ActivityType>;
   activityTypes: Array<ActivityType>;
   aggregateActivityType: AggregateActivityType;
@@ -8909,7 +8767,6 @@ export type StringWithAggregatesFilter = {
 };
 
 export type User = {
-  __typename?: 'User';
   _count?: Maybe<UserCount>;
   activities: Array<UserActivity>;
   address: Scalars['String'];
@@ -8978,7 +8835,6 @@ export type UserLinear_UsersArgs = {
 };
 
 export type UserActivity = {
-  __typename?: 'UserActivity';
   activity_type: ActivityType;
   activity_type_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
@@ -8989,7 +8845,6 @@ export type UserActivity = {
 };
 
 export type UserActivityAvgAggregate = {
-  __typename?: 'UserActivityAvgAggregate';
   activity_type_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   user_id?: Maybe<Scalars['Float']>;
@@ -9002,7 +8857,6 @@ export type UserActivityAvgOrderByAggregateInput = {
 };
 
 export type UserActivityCountAggregate = {
-  __typename?: 'UserActivityCountAggregate';
   _all: Scalars['Int'];
   activity_type_id: Scalars['Int'];
   createdAt: Scalars['Int'];
@@ -9095,7 +8949,6 @@ export type UserActivityCreateWithoutUserInput = {
 };
 
 export type UserActivityGroupBy = {
-  __typename?: 'UserActivityGroupBy';
   _avg?: Maybe<UserActivityAvgAggregate>;
   _count?: Maybe<UserActivityCountAggregate>;
   _max?: Maybe<UserActivityMaxAggregate>;
@@ -9115,7 +8968,6 @@ export type UserActivityListRelationFilter = {
 };
 
 export type UserActivityMaxAggregate = {
-  __typename?: 'UserActivityMaxAggregate';
   activity_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
@@ -9132,7 +8984,6 @@ export type UserActivityMaxOrderByAggregateInput = {
 };
 
 export type UserActivityMinAggregate = {
-  __typename?: 'UserActivityMinAggregate';
   activity_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
@@ -9206,7 +9057,6 @@ export type UserActivityScalarWhereWithAggregatesInput = {
 };
 
 export type UserActivitySumAggregate = {
-  __typename?: 'UserActivitySumAggregate';
   activity_type_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
@@ -9326,7 +9176,6 @@ export type UserActivityWhereUniqueInput = {
 };
 
 export type UserAvgAggregate = {
-  __typename?: 'UserAvgAggregate';
   chain_type_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
@@ -9337,7 +9186,6 @@ export type UserAvgOrderByAggregateInput = {
 };
 
 export type UserCount = {
-  __typename?: 'UserCount';
   activities: Scalars['Int'];
   attestations: Scalars['Int'];
   contributionPartners: Scalars['Int'];
@@ -9346,7 +9194,6 @@ export type UserCount = {
 };
 
 export type UserCountAggregate = {
-  __typename?: 'UserCountAggregate';
   _all: Scalars['Int'];
   address: Scalars['Int'];
   chain_type_id: Scalars['Int'];
@@ -9562,7 +9409,6 @@ export type UserCreateWithoutLinear_UsersInput = {
 };
 
 export type UserGroupBy = {
-  __typename?: 'UserGroupBy';
   _avg?: Maybe<UserAvgAggregate>;
   _count?: Maybe<UserCountAggregate>;
   _max?: Maybe<UserMaxAggregate>;
@@ -9585,7 +9431,6 @@ export type UserListRelationFilter = {
 };
 
 export type UserMaxAggregate = {
-  __typename?: 'UserMaxAggregate';
   address?: Maybe<Scalars['String']>;
   chain_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -9608,7 +9453,6 @@ export type UserMaxOrderByAggregateInput = {
 };
 
 export type UserMinAggregate = {
-  __typename?: 'UserMinAggregate';
   address?: Maybe<Scalars['String']>;
   chain_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -9712,7 +9556,6 @@ export type UserScalarWhereWithAggregatesInput = {
 };
 
 export type UserSumAggregate = {
-  __typename?: 'UserSumAggregate';
   chain_type_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
 };
@@ -9950,3 +9793,45 @@ export type UserWhereInput = {
 export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
+
+export type ListLinearJobRunsQueryVariables = Exact<{
+  where?: LinearJobRunWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<LinearJobRunOrderByWithRelationInput> | LinearJobRunOrderByWithRelationInput>;
+}>;
+
+
+export type ListLinearJobRunsQuery = { result: Array<{ id: number, createdAt: any, updatedAt: any, completedDate: any, startDate: any }> };
+
+
+export const ListLinearJobRunsDocument = gql`
+    query listLinearJobRuns($where: LinearJobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearJobRunOrderByWithRelationInput!]) {
+  result: linearJobRuns(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    id
+    createdAt
+    updatedAt
+    completedDate
+    startDate
+  }
+}
+    `;
+
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
+
+
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+  return {
+    listLinearJobRuns(variables?: ListLinearJobRunsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListLinearJobRunsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListLinearJobRunsQuery>(ListLinearJobRunsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listLinearJobRuns', 'query');
+    }
+  };
+}
+export type Sdk = ReturnType<typeof getSdk>;

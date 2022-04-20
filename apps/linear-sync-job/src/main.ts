@@ -1,4 +1,5 @@
 import { LinearClient } from '@linear/sdk';
+import { GovrnProtocol } from '@govrn/protocol-client';
 console.log('Hello World!');
 
 // 1. Call api fetch last run date from last run
@@ -6,10 +7,13 @@ console.log('Hello World!');
 // 2. Fetch all issues and create contributions
 // 3. Store last issue and run info
 const apiKey = process.env.API_KEY;
+const protcolUrl = process.env.PROTOCOL_URL;
 
 const main = async () => {
   const linearClient = new LinearClient({ apiKey });
+  const govrn = new GovrnProtocol(protcolUrl);
   // TODO remove the hardcoded date
+	const lastRun = 
   const completedAt = { gt: new Date('03/01/2022') };
   const issues = await linearClient.issues({ filter: { completedAt } });
   console.log(issues.nodes.length);

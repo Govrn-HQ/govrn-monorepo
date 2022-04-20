@@ -1,0 +1,24 @@
+
+fragment LinearJobFieldsFragment on LinearJobRun {
+  id
+  createdAt
+  updatedAt
+  completedDate
+  startDate
+}
+
+query listLinearJobRuns($where: LinearJobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearJobRunOrderByWithRelationInput!]) {
+    result: linearJobRuns(
+        where: $where,
+        skip: $skip,
+        take: $first,
+        orderBy: $orderBy,
+    ) {
+        id
+        createdAt
+        updatedAt
+        completedDate
+        startDate
+    }
+}
+

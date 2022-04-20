@@ -12,6 +12,8 @@
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typed-document-node": "^2.2.8",
+    "@graphql-codegen/typescript-graphql-request": "^4.4.5",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@graphql-codegen/typescript-urql": "^3.5.7",
     "@linear/sdk": "^1.22.0",
@@ -23,6 +25,7 @@
     "@qualifyze/airtable": "^2.0.1",
     "@types/graphql-fields": "^1.3.4",
     "@urql/core": "^2.4.4",
+    "add": "^2.0.6",
     "airtable": "^0.11.2",
     "axios": "^0.26.0",
     "class-validator": "^0.13.2",
@@ -31,7 +34,7 @@
     "dayjs": "^1.10.8",
     "express": "^4.17.3",
     "express-graphql": "^0.12.0",
-    "graphql": "^16.3.0",
+    "graphql": "^15.3.0",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.17.0",
     "notistack": "^1.0.10",
@@ -43,7 +46,8 @@
     "regenerator-runtime": "0.13.7",
     "tslib": "^2.0.0",
     "type-graphql": "^1.1.1",
-    "typegraphql-prisma": "^0.20.0"
+    "typegraphql-prisma": "^0.20.0",
+    "yarn": "^1.22.18"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "11.3.0",
