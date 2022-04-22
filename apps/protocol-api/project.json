@@ -65,10 +65,40 @@
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
     },
-    "deploy": {
-      "builder": "@nrwl/workspace:run-commands",
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build"
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
       "options": {
-        "command": "heroku container:release web --app govrnairtable-api"
+        "push": true,
+        "images": ["registry.digitalocean.com/govrn/protocol_api"],
+        "tags": ["type=sha"]
+      }
+    },
+    "docker-login": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["doctl registry login --expiry-seconds 1200"],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn/protocol_api:'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "verify": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["kubectl rollout status deployment/protocol-api"],
+        "parallel": false
       }
     }
   },

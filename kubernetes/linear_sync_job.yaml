@@ -13,4 +13,15 @@ spec:
             - name: job
               image: <Image>
               imagePullPolicy: IfNotPresent
+              env:
+                - name: API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linear-sync-job
+                      key: api_key
+                - name: PROTOCOL_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: linear-sync-job
+                      key: protocol_url
           restartPolicy: OnFailure

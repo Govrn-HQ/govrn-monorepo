@@ -66,6 +66,12 @@
         ],
         "parallel": false
       }
+    },
+    "deploy": {
+      "builder": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "heroku container:release web --app govrnairtable-api"
+      }
     }
   },
   "tags": []
