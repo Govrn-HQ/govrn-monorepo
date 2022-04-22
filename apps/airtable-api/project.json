@@ -48,7 +48,10 @@
         "passWithNoTests": true
       }
     },
-    "docker": {
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build"
+    },
+    "docker-push": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
         "push": true,

@@ -21,3 +21,16 @@ jobs:
       - run: yarn install
       - run: npm install -g nx
       - run: nx affected:lint --base $BASE
+      - name: Test
+        run: nx affected:test --base $BASE
+      - name: Build
+        run: nx affected:build --base $BASE
+      - name: Docker Build
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: nx affected:docker-build --base $BASE
+      - name: Docker Push
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: nx affected:docker-push --base $BASE
+      - name: Deploy
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: nx affected:deploy --base $BASE

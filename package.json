@@ -9,6 +9,7 @@
   },
   "private": true,
   "dependencies": {
+    "@alexkeating/nx-skynet": "^0.0.1",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@graphql-codegen/cli": "^2.6.2",

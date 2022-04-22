@@ -58,6 +58,12 @@
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
+    },
+    "deploy": {
+      "builder": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "heroku container:release web --app govrnairtable-api"
+      }
     }
   },
   "tags": []

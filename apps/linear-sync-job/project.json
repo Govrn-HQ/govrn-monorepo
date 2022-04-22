@@ -53,6 +53,16 @@
         "command": "yarn graphql-codegen --config apps/linear-sync-job/codegen.yaml",
         "outputPath": "apps/linear-sync-job/src"
       }
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build"
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "tags": ["registry.digitalocean.com/govrn/linear_sync_job"]
+      }
     }
   },
   "tags": []

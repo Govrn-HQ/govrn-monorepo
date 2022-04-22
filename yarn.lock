@@ -31,6 +31,11 @@
   resolved "https://registry.npmjs.org/@actions/io/-/io-1.1.2.tgz"
   integrity sha512-d+RwPlMp+2qmBfeLYPLXuSRykDIFEwdTA0MMxzS9kh4kvP1ftrc/9fzy6pX6qAjthdXruHQ6/6kjT/DNo5ALuw==
 
+"@alexkeating/nx-skynet@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@alexkeating/nx-skynet/-/nx-skynet-0.0.1.tgz#2e71c7f4045af91fccd93708f26cad234e82c97b"
+  integrity sha512-w4AYfDeC46pbxvmau0rLtFHWg+YHq6NbnnkBJflHXMG9gRfC4VchR/EOBm8rjY4vDMLR4KrKPwqhyyRpE8O4/Q==
+
 "@ampproject/remapping@^2.1.0":
   version "2.1.2"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.1.2.tgz"

@@ -59,6 +59,16 @@
         "jestConfig": "apps/contribution-report/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "deploy": {
+      "executor": "@alexkeating/nx-skynet:deploy",
+      "options": {
+        "uploadDir": "dist/apps/contribution-app",
+        "registrySeedVarName": "SKYNET_REGISTRY_SEED",
+        "registryDataKey": "skylink.txt",
+        "portalUrl": "https://skynetfree.net",
+        "skynetJwtVarName": "SKYNET_JWT"
+      }
     }
   },
   "tags": []
