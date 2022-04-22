@@ -6,6 +6,12 @@
     "build": {
       "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": [
+        {
+          "target": "generate",
+          "projects": "self"
+        }
+      ],
       "options": {
         "outputPath": "dist/apps/protocol-api",
         "main": "apps/protocol-api/src/main.ts",
