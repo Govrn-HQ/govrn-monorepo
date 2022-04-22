@@ -53,6 +53,8 @@ jobs:
           node-version: 16.x
           cache: 'yarn'
       - run: yarn install
+      - name: Build
+        run: npx nx affected:build --base $BASE
       - name: Docker Build
         run: npx nx affected --target docker-build --base $BASE --parallel --max-parallel=3
       - name: Docker Login
