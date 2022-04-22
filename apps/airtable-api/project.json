@@ -57,21 +57,6 @@
         "push": true,
         "tags": ["registry.heroku.com/govrnairtable-api/web"]
       }
-    },
-    "docker-login": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": [
-          "docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com"
-        ],
-        "parallel": false
-      }
-    },
-    "deploy": {
-      "builder": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "heroku container:release web --app govrnairtable-api"
-      }
     }
   },
   "tags": []
