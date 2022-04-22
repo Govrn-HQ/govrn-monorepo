@@ -59,6 +59,8 @@ jobs:
         run: npx nx affected --target docker-build --base $BASE --parallel --max-parallel=3
       - name: Docker Login
         run: npx nx affected --target docker-login --base $BASE --parallel --max-parallel=3
+        env:
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker Push
         run: npx nx affected --target docker-push --base $BASE --parallel --max-parallel=3
         env:
