@@ -68,11 +68,11 @@
     "docker-push": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
+        "push": true,
         "metadata": {
           "images": [
             "registry.digitalocean.com/govrn-protocol/linear_sync_job"
           ],
-          "push": true,
           "tags": ["type=sha"]
         }
       }
