@@ -62,7 +62,7 @@
       "options": {
         "push": true,
         "images": ["registry.digitalocean.com/govrn/linear_sync_job"],
-        "tags": ["type=sha,prefix="]
+        "tags": ["type=sha,prefix=sha"]
       }
     },
     "docker-login": {
@@ -76,7 +76,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn/linear_sync_job:'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/linear_sync_job.yaml",
+          "TAG=$(echo $GITHUB_SHA) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn/linear_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/linear_sync_job.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
           "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/linear_sync_job.yaml"
         ],
