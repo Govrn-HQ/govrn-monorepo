@@ -1,0 +1,100 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nocodb-protocol
+  labels:
+    environment: production
+    app: nocodb
+    tier: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nocodb-protocol
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        name: nocodb-protocol
+    spec:
+      containers:
+        - name: web
+          image: nocodb/nocodb:0.84.16
+          env:
+            - name: NC_DB_JSON_FILE
+              value: '/app/connection.json'
+            - name: NC_AUTH_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: nocodb
+                  key: nc_auth_jwt_secret
+          resources:
+            requests:
+              memory: 300Mi
+              cpu: 300m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+          volumeMounts:
+            - name: connection
+              mountPath: '/app'
+              readOnly: true
+      volumes:
+        - name: connection
+          secret:
+            secretName: nocodb-json
+            optional: false # default setting; "mysecret" must exist
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nocodb-protocol
+spec:
+  type: ClusterIP
+  selector:
+    name: nocodb-protocol
+  ports:
+    - name: ceramic
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nocodb-protocol
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+    cert-manager.io/issuer: 'letsencrypt-staging'
+spec:
+  tls:
+    - hosts:
+        - nocodb.govrn.app
+        - www.nocodb.govrn.app
+      secretName: nocodb-protocol-tls
+  rules:
+    - host: nocodb.govrn.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nocodb-protocol
+                port:
+                  number: 8080
+    - host: www.nocodb.govrn.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nocodb-protocol
+                port:
+                  number: 8080
