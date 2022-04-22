@@ -72,7 +72,7 @@
           "images": [
             "registry.digitalocean.com/govrn-protocol/linear_sync_job"
           ],
-          "load": true,
+          "push": true,
           "tags": ["type=sha"]
         }
       }

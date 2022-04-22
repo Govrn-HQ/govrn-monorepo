@@ -79,7 +79,7 @@
       "options": {
         "metadata": {
           "images": ["registry.digitalocean.com/govrn-protocol/protocol_api"],
-          "load": true,
+          "push": true,
           "tags": ["type=sha"]
         }
       }
