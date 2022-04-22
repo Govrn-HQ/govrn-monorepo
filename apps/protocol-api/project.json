@@ -74,7 +74,8 @@
       "executor": "@nx-tools/nx-docker:build",
       "options": {
         "push": true,
-        "images": ["registry.digitalocean.com/govrn/protocol_api"]
+        "images": ["registry.digitalocean.com/govrn/protocol_api"],
+        "tags": ["latest"]
       }
     },
     "docker-login": {
