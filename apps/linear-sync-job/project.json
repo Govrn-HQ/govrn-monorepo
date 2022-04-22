@@ -55,13 +55,25 @@
       }
     },
     "docker-build": {
-      "executor": "@nx-tools/nx-docker:build"
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/linear_sync_job"
+          ],
+          "tags": ["type=sha"]
+        }
+      }
     },
     "docker-push": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
-        "push": true,
-        "tags": ["registry.digitalocean.com/govrn-protocol/linear_sync_job"]
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/linear_sync_job"
+          ],
+          "tags": ["type=sha"]
+        }
       }
     },
     "docker-login": {

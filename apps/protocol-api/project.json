@@ -67,14 +67,20 @@
     },
     "docker-build": {
       "executor": "@nx-tools/nx-docker:build",
-      "images": ["registry.digitalocean.com/govrn-protocol/protocol_api"],
-      "tags": ["type=sha"]
+      "options": {
+        "metadata": {
+          "images": ["registry.digitalocean.com/govrn-protocol/protocol_api"],
+          "tags": ["type=sha"]
+        }
+      }
     },
     "docker-push": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
-        "push": true,
-        "tags": ["registry.digitalocean.com/govrn-protocol/protocol_api"]
+        "metadata": {
+          "images": ["registry.digitalocean.com/govrn-protocol/protocol_api"],
+          "tags": ["type=sha"]
+        }
       }
     },
     "docker-login": {
