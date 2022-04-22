@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: 16.x
           cache: 'yarn'
+      - run: yarn install
       - run: npx nx affected:lint --base $BASE
       - name: Test
         run: npx nx affected:test --base $BASE
@@ -51,6 +52,7 @@ jobs:
         with:
           node-version: 16.x
           cache: 'yarn'
+      - run: yarn install
       - name: Docker Build
         run: npx nx affected --target docker-build --base $BASE --parallel --max-parallel=3
       - name: Docker Login
