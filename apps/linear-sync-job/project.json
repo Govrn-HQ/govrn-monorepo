@@ -61,8 +61,7 @@
       "executor": "@nx-tools/nx-docker:build",
       "options": {
         "push": true,
-        "images": ["registry.digitalocean.com/govrn-protocol/linear_sync_job"],
-        "tags": ["latest"]
+        "tags": ["registry.digitalocean.com/govrn-protocol/linear_sync_job"]
       }
     },
     "docker-login": {
