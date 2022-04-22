@@ -6,6 +6,12 @@
     "build": {
       "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": [
+        {
+          "target": "generate",
+          "projects": "self"
+        }
+      ],
       "options": {
         "outputPath": "dist/apps/protocol-api",
         "main": "apps/protocol-api/src/main.ts",
@@ -27,7 +33,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/node:execute",
+      "executor": "@nrwl/node:node",
       "options": {
         "buildTarget": "protocol-api:build"
       }
@@ -51,6 +57,48 @@
       "builder": "@nx-tools/nx-prisma:migrate",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
+      }
+    },
+    "generate": {
+      "builder": "@nx-tools/nx-prisma:generate",
+      "options": {
+        "schema": "apps/protocol-api/src/prisma/schema.prisma"
+      }
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build"
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "images": ["registry.digitalocean.com/govrn/protocol_api"],
+        "tags": ["type=sha"]
+      }
+    },
+    "docker-login": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["doctl registry login --expiry-seconds 1200"],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn/protocol_api:'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "verify": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["kubectl rollout status deployment/protocol-api"],
+        "parallel": false
       }
     }
   },

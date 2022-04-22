@@ -4,8 +4,13 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env(DATABASE_URL)
+  url      = env("DATABASE_URL")
 
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "../prisma/generated/type-graphql"
 }
 
 model User {
@@ -22,6 +27,7 @@ model User {
   attestations Attestation[]
   contributionPartners Partner[]
   contributions Contribution[]
+  linear_users LinearUser[]
 }
 
 model Guild {
@@ -73,6 +79,7 @@ model Contribution {
   attestations Attestation[]
   partners Partner[]
   guilds GuildContribution[]
+  linear_issue LinearIssue?
 }
 
 model Partner {
@@ -150,4 +157,105 @@ model CategoryActivity {
   updatedAt DateTime @updatedAt
   name String @unique
   activityTypes ActivityType[]
+}
+
+
+////
+// Linear integration schemas
+////
+
+// mapping between linear user and user
+// mapping between contribution and linear issue
+
+
+model LinearIssue {
+  id Int @id @default(autoincrement())
+  archivedAt DateTime?
+  autoArchivedAt DateTime?
+  autoClosedAt DateTime?
+  boardOrder Int?
+  branchName String?
+  canceledAt DateTime?
+  completedAt DateTime?
+  createdAt DateTime?
+  customerTickerCount Int?
+  description String?
+  dueDate DateTime?
+  estimate Float?
+  linear_id String @unique
+  identifier String?
+  priority Int?
+  pritorityLabel String?
+  snoozedUntilAt DateTime?
+  sortOrder Float?
+  startedAt DateTime?
+  subIssueSortOrder Float?
+  title String?
+  trashed Boolean?
+  updatedAt DateTime?
+  url String?
+  assignee_id Int?
+  assignee LinearUser? @relation(name: "Assignee", fields: [assignee_id], references: [id])
+  creator_id Int?
+  creator LinearUser? @relation(name: "Creator", fields: [creator_id], references: [id])
+  cycle_id Int?
+  cycle LinearCycle? @relation(fields: [cycle_id], references: [id])
+  project_id Int?
+  project LinearProject? @relation(fields: [project_id], references: [id])
+  team_id Int?
+  team LinearTeam? @relation(fields: [team_id], references: [id])
+  contribution_id Int?
+  contribution Contribution? @relation(fields: [contribution_id], references: [id])
+}
+
+model LinearUser {
+  id Int @id @default(autoincrement())
+  active Boolean @default(true)
+  createdAt DateTime?
+  displayName String?
+  email String?
+  linear_id String @unique
+  name String?
+  url String?
+  user_id Int?
+  user User? @relation(fields: [user_id], references: [id])
+  assingned_issues LinearIssue[]  @relation("Assignee")
+  created_issues   LinearIssue[]   @relation("Creator")
+}
+
+model LinearCycle {
+  id Int @id @default(autoincrement())
+  number Int
+  startsAt DateTime
+  endsAt DateTime
+  linear_id String @unique
+  issues LinearIssue[]
+}
+
+model LinearProject {
+  id Int @id @default(autoincrement())
+  name String
+  linear_id String @unique
+  issues LinearIssue[]
+}
+
+model LinearTeam {
+  id Int @id @default(autoincrement())
+  linear_id String @unique
+  name String
+  key String
+  issues LinearIssue[]
+}
+
+
+////
+// Job specific model
+////
+
+model LinearJobRun {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  completedDate DateTime
+  startDate DateTime
 }

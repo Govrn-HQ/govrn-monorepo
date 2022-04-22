@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: linear-sync-job
+spec:
+  schedule: '0 * * * *'
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        spec:
+          containers:
+            - name: job
+              image: <Image>
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linear-sync-job
+                      key: api_key
+                - name: PROTOCOL_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: linear-sync-job
+                      key: protocol_url
+          restartPolicy: OnFailure

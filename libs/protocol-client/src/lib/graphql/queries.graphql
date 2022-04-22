@@ -1,0 +1,78 @@
+
+# Job run
+fragment LinearJobFieldsFragment on LinearJobRun {
+  id
+  createdAt
+  updatedAt
+  completedDate
+  startDate
+}
+
+query listLinearJobRuns($where: LinearJobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearJobRunOrderByWithRelationInput!]) {
+    result: linearJobRuns(
+        where: $where,
+        skip: $skip,
+        take: $first,
+        orderBy: $orderBy,
+    ) {
+      ...LinearJobFieldsFragment
+    }
+}
+
+query getLinearJobRun($where: LinearJobRunWhereUniqueInput!,) {
+    result: linearJobRun(
+        where: $where,
+    ) {
+      ...LinearJobFieldsFragment
+    }
+}
+
+# Issues
+mutation bulkCreateIssues($data: [LinearIssueCreateManyInput!]!, $skipDuplicates: Boolean!) {
+  createManyLinearIssue(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+
+# Linear User
+
+mutation upsertLinearUser($create: LinearUserCreateInput!, $update:  LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
+  upsertLinearUser(create: $create, update: $update, where: $where) {
+      active
+      displayName
+      email
+      linear_id
+      name
+      url
+      id
+      createdAt
+  }
+}
+
+mutation upsertLinearCycle($create: LinearCycleCreateInput!, $update:  LinearCycleUpdateInput!, $where: LinearCycleWhereUniqueInput!) {
+  upsertLinearCycle(create: $create, update: $update, where: $where) {
+    id
+    endsAt
+    linear_id
+    number
+    startsAt
+  }
+}
+
+mutation upsertLinearProject($create: LinearProjectCreateInput!, $update:  LinearProjectUpdateInput!, $where: LinearProjectWhereUniqueInput!) {
+  upsertLinearProject(create: $create, update: $update, where: $where) {
+    id
+    linear_id
+    name
+  }
+}
+
+mutation upsertLinearTeam($create: LinearTeamCreateInput!, $update:  LinearTeamUpdateInput!, $where: LinearTeamWhereUniqueInput!) {
+  upsertLinearTeam(create: $create, update: $update, where: $where) {
+    id
+    key
+    name
+    linear_id
+  }
+}
+

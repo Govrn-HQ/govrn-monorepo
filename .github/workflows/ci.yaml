@@ -7,6 +7,8 @@ on:
 
 env:
   BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master' }}
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,3 +23,22 @@ jobs:
       - run: yarn install
       - run: npm install -g nx
       - run: nx affected:lint --base $BASE
+      - name: Test
+        run: nx affected:test --base $BASE
+      - name: Build
+        run: nx affected:build --base $BASE
+      - name: Docker Build
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: nx affected --target docker-build --base $BASE
+      - name: Docker Login
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: nx affected --target docker-login --base $BASE
+      - name: Docker Push
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: nx affected --target docker-push --base $BASE
+      - name: Deploy
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: nx affected:deploy --base $BASE
+      - name: Verify
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: nx affected --target verify --base $BASE

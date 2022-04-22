@@ -1,0 +1,95 @@
+{
+  "root": "apps/linear-sync-job",
+  "sourceRoot": "apps/linear-sync-job/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/linear-sync-job",
+        "main": "apps/linear-sync-job/src/main.ts",
+        "tsConfig": "apps/linear-sync-job/tsconfig.app.json",
+        "assets": ["apps/linear-sync-job/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/linear-sync-job/src/environments/environment.ts",
+              "with": "apps/linear-sync-job/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "linear-sync-job:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/linear-sync-job/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/linear-sync-job"],
+      "options": {
+        "jestConfig": "apps/linear-sync-job/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "generate-gql": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn graphql-codegen --config apps/linear-sync-job/codegen.yaml",
+        "outputPath": "apps/linear-sync-job/src"
+      }
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build"
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "images": ["registry.digitalocean.com/govrn/linear_sync_job"],
+        "tags": ["type=sha"]
+      }
+    },
+    "docker-login": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["doctl registry login --expiry-seconds 1200"],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn/linear_sync_job:'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/linear_sync_job.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/linear_sync_job.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "verify": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["kubectl rollout status deployment/linear-sync-job"],
+        "parallel": false
+      }
+    }
+  },
+  "tags": []
+}

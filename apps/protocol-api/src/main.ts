@@ -1,25 +1,25 @@
-console.log('Hello World!');
-
+import 'reflect-metadata';
+import { buildSchemaSync } from 'type-graphql';
+import express from 'express';
 import { PrismaClient } from '@prisma/client';
+
+import { resolvers } from './prisma/generated/type-graphql';
+
+import { graphqlHTTP } from 'express-graphql';
 
 const prisma = new PrismaClient();
 
-// A `main` function so that you can use async/await
+const schema = buildSchemaSync({
+  resolvers,
+});
 
-async function main() {
-  const allUsers = await prisma.user.findMany({
-    include: { posts: true },
-  });
-
-  // use `console.dir` to print nested objects
-  console.dir(allUsers, { depth: null });
-}
-
-main()
-  .catch((e) => {
-    throw e;
+const app = express();
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+    context: { prisma },
   })
-
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+);
+app.listen(4000);

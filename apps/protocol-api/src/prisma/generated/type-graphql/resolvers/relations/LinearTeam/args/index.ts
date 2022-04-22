@@ -1,0 +1,1 @@
+export { LinearTeamIssuesArgs } from "./LinearTeamIssuesArgs";
