@@ -29,16 +29,16 @@ jobs:
         run: nx affected:build --base $BASE
       - name: Docker Build
         if: ${{ github.ref != 'refs/heads/master' }}
-        run: nx affected:docker-build --base $BASE
+        run: nx affected --target docker-build --base $BASE
       - name: Docker Login
         if: ${{ github.ref == 'refs/heads/master' }}
-        run: nx affected:docker-login --base $BASE
+        run: nx affected --target docker-login --base $BASE
       - name: Docker Push
         if: ${{ github.ref == 'refs/heads/master' }}
-        run: nx affected:docker-push --base $BASE
+        run: nx affected --target docker-push --base $BASE
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/master' }}
         run: nx affected:deploy --base $BASE
       - name: Verify
         if: ${{ github.ref == 'refs/heads/master' }}
-        run: nx affected:verify --base $BASE
+        run: nx affected --target verify --base $BASE
