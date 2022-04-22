@@ -62,7 +62,7 @@
       "options": {
         "push": true,
         "images": ["registry.digitalocean.com/govrn/linear_sync_job"],
-        "tags": ["type=sha"]
+        "tags": ["type=sha,prefix="]
       }
     },
     "docker-login": {
