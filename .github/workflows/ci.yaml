@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - 'master'
+  push:
+    branches:
+      - 'master'
 
 env:
   BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master' }}
