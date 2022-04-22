@@ -8,10 +8,10 @@ import { LinearUserUpdateWithoutCreated_issuesInput } from "../inputs/LinearUser
 import { LinearUserUpsertWithoutCreated_issuesInput } from "../inputs/LinearUserUpsertWithoutCreated_issuesInput";
 import { LinearUserWhereUniqueInput } from "../inputs/LinearUserWhereUniqueInput";
 
-@TypeGraphQL.InputType("LinearUserUpdateOneRequiredWithoutCreated_issuesInput", {
+@TypeGraphQL.InputType("LinearUserUpdateOneWithoutCreated_issuesInput", {
   isAbstract: true
 })
-export class LinearUserUpdateOneRequiredWithoutCreated_issuesInput {
+export class LinearUserUpdateOneWithoutCreated_issuesInput {
   @TypeGraphQL.Field(_type => LinearUserCreateWithoutCreated_issuesInput, {
     nullable: true
   })
@@ -26,6 +26,16 @@ export class LinearUserUpdateOneRequiredWithoutCreated_issuesInput {
     nullable: true
   })
   upsert?: LinearUserUpsertWithoutCreated_issuesInput | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  disconnect?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserWhereUniqueInput, {
     nullable: true

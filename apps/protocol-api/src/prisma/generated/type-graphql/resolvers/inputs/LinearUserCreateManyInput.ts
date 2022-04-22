@@ -48,7 +48,7 @@ export class LinearUserCreateManyInput {
   url?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  user_id!: number;
+  user_id?: number | undefined;
 }

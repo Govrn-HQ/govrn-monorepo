@@ -226,8 +226,8 @@ export { ContributionUpdateManyWithoutStatusInput } from "./ContributionUpdateMa
 export { ContributionUpdateManyWithoutUserInput } from "./ContributionUpdateManyWithoutUserInput";
 export { ContributionUpdateOneRequiredWithoutAttestationsInput } from "./ContributionUpdateOneRequiredWithoutAttestationsInput";
 export { ContributionUpdateOneRequiredWithoutGuildsInput } from "./ContributionUpdateOneRequiredWithoutGuildsInput";
-export { ContributionUpdateOneRequiredWithoutLinear_issueInput } from "./ContributionUpdateOneRequiredWithoutLinear_issueInput";
 export { ContributionUpdateOneRequiredWithoutPartnersInput } from "./ContributionUpdateOneRequiredWithoutPartnersInput";
+export { ContributionUpdateOneWithoutLinear_issueInput } from "./ContributionUpdateOneWithoutLinear_issueInput";
 export { ContributionUpdateWithWhereUniqueWithoutActivity_typeInput } from "./ContributionUpdateWithWhereUniqueWithoutActivity_typeInput";
 export { ContributionUpdateWithWhereUniqueWithoutStatusInput } from "./ContributionUpdateWithWhereUniqueWithoutStatusInput";
 export { ContributionUpdateWithWhereUniqueWithoutUserInput } from "./ContributionUpdateWithWhereUniqueWithoutUserInput";
@@ -334,7 +334,7 @@ export { LinearCycleScalarWhereWithAggregatesInput } from "./LinearCycleScalarWh
 export { LinearCycleSumOrderByAggregateInput } from "./LinearCycleSumOrderByAggregateInput";
 export { LinearCycleUpdateInput } from "./LinearCycleUpdateInput";
 export { LinearCycleUpdateManyMutationInput } from "./LinearCycleUpdateManyMutationInput";
-export { LinearCycleUpdateOneRequiredWithoutIssuesInput } from "./LinearCycleUpdateOneRequiredWithoutIssuesInput";
+export { LinearCycleUpdateOneWithoutIssuesInput } from "./LinearCycleUpdateOneWithoutIssuesInput";
 export { LinearCycleUpdateWithoutIssuesInput } from "./LinearCycleUpdateWithoutIssuesInput";
 export { LinearCycleUpsertWithoutIssuesInput } from "./LinearCycleUpsertWithoutIssuesInput";
 export { LinearCycleWhereInput } from "./LinearCycleWhereInput";
@@ -443,7 +443,7 @@ export { LinearProjectScalarWhereWithAggregatesInput } from "./LinearProjectScal
 export { LinearProjectSumOrderByAggregateInput } from "./LinearProjectSumOrderByAggregateInput";
 export { LinearProjectUpdateInput } from "./LinearProjectUpdateInput";
 export { LinearProjectUpdateManyMutationInput } from "./LinearProjectUpdateManyMutationInput";
-export { LinearProjectUpdateOneRequiredWithoutIssuesInput } from "./LinearProjectUpdateOneRequiredWithoutIssuesInput";
+export { LinearProjectUpdateOneWithoutIssuesInput } from "./LinearProjectUpdateOneWithoutIssuesInput";
 export { LinearProjectUpdateWithoutIssuesInput } from "./LinearProjectUpdateWithoutIssuesInput";
 export { LinearProjectUpsertWithoutIssuesInput } from "./LinearProjectUpsertWithoutIssuesInput";
 export { LinearProjectWhereInput } from "./LinearProjectWhereInput";
@@ -464,7 +464,7 @@ export { LinearTeamScalarWhereWithAggregatesInput } from "./LinearTeamScalarWher
 export { LinearTeamSumOrderByAggregateInput } from "./LinearTeamSumOrderByAggregateInput";
 export { LinearTeamUpdateInput } from "./LinearTeamUpdateInput";
 export { LinearTeamUpdateManyMutationInput } from "./LinearTeamUpdateManyMutationInput";
-export { LinearTeamUpdateOneRequiredWithoutIssuesInput } from "./LinearTeamUpdateOneRequiredWithoutIssuesInput";
+export { LinearTeamUpdateOneWithoutIssuesInput } from "./LinearTeamUpdateOneWithoutIssuesInput";
 export { LinearTeamUpdateWithoutIssuesInput } from "./LinearTeamUpdateWithoutIssuesInput";
 export { LinearTeamUpsertWithoutIssuesInput } from "./LinearTeamUpsertWithoutIssuesInput";
 export { LinearTeamWhereInput } from "./LinearTeamWhereInput";
@@ -498,8 +498,8 @@ export { LinearUserUpdateInput } from "./LinearUserUpdateInput";
 export { LinearUserUpdateManyMutationInput } from "./LinearUserUpdateManyMutationInput";
 export { LinearUserUpdateManyWithWhereWithoutUserInput } from "./LinearUserUpdateManyWithWhereWithoutUserInput";
 export { LinearUserUpdateManyWithoutUserInput } from "./LinearUserUpdateManyWithoutUserInput";
-export { LinearUserUpdateOneRequiredWithoutCreated_issuesInput } from "./LinearUserUpdateOneRequiredWithoutCreated_issuesInput";
 export { LinearUserUpdateOneWithoutAssingned_issuesInput } from "./LinearUserUpdateOneWithoutAssingned_issuesInput";
+export { LinearUserUpdateOneWithoutCreated_issuesInput } from "./LinearUserUpdateOneWithoutCreated_issuesInput";
 export { LinearUserUpdateWithWhereUniqueWithoutUserInput } from "./LinearUserUpdateWithWhereUniqueWithoutUserInput";
 export { LinearUserUpdateWithoutAssingned_issuesInput } from "./LinearUserUpdateWithoutAssingned_issuesInput";
 export { LinearUserUpdateWithoutCreated_issuesInput } from "./LinearUserUpdateWithoutCreated_issuesInput";

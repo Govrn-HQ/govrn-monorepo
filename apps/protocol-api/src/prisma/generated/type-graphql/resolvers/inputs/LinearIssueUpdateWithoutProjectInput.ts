@@ -2,12 +2,11 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionUpdateOneRequiredWithoutLinear_issueInput } from "../inputs/ContributionUpdateOneRequiredWithoutLinear_issueInput";
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { LinearCycleUpdateOneRequiredWithoutIssuesInput } from "../inputs/LinearCycleUpdateOneRequiredWithoutIssuesInput";
-import { LinearTeamUpdateOneRequiredWithoutIssuesInput } from "../inputs/LinearTeamUpdateOneRequiredWithoutIssuesInput";
-import { LinearUserUpdateOneRequiredWithoutCreated_issuesInput } from "../inputs/LinearUserUpdateOneRequiredWithoutCreated_issuesInput";
+import { ContributionUpdateOneWithoutLinear_issueInput } from "../inputs/ContributionUpdateOneWithoutLinear_issueInput";
+import { LinearCycleUpdateOneWithoutIssuesInput } from "../inputs/LinearCycleUpdateOneWithoutIssuesInput";
+import { LinearTeamUpdateOneWithoutIssuesInput } from "../inputs/LinearTeamUpdateOneWithoutIssuesInput";
 import { LinearUserUpdateOneWithoutAssingned_issuesInput } from "../inputs/LinearUserUpdateOneWithoutAssingned_issuesInput";
+import { LinearUserUpdateOneWithoutCreated_issuesInput } from "../inputs/LinearUserUpdateOneWithoutCreated_issuesInput";
 import { NullableBoolFieldUpdateOperationsInput } from "../inputs/NullableBoolFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
 import { NullableFloatFieldUpdateOperationsInput } from "../inputs/NullableFloatFieldUpdateOperationsInput";
@@ -69,10 +68,10 @@ export class LinearIssueUpdateWithoutProjectInput {
   })
   description?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  dueDate?: DateTimeFieldUpdateOperationsInput | undefined;
+  dueDate?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableFloatFieldUpdateOperationsInput, {
     nullable: true
@@ -84,10 +83,10 @@ export class LinearIssueUpdateWithoutProjectInput {
   })
   linear_id?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true
   })
-  identifier?: StringFieldUpdateOperationsInput | undefined;
+  identifier?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
     nullable: true
@@ -144,23 +143,23 @@ export class LinearIssueUpdateWithoutProjectInput {
   })
   assignee?: LinearUserUpdateOneWithoutAssingned_issuesInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearUserUpdateOneRequiredWithoutCreated_issuesInput, {
+  @TypeGraphQL.Field(_type => LinearUserUpdateOneWithoutCreated_issuesInput, {
     nullable: true
   })
-  creator?: LinearUserUpdateOneRequiredWithoutCreated_issuesInput | undefined;
+  creator?: LinearUserUpdateOneWithoutCreated_issuesInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearCycleUpdateOneRequiredWithoutIssuesInput, {
+  @TypeGraphQL.Field(_type => LinearCycleUpdateOneWithoutIssuesInput, {
     nullable: true
   })
-  cycle?: LinearCycleUpdateOneRequiredWithoutIssuesInput | undefined;
+  cycle?: LinearCycleUpdateOneWithoutIssuesInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearTeamUpdateOneRequiredWithoutIssuesInput, {
+  @TypeGraphQL.Field(_type => LinearTeamUpdateOneWithoutIssuesInput, {
     nullable: true
   })
-  team?: LinearTeamUpdateOneRequiredWithoutIssuesInput | undefined;
+  team?: LinearTeamUpdateOneWithoutIssuesInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionUpdateOneRequiredWithoutLinear_issueInput, {
+  @TypeGraphQL.Field(_type => ContributionUpdateOneWithoutLinear_issueInput, {
     nullable: true
   })
-  contribution?: ContributionUpdateOneRequiredWithoutLinear_issueInput | undefined;
+  contribution?: ContributionUpdateOneWithoutLinear_issueInput | undefined;
 }

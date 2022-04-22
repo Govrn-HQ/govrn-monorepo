@@ -180,10 +180,10 @@ model LinearIssue {
   createdAt DateTime?
   customerTickerCount Int?
   description String?
-  dueDate DateTime
+  dueDate DateTime?
   estimate Float?
   linear_id String @unique
-  identifier String
+  identifier String?
   priority Int?
   pritorityLabel String?
   snoozedUntilAt DateTime?
@@ -196,16 +196,16 @@ model LinearIssue {
   url String?
   assignee_id Int?
   assignee LinearUser? @relation(name: "Assignee", fields: [assignee_id], references: [id])
-  creator_id Int
-  creator LinearUser @relation(name: "Creator", fields: [creator_id], references: [id])
-  cycle_id Int
-  cycle LinearCycle @relation(fields: [cycle_id], references: [id])
-  project_id Int
-  project LinearProject @relation(fields: [project_id], references: [id])
-  team_id Int
-  team LinearTeam @relation(fields: [team_id], references: [id])
-  contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  creator_id Int?
+  creator LinearUser? @relation(name: "Creator", fields: [creator_id], references: [id])
+  cycle_id Int?
+  cycle LinearCycle? @relation(fields: [cycle_id], references: [id])
+  project_id Int?
+  project LinearProject? @relation(fields: [project_id], references: [id])
+  team_id Int?
+  team LinearTeam? @relation(fields: [team_id], references: [id])
+  contribution_id Int?
+  contribution Contribution? @relation(fields: [contribution_id], references: [id])
 }
 
 model LinearUser {
@@ -217,7 +217,7 @@ model LinearUser {
   linear_id String @unique
   name String?
   url String?
-  user_id Int
+  user_id Int?
   user User? @relation(fields: [user_id], references: [id])
   assingned_issues LinearIssue[]  @relation("Assignee")
   created_issues   LinearIssue[]   @relation("Creator")

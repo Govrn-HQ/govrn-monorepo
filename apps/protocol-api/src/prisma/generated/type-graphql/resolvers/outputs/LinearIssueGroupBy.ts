@@ -68,9 +68,9 @@ export class LinearIssueGroupBy {
   description!: string | null;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: true
   })
-  dueDate!: Date;
+  dueDate!: Date | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
@@ -83,9 +83,9 @@ export class LinearIssueGroupBy {
   linear_id!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  identifier!: string;
+  identifier!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -143,29 +143,29 @@ export class LinearIssueGroupBy {
   assignee_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  creator_id!: number;
+  creator_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  cycle_id!: number;
+  cycle_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  project_id!: number;
+  project_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  team_id!: number;
+  team_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  contribution_id!: number;
+  contribution_id!: number | null;
 
   @TypeGraphQL.Field(_type => LinearIssueCountAggregate, {
     nullable: true

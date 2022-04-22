@@ -8,10 +8,10 @@ import { LinearTeamUpdateWithoutIssuesInput } from "../inputs/LinearTeamUpdateWi
 import { LinearTeamUpsertWithoutIssuesInput } from "../inputs/LinearTeamUpsertWithoutIssuesInput";
 import { LinearTeamWhereUniqueInput } from "../inputs/LinearTeamWhereUniqueInput";
 
-@TypeGraphQL.InputType("LinearTeamUpdateOneRequiredWithoutIssuesInput", {
+@TypeGraphQL.InputType("LinearTeamUpdateOneWithoutIssuesInput", {
   isAbstract: true
 })
-export class LinearTeamUpdateOneRequiredWithoutIssuesInput {
+export class LinearTeamUpdateOneWithoutIssuesInput {
   @TypeGraphQL.Field(_type => LinearTeamCreateWithoutIssuesInput, {
     nullable: true
   })
@@ -26,6 +26,16 @@ export class LinearTeamUpdateOneRequiredWithoutIssuesInput {
     nullable: true
   })
   upsert?: LinearTeamUpsertWithoutIssuesInput | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  disconnect?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => LinearTeamWhereUniqueInput, {
     nullable: true

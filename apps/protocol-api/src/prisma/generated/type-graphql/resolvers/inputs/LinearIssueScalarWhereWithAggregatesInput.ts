@@ -4,7 +4,6 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolNullableWithAggregatesFilter } from "../inputs/BoolNullableWithAggregatesFilter";
 import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
-import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { FloatNullableWithAggregatesFilter } from "../inputs/FloatNullableWithAggregatesFilter";
 import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
@@ -85,10 +84,10 @@ export class LinearIssueScalarWhereWithAggregatesInput {
   })
   description?: StringNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
     nullable: true
   })
-  dueDate?: DateTimeWithAggregatesFilter | undefined;
+  dueDate?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableWithAggregatesFilter, {
     nullable: true
@@ -100,10 +99,10 @@ export class LinearIssueScalarWhereWithAggregatesInput {
   })
   linear_id?: StringWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })
-  identifier?: StringWithAggregatesFilter | undefined;
+  identifier?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
@@ -160,28 +159,28 @@ export class LinearIssueScalarWhereWithAggregatesInput {
   })
   assignee_id?: IntNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })
-  creator_id?: IntWithAggregatesFilter | undefined;
+  creator_id?: IntNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })
-  cycle_id?: IntWithAggregatesFilter | undefined;
+  cycle_id?: IntNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })
-  project_id?: IntWithAggregatesFilter | undefined;
+  project_id?: IntNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })
-  team_id?: IntWithAggregatesFilter | undefined;
+  team_id?: IntNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })
-  contribution_id?: IntWithAggregatesFilter | undefined;
+  contribution_id?: IntNullableWithAggregatesFilter | undefined;
 }

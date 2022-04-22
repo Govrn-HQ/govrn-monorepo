@@ -4,7 +4,6 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolNullableFilter } from "../inputs/BoolNullableFilter";
 import { ContributionRelationFilter } from "../inputs/ContributionRelationFilter";
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { FloatNullableFilter } from "../inputs/FloatNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -90,10 +89,10 @@ export class LinearIssueWhereInput {
   })
   description?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
     nullable: true
   })
-  dueDate?: DateTimeFilter | undefined;
+  dueDate?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableFilter, {
     nullable: true
@@ -105,10 +104,10 @@ export class LinearIssueWhereInput {
   })
   linear_id?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  identifier?: StringFilter | undefined;
+  identifier?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
@@ -170,50 +169,50 @@ export class LinearIssueWhereInput {
   })
   assignee?: LinearUserRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  creator_id?: IntFilter | undefined;
+  creator_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserRelationFilter, {
     nullable: true
   })
   creator?: LinearUserRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  cycle_id?: IntFilter | undefined;
+  cycle_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleRelationFilter, {
     nullable: true
   })
   cycle?: LinearCycleRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  project_id?: IntFilter | undefined;
+  project_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectRelationFilter, {
     nullable: true
   })
   project?: LinearProjectRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  team_id?: IntFilter | undefined;
+  team_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearTeamRelationFilter, {
     nullable: true
   })
   team?: LinearTeamRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  contribution_id?: IntFilter | undefined;
+  contribution_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => ContributionRelationFilter, {
     nullable: true

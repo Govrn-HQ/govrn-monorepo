@@ -21,9 +21,9 @@ export class LinearIssueRelationsResolver {
   }
 
   @TypeGraphQL.FieldResolver(_type => LinearUser, {
-    nullable: false
+    nullable: true
   })
-  async creator(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<LinearUser> {
+  async creator(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<LinearUser | null> {
     return getPrismaFromContext(ctx).linearIssue.findUnique({
       where: {
         id: linearIssue.id,
@@ -32,9 +32,9 @@ export class LinearIssueRelationsResolver {
   }
 
   @TypeGraphQL.FieldResolver(_type => LinearCycle, {
-    nullable: false
+    nullable: true
   })
-  async cycle(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<LinearCycle> {
+  async cycle(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<LinearCycle | null> {
     return getPrismaFromContext(ctx).linearIssue.findUnique({
       where: {
         id: linearIssue.id,
@@ -43,9 +43,9 @@ export class LinearIssueRelationsResolver {
   }
 
   @TypeGraphQL.FieldResolver(_type => LinearProject, {
-    nullable: false
+    nullable: true
   })
-  async project(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<LinearProject> {
+  async project(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<LinearProject | null> {
     return getPrismaFromContext(ctx).linearIssue.findUnique({
       where: {
         id: linearIssue.id,
@@ -54,9 +54,9 @@ export class LinearIssueRelationsResolver {
   }
 
   @TypeGraphQL.FieldResolver(_type => LinearTeam, {
-    nullable: false
+    nullable: true
   })
-  async team(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<LinearTeam> {
+  async team(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<LinearTeam | null> {
     return getPrismaFromContext(ctx).linearIssue.findUnique({
       where: {
         id: linearIssue.id,
@@ -65,9 +65,9 @@ export class LinearIssueRelationsResolver {
   }
 
   @TypeGraphQL.FieldResolver(_type => Contribution, {
-    nullable: false
+    nullable: true
   })
-  async contribution(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<Contribution> {
+  async contribution(@TypeGraphQL.Root() linearIssue: LinearIssue, @TypeGraphQL.Ctx() ctx: any): Promise<Contribution | null> {
     return getPrismaFromContext(ctx).linearIssue.findUnique({
       where: {
         id: linearIssue.id,

@@ -7,9 +7,6 @@ generates:
       dedupeFragments: true
       nonOptionalTypename: false
       skipTypename: true
-      documentMode: docementNode
-    presetConfig:
-      baseTypesPath: ../schema.generated.ts
     plugins:
       - 'typescript'
       - 'typescript-operations'

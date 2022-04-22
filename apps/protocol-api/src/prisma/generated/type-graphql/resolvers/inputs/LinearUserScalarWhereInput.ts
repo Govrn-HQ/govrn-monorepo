@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
@@ -67,8 +68,8 @@ export class LinearUserScalarWhereInput {
   })
   url?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  user_id?: IntFilter | undefined;
+  user_id?: IntNullableFilter | undefined;
 }

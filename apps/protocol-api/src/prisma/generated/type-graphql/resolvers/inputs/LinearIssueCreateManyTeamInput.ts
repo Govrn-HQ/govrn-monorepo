@@ -63,9 +63,9 @@ export class LinearIssueCreateManyTeamInput {
   description?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: true
   })
-  dueDate!: Date;
+  dueDate?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
@@ -78,9 +78,9 @@ export class LinearIssueCreateManyTeamInput {
   linear_id!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  identifier!: string;
+  identifier?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -138,22 +138,22 @@ export class LinearIssueCreateManyTeamInput {
   assignee_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  creator_id!: number;
+  creator_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  cycle_id!: number;
+  cycle_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  project_id!: number;
+  project_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  contribution_id!: number;
+  contribution_id?: number | undefined;
 }

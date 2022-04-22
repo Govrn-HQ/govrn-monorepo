@@ -3,7 +3,6 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolNullableFilter } from "../inputs/BoolNullableFilter";
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { FloatNullableFilter } from "../inputs/FloatNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -85,10 +84,10 @@ export class LinearIssueScalarWhereInput {
   })
   description?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
     nullable: true
   })
-  dueDate?: DateTimeFilter | undefined;
+  dueDate?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableFilter, {
     nullable: true
@@ -100,10 +99,10 @@ export class LinearIssueScalarWhereInput {
   })
   linear_id?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  identifier?: StringFilter | undefined;
+  identifier?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
@@ -160,28 +159,28 @@ export class LinearIssueScalarWhereInput {
   })
   assignee_id?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  creator_id?: IntFilter | undefined;
+  creator_id?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  cycle_id?: IntFilter | undefined;
+  cycle_id?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  project_id?: IntFilter | undefined;
+  project_id?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  team_id?: IntFilter | undefined;
+  team_id?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  contribution_id?: IntFilter | undefined;
+  contribution_id?: IntNullableFilter | undefined;
 }

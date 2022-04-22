@@ -63,9 +63,9 @@ export class LinearIssueCreateWithoutContributionInput {
   description?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: true
   })
-  dueDate!: Date;
+  dueDate?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
@@ -78,9 +78,9 @@ export class LinearIssueCreateWithoutContributionInput {
   linear_id!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  identifier!: string;
+  identifier?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -138,22 +138,22 @@ export class LinearIssueCreateWithoutContributionInput {
   assignee?: LinearUserCreateNestedOneWithoutAssingned_issuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserCreateNestedOneWithoutCreated_issuesInput, {
-    nullable: false
+    nullable: true
   })
-  creator!: LinearUserCreateNestedOneWithoutCreated_issuesInput;
+  creator?: LinearUserCreateNestedOneWithoutCreated_issuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleCreateNestedOneWithoutIssuesInput, {
-    nullable: false
+    nullable: true
   })
-  cycle!: LinearCycleCreateNestedOneWithoutIssuesInput;
+  cycle?: LinearCycleCreateNestedOneWithoutIssuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectCreateNestedOneWithoutIssuesInput, {
-    nullable: false
+    nullable: true
   })
-  project!: LinearProjectCreateNestedOneWithoutIssuesInput;
+  project?: LinearProjectCreateNestedOneWithoutIssuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearTeamCreateNestedOneWithoutIssuesInput, {
-    nullable: false
+    nullable: true
   })
-  team!: LinearTeamCreateNestedOneWithoutIssuesInput;
+  team?: LinearTeamCreateNestedOneWithoutIssuesInput | undefined;
 }

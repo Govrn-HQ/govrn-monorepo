@@ -8,10 +8,10 @@ import { ContributionUpdateWithoutLinear_issueInput } from "../inputs/Contributi
 import { ContributionUpsertWithoutLinear_issueInput } from "../inputs/ContributionUpsertWithoutLinear_issueInput";
 import { ContributionWhereUniqueInput } from "../inputs/ContributionWhereUniqueInput";
 
-@TypeGraphQL.InputType("ContributionUpdateOneRequiredWithoutLinear_issueInput", {
+@TypeGraphQL.InputType("ContributionUpdateOneWithoutLinear_issueInput", {
   isAbstract: true
 })
-export class ContributionUpdateOneRequiredWithoutLinear_issueInput {
+export class ContributionUpdateOneWithoutLinear_issueInput {
   @TypeGraphQL.Field(_type => ContributionCreateWithoutLinear_issueInput, {
     nullable: true
   })
@@ -26,6 +26,16 @@ export class ContributionUpdateOneRequiredWithoutLinear_issueInput {
     nullable: true
   })
   upsert?: ContributionUpsertWithoutLinear_issueInput | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  disconnect?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => ContributionWhereUniqueInput, {
     nullable: true

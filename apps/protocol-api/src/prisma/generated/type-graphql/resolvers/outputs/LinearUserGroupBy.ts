@@ -53,9 +53,9 @@ export class LinearUserGroupBy {
   url!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  user_id!: number;
+  user_id!: number | null;
 
   @TypeGraphQL.Field(_type => LinearUserCountAggregate, {
     nullable: true

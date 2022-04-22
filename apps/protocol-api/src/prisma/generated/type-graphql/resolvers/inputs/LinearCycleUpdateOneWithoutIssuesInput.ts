@@ -8,10 +8,10 @@ import { LinearCycleUpdateWithoutIssuesInput } from "../inputs/LinearCycleUpdate
 import { LinearCycleUpsertWithoutIssuesInput } from "../inputs/LinearCycleUpsertWithoutIssuesInput";
 import { LinearCycleWhereUniqueInput } from "../inputs/LinearCycleWhereUniqueInput";
 
-@TypeGraphQL.InputType("LinearCycleUpdateOneRequiredWithoutIssuesInput", {
+@TypeGraphQL.InputType("LinearCycleUpdateOneWithoutIssuesInput", {
   isAbstract: true
 })
-export class LinearCycleUpdateOneRequiredWithoutIssuesInput {
+export class LinearCycleUpdateOneWithoutIssuesInput {
   @TypeGraphQL.Field(_type => LinearCycleCreateWithoutIssuesInput, {
     nullable: true
   })
@@ -26,6 +26,16 @@ export class LinearCycleUpdateOneRequiredWithoutIssuesInput {
     nullable: true
   })
   upsert?: LinearCycleUpsertWithoutIssuesInput | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  disconnect?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleWhereUniqueInput, {
     nullable: true

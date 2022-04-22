@@ -1,5 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import * as Dom from 'graphql-request/dist/types.dom';
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -2551,20 +2552,22 @@ export type ContributionUpdateOneRequiredWithoutGuildsInput = {
   upsert?: InputMaybe<ContributionUpsertWithoutGuildsInput>;
 };
 
-export type ContributionUpdateOneRequiredWithoutLinear_IssueInput = {
-  connect?: InputMaybe<ContributionWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutLinear_IssueInput>;
-  create?: InputMaybe<ContributionCreateWithoutLinear_IssueInput>;
-  update?: InputMaybe<ContributionUpdateWithoutLinear_IssueInput>;
-  upsert?: InputMaybe<ContributionUpsertWithoutLinear_IssueInput>;
-};
-
 export type ContributionUpdateOneRequiredWithoutPartnersInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutPartnersInput>;
   create?: InputMaybe<ContributionCreateWithoutPartnersInput>;
   update?: InputMaybe<ContributionUpdateWithoutPartnersInput>;
   upsert?: InputMaybe<ContributionUpsertWithoutPartnersInput>;
+};
+
+export type ContributionUpdateOneWithoutLinear_IssueInput = {
+  connect?: InputMaybe<ContributionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutLinear_IssueInput>;
+  create?: InputMaybe<ContributionCreateWithoutLinear_IssueInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<ContributionUpdateWithoutLinear_IssueInput>;
+  upsert?: InputMaybe<ContributionUpsertWithoutLinear_IssueInput>;
 };
 
 export type ContributionUpdateWithWhereUniqueWithoutActivity_TypeInput = {
@@ -3708,10 +3711,12 @@ export type LinearCycleUpdateManyMutationInput = {
   startsAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type LinearCycleUpdateOneRequiredWithoutIssuesInput = {
+export type LinearCycleUpdateOneWithoutIssuesInput = {
   connect?: InputMaybe<LinearCycleWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearCycleCreateOrConnectWithoutIssuesInput>;
   create?: InputMaybe<LinearCycleCreateWithoutIssuesInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
   update?: InputMaybe<LinearCycleUpdateWithoutIssuesInput>;
   upsert?: InputMaybe<LinearCycleUpsertWithoutIssuesInput>;
 };
@@ -3755,30 +3760,30 @@ export type LinearIssue = {
   branchName?: Maybe<Scalars['String']>;
   canceledAt?: Maybe<Scalars['DateTime']>;
   completedAt?: Maybe<Scalars['DateTime']>;
-  contribution: Contribution;
-  contribution_id: Scalars['Int'];
+  contribution?: Maybe<Contribution>;
+  contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  creator: LinearUser;
-  creator_id: Scalars['Int'];
+  creator?: Maybe<LinearUser>;
+  creator_id?: Maybe<Scalars['Int']>;
   customerTickerCount?: Maybe<Scalars['Int']>;
-  cycle: LinearCycle;
-  cycle_id: Scalars['Int'];
+  cycle?: Maybe<LinearCycle>;
+  cycle_id?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: Maybe<Scalars['DateTime']>;
   estimate?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
-  identifier: Scalars['String'];
+  identifier?: Maybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: Maybe<Scalars['Int']>;
   pritorityLabel?: Maybe<Scalars['String']>;
-  project: LinearProject;
-  project_id: Scalars['Int'];
+  project?: Maybe<LinearProject>;
+  project_id?: Maybe<Scalars['Int']>;
   snoozedUntilAt?: Maybe<Scalars['DateTime']>;
   sortOrder?: Maybe<Scalars['Float']>;
   startedAt?: Maybe<Scalars['DateTime']>;
   subIssueSortOrder?: Maybe<Scalars['Float']>;
-  team: LinearTeam;
-  team_id: Scalars['Int'];
+  team?: Maybe<LinearTeam>;
+  team_id?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
   trashed?: Maybe<Scalars['Boolean']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -3895,24 +3900,24 @@ export type LinearIssueCreateInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution: ContributionCreateNestedOneWithoutLinear_IssueInput;
+  contribution?: InputMaybe<ContributionCreateNestedOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator: LinearUserCreateNestedOneWithoutCreated_IssuesInput;
+  creator?: InputMaybe<LinearUserCreateNestedOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle: LinearCycleCreateNestedOneWithoutIssuesInput;
+  cycle?: InputMaybe<LinearCycleCreateNestedOneWithoutIssuesInput>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project: LinearProjectCreateNestedOneWithoutIssuesInput;
+  project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team: LinearTeamCreateNestedOneWithoutIssuesInput;
+  team?: InputMaybe<LinearTeamCreateNestedOneWithoutIssuesInput>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -3927,25 +3932,25 @@ export type LinearIssueCreateManyAssigneeInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution_id: Scalars['Int'];
+  contribution_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator_id: Scalars['Int'];
+  creator_id?: InputMaybe<Scalars['Int']>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle_id: Scalars['Int'];
+  cycle_id?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project_id: Scalars['Int'];
+  project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team_id: Scalars['Int'];
+  team_id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -3966,24 +3971,24 @@ export type LinearIssueCreateManyCreatorInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution_id: Scalars['Int'];
+  contribution_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle_id: Scalars['Int'];
+  cycle_id?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project_id: Scalars['Int'];
+  project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team_id: Scalars['Int'];
+  team_id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4004,24 +4009,24 @@ export type LinearIssueCreateManyCycleInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution_id: Scalars['Int'];
+  contribution_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator_id: Scalars['Int'];
+  creator_id?: InputMaybe<Scalars['Int']>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project_id: Scalars['Int'];
+  project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team_id: Scalars['Int'];
+  team_id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4042,25 +4047,25 @@ export type LinearIssueCreateManyInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution_id: Scalars['Int'];
+  contribution_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator_id: Scalars['Int'];
+  creator_id?: InputMaybe<Scalars['Int']>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle_id: Scalars['Int'];
+  cycle_id?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project_id: Scalars['Int'];
+  project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team_id: Scalars['Int'];
+  team_id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4076,16 +4081,16 @@ export type LinearIssueCreateManyProjectInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution_id: Scalars['Int'];
+  contribution_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator_id: Scalars['Int'];
+  creator_id?: InputMaybe<Scalars['Int']>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle_id: Scalars['Int'];
+  cycle_id?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
@@ -4093,7 +4098,7 @@ export type LinearIssueCreateManyProjectInput = {
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team_id: Scalars['Int'];
+  team_id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4114,20 +4119,20 @@ export type LinearIssueCreateManyTeamInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution_id: Scalars['Int'];
+  contribution_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator_id: Scalars['Int'];
+  creator_id?: InputMaybe<Scalars['Int']>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle_id: Scalars['Int'];
+  cycle_id?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project_id: Scalars['Int'];
+  project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4222,24 +4227,24 @@ export type LinearIssueCreateWithoutAssigneeInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution: ContributionCreateNestedOneWithoutLinear_IssueInput;
+  contribution?: InputMaybe<ContributionCreateNestedOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator: LinearUserCreateNestedOneWithoutCreated_IssuesInput;
+  creator?: InputMaybe<LinearUserCreateNestedOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle: LinearCycleCreateNestedOneWithoutIssuesInput;
+  cycle?: InputMaybe<LinearCycleCreateNestedOneWithoutIssuesInput>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project: LinearProjectCreateNestedOneWithoutIssuesInput;
+  project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team: LinearTeamCreateNestedOneWithoutIssuesInput;
+  team?: InputMaybe<LinearTeamCreateNestedOneWithoutIssuesInput>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4256,22 +4261,22 @@ export type LinearIssueCreateWithoutContributionInput = {
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator: LinearUserCreateNestedOneWithoutCreated_IssuesInput;
+  creator?: InputMaybe<LinearUserCreateNestedOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle: LinearCycleCreateNestedOneWithoutIssuesInput;
+  cycle?: InputMaybe<LinearCycleCreateNestedOneWithoutIssuesInput>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project: LinearProjectCreateNestedOneWithoutIssuesInput;
+  project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team: LinearTeamCreateNestedOneWithoutIssuesInput;
+  team?: InputMaybe<LinearTeamCreateNestedOneWithoutIssuesInput>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4287,23 +4292,23 @@ export type LinearIssueCreateWithoutCreatorInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution: ContributionCreateNestedOneWithoutLinear_IssueInput;
+  contribution?: InputMaybe<ContributionCreateNestedOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle: LinearCycleCreateNestedOneWithoutIssuesInput;
+  cycle?: InputMaybe<LinearCycleCreateNestedOneWithoutIssuesInput>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project: LinearProjectCreateNestedOneWithoutIssuesInput;
+  project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team: LinearTeamCreateNestedOneWithoutIssuesInput;
+  team?: InputMaybe<LinearTeamCreateNestedOneWithoutIssuesInput>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4319,23 +4324,23 @@ export type LinearIssueCreateWithoutCycleInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution: ContributionCreateNestedOneWithoutLinear_IssueInput;
+  contribution?: InputMaybe<ContributionCreateNestedOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator: LinearUserCreateNestedOneWithoutCreated_IssuesInput;
+  creator?: InputMaybe<LinearUserCreateNestedOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project: LinearProjectCreateNestedOneWithoutIssuesInput;
+  project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team: LinearTeamCreateNestedOneWithoutIssuesInput;
+  team?: InputMaybe<LinearTeamCreateNestedOneWithoutIssuesInput>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4351,15 +4356,15 @@ export type LinearIssueCreateWithoutProjectInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution: ContributionCreateNestedOneWithoutLinear_IssueInput;
+  contribution?: InputMaybe<ContributionCreateNestedOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator: LinearUserCreateNestedOneWithoutCreated_IssuesInput;
+  creator?: InputMaybe<LinearUserCreateNestedOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle: LinearCycleCreateNestedOneWithoutIssuesInput;
+  cycle?: InputMaybe<LinearCycleCreateNestedOneWithoutIssuesInput>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
@@ -4367,7 +4372,7 @@ export type LinearIssueCreateWithoutProjectInput = {
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
   subIssueSortOrder?: InputMaybe<Scalars['Float']>;
-  team: LinearTeamCreateNestedOneWithoutIssuesInput;
+  team?: InputMaybe<LinearTeamCreateNestedOneWithoutIssuesInput>;
   title?: InputMaybe<Scalars['String']>;
   trashed?: InputMaybe<Scalars['Boolean']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4383,19 +4388,19 @@ export type LinearIssueCreateWithoutTeamInput = {
   branchName?: InputMaybe<Scalars['String']>;
   canceledAt?: InputMaybe<Scalars['DateTime']>;
   completedAt?: InputMaybe<Scalars['DateTime']>;
-  contribution: ContributionCreateNestedOneWithoutLinear_IssueInput;
+  contribution?: InputMaybe<ContributionCreateNestedOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  creator: LinearUserCreateNestedOneWithoutCreated_IssuesInput;
+  creator?: InputMaybe<LinearUserCreateNestedOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<Scalars['Int']>;
-  cycle: LinearCycleCreateNestedOneWithoutIssuesInput;
+  cycle?: InputMaybe<LinearCycleCreateNestedOneWithoutIssuesInput>;
   description?: InputMaybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
-  identifier: Scalars['String'];
+  identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
   pritorityLabel?: InputMaybe<Scalars['String']>;
-  project: LinearProjectCreateNestedOneWithoutIssuesInput;
+  project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4420,25 +4425,25 @@ export type LinearIssueGroupBy = {
   branchName?: Maybe<Scalars['String']>;
   canceledAt?: Maybe<Scalars['DateTime']>;
   completedAt?: Maybe<Scalars['DateTime']>;
-  contribution_id: Scalars['Int'];
+  contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  creator_id: Scalars['Int'];
+  creator_id?: Maybe<Scalars['Int']>;
   customerTickerCount?: Maybe<Scalars['Int']>;
-  cycle_id: Scalars['Int'];
+  cycle_id?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
-  dueDate: Scalars['DateTime'];
+  dueDate?: Maybe<Scalars['DateTime']>;
   estimate?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
-  identifier: Scalars['String'];
+  identifier?: Maybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: Maybe<Scalars['Int']>;
   pritorityLabel?: Maybe<Scalars['String']>;
-  project_id: Scalars['Int'];
+  project_id?: Maybe<Scalars['Int']>;
   snoozedUntilAt?: Maybe<Scalars['DateTime']>;
   sortOrder?: Maybe<Scalars['Float']>;
   startedAt?: Maybe<Scalars['DateTime']>;
   subIssueSortOrder?: Maybe<Scalars['Float']>;
-  team_id: Scalars['Int'];
+  team_id?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
   trashed?: Maybe<Scalars['Boolean']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -4721,25 +4726,25 @@ export type LinearIssueScalarWhereInput = {
   branchName?: InputMaybe<StringNullableFilter>;
   canceledAt?: InputMaybe<DateTimeNullableFilter>;
   completedAt?: InputMaybe<DateTimeNullableFilter>;
-  contribution_id?: InputMaybe<IntFilter>;
+  contribution_id?: InputMaybe<IntNullableFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
-  creator_id?: InputMaybe<IntFilter>;
+  creator_id?: InputMaybe<IntNullableFilter>;
   customerTickerCount?: InputMaybe<IntNullableFilter>;
-  cycle_id?: InputMaybe<IntFilter>;
+  cycle_id?: InputMaybe<IntNullableFilter>;
   description?: InputMaybe<StringNullableFilter>;
-  dueDate?: InputMaybe<DateTimeFilter>;
+  dueDate?: InputMaybe<DateTimeNullableFilter>;
   estimate?: InputMaybe<FloatNullableFilter>;
   id?: InputMaybe<IntFilter>;
-  identifier?: InputMaybe<StringFilter>;
+  identifier?: InputMaybe<StringNullableFilter>;
   linear_id?: InputMaybe<StringFilter>;
   priority?: InputMaybe<IntNullableFilter>;
   pritorityLabel?: InputMaybe<StringNullableFilter>;
-  project_id?: InputMaybe<IntFilter>;
+  project_id?: InputMaybe<IntNullableFilter>;
   snoozedUntilAt?: InputMaybe<DateTimeNullableFilter>;
   sortOrder?: InputMaybe<FloatNullableFilter>;
   startedAt?: InputMaybe<DateTimeNullableFilter>;
   subIssueSortOrder?: InputMaybe<FloatNullableFilter>;
-  team_id?: InputMaybe<IntFilter>;
+  team_id?: InputMaybe<IntNullableFilter>;
   title?: InputMaybe<StringNullableFilter>;
   trashed?: InputMaybe<BoolNullableFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
@@ -4758,25 +4763,25 @@ export type LinearIssueScalarWhereWithAggregatesInput = {
   branchName?: InputMaybe<StringNullableWithAggregatesFilter>;
   canceledAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   completedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
-  contribution_id?: InputMaybe<IntWithAggregatesFilter>;
+  contribution_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
-  creator_id?: InputMaybe<IntWithAggregatesFilter>;
+  creator_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   customerTickerCount?: InputMaybe<IntNullableWithAggregatesFilter>;
-  cycle_id?: InputMaybe<IntWithAggregatesFilter>;
+  cycle_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   description?: InputMaybe<StringNullableWithAggregatesFilter>;
-  dueDate?: InputMaybe<DateTimeWithAggregatesFilter>;
+  dueDate?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   estimate?: InputMaybe<FloatNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
-  identifier?: InputMaybe<StringWithAggregatesFilter>;
+  identifier?: InputMaybe<StringNullableWithAggregatesFilter>;
   linear_id?: InputMaybe<StringWithAggregatesFilter>;
   priority?: InputMaybe<IntNullableWithAggregatesFilter>;
   pritorityLabel?: InputMaybe<StringNullableWithAggregatesFilter>;
-  project_id?: InputMaybe<IntWithAggregatesFilter>;
+  project_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   snoozedUntilAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   sortOrder?: InputMaybe<FloatNullableWithAggregatesFilter>;
   startedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   subIssueSortOrder?: InputMaybe<FloatNullableWithAggregatesFilter>;
-  team_id?: InputMaybe<IntWithAggregatesFilter>;
+  team_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   title?: InputMaybe<StringNullableWithAggregatesFilter>;
   trashed?: InputMaybe<BoolNullableWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
@@ -4824,24 +4829,24 @@ export type LinearIssueUpdateInput = {
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneRequiredWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneRequiredWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  identifier?: InputMaybe<StringFieldUpdateOperationsInput>;
+  identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneRequiredWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneRequiredWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -4859,9 +4864,9 @@ export type LinearIssueUpdateManyMutationInput = {
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  identifier?: InputMaybe<StringFieldUpdateOperationsInput>;
+  identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -5013,24 +5018,24 @@ export type LinearIssueUpdateWithoutAssigneeInput = {
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneRequiredWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneRequiredWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  identifier?: InputMaybe<StringFieldUpdateOperationsInput>;
+  identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneRequiredWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneRequiredWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -5047,22 +5052,22 @@ export type LinearIssueUpdateWithoutContributionInput = {
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneRequiredWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneRequiredWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  identifier?: InputMaybe<StringFieldUpdateOperationsInput>;
+  identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneRequiredWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneRequiredWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -5078,23 +5083,23 @@ export type LinearIssueUpdateWithoutCreatorInput = {
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneRequiredWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  identifier?: InputMaybe<StringFieldUpdateOperationsInput>;
+  identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneRequiredWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneRequiredWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -5110,23 +5115,23 @@ export type LinearIssueUpdateWithoutCycleInput = {
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneRequiredWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  identifier?: InputMaybe<StringFieldUpdateOperationsInput>;
+  identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneRequiredWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneRequiredWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -5142,15 +5147,15 @@ export type LinearIssueUpdateWithoutProjectInput = {
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneRequiredWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneRequiredWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  identifier?: InputMaybe<StringFieldUpdateOperationsInput>;
+  identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -5158,7 +5163,7 @@ export type LinearIssueUpdateWithoutProjectInput = {
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneRequiredWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -5174,19 +5179,19 @@ export type LinearIssueUpdateWithoutTeamInput = {
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneRequiredWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneRequiredWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  identifier?: InputMaybe<StringFieldUpdateOperationsInput>;
+  identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneRequiredWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -5246,29 +5251,29 @@ export type LinearIssueWhereInput = {
   canceledAt?: InputMaybe<DateTimeNullableFilter>;
   completedAt?: InputMaybe<DateTimeNullableFilter>;
   contribution?: InputMaybe<ContributionRelationFilter>;
-  contribution_id?: InputMaybe<IntFilter>;
+  contribution_id?: InputMaybe<IntNullableFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   creator?: InputMaybe<LinearUserRelationFilter>;
-  creator_id?: InputMaybe<IntFilter>;
+  creator_id?: InputMaybe<IntNullableFilter>;
   customerTickerCount?: InputMaybe<IntNullableFilter>;
   cycle?: InputMaybe<LinearCycleRelationFilter>;
-  cycle_id?: InputMaybe<IntFilter>;
+  cycle_id?: InputMaybe<IntNullableFilter>;
   description?: InputMaybe<StringNullableFilter>;
-  dueDate?: InputMaybe<DateTimeFilter>;
+  dueDate?: InputMaybe<DateTimeNullableFilter>;
   estimate?: InputMaybe<FloatNullableFilter>;
   id?: InputMaybe<IntFilter>;
-  identifier?: InputMaybe<StringFilter>;
+  identifier?: InputMaybe<StringNullableFilter>;
   linear_id?: InputMaybe<StringFilter>;
   priority?: InputMaybe<IntNullableFilter>;
   pritorityLabel?: InputMaybe<StringNullableFilter>;
   project?: InputMaybe<LinearProjectRelationFilter>;
-  project_id?: InputMaybe<IntFilter>;
+  project_id?: InputMaybe<IntNullableFilter>;
   snoozedUntilAt?: InputMaybe<DateTimeNullableFilter>;
   sortOrder?: InputMaybe<FloatNullableFilter>;
   startedAt?: InputMaybe<DateTimeNullableFilter>;
   subIssueSortOrder?: InputMaybe<FloatNullableFilter>;
   team?: InputMaybe<LinearTeamRelationFilter>;
-  team_id?: InputMaybe<IntFilter>;
+  team_id?: InputMaybe<IntNullableFilter>;
   title?: InputMaybe<StringNullableFilter>;
   trashed?: InputMaybe<BoolNullableFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
@@ -5614,10 +5619,12 @@ export type LinearProjectUpdateManyMutationInput = {
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type LinearProjectUpdateOneRequiredWithoutIssuesInput = {
+export type LinearProjectUpdateOneWithoutIssuesInput = {
   connect?: InputMaybe<LinearProjectWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearProjectCreateOrConnectWithoutIssuesInput>;
   create?: InputMaybe<LinearProjectCreateWithoutIssuesInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
   update?: InputMaybe<LinearProjectUpdateWithoutIssuesInput>;
   upsert?: InputMaybe<LinearProjectUpsertWithoutIssuesInput>;
 };
@@ -5827,10 +5834,12 @@ export type LinearTeamUpdateManyMutationInput = {
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type LinearTeamUpdateOneRequiredWithoutIssuesInput = {
+export type LinearTeamUpdateOneWithoutIssuesInput = {
   connect?: InputMaybe<LinearTeamWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearTeamCreateOrConnectWithoutIssuesInput>;
   create?: InputMaybe<LinearTeamCreateWithoutIssuesInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
   update?: InputMaybe<LinearTeamUpdateWithoutIssuesInput>;
   upsert?: InputMaybe<LinearTeamUpsertWithoutIssuesInput>;
 };
@@ -5875,7 +5884,7 @@ export type LinearUser = {
   name?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
-  user_id: Scalars['Int'];
+  user_id?: Maybe<Scalars['Int']>;
 };
 
 
@@ -5960,7 +5969,7 @@ export type LinearUserCreateManyInput = {
   linear_id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
-  user_id: Scalars['Int'];
+  user_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type LinearUserCreateManyUserInput = {
@@ -6063,7 +6072,7 @@ export type LinearUserGroupBy = {
   linear_id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
-  user_id: Scalars['Int'];
+  user_id?: Maybe<Scalars['Int']>;
 };
 
 export type LinearUserListRelationFilter = {
@@ -6185,7 +6194,7 @@ export type LinearUserScalarWhereInput = {
   linear_id?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringNullableFilter>;
   url?: InputMaybe<StringNullableFilter>;
-  user_id?: InputMaybe<IntFilter>;
+  user_id?: InputMaybe<IntNullableFilter>;
 };
 
 export type LinearUserScalarWhereWithAggregatesInput = {
@@ -6200,7 +6209,7 @@ export type LinearUserScalarWhereWithAggregatesInput = {
   linear_id?: InputMaybe<StringWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
   url?: InputMaybe<StringNullableWithAggregatesFilter>;
-  user_id?: InputMaybe<IntWithAggregatesFilter>;
+  user_id?: InputMaybe<IntNullableWithAggregatesFilter>;
 };
 
 export type LinearUserSumAggregate = {
@@ -6255,14 +6264,6 @@ export type LinearUserUpdateManyWithoutUserInput = {
   upsert?: InputMaybe<Array<LinearUserUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
-export type LinearUserUpdateOneRequiredWithoutCreated_IssuesInput = {
-  connect?: InputMaybe<LinearUserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutCreated_IssuesInput>;
-  create?: InputMaybe<LinearUserCreateWithoutCreated_IssuesInput>;
-  update?: InputMaybe<LinearUserUpdateWithoutCreated_IssuesInput>;
-  upsert?: InputMaybe<LinearUserUpsertWithoutCreated_IssuesInput>;
-};
-
 export type LinearUserUpdateOneWithoutAssingned_IssuesInput = {
   connect?: InputMaybe<LinearUserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutAssingned_IssuesInput>;
@@ -6271,6 +6272,16 @@ export type LinearUserUpdateOneWithoutAssingned_IssuesInput = {
   disconnect?: InputMaybe<Scalars['Boolean']>;
   update?: InputMaybe<LinearUserUpdateWithoutAssingned_IssuesInput>;
   upsert?: InputMaybe<LinearUserUpsertWithoutAssingned_IssuesInput>;
+};
+
+export type LinearUserUpdateOneWithoutCreated_IssuesInput = {
+  connect?: InputMaybe<LinearUserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutCreated_IssuesInput>;
+  create?: InputMaybe<LinearUserCreateWithoutCreated_IssuesInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<LinearUserUpdateWithoutCreated_IssuesInput>;
+  upsert?: InputMaybe<LinearUserUpsertWithoutCreated_IssuesInput>;
 };
 
 export type LinearUserUpdateWithWhereUniqueWithoutUserInput = {
@@ -6345,7 +6356,7 @@ export type LinearUserWhereInput = {
   name?: InputMaybe<StringNullableFilter>;
   url?: InputMaybe<StringNullableFilter>;
   user?: InputMaybe<UserRelationFilter>;
-  user_id?: InputMaybe<IntFilter>;
+  user_id?: InputMaybe<IntNullableFilter>;
 };
 
 export type LinearUserWhereUniqueInput = {
@@ -9794,6 +9805,8 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
+export type LinearJobFieldsFragmentFragment = { id: number, createdAt: any, updatedAt: any, completedDate: any, startDate: any };
+
 export type ListLinearJobRunsQueryVariables = Exact<{
   where?: LinearJobRunWhereInput;
   skip?: Scalars['Int'];
@@ -9804,7 +9817,66 @@ export type ListLinearJobRunsQueryVariables = Exact<{
 
 export type ListLinearJobRunsQuery = { result: Array<{ id: number, createdAt: any, updatedAt: any, completedDate: any, startDate: any }> };
 
+export type GetLinearJobRunQueryVariables = Exact<{
+  where: LinearJobRunWhereUniqueInput;
+}>;
 
+
+export type GetLinearJobRunQuery = { result?: { id: number, createdAt: any, updatedAt: any, completedDate: any, startDate: any } | null };
+
+export type BulkCreateIssuesMutationVariables = Exact<{
+  data: Array<LinearIssueCreateManyInput> | LinearIssueCreateManyInput;
+  skipDuplicates: Scalars['Boolean'];
+}>;
+
+
+export type BulkCreateIssuesMutation = { createManyLinearIssue: { count: number } };
+
+export type UpsertLinearUserMutationVariables = Exact<{
+  create: LinearUserCreateInput;
+  update: LinearUserUpdateInput;
+  where: LinearUserWhereUniqueInput;
+}>;
+
+
+export type UpsertLinearUserMutation = { upsertLinearUser: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null } };
+
+export type UpsertLinearCycleMutationVariables = Exact<{
+  create: LinearCycleCreateInput;
+  update: LinearCycleUpdateInput;
+  where: LinearCycleWhereUniqueInput;
+}>;
+
+
+export type UpsertLinearCycleMutation = { upsertLinearCycle: { id: number, endsAt: any, linear_id: string, number: number, startsAt: any } };
+
+export type UpsertLinearProjectMutationVariables = Exact<{
+  create: LinearProjectCreateInput;
+  update: LinearProjectUpdateInput;
+  where: LinearProjectWhereUniqueInput;
+}>;
+
+
+export type UpsertLinearProjectMutation = { upsertLinearProject: { id: number, linear_id: string, name: string } };
+
+export type UpsertLinearTeamMutationVariables = Exact<{
+  create: LinearTeamCreateInput;
+  update: LinearTeamUpdateInput;
+  where: LinearTeamWhereUniqueInput;
+}>;
+
+
+export type UpsertLinearTeamMutation = { upsertLinearTeam: { id: number, key: string, name: string, linear_id: string } };
+
+export const LinearJobFieldsFragmentFragmentDoc = gql`
+    fragment LinearJobFieldsFragment on LinearJobRun {
+  id
+  createdAt
+  updatedAt
+  completedDate
+  startDate
+}
+    `;
 export const ListLinearJobRunsDocument = gql`
     query listLinearJobRuns($where: LinearJobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearJobRunOrderByWithRelationInput!]) {
   result: linearJobRuns(
@@ -9813,11 +9885,65 @@ export const ListLinearJobRunsDocument = gql`
     take: $first
     orderBy: $orderBy
   ) {
+    ...LinearJobFieldsFragment
+  }
+}
+    ${LinearJobFieldsFragmentFragmentDoc}`;
+export const GetLinearJobRunDocument = gql`
+    query getLinearJobRun($where: LinearJobRunWhereUniqueInput!) {
+  result: linearJobRun(where: $where) {
+    ...LinearJobFieldsFragment
+  }
+}
+    ${LinearJobFieldsFragmentFragmentDoc}`;
+export const BulkCreateIssuesDocument = gql`
+    mutation bulkCreateIssues($data: [LinearIssueCreateManyInput!]!, $skipDuplicates: Boolean!) {
+  createManyLinearIssue(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+    `;
+export const UpsertLinearUserDocument = gql`
+    mutation upsertLinearUser($create: LinearUserCreateInput!, $update: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
+  upsertLinearUser(create: $create, update: $update, where: $where) {
+    active
+    displayName
+    email
+    linear_id
+    name
+    url
     id
     createdAt
-    updatedAt
-    completedDate
-    startDate
+  }
+}
+    `;
+export const UpsertLinearCycleDocument = gql`
+    mutation upsertLinearCycle($create: LinearCycleCreateInput!, $update: LinearCycleUpdateInput!, $where: LinearCycleWhereUniqueInput!) {
+  upsertLinearCycle(create: $create, update: $update, where: $where) {
+    id
+    endsAt
+    linear_id
+    number
+    startsAt
+  }
+}
+    `;
+export const UpsertLinearProjectDocument = gql`
+    mutation upsertLinearProject($create: LinearProjectCreateInput!, $update: LinearProjectUpdateInput!, $where: LinearProjectWhereUniqueInput!) {
+  upsertLinearProject(create: $create, update: $update, where: $where) {
+    id
+    linear_id
+    name
+  }
+}
+    `;
+export const UpsertLinearTeamDocument = gql`
+    mutation upsertLinearTeam($create: LinearTeamCreateInput!, $update: LinearTeamUpdateInput!, $where: LinearTeamWhereUniqueInput!) {
+  upsertLinearTeam(create: $create, update: $update, where: $where) {
+    id
+    key
+    name
+    linear_id
   }
 }
     `;
@@ -9831,6 +9957,24 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     listLinearJobRuns(variables?: ListLinearJobRunsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListLinearJobRunsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListLinearJobRunsQuery>(ListLinearJobRunsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listLinearJobRuns', 'query');
+    },
+    getLinearJobRun(variables: GetLinearJobRunQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetLinearJobRunQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetLinearJobRunQuery>(GetLinearJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getLinearJobRun', 'query');
+    },
+    bulkCreateIssues(variables: BulkCreateIssuesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateIssuesMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateIssuesMutation>(BulkCreateIssuesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateIssues', 'mutation');
+    },
+    upsertLinearUser(variables: UpsertLinearUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearUserMutation>(UpsertLinearUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearUser', 'mutation');
+    },
+    upsertLinearCycle(variables: UpsertLinearCycleMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearCycleMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearCycleMutation>(UpsertLinearCycleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearCycle', 'mutation');
+    },
+    upsertLinearProject(variables: UpsertLinearProjectMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearProjectMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearProjectMutation>(UpsertLinearProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearProject', 'mutation');
+    },
+    upsertLinearTeam(variables: UpsertLinearTeamMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearTeamMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearTeamMutation>(UpsertLinearTeamDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearTeam', 'mutation');
     }
   };
 }
