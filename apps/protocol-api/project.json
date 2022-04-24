@@ -16,7 +16,8 @@
         "outputPath": "dist/apps/protocol-api",
         "main": "apps/protocol-api/src/main.ts",
         "tsConfig": "apps/protocol-api/tsconfig.app.json",
-        "assets": ["apps/protocol-api/src/assets"]
+        "assets": ["apps/protocol-api/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

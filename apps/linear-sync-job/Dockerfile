@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S express -u 1001
 COPY --chown=express:nodejs dist/apps/linear-sync-job .
+RUN npm install
 USER express
 EXPOSE 80
 ENV PORT 80
