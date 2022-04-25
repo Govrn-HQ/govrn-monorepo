@@ -25,6 +25,12 @@ spec:
       containers:
         - name: web
           image: <IMAGE>
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: database_url
           resources:
             requests:
               memory: 300Mi
