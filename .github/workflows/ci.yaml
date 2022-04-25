@@ -9,7 +9,7 @@ on:
       - 'master'
 
 env:
-  BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~3' || 'origin/master~3' }}
+  BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master~3' }}
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
         run: npx nx affected:build --base $BASE
 
   docker-build:
-    # if: ${{ github.event_name != 'pull_request' }}
+    if: ${{ github.ref == 'refs/heads/master' }}
     needs: build
     runs-on: ubuntu-latest
     steps:

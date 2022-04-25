@@ -96,13 +96,6 @@
         ],
         "parallel": false
       }
-    },
-    "verify": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": ["kubectl rollout status deployment/linear-sync-job"],
-        "parallel": false
-      }
     }
   },
   "tags": []
