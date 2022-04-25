@@ -1,5 +1,10 @@
 {
   "name": "@govrn/protocol-client",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "graphql-fields": "^2.0.3",
+    "@types/graphql-fields": "^1.3.4",
+    "graphql-tag": "^2.12.6"
+  }
 }

@@ -4,6 +4,7 @@ import {
   SortOrder,
   LinearIssueCreateManyInput,
 } from '@govrn/protocol-client';
+import 'tslib';
 console.log('Hello World!');
 
 // 1. Call api fetch last run date from last run

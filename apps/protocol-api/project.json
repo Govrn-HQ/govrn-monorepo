@@ -16,7 +16,8 @@
         "outputPath": "dist/apps/protocol-api",
         "main": "apps/protocol-api/src/main.ts",
         "tsConfig": "apps/protocol-api/tsconfig.app.json",
-        "assets": ["apps/protocol-api/src/assets"]
+        "assets": ["apps/protocol-api/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -66,14 +67,23 @@
       }
     },
     "docker-build": {
-      "executor": "@nx-tools/nx-docker:build"
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "metadata": {
+          "images": ["registry.digitalocean.com/govrn-protocol/protocol_api"],
+          "load": true,
+          "tags": ["type=sha"]
+        }
+      }
     },
     "docker-push": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
         "push": true,
-        "images": ["registry.digitalocean.com/govrn/protocol_api"],
-        "tags": ["type=sha"]
+        "metadata": {
+          "images": ["registry.digitalocean.com/govrn-protocol/protocol_api"],
+          "tags": ["type=sha"]
+        }
       }
     },
     "docker-login": {
@@ -87,7 +97,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn/protocol_api:'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/protocol_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
           "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml"
         ],

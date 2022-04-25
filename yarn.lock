@@ -2758,7 +2758,7 @@
 
 "@nx-tools/docker-metadata@^2.2.1":
   version "2.2.1"
-  resolved "https://registry.npmjs.org/@nx-tools/docker-metadata/-/docker-metadata-2.2.1.tgz"
+  resolved "https://registry.yarnpkg.com/@nx-tools/docker-metadata/-/docker-metadata-2.2.1.tgz#46592d9843ad53f55983c83bdaf31f786bb40aea"
   integrity sha512-MMQuDNarjOX9weg2+frBeIb2bVO+Fjlmf2Fl2yoGxB02MJl8NYao3MFjRZxt7pKKmPdiGiNGswF2xqJz+55FKQ==
   dependencies:
     "@nx-tools/ci-context" "^2.2.0"
@@ -7369,7 +7369,7 @@ graphql-subscriptions@^1.1.0:
   dependencies:
     iterall "^1.3.0"
 
-graphql-tag@^2.11.0:
+graphql-tag@^2.11.0, graphql-tag@^2.12.6:
   version "2.12.6"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
   integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==
