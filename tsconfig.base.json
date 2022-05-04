@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@govrn/protocol-client": ["libs/protocol-client/src/index.ts"]
+      "@govrn/protocol-client": ["libs/protocol-client/src/index.ts"],
+      "@govrn/protocol-ui": ["libs/protocol-ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
