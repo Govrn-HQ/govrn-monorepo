@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import ContributionsTable from '../components/ContributionsTable';
+import SiteLayout from '../components/SiteLayout';
 
 const Container = styled.div`
   height: 100vh;
@@ -10,9 +12,9 @@ const Container = styled.div`
 
 const Contributions = () => {
   return (
-    <Container>
-      <h1>Contributions</h1>
-    </Container>
+    <SiteLayout>
+      <ContributionsTable />
+    </SiteLayout>
   );
 };
 

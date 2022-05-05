@@ -37,13 +37,13 @@ const Header: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       minWidth="100vw"
-      position="fixed"
-      top="0"
+      // position="fixed" // can make fixed if we need but will need tweaking
+      // top="0"
       zIndex="1000"
       backgroundColor="white"
       boxShadow="sm"
       height="10vh"
-      paddingY={4}
+      paddingY={12}
     >
       <Flex
         direction="row"
