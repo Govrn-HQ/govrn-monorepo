@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import SiteLayout from '../components/SiteLayout';
 
 const Container = styled.div`
   height: 100vh;
@@ -10,9 +11,9 @@ const Container = styled.div`
 
 const App = () => {
   return (
-    <Container>
+    <SiteLayout>
       <h1>App</h1>
-    </Container>
+    </SiteLayout>
   );
 };
 

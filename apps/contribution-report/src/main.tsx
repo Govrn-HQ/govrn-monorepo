@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import { SnackbarProvider } from 'notistack';
+import GovTheme from '@govrn/protocol-ui';
 
 import R from './Routes';
 
