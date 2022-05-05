@@ -10,7 +10,7 @@ const Routes = () => {
   return (
     <HashRouter>
       <RouteContainer>
-        <Route path="/home" element={<App />} />
+        <Route path="/" element={<App />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contributions" element={<Contributions />} />
         <Route path="/attestations" element={<Attestations />} />

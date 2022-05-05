@@ -1,13 +1,13 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import GovTheme from './theme';
+import { GovrnTheme } from '@govrn/protocol-ui';
 
 import Routes from './Routes';
 
 ReactDOM.render(
   <StrictMode>
-    <ChakraProvider theme={GovTheme}>
+    <ChakraProvider theme={GovrnTheme}>
       <Routes />
     </ChakraProvider>
   </StrictMode>,
