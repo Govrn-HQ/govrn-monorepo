@@ -1,18 +1,12 @@
 import React from 'react';
-import styled from '@emotion/styled';
-
-const Container = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+import SiteLayout from '../components/SiteLayout';
+import ContributionsTableShell from '../components/ContributionsTableShell';
 
 const Attestations = () => {
   return (
-    <Container>
-      <h1>Attestations</h1>
-    </Container>
+    <SiteLayout>
+      <ContributionsTableShell />
+    </SiteLayout>
   );
 };
 
