@@ -28,7 +28,7 @@ export class UserUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true
   })
-  dispaly_name?: NullableStringFieldUpdateOperationsInput | undefined;
+  display_name?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true

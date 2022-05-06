@@ -11,9 +11,4 @@ export class ActivityTypeSumAggregate {
     nullable: true
   })
   id!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  category_activity_id!: number | null;
 }

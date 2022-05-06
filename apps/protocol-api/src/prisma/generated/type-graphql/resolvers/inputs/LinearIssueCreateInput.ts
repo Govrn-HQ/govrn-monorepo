@@ -6,7 +6,7 @@ import { ContributionCreateNestedOneWithoutLinear_issueInput } from "../inputs/C
 import { LinearCycleCreateNestedOneWithoutIssuesInput } from "../inputs/LinearCycleCreateNestedOneWithoutIssuesInput";
 import { LinearProjectCreateNestedOneWithoutIssuesInput } from "../inputs/LinearProjectCreateNestedOneWithoutIssuesInput";
 import { LinearTeamCreateNestedOneWithoutIssuesInput } from "../inputs/LinearTeamCreateNestedOneWithoutIssuesInput";
-import { LinearUserCreateNestedOneWithoutAssingned_issuesInput } from "../inputs/LinearUserCreateNestedOneWithoutAssingned_issuesInput";
+import { LinearUserCreateNestedOneWithoutAssigned_issuesInput } from "../inputs/LinearUserCreateNestedOneWithoutAssigned_issuesInput";
 import { LinearUserCreateNestedOneWithoutCreated_issuesInput } from "../inputs/LinearUserCreateNestedOneWithoutCreated_issuesInput";
 
 @TypeGraphQL.InputType("LinearIssueCreateInput", {
@@ -91,7 +91,7 @@ export class LinearIssueCreateInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  pritorityLabel?: string | undefined;
+  priorityLabel?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
@@ -133,10 +133,10 @@ export class LinearIssueCreateInput {
   })
   url?: string | undefined;
 
-  @TypeGraphQL.Field(_type => LinearUserCreateNestedOneWithoutAssingned_issuesInput, {
+  @TypeGraphQL.Field(_type => LinearUserCreateNestedOneWithoutAssigned_issuesInput, {
     nullable: true
   })
-  assignee?: LinearUserCreateNestedOneWithoutAssingned_issuesInput | undefined;
+  assignee?: LinearUserCreateNestedOneWithoutAssigned_issuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserCreateNestedOneWithoutCreated_issuesInput, {
     nullable: true

@@ -31,9 +31,4 @@ export class ActivityTypeMaxAggregate {
     nullable: true
   })
   active!: boolean | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  category_activity_id!: number | null;
 }

@@ -10,7 +10,7 @@ export class LinearUserCount {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  assingned_issues!: number;
+  assigned_issues!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

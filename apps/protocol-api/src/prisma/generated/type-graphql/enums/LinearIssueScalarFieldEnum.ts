@@ -17,7 +17,7 @@ export enum LinearIssueScalarFieldEnum {
   linear_id = "linear_id",
   identifier = "identifier",
   priority = "priority",
-  pritorityLabel = "pritorityLabel",
+  priorityLabel = "priorityLabel",
   snoozedUntilAt = "snoozedUntilAt",
   sortOrder = "sortOrder",
   startedAt = "startedAt",

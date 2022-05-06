@@ -1,25 +1,15 @@
 import * as TypeGraphQL from "type-graphql";
 import { ActivityType } from "../../../models/ActivityType";
-import { CategoryActivity } from "../../../models/CategoryActivity";
+import { CategoryActivityType } from "../../../models/CategoryActivityType";
 import { Contribution } from "../../../models/Contribution";
 import { UserActivity } from "../../../models/UserActivity";
+import { ActivityTypeCategoryActivityArgs } from "./args/ActivityTypeCategoryActivityArgs";
 import { ActivityTypeContributionsArgs } from "./args/ActivityTypeContributionsArgs";
 import { ActivityTypeUsersArgs } from "./args/ActivityTypeUsersArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => ActivityType)
 export class ActivityTypeRelationsResolver {
-  @TypeGraphQL.FieldResolver(_type => CategoryActivity, {
-    nullable: false
-  })
-  async category_activity(@TypeGraphQL.Root() activityType: ActivityType, @TypeGraphQL.Ctx() ctx: any): Promise<CategoryActivity> {
-    return getPrismaFromContext(ctx).activityType.findUnique({
-      where: {
-        id: activityType.id,
-      },
-    }).category_activity({});
-  }
-
   @TypeGraphQL.FieldResolver(_type => [UserActivity], {
     nullable: false
   })
@@ -40,5 +30,16 @@ export class ActivityTypeRelationsResolver {
         id: activityType.id,
       },
     }).contributions(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [CategoryActivityType], {
+    nullable: false
+  })
+  async categoryActivity(@TypeGraphQL.Root() activityType: ActivityType, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: ActivityTypeCategoryActivityArgs): Promise<CategoryActivityType[]> {
+    return getPrismaFromContext(ctx).activityType.findUnique({
+      where: {
+        id: activityType.id,
+      },
+    }).categoryActivity(args);
   }
 }

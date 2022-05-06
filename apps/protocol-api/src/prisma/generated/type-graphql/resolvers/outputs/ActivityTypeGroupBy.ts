@@ -37,11 +37,6 @@ export class ActivityTypeGroupBy {
   })
   active!: boolean;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  category_activity_id!: number;
-
   @TypeGraphQL.Field(_type => ActivityTypeCountAggregate, {
     nullable: true
   })

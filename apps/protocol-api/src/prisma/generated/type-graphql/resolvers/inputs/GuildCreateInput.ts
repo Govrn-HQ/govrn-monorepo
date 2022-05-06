@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
+import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
 
 @TypeGraphQL.InputType("GuildCreateInput", {
   isAbstract: true
@@ -42,4 +43,9 @@ export class GuildCreateInput {
     nullable: true
   })
   contributions?: GuildContributionCreateNestedManyWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildUserCreateNestedManyWithoutGuildInput, {
+    nullable: true
+  })
+  users?: GuildUserCreateNestedManyWithoutGuildInput | undefined;
 }

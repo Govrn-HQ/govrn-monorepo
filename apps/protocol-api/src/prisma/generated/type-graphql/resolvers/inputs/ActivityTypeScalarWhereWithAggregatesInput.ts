@@ -50,9 +50,4 @@ export class ActivityTypeScalarWhereWithAggregatesInput {
     nullable: true
   })
   active?: BoolWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
-  })
-  category_activity_id?: IntWithAggregatesFilter | undefined;
 }

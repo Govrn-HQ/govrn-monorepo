@@ -2,11 +2,13 @@ export { ActivityTypeCrudResolver } from "./ActivityType/ActivityTypeCrudResolve
 export { AttestationCrudResolver } from "./Attestation/AttestationCrudResolver";
 export { AttestationConfidenceCrudResolver } from "./AttestationConfidence/AttestationConfidenceCrudResolver";
 export { CategoryActivityCrudResolver } from "./CategoryActivity/CategoryActivityCrudResolver";
+export { CategoryActivityTypeCrudResolver } from "./CategoryActivityType/CategoryActivityTypeCrudResolver";
 export { ChainTypeCrudResolver } from "./ChainType/ChainTypeCrudResolver";
 export { ContributionCrudResolver } from "./Contribution/ContributionCrudResolver";
 export { ContributionStatusCrudResolver } from "./ContributionStatus/ContributionStatusCrudResolver";
 export { GuildCrudResolver } from "./Guild/GuildCrudResolver";
 export { GuildContributionCrudResolver } from "./GuildContribution/GuildContributionCrudResolver";
+export { GuildUserCrudResolver } from "./GuildUser/GuildUserCrudResolver";
 export { LinearCycleCrudResolver } from "./LinearCycle/LinearCycleCrudResolver";
 export { LinearIssueCrudResolver } from "./LinearIssue/LinearIssueCrudResolver";
 export { LinearJobRunCrudResolver } from "./LinearJobRun/LinearJobRunCrudResolver";

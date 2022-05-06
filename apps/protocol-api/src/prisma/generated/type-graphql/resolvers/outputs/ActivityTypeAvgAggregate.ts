@@ -11,9 +11,4 @@ export class ActivityTypeAvgAggregate {
     nullable: true
   })
   id!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
-  })
-  category_activity_id!: number | null;
 }

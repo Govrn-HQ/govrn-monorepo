@@ -95,7 +95,7 @@ export class LinearIssueGroupBy {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  pritorityLabel!: string | null;
+  priorityLabel!: string | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true

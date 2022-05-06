@@ -90,7 +90,7 @@ export class LinearIssueCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  pritorityLabel!: number;
+  priorityLabel!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

@@ -2,11 +2,13 @@ export { ActivityTypeRelationsResolver } from "./ActivityType/ActivityTypeRelati
 export { AttestationRelationsResolver } from "./Attestation/AttestationRelationsResolver";
 export { AttestationConfidenceRelationsResolver } from "./AttestationConfidence/AttestationConfidenceRelationsResolver";
 export { CategoryActivityRelationsResolver } from "./CategoryActivity/CategoryActivityRelationsResolver";
+export { CategoryActivityTypeRelationsResolver } from "./CategoryActivityType/CategoryActivityTypeRelationsResolver";
 export { ChainTypeRelationsResolver } from "./ChainType/ChainTypeRelationsResolver";
 export { ContributionRelationsResolver } from "./Contribution/ContributionRelationsResolver";
 export { ContributionStatusRelationsResolver } from "./ContributionStatus/ContributionStatusRelationsResolver";
 export { GuildRelationsResolver } from "./Guild/GuildRelationsResolver";
 export { GuildContributionRelationsResolver } from "./GuildContribution/GuildContributionRelationsResolver";
+export { GuildUserRelationsResolver } from "./GuildUser/GuildUserRelationsResolver";
 export { LinearCycleRelationsResolver } from "./LinearCycle/LinearCycleRelationsResolver";
 export { LinearIssueRelationsResolver } from "./LinearIssue/LinearIssueRelationsResolver";
 export { LinearProjectRelationsResolver } from "./LinearProject/LinearProjectRelationsResolver";

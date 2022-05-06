@@ -32,9 +32,4 @@ export class ActivityTypeMinOrderByAggregateInput {
     nullable: true
   })
   active?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  category_activity_id?: "asc" | "desc" | undefined;
 }

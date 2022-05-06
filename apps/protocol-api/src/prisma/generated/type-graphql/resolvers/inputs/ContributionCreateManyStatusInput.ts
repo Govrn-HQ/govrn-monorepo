@@ -17,6 +17,11 @@ export class ContributionCreateManyStatusInput {
   })
   updatedAt?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  name!: string;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })

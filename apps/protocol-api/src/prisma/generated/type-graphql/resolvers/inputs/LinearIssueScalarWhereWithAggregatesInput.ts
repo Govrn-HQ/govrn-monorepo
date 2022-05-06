@@ -112,7 +112,7 @@ export class LinearIssueScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })
-  pritorityLabel?: StringNullableWithAggregatesFilter | undefined;
+  priorityLabel?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
     nullable: true

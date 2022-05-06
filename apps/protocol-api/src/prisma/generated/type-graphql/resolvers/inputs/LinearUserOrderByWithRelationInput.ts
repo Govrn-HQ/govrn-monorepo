@@ -63,7 +63,7 @@ export class LinearUserOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => LinearIssueOrderByRelationAggregateInput, {
     nullable: true
   })
-  assingned_issues?: LinearIssueOrderByRelationAggregateInput | undefined;
+  assigned_issues?: LinearIssueOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearIssueOrderByRelationAggregateInput, {
     nullable: true

@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ActivityTypeListRelationFilter } from "../inputs/ActivityTypeListRelationFilter";
+import { CategoryActivityTypeListRelationFilter } from "../inputs/CategoryActivityTypeListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -46,8 +46,8 @@ export class CategoryActivityWhereInput {
   })
   name?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => ActivityTypeListRelationFilter, {
+  @TypeGraphQL.Field(_type => CategoryActivityTypeListRelationFilter, {
     nullable: true
   })
-  activityTypes?: ActivityTypeListRelationFilter | undefined;
+  activityTypes?: CategoryActivityTypeListRelationFilter | undefined;
 }

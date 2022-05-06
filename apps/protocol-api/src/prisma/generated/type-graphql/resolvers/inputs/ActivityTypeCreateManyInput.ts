@@ -31,9 +31,4 @@ export class ActivityTypeCreateManyInput {
     nullable: true
   })
   active?: boolean | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  category_activity_id!: number;
 }

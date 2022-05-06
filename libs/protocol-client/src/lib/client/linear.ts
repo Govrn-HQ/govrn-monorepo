@@ -3,6 +3,7 @@ import {
   Sdk,
   ListLinearJobRunsQueryVariables,
   BulkCreateIssuesMutationVariables,
+  MutationCreateLinearJobRunArgs,
   UpsertLinearUserMutationVariables,
   UpsertLinearCycleMutationVariables,
   UpsertLinearProjectMutationVariables,
@@ -45,6 +46,11 @@ class JobRun extends BaseClient {
   public async list(args: ListLinearJobRunsQueryVariables) {
     const jobRuns = await this.sdk.listLinearJobRuns(args);
     return jobRuns.result;
+  }
+
+  public async create(args: MutationCreateLinearJobRunArgs) {
+    const jobRuns = await this.sdk.createLinearJobRun(args);
+    return jobRuns.createLinearJobRun;
   }
 }
 

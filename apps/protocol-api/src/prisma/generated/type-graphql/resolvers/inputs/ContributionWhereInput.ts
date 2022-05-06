@@ -10,6 +10,7 @@ import { GuildContributionListRelationFilter } from "../inputs/GuildContribution
 import { IntFilter } from "../inputs/IntFilter";
 import { LinearIssueRelationFilter } from "../inputs/LinearIssueRelationFilter";
 import { PartnerListRelationFilter } from "../inputs/PartnerListRelationFilter";
+import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
@@ -41,6 +42,11 @@ export class ContributionWhereInput {
     nullable: true
   })
   updatedAt?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  name?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true

@@ -49,7 +49,7 @@ export class UserScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })
-  dispaly_name?: StringNullableWithAggregatesFilter | undefined;
+  display_name?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true

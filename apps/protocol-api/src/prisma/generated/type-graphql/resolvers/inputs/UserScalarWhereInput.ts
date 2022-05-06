@@ -49,7 +49,7 @@ export class UserScalarWhereInput {
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  dispaly_name?: StringNullableFilter | undefined;
+  display_name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true

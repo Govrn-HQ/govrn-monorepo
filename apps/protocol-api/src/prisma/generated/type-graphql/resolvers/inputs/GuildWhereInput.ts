@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
+import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
@@ -66,4 +67,9 @@ export class GuildWhereInput {
     nullable: true
   })
   contributions?: GuildContributionListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildUserListRelationFilter, {
+    nullable: true
+  })
+  users?: GuildUserListRelationFilter | undefined;
 }

@@ -56,5 +56,5 @@ export class LinearUserUpdateWithoutCreated_issuesInput {
   @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutAssigneeInput, {
     nullable: true
   })
-  assingned_issues?: LinearIssueUpdateManyWithoutAssigneeInput | undefined;
+  assigned_issues?: LinearIssueUpdateManyWithoutAssigneeInput | undefined;
 }

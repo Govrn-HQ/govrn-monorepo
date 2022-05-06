@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
-import { CategoryActivity } from "../models/CategoryActivity";
+import { CategoryActivityType } from "../models/CategoryActivityType";
 import { Contribution } from "../models/Contribution";
 import { UserActivity } from "../models/UserActivity";
 import { ActivityTypeCount } from "../resolvers/outputs/ActivityTypeCount";
@@ -36,16 +36,11 @@ export class ActivityType {
   })
   active!: boolean;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  category_activity_id!: number;
-
-  category_activity?: CategoryActivity;
-
   users?: UserActivity[];
 
   contributions?: Contribution[];
+
+  categoryActivity?: CategoryActivityType[];
 
   @TypeGraphQL.Field(_type => ActivityTypeCount, {
     nullable: true
