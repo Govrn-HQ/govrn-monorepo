@@ -1,79 +1,85 @@
+import { useMemo } from 'react';
 import {
-  Container,
-  Stack,
-  HStack,
-  Text,
+  Badge,
   Box,
-  InputGroup,
-  InputLeftElement,
+  Checkbox,
+  HStack,
   Icon,
+  IconButton,
   Table,
-  Thead,
+  TableProps,
   Tbody,
-  Tr,
-  Th,
   Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
   chakra,
-  useBreakpointValue,
-  useColorModeValue,
-  ButtonGroup,
-  Button,
 } from '@chakra-ui/react';
-import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
 
-const ContributionsTable = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+const ContributionsTable = ({ contributionsData }: any) => {
+  const data = useMemo(
+    () =>
+      contributionsData.map((contribution: any) => ({
+        name: <p>{contribution.name}</p>,
+      })),
+    [contributionsData]
+  );
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+    ],
+    []
+  );
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data }, useSortBy);
+
   return (
-    <Container
-      paddingY={{ base: '4', md: '8' }}
-      paddingX={{ base: '0', md: '8' }}
-      color="gray.700"
-    >
-      <Box
-        background="white"
-        boxShadow="sm"
-        borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
-      >
-        <Stack spacing="5">
-          <Box px={{ base: '4', md: '6' }} pt="5">
-            <Stack
-              direction={{ base: 'column', md: 'row' }}
-              justify="space-between"
-            >
-              <Text fontSize="lg" fontWeight="medium">
-                My Contributions
-              </Text>
-              {/* <InputGroup maxW="xs">
-                <InputLeftElement pointerEvents="none">
-                  <Icon as={FiSearch} color="muted" boxSize="5" />
-                </InputLeftElement>
-                <Input placeholder="Search" />
-              </InputGroup> */}
-            </Stack>
-          </Box>
-          <Box overflowX="auto">{/* <MemberTable /> */}</Box>
-          <Box px={{ base: '4', md: '6' }} pb="5">
-            <HStack spacing="3" justify="space-between">
-              {!isMobile && (
-                <Text color="muted" fontSize="sm">
-                  Showing 1 to 5 of 42 results
-                </Text>
-              )}
-              <ButtonGroup
-                spacing="3"
-                justifyContent="space-between"
-                width={{ base: 'full', md: 'auto' }}
-                variant="secondary"
+    <Table {...getTableProps()}>
+      <Thead>
+        {headerGroups.map((headerGroup: any) => (
+          <Tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column: any) => (
+              <Th
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                isNumeric={column.isNumeric}
               >
-                <Button>Previous</Button>
-                <Button>Next</Button>
-              </ButtonGroup>
-            </HStack>
-          </Box>
-        </Stack>
-      </Box>
-    </Container>
+                {column.render('Header')}
+                <chakra.span paddingLeft="4">
+                  {column.isSorted ? (
+                    column.isSortedDesc ? (
+                      <IoArrowDown aria-label="sorted-descending" />
+                    ) : (
+                      <IoArrowUp aria-label="sorted-ascending" />
+                    )
+                  ) : null}
+                </chakra.span>
+              </Th>
+            ))}
+          </Tr>
+        ))}
+      </Thead>
+      <Tbody {...getTableBodyProps()}>
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            <Tr {...row.getRowProps()}>
+              {row.cells.map((cell) => (
+                <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+              ))}
+            </Tr>
+          );
+        })}
+      </Tbody>
+    </Table>
   );
 };
 

@@ -6,7 +6,7 @@ const Logo: React.FC = () => {
   return (
     <Stack
       direction="row"
-      justifyContent="center"
+      justifyContent="flexStart"
       alignItems="center"
       maxWidth={{ base: '150px', lg: '180px' }}
       width={{ base: '150px', lg: '180px' }}

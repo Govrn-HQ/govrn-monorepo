@@ -1,18 +1,12 @@
 import React from 'react';
-import styled from '@emotion/styled';
-
-const Container = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+import { Heading } from '@chakra-ui/react';
+import SiteLayout from '../components/SiteLayout';
 
 const Profile = () => {
   return (
-    <Container>
-      <h1>Profile</h1>
-    </Container>
+    <SiteLayout>
+      <Heading color="gray.800">Profile</Heading>
+    </SiteLayout>
   );
 };
 

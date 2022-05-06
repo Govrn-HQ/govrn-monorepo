@@ -32,14 +32,14 @@ import Logo from './Logo';
 const Header: React.FC = () => {
   return (
     <Flex
-      as="nav"
       direction="row"
       justifyContent="center"
       alignItems="center"
-      minWidth="100vw"
-      // position="fixed" // can make fixed if we need but will need tweaking
+      // minWidth="100vw"
+      // position="fixed" // can make fixed if we need but will
       // top="0"
-      zIndex="1000"
+      // zIndex="1000"
+      flex="1"
       backgroundColor="white"
       boxShadow="sm"
       height="10vh"
@@ -49,7 +49,7 @@ const Header: React.FC = () => {
         direction="row"
         justifyContent="space-between"
         align="center"
-        width={['100vw', '100vw', '100vw', '100vw']}
+        // width={['100vw', '100vw', '100vw', '100vw']}
         paddingX={12}
       >
         <Link to="/">
