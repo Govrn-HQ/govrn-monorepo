@@ -18,6 +18,11 @@ export class ContributionCreateWithoutActivity_typeInput {
   })
   updatedAt?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  name!: string;
+
   @TypeGraphQL.Field(_type => ContributionStatusCreateNestedOneWithoutContributionsInput, {
     nullable: false
   })

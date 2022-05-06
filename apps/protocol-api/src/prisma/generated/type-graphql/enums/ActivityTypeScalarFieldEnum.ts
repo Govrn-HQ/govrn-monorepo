@@ -5,8 +5,7 @@ export enum ActivityTypeScalarFieldEnum {
   createdAt = "createdAt",
   updatedAt = "updatedAt",
   name = "name",
-  active = "active",
-  category_activity_id = "category_activity_id"
+  active = "active"
 }
 TypeGraphQL.registerEnumType(ActivityTypeScalarFieldEnum, {
   name: "ActivityTypeScalarFieldEnum",

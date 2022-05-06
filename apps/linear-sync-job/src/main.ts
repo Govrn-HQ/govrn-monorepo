@@ -5,12 +5,7 @@ import {
   LinearIssueCreateManyInput,
 } from '@govrn/protocol-client';
 import 'tslib';
-console.log('Hello World!');
 
-// 1. Call api fetch last run date from last run
-//    if no run do not set
-// 2. Fetch all issues and create contributions
-// 3. Store last issue and run info
 const apiKey = process.env.API_KEY;
 const protcolUrl = process.env.PROTOCOL_URL;
 
@@ -69,6 +64,16 @@ const upsertTeam = (govrn: GovrnProtocol, team: Team) => {
     create: linearTeam,
     update: { linear_id: { set: team.id } },
     where: { linear_id: team.id },
+  });
+  return teamPromise;
+};
+
+const createJobRun = async (
+  govrn: GovrnProtocol,
+  job: { startDate: Date; completedDate: Date }
+) => {
+  const teamPromise = await govrn.linear.jobRun.create({
+    data: { startDate: job.startDate, completedDate: job.completedDate },
   });
   return teamPromise;
 };
@@ -151,7 +156,7 @@ const main = async () => {
         identifier: issue.identifier,
         linear_id: issue.id,
         priority: issue.priority,
-        pritorityLabel: issue.priorityLabel,
+        priorityLabel: issue.priorityLabel,
         project_id: project?.id,
         snoozedUntilAt: issue.snoozedUntilAt,
         sortOrder: issue.sortOrder,
@@ -175,6 +180,8 @@ const main = async () => {
     issues = next.nodes.slice(page * 100 + 1);
     page = page + 1;
   } while (issues.length > 0);
+  await createJobRun(govrn, { startDate, completedDate: new Date() });
+
   console.log(`Finished processing linear issues`);
 };
 

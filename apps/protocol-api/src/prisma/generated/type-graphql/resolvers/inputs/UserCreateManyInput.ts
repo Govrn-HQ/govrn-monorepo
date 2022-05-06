@@ -30,7 +30,7 @@ export class UserCreateManyInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  dispaly_name?: string | undefined;
+  display_name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

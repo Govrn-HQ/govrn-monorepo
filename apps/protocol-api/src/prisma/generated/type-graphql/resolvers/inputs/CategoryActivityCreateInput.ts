@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ActivityTypeCreateNestedManyWithoutCategory_activityInput } from "../inputs/ActivityTypeCreateNestedManyWithoutCategory_activityInput";
+import { CategoryActivityTypeCreateNestedManyWithoutCategory_activityInput } from "../inputs/CategoryActivityTypeCreateNestedManyWithoutCategory_activityInput";
 
 @TypeGraphQL.InputType("CategoryActivityCreateInput", {
   isAbstract: true
@@ -23,8 +23,8 @@ export class CategoryActivityCreateInput {
   })
   name!: string;
 
-  @TypeGraphQL.Field(_type => ActivityTypeCreateNestedManyWithoutCategory_activityInput, {
+  @TypeGraphQL.Field(_type => CategoryActivityTypeCreateNestedManyWithoutCategory_activityInput, {
     nullable: true
   })
-  activityTypes?: ActivityTypeCreateNestedManyWithoutCategory_activityInput | undefined;
+  activityTypes?: CategoryActivityTypeCreateNestedManyWithoutCategory_activityInput | undefined;
 }

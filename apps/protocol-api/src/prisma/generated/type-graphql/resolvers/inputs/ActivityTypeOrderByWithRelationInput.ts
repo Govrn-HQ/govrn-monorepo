@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CategoryActivityOrderByWithRelationInput } from "../inputs/CategoryActivityOrderByWithRelationInput";
+import { CategoryActivityTypeOrderByRelationAggregateInput } from "../inputs/CategoryActivityTypeOrderByRelationAggregateInput";
 import { ContributionOrderByRelationAggregateInput } from "../inputs/ContributionOrderByRelationAggregateInput";
 import { UserActivityOrderByRelationAggregateInput } from "../inputs/UserActivityOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -36,16 +36,6 @@ export class ActivityTypeOrderByWithRelationInput {
   })
   active?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  category_activity_id?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => CategoryActivityOrderByWithRelationInput, {
-    nullable: true
-  })
-  category_activity?: CategoryActivityOrderByWithRelationInput | undefined;
-
   @TypeGraphQL.Field(_type => UserActivityOrderByRelationAggregateInput, {
     nullable: true
   })
@@ -55,4 +45,9 @@ export class ActivityTypeOrderByWithRelationInput {
     nullable: true
   })
   contributions?: ContributionOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => CategoryActivityTypeOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  categoryActivity?: CategoryActivityTypeOrderByRelationAggregateInput | undefined;
 }

@@ -35,7 +35,7 @@ export class UserGroupBy {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  dispaly_name!: string | null;
+  display_name!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

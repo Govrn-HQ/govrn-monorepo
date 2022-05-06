@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
-import { CategoryActivityRelationFilter } from "../inputs/CategoryActivityRelationFilter";
+import { CategoryActivityTypeListRelationFilter } from "../inputs/CategoryActivityTypeListRelationFilter";
 import { ContributionListRelationFilter } from "../inputs/ContributionListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -54,16 +54,6 @@ export class ActivityTypeWhereInput {
   })
   active?: BoolFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true
-  })
-  category_activity_id?: IntFilter | undefined;
-
-  @TypeGraphQL.Field(_type => CategoryActivityRelationFilter, {
-    nullable: true
-  })
-  category_activity?: CategoryActivityRelationFilter | undefined;
-
   @TypeGraphQL.Field(_type => UserActivityListRelationFilter, {
     nullable: true
   })
@@ -73,4 +63,9 @@ export class ActivityTypeWhereInput {
     nullable: true
   })
   contributions?: ContributionListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CategoryActivityTypeListRelationFilter, {
+    nullable: true
+  })
+  categoryActivity?: CategoryActivityTypeListRelationFilter | undefined;
 }

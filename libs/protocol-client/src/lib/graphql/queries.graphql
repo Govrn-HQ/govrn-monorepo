@@ -76,3 +76,10 @@ mutation upsertLinearTeam($create: LinearTeamCreateInput!, $update:  LinearTeamU
   }
 }
 
+# Linear Job Run
+mutation createLinearJobRun($data: LinearJobRunCreateInput!) {
+  createLinearJobRun(data: $data) {
+    completedDate
+    startDate
+  }
+}

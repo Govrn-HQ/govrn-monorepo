@@ -52,5 +52,5 @@ export class LinearUserCreateWithoutCreated_issuesInput {
   @TypeGraphQL.Field(_type => LinearIssueCreateNestedManyWithoutAssigneeInput, {
     nullable: true
   })
-  assingned_issues?: LinearIssueCreateNestedManyWithoutAssigneeInput | undefined;
+  assigned_issues?: LinearIssueCreateNestedManyWithoutAssigneeInput | undefined;
 }

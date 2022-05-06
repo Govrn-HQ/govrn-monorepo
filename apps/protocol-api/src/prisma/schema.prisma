@@ -18,7 +18,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name  String?
-  dispaly_name String?
+  display_name String?
   address String
   chain_type_id Int
   chain_type ChainType @relation(fields: [chain_type_id], references: [id])
@@ -28,6 +28,7 @@ model User {
   contributionPartners Partner[]
   contributions Contribution[]
   linear_users LinearUser[]
+  guild_users GuildUser[]
 }
 
 model Guild {
@@ -39,6 +40,19 @@ model Guild {
   congrats_channel Int? // legacy
   logo String?
   contributions GuildContribution[]
+  users GuildUser[]
+}
+
+model GuildUser {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  guild_id Int
+  guild Guild @relation(fields: [guild_id], references: [id])
+
+  @@unique([user_id, guild_id])
 }
 
 model GuildContribution {
@@ -66,6 +80,7 @@ model ChainType {
 model Contribution {
   id Int @id @default(autoincrement())
   updatedAt DateTime @updatedAt
+  name String
   status_id Int
   status ContributionStatus @relation(fields: [status_id], references: [id])
   activity_type_id Int
@@ -133,10 +148,9 @@ model ActivityType {
   updatedAt DateTime @updatedAt
   name String @unique
   active Boolean @default(true)
-  category_activity_id Int
-  category_activity CategoryActivity @relation(fields: [category_activity_id], references: [id])
   users UserActivity[]
   contributions Contribution[]
+  categoryActivity CategoryActivityType[]
 }
 
 model UserActivity {
@@ -151,12 +165,24 @@ model UserActivity {
   @@unique([user_id, activity_type_id])
 }
 
+model CategoryActivityType {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  category_activity_id Int
+  category_activity CategoryActivity @relation(fields: [category_activity_id], references: [id])
+  activity_type_id Int
+  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
+
+  @@unique([category_activity_id, activity_type_id])
+}
+
 model CategoryActivity {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name String @unique
-  activityTypes ActivityType[]
+  activityTypes CategoryActivityType[]
 }
 
 
@@ -185,7 +211,7 @@ model LinearIssue {
   linear_id String @unique
   identifier String?
   priority Int?
-  pritorityLabel String?
+  priorityLabel String?
   snoozedUntilAt DateTime?
   sortOrder Float?
   startedAt DateTime?
@@ -219,7 +245,7 @@ model LinearUser {
   url String?
   user_id Int?
   user User? @relation(fields: [user_id], references: [id])
-  assingned_issues LinearIssue[]  @relation("Assignee")
+  assigned_issues LinearIssue[]  @relation("Assignee")
   created_issues   LinearIssue[]   @relation("Creator")
 }
 

@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { LinearIssue } from "../../../models/LinearIssue";
 import { LinearUser } from "../../../models/LinearUser";
 import { User } from "../../../models/User";
-import { LinearUserAssingned_issuesArgs } from "./args/LinearUserAssingned_issuesArgs";
+import { LinearUserAssigned_issuesArgs } from "./args/LinearUserAssigned_issuesArgs";
 import { LinearUserCreated_issuesArgs } from "./args/LinearUserCreated_issuesArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
@@ -22,12 +22,12 @@ export class LinearUserRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => [LinearIssue], {
     nullable: false
   })
-  async assingned_issues(@TypeGraphQL.Root() linearUser: LinearUser, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: LinearUserAssingned_issuesArgs): Promise<LinearIssue[]> {
+  async assigned_issues(@TypeGraphQL.Root() linearUser: LinearUser, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: LinearUserAssigned_issuesArgs): Promise<LinearIssue[]> {
     return getPrismaFromContext(ctx).linearUser.findUnique({
       where: {
         id: linearUser.id,
       },
-    }).assingned_issues(args);
+    }).assigned_issues(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [LinearIssue], {

@@ -6,6 +6,7 @@ import { AttestationUpdateManyWithoutUserInput } from "../inputs/AttestationUpda
 import { ChainTypeUpdateOneRequiredWithoutUsersInput } from "../inputs/ChainTypeUpdateOneRequiredWithoutUsersInput";
 import { ContributionUpdateManyWithoutUserInput } from "../inputs/ContributionUpdateManyWithoutUserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { GuildUserUpdateManyWithoutUserInput } from "../inputs/GuildUserUpdateManyWithoutUserInput";
 import { LinearUserUpdateManyWithoutUserInput } from "../inputs/LinearUserUpdateManyWithoutUserInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PartnerUpdateManyWithoutUserInput } from "../inputs/PartnerUpdateManyWithoutUserInput";
@@ -34,7 +35,7 @@ export class UserUpdateInput {
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true
   })
-  dispaly_name?: NullableStringFieldUpdateOperationsInput | undefined;
+  display_name?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
@@ -75,4 +76,9 @@ export class UserUpdateInput {
     nullable: true
   })
   linear_users?: LinearUserUpdateManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildUserUpdateManyWithoutUserInput, {
+    nullable: true
+  })
+  guild_users?: GuildUserUpdateManyWithoutUserInput | undefined;
 }

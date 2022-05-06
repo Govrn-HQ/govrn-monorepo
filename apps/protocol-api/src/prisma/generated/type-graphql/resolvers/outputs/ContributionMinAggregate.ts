@@ -17,6 +17,11 @@ export class ContributionMinAggregate {
   })
   updatedAt!: Date | null;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  name!: string | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

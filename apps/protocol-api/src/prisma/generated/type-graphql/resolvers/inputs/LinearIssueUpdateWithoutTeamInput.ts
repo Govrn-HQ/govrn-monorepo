@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { ContributionUpdateOneWithoutLinear_issueInput } from "../inputs/ContributionUpdateOneWithoutLinear_issueInput";
 import { LinearCycleUpdateOneWithoutIssuesInput } from "../inputs/LinearCycleUpdateOneWithoutIssuesInput";
 import { LinearProjectUpdateOneWithoutIssuesInput } from "../inputs/LinearProjectUpdateOneWithoutIssuesInput";
-import { LinearUserUpdateOneWithoutAssingned_issuesInput } from "../inputs/LinearUserUpdateOneWithoutAssingned_issuesInput";
+import { LinearUserUpdateOneWithoutAssigned_issuesInput } from "../inputs/LinearUserUpdateOneWithoutAssigned_issuesInput";
 import { LinearUserUpdateOneWithoutCreated_issuesInput } from "../inputs/LinearUserUpdateOneWithoutCreated_issuesInput";
 import { NullableBoolFieldUpdateOperationsInput } from "../inputs/NullableBoolFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
@@ -96,7 +96,7 @@ export class LinearIssueUpdateWithoutTeamInput {
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true
   })
-  pritorityLabel?: NullableStringFieldUpdateOperationsInput | undefined;
+  priorityLabel?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
     nullable: true
@@ -138,10 +138,10 @@ export class LinearIssueUpdateWithoutTeamInput {
   })
   url?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearUserUpdateOneWithoutAssingned_issuesInput, {
+  @TypeGraphQL.Field(_type => LinearUserUpdateOneWithoutAssigned_issuesInput, {
     nullable: true
   })
-  assignee?: LinearUserUpdateOneWithoutAssingned_issuesInput | undefined;
+  assignee?: LinearUserUpdateOneWithoutAssigned_issuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserUpdateOneWithoutCreated_issuesInput, {
     nullable: true

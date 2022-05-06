@@ -90,7 +90,7 @@ export class LinearIssueCreateWithoutAssigneeInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  pritorityLabel?: string | undefined;
+  priorityLabel?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true

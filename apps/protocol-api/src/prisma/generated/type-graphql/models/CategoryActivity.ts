@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
-import { ActivityType } from "../models/ActivityType";
+import { CategoryActivityType } from "../models/CategoryActivityType";
 import { CategoryActivityCount } from "../resolvers/outputs/CategoryActivityCount";
 
 @TypeGraphQL.ObjectType("CategoryActivity", {
@@ -29,7 +29,7 @@ export class CategoryActivity {
   })
   name!: string;
 
-  activityTypes?: ActivityType[];
+  activityTypes?: CategoryActivityType[];
 
   @TypeGraphQL.Field(_type => CategoryActivityCount, {
     nullable: true

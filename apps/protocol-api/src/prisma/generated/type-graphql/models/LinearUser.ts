@@ -57,7 +57,7 @@ export class LinearUser {
 
   user?: User | null;
 
-  assingned_issues?: LinearIssue[];
+  assigned_issues?: LinearIssue[];
 
   created_issues?: LinearIssue[];
 

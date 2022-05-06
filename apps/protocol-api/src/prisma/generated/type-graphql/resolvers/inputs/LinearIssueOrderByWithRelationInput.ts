@@ -96,7 +96,7 @@ export class LinearIssueOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  pritorityLabel?: "asc" | "desc" | undefined;
+  priorityLabel?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

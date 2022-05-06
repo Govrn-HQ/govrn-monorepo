@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CategoryActivityCreateNestedOneWithoutActivityTypesInput } from "../inputs/CategoryActivityCreateNestedOneWithoutActivityTypesInput";
+import { CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput } from "../inputs/CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput";
 import { ContributionCreateNestedManyWithoutActivity_typeInput } from "../inputs/ContributionCreateNestedManyWithoutActivity_typeInput";
 import { UserActivityCreateNestedManyWithoutActivity_typeInput } from "../inputs/UserActivityCreateNestedManyWithoutActivity_typeInput";
 
@@ -30,11 +30,6 @@ export class ActivityTypeCreateInput {
   })
   active?: boolean | undefined;
 
-  @TypeGraphQL.Field(_type => CategoryActivityCreateNestedOneWithoutActivityTypesInput, {
-    nullable: false
-  })
-  category_activity!: CategoryActivityCreateNestedOneWithoutActivityTypesInput;
-
   @TypeGraphQL.Field(_type => UserActivityCreateNestedManyWithoutActivity_typeInput, {
     nullable: true
   })
@@ -44,4 +39,9 @@ export class ActivityTypeCreateInput {
     nullable: true
   })
   contributions?: ContributionCreateNestedManyWithoutActivity_typeInput | undefined;
+
+  @TypeGraphQL.Field(_type => CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput, {
+    nullable: true
+  })
+  categoryActivity?: CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput | undefined;
 }

@@ -20,14 +20,23 @@ export type Scalars = {
 export type ActivityType = {
   _count?: Maybe<ActivityTypeCount>;
   active: Scalars['Boolean'];
-  category_activity: CategoryActivity;
-  category_activity_id: Scalars['Int'];
+  categoryActivity: Array<CategoryActivityType>;
   contributions: Array<Contribution>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   users: Array<UserActivity>;
+};
+
+
+export type ActivityTypeCategoryActivityArgs = {
+  cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CategoryActivityTypeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
 
 
@@ -51,16 +60,15 @@ export type ActivityTypeUsersArgs = {
 };
 
 export type ActivityTypeAvgAggregate = {
-  category_activity_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 export type ActivityTypeAvgOrderByAggregateInput = {
-  category_activity_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
 
 export type ActivityTypeCount = {
+  categoryActivity: Scalars['Int'];
   contributions: Scalars['Int'];
   users: Scalars['Int'];
 };
@@ -68,7 +76,6 @@ export type ActivityTypeCount = {
 export type ActivityTypeCountAggregate = {
   _all: Scalars['Int'];
   active: Scalars['Int'];
-  category_activity_id: Scalars['Int'];
   createdAt: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['Int'];
@@ -77,7 +84,6 @@ export type ActivityTypeCountAggregate = {
 
 export type ActivityTypeCountOrderByAggregateInput = {
   active?: InputMaybe<SortOrder>;
-  category_activity_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -86,7 +92,7 @@ export type ActivityTypeCountOrderByAggregateInput = {
 
 export type ActivityTypeCreateInput = {
   active?: InputMaybe<Scalars['Boolean']>;
-  category_activity: CategoryActivityCreateNestedOneWithoutActivityTypesInput;
+  categoryActivity?: InputMaybe<CategoryActivityTypeCreateNestedManyWithoutActivity_TypeInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
@@ -94,33 +100,18 @@ export type ActivityTypeCreateInput = {
   users?: InputMaybe<UserActivityCreateNestedManyWithoutActivity_TypeInput>;
 };
 
-export type ActivityTypeCreateManyCategory_ActivityInput = {
-  active?: InputMaybe<Scalars['Boolean']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['Int']>;
-  name: Scalars['String'];
-  updatedAt?: InputMaybe<Scalars['DateTime']>;
-};
-
-export type ActivityTypeCreateManyCategory_ActivityInputEnvelope = {
-  data: Array<ActivityTypeCreateManyCategory_ActivityInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
-};
-
 export type ActivityTypeCreateManyInput = {
   active?: InputMaybe<Scalars['Boolean']>;
-  category_activity_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type ActivityTypeCreateNestedManyWithoutCategory_ActivityInput = {
-  connect?: InputMaybe<Array<ActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ActivityTypeCreateOrConnectWithoutCategory_ActivityInput>>;
-  create?: InputMaybe<Array<ActivityTypeCreateWithoutCategory_ActivityInput>>;
-  createMany?: InputMaybe<ActivityTypeCreateManyCategory_ActivityInputEnvelope>;
+export type ActivityTypeCreateNestedOneWithoutCategoryActivityInput = {
+  connect?: InputMaybe<ActivityTypeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ActivityTypeCreateOrConnectWithoutCategoryActivityInput>;
+  create?: InputMaybe<ActivityTypeCreateWithoutCategoryActivityInput>;
 };
 
 export type ActivityTypeCreateNestedOneWithoutContributionsInput = {
@@ -135,8 +126,8 @@ export type ActivityTypeCreateNestedOneWithoutUsersInput = {
   create?: InputMaybe<ActivityTypeCreateWithoutUsersInput>;
 };
 
-export type ActivityTypeCreateOrConnectWithoutCategory_ActivityInput = {
-  create: ActivityTypeCreateWithoutCategory_ActivityInput;
+export type ActivityTypeCreateOrConnectWithoutCategoryActivityInput = {
+  create: ActivityTypeCreateWithoutCategoryActivityInput;
   where: ActivityTypeWhereUniqueInput;
 };
 
@@ -150,7 +141,7 @@ export type ActivityTypeCreateOrConnectWithoutUsersInput = {
   where: ActivityTypeWhereUniqueInput;
 };
 
-export type ActivityTypeCreateWithoutCategory_ActivityInput = {
+export type ActivityTypeCreateWithoutCategoryActivityInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
@@ -161,7 +152,7 @@ export type ActivityTypeCreateWithoutCategory_ActivityInput = {
 
 export type ActivityTypeCreateWithoutContributionsInput = {
   active?: InputMaybe<Scalars['Boolean']>;
-  category_activity: CategoryActivityCreateNestedOneWithoutActivityTypesInput;
+  categoryActivity?: InputMaybe<CategoryActivityTypeCreateNestedManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -170,7 +161,7 @@ export type ActivityTypeCreateWithoutContributionsInput = {
 
 export type ActivityTypeCreateWithoutUsersInput = {
   active?: InputMaybe<Scalars['Boolean']>;
-  category_activity: CategoryActivityCreateNestedOneWithoutActivityTypesInput;
+  categoryActivity?: InputMaybe<CategoryActivityTypeCreateNestedManyWithoutActivity_TypeInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
@@ -184,22 +175,14 @@ export type ActivityTypeGroupBy = {
   _min?: Maybe<ActivityTypeMinAggregate>;
   _sum?: Maybe<ActivityTypeSumAggregate>;
   active: Scalars['Boolean'];
-  category_activity_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
-export type ActivityTypeListRelationFilter = {
-  every?: InputMaybe<ActivityTypeWhereInput>;
-  none?: InputMaybe<ActivityTypeWhereInput>;
-  some?: InputMaybe<ActivityTypeWhereInput>;
-};
-
 export type ActivityTypeMaxAggregate = {
   active?: Maybe<Scalars['Boolean']>;
-  category_activity_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -208,7 +191,6 @@ export type ActivityTypeMaxAggregate = {
 
 export type ActivityTypeMaxOrderByAggregateInput = {
   active?: InputMaybe<SortOrder>;
-  category_activity_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -217,7 +199,6 @@ export type ActivityTypeMaxOrderByAggregateInput = {
 
 export type ActivityTypeMinAggregate = {
   active?: Maybe<Scalars['Boolean']>;
-  category_activity_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -226,15 +207,10 @@ export type ActivityTypeMinAggregate = {
 
 export type ActivityTypeMinOrderByAggregateInput = {
   active?: InputMaybe<SortOrder>;
-  category_activity_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type ActivityTypeOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
 };
 
 export type ActivityTypeOrderByWithAggregationInput = {
@@ -244,7 +220,6 @@ export type ActivityTypeOrderByWithAggregationInput = {
   _min?: InputMaybe<ActivityTypeMinOrderByAggregateInput>;
   _sum?: InputMaybe<ActivityTypeSumOrderByAggregateInput>;
   active?: InputMaybe<SortOrder>;
-  category_activity_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -253,8 +228,7 @@ export type ActivityTypeOrderByWithAggregationInput = {
 
 export type ActivityTypeOrderByWithRelationInput = {
   active?: InputMaybe<SortOrder>;
-  category_activity?: InputMaybe<CategoryActivityOrderByWithRelationInput>;
-  category_activity_id?: InputMaybe<SortOrder>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeOrderByRelationAggregateInput>;
   contributions?: InputMaybe<ContributionOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -270,31 +244,17 @@ export type ActivityTypeRelationFilter = {
 
 export enum ActivityTypeScalarFieldEnum {
   Active = 'active',
-  CategoryActivityId = 'category_activity_id',
   CreatedAt = 'createdAt',
   Id = 'id',
   Name = 'name',
   UpdatedAt = 'updatedAt'
 }
 
-export type ActivityTypeScalarWhereInput = {
-  AND?: InputMaybe<Array<ActivityTypeScalarWhereInput>>;
-  NOT?: InputMaybe<Array<ActivityTypeScalarWhereInput>>;
-  OR?: InputMaybe<Array<ActivityTypeScalarWhereInput>>;
-  active?: InputMaybe<BoolFilter>;
-  category_activity_id?: InputMaybe<IntFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<IntFilter>;
-  name?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-};
-
 export type ActivityTypeScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<ActivityTypeScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<ActivityTypeScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<ActivityTypeScalarWhereWithAggregatesInput>>;
   active?: InputMaybe<BoolWithAggregatesFilter>;
-  category_activity_id?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
@@ -302,18 +262,16 @@ export type ActivityTypeScalarWhereWithAggregatesInput = {
 };
 
 export type ActivityTypeSumAggregate = {
-  category_activity_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
 };
 
 export type ActivityTypeSumOrderByAggregateInput = {
-  category_activity_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
 
 export type ActivityTypeUpdateInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesInput>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -328,23 +286,12 @@ export type ActivityTypeUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput = {
-  data: ActivityTypeUpdateManyMutationInput;
-  where: ActivityTypeScalarWhereInput;
-};
-
-export type ActivityTypeUpdateManyWithoutCategory_ActivityInput = {
-  connect?: InputMaybe<Array<ActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ActivityTypeCreateOrConnectWithoutCategory_ActivityInput>>;
-  create?: InputMaybe<Array<ActivityTypeCreateWithoutCategory_ActivityInput>>;
-  createMany?: InputMaybe<ActivityTypeCreateManyCategory_ActivityInputEnvelope>;
-  delete?: InputMaybe<Array<ActivityTypeWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<ActivityTypeScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<ActivityTypeWhereUniqueInput>>;
-  set?: InputMaybe<Array<ActivityTypeWhereUniqueInput>>;
-  update?: InputMaybe<Array<ActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInput>>;
-  updateMany?: InputMaybe<Array<ActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput>>;
-  upsert?: InputMaybe<Array<ActivityTypeUpsertWithWhereUniqueWithoutCategory_ActivityInput>>;
+export type ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput = {
+  connect?: InputMaybe<ActivityTypeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ActivityTypeCreateOrConnectWithoutCategoryActivityInput>;
+  create?: InputMaybe<ActivityTypeCreateWithoutCategoryActivityInput>;
+  update?: InputMaybe<ActivityTypeUpdateWithoutCategoryActivityInput>;
+  upsert?: InputMaybe<ActivityTypeUpsertWithoutCategoryActivityInput>;
 };
 
 export type ActivityTypeUpdateOneRequiredWithoutContributionsInput = {
@@ -363,12 +310,7 @@ export type ActivityTypeUpdateOneRequiredWithoutUsersInput = {
   upsert?: InputMaybe<ActivityTypeUpsertWithoutUsersInput>;
 };
 
-export type ActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInput = {
-  data: ActivityTypeUpdateWithoutCategory_ActivityInput;
-  where: ActivityTypeWhereUniqueInput;
-};
-
-export type ActivityTypeUpdateWithoutCategory_ActivityInput = {
+export type ActivityTypeUpdateWithoutCategoryActivityInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -379,7 +321,7 @@ export type ActivityTypeUpdateWithoutCategory_ActivityInput = {
 
 export type ActivityTypeUpdateWithoutContributionsInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesInput>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -388,17 +330,16 @@ export type ActivityTypeUpdateWithoutContributionsInput = {
 
 export type ActivityTypeUpdateWithoutUsersInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesInput>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ActivityTypeUpsertWithWhereUniqueWithoutCategory_ActivityInput = {
-  create: ActivityTypeCreateWithoutCategory_ActivityInput;
-  update: ActivityTypeUpdateWithoutCategory_ActivityInput;
-  where: ActivityTypeWhereUniqueInput;
+export type ActivityTypeUpsertWithoutCategoryActivityInput = {
+  create: ActivityTypeCreateWithoutCategoryActivityInput;
+  update: ActivityTypeUpdateWithoutCategoryActivityInput;
 };
 
 export type ActivityTypeUpsertWithoutContributionsInput = {
@@ -416,8 +357,7 @@ export type ActivityTypeWhereInput = {
   NOT?: InputMaybe<Array<ActivityTypeWhereInput>>;
   OR?: InputMaybe<Array<ActivityTypeWhereInput>>;
   active?: InputMaybe<BoolFilter>;
-  category_activity?: InputMaybe<CategoryActivityRelationFilter>;
-  category_activity_id?: InputMaybe<IntFilter>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeListRelationFilter>;
   contributions?: InputMaybe<ContributionListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
@@ -467,6 +407,14 @@ export type AggregateCategoryActivity = {
   _sum?: Maybe<CategoryActivitySumAggregate>;
 };
 
+export type AggregateCategoryActivityType = {
+  _avg?: Maybe<CategoryActivityTypeAvgAggregate>;
+  _count?: Maybe<CategoryActivityTypeCountAggregate>;
+  _max?: Maybe<CategoryActivityTypeMaxAggregate>;
+  _min?: Maybe<CategoryActivityTypeMinAggregate>;
+  _sum?: Maybe<CategoryActivityTypeSumAggregate>;
+};
+
 export type AggregateChainType = {
   _avg?: Maybe<ChainTypeAvgAggregate>;
   _count?: Maybe<ChainTypeCountAggregate>;
@@ -505,6 +453,14 @@ export type AggregateGuildContribution = {
   _max?: Maybe<GuildContributionMaxAggregate>;
   _min?: Maybe<GuildContributionMinAggregate>;
   _sum?: Maybe<GuildContributionSumAggregate>;
+};
+
+export type AggregateGuildUser = {
+  _avg?: Maybe<GuildUserAvgAggregate>;
+  _count?: Maybe<GuildUserCountAggregate>;
+  _max?: Maybe<GuildUserMaxAggregate>;
+  _min?: Maybe<GuildUserMinAggregate>;
+  _sum?: Maybe<GuildUserSumAggregate>;
 };
 
 export type AggregateLinearCycle = {
@@ -1293,7 +1249,7 @@ export type BoolWithAggregatesFilter = {
 
 export type CategoryActivity = {
   _count?: Maybe<CategoryActivityCount>;
-  activityTypes: Array<ActivityType>;
+  activityTypes: Array<CategoryActivityType>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -1302,12 +1258,12 @@ export type CategoryActivity = {
 
 
 export type CategoryActivityActivityTypesArgs = {
-  cursor?: InputMaybe<ActivityTypeWhereUniqueInput>;
-  distinct?: InputMaybe<Array<ActivityTypeScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<ActivityTypeOrderByWithRelationInput>>;
+  cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CategoryActivityTypeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithRelationInput>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ActivityTypeWhereInput>;
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
 
 export type CategoryActivityAvgAggregate = {
@@ -1338,7 +1294,7 @@ export type CategoryActivityCountOrderByAggregateInput = {
 };
 
 export type CategoryActivityCreateInput = {
-  activityTypes?: InputMaybe<ActivityTypeCreateNestedManyWithoutCategory_ActivityInput>;
+  activityTypes?: InputMaybe<CategoryActivityTypeCreateNestedManyWithoutCategory_ActivityInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -1421,7 +1377,7 @@ export type CategoryActivityOrderByWithAggregationInput = {
 };
 
 export type CategoryActivityOrderByWithRelationInput = {
-  activityTypes?: InputMaybe<ActivityTypeOrderByRelationAggregateInput>;
+  activityTypes?: InputMaybe<CategoryActivityTypeOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1458,8 +1414,349 @@ export type CategoryActivitySumOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
 };
 
+export type CategoryActivityType = {
+  activity_type: ActivityType;
+  activity_type_id: Scalars['Int'];
+  category_activity: CategoryActivity;
+  category_activity_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type CategoryActivityTypeAvgAggregate = {
+  activity_type_id?: Maybe<Scalars['Float']>;
+  category_activity_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type CategoryActivityTypeAvgOrderByAggregateInput = {
+  activity_type_id?: InputMaybe<SortOrder>;
+  category_activity_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type CategoryActivityTypeCategory_Activity_IdActivity_Type_IdCompoundUniqueInput = {
+  activity_type_id: Scalars['Int'];
+  category_activity_id: Scalars['Int'];
+};
+
+export type CategoryActivityTypeCountAggregate = {
+  _all: Scalars['Int'];
+  activity_type_id: Scalars['Int'];
+  category_activity_id: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type CategoryActivityTypeCountOrderByAggregateInput = {
+  activity_type_id?: InputMaybe<SortOrder>;
+  category_activity_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type CategoryActivityTypeCreateInput = {
+  activity_type: ActivityTypeCreateNestedOneWithoutCategoryActivityInput;
+  category_activity: CategoryActivityCreateNestedOneWithoutActivityTypesInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type CategoryActivityTypeCreateManyActivity_TypeInput = {
+  category_activity_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type CategoryActivityTypeCreateManyActivity_TypeInputEnvelope = {
+  data: Array<CategoryActivityTypeCreateManyActivity_TypeInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type CategoryActivityTypeCreateManyCategory_ActivityInput = {
+  activity_type_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type CategoryActivityTypeCreateManyCategory_ActivityInputEnvelope = {
+  data: Array<CategoryActivityTypeCreateManyCategory_ActivityInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type CategoryActivityTypeCreateManyInput = {
+  activity_type_id: Scalars['Int'];
+  category_activity_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type CategoryActivityTypeCreateNestedManyWithoutActivity_TypeInput = {
+  connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput>>;
+  create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutActivity_TypeInput>>;
+  createMany?: InputMaybe<CategoryActivityTypeCreateManyActivity_TypeInputEnvelope>;
+};
+
+export type CategoryActivityTypeCreateNestedManyWithoutCategory_ActivityInput = {
+  connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutCategory_ActivityInput>>;
+  create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutCategory_ActivityInput>>;
+  createMany?: InputMaybe<CategoryActivityTypeCreateManyCategory_ActivityInputEnvelope>;
+};
+
+export type CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput = {
+  create: CategoryActivityTypeCreateWithoutActivity_TypeInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+export type CategoryActivityTypeCreateOrConnectWithoutCategory_ActivityInput = {
+  create: CategoryActivityTypeCreateWithoutCategory_ActivityInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+export type CategoryActivityTypeCreateWithoutActivity_TypeInput = {
+  category_activity: CategoryActivityCreateNestedOneWithoutActivityTypesInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type CategoryActivityTypeCreateWithoutCategory_ActivityInput = {
+  activity_type: ActivityTypeCreateNestedOneWithoutCategoryActivityInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type CategoryActivityTypeGroupBy = {
+  _avg?: Maybe<CategoryActivityTypeAvgAggregate>;
+  _count?: Maybe<CategoryActivityTypeCountAggregate>;
+  _max?: Maybe<CategoryActivityTypeMaxAggregate>;
+  _min?: Maybe<CategoryActivityTypeMinAggregate>;
+  _sum?: Maybe<CategoryActivityTypeSumAggregate>;
+  activity_type_id: Scalars['Int'];
+  category_activity_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type CategoryActivityTypeListRelationFilter = {
+  every?: InputMaybe<CategoryActivityTypeWhereInput>;
+  none?: InputMaybe<CategoryActivityTypeWhereInput>;
+  some?: InputMaybe<CategoryActivityTypeWhereInput>;
+};
+
+export type CategoryActivityTypeMaxAggregate = {
+  activity_type_id?: Maybe<Scalars['Int']>;
+  category_activity_id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type CategoryActivityTypeMaxOrderByAggregateInput = {
+  activity_type_id?: InputMaybe<SortOrder>;
+  category_activity_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type CategoryActivityTypeMinAggregate = {
+  activity_type_id?: Maybe<Scalars['Int']>;
+  category_activity_id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type CategoryActivityTypeMinOrderByAggregateInput = {
+  activity_type_id?: InputMaybe<SortOrder>;
+  category_activity_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type CategoryActivityTypeOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type CategoryActivityTypeOrderByWithAggregationInput = {
+  _avg?: InputMaybe<CategoryActivityTypeAvgOrderByAggregateInput>;
+  _count?: InputMaybe<CategoryActivityTypeCountOrderByAggregateInput>;
+  _max?: InputMaybe<CategoryActivityTypeMaxOrderByAggregateInput>;
+  _min?: InputMaybe<CategoryActivityTypeMinOrderByAggregateInput>;
+  _sum?: InputMaybe<CategoryActivityTypeSumOrderByAggregateInput>;
+  activity_type_id?: InputMaybe<SortOrder>;
+  category_activity_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type CategoryActivityTypeOrderByWithRelationInput = {
+  activity_type?: InputMaybe<ActivityTypeOrderByWithRelationInput>;
+  activity_type_id?: InputMaybe<SortOrder>;
+  category_activity?: InputMaybe<CategoryActivityOrderByWithRelationInput>;
+  category_activity_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export enum CategoryActivityTypeScalarFieldEnum {
+  ActivityTypeId = 'activity_type_id',
+  CategoryActivityId = 'category_activity_id',
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  UpdatedAt = 'updatedAt'
+}
+
+export type CategoryActivityTypeScalarWhereInput = {
+  AND?: InputMaybe<Array<CategoryActivityTypeScalarWhereInput>>;
+  NOT?: InputMaybe<Array<CategoryActivityTypeScalarWhereInput>>;
+  OR?: InputMaybe<Array<CategoryActivityTypeScalarWhereInput>>;
+  activity_type_id?: InputMaybe<IntFilter>;
+  category_activity_id?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type CategoryActivityTypeScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<CategoryActivityTypeScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<CategoryActivityTypeScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<CategoryActivityTypeScalarWhereWithAggregatesInput>>;
+  activity_type_id?: InputMaybe<IntWithAggregatesFilter>;
+  category_activity_id?: InputMaybe<IntWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type CategoryActivityTypeSumAggregate = {
+  activity_type_id?: Maybe<Scalars['Int']>;
+  category_activity_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type CategoryActivityTypeSumOrderByAggregateInput = {
+  activity_type_id?: InputMaybe<SortOrder>;
+  category_activity_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type CategoryActivityTypeUpdateInput = {
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput>;
+  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type CategoryActivityTypeUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type CategoryActivityTypeUpdateManyWithWhereWithoutActivity_TypeInput = {
+  data: CategoryActivityTypeUpdateManyMutationInput;
+  where: CategoryActivityTypeScalarWhereInput;
+};
+
+export type CategoryActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput = {
+  data: CategoryActivityTypeUpdateManyMutationInput;
+  where: CategoryActivityTypeScalarWhereInput;
+};
+
+export type CategoryActivityTypeUpdateManyWithoutActivity_TypeInput = {
+  connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput>>;
+  create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutActivity_TypeInput>>;
+  createMany?: InputMaybe<CategoryActivityTypeCreateManyActivity_TypeInputEnvelope>;
+  delete?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<CategoryActivityTypeScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  set?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  update?: InputMaybe<Array<CategoryActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput>>;
+  updateMany?: InputMaybe<Array<CategoryActivityTypeUpdateManyWithWhereWithoutActivity_TypeInput>>;
+  upsert?: InputMaybe<Array<CategoryActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
+};
+
+export type CategoryActivityTypeUpdateManyWithoutCategory_ActivityInput = {
+  connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutCategory_ActivityInput>>;
+  create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutCategory_ActivityInput>>;
+  createMany?: InputMaybe<CategoryActivityTypeCreateManyCategory_ActivityInputEnvelope>;
+  delete?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<CategoryActivityTypeScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  set?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+  update?: InputMaybe<Array<CategoryActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInput>>;
+  updateMany?: InputMaybe<Array<CategoryActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput>>;
+  upsert?: InputMaybe<Array<CategoryActivityTypeUpsertWithWhereUniqueWithoutCategory_ActivityInput>>;
+};
+
+export type CategoryActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput = {
+  data: CategoryActivityTypeUpdateWithoutActivity_TypeInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+export type CategoryActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInput = {
+  data: CategoryActivityTypeUpdateWithoutCategory_ActivityInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+export type CategoryActivityTypeUpdateWithoutActivity_TypeInput = {
+  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type CategoryActivityTypeUpdateWithoutCategory_ActivityInput = {
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type CategoryActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput = {
+  create: CategoryActivityTypeCreateWithoutActivity_TypeInput;
+  update: CategoryActivityTypeUpdateWithoutActivity_TypeInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+export type CategoryActivityTypeUpsertWithWhereUniqueWithoutCategory_ActivityInput = {
+  create: CategoryActivityTypeCreateWithoutCategory_ActivityInput;
+  update: CategoryActivityTypeUpdateWithoutCategory_ActivityInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+export type CategoryActivityTypeWhereInput = {
+  AND?: InputMaybe<Array<CategoryActivityTypeWhereInput>>;
+  NOT?: InputMaybe<Array<CategoryActivityTypeWhereInput>>;
+  OR?: InputMaybe<Array<CategoryActivityTypeWhereInput>>;
+  activity_type?: InputMaybe<ActivityTypeRelationFilter>;
+  activity_type_id?: InputMaybe<IntFilter>;
+  category_activity?: InputMaybe<CategoryActivityRelationFilter>;
+  category_activity_id?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type CategoryActivityTypeWhereUniqueInput = {
+  category_activity_id_activity_type_id?: InputMaybe<CategoryActivityTypeCategory_Activity_IdActivity_Type_IdCompoundUniqueInput>;
+  id?: InputMaybe<Scalars['Int']>;
+};
+
 export type CategoryActivityUpdateInput = {
-  activityTypes?: InputMaybe<ActivityTypeUpdateManyWithoutCategory_ActivityInput>;
+  activityTypes?: InputMaybe<CategoryActivityTypeUpdateManyWithoutCategory_ActivityInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -1494,7 +1791,7 @@ export type CategoryActivityWhereInput = {
   AND?: InputMaybe<Array<CategoryActivityWhereInput>>;
   NOT?: InputMaybe<Array<CategoryActivityWhereInput>>;
   OR?: InputMaybe<Array<CategoryActivityWhereInput>>;
-  activityTypes?: InputMaybe<ActivityTypeListRelationFilter>;
+  activityTypes?: InputMaybe<CategoryActivityTypeListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
@@ -1732,6 +2029,7 @@ export type Contribution = {
   guilds: Array<GuildContribution>;
   id: Scalars['Int'];
   linear_issue?: Maybe<LinearIssue>;
+  name: Scalars['String'];
   partners: Array<Partner>;
   proof?: Maybe<Scalars['String']>;
   status: ContributionStatus;
@@ -1798,6 +2096,7 @@ export type ContributionCountAggregate = {
   date_of_submission: Scalars['Int'];
   details: Scalars['Int'];
   id: Scalars['Int'];
+  name: Scalars['Int'];
   proof: Scalars['Int'];
   status_id: Scalars['Int'];
   updatedAt: Scalars['Int'];
@@ -1810,6 +2109,7 @@ export type ContributionCountOrderByAggregateInput = {
   date_of_submission?: InputMaybe<SortOrder>;
   details?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -1824,6 +2124,7 @@ export type ContributionCreateInput = {
   details?: InputMaybe<Scalars['String']>;
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
+  name: Scalars['String'];
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -1836,6 +2137,7 @@ export type ContributionCreateManyActivity_TypeInput = {
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -1853,6 +2155,7 @@ export type ContributionCreateManyInput = {
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -1865,6 +2168,7 @@ export type ContributionCreateManyStatusInput = {
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
   proof?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
@@ -1881,6 +2185,7 @@ export type ContributionCreateManyUserInput = {
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -1978,6 +2283,7 @@ export type ContributionCreateWithoutActivity_TypeInput = {
   details?: InputMaybe<Scalars['String']>;
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
+  name: Scalars['String'];
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -1992,6 +2298,7 @@ export type ContributionCreateWithoutAttestationsInput = {
   details?: InputMaybe<Scalars['String']>;
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
+  name: Scalars['String'];
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2006,6 +2313,7 @@ export type ContributionCreateWithoutGuildsInput = {
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
+  name: Scalars['String'];
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2020,6 +2328,7 @@ export type ContributionCreateWithoutLinear_IssueInput = {
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
+  name: Scalars['String'];
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2035,6 +2344,7 @@ export type ContributionCreateWithoutPartnersInput = {
   details?: InputMaybe<Scalars['String']>;
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
+  name: Scalars['String'];
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2049,6 +2359,7 @@ export type ContributionCreateWithoutStatusInput = {
   details?: InputMaybe<Scalars['String']>;
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
+  name: Scalars['String'];
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2063,6 +2374,7 @@ export type ContributionCreateWithoutUserInput = {
   details?: InputMaybe<Scalars['String']>;
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
+  name: Scalars['String'];
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2080,6 +2392,7 @@ export type ContributionGroupBy = {
   date_of_submission: Scalars['DateTime'];
   details?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  name: Scalars['String'];
   proof?: Maybe<Scalars['String']>;
   status_id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
@@ -2098,6 +2411,7 @@ export type ContributionMaxAggregate = {
   date_of_submission?: Maybe<Scalars['DateTime']>;
   details?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   proof?: Maybe<Scalars['String']>;
   status_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -2110,6 +2424,7 @@ export type ContributionMaxOrderByAggregateInput = {
   date_of_submission?: InputMaybe<SortOrder>;
   details?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -2122,6 +2437,7 @@ export type ContributionMinAggregate = {
   date_of_submission?: Maybe<Scalars['DateTime']>;
   details?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   proof?: Maybe<Scalars['String']>;
   status_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -2134,6 +2450,7 @@ export type ContributionMinOrderByAggregateInput = {
   date_of_submission?: InputMaybe<SortOrder>;
   details?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -2155,6 +2472,7 @@ export type ContributionOrderByWithAggregationInput = {
   date_of_submission?: InputMaybe<SortOrder>;
   details?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -2171,6 +2489,7 @@ export type ContributionOrderByWithRelationInput = {
   guilds?: InputMaybe<GuildContributionOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
   linear_issue?: InputMaybe<LinearIssueOrderByWithRelationInput>;
+  name?: InputMaybe<SortOrder>;
   partners?: InputMaybe<PartnerOrderByRelationAggregateInput>;
   proof?: InputMaybe<SortOrder>;
   status?: InputMaybe<ContributionStatusOrderByWithRelationInput>;
@@ -2191,6 +2510,7 @@ export enum ContributionScalarFieldEnum {
   DateOfSubmission = 'date_of_submission',
   Details = 'details',
   Id = 'id',
+  Name = 'name',
   Proof = 'proof',
   StatusId = 'status_id',
   UpdatedAt = 'updatedAt',
@@ -2206,6 +2526,7 @@ export type ContributionScalarWhereInput = {
   date_of_submission?: InputMaybe<DateTimeFilter>;
   details?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
   proof?: InputMaybe<StringNullableFilter>;
   status_id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -2221,6 +2542,7 @@ export type ContributionScalarWhereWithAggregatesInput = {
   date_of_submission?: InputMaybe<DateTimeWithAggregatesFilter>;
   details?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
   proof?: InputMaybe<StringNullableWithAggregatesFilter>;
   status_id?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -2464,6 +2786,7 @@ export type ContributionUpdateInput = {
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2475,6 +2798,7 @@ export type ContributionUpdateManyMutationInput = {
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -2592,6 +2916,7 @@ export type ContributionUpdateWithoutActivity_TypeInput = {
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2606,6 +2931,7 @@ export type ContributionUpdateWithoutAttestationsInput = {
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2620,6 +2946,7 @@ export type ContributionUpdateWithoutGuildsInput = {
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2634,6 +2961,7 @@ export type ContributionUpdateWithoutLinear_IssueInput = {
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2649,6 +2977,7 @@ export type ContributionUpdateWithoutPartnersInput = {
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -2663,6 +2992,7 @@ export type ContributionUpdateWithoutStatusInput = {
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -2677,6 +3007,7 @@ export type ContributionUpdateWithoutUserInput = {
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2734,6 +3065,7 @@ export type ContributionWhereInput = {
   guilds?: InputMaybe<GuildContributionListRelationFilter>;
   id?: InputMaybe<IntFilter>;
   linear_issue?: InputMaybe<LinearIssueRelationFilter>;
+  name?: InputMaybe<StringFilter>;
   partners?: InputMaybe<PartnerListRelationFilter>;
   proof?: InputMaybe<StringNullableFilter>;
   status?: InputMaybe<ContributionStatusRelationFilter>;
@@ -2838,6 +3170,7 @@ export type Guild = {
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
+  users: Array<GuildUser>;
 };
 
 
@@ -2848,6 +3181,16 @@ export type GuildContributionsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type GuildUsersArgs = {
+  cursor?: InputMaybe<GuildUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 export type GuildAvgAggregate = {
@@ -3205,6 +3548,7 @@ export type GuildContributionWhereUniqueInput = {
 
 export type GuildCount = {
   contributions: Scalars['Int'];
+  users: Scalars['Int'];
 };
 
 export type GuildCountAggregate = {
@@ -3236,6 +3580,7 @@ export type GuildCreateInput = {
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
+  users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
 };
 
 export type GuildCreateManyInput = {
@@ -3254,13 +3599,35 @@ export type GuildCreateNestedOneWithoutContributionsInput = {
   create?: InputMaybe<GuildCreateWithoutContributionsInput>;
 };
 
+export type GuildCreateNestedOneWithoutUsersInput = {
+  connect?: InputMaybe<GuildWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutUsersInput>;
+  create?: InputMaybe<GuildCreateWithoutUsersInput>;
+};
+
 export type GuildCreateOrConnectWithoutContributionsInput = {
   create: GuildCreateWithoutContributionsInput;
   where: GuildWhereUniqueInput;
 };
 
+export type GuildCreateOrConnectWithoutUsersInput = {
+  create: GuildCreateWithoutUsersInput;
+  where: GuildWhereUniqueInput;
+};
+
 export type GuildCreateWithoutContributionsInput = {
   congrats_channel?: InputMaybe<Scalars['Int']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_id?: InputMaybe<Scalars['Int']>;
+  logo?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
+};
+
+export type GuildCreateWithoutUsersInput = {
+  congrats_channel?: InputMaybe<Scalars['Int']>;
+  contributions?: InputMaybe<GuildContributionCreateNestedManyWithoutGuildInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id?: InputMaybe<Scalars['Int']>;
   logo?: InputMaybe<Scalars['String']>;
@@ -3347,6 +3714,7 @@ export type GuildOrderByWithRelationInput = {
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+  users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
 };
 
 export type GuildRelationFilter = {
@@ -3397,6 +3765,7 @@ export type GuildUpdateInput = {
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
 };
 
 export type GuildUpdateManyMutationInput = {
@@ -3416,8 +3785,27 @@ export type GuildUpdateOneRequiredWithoutContributionsInput = {
   upsert?: InputMaybe<GuildUpsertWithoutContributionsInput>;
 };
 
+export type GuildUpdateOneRequiredWithoutUsersInput = {
+  connect?: InputMaybe<GuildWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutUsersInput>;
+  create?: InputMaybe<GuildCreateWithoutUsersInput>;
+  update?: InputMaybe<GuildUpdateWithoutUsersInput>;
+  upsert?: InputMaybe<GuildUpsertWithoutUsersInput>;
+};
+
 export type GuildUpdateWithoutContributionsInput = {
   congrats_channel?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
+};
+
+export type GuildUpdateWithoutUsersInput = {
+  congrats_channel?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -3428,6 +3816,352 @@ export type GuildUpdateWithoutContributionsInput = {
 export type GuildUpsertWithoutContributionsInput = {
   create: GuildCreateWithoutContributionsInput;
   update: GuildUpdateWithoutContributionsInput;
+};
+
+export type GuildUpsertWithoutUsersInput = {
+  create: GuildCreateWithoutUsersInput;
+  update: GuildUpdateWithoutUsersInput;
+};
+
+export type GuildUser = {
+  createdAt: Scalars['DateTime'];
+  guild: Guild;
+  guild_id: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  user_id: Scalars['Int'];
+};
+
+export type GuildUserAvgAggregate = {
+  guild_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+export type GuildUserAvgOrderByAggregateInput = {
+  guild_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type GuildUserCountAggregate = {
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  guild_id: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  user_id: Scalars['Int'];
+};
+
+export type GuildUserCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  guild_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type GuildUserCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild: GuildCreateNestedOneWithoutUsersInput;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutGuild_UsersInput;
+};
+
+export type GuildUserCreateManyGuildInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_id: Scalars['Int'];
+};
+
+export type GuildUserCreateManyGuildInputEnvelope = {
+  data: Array<GuildUserCreateManyGuildInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type GuildUserCreateManyInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild_id: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_id: Scalars['Int'];
+};
+
+export type GuildUserCreateManyUserInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild_id: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildUserCreateManyUserInputEnvelope = {
+  data: Array<GuildUserCreateManyUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type GuildUserCreateNestedManyWithoutGuildInput = {
+  connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutGuildInput>>;
+  create?: InputMaybe<Array<GuildUserCreateWithoutGuildInput>>;
+  createMany?: InputMaybe<GuildUserCreateManyGuildInputEnvelope>;
+};
+
+export type GuildUserCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<GuildUserCreateWithoutUserInput>>;
+  createMany?: InputMaybe<GuildUserCreateManyUserInputEnvelope>;
+};
+
+export type GuildUserCreateOrConnectWithoutGuildInput = {
+  create: GuildUserCreateWithoutGuildInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+export type GuildUserCreateOrConnectWithoutUserInput = {
+  create: GuildUserCreateWithoutUserInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+export type GuildUserCreateWithoutGuildInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutGuild_UsersInput;
+};
+
+export type GuildUserCreateWithoutUserInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild: GuildCreateNestedOneWithoutUsersInput;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildUserGroupBy = {
+  _avg?: Maybe<GuildUserAvgAggregate>;
+  _count?: Maybe<GuildUserCountAggregate>;
+  _max?: Maybe<GuildUserMaxAggregate>;
+  _min?: Maybe<GuildUserMinAggregate>;
+  _sum?: Maybe<GuildUserSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  guild_id: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  user_id: Scalars['Int'];
+};
+
+export type GuildUserListRelationFilter = {
+  every?: InputMaybe<GuildUserWhereInput>;
+  none?: InputMaybe<GuildUserWhereInput>;
+  some?: InputMaybe<GuildUserWhereInput>;
+};
+
+export type GuildUserMaxAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  guild_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type GuildUserMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  guild_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type GuildUserMinAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  guild_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type GuildUserMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  guild_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type GuildUserOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type GuildUserOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GuildUserAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GuildUserCountOrderByAggregateInput>;
+  _max?: InputMaybe<GuildUserMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GuildUserMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GuildUserSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  guild_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type GuildUserOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  guild?: InputMaybe<GuildOrderByWithRelationInput>;
+  guild_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export enum GuildUserScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  GuildId = 'guild_id',
+  Id = 'id',
+  UpdatedAt = 'updatedAt',
+  UserId = 'user_id'
+}
+
+export type GuildUserScalarWhereInput = {
+  AND?: InputMaybe<Array<GuildUserScalarWhereInput>>;
+  NOT?: InputMaybe<Array<GuildUserScalarWhereInput>>;
+  OR?: InputMaybe<Array<GuildUserScalarWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  guild_id?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user_id?: InputMaybe<IntFilter>;
+};
+
+export type GuildUserScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GuildUserScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GuildUserScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GuildUserScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  guild_id?: InputMaybe<IntWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  user_id?: InputMaybe<IntWithAggregatesFilter>;
+};
+
+export type GuildUserSumAggregate = {
+  guild_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type GuildUserSumOrderByAggregateInput = {
+  guild_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type GuildUserUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersInput>;
+};
+
+export type GuildUserUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildUserUpdateManyWithWhereWithoutGuildInput = {
+  data: GuildUserUpdateManyMutationInput;
+  where: GuildUserScalarWhereInput;
+};
+
+export type GuildUserUpdateManyWithWhereWithoutUserInput = {
+  data: GuildUserUpdateManyMutationInput;
+  where: GuildUserScalarWhereInput;
+};
+
+export type GuildUserUpdateManyWithoutGuildInput = {
+  connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutGuildInput>>;
+  create?: InputMaybe<Array<GuildUserCreateWithoutGuildInput>>;
+  createMany?: InputMaybe<GuildUserCreateManyGuildInputEnvelope>;
+  delete?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<GuildUserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  set?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  update?: InputMaybe<Array<GuildUserUpdateWithWhereUniqueWithoutGuildInput>>;
+  updateMany?: InputMaybe<Array<GuildUserUpdateManyWithWhereWithoutGuildInput>>;
+  upsert?: InputMaybe<Array<GuildUserUpsertWithWhereUniqueWithoutGuildInput>>;
+};
+
+export type GuildUserUpdateManyWithoutUserInput = {
+  connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<GuildUserCreateWithoutUserInput>>;
+  createMany?: InputMaybe<GuildUserCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<GuildUserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  set?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  update?: InputMaybe<Array<GuildUserUpdateWithWhereUniqueWithoutUserInput>>;
+  updateMany?: InputMaybe<Array<GuildUserUpdateManyWithWhereWithoutUserInput>>;
+  upsert?: InputMaybe<Array<GuildUserUpsertWithWhereUniqueWithoutUserInput>>;
+};
+
+export type GuildUserUpdateWithWhereUniqueWithoutGuildInput = {
+  data: GuildUserUpdateWithoutGuildInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+export type GuildUserUpdateWithWhereUniqueWithoutUserInput = {
+  data: GuildUserUpdateWithoutUserInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+export type GuildUserUpdateWithoutGuildInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersInput>;
+};
+
+export type GuildUserUpdateWithoutUserInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildUserUpsertWithWhereUniqueWithoutGuildInput = {
+  create: GuildUserCreateWithoutGuildInput;
+  update: GuildUserUpdateWithoutGuildInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+export type GuildUserUpsertWithWhereUniqueWithoutUserInput = {
+  create: GuildUserCreateWithoutUserInput;
+  update: GuildUserUpdateWithoutUserInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+export type GuildUserUser_IdGuild_IdCompoundUniqueInput = {
+  guild_id: Scalars['Int'];
+  user_id: Scalars['Int'];
+};
+
+export type GuildUserWhereInput = {
+  AND?: InputMaybe<Array<GuildUserWhereInput>>;
+  NOT?: InputMaybe<Array<GuildUserWhereInput>>;
+  OR?: InputMaybe<Array<GuildUserWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  guild?: InputMaybe<GuildRelationFilter>;
+  guild_id?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  user_id?: InputMaybe<IntFilter>;
+};
+
+export type GuildUserWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  user_id_guild_id?: InputMaybe<GuildUserUser_IdGuild_IdCompoundUniqueInput>;
 };
 
 export type GuildWhereInput = {
@@ -3442,6 +4176,7 @@ export type GuildWhereInput = {
   logo?: InputMaybe<StringNullableFilter>;
   name?: InputMaybe<StringNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
+  users?: InputMaybe<GuildUserListRelationFilter>;
 };
 
 export type GuildWhereUniqueInput = {
@@ -3775,7 +4510,7 @@ export type LinearIssue = {
   identifier?: Maybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: Maybe<Scalars['Int']>;
-  pritorityLabel?: Maybe<Scalars['String']>;
+  priorityLabel?: Maybe<Scalars['String']>;
   project?: Maybe<LinearProject>;
   project_id?: Maybe<Scalars['Int']>;
   snoozedUntilAt?: Maybe<Scalars['DateTime']>;
@@ -3844,7 +4579,7 @@ export type LinearIssueCountAggregate = {
   identifier: Scalars['Int'];
   linear_id: Scalars['Int'];
   priority: Scalars['Int'];
-  pritorityLabel: Scalars['Int'];
+  priorityLabel: Scalars['Int'];
   project_id: Scalars['Int'];
   snoozedUntilAt: Scalars['Int'];
   sortOrder: Scalars['Int'];
@@ -3878,7 +4613,7 @@ export type LinearIssueCountOrderByAggregateInput = {
   identifier?: InputMaybe<SortOrder>;
   linear_id?: InputMaybe<SortOrder>;
   priority?: InputMaybe<SortOrder>;
-  pritorityLabel?: InputMaybe<SortOrder>;
+  priorityLabel?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
   snoozedUntilAt?: InputMaybe<SortOrder>;
   sortOrder?: InputMaybe<SortOrder>;
@@ -3893,7 +4628,7 @@ export type LinearIssueCountOrderByAggregateInput = {
 
 export type LinearIssueCreateInput = {
   archivedAt?: InputMaybe<Scalars['DateTime']>;
-  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<Scalars['DateTime']>;
   autoClosedAt?: InputMaybe<Scalars['DateTime']>;
   boardOrder?: InputMaybe<Scalars['Int']>;
@@ -3911,7 +4646,7 @@ export type LinearIssueCreateInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -3944,7 +4679,7 @@ export type LinearIssueCreateManyAssigneeInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -3982,7 +4717,7 @@ export type LinearIssueCreateManyCreatorInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4020,7 +4755,7 @@ export type LinearIssueCreateManyCycleInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4059,7 +4794,7 @@ export type LinearIssueCreateManyInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4093,7 +4828,7 @@ export type LinearIssueCreateManyProjectInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4131,7 +4866,7 @@ export type LinearIssueCreateManyTeamInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4238,7 +4973,7 @@ export type LinearIssueCreateWithoutAssigneeInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4253,7 +4988,7 @@ export type LinearIssueCreateWithoutAssigneeInput = {
 
 export type LinearIssueCreateWithoutContributionInput = {
   archivedAt?: InputMaybe<Scalars['DateTime']>;
-  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<Scalars['DateTime']>;
   autoClosedAt?: InputMaybe<Scalars['DateTime']>;
   boardOrder?: InputMaybe<Scalars['Int']>;
@@ -4270,7 +5005,7 @@ export type LinearIssueCreateWithoutContributionInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4285,7 +5020,7 @@ export type LinearIssueCreateWithoutContributionInput = {
 
 export type LinearIssueCreateWithoutCreatorInput = {
   archivedAt?: InputMaybe<Scalars['DateTime']>;
-  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<Scalars['DateTime']>;
   autoClosedAt?: InputMaybe<Scalars['DateTime']>;
   boardOrder?: InputMaybe<Scalars['Int']>;
@@ -4302,7 +5037,7 @@ export type LinearIssueCreateWithoutCreatorInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4317,7 +5052,7 @@ export type LinearIssueCreateWithoutCreatorInput = {
 
 export type LinearIssueCreateWithoutCycleInput = {
   archivedAt?: InputMaybe<Scalars['DateTime']>;
-  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<Scalars['DateTime']>;
   autoClosedAt?: InputMaybe<Scalars['DateTime']>;
   boardOrder?: InputMaybe<Scalars['Int']>;
@@ -4334,7 +5069,7 @@ export type LinearIssueCreateWithoutCycleInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4349,7 +5084,7 @@ export type LinearIssueCreateWithoutCycleInput = {
 
 export type LinearIssueCreateWithoutProjectInput = {
   archivedAt?: InputMaybe<Scalars['DateTime']>;
-  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<Scalars['DateTime']>;
   autoClosedAt?: InputMaybe<Scalars['DateTime']>;
   boardOrder?: InputMaybe<Scalars['Int']>;
@@ -4367,7 +5102,7 @@ export type LinearIssueCreateWithoutProjectInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
   startedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4381,7 +5116,7 @@ export type LinearIssueCreateWithoutProjectInput = {
 
 export type LinearIssueCreateWithoutTeamInput = {
   archivedAt?: InputMaybe<Scalars['DateTime']>;
-  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserCreateNestedOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<Scalars['DateTime']>;
   autoClosedAt?: InputMaybe<Scalars['DateTime']>;
   boardOrder?: InputMaybe<Scalars['Int']>;
@@ -4399,7 +5134,7 @@ export type LinearIssueCreateWithoutTeamInput = {
   identifier?: InputMaybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: InputMaybe<Scalars['Int']>;
-  pritorityLabel?: InputMaybe<Scalars['String']>;
+  priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
   sortOrder?: InputMaybe<Scalars['Float']>;
@@ -4437,7 +5172,7 @@ export type LinearIssueGroupBy = {
   identifier?: Maybe<Scalars['String']>;
   linear_id: Scalars['String'];
   priority?: Maybe<Scalars['Int']>;
-  pritorityLabel?: Maybe<Scalars['String']>;
+  priorityLabel?: Maybe<Scalars['String']>;
   project_id?: Maybe<Scalars['Int']>;
   snoozedUntilAt?: Maybe<Scalars['DateTime']>;
   sortOrder?: Maybe<Scalars['Float']>;
@@ -4477,7 +5212,7 @@ export type LinearIssueMaxAggregate = {
   identifier?: Maybe<Scalars['String']>;
   linear_id?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['Int']>;
-  pritorityLabel?: Maybe<Scalars['String']>;
+  priorityLabel?: Maybe<Scalars['String']>;
   project_id?: Maybe<Scalars['Int']>;
   snoozedUntilAt?: Maybe<Scalars['DateTime']>;
   sortOrder?: Maybe<Scalars['Float']>;
@@ -4511,7 +5246,7 @@ export type LinearIssueMaxOrderByAggregateInput = {
   identifier?: InputMaybe<SortOrder>;
   linear_id?: InputMaybe<SortOrder>;
   priority?: InputMaybe<SortOrder>;
-  pritorityLabel?: InputMaybe<SortOrder>;
+  priorityLabel?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
   snoozedUntilAt?: InputMaybe<SortOrder>;
   sortOrder?: InputMaybe<SortOrder>;
@@ -4545,7 +5280,7 @@ export type LinearIssueMinAggregate = {
   identifier?: Maybe<Scalars['String']>;
   linear_id?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['Int']>;
-  pritorityLabel?: Maybe<Scalars['String']>;
+  priorityLabel?: Maybe<Scalars['String']>;
   project_id?: Maybe<Scalars['Int']>;
   snoozedUntilAt?: Maybe<Scalars['DateTime']>;
   sortOrder?: Maybe<Scalars['Float']>;
@@ -4579,7 +5314,7 @@ export type LinearIssueMinOrderByAggregateInput = {
   identifier?: InputMaybe<SortOrder>;
   linear_id?: InputMaybe<SortOrder>;
   priority?: InputMaybe<SortOrder>;
-  pritorityLabel?: InputMaybe<SortOrder>;
+  priorityLabel?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
   snoozedUntilAt?: InputMaybe<SortOrder>;
   sortOrder?: InputMaybe<SortOrder>;
@@ -4622,7 +5357,7 @@ export type LinearIssueOrderByWithAggregationInput = {
   identifier?: InputMaybe<SortOrder>;
   linear_id?: InputMaybe<SortOrder>;
   priority?: InputMaybe<SortOrder>;
-  pritorityLabel?: InputMaybe<SortOrder>;
+  priorityLabel?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
   snoozedUntilAt?: InputMaybe<SortOrder>;
   sortOrder?: InputMaybe<SortOrder>;
@@ -4660,7 +5395,7 @@ export type LinearIssueOrderByWithRelationInput = {
   identifier?: InputMaybe<SortOrder>;
   linear_id?: InputMaybe<SortOrder>;
   priority?: InputMaybe<SortOrder>;
-  pritorityLabel?: InputMaybe<SortOrder>;
+  priorityLabel?: InputMaybe<SortOrder>;
   project?: InputMaybe<LinearProjectOrderByWithRelationInput>;
   project_id?: InputMaybe<SortOrder>;
   snoozedUntilAt?: InputMaybe<SortOrder>;
@@ -4701,7 +5436,7 @@ export enum LinearIssueScalarFieldEnum {
   Identifier = 'identifier',
   LinearId = 'linear_id',
   Priority = 'priority',
-  PritorityLabel = 'pritorityLabel',
+  PriorityLabel = 'priorityLabel',
   ProjectId = 'project_id',
   SnoozedUntilAt = 'snoozedUntilAt',
   SortOrder = 'sortOrder',
@@ -4738,7 +5473,7 @@ export type LinearIssueScalarWhereInput = {
   identifier?: InputMaybe<StringNullableFilter>;
   linear_id?: InputMaybe<StringFilter>;
   priority?: InputMaybe<IntNullableFilter>;
-  pritorityLabel?: InputMaybe<StringNullableFilter>;
+  priorityLabel?: InputMaybe<StringNullableFilter>;
   project_id?: InputMaybe<IntNullableFilter>;
   snoozedUntilAt?: InputMaybe<DateTimeNullableFilter>;
   sortOrder?: InputMaybe<FloatNullableFilter>;
@@ -4775,7 +5510,7 @@ export type LinearIssueScalarWhereWithAggregatesInput = {
   identifier?: InputMaybe<StringNullableWithAggregatesFilter>;
   linear_id?: InputMaybe<StringWithAggregatesFilter>;
   priority?: InputMaybe<IntNullableWithAggregatesFilter>;
-  pritorityLabel?: InputMaybe<StringNullableWithAggregatesFilter>;
+  priorityLabel?: InputMaybe<StringNullableWithAggregatesFilter>;
   project_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   snoozedUntilAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   sortOrder?: InputMaybe<FloatNullableWithAggregatesFilter>;
@@ -4822,7 +5557,7 @@ export type LinearIssueSumOrderByAggregateInput = {
 
 export type LinearIssueUpdateInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
@@ -4840,7 +5575,7 @@ export type LinearIssueUpdateInput = {
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -4869,7 +5604,7 @@ export type LinearIssueUpdateManyMutationInput = {
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -5029,7 +5764,7 @@ export type LinearIssueUpdateWithoutAssigneeInput = {
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -5044,7 +5779,7 @@ export type LinearIssueUpdateWithoutAssigneeInput = {
 
 export type LinearIssueUpdateWithoutContributionInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
@@ -5061,7 +5796,7 @@ export type LinearIssueUpdateWithoutContributionInput = {
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -5076,7 +5811,7 @@ export type LinearIssueUpdateWithoutContributionInput = {
 
 export type LinearIssueUpdateWithoutCreatorInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
@@ -5093,7 +5828,7 @@ export type LinearIssueUpdateWithoutCreatorInput = {
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -5108,7 +5843,7 @@ export type LinearIssueUpdateWithoutCreatorInput = {
 
 export type LinearIssueUpdateWithoutCycleInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
@@ -5125,7 +5860,7 @@ export type LinearIssueUpdateWithoutCycleInput = {
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -5140,7 +5875,7 @@ export type LinearIssueUpdateWithoutCycleInput = {
 
 export type LinearIssueUpdateWithoutProjectInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
@@ -5158,7 +5893,7 @@ export type LinearIssueUpdateWithoutProjectInput = {
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -5172,7 +5907,7 @@ export type LinearIssueUpdateWithoutProjectInput = {
 
 export type LinearIssueUpdateWithoutTeamInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssingned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
@@ -5190,7 +5925,7 @@ export type LinearIssueUpdateWithoutTeamInput = {
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  pritorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -5265,7 +6000,7 @@ export type LinearIssueWhereInput = {
   identifier?: InputMaybe<StringNullableFilter>;
   linear_id?: InputMaybe<StringFilter>;
   priority?: InputMaybe<IntNullableFilter>;
-  pritorityLabel?: InputMaybe<StringNullableFilter>;
+  priorityLabel?: InputMaybe<StringNullableFilter>;
   project?: InputMaybe<LinearProjectRelationFilter>;
   project_id?: InputMaybe<IntNullableFilter>;
   snoozedUntilAt?: InputMaybe<DateTimeNullableFilter>;
@@ -5874,7 +6609,7 @@ export type LinearTeamWhereUniqueInput = {
 export type LinearUser = {
   _count?: Maybe<LinearUserCount>;
   active: Scalars['Boolean'];
-  assingned_issues: Array<LinearIssue>;
+  assigned_issues: Array<LinearIssue>;
   createdAt?: Maybe<Scalars['DateTime']>;
   created_issues: Array<LinearIssue>;
   displayName?: Maybe<Scalars['String']>;
@@ -5888,7 +6623,7 @@ export type LinearUser = {
 };
 
 
-export type LinearUserAssingned_IssuesArgs = {
+export type LinearUserAssigned_IssuesArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearIssueScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<LinearIssueOrderByWithRelationInput>>;
@@ -5918,7 +6653,7 @@ export type LinearUserAvgOrderByAggregateInput = {
 };
 
 export type LinearUserCount = {
-  assingned_issues: Scalars['Int'];
+  assigned_issues: Scalars['Int'];
   created_issues: Scalars['Int'];
 };
 
@@ -5949,7 +6684,7 @@ export type LinearUserCountOrderByAggregateInput = {
 
 export type LinearUserCreateInput = {
   active?: InputMaybe<Scalars['Boolean']>;
-  assingned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   created_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutCreatorInput>;
   displayName?: InputMaybe<Scalars['String']>;
@@ -5995,10 +6730,10 @@ export type LinearUserCreateNestedManyWithoutUserInput = {
   createMany?: InputMaybe<LinearUserCreateManyUserInputEnvelope>;
 };
 
-export type LinearUserCreateNestedOneWithoutAssingned_IssuesInput = {
+export type LinearUserCreateNestedOneWithoutAssigned_IssuesInput = {
   connect?: InputMaybe<LinearUserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutAssingned_IssuesInput>;
-  create?: InputMaybe<LinearUserCreateWithoutAssingned_IssuesInput>;
+  connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutAssigned_IssuesInput>;
+  create?: InputMaybe<LinearUserCreateWithoutAssigned_IssuesInput>;
 };
 
 export type LinearUserCreateNestedOneWithoutCreated_IssuesInput = {
@@ -6007,8 +6742,8 @@ export type LinearUserCreateNestedOneWithoutCreated_IssuesInput = {
   create?: InputMaybe<LinearUserCreateWithoutCreated_IssuesInput>;
 };
 
-export type LinearUserCreateOrConnectWithoutAssingned_IssuesInput = {
-  create: LinearUserCreateWithoutAssingned_IssuesInput;
+export type LinearUserCreateOrConnectWithoutAssigned_IssuesInput = {
+  create: LinearUserCreateWithoutAssigned_IssuesInput;
   where: LinearUserWhereUniqueInput;
 };
 
@@ -6022,7 +6757,7 @@ export type LinearUserCreateOrConnectWithoutUserInput = {
   where: LinearUserWhereUniqueInput;
 };
 
-export type LinearUserCreateWithoutAssingned_IssuesInput = {
+export type LinearUserCreateWithoutAssigned_IssuesInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   created_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutCreatorInput>;
@@ -6036,7 +6771,7 @@ export type LinearUserCreateWithoutAssingned_IssuesInput = {
 
 export type LinearUserCreateWithoutCreated_IssuesInput = {
   active?: InputMaybe<Scalars['Boolean']>;
-  assingned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   displayName?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
@@ -6048,7 +6783,7 @@ export type LinearUserCreateWithoutCreated_IssuesInput = {
 
 export type LinearUserCreateWithoutUserInput = {
   active?: InputMaybe<Scalars['Boolean']>;
-  assingned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   created_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutCreatorInput>;
   displayName?: InputMaybe<Scalars['String']>;
@@ -6152,7 +6887,7 @@ export type LinearUserOrderByWithAggregationInput = {
 
 export type LinearUserOrderByWithRelationInput = {
   active?: InputMaybe<SortOrder>;
-  assingned_issues?: InputMaybe<LinearIssueOrderByRelationAggregateInput>;
+  assigned_issues?: InputMaybe<LinearIssueOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   created_issues?: InputMaybe<LinearIssueOrderByRelationAggregateInput>;
   displayName?: InputMaybe<SortOrder>;
@@ -6224,7 +6959,7 @@ export type LinearUserSumOrderByAggregateInput = {
 
 export type LinearUserUpdateInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  assingned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -6264,14 +6999,14 @@ export type LinearUserUpdateManyWithoutUserInput = {
   upsert?: InputMaybe<Array<LinearUserUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
-export type LinearUserUpdateOneWithoutAssingned_IssuesInput = {
+export type LinearUserUpdateOneWithoutAssigned_IssuesInput = {
   connect?: InputMaybe<LinearUserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutAssingned_IssuesInput>;
-  create?: InputMaybe<LinearUserCreateWithoutAssingned_IssuesInput>;
+  connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutAssigned_IssuesInput>;
+  create?: InputMaybe<LinearUserCreateWithoutAssigned_IssuesInput>;
   delete?: InputMaybe<Scalars['Boolean']>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
-  update?: InputMaybe<LinearUserUpdateWithoutAssingned_IssuesInput>;
-  upsert?: InputMaybe<LinearUserUpsertWithoutAssingned_IssuesInput>;
+  update?: InputMaybe<LinearUserUpdateWithoutAssigned_IssuesInput>;
+  upsert?: InputMaybe<LinearUserUpsertWithoutAssigned_IssuesInput>;
 };
 
 export type LinearUserUpdateOneWithoutCreated_IssuesInput = {
@@ -6289,7 +7024,7 @@ export type LinearUserUpdateWithWhereUniqueWithoutUserInput = {
   where: LinearUserWhereUniqueInput;
 };
 
-export type LinearUserUpdateWithoutAssingned_IssuesInput = {
+export type LinearUserUpdateWithoutAssigned_IssuesInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
@@ -6303,7 +7038,7 @@ export type LinearUserUpdateWithoutAssingned_IssuesInput = {
 
 export type LinearUserUpdateWithoutCreated_IssuesInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  assingned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -6315,7 +7050,7 @@ export type LinearUserUpdateWithoutCreated_IssuesInput = {
 
 export type LinearUserUpdateWithoutUserInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  assingned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -6331,9 +7066,9 @@ export type LinearUserUpsertWithWhereUniqueWithoutUserInput = {
   where: LinearUserWhereUniqueInput;
 };
 
-export type LinearUserUpsertWithoutAssingned_IssuesInput = {
-  create: LinearUserCreateWithoutAssingned_IssuesInput;
-  update: LinearUserUpdateWithoutAssingned_IssuesInput;
+export type LinearUserUpsertWithoutAssigned_IssuesInput = {
+  create: LinearUserCreateWithoutAssigned_IssuesInput;
+  update: LinearUserUpdateWithoutAssigned_IssuesInput;
 };
 
 export type LinearUserUpsertWithoutCreated_IssuesInput = {
@@ -6346,7 +7081,7 @@ export type LinearUserWhereInput = {
   NOT?: InputMaybe<Array<LinearUserWhereInput>>;
   OR?: InputMaybe<Array<LinearUserWhereInput>>;
   active?: InputMaybe<BoolFilter>;
-  assingned_issues?: InputMaybe<LinearIssueListRelationFilter>;
+  assigned_issues?: InputMaybe<LinearIssueListRelationFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   created_issues?: InputMaybe<LinearIssueListRelationFilter>;
   displayName?: InputMaybe<StringNullableFilter>;
@@ -6369,11 +7104,13 @@ export type Mutation = {
   createAttestation: Attestation;
   createAttestationConfidence: AttestationConfidence;
   createCategoryActivity: CategoryActivity;
+  createCategoryActivityType: CategoryActivityType;
   createChainType: ChainType;
   createContribution: Contribution;
   createContributionStatus: ContributionStatus;
   createGuild: Guild;
   createGuildContribution: GuildContribution;
+  createGuildUser: GuildUser;
   createLinearCycle: LinearCycle;
   createLinearIssue: LinearIssue;
   createLinearJobRun: LinearJobRun;
@@ -6384,11 +7121,13 @@ export type Mutation = {
   createManyAttestation: AffectedRowsOutput;
   createManyAttestationConfidence: AffectedRowsOutput;
   createManyCategoryActivity: AffectedRowsOutput;
+  createManyCategoryActivityType: AffectedRowsOutput;
   createManyChainType: AffectedRowsOutput;
   createManyContribution: AffectedRowsOutput;
   createManyContributionStatus: AffectedRowsOutput;
   createManyGuild: AffectedRowsOutput;
   createManyGuildContribution: AffectedRowsOutput;
+  createManyGuildUser: AffectedRowsOutput;
   createManyLinearCycle: AffectedRowsOutput;
   createManyLinearIssue: AffectedRowsOutput;
   createManyLinearJobRun: AffectedRowsOutput;
@@ -6405,11 +7144,13 @@ export type Mutation = {
   deleteAttestation?: Maybe<Attestation>;
   deleteAttestationConfidence?: Maybe<AttestationConfidence>;
   deleteCategoryActivity?: Maybe<CategoryActivity>;
+  deleteCategoryActivityType?: Maybe<CategoryActivityType>;
   deleteChainType?: Maybe<ChainType>;
   deleteContribution?: Maybe<Contribution>;
   deleteContributionStatus?: Maybe<ContributionStatus>;
   deleteGuild?: Maybe<Guild>;
   deleteGuildContribution?: Maybe<GuildContribution>;
+  deleteGuildUser?: Maybe<GuildUser>;
   deleteLinearCycle?: Maybe<LinearCycle>;
   deleteLinearIssue?: Maybe<LinearIssue>;
   deleteLinearJobRun?: Maybe<LinearJobRun>;
@@ -6420,11 +7161,13 @@ export type Mutation = {
   deleteManyAttestation: AffectedRowsOutput;
   deleteManyAttestationConfidence: AffectedRowsOutput;
   deleteManyCategoryActivity: AffectedRowsOutput;
+  deleteManyCategoryActivityType: AffectedRowsOutput;
   deleteManyChainType: AffectedRowsOutput;
   deleteManyContribution: AffectedRowsOutput;
   deleteManyContributionStatus: AffectedRowsOutput;
   deleteManyGuild: AffectedRowsOutput;
   deleteManyGuildContribution: AffectedRowsOutput;
+  deleteManyGuildUser: AffectedRowsOutput;
   deleteManyLinearCycle: AffectedRowsOutput;
   deleteManyLinearIssue: AffectedRowsOutput;
   deleteManyLinearJobRun: AffectedRowsOutput;
@@ -6441,11 +7184,13 @@ export type Mutation = {
   updateAttestation?: Maybe<Attestation>;
   updateAttestationConfidence?: Maybe<AttestationConfidence>;
   updateCategoryActivity?: Maybe<CategoryActivity>;
+  updateCategoryActivityType?: Maybe<CategoryActivityType>;
   updateChainType?: Maybe<ChainType>;
   updateContribution?: Maybe<Contribution>;
   updateContributionStatus?: Maybe<ContributionStatus>;
   updateGuild?: Maybe<Guild>;
   updateGuildContribution?: Maybe<GuildContribution>;
+  updateGuildUser?: Maybe<GuildUser>;
   updateLinearCycle?: Maybe<LinearCycle>;
   updateLinearIssue?: Maybe<LinearIssue>;
   updateLinearJobRun?: Maybe<LinearJobRun>;
@@ -6456,11 +7201,13 @@ export type Mutation = {
   updateManyAttestation: AffectedRowsOutput;
   updateManyAttestationConfidence: AffectedRowsOutput;
   updateManyCategoryActivity: AffectedRowsOutput;
+  updateManyCategoryActivityType: AffectedRowsOutput;
   updateManyChainType: AffectedRowsOutput;
   updateManyContribution: AffectedRowsOutput;
   updateManyContributionStatus: AffectedRowsOutput;
   updateManyGuild: AffectedRowsOutput;
   updateManyGuildContribution: AffectedRowsOutput;
+  updateManyGuildUser: AffectedRowsOutput;
   updateManyLinearCycle: AffectedRowsOutput;
   updateManyLinearIssue: AffectedRowsOutput;
   updateManyLinearJobRun: AffectedRowsOutput;
@@ -6477,11 +7224,13 @@ export type Mutation = {
   upsertAttestation: Attestation;
   upsertAttestationConfidence: AttestationConfidence;
   upsertCategoryActivity: CategoryActivity;
+  upsertCategoryActivityType: CategoryActivityType;
   upsertChainType: ChainType;
   upsertContribution: Contribution;
   upsertContributionStatus: ContributionStatus;
   upsertGuild: Guild;
   upsertGuildContribution: GuildContribution;
+  upsertGuildUser: GuildUser;
   upsertLinearCycle: LinearCycle;
   upsertLinearIssue: LinearIssue;
   upsertLinearJobRun: LinearJobRun;
@@ -6514,6 +7263,11 @@ export type MutationCreateCategoryActivityArgs = {
 };
 
 
+export type MutationCreateCategoryActivityTypeArgs = {
+  data: CategoryActivityTypeCreateInput;
+};
+
+
 export type MutationCreateChainTypeArgs = {
   data: ChainTypeCreateInput;
 };
@@ -6536,6 +7290,11 @@ export type MutationCreateGuildArgs = {
 
 export type MutationCreateGuildContributionArgs = {
   data: GuildContributionCreateInput;
+};
+
+
+export type MutationCreateGuildUserArgs = {
+  data: GuildUserCreateInput;
 };
 
 
@@ -6593,6 +7352,12 @@ export type MutationCreateManyCategoryActivityArgs = {
 };
 
 
+export type MutationCreateManyCategoryActivityTypeArgs = {
+  data: Array<CategoryActivityTypeCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
 export type MutationCreateManyChainTypeArgs = {
   data: Array<ChainTypeCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
@@ -6619,6 +7384,12 @@ export type MutationCreateManyGuildArgs = {
 
 export type MutationCreateManyGuildContributionArgs = {
   data: Array<GuildContributionCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyGuildUserArgs = {
+  data: Array<GuildUserCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -6712,6 +7483,11 @@ export type MutationDeleteCategoryActivityArgs = {
 };
 
 
+export type MutationDeleteCategoryActivityTypeArgs = {
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+
 export type MutationDeleteChainTypeArgs = {
   where: ChainTypeWhereUniqueInput;
 };
@@ -6734,6 +7510,11 @@ export type MutationDeleteGuildArgs = {
 
 export type MutationDeleteGuildContributionArgs = {
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationDeleteGuildUserArgs = {
+  where: GuildUserWhereUniqueInput;
 };
 
 
@@ -6787,6 +7568,11 @@ export type MutationDeleteManyCategoryActivityArgs = {
 };
 
 
+export type MutationDeleteManyCategoryActivityTypeArgs = {
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
+};
+
+
 export type MutationDeleteManyChainTypeArgs = {
   where?: InputMaybe<ChainTypeWhereInput>;
 };
@@ -6809,6 +7595,11 @@ export type MutationDeleteManyGuildArgs = {
 
 export type MutationDeleteManyGuildContributionArgs = {
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type MutationDeleteManyGuildUserArgs = {
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 
@@ -6896,6 +7687,12 @@ export type MutationUpdateCategoryActivityArgs = {
 };
 
 
+export type MutationUpdateCategoryActivityTypeArgs = {
+  data: CategoryActivityTypeUpdateInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+
 export type MutationUpdateChainTypeArgs = {
   data: ChainTypeUpdateInput;
   where: ChainTypeWhereUniqueInput;
@@ -6923,6 +7720,12 @@ export type MutationUpdateGuildArgs = {
 export type MutationUpdateGuildContributionArgs = {
   data: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationUpdateGuildUserArgs = {
+  data: GuildUserUpdateInput;
+  where: GuildUserWhereUniqueInput;
 };
 
 
@@ -6986,6 +7789,12 @@ export type MutationUpdateManyCategoryActivityArgs = {
 };
 
 
+export type MutationUpdateManyCategoryActivityTypeArgs = {
+  data: CategoryActivityTypeUpdateManyMutationInput;
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
+};
+
+
 export type MutationUpdateManyChainTypeArgs = {
   data: ChainTypeUpdateManyMutationInput;
   where?: InputMaybe<ChainTypeWhereInput>;
@@ -7013,6 +7822,12 @@ export type MutationUpdateManyGuildArgs = {
 export type MutationUpdateManyGuildContributionArgs = {
   data: GuildContributionUpdateManyMutationInput;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type MutationUpdateManyGuildUserArgs = {
+  data: GuildUserUpdateManyMutationInput;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 
@@ -7116,6 +7931,13 @@ export type MutationUpsertCategoryActivityArgs = {
 };
 
 
+export type MutationUpsertCategoryActivityTypeArgs = {
+  create: CategoryActivityTypeCreateInput;
+  update: CategoryActivityTypeUpdateInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+
 export type MutationUpsertChainTypeArgs = {
   create: ChainTypeCreateInput;
   update: ChainTypeUpdateInput;
@@ -7148,6 +7970,13 @@ export type MutationUpsertGuildContributionArgs = {
   create: GuildContributionCreateInput;
   update: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationUpsertGuildUserArgs = {
+  create: GuildUserCreateInput;
+  update: GuildUserUpdateInput;
+  where: GuildUserWhereUniqueInput;
 };
 
 
@@ -7819,11 +8648,13 @@ export type Query = {
   aggregateAttestation: AggregateAttestation;
   aggregateAttestationConfidence: AggregateAttestationConfidence;
   aggregateCategoryActivity: AggregateCategoryActivity;
+  aggregateCategoryActivityType: AggregateCategoryActivityType;
   aggregateChainType: AggregateChainType;
   aggregateContribution: AggregateContribution;
   aggregateContributionStatus: AggregateContributionStatus;
   aggregateGuild: AggregateGuild;
   aggregateGuildContribution: AggregateGuildContribution;
+  aggregateGuildUser: AggregateGuildUser;
   aggregateLinearCycle: AggregateLinearCycle;
   aggregateLinearIssue: AggregateLinearIssue;
   aggregateLinearJobRun: AggregateLinearJobRun;
@@ -7839,6 +8670,8 @@ export type Query = {
   attestations: Array<Attestation>;
   categoryActivities: Array<CategoryActivity>;
   categoryActivity?: Maybe<CategoryActivity>;
+  categoryActivityType?: Maybe<CategoryActivityType>;
+  categoryActivityTypes: Array<CategoryActivityType>;
   chainType?: Maybe<ChainType>;
   chainTypes: Array<ChainType>;
   contribution?: Maybe<Contribution>;
@@ -7849,11 +8682,13 @@ export type Query = {
   findFirstAttestation?: Maybe<Attestation>;
   findFirstAttestationConfidence?: Maybe<AttestationConfidence>;
   findFirstCategoryActivity?: Maybe<CategoryActivity>;
+  findFirstCategoryActivityType?: Maybe<CategoryActivityType>;
   findFirstChainType?: Maybe<ChainType>;
   findFirstContribution?: Maybe<Contribution>;
   findFirstContributionStatus?: Maybe<ContributionStatus>;
   findFirstGuild?: Maybe<Guild>;
   findFirstGuildContribution?: Maybe<GuildContribution>;
+  findFirstGuildUser?: Maybe<GuildUser>;
   findFirstLinearCycle?: Maybe<LinearCycle>;
   findFirstLinearIssue?: Maybe<LinearIssue>;
   findFirstLinearJobRun?: Maybe<LinearJobRun>;
@@ -7867,11 +8702,13 @@ export type Query = {
   groupByAttestation: Array<AttestationGroupBy>;
   groupByAttestationConfidence: Array<AttestationConfidenceGroupBy>;
   groupByCategoryActivity: Array<CategoryActivityGroupBy>;
+  groupByCategoryActivityType: Array<CategoryActivityTypeGroupBy>;
   groupByChainType: Array<ChainTypeGroupBy>;
   groupByContribution: Array<ContributionGroupBy>;
   groupByContributionStatus: Array<ContributionStatusGroupBy>;
   groupByGuild: Array<GuildGroupBy>;
   groupByGuildContribution: Array<GuildContributionGroupBy>;
+  groupByGuildUser: Array<GuildUserGroupBy>;
   groupByLinearCycle: Array<LinearCycleGroupBy>;
   groupByLinearIssue: Array<LinearIssueGroupBy>;
   groupByLinearJobRun: Array<LinearJobRunGroupBy>;
@@ -7884,6 +8721,8 @@ export type Query = {
   guild?: Maybe<Guild>;
   guildContribution?: Maybe<GuildContribution>;
   guildContributions: Array<GuildContribution>;
+  guildUser?: Maybe<GuildUser>;
+  guildUsers: Array<GuildUser>;
   guilds: Array<Guild>;
   linearCycle?: Maybe<LinearCycle>;
   linearCycles: Array<LinearCycle>;
@@ -7957,6 +8796,15 @@ export type QueryAggregateCategoryActivityArgs = {
 };
 
 
+export type QueryAggregateCategoryActivityTypeArgs = {
+  cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
+};
+
+
 export type QueryAggregateChainTypeArgs = {
   cursor?: InputMaybe<ChainTypeWhereUniqueInput>;
   orderBy?: InputMaybe<Array<ChainTypeOrderByWithRelationInput>>;
@@ -7999,6 +8847,15 @@ export type QueryAggregateGuildContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryAggregateGuildUserArgs = {
+  cursor?: InputMaybe<GuildUserWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 
@@ -8128,6 +8985,21 @@ export type QueryCategoryActivityArgs = {
 };
 
 
+export type QueryCategoryActivityTypeArgs = {
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+
+export type QueryCategoryActivityTypesArgs = {
+  cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CategoryActivityTypeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
+};
+
+
 export type QueryChainTypeArgs = {
   where: ChainTypeWhereUniqueInput;
 };
@@ -8213,6 +9085,16 @@ export type QueryFindFirstCategoryActivityArgs = {
 };
 
 
+export type QueryFindFirstCategoryActivityTypeArgs = {
+  cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CategoryActivityTypeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
+};
+
+
 export type QueryFindFirstChainTypeArgs = {
   cursor?: InputMaybe<ChainTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<ChainTypeScalarFieldEnum>>;
@@ -8260,6 +9142,16 @@ export type QueryFindFirstGuildContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryFindFirstGuildUserArgs = {
+  cursor?: InputMaybe<GuildUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 
@@ -8393,6 +9285,16 @@ export type QueryGroupByCategoryActivityArgs = {
 };
 
 
+export type QueryGroupByCategoryActivityTypeArgs = {
+  by: Array<CategoryActivityTypeScalarFieldEnum>;
+  having?: InputMaybe<CategoryActivityTypeScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
+};
+
+
 export type QueryGroupByChainTypeArgs = {
   by: Array<ChainTypeScalarFieldEnum>;
   having?: InputMaybe<ChainTypeScalarWhereWithAggregatesInput>;
@@ -8440,6 +9342,16 @@ export type QueryGroupByGuildContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryGroupByGuildUserArgs = {
+  by: Array<GuildUserScalarFieldEnum>;
+  having?: InputMaybe<GuildUserScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 
@@ -8550,6 +9462,21 @@ export type QueryGuildContributionsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryGuildUserArgs = {
+  where: GuildUserWhereUniqueInput;
+};
+
+
+export type QueryGuildUsersArgs = {
+  cursor?: InputMaybe<GuildUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 
@@ -8787,8 +9714,9 @@ export type User = {
   contributionPartners: Array<Partner>;
   contributions: Array<Contribution>;
   createdAt: Scalars['DateTime'];
-  dispaly_name?: Maybe<Scalars['String']>;
+  display_name?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
+  guild_users: Array<GuildUser>;
   id: Scalars['Int'];
   linear_users: Array<LinearUser>;
   name?: Maybe<Scalars['String']>;
@@ -8833,6 +9761,16 @@ export type UserContributionsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionWhereInput>;
+};
+
+
+export type UserGuild_UsersArgs = {
+  cursor?: InputMaybe<GuildUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 
@@ -9201,6 +10139,7 @@ export type UserCount = {
   attestations: Scalars['Int'];
   contributionPartners: Scalars['Int'];
   contributions: Scalars['Int'];
+  guild_users: Scalars['Int'];
   linear_users: Scalars['Int'];
 };
 
@@ -9209,7 +10148,7 @@ export type UserCountAggregate = {
   address: Scalars['Int'];
   chain_type_id: Scalars['Int'];
   createdAt: Scalars['Int'];
-  dispaly_name: Scalars['Int'];
+  display_name: Scalars['Int'];
   full_name: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['Int'];
@@ -9220,7 +10159,7 @@ export type UserCountOrderByAggregateInput = {
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  dispaly_name?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -9235,8 +10174,9 @@ export type UserCreateInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -9245,7 +10185,7 @@ export type UserCreateInput = {
 export type UserCreateManyChain_TypeInput = {
   address: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -9261,7 +10201,7 @@ export type UserCreateManyInput = {
   address: Scalars['String'];
   chain_type_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -9299,6 +10239,12 @@ export type UserCreateNestedOneWithoutContributionsInput = {
   create?: InputMaybe<UserCreateWithoutContributionsInput>;
 };
 
+export type UserCreateNestedOneWithoutGuild_UsersInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutGuild_UsersInput>;
+  create?: InputMaybe<UserCreateWithoutGuild_UsersInput>;
+};
+
 export type UserCreateNestedOneWithoutLinear_UsersInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutLinear_UsersInput>;
@@ -9330,6 +10276,11 @@ export type UserCreateOrConnectWithoutContributionsInput = {
   where: UserWhereUniqueInput;
 };
 
+export type UserCreateOrConnectWithoutGuild_UsersInput = {
+  create: UserCreateWithoutGuild_UsersInput;
+  where: UserWhereUniqueInput;
+};
+
 export type UserCreateOrConnectWithoutLinear_UsersInput = {
   create: UserCreateWithoutLinear_UsersInput;
   where: UserWhereUniqueInput;
@@ -9342,8 +10293,9 @@ export type UserCreateWithoutActivitiesInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -9356,8 +10308,9 @@ export type UserCreateWithoutAttestationsInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -9370,8 +10323,9 @@ export type UserCreateWithoutChain_TypeInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -9384,8 +10338,9 @@ export type UserCreateWithoutContributionPartnersInput = {
   chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -9398,7 +10353,23 @@ export type UserCreateWithoutContributionsInput = {
   chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
+  linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserCreateWithoutGuild_UsersInput = {
+  activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
+  address: Scalars['String'];
+  attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
+  chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
+  contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
+  contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
@@ -9413,8 +10384,9 @@ export type UserCreateWithoutLinear_UsersInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  dispaly_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -9428,7 +10400,7 @@ export type UserGroupBy = {
   address: Scalars['String'];
   chain_type_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
-  dispaly_name?: Maybe<Scalars['String']>;
+  display_name?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
@@ -9445,7 +10417,7 @@ export type UserMaxAggregate = {
   address?: Maybe<Scalars['String']>;
   chain_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  dispaly_name?: Maybe<Scalars['String']>;
+  display_name?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -9456,7 +10428,7 @@ export type UserMaxOrderByAggregateInput = {
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  dispaly_name?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -9467,7 +10439,7 @@ export type UserMinAggregate = {
   address?: Maybe<Scalars['String']>;
   chain_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  dispaly_name?: Maybe<Scalars['String']>;
+  display_name?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -9478,7 +10450,7 @@ export type UserMinOrderByAggregateInput = {
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  dispaly_name?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -9498,7 +10470,7 @@ export type UserOrderByWithAggregationInput = {
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  dispaly_name?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -9514,8 +10486,9 @@ export type UserOrderByWithRelationInput = {
   contributionPartners?: InputMaybe<PartnerOrderByRelationAggregateInput>;
   contributions?: InputMaybe<ContributionOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
-  dispaly_name?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
+  guild_users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
   linear_users?: InputMaybe<LinearUserOrderByRelationAggregateInput>;
   name?: InputMaybe<SortOrder>;
@@ -9531,7 +10504,7 @@ export enum UserScalarFieldEnum {
   Address = 'address',
   ChainTypeId = 'chain_type_id',
   CreatedAt = 'createdAt',
-  DispalyName = 'dispaly_name',
+  DisplayName = 'display_name',
   FullName = 'full_name',
   Id = 'id',
   Name = 'name',
@@ -9545,7 +10518,7 @@ export type UserScalarWhereInput = {
   address?: InputMaybe<StringFilter>;
   chain_type_id?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  dispaly_name?: InputMaybe<StringNullableFilter>;
+  display_name?: InputMaybe<StringNullableFilter>;
   full_name?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringNullableFilter>;
@@ -9559,7 +10532,7 @@ export type UserScalarWhereWithAggregatesInput = {
   address?: InputMaybe<StringWithAggregatesFilter>;
   chain_type_id?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  dispaly_name?: InputMaybe<StringNullableWithAggregatesFilter>;
+  display_name?: InputMaybe<StringNullableWithAggregatesFilter>;
   full_name?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -9584,8 +10557,9 @@ export type UserUpdateInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dispaly_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -9594,7 +10568,7 @@ export type UserUpdateInput = {
 export type UserUpdateManyMutationInput = {
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dispaly_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -9651,6 +10625,14 @@ export type UserUpdateOneRequiredWithoutContributionsInput = {
   upsert?: InputMaybe<UserUpsertWithoutContributionsInput>;
 };
 
+export type UserUpdateOneRequiredWithoutGuild_UsersInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutGuild_UsersInput>;
+  create?: InputMaybe<UserCreateWithoutGuild_UsersInput>;
+  update?: InputMaybe<UserUpdateWithoutGuild_UsersInput>;
+  upsert?: InputMaybe<UserUpsertWithoutGuild_UsersInput>;
+};
+
 export type UserUpdateOneWithoutLinear_UsersInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutLinear_UsersInput>;
@@ -9673,8 +10655,9 @@ export type UserUpdateWithoutActivitiesInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dispaly_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -9687,8 +10670,9 @@ export type UserUpdateWithoutAttestationsInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dispaly_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -9701,8 +10685,9 @@ export type UserUpdateWithoutChain_TypeInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dispaly_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -9715,8 +10700,9 @@ export type UserUpdateWithoutContributionPartnersInput = {
   chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dispaly_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -9729,7 +10715,23 @@ export type UserUpdateWithoutContributionsInput = {
   chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dispaly_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutGuild_UsersInput = {
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -9744,8 +10746,9 @@ export type UserUpdateWithoutLinear_UsersInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dispaly_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -9776,6 +10779,11 @@ export type UserUpsertWithoutContributionsInput = {
   update: UserUpdateWithoutContributionsInput;
 };
 
+export type UserUpsertWithoutGuild_UsersInput = {
+  create: UserCreateWithoutGuild_UsersInput;
+  update: UserUpdateWithoutGuild_UsersInput;
+};
+
 export type UserUpsertWithoutLinear_UsersInput = {
   create: UserCreateWithoutLinear_UsersInput;
   update: UserUpdateWithoutLinear_UsersInput;
@@ -9793,8 +10801,9 @@ export type UserWhereInput = {
   contributionPartners?: InputMaybe<PartnerListRelationFilter>;
   contributions?: InputMaybe<ContributionListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  dispaly_name?: InputMaybe<StringNullableFilter>;
+  display_name?: InputMaybe<StringNullableFilter>;
   full_name?: InputMaybe<StringNullableFilter>;
+  guild_users?: InputMaybe<GuildUserListRelationFilter>;
   id?: InputMaybe<IntFilter>;
   linear_users?: InputMaybe<LinearUserListRelationFilter>;
   name?: InputMaybe<StringNullableFilter>;
@@ -9867,6 +10876,13 @@ export type UpsertLinearTeamMutationVariables = Exact<{
 
 
 export type UpsertLinearTeamMutation = { upsertLinearTeam: { id: number, key: string, name: string, linear_id: string } };
+
+export type CreateLinearJobRunMutationVariables = Exact<{
+  data: LinearJobRunCreateInput;
+}>;
+
+
+export type CreateLinearJobRunMutation = { createLinearJobRun: { completedDate: any, startDate: any } };
 
 export const LinearJobFieldsFragmentFragmentDoc = gql`
     fragment LinearJobFieldsFragment on LinearJobRun {
@@ -9947,6 +10963,14 @@ export const UpsertLinearTeamDocument = gql`
   }
 }
     `;
+export const CreateLinearJobRunDocument = gql`
+    mutation createLinearJobRun($data: LinearJobRunCreateInput!) {
+  createLinearJobRun(data: $data) {
+    completedDate
+    startDate
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -9975,6 +10999,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     upsertLinearTeam(variables: UpsertLinearTeamMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearTeamMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearTeamMutation>(UpsertLinearTeamDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearTeam', 'mutation');
+    },
+    createLinearJobRun(variables: CreateLinearJobRunMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateLinearJobRunMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateLinearJobRunMutation>(CreateLinearJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createLinearJobRun', 'mutation');
     }
   };
 }

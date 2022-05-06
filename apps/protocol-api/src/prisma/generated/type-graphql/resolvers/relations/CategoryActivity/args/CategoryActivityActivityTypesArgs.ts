@@ -1,26 +1,26 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { ActivityTypeOrderByWithRelationInput } from "../../../inputs/ActivityTypeOrderByWithRelationInput";
-import { ActivityTypeWhereInput } from "../../../inputs/ActivityTypeWhereInput";
-import { ActivityTypeWhereUniqueInput } from "../../../inputs/ActivityTypeWhereUniqueInput";
-import { ActivityTypeScalarFieldEnum } from "../../../../enums/ActivityTypeScalarFieldEnum";
+import { CategoryActivityTypeOrderByWithRelationInput } from "../../../inputs/CategoryActivityTypeOrderByWithRelationInput";
+import { CategoryActivityTypeWhereInput } from "../../../inputs/CategoryActivityTypeWhereInput";
+import { CategoryActivityTypeWhereUniqueInput } from "../../../inputs/CategoryActivityTypeWhereUniqueInput";
+import { CategoryActivityTypeScalarFieldEnum } from "../../../../enums/CategoryActivityTypeScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class CategoryActivityActivityTypesArgs {
-  @TypeGraphQL.Field(_type => ActivityTypeWhereInput, {
+  @TypeGraphQL.Field(_type => CategoryActivityTypeWhereInput, {
     nullable: true
   })
-  where?: ActivityTypeWhereInput | undefined;
+  where?: CategoryActivityTypeWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => [ActivityTypeOrderByWithRelationInput], {
+  @TypeGraphQL.Field(_type => [CategoryActivityTypeOrderByWithRelationInput], {
     nullable: true
   })
-  orderBy?: ActivityTypeOrderByWithRelationInput[] | undefined;
+  orderBy?: CategoryActivityTypeOrderByWithRelationInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => ActivityTypeWhereUniqueInput, {
+  @TypeGraphQL.Field(_type => CategoryActivityTypeWhereUniqueInput, {
     nullable: true
   })
-  cursor?: ActivityTypeWhereUniqueInput | undefined;
+  cursor?: CategoryActivityTypeWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -32,8 +32,8 @@ export class CategoryActivityActivityTypesArgs {
   })
   skip?: number | undefined;
 
-  @TypeGraphQL.Field(_type => [ActivityTypeScalarFieldEnum], {
+  @TypeGraphQL.Field(_type => [CategoryActivityTypeScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "name" | "active" | "category_activity_id"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "category_activity_id" | "activity_type_id"> | undefined;
 }

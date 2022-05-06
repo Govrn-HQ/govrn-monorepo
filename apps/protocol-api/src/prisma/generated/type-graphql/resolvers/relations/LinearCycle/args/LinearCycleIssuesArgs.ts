@@ -35,5 +35,5 @@ export class LinearCycleIssuesArgs {
   @TypeGraphQL.Field(_type => [LinearIssueScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "archivedAt" | "autoArchivedAt" | "autoClosedAt" | "boardOrder" | "branchName" | "canceledAt" | "completedAt" | "createdAt" | "customerTickerCount" | "description" | "dueDate" | "estimate" | "linear_id" | "identifier" | "priority" | "pritorityLabel" | "snoozedUntilAt" | "sortOrder" | "startedAt" | "subIssueSortOrder" | "title" | "trashed" | "updatedAt" | "url" | "assignee_id" | "creator_id" | "cycle_id" | "project_id" | "team_id" | "contribution_id"> | undefined;
+  distinct?: Array<"id" | "archivedAt" | "autoArchivedAt" | "autoClosedAt" | "boardOrder" | "branchName" | "canceledAt" | "completedAt" | "createdAt" | "customerTickerCount" | "description" | "dueDate" | "estimate" | "linear_id" | "identifier" | "priority" | "priorityLabel" | "snoozedUntilAt" | "sortOrder" | "startedAt" | "subIssueSortOrder" | "title" | "trashed" | "updatedAt" | "url" | "assignee_id" | "creator_id" | "cycle_id" | "project_id" | "team_id" | "contribution_id"> | undefined;
 }

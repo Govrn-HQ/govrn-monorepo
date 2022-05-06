@@ -11,4 +11,9 @@ export class GuildCount {
     nullable: false
   })
   contributions!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  users!: number;
 }

@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../scalars";
 import { Attestation } from "../models/Attestation";
 import { ChainType } from "../models/ChainType";
 import { Contribution } from "../models/Contribution";
+import { GuildUser } from "../models/GuildUser";
 import { LinearUser } from "../models/LinearUser";
 import { Partner } from "../models/Partner";
 import { UserActivity } from "../models/UserActivity";
@@ -37,7 +38,7 @@ export class User {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  dispaly_name?: string | null;
+  display_name?: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
@@ -65,6 +66,8 @@ export class User {
   contributions?: Contribution[];
 
   linear_users?: LinearUser[];
+
+  guild_users?: GuildUser[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

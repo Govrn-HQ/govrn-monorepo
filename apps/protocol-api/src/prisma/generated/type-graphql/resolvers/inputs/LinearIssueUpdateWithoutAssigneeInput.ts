@@ -96,7 +96,7 @@ export class LinearIssueUpdateWithoutAssigneeInput {
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true
   })
-  pritorityLabel?: NullableStringFieldUpdateOperationsInput | undefined;
+  priorityLabel?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
     nullable: true

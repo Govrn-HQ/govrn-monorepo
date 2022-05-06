@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
-import { CategoryActivityUpdateOneRequiredWithoutActivityTypesInput } from "../inputs/CategoryActivityUpdateOneRequiredWithoutActivityTypesInput";
+import { CategoryActivityTypeUpdateManyWithoutActivity_typeInput } from "../inputs/CategoryActivityTypeUpdateManyWithoutActivity_typeInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { UserActivityUpdateManyWithoutActivity_typeInput } from "../inputs/UserActivityUpdateManyWithoutActivity_typeInput";
@@ -32,13 +32,13 @@ export class ActivityTypeUpdateWithoutContributionsInput {
   })
   active?: BoolFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => CategoryActivityUpdateOneRequiredWithoutActivityTypesInput, {
-    nullable: true
-  })
-  category_activity?: CategoryActivityUpdateOneRequiredWithoutActivityTypesInput | undefined;
-
   @TypeGraphQL.Field(_type => UserActivityUpdateManyWithoutActivity_typeInput, {
     nullable: true
   })
   users?: UserActivityUpdateManyWithoutActivity_typeInput | undefined;
+
+  @TypeGraphQL.Field(_type => CategoryActivityTypeUpdateManyWithoutActivity_typeInput, {
+    nullable: true
+  })
+  categoryActivity?: CategoryActivityTypeUpdateManyWithoutActivity_typeInput | undefined;
 }

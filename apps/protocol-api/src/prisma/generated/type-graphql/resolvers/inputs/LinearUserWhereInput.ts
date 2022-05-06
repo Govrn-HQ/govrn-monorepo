@@ -83,7 +83,7 @@ export class LinearUserWhereInput {
   @TypeGraphQL.Field(_type => LinearIssueListRelationFilter, {
     nullable: true
   })
-  assingned_issues?: LinearIssueListRelationFilter | undefined;
+  assigned_issues?: LinearIssueListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearIssueListRelationFilter, {
     nullable: true
