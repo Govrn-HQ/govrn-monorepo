@@ -24,7 +24,13 @@ const ContributionsTable = ({ contributionsData }: any) => {
   const data = useMemo(
     () =>
       contributionsData.map((contribution: any) => ({
-        name: <p>{contribution.name}</p>,
+        name: contribution.name,
+        submissionDate: contribution.submissionDate,
+        engagementDate: contribution.engagementDate,
+        attestations: Object.keys(contribution.attestations).length,
+        verificationLevel: contribution.verificationLevel,
+        guilds: Object.keys(contribution.guilds).length,
+        status: contribution.status,
       })),
     [contributionsData]
   );
@@ -35,6 +41,23 @@ const ContributionsTable = ({ contributionsData }: any) => {
         Header: 'Name',
         accessor: 'name',
       },
+      {
+        Header: 'Submission Date',
+        accessor: 'submissionDate',
+      },
+      {
+        Header: 'Engagement Date',
+        accessor: 'engagementDate',
+      },
+      {
+        Header: 'Attestations',
+        accessor: 'attestations',
+      },
+      {
+        Header: 'Verification Level',
+        accessor: 'verificationLevel',
+      },
+      { Header: 'DAOs', accessor: 'guilds' },
     ],
     []
   );
@@ -44,13 +67,14 @@ const ContributionsTable = ({ contributionsData }: any) => {
 
   return (
     <Table {...getTableProps()}>
-      <Thead>
+      <Thead backgroundColor="gray.50">
         {headerGroups.map((headerGroup: any) => (
           <Tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column: any) => (
               <Th
                 {...column.getHeaderProps(column.getSortByToggleProps())}
                 isNumeric={column.isNumeric}
+                borderColor="gray.100"
               >
                 {column.render('Header')}
                 <chakra.span paddingLeft="4">
@@ -73,7 +97,9 @@ const ContributionsTable = ({ contributionsData }: any) => {
           return (
             <Tr {...row.getRowProps()}>
               {row.cells.map((cell) => (
-                <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+                <Td {...cell.getCellProps()} borderColor="gray.100">
+                  {cell.render('Cell')}
+                </Td>
               ))}
             </Tr>
           );

@@ -74,9 +74,10 @@ const Sidebar = () => {
             </Link>
             <HStack>
               <Button
-                variant="solid"
-                color="gray.800"
-                bgColor="brand.primary.50"
+                color="brand.primary.600"
+                // border="1px solid"
+                // borderColor="brand.primary.100"
+                backgroundColor="brand.primary.50"
                 transition="all 100ms ease-in-out"
                 _hover={{ bgColor: 'brand.primary.100' }}
                 width="100%"

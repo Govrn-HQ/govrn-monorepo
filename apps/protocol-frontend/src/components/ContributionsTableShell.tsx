@@ -32,7 +32,7 @@ const ContributionsTableShell = () => {
       paddingY={{ base: '4', md: '8' }}
       paddingX={{ base: '0', md: '8' }}
       color="gray.700"
-      maxWidth="960px"
+      maxWidth="1200px"
     >
       <Box
         background="white"
@@ -40,7 +40,7 @@ const ContributionsTableShell = () => {
         borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
       >
         <Stack spacing="5">
-          <Box px={{ base: '4', md: '6' }} pt="5">
+          <Box paddingX={{ base: '4', md: '6' }} paddingTop="5">
             <Stack
               direction={{ base: 'column', md: 'row' }}
               justify="space-between"
@@ -48,6 +48,16 @@ const ContributionsTableShell = () => {
               <Text fontSize="lg" fontWeight="medium">
                 My Contributions
               </Text>
+              <Button
+                bgColor="brand.primary.50"
+                color="brand.primary.600"
+                transition="all 100ms ease-in-out"
+                _hover={{ bgColor: 'brand.primary.100' }}
+                flexBasis="10%"
+                colorScheme="brand.primary"
+              >
+                Mint
+              </Button>
               {/* <InputGroup maxW="xs">
                 <InputLeftElement pointerEvents="none">
                   <Icon as={FiSearch} color="muted" boxSize="5" />
@@ -63,7 +73,7 @@ const ContributionsTableShell = () => {
             <HStack spacing="3" justify="space-between">
               {!isMobile && (
                 <Text color="muted" fontSize="sm">
-                  Showing 1 to 5 of 42 results
+                  Showing 1 to (x) of (y) results
                 </Text>
               )}
               <ButtonGroup

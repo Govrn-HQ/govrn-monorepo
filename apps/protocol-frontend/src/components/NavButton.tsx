@@ -21,7 +21,7 @@ export const NavButton = ({
       justifyContent="start"
       color="gray.800"
       transition="all 100ms ease-in-out"
-      backgroundColor={active ? 'gray.100' : 'transparent'}
+      backgroundColor={active ? 'gray.50' : 'transparent'}
       _hover={{ bgColor: 'gray.100' }}
       width="100%"
       {...buttonProps}
