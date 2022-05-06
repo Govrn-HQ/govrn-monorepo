@@ -10,7 +10,7 @@
       "options": {
         "outputPath": "dist/apps/protocol-frontend",
         "baseHref": "/",
-        "configFile": "@nxext/vite/plugins/vite",
+        "configFile": "apps/protocol-frontend/vite.config.ts",
         "frameworkConfigFile": "@nxext/react/plugins/vite"
       },
       "configurations": {
@@ -35,7 +35,7 @@
       "options": {
         "outputPath": "dist/apps/protocol-frontend",
         "baseHref": "/",
-        "configFile": "@nxext/vite/plugins/vite",
+        "configFile": "apps/protocol-frontend/vite.config.ts",
         "frameworkConfigFile": "@nxext/react/plugins/vite"
       },
       "configurations": {
