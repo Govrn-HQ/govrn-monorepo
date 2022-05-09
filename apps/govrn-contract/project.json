@@ -1,0 +1,45 @@
+{
+  "root": "apps/govrn-contract",
+  "projectType": "application",
+  "sourceRoot": "apps/govrn-contract/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "forge build --root apps/govrn-contract"
+      }
+    },
+    "install": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "forge install --root apps/govrn-contract {args.package} --no-git"
+      }
+    },
+    "deployLocal": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "forge create --rpc-url http://127.0.0.1:8545/ -i src/Govrn.sol:Govrn",
+        "cwd": "./apps/govrn-contract"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "forge test --root apps/govrn-contract"
+      }
+    },
+    "trace": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "forge test -vvvv --root apps/govrn-contract"
+      }
+    },
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "forge clean --root apps/govrn-contract"
+      }
+    }
+  },
+  "tags": []
+}
