@@ -1,0 +1,32 @@
+{
+  "root": "libs/govrn-contract-client",
+  "sourceRoot": "libs/govrn-contract-client/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/govrn-contract-client",
+        "main": "libs/govrn-contract-client/src/index.ts",
+        "tsConfig": "libs/govrn-contract-client/tsconfig.lib.json",
+        "assets": ["libs/govrn-contract-client/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/govrn-contract-client/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/govrn-contract-client"],
+      "options": {
+        "jestConfig": "libs/govrn-contract-client/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
