@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@govrn/govrn-contract-client": [
+        "libs/govrn-contract-client/src/index.ts"
+      ],
       "@govrn/protocol-client": ["libs/protocol-client/src/index.ts"]
     }
   },

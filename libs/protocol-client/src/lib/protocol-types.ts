@@ -10841,6 +10841,8 @@ export type BulkCreateIssuesMutationVariables = Exact<{
 
 export type BulkCreateIssuesMutation = { createManyLinearIssue: { count: number } };
 
+export type LinearUserFragmentFragment = { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null };
+
 export type UpsertLinearUserMutationVariables = Exact<{
   create: LinearUserCreateInput;
   update: LinearUserUpdateInput;
@@ -10849,6 +10851,14 @@ export type UpsertLinearUserMutationVariables = Exact<{
 
 
 export type UpsertLinearUserMutation = { upsertLinearUser: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null } };
+
+export type UpdateLinearUserMutationVariables = Exact<{
+  data: LinearUserUpdateInput;
+  where: LinearUserWhereUniqueInput;
+}>;
+
+
+export type UpdateLinearUserMutation = { updateLinearUser?: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null } | null };
 
 export type UpsertLinearCycleMutationVariables = Exact<{
   create: LinearCycleCreateInput;
@@ -10884,6 +10894,96 @@ export type CreateLinearJobRunMutationVariables = Exact<{
 
 export type CreateLinearJobRunMutation = { createLinearJobRun: { completedDate: any, startDate: any } };
 
+export type UserFragmentFragment = { address: string, chain_type_id: number, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any };
+
+export type GetUserQueryVariables = Exact<{
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type GetUserQuery = { result?: { address: string, chain_type_id: number, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } | null };
+
+export type UpdateUserMutationVariables = Exact<{
+  data: UserUpdateInput;
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type UpdateUserMutation = { updateUser?: { address: string, display_name?: string | null, full_name?: string | null, name?: string | null } | null };
+
+export type ContributionFragmentFragment = { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } };
+
+export type GetContributionQueryVariables = Exact<{
+  where: ContributionWhereUniqueInput;
+}>;
+
+
+export type GetContributionQuery = { result?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } } | null };
+
+export type ListContributionsQueryVariables = Exact<{
+  where?: ContributionWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<ContributionOrderByWithRelationInput> | ContributionOrderByWithRelationInput>;
+}>;
+
+
+export type ListContributionsQuery = { result: Array<{ date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } }> };
+
+export type CreateContributionMutationVariables = Exact<{
+  data: ContributionCreateInput;
+}>;
+
+
+export type CreateContributionMutation = { createContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } } };
+
+export type UpdateContributionMutationVariables = Exact<{
+  data: ContributionUpdateInput;
+  where: ContributionWhereUniqueInput;
+}>;
+
+
+export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } } | null };
+
+export type ActivityTypeFragmentFragment = { active: boolean, createdAt: any, id: number, name: string, updatedAt: any };
+
+export type ListActivityTypesQueryVariables = Exact<{
+  where?: ActivityTypeWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<ActivityTypeOrderByWithRelationInput> | ActivityTypeOrderByWithRelationInput>;
+}>;
+
+
+export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: any, id: number, name: string, updatedAt: any }> };
+
+export type AttestationFragmentFragment = { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } };
+
+export type ListAttestationsQueryVariables = Exact<{
+  where?: AttestationWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<AttestationOrderByWithRelationInput> | AttestationOrderByWithRelationInput>;
+}>;
+
+
+export type ListAttestationsQuery = { result: Array<{ date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
+
+export type CreateAttestationMutationVariables = Exact<{
+  data: AttestationCreateInput;
+}>;
+
+
+export type CreateAttestationMutation = { createAttestation: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } };
+
+export type UpdateAttestationMutationVariables = Exact<{
+  data: AttestationUpdateInput;
+  where: AttestationWhereUniqueInput;
+}>;
+
+
+export type UpdateAttestationMutation = { updateAttestation?: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } | null };
+
 export const LinearJobFieldsFragmentFragmentDoc = gql`
     fragment LinearJobFieldsFragment on LinearJobRun {
   id
@@ -10891,6 +10991,102 @@ export const LinearJobFieldsFragmentFragmentDoc = gql`
   updatedAt
   completedDate
   startDate
+}
+    `;
+export const LinearUserFragmentFragmentDoc = gql`
+    fragment LinearUserFragment on LinearUser {
+  active
+  displayName
+  email
+  linear_id
+  name
+  url
+  id
+  createdAt
+}
+    `;
+export const UserFragmentFragmentDoc = gql`
+    fragment UserFragment on User {
+  address
+  chain_type_id
+  createdAt
+  display_name
+  full_name
+  id
+  name
+  updatedAt
+}
+    `;
+export const ContributionFragmentFragmentDoc = gql`
+    fragment ContributionFragment on Contribution {
+  activity_type {
+    active
+    createdAt
+    id
+    name
+    updatedAt
+  }
+  date_of_engagement
+  date_of_submission
+  details
+  id
+  name
+  proof
+  status {
+    createdAt
+    id
+    name
+    updatedAt
+  }
+  updatedAt
+  user {
+    address
+    createdAt
+    display_name
+    full_name
+    id
+    name
+    updatedAt
+  }
+}
+    `;
+export const ActivityTypeFragmentFragmentDoc = gql`
+    fragment ActivityTypeFragment on ActivityType {
+  active
+  createdAt
+  id
+  name
+  updatedAt
+}
+    `;
+export const AttestationFragmentFragmentDoc = gql`
+    fragment AttestationFragment on Attestation {
+  confidence {
+    createdAt
+    id
+    name
+    updatedAt
+  }
+  contribution {
+    activity_type_id
+    date_of_engagement
+    date_of_submission
+    details
+    id
+    name
+    proof
+    status_id
+    updatedAt
+    user_id
+  }
+  date_of_attestation
+  id
+  updatedAt
+  user {
+    name
+    address
+    id
+  }
 }
     `;
 export const ListLinearJobRunsDocument = gql`
@@ -10922,17 +11118,17 @@ export const BulkCreateIssuesDocument = gql`
 export const UpsertLinearUserDocument = gql`
     mutation upsertLinearUser($create: LinearUserCreateInput!, $update: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
   upsertLinearUser(create: $create, update: $update, where: $where) {
-    active
-    displayName
-    email
-    linear_id
-    name
-    url
-    id
-    createdAt
+    ...LinearUserFragment
   }
 }
-    `;
+    ${LinearUserFragmentFragmentDoc}`;
+export const UpdateLinearUserDocument = gql`
+    mutation updateLinearUser($data: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
+  updateLinearUser(data: $data, where: $where) {
+    ...LinearUserFragment
+  }
+}
+    ${LinearUserFragmentFragmentDoc}`;
 export const UpsertLinearCycleDocument = gql`
     mutation upsertLinearCycle($create: LinearCycleCreateInput!, $update: LinearCycleUpdateInput!, $where: LinearCycleWhereUniqueInput!) {
   upsertLinearCycle(create: $create, update: $update, where: $where) {
@@ -10971,6 +11167,94 @@ export const CreateLinearJobRunDocument = gql`
   }
 }
     `;
+export const GetUserDocument = gql`
+    query getUser($where: UserWhereUniqueInput!) {
+  result: user(where: $where) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
+export const UpdateUserDocument = gql`
+    mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+  updateUser(data: $data, where: $where) {
+    address
+    display_name
+    full_name
+    name
+  }
+}
+    `;
+export const GetContributionDocument = gql`
+    query getContribution($where: ContributionWhereUniqueInput!) {
+  result: contribution(where: $where) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const ListContributionsDocument = gql`
+    query listContributions($where: ContributionWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ContributionOrderByWithRelationInput!]) {
+  result: contributions(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const CreateContributionDocument = gql`
+    mutation createContribution($data: ContributionCreateInput!) {
+  createContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const UpdateContributionDocument = gql`
+    mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
+  updateContribution(data: $data, where: $where) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const ListActivityTypesDocument = gql`
+    query listActivityTypes($where: ActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ActivityTypeOrderByWithRelationInput!]) {
+  result: activityTypes(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...ActivityTypeFragment
+  }
+}
+    ${ActivityTypeFragmentFragmentDoc}`;
+export const ListAttestationsDocument = gql`
+    query listAttestations($where: AttestationWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [AttestationOrderByWithRelationInput!]) {
+  result: attestations(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
+export const CreateAttestationDocument = gql`
+    mutation createAttestation($data: AttestationCreateInput!) {
+  createAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
+export const UpdateAttestationDocument = gql`
+    mutation updateAttestation($data: AttestationUpdateInput!, $where: AttestationWhereUniqueInput!) {
+  updateAttestation(data: $data, where: $where) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -10991,6 +11275,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     upsertLinearUser(variables: UpsertLinearUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearUserMutation>(UpsertLinearUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearUser', 'mutation');
     },
+    updateLinearUser(variables: UpdateLinearUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateLinearUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateLinearUserMutation>(UpdateLinearUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateLinearUser', 'mutation');
+    },
     upsertLinearCycle(variables: UpsertLinearCycleMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearCycleMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearCycleMutation>(UpsertLinearCycleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearCycle', 'mutation');
     },
@@ -11002,6 +11289,36 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createLinearJobRun(variables: CreateLinearJobRunMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateLinearJobRunMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateLinearJobRunMutation>(CreateLinearJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createLinearJobRun', 'mutation');
+    },
+    getUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUser', 'query');
+    },
+    updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
+    },
+    getContribution(variables: GetContributionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionQuery>(GetContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContribution', 'query');
+    },
+    listContributions(variables?: ListContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListContributionsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListContributionsQuery>(ListContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listContributions', 'query');
+    },
+    createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');
+    },
+    updateContribution(variables: UpdateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateContributionMutation>(UpdateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateContribution', 'mutation');
+    },
+    listActivityTypes(variables?: ListActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesQuery>(ListActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypes', 'query');
+    },
+    listAttestations(variables?: ListAttestationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListAttestationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListAttestationsQuery>(ListAttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listAttestations', 'query');
+    },
+    createAttestation(variables: CreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateAttestationMutation>(CreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createAttestation', 'mutation');
+    },
+    updateAttestation(variables: UpdateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateAttestationMutation>(UpdateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateAttestation', 'mutation');
     }
   };
 }

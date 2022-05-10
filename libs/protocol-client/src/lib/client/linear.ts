@@ -1,14 +1,14 @@
 import {
-  getSdk,
-  Sdk,
   ListLinearJobRunsQueryVariables,
   BulkCreateIssuesMutationVariables,
   MutationCreateLinearJobRunArgs,
+  UpdateLinearUserMutationVariables,
   UpsertLinearUserMutationVariables,
   UpsertLinearCycleMutationVariables,
   UpsertLinearProjectMutationVariables,
   UpsertLinearTeamMutationVariables,
 } from '../protocol-types';
+import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
 
 export class Linear {
@@ -26,14 +26,6 @@ export class Linear {
     this.cycle = new Cycle(client);
     this.project = new Project(client);
     this.team = new Team(client);
-  }
-}
-
-class BaseClient {
-  sdk: Sdk;
-
-  constructor(client: GraphQLClient) {
-    this.sdk = getSdk(client);
   }
 }
 
@@ -65,6 +57,11 @@ class User extends BaseClient {
   public async upsert(args: UpsertLinearUserMutationVariables) {
     const user = await this.sdk.upsertLinearUser(args);
     return user.upsertLinearUser;
+  }
+
+  public async update(args: UpdateLinearUserMutationVariables) {
+    const user = await this.sdk.updateLinearUser(args);
+    return user.updateLinearUser;
   }
 }
 

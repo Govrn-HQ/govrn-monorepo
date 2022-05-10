@@ -4,6 +4,7 @@
     "airtable-api": "apps/airtable-api",
     "contribution-report": "apps/contribution-report",
     "govrn-contract": "apps/govrn-contract",
+    "govrn-contract-client": "libs/govrn-contract-client",
     "linear-sync-job": "apps/linear-sync-job",
     "protocol-api": "apps/protocol-api",
     "protocol-client": "libs/protocol-client"
