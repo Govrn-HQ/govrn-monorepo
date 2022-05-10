@@ -5,7 +5,7 @@ import { Govrn__factory, Govrn } from './generated';
 // mint
 // typechain --target ethers-v5 --out-dir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 
-type MintArgs = {
+export type MintArgs = {
   name: ethers.BytesLike;
   details: ethers.BytesLike;
   dateOfSubmission: ethers.BigNumberish;
@@ -15,7 +15,7 @@ type MintArgs = {
   overrides?: ethers.Overrides & { from?: string | Promise<string> };
 };
 
-type AttestArgs = {
+export type AttestArgs = {
   contribution: ethers.BigNumberish;
   confidence: ethers.BigNumberish;
   overrides?: ethers.Overrides & { from?: string | Promise<string> };
