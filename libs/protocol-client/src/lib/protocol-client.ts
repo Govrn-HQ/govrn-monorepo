@@ -1,9 +1,11 @@
+import { ActivityType } from './client/activity_type';
 import { Contribution } from './client/contribution';
 import { Linear } from './client/linear';
 import { User } from './client/user';
 import { GraphQLClient } from 'graphql-request';
 
 export class GovrnProtocol {
+  activity_type: ActivityType;
   client: GraphQLClient;
   contribution: Contribution;
   linear: Linear;
@@ -14,5 +16,6 @@ export class GovrnProtocol {
     this.linear = new Linear(this.client);
     this.user = new User(this.client);
     this.contribution = new Contribution(this.client);
+    this.activity_type = new ActivityType(this.client);
   }
 }

@@ -188,3 +188,31 @@ mutation createContribution($data: ContributionCreateInput!) {
     ...ContributionFragment
   }
 }
+
+mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
+  updateContribution(data: $data, where: $where) {
+    ...ContributionFragment
+  }
+}
+
+# Activity type queries
+fragment ActivityTypeFragment on ActivityType {
+  active
+  createdAt
+  id
+  name
+  updatedAt
+}
+
+query listActivityTypes($where: ActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ActivityTypeOrderByWithRelationInput!]) {
+    result: activityTypes(
+        where: $where,
+        skip: $skip,
+        take: $first,
+        orderBy: $orderBy,
+    ) {
+      ...ActivityTypeFragment
+    }
+}
+
+
