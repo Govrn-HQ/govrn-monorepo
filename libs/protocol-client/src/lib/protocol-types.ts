@@ -10957,6 +10957,33 @@ export type ListActivityTypesQueryVariables = Exact<{
 
 export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: any, id: number, name: string, updatedAt: any }> };
 
+export type AttestationFragmentFragment = { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } };
+
+export type ListAttestationsQueryVariables = Exact<{
+  where?: AttestationWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<AttestationOrderByWithRelationInput> | AttestationOrderByWithRelationInput>;
+}>;
+
+
+export type ListAttestationsQuery = { result: Array<{ date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
+
+export type CreateAttestationMutationVariables = Exact<{
+  data: AttestationCreateInput;
+}>;
+
+
+export type CreateAttestationMutation = { createAttestation: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } };
+
+export type UpdateAttestationMutationVariables = Exact<{
+  data: AttestationUpdateInput;
+  where: AttestationWhereUniqueInput;
+}>;
+
+
+export type UpdateAttestationMutation = { updateAttestation?: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } | null };
+
 export const LinearJobFieldsFragmentFragmentDoc = gql`
     fragment LinearJobFieldsFragment on LinearJobRun {
   id
@@ -11030,6 +11057,36 @@ export const ActivityTypeFragmentFragmentDoc = gql`
   id
   name
   updatedAt
+}
+    `;
+export const AttestationFragmentFragmentDoc = gql`
+    fragment AttestationFragment on Attestation {
+  confidence {
+    createdAt
+    id
+    name
+    updatedAt
+  }
+  contribution {
+    activity_type_id
+    date_of_engagement
+    date_of_submission
+    details
+    id
+    name
+    proof
+    status_id
+    updatedAt
+    user_id
+  }
+  date_of_attestation
+  id
+  updatedAt
+  user {
+    name
+    address
+    id
+  }
 }
     `;
 export const ListLinearJobRunsDocument = gql`
@@ -11172,6 +11229,32 @@ export const ListActivityTypesDocument = gql`
   }
 }
     ${ActivityTypeFragmentFragmentDoc}`;
+export const ListAttestationsDocument = gql`
+    query listAttestations($where: AttestationWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [AttestationOrderByWithRelationInput!]) {
+  result: attestations(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
+export const CreateAttestationDocument = gql`
+    mutation createAttestation($data: AttestationCreateInput!) {
+  createAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
+export const UpdateAttestationDocument = gql`
+    mutation updateAttestation($data: AttestationUpdateInput!, $where: AttestationWhereUniqueInput!) {
+  updateAttestation(data: $data, where: $where) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -11227,6 +11310,15 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     listActivityTypes(variables?: ListActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesQuery>(ListActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypes', 'query');
+    },
+    listAttestations(variables?: ListAttestationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListAttestationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListAttestationsQuery>(ListAttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listAttestations', 'query');
+    },
+    createAttestation(variables: CreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateAttestationMutation>(CreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createAttestation', 'mutation');
+    },
+    updateAttestation(variables: UpdateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateAttestationMutation>(UpdateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateAttestation', 'mutation');
     }
   };
 }
