@@ -35,17 +35,27 @@ mutation bulkCreateIssues($data: [LinearIssueCreateManyInput!]!, $skipDuplicates
 }
 
 # Linear User
+fragment LinearUserFragment on LinearUser {
+  active
+  displayName
+  email
+  linear_id
+  name
+  url
+  id
+  createdAt
+}
+
 
 mutation upsertLinearUser($create: LinearUserCreateInput!, $update:  LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
   upsertLinearUser(create: $create, update: $update, where: $where) {
-      active
-      displayName
-      email
-      linear_id
-      name
-      url
-      id
-      createdAt
+    ...LinearUserFragment
+  }
+}
+
+mutation updateLinearUser($data: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
+  updateLinearUser(data: $data, where: $where) {
+    ...LinearUserFragment
   }
 }
 
@@ -83,3 +93,94 @@ mutation createLinearJobRun($data: LinearJobRunCreateInput!) {
     startDate
   }
 }
+
+# User quries
+fragment UserFragment on User {
+  address
+  # chain_type
+  chain_type_id
+  createdAt
+  display_name
+  full_name
+  id
+  name
+  updatedAt
+}
+
+query getUser($where: UserWhereUniqueInput!,) {
+    result: user(
+        where: $where,
+    ) {
+      ...UserFragment
+    }
+}
+
+mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+  updateUser(data: $data, where: $where) {
+      # activities
+      address
+      # attestations
+      # chain_type
+      # contributionPartners
+      # contributions
+      display_name
+      full_name
+      # guild_users
+      # linear_users
+      name
+  }
+}
+
+# Contribution quries
+fragment ContributionFragment on Contribution {
+  activity_type {
+    active
+    createdAt
+    id
+    name
+    updatedAt
+  }
+  date_of_engagement
+  date_of_submission
+  details
+  id
+  name
+  proof
+  status {
+    createdAt
+    id
+    name
+    updatedAt
+  }
+  updatedAt
+  user {
+    address
+    createdAt
+    display_name
+    full_name
+    id
+    name
+    updatedAt
+  }
+}
+
+query getContribution($where: ContributionWhereUniqueInput!,) {
+    result: contribution(
+        where: $where,
+    ) {
+      ...ContributionFragment
+    }
+}
+
+query listContributions($where: ContributionWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ContributionOrderByWithRelationInput!]) {
+    result: contributions(
+        where: $where,
+        skip: $skip,
+        take: $first,
+        orderBy: $orderBy,
+    ) {
+      ...ContributionFragment
+    }
+}
+
+
