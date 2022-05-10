@@ -183,4 +183,8 @@ query listContributions($where: ContributionWhereInput! = {}, $skip: Int! = 0, $
     }
 }
 
-
+mutation createContribution($data: ContributionCreateInput!) {
+  createContribution(data: $data) {
+    ...ContributionFragment
+  }
+}

@@ -1,5 +1,8 @@
 import { BaseClient } from './base';
-import { ListContributionQueryVariables } from '../protocol-types';
+import {
+  CreateContributionMutationVariables,
+  ListContributionsQueryVariables,
+} from '../protocol-types';
 
 export class Contribution extends BaseClient {
   public async get(id: number) {
@@ -7,8 +10,13 @@ export class Contribution extends BaseClient {
     return contribution.result;
   }
 
-  public async list(args: ListContributionQueryVariables) {
+  public async list(args: ListContributionsQueryVariables) {
     const contributions = await this.sdk.listContributions(args);
     return contributions.result;
+  }
+
+  public async create(args: CreateContributionMutationVariables) {
+    const contributions = await this.sdk.createContribution(args);
+    return contributions.createContribution;
   }
 }
