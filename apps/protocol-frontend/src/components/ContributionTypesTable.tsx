@@ -20,8 +20,27 @@ import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
 
 const ContributionTypesTable = ({ contributionTypesData }: any) => {
+  const uniqueContributions = new Set(
+    contributionTypesData.map((contribution: any) => contribution)
+  );
+
+  // const data = useMemo(
+  //   () =>
+  //     [...uniqueContributions].map((contributionType: any) => ({
+  //       name: contributionType.name,
+  //       lastOccurrence: contributionType.lastOccurrence,
+  //       guilds: contributionType.DAOs,
+  //     })),
+  //   [uniqueContributions]
+  // );
+
   const data = useMemo(
-    () => contributionTypesData.map((contributionType: any) => ({})),
+    () =>
+      contributionTypesData.map((contribution: any) => ({
+        name: contribution.name,
+        lastOccurrence: contribution.lastOccurrence,
+        guild: contribution.guild,
+      })),
     [contributionTypesData]
   );
 
@@ -35,8 +54,7 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
         Header: 'Last Occurrence',
         accessor: 'lastOccurrence',
       },
-
-      { Header: 'DAOs', accessor: 'guilds' },
+      { Header: 'DAOs', accessor: 'guild' },
     ],
     []
   );
