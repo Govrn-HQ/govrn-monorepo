@@ -14,11 +14,14 @@ import ContributionsTable from './ContributionsTable';
 import { mockContributions } from '../utils/mockData';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
+import { profileFormValidation } from '../utils/validations';
 
 const ProfileShell = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const localForm = useForm({
     mode: 'all',
+    resolver: yupResolver(profileFormValidation) }
+
   });
   const { handleSubmit, setValue, getValues } = localForm;
   return (
