@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
   Container,
   Stack,
@@ -17,6 +18,37 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { profileFormValidation } from '../utils/validations';
 
+const useYupValidationResolver = (profileValidationSchema) =>
+  useCallback(
+    async (data) => {
+      try {
+        const values = await profileValidationSchema.validate(data, {
+          abortEarly: false,
+        });
+
+        return {
+          values,
+          errors: {},
+        };
+      } catch (errors) {
+        return {
+          values: {},
+          errors: errors.inner.reduce(
+            (allErrors: any, currentError: any) => ({
+              ...allErrors,
+              [currentError.path]: {
+                type: currentError.type ?? 'validation',
+                message: currentError.message,
+              },
+            }),
+            {}
+          ),
+        };
+      }
+    },
+    [profileValidationSchema]
+  );
+
 const submitProfile = async (values: any) => {
   try {
     console.log('submitProfile', values);
@@ -29,7 +61,7 @@ const ProfileForm = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const localForm = useForm({
     mode: 'all',
-    resolver: yupResolver(profileFormValidation),
+    resolver: useYupValidationResolver(profileFormValidation),
   });
   const { handleSubmit, setValue, getValues } = localForm;
 
