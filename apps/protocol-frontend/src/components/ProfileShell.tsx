@@ -2,28 +2,14 @@ import {
   Container,
   Stack,
   Flex,
-  Text,
   Box,
   useBreakpointValue,
-  Button,
 } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
-import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
-import { useTable, useSortBy } from 'react-table';
-import ContributionsTable from './ContributionsTable';
-import { mockContributions } from '../utils/mockData';
-import { Input } from '@govrn/protocol-ui';
-import { useForm } from 'react-hook-form';
-import { profileFormValidation } from '../utils/validations';
+
+import ProfileForm from './ProfileForm';
 
 const ProfileShell = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
-  const localForm = useForm({
-    mode: 'all',
-    resolver: yupResolver(profileFormValidation) }
-
-  });
-  const { handleSubmit, setValue, getValues } = localForm;
   return (
     <Container
       paddingY={{ base: '4', md: '8' }}
@@ -37,32 +23,16 @@ const ProfileShell = () => {
         boxShadow="sm"
         borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
       >
-        <Stack spacing="5">
-          <Box paddingX={{ base: '4', md: '6' }} paddingTop="5">
-            <Text fontSize="lg" fontWeight="medium">
-              Connect Email Address
-            </Text>
-          </Box>
+        <Stack spacing="4">
           <Flex
-            as="form"
             justify="space-between"
             direction="column"
             wrap="wrap"
-            onSubmit={handleSubmit((values) => console.log('values', values))}
             w={['90%', '90%', '60%', '50%', '40%']}
             mb="200px"
+            padding={4}
           >
-            <Input
-              name="userEmail"
-              label="Email Address"
-              tip="Enter your Email address to link to the Linear integration."
-              localForm={localForm}
-            />
-          </Flex>
-          <Flex align="flex-end" mt="15px">
-            <Button variant="primary" type="submit">
-              Save
-            </Button>
+            <ProfileForm />
           </Flex>
         </Stack>
       </Box>
