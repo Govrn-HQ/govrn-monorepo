@@ -55,7 +55,7 @@ export const mockContributionTypes = [
     id: 2,
     name: 'Contribution Pull Request',
     guild: 'Raid Guild',
-    lastOccurrance: '2022-05-04',
+    lastOccurrence: '2022-05-04',
   },
   {
     id: 3,
@@ -76,7 +76,7 @@ export const mockContributionTypes = [
     lastOccurrence: '2022-05-04',
   },
   {
-    id: 3,
+    id: 6,
     name: 'Contribution Proposal',
     guild: 'Govrn',
     lastOccurrence: '2022-05-06',
