@@ -38,13 +38,15 @@ const Input: React.FC<InputProps> = ({
   type,
   defaultValue,
   localForm,
-  variant = 'filled',
+  variant = 'outline',
 }: InputProps) => {
   const {
     register,
     formState: { errors },
   } = localForm;
-
+  console.log({ localForm });
+  console.log('errors', errors[name]);
+  console.log('name', name);
   return (
     <FormControl mb={4} isInvalid={errors[name] !== undefined}>
       <Stack spacing={2}>
@@ -61,11 +63,9 @@ const Input: React.FC<InputProps> = ({
             variant={variant}
             {...register(name)}
           />
-          {errors && (
-            <ErrorMessage
-              errorMessage={errors[name] && errors[name]?.message}
-            />
-          )}
+          {/* {errors && ( */}
+          <ErrorMessage errorMessage={errors[name] && errors[name]?.message} />
+          {/* )} */}
         </Box>
       </Stack>
     </FormControl>

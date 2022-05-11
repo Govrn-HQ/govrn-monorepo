@@ -3,7 +3,8 @@ export default {
   variants: {
     filled: {
       field: {
-        bg: 'gray.100',
+        color: 'gray.700',
+        bg: 'white',
         borderRadius: '16px',
         padding: '16px',
         _hover: {
@@ -13,12 +14,13 @@ export default {
     },
     outline: {
       field: {
-        bg: 'white.400',
+        bg: 'white',
+        _hover: { borderColor: 'gray.300' },
         borderRadius: '16px',
-        borderColor: 'brand.100',
-        p: '16px',
-        _hover: {
-          bg: 'white.300',
+        borderColor: 'gray.200',
+        boxShadow: 'xs',
+        _placeholder: {
+          color: 'gray.500',
         },
       },
     },
