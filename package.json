@@ -19,6 +19,7 @@
     "@graphql-codegen/typescript-graphql-request": "^4.4.5",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@graphql-codegen/typescript-urql": "^3.5.7",
+    "@hookform/resolvers": "^2.8.8",
     "@linear/sdk": "^1.22.0",
     "@material-ui/core": "^4.12.3",
     "@mui/lab": "^5.0.0-alpha.71",
@@ -64,7 +65,8 @@
     "typegraphql-prisma": "^0.20.0",
     "vite-tsconfig-paths": "^3.4.1",
     "web3modal": "^1.9.7",
-    "yarn": "^1.22.18"
+    "yarn": "^1.22.18",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",
