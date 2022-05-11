@@ -4,29 +4,19 @@ import {
   HStack,
   Text,
   Box,
-  InputGroup,
-  InputLeftElement,
-  Icon,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra,
-  Divider,
+  Heading,
   useBreakpointValue,
   useColorModeValue,
   ButtonGroup,
   Button,
 } from '@chakra-ui/react';
+import PageHeading from './PageHeading';
 import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
 import { useTable, useSortBy } from 'react-table';
-import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import { mockContributions } from '../utils/mockData';
 
-const ContributionsTableShell = () => {
+const ProfileShell = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Container
@@ -35,8 +25,7 @@ const ContributionsTableShell = () => {
       color="gray.700"
       maxWidth="1200px"
     >
-      <PageHeading>Contributions</PageHeading>
-
+      <PageHeading>Profile</PageHeading>
       <Box
         background="white"
         boxShadow="sm"
@@ -44,7 +33,7 @@ const ContributionsTableShell = () => {
       >
         <Stack spacing="5">
           <Box paddingX={{ base: '4', md: '6' }} paddingTop="5">
-            <Stack
+            {/* <Stack
               direction={{ base: 'column', md: 'row' }}
               justify="space-between"
             >
@@ -61,39 +50,14 @@ const ContributionsTableShell = () => {
               >
                 Mint
               </Button>
-              {/* <InputGroup maxW="xs">
-                <InputLeftElement pointerEvents="none">
-                  <Icon as={FiSearch} color="muted" boxSize="5" />
-                </InputLeftElement>
-                <Input placeholder="Search" />
-              </InputGroup> */}
-            </Stack>
+            </Stack> */}
           </Box>
-          <Box overflowX="auto">
-            <ContributionsTable contributionsData={mockContributions} />
-          </Box>
-          <Box px={{ base: '4', md: '6' }} pb="5">
-            <HStack spacing="3" justify="space-between">
-              {!isMobile && (
-                <Text color="muted" fontSize="sm">
-                  Showing 1 to (x) of (y) results
-                </Text>
-              )}
-              <ButtonGroup
-                spacing="3"
-                justifyContent="space-between"
-                width={{ base: 'full', md: 'auto' }}
-                variant="secondary"
-              >
-                <Button>Previous</Button>
-                <Button>Next</Button>
-              </ButtonGroup>
-            </HStack>
-          </Box>
+          <Box overflowX="auto"></Box>
+          <Box px={{ base: '4', md: '6' }} pb="5"></Box>
         </Stack>
       </Box>
     </Container>
   );
 };
 
-export default ContributionsTableShell;
+export default ProfileShell;
