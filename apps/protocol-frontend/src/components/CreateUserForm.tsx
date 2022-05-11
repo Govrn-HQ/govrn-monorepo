@@ -16,13 +16,13 @@ import { mockContributions } from '../utils/mockData';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { profileFormValidation } from '../utils/validations';
+import { createUserFormValidation } from '../utils/validations';
 
-const useYupValidationResolver = (profileValidationSchema: any) =>
+const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
     async (data) => {
       try {
-        const values = await profileValidationSchema.validate(data, {
+        const values = await userValidationSchema.validate(data, {
           abortEarly: false,
         });
 
@@ -46,32 +46,32 @@ const useYupValidationResolver = (profileValidationSchema: any) =>
         };
       }
     },
-    [profileValidationSchema]
+    [userValidationSchema]
   );
 
-const submitProfile = async (values: any) => {
+const createUser = async (values: any) => {
   try {
-    console.log('submitProfile', values);
+    console.log('createUser', values);
   } catch (error) {
     console.log(error);
   }
 };
 
-const ProfileForm = () => {
+const CreateUserForm = () => {
   const localForm = useForm({
     mode: 'all',
-    resolver: useYupValidationResolver(profileFormValidation),
+    resolver: useYupValidationResolver(createUserFormValidation),
   });
-  const { handleSubmit, setValue, getValues } = localForm;
+  const { handleSubmit } = localForm;
 
   return (
     <Stack spacing="4" width="100%">
-      <form onSubmit={handleSubmit(submitProfile)}>
+      <form onSubmit={handleSubmit(createUser)}>
         <Input
-          name="userEmail"
-          label="Email Address"
-          tip="Enter your Email address to link to the Linear integration."
-          placeholder="user@govrn.io"
+          name="username"
+          label="Username"
+          tip="What would you like your username to be?"
+          placeholder="DAOContributor"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
         <Flex align="flex-end" marginTop={4}>
@@ -83,7 +83,7 @@ const ProfileForm = () => {
             transition="all 100ms ease-in-out"
             _hover={{ bgColor: 'brand.primary.100' }}
           >
-            Save
+            Create
           </Button>
         </Flex>
       </form>
@@ -91,4 +91,4 @@ const ProfileForm = () => {
   );
 };
 
-export default ProfileForm;
+export default CreateUserForm;

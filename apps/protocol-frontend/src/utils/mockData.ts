@@ -43,3 +43,31 @@ export const mockContributions = [
     guilds: {},
   },
 ];
+
+export const mockContributionTypes = [
+  {
+    id: 1,
+    name: 'Contribution Pull Request',
+    status: 'Preparing',
+    activityType: 'Pull Request',
+    submissionDate: '2022-05-03',
+    engagementDate: '2022-05-03',
+    attestations: {
+      1: 'yes',
+      2: 'yes',
+      3: 'yes',
+    },
+    verificationLevel: 1,
+    guilds: {
+      1: 'DAOhaus',
+      2: 'Raid Guild',
+      3: 'MetaFactory',
+    },
+  },
+];
+
+export const mockAttributionTypes = [
+  {
+    id: 1,
+  },
+];
