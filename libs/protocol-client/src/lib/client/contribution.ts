@@ -27,24 +27,26 @@ export class Contribution extends BaseClient {
     const contributions = await this.sdk.updateContribution(args);
     return contributions.updateContribution;
   }
-  // two situations
-  // 1. contribution exists
-  // 2. contribution does not exist
-  //
-  // check if id is supplied
+
   public async mint(
     chainId: number,
     provider: ethers.providers.Provider,
     id: number,
+    activityTypeId: number,
+    userId: number,
     args: MintArgs
   ) {
     // mint with contract
     const contract = new GovrnContract(chainId, provider);
     const transaction = await contract.mint(args);
     await transaction.wait(10);
-    // select partners
+    // select partners expectation is it isn't too many
+    const allPartners = await this.sdk.listUsers({
+      where: { address: { in: args.partners } },
+      first: args.partners?.length || 0,
+    });
     if (id) {
-      this.update({
+      return await this.update({
         data: {
           name: { set: args.name.toString() },
           details: { set: args.details.toString() },
@@ -57,12 +59,32 @@ export class Contribution extends BaseClient {
           proof: {
             set: args.proof.toString(),
           },
-          // partners: {
-          // 	set:
-          // }
+          partners: {
+            set: allPartners.result,
+          },
+          status: {
+            connect: { name: 'minted' },
+          },
         },
         where: { id },
       });
     }
+    return this.create({
+      data: {
+        activity_type: { connect: { id: activityTypeId } },
+        name: args.name.toString(),
+        details: args.details.toString(),
+        date_of_submission: new Date(args.dateOfSubmission.toString()),
+        date_of_engagement: new Date(args.dateOfEngagement.toString()),
+        proof: args.proof.toString(),
+        partners: {
+          connect: allPartners.result,
+        },
+        status: {
+          connect: { name: 'minted' },
+        },
+        user: { connect: { id: userId } },
+      },
+    });
   }
 }
