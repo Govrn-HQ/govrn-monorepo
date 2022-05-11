@@ -59,7 +59,7 @@ const Input: React.FC<InputProps> = ({
             defaultValue={defaultValue}
             py={6}
             variant={variant}
-            {...register(name)}
+            // {...register(name)}
           />
           {errors && (
             <ErrorMessage

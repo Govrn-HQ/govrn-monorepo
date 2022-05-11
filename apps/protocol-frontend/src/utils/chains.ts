@@ -10,7 +10,7 @@ export const supportedChains: ChainList = {
     chain_id: '0x1',
     providers: ['walletconnect'],
     // , 'portis', 'fortmatic'
-    rpc_url: `https://mainnet.infura.io/v3/${process.env.RPC_KEY}`,
+    rpc_url: `https://mainnet.infura.io/v3/${import.meta.env.RPC_KEY}`,
     block_explorer: 'https://etherscan.io',
   },
   '0x4': {
@@ -22,7 +22,7 @@ export const supportedChains: ChainList = {
     chain_id: '0x4',
     providers: ['walletconnect'],
     // , 'portis', 'fortmatic'
-    rpc_url: `https://rinkeby.infura.io/v3/${process.env.RPC_KEY}`,
+    rpc_url: `https://rinkeby.infura.io/v3/${import.meta.env.RPC_KEY}`,
     block_explorer: 'https://rinkeby.etherscan.io',
   },
   '0x2a': {
@@ -34,7 +34,7 @@ export const supportedChains: ChainList = {
     chain_id: '0x2a',
     providers: ['walletconnect'],
     // , 'portis', 'fortmatic'
-    rpc_url: `https://kovan.infura.io/v3/${process.env.RPC_KEY}`,
+    rpc_url: `https://kovan.infura.io/v3/${import.meta.env.RPC_KEY}`,
     block_explorer: 'https://kovan.etherscan.io',
   },
   '0x64': {

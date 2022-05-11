@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import { WalletProvider, NetworkConfig } from '@raidguild/quiver';
-import WalletConnectProvider from '@walletconnect/web3-provider';
+import WalletConnectProvider from '@walletconnect/ethereum-provider';
 import { IProviderOptions } from 'web3modal';
 import { ChakraProvider } from '@chakra-ui/react';
 import { GovrnTheme } from '@govrn/protocol-ui';
