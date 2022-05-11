@@ -1,13 +1,10 @@
 import {
   Container,
   Stack,
-  HStack,
+  Flex,
   Text,
   Box,
-  Heading,
   useBreakpointValue,
-  useColorModeValue,
-  ButtonGroup,
   Button,
 } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
@@ -15,9 +12,15 @@ import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
 import { useTable, useSortBy } from 'react-table';
 import ContributionsTable from './ContributionsTable';
 import { mockContributions } from '../utils/mockData';
+import { Input } from '@govrn/protocol-ui';
+import { useForm } from 'react-hook-form';
 
 const ProfileShell = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const localForm = useForm({
+    mode: 'all',
+  });
+  const { handleSubmit, setValue, getValues } = localForm;
   return (
     <Container
       paddingY={{ base: '4', md: '8' }}
@@ -33,27 +36,31 @@ const ProfileShell = () => {
       >
         <Stack spacing="5">
           <Box paddingX={{ base: '4', md: '6' }} paddingTop="5">
-            {/* <Stack
-              direction={{ base: 'column', md: 'row' }}
-              justify="space-between"
-            >
-              <Text fontSize="lg" fontWeight="medium">
-                My Contributions
-              </Text>
-              <Button
-                bgColor="brand.primary.50"
-                color="brand.primary.600"
-                transition="all 100ms ease-in-out"
-                _hover={{ bgColor: 'brand.primary.100' }}
-                flexBasis="10%"
-                colorScheme="brand.primary"
-              >
-                Mint
-              </Button>
-            </Stack> */}
+            <Text fontSize="lg" fontWeight="medium">
+              Connect Email Address
+            </Text>
           </Box>
-          <Box overflowX="auto"></Box>
-          <Box px={{ base: '4', md: '6' }} pb="5"></Box>
+          <Flex
+            as="form"
+            justify="space-between"
+            direction="column"
+            wrap="wrap"
+            onSubmit={handleSubmit((values) => console.log('values', values))}
+            w={['90%', '90%', '60%', '50%', '40%']}
+            mb="200px"
+          >
+            <Input
+              name="userEmail"
+              label="Email Address"
+              tip="Enter your Email address to link to the Linear integration."
+              localForm={localForm}
+            />
+          </Flex>
+          <Flex align="flex-end" mt="15px">
+            <Button variant="primary" type="submit">
+              Save
+            </Button>
+          </Flex>
         </Stack>
       </Box>
     </Container>

@@ -15,7 +15,9 @@ const PageHeading: React.FC<PageHeadingProps> = ({
       alignItems="center"
       paddingBottom={4}
     >
-      <Heading color="gray.800">{children}</Heading>
+      <Heading color="gray.800" fontWeight="normal">
+        {children}
+      </Heading>
     </Stack>
   );
 };
