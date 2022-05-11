@@ -3,7 +3,7 @@ export default {
   variants: {
     filled: {
       field: {
-        bg: 'white.400',
+        bg: 'gray.100',
         borderRadius: '16px',
         padding: '16px',
         _hover: {
