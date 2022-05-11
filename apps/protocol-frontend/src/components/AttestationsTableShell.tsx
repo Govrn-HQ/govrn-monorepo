@@ -23,11 +23,10 @@ import {
 import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
 import { useTable, useSortBy } from 'react-table';
 import PageHeading from './PageHeading';
-import ContributionsTable from './ContributionsTable';
-import ContributionTypesTable from './ContributionTypesTable';
-import { mockContributions, mockContributionTypes } from '../utils/mockData';
+import AttestationsTable from './AttestationsTable';
+import { mockAttestations } from '../utils/mockData';
 
-const ContributionsTableShell = () => {
+const AttestationsTableShell = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Container
@@ -36,7 +35,7 @@ const ContributionsTableShell = () => {
       color="gray.700"
       maxWidth="1200px"
     >
-      <PageHeading>Contributions</PageHeading>
+      <PageHeading>Attestations</PageHeading>
       <Box
         background="white"
         boxShadow="sm"
@@ -49,7 +48,7 @@ const ContributionsTableShell = () => {
               justify="space-between"
             >
               <Text fontSize="lg" fontWeight="medium">
-                My Contributions
+                DAO Contributions
               </Text>
               <Button
                 bgColor="brand.primary.50"
@@ -70,64 +69,7 @@ const ContributionsTableShell = () => {
             </Stack>
           </Box>
           <Box overflowX="auto">
-            <ContributionsTable contributionsData={mockContributions} />
-          </Box>
-          <Box px={{ base: '4', md: '6' }} pb="5">
-            <HStack spacing="3" justify="space-between">
-              {!isMobile && (
-                <Text color="muted" fontSize="sm">
-                  Showing 1 to (x) of (y) results
-                </Text>
-              )}
-              <ButtonGroup
-                spacing="3"
-                justifyContent="space-between"
-                width={{ base: 'full', md: 'auto' }}
-                variant="secondary"
-              >
-                <Button>Previous</Button>
-                <Button>Next</Button>
-              </ButtonGroup>
-            </HStack>
-          </Box>
-        </Stack>
-      </Box>
-      <Box
-        background="white"
-        boxShadow="sm"
-        borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
-      >
-        <Stack spacing="5">
-          <Box paddingX={{ base: '4', md: '6' }} paddingTop="5">
-            <Stack
-              direction={{ base: 'column', md: 'row' }}
-              justify="space-between"
-            >
-              <Text fontSize="lg" fontWeight="medium">
-                My Contributions
-              </Text>
-              <Button
-                bgColor="brand.primary.50"
-                color="brand.primary.600"
-                transition="all 100ms ease-in-out"
-                _hover={{ bgColor: 'brand.primary.100' }}
-                flexBasis="10%"
-                colorScheme="brand.primary"
-              >
-                Mint
-              </Button>
-              {/* <InputGroup maxW="xs">
-                <InputLeftElement pointerEvents="none">
-                  <Icon as={FiSearch} color="muted" boxSize="5" />
-                </InputLeftElement>
-                <Input placeholder="Search" />
-              </InputGroup> */}
-            </Stack>
-          </Box>
-          <Box overflowX="auto">
-            <ContributionTypesTable
-              contributionTypesData={mockContributionTypes}
-            />
+            <AttestationsTable attestationsData={mockAttestations} />
           </Box>
           <Box px={{ base: '4', md: '6' }} pb="5">
             <HStack spacing="3" justify="space-between">
@@ -153,4 +95,4 @@ const ContributionsTableShell = () => {
   );
 };
 
-export default ContributionsTableShell;
+export default AttestationsTableShell;

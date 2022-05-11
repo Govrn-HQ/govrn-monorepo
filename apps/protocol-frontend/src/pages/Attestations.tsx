@@ -1,11 +1,11 @@
 import React from 'react';
 import SiteLayout from '../components/SiteLayout';
-import ContributionsTableShell from '../components/ContributionsTableShell';
+import AttestationsTableShell from '../components/AttestationsTableShell';
 
 const Attestations = () => {
   return (
     <SiteLayout>
-      <ContributionsTableShell />
+      <AttestationsTableShell />
     </SiteLayout>
   );
 };
