@@ -16,6 +16,7 @@ const ProfileShell = () => {
       paddingX={{ base: '0', md: '8' }}
       color="gray.700"
       maxWidth="1200px"
+      marginX="auto"
     >
       <PageHeading>Profile</PageHeading>
       <Box
