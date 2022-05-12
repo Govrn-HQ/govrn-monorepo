@@ -56,4 +56,9 @@ export class ContributionMinAggregate {
     nullable: true
   })
   proof!: string | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  on_chain_id!: number | null;
 }

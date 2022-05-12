@@ -26,4 +26,9 @@ export class ContributionSumAggregate {
     nullable: true
   })
   user_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  on_chain_id!: number | null;
 }

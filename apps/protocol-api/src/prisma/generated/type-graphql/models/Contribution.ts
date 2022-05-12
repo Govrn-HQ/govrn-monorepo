@@ -79,6 +79,11 @@ export class Contribution {
 
   linear_issue?: LinearIssue | null;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  on_chain_id?: number | null;
+
   @TypeGraphQL.Field(_type => ContributionCount, {
     nullable: true
   })

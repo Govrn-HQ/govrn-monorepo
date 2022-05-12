@@ -72,4 +72,9 @@ export class ContributionCreateWithoutLinear_issueInput {
     nullable: true
   })
   guilds?: GuildContributionCreateNestedManyWithoutContributionInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  on_chain_id?: number | undefined;
 }

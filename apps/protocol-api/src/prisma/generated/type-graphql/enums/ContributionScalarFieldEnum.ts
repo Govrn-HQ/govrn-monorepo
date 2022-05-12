@@ -10,7 +10,8 @@ export enum ContributionScalarFieldEnum {
   date_of_submission = "date_of_submission",
   date_of_engagement = "date_of_engagement",
   details = "details",
-  proof = "proof"
+  proof = "proof",
+  on_chain_id = "on_chain_id"
 }
 TypeGraphQL.registerEnumType(ContributionScalarFieldEnum, {
   name: "ContributionScalarFieldEnum",

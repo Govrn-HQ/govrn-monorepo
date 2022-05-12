@@ -95,6 +95,7 @@ model Contribution {
   partners Partner[]
   guilds GuildContribution[]
   linear_issue LinearIssue?
+  on_chain_id Int? @unique
 }
 
 model Partner {

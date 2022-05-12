@@ -1,11 +1,16 @@
 import { ethers } from 'ethers';
 import { BaseClient } from './base';
+import { Attestation } from './attestation';
 import {
   CreateContributionMutationVariables,
   ListContributionsQueryVariables,
   UpdateContributionMutationVariables,
 } from '../protocol-types';
-import { GovrnContract, MintArgs } from '@govrn/govrn-contract-client';
+import {
+  GovrnContract,
+  MintArgs,
+  AttestArgs,
+} from '@govrn/govrn-contract-client';
 
 export class Contribution extends BaseClient {
   public async get(id: number) {
@@ -31,6 +36,7 @@ export class Contribution extends BaseClient {
   public async mint(
     chainId: number,
     provider: ethers.providers.Provider,
+    address: string,
     id: number,
     activityTypeId: number,
     userId: number,
@@ -39,7 +45,22 @@ export class Contribution extends BaseClient {
     // mint with contract
     const contract = new GovrnContract(chainId, provider);
     const transaction = await contract.mint(args);
-    await transaction.wait(10);
+    // TODO: maybe store minted id
+    // fetch most recent event for the passed in address
+    const transactionReceipt = await transaction.wait(10);
+    let onChainId = null;
+    const logs = transactionReceipt.logs;
+    for (const log of logs) {
+      const decodedLog = contract.govrn.interface.parseLog(log);
+      // TODO: Can we avoid hardcoding the event name
+      if (decodedLog.name === 'Mint') {
+        onChainId = decodedLog.args['id'];
+        break;
+      }
+    }
+    if (!onChainId) {
+      throw Error('Failed to fetch on chain Id');
+    }
     // select partners expectation is it isn't too many
     const allPartners = await this.sdk.listUsers({
       where: { address: { in: args.partners } },
@@ -65,6 +86,9 @@ export class Contribution extends BaseClient {
           status: {
             connect: { name: 'minted' },
           },
+          on_chain_id: {
+            set: onChainId,
+          },
         },
         where: { id },
       });
@@ -82,6 +106,41 @@ export class Contribution extends BaseClient {
         },
         status: {
           connect: { name: 'minted' },
+        },
+        user: { connect: { id: userId } },
+        on_chain_id: onChainId,
+      },
+    });
+  }
+
+  public async attest(
+    chainId: number,
+    provider: ethers.providers.Provider,
+    id: number,
+    activityTypeId: number,
+    userId: number,
+    args: AttestArgs
+  ) {
+    const attestCrud = new Attestation(this.client);
+    const contract = new GovrnContract(chainId, provider);
+    const transaction = await contract.attest(args);
+    await transaction.wait(10);
+    if (id) {
+      return await attestCrud.update({
+        data: {
+          confidence: { connect: { name: args.confidence.toString() } },
+          contribution: {
+            connect: { on_chain_id: parseInt(args.contribution.toString()) },
+          },
+        },
+        where: { id },
+      });
+    }
+    return attestCrud.create({
+      data: {
+        confidence: { connect: { name: args.confidence.toString() } },
+        contribution: {
+          connect: { on_chain_id: parseInt(args.contribution.toString()) },
         },
         user: { connect: { id: userId } },
       },

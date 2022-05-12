@@ -27,4 +27,9 @@ export class ContributionSumOrderByAggregateInput {
     nullable: true
   })
   user_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  on_chain_id?: "asc" | "desc" | undefined;
 }
