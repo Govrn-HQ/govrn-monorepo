@@ -16,45 +16,8 @@ import {
 import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
+import EmptyContributions from './EmptyContributions';
 import { mockContributions, mockContributionTypes } from '../utils/mockData';
-
-const EmptyContributions = () => (
-  <Box
-    background="white"
-    boxShadow="sm"
-    borderRadius={{ base: 'none', md: 'lg' }}
-  >
-    <Stack spacing="5">
-      <Box paddingX={{ base: '4', md: '6' }} width="fit-content" paddingY={4}>
-        <Stack
-          direction={{ base: 'column', md: 'row' }}
-          spacing="4"
-          justify="space-between"
-          align="center"
-        >
-          <Text fontSize="lg" fontWeight="medium">
-            No Contributions Yet! 👀
-          </Text>
-        </Stack>
-        <Stack direction="column" spacing="4">
-          <Text fontSize="sm" fontWeight="medium" color="gray.500">
-            Get started by adding your first Contribution
-          </Text>
-          <Button
-            size="md"
-            bgColor="brand.primary.50"
-            color="brand.primary.600"
-            transition="all 100ms ease-in-out"
-            _hover={{ bgColor: 'brand.primary.100' }}
-            colorScheme="brand.primary"
-          >
-            Report a Contribution
-          </Button>
-        </Stack>
-      </Box>
-    </Stack>
-  </Box>
-);
 
 const ContributionsTableShell = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
