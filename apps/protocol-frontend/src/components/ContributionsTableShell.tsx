@@ -18,6 +18,44 @@ import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import { mockContributions, mockContributionTypes } from '../utils/mockData';
 
+const EmptyContributions = () => (
+  <Box
+    background="white"
+    boxShadow="sm"
+    borderRadius={{ base: 'none', md: 'lg' }}
+  >
+    <Stack spacing="5">
+      <Box paddingX={{ base: '4', md: '6' }} width="fit-content" paddingY={4}>
+        <Stack
+          direction={{ base: 'column', md: 'row' }}
+          spacing="4"
+          justify="space-between"
+          align="center"
+        >
+          <Text fontSize="lg" fontWeight="medium">
+            No Contributions Yet! 👀
+          </Text>
+        </Stack>
+        <Stack direction="column" spacing="4">
+          <Text fontSize="sm" fontWeight="medium" color="gray.500">
+            Get started by adding your first Contribution
+          </Text>
+          <Button
+            size="md"
+            bgColor="brand.primary.50"
+            color="brand.primary.600"
+            transition="all 100ms ease-in-out"
+            _hover={{ bgColor: 'brand.primary.100' }}
+            colorScheme="brand.primary"
+          >
+            Report a Contribution
+          </Button>
+        </Stack>
+      </Box>
+    </Stack>
+  </Box>
+);
+
 const ContributionsTableShell = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
@@ -28,130 +66,131 @@ const ContributionsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Contributions</PageHeading>
-      <Tabs variant="soft-rounded" colorScheme="gray">
-        <TabList>
-          <Tab>Contributions</Tab>
-          <Tab>Contribution Types</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <Box
-              background="white"
-              boxShadow="sm"
-              borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
-            >
-              <Stack spacing="5">
-                <Box paddingX={{ base: '4', md: '6' }} paddingTop="5">
-                  <Stack
-                    direction={{ base: 'column', md: 'row' }}
-                    justify="space-between"
-                  >
-                    <Text fontSize="lg" fontWeight="medium">
-                      My Contributions
-                    </Text>
-                    <Button
-                      bgColor="brand.primary.50"
-                      color="brand.primary.600"
-                      transition="all 100ms ease-in-out"
-                      _hover={{ bgColor: 'brand.primary.100' }}
-                      flexBasis="10%"
-                      colorScheme="brand.primary"
+      {mockContributions && mockContributions.length < 0 ? (
+        <Tabs variant="soft-rounded" colorScheme="gray">
+          <TabList>
+            <Tab>Contributions</Tab>
+            <Tab>Contribution Types</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel paddingX="0">
+              <Box
+                background="white"
+                boxShadow="sm"
+                borderRadius={{ base: 'none', md: 'lg' }}
+              >
+                <Stack spacing="5">
+                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
+                    <Stack
+                      direction={{ base: 'column', md: 'row' }}
+                      justify="space-between"
+                      align="center"
                     >
-                      Mint
-                    </Button>
-                    {/* <InputGroup maxW="xs">
+                      <Text fontSize="lg" fontWeight="medium">
+                        My Contributions
+                      </Text>
+                      <Button
+                        size="md"
+                        bgColor="brand.primary.50"
+                        color="brand.primary.600"
+                        transition="all 100ms ease-in-out"
+                        _hover={{ bgColor: 'brand.primary.100' }}
+                        flexBasis="10%"
+                        colorScheme="brand.primary"
+                      >
+                        Mint
+                      </Button>
+                      {/* <InputGroup maxW="xs">
                 <InputLeftElement pointerEvents="none">
                   <Icon as={FiSearch} color="muted" boxSize="5" />
                 </InputLeftElement>
                 <Input placeholder="Search" />
               </InputGroup> */}
-                  </Stack>
-                </Box>
-                <Box overflowX="auto">
-                  <ContributionsTable contributionsData={mockContributions} />
-                </Box>
-                <Box px={{ base: '4', md: '6' }} pb="5">
-                  <HStack spacing="3" justify="space-between">
-                    {!isMobile && (
-                      <Text color="muted" fontSize="sm">
-                        Showing 1 to (x) of (y) results
+                    </Stack>
+                  </Box>
+                  <Box overflowX="auto">
+                    <ContributionsTable contributionsData={mockContributions} />
+                  </Box>
+                  <Box px={{ base: '4', md: '6' }} pb="5">
+                    <HStack spacing="3" justify="space-between">
+                      {!isMobile && (
+                        <Text color="muted" fontSize="sm">
+                          Showing 1 to (x) of (y) results
+                        </Text>
+                      )}
+                      <ButtonGroup
+                        spacing="3"
+                        justifyContent="space-between"
+                        width={{ base: 'full', md: 'auto' }}
+                        variant="secondary"
+                      >
+                        <Button>Previous</Button>
+                        <Button>Next</Button>
+                      </ButtonGroup>
+                    </HStack>
+                  </Box>
+                </Stack>
+              </Box>
+            </TabPanel>
+            <TabPanel paddingX="0">
+              <Box
+                background="white"
+                boxShadow="sm"
+                borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
+              >
+                <Stack spacing="5">
+                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
+                    <Stack
+                      direction={{ base: 'column', md: 'row' }}
+                      justify="space-between"
+                    >
+                      <Text fontSize="lg" fontWeight="medium">
+                        Contribution Types
                       </Text>
-                    )}
-                    <ButtonGroup
-                      spacing="3"
-                      justifyContent="space-between"
-                      width={{ base: 'full', md: 'auto' }}
-                      variant="secondary"
-                    >
-                      <Button>Previous</Button>
-                      <Button>Next</Button>
-                    </ButtonGroup>
-                  </HStack>
-                </Box>
-              </Stack>
-            </Box>
-          </TabPanel>
-          <TabPanel>
-            <Box
-              background="white"
-              boxShadow="sm"
-              borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
-            >
-              <Stack spacing="5">
-                <Box paddingX={{ base: '4', md: '6' }} paddingTop="5">
-                  <Stack
-                    direction={{ base: 'column', md: 'row' }}
-                    justify="space-between"
-                  >
-                    <Text fontSize="lg" fontWeight="medium">
-                      Contribution Types
-                    </Text>
-                    <Button
-                      bgColor="brand.primary.50"
-                      color="brand.primary.600"
-                      transition="all 100ms ease-in-out"
-                      _hover={{ bgColor: 'brand.primary.100' }}
-                      flexBasis="10%"
-                      colorScheme="brand.primary"
-                    >
-                      Mint
-                    </Button>
-                    {/* <InputGroup maxW="xs">
+
+                      {/* <InputGroup maxW="xs">
                 <InputLeftElement pointerEvents="none">
                   <Icon as={FiSearch} color="muted" boxSize="5" />
                 </InputLeftElement>
                 <Input placeholder="Search" />
               </InputGroup> */}
-                  </Stack>
-                </Box>
-                <Box overflowX="auto">
-                  <ContributionTypesTable
-                    contributionTypesData={mockContributionTypes}
-                  />
-                </Box>
-                <Box px={{ base: '4', md: '6' }} pb="5">
-                  <HStack spacing="3" justify="space-between">
-                    {!isMobile && (
-                      <Text color="muted" fontSize="sm">
-                        Showing 1 to (x) of (y) results
-                      </Text>
+                    </Stack>
+                  </Box>
+                  <Box overflowX="auto">
+                    {mockContributionTypes.length > 0 ? (
+                      <ContributionTypesTable
+                        contributionTypesData={mockContributionTypes}
+                      />
+                    ) : (
+                      <EmptyContributions />
                     )}
-                    <ButtonGroup
-                      spacing="3"
-                      justifyContent="space-between"
-                      width={{ base: 'full', md: 'auto' }}
-                      variant="secondary"
-                    >
-                      <Button>Previous</Button>
-                      <Button>Next</Button>
-                    </ButtonGroup>
-                  </HStack>
-                </Box>
-              </Stack>
-            </Box>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+                  </Box>
+                  <Box px={{ base: '4', md: '6' }} pb="5">
+                    <HStack spacing="3" justify="space-between">
+                      {!isMobile && (
+                        <Text color="muted" fontSize="sm">
+                          Showing 1 to (x) of (y) results
+                        </Text>
+                      )}
+                      <ButtonGroup
+                        spacing="3"
+                        justifyContent="space-between"
+                        width={{ base: 'full', md: 'auto' }}
+                        variant="secondary"
+                      >
+                        <Button>Previous</Button>
+                        <Button>Next</Button>
+                      </ButtonGroup>
+                    </HStack>
+                  </Box>
+                </Stack>
+              </Box>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      ) : (
+        <EmptyContributions />
+      )}
     </Container>
   );
 };
