@@ -47,39 +47,45 @@ export const mockContributions = [
 export const mockContributionTypes = [
   {
     id: 1,
-    name: 'Contribution Pull Request',
+    name: 'Pull Request',
     guild: 'DAOhaus',
     lastOccurrence: '2022-05-03',
   },
   {
     id: 2,
-    name: 'Contribution Pull Request',
+    name: 'Pull Request',
     guild: 'Raid Guild',
     lastOccurrence: '2022-05-04',
   },
   {
     id: 3,
-    name: 'Contribution Pull Request',
+    name: 'Pull Request',
     guild: 'MetaFactory',
     lastOccurrence: '2022-05-05',
   },
   {
     id: 4,
-    name: 'Contribution Proposal',
+    name: 'Proposal',
     guild: 'DAOhaus',
     lastOccurrence: '2022-05-01',
   },
   {
     id: 5,
-    name: 'Contribution Proposal',
+    name: 'Proposal',
     guild: 'DAOhaus',
     lastOccurrence: '2022-05-04',
   },
   {
     id: 6,
-    name: 'Contribution Proposal',
+    name: 'Proposal',
     guild: 'Govrn',
     lastOccurrence: '2022-05-06',
+  },
+  {
+    id: 7,
+    name: 'Documentation',
+    guild: 'Govrn',
+    lastOccurrence: '2022-05-07',
   },
 ];
 
