@@ -26,4 +26,9 @@ export class ContributionAvgAggregate {
     nullable: true
   })
   user_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  on_chain_id!: number | null;
 }

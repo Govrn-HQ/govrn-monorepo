@@ -115,6 +115,19 @@ query getUser($where: UserWhereUniqueInput!,) {
     }
 }
 
+query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [UserOrderByWithRelationInput!]) {
+    result: users(
+        where: $where,
+        skip: $skip,
+        take: $first,
+        orderBy: $orderBy,
+    ) {
+      ...UserFragment
+    }
+}
+
+
+
 mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   updateUser(data: $data, where: $where) {
       # activities
@@ -267,6 +280,40 @@ mutation updateAttestation($data: AttestationUpdateInput!, $where: AttestationWh
   updateAttestation(data: $data, where: $where) {
     ...AttestationFragment
   }
+}
+
+# Partners
+fragment PartnerFragment on Partner {
+  contribution {
+    activity_type_id
+    date_of_engagement
+    date_of_submission
+    details
+    id
+    name
+    proof
+    status_id
+    updatedAt
+    user_id
+  }
+  createdAt
+  updatedAt
+  user {
+    name
+    address
+    id
+  }
+}
+
+query listPartners($where: PartnerWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [PartnerOrderByWithRelationInput!]) {
+    result: partners(
+        where: $where,
+        skip: $skip,
+        take: $first,
+        orderBy: $orderBy,
+    ) {
+      ...PartnerFragment
+    }
 }
 
 

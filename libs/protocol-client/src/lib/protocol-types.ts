@@ -2030,6 +2030,7 @@ export type Contribution = {
   id: Scalars['Int'];
   linear_issue?: Maybe<LinearIssue>;
   name: Scalars['String'];
+  on_chain_id?: Maybe<Scalars['Int']>;
   partners: Array<Partner>;
   proof?: Maybe<Scalars['String']>;
   status: ContributionStatus;
@@ -2072,6 +2073,7 @@ export type ContributionPartnersArgs = {
 export type ContributionAvgAggregate = {
   activity_type_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  on_chain_id?: Maybe<Scalars['Float']>;
   status_id?: Maybe<Scalars['Float']>;
   user_id?: Maybe<Scalars['Float']>;
 };
@@ -2079,6 +2081,7 @@ export type ContributionAvgAggregate = {
 export type ContributionAvgOrderByAggregateInput = {
   activity_type_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  on_chain_id?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
@@ -2097,6 +2100,7 @@ export type ContributionCountAggregate = {
   details: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['Int'];
+  on_chain_id: Scalars['Int'];
   proof: Scalars['Int'];
   status_id: Scalars['Int'];
   updatedAt: Scalars['Int'];
@@ -2110,6 +2114,7 @@ export type ContributionCountOrderByAggregateInput = {
   details?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  on_chain_id?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -2125,6 +2130,7 @@ export type ContributionCreateInput = {
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2138,6 +2144,7 @@ export type ContributionCreateManyActivity_TypeInput = {
   details?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2156,6 +2163,7 @@ export type ContributionCreateManyInput = {
   details?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2169,6 +2177,7 @@ export type ContributionCreateManyStatusInput = {
   details?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
@@ -2186,6 +2195,7 @@ export type ContributionCreateManyUserInput = {
   details?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2284,6 +2294,7 @@ export type ContributionCreateWithoutActivity_TypeInput = {
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2299,6 +2310,7 @@ export type ContributionCreateWithoutAttestationsInput = {
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2314,6 +2326,7 @@ export type ContributionCreateWithoutGuildsInput = {
   details?: InputMaybe<Scalars['String']>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2329,6 +2342,7 @@ export type ContributionCreateWithoutLinear_IssueInput = {
   details?: InputMaybe<Scalars['String']>;
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2345,6 +2359,7 @@ export type ContributionCreateWithoutPartnersInput = {
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2360,6 +2375,7 @@ export type ContributionCreateWithoutStatusInput = {
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2375,6 +2391,7 @@ export type ContributionCreateWithoutUserInput = {
   guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
   name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
@@ -2393,6 +2410,7 @@ export type ContributionGroupBy = {
   details?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
+  on_chain_id?: Maybe<Scalars['Int']>;
   proof?: Maybe<Scalars['String']>;
   status_id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
@@ -2412,6 +2430,7 @@ export type ContributionMaxAggregate = {
   details?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  on_chain_id?: Maybe<Scalars['Int']>;
   proof?: Maybe<Scalars['String']>;
   status_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -2425,6 +2444,7 @@ export type ContributionMaxOrderByAggregateInput = {
   details?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  on_chain_id?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -2438,6 +2458,7 @@ export type ContributionMinAggregate = {
   details?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  on_chain_id?: Maybe<Scalars['Int']>;
   proof?: Maybe<Scalars['String']>;
   status_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -2451,6 +2472,7 @@ export type ContributionMinOrderByAggregateInput = {
   details?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  on_chain_id?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -2473,6 +2495,7 @@ export type ContributionOrderByWithAggregationInput = {
   details?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  on_chain_id?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -2490,6 +2513,7 @@ export type ContributionOrderByWithRelationInput = {
   id?: InputMaybe<SortOrder>;
   linear_issue?: InputMaybe<LinearIssueOrderByWithRelationInput>;
   name?: InputMaybe<SortOrder>;
+  on_chain_id?: InputMaybe<SortOrder>;
   partners?: InputMaybe<PartnerOrderByRelationAggregateInput>;
   proof?: InputMaybe<SortOrder>;
   status?: InputMaybe<ContributionStatusOrderByWithRelationInput>;
@@ -2511,6 +2535,7 @@ export enum ContributionScalarFieldEnum {
   Details = 'details',
   Id = 'id',
   Name = 'name',
+  OnChainId = 'on_chain_id',
   Proof = 'proof',
   StatusId = 'status_id',
   UpdatedAt = 'updatedAt',
@@ -2527,6 +2552,7 @@ export type ContributionScalarWhereInput = {
   details?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
+  on_chain_id?: InputMaybe<IntNullableFilter>;
   proof?: InputMaybe<StringNullableFilter>;
   status_id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -2543,6 +2569,7 @@ export type ContributionScalarWhereWithAggregatesInput = {
   details?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
+  on_chain_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   proof?: InputMaybe<StringNullableWithAggregatesFilter>;
   status_id?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -2767,6 +2794,7 @@ export type ContributionStatusWhereUniqueInput = {
 export type ContributionSumAggregate = {
   activity_type_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  on_chain_id?: Maybe<Scalars['Int']>;
   status_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
 };
@@ -2774,6 +2802,7 @@ export type ContributionSumAggregate = {
 export type ContributionSumOrderByAggregateInput = {
   activity_type_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  on_chain_id?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
@@ -2787,6 +2816,7 @@ export type ContributionUpdateInput = {
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2799,6 +2829,7 @@ export type ContributionUpdateManyMutationInput = {
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -2917,6 +2948,7 @@ export type ContributionUpdateWithoutActivity_TypeInput = {
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2932,6 +2964,7 @@ export type ContributionUpdateWithoutAttestationsInput = {
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2947,6 +2980,7 @@ export type ContributionUpdateWithoutGuildsInput = {
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2962,6 +2996,7 @@ export type ContributionUpdateWithoutLinear_IssueInput = {
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -2978,6 +3013,7 @@ export type ContributionUpdateWithoutPartnersInput = {
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -2993,6 +3029,7 @@ export type ContributionUpdateWithoutStatusInput = {
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -3008,6 +3045,7 @@ export type ContributionUpdateWithoutUserInput = {
   guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
   linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
@@ -3066,6 +3104,7 @@ export type ContributionWhereInput = {
   id?: InputMaybe<IntFilter>;
   linear_issue?: InputMaybe<LinearIssueRelationFilter>;
   name?: InputMaybe<StringFilter>;
+  on_chain_id?: InputMaybe<IntNullableFilter>;
   partners?: InputMaybe<PartnerListRelationFilter>;
   proof?: InputMaybe<StringNullableFilter>;
   status?: InputMaybe<ContributionStatusRelationFilter>;
@@ -3077,6 +3116,7 @@ export type ContributionWhereInput = {
 
 export type ContributionWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
+  on_chain_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -10903,6 +10943,16 @@ export type GetUserQueryVariables = Exact<{
 
 export type GetUserQuery = { result?: { address: string, chain_type_id: number, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } | null };
 
+export type ListUsersQueryVariables = Exact<{
+  where?: UserWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<UserOrderByWithRelationInput> | UserOrderByWithRelationInput>;
+}>;
+
+
+export type ListUsersQuery = { result: Array<{ address: string, chain_type_id: number, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }> };
+
 export type UpdateUserMutationVariables = Exact<{
   data: UserUpdateInput;
   where: UserWhereUniqueInput;
@@ -10983,6 +11033,18 @@ export type UpdateAttestationMutationVariables = Exact<{
 
 
 export type UpdateAttestationMutation = { updateAttestation?: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } | null };
+
+export type PartnerFragmentFragment = { createdAt: any, updatedAt: any, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } };
+
+export type ListPartnersQueryVariables = Exact<{
+  where?: PartnerWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<PartnerOrderByWithRelationInput> | PartnerOrderByWithRelationInput>;
+}>;
+
+
+export type ListPartnersQuery = { result: Array<{ createdAt: any, updatedAt: any, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
 
 export const LinearJobFieldsFragmentFragmentDoc = gql`
     fragment LinearJobFieldsFragment on LinearJobRun {
@@ -11089,6 +11151,29 @@ export const AttestationFragmentFragmentDoc = gql`
   }
 }
     `;
+export const PartnerFragmentFragmentDoc = gql`
+    fragment PartnerFragment on Partner {
+  contribution {
+    activity_type_id
+    date_of_engagement
+    date_of_submission
+    details
+    id
+    name
+    proof
+    status_id
+    updatedAt
+    user_id
+  }
+  createdAt
+  updatedAt
+  user {
+    name
+    address
+    id
+  }
+}
+    `;
 export const ListLinearJobRunsDocument = gql`
     query listLinearJobRuns($where: LinearJobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearJobRunOrderByWithRelationInput!]) {
   result: linearJobRuns(
@@ -11174,6 +11259,13 @@ export const GetUserDocument = gql`
   }
 }
     ${UserFragmentFragmentDoc}`;
+export const ListUsersDocument = gql`
+    query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [UserOrderByWithRelationInput!]) {
+  result: users(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
 export const UpdateUserDocument = gql`
     mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   updateUser(data: $data, where: $where) {
@@ -11255,6 +11347,13 @@ export const UpdateAttestationDocument = gql`
   }
 }
     ${AttestationFragmentFragmentDoc}`;
+export const ListPartnersDocument = gql`
+    query listPartners($where: PartnerWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [PartnerOrderByWithRelationInput!]) {
+  result: partners(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...PartnerFragment
+  }
+}
+    ${PartnerFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -11293,6 +11392,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUser', 'query');
     },
+    listUsers(variables?: ListUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListUsersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListUsersQuery>(ListUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listUsers', 'query');
+    },
     updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
     },
@@ -11319,6 +11421,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateAttestation(variables: UpdateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateAttestationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateAttestationMutation>(UpdateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateAttestation', 'mutation');
+    },
+    listPartners(variables?: ListPartnersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListPartnersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListPartnersQuery>(ListPartnersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listPartners', 'query');
     }
   };
 }

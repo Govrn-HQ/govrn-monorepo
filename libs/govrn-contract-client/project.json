@@ -12,6 +12,13 @@
         "assets": ["libs/govrn-contract-client/*.md"]
       }
     },
+    "typechain": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "typechain --target ethers-v5 --out-dir ./libs/govrn-contract-client/src/lib/generated ./apps/govrn-contract/out/Govrn.sol/*.json"
+      }
+    },
+
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

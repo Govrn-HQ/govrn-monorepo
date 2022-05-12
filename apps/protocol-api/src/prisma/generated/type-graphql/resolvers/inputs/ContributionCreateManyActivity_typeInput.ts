@@ -51,4 +51,9 @@ export class ContributionCreateManyActivity_typeInput {
     nullable: true
   })
   proof?: string | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  on_chain_id?: number | undefined;
 }
