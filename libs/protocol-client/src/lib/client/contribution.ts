@@ -42,11 +42,8 @@ export class Contribution extends BaseClient {
     userId: number,
     args: MintArgs
   ) {
-    // mint with contract
     const contract = new GovrnContract(chainId, provider);
     const transaction = await contract.mint(args);
-    // TODO: maybe store minted id
-    // fetch most recent event for the passed in address
     const transactionReceipt = await transaction.wait(10);
     let onChainId = null;
     const logs = transactionReceipt.logs;
@@ -61,7 +58,6 @@ export class Contribution extends BaseClient {
     if (!onChainId) {
       throw Error('Failed to fetch on chain Id');
     }
-    // select partners expectation is it isn't too many
     const allPartners = await this.sdk.listUsers({
       where: { address: { in: args.partners } },
       first: args.partners?.length || 0,

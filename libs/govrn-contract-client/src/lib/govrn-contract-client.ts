@@ -1,10 +1,6 @@
 import { ethers } from 'ethers';
 import { Govrn__factory, Govrn } from './generated';
 
-// attest
-// mint
-// typechain --target ethers-v5 --out-dir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
-
 export type MintArgs = {
   name: ethers.BytesLike;
   details: ethers.BytesLike;
