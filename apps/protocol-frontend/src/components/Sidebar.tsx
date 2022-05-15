@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+
 import {
   Box,
   Button,
@@ -25,14 +26,15 @@ import {
   FiUsers,
   FiDisc,
   FiTwitter,
-  FiKey,
 } from 'react-icons/fi';
 
 import Logo from './Logo';
 import { NavButton } from './NavButton';
+import ConnectWallet from './ConnectWallet';
 
 const Sidebar = () => {
   const location = useLocation();
+
   return (
     <Flex
       bg="white"
@@ -73,7 +75,8 @@ const Sidebar = () => {
               />
             </Link>
             <HStack>
-              <Button
+              <ConnectWallet />
+              {/* <Button
                 color="brand.primary.600"
                 backgroundColor="brand.primary.50"
                 transition="all 100ms ease-in-out"
@@ -82,7 +85,7 @@ const Sidebar = () => {
                 leftIcon={<FiKey />}
               >
                 Connect Wallet
-              </Button>
+              </Button> */}
             </HStack>
           </Stack>
         </Stack>
