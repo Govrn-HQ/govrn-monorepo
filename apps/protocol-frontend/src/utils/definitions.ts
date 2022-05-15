@@ -19,3 +19,12 @@ export interface ChainList {
 export interface ChainIdMapping {
   [key: number]: Chain;
 }
+
+export type ChainName =
+  | 'xdai'
+  | 'ethereum'
+  | 'polygon'
+  | 'bsc'
+  | 'kovan'
+  | 'rinkeby'
+  | 'optimism';
