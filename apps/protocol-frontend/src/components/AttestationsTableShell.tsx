@@ -38,11 +38,11 @@ const AttestationsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Attestations</PageHeading>
-      {mockAttestations && mockAttestations.length < 0 ? (
+      {mockAttestations && mockAttestations.length > 0 ? (
         <Box
           background="white"
           boxShadow="sm"
-          borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
+          borderRadius={{ base: 'none', md: 'lg' }}
         >
           <Stack spacing="5">
             <Box paddingX={{ base: '4', md: '6' }} paddingTop="5">
@@ -61,7 +61,7 @@ const AttestationsTableShell = () => {
                   flexBasis="10%"
                   colorScheme="brand.primary"
                 >
-                  Mint
+                  Vouch
                 </Button>
                 {/* <InputGroup maxW="xs">
                 <InputLeftElement pointerEvents="none">

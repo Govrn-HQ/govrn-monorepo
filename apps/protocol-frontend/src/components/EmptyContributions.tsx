@@ -25,13 +25,14 @@ const EmptyContributions = () => {
           <Stack direction="column" spacing="4">
             {location.pathname.includes('/attestations') ? (
               <Text fontSize="sm" fontWeight="medium" color="gray.500">
-                You need to add a Contribution before you can make an Attestation.
+                You need to add a Contribution before you can make an
+                Attestation
               </Text>
             ) : null}
-              <Text fontSize="sm" fontWeight="medium" color="gray.500">
-                Get started by adding your first Contribution
-              </Text>
-            )}
+            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+              Get started by adding your first Contribution
+            </Text>
+
             <Button
               size="md"
               bgColor="brand.primary.50"
