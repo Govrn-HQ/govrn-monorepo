@@ -29,7 +29,7 @@ const ContributionsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Contributions</PageHeading>
-      {mockContributions && mockContributions.length < 0 ? (
+      {mockContributions && mockContributions.length > 0 ? (
         <Tabs variant="soft-rounded" colorScheme="gray">
           <TabList>
             <Tab>Contributions</Tab>
