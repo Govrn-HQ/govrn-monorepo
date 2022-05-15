@@ -7,6 +7,7 @@ import {
   Box,
   useBreakpointValue,
   Button,
+  StackDivider,
 } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
@@ -65,29 +66,91 @@ const ProfileForm = () => {
   const { handleSubmit, setValue, getValues } = localForm;
 
   return (
-    <Stack spacing="4" width="100%">
-      <form onSubmit={handleSubmit(submitProfile)}>
+    // <Container paddingY={{ base: 2, md: 4 }}>
+
+    <form onSubmit={handleSubmit(submitProfile)}>
+      <Flex direction="column" align="flex-end" marginTop={4}>
         <Input
-          name="userEmail"
-          label="Email Address"
-          tip="Enter your Email address to link to the Linear integration."
+          name="username"
+          label="Govrn Username"
+          tip="Enter your username for the Govrn protocol"
+          placeholder="govrn-user"
+          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <Button
+          type="submit"
+          width="100%"
+          color="brand.primary.600"
+          backgroundColor="brand.primary.50"
+          transition="all 100ms ease-in-out"
+          _hover={{ bgColor: 'brand.primary.100' }}
+        >
+          Save Username
+        </Button>
+      </Flex>
+
+      <Flex direction="column" align="flex-end" marginTop={4}>
+        <Input
+          name="userLinearEmail"
+          label="Linear Email Address"
+          tip="Enter the email address you used with Linear for the integration."
           placeholder="user@govrn.io"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
-        <Flex align="flex-end" marginTop={4}>
-          <Button
-            type="submit"
-            width="100%"
-            color="brand.primary.600"
-            backgroundColor="brand.primary.50"
-            transition="all 100ms ease-in-out"
-            _hover={{ bgColor: 'brand.primary.100' }}
-          >
-            Save
-          </Button>
-        </Flex>
-      </form>
-    </Stack>
+        <Button
+          type="submit"
+          width="100%"
+          color="brand.primary.600"
+          backgroundColor="brand.primary.50"
+          transition="all 100ms ease-in-out"
+          _hover={{ bgColor: 'brand.primary.100' }}
+        >
+          Link Email
+        </Button>
+      </Flex>
+      <Flex direction="column" align="flex-end" marginTop={4}>
+        <Input
+          name="userWalletAddress"
+          label="Wallet Address"
+          tip="Enter your wallet address (not ENS)."
+          placeholder="0x..."
+          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <Button
+          type="submit"
+          width="100%"
+          color="brand.primary.600"
+          backgroundColor="brand.primary.50"
+          transition="all 100ms ease-in-out"
+          _hover={{ bgColor: 'brand.primary.100' }}
+        >
+          Link Address
+        </Button>
+      </Flex>
+      <Flex direction="column" align="flex-end" marginTop={4}>
+        <Input
+          name="userTwitterHandle"
+          label="Twitter Handle (Coming Soon!)"
+          tip="Enter your Twitter handle for the upcoming Twitter integration."
+          placeholder="govrn"
+          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          disabled
+        />
+        <Button
+          type="submit"
+          width="100%"
+          color="brand.primary.600"
+          backgroundColor="brand.primary.50"
+          transition="all 100ms ease-in-out"
+          disabled
+          _hover={{ bgColor: 'brand.primary.100' }}
+        >
+          Link Twitter
+        </Button>
+      </Flex>
+    </form>
+
+    // </Container>
   );
 };
 

@@ -40,6 +40,10 @@ const Sidebar = () => {
       bg="white"
       overflowY="auto"
       boxShadow="sm"
+      position="fixed"
+      top="0%"
+      left="0%"
+      height="100%"
       maxW={{ base: 'full', sm: 'xs' }}
       paddingY={{ base: '6', sm: '8' }}
       paddingX={{ base: '4', sm: '6' }}
@@ -76,16 +80,6 @@ const Sidebar = () => {
             </Link>
             <HStack>
               <ConnectWallet />
-              {/* <Button
-                color="brand.primary.600"
-                backgroundColor="brand.primary.50"
-                transition="all 100ms ease-in-out"
-                _hover={{ bgColor: 'brand.primary.100' }}
-                width="100%"
-                leftIcon={<FiKey />}
-              >
-                Connect Wallet
-              </Button> */}
             </HStack>
           </Stack>
         </Stack>
