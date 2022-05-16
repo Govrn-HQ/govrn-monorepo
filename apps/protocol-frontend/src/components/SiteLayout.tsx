@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Flex,
-  Grid,
-  GridItem,
-  Container,
-  Box,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Flex, Grid, useBreakpointValue } from '@chakra-ui/react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import { matchRoutes, useLocation } from 'react-router-dom';
@@ -24,25 +17,17 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
   const location = useLocation();
   return (
     <Grid
+      templateColumns="20vw auto"
+      as="section"
+      position="relative"
+      height="100vh"
       bg="gray.50"
-      minHeight="100vh"
-      as="main"
-      width="100%"
-      templateColumns="repeat(5, 1fr)"
+      overflowY="auto"
     >
-      <GridItem width="100%" colStart={1} colEnd={2}>
-        {isDesktop && location.pathname !== '/' ? <Sidebar /> : null}{' '}
-      </GridItem>
-      <GridItem width="100%" colStart={2} colEnd={6}>
-        <Box
-          paddingBottom={{ base: '12', lg: '24' }}
-          paddingY={8}
-          maxWidth="1200px"
-          overflowY="auto"
-        >
-          {children}
-        </Box>
-      </GridItem>
+      {isDesktop && location.pathname !== '/' ? <Sidebar /> : null}
+      <Flex direction="column" gridColumnStart="2">
+        {children}
+      </Flex>
     </Grid>
   );
 };
