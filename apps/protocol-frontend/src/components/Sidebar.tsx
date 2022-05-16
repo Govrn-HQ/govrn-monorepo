@@ -1,28 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Progress,
-  Stack,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Divider, Flex, HStack, Stack } from '@chakra-ui/react';
 import * as React from 'react';
 import {
   FiBarChart2,
-  FiBookmark,
   FiCheckSquare,
-  FiHelpCircle,
   FiHome,
-  FiSearch,
-  FiSettings,
   FiUsers,
   FiDisc,
   FiTwitter,
@@ -37,6 +19,9 @@ const Sidebar = () => {
 
   return (
     <Flex
+      alignItems="flex-start"
+      direction="column"
+      flex="1"
       bg="white"
       overflowY="auto"
       boxShadow="sm"
@@ -44,11 +29,13 @@ const Sidebar = () => {
       top="0%"
       left="0%"
       height="100%"
-      maxW={{ base: 'full', sm: 'xs' }}
+      minHeight="100vh"
+      width="20vw"
       paddingY={{ base: '6', sm: '8' }}
       paddingX={{ base: '4', sm: '6' }}
+      zIndex="2"
     >
-      <Stack justify="space-between" spacing="1">
+      <Flex direction="column" gap="1" flex="2 2 auto">
         <Stack spacing={{ base: '5', sm: '6' }} shouldWrapChildren>
           <Link to="/">
             <Logo />
@@ -83,15 +70,19 @@ const Sidebar = () => {
             </HStack>
           </Stack>
         </Stack>
-
-        <Stack spacing={{ base: '5', sm: '6' }}>
+        <Flex
+          direction="column"
+          gap={{ base: '5', sm: '6' }}
+          justifyContent="flex-end"
+          flex="1 1 auto"
+        >
+          <Divider />
           <Stack spacing="1">
-            <Divider />
             <NavButton label="Discord" icon={FiDisc} />
             <NavButton label="Twitter" icon={FiTwitter} />
           </Stack>
-        </Stack>
-      </Stack>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };
