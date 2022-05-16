@@ -1,0 +1,12 @@
+{
+  "name": "@govrn/protocol-ui",
+  "version": "0.0.1",
+  "main": "./protocol-ui.umd.js",
+  "module": "./protocol-ui.es.js",
+  "exports": {
+    ".": {
+      "import": "./protocol-ui.es.js",
+      "require": "./protocol-ui.umd.js"
+    }
+  }
+}

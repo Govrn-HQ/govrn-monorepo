@@ -18,7 +18,8 @@
       "@govrn/govrn-contract-client": [
         "libs/govrn-contract-client/src/index.ts"
       ],
-      "@govrn/protocol-client": ["libs/protocol-client/src/index.ts"]
+      "@govrn/protocol-client": ["libs/protocol-client/src/index.ts"],
+      "@govrn/protocol-ui": ["libs/protocol-ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
