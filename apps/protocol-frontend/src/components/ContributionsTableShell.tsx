@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Container,
   Stack,
@@ -99,7 +100,7 @@ const ContributionsTableShell = () => {
               <Box
                 background="white"
                 boxShadow="sm"
-                borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
+                borderRadius={{ base: 'none', md: 'lg' }}
               >
                 <Stack spacing="5">
                   <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
