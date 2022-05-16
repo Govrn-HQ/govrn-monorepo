@@ -22,6 +22,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
   body,
   isOpen,
   onClose,
+
   ...props
 }: ModalWrapperProps) => {
   return (
