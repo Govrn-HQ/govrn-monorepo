@@ -5,8 +5,10 @@ export default {
       fontWeight: 'medium',
     },
     control: {
-      bg: 'white',
+      background: 'white',
       borderRadius: 'base',
+      borderWidth: '1px solid',
+      borderColor: 'gray.200',
     },
     defaultProps: {
       colorScheme: 'brand.primary',
