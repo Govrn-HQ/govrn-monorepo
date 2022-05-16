@@ -8,35 +8,38 @@ import {
   BoxProps,
 } from '@chakra-ui/react';
 
-export interface FormModalProps extends BoxProps {
-  formTitle: string;
-  formBody: React.ReactNode;
+export interface ModalWrapperProps extends BoxProps {
+  title: string;
+  body: React.ReactNode;
+  titleColor?: string;
   bgColor?: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const FormModal: React.FC<FormModalProps> = ({
-  formTitle,
-  formBody,
+const ModalWrapper: React.FC<ModalWrapperProps> = ({
+  title,
+  body,
   isOpen,
   onClose,
   ...props
-}: FormModalProps) => {
+}: ModalWrapperProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent
-        background={props.bgColor ? props.bgColor : 'gray.100'}
+        background={props.bgColor ? props.bgColor : 'gray.800'}
         minWidth="20vw"
         paddingY={8}
       >
-        <ModalHeader>{formTitle}</ModalHeader>
+        <ModalHeader color={props.color ? props.color : 'gray.800'}>
+          {title}
+        </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>{formBody}</ModalBody>
+        <ModalBody>{body}</ModalBody>
       </ModalContent>
     </Modal>
   );
 };
 
-export default FormModal;
+export default ModalWrapper;
