@@ -7,6 +7,8 @@
     "govrn-contract-client": "libs/govrn-contract-client",
     "linear-sync-job": "apps/linear-sync-job",
     "protocol-api": "apps/protocol-api",
-    "protocol-client": "libs/protocol-client"
+    "protocol-client": "libs/protocol-client",
+    "protocol-frontend": "apps/protocol-frontend",
+    "protocol-ui": "libs/protocol-ui"
   }
 }

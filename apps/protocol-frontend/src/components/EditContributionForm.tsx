@@ -1,0 +1,102 @@
+import { useCallback } from 'react';
+import {
+  Container,
+  Stack,
+  Flex,
+  Text,
+  Box,
+  useBreakpointValue,
+  Button,
+} from '@chakra-ui/react';
+import PageHeading from './PageHeading';
+import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
+import { useTable, useSortBy } from 'react-table';
+import ContributionsTable from './ContributionsTable';
+import { mockContributions } from '../utils/mockData';
+import { Input } from '@govrn/protocol-ui';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { editContributionFormValidation } from '../utils/validations';
+
+interface EditContributionFormProps {
+  contribution: any;
+  onClose?: () => void;
+}
+
+const useYupValidationResolver = (userValidationSchema: any) =>
+  useCallback(
+    async (data) => {
+      try {
+        const values = await userValidationSchema.validate(data, {
+          abortEarly: false,
+        });
+
+        return {
+          values,
+          errors: {},
+        };
+      } catch (errors) {
+        return {
+          values: {},
+          errors: errors.inner.reduce(
+            (allErrors: any, currentError: any) => ({
+              ...allErrors,
+              [currentError.path]: {
+                type: currentError.type ?? 'validation',
+                message: currentError.message,
+              },
+            }),
+            {}
+          ),
+        };
+      }
+    },
+    [userValidationSchema]
+  );
+
+const editContribution = async (values: any) => {
+  try {
+    console.log('editContribution', values);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const EditContributionForm = ({
+  contribution,
+  onClose,
+}: EditContributionFormProps) => {
+  const localForm = useForm({
+    mode: 'all',
+    resolver: useYupValidationResolver(editContributionFormValidation),
+  });
+  const { handleSubmit } = localForm;
+  console.log('contribution', contribution);
+  return (
+    <Stack spacing="4" width="100%">
+      <form onSubmit={handleSubmit(editContribution)}>
+        <Input
+          name="username"
+          label="Username"
+          tip="What would you like your username to be?"
+          placeholder="DAOContributor"
+          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <Flex align="flex-end" marginTop={4}>
+          <Button
+            type="submit"
+            width="100%"
+            color="brand.primary.600"
+            backgroundColor="brand.primary.50"
+            transition="all 100ms ease-in-out"
+            _hover={{ bgColor: 'brand.primary.100' }}
+          >
+            Update Contribution
+          </Button>
+        </Flex>
+      </form>
+    </Stack>
+  );
+};
+
+export default EditContributionForm;
