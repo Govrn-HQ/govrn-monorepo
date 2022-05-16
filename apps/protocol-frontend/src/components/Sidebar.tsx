@@ -35,7 +35,7 @@ const Sidebar = () => {
       paddingX={{ base: '4', sm: '6' }}
       zIndex="2"
     >
-      <Flex direction="column" gap="1" flex="2 2 auto">
+      <Flex direction="column" gap="1" flex="2 2 auto" alignItems="center">
         <Stack spacing={{ base: '5', sm: '6' }} shouldWrapChildren>
           <Link to="/">
             <Logo />
@@ -72,12 +72,13 @@ const Sidebar = () => {
         </Stack>
         <Flex
           direction="column"
-          gap={{ base: '5', sm: '6' }}
+          gap="1"
           justifyContent="flex-end"
+          width="100%"
           flex="1 1 auto"
         >
           <Divider />
-          <Stack spacing="1">
+          <Stack shouldWrapChildren>
             <NavButton label="Discord" icon={FiDisc} />
             <NavButton label="Twitter" icon={FiTwitter} />
           </Stack>
