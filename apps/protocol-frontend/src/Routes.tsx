@@ -1,5 +1,5 @@
 import { HashRouter, Route, Routes as RouteContainer } from 'react-router-dom';
-import App from './pages/App';
+import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Contributions from './pages/Contributions';
 import Attestations from './pages/Attestations';
@@ -10,7 +10,7 @@ const Routes = () => {
   return (
     <HashRouter>
       <RouteContainer>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contributions" element={<Contributions />} />
         <Route path="/attestations" element={<Attestations />} />

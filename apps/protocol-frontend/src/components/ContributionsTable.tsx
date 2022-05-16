@@ -1,12 +1,9 @@
-import { useMemo } from 'react';
+import { useMemo, forwardRef, useRef, useEffect } from 'react';
 import {
-  Badge,
-  Box,
   Checkbox,
   HStack,
   IconButton,
   Table,
-  TableProps,
   Stack,
   Tbody,
   Td,
@@ -20,7 +17,7 @@ import {
 import { ModalWrapper } from '@govrn/protocol-ui';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, useRowSelect } from 'react-table';
 import EditContributionForm from './EditContributionForm';
 
 const ContributionsTable = ({ contributionsData }: any) => {
@@ -111,35 +108,38 @@ const ContributionsTable = ({ contributionsData }: any) => {
                   {cell.render('Cell')}
                 </Td>
               ))}
-              <ModalWrapper
-                title="Update Contribution"
-                isOpen={editContributionFormModal.isOpen}
-                onClose={editContributionFormModal.onClose}
-                body={
-                  <EditContributionForm
-                  // id={raid.id}
-                  // onClose={editContributionFormModal.onClose}
-                  // raid={raid}
+              {/* <Td borderColor="gray.100">
+                <ModalWrapper
+                  title="Update Contribution"
+                  isOpen={editContributionFormModal.isOpen}
+                  onClose={editContributionFormModal.onClose}
+                  body={
+                    <EditContributionForm
+                      contribution=""
+                      // id={raid.id}
+                      // onClose={editContributionFormModal.onClose}
+                      // raid={raid}
+                    />
+                  }
+                  bgColor="white"
+                  color="gray.800"
+                />
+                <HStack spacing="1" paddingRight={6}>
+                  <IconButton
+                    icon={<FiEdit2 fontSize="1rem" />}
+                    variant="ghost"
+                    color="gray.800"
+                    aria-label="Edit Contribution"
+                    onClick={editContributionFormModal.onOpen}
                   />
-                }
-                bgColor="white"
-                color="gray.800"
-              />
-              <HStack spacing="1" paddingRight={6}>
-                <IconButton
-                  icon={<FiEdit2 fontSize="1rem" />}
-                  variant="ghost"
-                  color="gray.800"
-                  aria-label="Edit Contribution"
-                  onClick={editContributionFormModal.onOpen}
-                />
-                <IconButton
-                  icon={<FiTrash2 fontSize="1rem" />}
-                  variant="ghost"
-                  color="gray.800"
-                  aria-label="Delete Contribution"
-                />
-              </HStack>
+                  <IconButton
+                    icon={<FiTrash2 fontSize="1rem" />}
+                    variant="ghost"
+                    color="gray.800"
+                    aria-label="Delete Contribution"
+                  />
+                </HStack>
+              </Td> */}
             </Tr>
           );
         })}

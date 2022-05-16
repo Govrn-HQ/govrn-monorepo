@@ -28,6 +28,7 @@ import {
 // import { useInjectedProvider } from '../contexts/InjectedProviderContexts';
 // import { truncateAddress } from '../utils/helpers/general';
 import Logo from './Logo';
+import ConnectWallet from './ConnectWallet';
 
 const Header: React.FC = () => {
   return (
@@ -49,7 +50,6 @@ const Header: React.FC = () => {
         direction="row"
         justifyContent="space-between"
         align="center"
-        // width={['100vw', '100vw', '100vw', '100vw']}
         paddingX={12}
       >
         <Link to="/">
@@ -63,14 +63,7 @@ const Header: React.FC = () => {
           </ChakraLink>
         </Link>
         <HStack>
-          <Button
-            variant="outline"
-            color="brand.primary.600"
-            borderColor="brand.primary.600"
-            border="1px solid"
-          >
-            Connect Wallet
-          </Button>
+          <ConnectWallet />
         </HStack>
       </Flex>
     </Flex>

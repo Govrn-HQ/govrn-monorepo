@@ -18,6 +18,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { editContributionFormValidation } from '../utils/validations';
 
+interface EditContributionFormProps {
+  contribution: any;
+  onClose?: () => void;
+}
+
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
     async (data) => {
@@ -57,13 +62,16 @@ const editContribution = async (values: any) => {
   }
 };
 
-const EditContributionForm = () => {
+const EditContributionForm = ({
+  contribution,
+  onClose,
+}: EditContributionFormProps) => {
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(editContributionFormValidation),
   });
   const { handleSubmit } = localForm;
-
+  console.log('contribution', contribution);
   return (
     <Stack spacing="4" width="100%">
       <form onSubmit={handleSubmit(editContribution)}>
