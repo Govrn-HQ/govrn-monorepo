@@ -3,7 +3,6 @@ import { formatAddress, useWallet } from '@raidguild/quiver';
 import { Flex, Button, useBreakpointValue } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
-
 import { profileFormValidation } from '../utils/validations';
 
 const useYupValidationResolver = (profileValidationSchema: any) =>
@@ -53,7 +52,6 @@ const ProfileForm = () => {
   const { handleSubmit, setValue, getValues } = localForm;
   const { isConnected, address } = useWallet();
 
-  console.log(isConnected ? formatAddress(address) : '0x...');
   return (
     // <Container paddingY={{ base: 2, md: 4 }}>
 
