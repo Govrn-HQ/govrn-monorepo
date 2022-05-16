@@ -97,8 +97,12 @@ mutation createLinearJobRun($data: LinearJobRunCreateInput!) {
 # User quries
 fragment UserFragment on User {
   address
-  # chain_type
-  chain_type_id
+  chain_type {
+    id
+    name
+    createdAt
+    updatedAt
+  }
   createdAt
   display_name
   full_name
@@ -127,22 +131,19 @@ query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10
 }
 
 
-
 mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   updateUser(data: $data, where: $where) {
-      # activities
-      address
-      # attestations
-      # chain_type
-      # contributionPartners
-      # contributions
-      display_name
-      full_name
-      # guild_users
-      # linear_users
-      name
+    ...UserFragment
   }
 }
+
+mutation createUser($data: UserCreateInput!) {
+  createUser(data: $data) {
+    ...UserFragment
+  }
+}
+
+
 
 # Contribution quries
 fragment ContributionFragment on Contribution {

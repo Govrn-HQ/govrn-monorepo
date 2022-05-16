@@ -10934,14 +10934,14 @@ export type CreateLinearJobRunMutationVariables = Exact<{
 
 export type CreateLinearJobRunMutation = { createLinearJobRun: { completedDate: any, startDate: any } };
 
-export type UserFragmentFragment = { address: string, chain_type_id: number, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any };
+export type UserFragmentFragment = { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } };
 
 export type GetUserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
 
-export type GetUserQuery = { result?: { address: string, chain_type_id: number, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } | null };
+export type GetUserQuery = { result?: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } | null };
 
 export type ListUsersQueryVariables = Exact<{
   where?: UserWhereInput;
@@ -10951,7 +10951,7 @@ export type ListUsersQueryVariables = Exact<{
 }>;
 
 
-export type ListUsersQuery = { result: Array<{ address: string, chain_type_id: number, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }> };
+export type ListUsersQuery = { result: Array<{ address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } }> };
 
 export type UpdateUserMutationVariables = Exact<{
   data: UserUpdateInput;
@@ -10959,7 +10959,14 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { updateUser?: { address: string, display_name?: string | null, full_name?: string | null, name?: string | null } | null };
+export type UpdateUserMutation = { updateUser?: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } | null };
+
+export type CreateUserMutationVariables = Exact<{
+  data: UserCreateInput;
+}>;
+
+
+export type CreateUserMutation = { createUser: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
 
 export type ContributionFragmentFragment = { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } };
 
@@ -11070,7 +11077,12 @@ export const LinearUserFragmentFragmentDoc = gql`
 export const UserFragmentFragmentDoc = gql`
     fragment UserFragment on User {
   address
-  chain_type_id
+  chain_type {
+    id
+    name
+    createdAt
+    updatedAt
+  }
   createdAt
   display_name
   full_name
@@ -11269,13 +11281,17 @@ export const ListUsersDocument = gql`
 export const UpdateUserDocument = gql`
     mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   updateUser(data: $data, where: $where) {
-    address
-    display_name
-    full_name
-    name
+    ...UserFragment
   }
 }
-    `;
+    ${UserFragmentFragmentDoc}`;
+export const CreateUserDocument = gql`
+    mutation createUser($data: UserCreateInput!) {
+  createUser(data: $data) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
 export const GetContributionDocument = gql`
     query getContribution($where: ContributionWhereUniqueInput!) {
   result: contribution(where: $where) {
@@ -11397,6 +11413,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
+    },
+    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
     },
     getContribution(variables: GetContributionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionQuery>(GetContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContribution', 'query');
