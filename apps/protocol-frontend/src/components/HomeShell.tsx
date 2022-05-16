@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Container, Stack, Flex, Box, Button } from '@chakra-ui/react';
+import { Container, Stack, Flex, Box, Button, Text } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
-import Header from './Header';
 
 const HomeShell = () => {
   return (
@@ -26,6 +25,9 @@ const HomeShell = () => {
             👋
           </span>
         </PageHeading>
+        <Text color="gray.800" paddingBottom={8}>
+          Anything that governs you, you should be able to govern.
+        </Text>
         <Link to="/contributions">
           <Button
             color="brand.primary.600"

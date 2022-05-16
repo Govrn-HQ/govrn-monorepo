@@ -1,8 +1,6 @@
 import { useMemo, forwardRef, useRef, useEffect } from 'react';
 import {
   Checkbox,
-  HStack,
-  IconButton,
   Table,
   Stack,
   Tbody,
@@ -108,7 +106,18 @@ const ContributionsTable = ({ contributionsData }: any) => {
                   {cell.render('Cell')}
                 </Td>
               ))}
-              {/* <Td borderColor="gray.100">
+            </Tr>
+          );
+        })}
+      </Tbody>
+    </Table>
+  );
+};
+
+export default ContributionsTable;
+
+{
+  /* <Td borderColor="gray.100">
                 <ModalWrapper
                   title="Update Contribution"
                   isOpen={editContributionFormModal.isOpen}
@@ -139,13 +148,5 @@ const ContributionsTable = ({ contributionsData }: any) => {
                     aria-label="Delete Contribution"
                   />
                 </HStack>
-              </Td> */}
-            </Tr>
-          );
-        })}
-      </Tbody>
-    </Table>
-  );
-};
-
-export default ContributionsTable;
+              </Td> */
+}
