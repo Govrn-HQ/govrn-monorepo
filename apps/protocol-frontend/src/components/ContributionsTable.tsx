@@ -4,10 +4,10 @@ import {
   Box,
   Checkbox,
   HStack,
-  Icon,
   IconButton,
   Table,
   TableProps,
+  Stack,
   Tbody,
   Td,
   Text,
@@ -15,6 +15,7 @@ import {
   Thead,
   Tr,
   chakra,
+  Editable,
 } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
@@ -24,7 +25,12 @@ const ContributionsTable = ({ contributionsData }: any) => {
   const data = useMemo(
     () =>
       contributionsData.map((contribution: any) => ({
-        name: contribution.name,
+        name: (
+          <Stack direction="row">
+            <Checkbox />
+            <Text>{contribution.name}</Text>
+          </Stack>
+        ),
         submissionDate: contribution.submissionDate,
         engagementDate: contribution.engagementDate,
         attestations: Object.keys(contribution.attestations).length,
@@ -88,6 +94,7 @@ const ContributionsTable = ({ contributionsData }: any) => {
                 </chakra.span>
               </Th>
             ))}
+            <Th borderColor="gray.100" />
           </Tr>
         ))}
       </Thead>
@@ -101,6 +108,20 @@ const ContributionsTable = ({ contributionsData }: any) => {
                   {cell.render('Cell')}
                 </Td>
               ))}
+              <HStack spacing="1">
+                <IconButton
+                  icon={<FiEdit2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  aria-label="Edit Contribution"
+                />
+                <IconButton
+                  icon={<FiTrash2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  aria-label="Delete Contribution"
+                />
+              </HStack>
             </Tr>
           );
         })}
