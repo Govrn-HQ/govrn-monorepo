@@ -32,7 +32,7 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       <Container
         paddingBottom={{ base: '12', lg: '24' }}
         paddingY={8}
-        maxWidth="960px"
+        maxWidth="1200px"
       >
         {children}
       </Container>
