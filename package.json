@@ -10,7 +10,7 @@
   "private": true,
   "dependencies": {
     "@alexkeating/nx-foundry": "^0.0.2",
-    "@alexkeating/nx-skynet": "^0.0.1",
+    "@alexkeating/nx-skynet": "0.0.4",
     "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",

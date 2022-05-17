@@ -36,10 +36,10 @@
   resolved "https://registry.yarnpkg.com/@alexkeating/nx-foundry/-/nx-foundry-0.0.2.tgz#98719898cef53af17e8fb3614a2c55cfa8d9d034"
   integrity sha512-iyjBDRzJLNVHOf5uxX1Mtbt7yDTpq3PDKx1gogFhv6R/Y0r4Px1DgH4hUzaJu3cW7qh4j1P4zAneAmnWPFzbbQ==
 
-"@alexkeating/nx-skynet@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@alexkeating/nx-skynet/-/nx-skynet-0.0.1.tgz#2e71c7f4045af91fccd93708f26cad234e82c97b"
-  integrity sha512-w4AYfDeC46pbxvmau0rLtFHWg+YHq6NbnnkBJflHXMG9gRfC4VchR/EOBm8rjY4vDMLR4KrKPwqhyyRpE8O4/Q==
+"@alexkeating/nx-skynet@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@alexkeating/nx-skynet/-/nx-skynet-0.0.4.tgz#dd246e171e34fe1e289c308bdcf922abdc55eac8"
+  integrity sha512-yfiaB4PYbkSikXF/L0WyXNy+JHHUzUFTZpoK/gMg00pDQkECmTBED4qXKpZBhX4HcGYemPIHWJJut6q5p6Rr2g==
 
 "@ampproject/remapping@^2.1.0":
   version "2.1.2"
