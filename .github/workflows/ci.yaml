@@ -36,8 +36,6 @@ jobs:
         run: npx nx affected:test --base $BASE
       - name: Build
         run: npx nx affected:build --base $BASE
-      - name: Deploy
-        run: npx nx affected --target deployTest --base $BASE --parallel --max-parallel=3
 
   docker-build:
     if: ${{ github.ref == 'refs/heads/master' }}
