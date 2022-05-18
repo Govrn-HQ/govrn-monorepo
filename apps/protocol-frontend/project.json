@@ -60,7 +60,7 @@
         "passWithNoTests": true
       }
     },
-    "deploy": {
+    "deployTest": {
       "executor": "@alexkeating/nx-skynet:deploy",
       "options": {
         "uploadDir": "dist/apps/protocol-frontend",
