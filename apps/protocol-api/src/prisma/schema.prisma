@@ -16,7 +16,7 @@ generator typegraphql {
 model User {
   id    Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   name  String?
   display_name String?
   address String
@@ -34,7 +34,7 @@ model User {
 model Guild {
   id    Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   discord_id Int? // legacy
   name String? // legacy
   congrats_channel Int? // legacy
@@ -46,7 +46,7 @@ model Guild {
 model GuildUser {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   user_id Int
   user User @relation(fields: [user_id], references: [id])
   guild_id Int
@@ -58,7 +58,7 @@ model GuildUser {
 model GuildContribution {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   guild_id Int
   guild Guild @relation(fields: [guild_id], references: [id])
   contribution_id Int
@@ -71,7 +71,7 @@ model GuildContribution {
 model ChainType {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   name String @unique
   users User[]
 }
@@ -79,7 +79,7 @@ model ChainType {
 
 model Contribution {
   id Int @id @default(autoincrement())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   name String
   status_id Int
   status ContributionStatus @relation(fields: [status_id], references: [id])
@@ -101,7 +101,7 @@ model Contribution {
 model Partner {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   user_id Int
   user User @relation(fields: [user_id], references: [id])
   contribution_id Int
@@ -113,7 +113,7 @@ model Partner {
 model Attestation {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   confidence_id Int
   confidence AttestationConfidence @relation(fields: [confidence_id], references: [id])
   user_id Int
@@ -128,7 +128,7 @@ model Attestation {
 model AttestationConfidence {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   name String @unique
   attestations Attestation[]
 }
@@ -136,7 +136,7 @@ model AttestationConfidence {
 model ContributionStatus {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   name String @unique
   contributions Contribution[]
 }
@@ -146,7 +146,7 @@ model ContributionStatus {
 model ActivityType {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   name String @unique
   active Boolean @default(true)
   users UserActivity[]
@@ -157,7 +157,7 @@ model ActivityType {
 model UserActivity {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   user_id Int
   user User @relation(fields: [user_id], references: [id])
   activity_type_id Int
@@ -169,7 +169,7 @@ model UserActivity {
 model CategoryActivityType {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   category_activity_id Int
   category_activity CategoryActivity @relation(fields: [category_activity_id], references: [id])
   activity_type_id Int
@@ -181,7 +181,7 @@ model CategoryActivityType {
 model CategoryActivity {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   name String @unique
   activityTypes CategoryActivityType[]
 }
