@@ -1,0 +1,52 @@
+{
+  "root": "apps/twitter-contribution-job",
+  "sourceRoot": "apps/twitter-contribution-job/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/twitter-contribution-job",
+        "main": "apps/twitter-contribution-job/src/main.ts",
+        "tsConfig": "apps/twitter-contribution-job/tsconfig.app.json",
+        "assets": ["apps/twitter-contribution-job/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/twitter-contribution-job/src/environments/environment.ts",
+              "with": "apps/twitter-contribution-job/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "twitter-contribution-job:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/twitter-contribution-job/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/twitter-contribution-job"],
+      "options": {
+        "jestConfig": "apps/twitter-contribution-job/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
