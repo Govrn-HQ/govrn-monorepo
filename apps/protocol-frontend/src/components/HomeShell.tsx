@@ -14,13 +14,18 @@ const HomeShell = () => {
 
   useEffect(() => {
     const getUserByAddress = async () => {
-      const userData = await govrn.user.list({
-        where: { address: { equals: address } },
-      });
-      return userData;
+      // this triggers CORS error
+      try {
+        const userData = await govrn.user.list({
+          where: { address: { equals: address } },
+        });
+        console.log('userdata', userData);
+        return userData;
+      } catch (error) {
+        console.error(error);
+      }
     };
     getUserByAddress();
-    console.log('user', getUserByAddress());
   }, [address]);
 
   return (
