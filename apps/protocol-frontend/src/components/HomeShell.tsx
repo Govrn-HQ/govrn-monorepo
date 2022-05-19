@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useWallet } from '@raidguild/quiver';
 import { Container, Stack, Flex, Box, Button, Text } from '@chakra-ui/react';
+import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 
 const HomeShell = () => {
+  const { isConnected, address } = useWallet();
   return (
     <Flex
       direction="column"
@@ -25,19 +28,32 @@ const HomeShell = () => {
             👋
           </span>
         </PageHeading>
-        <Text color="gray.800" paddingBottom={8}>
+        <Text color="gray.800" paddingBottom={4}>
           Anything that governs you, you should be able to govern.
         </Text>
-        <Link to="/contributions">
-          <Button
-            color="brand.primary.600"
-            backgroundColor="brand.primary.50"
-            transition="all 100ms ease-in-out"
-            _hover={{ bgColor: 'white' }}
-          >
-            Get Started
-          </Button>
-        </Link>
+        {isConnected ? (
+          <Flex direction="row">
+            <Link to="/contributions">
+              <Button
+                color="brand.primary.600"
+                backgroundColor="brand.primary.50"
+                transition="all 100ms ease-in-out"
+                _hover={{ bgColor: 'white' }}
+                marginTop={4}
+                width="100%"
+              >
+                Get Started
+              </Button>
+            </Link>
+          </Flex>
+        ) : (
+          <>
+            <Text color="gray.800" paddingBottom={8}>
+              To get started, connect your wallet.
+            </Text>
+            <ConnectWallet />
+          </>
+        )}
       </Flex>
     </Flex>
   );
