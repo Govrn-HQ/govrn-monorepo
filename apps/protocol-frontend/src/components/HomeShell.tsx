@@ -1,11 +1,28 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
 import { Flex, Button, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
+import { GovrnProtocol } from '@govrn/protocol-client';
+
+// const protocolUrl = import.meta.env.PROTOCOL_URL; // TODO: troubleshoot why this isnt pulling from .env
 
 const HomeShell = () => {
-  const { isConnected } = useWallet();
+  const { isConnected, address } = useWallet();
+  const govrn = new GovrnProtocol('http://localhost:4000'); // tried this and /graphql
+
+  useEffect(() => {
+    const getUserByAddress = async () => {
+      const userData = await govrn.user.list({
+        where: { address: { equals: address } },
+      });
+      return userData;
+    };
+    getUserByAddress();
+    console.log('user', getUserByAddress());
+  }, [address]);
+
   return (
     <Flex
       direction="column"

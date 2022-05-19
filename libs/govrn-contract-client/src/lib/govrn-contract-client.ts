@@ -19,7 +19,7 @@ export type AttestArgs = {
 
 const networks: { [key: number]: { address: string } } = {
   31337: {
-    address: process.env['LOCAL_CONTRACT'] || '',
+    // address: process.env['LOCAL_CONTRACT'] || '', removing this due to process.env error
   },
 };
 
