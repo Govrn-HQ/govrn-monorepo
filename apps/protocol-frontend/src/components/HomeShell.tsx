@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
-import { Container, Stack, Flex, Box, Button, Text } from '@chakra-ui/react';
+import { Flex, Button, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 
 const HomeShell = () => {
-  const { isConnected, address } = useWallet();
+  const { isConnected } = useWallet();
   return (
     <Flex
       direction="column"

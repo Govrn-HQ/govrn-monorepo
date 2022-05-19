@@ -1,4 +1,4 @@
-import { useMemo, forwardRef, useRef, useEffect } from 'react';
+import { useMemo } from 'react';
 import {
   Checkbox,
   Table,
@@ -12,14 +12,12 @@ import {
   chakra,
   useDisclosure,
 } from '@chakra-ui/react';
-import { ModalWrapper } from '@govrn/protocol-ui';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useTable, useSortBy, useRowSelect } from 'react-table';
-import EditContributionForm from './EditContributionForm';
+import { useTable, useSortBy } from 'react-table';
+// import EditContributionForm from './EditContributionForm';
 
 const ContributionsTable = ({ contributionsData }: any) => {
-  const editContributionFormModal = useDisclosure();
+  // const editContributionFormModal = useDisclosure();
   const data = useMemo(
     () =>
       contributionsData.map((contribution: any) => ({
