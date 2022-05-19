@@ -26,7 +26,7 @@ const ConnectWallet = () => {
           backgroundColor="brand.primary.50"
           transition="all 100ms ease-in-out"
           _hover={{ bgColor: 'brand.primary.100' }}
-          width="100%"
+          // width="100%"
           leftIcon={<FiKey />}
           disabled={isConnecting}
           onClick={() => !isConnected && connectWallet()}
