@@ -1,21 +1,7 @@
 import { useCallback } from 'react';
-import {
-  Container,
-  Stack,
-  Flex,
-  Text,
-  Box,
-  useBreakpointValue,
-  Button,
-} from '@chakra-ui/react';
-import PageHeading from './PageHeading';
-import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
-import { useTable, useSortBy } from 'react-table';
-import ContributionsTable from './ContributionsTable';
-import { mockContributions } from '../utils/mockData';
+import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { createUserFormValidation } from '../utils/validations';
 
 const useYupValidationResolver = (userValidationSchema: any) =>

@@ -4,26 +4,10 @@ import {
   Flex,
   Heading,
   Link as ChakraLink,
-  Container,
-  Text,
   VisuallyHidden,
-  Button,
-  Icon,
-  Box,
   HStack,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  useClipboard,
   // useDisclosure,
 } from '@chakra-ui/react';
-import {
-  FaCopy,
-  FaRegSun,
-  FaCaretDown,
-  FaRegTimesCircle,
-} from 'react-icons/fa';
 // import Logo from '@/components/Logo';
 // import { useInjectedProvider } from '../contexts/InjectedProviderContexts';
 // import { truncateAddress } from '../utils/helpers/general';
