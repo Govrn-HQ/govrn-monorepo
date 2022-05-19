@@ -10,7 +10,8 @@ import {
   Thead,
   Tr,
   chakra,
-  useDisclosure,
+  Badge,
+  // useDisclosure
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
@@ -18,6 +19,7 @@ import { useTable, useSortBy } from 'react-table';
 
 const ContributionsTable = ({ contributionsData }: any) => {
   // const editContributionFormModal = useDisclosure();
+
   const data = useMemo(
     () =>
       contributionsData.map((contribution: any) => ({
@@ -31,8 +33,12 @@ const ContributionsTable = ({ contributionsData }: any) => {
         engagementDate: contribution.engagementDate,
         attestations: Object.keys(contribution.attestations).length,
         verificationLevel: contribution.verificationLevel,
-        guilds: Object.keys(contribution.guilds).length,
+        guilds:
+          contribution.guilds.length > 1 || contribution.guilds.length === 0
+            ? contribution.guilds.length
+            : Object.values(contribution.guilds[0]['name']),
         status: contribution.status,
+        action: '',
       })),
     [contributionsData]
   );
@@ -43,10 +49,7 @@ const ContributionsTable = ({ contributionsData }: any) => {
         Header: 'Name',
         accessor: 'name',
       },
-      {
-        Header: 'Submission Date',
-        accessor: 'submissionDate',
-      },
+      { Header: 'Status', accessor: 'status' },
       {
         Header: 'Engagement Date',
         accessor: 'engagementDate',
@@ -59,14 +62,28 @@ const ContributionsTable = ({ contributionsData }: any) => {
         Header: 'Verification Level',
         accessor: 'verificationLevel',
       },
-      { Header: 'DAOs', accessor: 'guilds' },
+      {
+        Header: 'DAOs',
+        accessor: 'guilds',
+        Cell: ({ value }) => {
+          return (
+            <>
+              <Badge size="md" colorScheme="blue">
+                {value}
+              </Badge>
+            </>
+          );
+        },
+      },
+      { Header: 'Actions' },
     ],
     []
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
-
+  console.log('contributions', contributionsData);
+  console.log('columns', columns);
   return (
     <Table {...getTableProps()}>
       <Thead backgroundColor="gray.50">
