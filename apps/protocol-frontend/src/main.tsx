@@ -5,9 +5,10 @@ import WalletConnectProvider from '@walletconnect/ethereum-provider';
 import { IProviderOptions } from 'web3modal';
 import { networks } from '../src/utils/networks';
 import { ChakraProvider } from '@chakra-ui/react';
+import { OverlayContextProvider } from './contexts/OverlayContext';
 import { GovrnTheme } from '@govrn/protocol-ui';
-
 import Routes from './Routes';
+import { UserContextProvider } from './contexts/UserContext';
 
 const providerOptions: IProviderOptions = {
   walletconnect: {
@@ -45,9 +46,13 @@ ReactDOM.render(
         console.log(eventName);
       }}
     >
-      <ChakraProvider theme={GovrnTheme}>
-        <Routes />
-      </ChakraProvider>
+      <UserContextProvider>
+        <OverlayContextProvider>
+          <ChakraProvider theme={GovrnTheme}>
+            <Routes />
+          </ChakraProvider>
+        </OverlayContextProvider>
+      </UserContextProvider>
     </WalletProvider>
   </StrictMode>,
   document.getElementById('root')
