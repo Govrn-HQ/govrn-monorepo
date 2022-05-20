@@ -6,13 +6,19 @@ export const profileFormValidation = yup.object({
 });
 
 export const createUserFormValidation = yup.object({
-  userName: yup.string().required('This field is required.'),
+  username: yup.string().required('This field is required.'),
+  // discord: yup
+  //   .string()
+  //   .min(2, 'Discord username must be at least 2 characters.')
+  //   .max('32', 'Discord username must be less than 32 characters.'),
+  // twitter: yup.string(),
+  // discourse: yup.string(),
 });
 
 export const attestationFormValidation = yup.object({
-  userName: yup.string().required('This field is required.'),
+  username: yup.string().required('This field is required.'),
 });
 
 export const editContributionFormValidation = yup.object({
-  // userName: yup.string().required('This field is required.'),
+  // username: yup.string().required('This field is required.'),
 });
