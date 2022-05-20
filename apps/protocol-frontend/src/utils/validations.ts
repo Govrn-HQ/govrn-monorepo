@@ -22,3 +22,7 @@ export const attestationFormValidation = yup.object({
 export const editContributionFormValidation = yup.object({
   // username: yup.string().required('This field is required.'),
 });
+
+export const reportFormValidation = yup.object({
+  // username: yup.string().required('This field is required.'),
+});

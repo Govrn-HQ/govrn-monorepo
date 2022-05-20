@@ -3,9 +3,12 @@ import React, {
   createContext,
   useEffect,
   useRef,
-  // useState,
+  useState,
 } from 'react';
 import { useWallet } from '@raidguild/quiver';
+import { GovrnProtocol } from '@govrn/protocol-client';
+
+const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 export const UserContext: any = createContext(null);
 interface UserContextProps {
@@ -15,14 +18,22 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
+  const [userAddress, setUserAddress] = useState<any>(null);
+
+  const { isConnected, address } = useWallet();
+
+  useEffect(() => {
+    setUserAddress(address);
+  }, [isConnected, address, userAddress]);
+
   return (
     <UserContext.Provider
-      value={
-        {
-          // userData,
-          // setUserData,
-        }
-      }
+      value={{
+        userAddress,
+        setUserAddress,
+        // userData,
+        // setUserData,
+      }}
     >
       {children}
     </UserContext.Provider>
@@ -30,9 +41,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 };
 
 export const useUser = () => {
-  const { userData, setUserData } = useContext(UserContext);
+  const { userAddress, setUserAddress, userData, setUserData } =
+    useContext(UserContext);
   return {
-    userData,
-    setUserData,
+    userAddress,
+    setUserAddress,
+    // userData,
+    // setUserData,
   };
 };
