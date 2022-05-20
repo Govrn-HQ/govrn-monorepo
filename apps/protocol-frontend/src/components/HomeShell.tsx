@@ -10,9 +10,10 @@ import { GovrnProtocol } from '@govrn/protocol-client';
 
 const HomeShell = () => {
   const { isConnected, address } = useWallet();
-  const govrn = new GovrnProtocol('http://localhost:4000'); // tried this and /graphql
+  const govrn = new GovrnProtocol('http://localhost:4000/graphql'); // tried this and /graphql
 
   useEffect(() => {
+    console.log('firing the fetch useEffect');
     const getUserByAddress = async () => {
       // this triggers CORS error
       try {
