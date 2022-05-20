@@ -110,8 +110,6 @@ const HomeShell = () => {
     );
   };
 
-  const ConnectedFlow = () => {};
-
   return (
     <Flex
       direction="column"
