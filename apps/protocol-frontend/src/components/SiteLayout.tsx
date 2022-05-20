@@ -1,8 +1,9 @@
 import React from 'react';
-import { Flex, Grid, useBreakpointValue } from '@chakra-ui/react';
+import { Grid, Flex, Box, useBreakpointValue } from '@chakra-ui/react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import { matchRoutes, useLocation } from 'react-router-dom';
+import FloatingReportButton from './FloatingReportButton';
 
 interface SiteLayoutProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       <Flex direction="column" gridColumnStart="2">
         {children}
       </Flex>
+      <FloatingReportButton />
     </Grid>
   );
 };
