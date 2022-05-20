@@ -16,9 +16,11 @@ export class GovrnProtocol {
   constructor(apiUrl: string) {
     this.client = new GraphQLClient(apiUrl, {
       headers: {
+        'Content-Type': `application/json`,
         'Access-Control-Allow-Credentials': 'false',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
+        Accept: `application/json`,
       },
     });
     this.linear = new Linear(this.client);
