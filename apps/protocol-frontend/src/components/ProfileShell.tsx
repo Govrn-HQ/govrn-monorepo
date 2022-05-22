@@ -13,7 +13,6 @@ const ProfileShell = () => {
       width="100%"
     >
       <PageHeading>Profile</PageHeading>
-
       <ProfileForm />
     </Box>
   );

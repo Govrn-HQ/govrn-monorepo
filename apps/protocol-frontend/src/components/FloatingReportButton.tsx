@@ -1,14 +1,12 @@
-import { Box, IconButton, Flex, Tooltip } from '@chakra-ui/react';
+import { Box, IconButton, Tooltip } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 import { useOverlay } from '../contexts/OverlayContext';
-// import ModalWrapper from './ModalWrapper';
+import ReportForm from './ReportForm';
 import { ModalWrapper } from '@govrn/protocol-ui';
-import { useUser } from '../contexts/UserContext';
 
 const FloatingReportButton = () => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
-  const { userAddress } = useUser();
 
   const handleReportingFormModal = () =>
     setModals({ reportingFormModal: true });
@@ -34,9 +32,9 @@ const FloatingReportButton = () => {
       </Tooltip>
       <ModalWrapper
         name="reportingFormModal"
-        title="Update Contribution"
+        title="Report Contribution Activity"
         localOverlay={localOverlay}
-        content={<Flex color="gray.800">Hello {userAddress}</Flex>}
+        content={<ReportForm />}
       />
     </Box>
   );
