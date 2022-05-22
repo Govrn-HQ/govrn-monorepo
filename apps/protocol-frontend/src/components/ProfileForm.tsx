@@ -13,6 +13,9 @@ import { GovrnProtocol } from '@govrn/protocol-client';
 import { useUser } from '../contexts/UserContext';
 import { profileFormValidation } from '../utils/validations';
 
+const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
+const govrn = new GovrnProtocol(protocolUrl);
+
 const useYupValidationResolver = (profileValidationSchema: any) =>
   useCallback(
     async (data) => {
@@ -44,28 +47,33 @@ const useYupValidationResolver = (profileValidationSchema: any) =>
     [profileValidationSchema]
   );
 
-const submitProfile = async (values: any) => {
-  try {
-    console.log('submitProfile', values);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const ProfileForm = () => {
-  const { userDataByAddress, userData } = useUser();
-  const localForm = useForm({
+  const { userData } = useUser();
+
+  const localForm = useForm<{ username: string; address: string }>({
     mode: 'all',
     resolver: useYupValidationResolver(profileFormValidation),
   });
   const { handleSubmit, setValue, getValues } = localForm;
-  const { isConnected, address } = useWallet();
 
   useEffect(() => {
     console.log('userdata in form', userData);
-    setValue('username', userData.name);
-    setValue('address', userData.address);
+    setValue('username', userData?.name);
+    setValue('address', userData?.address);
   }, [userData]);
+
+  const submitProfile = async (values: any) => {
+    try {
+      console.log('submitProfile', values);
+      const response = await govrn.user.update(
+        { name: { set: values.name } },
+        { id: userData.id }
+      );
+      console.log('response', response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(submitProfile)}>
@@ -86,7 +94,7 @@ const ProfileForm = () => {
         </Heading>
         <Flex direction="column" align="flex-end" marginY={8} width="50%">
           <Input
-            name="username"
+            name="name"
             label="Govrn Username"
             tip="Enter your username for the Govrn protocol."
             placeholder="govrn-user"

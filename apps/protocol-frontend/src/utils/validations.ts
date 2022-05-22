@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 
 export const profileFormValidation = yup.object({
+  name: yup.string(),
   userLinearEmail: yup.string().email('Please enter a valid email address.'),
   // .required('This field is required.'),
 });
