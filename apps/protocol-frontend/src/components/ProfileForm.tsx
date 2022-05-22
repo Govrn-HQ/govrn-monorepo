@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { formatAddress, useWallet } from '@raidguild/quiver';
 import {
   Flex,
@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
+import { GovrnProtocol } from '@govrn/protocol-client';
+import { useUser } from '../contexts/UserContext';
 import { profileFormValidation } from '../utils/validations';
 
 const useYupValidationResolver = (profileValidationSchema: any) =>
@@ -51,6 +53,7 @@ const submitProfile = async (values: any) => {
 };
 
 const ProfileForm = () => {
+  const { userDataByAddress, userData } = useUser();
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(profileFormValidation),
@@ -58,9 +61,13 @@ const ProfileForm = () => {
   const { handleSubmit, setValue, getValues } = localForm;
   const { isConnected, address } = useWallet();
 
-  return (
-    // <Container paddingY={{ base: 2, md: 4 }}>
+  useEffect(() => {
+    console.log('userdata in form', userData);
+    setValue('username', userData.name);
+    setValue('address', userData.address);
+  }, [userData]);
 
+  return (
     <form onSubmit={handleSubmit(submitProfile)}>
       <Flex
         justify="space-between"
@@ -83,6 +90,7 @@ const ProfileForm = () => {
             label="Govrn Username"
             tip="Enter your username for the Govrn protocol."
             placeholder="govrn-user"
+            defaultValue={userData?.name}
             localForm={localForm} //TODO: resolve this type issue -- need to investigate this
           />
           <Button
@@ -104,7 +112,7 @@ const ProfileForm = () => {
               label="Wallet Address"
               tip="Enter your wallet address (not ENS)."
               placeholder="0x..."
-              defaultValue={isConnected ? formatAddress(address) : '0x...'}
+              defaultValue={formatAddress(userData?.address) || '0x...'}
               localForm={localForm} //TODO: resolve this type issue -- need to investigate this
             />
             <Button

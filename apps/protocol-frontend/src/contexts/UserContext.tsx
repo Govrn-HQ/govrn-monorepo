@@ -18,21 +18,53 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
-  const [userAddress, setUserAddress] = useState<any>(null);
-
   const { isConnected, address } = useWallet();
+  const govrn = new GovrnProtocol(protocolUrl);
+  const [userAddress, setUserAddress] = useState<any>(null);
+  const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
     setUserAddress(address);
   }, [isConnected, address, userAddress]);
+
+  useEffect(() => {
+    const getUserByAddress = async () => {
+      try {
+        const userDataByAddressResponse = await govrn.user.list({
+          where: { address: { equals: address } },
+        });
+        setUserDataByAddress(userDataByAddressResponse);
+        return userDataByAddress;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserByAddress();
+  }, [address]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const userDataResponse = await govrn.user.get(userDataByAddress[0].id);
+        setUserData(userDataResponse);
+        return userDataResponse;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUser();
+  }, [userDataByAddress]);
 
   return (
     <UserContext.Provider
       value={{
         userAddress,
         setUserAddress,
-        // userData,
-        // setUserData,
+        userData,
+        setUserData,
+        userDataByAddress,
+        setUserDataByAddress,
       }}
     >
       {children}
@@ -41,12 +73,20 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 };
 
 export const useUser = () => {
-  const { userAddress, setUserAddress, userData, setUserData } =
-    useContext(UserContext);
+  const {
+    userAddress,
+    setUserAddress,
+    userDataByAddress,
+    setUserDataByAddress,
+    userData,
+    setUserData,
+  } = useContext(UserContext);
   return {
     userAddress,
     setUserAddress,
-    // userData,
-    // setUserData,
+    userDataByAddress,
+    setUserDataByAddress,
+    userData,
+    setUserData,
   };
 };
