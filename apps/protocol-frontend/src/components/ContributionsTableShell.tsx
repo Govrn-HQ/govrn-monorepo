@@ -22,10 +22,12 @@ import EmptyContributions from './EmptyContributions';
 import { mockContributions, mockContributionTypes } from '../utils/mockData';
 
 const ContributionsTableShell = () => {
-  const { userContributions } = useUser();
-  console.log('user contributions', userContributions);
+  // const { userContributions } = useUser();
+  // console.log('user contributions', userContributions);
+  const [contributions, setContributions] = useState(mockContributions);
 
   const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
     <Container
       paddingY={{ base: '4', md: '8' }}

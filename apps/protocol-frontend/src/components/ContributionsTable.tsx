@@ -3,6 +3,8 @@ import {
   Checkbox,
   Table,
   Stack,
+  HStack,
+  IconButton,
   Tbody,
   Td,
   Text,
@@ -14,7 +16,9 @@ import {
   // useDisclosure
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useTable, useSortBy } from 'react-table';
+
 // import EditContributionForm from './EditContributionForm';
 
 const ContributionsTable = ({ contributionsData }: any) => {
@@ -29,6 +33,8 @@ const ContributionsTable = ({ contributionsData }: any) => {
             <Text>{contribution.name}</Text>
           </Stack>
         ),
+
+        id: contribution.id,
         submissionDate: contribution.submissionDate,
         engagementDate: contribution.engagementDate,
         attestations: Object.keys(contribution.attestations).length,
@@ -67,11 +73,9 @@ const ContributionsTable = ({ contributionsData }: any) => {
         accessor: 'guilds',
         Cell: ({ value }) => {
           return (
-            <>
-              <Badge size="md" colorScheme="blue">
-                {value}
-              </Badge>
-            </>
+            <Badge size="md" colorScheme="blue">
+              {value}
+            </Badge>
           );
         },
       },
@@ -82,8 +86,8 @@ const ContributionsTable = ({ contributionsData }: any) => {
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
-  console.log('contributions', contributionsData);
-  console.log('columns', columns);
+  console.log('contributions in table', contributionsData);
+
   return (
     <Table {...getTableProps()}>
       <Thead backgroundColor="gray.50">
@@ -117,9 +121,36 @@ const ContributionsTable = ({ contributionsData }: any) => {
           return (
             <Tr {...row.getRowProps()}>
               {row.cells.map((cell) => (
-                <Td {...cell.getCellProps()} borderColor="gray.100">
-                  {cell.render('Cell')}
-                </Td>
+                <>
+                  <Td {...cell.getCellProps()} borderColor="gray.100">
+                    {cell.render('Cell')}
+                  </Td>
+                  <Td borderColor="gray.100">
+                    <HStack spacing="1" paddingRight={6}>
+                      <IconButton
+                        icon={<FiEdit2 fontSize="1rem" />}
+                        variant="ghost"
+                        color="gray.800"
+                        aria-label="Edit Contribution"
+                        onClick={() => {
+                          console.log('click', cell.row.original.id);
+                          console.log(
+                            'full data',
+                            contributionsData.find(
+                              (c) => c.id === cell.row.original.id
+                            )
+                          );
+                        }}
+                      />
+                      <IconButton
+                        icon={<FiTrash2 fontSize="1rem" />}
+                        variant="ghost"
+                        color="gray.800"
+                        aria-label="Delete Contribution"
+                      />
+                    </HStack>
+                  </Td>
+                </>
               ))}
             </Tr>
           );
@@ -130,38 +161,3 @@ const ContributionsTable = ({ contributionsData }: any) => {
 };
 
 export default ContributionsTable;
-
-{
-  /* <Td borderColor="gray.100">
-                <ModalWrapper
-                  title="Update Contribution"
-                  isOpen={editContributionFormModal.isOpen}
-                  onClose={editContributionFormModal.onClose}
-                  body={
-                    <EditContributionForm
-                      contribution=""
-                      // id={raid.id}
-                      // onClose={editContributionFormModal.onClose}
-                      // raid={raid}
-                    />
-                  }
-                  bgColor="white"
-                  color="gray.800"
-                />
-                <HStack spacing="1" paddingRight={6}>
-                  <IconButton
-                    icon={<FiEdit2 fontSize="1rem" />}
-                    variant="ghost"
-                    color="gray.800"
-                    aria-label="Edit Contribution"
-                    onClick={editContributionFormModal.onOpen}
-                  />
-                  <IconButton
-                    icon={<FiTrash2 fontSize="1rem" />}
-                    variant="ghost"
-                    color="gray.800"
-                    aria-label="Delete Contribution"
-                  />
-                </HStack>
-              </Td> */
-}
