@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Checkbox,
   Table,
@@ -13,16 +13,25 @@ import {
   Tr,
   chakra,
   Badge,
-  // useDisclosure
 } from '@chakra-ui/react';
+import { useTable, useSortBy } from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { useTable, useSortBy } from 'react-table';
+import { ModalWrapper } from '@govrn/protocol-ui';
+import { useOverlay } from '../contexts/OverlayContext';
+import EditContributionForm from './EditContributionForm';
 
 // import EditContributionForm from './EditContributionForm';
 
 const ContributionsTable = ({ contributionsData }: any) => {
-  // const editContributionFormModal = useDisclosure();
+  const localOverlay = useOverlay();
+  const { setModals } = useOverlay();
+  const [selectedContribution, setSelectedContribution] = useState<any>();
+
+  const handleEditContributionFormModal = (id: number) => {
+    setSelectedContribution(id);
+    setModals({ editContributionFormModal: true });
+  };
 
   const data = useMemo(
     () =>
@@ -96,15 +105,7 @@ const ContributionsTable = ({ contributionsData }: any) => {
               variant="ghost"
               color="gray.800"
               aria-label="Edit Contribution"
-              onClick={() => {
-                console.log(
-                  'full data in row',
-                  contributionsData.find(
-                    (localContribution) =>
-                      localContribution.id === row.original.id
-                  )
-                );
-              }}
+              onClick={() => handleEditContributionFormModal(row.original.id)}
             />
             <IconButton
               icon={<FiTrash2 fontSize="1rem" />}
@@ -123,47 +124,62 @@ const ContributionsTable = ({ contributionsData }: any) => {
   console.log('contributions in table', contributionsData);
 
   return (
-    <Table {...getTableProps()}>
-      <Thead backgroundColor="gray.50">
-        {headerGroups.map((headerGroup: any) => (
-          <Tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column: any) => (
-              <Th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                isNumeric={column.isNumeric}
-                borderColor="gray.100"
-              >
-                {column.render('Header')}
-                <chakra.span paddingLeft="4">
-                  {column.isSorted ? (
-                    column.isSortedDesc ? (
-                      <IoArrowDown aria-label="sorted-descending" />
-                    ) : (
-                      <IoArrowUp aria-label="sorted-ascending" />
-                    )
-                  ) : null}
-                </chakra.span>
-              </Th>
-            ))}
-            <Th borderColor="gray.100" />
-          </Tr>
-        ))}
-      </Thead>
-      <Tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <Tr {...row.getRowProps()}>
-              {row.cells.map((cell) => (
-                <Td {...cell.getCellProps()} borderColor="gray.100">
-                  <>{cell.render('Cell')}</>
-                </Td>
+    <>
+      <Table {...getTableProps()}>
+        <Thead backgroundColor="gray.50">
+          {headerGroups.map((headerGroup: any) => (
+            <Tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column: any) => (
+                <Th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  isNumeric={column.isNumeric}
+                  borderColor="gray.100"
+                >
+                  {column.render('Header')}
+                  <chakra.span paddingLeft="4">
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <IoArrowDown aria-label="sorted-descending" />
+                      ) : (
+                        <IoArrowUp aria-label="sorted-ascending" />
+                      )
+                    ) : null}
+                  </chakra.span>
+                </Th>
               ))}
+              <Th borderColor="gray.100" />
             </Tr>
-          );
-        })}
-      </Tbody>
-    </Table>
+          ))}
+        </Thead>
+        <Tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <Tr {...row.getRowProps()}>
+                {row.cells.map((cell) => (
+                  <Td {...cell.getCellProps()} borderColor="gray.100">
+                    <>{cell.render('Cell')}</>
+                  </Td>
+                ))}
+              </Tr>
+            );
+          })}
+        </Tbody>
+      </Table>
+      <ModalWrapper
+        name="editContributionFormModal"
+        title="Update Contribution Activity"
+        localOverlay={localOverlay}
+        content={
+          <EditContributionForm
+            contribution={contributionsData.find(
+              (localContribution) =>
+                localContribution.id === selectedContribution
+            )}
+          />
+        }
+      />
+    </>
   );
 };
 

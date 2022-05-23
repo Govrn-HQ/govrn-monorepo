@@ -11,6 +11,7 @@ export const OverlayContextProvider: React.FC<OverlayProviderProps> = ({
 }: OverlayProviderProps) => {
   const [modals, setModals] = useState({
     reportingFormModal: false,
+    editContributionFormModal: false,
   });
 
   return (

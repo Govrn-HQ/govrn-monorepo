@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Stack, Flex, Button } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { editContributionFormValidation } from '../utils/validations';
@@ -59,13 +59,15 @@ const EditContributionForm = ({
   const { handleSubmit } = localForm;
   console.log('contribution', contribution);
   return (
-    <Stack spacing="4" width="100%">
+    <Stack spacing="4" width="100%" color="gray.800">
       <form onSubmit={handleSubmit(editContribution)}>
+        <Text paddingBottom={2}>{contribution.name}</Text>
         <Input
-          name="username"
-          label="Username"
-          tip="What would you like your username to be?"
+          name="name"
+          label="Contribution Name"
+          tip="What is the name of this Contribution?"
           placeholder="DAOContributor"
+          defaultValue={contribution.name}
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
         <Flex align="flex-end" marginTop={4}>
