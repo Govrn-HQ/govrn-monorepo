@@ -50,7 +50,11 @@ const useYupValidationResolver = (profileValidationSchema: any) =>
 const ProfileForm = () => {
   const { userData } = useUser();
 
-  const localForm = useForm<{ username: string; address: string }>({
+  const localForm = useForm<{ name: string; address: string }>({
+    mode: 'all',
+    resolver: useYupValidationResolver(profileFormValidation),
+  });
+  const localFormLinear = useForm<{ name: string; address: string }>({
     mode: 'all',
     resolver: useYupValidationResolver(profileFormValidation),
   });
@@ -58,7 +62,7 @@ const ProfileForm = () => {
 
   useEffect(() => {
     console.log('userdata in form', userData);
-    setValue('username', userData?.name);
+    setValue('name', userData?.name);
     setValue('address', userData?.address);
   }, [userData]);
 
@@ -75,88 +79,53 @@ const ProfileForm = () => {
     }
   };
 
+  const submitLinearEmail = async (values: any) => {
+    const linearAssignee = {
+      active: userData.active,
+      displayName: userData.name,
+      email: values.userLinearEmail,
+      linear_id: userData.id.toString(),
+      name: userData.name,
+      url: userData.url || '',
+    };
+    try {
+      console.log('submitLinearEmail', values);
+      const response = await govrn.linear.user.upsert({
+        create: linearAssignee,
+        update: { email: { set: values.userLinearEmail } },
+        where: { linear_id: userData.id.toString() },
+      });
+      console.log('response', response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(submitProfile)}>
-      <Flex
-        justify="space-between"
-        direction="column"
-        wrap="wrap"
-        width="100%"
-        paddingX={4}
-        paddingTop={4}
-        background="white"
-        boxShadow="sm"
-        borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
-        marginBottom={4}
-      >
-        <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
-          Your Details
-        </Heading>
-        <Flex direction="column" align="flex-end" marginY={8} width="50%">
-          <Input
-            name="name"
-            label="Govrn Username"
-            tip="Enter your username for the Govrn protocol."
-            placeholder="govrn-user"
-            defaultValue={userData?.name}
-            localForm={localForm} //TODO: resolve this type issue -- need to investigate this
-          />
-          <Button
-            type="submit"
-            width="100%"
-            color="brand.primary.600"
-            backgroundColor="brand.primary.50"
-            transition="all 100ms ease-in-out"
-            _hover={{ bgColor: 'brand.primary.100' }}
-          >
-            Save Username
-          </Button>
-        </Flex>
-        <Divider bgColor="gray.300" />
-        <Flex justify="space-between" direction="column" wrap="wrap">
-          <Flex direction="column" align="flex-end" marginTop={4} width="50%">
-            <Input
-              name="userWalletAddress"
-              label="Wallet Address"
-              tip="Enter your wallet address (not ENS)."
-              placeholder="0x..."
-              defaultValue={formatAddress(userData?.address) || '0x...'}
-              localForm={localForm} //TODO: resolve this type issue -- need to investigate this
-            />
-            <Button
-              type="submit"
-              width="100%"
-              color="brand.primary.600"
-              backgroundColor="brand.primary.50"
-              transition="all 100ms ease-in-out"
-              _hover={{ bgColor: 'brand.primary.100' }}
-            >
-              Link Address
-            </Button>
-          </Flex>
-        </Flex>
-      </Flex>
-      <Flex
-        justify="space-between"
-        direction="column"
-        wrap="wrap"
-        width="100%"
-        paddingX={4}
-        paddingTop={4}
-        background="white"
-        boxShadow="sm"
-        marginBottom={4}
-      >
-        <Flex justify="space-between" direction="column" wrap="wrap">
+    <>
+      <form onSubmit={handleSubmit(submitProfile)}>
+        <Flex
+          justify="space-between"
+          direction="column"
+          wrap="wrap"
+          width="100%"
+          paddingX={4}
+          paddingTop={4}
+          background="white"
+          boxShadow="sm"
+          borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
+          marginBottom={4}
+        >
           <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
-            Integrations
+            Your Details
           </Heading>
-          <Flex direction="column" align="flex-end" marginTop={4} width="50%">
+          <Flex direction="column" align="flex-end" marginY={8} width="50%">
             <Input
-              name="userLinearEmail"
-              label="Linear Email Address"
-              tip="Enter the email address you used with Linear for the integration."
-              placeholder="user@govrn.io"
+              name="name"
+              label="Govrn Username"
+              tip="Enter your username for the Govrn protocol."
+              placeholder="govrn-user"
+              defaultValue={userData?.name}
               localForm={localForm} //TODO: resolve this type issue -- need to investigate this
             />
             <Button
@@ -167,36 +136,97 @@ const ProfileForm = () => {
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.100' }}
             >
-              Link Email
+              Save Username
             </Button>
           </Flex>
           <Divider bgColor="gray.300" />
-        </Flex>
-        <Flex justify="space-between" direction="column" wrap="wrap">
-          <Flex direction="column" align="flex-end" marginTop={4} width="50%">
-            <Input
-              name="userTwitterHandle"
-              label="Twitter Handle (Coming Soon!)"
-              tip="Enter your Twitter handle for the upcoming Twitter integration."
-              placeholder="govrn"
-              localForm={localForm} //TODO: resolve this type issue -- need to investigate this
-              disabled
-            />
-            <Button
-              type="submit"
-              width="100%"
-              color="brand.primary.600"
-              backgroundColor="brand.primary.50"
-              transition="all 100ms ease-in-out"
-              disabled
-              _hover={{ bgColor: 'brand.primary.100' }}
-            >
-              Link Twitter
-            </Button>
+          <Flex justify="space-between" direction="column" wrap="wrap">
+            <Flex direction="column" align="flex-end" marginTop={4} width="50%">
+              <Input
+                name="userWalletAddress"
+                label="Wallet Address"
+                tip="Enter your wallet address (not ENS)."
+                placeholder="0x..."
+                defaultValue={formatAddress(userData?.address) || '0x...'}
+                localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+              />
+              <Button
+                type="submit"
+                width="100%"
+                color="brand.primary.600"
+                backgroundColor="brand.primary.50"
+                transition="all 100ms ease-in-out"
+                _hover={{ bgColor: 'brand.primary.100' }}
+              >
+                Link Address
+              </Button>
+            </Flex>
           </Flex>
         </Flex>
-      </Flex>
-    </form>
+      </form>
+      <form onSubmit={handleSubmit(submitLinearEmail)}>
+        <Flex
+          justify="space-between"
+          direction="column"
+          wrap="wrap"
+          width="100%"
+          paddingX={4}
+          paddingTop={4}
+          background="white"
+          boxShadow="sm"
+          marginBottom={4}
+        >
+          <Flex justify="space-between" direction="column" wrap="wrap">
+            <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
+              Integrations
+            </Heading>
+            <Flex direction="column" align="flex-end" marginTop={4} width="50%">
+              <Input
+                name="userLinearEmail"
+                label="Linear Email Address"
+                tip="Enter the email address you used with Linear for the integration."
+                placeholder="user@govrn.io"
+                localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+              />
+              <Button
+                type="submit"
+                width="100%"
+                color="brand.primary.600"
+                backgroundColor="brand.primary.50"
+                transition="all 100ms ease-in-out"
+                _hover={{ bgColor: 'brand.primary.100' }}
+              >
+                Link Email
+              </Button>
+            </Flex>
+            <Divider bgColor="gray.300" />
+          </Flex>
+          <Flex justify="space-between" direction="column" wrap="wrap">
+            <Flex direction="column" align="flex-end" marginTop={4} width="50%">
+              <Input
+                name="userTwitterHandle"
+                label="Twitter Handle (Coming Soon!)"
+                tip="Enter your Twitter handle for the upcoming Twitter integration."
+                placeholder="govrn"
+                localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+                disabled
+              />
+              <Button
+                type="submit"
+                width="100%"
+                color="brand.primary.600"
+                backgroundColor="brand.primary.50"
+                transition="all 100ms ease-in-out"
+                disabled
+                _hover={{ bgColor: 'brand.primary.100' }}
+              >
+                Link Twitter
+              </Button>
+            </Flex>
+          </Flex>
+        </Flex>
+      </form>
+    </>
   );
 };
 
