@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input, Textarea, DatePicker } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
@@ -48,18 +48,12 @@ const ReportForm = () => {
     mode: 'all',
     resolver: useYupValidationResolver(reportFormValidation),
   });
-  const { handleSubmit } = localForm;
+  const { handleSubmit, setValue } = localForm;
+  const [engagementDateValue, setEngagementDateValue] = useState(new Date());
 
   return (
     <Stack spacing="4" width="100%">
       <form onSubmit={handleSubmit(createReport)}>
-        <Input
-          name="username"
-          label="Username"
-          tip="What would you like your username to be?"
-          placeholder="DAOContributor"
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
-        />
         <Textarea
           name="details"
           label="Details"
@@ -67,6 +61,23 @@ const ReportForm = () => {
           placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
           variant="outline"
           localForm={localForm}
+        />
+        <Input
+          name="proof"
+          label="Proof of Contribution"
+          tip="Please add a URL to a proof of your contribution."
+          placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
+          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <DatePicker
+          name="engagementDate"
+          localForm={localForm}
+          label="Date of Contribution Engagement (UTC)"
+          defaultValue={engagementDateValue}
+          onChange={(date) => {
+            setEngagementDateValue(date);
+            setValue('engagementDate', date);
+          }}
         />
         <Flex align="flex-end" marginTop={4}>
           <Button
@@ -77,7 +88,7 @@ const ReportForm = () => {
             transition="all 100ms ease-in-out"
             _hover={{ bgColor: 'brand.primary.100' }}
           >
-            Create
+            Add Contribution
           </Button>
         </Flex>
       </form>

@@ -26,7 +26,10 @@ const CustomDatePickerButton = forwardRef<
   <Button
     onClick={onClick}
     ref={ref}
-    background="dark.400"
+    bgColor="gray.100"
+    color="gray.700"
+    transition="all 0.125s"
+    _hover={{ color: 'gray.700', bgColor: 'gray.300' }}
     fontWeight="normal"
     variant="outline"
   >
