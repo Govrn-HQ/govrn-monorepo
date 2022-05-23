@@ -79,13 +79,70 @@ const ContributionsTable = ({ contributionsData }: any) => {
           );
         },
       },
-      { Header: 'Actions' },
+      // {
+      //   Header: 'Actions',
+      //   accessor: 'actions',
+      //   Cell: ({ value }) => (
+      //     <HStack spacing="1">
+      //       <IconButton
+      //         icon={<FiEdit2 fontSize="1rem" />}
+      //         variant="ghost"
+      //         color="gray.800"
+      //         aria-label="Edit Contribution"
+      //         onClick={(e) => {
+      //           console.log('click', e);
+      //         }}
+      //       />
+      //       <IconButton
+      //         icon={<FiTrash2 fontSize="1rem" />}
+      //         variant="ghost"
+      //         color="gray.800"
+      //         aria-label="Delete Contribution"
+      //       />
+      //     </HStack>
+      //   ),
+      // },
     ],
     []
   );
 
+  const tableHooks = (hooks) => {
+    hooks.visibleColumns.push((columns) => [
+      ...columns,
+      {
+        id: 'actions',
+        Header: 'Actions',
+        Cell: ({ row }) => (
+          <HStack spacing="1">
+            <IconButton
+              icon={<FiEdit2 fontSize="1rem" />}
+              variant="ghost"
+              color="gray.800"
+              aria-label="Edit Contribution"
+              onClick={() => {
+                console.log(
+                  'full data in row',
+                  contributionsData.find(
+                    (localContribution) =>
+                      localContribution.id === row.original.id
+                  )
+                );
+              }}
+            />
+            <IconButton
+              icon={<FiTrash2 fontSize="1rem" />}
+              variant="ghost"
+              color="gray.800"
+              aria-label="Delete Contribution"
+            />
+          </HStack>
+        ),
+      },
+    ]);
+  };
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data }, useSortBy);
+    useTable({ columns, data }, useSortBy, tableHooks);
   console.log('contributions in table', contributionsData);
 
   return (
@@ -121,36 +178,9 @@ const ContributionsTable = ({ contributionsData }: any) => {
           return (
             <Tr {...row.getRowProps()}>
               {row.cells.map((cell) => (
-                <>
-                  <Td {...cell.getCellProps()} borderColor="gray.100">
-                    {cell.render('Cell')}
-                  </Td>
-                  <Td borderColor="gray.100">
-                    <HStack spacing="1" paddingRight={6}>
-                      <IconButton
-                        icon={<FiEdit2 fontSize="1rem" />}
-                        variant="ghost"
-                        color="gray.800"
-                        aria-label="Edit Contribution"
-                        onClick={() => {
-                          console.log('click', cell.row.original.id);
-                          console.log(
-                            'full data',
-                            contributionsData.find(
-                              (c) => c.id === cell.row.original.id
-                            )
-                          );
-                        }}
-                      />
-                      <IconButton
-                        icon={<FiTrash2 fontSize="1rem" />}
-                        variant="ghost"
-                        color="gray.800"
-                        aria-label="Delete Contribution"
-                      />
-                    </HStack>
-                  </Td>
-                </>
+                <Td {...cell.getCellProps()} borderColor="gray.100">
+                  <>{cell.render('Cell')}</>
+                </Td>
               ))}
             </Tr>
           );
