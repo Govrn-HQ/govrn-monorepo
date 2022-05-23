@@ -132,8 +132,6 @@ const ContributionsTable = ({ contributionsData }: any) => {
                 {...column.getHeaderProps(column.getSortByToggleProps())}
                 isNumeric={column.isNumeric}
                 borderColor="gray.100"
-                display="flex"
-                flexDirection="row"
               >
                 {column.render('Header')}
                 <chakra.span paddingLeft="4">
