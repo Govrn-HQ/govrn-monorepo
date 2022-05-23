@@ -79,29 +79,6 @@ const ContributionsTable = ({ contributionsData }: any) => {
           );
         },
       },
-      // {
-      //   Header: 'Actions',
-      //   accessor: 'actions',
-      //   Cell: ({ value }) => (
-      //     <HStack spacing="1">
-      //       <IconButton
-      //         icon={<FiEdit2 fontSize="1rem" />}
-      //         variant="ghost"
-      //         color="gray.800"
-      //         aria-label="Edit Contribution"
-      //         onClick={(e) => {
-      //           console.log('click', e);
-      //         }}
-      //       />
-      //       <IconButton
-      //         icon={<FiTrash2 fontSize="1rem" />}
-      //         variant="ghost"
-      //         color="gray.800"
-      //         aria-label="Delete Contribution"
-      //       />
-      //     </HStack>
-      //   ),
-      // },
     ],
     []
   );
@@ -155,6 +132,8 @@ const ContributionsTable = ({ contributionsData }: any) => {
                 {...column.getHeaderProps(column.getSortByToggleProps())}
                 isNumeric={column.isNumeric}
                 borderColor="gray.100"
+                display="flex"
+                flexDirection="row"
               >
                 {column.render('Header')}
                 <chakra.span paddingLeft="4">
