@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Stack, Flex, Button } from '@chakra-ui/react';
-import { Input } from '@govrn/protocol-ui';
+import { Input, Textarea, DatePicker } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
 
@@ -59,6 +59,14 @@ const ReportForm = () => {
           tip="What would you like your username to be?"
           placeholder="DAOContributor"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <Textarea
+          name="details"
+          label="Details"
+          tip="Briefly describe your Contribution"
+          placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
+          variant="outline"
+          localForm={localForm}
         />
         <Flex align="flex-end" marginTop={4}>
           <Button
