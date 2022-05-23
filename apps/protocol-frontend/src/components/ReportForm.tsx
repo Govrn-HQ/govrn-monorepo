@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Stack, Flex, Button } from '@chakra-ui/react';
-import { Input, Textarea, DatePicker } from '@govrn/protocol-ui';
+import { Input, Textarea, DatePicker, Select } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
 
@@ -35,6 +35,13 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
     [reportFormValidation]
   );
 
+const activityTypesList = ['Activity Type 1', 'Activity Type 2'];
+
+const activityTypeOptions = activityTypesList.map((activity) => ({
+  value: activity,
+  label: activity,
+}));
+
 const createReport = async (values: any) => {
   try {
     console.log('createReport', values);
@@ -54,6 +61,14 @@ const ReportForm = () => {
   return (
     <Stack spacing="4" width="100%">
       <form onSubmit={handleSubmit(createReport)}>
+        <Select
+          name="activityType"
+          label="Activity Type"
+          // defaultValue={getValues('family')}
+          onChange={(value) => setValue('activityType', value)}
+          options={activityTypeOptions}
+          localForm={localForm}
+        />
         <Textarea
           name="details"
           label="Details"
