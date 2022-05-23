@@ -23,6 +23,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
+  const [userContributions, setUserContributions] = useState<any>(null);
+  const [userAttestations, setUserAttestations] = useState<any>(null);
 
   useEffect(() => {
     setUserAddress(address);
@@ -56,6 +58,36 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     getUser();
   }, [userDataByAddress]);
 
+  useEffect(() => {
+    const getUserContributions = async () => {
+      try {
+        const userContributionsResponse = await govrn.contribution.list(
+          userData.id
+        );
+        setUserContributions(userContributionsResponse);
+        return userContributionsResponse;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserContributions();
+  }, [userData]);
+
+  useEffect(() => {
+    const getUserAttestations = async () => {
+      try {
+        const userAttestationsResponse = await govrn.attestation.list(
+          userData.id
+        );
+        setUserAttestations(userAttestionsResponse);
+        return userAttestionsResponse;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserAttestations();
+  }, [userData]);
+
   return (
     <UserContext.Provider
       value={{
@@ -65,6 +97,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserData,
         userDataByAddress,
         setUserDataByAddress,
+        userContributions,
+        setUserContributions,
+        userAttestations,
+        setUserAttestations,
       }}
     >
       {children}
@@ -80,6 +116,10 @@ export const useUser = () => {
     setUserDataByAddress,
     userData,
     setUserData,
+    userContributions,
+    setUserContributions,
+    userAttestations,
+    setUserAttestations,
   } = useContext(UserContext);
   return {
     userAddress,
@@ -88,5 +128,9 @@ export const useUser = () => {
     setUserDataByAddress,
     userData,
     setUserData,
+    userContributions,
+    setUserContributions,
+    userAttestations,
+    setUserAttestations,
   };
 };

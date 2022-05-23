@@ -14,6 +14,7 @@ import {
   TabPanels,
   TabPanel,
 } from '@chakra-ui/react';
+import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
@@ -21,6 +22,9 @@ import EmptyContributions from './EmptyContributions';
 import { mockContributions, mockContributionTypes } from '../utils/mockData';
 
 const ContributionsTableShell = () => {
+  const { userContributions } = useUser();
+  console.log('user contributions', userContributions);
+
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Container
