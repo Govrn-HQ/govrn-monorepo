@@ -79,8 +79,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         const userAttestationsResponse = await govrn.attestation.list(
           userData.id
         );
-        setUserAttestations(userAttestionsResponse);
-        return userAttestionsResponse;
+        setUserAttestations(userAttestationsResponse);
+        return userAttestationsResponse;
       } catch (error) {
         console.error(error);
       }
