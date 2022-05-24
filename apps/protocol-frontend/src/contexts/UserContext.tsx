@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
+import { ChainName } from '../utils/definitions';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -18,7 +19,7 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
-  const { isConnected, address } = useWallet();
+  const { isConnected, address, chainId } = useWallet();
   const govrn = new GovrnProtocol(protocolUrl);
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
