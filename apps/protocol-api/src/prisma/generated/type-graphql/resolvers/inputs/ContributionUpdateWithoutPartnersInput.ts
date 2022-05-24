@@ -11,6 +11,7 @@ import { LinearIssueUpdateOneWithoutContributionInput } from "../inputs/LinearIs
 import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { TwitterTweetUpdateOneWithoutContributionInput } from "../inputs/TwitterTweetUpdateOneWithoutContributionInput";
 import { UserUpdateOneRequiredWithoutContributionsInput } from "../inputs/UserUpdateOneRequiredWithoutContributionsInput";
 
 @TypeGraphQL.InputType("ContributionUpdateWithoutPartnersInput", {
@@ -76,6 +77,11 @@ export class ContributionUpdateWithoutPartnersInput {
     nullable: true
   })
   linear_issue?: LinearIssueUpdateOneWithoutContributionInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterTweetUpdateOneWithoutContributionInput, {
+    nullable: true
+  })
+  tweet?: TwitterTweetUpdateOneWithoutContributionInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
     nullable: true

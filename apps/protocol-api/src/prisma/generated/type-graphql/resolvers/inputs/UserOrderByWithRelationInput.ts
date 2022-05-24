@@ -8,6 +8,7 @@ import { ContributionOrderByRelationAggregateInput } from "../inputs/Contributio
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
 import { LinearUserOrderByRelationAggregateInput } from "../inputs/LinearUserOrderByRelationAggregateInput";
 import { PartnerOrderByRelationAggregateInput } from "../inputs/PartnerOrderByRelationAggregateInput";
+import { TwitterUserOrderByWithRelationInput } from "../inputs/TwitterUserOrderByWithRelationInput";
 import { UserActivityOrderByRelationAggregateInput } from "../inputs/UserActivityOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -89,4 +90,9 @@ export class UserOrderByWithRelationInput {
     nullable: true
   })
   guild_users?: GuildUserOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterUserOrderByWithRelationInput, {
+    nullable: true
+  })
+  twitter_user?: TwitterUserOrderByWithRelationInput | undefined;
 }

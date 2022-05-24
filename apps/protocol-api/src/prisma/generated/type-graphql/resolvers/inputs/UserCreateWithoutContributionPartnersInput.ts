@@ -7,6 +7,7 @@ import { ChainTypeCreateNestedOneWithoutUsersInput } from "../inputs/ChainTypeCr
 import { ContributionCreateNestedManyWithoutUserInput } from "../inputs/ContributionCreateNestedManyWithoutUserInput";
 import { GuildUserCreateNestedManyWithoutUserInput } from "../inputs/GuildUserCreateNestedManyWithoutUserInput";
 import { LinearUserCreateNestedManyWithoutUserInput } from "../inputs/LinearUserCreateNestedManyWithoutUserInput";
+import { TwitterUserCreateNestedOneWithoutUserInput } from "../inputs/TwitterUserCreateNestedOneWithoutUserInput";
 import { UserActivityCreateNestedManyWithoutUserInput } from "../inputs/UserActivityCreateNestedManyWithoutUserInput";
 
 @TypeGraphQL.InputType("UserCreateWithoutContributionPartnersInput", {
@@ -72,4 +73,9 @@ export class UserCreateWithoutContributionPartnersInput {
     nullable: true
   })
   guild_users?: GuildUserCreateNestedManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterUserCreateNestedOneWithoutUserInput, {
+    nullable: true
+  })
+  twitter_user?: TwitterUserCreateNestedOneWithoutUserInput | undefined;
 }

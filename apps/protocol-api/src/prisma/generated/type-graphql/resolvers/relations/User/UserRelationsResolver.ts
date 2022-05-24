@@ -5,6 +5,7 @@ import { Contribution } from "../../../models/Contribution";
 import { GuildUser } from "../../../models/GuildUser";
 import { LinearUser } from "../../../models/LinearUser";
 import { Partner } from "../../../models/Partner";
+import { TwitterUser } from "../../../models/TwitterUser";
 import { User } from "../../../models/User";
 import { UserActivity } from "../../../models/UserActivity";
 import { UserActivitiesArgs } from "./args/UserActivitiesArgs";
@@ -92,5 +93,16 @@ export class UserRelationsResolver {
         id: user.id,
       },
     }).guild_users(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => TwitterUser, {
+    nullable: true
+  })
+  async twitter_user(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any): Promise<TwitterUser | null> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        id: user.id,
+      },
+    }).twitter_user({});
   }
 }

@@ -94,6 +94,25 @@ mutation createLinearJobRun($data: LinearJobRunCreateInput!) {
   }
 }
 
+# Twitter
+fragment TwitterTweetFragment on TwitterTweet {
+  active
+  displayName
+  email
+  linear_id
+  name
+  url
+  id
+  createdAt
+}
+
+mutation createTwitterTweet($data: [TwitterTweetCreateInput!]!) {
+  createManyTwitterTweet(data: $data) {
+    count
+  }
+}
+
+
 # User quries
 fragment UserFragment on User {
   address

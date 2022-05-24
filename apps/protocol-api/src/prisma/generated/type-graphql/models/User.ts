@@ -8,6 +8,7 @@ import { Contribution } from "../models/Contribution";
 import { GuildUser } from "../models/GuildUser";
 import { LinearUser } from "../models/LinearUser";
 import { Partner } from "../models/Partner";
+import { TwitterUser } from "../models/TwitterUser";
 import { UserActivity } from "../models/UserActivity";
 import { UserCount } from "../resolvers/outputs/UserCount";
 
@@ -68,6 +69,8 @@ export class User {
   linear_users?: LinearUser[];
 
   guild_users?: GuildUser[];
+
+  twitter_user?: TwitterUser | null;
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

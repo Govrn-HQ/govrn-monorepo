@@ -15,5 +15,8 @@ export { LinearProjectRelationsResolver } from "./LinearProject/LinearProjectRel
 export { LinearTeamRelationsResolver } from "./LinearTeam/LinearTeamRelationsResolver";
 export { LinearUserRelationsResolver } from "./LinearUser/LinearUserRelationsResolver";
 export { PartnerRelationsResolver } from "./Partner/PartnerRelationsResolver";
+export { TwitterAccountRelationsResolver } from "./TwitterAccount/TwitterAccountRelationsResolver";
+export { TwitterTweetRelationsResolver } from "./TwitterTweet/TwitterTweetRelationsResolver";
+export { TwitterUserRelationsResolver } from "./TwitterUser/TwitterUserRelationsResolver";
 export { UserRelationsResolver } from "./User/UserRelationsResolver";
 export { UserActivityRelationsResolver } from "./UserActivity/UserActivityRelationsResolver";

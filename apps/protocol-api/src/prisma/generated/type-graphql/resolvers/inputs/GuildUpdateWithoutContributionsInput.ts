@@ -6,6 +6,7 @@ import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdat
 import { GuildUserUpdateManyWithoutGuildInput } from "../inputs/GuildUserUpdateManyWithoutGuildInput";
 import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { TwitterAccountUpdateOneWithoutGuildInput } from "../inputs/TwitterAccountUpdateOneWithoutGuildInput";
 
 @TypeGraphQL.InputType("GuildUpdateWithoutContributionsInput", {
   isAbstract: true
@@ -45,4 +46,9 @@ export class GuildUpdateWithoutContributionsInput {
     nullable: true
   })
   users?: GuildUserUpdateManyWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterAccountUpdateOneWithoutGuildInput, {
+    nullable: true
+  })
+  twitter_account?: TwitterAccountUpdateOneWithoutGuildInput | undefined;
 }

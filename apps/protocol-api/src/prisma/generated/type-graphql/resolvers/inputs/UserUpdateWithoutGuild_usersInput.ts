@@ -10,6 +10,7 @@ import { LinearUserUpdateManyWithoutUserInput } from "../inputs/LinearUserUpdate
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PartnerUpdateManyWithoutUserInput } from "../inputs/PartnerUpdateManyWithoutUserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { TwitterUserUpdateOneWithoutUserInput } from "../inputs/TwitterUserUpdateOneWithoutUserInput";
 import { UserActivityUpdateManyWithoutUserInput } from "../inputs/UserActivityUpdateManyWithoutUserInput";
 
 @TypeGraphQL.InputType("UserUpdateWithoutGuild_usersInput", {
@@ -75,4 +76,9 @@ export class UserUpdateWithoutGuild_usersInput {
     nullable: true
   })
   linear_users?: LinearUserUpdateManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterUserUpdateOneWithoutUserInput, {
+    nullable: true
+  })
+  twitter_user?: TwitterUserUpdateOneWithoutUserInput | undefined;
 }
