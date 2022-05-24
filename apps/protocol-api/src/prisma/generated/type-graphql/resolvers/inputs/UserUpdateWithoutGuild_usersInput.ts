@@ -6,6 +6,7 @@ import { AttestationUpdateManyWithoutUserInput } from "../inputs/AttestationUpda
 import { ChainTypeUpdateOneRequiredWithoutUsersInput } from "../inputs/ChainTypeUpdateOneRequiredWithoutUsersInput";
 import { ContributionUpdateManyWithoutUserInput } from "../inputs/ContributionUpdateManyWithoutUserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { DiscordUserUpdateManyWithoutUserInput } from "../inputs/DiscordUserUpdateManyWithoutUserInput";
 import { LinearUserUpdateManyWithoutUserInput } from "../inputs/LinearUserUpdateManyWithoutUserInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PartnerUpdateManyWithoutUserInput } from "../inputs/PartnerUpdateManyWithoutUserInput";
@@ -75,4 +76,9 @@ export class UserUpdateWithoutGuild_usersInput {
     nullable: true
   })
   linear_users?: LinearUserUpdateManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => DiscordUserUpdateManyWithoutUserInput, {
+    nullable: true
+  })
+  discord_users?: DiscordUserUpdateManyWithoutUserInput | undefined;
 }

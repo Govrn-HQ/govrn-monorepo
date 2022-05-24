@@ -439,6 +439,14 @@ export type AggregateContributionStatus = {
   _sum?: Maybe<ContributionStatusSumAggregate>;
 };
 
+export type AggregateDiscordUser = {
+  _avg?: Maybe<DiscordUserAvgAggregate>;
+  _count?: Maybe<DiscordUserCountAggregate>;
+  _max?: Maybe<DiscordUserMaxAggregate>;
+  _min?: Maybe<DiscordUserMinAggregate>;
+  _sum?: Maybe<DiscordUserSumAggregate>;
+};
+
 export type AggregateGuild = {
   _avg?: Maybe<GuildAvgAggregate>;
   _count?: Maybe<GuildCountAggregate>;
@@ -3171,6 +3179,295 @@ export type DateTimeWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<NestedDateTimeWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
+export type DiscordUser = {
+  createdAt: Scalars['DateTime'];
+  discord_id: Scalars['Int'];
+  display_name?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  user_id: Scalars['Int'];
+};
+
+export type DiscordUserAvgAggregate = {
+  discord_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+export type DiscordUserAvgOrderByAggregateInput = {
+  discord_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserCountAggregate = {
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  discord_id: Scalars['Int'];
+  display_name: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  user_id: Scalars['Int'];
+};
+
+export type DiscordUserCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  discord_id?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_id: Scalars['Int'];
+  display_name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutDiscord_UsersInput;
+};
+
+export type DiscordUserCreateManyInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_id: Scalars['Int'];
+  display_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_id: Scalars['Int'];
+};
+
+export type DiscordUserCreateManyUserInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_id: Scalars['Int'];
+  display_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type DiscordUserCreateManyUserInputEnvelope = {
+  data: Array<DiscordUserCreateManyUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type DiscordUserCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<DiscordUserCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<DiscordUserCreateWithoutUserInput>>;
+  createMany?: InputMaybe<DiscordUserCreateManyUserInputEnvelope>;
+};
+
+export type DiscordUserCreateOrConnectWithoutUserInput = {
+  create: DiscordUserCreateWithoutUserInput;
+  where: DiscordUserWhereUniqueInput;
+};
+
+export type DiscordUserCreateWithoutUserInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_id: Scalars['Int'];
+  display_name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type DiscordUserGroupBy = {
+  _avg?: Maybe<DiscordUserAvgAggregate>;
+  _count?: Maybe<DiscordUserCountAggregate>;
+  _max?: Maybe<DiscordUserMaxAggregate>;
+  _min?: Maybe<DiscordUserMinAggregate>;
+  _sum?: Maybe<DiscordUserSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  discord_id: Scalars['Int'];
+  display_name?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  user_id: Scalars['Int'];
+};
+
+export type DiscordUserListRelationFilter = {
+  every?: InputMaybe<DiscordUserWhereInput>;
+  none?: InputMaybe<DiscordUserWhereInput>;
+  some?: InputMaybe<DiscordUserWhereInput>;
+};
+
+export type DiscordUserMaxAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  discord_id?: Maybe<Scalars['Int']>;
+  display_name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type DiscordUserMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  discord_id?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserMinAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  discord_id?: Maybe<Scalars['Int']>;
+  display_name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type DiscordUserMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  discord_id?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserOrderByWithAggregationInput = {
+  _avg?: InputMaybe<DiscordUserAvgOrderByAggregateInput>;
+  _count?: InputMaybe<DiscordUserCountOrderByAggregateInput>;
+  _max?: InputMaybe<DiscordUserMaxOrderByAggregateInput>;
+  _min?: InputMaybe<DiscordUserMinOrderByAggregateInput>;
+  _sum?: InputMaybe<DiscordUserSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  discord_id?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  discord_id?: InputMaybe<SortOrder>;
+  display_name?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export enum DiscordUserScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  DiscordId = 'discord_id',
+  DisplayName = 'display_name',
+  Id = 'id',
+  UpdatedAt = 'updatedAt',
+  UserId = 'user_id'
+}
+
+export type DiscordUserScalarWhereInput = {
+  AND?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
+  NOT?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
+  OR?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  discord_id?: InputMaybe<IntFilter>;
+  display_name?: InputMaybe<StringNullableFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user_id?: InputMaybe<IntFilter>;
+};
+
+export type DiscordUserScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  discord_id?: InputMaybe<IntWithAggregatesFilter>;
+  display_name?: InputMaybe<StringNullableWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  user_id?: InputMaybe<IntWithAggregatesFilter>;
+};
+
+export type DiscordUserSumAggregate = {
+  discord_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type DiscordUserSumOrderByAggregateInput = {
+  discord_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type DiscordUserUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutDiscord_UsersInput>;
+};
+
+export type DiscordUserUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type DiscordUserUpdateManyWithWhereWithoutUserInput = {
+  data: DiscordUserUpdateManyMutationInput;
+  where: DiscordUserScalarWhereInput;
+};
+
+export type DiscordUserUpdateManyWithoutUserInput = {
+  connect?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<DiscordUserCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<DiscordUserCreateWithoutUserInput>>;
+  createMany?: InputMaybe<DiscordUserCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
+  set?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
+  update?: InputMaybe<Array<DiscordUserUpdateWithWhereUniqueWithoutUserInput>>;
+  updateMany?: InputMaybe<Array<DiscordUserUpdateManyWithWhereWithoutUserInput>>;
+  upsert?: InputMaybe<Array<DiscordUserUpsertWithWhereUniqueWithoutUserInput>>;
+};
+
+export type DiscordUserUpdateWithWhereUniqueWithoutUserInput = {
+  data: DiscordUserUpdateWithoutUserInput;
+  where: DiscordUserWhereUniqueInput;
+};
+
+export type DiscordUserUpdateWithoutUserInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type DiscordUserUpsertWithWhereUniqueWithoutUserInput = {
+  create: DiscordUserCreateWithoutUserInput;
+  update: DiscordUserUpdateWithoutUserInput;
+  where: DiscordUserWhereUniqueInput;
+};
+
+export type DiscordUserWhereInput = {
+  AND?: InputMaybe<Array<DiscordUserWhereInput>>;
+  NOT?: InputMaybe<Array<DiscordUserWhereInput>>;
+  OR?: InputMaybe<Array<DiscordUserWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  discord_id?: InputMaybe<IntFilter>;
+  display_name?: InputMaybe<StringNullableFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  user_id?: InputMaybe<IntFilter>;
+};
+
+export type DiscordUserWhereUniqueInput = {
+  discord_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type FloatNullableFilter = {
@@ -7148,6 +7445,7 @@ export type Mutation = {
   createChainType: ChainType;
   createContribution: Contribution;
   createContributionStatus: ContributionStatus;
+  createDiscordUser: DiscordUser;
   createGuild: Guild;
   createGuildContribution: GuildContribution;
   createGuildUser: GuildUser;
@@ -7165,6 +7463,7 @@ export type Mutation = {
   createManyChainType: AffectedRowsOutput;
   createManyContribution: AffectedRowsOutput;
   createManyContributionStatus: AffectedRowsOutput;
+  createManyDiscordUser: AffectedRowsOutput;
   createManyGuild: AffectedRowsOutput;
   createManyGuildContribution: AffectedRowsOutput;
   createManyGuildUser: AffectedRowsOutput;
@@ -7188,6 +7487,7 @@ export type Mutation = {
   deleteChainType?: Maybe<ChainType>;
   deleteContribution?: Maybe<Contribution>;
   deleteContributionStatus?: Maybe<ContributionStatus>;
+  deleteDiscordUser?: Maybe<DiscordUser>;
   deleteGuild?: Maybe<Guild>;
   deleteGuildContribution?: Maybe<GuildContribution>;
   deleteGuildUser?: Maybe<GuildUser>;
@@ -7205,6 +7505,7 @@ export type Mutation = {
   deleteManyChainType: AffectedRowsOutput;
   deleteManyContribution: AffectedRowsOutput;
   deleteManyContributionStatus: AffectedRowsOutput;
+  deleteManyDiscordUser: AffectedRowsOutput;
   deleteManyGuild: AffectedRowsOutput;
   deleteManyGuildContribution: AffectedRowsOutput;
   deleteManyGuildUser: AffectedRowsOutput;
@@ -7228,6 +7529,7 @@ export type Mutation = {
   updateChainType?: Maybe<ChainType>;
   updateContribution?: Maybe<Contribution>;
   updateContributionStatus?: Maybe<ContributionStatus>;
+  updateDiscordUser?: Maybe<DiscordUser>;
   updateGuild?: Maybe<Guild>;
   updateGuildContribution?: Maybe<GuildContribution>;
   updateGuildUser?: Maybe<GuildUser>;
@@ -7245,6 +7547,7 @@ export type Mutation = {
   updateManyChainType: AffectedRowsOutput;
   updateManyContribution: AffectedRowsOutput;
   updateManyContributionStatus: AffectedRowsOutput;
+  updateManyDiscordUser: AffectedRowsOutput;
   updateManyGuild: AffectedRowsOutput;
   updateManyGuildContribution: AffectedRowsOutput;
   updateManyGuildUser: AffectedRowsOutput;
@@ -7268,6 +7571,7 @@ export type Mutation = {
   upsertChainType: ChainType;
   upsertContribution: Contribution;
   upsertContributionStatus: ContributionStatus;
+  upsertDiscordUser: DiscordUser;
   upsertGuild: Guild;
   upsertGuildContribution: GuildContribution;
   upsertGuildUser: GuildUser;
@@ -7320,6 +7624,11 @@ export type MutationCreateContributionArgs = {
 
 export type MutationCreateContributionStatusArgs = {
   data: ContributionStatusCreateInput;
+};
+
+
+export type MutationCreateDiscordUserArgs = {
+  data: DiscordUserCreateInput;
 };
 
 
@@ -7412,6 +7721,12 @@ export type MutationCreateManyContributionArgs = {
 
 export type MutationCreateManyContributionStatusArgs = {
   data: Array<ContributionStatusCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyDiscordUserArgs = {
+  data: Array<DiscordUserCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -7543,6 +7858,11 @@ export type MutationDeleteContributionStatusArgs = {
 };
 
 
+export type MutationDeleteDiscordUserArgs = {
+  where: DiscordUserWhereUniqueInput;
+};
+
+
 export type MutationDeleteGuildArgs = {
   where: GuildWhereUniqueInput;
 };
@@ -7625,6 +7945,11 @@ export type MutationDeleteManyContributionArgs = {
 
 export type MutationDeleteManyContributionStatusArgs = {
   where?: InputMaybe<ContributionStatusWhereInput>;
+};
+
+
+export type MutationDeleteManyDiscordUserArgs = {
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 
@@ -7751,6 +8076,12 @@ export type MutationUpdateContributionStatusArgs = {
 };
 
 
+export type MutationUpdateDiscordUserArgs = {
+  data: DiscordUserUpdateInput;
+  where: DiscordUserWhereUniqueInput;
+};
+
+
 export type MutationUpdateGuildArgs = {
   data: GuildUpdateInput;
   where: GuildWhereUniqueInput;
@@ -7850,6 +8181,12 @@ export type MutationUpdateManyContributionArgs = {
 export type MutationUpdateManyContributionStatusArgs = {
   data: ContributionStatusUpdateManyMutationInput;
   where?: InputMaybe<ContributionStatusWhereInput>;
+};
+
+
+export type MutationUpdateManyDiscordUserArgs = {
+  data: DiscordUserUpdateManyMutationInput;
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 
@@ -7996,6 +8333,13 @@ export type MutationUpsertContributionStatusArgs = {
   create: ContributionStatusCreateInput;
   update: ContributionStatusUpdateInput;
   where: ContributionStatusWhereUniqueInput;
+};
+
+
+export type MutationUpsertDiscordUserArgs = {
+  create: DiscordUserCreateInput;
+  update: DiscordUserUpdateInput;
+  where: DiscordUserWhereUniqueInput;
 };
 
 
@@ -8692,6 +9036,7 @@ export type Query = {
   aggregateChainType: AggregateChainType;
   aggregateContribution: AggregateContribution;
   aggregateContributionStatus: AggregateContributionStatus;
+  aggregateDiscordUser: AggregateDiscordUser;
   aggregateGuild: AggregateGuild;
   aggregateGuildContribution: AggregateGuildContribution;
   aggregateGuildUser: AggregateGuildUser;
@@ -8718,6 +9063,8 @@ export type Query = {
   contributionStatus?: Maybe<ContributionStatus>;
   contributionStatuses: Array<ContributionStatus>;
   contributions: Array<Contribution>;
+  discordUser?: Maybe<DiscordUser>;
+  discordUsers: Array<DiscordUser>;
   findFirstActivityType?: Maybe<ActivityType>;
   findFirstAttestation?: Maybe<Attestation>;
   findFirstAttestationConfidence?: Maybe<AttestationConfidence>;
@@ -8726,6 +9073,7 @@ export type Query = {
   findFirstChainType?: Maybe<ChainType>;
   findFirstContribution?: Maybe<Contribution>;
   findFirstContributionStatus?: Maybe<ContributionStatus>;
+  findFirstDiscordUser?: Maybe<DiscordUser>;
   findFirstGuild?: Maybe<Guild>;
   findFirstGuildContribution?: Maybe<GuildContribution>;
   findFirstGuildUser?: Maybe<GuildUser>;
@@ -8746,6 +9094,7 @@ export type Query = {
   groupByChainType: Array<ChainTypeGroupBy>;
   groupByContribution: Array<ContributionGroupBy>;
   groupByContributionStatus: Array<ContributionStatusGroupBy>;
+  groupByDiscordUser: Array<DiscordUserGroupBy>;
   groupByGuild: Array<GuildGroupBy>;
   groupByGuildContribution: Array<GuildContributionGroupBy>;
   groupByGuildUser: Array<GuildUserGroupBy>;
@@ -8869,6 +9218,15 @@ export type QueryAggregateContributionStatusArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionStatusWhereInput>;
+};
+
+
+export type QueryAggregateDiscordUserArgs = {
+  cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 
@@ -9085,6 +9443,21 @@ export type QueryContributionsArgs = {
 };
 
 
+export type QueryDiscordUserArgs = {
+  where: DiscordUserWhereUniqueInput;
+};
+
+
+export type QueryDiscordUsersArgs = {
+  cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DiscordUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
+};
+
+
 export type QueryFindFirstActivityTypeArgs = {
   cursor?: InputMaybe<ActivityTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<ActivityTypeScalarFieldEnum>>;
@@ -9162,6 +9535,16 @@ export type QueryFindFirstContributionStatusArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionStatusWhereInput>;
+};
+
+
+export type QueryFindFirstDiscordUserArgs = {
+  cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DiscordUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 
@@ -9362,6 +9745,16 @@ export type QueryGroupByContributionStatusArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionStatusWhereInput>;
+};
+
+
+export type QueryGroupByDiscordUserArgs = {
+  by: Array<DiscordUserScalarFieldEnum>;
+  having?: InputMaybe<DiscordUserScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 
@@ -9754,6 +10147,7 @@ export type User = {
   contributionPartners: Array<Partner>;
   contributions: Array<Contribution>;
   createdAt: Scalars['DateTime'];
+  discord_users: Array<DiscordUser>;
   display_name?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   guild_users: Array<GuildUser>;
@@ -9801,6 +10195,16 @@ export type UserContributionsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionWhereInput>;
+};
+
+
+export type UserDiscord_UsersArgs = {
+  cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DiscordUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
 };
 
 
@@ -10179,6 +10583,7 @@ export type UserCount = {
   attestations: Scalars['Int'];
   contributionPartners: Scalars['Int'];
   contributions: Scalars['Int'];
+  discord_users: Scalars['Int'];
   guild_users: Scalars['Int'];
   linear_users: Scalars['Int'];
 };
@@ -10214,6 +10619,7 @@ export type UserCreateInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
@@ -10279,6 +10685,12 @@ export type UserCreateNestedOneWithoutContributionsInput = {
   create?: InputMaybe<UserCreateWithoutContributionsInput>;
 };
 
+export type UserCreateNestedOneWithoutDiscord_UsersInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutDiscord_UsersInput>;
+  create?: InputMaybe<UserCreateWithoutDiscord_UsersInput>;
+};
+
 export type UserCreateNestedOneWithoutGuild_UsersInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutGuild_UsersInput>;
@@ -10316,6 +10728,11 @@ export type UserCreateOrConnectWithoutContributionsInput = {
   where: UserWhereUniqueInput;
 };
 
+export type UserCreateOrConnectWithoutDiscord_UsersInput = {
+  create: UserCreateWithoutDiscord_UsersInput;
+  where: UserWhereUniqueInput;
+};
+
 export type UserCreateOrConnectWithoutGuild_UsersInput = {
   create: UserCreateWithoutGuild_UsersInput;
   where: UserWhereUniqueInput;
@@ -10333,6 +10750,7 @@ export type UserCreateWithoutActivitiesInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
@@ -10348,6 +10766,7 @@ export type UserCreateWithoutAttestationsInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
@@ -10363,6 +10782,7 @@ export type UserCreateWithoutChain_TypeInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
@@ -10378,6 +10798,7 @@ export type UserCreateWithoutContributionPartnersInput = {
   chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
@@ -10392,6 +10813,23 @@ export type UserCreateWithoutContributionsInput = {
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
   chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
+  display_name?: InputMaybe<Scalars['String']>;
+  full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
+  linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserCreateWithoutDiscord_UsersInput = {
+  activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
+  address: Scalars['String'];
+  attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
+  chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
+  contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
+  contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
@@ -10409,6 +10847,7 @@ export type UserCreateWithoutGuild_UsersInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -10424,6 +10863,7 @@ export type UserCreateWithoutLinear_UsersInput = {
   contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
@@ -10526,6 +10966,7 @@ export type UserOrderByWithRelationInput = {
   contributionPartners?: InputMaybe<PartnerOrderByRelationAggregateInput>;
   contributions?: InputMaybe<ContributionOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  discord_users?: InputMaybe<DiscordUserOrderByRelationAggregateInput>;
   display_name?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   guild_users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
@@ -10597,6 +11038,7 @@ export type UserUpdateInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
@@ -10665,6 +11107,14 @@ export type UserUpdateOneRequiredWithoutContributionsInput = {
   upsert?: InputMaybe<UserUpsertWithoutContributionsInput>;
 };
 
+export type UserUpdateOneRequiredWithoutDiscord_UsersInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutDiscord_UsersInput>;
+  create?: InputMaybe<UserCreateWithoutDiscord_UsersInput>;
+  update?: InputMaybe<UserUpdateWithoutDiscord_UsersInput>;
+  upsert?: InputMaybe<UserUpsertWithoutDiscord_UsersInput>;
+};
+
 export type UserUpdateOneRequiredWithoutGuild_UsersInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutGuild_UsersInput>;
@@ -10695,6 +11145,7 @@ export type UserUpdateWithoutActivitiesInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
@@ -10710,6 +11161,7 @@ export type UserUpdateWithoutAttestationsInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
@@ -10725,6 +11177,7 @@ export type UserUpdateWithoutChain_TypeInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
@@ -10740,6 +11193,7 @@ export type UserUpdateWithoutContributionPartnersInput = {
   chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
@@ -10754,6 +11208,23 @@ export type UserUpdateWithoutContributionsInput = {
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
   chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutDiscord_UsersInput = {
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -10771,6 +11242,7 @@ export type UserUpdateWithoutGuild_UsersInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -10786,6 +11258,7 @@ export type UserUpdateWithoutLinear_UsersInput = {
   contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
@@ -10819,6 +11292,11 @@ export type UserUpsertWithoutContributionsInput = {
   update: UserUpdateWithoutContributionsInput;
 };
 
+export type UserUpsertWithoutDiscord_UsersInput = {
+  create: UserCreateWithoutDiscord_UsersInput;
+  update: UserUpdateWithoutDiscord_UsersInput;
+};
+
 export type UserUpsertWithoutGuild_UsersInput = {
   create: UserCreateWithoutGuild_UsersInput;
   update: UserUpdateWithoutGuild_UsersInput;
@@ -10841,6 +11319,7 @@ export type UserWhereInput = {
   contributionPartners?: InputMaybe<PartnerListRelationFilter>;
   contributions?: InputMaybe<ContributionListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  discord_users?: InputMaybe<DiscordUserListRelationFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
   full_name?: InputMaybe<StringNullableFilter>;
   guild_users?: InputMaybe<GuildUserListRelationFilter>;
