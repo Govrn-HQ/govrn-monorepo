@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { AttestationCreateNestedManyWithoutUserInput } from "../inputs/AttestationCreateNestedManyWithoutUserInput";
 import { ChainTypeCreateNestedOneWithoutUsersInput } from "../inputs/ChainTypeCreateNestedOneWithoutUsersInput";
 import { ContributionCreateNestedManyWithoutUserInput } from "../inputs/ContributionCreateNestedManyWithoutUserInput";
+import { DiscordUserCreateNestedManyWithoutUserInput } from "../inputs/DiscordUserCreateNestedManyWithoutUserInput";
 import { GuildUserCreateNestedManyWithoutUserInput } from "../inputs/GuildUserCreateNestedManyWithoutUserInput";
 import { PartnerCreateNestedManyWithoutUserInput } from "../inputs/PartnerCreateNestedManyWithoutUserInput";
 import { UserActivityCreateNestedManyWithoutUserInput } from "../inputs/UserActivityCreateNestedManyWithoutUserInput";
@@ -72,4 +73,9 @@ export class UserCreateWithoutLinear_usersInput {
     nullable: true
   })
   guild_users?: GuildUserCreateNestedManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => DiscordUserCreateNestedManyWithoutUserInput, {
+    nullable: true
+  })
+  discord_users?: DiscordUserCreateNestedManyWithoutUserInput | undefined;
 }

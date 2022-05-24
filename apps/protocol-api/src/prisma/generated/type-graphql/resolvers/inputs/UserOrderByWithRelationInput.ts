@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { AttestationOrderByRelationAggregateInput } from "../inputs/AttestationOrderByRelationAggregateInput";
 import { ChainTypeOrderByWithRelationInput } from "../inputs/ChainTypeOrderByWithRelationInput";
 import { ContributionOrderByRelationAggregateInput } from "../inputs/ContributionOrderByRelationAggregateInput";
+import { DiscordUserOrderByRelationAggregateInput } from "../inputs/DiscordUserOrderByRelationAggregateInput";
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
 import { LinearUserOrderByRelationAggregateInput } from "../inputs/LinearUserOrderByRelationAggregateInput";
 import { PartnerOrderByRelationAggregateInput } from "../inputs/PartnerOrderByRelationAggregateInput";
@@ -89,4 +90,9 @@ export class UserOrderByWithRelationInput {
     nullable: true
   })
   guild_users?: GuildUserOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => DiscordUserOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  discord_users?: DiscordUserOrderByRelationAggregateInput | undefined;
 }
