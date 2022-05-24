@@ -22,9 +22,9 @@ import EmptyContributions from './EmptyContributions';
 import { mockContributions, mockContributionTypes } from '../utils/mockData';
 
 const ContributionsTableShell = () => {
-  // const { userContributions } = useUser();
-  // console.log('user contributions', userContributions);
-  const [contributions, setContributions] = useState(mockContributions);
+  const { userContributions } = useUser();
+  console.log('user contributions in context', userContributions);
+  const [contributions, setContributions] = useState(userContributions);
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -36,7 +36,7 @@ const ContributionsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Contributions</PageHeading>
-      {mockContributions && mockContributions.length > 0 ? (
+      {userContributions && userContributions.length > 0 ? (
         <Tabs variant="soft-rounded" colorScheme="gray">
           <TabList>
             <Tab>Contributions</Tab>
@@ -79,7 +79,7 @@ const ContributionsTableShell = () => {
                     </Stack>
                   </Box>
                   <Box overflowX="auto">
-                    <ContributionsTable contributionsData={mockContributions} />
+                    <ContributionsTable contributionsData={userContributions} />
                   </Box>
                   <Box px={{ base: '4', md: '6' }} pb="5">
                     <HStack spacing="3" justify="space-between">
@@ -127,7 +127,7 @@ const ContributionsTableShell = () => {
                     </Stack>
                   </Box>
                   <Box overflowX="auto">
-                    {mockContributionTypes.length > 0 ? (
+                    {userContributions.length > 0 ? (
                       <ContributionTypesTable
                         contributionTypesData={mockContributionTypes}
                       />
