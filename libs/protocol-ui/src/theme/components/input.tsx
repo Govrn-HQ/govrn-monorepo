@@ -16,6 +16,10 @@ export default {
       field: {
         bg: 'white',
         _hover: { borderColor: 'gray.300' },
+        _focus: {
+          boxShadow: ['xs', 'xs'],
+          borderColor: ['gray.300', 'gray.300'],
+        },
         borderRadius: '16px',
         borderColor: 'gray.200',
         boxShadow: 'xs',

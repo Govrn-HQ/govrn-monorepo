@@ -12,11 +12,11 @@ export const mockContributions = [
       3: 'yes',
     },
     verificationLevel: 1,
-    guilds: {
-      1: 'DAOhaus',
-      2: 'Raid Guild',
-      3: 'MetaFactory',
-    },
+    guilds: [
+      { id: 1, name: 'DAOhaus' },
+      { id: 2, name: 'Govrn' },
+      { id: 3, name: 'Raid Guild' },
+    ],
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ export const mockContributions = [
       1: 'yes',
     },
     verificationLevel: 2,
-    guilds: {},
+    guilds: [],
   },
   {
     id: 3,
@@ -40,7 +40,7 @@ export const mockContributions = [
     engagementDate: '2022-05-02',
     attestations: {},
     verificationLevel: 3,
-    guilds: {},
+    guilds: [{ id: 1, name: 'Govrn' }],
   },
 ];
 

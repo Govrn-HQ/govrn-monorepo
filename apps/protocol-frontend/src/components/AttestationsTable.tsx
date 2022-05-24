@@ -1,22 +1,5 @@
 import { useMemo } from 'react';
-import {
-  Badge,
-  Box,
-  Checkbox,
-  HStack,
-  Icon,
-  IconButton,
-  Table,
-  TableProps,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  chakra,
-} from '@chakra-ui/react';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
 

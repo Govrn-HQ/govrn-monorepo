@@ -1,11 +1,12 @@
+import * as React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Divider, Flex, HStack, Stack } from '@chakra-ui/react';
-import * as React from 'react';
 import {
   FiBarChart2,
   FiCheckSquare,
   FiHome,
   FiUsers,
+  FiPlusSquare,
   FiDisc,
   FiTwitter,
 } from 'react-icons/fi';
@@ -56,6 +57,13 @@ const Sidebar = () => {
                 label="Attestations"
                 icon={FiCheckSquare}
                 active={location.pathname.includes('/attestations')}
+              />
+            </Link>
+            <Link to="/report">
+              <NavButton
+                label="Report"
+                icon={FiPlusSquare}
+                active={location.pathname.includes('/report')}
               />
             </Link>
             <Link to="/profile">

@@ -4,24 +4,10 @@ import {
   HStack,
   Text,
   Box,
-  InputGroup,
-  InputLeftElement,
-  Icon,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra,
-  Divider,
   useBreakpointValue,
-  useColorModeValue,
   ButtonGroup,
   Button,
 } from '@chakra-ui/react';
-import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
-import { useTable, useSortBy } from 'react-table';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';

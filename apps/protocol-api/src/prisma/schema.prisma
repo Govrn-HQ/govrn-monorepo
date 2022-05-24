@@ -117,7 +117,7 @@ model Partner {
   user User @relation(fields: [user_id], references: [id])
   contribution_id Int
   contribution Contribution @relation(fields: [contribution_id], references: [id])
-  
+
   @@unique([user_id, contribution_id])
 }
 
