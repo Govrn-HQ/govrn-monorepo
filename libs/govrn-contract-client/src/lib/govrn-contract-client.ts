@@ -17,19 +17,17 @@ export type AttestArgs = {
   overrides?: ethers.Overrides & { from?: string | Promise<string> };
 };
 
-const networks: { [key: number]: { address: string } } = {
-  31337: {
-    address: process.env['LOCAL_CONTRACT'] || '',
-  },
+export type NetworkConfig = {
+  address: string;
+  chainId: number;
 };
 
 export class GovrnContract {
   govrn: Govrn;
-  constructor(chainId: number, provider: ethers.providers.Provider) {
-    const networkConfig = networks[chainId];
-    if (!networkConfig) {
-      throw Error(`No network config for chainId ${chainId}`);
-    }
+  constructor(
+    networkConfig: NetworkConfig,
+    provider: ethers.providers.Provider
+  ) {
     this.govrn = Govrn__factory.connect(networkConfig.address, provider);
   }
 

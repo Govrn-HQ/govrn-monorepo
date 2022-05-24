@@ -6,6 +6,7 @@ export { CategoryActivityTypeCrudResolver } from "./CategoryActivityType/Categor
 export { ChainTypeCrudResolver } from "./ChainType/ChainTypeCrudResolver";
 export { ContributionCrudResolver } from "./Contribution/ContributionCrudResolver";
 export { ContributionStatusCrudResolver } from "./ContributionStatus/ContributionStatusCrudResolver";
+export { DiscordUserCrudResolver } from "./DiscordUser/DiscordUserCrudResolver";
 export { GuildCrudResolver } from "./Guild/GuildCrudResolver";
 export { GuildContributionCrudResolver } from "./GuildContribution/GuildContributionCrudResolver";
 export { GuildUserCrudResolver } from "./GuildUser/GuildUserCrudResolver";

@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../scalars";
 import { Attestation } from "../models/Attestation";
 import { ChainType } from "../models/ChainType";
 import { Contribution } from "../models/Contribution";
+import { DiscordUser } from "../models/DiscordUser";
 import { GuildUser } from "../models/GuildUser";
 import { LinearUser } from "../models/LinearUser";
 import { Partner } from "../models/Partner";
@@ -71,6 +72,8 @@ export class User {
   guild_users?: GuildUser[];
 
   twitter_user?: TwitterUser | null;
+
+  discord_users?: DiscordUser[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

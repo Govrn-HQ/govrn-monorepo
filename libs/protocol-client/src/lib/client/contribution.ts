@@ -10,6 +10,7 @@ import {
   GovrnContract,
   MintArgs,
   AttestArgs,
+  NetworkConfig,
 } from '@govrn/govrn-contract-client';
 
 export class Contribution extends BaseClient {
@@ -34,7 +35,7 @@ export class Contribution extends BaseClient {
   }
 
   public async mint(
-    chainId: number,
+    networkConfig: NetworkConfig,
     provider: ethers.providers.Provider,
     address: string,
     id: number,
@@ -42,7 +43,7 @@ export class Contribution extends BaseClient {
     userId: number,
     args: MintArgs
   ) {
-    const contract = new GovrnContract(chainId, provider);
+    const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(10);
     let onChainId = null;
@@ -110,7 +111,7 @@ export class Contribution extends BaseClient {
   }
 
   public async attest(
-    chainId: number,
+    networkConfig: NetworkConfig,
     provider: ethers.providers.Provider,
     id: number,
     activityTypeId: number,
@@ -118,7 +119,7 @@ export class Contribution extends BaseClient {
     args: AttestArgs
   ) {
     const attestCrud = new Attestation(this.client);
-    const contract = new GovrnContract(chainId, provider);
+    const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.attest(args);
     await transaction.wait(10);
     if (id) {
