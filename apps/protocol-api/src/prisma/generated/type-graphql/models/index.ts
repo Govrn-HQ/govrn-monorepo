@@ -6,6 +6,7 @@ export { CategoryActivityType } from "./CategoryActivityType";
 export { ChainType } from "./ChainType";
 export { Contribution } from "./Contribution";
 export { ContributionStatus } from "./ContributionStatus";
+export { DiscordUser } from "./DiscordUser";
 export { Guild } from "./Guild";
 export { GuildContribution } from "./GuildContribution";
 export { GuildUser } from "./GuildUser";

@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { Attestation } from "../../../models/Attestation";
 import { ChainType } from "../../../models/ChainType";
 import { Contribution } from "../../../models/Contribution";
+import { DiscordUser } from "../../../models/DiscordUser";
 import { GuildUser } from "../../../models/GuildUser";
 import { LinearUser } from "../../../models/LinearUser";
 import { Partner } from "../../../models/Partner";
@@ -11,6 +12,7 @@ import { UserActivitiesArgs } from "./args/UserActivitiesArgs";
 import { UserAttestationsArgs } from "./args/UserAttestationsArgs";
 import { UserContributionPartnersArgs } from "./args/UserContributionPartnersArgs";
 import { UserContributionsArgs } from "./args/UserContributionsArgs";
+import { UserDiscord_usersArgs } from "./args/UserDiscord_usersArgs";
 import { UserGuild_usersArgs } from "./args/UserGuild_usersArgs";
 import { UserLinear_usersArgs } from "./args/UserLinear_usersArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
@@ -92,5 +94,16 @@ export class UserRelationsResolver {
         id: user.id,
       },
     }).guild_users(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [DiscordUser], {
+    nullable: false
+  })
+  async discord_users(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserDiscord_usersArgs): Promise<DiscordUser[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        id: user.id,
+      },
+    }).discord_users(args);
   }
 }
