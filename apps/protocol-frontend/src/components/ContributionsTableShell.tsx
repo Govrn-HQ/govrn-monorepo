@@ -69,12 +69,6 @@ const ContributionsTableShell = () => {
                       >
                         Mint
                       </Button>
-                      {/* <InputGroup maxW="xs">
-                <InputLeftElement pointerEvents="none">
-                  <Icon as={FiSearch} color="muted" boxSize="5" />
-                </InputLeftElement>
-                <Input placeholder="Search" />
-              </InputGroup> */}
                     </Stack>
                   </Box>
                   <Box overflowX="auto">
@@ -116,13 +110,6 @@ const ContributionsTableShell = () => {
                       <Text fontSize="lg" fontWeight="medium">
                         Contribution Types
                       </Text>
-
-                      {/* <InputGroup maxW="xs">
-                <InputLeftElement pointerEvents="none">
-                  <Icon as={FiSearch} color="muted" boxSize="5" />
-                </InputLeftElement>
-                <Input placeholder="Search" />
-              </InputGroup> */}
                     </Stack>
                   </Box>
                   <Box overflowX="auto">

@@ -145,9 +145,6 @@ const ContributionsTable = ({ contributionsData }: any) => {
     tableHooks,
     useSortBy
   );
-  console.log('contributions in table', contributionsData);
-
-  // const { globalFilter } = state;
 
   return (
     <>

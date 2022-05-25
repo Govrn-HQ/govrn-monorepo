@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, useFilters, useGlobalFilter } from 'react-table';
+import GlobalFilter from './GlobalFilter';
 
 const AttestationsTable = ({ contributionsData }: any) => {
   console.log('contributions data', contributionsData);
@@ -48,50 +49,66 @@ const AttestationsTable = ({ contributionsData }: any) => {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data }, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state: { globalFilter },
+    preGlobalFilteredRows,
+    setGlobalFilter,
+  } = useTable({ columns, data }, useFilters, useGlobalFilter, useSortBy);
 
   return (
-    <Table {...getTableProps()}>
-      <Thead backgroundColor="gray.50">
-        {headerGroups.map((headerGroup: any) => (
-          <Tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column: any) => (
-              <Th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                isNumeric={column.isNumeric}
-                borderColor="gray.100"
-              >
-                {column.render('Header')}
-                <chakra.span paddingLeft="4">
-                  {column.isSorted ? (
-                    column.isSortedDesc ? (
-                      <IoArrowDown aria-label="sorted-descending" />
-                    ) : (
-                      <IoArrowUp aria-label="sorted-ascending" />
-                    )
-                  ) : null}
-                </chakra.span>
-              </Th>
-            ))}
-          </Tr>
-        ))}
-      </Thead>
-      <Tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <Tr {...row.getRowProps()}>
-              {row.cells.map((cell) => (
-                <Td {...cell.getCellProps()} borderColor="gray.100">
-                  {cell.render('Cell')}
-                </Td>
+    <>
+      <GlobalFilter
+        preGlobalFilteredRows={preGlobalFilteredRows}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+
+      <Table {...getTableProps()}>
+        <Thead backgroundColor="gray.50">
+          {headerGroups.map((headerGroup: any) => (
+            <Tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column: any) => (
+                <Th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  isNumeric={column.isNumeric}
+                  borderColor="gray.100"
+                >
+                  {column.render('Header')}
+                  <chakra.span paddingLeft="4">
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <IoArrowDown aria-label="sorted-descending" />
+                      ) : (
+                        <IoArrowUp aria-label="sorted-ascending" />
+                      )
+                    ) : null}
+                  </chakra.span>
+                </Th>
               ))}
             </Tr>
-          );
-        })}
-      </Tbody>
-    </Table>
+          ))}
+        </Thead>
+        <Tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <Tr {...row.getRowProps()}>
+                {row.cells.map((cell) => (
+                  <Td {...cell.getCellProps()} borderColor="gray.100">
+                    {cell.render('Cell')}
+                  </Td>
+                ))}
+              </Tr>
+            );
+          })}
+        </Tbody>
+      </Table>
+    </>
   );
 };
 
