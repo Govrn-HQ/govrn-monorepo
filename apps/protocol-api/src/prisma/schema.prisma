@@ -29,6 +29,7 @@ model User {
   contributions Contribution[]
   linear_users LinearUser[]
   guild_users GuildUser[]
+  twitter_user TwitterUser?
   discord_users DiscordUser[]
 }
 
@@ -52,6 +53,7 @@ model Guild {
   logo String?
   contributions GuildContribution[]
   users GuildUser[]
+  twitter_account TwitterAccount?
 }
 
 model GuildUser {
@@ -106,6 +108,7 @@ model Contribution {
   partners Partner[]
   guilds GuildContribution[]
   linear_issue LinearIssue?
+  tweet TwitterTweet?
   on_chain_id Int? @unique
 }
 
@@ -220,7 +223,7 @@ model LinearIssue {
   description String?
   dueDate DateTime?
   estimate Float?
-  linear_id String @unique
+  linear_id String? @unique
   identifier String?
   priority Int?
   priorityLabel String?
@@ -297,3 +300,51 @@ model LinearJobRun {
   completedDate DateTime
   startDate DateTime
 }
+
+////
+// Twitter models
+////
+
+model TwitterUser {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  twitter_user_id Int
+  name String
+  username String
+  description String
+
+  user_id Int?
+  user User? @relation(fields: [user_id], references: [id])
+  tweets TwitterTweet[]
+
+  @@unique([twitter_user_id])
+}
+
+model TwitterTweet {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  twitter_tweet_id Int
+  text String
+  twitter_user_id Int?
+  twitter_user TwitterUser? @relation(fields: [twitter_user_id], references: [id])
+  contribution_id Int?
+  contribution Contribution? @relation(fields: [contribution_id], references: [id])
+
+  @@unique([twitter_tweet_id])
+}
+
+model TwitterAccount {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  account_name String
+  guild_id Int?
+  guild Guild? @relation(fields: [guild_id], references: [id])
+
+  // Unique on account_name and guild_id
+  @@unique([account_name])
+}
+
+

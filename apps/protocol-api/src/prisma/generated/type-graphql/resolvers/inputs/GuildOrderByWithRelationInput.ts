@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
+import { TwitterAccountOrderByWithRelationInput } from "../inputs/TwitterAccountOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("GuildOrderByWithRelationInput", {
@@ -54,4 +55,9 @@ export class GuildOrderByWithRelationInput {
     nullable: true
   })
   users?: GuildUserOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterAccountOrderByWithRelationInput, {
+    nullable: true
+  })
+  twitter_account?: TwitterAccountOrderByWithRelationInput | undefined;
 }

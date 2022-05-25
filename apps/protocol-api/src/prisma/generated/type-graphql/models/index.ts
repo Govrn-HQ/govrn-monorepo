@@ -17,5 +17,8 @@ export { LinearProject } from "./LinearProject";
 export { LinearTeam } from "./LinearTeam";
 export { LinearUser } from "./LinearUser";
 export { Partner } from "./Partner";
+export { TwitterAccount } from "./TwitterAccount";
+export { TwitterTweet } from "./TwitterTweet";
+export { TwitterUser } from "./TwitterUser";
 export { User } from "./User";
 export { UserActivity } from "./UserActivity";

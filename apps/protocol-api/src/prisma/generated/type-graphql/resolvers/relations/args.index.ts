@@ -9,4 +9,5 @@ export * from "./LinearCycle/args";
 export * from "./LinearProject/args";
 export * from "./LinearTeam/args";
 export * from "./LinearUser/args";
+export * from "./TwitterUser/args";
 export * from "./User/args";

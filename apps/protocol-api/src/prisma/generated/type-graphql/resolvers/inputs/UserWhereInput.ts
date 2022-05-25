@@ -13,6 +13,7 @@ import { LinearUserListRelationFilter } from "../inputs/LinearUserListRelationFi
 import { PartnerListRelationFilter } from "../inputs/PartnerListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
+import { TwitterUserRelationFilter } from "../inputs/TwitterUserRelationFilter";
 import { UserActivityListRelationFilter } from "../inputs/UserActivityListRelationFilter";
 
 @TypeGraphQL.InputType("UserWhereInput", {
@@ -108,6 +109,11 @@ export class UserWhereInput {
     nullable: true
   })
   guild_users?: GuildUserListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterUserRelationFilter, {
+    nullable: true
+  })
+  twitter_user?: TwitterUserRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => DiscordUserListRelationFilter, {
     nullable: true
