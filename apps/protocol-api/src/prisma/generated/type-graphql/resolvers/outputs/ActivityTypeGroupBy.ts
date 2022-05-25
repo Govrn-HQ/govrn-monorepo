@@ -37,6 +37,11 @@ export class ActivityTypeGroupBy {
   })
   active!: boolean;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  default!: boolean;
+
   @TypeGraphQL.Field(_type => ActivityTypeCountAggregate, {
     nullable: true
   })

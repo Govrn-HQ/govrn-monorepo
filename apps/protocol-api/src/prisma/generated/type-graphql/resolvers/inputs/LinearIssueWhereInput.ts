@@ -12,7 +12,6 @@ import { LinearCycleRelationFilter } from "../inputs/LinearCycleRelationFilter";
 import { LinearProjectRelationFilter } from "../inputs/LinearProjectRelationFilter";
 import { LinearTeamRelationFilter } from "../inputs/LinearTeamRelationFilter";
 import { LinearUserRelationFilter } from "../inputs/LinearUserRelationFilter";
-import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
 @TypeGraphQL.InputType("LinearIssueWhereInput", {
@@ -99,10 +98,10 @@ export class LinearIssueWhereInput {
   })
   estimate?: FloatNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  linear_id?: StringFilter | undefined;
+  linear_id?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true

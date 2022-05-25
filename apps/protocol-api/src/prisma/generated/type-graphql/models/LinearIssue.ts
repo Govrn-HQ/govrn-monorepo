@@ -78,9 +78,9 @@ export class LinearIssue {
   estimate?: number | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  linear_id!: string;
+  linear_id?: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

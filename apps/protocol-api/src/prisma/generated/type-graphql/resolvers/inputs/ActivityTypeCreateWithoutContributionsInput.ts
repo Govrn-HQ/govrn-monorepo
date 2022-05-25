@@ -29,6 +29,11 @@ export class ActivityTypeCreateWithoutContributionsInput {
   })
   active?: boolean | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  default?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => UserActivityCreateNestedManyWithoutActivity_typeInput, {
     nullable: true
   })

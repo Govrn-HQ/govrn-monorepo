@@ -54,6 +54,11 @@ export class ActivityTypeWhereInput {
   })
   active?: BoolFilter | undefined;
 
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  default?: BoolFilter | undefined;
+
   @TypeGraphQL.Field(_type => UserActivityListRelationFilter, {
     nullable: true
   })

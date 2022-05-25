@@ -23,6 +23,7 @@ export type ActivityType = {
   categoryActivity: Array<CategoryActivityType>;
   contributions: Array<Contribution>;
   createdAt: Scalars['DateTime'];
+  default: Scalars['Boolean'];
   id: Scalars['Int'];
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
@@ -77,6 +78,7 @@ export type ActivityTypeCountAggregate = {
   _all: Scalars['Int'];
   active: Scalars['Int'];
   createdAt: Scalars['Int'];
+  default: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['Int'];
   updatedAt: Scalars['Int'];
@@ -85,6 +87,7 @@ export type ActivityTypeCountAggregate = {
 export type ActivityTypeCountOrderByAggregateInput = {
   active?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  default?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -95,6 +98,7 @@ export type ActivityTypeCreateInput = {
   categoryActivity?: InputMaybe<CategoryActivityTypeCreateNestedManyWithoutActivity_TypeInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  default?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<UserActivityCreateNestedManyWithoutActivity_TypeInput>;
@@ -103,6 +107,7 @@ export type ActivityTypeCreateInput = {
 export type ActivityTypeCreateManyInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  default?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -145,6 +150,7 @@ export type ActivityTypeCreateWithoutCategoryActivityInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  default?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<UserActivityCreateNestedManyWithoutActivity_TypeInput>;
@@ -154,6 +160,7 @@ export type ActivityTypeCreateWithoutContributionsInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   categoryActivity?: InputMaybe<CategoryActivityTypeCreateNestedManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  default?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<UserActivityCreateNestedManyWithoutActivity_TypeInput>;
@@ -164,6 +171,7 @@ export type ActivityTypeCreateWithoutUsersInput = {
   categoryActivity?: InputMaybe<CategoryActivityTypeCreateNestedManyWithoutActivity_TypeInput>;
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  default?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -176,6 +184,7 @@ export type ActivityTypeGroupBy = {
   _sum?: Maybe<ActivityTypeSumAggregate>;
   active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
+  default: Scalars['Boolean'];
   id: Scalars['Int'];
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
@@ -184,6 +193,7 @@ export type ActivityTypeGroupBy = {
 export type ActivityTypeMaxAggregate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  default?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -192,6 +202,7 @@ export type ActivityTypeMaxAggregate = {
 export type ActivityTypeMaxOrderByAggregateInput = {
   active?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  default?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -200,6 +211,7 @@ export type ActivityTypeMaxOrderByAggregateInput = {
 export type ActivityTypeMinAggregate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  default?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -208,6 +220,7 @@ export type ActivityTypeMinAggregate = {
 export type ActivityTypeMinOrderByAggregateInput = {
   active?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  default?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -221,6 +234,7 @@ export type ActivityTypeOrderByWithAggregationInput = {
   _sum?: InputMaybe<ActivityTypeSumOrderByAggregateInput>;
   active?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  default?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -231,6 +245,7 @@ export type ActivityTypeOrderByWithRelationInput = {
   categoryActivity?: InputMaybe<CategoryActivityTypeOrderByRelationAggregateInput>;
   contributions?: InputMaybe<ContributionOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  default?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -245,6 +260,7 @@ export type ActivityTypeRelationFilter = {
 export enum ActivityTypeScalarFieldEnum {
   Active = 'active',
   CreatedAt = 'createdAt',
+  Default = 'default',
   Id = 'id',
   Name = 'name',
   UpdatedAt = 'updatedAt'
@@ -256,6 +272,7 @@ export type ActivityTypeScalarWhereWithAggregatesInput = {
   OR?: InputMaybe<Array<ActivityTypeScalarWhereWithAggregatesInput>>;
   active?: InputMaybe<BoolWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  default?: InputMaybe<BoolWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -274,6 +291,7 @@ export type ActivityTypeUpdateInput = {
   categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  default?: InputMaybe<BoolFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeInput>;
@@ -282,6 +300,7 @@ export type ActivityTypeUpdateInput = {
 export type ActivityTypeUpdateManyMutationInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  default?: InputMaybe<BoolFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -314,6 +333,7 @@ export type ActivityTypeUpdateWithoutCategoryActivityInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  default?: InputMaybe<BoolFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeInput>;
@@ -323,6 +343,7 @@ export type ActivityTypeUpdateWithoutContributionsInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  default?: InputMaybe<BoolFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeInput>;
@@ -333,6 +354,7 @@ export type ActivityTypeUpdateWithoutUsersInput = {
   categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
   contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  default?: InputMaybe<BoolFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -360,6 +382,7 @@ export type ActivityTypeWhereInput = {
   categoryActivity?: InputMaybe<CategoryActivityTypeListRelationFilter>;
   contributions?: InputMaybe<ContributionListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  default?: InputMaybe<BoolFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -5005,7 +5028,7 @@ export type LinearIssue = {
   estimate?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
   identifier?: Maybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['Int']>;
   priorityLabel?: Maybe<Scalars['String']>;
   project?: Maybe<LinearProject>;
@@ -5141,7 +5164,7 @@ export type LinearIssueCreateInput = {
   dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
@@ -5174,7 +5197,7 @@ export type LinearIssueCreateManyAssigneeInput = {
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
@@ -5212,7 +5235,7 @@ export type LinearIssueCreateManyCreatorInput = {
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
@@ -5250,7 +5273,7 @@ export type LinearIssueCreateManyCycleInput = {
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
@@ -5289,7 +5312,7 @@ export type LinearIssueCreateManyInput = {
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
@@ -5323,7 +5346,7 @@ export type LinearIssueCreateManyProjectInput = {
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
@@ -5361,7 +5384,7 @@ export type LinearIssueCreateManyTeamInput = {
   estimate?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project_id?: InputMaybe<Scalars['Int']>;
@@ -5468,7 +5491,7 @@ export type LinearIssueCreateWithoutAssigneeInput = {
   dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
@@ -5500,7 +5523,7 @@ export type LinearIssueCreateWithoutContributionInput = {
   dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
@@ -5532,7 +5555,7 @@ export type LinearIssueCreateWithoutCreatorInput = {
   dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
@@ -5564,7 +5587,7 @@ export type LinearIssueCreateWithoutCycleInput = {
   dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
@@ -5597,7 +5620,7 @@ export type LinearIssueCreateWithoutProjectInput = {
   dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   snoozedUntilAt?: InputMaybe<Scalars['DateTime']>;
@@ -5629,7 +5652,7 @@ export type LinearIssueCreateWithoutTeamInput = {
   dueDate?: InputMaybe<Scalars['DateTime']>;
   estimate?: InputMaybe<Scalars['Float']>;
   identifier?: InputMaybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
   priorityLabel?: InputMaybe<Scalars['String']>;
   project?: InputMaybe<LinearProjectCreateNestedOneWithoutIssuesInput>;
@@ -5667,7 +5690,7 @@ export type LinearIssueGroupBy = {
   estimate?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
   identifier?: Maybe<Scalars['String']>;
-  linear_id: Scalars['String'];
+  linear_id?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['Int']>;
   priorityLabel?: Maybe<Scalars['String']>;
   project_id?: Maybe<Scalars['Int']>;
@@ -5968,7 +5991,7 @@ export type LinearIssueScalarWhereInput = {
   estimate?: InputMaybe<FloatNullableFilter>;
   id?: InputMaybe<IntFilter>;
   identifier?: InputMaybe<StringNullableFilter>;
-  linear_id?: InputMaybe<StringFilter>;
+  linear_id?: InputMaybe<StringNullableFilter>;
   priority?: InputMaybe<IntNullableFilter>;
   priorityLabel?: InputMaybe<StringNullableFilter>;
   project_id?: InputMaybe<IntNullableFilter>;
@@ -6005,7 +6028,7 @@ export type LinearIssueScalarWhereWithAggregatesInput = {
   estimate?: InputMaybe<FloatNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   identifier?: InputMaybe<StringNullableWithAggregatesFilter>;
-  linear_id?: InputMaybe<StringWithAggregatesFilter>;
+  linear_id?: InputMaybe<StringNullableWithAggregatesFilter>;
   priority?: InputMaybe<IntNullableWithAggregatesFilter>;
   priorityLabel?: InputMaybe<StringNullableWithAggregatesFilter>;
   project_id?: InputMaybe<IntNullableWithAggregatesFilter>;
@@ -6070,7 +6093,7 @@ export type LinearIssueUpdateInput = {
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
@@ -6099,7 +6122,7 @@ export type LinearIssueUpdateManyMutationInput = {
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -6259,7 +6282,7 @@ export type LinearIssueUpdateWithoutAssigneeInput = {
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
@@ -6291,7 +6314,7 @@ export type LinearIssueUpdateWithoutContributionInput = {
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
@@ -6323,7 +6346,7 @@ export type LinearIssueUpdateWithoutCreatorInput = {
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
@@ -6355,7 +6378,7 @@ export type LinearIssueUpdateWithoutCycleInput = {
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
@@ -6388,7 +6411,7 @@ export type LinearIssueUpdateWithoutProjectInput = {
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -6420,7 +6443,7 @@ export type LinearIssueUpdateWithoutTeamInput = {
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   identifier?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
@@ -6495,7 +6518,7 @@ export type LinearIssueWhereInput = {
   estimate?: InputMaybe<FloatNullableFilter>;
   id?: InputMaybe<IntFilter>;
   identifier?: InputMaybe<StringNullableFilter>;
-  linear_id?: InputMaybe<StringFilter>;
+  linear_id?: InputMaybe<StringNullableFilter>;
   priority?: InputMaybe<IntNullableFilter>;
   priorityLabel?: InputMaybe<StringNullableFilter>;
   project?: InputMaybe<LinearProjectRelationFilter>;

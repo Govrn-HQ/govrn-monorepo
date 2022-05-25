@@ -31,4 +31,9 @@ export class ActivityTypeCreateManyInput {
     nullable: true
   })
   active?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  default?: boolean | undefined;
 }
