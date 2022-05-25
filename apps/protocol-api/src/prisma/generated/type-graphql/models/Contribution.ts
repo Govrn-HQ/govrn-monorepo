@@ -72,6 +72,11 @@ export class Contribution {
   })
   proof?: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  default!: boolean;
+
   attestations?: Attestation[];
 
   partners?: Partner[];

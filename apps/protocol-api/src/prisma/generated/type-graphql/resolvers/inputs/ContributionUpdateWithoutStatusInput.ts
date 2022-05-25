@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeUpdateOneRequiredWithoutContributionsInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutContributionsInput";
 import { AttestationUpdateManyWithoutContributionInput } from "../inputs/AttestationUpdateManyWithoutContributionInput";
+import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { GuildContributionUpdateManyWithoutContributionInput } from "../inputs/GuildContributionUpdateManyWithoutContributionInput";
 import { LinearIssueUpdateOneWithoutContributionInput } from "../inputs/LinearIssueUpdateOneWithoutContributionInput";
@@ -57,6 +58,11 @@ export class ContributionUpdateWithoutStatusInput {
     nullable: true
   })
   proof?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  default?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => AttestationUpdateManyWithoutContributionInput, {
     nullable: true

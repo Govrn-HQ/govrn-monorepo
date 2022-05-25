@@ -61,5 +61,10 @@ export class ContributionCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  default?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   on_chain_id?: "asc" | "desc" | undefined;
 }

@@ -57,6 +57,11 @@ export class ContributionMinAggregate {
   })
   proof!: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  default!: boolean | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

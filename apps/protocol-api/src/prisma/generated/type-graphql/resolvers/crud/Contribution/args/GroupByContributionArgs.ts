@@ -20,7 +20,7 @@ export class GroupByContributionArgs {
   @TypeGraphQL.Field(_type => [ContributionScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "updatedAt" | "name" | "status_id" | "activity_type_id" | "user_id" | "date_of_submission" | "date_of_engagement" | "details" | "proof" | "on_chain_id">;
+  by!: Array<"id" | "updatedAt" | "name" | "status_id" | "activity_type_id" | "user_id" | "date_of_submission" | "date_of_engagement" | "details" | "proof" | "default" | "on_chain_id">;
 
   @TypeGraphQL.Field(_type => ContributionScalarWhereWithAggregatesInput, {
     nullable: true

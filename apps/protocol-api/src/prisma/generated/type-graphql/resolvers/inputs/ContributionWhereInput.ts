@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeRelationFilter } from "../inputs/ActivityTypeRelationFilter";
 import { AttestationListRelationFilter } from "../inputs/AttestationListRelationFilter";
+import { BoolFilter } from "../inputs/BoolFilter";
 import { ContributionStatusRelationFilter } from "../inputs/ContributionStatusRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
@@ -99,6 +100,11 @@ export class ContributionWhereInput {
     nullable: true
   })
   proof?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  default?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => AttestationListRelationFilter, {
     nullable: true

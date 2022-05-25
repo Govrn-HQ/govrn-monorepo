@@ -104,6 +104,7 @@ model Contribution {
   date_of_engagement DateTime
   details String?
   proof String?
+  default Boolean @default(false)
   attestations Attestation[]
   partners Partner[]
   guilds GuildContribution[]

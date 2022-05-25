@@ -62,6 +62,11 @@ export class ContributionGroupBy {
   })
   proof!: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  default!: boolean;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

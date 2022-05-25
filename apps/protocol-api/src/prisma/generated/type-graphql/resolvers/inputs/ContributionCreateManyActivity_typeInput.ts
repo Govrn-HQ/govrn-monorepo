@@ -52,6 +52,11 @@ export class ContributionCreateManyActivity_typeInput {
   })
   proof?: string | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  default?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

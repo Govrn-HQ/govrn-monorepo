@@ -60,6 +60,11 @@ export class ContributionCreateInput {
   })
   proof?: string | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  default?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => AttestationCreateNestedManyWithoutContributionInput, {
     nullable: true
   })
