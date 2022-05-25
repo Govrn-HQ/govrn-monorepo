@@ -1,18 +1,32 @@
 import { useMemo } from 'react';
+import { format } from 'date-fns';
 import { Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
 
-const AttestationsTable = ({ attestationsData }: any) => {
+const AttestationsTable = ({ contributionsData }: any) => {
+  console.log('contributions data', contributionsData);
   const data = useMemo(
     () =>
-      attestationsData.map((attestation: any) => ({
-        name: attestation.name,
-        attestationDate: attestation.attestationDate,
-        contributor: attestation.contributor,
-        guild: attestation.guild,
+      contributionsData.map((contribution: any) => ({
+        id: contribution.id,
+        submissionDate: format(new Date(contribution.date_of_submission), 'P'),
+        engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
+        attestations: contribution.attestations || null,
+        // attestations:
+        //   contribution.attestations !== null
+        //     ? Object.keys(contribution.attestations).length
+        //     : 0,
+        verificationLevel: contribution.verificationLevel,
+        guilds: contribution.attestations || null,
+        status: contribution.status.name,
+        action: '',
+        name: contribution.name,
+        attestationDate: null,
+        // format(new Date(contribution.attestationDate), 'P') || null,
+        contributor: contribution.user.name,
       })),
-    [attestationsData]
+    [contributionsData]
   );
 
   const columns = useMemo(
@@ -23,7 +37,7 @@ const AttestationsTable = ({ attestationsData }: any) => {
       },
       {
         Header: 'Date',
-        accessor: 'attestationDate',
+        accessor: 'engagementDate',
       },
       {
         Header: 'Contributor',

@@ -17,6 +17,7 @@ import { mockAttestations } from '../utils/mockData';
 
 const AttestationsTableShell = () => {
   const { userContributions } = useUser();
+  console.log('user contributions (attestations)', userContributions);
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Container
@@ -60,7 +61,7 @@ const AttestationsTableShell = () => {
               </Stack>
             </Box>
             <Box overflowX="auto">
-              <AttestationsTable attestationsData={userContributions} />
+              <AttestationsTable contributionsData={userContributions} />
             </Box>
             <Box px={{ base: '4', md: '6' }} pb="5">
               <HStack spacing="3" justify="space-between">
