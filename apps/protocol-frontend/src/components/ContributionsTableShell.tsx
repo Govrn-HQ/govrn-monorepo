@@ -23,8 +23,7 @@ import { mockContributions, mockContributionTypes } from '../utils/mockData';
 
 const ContributionsTableShell = () => {
   const { userContributions } = useUser();
-  console.log('user contributions in context', userContributions);
-  const [contributions, setContributions] = useState(userContributions);
+  // const [contributions, setContributions] = useState(userContributions);
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 

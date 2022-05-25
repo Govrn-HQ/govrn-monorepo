@@ -8,6 +8,7 @@ import {
   ButtonGroup,
   Button,
 } from '@chakra-ui/react';
+import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
@@ -15,6 +16,7 @@ import EmptyContributions from './EmptyContributions';
 import { mockAttestations } from '../utils/mockData';
 
 const AttestationsTableShell = () => {
+  const { userContributions } = useUser();
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Container
@@ -24,7 +26,7 @@ const AttestationsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Attestations</PageHeading>
-      {mockAttestations && mockAttestations.length > 0 ? (
+      {userContributions && userContributions.length > 0 ? (
         <Box
           background="white"
           boxShadow="sm"
@@ -58,7 +60,7 @@ const AttestationsTableShell = () => {
               </Stack>
             </Box>
             <Box overflowX="auto">
-              <AttestationsTable attestationsData={mockAttestations} />
+              <AttestationsTable attestationsData={userContributions} />
             </Box>
             <Box px={{ base: '4', md: '6' }} pb="5">
               <HStack spacing="3" justify="space-between">

@@ -38,6 +38,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           where: { address: { equals: address } },
         });
         setUserDataByAddress(userDataByAddressResponse);
+        console.log('userDataByAddressResponse', userDataByAddressResponse);
         return userDataByAddress;
       } catch (error) {
         console.error(error);

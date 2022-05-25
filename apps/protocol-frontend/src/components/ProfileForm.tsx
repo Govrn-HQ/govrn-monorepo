@@ -84,6 +84,7 @@ const ProfileForm = () => {
       active: userData.active,
       displayName: userData.name,
       email: values.userLinearEmail,
+      user: userData.id,
       linear_id: userData.id.toString(),
       name: userData.name,
       url: userData.url || '',

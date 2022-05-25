@@ -14,6 +14,7 @@ import {
   chakra,
   Badge,
 } from '@chakra-ui/react';
+import { format } from 'date-fns';
 import { useTable, useSortBy } from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
@@ -24,6 +25,7 @@ import EditContributionForm from './EditContributionForm';
 // import EditContributionForm from './EditContributionForm';
 
 const ContributionsTable = ({ contributionsData }: any) => {
+  console.log('data', contributionsData);
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<any>();
@@ -42,17 +44,21 @@ const ContributionsTable = ({ contributionsData }: any) => {
             <Text>{contribution.name}</Text>
           </Stack>
         ),
-
         id: contribution.id,
-        submissionDate: contribution.submissionDate,
-        engagementDate: contribution.engagementDate,
-        attestations: Object.keys(contribution.attestations).length,
+        submissionDate: format(new Date(contribution.date_of_submission), 'P'),
+        engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
+        attestations: contribution.attestations || null,
+        // attestations:
+        //   contribution.attestations !== null
+        //     ? Object.keys(contribution.attestations).length
+        //     : 0,
         verificationLevel: contribution.verificationLevel,
-        guilds:
-          contribution.guilds.length > 1 || contribution.guilds.length === 0
-            ? contribution.guilds.length
-            : Object.values(contribution.guilds[0]['name']),
-        status: contribution.status,
+        guilds: contribution.attestations || null,
+        // guilds:
+        //   contribution.guilds?.length > 1 || contribution.guilds?.length === 0
+        //     ? contribution.guilds?.length
+        //     : Object.values(contribution.guilds[0]['name']),
+        status: contribution.status.name,
         action: '',
       })),
     [contributionsData]

@@ -1,8 +1,14 @@
 import { useCallback, useState } from 'react';
+import { useWallet } from '@raidguild/quiver';
+import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input, Textarea, DatePicker, Select } from '@govrn/protocol-ui';
+import { GovrnProtocol } from '@govrn/protocol-client';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
+import { kill } from 'process';
+
+const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 const useYupValidationResolver = (reportValidationSchema: any) =>
   useCallback(
@@ -42,15 +48,18 @@ const activityTypeOptions = activityTypesList.map((activity) => ({
   label: activity,
 }));
 
-const createReport = async (values: any) => {
-  try {
-    console.log('createReport', values);
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const createReport = async (values: any) => {
+//   try {
+//     console.log('createReport', values);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const ReportForm = () => {
+  const { chainId } = useWallet();
+  const { userData } = useUser();
+  const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(reportFormValidation),
@@ -58,14 +67,64 @@ const ReportForm = () => {
   const { handleSubmit, setValue } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
 
+  const createContribution = async (values: any) => {
+    try {
+      const response = await govrn.contribution.create({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: userData.address,
+                chain_type: {
+                  create: {
+                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
+                  },
+                },
+              },
+              where: {
+                id: userData.id,
+              },
+            },
+          },
+          name: values.name,
+          details: values.details,
+          proof: values.proof,
+          activity_type: {
+            create: {
+              // name: values.activityType,
+              name: 'Test Activity 1',
+            },
+          },
+          date_of_engagement: new Date(values.engagementDate).toISOString(),
+          status: {
+            create: {
+              name: 'Preparing',
+            },
+          },
+        },
+      });
+      console.log('response', response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Stack spacing="4" width="100%">
-      <form onSubmit={handleSubmit(createReport)}>
+    <Stack spacing="4" width="100%" color="gray.900">
+      <form onSubmit={handleSubmit(createContribution)}>
+        <Input
+          name="name"
+          label="Name of Contribution"
+          tip="Please add the name of your Contribution."
+          placeholder="Govrn Protocol Pull Request"
+          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
         <Select
           name="activityType"
           label="Activity Type"
-          // defaultValue={getValues('family')}
-          onChange={(value) => setValue('activityType', value)}
+          onChange={(value) => {
+            setValue('activityType', value.value);
+          }}
           options={activityTypeOptions}
           localForm={localForm}
         />
