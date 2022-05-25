@@ -15,11 +15,12 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, useFilters, useGlobalFilter } from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { ModalWrapper } from '@govrn/protocol-ui';
 import { useOverlay } from '../contexts/OverlayContext';
+import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 
 // import EditContributionForm from './EditContributionForm';
@@ -38,12 +39,7 @@ const ContributionsTable = ({ contributionsData }: any) => {
   const data = useMemo(
     () =>
       contributionsData.map((contribution: any) => ({
-        name: (
-          <Stack direction="row">
-            <Checkbox size="lg" />
-            <Text>{contribution.name}</Text>
-          </Stack>
-        ),
+        name: contribution.name,
         id: contribution.id,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
@@ -69,6 +65,14 @@ const ContributionsTable = ({ contributionsData }: any) => {
       {
         Header: 'Name',
         accessor: 'name',
+        Cell: ({ value }) => {
+          return (
+            <Stack direction="row">
+              <Checkbox size="lg" />
+              <Text>{value}</Text>
+            </Stack>
+          );
+        },
       },
       { Header: 'Status', accessor: 'status' },
       {
@@ -125,12 +129,33 @@ const ContributionsTable = ({ contributionsData }: any) => {
     ]);
   };
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data }, useSortBy, tableHooks);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    state: { globalFilter },
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    prepareRow,
+  } = useTable(
+    { columns, data },
+    useFilters,
+    useGlobalFilter,
+    tableHooks,
+    useSortBy
+  );
   console.log('contributions in table', contributionsData);
+
+  // const { globalFilter } = state;
 
   return (
     <>
+      <GlobalFilter
+        preGlobalFilteredRows={preGlobalFilteredRows}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
       <Table {...getTableProps()}>
         <Thead backgroundColor="gray.50">
           {headerGroups.map((headerGroup: any) => (
