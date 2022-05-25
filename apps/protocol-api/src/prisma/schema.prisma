@@ -160,6 +160,7 @@ model ActivityType {
   updatedAt DateTime @updatedAt @default(now())
   name String @unique
   active Boolean @default(true)
+  default Boolean @default(false)
   users UserActivity[]
   contributions Contribution[]
   categoryActivity CategoryActivityType[]
@@ -220,7 +221,7 @@ model LinearIssue {
   description String?
   dueDate DateTime?
   estimate Float?
-  linear_id String @unique
+  linear_id String? @unique
   identifier String?
   priority Int?
   priorityLabel String?

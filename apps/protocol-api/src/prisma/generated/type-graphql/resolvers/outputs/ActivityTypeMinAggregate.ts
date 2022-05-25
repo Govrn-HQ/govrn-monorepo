@@ -31,4 +31,9 @@ export class ActivityTypeMinAggregate {
     nullable: true
   })
   active!: boolean | null;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  default!: boolean | null;
 }

@@ -8,7 +8,6 @@ import { FloatNullableWithAggregatesFilter } from "../inputs/FloatNullableWithAg
 import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
-import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
 
 @TypeGraphQL.InputType("LinearIssueScalarWhereWithAggregatesInput", {
   isAbstract: true
@@ -94,10 +93,10 @@ export class LinearIssueScalarWhereWithAggregatesInput {
   })
   estimate?: FloatNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })
-  linear_id?: StringWithAggregatesFilter | undefined;
+  linear_id?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true

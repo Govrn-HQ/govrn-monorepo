@@ -32,6 +32,11 @@ export class ActivityTypeUpdateWithoutUsersInput {
   })
   active?: BoolFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  default?: BoolFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutActivity_typeInput, {
     nullable: true
   })
