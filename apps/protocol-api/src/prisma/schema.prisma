@@ -343,6 +343,7 @@ model TwitterAccount {
   guild_id Int?
   guild Guild? @relation(fields: [guild_id], references: [id])
 
+  // Unique on account_name and guild_id
   @@unique([account_name])
 }
 

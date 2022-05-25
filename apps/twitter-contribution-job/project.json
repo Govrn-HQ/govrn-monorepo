@@ -10,7 +10,7 @@
         "outputPath": "dist/apps/twitter-contribution-job",
         "main": "apps/twitter-contribution-job/src/main.ts",
         "tsConfig": "apps/twitter-contribution-job/tsconfig.app.json",
-        "assets": ["apps/twitter-contribution-job/src/assets"]
+        "assets": []
       },
       "configurations": {
         "production": {
