@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
             - name: job
-              image: <Image>
+              image: <IMAGE>
               imagePullPolicy: IfNotPresent
               env:
                 - name: API_KEY

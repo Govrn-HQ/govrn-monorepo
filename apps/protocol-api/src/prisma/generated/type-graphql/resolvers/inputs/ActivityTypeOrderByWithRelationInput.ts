@@ -36,6 +36,11 @@ export class ActivityTypeOrderByWithRelationInput {
   })
   active?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  default?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => UserActivityOrderByRelationAggregateInput, {
     nullable: true
   })

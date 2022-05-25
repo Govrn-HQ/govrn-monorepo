@@ -50,4 +50,9 @@ export class ActivityTypeScalarWhereWithAggregatesInput {
     nullable: true
   })
   active?: BoolWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
+    nullable: true
+  })
+  default?: BoolWithAggregatesFilter | undefined;
 }

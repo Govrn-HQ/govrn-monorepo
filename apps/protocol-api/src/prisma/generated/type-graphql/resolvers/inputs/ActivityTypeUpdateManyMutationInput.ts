@@ -29,4 +29,9 @@ export class ActivityTypeUpdateManyMutationInput {
     nullable: true
   })
   active?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  default?: BoolFieldUpdateOperationsInput | undefined;
 }
