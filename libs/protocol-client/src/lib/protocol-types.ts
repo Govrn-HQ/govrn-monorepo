@@ -12900,14 +12900,15 @@ export type CreateLinearJobRunMutationVariables = Exact<{
 
 export type CreateLinearJobRunMutation = { createLinearJobRun: { completedDate: any, startDate: any } };
 
-export type TwitterTweetFragmentFragment = { id: number, createdAt: any, updatedAt: any, twitter_tweet_id: number, text: string, twitter_user?: { id: number, createdAt: any, updatedAt: any, twitter_user_id: number, name: string, username: string, description: string, user_id?: number | null } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } } | null };
+export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name: string, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } } | null };
 
-export type CreateTwitterTweetMutationVariables = Exact<{
+export type BulkCreateTwitterTweetMutationVariables = Exact<{
   data: Array<TwitterTweetCreateManyInput> | TwitterTweetCreateManyInput;
+  skipDuplicates: Scalars['Boolean'];
 }>;
 
 
-export type CreateTwitterTweetMutation = { createManyTwitterTweet: { count: number } };
+export type BulkCreateTwitterTweetMutation = { createManyTwitterTweet: { count: number } };
 
 export type UserFragmentFragment = { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } };
 
@@ -13085,19 +13086,16 @@ export const ContributionFragmentFragmentDoc = gql`
 export const TwitterTweetFragmentFragmentDoc = gql`
     fragment TwitterTweetFragment on TwitterTweet {
   id
-  createdAt
   updatedAt
-  twitter_tweet_id
+  createdAt
   text
+  twitter_tweet_id
   twitter_user {
     id
+    name
     createdAt
     updatedAt
-    twitter_user_id
-    name
     username
-    description
-    user_id
   }
   contribution {
     ...ContributionFragment
@@ -13261,9 +13259,9 @@ export const CreateLinearJobRunDocument = gql`
   }
 }
     `;
-export const CreateTwitterTweetDocument = gql`
-    mutation createTwitterTweet($data: [TwitterTweetCreateManyInput!]!) {
-  createManyTwitterTweet(data: $data) {
+export const BulkCreateTwitterTweetDocument = gql`
+    mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!, $skipDuplicates: Boolean!) {
+  createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
     count
   }
 }
@@ -13409,8 +13407,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createLinearJobRun(variables: CreateLinearJobRunMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateLinearJobRunMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateLinearJobRunMutation>(CreateLinearJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createLinearJobRun', 'mutation');
     },
-    createTwitterTweet(variables: CreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTwitterTweetMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateTwitterTweetMutation>(CreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createTwitterTweet', 'mutation');
+    bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');
     },
     getUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUser', 'query');

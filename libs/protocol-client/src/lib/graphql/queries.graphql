@@ -97,27 +97,25 @@ mutation createLinearJobRun($data: LinearJobRunCreateInput!) {
 # Twitter
 fragment TwitterTweetFragment on TwitterTweet {
   id
-  createdAt
   updatedAt
-  twitter_tweet_id
+  createdAt
   text
+  twitter_tweet_id
   twitter_user {
     id
-	createdAt
-	updatedAt
-	twitter_user_id
-	name
-	username
-	description
-	user_id
+    name
+    createdAt
+    updatedAt
+    username
   }
   contribution {
     ...ContributionFragment
   }
+
 }
 
-mutation createTwitterTweet($data: [TwitterTweetCreateManyInput!]!) {
-  createManyTwitterTweet(data: $data) {
+mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!,  $skipDuplicates: Boolean!) {
+  createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
     count
   }
 }
