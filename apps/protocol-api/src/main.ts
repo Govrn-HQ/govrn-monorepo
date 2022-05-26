@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { buildSchemaSync } from 'type-graphql';
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
+import cors = require('cors');
 
 import { resolvers } from './prisma/generated/type-graphql';
 
@@ -14,6 +15,7 @@ const schema = buildSchemaSync({
 });
 
 const app = express();
+app.use(cors());
 app.use(
   '/graphql',
   graphqlHTTP({

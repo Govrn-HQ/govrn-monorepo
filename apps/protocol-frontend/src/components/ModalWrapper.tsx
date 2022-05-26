@@ -1,4 +1,5 @@
 import React from 'react';
+import { useOverlay } from '../contexts/OverlayContext';
 import {
   Modal,
   ModalOverlay,
@@ -8,7 +9,8 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 
-interface Props {
+interface ModalWrapperProps {
+  name: string; // name of the modal for use throughout app
   title: string;
   content: React.ReactElement;
   size?: string;
@@ -16,11 +18,24 @@ interface Props {
   onClose?: () => void;
 }
 
-const ModalWrapper: React.FC<Props> = (props) => {
-  const { title, content, size, isOpen, onClose } = props;
+const ModalWrapper: React.FC<ModalWrapperProps> = ({
+  name,
+  title,
+  content,
+  size,
+}) => {
+  const { modals, setModals } = useOverlay();
+
+  const handleCloseModal = () => {
+    setModals({ ...modals, [name]: false });
+  };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={size || '2xl'}>
+    <Modal
+      isOpen={modals[name]}
+      onClose={handleCloseModal}
+      size={size || '2xl'}
+    >
       <ModalOverlay />
       <ModalContent background="gray.700" minWidth="20vw" paddingY={8}>
         <ModalHeader color="white">{title}</ModalHeader>

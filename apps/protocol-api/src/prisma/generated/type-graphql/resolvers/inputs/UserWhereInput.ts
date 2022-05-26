@@ -6,6 +6,7 @@ import { AttestationListRelationFilter } from "../inputs/AttestationListRelation
 import { ChainTypeRelationFilter } from "../inputs/ChainTypeRelationFilter";
 import { ContributionListRelationFilter } from "../inputs/ContributionListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DiscordUserListRelationFilter } from "../inputs/DiscordUserListRelationFilter";
 import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { LinearUserListRelationFilter } from "../inputs/LinearUserListRelationFilter";
@@ -113,4 +114,9 @@ export class UserWhereInput {
     nullable: true
   })
   twitter_user?: TwitterUserRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DiscordUserListRelationFilter, {
+    nullable: true
+  })
+  discord_users?: DiscordUserListRelationFilter | undefined;
 }

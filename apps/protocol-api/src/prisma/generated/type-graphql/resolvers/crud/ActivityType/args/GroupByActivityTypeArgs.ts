@@ -20,7 +20,7 @@ export class GroupByActivityTypeArgs {
   @TypeGraphQL.Field(_type => [ActivityTypeScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "name" | "active">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "name" | "active" | "default">;
 
   @TypeGraphQL.Field(_type => ActivityTypeScalarWhereWithAggregatesInput, {
     nullable: true

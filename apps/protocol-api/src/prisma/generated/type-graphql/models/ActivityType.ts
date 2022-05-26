@@ -36,6 +36,11 @@ export class ActivityType {
   })
   active!: boolean;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  default!: boolean;
+
   users?: UserActivity[];
 
   contributions?: Contribution[];

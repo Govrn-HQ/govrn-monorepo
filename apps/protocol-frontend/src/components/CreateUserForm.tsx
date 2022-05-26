@@ -1,22 +1,13 @@
 import { useCallback } from 'react';
-import {
-  Container,
-  Stack,
-  Flex,
-  Text,
-  Box,
-  useBreakpointValue,
-  Button,
-} from '@chakra-ui/react';
-import PageHeading from './PageHeading';
-import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
-import { useTable, useSortBy } from 'react-table';
-import ContributionsTable from './ContributionsTable';
-import { mockContributions } from '../utils/mockData';
+import { useNavigate } from 'react-router-dom';
+import { GovrnProtocol } from '@govrn/protocol-client';
+import { formatAddress, useWallet } from '@raidguild/quiver';
+import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { createUserFormValidation } from '../utils/validations';
+
+const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
@@ -49,23 +40,42 @@ const useYupValidationResolver = (userValidationSchema: any) =>
     [userValidationSchema]
   );
 
-const createUser = async (values: any) => {
-  try {
-    console.log('createUser', values);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const CreateUserForm = () => {
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(createUserFormValidation),
   });
-  const { handleSubmit } = localForm;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = localForm;
+  const govrn = new GovrnProtocol(protocolUrl);
+  const { isConnected, address } = useWallet();
+  const navigate = useNavigate();
+
+  const createUser = async (values: any) => {
+    try {
+      console.log('creating user', values);
+      await govrn.user.create({
+        data: {
+          name: values.username,
+          address: address as string,
+          chain_type: {
+            create: {
+              name: '0x1',
+            },
+          },
+        },
+      });
+      console.log('createUser', values);
+      navigate('/#/contributions');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <Stack spacing="4" width="100%">
+    <Stack spacing="4" width="100%" color="gray.700">
       <form onSubmit={handleSubmit(createUser)}>
         <Input
           name="username"
@@ -82,6 +92,7 @@ const CreateUserForm = () => {
             backgroundColor="brand.primary.50"
             transition="all 100ms ease-in-out"
             _hover={{ bgColor: 'brand.primary.100' }}
+            isLoading={isSubmitting}
           >
             Create
           </Button>

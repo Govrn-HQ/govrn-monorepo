@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AttestationCreateNestedManyWithoutUserInput } from "../inputs/AttestationCreateNestedManyWithoutUserInput";
 import { ChainTypeCreateNestedOneWithoutUsersInput } from "../inputs/ChainTypeCreateNestedOneWithoutUsersInput";
+import { DiscordUserCreateNestedManyWithoutUserInput } from "../inputs/DiscordUserCreateNestedManyWithoutUserInput";
 import { GuildUserCreateNestedManyWithoutUserInput } from "../inputs/GuildUserCreateNestedManyWithoutUserInput";
 import { LinearUserCreateNestedManyWithoutUserInput } from "../inputs/LinearUserCreateNestedManyWithoutUserInput";
 import { PartnerCreateNestedManyWithoutUserInput } from "../inputs/PartnerCreateNestedManyWithoutUserInput";
@@ -78,4 +79,9 @@ export class UserCreateWithoutContributionsInput {
     nullable: true
   })
   twitter_user?: TwitterUserCreateNestedOneWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => DiscordUserCreateNestedManyWithoutUserInput, {
+    nullable: true
+  })
+  discord_users?: DiscordUserCreateNestedManyWithoutUserInput | undefined;
 }
