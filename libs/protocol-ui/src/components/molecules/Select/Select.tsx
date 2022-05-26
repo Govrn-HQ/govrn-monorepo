@@ -21,7 +21,7 @@ type Errors = {
 };
 
 type Option = {
-  label: string;
+  label: string | number;
   value: any;
 };
 
