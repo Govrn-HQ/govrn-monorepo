@@ -17,6 +17,14 @@ export type AttestArgs = {
   overrides?: ethers.Overrides & { from?: string | Promise<string> };
 };
 
+export type BulkMintArgs = {
+  contributions: Govrn.BulkContributionStruct[];
+};
+
+export type BulkAttestArgs = {
+  attestations: Govrn.AttestationStruct[];
+};
+
 export type NetworkConfig = {
   address: string;
   chainId: number;
@@ -49,5 +57,13 @@ export class GovrnContract {
       args.confidence,
       args.overrides
     );
+  }
+
+  public async bulkAttest(args: BulkAttestArgs) {
+    return await this.govrn.bulkAttest(args.attestations);
+  }
+
+  public async bulkMint(args: BulkMintArgs) {
+    return await this.govrn.bulkMint(args.contributions);
   }
 }

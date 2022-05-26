@@ -203,11 +203,8 @@ contract GovrnRevokeTest is DSTestPlus {
         govrn.revokeAttestatation(0);
     }
 
-	// TODO: Fix
-    // function testRevokeErrorAttestation() public {
-    //     // attest
-    //     govrn.attest(0, 1);
-    //     vm.expectRevert(bytes("Attestation does not exist"));
-    //     govrn.revokeAttestatation(0);
-    // }
+    function testRevokeErrorAttestation() public {
+        vm.expectRevert(bytes("Attestation does not exist"));
+        govrn.revokeAttestatation(0);
+    }
 }
