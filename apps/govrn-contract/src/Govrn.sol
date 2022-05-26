@@ -71,7 +71,6 @@ contract Govrn {
         bytes memory _proof,
         address[] memory _partners
     ) public {
-        // require(msg.sender == _owner, "owner does not match sender");
         _mint(
             _name,
             _details,
