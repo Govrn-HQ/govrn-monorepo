@@ -6,7 +6,6 @@ import { Input, Textarea, DatePicker, Select } from '@govrn/protocol-ui';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
-import { kill } from 'process';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -41,20 +40,20 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
     [reportFormValidation]
   );
 
-const activityTypesList = ['Activity Type 1', 'Activity Type 2'];
+// TODO: Update these to pull in from a set list or config file
+
+const activityTypesList = [
+  'Pull Request',
+  'Documentation',
+  'Note Taking',
+  'Design',
+  'Other',
+];
 
 const activityTypeOptions = activityTypesList.map((activity) => ({
   value: activity,
   label: activity,
 }));
-
-// const createReport = async (values: any) => {
-//   try {
-//     console.log('createReport', values);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 const ReportForm = () => {
   const { chainId } = useWallet();
@@ -90,15 +89,24 @@ const ReportForm = () => {
           details: values.details,
           proof: values.proof,
           activity_type: {
-            create: {
-              // name: values.activityType,
-              name: 'Test Activity 1',
+            connectOrCreate: {
+              create: {
+                name: values.activityType,
+              },
+              where: {
+                name: values.activityType,
+              },
             },
           },
           date_of_engagement: new Date(values.engagementDate).toISOString(),
           status: {
-            create: {
-              name: 'Preparing',
+            connectOrCreate: {
+              create: {
+                name: 'staging',
+              },
+              where: {
+                name: 'staging',
+              },
             },
           },
         },
@@ -122,8 +130,8 @@ const ReportForm = () => {
         <Select
           name="activityType"
           label="Activity Type"
-          onChange={(value) => {
-            setValue('activityType', value.value);
+          onChange={(activity) => {
+            setValue('activityType', activity.value);
           }}
           options={activityTypeOptions}
           localForm={localForm}
