@@ -9,7 +9,7 @@ on:
       - 'master'
 
 env:
-  BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master~3' }}
+  BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master' }}
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
 
 jobs:
