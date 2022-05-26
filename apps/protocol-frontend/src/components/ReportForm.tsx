@@ -6,7 +6,6 @@ import { Input, Textarea, DatePicker, Select } from '@govrn/protocol-ui';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
-import { kill } from 'process';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
