@@ -1,15 +1,18 @@
 import { useMemo } from 'react';
+import { format } from 'date-fns';
 import { Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
 
 const ContributionTypesTable = ({ contributionTypesData }: any) => {
+  console.log('types data', contributionTypesData);
+
   const uniqueKey = 'name';
 
   const uniqueContributions = [
     ...new Map(
       contributionTypesData.map((contributionType: any) => [
-        contributionType[uniqueKey],
+        contributionType.activity_type[uniqueKey],
         contributionType,
       ])
     ).values(),
@@ -18,9 +21,19 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
   const data = useMemo(
     () =>
       uniqueContributions.map((contributionType: any) => ({
+        id: contributionType.id,
         name: contributionType.name,
-        lastOccurrence: contributionType.lastOccurrence,
+        lastOccurrence: contributionType.engagementDate,
+        activityType: contributionType.activity_type.name,
         guilds: contributionType.guild,
+        submissionDate: format(
+          new Date(contributionType.date_of_submission),
+          'P'
+        ),
+        engagementDate: format(
+          new Date(contributionType.date_of_engagement),
+          'P'
+        ),
       })),
     []
   );
@@ -28,12 +41,16 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
   const columns = useMemo(
     () => [
       {
+        Header: 'Activity Type',
+        accessor: 'activityType',
+      },
+      {
         Header: 'Name',
         accessor: 'name',
       },
       {
         Header: 'Last Occurrence',
-        accessor: 'lastOccurrence',
+        accessor: 'engagementDate',
       },
       { Header: 'DAOs', accessor: 'guilds' },
     ],

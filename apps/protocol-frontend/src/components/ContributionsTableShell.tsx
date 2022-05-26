@@ -47,6 +47,7 @@ const ContributionsTableShell = () => {
                 background="white"
                 boxShadow="sm"
                 borderRadius={{ base: 'none', md: 'lg' }}
+                overflowX="auto"
               >
                 <Stack spacing="5">
                   <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
@@ -71,7 +72,7 @@ const ContributionsTableShell = () => {
                       </Button>
                     </Stack>
                   </Box>
-                  <Box overflowX="auto">
+                  <Box overflowX="auto" width="100%">
                     <ContributionsTable contributionsData={userContributions} />
                   </Box>
                   <Box px={{ base: '4', md: '6' }} pb="5">
@@ -115,7 +116,7 @@ const ContributionsTableShell = () => {
                   <Box overflowX="auto">
                     {userContributions.length > 0 ? (
                       <ContributionTypesTable
-                        contributionTypesData={mockContributionTypes}
+                        contributionTypesData={userContributions}
                       />
                     ) : (
                       <EmptyContributions />

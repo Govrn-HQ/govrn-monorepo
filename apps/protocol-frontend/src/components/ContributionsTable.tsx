@@ -74,7 +74,13 @@ const ContributionsTable = ({ contributionsData }: any) => {
           );
         },
       },
-      { Header: 'Status', accessor: 'status' },
+      {
+        Header: 'Status',
+        accessor: 'status',
+        Cell: ({ value }) => {
+          return <Text textTransform="capitalize">{value}</Text>;
+        },
+      },
       {
         Header: 'Engagement Date',
         accessor: 'engagementDate',
