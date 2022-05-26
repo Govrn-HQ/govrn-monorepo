@@ -38,13 +38,22 @@ const client = new Client(process.env.BEARER_TOKEN);
 //        };
 
 const main = async () => {
-	// Get dao account names from database
-	// Then split into the specific number of calls
-	// 
-	// Then a user can connect their account to see past 
-	// tweets.
-	//
-  const tweets = await client.tweets.tweetsRecentSearch({ query: '(@twitterdev OR @twitterapi) -@twitter' });
+  // 1. Fetch all dao accounts
+  // 2. From dao account get all tweets
+  // 3. Store tweets and users
+  // 4. The frontend will figure out who owns
+  //   the tweet after the fact.
+  // 5. Store last job run to give a starting piont for next run
+  //
+  // Get dao account names from database
+  // Then split into the specific number of calls
+  //
+  // Then a user can connect their account to see past
+  // tweets.
+  //
+  const tweets = await client.tweets.tweetsRecentSearch({
+    query: '(@twitterdev OR @twitterapi) -@twitter',
+  });
 };
 // {
 //    "data": [
@@ -83,6 +92,5 @@ const main = async () => {
 //        "result_count": 3
 //    }
 // }
-
 
 main();
