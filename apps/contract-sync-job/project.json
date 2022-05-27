@@ -1,0 +1,52 @@
+{
+  "root": "apps/contract-sync-job",
+  "sourceRoot": "apps/contract-sync-job/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/contract-sync-job",
+        "main": "apps/contract-sync-job/src/main.ts",
+        "tsConfig": "apps/contract-sync-job/tsconfig.app.json",
+        "assets": ["apps/contract-sync-job/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/contract-sync-job/src/environments/environment.ts",
+              "with": "apps/contract-sync-job/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "contract-sync-job:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/contract-sync-job/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/contract-sync-job"],
+      "options": {
+        "jestConfig": "apps/contract-sync-job/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

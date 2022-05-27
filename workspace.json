@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "airtable-api": "apps/airtable-api",
+    "contract-sync-job": "apps/contract-sync-job",
     "contribution-report": "apps/contribution-report",
     "govrn-contract": "apps/govrn-contract",
     "govrn-contract-client": "libs/govrn-contract-client",
