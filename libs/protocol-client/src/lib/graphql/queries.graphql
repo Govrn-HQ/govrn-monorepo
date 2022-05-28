@@ -120,6 +120,29 @@ mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!,  $skipDu
   }
 }
 
+fragment TwitterAccountFragment on TwitterAccount {
+  account_name
+  createdAt
+  guild {
+    id
+    name
+  }
+  id
+  updatedAt
+}
+
+query listTwitterAccounts($where: TwitterAccountWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [TwitterAccountOrderByWithRelationInput!]) {
+    result: twitterAccounts(
+        where: $where,
+        skip: $skip,
+        take: $first,
+        orderBy: $orderBy,
+    ) {
+      ...TwitterAccountFragment
+    }
+}
+
+
 
 # User quries
 fragment UserFragment on User {

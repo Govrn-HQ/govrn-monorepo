@@ -1,7 +1,8 @@
 import { Client } from 'twitter-api-sdk';
-console.log('Hello World!');
+import { GovrnProtocol, cursorPagination } from '@govrn/protocol-client';
 
-const client = new Client(process.env.BEARER_TOKEN);
+const bearerToken = process.env.BEARER_TOKEN;
+const protcolUrl = process.env.PROTOCOL_URL;
 
 //            query: {
 //                /** One query/rule/filter for matching Tweets. Refer to https:\/\/t.co\/rulelength to identify the max query length */
@@ -50,10 +51,25 @@ const main = async () => {
   //
   // Then a user can connect their account to see past
   // tweets.
+
+  console.log('Starting to fetch new tweets');
+  const client = new Client(bearerToken);
+  const govrn = new GovrnProtocol(protcolUrl);
+  // order by id
+  // fetch 10
+  // get last id
   //
-  const tweets = await client.tweets.tweetsRecentSearch({
-    query: '(@twitterdev OR @twitterapi) -@twitter',
-  });
+  // Next object
+  // fetchs last id and then adds that to the where clause
+
+  for await (const accounts of cursorPagination(govrn.twitter.listAccounts, {
+    first: 10,
+  })) {
+    // 1. build query from accounts
+    const tweets = await client.tweets.tweetsRecentSearch({
+      query: '(@twitterdev OR @twitterapi) -@twitter',
+    });
+  }
 };
 // {
 //    "data": [

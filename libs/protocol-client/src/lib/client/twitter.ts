@@ -1,8 +1,19 @@
 import { BaseClient } from './base';
-import { BulkCreateTwitterTweetMutationVariables } from '../protocol-types';
+import {
+  BulkCreateTwitterTweetMutationVariables,
+  ListTwitterAccountsQueryVariables,
+} from '../protocol-types';
 
-class Twitter extends BaseClient {
+// get accounts
+// bulk create
+export class Twitter extends BaseClient {
   public async bulkCreate(args: BulkCreateTwitterTweetMutationVariables) {
-		const count = await 
-	}
+    const count = await this.sdk.bulkCreateTwitterTweet(args);
+    return count;
+  }
+
+  public async listAccounts(args: ListTwitterAccountsQueryVariables) {
+    const accounts = await this.sdk.listTwitterAccounts(args);
+    return accounts.result;
+  }
 }

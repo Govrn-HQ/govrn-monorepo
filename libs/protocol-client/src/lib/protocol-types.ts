@@ -12910,6 +12910,18 @@ export type BulkCreateTwitterTweetMutationVariables = Exact<{
 
 export type BulkCreateTwitterTweetMutation = { createManyTwitterTweet: { count: number } };
 
+export type TwitterAccountFragmentFragment = { account_name: string, createdAt: any, id: number, updatedAt: any, guild?: { id: number, name?: string | null } | null };
+
+export type ListTwitterAccountsQueryVariables = Exact<{
+  where?: TwitterAccountWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<TwitterAccountOrderByWithRelationInput> | TwitterAccountOrderByWithRelationInput>;
+}>;
+
+
+export type ListTwitterAccountsQuery = { result: Array<{ account_name: string, createdAt: any, id: number, updatedAt: any, guild?: { id: number, name?: string | null } | null }> };
+
 export type UserFragmentFragment = { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } };
 
 export type GetUserQueryVariables = Exact<{
@@ -13102,6 +13114,18 @@ export const TwitterTweetFragmentFragmentDoc = gql`
   }
 }
     `;
+export const TwitterAccountFragmentFragmentDoc = gql`
+    fragment TwitterAccountFragment on TwitterAccount {
+  account_name
+  createdAt
+  guild {
+    id
+    name
+  }
+  id
+  updatedAt
+}
+    `;
 export const UserFragmentFragmentDoc = gql`
     fragment UserFragment on User {
   address
@@ -13266,6 +13290,18 @@ export const BulkCreateTwitterTweetDocument = gql`
   }
 }
     `;
+export const ListTwitterAccountsDocument = gql`
+    query listTwitterAccounts($where: TwitterAccountWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [TwitterAccountOrderByWithRelationInput!]) {
+  result: twitterAccounts(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...TwitterAccountFragment
+  }
+}
+    ${TwitterAccountFragmentFragmentDoc}`;
 export const GetUserDocument = gql`
     query getUser($where: UserWhereUniqueInput!) {
   result: user(where: $where) {
@@ -13409,6 +13445,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');
+    },
+    listTwitterAccounts(variables?: ListTwitterAccountsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListTwitterAccountsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListTwitterAccountsQuery>(ListTwitterAccountsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listTwitterAccounts', 'query');
     },
     getUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUser', 'query');
