@@ -1,4 +1,5 @@
-import { InputMaybe, IntFilter } from '../protocol-types';
+import { InputMaybe, IntFilter, Sdk } from '../protocol-types';
+import { GraphQLClient } from 'graphql-request';
 
 interface WhereArgument {
   where?: {
@@ -10,16 +11,20 @@ interface Resource {
   id: number;
 }
 
+interface PaginationContext {
+  sdk: Sdk;
+  client: GraphQLClient;
+}
+
 export async function* cursorPagination<
   T extends Resource,
-  E extends WhereArgument
->(method: (arg0: E) => Promise<T[]>, args: E) {
-  console.log('pageResults');
+  E extends WhereArgument,
+  P extends PaginationContext
+>(method: (arg0: E) => Promise<T[]>, args: E, context: P) {
   const pageResults = [] as T[];
   do {
-    const pageResults = await method(args);
-    console.log(pageResults);
-    console.log('pageResults');
+    const methodBinded = method.bind(context);
+    const pageResults = await methodBinded(args);
     if (pageResults.length === 0) {
       return pageResults;
     }

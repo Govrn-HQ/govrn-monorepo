@@ -33,11 +33,13 @@ const main = async () => {
     lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
 
   console.log('Starting to fetch new tweets');
-  for await (const accounts of cursorPagination(govrn.twitter.listAccounts, {
-    first: 10,
-  })) {
-    console.log('Accounts');
-    console.log(accounts);
+  for await (const accounts of cursorPagination(
+    govrn.twitter.listAccounts,
+    {
+      first: 10,
+    },
+    govrn.twitter
+  )) {
     const accountNames = accounts
       .map((account) => {
         return `@${account.account_name}`;
