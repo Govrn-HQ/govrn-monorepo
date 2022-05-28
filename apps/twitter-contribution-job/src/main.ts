@@ -1,112 +1,106 @@
 import { Client } from 'twitter-api-sdk';
-import { GovrnProtocol, cursorPagination } from '@govrn/protocol-client';
+import {
+  GovrnProtocol,
+  cursorPagination,
+  SortOrder,
+} from '@govrn/protocol-client';
 
 const bearerToken = process.env.BEARER_TOKEN;
 const protcolUrl = process.env.PROTOCOL_URL;
+const jobName = 'twitter-contribution-job';
 
-//            query: {
-//                /** One query/rule/filter for matching Tweets. Refer to https:\/\/t.co\/rulelength to identify the max query length */
-//                query: string;
-//                /** YYYY-MM-DDTHH:mm:ssZ. The oldest UTC timestamp (from most recent 7 days) from which the Tweets will be provided. Timestamp is in second granularity and is inclusive (i.e. 12:00:01 includes the first second of the minute). */
-//                start_time?: string;
-//                /** YYYY-MM-DDTHH:mm:ssZ. The newest, most recent UTC timestamp to which the Tweets will be provided. Timestamp is in second granularity and is exclusive (i.e. 12:00:01 excludes the first second of the minute). */
-//                end_time?: string;
-//                /** Returns results with a Tweet ID greater than (that is, more recent than) the specified ID. */
-//                since_id?: components["schemas"]["TweetID"];
-//                /** Returns results with a Tweet ID less than (that is, older than) the specified ID. */
-//                until_id?: components["schemas"]["TweetID"];
-//                /** The maximum number of search results to be returned by a request. */
-//                max_results?: number;
-//                /** This order in which to return results. */
-//                sort_order?: "recency" | "relevancy";
-//                /** This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified. */
-//                next_token?: string;
-//                /** This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified. */
-//                pagination_token?: string;
-//                /** A comma separated list of fields to expand. */
-//                expansions?: components["parameters"]["TweetExpansionsParameter"];
-//                /** A comma separated list of Tweet fields to display. */
-//                "tweet.fields"?: components["parameters"]["TweetFieldsParameter"];
-//                /** A comma separated list of User fields to display. */
-//                "user.fields"?: components["parameters"]["UserFieldsParameter"];
-//                /** A comma separated list of Media fields to display. */
-//                "media.fields"?: components["parameters"]["MediaFieldsParameter"];
-//                /** A comma separated list of Place fields to display. */
-//                "place.fields"?: components["parameters"]["PlaceFieldsParameter"];
-//                /** A comma separated list of Poll fields to display. */
-//                "poll.fields"?: components["parameters"]["PollFieldsParameter"];
-//            };
-//        };
-
+// 1. Fetch all dao accounts
+// 2. From dao account get all tweets
+// 3. Store tweets and users
+// 4. The frontend will figure out who owns
+//   the tweet after the fact.
+// 5. Store last job run to give a starting piont for next run
+//
+// Get dao account names from database
+// Then split into the specific number of calls
+//
+// Then a user can connect their account to see past
+// tweets.
 const main = async () => {
-  // 1. Fetch all dao accounts
-  // 2. From dao account get all tweets
-  // 3. Store tweets and users
-  // 4. The frontend will figure out who owns
-  //   the tweet after the fact.
-  // 5. Store last job run to give a starting piont for next run
-  //
-  // Get dao account names from database
-  // Then split into the specific number of calls
-  //
-  // Then a user can connect their account to see past
-  // tweets.
-
-  console.log('Starting to fetch new tweets');
   const client = new Client(bearerToken);
   const govrn = new GovrnProtocol(protcolUrl);
-  // order by id
-  // fetch 10
-  // get last id
-  //
-  // Next object
-  // fetchs last id and then adds that to the where clause
+  const lastRun = await govrn.jobRun.list({
+    first: 1,
+    orderBy: { completedDate: SortOrder.Desc },
+    where: { name: { equals: jobName } },
+  });
+  const startDate =
+    lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
 
+  console.log('Starting to fetch new tweets');
   for await (const accounts of cursorPagination(govrn.twitter.listAccounts, {
     first: 10,
   })) {
+    console.log('Accounts');
+    console.log(accounts);
+    const accountNames = accounts
+      .map((account) => {
+        return `@${account.account_name}`;
+      })
+      .join(' OR ');
     // 1. build query from accounts
-    const tweets = await client.tweets.tweetsRecentSearch({
-      query: '(@twitterdev OR @twitterapi) -@twitter',
+    // query should be fetching all tweets with user tied
+    const pages = client.tweets.tweetsRecentSearch({
+      query: `(${accountNames}) -@twitter`,
+      max_results: 100,
     });
+    const tweets = [];
+    const authorIds = [];
+    for await (const page of pages) {
+      for (const tweet of page.data) {
+        authorIds.push(tweet.author_id);
+      }
+      tweets.push(...page.data);
+    }
+    const users = await client.users.findUsersById({ ids: authorIds });
+    const upsertPromises = [];
+    for (const user of users.data) {
+      upsertPromises.push(
+        govrn.twitter.upsertUser({
+          create: {
+            twitter_user_id: user.id,
+            description: user.description,
+            name: user.name,
+            username: user.username,
+          },
+          update: {
+            name: { set: user.name },
+          },
+          where: {
+            twitter_user_id: user.id,
+          },
+        })
+      );
+    }
+    const resp = await Promise.all(upsertPromises);
+    const authorMapping = {};
+    for (const user of resp) {
+      authorMapping[user.twitter_user_id] = user;
+    }
+    const createItems = [];
+    for (const tweet of tweets) {
+      createItems.push({
+        text: tweet.text,
+        twitter_tweet_id: tweet.id,
+        twitter_user_id: authorMapping[tweet.author_id] || null,
+      });
+    }
+
+    const created = await govrn.twitter.bulkCreate({
+      data: createItems,
+      skipDuplicates: true,
+    });
+    console.log(`Created ${created} new tweets`);
   }
+  await govrn.jobRun.create({
+    data: { startDate: startDate, completedDate: new Date(), name: jobName },
+  });
+  console.log(`Finished processing twitter tweets`);
 };
-// {
-//    "data": [
-//        {
-//            "author_id": "2244994945",
-//            "created_at": "2020-06-11T16:05:06.000Z",
-//            "id": "1271111223220809728",
-//            "text": "Tune in tonight and watch as @jessicagarson takes us through running your favorite Python package in R. 🍿\n\nLearn how to use two powerful programming languages for data science together, and see a live example that uses the recent search endpoint from Twitter’s Developer Labs. https://t.co/v178oUZNuj"
-//        },
-//        {
-//            "author_id": "2244994945",
-//            "created_at": "2020-06-10T19:25:24.000Z",
-//            "id": "1270799243071062016",
-//            "text": "As we work towards building the new Twitter API, we’ve extended the deprecation timeline for several Labs v1 endpoints. Learn more 📖 https://t.co/rRWaJYJgKk"
-//        },
-//        {
-//            "author_id": "2244994945",
-//            "created_at": "2020-06-09T18:08:47.000Z",
-//            "id": "1270417572001976322",
-//            "text": "Annotations help you learn more about a Tweet — they can even help you find topics of interest. 🔬\n\nIn this tutorial, @suhemparack shows us how find Tweets related to COVID-19 using annotations + the filtered stream endpoint.\n\nLearn how you can, too. ⤵️\nhttps://t.co/qwVOgw0zSV"
-//        }
-//    ],
-//    "includes": {
-//        "users": [
-//            {
-//                "description": "The voice of Twitter's #DevRel team, and your official source for updates, news, & events about Twitter's API. \n\n#BlackLivesMatter",
-//                "id": "2244994945",
-//                "name": "Twitter Dev",
-//                "username": "TwitterDev"
-//            }
-//        ]
-//    },
-//    "meta": {
-//        "newest_id": "1271111223220809728",
-//        "oldest_id": "1270417572001976322",
-//        "result_count": 3
-//    }
-// }
 
 main();

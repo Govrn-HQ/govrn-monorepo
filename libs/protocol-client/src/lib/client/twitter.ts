@@ -2,6 +2,7 @@ import { BaseClient } from './base';
 import {
   BulkCreateTwitterTweetMutationVariables,
   ListTwitterAccountsQueryVariables,
+  UpsertTwitterUserMutationVariables,
 } from '../protocol-types';
 
 // get accounts
@@ -15,5 +16,10 @@ export class Twitter extends BaseClient {
   public async listAccounts(args: ListTwitterAccountsQueryVariables) {
     const accounts = await this.sdk.listTwitterAccounts(args);
     return accounts.result;
+  }
+
+  public async upsertUser(args: UpsertTwitterUserMutationVariables) {
+    const user = await this.sdk.upsertTwitterUser(args);
+    return user.upsertTwitterUser;
   }
 }

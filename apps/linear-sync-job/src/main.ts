@@ -8,6 +8,7 @@ import 'tslib';
 
 const apiKey = process.env.API_KEY;
 const protcolUrl = process.env.PROTOCOL_URL;
+const jobName = 'linear-sync-job';
 
 const upsertUser = (govrn: GovrnProtocol, user: User) => {
   const linearAssignee = {
@@ -72,8 +73,12 @@ const createJobRun = async (
   govrn: GovrnProtocol,
   job: { startDate: Date; completedDate: Date }
 ) => {
-  const teamPromise = await govrn.linear.jobRun.create({
-    data: { startDate: job.startDate, completedDate: job.completedDate },
+  const teamPromise = await govrn.jobRun.create({
+    data: {
+      startDate: job.startDate,
+      completedDate: job.completedDate,
+      name: jobName,
+    },
   });
   return teamPromise;
 };
@@ -82,9 +87,10 @@ const main = async () => {
   console.log(`Starting to process linear issues`);
   const linearClient = new LinearClient({ apiKey });
   const govrn = new GovrnProtocol(protcolUrl);
-  const lastRun = await govrn.linear.jobRun.list({
+  const lastRun = await govrn.jobRun.list({
     first: 1,
     orderBy: { completedDate: SortOrder.Desc },
+    where: { name: { equals: jobName } },
   });
   const startDate =
     lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();

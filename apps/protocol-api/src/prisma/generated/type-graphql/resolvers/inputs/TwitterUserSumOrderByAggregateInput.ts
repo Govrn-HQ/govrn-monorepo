@@ -16,10 +16,5 @@ export class TwitterUserSumOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  twitter_user_id?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
   user_id?: "asc" | "desc" | undefined;
 }

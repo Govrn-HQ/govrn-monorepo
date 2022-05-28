@@ -22,10 +22,10 @@ export class TwitterUserCreateManyInput {
   })
   updatedAt?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  twitter_user_id!: number;
+  twitter_user_id!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

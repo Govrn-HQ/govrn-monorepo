@@ -494,6 +494,14 @@ export type AggregateGuildUser = {
   _sum?: Maybe<GuildUserSumAggregate>;
 };
 
+export type AggregateJobRun = {
+  _avg?: Maybe<JobRunAvgAggregate>;
+  _count?: Maybe<JobRunCountAggregate>;
+  _max?: Maybe<JobRunMaxAggregate>;
+  _min?: Maybe<JobRunMinAggregate>;
+  _sum?: Maybe<JobRunSumAggregate>;
+};
+
 export type AggregateLinearCycle = {
   _avg?: Maybe<LinearCycleAvgAggregate>;
   _count?: Maybe<LinearCycleCountAggregate>;
@@ -508,14 +516,6 @@ export type AggregateLinearIssue = {
   _max?: Maybe<LinearIssueMaxAggregate>;
   _min?: Maybe<LinearIssueMinAggregate>;
   _sum?: Maybe<LinearIssueSumAggregate>;
-};
-
-export type AggregateLinearJobRun = {
-  _avg?: Maybe<LinearJobRunAvgAggregate>;
-  _count?: Maybe<LinearJobRunCountAggregate>;
-  _max?: Maybe<LinearJobRunMaxAggregate>;
-  _min?: Maybe<LinearJobRunMinAggregate>;
-  _sum?: Maybe<LinearJobRunSumAggregate>;
 };
 
 export type AggregateLinearProject = {
@@ -4765,6 +4765,193 @@ export type IntWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type JobRun = {
+  completedDate: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type JobRunAvgAggregate = {
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type JobRunAvgOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type JobRunCountAggregate = {
+  _all: Scalars['Int'];
+  completedDate: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
+  startDate: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type JobRunCountOrderByAggregateInput = {
+  completedDate?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type JobRunCreateInput = {
+  completedDate: Scalars['DateTime'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type JobRunCreateManyInput = {
+  completedDate: Scalars['DateTime'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type JobRunGroupBy = {
+  _avg?: Maybe<JobRunAvgAggregate>;
+  _count?: Maybe<JobRunCountAggregate>;
+  _max?: Maybe<JobRunMaxAggregate>;
+  _min?: Maybe<JobRunMinAggregate>;
+  _sum?: Maybe<JobRunSumAggregate>;
+  completedDate: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type JobRunMaxAggregate = {
+  completedDate?: Maybe<Scalars['DateTime']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type JobRunMaxOrderByAggregateInput = {
+  completedDate?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type JobRunMinAggregate = {
+  completedDate?: Maybe<Scalars['DateTime']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type JobRunMinOrderByAggregateInput = {
+  completedDate?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type JobRunOrderByWithAggregationInput = {
+  _avg?: InputMaybe<JobRunAvgOrderByAggregateInput>;
+  _count?: InputMaybe<JobRunCountOrderByAggregateInput>;
+  _max?: InputMaybe<JobRunMaxOrderByAggregateInput>;
+  _min?: InputMaybe<JobRunMinOrderByAggregateInput>;
+  _sum?: InputMaybe<JobRunSumOrderByAggregateInput>;
+  completedDate?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type JobRunOrderByWithRelationInput = {
+  completedDate?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  startDate?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export enum JobRunScalarFieldEnum {
+  CompletedDate = 'completedDate',
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Name = 'name',
+  StartDate = 'startDate',
+  UpdatedAt = 'updatedAt'
+}
+
+export type JobRunScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<JobRunScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<JobRunScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<JobRunScalarWhereWithAggregatesInput>>;
+  completedDate?: InputMaybe<DateTimeWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
+  startDate?: InputMaybe<DateTimeWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type JobRunSumAggregate = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type JobRunSumOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type JobRunUpdateInput = {
+  completedDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  startDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type JobRunUpdateManyMutationInput = {
+  completedDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  startDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type JobRunWhereInput = {
+  AND?: InputMaybe<Array<JobRunWhereInput>>;
+  NOT?: InputMaybe<Array<JobRunWhereInput>>;
+  OR?: InputMaybe<Array<JobRunWhereInput>>;
+  completedDate?: InputMaybe<DateTimeFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  startDate?: InputMaybe<DateTimeFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type JobRunWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+};
+
 export type LinearCycle = {
   _count?: Maybe<LinearCycleCount>;
   endsAt: Scalars['DateTime'];
@@ -6541,176 +6728,6 @@ export type LinearIssueWhereUniqueInput = {
   linear_id?: InputMaybe<Scalars['String']>;
 };
 
-export type LinearJobRun = {
-  completedDate: Scalars['DateTime'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Int'];
-  startDate: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export type LinearJobRunAvgAggregate = {
-  id?: Maybe<Scalars['Float']>;
-};
-
-export type LinearJobRunAvgOrderByAggregateInput = {
-  id?: InputMaybe<SortOrder>;
-};
-
-export type LinearJobRunCountAggregate = {
-  _all: Scalars['Int'];
-  completedDate: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  id: Scalars['Int'];
-  startDate: Scalars['Int'];
-  updatedAt: Scalars['Int'];
-};
-
-export type LinearJobRunCountOrderByAggregateInput = {
-  completedDate?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  startDate?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type LinearJobRunCreateInput = {
-  completedDate: Scalars['DateTime'];
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  startDate: Scalars['DateTime'];
-  updatedAt?: InputMaybe<Scalars['DateTime']>;
-};
-
-export type LinearJobRunCreateManyInput = {
-  completedDate: Scalars['DateTime'];
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['Int']>;
-  startDate: Scalars['DateTime'];
-  updatedAt?: InputMaybe<Scalars['DateTime']>;
-};
-
-export type LinearJobRunGroupBy = {
-  _avg?: Maybe<LinearJobRunAvgAggregate>;
-  _count?: Maybe<LinearJobRunCountAggregate>;
-  _max?: Maybe<LinearJobRunMaxAggregate>;
-  _min?: Maybe<LinearJobRunMinAggregate>;
-  _sum?: Maybe<LinearJobRunSumAggregate>;
-  completedDate: Scalars['DateTime'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Int'];
-  startDate: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export type LinearJobRunMaxAggregate = {
-  completedDate?: Maybe<Scalars['DateTime']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  id?: Maybe<Scalars['Int']>;
-  startDate?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type LinearJobRunMaxOrderByAggregateInput = {
-  completedDate?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  startDate?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type LinearJobRunMinAggregate = {
-  completedDate?: Maybe<Scalars['DateTime']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  id?: Maybe<Scalars['Int']>;
-  startDate?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type LinearJobRunMinOrderByAggregateInput = {
-  completedDate?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  startDate?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type LinearJobRunOrderByWithAggregationInput = {
-  _avg?: InputMaybe<LinearJobRunAvgOrderByAggregateInput>;
-  _count?: InputMaybe<LinearJobRunCountOrderByAggregateInput>;
-  _max?: InputMaybe<LinearJobRunMaxOrderByAggregateInput>;
-  _min?: InputMaybe<LinearJobRunMinOrderByAggregateInput>;
-  _sum?: InputMaybe<LinearJobRunSumOrderByAggregateInput>;
-  completedDate?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  startDate?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type LinearJobRunOrderByWithRelationInput = {
-  completedDate?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  startDate?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export enum LinearJobRunScalarFieldEnum {
-  CompletedDate = 'completedDate',
-  CreatedAt = 'createdAt',
-  Id = 'id',
-  StartDate = 'startDate',
-  UpdatedAt = 'updatedAt'
-}
-
-export type LinearJobRunScalarWhereWithAggregatesInput = {
-  AND?: InputMaybe<Array<LinearJobRunScalarWhereWithAggregatesInput>>;
-  NOT?: InputMaybe<Array<LinearJobRunScalarWhereWithAggregatesInput>>;
-  OR?: InputMaybe<Array<LinearJobRunScalarWhereWithAggregatesInput>>;
-  completedDate?: InputMaybe<DateTimeWithAggregatesFilter>;
-  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  id?: InputMaybe<IntWithAggregatesFilter>;
-  startDate?: InputMaybe<DateTimeWithAggregatesFilter>;
-  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-};
-
-export type LinearJobRunSumAggregate = {
-  id?: Maybe<Scalars['Int']>;
-};
-
-export type LinearJobRunSumOrderByAggregateInput = {
-  id?: InputMaybe<SortOrder>;
-};
-
-export type LinearJobRunUpdateInput = {
-  completedDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  startDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-};
-
-export type LinearJobRunUpdateManyMutationInput = {
-  completedDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  startDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-};
-
-export type LinearJobRunWhereInput = {
-  AND?: InputMaybe<Array<LinearJobRunWhereInput>>;
-  NOT?: InputMaybe<Array<LinearJobRunWhereInput>>;
-  OR?: InputMaybe<Array<LinearJobRunWhereInput>>;
-  completedDate?: InputMaybe<DateTimeFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<IntFilter>;
-  startDate?: InputMaybe<DateTimeFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-};
-
-export type LinearJobRunWhereUniqueInput = {
-  id?: InputMaybe<Scalars['Int']>;
-};
-
 export type LinearProject = {
   _count?: Maybe<LinearProjectCount>;
   id: Scalars['Int'];
@@ -7632,9 +7649,9 @@ export type Mutation = {
   createGuild: Guild;
   createGuildContribution: GuildContribution;
   createGuildUser: GuildUser;
+  createJobRun: JobRun;
   createLinearCycle: LinearCycle;
   createLinearIssue: LinearIssue;
-  createLinearJobRun: LinearJobRun;
   createLinearProject: LinearProject;
   createLinearTeam: LinearTeam;
   createLinearUser: LinearUser;
@@ -7650,9 +7667,9 @@ export type Mutation = {
   createManyGuild: AffectedRowsOutput;
   createManyGuildContribution: AffectedRowsOutput;
   createManyGuildUser: AffectedRowsOutput;
+  createManyJobRun: AffectedRowsOutput;
   createManyLinearCycle: AffectedRowsOutput;
   createManyLinearIssue: AffectedRowsOutput;
-  createManyLinearJobRun: AffectedRowsOutput;
   createManyLinearProject: AffectedRowsOutput;
   createManyLinearTeam: AffectedRowsOutput;
   createManyLinearUser: AffectedRowsOutput;
@@ -7680,9 +7697,9 @@ export type Mutation = {
   deleteGuild?: Maybe<Guild>;
   deleteGuildContribution?: Maybe<GuildContribution>;
   deleteGuildUser?: Maybe<GuildUser>;
+  deleteJobRun?: Maybe<JobRun>;
   deleteLinearCycle?: Maybe<LinearCycle>;
   deleteLinearIssue?: Maybe<LinearIssue>;
-  deleteLinearJobRun?: Maybe<LinearJobRun>;
   deleteLinearProject?: Maybe<LinearProject>;
   deleteLinearTeam?: Maybe<LinearTeam>;
   deleteLinearUser?: Maybe<LinearUser>;
@@ -7698,9 +7715,9 @@ export type Mutation = {
   deleteManyGuild: AffectedRowsOutput;
   deleteManyGuildContribution: AffectedRowsOutput;
   deleteManyGuildUser: AffectedRowsOutput;
+  deleteManyJobRun: AffectedRowsOutput;
   deleteManyLinearCycle: AffectedRowsOutput;
   deleteManyLinearIssue: AffectedRowsOutput;
-  deleteManyLinearJobRun: AffectedRowsOutput;
   deleteManyLinearProject: AffectedRowsOutput;
   deleteManyLinearTeam: AffectedRowsOutput;
   deleteManyLinearUser: AffectedRowsOutput;
@@ -7728,9 +7745,9 @@ export type Mutation = {
   updateGuild?: Maybe<Guild>;
   updateGuildContribution?: Maybe<GuildContribution>;
   updateGuildUser?: Maybe<GuildUser>;
+  updateJobRun?: Maybe<JobRun>;
   updateLinearCycle?: Maybe<LinearCycle>;
   updateLinearIssue?: Maybe<LinearIssue>;
-  updateLinearJobRun?: Maybe<LinearJobRun>;
   updateLinearProject?: Maybe<LinearProject>;
   updateLinearTeam?: Maybe<LinearTeam>;
   updateLinearUser?: Maybe<LinearUser>;
@@ -7746,9 +7763,9 @@ export type Mutation = {
   updateManyGuild: AffectedRowsOutput;
   updateManyGuildContribution: AffectedRowsOutput;
   updateManyGuildUser: AffectedRowsOutput;
+  updateManyJobRun: AffectedRowsOutput;
   updateManyLinearCycle: AffectedRowsOutput;
   updateManyLinearIssue: AffectedRowsOutput;
-  updateManyLinearJobRun: AffectedRowsOutput;
   updateManyLinearProject: AffectedRowsOutput;
   updateManyLinearTeam: AffectedRowsOutput;
   updateManyLinearUser: AffectedRowsOutput;
@@ -7776,9 +7793,9 @@ export type Mutation = {
   upsertGuild: Guild;
   upsertGuildContribution: GuildContribution;
   upsertGuildUser: GuildUser;
+  upsertJobRun: JobRun;
   upsertLinearCycle: LinearCycle;
   upsertLinearIssue: LinearIssue;
-  upsertLinearJobRun: LinearJobRun;
   upsertLinearProject: LinearProject;
   upsertLinearTeam: LinearTeam;
   upsertLinearUser: LinearUser;
@@ -7851,6 +7868,11 @@ export type MutationCreateGuildUserArgs = {
 };
 
 
+export type MutationCreateJobRunArgs = {
+  data: JobRunCreateInput;
+};
+
+
 export type MutationCreateLinearCycleArgs = {
   data: LinearCycleCreateInput;
 };
@@ -7858,11 +7880,6 @@ export type MutationCreateLinearCycleArgs = {
 
 export type MutationCreateLinearIssueArgs = {
   data: LinearIssueCreateInput;
-};
-
-
-export type MutationCreateLinearJobRunArgs = {
-  data: LinearJobRunCreateInput;
 };
 
 
@@ -7953,6 +7970,12 @@ export type MutationCreateManyGuildUserArgs = {
 };
 
 
+export type MutationCreateManyJobRunArgs = {
+  data: Array<JobRunCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
 export type MutationCreateManyLinearCycleArgs = {
   data: Array<LinearCycleCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
@@ -7961,12 +7984,6 @@ export type MutationCreateManyLinearCycleArgs = {
 
 export type MutationCreateManyLinearIssueArgs = {
   data: Array<LinearIssueCreateManyInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
-};
-
-
-export type MutationCreateManyLinearJobRunArgs = {
-  data: Array<LinearJobRunCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -8115,6 +8132,11 @@ export type MutationDeleteGuildUserArgs = {
 };
 
 
+export type MutationDeleteJobRunArgs = {
+  where: JobRunWhereUniqueInput;
+};
+
+
 export type MutationDeleteLinearCycleArgs = {
   where: LinearCycleWhereUniqueInput;
 };
@@ -8122,11 +8144,6 @@ export type MutationDeleteLinearCycleArgs = {
 
 export type MutationDeleteLinearIssueArgs = {
   where: LinearIssueWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearJobRunArgs = {
-  where: LinearJobRunWhereUniqueInput;
 };
 
 
@@ -8205,6 +8222,11 @@ export type MutationDeleteManyGuildUserArgs = {
 };
 
 
+export type MutationDeleteManyJobRunArgs = {
+  where?: InputMaybe<JobRunWhereInput>;
+};
+
+
 export type MutationDeleteManyLinearCycleArgs = {
   where?: InputMaybe<LinearCycleWhereInput>;
 };
@@ -8212,11 +8234,6 @@ export type MutationDeleteManyLinearCycleArgs = {
 
 export type MutationDeleteManyLinearIssueArgs = {
   where?: InputMaybe<LinearIssueWhereInput>;
-};
-
-
-export type MutationDeleteManyLinearJobRunArgs = {
-  where?: InputMaybe<LinearJobRunWhereInput>;
 };
 
 
@@ -8367,6 +8384,12 @@ export type MutationUpdateGuildUserArgs = {
 };
 
 
+export type MutationUpdateJobRunArgs = {
+  data: JobRunUpdateInput;
+  where: JobRunWhereUniqueInput;
+};
+
+
 export type MutationUpdateLinearCycleArgs = {
   data: LinearCycleUpdateInput;
   where: LinearCycleWhereUniqueInput;
@@ -8376,12 +8399,6 @@ export type MutationUpdateLinearCycleArgs = {
 export type MutationUpdateLinearIssueArgs = {
   data: LinearIssueUpdateInput;
   where: LinearIssueWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearJobRunArgs = {
-  data: LinearJobRunUpdateInput;
-  where: LinearJobRunWhereUniqueInput;
 };
 
 
@@ -8475,6 +8492,12 @@ export type MutationUpdateManyGuildUserArgs = {
 };
 
 
+export type MutationUpdateManyJobRunArgs = {
+  data: JobRunUpdateManyMutationInput;
+  where?: InputMaybe<JobRunWhereInput>;
+};
+
+
 export type MutationUpdateManyLinearCycleArgs = {
   data: LinearCycleUpdateManyMutationInput;
   where?: InputMaybe<LinearCycleWhereInput>;
@@ -8484,12 +8507,6 @@ export type MutationUpdateManyLinearCycleArgs = {
 export type MutationUpdateManyLinearIssueArgs = {
   data: LinearIssueUpdateManyMutationInput;
   where?: InputMaybe<LinearIssueWhereInput>;
-};
-
-
-export type MutationUpdateManyLinearJobRunArgs = {
-  data: LinearJobRunUpdateManyMutationInput;
-  where?: InputMaybe<LinearJobRunWhereInput>;
 };
 
 
@@ -8667,6 +8684,13 @@ export type MutationUpsertGuildUserArgs = {
 };
 
 
+export type MutationUpsertJobRunArgs = {
+  create: JobRunCreateInput;
+  update: JobRunUpdateInput;
+  where: JobRunWhereUniqueInput;
+};
+
+
 export type MutationUpsertLinearCycleArgs = {
   create: LinearCycleCreateInput;
   update: LinearCycleUpdateInput;
@@ -8678,13 +8702,6 @@ export type MutationUpsertLinearIssueArgs = {
   create: LinearIssueCreateInput;
   update: LinearIssueUpdateInput;
   where: LinearIssueWhereUniqueInput;
-};
-
-
-export type MutationUpsertLinearJobRunArgs = {
-  create: LinearJobRunCreateInput;
-  update: LinearJobRunUpdateInput;
-  where: LinearJobRunWhereUniqueInput;
 };
 
 
@@ -9364,9 +9381,9 @@ export type Query = {
   aggregateGuild: AggregateGuild;
   aggregateGuildContribution: AggregateGuildContribution;
   aggregateGuildUser: AggregateGuildUser;
+  aggregateJobRun: AggregateJobRun;
   aggregateLinearCycle: AggregateLinearCycle;
   aggregateLinearIssue: AggregateLinearIssue;
-  aggregateLinearJobRun: AggregateLinearJobRun;
   aggregateLinearProject: AggregateLinearProject;
   aggregateLinearTeam: AggregateLinearTeam;
   aggregateLinearUser: AggregateLinearUser;
@@ -9404,9 +9421,9 @@ export type Query = {
   findFirstGuild?: Maybe<Guild>;
   findFirstGuildContribution?: Maybe<GuildContribution>;
   findFirstGuildUser?: Maybe<GuildUser>;
+  findFirstJobRun?: Maybe<JobRun>;
   findFirstLinearCycle?: Maybe<LinearCycle>;
   findFirstLinearIssue?: Maybe<LinearIssue>;
-  findFirstLinearJobRun?: Maybe<LinearJobRun>;
   findFirstLinearProject?: Maybe<LinearProject>;
   findFirstLinearTeam?: Maybe<LinearTeam>;
   findFirstLinearUser?: Maybe<LinearUser>;
@@ -9428,9 +9445,9 @@ export type Query = {
   groupByGuild: Array<GuildGroupBy>;
   groupByGuildContribution: Array<GuildContributionGroupBy>;
   groupByGuildUser: Array<GuildUserGroupBy>;
+  groupByJobRun: Array<JobRunGroupBy>;
   groupByLinearCycle: Array<LinearCycleGroupBy>;
   groupByLinearIssue: Array<LinearIssueGroupBy>;
-  groupByLinearJobRun: Array<LinearJobRunGroupBy>;
   groupByLinearProject: Array<LinearProjectGroupBy>;
   groupByLinearTeam: Array<LinearTeamGroupBy>;
   groupByLinearUser: Array<LinearUserGroupBy>;
@@ -9446,12 +9463,12 @@ export type Query = {
   guildUser?: Maybe<GuildUser>;
   guildUsers: Array<GuildUser>;
   guilds: Array<Guild>;
+  jobRun?: Maybe<JobRun>;
+  jobRuns: Array<JobRun>;
   linearCycle?: Maybe<LinearCycle>;
   linearCycles: Array<LinearCycle>;
   linearIssue?: Maybe<LinearIssue>;
   linearIssues: Array<LinearIssue>;
-  linearJobRun?: Maybe<LinearJobRun>;
-  linearJobRuns: Array<LinearJobRun>;
   linearProject?: Maybe<LinearProject>;
   linearProjects: Array<LinearProject>;
   linearTeam?: Maybe<LinearTeam>;
@@ -9596,6 +9613,15 @@ export type QueryAggregateGuildUserArgs = {
 };
 
 
+export type QueryAggregateJobRunArgs = {
+  cursor?: InputMaybe<JobRunWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<JobRunOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<JobRunWhereInput>;
+};
+
+
 export type QueryAggregateLinearCycleArgs = {
   cursor?: InputMaybe<LinearCycleWhereUniqueInput>;
   orderBy?: InputMaybe<Array<LinearCycleOrderByWithRelationInput>>;
@@ -9611,15 +9637,6 @@ export type QueryAggregateLinearIssueArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearIssueWhereInput>;
-};
-
-
-export type QueryAggregateLinearJobRunArgs = {
-  cursor?: InputMaybe<LinearJobRunWhereUniqueInput>;
-  orderBy?: InputMaybe<Array<LinearJobRunOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<LinearJobRunWhereInput>;
 };
 
 
@@ -9944,6 +9961,16 @@ export type QueryFindFirstGuildUserArgs = {
 };
 
 
+export type QueryFindFirstJobRunArgs = {
+  cursor?: InputMaybe<JobRunWhereUniqueInput>;
+  distinct?: InputMaybe<Array<JobRunScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<JobRunOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<JobRunWhereInput>;
+};
+
+
 export type QueryFindFirstLinearCycleArgs = {
   cursor?: InputMaybe<LinearCycleWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearCycleScalarFieldEnum>>;
@@ -9961,16 +9988,6 @@ export type QueryFindFirstLinearIssueArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearIssueWhereInput>;
-};
-
-
-export type QueryFindFirstLinearJobRunArgs = {
-  cursor?: InputMaybe<LinearJobRunWhereUniqueInput>;
-  distinct?: InputMaybe<Array<LinearJobRunScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<LinearJobRunOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<LinearJobRunWhereInput>;
 };
 
 
@@ -10184,6 +10201,16 @@ export type QueryGroupByGuildUserArgs = {
 };
 
 
+export type QueryGroupByJobRunArgs = {
+  by: Array<JobRunScalarFieldEnum>;
+  having?: InputMaybe<JobRunScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<JobRunOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<JobRunWhereInput>;
+};
+
+
 export type QueryGroupByLinearCycleArgs = {
   by: Array<LinearCycleScalarFieldEnum>;
   having?: InputMaybe<LinearCycleScalarWhereWithAggregatesInput>;
@@ -10201,16 +10228,6 @@ export type QueryGroupByLinearIssueArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearIssueWhereInput>;
-};
-
-
-export type QueryGroupByLinearJobRunArgs = {
-  by: Array<LinearJobRunScalarFieldEnum>;
-  having?: InputMaybe<LinearJobRunScalarWhereWithAggregatesInput>;
-  orderBy?: InputMaybe<Array<LinearJobRunOrderByWithAggregationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<LinearJobRunWhereInput>;
 };
 
 
@@ -10349,6 +10366,21 @@ export type QueryGuildsArgs = {
 };
 
 
+export type QueryJobRunArgs = {
+  where: JobRunWhereUniqueInput;
+};
+
+
+export type QueryJobRunsArgs = {
+  cursor?: InputMaybe<JobRunWhereUniqueInput>;
+  distinct?: InputMaybe<Array<JobRunScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<JobRunOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<JobRunWhereInput>;
+};
+
+
 export type QueryLinearCycleArgs = {
   where: LinearCycleWhereUniqueInput;
 };
@@ -10376,21 +10408,6 @@ export type QueryLinearIssuesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearIssueWhereInput>;
-};
-
-
-export type QueryLinearJobRunArgs = {
-  where: LinearJobRunWhereUniqueInput;
-};
-
-
-export type QueryLinearJobRunsArgs = {
-  cursor?: InputMaybe<LinearJobRunWhereUniqueInput>;
-  distinct?: InputMaybe<Array<LinearJobRunScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<LinearJobRunOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<LinearJobRunWhereInput>;
 };
 
 
@@ -11200,7 +11217,7 @@ export type TwitterUser = {
   id: Scalars['Int'];
   name: Scalars['String'];
   tweets: Array<TwitterTweet>;
-  twitter_user_id: Scalars['Int'];
+  twitter_user_id: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   user?: Maybe<User>;
   user_id?: Maybe<Scalars['Int']>;
@@ -11219,13 +11236,11 @@ export type TwitterUserTweetsArgs = {
 
 export type TwitterUserAvgAggregate = {
   id?: Maybe<Scalars['Float']>;
-  twitter_user_id?: Maybe<Scalars['Float']>;
   user_id?: Maybe<Scalars['Float']>;
 };
 
 export type TwitterUserAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
-  twitter_user_id?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
@@ -11261,7 +11276,7 @@ export type TwitterUserCreateInput = {
   description: Scalars['String'];
   name: Scalars['String'];
   tweets?: InputMaybe<TwitterTweetCreateNestedManyWithoutTwitter_UserInput>;
-  twitter_user_id: Scalars['Int'];
+  twitter_user_id: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user?: InputMaybe<UserCreateNestedOneWithoutTwitter_UserInput>;
   username: Scalars['String'];
@@ -11272,7 +11287,7 @@ export type TwitterUserCreateManyInput = {
   description: Scalars['String'];
   id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
-  twitter_user_id: Scalars['Int'];
+  twitter_user_id: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id?: InputMaybe<Scalars['Int']>;
   username: Scalars['String'];
@@ -11304,7 +11319,7 @@ export type TwitterUserCreateWithoutTweetsInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   description: Scalars['String'];
   name: Scalars['String'];
-  twitter_user_id: Scalars['Int'];
+  twitter_user_id: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user?: InputMaybe<UserCreateNestedOneWithoutTwitter_UserInput>;
   username: Scalars['String'];
@@ -11315,7 +11330,7 @@ export type TwitterUserCreateWithoutUserInput = {
   description: Scalars['String'];
   name: Scalars['String'];
   tweets?: InputMaybe<TwitterTweetCreateNestedManyWithoutTwitter_UserInput>;
-  twitter_user_id: Scalars['Int'];
+  twitter_user_id: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   username: Scalars['String'];
 };
@@ -11330,7 +11345,7 @@ export type TwitterUserGroupBy = {
   description: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
-  twitter_user_id: Scalars['Int'];
+  twitter_user_id: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   user_id?: Maybe<Scalars['Int']>;
   username: Scalars['String'];
@@ -11341,7 +11356,7 @@ export type TwitterUserMaxAggregate = {
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
-  twitter_user_id?: Maybe<Scalars['Int']>;
+  twitter_user_id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
@@ -11363,7 +11378,7 @@ export type TwitterUserMinAggregate = {
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
-  twitter_user_id?: Maybe<Scalars['Int']>;
+  twitter_user_id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
@@ -11433,7 +11448,7 @@ export type TwitterUserScalarWhereWithAggregatesInput = {
   description?: InputMaybe<StringWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
-  twitter_user_id?: InputMaybe<IntWithAggregatesFilter>;
+  twitter_user_id?: InputMaybe<StringWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   user_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   username?: InputMaybe<StringWithAggregatesFilter>;
@@ -11441,13 +11456,11 @@ export type TwitterUserScalarWhereWithAggregatesInput = {
 
 export type TwitterUserSumAggregate = {
   id?: Maybe<Scalars['Int']>;
-  twitter_user_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
 export type TwitterUserSumOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
-  twitter_user_id?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
@@ -11456,7 +11469,7 @@ export type TwitterUserUpdateInput = {
   description?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   tweets?: InputMaybe<TwitterTweetUpdateManyWithoutTwitter_UserInput>;
-  twitter_user_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  twitter_user_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneWithoutTwitter_UserInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -11466,7 +11479,7 @@ export type TwitterUserUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   description?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
-  twitter_user_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  twitter_user_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
@@ -11495,7 +11508,7 @@ export type TwitterUserUpdateWithoutTweetsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   description?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
-  twitter_user_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  twitter_user_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneWithoutTwitter_UserInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -11506,7 +11519,7 @@ export type TwitterUserUpdateWithoutUserInput = {
   description?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   tweets?: InputMaybe<TwitterTweetUpdateManyWithoutTwitter_UserInput>;
-  twitter_user_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  twitter_user_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
@@ -11530,7 +11543,7 @@ export type TwitterUserWhereInput = {
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
   tweets?: InputMaybe<TwitterTweetListRelationFilter>;
-  twitter_user_id?: InputMaybe<IntFilter>;
+  twitter_user_id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   user_id?: InputMaybe<IntNullableFilter>;
@@ -11539,7 +11552,7 @@ export type TwitterUserWhereInput = {
 
 export type TwitterUserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
-  twitter_user_id?: InputMaybe<Scalars['Int']>;
+  twitter_user_id?: InputMaybe<Scalars['String']>;
   user_id?: InputMaybe<Scalars['Int']>;
 };
 
@@ -12820,24 +12833,24 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
-export type LinearJobFieldsFragmentFragment = { id: number, createdAt: any, updatedAt: any, completedDate: any, startDate: any };
+export type JobFieldsFragmentFragment = { id: number, createdAt: any, updatedAt: any, completedDate: any, name: string, startDate: any };
 
-export type ListLinearJobRunsQueryVariables = Exact<{
-  where?: LinearJobRunWhereInput;
+export type ListJobRunsQueryVariables = Exact<{
+  where?: JobRunWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<LinearJobRunOrderByWithRelationInput> | LinearJobRunOrderByWithRelationInput>;
+  orderBy?: InputMaybe<Array<JobRunOrderByWithRelationInput> | JobRunOrderByWithRelationInput>;
 }>;
 
 
-export type ListLinearJobRunsQuery = { result: Array<{ id: number, createdAt: any, updatedAt: any, completedDate: any, startDate: any }> };
+export type ListJobRunsQuery = { result: Array<{ id: number, createdAt: any, updatedAt: any, completedDate: any, name: string, startDate: any }> };
 
-export type GetLinearJobRunQueryVariables = Exact<{
-  where: LinearJobRunWhereUniqueInput;
+export type GetJobRunQueryVariables = Exact<{
+  where: JobRunWhereUniqueInput;
 }>;
 
 
-export type GetLinearJobRunQuery = { result?: { id: number, createdAt: any, updatedAt: any, completedDate: any, startDate: any } | null };
+export type GetJobRunQuery = { result?: { id: number, createdAt: any, updatedAt: any, completedDate: any, name: string, startDate: any } | null };
 
 export type BulkCreateIssuesMutationVariables = Exact<{
   data: Array<LinearIssueCreateManyInput> | LinearIssueCreateManyInput;
@@ -12893,12 +12906,12 @@ export type UpsertLinearTeamMutationVariables = Exact<{
 
 export type UpsertLinearTeamMutation = { upsertLinearTeam: { id: number, key: string, name: string, linear_id: string } };
 
-export type CreateLinearJobRunMutationVariables = Exact<{
-  data: LinearJobRunCreateInput;
+export type CreateJobRunMutationVariables = Exact<{
+  data: JobRunCreateInput;
 }>;
 
 
-export type CreateLinearJobRunMutation = { createLinearJobRun: { completedDate: any, startDate: any } };
+export type CreateJobRunMutation = { createJobRun: { completedDate: any, startDate: any, name: string } };
 
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name: string, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } } | null };
 
@@ -12921,6 +12934,17 @@ export type ListTwitterAccountsQueryVariables = Exact<{
 
 
 export type ListTwitterAccountsQuery = { result: Array<{ account_name: string, createdAt: any, id: number, updatedAt: any, guild?: { id: number, name?: string | null } | null }> };
+
+export type TwitterUserFragmentFragment = { createdAt: any, updatedAt: any, description: string, id: number, twitter_user_id: string, username: string, user?: { id: number } | null };
+
+export type UpsertTwitterUserMutationVariables = Exact<{
+  create: TwitterUserCreateInput;
+  update: TwitterUserUpdateInput;
+  where: TwitterUserWhereUniqueInput;
+}>;
+
+
+export type UpsertTwitterUserMutation = { upsertTwitterUser: { createdAt: any, updatedAt: any, description: string, id: number, twitter_user_id: string, username: string, user?: { id: number } | null } };
 
 export type UserFragmentFragment = { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } };
 
@@ -13041,12 +13065,13 @@ export type ListPartnersQueryVariables = Exact<{
 
 export type ListPartnersQuery = { result: Array<{ createdAt: any, updatedAt: any, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
 
-export const LinearJobFieldsFragmentFragmentDoc = gql`
-    fragment LinearJobFieldsFragment on LinearJobRun {
+export const JobFieldsFragmentFragmentDoc = gql`
+    fragment JobFieldsFragment on JobRun {
   id
   createdAt
   updatedAt
   completedDate
+  name
   startDate
 }
     `;
@@ -13124,6 +13149,19 @@ export const TwitterAccountFragmentFragmentDoc = gql`
   }
   id
   updatedAt
+}
+    `;
+export const TwitterUserFragmentFragmentDoc = gql`
+    fragment TwitterUserFragment on TwitterUser {
+  createdAt
+  updatedAt
+  description
+  id
+  twitter_user_id
+  user {
+    id
+  }
+  username
 }
     `;
 export const UserFragmentFragmentDoc = gql`
@@ -13205,25 +13243,20 @@ export const PartnerFragmentFragmentDoc = gql`
   }
 }
     `;
-export const ListLinearJobRunsDocument = gql`
-    query listLinearJobRuns($where: LinearJobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearJobRunOrderByWithRelationInput!]) {
-  result: linearJobRuns(
-    where: $where
-    skip: $skip
-    take: $first
-    orderBy: $orderBy
-  ) {
-    ...LinearJobFieldsFragment
+export const ListJobRunsDocument = gql`
+    query listJobRuns($where: JobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [JobRunOrderByWithRelationInput!]) {
+  result: jobRuns(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...JobFieldsFragment
   }
 }
-    ${LinearJobFieldsFragmentFragmentDoc}`;
-export const GetLinearJobRunDocument = gql`
-    query getLinearJobRun($where: LinearJobRunWhereUniqueInput!) {
-  result: linearJobRun(where: $where) {
-    ...LinearJobFieldsFragment
+    ${JobFieldsFragmentFragmentDoc}`;
+export const GetJobRunDocument = gql`
+    query getJobRun($where: JobRunWhereUniqueInput!) {
+  result: jobRun(where: $where) {
+    ...JobFieldsFragment
   }
 }
-    ${LinearJobFieldsFragmentFragmentDoc}`;
+    ${JobFieldsFragmentFragmentDoc}`;
 export const BulkCreateIssuesDocument = gql`
     mutation bulkCreateIssues($data: [LinearIssueCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyLinearIssue(data: $data, skipDuplicates: $skipDuplicates) {
@@ -13275,11 +13308,12 @@ export const UpsertLinearTeamDocument = gql`
   }
 }
     `;
-export const CreateLinearJobRunDocument = gql`
-    mutation createLinearJobRun($data: LinearJobRunCreateInput!) {
-  createLinearJobRun(data: $data) {
+export const CreateJobRunDocument = gql`
+    mutation createJobRun($data: JobRunCreateInput!) {
+  createJobRun(data: $data) {
     completedDate
     startDate
+    name
   }
 }
     `;
@@ -13302,6 +13336,13 @@ export const ListTwitterAccountsDocument = gql`
   }
 }
     ${TwitterAccountFragmentFragmentDoc}`;
+export const UpsertTwitterUserDocument = gql`
+    mutation upsertTwitterUser($create: TwitterUserCreateInput!, $update: TwitterUserUpdateInput!, $where: TwitterUserWhereUniqueInput!) {
+  upsertTwitterUser(create: $create, update: $update, where: $where) {
+    ...TwitterUserFragment
+  }
+}
+    ${TwitterUserFragmentFragmentDoc}`;
 export const GetUserDocument = gql`
     query getUser($where: UserWhereUniqueInput!) {
   result: user(where: $where) {
@@ -13416,11 +13457,11 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    listLinearJobRuns(variables?: ListLinearJobRunsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListLinearJobRunsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListLinearJobRunsQuery>(ListLinearJobRunsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listLinearJobRuns', 'query');
+    listJobRuns(variables?: ListJobRunsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListJobRunsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListJobRunsQuery>(ListJobRunsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listJobRuns', 'query');
     },
-    getLinearJobRun(variables: GetLinearJobRunQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetLinearJobRunQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetLinearJobRunQuery>(GetLinearJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getLinearJobRun', 'query');
+    getJobRun(variables: GetJobRunQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetJobRunQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetJobRunQuery>(GetJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getJobRun', 'query');
     },
     bulkCreateIssues(variables: BulkCreateIssuesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateIssuesMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateIssuesMutation>(BulkCreateIssuesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateIssues', 'mutation');
@@ -13440,14 +13481,17 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     upsertLinearTeam(variables: UpsertLinearTeamMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearTeamMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearTeamMutation>(UpsertLinearTeamDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearTeam', 'mutation');
     },
-    createLinearJobRun(variables: CreateLinearJobRunMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateLinearJobRunMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateLinearJobRunMutation>(CreateLinearJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createLinearJobRun', 'mutation');
+    createJobRun(variables: CreateJobRunMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateJobRunMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateJobRunMutation>(CreateJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createJobRun', 'mutation');
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');
     },
     listTwitterAccounts(variables?: ListTwitterAccountsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListTwitterAccountsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListTwitterAccountsQuery>(ListTwitterAccountsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listTwitterAccounts', 'query');
+    },
+    upsertTwitterUser(variables: UpsertTwitterUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertTwitterUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertTwitterUserMutation>(UpsertTwitterUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertTwitterUser', 'mutation');
     },
     getUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUser', 'query');

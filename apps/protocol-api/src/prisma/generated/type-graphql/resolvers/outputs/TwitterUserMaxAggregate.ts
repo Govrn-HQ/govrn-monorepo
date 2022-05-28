@@ -22,10 +22,10 @@ export class TwitterUserMaxAggregate {
   })
   updatedAt!: Date | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  twitter_user_id!: number | null;
+  twitter_user_id!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

@@ -294,12 +294,13 @@ model LinearTeam {
 // Job specific model
 ////
 
-model LinearJobRun {
+model JobRun {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   completedDate DateTime
   startDate DateTime
+  name String
 }
 
 ////
@@ -310,7 +311,7 @@ model TwitterUser {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  twitter_user_id Int
+  twitter_user_id String
   name String
   username String
   description String

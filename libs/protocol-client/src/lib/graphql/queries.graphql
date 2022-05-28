@@ -1,29 +1,30 @@
 
 # Job run
-fragment LinearJobFieldsFragment on LinearJobRun {
+fragment JobFieldsFragment on JobRun {
   id
   createdAt
   updatedAt
   completedDate
+  name
   startDate
 }
 
-query listLinearJobRuns($where: LinearJobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearJobRunOrderByWithRelationInput!]) {
-    result: linearJobRuns(
+query listJobRuns($where: JobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [JobRunOrderByWithRelationInput!]) {
+    result: jobRuns(
         where: $where,
         skip: $skip,
         take: $first,
         orderBy: $orderBy,
     ) {
-      ...LinearJobFieldsFragment
+      ...JobFieldsFragment
     }
 }
 
-query getLinearJobRun($where: LinearJobRunWhereUniqueInput!,) {
-    result: linearJobRun(
+query getJobRun($where: JobRunWhereUniqueInput!,) {
+    result: jobRun(
         where: $where,
     ) {
-      ...LinearJobFieldsFragment
+      ...JobFieldsFragment
     }
 }
 
@@ -86,11 +87,12 @@ mutation upsertLinearTeam($create: LinearTeamCreateInput!, $update:  LinearTeamU
   }
 }
 
-# Linear Job Run
-mutation createLinearJobRun($data: LinearJobRunCreateInput!) {
-  createLinearJobRun(data: $data) {
+# Job Run
+mutation createJobRun($data: JobRunCreateInput!) {
+  createJobRun(data: $data) {
     completedDate
     startDate
+    name
   }
 }
 
@@ -140,6 +142,25 @@ query listTwitterAccounts($where: TwitterAccountWhereInput! = {}, $skip: Int! = 
     ) {
       ...TwitterAccountFragment
     }
+}
+
+fragment TwitterUserFragment on TwitterUser {
+  createdAt
+  updatedAt
+  description
+  id
+  twitter_user_id
+  user {
+    id
+  }
+  username
+}
+
+
+mutation upsertTwitterUser($create: TwitterUserCreateInput!, $update:  TwitterUserUpdateInput!, $where: TwitterUserWhereUniqueInput!) {
+  upsertTwitterUser(create: $create, update: $update, where: $where) {
+    ...TwitterUserFragment
+  }
 }
 
 
