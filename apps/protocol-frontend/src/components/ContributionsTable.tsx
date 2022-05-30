@@ -14,6 +14,7 @@ import {
   chakra,
   Badge,
 } from '@chakra-ui/react';
+import { useUser } from '../contexts/UserContext';
 import { format } from 'date-fns';
 import { useTable, useSortBy, useFilters, useGlobalFilter } from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
@@ -26,6 +27,8 @@ import EditContributionForm from './EditContributionForm';
 // import EditContributionForm from './EditContributionForm';
 
 const ContributionsTable = ({ contributionsData }: any) => {
+  const { userData } = useUser();
+
   console.log('data', contributionsData);
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
@@ -44,6 +47,7 @@ const ContributionsTable = ({ contributionsData }: any) => {
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
         attestations: contribution.attestations || null,
+        user: contribution.user.id,
         // attestations:
         //   contribution.attestations !== null
         //     ? Object.keys(contribution.attestations).length
@@ -121,12 +125,14 @@ const ContributionsTable = ({ contributionsData }: any) => {
               variant="ghost"
               color="gray.800"
               aria-label="Edit Contribution"
+              disabled={row.original.user.id !== userData.user}
               onClick={() => handleEditContributionFormModal(row.original.id)}
             />
             <IconButton
               icon={<FiTrash2 fontSize="1rem" />}
               variant="ghost"
               color="gray.800"
+              disabled={row.original.user.id !== userData.user}
               aria-label="Delete Contribution"
             />
           </HStack>
@@ -206,6 +212,7 @@ const ContributionsTable = ({ contributionsData }: any) => {
         name="editContributionFormModal"
         title="Update Contribution Activity"
         localOverlay={localOverlay}
+        size="3xl"
         content={
           <EditContributionForm
             contribution={contributionsData.find(

@@ -9,8 +9,6 @@ import { reportFormValidation } from '../utils/validations';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
-
 const useYupValidationResolver = (reportValidationSchema: any) =>
   useCallback(
     async (data) => {
