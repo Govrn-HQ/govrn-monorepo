@@ -145,6 +145,12 @@ const ContributionsTable = ({ contributionsData }: any) => {
     tableHooks,
     useSortBy
   );
+<<<<<<< HEAD
+=======
+  console.log('contributions in table', contributionsData);
+>>>>>>> 4094dad (added debounced GlobalFilter search for ContributionsTable)
+
+  // const { globalFilter } = state;
 
   return (
     <>
