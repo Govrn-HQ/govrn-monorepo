@@ -5,8 +5,6 @@ import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
 
 const ContributionTypesTable = ({ contributionTypesData }: any) => {
-  console.log('types data', contributionTypesData);
-
   const uniqueKey = 'name';
 
   const uniqueContributions = [
@@ -18,11 +16,21 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
     ).values(),
   ];
 
+  // const totalsByType = contributionTypesData.map();
+
+  console.log('types data', contributionTypesData);
+  console.log('unique contributions', uniqueContributions);
+
   const data = useMemo(
     () =>
       uniqueContributions.map((contributionType: any) => ({
         id: contributionType.id,
         name: contributionType.name,
+        total: contributionTypesData.filter(
+          (contribution) =>
+            contribution.activity_type.name ===
+            contributionType.activity_type.name
+        ).length,
         lastOccurrence: contributionType.engagementDate,
         activityType: contributionType.activity_type.name,
         guilds: contributionType.guild,
@@ -43,6 +51,10 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
       {
         Header: 'Activity Type',
         accessor: 'activityType',
+      },
+      {
+        Header: 'Total',
+        accessor: 'total',
       },
       {
         Header: 'Name',
