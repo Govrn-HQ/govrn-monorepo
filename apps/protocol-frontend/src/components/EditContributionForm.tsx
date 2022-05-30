@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Stack, Flex, Button, Text } from '@chakra-ui/react';
 import { Input, Textarea, DatePicker, Select } from '@govrn/protocol-ui';
 import { GovrnProtocol } from '@govrn/protocol-client';
@@ -67,9 +67,17 @@ const EditContributionForm = ({
     mode: 'all',
     resolver: useYupValidationResolver(editContributionFormValidation),
   });
-  const { handleSubmit } = localForm;
-  const [engagementDateValue, setEngagementDateValue] = useState(new Date());
+  const { handleSubmit, setValue, getValues } = localForm;
+  const [engagementDateValue, setEngagementDateValue] = useState(
+    new Date(contribution?.date_of_engagement)
+  );
   console.log('contribution', contribution);
+  console.log('contribution activity type', contribution.activity_type.name);
+
+  useEffect(() => {
+    setValue('engagementDate', new Date(contribution?.date_of_engagement));
+    setValue('activityType', mappedSelectedActivityType);
+  }, [contribution]);
 
   const editContribution = async (values: any) => {
     try {
@@ -149,6 +157,10 @@ const EditContributionForm = ({
         <Select
           name="activityType"
           label="Activity Type"
+          defaultValue={{
+            value: contribution?.activity_type?.name,
+            label: contribution?.activity_type?.name,
+          }}
           onChange={(activity) => {
             setValue('activityType', activity.value);
           }}
