@@ -15,6 +15,7 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
+
 import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';

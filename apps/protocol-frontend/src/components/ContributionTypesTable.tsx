@@ -27,7 +27,7 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
         id: contributionType.id,
         name: contributionType.name,
         total: contributionTypesData.filter(
-          (contribution) =>
+          (contribution: any) =>
             contribution.activity_type.name ===
             contributionType.activity_type.name
         ).length,
