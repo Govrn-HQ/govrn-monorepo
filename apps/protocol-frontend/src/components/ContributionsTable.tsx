@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   // Checkbox,
   Table,
@@ -33,7 +33,10 @@ import EditContributionForm from './EditContributionForm';
 
 // import EditContributionForm from './EditContributionForm';
 
-const ContributionsTable = ({ contributionsData }: any) => {
+const ContributionsTable = ({
+  contributionsData,
+  setSelectedContributions,
+}: any) => {
   const { userData } = useUser();
 
   console.log('data', contributionsData);
@@ -182,6 +185,12 @@ const ContributionsTable = ({ contributionsData }: any) => {
   console.log('contributions in table', contributionsData);
 
   console.log('selected row', selectedFlatRows);
+
+  useEffect(() => {
+    console.log('selectedContribution in Table useEffect', selectedFlatRows);
+    setSelectedContributions(selectedFlatRows);
+  }, [selectedFlatRows, selectedRowIds]);
+
   return (
     <>
       <GlobalFilter

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Container,
   Stack,
@@ -20,13 +20,16 @@ import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
-import { mockContributions, mockContributionTypes } from '../utils/mockData';
 
 const ContributionsTableShell = () => {
   const { userContributions } = useUser();
   // const [contributions, setContributions] = useState(userContributions);
-
+  const [selectedContributions, setSelectedContributions] = useState(null);
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const handleMintContributions = () => {
+    console.log('minting contributions:', selectedContributions);
+  };
 
   return (
     <Container
@@ -68,13 +71,17 @@ const ContributionsTableShell = () => {
                         _hover={{ bgColor: 'brand.primary.100' }}
                         flexBasis="10%"
                         colorScheme="brand.primary"
+                        onClick={handleMintContributions}
                       >
                         Mint
                       </Button>
                     </Stack>
                   </Box>
                   <Box overflowX="auto" width="100%">
-                    <ContributionsTable contributionsData={userContributions} />
+                    <ContributionsTable
+                      contributionsData={userContributions}
+                      setSelectedContributions={setSelectedContributions}
+                    />
                   </Box>
                   <Box px={{ base: '4', md: '6' }} pb="5">
                     <HStack spacing="3" justify="space-between">
