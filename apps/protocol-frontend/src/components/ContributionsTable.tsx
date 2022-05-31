@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import {
-  Checkbox,
+  // Checkbox,
   Table,
   Stack,
   HStack,
@@ -16,11 +16,18 @@ import {
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { format } from 'date-fns';
-import { useTable, useSortBy, useFilters, useGlobalFilter } from 'react-table';
+import {
+  useTable,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+  useRowSelect,
+} from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { ModalWrapper } from '@govrn/protocol-ui';
 import { useOverlay } from '../contexts/OverlayContext';
+import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 
@@ -71,10 +78,10 @@ const ContributionsTable = ({ contributionsData }: any) => {
         accessor: 'name',
         Cell: ({ value }) => {
           return (
-            <Stack direction="row">
-              <Checkbox size="lg" />
-              <Text>{value}</Text>
-            </Stack>
+            // <Stack direction="row">
+            //   <Checkbox size="lg" />
+            <Text>{value}</Text>
+            // </Stack>
           );
         },
       },
@@ -114,6 +121,18 @@ const ContributionsTable = ({ contributionsData }: any) => {
 
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
+      {
+        id: 'selection',
+        Header: ({ getToggleAllRowsSelectedProps }) => (
+          <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+        ),
+        Cell: ({ row }) => (
+          <IndeterminateCheckbox
+            {...row.getToggleRowSelectedProps()}
+            disabled={row.original.status === 'minted'}
+          />
+        ),
+      },
       ...columns,
       {
         id: 'actions',
@@ -146,20 +165,23 @@ const ContributionsTable = ({ contributionsData }: any) => {
     getTableBodyProps,
     headerGroups,
     rows,
-    state: { globalFilter },
+    state: { globalFilter, selectedRowIds },
     preGlobalFilteredRows,
     setGlobalFilter,
+    selectedFlatRows,
     prepareRow,
   } = useTable(
     { columns, data },
     useFilters,
     useGlobalFilter,
-    tableHooks,
-    useSortBy
+    useSortBy,
+    useRowSelect,
+    tableHooks
   );
 
   console.log('contributions in table', contributionsData);
 
+  console.log('selected row', selectedFlatRows);
   return (
     <>
       <GlobalFilter
