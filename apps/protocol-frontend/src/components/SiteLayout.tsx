@@ -11,7 +11,6 @@ interface SiteLayoutProps {
 
 const SiteLayout: React.FC<SiteLayoutProps> = ({
   children,
-  minHeight = '100vh',
 }: SiteLayoutProps) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   const location = useLocation();
