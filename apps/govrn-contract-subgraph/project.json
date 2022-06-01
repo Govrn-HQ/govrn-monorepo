@@ -1,0 +1,51 @@
+{
+  "root": "apps/govrn-contract-subgraph",
+  "sourceRoot": "apps/govrn-contract-subgraph/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "graph codegen subgraph.yaml && graph build --network-file ./networks.json",
+
+        "cwd": "apps/govrn-contract-subgraph"
+      }
+    },
+    "serve": {
+      "executor": "@alexkeating/nx-subgraph:serve",
+      "options": {
+        "daemonMode": true,
+        "composePath": "docker-compose.yml"
+      }
+    },
+    "stop": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "docker compose kill",
+        "cwd": "apps/govrn-contract-subgraph"
+      }
+    },
+    "deployLocal": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "graph deploy govrn-protocol --node http://127.0.0.1:8020 --ipfs http://localhost:5001",
+        "cwd": "apps/govrn-contract-subgraph"
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ alexkeating/govrn-protocol",
+        "cwd": "apps/govrn-contract-subgraph"
+      }
+    },
+    "create": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "graph create govrn-contract-subgraph --node http://127.0.0.1:8020",
+        "cwd": "apps/govrn-contract-subgraph"
+      }
+    }
+  },
+  "tags": []
+}

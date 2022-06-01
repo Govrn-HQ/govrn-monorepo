@@ -6,6 +6,7 @@
     "contribution-report": "apps/contribution-report",
     "govrn-contract": "apps/govrn-contract",
     "govrn-contract-client": "libs/govrn-contract-client",
+    "govrn-contract-subgraph": "apps/govrn-contract-subgraph",
     "linear-sync-job": "apps/linear-sync-job",
     "protocol-api": "apps/protocol-api",
     "protocol-client": "libs/protocol-client",
