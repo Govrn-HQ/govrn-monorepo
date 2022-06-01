@@ -85,7 +85,7 @@ const EditContributionForm = ({
         throw new Error('You can only edit your own Contributions.');
       }
       console.log('values', values);
-      if (contribution.status !== 'staging') {
+      if (contribution.status.name !== 'staging') {
         throw new Error(
           'You can only edit Contributions with a Staging status.'
         );
@@ -107,9 +107,15 @@ const EditContributionForm = ({
               },
             },
           },
-          name: values.name,
-          details: values.details,
-          proof: values.proof,
+          name: {
+            set: values.name,
+          },
+          details: {
+            set: values.details,
+          },
+          proof: {
+            set: values.proof,
+          },
           activity_type: {
             connectOrCreate: {
               create: {
@@ -120,7 +126,9 @@ const EditContributionForm = ({
               },
             },
           },
-          // date_of_engagement: new Date(values.engagementDate).toISOString(),
+          date_of_engagement: {
+            set: new Date(values.engagementDate).toISOString(),
+          },
           status: {
             connectOrCreate: {
               create: {
