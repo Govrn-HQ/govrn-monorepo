@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { formatAddress, useWallet } from '@raidguild/quiver';
+import { formatAddress } from '@raidguild/quiver';
 import {
   Flex,
   Heading,

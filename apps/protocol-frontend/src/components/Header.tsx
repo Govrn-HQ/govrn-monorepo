@@ -6,11 +6,7 @@ import {
   Link as ChakraLink,
   VisuallyHidden,
   HStack,
-  // useDisclosure,
 } from '@chakra-ui/react';
-// import Logo from '@/components/Logo';
-// import { useInjectedProvider } from '../contexts/InjectedProviderContexts';
-// import { truncateAddress } from '../utils/helpers/general';
 import Logo from './Logo';
 import ConnectWallet from './ConnectWallet';
 
@@ -20,10 +16,6 @@ const Header: React.FC = () => {
       direction="row"
       justifyContent="center"
       alignItems="center"
-      // minWidth="100vw"
-      // position="fixed" // can make fixed if we need but will
-      // top="0"
-      // zIndex="1000"
       flex="1"
       backgroundColor="white"
       boxShadow="sm"

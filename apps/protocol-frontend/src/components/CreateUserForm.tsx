@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GovrnProtocol } from '@govrn/protocol-client';
-import { formatAddress, useWallet } from '@raidguild/quiver';
+import { useWallet } from '@raidguild/quiver';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';

@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { Stack, Flex, Button, Text } from '@chakra-ui/react';
-import { Select, Input } from '@govrn/protocol-ui';
+import { Select } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { GovrnProtocol } from '@govrn/protocol-client';
-
 import { useUser } from '../contexts/UserContext';
 import { addAttestationFormValidation } from '../utils/validations';
 

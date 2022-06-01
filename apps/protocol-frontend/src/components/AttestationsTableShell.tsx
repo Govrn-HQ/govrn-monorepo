@@ -13,11 +13,9 @@ import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 
-import { mockAttestations } from '../utils/mockData';
-
 const AttestationsTableShell = () => {
   const { userContributions } = useUser();
-  console.log('user contributions (attestations)', userContributions);
+
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Container
@@ -49,15 +47,10 @@ const AttestationsTableShell = () => {
                   _hover={{ bgColor: 'brand.primary.100' }}
                   flexBasis="10%"
                   colorScheme="brand.primary"
+                  disabled={true}
                 >
                   Vouch
                 </Button>
-                {/* <InputGroup maxW="xs">
-                <InputLeftElement pointerEvents="none">
-                  <Icon as={FiSearch} color="muted" boxSize="5" />
-                </InputLeftElement>
-                <Input placeholder="Search" />
-              </InputGroup> */}
               </Stack>
             </Box>
             <Box overflowX="auto">

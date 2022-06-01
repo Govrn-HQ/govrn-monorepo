@@ -1,8 +1,7 @@
 import React from 'react';
-import { Grid, Flex, Box, useBreakpointValue } from '@chakra-ui/react';
-import Header from './Header';
+import { Grid, Flex, useBreakpointValue } from '@chakra-ui/react';
 import Sidebar from './Sidebar';
-import { matchRoutes, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import FloatingReportButton from './FloatingReportButton';
 
 interface SiteLayoutProps {

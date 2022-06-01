@@ -1,8 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
-  // Checkbox,
   Table,
-  Stack,
   HStack,
   IconButton,
   Tbody,

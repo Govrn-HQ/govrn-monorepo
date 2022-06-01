@@ -13,12 +13,9 @@ import {
   TabList,
   TabPanels,
   TabPanel,
-  Tooltip,
   Alert,
-  AlertStatus,
   AlertIcon,
   AlertDescription,
-  AlertTitle,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
