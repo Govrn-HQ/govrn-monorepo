@@ -45,7 +45,13 @@ const useYupValidationResolver = (userValidationSchema: any) =>
     [userValidationSchema]
   );
 
-const confidenceLevels = [1, 2, 3];
+const confidenceLevels = [
+  'witnessed',
+  'verified_proof',
+  'hearsay',
+  'implicit',
+  'unsure',
+];
 
 const confidenceLevelOptions = confidenceLevels.map((confidence) => ({
   value: confidence,
@@ -67,7 +73,6 @@ const AddAttestationForm = ({
 
   const addAttestation = async (values: any) => {
     try {
-      console.log('values', values.confidenceLevel);
       const response = await govrn.attestation.create({
         data: {
           user: {
@@ -103,7 +108,6 @@ const AddAttestationForm = ({
           },
         },
       });
-      console.log('response', response);
     } catch (error) {
       console.log(error);
     }

@@ -35,12 +35,11 @@ const ContributionsTableShell = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log('selectedContributions', selectedContributions);
   const handleMintContributions = () => {
-    console.log('minting contributions:', selectedContributions);
-
-    selectedContributions.map((contribution, idx) =>
-      console.log(`contribution: ${idx}`, contribution.original)
+    selectedContributions.map(
+      (contribution, idx) =>
+        console.log(`contribution: ${idx}`, contribution.original)
+      // mint logic
     );
   };
 

@@ -61,19 +61,16 @@ const ProfileForm = () => {
   const { handleSubmit, setValue, getValues } = localForm;
 
   useEffect(() => {
-    console.log('userdata in form', userData);
     setValue('name', userData?.name);
     setValue('address', userData?.address);
   }, [userData]);
 
   const submitProfile = async (values: any) => {
     try {
-      console.log('submitProfile', values);
       const response = await govrn.user.update(
         { name: { set: values.name } },
         { id: userData.id }
       );
-      console.log('response', response);
     } catch (error) {
       console.error(error);
     }
@@ -90,7 +87,6 @@ const ProfileForm = () => {
       url: userData.url || '',
     };
     try {
-      console.log('submitLinearEmail', values);
       const response = await govrn.linear.user.upsert({
         create: linearAssignee,
         update: { email: { set: values.userLinearEmail } },

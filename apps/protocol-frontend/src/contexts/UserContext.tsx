@@ -39,7 +39,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           where: { address: { equals: address } },
         });
         setUserDataByAddress(userDataByAddressResponse);
-        console.log('userDataByAddressResponse', userDataByAddressResponse);
+
         return userDataByAddress;
       } catch (error) {
         console.error(error);
@@ -83,7 +83,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           userData.id
         );
         setUserActivityTypes(userActivityTypesResponse);
-        console.log('userActivityTypesResponse', userActivityTypesResponse);
+
         return userActivityTypesResponse;
       } catch (error) {
         console.error(error);

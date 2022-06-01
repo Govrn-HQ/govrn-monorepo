@@ -48,7 +48,7 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
 const ReportForm = () => {
   const { chainId } = useWallet();
   const { userData, userActivityTypes } = useUser();
-  console.log('user at', userActivityTypes);
+
   const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',

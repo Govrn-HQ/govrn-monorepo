@@ -39,7 +39,6 @@ const ContributionsTable = ({
 }: any) => {
   const { userData } = useUser();
 
-  console.log('data', contributionsData);
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<any>();
@@ -183,12 +182,7 @@ const ContributionsTable = ({
     tableHooks
   );
 
-  console.log('contributions in table', contributionsData);
-
-  console.log('selected row', selectedFlatRows);
-
   useEffect(() => {
-    console.log('selectedContribution in Table useEffect', selectedFlatRows);
     setSelectedContributions(selectedFlatRows);
   }, [selectedFlatRows, selectedRowIds]);
 

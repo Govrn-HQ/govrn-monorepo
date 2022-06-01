@@ -63,8 +63,6 @@ const EditContributionForm = ({
   const [engagementDateValue, setEngagementDateValue] = useState(
     new Date(contribution?.date_of_engagement)
   );
-  console.log('contribution', contribution);
-  console.log('contribution activity type', contribution.activity_type.name);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -101,7 +99,7 @@ const EditContributionForm = ({
       if (userData.id !== contribution.user.id) {
         throw new Error('You can only edit your own Contributions.');
       }
-      console.log('values', values);
+
       if (contribution.status.name !== 'staging') {
         throw new Error(
           'You can only edit Contributions with a Staging status.'
@@ -161,7 +159,6 @@ const EditContributionForm = ({
           id: contribution.id,
         },
       });
-      console.log('response', response);
     } catch (error) {
       console.log(error);
     }

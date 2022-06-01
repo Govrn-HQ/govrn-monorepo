@@ -20,8 +20,6 @@ import GlobalFilter from './GlobalFilter';
 import AddAttestationForm from './AddAttestationForm';
 
 const AttestationsTable = ({ contributionsData }: any) => {
-  console.log('contributions data', contributionsData);
-
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<any>();

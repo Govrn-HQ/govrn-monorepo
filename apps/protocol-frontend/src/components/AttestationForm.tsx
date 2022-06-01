@@ -37,7 +37,6 @@ const useYupValidationResolver = (userValidationSchema: any) =>
 
 const createAttestation = async (values: any) => {
   try {
-    console.log('createAttestation', values);
   } catch (error) {
     console.log(error);
   }

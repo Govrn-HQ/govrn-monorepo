@@ -18,9 +18,6 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
 
   // const totalsByType = contributionTypesData.map();
 
-  console.log('types data', contributionTypesData);
-  console.log('unique contributions', uniqueContributions);
-
   const data = useMemo(
     () =>
       uniqueContributions.map((contributionType: any) => ({
