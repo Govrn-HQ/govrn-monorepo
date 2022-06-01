@@ -75,6 +75,9 @@ const EditContributionForm = ({
   console.log('contribution activity type', contribution.activity_type.name);
 
   useEffect(() => {
+    setValue('name', contribution?.name);
+    setValue('details', contribution?.details);
+    setValue('proof', contribution?.proof);
     setValue('engagementDate', new Date(contribution?.date_of_engagement));
     setValue('activityType', contribution.activity_type.name);
   }, [contribution]);
@@ -181,6 +184,7 @@ const EditContributionForm = ({
           tip="Briefly describe your Contribution"
           placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
           variant="outline"
+          defaultValue={contribution.details}
           localForm={localForm}
         />
         <Input
@@ -188,6 +192,7 @@ const EditContributionForm = ({
           label="Proof of Contribution"
           tip="Please add a URL to a proof of your contribution."
           placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
+          defaultValue={contribution.proof}
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
         <DatePicker

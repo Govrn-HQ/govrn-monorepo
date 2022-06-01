@@ -38,6 +38,7 @@ const ContributionsTableShell = () => {
   console.log('selectedContributions', selectedContributions);
   const handleMintContributions = () => {
     console.log('minting contributions:', selectedContributions);
+
     selectedContributions.map((contribution, idx) =>
       console.log(`contribution: ${idx}`, contribution.original)
     );
