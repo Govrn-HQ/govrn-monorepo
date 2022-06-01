@@ -1,3 +1,5 @@
+export { default as CreatableSelect } from './CreatableSelect';
+export type { CreatableSelectProps } from './CreatableSelect';
 export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 export { default as Input } from './Input';

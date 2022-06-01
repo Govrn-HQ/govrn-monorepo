@@ -2,7 +2,12 @@ import { useCallback, useState } from 'react';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
-import { Input, Textarea, DatePicker, Select } from '@govrn/protocol-ui';
+import {
+  Input,
+  Textarea,
+  DatePicker,
+  CreatableSelect,
+} from '@govrn/protocol-ui';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
@@ -127,9 +132,10 @@ const ReportForm = () => {
           placeholder="Govrn Protocol Pull Request"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
-        <Select
+        <CreatableSelect
           name="activityType"
           label="Activity Type"
+          placeholder="Select an activity type or add a new one"
           onChange={(activity) => {
             setValue('activityType', activity.value);
           }}

@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Stack, Flex, Button, Text } from '@chakra-ui/react';
-import { Input, Textarea, DatePicker, Select } from '@govrn/protocol-ui';
+import {
+  Input,
+  Textarea,
+  DatePicker,
+  CreatableSelect,
+} from '@govrn/protocol-ui';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { useForm } from 'react-hook-form';
 import { useUser } from '../contexts/UserContext';
@@ -165,7 +170,7 @@ const EditContributionForm = ({
           defaultValue={contribution.name}
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
-        <Select
+        <CreatableSelect
           name="activityType"
           label="Activity Type"
           defaultValue={{
