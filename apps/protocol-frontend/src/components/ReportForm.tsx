@@ -45,24 +45,10 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
     [reportFormValidation]
   );
 
-// TODO: Update these to pull in from a set list or config file
-
-const activityTypesList = [
-  'Pull Request',
-  'Documentation',
-  'Note Taking',
-  'Design',
-  'Other',
-];
-
-const activityTypeOptions = activityTypesList.map((activity) => ({
-  value: activity,
-  label: activity,
-}));
-
 const ReportForm = () => {
   const { chainId } = useWallet();
-  const { userData } = useUser();
+  const { userData, userActivityTypes } = useUser();
+  console.log('user at', userActivityTypes);
   const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',
@@ -70,6 +56,30 @@ const ReportForm = () => {
   });
   const { handleSubmit, setValue } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
+
+  // TODO: Update these to pull in from a set list or config file
+
+  const activityTypesList = [
+    'Pull Request',
+    'Documentation',
+    'Note Taking',
+    'Design',
+    'Other',
+  ];
+
+  const combinedActivityTypesList = [
+    ...new Set([
+      ...activityTypesList,
+      ...userActivityTypes.map((activity) => activity.name),
+    ]),
+  ];
+
+  const combinedActivityTypeOptions = combinedActivityTypesList.map(
+    (activity) => ({
+      value: activity,
+      label: activity,
+    })
+  );
 
   const createContribution = async (values: any) => {
     try {
@@ -139,7 +149,7 @@ const ReportForm = () => {
           onChange={(activity) => {
             setValue('activityType', activity.value);
           }}
-          options={activityTypeOptions}
+          options={combinedActivityTypeOptions}
           localForm={localForm}
         />
         <Textarea

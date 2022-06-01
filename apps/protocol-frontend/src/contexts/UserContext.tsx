@@ -26,6 +26,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userData, setUserData] = useState<any>(null);
   const [userContributions, setUserContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
+  const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
 
   useEffect(() => {
     setUserAddress(address);
@@ -76,6 +77,22 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   }, [userData]);
 
   useEffect(() => {
+    const getUserActivityTypes = async () => {
+      try {
+        const userActivityTypesResponse = await govrn.activity_type.list(
+          userData.id
+        );
+        setUserActivityTypes(userActivityTypesResponse);
+        console.log('userActivityTypesResponse', userActivityTypesResponse);
+        return userActivityTypesResponse;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserActivityTypes();
+  }, [userData]);
+
+  useEffect(() => {
     const getUserAttestations = async () => {
       try {
         const userAttestationsResponse = await govrn.attestation.list(
@@ -103,6 +120,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserContributions,
         userAttestations,
         setUserAttestations,
+        userActivityTypes,
+        setUserActivityTypes,
       }}
     >
       {children}
@@ -122,6 +141,8 @@ export const useUser = () => {
     setUserContributions,
     userAttestations,
     setUserAttestations,
+    userActivityTypes,
+    setUserActivityTypes,
   } = useContext(UserContext);
   return {
     userAddress,
@@ -134,5 +155,7 @@ export const useUser = () => {
     setUserContributions,
     userAttestations,
     setUserAttestations,
+    userActivityTypes,
+    setUserActivityTypes,
   };
 };

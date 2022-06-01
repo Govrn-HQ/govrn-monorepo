@@ -49,24 +49,11 @@ const useYupValidationResolver = (userValidationSchema: any) =>
     [userValidationSchema]
   );
 
-const activityTypesList = [
-  'Pull Request',
-  'Documentation',
-  'Note Taking',
-  'Design',
-  'Other',
-];
-
-const activityTypeOptions = activityTypesList.map((activity) => ({
-  value: activity,
-  label: activity,
-}));
-
 const EditContributionForm = ({
   contribution,
   onClose,
 }: EditContributionFormProps) => {
-  const { userData } = useUser();
+  const { userData, userActivityTypes } = useUser();
   const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',
@@ -86,6 +73,28 @@ const EditContributionForm = ({
     setValue('engagementDate', new Date(contribution?.date_of_engagement));
     setValue('activityType', contribution.activity_type.name);
   }, [contribution]);
+
+  const activityTypesList = [
+    'Pull Request',
+    'Documentation',
+    'Note Taking',
+    'Design',
+    'Other',
+  ];
+
+  const combinedActivityTypesList = [
+    ...new Set([
+      ...activityTypesList,
+      ...userActivityTypes.map((activity) => activity.name),
+    ]),
+  ];
+
+  const combinedActivityTypeOptions = combinedActivityTypesList.map(
+    (activity) => ({
+      value: activity,
+      label: activity,
+    })
+  );
 
   const editContribution = async (values: any) => {
     try {
@@ -180,7 +189,7 @@ const EditContributionForm = ({
           onChange={(activity) => {
             setValue('activityType', activity.value);
           }}
-          options={activityTypeOptions}
+          options={combinedActivityTypeOptions}
           localForm={localForm}
         />
         <Textarea
