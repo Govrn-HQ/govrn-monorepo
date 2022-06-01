@@ -76,7 +76,7 @@ const EditContributionForm = ({
 
   useEffect(() => {
     setValue('engagementDate', new Date(contribution?.date_of_engagement));
-    setValue('activityType', mappedSelectedActivityType);
+    setValue('activityType', contribution.activity_type.name);
   }, [contribution]);
 
   const editContribution = async (values: any) => {
