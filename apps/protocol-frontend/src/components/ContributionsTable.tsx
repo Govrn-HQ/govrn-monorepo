@@ -58,6 +58,7 @@ const ContributionsTable = ({
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
         attestations: contribution.attestations || null,
         user: contribution.user.id,
+        activityTypeId: contribution.activity_type.id,
         // attestations:
         //   contribution.attestations !== null
         //     ? Object.keys(contribution.attestations).length
