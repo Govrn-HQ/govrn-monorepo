@@ -1,0 +1,27 @@
+fragment contributionFields on Contribution {
+  id
+  address
+  attestations {
+    id
+  }
+  contributionId
+}
+
+query listDaos(
+  $where: Contribution_filter! = {}
+  $skip: Int! = 0
+  $first: Int! = 100
+  $orderBy: Contribution_orderBy! = id
+  $orderDirection: OrderDirection! = asc
+) {
+  contributions: contributions(
+    where: $where
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+  ) {
+    ...contributionFields
+  }
+}
+

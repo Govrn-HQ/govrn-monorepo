@@ -1,0 +1,45 @@
+{
+  "root": "libs/govrn-subgraph-client",
+  "sourceRoot": "libs/govrn-subgraph-client/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/govrn-subgraph-client",
+        "main": "libs/govrn-subgraph-client/src/index.ts",
+        "tsConfig": "libs/govrn-subgraph-client/tsconfig.lib.json",
+        "assets": ["libs/govrn-subgraph-client/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/govrn-subgraph-client/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/govrn-subgraph-client"],
+      "options": {
+        "jestConfig": "libs/govrn-subgraph-client/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "generate-gql-schema": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "get-graphql-schema https://api.thegraph.com/subgraphs/name/alexkeating/govrn-protocol > libs/govrn-subgraph-client/src/lib/subgraph/schema.graphql"
+      }
+    },
+    "generate-gql-types": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "graphql-codegen --config libs/govrn-subgraph-client/codegen.yaml",
+        "outputPath": "libs/govrn-subgraph-client/src/lib/subgraph/queries"
+      }
+    }
+  },
+  "tags": []
+}
