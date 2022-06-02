@@ -66,9 +66,9 @@ jobs:
       - name: Build
         run: npx nx affected:build --base $BASE
       - name: Create env file
-         run: |
-           touch .env
-         echo VITE_PROTOCOL_URL=https://api.govrn.app  >> .env
+        run: |
+          touch .env
+          echo VITE_PROTOCOL_URL=https://api.govrn.app  >> .env
       - name: Docker Build
         run: npx nx affected --target docker-build --base $BASE --parallel --max-parallel=3
         env:
