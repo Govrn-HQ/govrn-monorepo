@@ -1,2 +1,2 @@
 export * from './lib/protocol-client';
-export { SortOrder, LinearIssueCreateManyInput } from './lib/protocol-types';
+export * from './lib/protocol-types';

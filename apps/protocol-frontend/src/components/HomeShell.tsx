@@ -5,9 +5,7 @@ import { Flex, Button, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
-// import { GovrnProtocol } from '@govrn/protocol-client';
 
-// const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 import { useUser } from '../contexts/UserContext';
 
 const HomeShell = () => {

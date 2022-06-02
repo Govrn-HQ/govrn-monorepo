@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
+import { ChainName } from '../utils/definitions';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -18,13 +19,14 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
-  const { isConnected, address } = useWallet();
+  const { isConnected, address, chainId } = useWallet();
   const govrn = new GovrnProtocol(protocolUrl);
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
   const [userContributions, setUserContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
+  const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
 
   useEffect(() => {
     setUserAddress(address);
@@ -37,6 +39,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           where: { address: { equals: address } },
         });
         setUserDataByAddress(userDataByAddressResponse);
+
         return userDataByAddress;
       } catch (error) {
         console.error(error);
@@ -74,6 +77,22 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   }, [userData]);
 
   useEffect(() => {
+    const getUserActivityTypes = async () => {
+      try {
+        const userActivityTypesResponse = await govrn.activity_type.list(
+          userData.id
+        );
+        setUserActivityTypes(userActivityTypesResponse);
+
+        return userActivityTypesResponse;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserActivityTypes();
+  }, [userData]);
+
+  useEffect(() => {
     const getUserAttestations = async () => {
       try {
         const userAttestationsResponse = await govrn.attestation.list(
@@ -101,6 +120,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserContributions,
         userAttestations,
         setUserAttestations,
+        userActivityTypes,
+        setUserActivityTypes,
       }}
     >
       {children}
@@ -120,6 +141,8 @@ export const useUser = () => {
     setUserContributions,
     userAttestations,
     setUserAttestations,
+    userActivityTypes,
+    setUserActivityTypes,
   } = useContext(UserContext);
   return {
     userAddress,
@@ -132,5 +155,7 @@ export const useUser = () => {
     setUserContributions,
     userAttestations,
     setUserAttestations,
+    userActivityTypes,
+    setUserActivityTypes,
   };
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactSelect from 'react-select';
+import Creatable from 'react-select/creatable';
 import { Controller } from 'react-hook-form';
 import { useTheme, FormControl, Stack, Box } from '@chakra-ui/react';
 import customSelectStyles from './selectStyles';
@@ -22,10 +22,10 @@ type Errors = {
 
 type Option = {
   label: string | number;
-  value: any;
+  value: string | number;
 };
 
-export interface SelectProps {
+export interface CreatableSelectProps {
   name: string;
   label?: string;
   placeholder?: string;
@@ -43,14 +43,14 @@ export interface SelectProps {
   };
   isMulti?: boolean;
   isClearable?: boolean;
-  onChange?: (option: Option | Option[]) => void;
+  onChange?: (option: Option) => void;
   isDisabled?: boolean;
   [x: string]: any;
   variant?: 'outline' | 'filled';
   value?: any;
 }
 
-const Select: React.FC<SelectProps> = ({
+const CreatableSelect: React.FC<CreatableSelectProps> = ({
   label,
   name,
   tip,
@@ -63,7 +63,7 @@ const Select: React.FC<SelectProps> = ({
   isDisabled,
   value,
   localForm,
-}: SelectProps) => {
+}: CreatableSelectProps) => {
   const {
     control,
     formState: { errors },
@@ -83,7 +83,7 @@ const Select: React.FC<SelectProps> = ({
             control={control}
             shouldUnregister={false}
             render={({ field }) => (
-              <ReactSelect
+              <Creatable
                 {...field}
                 onBlur={field.onBlur}
                 options={options}
@@ -115,4 +115,4 @@ const Select: React.FC<SelectProps> = ({
   );
 };
 
-export default Select;
+export default CreatableSelect;

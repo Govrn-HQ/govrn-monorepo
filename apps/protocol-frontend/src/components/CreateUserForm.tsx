@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GovrnProtocol } from '@govrn/protocol-client';
-import { formatAddress, useWallet } from '@raidguild/quiver';
+import { useWallet } from '@raidguild/quiver';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
@@ -50,25 +50,25 @@ const CreateUserForm = () => {
     formState: { isSubmitting },
   } = localForm;
   const govrn = new GovrnProtocol(protocolUrl);
-  const { isConnected, address } = useWallet();
+  const { isConnected, address, chainId } = useWallet();
+
   const navigate = useNavigate();
 
   const createUser = async (values: any) => {
     try {
-      console.log('creating user', values);
       await govrn.user.create({
         data: {
           name: values.username,
           address: address as string,
           chain_type: {
             create: {
-              name: '0x1',
+              name: 'Ethereum Mainnet',
+              // id: parseInt(chainId as string), // create map for this
             },
           },
         },
       });
-      console.log('createUser', values);
-      navigate('/#/contributions');
+      navigate('/contributions');
     } catch (error) {
       console.log(error);
     }

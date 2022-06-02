@@ -1,13 +1,22 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Stack, Flex, Button, Text } from '@chakra-ui/react';
-import { Input } from '@govrn/protocol-ui';
+import {
+  Input,
+  Textarea,
+  DatePicker,
+  CreatableSelect,
+} from '@govrn/protocol-ui';
+import { GovrnProtocol } from '@govrn/protocol-client';
 import { useForm } from 'react-hook-form';
+import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 
 interface EditContributionFormProps {
   contribution: any;
   onClose?: () => void;
 }
+
+const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
@@ -40,24 +49,121 @@ const useYupValidationResolver = (userValidationSchema: any) =>
     [userValidationSchema]
   );
 
-const editContribution = async (values: any) => {
-  try {
-    console.log('editContribution', values);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const EditContributionForm = ({
   contribution,
   onClose,
 }: EditContributionFormProps) => {
+  const { userData, userActivityTypes } = useUser();
+  const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(editContributionFormValidation),
   });
-  const { handleSubmit } = localForm;
-  console.log('contribution', contribution);
+  const { handleSubmit, setValue, getValues } = localForm;
+  const [engagementDateValue, setEngagementDateValue] = useState(
+    new Date(contribution?.date_of_engagement)
+  );
+
+  useEffect(() => {
+    setValue('name', contribution?.name);
+    setValue('details', contribution?.details);
+    setValue('proof', contribution?.proof);
+    setValue('engagementDate', new Date(contribution?.date_of_engagement));
+    setValue('activityType', contribution.activity_type.name);
+  }, [contribution]);
+
+  const activityTypesList = [
+    'Pull Request',
+    'Documentation',
+    'Note Taking',
+    'Design',
+    'Other',
+  ];
+
+  const combinedActivityTypesList = [
+    ...new Set([
+      ...activityTypesList,
+      ...userActivityTypes.map((activity) => activity.name),
+    ]),
+  ];
+
+  const combinedActivityTypeOptions = combinedActivityTypesList.map(
+    (activity) => ({
+      value: activity,
+      label: activity,
+    })
+  );
+
+  const editContribution = async (values: any) => {
+    try {
+      if (userData.id !== contribution.user.id) {
+        throw new Error('You can only edit your own Contributions.');
+      }
+
+      if (contribution.status.name !== 'staging') {
+        throw new Error(
+          'You can only edit Contributions with a Staging status.'
+        );
+      }
+      const response = await govrn.contribution.update({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: userData.address,
+                chain_type: {
+                  create: {
+                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
+                  },
+                },
+              },
+              where: {
+                id: userData.id,
+              },
+            },
+          },
+          name: {
+            set: values.name,
+          },
+          details: {
+            set: values.details,
+          },
+          proof: {
+            set: values.proof,
+          },
+          activity_type: {
+            connectOrCreate: {
+              create: {
+                name: values.activityType,
+              },
+              where: {
+                name: values.activityType,
+              },
+            },
+          },
+          date_of_engagement: {
+            set: new Date(values.engagementDate).toISOString(),
+          },
+          status: {
+            connectOrCreate: {
+              create: {
+                name: 'staging',
+              },
+              where: {
+                name: 'staging',
+              },
+            },
+          },
+        },
+        where: {
+          id: contribution.id,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       <form onSubmit={handleSubmit(editContribution)}>
@@ -69,6 +175,46 @@ const EditContributionForm = ({
           placeholder="DAOContributor"
           defaultValue={contribution.name}
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <CreatableSelect
+          name="activityType"
+          label="Activity Type"
+          defaultValue={{
+            value: contribution?.activity_type?.name,
+            label: contribution?.activity_type?.name,
+          }}
+          onChange={(activity) => {
+            setValue('activityType', activity.value);
+          }}
+          options={combinedActivityTypeOptions}
+          localForm={localForm}
+        />
+        <Textarea
+          name="details"
+          label="Details"
+          tip="Briefly describe your Contribution"
+          placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
+          variant="outline"
+          defaultValue={contribution.details}
+          localForm={localForm}
+        />
+        <Input
+          name="proof"
+          label="Proof of Contribution"
+          tip="Please add a URL to a proof of your contribution."
+          placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
+          defaultValue={contribution.proof}
+          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <DatePicker
+          name="engagementDate"
+          localForm={localForm}
+          label="Date of Contribution Engagement (UTC)"
+          defaultValue={engagementDateValue}
+          onChange={(date) => {
+            setEngagementDateValue(date);
+            setValue('engagementDate', date);
+          }}
         />
         <Flex align="flex-end" marginTop={4}>
           <Button

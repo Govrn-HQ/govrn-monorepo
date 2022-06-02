@@ -20,7 +20,7 @@ export interface InputProps {
   placeholder?: string;
   tip?: string;
   type?: 'text' | 'number' | 'email'; // may not need this
-  defaultValue?: string;
+  defaultValue?: string | number;
   localForm: {
     register: (name: string | undefined) => void;
     formState: {

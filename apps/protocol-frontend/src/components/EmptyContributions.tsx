@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Box, Stack, Text, Button } from '@chakra-ui/react';
 
 const EmptyContributions = () => {
@@ -19,7 +19,13 @@ const EmptyContributions = () => {
             align="center"
           >
             <Text fontSize="lg" fontWeight="medium">
-              No Contributions Yet! 👀
+              No Contributions Yet!{' '}
+              <span
+                role="img"
+                aria-labelledby="eyes emoji showcasing that there are not any Contributions submitted yet"
+              >
+                👀
+              </span>
             </Text>
           </Stack>
           <Stack direction="column" spacing="4">
@@ -30,19 +36,21 @@ const EmptyContributions = () => {
               </Text>
             ) : null}
             <Text fontSize="sm" fontWeight="medium" color="gray.500">
-              Get started by adding your first Contribution
+              Get started by adding your first Contribution. Click the button
+              below or the "+" in the bottom right corner of the page.
             </Text>
-
-            <Button
-              size="md"
-              bgColor="brand.primary.50"
-              color="brand.primary.600"
-              transition="all 100ms ease-in-out"
-              _hover={{ bgColor: 'brand.primary.100' }}
-              colorScheme="brand.primary"
-            >
-              Report a Contribution
-            </Button>
+            <Link to="/report">
+              <Button
+                size="md"
+                bgColor="brand.primary.50"
+                color="brand.primary.600"
+                transition="all 100ms ease-in-out"
+                _hover={{ bgColor: 'brand.primary.100' }}
+                colorScheme="brand.primary"
+              >
+                Report a Contribution
+              </Button>
+            </Link>
           </Stack>
         </Box>
       </Stack>

@@ -10,7 +10,6 @@ import {
   FiDisc,
   FiTwitter,
 } from 'react-icons/fi';
-
 import Logo from './Logo';
 import { NavButton } from './NavButton';
 import ConnectWallet from './ConnectWallet';

@@ -8,13 +8,14 @@ import {
   ButtonGroup,
   Button,
 } from '@chakra-ui/react';
+import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 
-import { mockAttestations } from '../utils/mockData';
-
 const AttestationsTableShell = () => {
+  const { userContributions } = useUser();
+
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Container
@@ -24,7 +25,7 @@ const AttestationsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Attestations</PageHeading>
-      {mockAttestations && mockAttestations.length > 0 ? (
+      {userContributions && userContributions.length > 0 ? (
         <Box
           background="white"
           boxShadow="sm"
@@ -46,19 +47,14 @@ const AttestationsTableShell = () => {
                   _hover={{ bgColor: 'brand.primary.100' }}
                   flexBasis="10%"
                   colorScheme="brand.primary"
+                  disabled={true}
                 >
                   Vouch
                 </Button>
-                {/* <InputGroup maxW="xs">
-                <InputLeftElement pointerEvents="none">
-                  <Icon as={FiSearch} color="muted" boxSize="5" />
-                </InputLeftElement>
-                <Input placeholder="Search" />
-              </InputGroup> */}
               </Stack>
             </Box>
             <Box overflowX="auto">
-              <AttestationsTable attestationsData={mockAttestations} />
+              <AttestationsTable contributionsData={userContributions} />
             </Box>
             <Box px={{ base: '4', md: '6' }} pb="5">
               <HStack spacing="3" justify="space-between">
