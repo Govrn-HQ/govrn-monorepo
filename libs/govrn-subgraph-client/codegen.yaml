@@ -29,5 +29,4 @@ generates:
       baseTypesPath: ../schema.generated.ts
     plugins:
       - 'typescript-operations'
-      - 'typed-document-node'
       - 'typescript-graphql-request'

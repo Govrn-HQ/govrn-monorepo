@@ -31,6 +31,7 @@ jobs:
           node-version: 16.x
           cache: 'yarn'
       - run: yarn install
+      - run: npm install -g @graphprotocol/graph-cli
       - run: npx nx affected:lint --base $BASE
       - name: Test
         run: npx nx affected:test --base $BASE
@@ -63,6 +64,7 @@ jobs:
           node-version: 16.x
           cache: 'yarn'
       - run: yarn install
+      - run: npm install -g @graphprotocol/graph-cli
       - name: Build
         run: npx nx affected:build --base $BASE
       - name: Docker Build
