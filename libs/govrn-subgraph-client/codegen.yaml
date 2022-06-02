@@ -1,0 +1,32 @@
+schema: 'libs/govrn-subgraph-client/src/lib/subgraph/schema.graphql'
+documents: 'libs/govrn-subgraph-client/src/lib/subgraph/**/*.graphql'
+overwrite: true
+config:
+  skipDocumentsValidation: true
+  scalars:
+    Bytes: string
+    BigInt: string
+    BigDecimal: string
+  enumsAsTypes: true
+  avoidOptionals: false
+  flattenGeneratedTypes: true
+  preResolveTypes: true
+  maybeValue: T | undefined
+  inputMaybeValue: T | undefined | null
+  onlyOperationTypes: false
+  declarationKind: 'interface'
+generates:
+  libs/govrn-subgraph-client/src/lib/subgraph/schema.generated.ts:
+    plugins:
+      - 'typescript'
+  libs/govrn-subgraph-client/src/lib/subgraph/queries/:
+    config:
+      dedupeFragments: true
+      nonOptionalTypename: false
+      skipTypename: true
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: ../schema.generated.ts
+    plugins:
+      - 'typescript-operations'
+      - 'typescript-graphql-request'
