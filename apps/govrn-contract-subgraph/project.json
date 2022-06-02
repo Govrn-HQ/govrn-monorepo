@@ -32,7 +32,7 @@
         "cwd": "apps/govrn-contract-subgraph"
       }
     },
-    "deploy": {
+    "deployProd": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ alexkeating/govrn-protocol",
