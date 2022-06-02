@@ -8,6 +8,7 @@ import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilt
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
+import { TwitterAccountRelationFilter } from "../inputs/TwitterAccountRelationFilter";
 
 @TypeGraphQL.InputType("GuildWhereInput", {
   isAbstract: true
@@ -72,4 +73,9 @@ export class GuildWhereInput {
     nullable: true
   })
   users?: GuildUserListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterAccountRelationFilter, {
+    nullable: true
+  })
+  twitter_account?: TwitterAccountRelationFilter | undefined;
 }

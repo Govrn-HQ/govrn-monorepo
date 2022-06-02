@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { GuildContribution } from "../models/GuildContribution";
 import { GuildUser } from "../models/GuildUser";
+import { TwitterAccount } from "../models/TwitterAccount";
 import { GuildCount } from "../resolvers/outputs/GuildCount";
 
 @TypeGraphQL.ObjectType("Guild", {
@@ -48,6 +49,8 @@ export class Guild {
   contributions?: GuildContribution[];
 
   users?: GuildUser[];
+
+  twitter_account?: TwitterAccount | null;
 
   @TypeGraphQL.Field(_type => GuildCount, {
     nullable: true

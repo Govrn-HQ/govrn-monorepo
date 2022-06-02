@@ -1,7 +1,5 @@
 import {
-  ListLinearJobRunsQueryVariables,
   BulkCreateIssuesMutationVariables,
-  MutationCreateLinearJobRunArgs,
   UpdateLinearUserMutationVariables,
   UpsertLinearUserMutationVariables,
   UpsertLinearCycleMutationVariables,
@@ -12,7 +10,6 @@ import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
 
 export class Linear {
-  jobRun: JobRun;
   issue: Issue;
   user: User;
   cycle: Cycle;
@@ -20,29 +17,11 @@ export class Linear {
   team: Team;
 
   constructor(client: GraphQLClient) {
-    this.jobRun = new JobRun(client);
     this.issue = new Issue(client);
     this.user = new User(client);
     this.cycle = new Cycle(client);
     this.project = new Project(client);
     this.team = new Team(client);
-  }
-}
-
-class JobRun extends BaseClient {
-  public async get(id: number) {
-    const jobRun = await this.sdk.getLinearJobRun({ where: { id } });
-    return jobRun.result;
-  }
-
-  public async list(args: ListLinearJobRunsQueryVariables) {
-    const jobRuns = await this.sdk.listLinearJobRuns(args);
-    return jobRuns.result;
-  }
-
-  public async create(args: MutationCreateLinearJobRunArgs) {
-    const jobRuns = await this.sdk.createLinearJobRun(args);
-    return jobRuns.createLinearJobRun;
   }
 }
 

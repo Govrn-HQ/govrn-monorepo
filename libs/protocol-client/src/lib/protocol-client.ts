@@ -1,16 +1,22 @@
 import { ActivityType } from './client/activity_type';
 import { Attestation } from './client/attestation';
 import { Contribution } from './client/contribution';
+import { JobRun } from './client/jobRun';
 import { Linear } from './client/linear';
+import { Twitter } from './client/twitter';
 import { User } from './client/user';
 import { GraphQLClient } from 'graphql-request';
+
+export { cursorPagination } from './client/pagination';
 
 export class GovrnProtocol {
   activity_type: ActivityType;
   attestation: Attestation;
   client: GraphQLClient;
   contribution: Contribution;
+  jobRun: JobRun;
   linear: Linear;
+  twitter: Twitter;
   user: User;
 
   constructor(apiUrl: string) {
@@ -28,5 +34,7 @@ export class GovrnProtocol {
     this.contribution = new Contribution(this.client);
     this.activity_type = new ActivityType(this.client);
     this.attestation = new Attestation(this.client);
+    this.twitter = new Twitter(this.client);
+    this.jobRun = new JobRun(this.client);
   }
 }

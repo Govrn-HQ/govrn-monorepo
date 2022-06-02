@@ -10,7 +10,8 @@
         "outputPath": "dist/apps/twitter-contribution-job",
         "main": "apps/twitter-contribution-job/src/main.ts",
         "tsConfig": "apps/twitter-contribution-job/tsconfig.app.json",
-        "assets": ["apps/twitter-contribution-job/src/assets"]
+        "assets": [],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -45,6 +46,48 @@
       "options": {
         "jestConfig": "apps/twitter-contribution-job/jest.config.js",
         "passWithNoTests": true
+      }
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/linear_sync_job"
+          ],
+          "load": true,
+          "tags": ["type=sha"]
+        }
+      }
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/twitter_contribution_job"
+          ],
+          "tags": ["type=sha"]
+        }
+      }
+    },
+    "docker-login": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["doctl registry login --expiry-seconds 1200"],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/twitter_contribution_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/twitter_contribution_job.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/twitter_contribution_job.yaml"
+        ],
+        "parallel": false
       }
     }
   },

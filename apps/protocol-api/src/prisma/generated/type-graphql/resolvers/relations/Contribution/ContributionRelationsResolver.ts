@@ -6,6 +6,7 @@ import { ContributionStatus } from "../../../models/ContributionStatus";
 import { GuildContribution } from "../../../models/GuildContribution";
 import { LinearIssue } from "../../../models/LinearIssue";
 import { Partner } from "../../../models/Partner";
+import { TwitterTweet } from "../../../models/TwitterTweet";
 import { User } from "../../../models/User";
 import { ContributionAttestationsArgs } from "./args/ContributionAttestationsArgs";
 import { ContributionGuildsArgs } from "./args/ContributionGuildsArgs";
@@ -89,5 +90,16 @@ export class ContributionRelationsResolver {
         id: contribution.id,
       },
     }).linear_issue({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => TwitterTweet, {
+    nullable: true
+  })
+  async tweet(@TypeGraphQL.Root() contribution: Contribution, @TypeGraphQL.Ctx() ctx: any): Promise<TwitterTweet | null> {
+    return getPrismaFromContext(ctx).contribution.findUnique({
+      where: {
+        id: contribution.id,
+      },
+    }).tweet({});
   }
 }

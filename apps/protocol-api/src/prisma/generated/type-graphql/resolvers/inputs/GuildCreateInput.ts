@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
+import { TwitterAccountCreateNestedOneWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedOneWithoutGuildInput";
 
 @TypeGraphQL.InputType("GuildCreateInput", {
   isAbstract: true
@@ -48,4 +49,9 @@ export class GuildCreateInput {
     nullable: true
   })
   users?: GuildUserCreateNestedManyWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterAccountCreateNestedOneWithoutGuildInput, {
+    nullable: true
+  })
+  twitter_account?: TwitterAccountCreateNestedOneWithoutGuildInput | undefined;
 }
