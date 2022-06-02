@@ -45,8 +45,6 @@ const main = async () => {
         return `@${account.account_name}`;
       })
       .join(' OR ');
-    // 1. build query from accounts
-    // query should be fetching all tweets with user tied
     const pages = client.tweets.tweetsRecentSearch({
       query: `(${accountNames}) -@twitter`,
       max_results: 100,
