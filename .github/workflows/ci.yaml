@@ -11,6 +11,8 @@ on:
 env:
   BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master' }}
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
+  SKYNET_JWT: ${{ secrets.SKYNET_JWT }}
+  PROTOCOL_FRONTEND_SEED: ${{ secrets.PROTOCOL_FRONTEND_SEED }}
 
 jobs:
   build:
