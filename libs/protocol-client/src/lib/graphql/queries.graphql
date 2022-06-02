@@ -176,6 +176,9 @@ fragment ContributionFragment on Contribution {
     name
     updatedAt
   }
+  attestations {
+    id
+  }
 }
 
 query getContribution($where: ContributionWhereUniqueInput!,) {
