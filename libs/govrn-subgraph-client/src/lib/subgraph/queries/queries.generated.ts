@@ -1,4 +1,4 @@
-import * as Types from '../../../../../dao-data/src/subgraph/schema.generated';
+import * as Types from '../schema.generated';
 
 import { GraphQLClient } from 'graphql-request';
 import * as Dom from 'graphql-request/dist/types.dom';

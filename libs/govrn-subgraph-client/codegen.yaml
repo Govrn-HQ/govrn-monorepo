@@ -16,10 +16,10 @@ config:
   onlyOperationTypes: false
   declarationKind: 'interface'
 generates:
-  libs/dao-data/src/subgraph/schema.generated.ts:
+  libs/govrn-subgraph-client/src/lib/subgraph/schema.generated.ts:
     plugins:
       - 'typescript'
-  libs/dao-data/src/subgraph/queries/:
+  libs/govrn-subgraph-client/src/lib/subgraph/queries/:
     config:
       dedupeFragments: true
       nonOptionalTypename: false
