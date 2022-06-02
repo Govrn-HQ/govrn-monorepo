@@ -1,0 +1,54 @@
+fragment attestationFields on Attestation {
+  id
+  attestor
+  confidence
+  contribution {
+    id
+  }
+}
+
+query listAttestations(
+  $where: Attestation_filter! = {}
+  $skip: Int! = 0
+  $first: Int! = 100
+  $orderBy: Attestation_orderBy! = id
+  $orderDirection: OrderDirection! = asc
+) {
+  attestations: attestations(
+    where: $where
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+  ) {
+    ...attestationFields
+  }
+}
+
+fragment contributionFields on Contribution {
+  id
+  address
+  attestations {
+    id
+  }
+  contributionId
+}
+
+query listContributions(
+  $where: Contribution_filter! = {}
+  $skip: Int! = 0
+  $first: Int! = 100
+  $orderBy: Contribution_orderBy! = id
+  $orderDirection: OrderDirection! = asc
+) {
+  contributions: contributions(
+    where: $where
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+  ) {
+    ...contributionFields
+  }
+}
+
