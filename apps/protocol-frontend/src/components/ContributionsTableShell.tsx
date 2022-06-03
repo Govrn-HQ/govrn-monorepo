@@ -27,7 +27,6 @@ import EmptyContributions from './EmptyContributions';
 
 const ContributionsTableShell = () => {
   const { userContributions } = useUser();
-  // const [contributions, setContributions] = useState(userContributions);
   const [selectedContributions, setSelectedContributions] = useState<any>();
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,7 +48,7 @@ const ContributionsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Contributions</PageHeading>
-        {userContributions && userContributions.length > 0 ? (
+        {userContributions && userContributions?.length > 0 ? (
           <Tabs variant="soft-rounded" colorScheme="gray">
             <TabList>
               <Tab>Contributions</Tab>
