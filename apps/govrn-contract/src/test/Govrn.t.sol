@@ -231,13 +231,13 @@ contract GovrnBurnTest is DSTestPlus {
     function testBurnContributionNotOwner() public {
         uint256 privateKey = 0xBEEF;
         address notOwner = hevm.addr(privateKey);
-		vm.prank(notOwner);
+        vm.prank(notOwner);
         vm.expectRevert(Govrn.NotOwner.selector);
          govrn.burnContribution(0);
     }
 
     function testBurnContributionZeroAddress() public {
-		vm.prank(address(0));
+        vm.prank(address(0));
         vm.expectRevert(Govrn.ZeroAddress.selector);
         govrn.burnContribution(0);
     }
