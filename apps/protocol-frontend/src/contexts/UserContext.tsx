@@ -48,8 +48,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     getUserByAddress();
   }, [userAddress]);
 
-  useEffect(() => {}, [userData]);
-
   useEffect(() => {
     const getUser = async () => {
       try {
