@@ -13,6 +13,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `BigInt` scalar type represents non-fractional signed whole numeric values. */
+  BigInt: any;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
 };
@@ -1270,6 +1272,68 @@ export type AttestationWhereInput = {
 export type AttestationWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
   user_id_contribution_id?: InputMaybe<AttestationUser_IdContribution_IdCompoundUniqueInput>;
+};
+
+export type BigIntFieldUpdateOperationsInput = {
+  decrement?: InputMaybe<Scalars['BigInt']>;
+  divide?: InputMaybe<Scalars['BigInt']>;
+  increment?: InputMaybe<Scalars['BigInt']>;
+  multiply?: InputMaybe<Scalars['BigInt']>;
+  set?: InputMaybe<Scalars['BigInt']>;
+};
+
+export type BigIntFilter = {
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type BigIntNullableFilter = {
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type BigIntNullableWithAggregatesFilter = {
+  _avg?: InputMaybe<NestedFloatNullableFilter>;
+  _count?: InputMaybe<NestedIntNullableFilter>;
+  _max?: InputMaybe<NestedBigIntNullableFilter>;
+  _min?: InputMaybe<NestedBigIntNullableFilter>;
+  _sum?: InputMaybe<NestedBigIntNullableFilter>;
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntNullableWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type BigIntWithAggregatesFilter = {
+  _avg?: InputMaybe<NestedFloatFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedBigIntFilter>;
+  _min?: InputMaybe<NestedBigIntFilter>;
+  _sum?: InputMaybe<NestedBigIntFilter>;
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
 };
 
 export type BoolFieldUpdateOperationsInput = {
@@ -3309,7 +3373,7 @@ export type DateTimeWithAggregatesFilter = {
 
 export type DiscordUser = {
   createdAt: Scalars['DateTime'];
-  discord_id: Scalars['Int'];
+  discord_id: Scalars['BigInt'];
   display_name?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
@@ -3350,7 +3414,7 @@ export type DiscordUserCountOrderByAggregateInput = {
 
 export type DiscordUserCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id: Scalars['Int'];
+  discord_id: Scalars['BigInt'];
   display_name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutDiscord_UsersInput;
@@ -3358,7 +3422,7 @@ export type DiscordUserCreateInput = {
 
 export type DiscordUserCreateManyInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id: Scalars['Int'];
+  discord_id: Scalars['BigInt'];
   display_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -3367,7 +3431,7 @@ export type DiscordUserCreateManyInput = {
 
 export type DiscordUserCreateManyUserInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id: Scalars['Int'];
+  discord_id: Scalars['BigInt'];
   display_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -3392,7 +3456,7 @@ export type DiscordUserCreateOrConnectWithoutUserInput = {
 
 export type DiscordUserCreateWithoutUserInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id: Scalars['Int'];
+  discord_id: Scalars['BigInt'];
   display_name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -3404,7 +3468,7 @@ export type DiscordUserGroupBy = {
   _min?: Maybe<DiscordUserMinAggregate>;
   _sum?: Maybe<DiscordUserSumAggregate>;
   createdAt: Scalars['DateTime'];
-  discord_id: Scalars['Int'];
+  discord_id: Scalars['BigInt'];
   display_name?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
@@ -3419,7 +3483,7 @@ export type DiscordUserListRelationFilter = {
 
 export type DiscordUserMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
-  discord_id?: Maybe<Scalars['Int']>;
+  discord_id?: Maybe<Scalars['BigInt']>;
   display_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -3437,7 +3501,7 @@ export type DiscordUserMaxOrderByAggregateInput = {
 
 export type DiscordUserMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
-  discord_id?: Maybe<Scalars['Int']>;
+  discord_id?: Maybe<Scalars['BigInt']>;
   display_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -3495,7 +3559,7 @@ export type DiscordUserScalarWhereInput = {
   NOT?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
   OR?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  discord_id?: InputMaybe<IntFilter>;
+  discord_id?: InputMaybe<BigIntFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -3507,7 +3571,7 @@ export type DiscordUserScalarWhereWithAggregatesInput = {
   NOT?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  discord_id?: InputMaybe<IntWithAggregatesFilter>;
+  discord_id?: InputMaybe<BigIntWithAggregatesFilter>;
   display_name?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -3515,7 +3579,7 @@ export type DiscordUserScalarWhereWithAggregatesInput = {
 };
 
 export type DiscordUserSumAggregate = {
-  discord_id?: Maybe<Scalars['Int']>;
+  discord_id?: Maybe<Scalars['BigInt']>;
   id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
 };
@@ -3528,7 +3592,7 @@ export type DiscordUserSumOrderByAggregateInput = {
 
 export type DiscordUserUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutDiscord_UsersInput>;
@@ -3536,7 +3600,7 @@ export type DiscordUserUpdateInput = {
 
 export type DiscordUserUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -3567,7 +3631,7 @@ export type DiscordUserUpdateWithWhereUniqueWithoutUserInput = {
 
 export type DiscordUserUpdateWithoutUserInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -3583,7 +3647,7 @@ export type DiscordUserWhereInput = {
   NOT?: InputMaybe<Array<DiscordUserWhereInput>>;
   OR?: InputMaybe<Array<DiscordUserWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  discord_id?: InputMaybe<IntFilter>;
+  discord_id?: InputMaybe<BigIntFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -3592,7 +3656,7 @@ export type DiscordUserWhereInput = {
 };
 
 export type DiscordUserWhereUniqueInput = {
-  discord_id?: InputMaybe<Scalars['Int']>;
+  discord_id?: InputMaybe<Scalars['BigInt']>;
   id?: InputMaybe<Scalars['Int']>;
 };
 
@@ -3628,7 +3692,7 @@ export type Guild = {
   congrats_channel?: Maybe<Scalars['Int']>;
   contributions: Array<GuildContribution>;
   createdAt: Scalars['DateTime'];
-  discord_id?: Maybe<Scalars['Int']>;
+  discord_id?: Maybe<Scalars['BigInt']>;
   id: Scalars['Int'];
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -4040,7 +4104,7 @@ export type GuildCreateInput = {
   congrats_channel?: InputMaybe<Scalars['Int']>;
   contributions?: InputMaybe<GuildContributionCreateNestedManyWithoutGuildInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id?: InputMaybe<Scalars['Int']>;
+  discord_id?: InputMaybe<Scalars['BigInt']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
@@ -4051,7 +4115,7 @@ export type GuildCreateInput = {
 export type GuildCreateManyInput = {
   congrats_channel?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id?: InputMaybe<Scalars['Int']>;
+  discord_id?: InputMaybe<Scalars['BigInt']>;
   id?: InputMaybe<Scalars['Int']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -4094,7 +4158,7 @@ export type GuildCreateOrConnectWithoutUsersInput = {
 export type GuildCreateWithoutContributionsInput = {
   congrats_channel?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id?: InputMaybe<Scalars['Int']>;
+  discord_id?: InputMaybe<Scalars['BigInt']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
@@ -4106,7 +4170,7 @@ export type GuildCreateWithoutTwitter_AccountInput = {
   congrats_channel?: InputMaybe<Scalars['Int']>;
   contributions?: InputMaybe<GuildContributionCreateNestedManyWithoutGuildInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id?: InputMaybe<Scalars['Int']>;
+  discord_id?: InputMaybe<Scalars['BigInt']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -4117,7 +4181,7 @@ export type GuildCreateWithoutUsersInput = {
   congrats_channel?: InputMaybe<Scalars['Int']>;
   contributions?: InputMaybe<GuildContributionCreateNestedManyWithoutGuildInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  discord_id?: InputMaybe<Scalars['Int']>;
+  discord_id?: InputMaybe<Scalars['BigInt']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
@@ -4132,7 +4196,7 @@ export type GuildGroupBy = {
   _sum?: Maybe<GuildSumAggregate>;
   congrats_channel?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
-  discord_id?: Maybe<Scalars['Int']>;
+  discord_id?: Maybe<Scalars['BigInt']>;
   id: Scalars['Int'];
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -4142,7 +4206,7 @@ export type GuildGroupBy = {
 export type GuildMaxAggregate = {
   congrats_channel?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  discord_id?: Maybe<Scalars['Int']>;
+  discord_id?: Maybe<Scalars['BigInt']>;
   id?: Maybe<Scalars['Int']>;
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -4162,7 +4226,7 @@ export type GuildMaxOrderByAggregateInput = {
 export type GuildMinAggregate = {
   congrats_channel?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  discord_id?: Maybe<Scalars['Int']>;
+  discord_id?: Maybe<Scalars['BigInt']>;
   id?: Maybe<Scalars['Int']>;
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -4228,7 +4292,7 @@ export type GuildScalarWhereWithAggregatesInput = {
   OR?: InputMaybe<Array<GuildScalarWhereWithAggregatesInput>>;
   congrats_channel?: InputMaybe<IntNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  discord_id?: InputMaybe<IntNullableWithAggregatesFilter>;
+  discord_id?: InputMaybe<BigIntNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   logo?: InputMaybe<StringNullableWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -4237,7 +4301,7 @@ export type GuildScalarWhereWithAggregatesInput = {
 
 export type GuildSumAggregate = {
   congrats_channel?: Maybe<Scalars['Int']>;
-  discord_id?: Maybe<Scalars['Int']>;
+  discord_id?: Maybe<Scalars['BigInt']>;
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -4251,7 +4315,7 @@ export type GuildUpdateInput = {
   congrats_channel?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<NullableBigIntFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
@@ -4262,7 +4326,7 @@ export type GuildUpdateInput = {
 export type GuildUpdateManyMutationInput = {
   congrats_channel?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<NullableBigIntFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -4297,7 +4361,7 @@ export type GuildUpdateOneWithoutTwitter_AccountInput = {
 export type GuildUpdateWithoutContributionsInput = {
   congrats_channel?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<NullableBigIntFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
@@ -4309,7 +4373,7 @@ export type GuildUpdateWithoutTwitter_AccountInput = {
   congrats_channel?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<NullableBigIntFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -4320,7 +4384,7 @@ export type GuildUpdateWithoutUsersInput = {
   congrats_channel?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  discord_id?: InputMaybe<NullableBigIntFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
@@ -4690,7 +4754,7 @@ export type GuildWhereInput = {
   congrats_channel?: InputMaybe<IntNullableFilter>;
   contributions?: InputMaybe<GuildContributionListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  discord_id?: InputMaybe<IntNullableFilter>;
+  discord_id?: InputMaybe<BigIntNullableFilter>;
   id?: InputMaybe<IntFilter>;
   logo?: InputMaybe<StringNullableFilter>;
   name?: InputMaybe<StringNullableFilter>;
@@ -8767,6 +8831,60 @@ export type MutationUpsertUserActivityArgs = {
   where: UserActivityWhereUniqueInput;
 };
 
+export type NestedBigIntFilter = {
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type NestedBigIntNullableFilter = {
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type NestedBigIntNullableWithAggregatesFilter = {
+  _avg?: InputMaybe<NestedFloatNullableFilter>;
+  _count?: InputMaybe<NestedIntNullableFilter>;
+  _max?: InputMaybe<NestedBigIntNullableFilter>;
+  _min?: InputMaybe<NestedBigIntNullableFilter>;
+  _sum?: InputMaybe<NestedBigIntNullableFilter>;
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntNullableWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type NestedBigIntWithAggregatesFilter = {
+  _avg?: InputMaybe<NestedFloatFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedBigIntFilter>;
+  _min?: InputMaybe<NestedBigIntFilter>;
+  _sum?: InputMaybe<NestedBigIntFilter>;
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
 export type NestedBoolFilter = {
   equals?: InputMaybe<Scalars['Boolean']>;
   not?: InputMaybe<NestedBoolFilter>;
@@ -8995,6 +9113,14 @@ export type NestedStringWithAggregatesFilter = {
   not?: InputMaybe<NestedStringWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
+};
+
+export type NullableBigIntFieldUpdateOperationsInput = {
+  decrement?: InputMaybe<Scalars['BigInt']>;
+  divide?: InputMaybe<Scalars['BigInt']>;
+  increment?: InputMaybe<Scalars['BigInt']>;
+  multiply?: InputMaybe<Scalars['BigInt']>;
+  set?: InputMaybe<Scalars['BigInt']>;
 };
 
 export type NullableBoolFieldUpdateOperationsInput = {
@@ -12913,7 +13039,7 @@ export type CreateJobRunMutationVariables = Exact<{
 
 export type CreateJobRunMutation = { createJobRun: { completedDate: any, startDate: any, name: string } };
 
-export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name: string, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any } } | null };
+export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name: string, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } | null };
 
 export type BulkCreateTwitterTweetMutationVariables = Exact<{
   data: Array<TwitterTweetCreateManyInput> | TwitterTweetCreateManyInput;

@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { GuildUserUpdateManyWithoutGuildInput } from "../inputs/GuildUserUpdateManyWithoutGuildInput";
+import { NullableBigIntFieldUpdateOperationsInput } from "../inputs/NullableBigIntFieldUpdateOperationsInput";
 import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { TwitterAccountUpdateOneWithoutGuildInput } from "../inputs/TwitterAccountUpdateOneWithoutGuildInput";
@@ -22,10 +23,10 @@ export class GuildUpdateWithoutContributionsInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => NullableBigIntFieldUpdateOperationsInput, {
     nullable: true
   })
-  discord_id?: NullableIntFieldUpdateOperationsInput | undefined;
+  discord_id?: NullableBigIntFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true

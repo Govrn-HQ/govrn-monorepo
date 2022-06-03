@@ -12,8 +12,8 @@ export class DiscordUserWhereUniqueInput {
   })
   id?: number | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
     nullable: true
   })
-  discord_id?: number | undefined;
+  discord_id?: bigint | undefined;
 }

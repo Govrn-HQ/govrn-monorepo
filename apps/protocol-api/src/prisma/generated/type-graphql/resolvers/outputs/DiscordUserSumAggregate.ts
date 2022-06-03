@@ -12,10 +12,10 @@ export class DiscordUserSumAggregate {
   })
   id!: number | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
     nullable: true
   })
-  discord_id!: number | null;
+  discord_id!: bigint | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
