@@ -39,6 +39,18 @@
       "options": {
         "command": "forge clean --root apps/govrn-contract"
       }
+    },
+    "fix": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "solhint ./apps/govrn-contract/src/*.sol --fix"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "solhint ./apps/govrn-contract/src/*.sol"
+      }
     }
   },
   "tags": []
