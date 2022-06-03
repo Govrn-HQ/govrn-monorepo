@@ -129,14 +129,37 @@ contract GovrnAttestTest is DSTestPlus {
         assertTrue(confidenceTwo == 3);
     }
 
-    // TODO: Add deadline test, bad nonce, bad signature
-    function testPermitAttest() public {
-        uint256 privateKey = 0xBEEF;
-        address owner = hevm.addr(privateKey);
-        // mint
-        address[] memory partners = new address[](0);
-        govrn.mint("test", "here", 1, 2, "proof", partners);
+}
 
+contract GovrnPermitAttestTest is DSTestPlus {
+    Govrn govrn;
+    Vm public constant vm = Vm(HEVM_ADDRESS);
+
+    function _mintContribution(
+        bytes memory _name,
+        bytes memory _details,
+        uint256 _dateOfSubmission,
+        uint256 _dateOfEngagement,
+        bytes memory _proof
+    ) public {
+        address[] memory partners = new address[](0);
+        govrn.mint(
+            _name,
+            _details,
+            _dateOfSubmission,
+            _dateOfEngagement,
+            _proof,
+            partners
+        );
+    }
+
+	function _hevmSign(address _owner,
+					   uint256 _contribution,
+					   uint8 _confidence,
+					   uint256 _dateOfSubmission
+					   uint256 _nonce,
+					   uint256 _deadline,
+					  ) public {
         (uint8 v, bytes32 r, bytes32 s) = hevm.sign(
             privateKey,
             keccak256(
@@ -148,18 +171,33 @@ contract GovrnAttestTest is DSTestPlus {
                             keccak256(
                                 "Attest(address attestor,uint256 contribution,uint8 confidence,uint256 dateOfSubmission,uint256 nonce,uint256 deadline)"
                             ),
-                            owner,
-                            0,
-                            1,
-                            100,
-                            0,
+                            _owner,
+                            _contribution,
+                            _confidence,
+                            _nonce,
+                            _deadline,
                             block.timestamp
                         )
                     )
                 )
             )
         );
+		return (v, r, s);
+	}
 
+    function setUp() public {
+        govrn = new Govrn(1000);
+        this._mintContribution("test", "here", 1, 2, "proof");
+    }
+
+    // TODO: Add deadline test, bad nonce, bad signature
+    function testPermitAttest() public {
+        uint256 privateKey = 0xBEEF;
+        address owner = hevm.addr(privateKey);
+        // mint
+        address[] memory partners = new address[](0);
+        govrn.mint("test", "here", 1, 2, "proof", partners);
+		(uint8 v, bytes32 r, bytes32 s) = this._hevmSign(owner, 0, 0, 1, 100);
         govrn.permitAttest(owner, 0, 1, 100, block.timestamp, v, r, s);
         (
             uint256 contribution,
@@ -171,6 +209,8 @@ contract GovrnAttestTest is DSTestPlus {
         assertTrue(dateOfSubmission == 100);
     }
 }
+
+
 
 contract GovrnRevokeTest is DSTestPlus {
     Govrn govrn;
@@ -208,6 +248,53 @@ contract GovrnRevokeTest is DSTestPlus {
         govrn.revokeAttestatation(0);
     }
 }
+
+contract GovrnBulkRevokeTest is DSTestPlus {
+    Govrn govrn;
+    Vm public constant vm = Vm(HEVM_ADDRESS);
+
+    function setUp() public {
+        govrn = new Govrn(1000);
+        address[] memory partners = new address[](0);
+        govrn.mint("test", "here", 1, 2, "proof", partners);
+        govrn.mint("test", "here", 1, 2, "proof", partners);
+    }
+
+    function testRevokeAttestation() public {
+        vm.warp(100);
+        uint256[] memory attestations = new uint256[](2);
+		attestations[0] = 0;
+		attestations[1] = 1;
+
+        govrn.attest(0, 1);
+        govrn.attest(1, 1);
+
+		govrn.bulkRevokeAttestation(attestations);
+    }
+
+    function testRevokeRevertAttestation() public {
+        // warp
+        vm.warp(100);
+        uint256[] memory attestations = new uint256[](1);
+		attestations[0] = 0;
+
+        // attest
+        govrn.attest(0, 1);
+
+        vm.warp(20000);
+        vm.expectRevert(Govrn.DeadlinePassed.selector);
+		govrn.bulkRevokeAttestation(attestations);
+    }
+
+    function testRevokeErrorAttestation() public {
+        uint256[] memory attestations = new uint256[](1);
+		attestations[0] = 0;
+        vm.expectRevert(bytes("Attestation does not exist"));
+		govrn.bulkRevokeAttestation(attestations);
+    }
+}
+
+
 
 contract GovrnBurnTest is DSTestPlus {
     Govrn govrn;
