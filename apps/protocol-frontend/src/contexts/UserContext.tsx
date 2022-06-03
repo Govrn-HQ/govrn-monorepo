@@ -34,7 +34,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     const getUserByAddress = async () => {
-      console.log('fetching user address');
       try {
         const userDataByAddressResponse = await govrn.user.list({
           where: { address: { equals: address } },
@@ -49,9 +48,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     getUserByAddress();
   }, [userAddress]);
 
-  useEffect(() => {
-    console.log('user data in new effect', userData);
-  }, [userData]);
+  useEffect(() => {}, [userData]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -69,14 +66,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   useEffect(() => {
     const getUserContributions = async () => {
       try {
-        console.log('fetching contributions');
         const userContributionsResponse = await govrn.contribution.list({
           where: {
             user_id: { equals: userAddress.id },
           },
         });
         setUserContributions(userContributionsResponse);
-        console.log('contributions', userContributionsResponse);
+
         return userContributionsResponse;
       } catch (error) {
         console.error(error);
