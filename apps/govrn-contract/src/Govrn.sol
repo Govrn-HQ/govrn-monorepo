@@ -5,6 +5,7 @@ import "forge-std/console.sol";
 contract Govrn {
     error DeadlinePassed();
     error NotOwner();
+    error ZeroAddress();
 
     uint256 public contributionCount = 0;
     uint256 public revokePeriod = 0; // seconds
@@ -122,6 +123,19 @@ contract Govrn {
         }
         revert DeadlinePassed();
     }
+
+	function burnContribution(uint256 _contribution) public returns (bool) {
+		address owner = contributions[_contribution].owner;
+        if (address(0) == msg.sender) {
+            revert ZeroAddress();
+        }
+        if (owner != msg.sender) {
+            revert NotOwner();
+        }
+		delete contributions[_contribution];
+		--balanceOf[msg.sender];
+		return true;
+	}
 
     function permitAttest(
         address _attestor,

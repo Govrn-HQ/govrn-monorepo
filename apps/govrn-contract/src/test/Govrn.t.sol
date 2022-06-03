@@ -208,3 +208,38 @@ contract GovrnRevokeTest is DSTestPlus {
         govrn.revokeAttestatation(0);
     }
 }
+
+contract GovrnBurnTest is DSTestPlus {
+    Govrn govrn;
+    Vm public constant vm = Vm(HEVM_ADDRESS);
+
+    function setUp() public {
+        govrn = new Govrn(1000);
+        address[] memory partners = new address[](0);
+        govrn.mint("test", "here", 1, 2, "proof", partners);
+        govrn.mint("test", "here", 1, 2, "proof", partners);
+    }
+
+    function testBurnContribution() public {
+        bool burned = govrn.burnContribution(1);
+        (address owner, , , , , ) = govrn.contributions(1);
+        assertTrue(burned);
+        assertTrue(owner == address(0));
+        assertTrue(govrn.balanceOf(address(this)) == 1);
+    }
+
+    function testBurnContributionNotOwner() public {
+        uint256 privateKey = 0xBEEF;
+        address notOwner = hevm.addr(privateKey);
+		vm.prank(notOwner);
+        vm.expectRevert(Govrn.NotOwner.selector);
+         govrn.burnContribution(0);
+    }
+
+    function testBurnContributionZeroAddress() public {
+		vm.prank(address(0));
+        vm.expectRevert(Govrn.ZeroAddress.selector);
+        govrn.burnContribution(0);
+    }
+
+}
