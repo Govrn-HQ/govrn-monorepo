@@ -147,6 +147,19 @@ contract Govrn {
         return true;
     }
 
+    function burnContribution(uint256 _contribution) public returns (bool) {
+        address owner = contributions[_contribution].owner;
+        if (address(0) == msg.sender) {
+            revert ZeroAddress();
+        }
+        if (owner != msg.sender) {
+            revert NotOwner();
+        }
+        delete contributions[_contribution];
+        --balanceOf[msg.sender];
+        return true;
+    }
+
     function permitAttest(
         address _attestor,
         uint256 _contribution,

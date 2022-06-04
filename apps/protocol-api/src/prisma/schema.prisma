@@ -38,7 +38,7 @@ model DiscordUser {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   display_name String?
-  discord_id Int @unique
+  discord_id BigInt @unique
   user_id Int
   user User @relation(fields: [user_id], references: [id])
 }
@@ -47,7 +47,7 @@ model Guild {
   id    Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  discord_id Int? // legacy
+  discord_id BigInt? // legacy
   name String? // legacy
   congrats_channel Int? // legacy
   logo String?

@@ -323,6 +323,7 @@ contract GovrnRevokeTest is DSTestPlus {
     }
 }
 
+
 contract GovrnBulkRevokeTest is DSTestPlus {
     Govrn govrn;
     Vm public constant vm = Vm(HEVM_ADDRESS);
@@ -367,8 +368,6 @@ contract GovrnBulkRevokeTest is DSTestPlus {
 		govrn.bulkRevokeAttestation(attestations);
     }
 }
-
-
 
 contract GovrnBurnTest is DSTestPlus {
     Govrn govrn;
