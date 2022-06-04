@@ -46,6 +46,7 @@ const ContributionsTable = ({
     setModals({ editContributionFormModal: true });
   };
 
+  console.log('contributions in table', contributionsData);
   const data = useMemo(
     () =>
       contributionsData.map((contribution: any) => ({
@@ -53,19 +54,10 @@ const ContributionsTable = ({
         id: contribution.id,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
-        attestations: contribution.attestations || null,
+        attestations: contribution.attestations?.length,
         user: contribution.user.id,
         activityTypeId: contribution.activity_type.id,
-        // attestations:
-        //   contribution.attestations !== null
-        //     ? Object.keys(contribution.attestations).length
-        //     : 0,
         verificationLevel: contribution.verificationLevel,
-        guilds: contribution.attestations || null,
-        // guilds:
-        //   contribution.guilds?.length > 1 || contribution.guilds?.length === 0
-        //     ? contribution.guilds?.length
-        //     : Object.values(contribution.guilds[0]['name']),
         status: contribution.status.name,
         action: '',
       })),
@@ -104,17 +96,6 @@ const ContributionsTable = ({
       {
         Header: 'Verification Level',
         accessor: 'verificationLevel',
-      },
-      {
-        Header: 'DAOs',
-        accessor: 'guilds',
-        Cell: ({ value }) => {
-          return (
-            <Badge size="md" colorScheme="blue">
-              {value}
-            </Badge>
-          );
-        },
       },
     ],
     []

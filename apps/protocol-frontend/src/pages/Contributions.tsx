@@ -35,6 +35,7 @@ const NotUserView = () => {
 
 const Contributions = () => {
   const { isConnected } = useWallet();
+
   return (
     <SiteLayout>
       {isConnected ? (

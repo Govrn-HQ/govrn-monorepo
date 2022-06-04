@@ -63,7 +63,6 @@ const CreateUserForm = () => {
           chain_type: {
             create: {
               name: 'Ethereum Mainnet',
-              // id: parseInt(chainId as string), // create map for this
             },
           },
         },
