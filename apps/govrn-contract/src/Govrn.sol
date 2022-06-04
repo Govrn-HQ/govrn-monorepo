@@ -162,10 +162,10 @@ contract Govrn {
 	}
 
     function bulkPermitAttest(
-		PermitAttestation[] _permitAttestations
+		PermitAttestation[] memory _permitAttestations
     ) public {
         for (uint256 i = 0; i < _permitAttestations.length; i++) {
-		  PermitAttestation permitAttestation = _permitAttestations[0];
+		  PermitAttestation memory permitAttestation = _permitAttestations[i];
           _permitAttest(permitAttestation.attestor, permitAttestation.contribution, permitAttestation.confidence, permitAttestation.dateOfSubmission, permitAttestation.deadline, permitAttestation.v, permitAttestation.r, permitAttestation.s);
 		}
 	}
@@ -265,6 +265,13 @@ contract Govrn {
         require(_deadline >= block.timestamp, "PERMIT_DEADLINE_EXPIRED");
         uint256 nonce = nonces[_attestor];
         nonces[_attestor]++;
+		console.log("Nonce");
+		console.log(nonce);
+		console.log(_attestor);
+		console.log(_contribution);
+		console.log(_confidence);
+		console.log(_dateOfSubmission);
+		console.log(_deadline);
 
         // Unchecked because the only math done is incrementing
         // the owner's nonce which cannot realistically overflow.
@@ -294,6 +301,7 @@ contract Govrn {
                 s
             );
 
+			console.log(recoveredAddress);
             require(
                 recoveredAddress != address(0) && recoveredAddress == _attestor,
                 "INVALID_SIGNER"

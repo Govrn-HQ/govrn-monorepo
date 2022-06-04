@@ -153,38 +153,6 @@ contract GovrnPermitAttestTest is DSTestPlus {
         );
     }
 
-	function _hevmSign(address _owner,
-					   uint256 _contribution,
-					   uint8 _confidence,
-					   uint256 _dateOfSubmission
-					   uint256 _nonce,
-					   uint256 _deadline,
-					  ) public {
-        (uint8 v, bytes32 r, bytes32 s) = hevm.sign(
-            privateKey,
-            keccak256(
-                abi.encodePacked(
-                    "\x19\x01",
-                    govrn.DOMAIN_SEPARATOR(),
-                    keccak256(
-                        abi.encode(
-                            keccak256(
-                                "Attest(address attestor,uint256 contribution,uint8 confidence,uint256 dateOfSubmission,uint256 nonce,uint256 deadline)"
-                            ),
-                            _owner,
-                            _contribution,
-                            _confidence,
-                            _nonce,
-                            _deadline,
-                            block.timestamp
-                        )
-                    )
-                )
-            )
-        );
-		return (v, r, s);
-	}
-
     function setUp() public {
         govrn = new Govrn(1000);
         this._mintContribution("test", "here", 1, 2, "proof");
@@ -197,7 +165,29 @@ contract GovrnPermitAttestTest is DSTestPlus {
         // mint
         address[] memory partners = new address[](0);
         govrn.mint("test", "here", 1, 2, "proof", partners);
-		(uint8 v, bytes32 r, bytes32 s) = this._hevmSign(owner, 0, 0, 1, 100);
+		(uint8 v, bytes32 r, bytes32 s) = hevm.sign(
+            privateKey,
+            keccak256(
+                abi.encodePacked(
+                    "\x19\x01",
+                    govrn.DOMAIN_SEPARATOR(),
+                    keccak256(
+                        abi.encode(
+                            keccak256(
+                                "Attest(address attestor,uint256 contribution,uint8 confidence,uint256 dateOfSubmission,uint256 nonce,uint256 deadline)"
+                            ),
+                            owner,
+                            0,
+                            1,
+                            100,
+                            0,
+                            block.timestamp
+                        )
+                    )
+                )
+            )
+        );
+
         govrn.permitAttest(owner, 0, 1, 100, block.timestamp, v, r, s);
         (
             uint256 contribution,
@@ -208,6 +198,90 @@ contract GovrnPermitAttestTest is DSTestPlus {
         assertTrue(confidence == 1);
         assertTrue(dateOfSubmission == 100);
     }
+
+    function testBulkPermitAttest() public {
+        uint256 privateKey = 0xBEEF;
+        address owner = hevm.addr(privateKey);
+        // mint
+        address[] memory partners = new address[](0);
+        Govrn.PermitAttestation[] memory bulkPermitAttest = new Govrn.PermitAttestation[](2);
+        govrn.mint("test", "here", 1, 2, "proof", partners);
+        govrn.mint("test", "here", 1, 2, "proof", partners);
+		(uint8 vOne, bytes32 rOne, bytes32 sOne) = hevm.sign(
+            privateKey,
+            keccak256(
+                abi.encodePacked(
+                    "\x19\x01",
+                    govrn.DOMAIN_SEPARATOR(),
+                    keccak256(
+                        abi.encode(
+                            keccak256(
+                                "Attest(address attestor,uint256 contribution,uint8 confidence,uint256 dateOfSubmission,uint256 nonce,uint256 deadline)"
+                            ),
+                            owner,
+                            0,
+                            1,
+                            100,
+                            0,
+                            block.timestamp
+                        )
+                    )
+                )
+            )
+        );
+		(uint8 vTwo, bytes32 rTwo, bytes32 sTwo) = hevm.sign(
+            privateKey,
+            keccak256(
+                abi.encodePacked(
+                    "\x19\x01",
+                    govrn.DOMAIN_SEPARATOR(),
+                    keccak256(
+                        abi.encode(
+                            keccak256(
+                                "Attest(address attestor,uint256 contribution,uint8 confidence,uint256 dateOfSubmission,uint256 nonce,uint256 deadline)"
+                            ),
+                            owner,
+                            1,
+                            1,
+                            100,
+                            1,
+                            block.timestamp
+                        )
+                    )
+                )
+            )
+        );
+		bulkPermitAttest[0] = Govrn.PermitAttestation(
+				 owner,
+				 0,
+				 1,
+				 100,
+				 block.timestamp,
+				 vOne,
+				 rOne,
+				 sOne
+		);
+		bulkPermitAttest[1] = Govrn.PermitAttestation(
+				 owner,
+				 1,
+				 1,
+				 100,
+				 block.timestamp,
+				 vTwo,
+				 rTwo,
+				 sTwo
+		);
+        govrn.bulkPermitAttest(bulkPermitAttest);
+        (
+            uint256 contribution,
+            uint8 confidence,
+            uint256 dateOfSubmission
+        ) = govrn.attestations(0, owner);
+        assertTrue(contribution == 0);
+        assertTrue(confidence == 1);
+        assertTrue(dateOfSubmission == 100);
+    }
+
 }
 
 
