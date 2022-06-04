@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.13;
-import "forge-std/console.sol";
 
 contract Govrn {
     error DeadlinePassed();
@@ -265,13 +264,6 @@ contract Govrn {
         require(_deadline >= block.timestamp, "PERMIT_DEADLINE_EXPIRED");
         uint256 nonce = nonces[_attestor];
         nonces[_attestor]++;
-		console.log("Nonce");
-		console.log(nonce);
-		console.log(_attestor);
-		console.log(_contribution);
-		console.log(_confidence);
-		console.log(_dateOfSubmission);
-		console.log(_deadline);
 
         // Unchecked because the only math done is incrementing
         // the owner's nonce which cannot realistically overflow.
@@ -301,7 +293,6 @@ contract Govrn {
                 s
             );
 
-			console.log(recoveredAddress);
             require(
                 recoveredAddress != address(0) && recoveredAddress == _attestor,
                 "INVALID_SIGNER"
