@@ -76,13 +76,19 @@ const ProfileForm = () => {
     }
   };
 
+  //  change to update from upsert
+
   const submitLinearEmail = async (values: any) => {
     const linearAssignee = {
       active: userData.active,
       displayName: userData.name,
       email: values.userLinearEmail,
-      user_id: userData.id,
-      linear_id: userData.id.toString(),
+      user: {
+        connect: {
+          id: userData.id,
+        },
+      },
+      linear_id: userData.id.toString(), // linear_id exists outside of our db
       name: userData.name,
       url: userData.url || '',
     };
