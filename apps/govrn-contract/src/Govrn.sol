@@ -192,7 +192,7 @@ contract Govrn {
     ) internal {
         require(msg.sender != address(0), "INVALID_RECIPIENT");
         if (contributions[contributionCount].owner != address(0)) {
-            contributionCount++;
+            ++contributionCount;
         }
 
         contributions[contributionCount] = Contribution(
@@ -205,9 +205,9 @@ contract Govrn {
         );
         // This needs some sort of reentry guard thing
         // we have to make sure there is an increment or weirdness can happen
-        balanceOf[msg.sender]++;
+        ++balanceOf[msg.sender];
         emit Mint(msg.sender, contributionCount);
-        contributionCount++;
+        ++contributionCount;
     }
 
     function _attest(uint256 _contribution, uint8 _confidence) internal {
