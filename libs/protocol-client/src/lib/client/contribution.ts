@@ -59,10 +59,6 @@ export class Contribution extends BaseClient {
     if (!onChainId) {
       throw Error('Failed to fetch on chain Id');
     }
-    const allPartners = await this.sdk.listUsers({
-      where: { address: { in: args.partners } },
-      first: args.partners?.length || 0,
-    });
     if (id) {
       return await this.update({
         data: {
@@ -76,9 +72,6 @@ export class Contribution extends BaseClient {
           },
           proof: {
             set: args.proof.toString(),
-          },
-          partners: {
-            set: allPartners.result,
           },
           status: {
             connect: { name: 'minted' },
@@ -98,9 +91,6 @@ export class Contribution extends BaseClient {
         date_of_submission: new Date(args.dateOfSubmission.toString()),
         date_of_engagement: new Date(args.dateOfEngagement.toString()),
         proof: args.proof.toString(),
-        partners: {
-          connect: allPartners.result,
-        },
         status: {
           connect: { name: 'minted' },
         },
