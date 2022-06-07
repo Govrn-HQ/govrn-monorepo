@@ -97,7 +97,6 @@ const ProfileForm = () => {
         data: { email: { set: values.userLinearEmail } },
         where: { id: userData.id },
       });
-      console.log('response', response);
     } catch (error) {
       console.error(error);
     }
@@ -150,6 +149,7 @@ const ProfileForm = () => {
                 tip="Enter your wallet address (not ENS)."
                 placeholder="0x..."
                 defaultValue={formatAddress(userData?.address) || '0x...'}
+                isDisabled={userData?.address}
                 localForm={localForm} //TODO: resolve this type issue -- need to investigate this
               />
               <Button
@@ -158,6 +158,7 @@ const ProfileForm = () => {
                 color="brand.primary.600"
                 backgroundColor="brand.primary.50"
                 transition="all 100ms ease-in-out"
+                isDisabled={userData?.address}
                 _hover={{ bgColor: 'brand.primary.100' }}
               >
                 Link Address
