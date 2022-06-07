@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button } from '@chakra-ui/react';
+import { Stack, Flex, Button, useToast } from '@chakra-ui/react';
 import {
   Input,
   Textarea,
@@ -47,14 +47,16 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
 
 const ReportForm = () => {
   const { chainId } = useWallet();
-  const { userData, userActivityTypes } = useUser();
+  const { userData, userActivityTypes, createContribution } = useUser();
+
+  const toast = useToast();
 
   const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(reportFormValidation),
   });
-  const { handleSubmit, setValue } = localForm;
+  const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
 
   // TODO: Update these to pull in from a set list or config file
@@ -81,52 +83,18 @@ const ReportForm = () => {
     })
   );
 
-  const createContribution = async (values: any) => {
+  const createContributionHandler = async (values: any) => {
     try {
-      const response = await govrn.contribution.create({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          name: values.name,
-          details: values.details,
-          proof: values.proof,
-          activity_type: {
-            connectOrCreate: {
-              create: {
-                name: values.activityType,
-              },
-              where: {
-                name: values.activityType,
-              },
-            },
-          },
-          date_of_engagement: new Date(values.engagementDate).toISOString(),
-          status: {
-            connectOrCreate: {
-              create: {
-                name: 'staging',
-              },
-              where: {
-                name: 'staging',
-              },
-            },
-          },
-        },
+      createContribution(values);
+      toast({
+        title: 'Contribution Report Added',
+        description: 'Your Contribution report has been recorded.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
       });
-      console.log('response', response);
+      reset();
     } catch (error) {
       console.log(error);
     }
@@ -134,7 +102,7 @@ const ReportForm = () => {
 
   return (
     <Stack spacing="4" width="100%" color="gray.900">
-      <form onSubmit={handleSubmit(createContribution)}>
+      <form onSubmit={handleSubmit(createContributionHandler)}>
         <Input
           name="name"
           label="Name of Contribution"

@@ -61,8 +61,23 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     getUser();
   }, [userDataByAddress]);
 
+  const getUserContributions = async () => {
+    try {
+      const userContributionsResponse = await govrn.contribution.list({
+        where: {
+          user_id: { equals: userAddress?.id },
+        },
+      });
+      setUserContributions(userContributionsResponse);
+      return userContributionsResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const getUserContributions = async () => {
+      console.log('fetching contributions');
       try {
         const userContributionsResponse = await govrn.contribution.list({
           where: {
@@ -70,7 +85,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           },
         });
         setUserContributions(userContributionsResponse);
-
         return userContributionsResponse;
       } catch (error) {
         console.error(error);
@@ -110,6 +124,58 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     getUserAttestations();
   }, [userData]);
 
+  const createContribution = async (values: any) => {
+    try {
+      const response = await govrn.contribution.create({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: userData.address,
+                chain_type: {
+                  create: {
+                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
+                  },
+                },
+              },
+              where: {
+                id: userData.id,
+              },
+            },
+          },
+          name: values.name,
+          details: values.details,
+          proof: values.proof,
+          activity_type: {
+            connectOrCreate: {
+              create: {
+                name: values.activityType,
+              },
+              where: {
+                name: values.activityType,
+              },
+            },
+          },
+          date_of_engagement: new Date(values.engagementDate).toISOString(),
+          status: {
+            connectOrCreate: {
+              create: {
+                name: 'staging',
+              },
+              where: {
+                name: 'staging',
+              },
+            },
+          },
+        },
+      });
+      console.log('contribution response', response);
+      getUserContributions();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -125,6 +191,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserAttestations,
         userActivityTypes,
         setUserActivityTypes,
+        createContribution,
       }}
     >
       {children}
@@ -146,6 +213,7 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createContribution,
   } = useContext(UserContext);
   return {
     userAddress,
@@ -160,5 +228,6 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createContribution,
   };
 };

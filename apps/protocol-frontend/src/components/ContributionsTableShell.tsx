@@ -73,9 +73,14 @@ const ContributionsTableShell = () => {
                           My Contributions
                         </Text>
                         {selectedContributions?.length === 0 ? (
-                          <Alert status="info" width="50%">
-                            <AlertIcon />
+                          <Alert status="info" width="50%" borderRadius="md">
                             <AlertDescription>
+                              <span
+                                role="img"
+                                aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
+                              >
+                                🌞
+                              </span>{' '}
                               Please select at least one Contribution to mint.
                             </AlertDescription>
                           </Alert>
