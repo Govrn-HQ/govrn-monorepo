@@ -7,7 +7,6 @@ export type MintArgs = {
   dateOfSubmission: ethers.BigNumberish;
   dateOfEngagement: ethers.BigNumberish;
   proof: ethers.BytesLike;
-  partners: string[];
   overrides?: ethers.Overrides & { from?: string | Promise<string> };
 };
 
@@ -46,7 +45,6 @@ export class GovrnContract {
       args.dateOfSubmission,
       args.dateOfEngagement,
       args.proof,
-      args.partners,
       args.overrides
     );
   }

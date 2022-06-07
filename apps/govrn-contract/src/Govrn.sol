@@ -34,7 +34,6 @@ contract Govrn {
     }
     struct BulkContribution {
         Contribution contribution;
-        address[] partners;
     }
 
     struct Attestation {
@@ -45,7 +44,6 @@ contract Govrn {
 
     mapping(address => uint256) public balanceOf;
     mapping(uint256 => Contribution) public contributions;
-    mapping(uint256 => mapping(address => bool)) public partners;
     mapping(uint256 => mapping(address => Attestation)) public attestations;
     mapping(address => uint256) public nonces;
 
@@ -69,16 +67,14 @@ contract Govrn {
         bytes memory _details,
         uint256 _dateOfSubmission,
         uint256 _dateOfEngagement,
-        bytes memory _proof,
-        address[] memory _partners
+        bytes memory _proof
     ) public {
         _mint(
             _name,
             _details,
             _dateOfSubmission,
             _dateOfEngagement,
-            _proof,
-            _partners
+            _proof
         );
     }
 
@@ -93,8 +89,7 @@ contract Govrn {
                 bulk.contribution.details,
                 bulk.contribution.dateOfSubmission,
                 bulk.contribution.dateOfEngagement,
-                bulk.contribution.proof,
-                bulk.partners
+                bulk.contribution.proof
             );
         }
     }
@@ -225,8 +220,7 @@ contract Govrn {
         bytes memory _details,
         uint256 _dateOfSubmission,
         uint256 _dateOfEngagement,
-        bytes memory _proof,
-        address[] memory _partners
+        bytes memory _proof
     ) internal {
         require(msg.sender != address(0), "INVALID_RECIPIENT");
         if (contributions[contributionCount].owner != address(0)) {
@@ -241,10 +235,6 @@ contract Govrn {
             _dateOfEngagement,
             _proof
         );
-        for (uint256 i = 0; i < _partners.length; i++) {
-            partners[contributionCount][_partners[i]] = true;
-        }
-
         // This needs some sort of reentry guard thing
         // we have to make sure there is an increment or weirdness can happen
         balanceOf[msg.sender]++;

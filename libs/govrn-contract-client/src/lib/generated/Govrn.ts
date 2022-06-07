@@ -66,13 +66,11 @@ export declare namespace Govrn {
 
   export type BulkContributionStruct = {
     contribution: Govrn.ContributionStruct;
-    partners: string[];
   };
 
   export type BulkContributionStructOutput = [
-    Govrn.ContributionStructOutput,
-    string[]
-  ] & { contribution: Govrn.ContributionStructOutput; partners: string[] };
+    Govrn.ContributionStructOutput
+  ] & { contribution: Govrn.ContributionStructOutput };
 }
 
 export interface GovrnInterface extends utils.Interface {
@@ -84,13 +82,13 @@ export interface GovrnInterface extends utils.Interface {
     "attestations(uint256,address)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "bulkAttest((uint256,uint8,uint256)[])": FunctionFragment;
-    "bulkMint(((address,bytes,bytes,uint256,uint256,bytes),address[])[])": FunctionFragment;
+    "bulkMint(((address,bytes,bytes,uint256,uint256,bytes))[])": FunctionFragment;
+    "burnContribution(uint256)": FunctionFragment;
     "contributionCount()": FunctionFragment;
     "contributions(uint256)": FunctionFragment;
-    "mint(bytes,bytes,uint256,uint256,bytes,address[])": FunctionFragment;
+    "mint(bytes,bytes,uint256,uint256,bytes)": FunctionFragment;
     "nonces(address)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "partners(uint256,address)": FunctionFragment;
     "permitAttest(address,uint256,uint8,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
     "revokeAttestatation(uint256)": FunctionFragment;
     "revokePeriod()": FunctionFragment;
@@ -106,12 +104,12 @@ export interface GovrnInterface extends utils.Interface {
       | "balanceOf"
       | "bulkAttest"
       | "bulkMint"
+      | "burnContribution"
       | "contributionCount"
       | "contributions"
       | "mint"
       | "nonces"
       | "ownerOf"
-      | "partners"
       | "permitAttest"
       | "revokeAttestatation"
       | "revokePeriod"
@@ -144,6 +142,10 @@ export interface GovrnInterface extends utils.Interface {
     values: [Govrn.BulkContributionStruct[]]
   ): string;
   encodeFunctionData(
+    functionFragment: "burnContribution",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "contributionCount",
     values?: undefined
   ): string;
@@ -153,23 +155,12 @@ export interface GovrnInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [
-      BytesLike,
-      BytesLike,
-      BigNumberish,
-      BigNumberish,
-      BytesLike,
-      string[]
-    ]
+    values: [BytesLike, BytesLike, BigNumberish, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "nonces", values: [string]): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "partners",
-    values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "permitAttest",
@@ -208,6 +199,10 @@ export interface GovrnInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "bulkAttest", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bulkMint", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "burnContribution",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "contributionCount",
     data: BytesLike
   ): Result;
@@ -218,7 +213,6 @@ export interface GovrnInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "partners", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "permitAttest",
     data: BytesLike
@@ -328,6 +322,11 @@ export interface Govrn extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    burnContribution(
+      _contribution: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     contributionCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     contributions(
@@ -350,7 +349,6 @@ export interface Govrn extends BaseContract {
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
       _proof: BytesLike,
-      _partners: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -360,12 +358,6 @@ export interface Govrn extends BaseContract {
       _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    partners(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
 
     permitAttest(
       _attestor: string,
@@ -427,6 +419,11 @@ export interface Govrn extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  burnContribution(
+    _contribution: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   contributionCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   contributions(
@@ -449,19 +446,12 @@ export interface Govrn extends BaseContract {
     _dateOfSubmission: BigNumberish,
     _dateOfEngagement: BigNumberish,
     _proof: BytesLike,
-    _partners: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   ownerOf(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  partners(
-    arg0: BigNumberish,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
 
   permitAttest(
     _attestor: string,
@@ -523,6 +513,11 @@ export interface Govrn extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    burnContribution(
+      _contribution: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     contributionCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     contributions(
@@ -545,19 +540,12 @@ export interface Govrn extends BaseContract {
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
       _proof: BytesLike,
-      _partners: string[],
       overrides?: CallOverrides
     ): Promise<void>;
 
     nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    partners(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
 
     permitAttest(
       _attestor: string,
@@ -630,6 +618,11 @@ export interface Govrn extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    burnContribution(
+      _contribution: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     contributionCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     contributions(
@@ -643,7 +636,6 @@ export interface Govrn extends BaseContract {
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
       _proof: BytesLike,
-      _partners: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -651,12 +643,6 @@ export interface Govrn extends BaseContract {
 
     ownerOf(
       _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    partners(
-      arg0: BigNumberish,
-      arg1: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -718,6 +704,11 @@ export interface Govrn extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    burnContribution(
+      _contribution: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     contributionCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     contributions(
@@ -731,7 +722,6 @@ export interface Govrn extends BaseContract {
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
       _proof: BytesLike,
-      _partners: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -742,12 +732,6 @@ export interface Govrn extends BaseContract {
 
     ownerOf(
       _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    partners(
-      arg0: BigNumberish,
-      arg1: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
