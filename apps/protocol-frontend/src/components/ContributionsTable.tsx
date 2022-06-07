@@ -126,14 +126,14 @@ const ContributionsTable = ({
               variant="ghost"
               color="gray.800"
               aria-label="Edit Contribution"
-              disabled={row.original.user.id !== userData.user}
+              disabled={row.original.user.id !== userData?.user}
               onClick={() => handleEditContributionFormModal(row.original.id)}
             />
             <IconButton
               icon={<FiTrash2 fontSize="1rem" />}
               variant="ghost"
               color="gray.800"
-              disabled={row.original.user.id !== userData.user}
+              disabled={row.original.user.id !== userData?.user}
               aria-label="Delete Contribution"
             />
           </HStack>

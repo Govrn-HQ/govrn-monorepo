@@ -25,7 +25,7 @@ const providerOptions: IProviderOptions = {
   },
 };
 const web3modalOptions = {
-  cacheProvider: false,
+  cacheProvider: true,
   providerOptions,
   theme: 'dark',
 };
@@ -42,7 +42,6 @@ ReactDOM.render(
         if (error) {
           console.error(error.message);
         }
-
         console.log(eventName);
       }}
     >
