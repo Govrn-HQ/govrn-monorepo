@@ -13,13 +13,23 @@ import {
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiCheckSquare } from 'react-icons/fi';
-import { useTable, useSortBy, useFilters, useGlobalFilter } from 'react-table';
+import {
+  useTable,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+  useRowSelect,
+} from 'react-table';
 import { ModalWrapper } from '@govrn/protocol-ui';
 import { useOverlay } from '../contexts/OverlayContext';
+import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import AddAttestationForm from './AddAttestationForm';
 
-const AttestationsTable = ({ contributionsData }: any) => {
+const AttestationsTable = ({
+  contributionsData,
+  setSelectedContributions,
+}: any) => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<any>();
@@ -73,6 +83,18 @@ const AttestationsTable = ({ contributionsData }: any) => {
 
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
+      {
+        id: 'selection',
+        Header: ({ getToggleAllRowsSelectedProps }) => (
+          <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+        ),
+        Cell: ({ row }) => (
+          <IndeterminateCheckbox
+            {...row.getToggleRowSelectedProps()}
+            // disabled={row.original.status === 'minted'}
+          />
+        ),
+      },
       ...columns,
       {
         id: 'actions',
@@ -105,8 +127,9 @@ const AttestationsTable = ({ contributionsData }: any) => {
     { columns, data },
     useFilters,
     useGlobalFilter,
-    tableHooks,
-    useSortBy
+    useSortBy,
+    useRowSelect,
+    tableHooks
   );
 
   return (

@@ -56,7 +56,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     const getUser = async () => {
       try {
         const userDataResponse = await govrn.user.get(userDataByAddress.id);
-        console.log('userdata response', userDataResponse);
         setUserData(userDataResponse);
         return userDataResponse;
       } catch (error) {

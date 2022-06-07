@@ -14,7 +14,6 @@ import {
   TabPanels,
   TabPanel,
   Alert,
-  AlertIcon,
   AlertDescription,
   useDisclosure,
 } from '@chakra-ui/react';
