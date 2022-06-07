@@ -66,7 +66,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       try {
         const userContributionsResponse = await govrn.contribution.list({
           where: {
-            user_id: { equals: userAddress.id },
+            user_id: { equals: userAddress?.id },
           },
         });
         setUserContributions(userContributionsResponse);
@@ -83,7 +83,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     const getUserActivityTypes = async () => {
       try {
         const userActivityTypesResponse = await govrn.activity_type.list(
-          userData.id
+          userData?.id
         );
         setUserActivityTypes(userActivityTypesResponse);
 
@@ -99,7 +99,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     const getUserAttestations = async () => {
       try {
         const userAttestationsResponse = await govrn.attestation.list(
-          userData.id
+          userData?.id
         );
         setUserAttestations(userAttestationsResponse);
         return userAttestationsResponse;

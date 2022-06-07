@@ -21,6 +21,7 @@ export interface InputProps {
   tip?: string;
   type?: 'text' | 'number' | 'email'; // may not need this
   defaultValue?: string | number;
+  isDisabled?: boolean;
   localForm: {
     register: (name: string | undefined) => void;
     formState: {
@@ -39,6 +40,7 @@ const Input: React.FC<InputProps> = ({
   type,
   defaultValue,
   localForm,
+  isDisabled = false,
   variant = 'outline',
 }: InputProps) => {
   const {
@@ -60,6 +62,7 @@ const Input: React.FC<InputProps> = ({
             defaultValue={defaultValue}
             py={6}
             variant={variant}
+            isDisabled={isDisabled}
             {...register(name)}
           />
           {errors && (

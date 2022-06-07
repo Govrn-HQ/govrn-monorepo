@@ -76,13 +76,19 @@ const ProfileForm = () => {
     }
   };
 
+  //  change to update from upsert
+
   const submitLinearEmail = async (values: any) => {
     const linearAssignee = {
       active: userData.active,
       displayName: userData.name,
       email: values.userLinearEmail,
-      user_id: userData.id,
-      linear_id: userData.id.toString(),
+      user: {
+        connect: {
+          id: userData.id,
+        },
+      },
+      linear_id: userData.id.toString(), // linear_id exists outside of our db
       name: userData.name,
       url: userData.url || '',
     };
@@ -92,7 +98,6 @@ const ProfileForm = () => {
         update: { email: { set: values.userLinearEmail } },
         where: { linear_id: userData.id.toString() },
       });
-      console.log('response', response);
     } catch (error) {
       console.error(error);
     }
@@ -145,6 +150,7 @@ const ProfileForm = () => {
                 tip="Enter your wallet address (not ENS)."
                 placeholder="0x..."
                 defaultValue={formatAddress(userData?.address) || '0x...'}
+                isDisabled={userData?.address}
                 localForm={localForm} //TODO: resolve this type issue -- need to investigate this
               />
               <Button
@@ -153,6 +159,7 @@ const ProfileForm = () => {
                 color="brand.primary.600"
                 backgroundColor="brand.primary.50"
                 transition="all 100ms ease-in-out"
+                isDisabled={userData?.address}
                 _hover={{ bgColor: 'brand.primary.100' }}
               >
                 Link Address

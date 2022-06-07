@@ -17,10 +17,10 @@ const HomeShell = () => {
   const { userDataByAddress } = useUser();
 
   useEffect(() => {
-    if (userDataByAddress && userDataByAddress.length > 0) {
+    if (userDataByAddress) {
       setCreateProfileSteps(3);
     }
-    if (userDataByAddress && userDataByAddress.length === 0) {
+    if (!userDataByAddress) {
       setCreateProfileSteps(1);
     }
   }, [userDataByAddress]);
@@ -71,7 +71,7 @@ const HomeShell = () => {
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
               >
-                {userDataByAddress[0].name}
+                {userDataByAddress[0]?.name}
               </Text>
               . Click below to view your contributions.
             </Text>
