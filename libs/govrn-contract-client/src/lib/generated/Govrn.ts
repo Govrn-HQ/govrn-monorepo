@@ -71,18 +71,50 @@ export declare namespace Govrn {
   export type BulkContributionStructOutput = [
     Govrn.ContributionStructOutput
   ] & { contribution: Govrn.ContributionStructOutput };
+
+  export type PermitAttestationStruct = {
+    attestor: string;
+    contribution: BigNumberish;
+    confidence: BigNumberish;
+    dateOfSubmission: BigNumberish;
+    deadline: BigNumberish;
+    v: BigNumberish;
+    r: BytesLike;
+    s: BytesLike;
+  };
+
+  export type PermitAttestationStructOutput = [
+    string,
+    BigNumber,
+    number,
+    BigNumber,
+    BigNumber,
+    number,
+    string,
+    string
+  ] & {
+    attestor: string;
+    contribution: BigNumber;
+    confidence: number;
+    dateOfSubmission: BigNumber;
+    deadline: BigNumber;
+    v: number;
+    r: string;
+    s: string;
+  };
 }
 
 export interface GovrnInterface extends utils.Interface {
   functions: {
     "DOMAIN_SEPARATOR()": FunctionFragment;
     "VERSION()": FunctionFragment;
-    "_attest(uint256,uint8)": FunctionFragment;
     "attest(uint256,uint8)": FunctionFragment;
     "attestations(uint256,address)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "bulkAttest((uint256,uint8,uint256)[])": FunctionFragment;
     "bulkMint(((address,bytes,bytes,uint256,uint256,bytes))[])": FunctionFragment;
+    "bulkPermitAttest((address,uint256,uint8,uint256,uint256,uint8,bytes32,bytes32)[])": FunctionFragment;
+    "bulkRevokeAttestation(uint256[])": FunctionFragment;
     "burnContribution(uint256)": FunctionFragment;
     "contributionCount()": FunctionFragment;
     "contributions(uint256)": FunctionFragment;
@@ -98,12 +130,13 @@ export interface GovrnInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "DOMAIN_SEPARATOR"
       | "VERSION"
-      | "_attest"
       | "attest"
       | "attestations"
       | "balanceOf"
       | "bulkAttest"
       | "bulkMint"
+      | "bulkPermitAttest"
+      | "bulkRevokeAttestation"
       | "burnContribution"
       | "contributionCount"
       | "contributions"
@@ -121,10 +154,6 @@ export interface GovrnInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "VERSION", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "_attest",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "attest",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -140,6 +169,14 @@ export interface GovrnInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "bulkMint",
     values: [Govrn.BulkContributionStruct[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "bulkPermitAttest",
+    values: [Govrn.PermitAttestationStruct[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "bulkRevokeAttestation",
+    values: [BigNumberish[]]
   ): string;
   encodeFunctionData(
     functionFragment: "burnContribution",
@@ -189,7 +226,6 @@ export interface GovrnInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "VERSION", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "_attest", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "attest", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "attestations",
@@ -198,6 +234,14 @@ export interface GovrnInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bulkAttest", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bulkMint", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "bulkPermitAttest",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "bulkRevokeAttestation",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "burnContribution",
     data: BytesLike
@@ -286,12 +330,6 @@ export interface Govrn extends BaseContract {
 
     VERSION(overrides?: CallOverrides): Promise<[string]>;
 
-    _attest(
-      _contribution: BigNumberish,
-      _confidence: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     attest(
       _contribution: BigNumberish,
       _confidence: BigNumberish,
@@ -319,6 +357,16 @@ export interface Govrn extends BaseContract {
 
     bulkMint(
       _contributions: Govrn.BulkContributionStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    bulkPermitAttest(
+      _permitAttestations: Govrn.PermitAttestationStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    bulkRevokeAttestation(
+      _contributions: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -383,12 +431,6 @@ export interface Govrn extends BaseContract {
 
   VERSION(overrides?: CallOverrides): Promise<string>;
 
-  _attest(
-    _contribution: BigNumberish,
-    _confidence: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   attest(
     _contribution: BigNumberish,
     _confidence: BigNumberish,
@@ -416,6 +458,16 @@ export interface Govrn extends BaseContract {
 
   bulkMint(
     _contributions: Govrn.BulkContributionStruct[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  bulkPermitAttest(
+    _permitAttestations: Govrn.PermitAttestationStruct[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  bulkRevokeAttestation(
+    _contributions: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -477,12 +529,6 @@ export interface Govrn extends BaseContract {
 
     VERSION(overrides?: CallOverrides): Promise<string>;
 
-    _attest(
-      _contribution: BigNumberish,
-      _confidence: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     attest(
       _contribution: BigNumberish,
       _confidence: BigNumberish,
@@ -510,6 +556,16 @@ export interface Govrn extends BaseContract {
 
     bulkMint(
       _contributions: Govrn.BulkContributionStruct[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    bulkPermitAttest(
+      _permitAttestations: Govrn.PermitAttestationStruct[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    bulkRevokeAttestation(
+      _contributions: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -588,12 +644,6 @@ export interface Govrn extends BaseContract {
 
     VERSION(overrides?: CallOverrides): Promise<BigNumber>;
 
-    _attest(
-      _contribution: BigNumberish,
-      _confidence: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     attest(
       _contribution: BigNumberish,
       _confidence: BigNumberish,
@@ -615,6 +665,16 @@ export interface Govrn extends BaseContract {
 
     bulkMint(
       _contributions: Govrn.BulkContributionStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    bulkPermitAttest(
+      _permitAttestations: Govrn.PermitAttestationStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    bulkRevokeAttestation(
+      _contributions: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -671,12 +731,6 @@ export interface Govrn extends BaseContract {
 
     VERSION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    _attest(
-      _contribution: BigNumberish,
-      _confidence: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     attest(
       _contribution: BigNumberish,
       _confidence: BigNumberish,
@@ -701,6 +755,16 @@ export interface Govrn extends BaseContract {
 
     bulkMint(
       _contributions: Govrn.BulkContributionStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    bulkPermitAttest(
+      _permitAttestations: Govrn.PermitAttestationStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    bulkRevokeAttestation(
+      _contributions: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

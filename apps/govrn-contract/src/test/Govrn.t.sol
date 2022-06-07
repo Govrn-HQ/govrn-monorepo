@@ -123,14 +123,12 @@ contract GovrnPermitAttestTest is DSTestPlus {
         uint256 _dateOfEngagement,
         bytes memory _proof
     ) public {
-        address[] memory partners = new address[](0);
         govrn.mint(
             _name,
             _details,
             _dateOfSubmission,
             _dateOfEngagement,
-            _proof,
-            partners
+            _proof
         );
     }
 
@@ -184,10 +182,9 @@ contract GovrnPermitAttestTest is DSTestPlus {
         uint256 privateKey = 0xBEEF;
         address owner = hevm.addr(privateKey);
         // mint
-        address[] memory partners = new address[](0);
         Govrn.PermitAttestation[] memory bulkPermitAttest = new Govrn.PermitAttestation[](2);
-        govrn.mint("test", "here", 1, 2, "proof", partners);
-        govrn.mint("test", "here", 1, 2, "proof", partners);
+        govrn.mint("test", "here", 1, 2, "proof");
+        govrn.mint("test", "here", 1, 2, "proof");
 		(uint8 vOne, bytes32 rOne, bytes32 sOne) = hevm.sign(
             privateKey,
             keccak256(
@@ -310,9 +307,8 @@ contract GovrnBulkRevokeTest is DSTestPlus {
 
     function setUp() public {
         govrn = new Govrn(1000);
-        address[] memory partners = new address[](0);
-        govrn.mint("test", "here", 1, 2, "proof", partners);
-        govrn.mint("test", "here", 1, 2, "proof", partners);
+        govrn.mint("test", "here", 1, 2, "proof");
+        govrn.mint("test", "here", 1, 2, "proof");
     }
 
     function testRevokeAttestation() public {
