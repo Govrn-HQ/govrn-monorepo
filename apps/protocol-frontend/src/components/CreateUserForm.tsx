@@ -61,8 +61,13 @@ const CreateUserForm = () => {
           name: values.username,
           address: address as string,
           chain_type: {
-            create: {
-              name: 'Ethereum Mainnet',
+            connectOrCreate: {
+              create: {
+                name: 'ethereum_mainnet',
+              },
+              where: {
+                name: 'ethereum_mainnet',
+              },
             },
           },
         },

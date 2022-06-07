@@ -39,21 +39,25 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           where: { address: { equals: address } },
         });
         setUserDataByAddress(userDataByAddressResponse);
-        setUserData(userDataByAddressResponse);
+
         return userDataByAddress;
       } catch (error) {
         console.error(error);
       }
     };
     getUserByAddress();
-  }, [userAddress]);
+  }, [address]);
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const userDataResponse = await govrn.user.get(1);
-        setUserData(userDataResponse);
-        return userDataResponse;
+        if (userDataByAddress) {
+          const userDataResponse = await govrn.user.get(
+            userDataByAddress[0].id
+          );
+          setUserData(userDataResponse);
+          return userDataResponse;
+        }
       } catch (error) {
         console.error(error);
       }
@@ -66,7 +70,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       try {
         const userContributionsResponse = await govrn.contribution.list({
           where: {
-            user_id: { equals: userAddress.id },
+            user_id: { equals: userData.id },
           },
         });
         setUserContributions(userContributionsResponse);
@@ -99,7 +103,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     const getUserAttestations = async () => {
       try {
         const userAttestationsResponse = await govrn.attestation.list(
-          userData.id
+          userData?.id
         );
         setUserAttestations(userAttestationsResponse);
         return userAttestationsResponse;
