@@ -93,9 +93,10 @@ const ProfileForm = () => {
       url: userData.url || '',
     };
     try {
-      const response = await govrn.linear.user.update({
-        data: { email: { set: values.userLinearEmail } },
-        where: { id: userData.id },
+      const response = await govrn.linear.user.upsert({
+        create: linearAssignee,
+        update: { email: { set: values.userLinearEmail } },
+        where: { linear_id: userData.id.toString() },
       });
     } catch (error) {
       console.error(error);
