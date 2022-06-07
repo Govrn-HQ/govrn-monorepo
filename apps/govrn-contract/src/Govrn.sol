@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.13;
-import "forge-std/console.sol";
 
 contract Govrn {
     error DeadlinePassed();
     error NotOwner();
+    error ZeroAddress();
 
     uint256 public contributionCount = 0;
     uint256 public revokePeriod = 0; // seconds
@@ -31,6 +31,7 @@ contract Govrn {
         uint256 dateOfEngagement;
         bytes proof;
     }
+
     struct BulkContribution {
         Contribution contribution;
         address[] partners;
@@ -41,6 +42,17 @@ contract Govrn {
         uint8 confidence;
         uint256 dateOfSubmission;
     }
+
+    struct PermitAttestation {
+        address attestor;
+        uint256 contribution;
+        uint8 confidence;
+        uint256 dateOfSubmission;
+        uint256 deadline;
+        uint8 v;
+        bytes32 r;
+        bytes32 s;
+	}
 
     mapping(address => uint256) public balanceOf;
     mapping(uint256 => Contribution) public contributions;
@@ -112,15 +124,27 @@ contract Govrn {
     }
 
     function revokeAttestatation(uint256 _contribution) public returns (bool) {
-        uint256 dateOfSubmission = attestations[_contribution][msg.sender]
-            .dateOfSubmission;
-        require(dateOfSubmission != 0, "Attestation does not exist");
-        bool revokable = revokePeriod >= (block.timestamp - dateOfSubmission);
-        if (revokable) {
-            delete attestations[_contribution][msg.sender];
-            return true;
+		return _revoke(_contribution, msg.sender);
+    }
+
+    function bulkRevokeAttestation(uint256[] memory _contributions) public {
+        for (uint256 i = 0; i < _contributions.length; i++) {
+		  uint256 _contribution = _contributions[i];
+		  _revoke(_contribution, msg.sender);
+		}
+    }
+
+    function burnContribution(uint256 _contribution) public returns (bool) {
+        address owner = contributions[_contribution].owner;
+        if (address(0) == msg.sender) {
+            revert ZeroAddress();
         }
-        revert DeadlinePassed();
+        if (owner != msg.sender) {
+            revert NotOwner();
+        }
+        delete contributions[_contribution];
+        --balanceOf[msg.sender];
+        return true;
     }
 
     function permitAttest(
@@ -133,59 +157,17 @@ contract Govrn {
         bytes32 r,
         bytes32 s
     ) public {
-        require(_deadline >= block.timestamp, "PERMIT_DEADLINE_EXPIRED");
-        uint256 nonce = nonces[_attestor];
-        nonces[_attestor]++;
+          _permitAttest(_attestor, _contribution, _confidence, _dateOfSubmission, _deadline, v, r, s);
+	}
 
-        // Unchecked because the only math done is incrementing
-        // the owner's nonce which cannot realistically overflow.
-        unchecked {
-            address recoveredAddress = ecrecover(
-                keccak256(
-                    abi.encodePacked(
-                        "\x19\x01",
-                        DOMAIN_SEPARATOR(),
-                        keccak256(
-                            abi.encode(
-                                keccak256(
-                                    "Attest(address attestor,uint256 contribution,uint8 confidence,uint256 dateOfSubmission,uint256 nonce,uint256 deadline)"
-                                ),
-                                _attestor,
-                                _contribution,
-                                _confidence,
-                                _dateOfSubmission,
-                                nonce,
-                                _deadline
-                            )
-                        )
-                    )
-                ),
-                v,
-                r,
-                s
-            );
-
-            require(
-                recoveredAddress != address(0) && recoveredAddress == _attestor,
-                "INVALID_SIGNER"
-            );
-            require(
-                contributions[_contribution].owner != address(0),
-                "Contribution does not exist"
-            );
-            require(
-                attestations[_contribution][msg.sender].dateOfSubmission == 0,
-                "Attestation exists"
-            );
-            Attestation memory attestation = Attestation({
-                contribution: _contribution,
-                confidence: _confidence,
-                dateOfSubmission: _dateOfSubmission
-            });
-            attestations[_contribution][_attestor] = attestation;
-        }
-        emit Attest(_attestor, _contribution, _confidence);
-    }
+    function bulkPermitAttest(
+		PermitAttestation[] memory _permitAttestations
+    ) public {
+        for (uint256 i = 0; i < _permitAttestations.length; i++) {
+		  PermitAttestation memory permitAttestation = _permitAttestations[i];
+          _permitAttest(permitAttestation.attestor, permitAttestation.contribution, permitAttestation.confidence, permitAttestation.dateOfSubmission, permitAttestation.deadline, permitAttestation.v, permitAttestation.r, permitAttestation.s);
+		}
+	}
 
     function ownerOf(uint256 _tokenId) external view returns (address) {
         return contributions[_tokenId].owner;
@@ -238,7 +220,7 @@ contract Govrn {
         contributionCount++;
     }
 
-    function _attest(uint256 _contribution, uint8 _confidence) public {
+    function _attest(uint256 _contribution, uint8 _confidence) internal {
         require(
             contributions[_contribution].owner != address(0),
             "Contribution does not exist"
@@ -256,4 +238,80 @@ contract Govrn {
         attestations[_contribution][msg.sender] = attestation;
         emit Attest(msg.sender, _contribution, _confidence);
     }
+
+	function _revoke(uint256 _contribution, address owner) internal returns (bool) {
+        uint256 dateOfSubmission = attestations[_contribution][owner]
+            .dateOfSubmission;
+        require(dateOfSubmission != 0, "Attestation does not exist");
+        bool revokable = revokePeriod >= (block.timestamp - dateOfSubmission);
+        if (revokable) {
+            delete attestations[_contribution][owner];
+            return true;
+        }
+        revert DeadlinePassed();
+	}
+
+	function _permitAttest(
+        address _attestor,
+        uint256 _contribution,
+        uint8 _confidence,
+        uint256 _dateOfSubmission,
+        uint256 _deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+	) internal {
+        require(_deadline >= block.timestamp, "PERMIT_DEADLINE_EXPIRED");
+        uint256 nonce = nonces[_attestor];
+        nonces[_attestor]++;
+
+        // Unchecked because the only math done is incrementing
+        // the owner's nonce which cannot realistically overflow.
+        unchecked {
+            address recoveredAddress = ecrecover(
+                keccak256(
+                    abi.encodePacked(
+                        "\x19\x01",
+                        DOMAIN_SEPARATOR(),
+                        keccak256(
+                            abi.encode(
+                                keccak256(
+                                    "Attest(address attestor,uint256 contribution,uint8 confidence,uint256 dateOfSubmission,uint256 nonce,uint256 deadline)"
+                                ),
+                                _attestor,
+                                _contribution,
+                                _confidence,
+                                _dateOfSubmission,
+                                nonce,
+                                _deadline
+                            )
+                        )
+                    )
+                ),
+                v,
+                r,
+                s
+            );
+
+            require(
+                recoveredAddress != address(0) && recoveredAddress == _attestor,
+                "INVALID_SIGNER"
+            );
+            require(
+                contributions[_contribution].owner != address(0),
+                "Contribution does not exist"
+            );
+            require(
+                attestations[_contribution][_attestor].dateOfSubmission == 0,
+                "Attestation exists"
+            );
+            Attestation memory attestation = Attestation({
+                contribution: _contribution,
+                confidence: _confidence,
+                dateOfSubmission: _dateOfSubmission
+            });
+            attestations[_contribution][_attestor] = attestation;
+        }
+        emit Attest(_attestor, _contribution, _confidence);
+	}
 }

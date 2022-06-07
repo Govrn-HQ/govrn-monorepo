@@ -27,8 +27,8 @@ export class DiscordUserCreateManyUserInput {
   })
   display_name?: string | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
     nullable: false
   })
-  discord_id!: number;
+  discord_id!: bigint;
 }
