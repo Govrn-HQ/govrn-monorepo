@@ -39,19 +39,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           where: { address: { equals: address } },
         });
         setUserDataByAddress(userDataByAddressResponse);
-        setUserData(userDataByAddressResponse);
+
         return userDataByAddress;
       } catch (error) {
         console.error(error);
       }
     };
     getUserByAddress();
-  }, [userAddress]);
+  }, [address]);
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const userDataResponse = await govrn.user.get(1);
+        const userDataResponse = await govrn.user.get(userDataByAddress[0].id);
         setUserData(userDataResponse);
         return userDataResponse;
       } catch (error) {
