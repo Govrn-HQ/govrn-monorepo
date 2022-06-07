@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { format } from 'date-fns';
 import {
   Table,
@@ -119,10 +119,11 @@ const AttestationsTable = ({
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow,
-    state: { globalFilter },
+    state: { globalFilter, selectedRowIds },
     preGlobalFilteredRows,
     setGlobalFilter,
+    selectedFlatRows,
+    prepareRow,
   } = useTable(
     { columns, data },
     useFilters,
@@ -131,6 +132,11 @@ const AttestationsTable = ({
     useRowSelect,
     tableHooks
   );
+
+  useEffect(() => {
+    setSelectedContributions(selectedFlatRows);
+    console.log(selectedFlatRows);
+  }, [selectedFlatRows, selectedRowIds]);
 
   return (
     <>
