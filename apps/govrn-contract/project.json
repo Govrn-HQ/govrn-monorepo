@@ -25,7 +25,7 @@
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "forge test --root apps/govrn-contract"
+        "command": "forge test --root apps/govrn-contract --gas-report"
       }
     },
     "trace": {
