@@ -6,7 +6,9 @@ import "openzeppelin-contracts/proxy/utils/Initializable.sol";
 import "openzeppelin-contracts/access/OwnableUpgradeable.sol";
 
 
-
+/// @title A contribution and attestation framework
+/// @notice This contract can be used to create and attest to a users contribution
+/// @custom:experimental This contract is unaudited
 contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     error DeadlinePassed();
     error NotOwner();
@@ -58,14 +60,34 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     mapping(uint256 => mapping(address => Attestation)) public attestations;
     mapping(address => uint256) public nonces;
 
-    /// Events
+    /**
+     * @dev Emit an event whenever a new contribution is minted
+	 *
+     * @param owner The owner of the newly minted contribution
+	 * @param id    The id of the newly minted contribution
+     */
     event Mint(address indexed owner, uint256 id);
+
+	/**
+     * @dev Emit an event whenever a new user attests to a contribution
+	 *
+     * @param attestor     The person that has attested to the contribution
+	 * @param contribution The id of the contribution
+	 * @param confidence   An indicator of how confident a user is about
+	                       an attestation
+     */
     event Attest(
         address indexed attestor,
         uint256 contribution,
         uint8 confidence
     );
 
+    /**
+     * @dev Initialize the implementation contract
+	 *
+     * @param _revokePeriod The number of seconds an attestor retains the
+     *                      ability to revoke their attestation
+     */
     function initialize(uint256 _revokePeriod) public initializer {
       __UUPSUpgradeable_init();
      revokePeriod = _revokePeriod;
@@ -82,6 +104,17 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
                 : computeDomainSeparator();
     }
 
+    /**
+     * @notice          Create a new contribution
+     * @dev             Mint a single contribution
+	 *
+     * @param _name              Name of the contribution
+     * @param _details           Details describing the contribution
+     * @param _dateOfSubmission  When the contribution was submitted
+     * @param _dateOfEngagement  When contribution was completed
+     * @param _proof             The uri for the proof of the contribution completion
+	 *
+     */
     function mint(
         bytes memory _name,
         bytes memory _details,
@@ -98,6 +131,13 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         );
     }
 
+   /**
+     * @notice               Create multiple new contributions
+     * @dev                  Mint multiple contributions
+	 *
+     * @param _contirbutions Bulk contributions
+	 *
+     */
     function bulkMint(BulkContribution[] memory _contributions) public {
         for (uint256 i = 0; i < _contributions.length; i++) {
             BulkContribution memory bulk = _contributions[i];
@@ -114,12 +154,26 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         }
     }
 
-    // verify contribution exists
-    // verify sender is not 0 address
+    /**
+     * @notice               Attest to an existing contribution
+     * @dev                  Create a attestation for a contribution
+	 *
+     * @param _contribution id of the contribution for the attestation
+     * @param _confidence   confidence level of the attestation
+	 *
+     */
     function attest(uint256 _contribution, uint8 _confidence) public {
         _attest(_contribution, _confidence);
     }
 
+    /**
+     * @notice               Create multiple attestations
+     * @dev                  Create multiple attestation with
+	 *                       no duplicate contributions
+	 *
+     * @param _attestations Bulk attestations
+	 *
+     */
     function bulkAttest(Attestation[] memory _attestations) public {
         for (uint256 i = 0; i < _attestations.length; i++) {
             Attestation memory attestation = _attestations[i];
@@ -127,10 +181,28 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         }
     }
 
+    /**
+     * @notice              Delete attestation
+     * @dev                 Revoke an attestation before the end of the
+	 *                      revoking period
+	 *
+     * @param _contribution id of the contribution with the attstation to
+	                        revoke
+	 *
+     */
     function revokeAttestatation(uint256 _contribution) public returns (bool) {
 		return _revoke(_contribution, msg.sender);
     }
 
+    /**
+     * @notice              Delete attestation
+     * @dev                 Revoke an attestation before the end of the
+	 *                      revoking period
+	 *
+     * @param _contribution id of the contribution with the attstation to
+	                        revoke
+	 *
+     */
     function bulkRevokeAttestation(uint256[] memory _contributions) public {
         for (uint256 i = 0; i < _contributions.length; i++) {
 		  uint256 _contribution = _contributions[i];
@@ -138,6 +210,14 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
 		}
     }
 
+    /**
+     * @notice              Delete contribution
+     * @dev                 Burn contribution, this will not delete
+	 *                      any associated attestations
+	 *
+     * @param _contribution id of the contribution to burn
+	 *
+     */
     function burnContribution(uint256 _contribution) public returns (bool) {
         address owner = contributions[_contribution].owner;
         if (address(0) == msg.sender) {
@@ -151,6 +231,21 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         return true;
     }
 
+    /**
+     * @notice              Create attestation with signed data
+     * @dev                 Use a signature with signed data to create
+	 *                      an attestation before the deadline
+	 *
+     * @param _attestor     address of the attestor
+     * @param _contribution id of the contribution
+     * @param _confidence   confidence of the attestation
+     * @param _dateOfSubmission   date of the attestation submission
+     * @param _deadline     the deadline of when the signature can be applied
+     * @param v             v value of the signature
+     * @param r             r value of the signature
+     * @param s             s value of the signature
+	 *
+     */
     function permitAttest(
         address _attestor,
         uint256 _contribution,
@@ -164,6 +259,12 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
           _permitAttest(_attestor, _contribution, _confidence, _dateOfSubmission, _deadline, v, r, s);
 	}
 
+    /**
+     * @dev                 Permit multiple attestations at once
+	 *
+     * @param _permitAttestations list of attestations to permit
+	 *
+     */
     function bulkPermitAttest(
 		PermitAttestation[] memory _permitAttestations
     ) public {
