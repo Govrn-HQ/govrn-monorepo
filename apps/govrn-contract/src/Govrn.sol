@@ -69,7 +69,7 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     function initialize(uint256 _revokePeriod) public initializer {
       __UUPSUpgradeable_init();
      revokePeriod = _revokePeriod;
-     contributionCount = 1;
+     contributionCount = 0;
      INITIAL_CHAIN_ID = block.chainid;
      INITIAL_DOMAIN_SEPARATOR = computeDomainSeparator();
     }
