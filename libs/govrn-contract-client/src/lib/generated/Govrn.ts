@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -118,12 +119,19 @@ export interface GovrnInterface extends utils.Interface {
     "burnContribution(uint256)": FunctionFragment;
     "contributionCount()": FunctionFragment;
     "contributions(uint256)": FunctionFragment;
+    "initialize(uint256)": FunctionFragment;
     "mint(bytes,bytes,uint256,uint256,bytes)": FunctionFragment;
     "nonces(address)": FunctionFragment;
+    "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "permitAttest(address,uint256,uint8,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
+    "proxiableUUID()": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
     "revokeAttestatation(uint256)": FunctionFragment;
     "revokePeriod()": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "upgradeTo(address)": FunctionFragment;
+    "upgradeToAndCall(address,bytes)": FunctionFragment;
   };
 
   getFunction(
@@ -140,12 +148,19 @@ export interface GovrnInterface extends utils.Interface {
       | "burnContribution"
       | "contributionCount"
       | "contributions"
+      | "initialize"
       | "mint"
       | "nonces"
+      | "owner"
       | "ownerOf"
       | "permitAttest"
+      | "proxiableUUID"
+      | "renounceOwnership"
       | "revokeAttestatation"
       | "revokePeriod"
+      | "transferOwnership"
+      | "upgradeTo"
+      | "upgradeToAndCall"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -191,10 +206,15 @@ export interface GovrnInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "initialize",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "mint",
     values: [BytesLike, BytesLike, BigNumberish, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "nonces", values: [string]): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
@@ -213,12 +233,29 @@ export interface GovrnInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "proxiableUUID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceOwnership",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "revokeAttestatation",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "revokePeriod",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "upgradeToAndCall",
+    values: [string, BytesLike]
   ): string;
 
   decodeFunctionResult(
@@ -254,11 +291,21 @@ export interface GovrnInterface extends utils.Interface {
     functionFragment: "contributions",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "permitAttest",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "proxiableUUID",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -269,15 +316,45 @@ export interface GovrnInterface extends utils.Interface {
     functionFragment: "revokePeriod",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToAndCall",
+    data: BytesLike
+  ): Result;
 
   events: {
+    "AdminChanged(address,address)": EventFragment;
     "Attest(address,uint256,uint8)": EventFragment;
+    "BeaconUpgraded(address)": EventFragment;
+    "Initialized(uint8)": EventFragment;
     "Mint(address,uint256)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Attest"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
+
+export interface AdminChangedEventObject {
+  previousAdmin: string;
+  newAdmin: string;
+}
+export type AdminChangedEvent = TypedEvent<
+  [string, string],
+  AdminChangedEventObject
+>;
+
+export type AdminChangedEventFilter = TypedEventFilter<AdminChangedEvent>;
 
 export interface AttestEventObject {
   attestor: string;
@@ -291,6 +368,23 @@ export type AttestEvent = TypedEvent<
 
 export type AttestEventFilter = TypedEventFilter<AttestEvent>;
 
+export interface BeaconUpgradedEventObject {
+  beacon: string;
+}
+export type BeaconUpgradedEvent = TypedEvent<
+  [string],
+  BeaconUpgradedEventObject
+>;
+
+export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
+
+export interface InitializedEventObject {
+  version: number;
+}
+export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
+
 export interface MintEventObject {
   owner: string;
   id: BigNumber;
@@ -298,6 +392,25 @@ export interface MintEventObject {
 export type MintEvent = TypedEvent<[string, BigNumber], MintEventObject>;
 
 export type MintEventFilter = TypedEventFilter<MintEvent>;
+
+export interface OwnershipTransferredEventObject {
+  previousOwner: string;
+  newOwner: string;
+}
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string],
+  OwnershipTransferredEventObject
+>;
+
+export type OwnershipTransferredEventFilter =
+  TypedEventFilter<OwnershipTransferredEvent>;
+
+export interface UpgradedEventObject {
+  implementation: string;
+}
+export type UpgradedEvent = TypedEvent<[string], UpgradedEventObject>;
+
+export type UpgradedEventFilter = TypedEventFilter<UpgradedEvent>;
 
 export interface Govrn extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -391,6 +504,11 @@ export interface Govrn extends BaseContract {
       }
     >;
 
+    initialize(
+      _revokePeriod: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     mint(
       _name: BytesLike,
       _details: BytesLike,
@@ -401,6 +519,8 @@ export interface Govrn extends BaseContract {
     ): Promise<ContractTransaction>;
 
     nonces(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    owner(overrides?: CallOverrides): Promise<[string]>;
 
     ownerOf(
       _tokenId: BigNumberish,
@@ -419,12 +539,34 @@ export interface Govrn extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     revokeAttestatation(
       _contribution: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     revokePeriod(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    upgradeTo(
+      newImplementation: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    upgradeToAndCall(
+      newImplementation: string,
+      data: BytesLike,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
@@ -492,6 +634,11 @@ export interface Govrn extends BaseContract {
     }
   >;
 
+  initialize(
+    _revokePeriod: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   mint(
     _name: BytesLike,
     _details: BytesLike,
@@ -502,6 +649,8 @@ export interface Govrn extends BaseContract {
   ): Promise<ContractTransaction>;
 
   nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -517,12 +666,34 @@ export interface Govrn extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  proxiableUUID(overrides?: CallOverrides): Promise<string>;
+
+  renounceOwnership(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   revokeAttestatation(
     _contribution: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   revokePeriod(overrides?: CallOverrides): Promise<BigNumber>;
+
+  transferOwnership(
+    newOwner: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  upgradeTo(
+    newImplementation: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  upgradeToAndCall(
+    newImplementation: string,
+    data: BytesLike,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   callStatic: {
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
@@ -590,6 +761,11 @@ export interface Govrn extends BaseContract {
       }
     >;
 
+    initialize(
+      _revokePeriod: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     mint(
       _name: BytesLike,
       _details: BytesLike,
@@ -600,6 +776,8 @@ export interface Govrn extends BaseContract {
     ): Promise<void>;
 
     nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -615,15 +793,44 @@ export interface Govrn extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<string>;
+
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
     revokeAttestatation(
       _contribution: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     revokePeriod(overrides?: CallOverrides): Promise<BigNumber>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    upgradeTo(
+      newImplementation: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    upgradeToAndCall(
+      newImplementation: string,
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
+    "AdminChanged(address,address)"(
+      previousAdmin?: null,
+      newAdmin?: null
+    ): AdminChangedEventFilter;
+    AdminChanged(
+      previousAdmin?: null,
+      newAdmin?: null
+    ): AdminChangedEventFilter;
+
     "Attest(address,uint256,uint8)"(
       attestor?: string | null,
       contribution?: null,
@@ -635,8 +842,28 @@ export interface Govrn extends BaseContract {
       confidence?: null
     ): AttestEventFilter;
 
+    "BeaconUpgraded(address)"(
+      beacon?: string | null
+    ): BeaconUpgradedEventFilter;
+    BeaconUpgraded(beacon?: string | null): BeaconUpgradedEventFilter;
+
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
+
     "Mint(address,uint256)"(owner?: string | null, id?: null): MintEventFilter;
     Mint(owner?: string | null, id?: null): MintEventFilter;
+
+    "OwnershipTransferred(address,address)"(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): OwnershipTransferredEventFilter;
+    OwnershipTransferred(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): OwnershipTransferredEventFilter;
+
+    "Upgraded(address)"(implementation?: string | null): UpgradedEventFilter;
+    Upgraded(implementation?: string | null): UpgradedEventFilter;
   };
 
   estimateGas: {
@@ -690,6 +917,11 @@ export interface Govrn extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    initialize(
+      _revokePeriod: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     mint(
       _name: BytesLike,
       _details: BytesLike,
@@ -700,6 +932,8 @@ export interface Govrn extends BaseContract {
     ): Promise<BigNumber>;
 
     nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(
       _tokenId: BigNumberish,
@@ -718,12 +952,34 @@ export interface Govrn extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     revokeAttestatation(
       _contribution: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     revokePeriod(overrides?: CallOverrides): Promise<BigNumber>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    upgradeTo(
+      newImplementation: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    upgradeToAndCall(
+      newImplementation: string,
+      data: BytesLike,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -780,6 +1036,11 @@ export interface Govrn extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    initialize(
+      _revokePeriod: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     mint(
       _name: BytesLike,
       _details: BytesLike,
@@ -793,6 +1054,8 @@ export interface Govrn extends BaseContract {
       arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ownerOf(
       _tokenId: BigNumberish,
@@ -811,11 +1074,33 @@ export interface Govrn extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     revokeAttestatation(
       _contribution: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     revokePeriod(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeTo(
+      newImplementation: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeToAndCall(
+      newImplementation: string,
+      data: BytesLike,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
   };
 }
