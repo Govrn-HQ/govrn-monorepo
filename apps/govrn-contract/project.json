@@ -22,6 +22,14 @@
         "cwd": "./apps/govrn-contract"
       }
     },
+    "deployProd": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx hardhat run scripts/deployProxy.js",
+        "cwd": "./apps/govrn-contract"
+      }
+    },
+
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

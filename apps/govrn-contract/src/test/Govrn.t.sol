@@ -11,7 +11,8 @@ contract ContractTest is DSTestPlus {
     Vm public constant vm = Vm(HEVM_ADDRESS);
 
     function setUp() public {
-        govrn = new Govrn(1000);
+        govrn = new Govrn();
+        govrn.initialize(1000);
     }
 
     function testNewContribution() public {
@@ -71,7 +72,8 @@ contract GovrnAttestTest is DSTestPlus {
     }
 
     function setUp() public {
-        govrn = new Govrn(1000);
+        govrn = new Govrn();
+        govrn.initialize(1000);
         this.mintContribution("test", "here", 1, 2, "proof");
     }
 
@@ -133,7 +135,8 @@ contract GovrnPermitAttestTest is DSTestPlus {
     }
 
     function setUp() public {
-        govrn = new Govrn(1000);
+        govrn = new Govrn();
+        govrn.initialize(1000);
         this._mintContribution("test", "here", 1, 2, "proof");
     }
 
@@ -269,7 +272,8 @@ contract GovrnRevokeTest is DSTestPlus {
     Vm public constant vm = Vm(HEVM_ADDRESS);
 
     function setUp() public {
-        govrn = new Govrn(1000);
+        govrn = new Govrn();
+        govrn.initialize(1000);
         govrn.mint("test", "here", 1, 2, "proof");
     }
 
@@ -306,7 +310,8 @@ contract GovrnBulkRevokeTest is DSTestPlus {
     Vm public constant vm = Vm(HEVM_ADDRESS);
 
     function setUp() public {
-        govrn = new Govrn(1000);
+        govrn = new Govrn();
+        govrn.initialize(1000);
         govrn.mint("test", "here", 1, 2, "proof");
         govrn.mint("test", "here", 1, 2, "proof");
     }
@@ -350,7 +355,8 @@ contract GovrnBurnTest is DSTestPlus {
     Vm public constant vm = Vm(HEVM_ADDRESS);
 
     function setUp() public {
-        govrn = new Govrn(1000);
+        govrn = new Govrn();
+        govrn.initialize(1000);
         govrn.mint("test", "here", 1, 2, "proof");
         govrn.mint("test", "here", 1, 2, "proof");
     }
