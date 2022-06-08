@@ -1,27 +1,27 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.13;
 
-contract Govrn {
+import "openzeppelin-contracts/proxy/utils/UUPSUpgradeable.sol";
+import "openzeppelin-contracts/proxy/utils/Initializable.sol";
+import "openzeppelin-contracts/access/OwnableUpgradeable.sol";
+
+
+
+contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     error DeadlinePassed();
     error NotOwner();
     error ZeroAddress();
 
-    uint256 public contributionCount = 0;
-    uint256 public revokePeriod = 0; // seconds
+    uint256 public contributionCount;
+    uint256 public revokePeriod; // seconds
 
     /*//////////////////////////////////////////////////////////////
                             EIP-712 STORAGE
     //////////////////////////////////////////////////////////////*/
 
-    uint256 internal immutable INITIAL_CHAIN_ID;
-    bytes32 internal immutable INITIAL_DOMAIN_SEPARATOR;
+    uint256 internal INITIAL_CHAIN_ID;
+    bytes32 internal INITIAL_DOMAIN_SEPARATOR;
     string public constant VERSION = "0.1";
-
-    constructor(uint256 _revokePeriod) {
-        INITIAL_CHAIN_ID = block.chainid;
-        INITIAL_DOMAIN_SEPARATOR = computeDomainSeparator();
-        revokePeriod = _revokePeriod;
-    }
 
     struct Contribution {
         address owner;
@@ -65,6 +65,15 @@ contract Govrn {
         uint256 contribution,
         uint8 confidence
     );
+
+    function initialize(uint256 _revokePeriod) public initializer {
+      __UUPSUpgradeable_init();
+     revokePeriod = _revokePeriod;
+     contributionCount = 1;
+     INITIAL_CHAIN_ID = block.chainid;
+     INITIAL_DOMAIN_SEPARATOR = computeDomainSeparator();
+    }
+
 
     function DOMAIN_SEPARATOR() public view virtual returns (bytes32) {
         return
@@ -304,4 +313,6 @@ contract Govrn {
         }
         emit Attest(_attestor, _contribution, _confidence);
 	}
+
+	function _authorizeUpgrade(address) internal override onlyOwner {}
 }
