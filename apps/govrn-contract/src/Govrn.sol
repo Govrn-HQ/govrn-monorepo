@@ -6,6 +6,7 @@ import "openzeppelin-contracts/proxy/utils/Initializable.sol";
 import "openzeppelin-contracts/access/OwnableUpgradeable.sol";
 
 
+
 /// @title A contribution and attestation framework
 /// @notice This contract can be used to create and attest to a users contribution
 /// @custom:experimental This contract is unaudited
@@ -82,9 +83,10 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         uint8 confidence
     );
 
+
     /**
      * @dev Initialize the implementation contract
-	 *
+	   *
      * @param _revokePeriod The number of seconds an attestor retains the
      *                      ability to revoke their attestation
      */
