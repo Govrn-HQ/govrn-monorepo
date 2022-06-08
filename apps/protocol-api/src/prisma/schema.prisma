@@ -54,6 +54,7 @@ model Guild {
   contributions GuildContribution[]
   users GuildUser[]
   twitter_account TwitterAccount?
+  activity_type GuildActivityType[]
 }
 
 model GuildUser {
@@ -79,6 +80,20 @@ model GuildContribution {
 
   @@unique([guild_id, contribution_id])
 }
+
+model GuildActivityType {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  guild_id Int
+  guild Guild @relation(fields: [guild_id], references: [id])
+  activity_type_id Int
+  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
+
+  @@unique([guild_id, activity_type_id])
+}
+
+
 
 
 model ChainType {
@@ -167,6 +182,7 @@ model ActivityType {
   users UserActivity[]
   contributions Contribution[]
   categoryActivity CategoryActivityType[]
+  guilds GuildActivityType[]
 }
 
 model UserActivity {

@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CategoryActivityTypeOrderByRelationAggregateInput } from "../inputs/CategoryActivityTypeOrderByRelationAggregateInput";
 import { ContributionOrderByRelationAggregateInput } from "../inputs/ContributionOrderByRelationAggregateInput";
+import { GuildActivityTypeOrderByRelationAggregateInput } from "../inputs/GuildActivityTypeOrderByRelationAggregateInput";
 import { UserActivityOrderByRelationAggregateInput } from "../inputs/UserActivityOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -55,4 +56,9 @@ export class ActivityTypeOrderByWithRelationInput {
     nullable: true
   })
   categoryActivity?: CategoryActivityTypeOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  guilds?: GuildActivityTypeOrderByRelationAggregateInput | undefined;
 }

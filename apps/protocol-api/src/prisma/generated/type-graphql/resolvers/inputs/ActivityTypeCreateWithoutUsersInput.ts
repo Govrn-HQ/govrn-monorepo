@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput } from "../inputs/CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput";
 import { ContributionCreateNestedManyWithoutActivity_typeInput } from "../inputs/ContributionCreateNestedManyWithoutActivity_typeInput";
+import { GuildActivityTypeCreateNestedManyWithoutActivity_typeInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutActivity_typeInput";
 
 @TypeGraphQL.InputType("ActivityTypeCreateWithoutUsersInput", {
   isAbstract: true
@@ -43,4 +44,9 @@ export class ActivityTypeCreateWithoutUsersInput {
     nullable: true
   })
   categoryActivity?: CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeCreateNestedManyWithoutActivity_typeInput, {
+    nullable: true
+  })
+  guilds?: GuildActivityTypeCreateNestedManyWithoutActivity_typeInput | undefined;
 }

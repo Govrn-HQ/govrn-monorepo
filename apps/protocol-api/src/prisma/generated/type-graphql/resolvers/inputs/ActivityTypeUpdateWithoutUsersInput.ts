@@ -6,6 +6,7 @@ import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperati
 import { CategoryActivityTypeUpdateManyWithoutActivity_typeInput } from "../inputs/CategoryActivityTypeUpdateManyWithoutActivity_typeInput";
 import { ContributionUpdateManyWithoutActivity_typeInput } from "../inputs/ContributionUpdateManyWithoutActivity_typeInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { GuildActivityTypeUpdateManyWithoutActivity_typeInput } from "../inputs/GuildActivityTypeUpdateManyWithoutActivity_typeInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("ActivityTypeUpdateWithoutUsersInput", {
@@ -46,4 +47,9 @@ export class ActivityTypeUpdateWithoutUsersInput {
     nullable: true
   })
   categoryActivity?: CategoryActivityTypeUpdateManyWithoutActivity_typeInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyWithoutActivity_typeInput, {
+    nullable: true
+  })
+  guilds?: GuildActivityTypeUpdateManyWithoutActivity_typeInput | undefined;
 }

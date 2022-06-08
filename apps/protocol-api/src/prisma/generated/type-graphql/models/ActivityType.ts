@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { CategoryActivityType } from "../models/CategoryActivityType";
 import { Contribution } from "../models/Contribution";
+import { GuildActivityType } from "../models/GuildActivityType";
 import { UserActivity } from "../models/UserActivity";
 import { ActivityTypeCount } from "../resolvers/outputs/ActivityTypeCount";
 
@@ -46,6 +47,8 @@ export class ActivityType {
   contributions?: Contribution[];
 
   categoryActivity?: CategoryActivityType[];
+
+  guilds?: GuildActivityType[];
 
   @TypeGraphQL.Field(_type => ActivityTypeCount, {
     nullable: true

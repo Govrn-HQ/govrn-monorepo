@@ -8,6 +8,7 @@ export { ContributionRelationsResolver } from "./Contribution/ContributionRelati
 export { ContributionStatusRelationsResolver } from "./ContributionStatus/ContributionStatusRelationsResolver";
 export { DiscordUserRelationsResolver } from "./DiscordUser/DiscordUserRelationsResolver";
 export { GuildRelationsResolver } from "./Guild/GuildRelationsResolver";
+export { GuildActivityTypeRelationsResolver } from "./GuildActivityType/GuildActivityTypeRelationsResolver";
 export { GuildContributionRelationsResolver } from "./GuildContribution/GuildContributionRelationsResolver";
 export { GuildUserRelationsResolver } from "./GuildUser/GuildUserRelationsResolver";
 export { LinearCycleRelationsResolver } from "./LinearCycle/LinearCycleRelationsResolver";

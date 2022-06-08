@@ -8,6 +8,7 @@ export { Contribution } from "./Contribution";
 export { ContributionStatus } from "./ContributionStatus";
 export { DiscordUser } from "./DiscordUser";
 export { Guild } from "./Guild";
+export { GuildActivityType } from "./GuildActivityType";
 export { GuildContribution } from "./GuildContribution";
 export { GuildUser } from "./GuildUser";
 export { JobRun } from "./JobRun";
