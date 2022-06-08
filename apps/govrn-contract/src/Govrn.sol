@@ -54,7 +54,7 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         uint8 v;
         bytes32 r;
         bytes32 s;
-	}
+    }
 
     mapping(address => uint256) public balanceOf;
     mapping(uint256 => Contribution) public contributions;
@@ -63,19 +63,19 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
 
     /**
      * @dev Emit an event whenever a new contribution is minted
-	 *
+     *
      * @param owner The owner of the newly minted contribution
-	 * @param id    The id of the newly minted contribution
+     * @param id    The id of the newly minted contribution
      */
     event Mint(address indexed owner, uint256 id);
 
-	/**
+    /**
      * @dev Emit an event whenever a new user attests to a contribution
-	 *
+     *
      * @param attestor     The person that has attested to the contribution
-	 * @param contribution The id of the contribution
-	 * @param confidence   An indicator of how confident a user is about
-	                       an attestation
+     * @param contribution The id of the contribution
+     * @param confidence   An indicator of how confident a user is about
+                           an attestation
      */
     event Attest(
         address indexed attestor,
@@ -86,7 +86,7 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
 
     /**
      * @dev Initialize the implementation contract
-	   *
+     *
      * @param _revokePeriod The number of seconds an attestor retains the
      *                      ability to revoke their attestation
      */
@@ -109,13 +109,13 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     /**
      * @notice          Create a new contribution
      * @dev             Mint a single contribution
-	 *
+     *
      * @param _name              Name of the contribution
      * @param _details           Details describing the contribution
      * @param _dateOfSubmission  When the contribution was submitted
      * @param _dateOfEngagement  When contribution was completed
      * @param _proof             The uri for the proof of the contribution completion
-	 *
+     *
      */
     function mint(
         bytes memory _name,
@@ -136,9 +136,9 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
    /**
      * @notice               Create multiple new contributions
      * @dev                  Mint multiple contributions
-	 *
-     * @param _contirbutions Bulk contributions
-	 *
+     *
+     * @param _contributions Bulk contributions
+     *
      */
     function bulkMint(BulkContribution[] memory _contributions) public {
         for (uint256 i = 0; i < _contributions.length; i++) {
@@ -159,10 +159,10 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     /**
      * @notice               Attest to an existing contribution
      * @dev                  Create a attestation for a contribution
-	 *
+     *
      * @param _contribution id of the contribution for the attestation
      * @param _confidence   confidence level of the attestation
-	 *
+     *
      */
     function attest(uint256 _contribution, uint8 _confidence) public {
         _attest(_contribution, _confidence);
@@ -171,10 +171,10 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     /**
      * @notice               Create multiple attestations
      * @dev                  Create multiple attestation with
-	 *                       no duplicate contributions
-	 *
+     *                       no duplicate contributions
+     *
      * @param _attestations Bulk attestations
-	 *
+     *
      */
     function bulkAttest(Attestation[] memory _attestations) public {
         for (uint256 i = 0; i < _attestations.length; i++) {
@@ -186,39 +186,39 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     /**
      * @notice              Delete attestation
      * @dev                 Revoke an attestation before the end of the
-	 *                      revoking period
-	 *
+     *                      revoking period
+     *
      * @param _contribution id of the contribution with the attstation to
-	                        revoke
-	 *
+                            revoke
+     *
      */
     function revokeAttestatation(uint256 _contribution) public returns (bool) {
-		return _revoke(_contribution, msg.sender);
+        return _revoke(_contribution, msg.sender);
     }
 
     /**
      * @notice              Delete attestation
      * @dev                 Revoke an attestation before the end of the
-	 *                      revoking period
-	 *
-     * @param _contribution id of the contribution with the attstation to
-	                        revoke
-	 *
+     *                      revoking period
+     *
+     * @param _contributions id of the contribution with the attstation to
+                             revoke
+     *
      */
     function bulkRevokeAttestation(uint256[] memory _contributions) public {
         for (uint256 i = 0; i < _contributions.length; i++) {
-		  uint256 _contribution = _contributions[i];
-		  _revoke(_contribution, msg.sender);
-		}
+          uint256 _contribution = _contributions[i];
+          _revoke(_contribution, msg.sender);
+        }
     }
 
     /**
      * @notice              Delete contribution
      * @dev                 Burn contribution, this will not delete
-	 *                      any associated attestations
-	 *
+     *                      any associated attestations
+     *
      * @param _contribution id of the contribution to burn
-	 *
+     *
      */
     function burnContribution(uint256 _contribution) public returns (bool) {
         address owner = contributions[_contribution].owner;
@@ -236,8 +236,8 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     /**
      * @notice              Create attestation with signed data
      * @dev                 Use a signature with signed data to create
-	 *                      an attestation before the deadline
-	 *
+     *                      an attestation before the deadline
+     *
      * @param _attestor     address of the attestor
      * @param _contribution id of the contribution
      * @param _confidence   confidence of the attestation
@@ -246,7 +246,7 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
      * @param v             v value of the signature
      * @param r             r value of the signature
      * @param s             s value of the signature
-	 *
+     *
      */
     function permitAttest(
         address _attestor,
@@ -259,22 +259,22 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         bytes32 s
     ) public {
           _permitAttest(_attestor, _contribution, _confidence, _dateOfSubmission, _deadline, v, r, s);
-	}
+    }
 
     /**
      * @dev                 Permit multiple attestations at once
-	 *
+     *
      * @param _permitAttestations list of attestations to permit
-	 *
+     *
      */
     function bulkPermitAttest(
-		PermitAttestation[] memory _permitAttestations
+        PermitAttestation[] memory _permitAttestations
     ) public {
         for (uint256 i = 0; i < _permitAttestations.length; i++) {
-		  PermitAttestation memory permitAttestation = _permitAttestations[i];
+          PermitAttestation memory permitAttestation = _permitAttestations[i];
           _permitAttest(permitAttestation.attestor, permitAttestation.contribution, permitAttestation.confidence, permitAttestation.dateOfSubmission, permitAttestation.deadline, permitAttestation.v, permitAttestation.r, permitAttestation.s);
-		}
-	}
+        }
+    }
 
     function ownerOf(uint256 _tokenId) external view returns (address) {
         return contributions[_tokenId].owner;
@@ -341,7 +341,7 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         emit Attest(msg.sender, _contribution, _confidence);
     }
 
-	function _revoke(uint256 _contribution, address owner) internal returns (bool) {
+    function _revoke(uint256 _contribution, address owner) internal returns (bool) {
         uint256 dateOfSubmission = attestations[_contribution][owner]
             .dateOfSubmission;
         require(dateOfSubmission != 0, "Attestation does not exist");
@@ -351,9 +351,9 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
             return true;
         }
         revert DeadlinePassed();
-	}
+    }
 
-	function _permitAttest(
+    function _permitAttest(
         address _attestor,
         uint256 _contribution,
         uint8 _confidence,
@@ -362,7 +362,7 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
         uint8 v,
         bytes32 r,
         bytes32 s
-	) internal {
+    ) internal {
         require(_deadline >= block.timestamp, "PERMIT_DEADLINE_EXPIRED");
         uint256 nonce = nonces[_attestor];
         nonces[_attestor]++;
@@ -415,7 +415,7 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
             attestations[_contribution][_attestor] = attestation;
         }
         emit Attest(_attestor, _contribution, _confidence);
-	}
+    }
 
-	function _authorizeUpgrade(address) internal override onlyOwner {}
+    function _authorizeUpgrade(address) internal override onlyOwner {}
 }

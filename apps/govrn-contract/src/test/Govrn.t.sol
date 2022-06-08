@@ -147,7 +147,7 @@ contract GovrnPermitAttestTest is DSTestPlus {
         // mint
 
         govrn.mint("test", "here", 1, 2, "proof");
-		(uint8 v, bytes32 r, bytes32 s) = hevm.sign(
+        (uint8 v, bytes32 r, bytes32 s) = hevm.sign(
             privateKey,
             keccak256(
                 abi.encodePacked(
@@ -188,7 +188,7 @@ contract GovrnPermitAttestTest is DSTestPlus {
         Govrn.PermitAttestation[] memory bulkPermitAttest = new Govrn.PermitAttestation[](2);
         govrn.mint("test", "here", 1, 2, "proof");
         govrn.mint("test", "here", 1, 2, "proof");
-		(uint8 vOne, bytes32 rOne, bytes32 sOne) = hevm.sign(
+        (uint8 vOne, bytes32 rOne, bytes32 sOne) = hevm.sign(
             privateKey,
             keccak256(
                 abi.encodePacked(
@@ -210,7 +210,7 @@ contract GovrnPermitAttestTest is DSTestPlus {
                 )
             )
         );
-		(uint8 vTwo, bytes32 rTwo, bytes32 sTwo) = hevm.sign(
+        (uint8 vTwo, bytes32 rTwo, bytes32 sTwo) = hevm.sign(
             privateKey,
             keccak256(
                 abi.encodePacked(
@@ -232,26 +232,26 @@ contract GovrnPermitAttestTest is DSTestPlus {
                 )
             )
         );
-		bulkPermitAttest[0] = Govrn.PermitAttestation(
-				 owner,
-				 0,
-				 1,
-				 100,
-				 block.timestamp,
-				 vOne,
-				 rOne,
-				 sOne
-		);
-		bulkPermitAttest[1] = Govrn.PermitAttestation(
-				 owner,
-				 1,
-				 1,
-				 100,
-				 block.timestamp,
-				 vTwo,
-				 rTwo,
-				 sTwo
-		);
+        bulkPermitAttest[0] = Govrn.PermitAttestation(
+                 owner,
+                 0,
+                 1,
+                 100,
+                 block.timestamp,
+                 vOne,
+                 rOne,
+                 sOne
+        );
+        bulkPermitAttest[1] = Govrn.PermitAttestation(
+                 owner,
+                 1,
+                 1,
+                 100,
+                 block.timestamp,
+                 vTwo,
+                 rTwo,
+                 sTwo
+        );
         govrn.bulkPermitAttest(bulkPermitAttest);
         (
             uint256 contribution,
@@ -319,34 +319,34 @@ contract GovrnBulkRevokeTest is DSTestPlus {
     function testRevokeAttestation() public {
         vm.warp(100);
         uint256[] memory attestations = new uint256[](2);
-		attestations[0] = 0;
-		attestations[1] = 1;
+        attestations[0] = 0;
+        attestations[1] = 1;
 
         govrn.attest(0, 1);
         govrn.attest(1, 1);
 
-		govrn.bulkRevokeAttestation(attestations);
+        govrn.bulkRevokeAttestation(attestations);
     }
 
     function testRevokeRevertAttestation() public {
         // warp
         vm.warp(100);
         uint256[] memory attestations = new uint256[](1);
-		attestations[0] = 0;
+        attestations[0] = 0;
 
         // attest
         govrn.attest(0, 1);
 
         vm.warp(20000);
         vm.expectRevert(Govrn.DeadlinePassed.selector);
-		govrn.bulkRevokeAttestation(attestations);
+        govrn.bulkRevokeAttestation(attestations);
     }
 
     function testRevokeErrorAttestation() public {
         uint256[] memory attestations = new uint256[](1);
-		attestations[0] = 0;
+        attestations[0] = 0;
         vm.expectRevert(bytes("Attestation does not exist"));
-		govrn.bulkRevokeAttestation(attestations);
+        govrn.bulkRevokeAttestation(attestations);
     }
 }
 
