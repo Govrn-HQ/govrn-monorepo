@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { GuildActivityTypeOrderByRelationAggregateInput } from "../inputs/GuildActivityTypeOrderByRelationAggregateInput";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
 import { TwitterAccountOrderByWithRelationInput } from "../inputs/TwitterAccountOrderByWithRelationInput";
@@ -60,4 +61,9 @@ export class GuildOrderByWithRelationInput {
     nullable: true
   })
   twitter_account?: TwitterAccountOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  activity_type?: GuildActivityTypeOrderByRelationAggregateInput | undefined;
 }

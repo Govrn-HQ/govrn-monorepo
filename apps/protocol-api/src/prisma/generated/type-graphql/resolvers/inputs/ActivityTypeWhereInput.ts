@@ -6,6 +6,7 @@ import { BoolFilter } from "../inputs/BoolFilter";
 import { CategoryActivityTypeListRelationFilter } from "../inputs/CategoryActivityTypeListRelationFilter";
 import { ContributionListRelationFilter } from "../inputs/ContributionListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { UserActivityListRelationFilter } from "../inputs/UserActivityListRelationFilter";
@@ -73,4 +74,9 @@ export class ActivityTypeWhereInput {
     nullable: true
   })
   categoryActivity?: CategoryActivityTypeListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeListRelationFilter, {
+    nullable: true
+  })
+  guilds?: GuildActivityTypeListRelationFilter | undefined;
 }

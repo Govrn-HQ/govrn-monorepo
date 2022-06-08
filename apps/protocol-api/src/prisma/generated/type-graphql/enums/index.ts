@@ -7,6 +7,7 @@ export { ChainTypeScalarFieldEnum } from "./ChainTypeScalarFieldEnum";
 export { ContributionScalarFieldEnum } from "./ContributionScalarFieldEnum";
 export { ContributionStatusScalarFieldEnum } from "./ContributionStatusScalarFieldEnum";
 export { DiscordUserScalarFieldEnum } from "./DiscordUserScalarFieldEnum";
+export { GuildActivityTypeScalarFieldEnum } from "./GuildActivityTypeScalarFieldEnum";
 export { GuildContributionScalarFieldEnum } from "./GuildContributionScalarFieldEnum";
 export { GuildScalarFieldEnum } from "./GuildScalarFieldEnum";
 export { GuildUserScalarFieldEnum } from "./GuildUserScalarFieldEnum";

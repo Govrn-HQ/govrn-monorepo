@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { ContributionUpdateManyWithoutActivity_typeInput } from "../inputs/ContributionUpdateManyWithoutActivity_typeInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { GuildActivityTypeUpdateManyWithoutActivity_typeInput } from "../inputs/GuildActivityTypeUpdateManyWithoutActivity_typeInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { UserActivityUpdateManyWithoutActivity_typeInput } from "../inputs/UserActivityUpdateManyWithoutActivity_typeInput";
 
@@ -46,4 +47,9 @@ export class ActivityTypeUpdateWithoutCategoryActivityInput {
     nullable: true
   })
   contributions?: ContributionUpdateManyWithoutActivity_typeInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyWithoutActivity_typeInput, {
+    nullable: true
+  })
+  guilds?: GuildActivityTypeUpdateManyWithoutActivity_typeInput | undefined;
 }

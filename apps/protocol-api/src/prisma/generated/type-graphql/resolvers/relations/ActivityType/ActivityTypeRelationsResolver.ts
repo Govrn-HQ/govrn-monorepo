@@ -2,9 +2,11 @@ import * as TypeGraphQL from "type-graphql";
 import { ActivityType } from "../../../models/ActivityType";
 import { CategoryActivityType } from "../../../models/CategoryActivityType";
 import { Contribution } from "../../../models/Contribution";
+import { GuildActivityType } from "../../../models/GuildActivityType";
 import { UserActivity } from "../../../models/UserActivity";
 import { ActivityTypeCategoryActivityArgs } from "./args/ActivityTypeCategoryActivityArgs";
 import { ActivityTypeContributionsArgs } from "./args/ActivityTypeContributionsArgs";
+import { ActivityTypeGuildsArgs } from "./args/ActivityTypeGuildsArgs";
 import { ActivityTypeUsersArgs } from "./args/ActivityTypeUsersArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
@@ -41,5 +43,16 @@ export class ActivityTypeRelationsResolver {
         id: activityType.id,
       },
     }).categoryActivity(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [GuildActivityType], {
+    nullable: false
+  })
+  async guilds(@TypeGraphQL.Root() activityType: ActivityType, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: ActivityTypeGuildsArgs): Promise<GuildActivityType[]> {
+    return getPrismaFromContext(ctx).activityType.findUnique({
+      where: {
+        id: activityType.id,
+      },
+    }).guilds(args);
   }
 }

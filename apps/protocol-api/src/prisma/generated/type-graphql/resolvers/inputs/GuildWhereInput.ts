@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BigIntNullableFilter } from "../inputs/BigIntNullableFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
 import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -79,4 +80,9 @@ export class GuildWhereInput {
     nullable: true
   })
   twitter_account?: TwitterAccountRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeListRelationFilter, {
+    nullable: true
+  })
+  activity_type?: GuildActivityTypeListRelationFilter | undefined;
 }

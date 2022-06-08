@@ -1,8 +1,10 @@
 import * as TypeGraphQL from "type-graphql";
 import { Guild } from "../../../models/Guild";
+import { GuildActivityType } from "../../../models/GuildActivityType";
 import { GuildContribution } from "../../../models/GuildContribution";
 import { GuildUser } from "../../../models/GuildUser";
 import { TwitterAccount } from "../../../models/TwitterAccount";
+import { GuildActivity_typeArgs } from "./args/GuildActivity_typeArgs";
 import { GuildContributionsArgs } from "./args/GuildContributionsArgs";
 import { GuildUsersArgs } from "./args/GuildUsersArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
@@ -40,5 +42,16 @@ export class GuildRelationsResolver {
         id: guild.id,
       },
     }).twitter_account({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [GuildActivityType], {
+    nullable: false
+  })
+  async activity_type(@TypeGraphQL.Root() guild: Guild, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: GuildActivity_typeArgs): Promise<GuildActivityType[]> {
+    return getPrismaFromContext(ctx).guild.findUnique({
+      where: {
+        id: guild.id,
+      },
+    }).activity_type(args);
   }
 }
