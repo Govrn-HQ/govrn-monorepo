@@ -3,16 +3,26 @@ import { format } from 'date-fns';
 import { Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
+import { isAfter } from 'date-fns';
 
 const ContributionTypesTable = ({ contributionTypesData }: any) => {
   const uniqueKey = 'name';
 
   const uniqueContributions = [
     ...new Map(
-      contributionTypesData.map((contributionType: any) => [
-        contributionType.activity_type[uniqueKey],
-        contributionType,
-      ])
+      contributionTypesData
+        .sort((firstContribution: any, nextContribution: any) =>
+          isAfter(
+            new Date(firstContribution.engagementDate),
+            new Date(nextContribution.engagementDate)
+          )
+            ? 1
+            : -1
+        )
+        .map((contributionType: any) => [
+          contributionType.activity_type[uniqueKey],
+          contributionType,
+        ])
     ).values(),
   ];
 

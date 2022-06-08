@@ -83,14 +83,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     const getUserContributions = async () => {
-      console.log('fetching contributions');
       try {
         const userContributionsResponse = await govrn.contribution.list({
           where: {
             user_id: { equals: userAddress?.id },
           },
+          first: 1000,
         });
         setUserContributions(userContributionsResponse);
+        console.log('user contributions', userContributionsResponse);
         return userContributionsResponse;
       } catch (error) {
         console.error(error);
@@ -118,10 +119,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   useEffect(() => {
     const getUserAttestations = async () => {
       try {
-        const userAttestationsResponse = await govrn.attestation.list(
-          userData?.id
-        );
+        const userAttestationsResponse = await govrn.attestation.list({
+          where: {
+            user_id: { equals: userAddress?.id },
+          },
+          first: 1000,
+        });
         setUserAttestations(userAttestationsResponse);
+        console.log('user attestations', userAttestationsResponse);
         return userAttestationsResponse;
       } catch (error) {
         console.error(error);
