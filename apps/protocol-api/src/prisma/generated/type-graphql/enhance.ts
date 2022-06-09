@@ -1238,7 +1238,7 @@ const inputsInfo = {
   DiscordUserScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "display_name", "discord_id", "user_id"],
   GuildWhereInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "discord_id", "name", "congrats_channel", "logo", "contributions", "users", "twitter_account", "activity_type"],
   GuildOrderByWithRelationInput: ["id", "createdAt", "updatedAt", "discord_id", "name", "congrats_channel", "logo", "contributions", "users", "twitter_account", "activity_type"],
-  GuildWhereUniqueInput: ["id"],
+  GuildWhereUniqueInput: ["id", "discord_id"],
   GuildOrderByWithAggregationInput: ["id", "createdAt", "updatedAt", "discord_id", "name", "congrats_channel", "logo", "_count", "_avg", "_max", "_min", "_sum"],
   GuildScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "discord_id", "name", "congrats_channel", "logo"],
   GuildUserWhereInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "user_id", "user", "guild_id", "guild"],

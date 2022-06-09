@@ -47,7 +47,7 @@ model Guild {
   id    Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  discord_id BigInt? // legacy
+  discord_id BigInt? @unique // legacy
   name String? // legacy
   congrats_channel Int? // legacy
   logo String?
