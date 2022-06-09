@@ -46,11 +46,11 @@ ReactDOM.render(
           console.log(eventName);
         }}
       >
-        <UserContextProvider>
-          <OverlayContextProvider>
+        <OverlayContextProvider>
+          <UserContextProvider>
             <Routes />
-          </OverlayContextProvider>
-        </UserContextProvider>
+          </UserContextProvider>
+        </OverlayContextProvider>
       </WalletProvider>
     </ChakraProvider>
   </StrictMode>,

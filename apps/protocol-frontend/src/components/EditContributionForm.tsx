@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Stack, Flex, Button, Text, useToast } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text } from '@chakra-ui/react';
 import {
   Input,
   Textarea,
   DatePicker,
   CreatableSelect,
 } from '@govrn/protocol-ui';
-import { GovrnProtocol } from '@govrn/protocol-client';
+
 import { useForm } from 'react-hook-form';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
@@ -15,8 +15,6 @@ interface EditContributionFormProps {
   contribution: any;
   onClose?: () => void;
 }
-
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
@@ -93,13 +91,14 @@ const EditContributionForm = ({
     })
   );
 
-  const editContributionHandler = async (values: any) => {
+  const updateContributionHandler = async (values: any) => {
     updateContribution(contribution, values);
+    reset();
   };
 
   return (
     <Stack spacing="4" width="100%" color="gray.800">
-      <form onSubmit={handleSubmit(editContributionHandler)}>
+      <form onSubmit={handleSubmit(updateContributionHandler)}>
         <Text paddingBottom={2}>{contribution.name}</Text>
         <Input
           name="name"

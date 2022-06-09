@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
+import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
 
@@ -18,6 +19,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const { isConnected, address } = useWallet();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl);
+  const { setModals } = useOverlay();
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
@@ -238,6 +240,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
+      setModals({ editContributionFormModal: false });
     } catch (error) {
       console.log(error);
       toast({
