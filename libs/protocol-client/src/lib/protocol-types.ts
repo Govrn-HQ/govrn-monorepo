@@ -13730,6 +13730,14 @@ export type CreateContributionMutationVariables = Exact<{
 
 export type CreateContributionMutation = { createContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } };
 
+export type BulkCreateContributionMutationVariables = Exact<{
+  data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
+  skipDuplicates: Scalars['Boolean'];
+}>;
+
+
+export type BulkCreateContributionMutation = { createManyContribution: { count: number } };
+
 export type UpdateContributionMutationVariables = Exact<{
   data: ContributionUpdateInput;
   where: ContributionWhereUniqueInput;
@@ -13768,6 +13776,14 @@ export type CreateAttestationMutationVariables = Exact<{
 
 
 export type CreateAttestationMutation = { createAttestation: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } };
+
+export type BulkCreateAttestationMutationVariables = Exact<{
+  data: Array<AttestationCreateManyInput> | AttestationCreateManyInput;
+  skipDuplicates: Scalars['Boolean'];
+}>;
+
+
+export type BulkCreateAttestationMutation = { createManyAttestation: { count: number } };
 
 export type UpdateAttestationMutationVariables = Exact<{
   data: AttestationUpdateInput;
@@ -14141,6 +14157,13 @@ export const CreateContributionDocument = gql`
   }
 }
     ${ContributionFragmentFragmentDoc}`;
+export const BulkCreateContributionDocument = gql`
+    mutation bulkCreateContribution($data: [ContributionCreateManyInput!]!, $skipDuplicates: Boolean!) {
+  createManyContribution(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+    `;
 export const UpdateContributionDocument = gql`
     mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
   updateContribution(data: $data, where: $where) {
@@ -14179,6 +14202,13 @@ export const CreateAttestationDocument = gql`
   }
 }
     ${AttestationFragmentFragmentDoc}`;
+export const BulkCreateAttestationDocument = gql`
+    mutation bulkCreateAttestation($data: [AttestationCreateManyInput!]!, $skipDuplicates: Boolean!) {
+  createManyAttestation(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+    `;
 export const UpdateAttestationDocument = gql`
     mutation updateAttestation($data: AttestationUpdateInput!, $where: AttestationWhereUniqueInput!) {
   updateAttestation(data: $data, where: $where) {
@@ -14264,6 +14294,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');
     },
+    bulkCreateContribution(variables: BulkCreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateContributionMutation>(BulkCreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateContribution', 'mutation');
+    },
     updateContribution(variables: UpdateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateContributionMutation>(UpdateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateContribution', 'mutation');
     },
@@ -14275,6 +14308,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createAttestation(variables: CreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAttestationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateAttestationMutation>(CreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createAttestation', 'mutation');
+    },
+    bulkCreateAttestation(variables: BulkCreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateAttestationMutation>(BulkCreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateAttestation', 'mutation');
     },
     updateAttestation(variables: UpdateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateAttestationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateAttestationMutation>(UpdateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateAttestation', 'mutation');

@@ -29,7 +29,9 @@
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "contract-sync-job:build"
+        "buildTarget": "contract-sync-job:build",
+        // "inspect": true,
+        "port": 55362
       }
     },
     "lint": {

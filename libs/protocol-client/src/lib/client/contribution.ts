@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { BaseClient } from './base';
 import { Attestation } from './attestation';
 import {
+  BulkCreateContributionMutationVariables,
   CreateContributionMutationVariables,
   ListContributionsQueryVariables,
   UpdateContributionMutationVariables,
@@ -27,6 +28,10 @@ export class Contribution extends BaseClient {
   public async create(args: CreateContributionMutationVariables) {
     const contributions = await this.sdk.createContribution(args);
     return contributions.createContribution;
+  }
+
+  public async bulkCreate(args: BulkCreateContributionMutationVariables) {
+    return await this.sdk.bulkCreateContribution(args);
   }
 
   public async update(args: UpdateContributionMutationVariables) {

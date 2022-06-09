@@ -1,5 +1,6 @@
 import { BaseClient } from './base';
 import {
+  BulkCreateAttestationMutationVariables,
   CreateAttestationMutationVariables,
   ListAttestationsQueryVariables,
   UpdateAttestationMutationVariables,
@@ -9,6 +10,10 @@ export class Attestation extends BaseClient {
   public async create(args: CreateAttestationMutationVariables) {
     const contributions = await this.sdk.createAttestation(args);
     return contributions.createAttestation;
+  }
+
+  public async bulkCreate(args: BulkCreateAttestationMutationVariables) {
+    return await this.sdk.bulkCreateAttestation(args);
   }
 
   public async update(args: UpdateAttestationMutationVariables) {

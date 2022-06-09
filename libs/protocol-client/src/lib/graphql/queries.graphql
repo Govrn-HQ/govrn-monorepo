@@ -296,6 +296,12 @@ mutation createContribution($data: ContributionCreateInput!) {
   }
 }
 
+mutation bulkCreateContribution($data: [ContributionCreateManyInput!]!,  $skipDuplicates: Boolean!) {
+  createManyContribution(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+
 mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
   updateContribution(data: $data, where: $where) {
     ...ContributionFragment
@@ -367,6 +373,12 @@ query listAttestations($where: AttestationWhereInput! = {}, $skip: Int! = 0, $fi
 mutation createAttestation($data: AttestationCreateInput!) {
   createAttestation(data: $data) {
     ...AttestationFragment
+  }
+}
+
+mutation bulkCreateAttestation($data: [AttestationCreateManyInput!]!,  $skipDuplicates: Boolean!) {
+  createManyAttestation(data: $data, skipDuplicates: $skipDuplicates) {
+    count
   }
 }
 
