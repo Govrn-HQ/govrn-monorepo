@@ -100,7 +100,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const createContribution = async (values: any, reset: any) => {
-    console.log('reset', reset);
     try {
       await govrn.contribution.create({
         data: {

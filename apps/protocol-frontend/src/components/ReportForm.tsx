@@ -122,7 +122,7 @@ const ReportForm = () => {
             setValue('engagementDate', date);
           }}
         />
-        <Flex align="flex-end" marginTop={4}>
+        <Flex align="flex-end" marginTop={4} gap={4}>
           <Button
             type="submit"
             width="100%"
