@@ -102,7 +102,6 @@ const ProfileForm = () => {
   };
 
   const updateLinearEmailHandler = async (values: any) => {
-    console.log('values', values);
     updateLinearEmail(values);
   };
 
