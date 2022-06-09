@@ -9,6 +9,7 @@ import {
 } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
+import { useNavigate } from 'react-router-dom';
 
 const useYupValidationResolver = (reportValidationSchema: any) =>
   useCallback(
@@ -44,6 +45,8 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
 const ReportForm = () => {
   const { userActivityTypes, createContribution } = useUser();
 
+  let navigate = useNavigate();
+
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(reportFormValidation),
@@ -74,7 +77,7 @@ const ReportForm = () => {
   );
 
   const createContributionHandler = async (values: any) => {
-    createContribution(values, reset);
+    createContribution(values, reset, navigate);
   };
 
   return (

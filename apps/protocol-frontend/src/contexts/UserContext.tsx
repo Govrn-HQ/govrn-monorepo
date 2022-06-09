@@ -20,6 +20,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl);
   const { setModals } = useOverlay();
+
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
@@ -99,7 +100,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const createContribution = async (values: any, reset: any) => {
+  const createContribution = async (values: any, reset: any, navigate: any) => {
     try {
       await govrn.contribution.create({
         data: {
@@ -154,6 +155,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       });
       getUserContributions();
       reset();
+      navigate('/contributions');
     } catch (error) {
       console.log(error);
       toast({
