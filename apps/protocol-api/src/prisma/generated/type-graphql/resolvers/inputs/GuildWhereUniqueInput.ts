@@ -11,4 +11,9 @@ export class GuildWhereUniqueInput {
     nullable: true
   })
   id?: number | undefined;
+
+  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
+    nullable: true
+  })
+  discord_id?: bigint | undefined;
 }

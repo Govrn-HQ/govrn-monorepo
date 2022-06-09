@@ -5251,6 +5251,7 @@ export type GuildWhereInput = {
 };
 
 export type GuildWhereUniqueInput = {
+  discord_id?: InputMaybe<Scalars['BigInt']>;
   id?: InputMaybe<Scalars['Int']>;
 };
 
