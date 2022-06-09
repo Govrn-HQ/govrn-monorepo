@@ -13623,6 +13623,20 @@ export type CreateJobRunMutationVariables = Exact<{
 
 export type CreateJobRunMutation = { createJobRun: { completedDate: any, startDate: any, name: string } };
 
+export type CreateGuildMutationVariables = Exact<{
+  data: GuildCreateInput;
+}>;
+
+
+export type CreateGuildMutation = { createGuild: { congrats_channel?: number | null, discord_id?: any | null, logo?: string | null, name?: string | null } };
+
+export type DeleteGuildUserMutationVariables = Exact<{
+  where: GuildUserWhereUniqueInput;
+}>;
+
+
+export type DeleteGuildUserMutation = { deleteGuildUser?: { id: number } | null };
+
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name: string, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } | null };
 
 export type BulkCreateTwitterTweetMutationVariables = Exact<{
@@ -14030,6 +14044,23 @@ export const CreateJobRunDocument = gql`
   }
 }
     `;
+export const CreateGuildDocument = gql`
+    mutation createGuild($data: GuildCreateInput!) {
+  createGuild(data: $data) {
+    congrats_channel
+    discord_id
+    logo
+    name
+  }
+}
+    `;
+export const DeleteGuildUserDocument = gql`
+    mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
+  deleteGuildUser(where: $where) {
+    id
+  }
+}
+    `;
 export const BulkCreateTwitterTweetDocument = gql`
     mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
@@ -14196,6 +14227,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createJobRun(variables: CreateJobRunMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateJobRunMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateJobRunMutation>(CreateJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createJobRun', 'mutation');
+    },
+    createGuild(variables: CreateGuildMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildMutation>(CreateGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuild', 'mutation');
+    },
+    deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');

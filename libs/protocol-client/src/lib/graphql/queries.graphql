@@ -96,6 +96,25 @@ mutation createJobRun($data: JobRunCreateInput!) {
   }
 }
 
+# Guild
+mutation createGuild($data: GuildCreateInput!) {
+  createGuild(data: $data) {
+    congrats_channel
+    discord_id
+    logo
+    name
+  }
+}
+
+mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
+  deleteGuildUser(where: $where) {
+    id
+  }
+}
+
+
+
+
 # Twitter
 fragment TwitterTweetFragment on TwitterTweet {
   id

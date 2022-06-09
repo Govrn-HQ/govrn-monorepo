@@ -2,6 +2,7 @@ import { ActivityType } from './client/activity_type';
 import { Attestation } from './client/attestation';
 import { Contribution } from './client/contribution';
 import { JobRun } from './client/jobRun';
+import { Guild } from './client/guild';
 import { Linear } from './client/linear';
 import { Twitter } from './client/twitter';
 import { User } from './client/user';
@@ -15,6 +16,7 @@ export class GovrnProtocol {
   client: GraphQLClient;
   contribution: Contribution;
   jobRun: JobRun;
+  guild: Guild;
   linear: Linear;
   twitter: Twitter;
   user: User;
@@ -36,5 +38,6 @@ export class GovrnProtocol {
     this.attestation = new Attestation(this.client);
     this.twitter = new Twitter(this.client);
     this.jobRun = new JobRun(this.client);
+    this.guild = new Guild(this.client);
   }
 }
