@@ -45,7 +45,7 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
 const ReportForm = () => {
   const { userActivityTypes, createContribution } = useUser();
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const localForm = useForm({
     mode: 'all',
