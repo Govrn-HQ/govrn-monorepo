@@ -257,6 +257,74 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const updateProfile = async (values: any) => {
+    try {
+      await govrn.user.update(
+        { name: { set: values.name } },
+        { id: userData.id }
+      );
+      toast({
+        title: 'User Profile Updated',
+        description: 'Your Profile has been updated',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: 'Unable to Update Profile',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
+  const updateLinearEmail = async (values: any) => {
+    const linearAssignee = {
+      active: userData.active,
+      displayName: userData.name,
+      email: values.userLinearEmail,
+      user: {
+        connect: {
+          id: userData.id,
+        },
+      },
+      linear_id: userData.id.toString(), // linear_id exists outside of our db
+      name: userData.name,
+      url: userData.url || '',
+    };
+    try {
+      await govrn.linear.user.upsert({
+        create: linearAssignee,
+        update: { email: { set: values.userLinearEmail } },
+        where: { linear_id: userData.id.toString() },
+      });
+      toast({
+        title: 'Linear Email Linked',
+        description: 'Linear Email Address has been linked.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: 'Unable to Link Linear Email Address',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
   useEffect(() => {
     if (address) {
       getUserByAddress();
@@ -299,6 +367,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserActivityTypes,
         createContribution,
         updateContribution,
+        updateProfile,
+        updateLinearEmail,
       }}
     >
       {children}
@@ -322,6 +392,8 @@ export const useUser = () => {
     setUserActivityTypes,
     createContribution,
     updateContribution,
+    updateProfile,
+    updateLinearEmail,
   } = useContext(UserContext);
   return {
     userAddress,
@@ -338,5 +410,7 @@ export const useUser = () => {
     setUserActivityTypes,
     createContribution,
     updateContribution,
+    updateProfile,
+    updateLinearEmail,
   };
 };
