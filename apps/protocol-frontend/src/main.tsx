@@ -25,35 +25,34 @@ const providerOptions: IProviderOptions = {
   },
 };
 const web3modalOptions = {
-  cacheProvider: false,
+  cacheProvider: true,
   providerOptions,
   theme: 'dark',
 };
 
 ReactDOM.render(
   <StrictMode>
-    <WalletProvider
-      web3modalOptions={web3modalOptions}
-      networks={networks}
-      // Optional if you want to auto switch the network
-      defaultChainId={'0x1'}
-      // Optional but useful to handle events.
-      handleModalEvents={(eventName, error) => {
-        if (error) {
-          console.error(error.message);
-        }
-
-        console.log(eventName);
-      }}
-    >
-      <UserContextProvider>
+    <ChakraProvider theme={GovrnTheme}>
+      <WalletProvider
+        web3modalOptions={web3modalOptions}
+        networks={networks}
+        // Optional if you want to auto switch the network
+        defaultChainId={'0x1'}
+        // Optional but useful to handle events.
+        handleModalEvents={(eventName, error) => {
+          if (error) {
+            console.error(error.message);
+          }
+          console.log(eventName);
+        }}
+      >
         <OverlayContextProvider>
-          <ChakraProvider theme={GovrnTheme}>
+          <UserContextProvider>
             <Routes />
-          </ChakraProvider>
+          </UserContextProvider>
         </OverlayContextProvider>
-      </UserContextProvider>
-    </WalletProvider>
+      </WalletProvider>
+    </ChakraProvider>
   </StrictMode>,
   document.getElementById('root')
 );

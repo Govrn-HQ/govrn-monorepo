@@ -1,11 +1,10 @@
 import React from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useWallet } from '@raidguild/quiver';
+import { useUser } from '../contexts/UserContext';
 import SiteLayout from '../components/SiteLayout';
 import ConnectWallet from '../components/ConnectWallet';
 import ContributionsTableShell from '../components/ContributionsTableShell';
-
-const isUser = true;
 
 const UserView = () => {
   return (
@@ -35,6 +34,7 @@ const NotUserView = () => {
 
 const Contributions = () => {
   const { isConnected } = useWallet();
+  const { userData } = useUser();
 
   return (
     <SiteLayout>
@@ -52,7 +52,7 @@ const Contributions = () => {
             boxShadow="sm"
             borderRadius={{ base: 'none', md: 'lg' }}
           >
-            {isUser ? <UserView /> : <NotUserView />}
+            {userData ? <UserView /> : <NotUserView />}
           </Box>
         </Container>
       )}

@@ -71,7 +71,7 @@ const HomeShell = () => {
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
               >
-                {userDataByAddress[0]?.name}
+                {userDataByAddress?.name}
               </Text>
               . Click below to view your contributions.
             </Text>

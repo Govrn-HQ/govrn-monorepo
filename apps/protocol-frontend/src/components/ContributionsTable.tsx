@@ -10,7 +10,6 @@ import {
   Thead,
   Tr,
   chakra,
-  Badge,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { format } from 'date-fns';
@@ -46,7 +45,6 @@ const ContributionsTable = ({
     setModals({ editContributionFormModal: true });
   };
 
-  console.log('contributions in table', contributionsData);
   const data = useMemo(
     () =>
       contributionsData.map((contribution: any) => ({
@@ -126,14 +124,14 @@ const ContributionsTable = ({
               variant="ghost"
               color="gray.800"
               aria-label="Edit Contribution"
-              disabled={row.original.user.id !== userData.user}
+              disabled={row.original.user.id !== userData?.user}
               onClick={() => handleEditContributionFormModal(row.original.id)}
             />
             <IconButton
               icon={<FiTrash2 fontSize="1rem" />}
               variant="ghost"
               color="gray.800"
-              disabled={row.original.user.id !== userData.user}
+              disabled={row.original.user.id !== userData?.user}
               aria-label="Delete Contribution"
             />
           </HStack>

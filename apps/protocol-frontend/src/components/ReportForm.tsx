@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import {
@@ -8,11 +7,9 @@ import {
   DatePicker,
   CreatableSelect,
 } from '@govrn/protocol-ui';
-import { GovrnProtocol } from '@govrn/protocol-client';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
-
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
+import { useNavigate } from 'react-router-dom';
 
 const useYupValidationResolver = (reportValidationSchema: any) =>
   useCallback(
@@ -46,18 +43,16 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
   );
 
 const ReportForm = () => {
-  const { chainId } = useWallet();
-  const { userData, userActivityTypes } = useUser();
+  const { userActivityTypes, createContribution } = useUser();
 
-  const govrn = new GovrnProtocol(protocolUrl);
+  const navigate = useNavigate();
+
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(reportFormValidation),
   });
-  const { handleSubmit, setValue } = localForm;
+  const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
-
-  // TODO: Update these to pull in from a set list or config file
 
   const activityTypesList = [
     'Pull Request',
@@ -81,60 +76,13 @@ const ReportForm = () => {
     })
   );
 
-  const createContribution = async (values: any) => {
-    try {
-      const response = await govrn.contribution.create({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          name: values.name,
-          details: values.details,
-          proof: values.proof,
-          activity_type: {
-            connectOrCreate: {
-              create: {
-                name: values.activityType,
-              },
-              where: {
-                name: values.activityType,
-              },
-            },
-          },
-          date_of_engagement: new Date(values.engagementDate).toISOString(),
-          status: {
-            connectOrCreate: {
-              create: {
-                name: 'staging',
-              },
-              where: {
-                name: 'staging',
-              },
-            },
-          },
-        },
-      });
-      console.log('response', response);
-    } catch (error) {
-      console.log(error);
-    }
+  const createContributionHandler = async (values: any) => {
+    createContribution(values, reset, navigate);
   };
 
   return (
     <Stack spacing="4" width="100%" color="gray.900">
-      <form onSubmit={handleSubmit(createContribution)}>
+      <form onSubmit={handleSubmit(createContributionHandler)}>
         <Input
           name="name"
           label="Name of Contribution"
@@ -177,7 +125,7 @@ const ReportForm = () => {
             setValue('engagementDate', date);
           }}
         />
-        <Flex align="flex-end" marginTop={4}>
+        <Flex align="flex-end" marginTop={4} gap={4}>
           <Button
             type="submit"
             width="100%"

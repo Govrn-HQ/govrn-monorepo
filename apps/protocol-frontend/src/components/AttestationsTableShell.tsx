@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Container,
   Stack,
@@ -7,6 +8,7 @@ import {
   useBreakpointValue,
   ButtonGroup,
   Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
@@ -15,6 +17,16 @@ import EmptyContributions from './EmptyContributions';
 
 const AttestationsTableShell = () => {
   const { userContributions } = useUser();
+  const [selectedContributions, setSelectedContributions] = useState<any>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleAddAttestation = () => {
+    selectedContributions.map(
+      (contribution, idx) =>
+        console.log(`contribution: ${idx}`, contribution.original)
+      // mint logic
+    );
+  };
 
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
@@ -47,14 +59,17 @@ const AttestationsTableShell = () => {
                   _hover={{ bgColor: 'brand.primary.100' }}
                   flexBasis="10%"
                   colorScheme="brand.primary"
-                  disabled={true}
+                  disabled={selectedContributions?.length === 0}
                 >
                   Vouch
                 </Button>
               </Stack>
             </Box>
             <Box overflowX="auto">
-              <AttestationsTable contributionsData={userContributions} />
+              <AttestationsTable
+                contributionsData={userContributions}
+                setSelectedContributions={setSelectedContributions}
+              />
             </Box>
             <Box px={{ base: '4', md: '6' }} pb="5">
               <HStack spacing="3" justify="space-between">

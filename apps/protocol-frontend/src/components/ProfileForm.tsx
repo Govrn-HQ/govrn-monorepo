@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from 'react';
-import { formatAddress } from '@raidguild/quiver';
 import {
   Flex,
   Heading,
@@ -9,12 +8,12 @@ import {
 } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
-import { GovrnProtocol } from '@govrn/protocol-client';
-import { useUser } from '../contexts/UserContext';
-import { profileFormValidation } from '../utils/validations';
 
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
-const govrn = new GovrnProtocol(protocolUrl);
+import { useUser } from '../contexts/UserContext';
+import {
+  profileFormValidation,
+  linearFormValidation,
+} from '../utils/validations';
 
 const useYupValidationResolver = (profileValidationSchema: any) =>
   useCallback(
@@ -47,8 +46,39 @@ const useYupValidationResolver = (profileValidationSchema: any) =>
     [profileValidationSchema]
   );
 
+const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
+  useCallback(
+    async (data) => {
+      try {
+        const values = await linearFormValidationSchema.validate(data, {
+          abortEarly: false,
+        });
+
+        return {
+          values,
+          errors: {},
+        };
+      } catch (errors) {
+        return {
+          values: {},
+          errors: errors.inner.reduce(
+            (allErrors: any, currentError: any) => ({
+              ...allErrors,
+              [currentError.path]: {
+                type: currentError.type ?? 'validation',
+                message: currentError.message,
+              },
+            }),
+            {}
+          ),
+        };
+      }
+    },
+    [linearFormValidationSchema]
+  );
+
 const ProfileForm = () => {
-  const { userData } = useUser();
+  const { userData, updateProfile, updateLinearEmail } = useUser();
 
   const localForm = useForm<{ name: string; address: string }>({
     mode: 'all',
@@ -56,56 +86,28 @@ const ProfileForm = () => {
   });
   const localFormLinear = useForm<{ name: string; address: string }>({
     mode: 'all',
-    resolver: useYupValidationResolver(profileFormValidation),
+    resolver: useYupValidationResolverLinear(linearFormValidation),
   });
-  const { handleSubmit, setValue, getValues } = localForm;
+  const { handleSubmit, setValue } = localForm;
+  const { handleSubmit: handleSubmitLinear, setValue: setValueLinear } =
+    localFormLinear;
 
   useEffect(() => {
     setValue('name', userData?.name);
     setValue('address', userData?.address);
   }, [userData]);
 
-  const submitProfile = async (values: any) => {
-    try {
-      const response = await govrn.user.update(
-        { name: { set: values.name } },
-        { id: userData.id }
-      );
-    } catch (error) {
-      console.error(error);
-    }
+  const updateProfileHandler = async (values: any) => {
+    updateProfile(values);
   };
 
-  //  change to update from upsert
-
-  const submitLinearEmail = async (values: any) => {
-    const linearAssignee = {
-      active: userData.active,
-      displayName: userData.name,
-      email: values.userLinearEmail,
-      user: {
-        connect: {
-          id: userData.id,
-        },
-      },
-      linear_id: userData.id.toString(), // linear_id exists outside of our db
-      name: userData.name,
-      url: userData.url || '',
-    };
-    try {
-      const response = await govrn.linear.user.upsert({
-        create: linearAssignee,
-        update: { email: { set: values.userLinearEmail } },
-        where: { linear_id: userData.id.toString() },
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const updateLinearEmailHandler = async (values: any) => {
+    updateLinearEmail(values);
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(submitProfile)}>
+      <form onSubmit={handleSubmit(updateProfileHandler)}>
         <Flex
           justify="space-between"
           direction="column"
@@ -141,7 +143,7 @@ const ProfileForm = () => {
               Save Username
             </Button>
           </Flex>
-          <Divider bgColor="gray.300" />
+          {/* <Divider bgColor="gray.300" />
           <Flex justify="space-between" direction="column" wrap="wrap">
             <Flex direction="column" align="flex-end" marginTop={4} width="50%">
               <Input
@@ -165,10 +167,10 @@ const ProfileForm = () => {
                 Link Address
               </Button>
             </Flex>
-          </Flex>
+          </Flex> */}
         </Flex>
       </form>
-      <form onSubmit={handleSubmit(submitLinearEmail)}>
+      <form onSubmit={handleSubmitLinear(updateLinearEmailHandler)}>
         <Flex
           justify="space-between"
           direction="column"
@@ -190,7 +192,7 @@ const ProfileForm = () => {
                 label="Linear Email Address"
                 tip="Enter the email address you used with Linear for the integration."
                 placeholder="user@govrn.io"
-                localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+                localForm={localFormLinear} //TODO: resolve this type issue -- need to investigate this
               />
               <Button
                 type="submit"
