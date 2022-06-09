@@ -100,6 +100,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const createContribution = async (values: any, reset: any) => {
+    console.log('reset', reset);
     try {
       await govrn.contribution.create({
         data: {
@@ -153,6 +154,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         position: 'top-right',
       });
       getUserContributions();
+      reset();
     } catch (error) {
       console.log(error);
       toast({

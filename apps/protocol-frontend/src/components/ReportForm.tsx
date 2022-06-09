@@ -74,8 +74,7 @@ const ReportForm = () => {
   );
 
   const createContributionHandler = async (values: any) => {
-    createContribution(values);
-    // reset();
+    createContribution(values, reset);
   };
 
   return (
