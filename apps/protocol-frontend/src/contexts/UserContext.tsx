@@ -1,13 +1,9 @@
-import React, {
-  useContext,
-  createContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useContext, createContext, useEffect, useState } from 'react';
+import { useToast } from '@chakra-ui/react';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
-import { ChainName } from '../utils/definitions';
+
+// TODO: Clean up the Context -- there are some duplicate function definitions inside the useEffects that can be removed and called
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -19,7 +15,8 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
-  const { isConnected, address, chainId } = useWallet();
+  const { isConnected, address } = useWallet();
+  const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl);
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
@@ -32,40 +29,30 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     setUserAddress(address);
   }, [isConnected, address, userAddress]);
 
-  useEffect(() => {
-    const getUserByAddress = async () => {
-      try {
-        const userDataByAddressResponse = await govrn.user.list({
-          where: { address: { equals: address } },
-        });
-
-        if (userDataByAddressResponse.length > 0) {
-          setUserDataByAddress(userDataByAddressResponse[0]);
-        }
-        return userDataByAddress;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (address) {
-      getUserByAddress();
+  const getUser = async () => {
+    try {
+      const userDataResponse = await govrn.user.get(userDataByAddress.id);
+      setUserData(userDataResponse);
+      return userDataResponse;
+    } catch (error) {
+      console.error(error);
     }
-  }, [address]);
+  };
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const userDataResponse = await govrn.user.get(userDataByAddress.id);
-        setUserData(userDataResponse);
-        return userDataResponse;
-      } catch (error) {
-        console.error(error);
+  const getUserByAddress = async () => {
+    try {
+      const userDataByAddressResponse = await govrn.user.list({
+        where: { address: { equals: address } },
+      });
+
+      if (userDataByAddressResponse.length > 0) {
+        setUserDataByAddress(userDataByAddressResponse[0]);
       }
-    };
-    if (userDataByAddress) {
-      getUser();
+      return userDataByAddress;
+    } catch (error) {
+      console.error(error);
     }
-  }, [userDataByAddress]);
+  };
 
   const getUserContributions = async () => {
     try {
@@ -73,6 +60,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         where: {
           user_id: { equals: userAddress?.id },
         },
+        first: 1000,
       });
       setUserContributions(userContributionsResponse);
       return userContributionsResponse;
@@ -81,63 +69,37 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  useEffect(() => {
-    const getUserContributions = async () => {
-      try {
-        const userContributionsResponse = await govrn.contribution.list({
-          where: {
-            user_id: { equals: userAddress?.id },
-          },
-          first: 1000,
-        });
-        setUserContributions(userContributionsResponse);
-        console.log('user contributions', userContributionsResponse);
-        return userContributionsResponse;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserContributions();
-  }, [userData]);
-
-  useEffect(() => {
-    const getUserActivityTypes = async () => {
-      try {
-        const userActivityTypesResponse = await govrn.activity_type.list(
-          userData?.id
-        );
-        setUserActivityTypes(userActivityTypesResponse);
-
-        return userActivityTypesResponse;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserActivityTypes();
-  }, [userData]);
-
-  useEffect(() => {
-    const getUserAttestations = async () => {
-      try {
-        const userAttestationsResponse = await govrn.attestation.list({
-          where: {
-            user_id: { equals: userAddress?.id },
-          },
-          first: 1000,
-        });
-        setUserAttestations(userAttestationsResponse);
-        console.log('user attestations', userAttestationsResponse);
-        return userAttestationsResponse;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserAttestations();
-  }, [userData]);
-
-  const createContribution = async (values: any) => {
+  const getUserAttestations = async () => {
     try {
-      const response = await govrn.contribution.create({
+      const userAttestationsResponse = await govrn.attestation.list({
+        where: {
+          user_id: { equals: userAddress?.id },
+        },
+        first: 1000,
+      });
+      setUserAttestations(userAttestationsResponse);
+      return userAttestationsResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getUserActivityTypes = async () => {
+    try {
+      const userActivityTypesResponse = await govrn.activity_type.list(
+        userData?.id
+      );
+      setUserActivityTypes(userActivityTypesResponse);
+
+      return userActivityTypesResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const createContribution = async (values: any, reset: any) => {
+    try {
+      await govrn.contribution.create({
         data: {
           user: {
             connectOrCreate: {
@@ -180,10 +142,25 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           },
         },
       });
-      console.log('contribution response', response);
+      toast({
+        title: 'Contribution Report Added',
+        description: 'Your Contribution report has been recorded.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
       getUserContributions();
     } catch (error) {
       console.log(error);
+      toast({
+        title: 'Unable to Report Contribution',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     }
   };
 
@@ -198,7 +175,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           'You can only edit Contributions with a Staging status.'
         );
       }
-      const response = await govrn.contribution.update({
+      await govrn.contribution.update({
         data: {
           user: {
             connectOrCreate: {
@@ -252,13 +229,53 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           id: contribution.id,
         },
       });
-      console.log('contribution update response', response);
       getUserContributions();
+      toast({
+        title: 'Contribution Report Updated',
+        description: 'Your Contribution report has been updated.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: 'Unable to Update Contribution',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     }
   };
 
+  useEffect(() => {
+    if (address) {
+      getUserByAddress();
+    }
+  }, [address]);
+
+  useEffect(() => {
+    if (userDataByAddress) {
+      getUser();
+    }
+  }, [userDataByAddress]);
+
+  useEffect(() => {
+    if (userData !== null) {
+      getUserContributions();
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    getUserActivityTypes();
+  }, [userData]);
+
+  useEffect(() => {
+    getUserAttestations();
+  }, [userData]);
   return (
     <UserContext.Provider
       value={{

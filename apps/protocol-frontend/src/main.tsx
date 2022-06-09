@@ -32,27 +32,27 @@ const web3modalOptions = {
 
 ReactDOM.render(
   <StrictMode>
-    <WalletProvider
-      web3modalOptions={web3modalOptions}
-      networks={networks}
-      // Optional if you want to auto switch the network
-      defaultChainId={'0x1'}
-      // Optional but useful to handle events.
-      handleModalEvents={(eventName, error) => {
-        if (error) {
-          console.error(error.message);
-        }
-        console.log(eventName);
-      }}
-    >
-      <UserContextProvider>
-        <OverlayContextProvider>
-          <ChakraProvider theme={GovrnTheme}>
+    <ChakraProvider theme={GovrnTheme}>
+      <WalletProvider
+        web3modalOptions={web3modalOptions}
+        networks={networks}
+        // Optional if you want to auto switch the network
+        defaultChainId={'0x1'}
+        // Optional but useful to handle events.
+        handleModalEvents={(eventName, error) => {
+          if (error) {
+            console.error(error.message);
+          }
+          console.log(eventName);
+        }}
+      >
+        <UserContextProvider>
+          <OverlayContextProvider>
             <Routes />
-          </ChakraProvider>
-        </OverlayContextProvider>
-      </UserContextProvider>
-    </WalletProvider>
+          </OverlayContextProvider>
+        </UserContextProvider>
+      </WalletProvider>
+    </ChakraProvider>
   </StrictMode>,
   document.getElementById('root')
 );

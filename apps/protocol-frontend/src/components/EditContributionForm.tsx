@@ -54,8 +54,6 @@ const EditContributionForm = ({
   onClose,
 }: EditContributionFormProps) => {
   const { updateContribution, userActivityTypes } = useUser();
-  const toast = useToast();
-  const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(editContributionFormValidation),
@@ -96,20 +94,7 @@ const EditContributionForm = ({
   );
 
   const editContributionHandler = async (values: any) => {
-    try {
-      updateContribution(contribution, values);
-      toast({
-        title: 'Contribution Report Added',
-        description: 'Your Contribution report has been updated.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      reset();
-    } catch (error) {
-      console.log(error);
-    }
+    updateContribution(contribution, values);
   };
 
   return (

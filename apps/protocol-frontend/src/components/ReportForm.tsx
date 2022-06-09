@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button, useToast } from '@chakra-ui/react';
+import { Stack, Flex, Button } from '@chakra-ui/react';
 import {
   Input,
   Textarea,
@@ -45,16 +44,12 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
 const ReportForm = () => {
   const { userActivityTypes, createContribution } = useUser();
 
-  const toast = useToast();
-
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(reportFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
-
-  // TODO: Update these to pull in from a set list or config file
 
   const activityTypesList = [
     'Pull Request',
@@ -79,20 +74,8 @@ const ReportForm = () => {
   );
 
   const createContributionHandler = async (values: any) => {
-    try {
-      createContribution(values);
-      toast({
-        title: 'Contribution Report Added',
-        description: 'Your Contribution report has been recorded.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      reset();
-    } catch (error) {
-      console.log(error);
-    }
+    createContribution(values);
+    // reset();
   };
 
   return (
