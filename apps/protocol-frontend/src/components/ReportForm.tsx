@@ -8,11 +8,8 @@ import {
   DatePicker,
   CreatableSelect,
 } from '@govrn/protocol-ui';
-import { GovrnProtocol } from '@govrn/protocol-client';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
-
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 const useYupValidationResolver = (reportValidationSchema: any) =>
   useCallback(
@@ -46,12 +43,10 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
   );
 
 const ReportForm = () => {
-  const { chainId } = useWallet();
-  const { userData, userActivityTypes, createContribution } = useUser();
+  const { userActivityTypes, createContribution } = useUser();
 
   const toast = useToast();
 
-  const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(reportFormValidation),

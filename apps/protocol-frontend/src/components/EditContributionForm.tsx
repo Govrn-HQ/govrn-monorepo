@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Stack, Flex, Button, Text } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text, useToast } from '@chakra-ui/react';
 import {
   Input,
   Textarea,
@@ -53,13 +53,14 @@ const EditContributionForm = ({
   contribution,
   onClose,
 }: EditContributionFormProps) => {
-  const { userData, userActivityTypes } = useUser();
+  const { updateContribution, userActivityTypes } = useUser();
+  const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl);
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(editContributionFormValidation),
   });
-  const { handleSubmit, setValue, getValues } = localForm;
+  const { handleSubmit, setValue, getValues, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(
     new Date(contribution?.date_of_engagement)
   );
@@ -94,71 +95,18 @@ const EditContributionForm = ({
     })
   );
 
-  const editContribution = async (values: any) => {
+  const editContributionHandler = async (values: any) => {
     try {
-      if (userData.id !== contribution.user.id) {
-        throw new Error('You can only edit your own Contributions.');
-      }
-
-      if (contribution.status.name !== 'staging') {
-        throw new Error(
-          'You can only edit Contributions with a Staging status.'
-        );
-      }
-      const response = await govrn.contribution.update({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          name: {
-            set: values.name,
-          },
-          details: {
-            set: values.details,
-          },
-          proof: {
-            set: values.proof,
-          },
-          activity_type: {
-            connectOrCreate: {
-              create: {
-                name: values.activityType,
-              },
-              where: {
-                name: values.activityType,
-              },
-            },
-          },
-          date_of_engagement: {
-            set: new Date(values.engagementDate).toISOString(),
-          },
-          status: {
-            connectOrCreate: {
-              create: {
-                name: 'staging',
-              },
-              where: {
-                name: 'staging',
-              },
-            },
-          },
-        },
-        where: {
-          id: contribution.id,
-        },
+      updateContribution(contribution, values);
+      toast({
+        title: 'Contribution Report Added',
+        description: 'Your Contribution report has been updated.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
       });
+      reset();
     } catch (error) {
       console.log(error);
     }
@@ -166,7 +114,7 @@ const EditContributionForm = ({
 
   return (
     <Stack spacing="4" width="100%" color="gray.800">
-      <form onSubmit={handleSubmit(editContribution)}>
+      <form onSubmit={handleSubmit(editContributionHandler)}>
         <Text paddingBottom={2}>{contribution.name}</Text>
         <Input
           name="name"

@@ -187,6 +187,78 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const updateContribution = async (contribution: any, values: any) => {
+    try {
+      if (userData.id !== contribution.user.id) {
+        throw new Error('You can only edit your own Contributions.');
+      }
+
+      if (contribution.status.name !== 'staging') {
+        throw new Error(
+          'You can only edit Contributions with a Staging status.'
+        );
+      }
+      const response = await govrn.contribution.update({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: userData.address,
+                chain_type: {
+                  create: {
+                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
+                  },
+                },
+              },
+              where: {
+                id: userData.id,
+              },
+            },
+          },
+          name: {
+            set: values.name,
+          },
+          details: {
+            set: values.details,
+          },
+          proof: {
+            set: values.proof,
+          },
+          activity_type: {
+            connectOrCreate: {
+              create: {
+                name: values.activityType,
+              },
+              where: {
+                name: values.activityType,
+              },
+            },
+          },
+          date_of_engagement: {
+            set: new Date(values.engagementDate).toISOString(),
+          },
+          status: {
+            connectOrCreate: {
+              create: {
+                name: 'staging',
+              },
+              where: {
+                name: 'staging',
+              },
+            },
+          },
+        },
+        where: {
+          id: contribution.id,
+        },
+      });
+      console.log('contribution update response', response);
+      getUserContributions();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -203,6 +275,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userActivityTypes,
         setUserActivityTypes,
         createContribution,
+        updateContribution,
       }}
     >
       {children}
@@ -225,6 +298,7 @@ export const useUser = () => {
     userActivityTypes,
     setUserActivityTypes,
     createContribution,
+    updateContribution,
   } = useContext(UserContext);
   return {
     userAddress,
@@ -240,5 +314,6 @@ export const useUser = () => {
     userActivityTypes,
     setUserActivityTypes,
     createContribution,
+    updateContribution,
   };
 };
