@@ -20,10 +20,10 @@ const AttestationsTableShell = () => {
   const [selectedContributions, setSelectedContributions] = useState<any>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleAddAttestation = () => {
+  const attestationsHandler = () => {
     selectedContributions.map(
       (contribution, idx) =>
-        console.log(`contribution: ${idx}`, contribution.original)
+        console.log(`attesatations: ${idx}`, contribution.original)
       // mint logic
     );
   };
@@ -60,6 +60,7 @@ const AttestationsTableShell = () => {
                   flexBasis="10%"
                   colorScheme="brand.primary"
                   disabled={selectedContributions?.length === 0}
+                  onClick={attestationsHandler}
                 >
                   Vouch
                 </Button>
