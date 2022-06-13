@@ -27,10 +27,23 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userContributions, setUserContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   useEffect(() => {
     setUserAddress(address);
   }, [isConnected, address, userAddress]);
+
+  useEffect(() => {
+    const verifyAddress = async () => {
+      setIsAuthenticating(true);
+      // call verify
+      // if successful set is authenticated
+    };
+    if (isConnected && !isAuthenticated) {
+      verifyAddress();
+    }
+  }, [isConnected]);
 
   const getUser = async () => {
     try {

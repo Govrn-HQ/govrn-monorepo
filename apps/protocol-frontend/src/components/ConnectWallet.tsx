@@ -17,6 +17,9 @@ const ConnectWallet = () => {
   const { connectWallet, isConnecting, isConnected, disconnect, address } =
     useWallet();
   const copyAddress = useClipboard(address as string);
+  const connectAndVerify = () => {
+    connectWallet();
+  };
 
   return (
     <>
