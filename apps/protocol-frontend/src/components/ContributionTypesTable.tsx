@@ -86,13 +86,14 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
         },
       },
       {
-        Header: 'Name',
-        accessor: 'name',
-      },
-      {
         Header: 'Last Occurrence',
         accessor: 'engagementDate',
       },
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+
       { Header: 'DAOs', accessor: 'guilds' },
     ],
     []
