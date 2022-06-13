@@ -119,7 +119,7 @@ const ReportForm = () => {
           name="engagementDate"
           localForm={localForm}
           label="Date of Contribution Engagement (UTC)"
-          defaultValue={engagementDateValue}
+          defaultValue={new Date()}
           onChange={(date) => {
             setEngagementDateValue(date);
             setValue('engagementDate', date);
