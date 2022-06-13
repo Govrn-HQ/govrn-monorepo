@@ -169,6 +169,48 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const createAttestation = async (contribution: any, values: any) => {
+    try {
+      await govrn.attestation.create({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: userData.address,
+                chain_type: {
+                  create: {
+                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
+                  },
+                },
+              },
+              where: {
+                id: userData.id,
+              },
+            },
+          },
+          date_of_attestation: new Date(Date.now()).toISOString(),
+          contribution: {
+            connect: {
+              id: contribution.id,
+            },
+          },
+          confidence: {
+            connectOrCreate: {
+              create: {
+                name: `${values.confidenceLevel}: ${userData.name}`,
+              },
+              where: {
+                name: `${values.confidenceLevel}: ${userData.name}`,
+              },
+            },
+          },
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const updateContribution = async (contribution: any, values: any) => {
     try {
       if (userData.id !== contribution.user.id) {
