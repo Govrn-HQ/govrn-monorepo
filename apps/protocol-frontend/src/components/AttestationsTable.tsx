@@ -135,7 +135,6 @@ const AttestationsTable = ({
 
   useEffect(() => {
     setSelectedContributions(selectedFlatRows);
-    console.log(selectedFlatRows);
   }, [selectedFlatRows, selectedRowIds]);
 
   return (

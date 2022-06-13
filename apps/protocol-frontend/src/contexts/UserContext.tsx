@@ -170,8 +170,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const createAttestation = async (contribution: any, values: any) => {
+    console.log('contribution incoming', contribution);
     try {
-      await govrn.attestation.create({
+      const response = await govrn.attestation.create({
         data: {
           user: {
             connectOrCreate: {
@@ -197,17 +198,34 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           confidence: {
             connectOrCreate: {
               create: {
-                name: `${values.confidenceLevel}: ${userData.name}`,
+                name: '0',
               },
               where: {
-                name: `${values.confidenceLevel}: ${userData.name}`,
+                name: '0',
               },
             },
           },
         },
       });
+      toast({
+        title: 'Contribution Report Updated',
+        description: 'Your Contribution report has been updated.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      console.log('response', response);
     } catch (error) {
       console.log(error);
+      toast({
+        title: 'Unable to Add Attestation',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     }
   };
 
@@ -408,6 +426,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userActivityTypes,
         setUserActivityTypes,
         createContribution,
+        createAttestation,
         updateContribution,
         updateProfile,
         updateLinearEmail,
@@ -432,6 +451,7 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createAttestation,
     createContribution,
     updateContribution,
     updateProfile,
@@ -450,6 +470,7 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createAttestation,
     createContribution,
     updateContribution,
     updateProfile,
