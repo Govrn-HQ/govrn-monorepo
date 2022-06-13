@@ -8,7 +8,6 @@ import {
   useBreakpointValue,
   ButtonGroup,
   Button,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
@@ -19,7 +18,7 @@ import { ModalWrapper } from '@govrn/protocol-ui';
 import BulkAttestationModal from './BulkAttestationModal';
 
 const AttestationsTableShell = () => {
-  const { userContributions } = useUser();
+  const { daoContributions } = useUser();
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
@@ -27,6 +26,14 @@ const AttestationsTableShell = () => {
   const attestationsModalHandler = () => {
     setModals({ bulkAttestationModal: true });
   };
+
+  console.log('all contributions', daoContributions);
+  // console.log(
+  //   'not my attestations',
+  //   daoContributions
+  //     ?.filter((c) => c.attestations.length > 0)
+  //     .filter((c) => c.attestations.filter((a) => a.user_id !== 2))
+  // );
 
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
@@ -38,7 +45,7 @@ const AttestationsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Attestations</PageHeading>
-        {userContributions && userContributions.length > 0 ? (
+        {daoContributions && daoContributions.length > 0 ? (
           <Box
             background="white"
             boxShadow="sm"
@@ -69,7 +76,7 @@ const AttestationsTableShell = () => {
               </Box>
               <Box overflowX="auto">
                 <AttestationsTable
-                  contributionsData={userContributions}
+                  contributionsData={daoContributions}
                   setSelectedContributions={setSelectedContributions}
                 />
               </Box>

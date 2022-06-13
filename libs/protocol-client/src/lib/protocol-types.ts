@@ -13906,7 +13906,7 @@ export type ListContributionsQuery = {
       name?: string | null;
       updatedAt: any;
     };
-    attestations: Array<{ id: number }>;
+    attestations: Array<{ id: number; user_id: number }>;
   }>;
 };
 
@@ -14214,6 +14214,7 @@ export const ContributionFragmentFragmentDoc = gql`
     }
     attestations {
       id
+      user_id
     }
   }
 `;
