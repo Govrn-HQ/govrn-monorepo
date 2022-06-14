@@ -55,7 +55,6 @@ const ContributionsTable = ({
         attestations: contribution.attestations?.length,
         user: contribution.user.id,
         activityTypeId: contribution.activity_type.id,
-        verificationLevel: contribution.verificationLevel,
         status: contribution.status.name,
         action: '',
       })),
@@ -90,10 +89,6 @@ const ContributionsTable = ({
       {
         Header: 'Attestations',
         accessor: 'attestations',
-      },
-      {
-        Header: 'Verification Level',
-        accessor: 'verificationLevel',
       },
     ],
     []

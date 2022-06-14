@@ -57,7 +57,6 @@ const AttestationsTable = ({
         //   contribution.attestations !== null
         //     ? Object.keys(contribution.attestations).length
         //     : 0,
-        verificationLevel: contribution.verificationLevel,
         guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
