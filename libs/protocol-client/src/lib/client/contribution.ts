@@ -8,9 +8,9 @@ import {
   UpdateContributionMutationVariables,
 } from '../protocol-types';
 import {
+  AttestArgs,
   GovrnContract,
   MintArgs,
-  AttestArgs,
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
 
@@ -31,7 +31,8 @@ export class Contribution extends BaseClient {
   }
 
   public async bulkCreate(args: BulkCreateContributionMutationVariables) {
-    return await this.sdk.bulkCreateContribution(args);
+    const mutation = await this.sdk.bulkCreateContribution(args);
+    return mutation.createManyContribution.count;
   }
 
   public async update(args: UpdateContributionMutationVariables) {

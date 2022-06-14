@@ -1,22 +1,25 @@
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
-import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
+import {
+  ContributionCreateManyInput,
+  GovrnProtocol,
+  SortOrder,
+} from '@govrn/protocol-client';
 import { ethers } from 'ethers';
 import { GraphQLClient } from 'graphql-request';
 
 const protcolUrl = process.env.PROTOCOL_URL;
-const ENDPOINT = process.env.SUBGRAPH_URL;
+const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const jobName = 'contract-sync-job';
 
-const contractAddress = '0xefad47a6888762b666727cae19d5e502f0a68f43';
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
+const CHAIN_URL = process.env.CHAIN_URL;
 const networkConfig: NetworkConfig = {
-  address: contractAddress,
+  address: CONTRACT_ADDRESS,
   chainId: 2,
 };
 
-const provider = new ethers.providers.JsonRpcProvider(
-  'https://rinkeby.infura.io/v3/cda40b6016f04aa48da096c096068718'
-);
+const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
 
 const getOrInsertUser = async (
@@ -32,7 +35,7 @@ const getOrInsertUser = async (
   });
 
   // Returns the id, if user exists.
-  if (user.length != 0) {
+  if (user.length !== 0) {
     return user[0]?.id;
   }
 
@@ -42,14 +45,32 @@ const getOrInsertUser = async (
       address: data.address,
       chain_type: {
         connectOrCreate: {
-          where: { name: 'example2' },
-          create: { name: 'example2' },
+          where: { name: 'rinkeby' },
+          create: { name: 'rinkeby' },
         },
       },
     },
   });
 
   return newUser.id;
+};
+
+const getOrInsertActivityType = async (
+  govrn: GovrnProtocol,
+  data: { name: string }
+): Promise<number> => {
+  // Check for an existing activity types.
+  const activityTypeId = await govrn.activity_type.list({
+    where: { name: { equals: data.name } },
+    first: 1,
+  });
+  if (activityTypeId.length > 0) return activityTypeId[0].id;
+
+  // if there are no activity type, create new one.
+  const activityTypeCreate = await govrn.activity_type.create({
+    data: { name: data.name },
+  });
+  return activityTypeCreate.id;
 };
 
 async function getContribution(
@@ -82,7 +103,7 @@ const createJobRun = async (
 const main = async () => {
   console.log(':: Starting to Process Contribution(s)');
 
-  const graphQLClient = new GraphQLClient(ENDPOINT);
+  const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
   const govrn = new GovrnProtocol(protcolUrl);
   const client = new GovrnGraphClient(graphQLClient);
 
@@ -96,34 +117,38 @@ const main = async () => {
 
   const contributionsEvents = (await client.listContributions({}))
     .contributions;
-
+  const contributionActivityTypeId = await getOrInsertActivityType(govrn, {
+    name: 'Contribution',
+  });
   console.log(
     `:: Processing ${contributionsEvents.length} Contribution Event(s)`
   );
   const contributions = await Promise.all(
-    contributionsEvents.map(async (event) => {
-      const contr = await govrnContract.contributions({
-        tokenId: event.contributionId,
-      });
+    contributionsEvents.map(
+      async (event): Promise<ContributionCreateManyInput> => {
+        const contr = await govrnContract.contributions({
+          tokenId: event.contributionId,
+        });
 
-      console.log(`:: Processing Contribution: ${event.id} => ${contr.name}`);
+        console.log(`:: Processing Contribution: ${event.id} => ${contr.name}`);
 
-      const userId = await getOrInsertUser(govrn, {
-        address: event.address,
-      });
+        const userId = await getOrInsertUser(govrn, {
+          address: event.address,
+        });
 
-      return {
-        name: contr.name,
-        status_id: 2,
-        activity_type_id: 1,
-        user_id: userId,
-        date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
-        date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
-        details: contr.details,
-        proof: contr.proof,
-        on_chain_id: Number(event.id),
-      };
-    })
+        return {
+          name: contr.name,
+          status_id: 2,
+          activity_type_id: contributionActivityTypeId,
+          user_id: userId,
+          date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
+          date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
+          details: contr.details,
+          proof: contr.proof,
+          on_chain_id: Number(event.id),
+        };
+      }
+    )
   );
 
   const contributionsCount = await govrn.contribution.bulkCreate({
@@ -131,9 +156,7 @@ const main = async () => {
     skipDuplicates: false,
   });
 
-  console.log(
-    `:: Inserting ${contributionsCount.createManyContribution.count} Contribution(s)`
-  );
+  console.log(`:: Inserting ${contributionsCount} Contribution(s)`);
   console.log(`:: Finished Processing Contribution Events`);
   console.log(':: Starting to Process Attestations');
 
