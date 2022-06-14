@@ -25,9 +25,6 @@ export class GovrnProtocol {
     this.client = new GraphQLClient(apiUrl, {
       headers: {
         'Content-Type': `application/json`,
-        'Access-Control-Allow-Credentials': 'false',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*',
         Accept: `application/json`,
       },
     });

@@ -77,19 +77,14 @@ console.log(permissions);
 const schema = applyMiddleware(typeSchema, permissions);
 
 const app = express();
-app.use(
-  cors({
-    origin: 'http://localhost:4000',
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(
   Session({
     name: 'siwe-quickstart',
     secret: 'siwe-quickstart-secret',
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, sameSite: false },
+    cookie: { secure: false, sameSite: true },
   })
 );
 app.use('/graphql', async function (req, res) {

@@ -51,13 +51,18 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       );
       const signer = provider.getSigner();
       const signature = await signer.signMessage(message);
-      const res = await fetch(verifyURL, {
-        method: 'post',
-        body: JSON.stringify({ message, signature }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      try {
+        const res = await fetch(verifyURL, {
+          method: 'POST',
+          body: JSON.stringify({ message, signature }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        _;
+      } catch (e) {
+        console.error(e);
+      }
       console.log('Log after verify');
       console.log(res.text());
     };
