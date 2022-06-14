@@ -5,7 +5,7 @@ import Session from 'express-session';
 import { ethers } from 'ethers';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
-import { SiweErrorType, SiweMessage } from 'siwe';
+import { SiweErrorType, SiweMessage, generateNonce } from 'siwe';
 import cors = require('cors');
 
 import { resolvers } from './prisma/generated/type-graphql';
@@ -77,14 +77,19 @@ console.log(permissions);
 const schema = applyMiddleware(typeSchema, permissions);
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:4000',
+    credentials: true,
+  })
+);
 app.use(
   Session({
     name: 'siwe-quickstart',
     secret: 'siwe-quickstart-secret',
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, sameSite: true },
+    cookie: { secure: false, sameSite: false },
   })
 );
 app.use('/graphql', async function (req, res) {
@@ -135,6 +140,14 @@ app.post('/verify', async function (req, res) {
       }
     }
   }
+});
+
+app.get('/nonce', async function (req, res) {
+  // req.session.nonce = generateNonce();
+  req.session.nonce = '100';
+  res.setHeader('Content-Type', 'text/plain');
+  console.log(req.session);
+  res.status(200).send(req.session.nonce);
 });
 
 app.listen(4000);

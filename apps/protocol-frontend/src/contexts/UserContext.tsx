@@ -3,10 +3,12 @@ import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
+import { createSiweMessage } from '../utils/siwe';
 
 // TODO: Clean up the Context -- there are some duplicate function definitions inside the useEffects that can be removed and called
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
+const verifyURL = 'http://localhost:4000/verify';
 
 export const UserContext: any = createContext(null);
 interface UserContextProps {
@@ -16,7 +18,7 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
-  const { isConnected, address } = useWallet();
+  const { isConnected, address, chainId, provider } = useWallet();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl);
   const { setModals } = useOverlay();
@@ -36,14 +38,33 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     const verifyAddress = async () => {
+      if (!chainId || !provider) {
+        return;
+      }
       setIsAuthenticating(true);
       // call verify
       // if successful set is authenticated
+      const message = await createSiweMessage(
+        userAddress,
+        'Sign in with Ethereum to the app.',
+        chainId
+      );
+      const signer = provider.getSigner();
+      const signature = await signer.signMessage(message);
+      const res = await fetch(verifyURL, {
+        method: 'post',
+        body: JSON.stringify({ message, signature }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Log after verify');
+      console.log(res.text());
     };
-    if (isConnected && !isAuthenticated) {
+    if (isConnected && !isAuthenticated && userAddress) {
       verifyAddress();
     }
-  }, [isConnected]);
+  }, [isConnected, isAuthenticated, chainId, provider, userAddress]);
 
   const getUser = async () => {
     try {
@@ -51,7 +72,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserData(userDataResponse);
       return userDataResponse;
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

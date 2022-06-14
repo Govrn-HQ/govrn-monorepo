@@ -4775,7 +4775,7 @@
     tslib "^2.3.0"
     webpack-node-externals "^3.0.0"
 
-"@nrwl/devkit@13.10.2", "@nrwl/devkit@^13.7.0":
+"@nrwl/devkit@13.10.2":
   version "13.10.2"
   resolved "https://registry.npmjs.org/@nrwl/devkit/-/devkit-13.10.2.tgz"
   integrity sha512-7jM86MAHc/vvQ4jJt8QjMncC0lFfhkxZ/d5Nt5b+s3AUQgFPkwg1TXt/uj+qo0goS/Mbv5UNVIdMGlEchnbvVQ==
@@ -4805,6 +4805,17 @@
   integrity sha512-AR/hOPEtFyHGj8ZLkddorehHI1Ac50eWhgHY3zhgIl86ZelNJZJQpGyEmoJOmKs6P9m38kUCoinn4jnfuh1EKQ==
   dependencies:
     ejs "^3.1.7"
+    ignore "^5.0.4"
+    rxjs "^6.5.4"
+    semver "7.3.4"
+    tslib "^2.3.0"
+
+"@nrwl/devkit@^13.9.0":
+  version "13.10.5"
+  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-13.10.5.tgz#09ea17307bd2adb09ee12b418e83ee5a9ff9af2a"
+  integrity sha512-HOClcx4gW9DxPKM0WnWgX1wJ4g2Tc5TbwgzoUx/6FyiTrnc3Muct/s9uCo1OfJgeCcpV4fATEwti57p2b3Gz8A==
+  dependencies:
+    ejs "^3.1.5"
     ignore "^5.0.4"
     rxjs "^6.5.4"
     semver "7.3.4"
@@ -5438,24 +5449,24 @@
     "@nx-tools/core" "^2.2.0"
 
 "@nxext/react@^13.0.5":
-  version "13.0.5"
-  resolved "https://registry.npmjs.org/@nxext/react/-/react-13.0.5.tgz"
-  integrity sha512-5bbCY0SCJKwWSicDf82h7qrbYE9tn0eL+rdcY4ro1hXBI17JKw/Dfq/+jrsediDWIljeRaB6MAX/OHrYzCt0jw==
+  version "13.0.6"
+  resolved "https://registry.yarnpkg.com/@nxext/react/-/react-13.0.6.tgz#1916aff7d63c8986554229c7567116a64818b6f6"
+  integrity sha512-S4gn2iWQF/o5MizRYiQeW4G0jYucjEo5NwLCJnZkqSmqIV4dC1ZYMCVeYSD9CPTuSbuvdUpPWS7wQIwkhtEAVw==
   dependencies:
-    "@nrwl/devkit" "^13.7.0"
+    "@nrwl/devkit" "^13.9.0"
     "@nrwl/react" "^13.7.0"
-    "@nxext/vite" "^13.2.0"
-    react "17.0.2"
+    "@nxext/vite" "^13.2.5"
 
-"@nxext/vite@^13.2.0", "@nxext/vite@^13.2.4":
-  version "13.2.4"
-  resolved "https://registry.npmjs.org/@nxext/vite/-/vite-13.2.4.tgz"
-  integrity sha512-/WNIMyhlqxRll84CqqTEMSgbtm3Doy2wV/F7JImVDAJxKRbYKxLcBuiuemp72pYtNrL0pWKZ1fWXAkf3WpkYJg==
+"@nxext/vite@^13.2.4", "@nxext/vite@^13.2.5":
+  version "13.2.5"
+  resolved "https://registry.yarnpkg.com/@nxext/vite/-/vite-13.2.5.tgz#5a1ddbf50b9bb61558f978cf721d77fc45285f5e"
+  integrity sha512-g5F+JnE7nqM07pd89R9ULh7XkVXgwlzOc1NXiEF/at2yR/j6LW9iq3y0bi3AfdKf8ZfWjwV3GwmbBdHd1q2h7g==
   dependencies:
-    "@nrwl/devkit" "^13.7.0"
+    "@nrwl/devkit" "^13.9.0"
+    globrex "^0.1.2"
     rxjs "^7.0.0"
     rxjs-for-await "1.0.0"
-    vite-tsconfig-paths "3.4.0"
+    tsconfig-paths "^3.14.1"
 
 "@octokit/auth-token@^2.4.4":
   version "2.5.0"
@@ -9205,7 +9216,7 @@ anymatch@^3.0.0, anymatch@^3.0.3, anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apg-js@^4.1.1:
+apg-js@^4.1.1, apg-js@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/apg-js/-/apg-js-4.1.2.tgz#1adcebc677cf6377edff2835b4127890a84f3adf"
   integrity sha512-2OALKUe82NLVPe4NTooom8NykWIa2D7YxO7jG1pgnYWnkfhTUriXpITmLvVD8k8TzDfa9G5O4y8rPe2/uUB1Bg==
@@ -18549,7 +18560,7 @@ keccak@3.0.1:
     node-addon-api "^2.0.0"
     node-gyp-build "^4.2.0"
 
-keccak@^3.0.0:
+keccak@^3.0.0, keccak@^3.0.2:
   version "3.0.2"
   resolved "https://registry.npmjs.org/keccak/-/keccak-3.0.2.tgz"
   integrity sha512-PyKKjkH53wDMLGrvmRGSNWgmSxZOUqbnXwKL9tmgbFYA1iAYqW21kfR7mZXV0MlESiefxQQE9X9fTa3X+2MPDQ==
@@ -21756,8 +21767,8 @@ private@^0.1.6, private@^0.1.8:
 
 process-es6@^0.11.6:
   version "0.11.6"
-  resolved "https://registry.npmjs.org/process-es6/-/process-es6-0.11.6.tgz"
-  integrity sha1-xrs4n5qVH4K9TrFpYAEFvS/5x3g=
+  resolved "https://registry.yarnpkg.com/process-es6/-/process-es6-0.11.6.tgz#c6bb389f9a951f82bd4eb169600105bd2ff9c778"
+  integrity sha512-GYBRQtL4v3wgigq10Pv58jmTbFXlIiTbSfgnNqZLY0ldUPqy1rRxDI5fCjoCpnM6TqmHQI8ydzTBXW86OYc0gA==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -21766,8 +21777,8 @@ process-nextick-args@~2.0.0:
 
 process@^0.11.10:
   version "0.11.10"
-  resolved "https://registry.npmjs.org/process/-/process-0.11.10.tgz"
-  integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
+  resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
+  integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
 progress@2.0.3, progress@^2.0.0:
   version "2.0.3"
@@ -22446,7 +22457,7 @@ react-transition-group@^4.3.0, react-transition-group@^4.4.0, react-transition-g
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@17.0.2, react@>=16, react@^17.0.2:
+react@>=16, react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
@@ -26134,16 +26145,6 @@ vite-plugin-eslint@1.3.0:
     "@rollup/pluginutils" "^4.1.0"
     eslint "^7.26.0"
     rollup "^2.47.0"
-
-vite-tsconfig-paths@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.npmjs.org/vite-tsconfig-paths/-/vite-tsconfig-paths-3.4.0.tgz"
-  integrity sha512-os+oAdJxkZvNLmisVQ76eDdCWC3aH4bKTy3EXI5oJi//zQ0G+qJfUeFR6Need4iyzL/Xus9R7AECF/YfGS0ZEw==
-  dependencies:
-    debug "^4.1.1"
-    globrex "^0.1.2"
-    recrawl-sync "^2.0.3"
-    tsconfig-paths "^3.9.0"
 
 vite-tsconfig-paths@^3.4.1:
   version "3.4.1"
