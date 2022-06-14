@@ -233,6 +233,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         position: 'top-right',
       });
       console.log('response', response);
+      getDaoContributions();
     } catch (error) {
       console.log(error);
       toast({
