@@ -5,8 +5,6 @@ import SiteLayout from '../components/SiteLayout';
 import ConnectWallet from '../components/ConnectWallet';
 import ProfileShell from '../components/ProfileShell';
 
-const isUser = true;
-
 const UserView = () => {
   return (
     <Stack spacing="4" justify="center" align="center" minHeight="50vh">

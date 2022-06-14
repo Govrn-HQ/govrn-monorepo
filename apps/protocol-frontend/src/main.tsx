@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
+import 'regenerator-runtime/runtime';
 import { WalletProvider } from '@raidguild/quiver';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
 import { IProviderOptions } from 'web3modal';
