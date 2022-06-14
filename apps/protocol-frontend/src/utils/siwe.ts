@@ -189,9 +189,10 @@ export async function createSiweMessage(
   const domain = window.location.host;
   const origin = window.location.origin;
   try {
-    // const res = await fetch(`${BACKEND_ADDR}/nonce`, {
-    //   credentials: 'include',
-    // });
+    const res = await fetch(`${BACKEND_ADDR}/nonce`, {
+      method: 'GET',
+      credentials: 'include',
+    });
     const message = new SiweMessage({
       domain,
       address,

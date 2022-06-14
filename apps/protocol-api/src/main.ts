@@ -77,7 +77,17 @@ console.log(permissions);
 const schema = applyMiddleware(typeSchema, permissions);
 
 const app = express();
-app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+);
 app.use(
   Session({
     name: 'siwe-quickstart',
@@ -101,6 +111,7 @@ app.use('/graphql', async function (req, res) {
 // cawait getUser(req.headers.authorization, req.headers.timestamp),
 app.post('/verify', async function (req, res) {
   try {
+    console.log(req.body);
     if (!req.body.message) {
       res
         .status(422)
@@ -142,7 +153,7 @@ app.get('/nonce', async function (req, res) {
   req.session.nonce = '100';
   res.setHeader('Content-Type', 'text/plain');
   console.log(req.session);
-  res.status(200).send(req.session.nonce);
+  res.status(200).send({ nonce: 100 });
 });
 
 app.listen(4000);
