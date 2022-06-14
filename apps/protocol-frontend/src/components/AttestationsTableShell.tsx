@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import {
   Container,
   Stack,
@@ -26,14 +27,6 @@ const AttestationsTableShell = () => {
   const attestationsModalHandler = () => {
     setModals({ bulkAttestationModal: true });
   };
-
-  console.log('all contributions', daoContributions);
-  // console.log(
-  //   'not my attestations',
-  //   daoContributions
-  //     ?.filter((c) => c.attestations.length > 0)
-  //     .filter((c) => c.attestations.filter((a) => a.user_id !== 2))
-  // );
 
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
