@@ -25,7 +25,11 @@ const ConnectWallet = () => {
           color="brand.primary.600"
           backgroundColor="brand.primary.50"
           transition="all 100ms ease-in-out"
-          _hover={{ bgColor: 'brand.primary.100' }}
+          _hover={{
+            bgColor: 'brand.primary.100',
+            borderWidth: '2px',
+            borderColor: 'brand.primary.600',
+          }}
           // width="100%"
           leftIcon={<FiKey />}
           disabled={isConnecting}
