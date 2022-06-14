@@ -52,7 +52,7 @@ const ContributionsTable = ({
         id: contribution.id,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
-        attestations: contribution.attestations?.length,
+        attestations: contribution.attestations || null,
         user: contribution.user.id,
         activityTypeId: contribution.activity_type.id,
         status: contribution.status.name,
@@ -89,6 +89,9 @@ const ContributionsTable = ({
       {
         Header: 'Attestations',
         accessor: 'attestations',
+        Cell: ({ value }) => {
+          return <Text textTransform="capitalize">{value.length}</Text>;
+        },
       },
     ],
     []

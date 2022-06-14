@@ -37,7 +37,7 @@ ReactDOM.render(
         web3modalOptions={web3modalOptions}
         networks={networks}
         // Optional if you want to auto switch the network
-        defaultChainId={'0x1'}
+        // defaultChainId={'0x1'}
         // Optional but useful to handle events.
         handleModalEvents={(eventName, error) => {
           if (error) {

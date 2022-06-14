@@ -6,7 +6,8 @@ type ChainLabel =
   | 'Gnosis Chain'
   | 'Polygon'
   | 'Binance Smart Chain'
-  | 'Optimism';
+  | 'Optimism'
+  | 'Localhost';
 
 type Network = {
   chainId: string;
@@ -92,6 +93,13 @@ export const networks: { [key: string]: Network } = {
     rpc: 'https://bsc-dataseed.binance.org/',
     unlockSubgraph:
       'https://api.thegraph.com/subgraphs/name/unlock-protocol/bsc',
+  },
+  '0x7a69': {
+    chainId: '0x7a69',
+    chainNumber: 31337,
+    name: 'Localhost',
+    symbol: 'ETH',
+    rpc: '127.0.0.1:8545',
   },
 };
 
