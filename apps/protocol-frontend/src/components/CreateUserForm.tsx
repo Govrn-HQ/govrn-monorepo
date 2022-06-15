@@ -49,7 +49,7 @@ const CreateUserForm = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = localForm;
-  const govrn = new GovrnProtocol(protocolUrl);
+  const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { isConnected, address, chainId } = useWallet();
 
   const navigate = useNavigate();

@@ -49,9 +49,19 @@ const typeSchema = buildSchemaSync({
 const OwnsData = rule()(async (parent, args, ctx, info) => {
   console.log(parent);
   console.log(args);
+  console.log(ctx);
   console.log(ctx.req.session);
   console.log(Object.keys(info));
+  console.log('JER');
+  console.log(ctx.req.session.siwe);
   // console.log(info);
+  return true;
+});
+
+const isAuthenticated = rule()(async (parent, args, ctx, info) => {
+  if (!ctx.req.session.siwe) {
+    return false;
+  }
   return true;
 });
 

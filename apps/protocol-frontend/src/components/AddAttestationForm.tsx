@@ -61,7 +61,7 @@ const AddAttestationForm = ({
   contribution,
   onClose,
 }: AddAttestationFormProps) => {
-  const govrn = new GovrnProtocol(protocolUrl);
+  const govrn = new GovrnProtocol(protocolUrl, {credentials: "include"});
 
   const localForm = useForm({
     mode: 'all',

@@ -21,8 +21,12 @@ export class GovrnProtocol {
   twitter: Twitter;
   user: User;
 
-  constructor(apiUrl: string) {
+  constructor(
+    apiUrl: string,
+    clientParams?: { credentials: RequestCredentials }
+  ) {
     this.client = new GraphQLClient(apiUrl, {
+      ...clientParams,
       headers: {
         'Content-Type': `application/json`,
         Accept: `application/json`,

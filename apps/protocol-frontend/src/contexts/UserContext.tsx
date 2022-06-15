@@ -20,7 +20,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 }: UserContextProps) => {
   const { isConnected, address, chainId, provider } = useWallet();
   const toast = useToast();
-  const govrn = new GovrnProtocol(protocolUrl);
+  const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
   const [userAddress, setUserAddress] = useState<any>(null);
