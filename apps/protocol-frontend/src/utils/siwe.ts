@@ -200,8 +200,7 @@ export async function createSiweMessage(
       uri: origin,
       version: '1',
       chainId: parseInt(chainId),
-      // nonce: await res.text(),
-      // nonce: '100',
+      nonce: await res.text(),
     });
     return message.prepareMessage();
   } catch (e) {

@@ -54,6 +54,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       try {
         const res = await fetch(verifyURL, {
           method: 'POST',
+          credentials: 'include',
           body: JSON.stringify({ message, signature }),
           headers: {
             'Content-Type': 'application/json',

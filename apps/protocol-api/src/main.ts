@@ -149,11 +149,10 @@ app.post('/verify', async function (req, res) {
 });
 
 app.get('/nonce', async function (req, res) {
-  // req.session.nonce = generateNonce();
-  req.session.nonce = '100';
+  const nonce = generateNonce();
+  req.session.nonce = nonce;
   res.setHeader('Content-Type', 'text/plain');
-  console.log(req.session);
-  res.status(200).send({ nonce: 100 });
+  res.status(200).send(nonce);
 });
 
 app.listen(4000);
