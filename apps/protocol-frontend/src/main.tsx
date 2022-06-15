@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
+import 'regenerator-runtime/runtime';
 import { WalletProvider } from '@raidguild/quiver';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
 import { IProviderOptions } from 'web3modal';
@@ -37,7 +38,7 @@ ReactDOM.render(
         web3modalOptions={web3modalOptions}
         networks={networks}
         // Optional if you want to auto switch the network
-        defaultChainId={'0x1'}
+        // defaultChainId={'0x1'}
         // Optional but useful to handle events.
         handleModalEvents={(eventName, error) => {
           if (error) {

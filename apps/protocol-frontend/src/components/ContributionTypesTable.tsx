@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { format } from 'date-fns';
-import { Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
+import { Box, Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
 import { isAfter } from 'date-fns';
@@ -56,19 +56,44 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
       {
         Header: 'Activity Type',
         accessor: 'activityType',
+        Cell: ({ value }) => {
+          return (
+            <Box
+              bgColor="blue.50"
+              width="fit-content"
+              padding={2}
+              borderRadius="md"
+            >
+              {value}
+            </Box>
+          );
+        },
       },
       {
         Header: 'Total',
         accessor: 'total',
-      },
-      {
-        Header: 'Name',
-        accessor: 'name',
+        Cell: ({ value }) => {
+          return (
+            <Box
+              bgColor="blue.50"
+              width="fit-content"
+              padding={2}
+              borderRadius="md"
+            >
+              {value}
+            </Box>
+          );
+        },
       },
       {
         Header: 'Last Occurrence',
         accessor: 'engagementDate',
       },
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+
       { Header: 'DAOs', accessor: 'guilds' },
     ],
     []

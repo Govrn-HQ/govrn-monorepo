@@ -15,27 +15,25 @@ import {
   TabPanel,
   Alert,
   AlertDescription,
-  useDisclosure,
 } from '@chakra-ui/react';
+import { useOverlay } from '../contexts/OverlayContext';
 import { useUser } from '../contexts/UserContext';
+import { ModalWrapper } from '@govrn/protocol-ui';
+import MintModal from './MintModal';
 import PageHeading from './PageHeading';
-import MintInfoDialog from './MintInfoDialog';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
 
 const ContributionsTableShell = () => {
   const { userContributions } = useUser();
+  const localOverlay = useOverlay();
+  const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleMintContributions = () => {
-    selectedContributions.map(
-      (contribution, idx) =>
-        console.log(`contribution: ${idx}`, contribution.original)
-      // mint logic
-    );
+  const mintModalHandler = () => {
+    setModals({ mintModal: true });
   };
 
   return (
@@ -92,7 +90,7 @@ const ContributionsTableShell = () => {
                             _hover={{ bgColor: 'brand.primary.100' }}
                             flexBasis="10%"
                             colorScheme="brand.primary"
-                            onClick={onOpen}
+                            onClick={mintModalHandler}
                             disabled={selectedContributions?.length === 0}
                           >
                             Mint
@@ -180,13 +178,12 @@ const ContributionsTableShell = () => {
           <EmptyContributions />
         )}
       </Container>
-      <MintInfoDialog
-        isOpen={isOpen}
-        onClose={onClose}
-        totalContributions={
-          selectedContributions && selectedContributions?.length
-        }
-        mintHandler={handleMintContributions}
+      <ModalWrapper
+        name="mintModal"
+        title="Mint Your DAO Contributions"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={<MintModal contributions={selectedContributions} />}
       />
     </>
   );

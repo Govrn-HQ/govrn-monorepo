@@ -52,10 +52,9 @@ const ContributionsTable = ({
         id: contribution.id,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
-        attestations: contribution.attestations?.length,
+        attestations: contribution.attestations || null,
         user: contribution.user.id,
         activityTypeId: contribution.activity_type.id,
-        verificationLevel: contribution.verificationLevel,
         status: contribution.status.name,
         action: '',
       })),
@@ -90,10 +89,9 @@ const ContributionsTable = ({
       {
         Header: 'Attestations',
         accessor: 'attestations',
-      },
-      {
-        Header: 'Verification Level',
-        accessor: 'verificationLevel',
+        Cell: ({ value }) => {
+          return <Text textTransform="capitalize">{value.length}</Text>;
+        },
       },
     ],
     []

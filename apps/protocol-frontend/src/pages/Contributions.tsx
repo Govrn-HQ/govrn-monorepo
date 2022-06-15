@@ -52,7 +52,7 @@ const Contributions = () => {
             boxShadow="sm"
             borderRadius={{ base: 'none', md: 'lg' }}
           >
-            {userData ? <UserView /> : <NotUserView />}
+            {isConnected && userData ? <UserView /> : <NotUserView />}
           </Box>
         </Container>
       )}
