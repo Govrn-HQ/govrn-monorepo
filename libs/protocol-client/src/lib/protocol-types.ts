@@ -13944,6 +13944,14 @@ export type CreateContributionMutation = {
   };
 };
 
+export type BulkCreateContributionMutationVariables = Exact<{
+  data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
+  skipDuplicates: Scalars['Boolean'];
+}>;
+
+
+export type BulkCreateContributionMutation = { createManyContribution: { count: number } };
+
 export type UpdateContributionMutationVariables = Exact<{
   data: ContributionUpdateInput;
   where: ContributionWhereUniqueInput;
@@ -13997,35 +14005,16 @@ export type ListActivityTypesQueryVariables = Exact<{
   >;
 }>;
 
-export type ListActivityTypesQuery = {
-  result: Array<{
-    active: boolean;
-    createdAt: any;
-    id: number;
-    name: string;
-    updatedAt: any;
-  }>;
-};
+export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: any, id: number, name: string, updatedAt: any }> };
 
-export type AttestationFragmentFragment = {
-  date_of_attestation: any;
-  id: number;
-  updatedAt: any;
-  confidence: { createdAt: any; id: number; name: string; updatedAt: any };
-  contribution: {
-    activity_type_id: number;
-    date_of_engagement: any;
-    date_of_submission: any;
-    details?: string | null;
-    id: number;
-    name: string;
-    proof?: string | null;
-    status_id: number;
-    updatedAt: any;
-    user_id: number;
-  };
-  user: { name?: string | null; address: string; id: number };
-};
+export type CreateActivityTypeMutationVariables = Exact<{
+  data: ActivityTypeCreateInput;
+}>;
+
+
+export type CreateActivityTypeMutation = { createActivityType: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any } };
+
+export type AttestationFragmentFragment = { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } };
 
 export type ListAttestationsQueryVariables = Exact<{
   where?: AttestationWhereInput;
@@ -14084,6 +14073,14 @@ export type CreateAttestationMutation = {
     user: { name?: string | null; address: string; id: number };
   };
 };
+
+export type BulkCreateAttestationMutationVariables = Exact<{
+  data: Array<AttestationCreateManyInput> | AttestationCreateManyInput;
+  skipDuplicates: Scalars['Boolean'];
+}>;
+
+
+export type BulkCreateAttestationMutation = { createManyAttestation: { count: number } };
 
 export type UpdateAttestationMutationVariables = Exact<{
   data: AttestationUpdateInput;
@@ -14577,8 +14574,15 @@ export const CreateContributionDocument = gql`
       ...ContributionFragment
     }
   }
-  ${ContributionFragmentFragmentDoc}
-`;
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const BulkCreateContributionDocument = gql`
+    mutation bulkCreateContribution($data: [ContributionCreateManyInput!]!, $skipDuplicates: Boolean!) {
+  createManyContribution(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+    `;
 export const UpdateContributionDocument = gql`
   mutation updateContribution(
     $data: ContributionUpdateInput!
@@ -14606,8 +14610,15 @@ export const ListActivityTypesDocument = gql`
       ...ActivityTypeFragment
     }
   }
-  ${ActivityTypeFragmentFragmentDoc}
-`;
+}
+    ${ActivityTypeFragmentFragmentDoc}`;
+export const CreateActivityTypeDocument = gql`
+    mutation createActivityType($data: ActivityTypeCreateInput!) {
+  createActivityType(data: $data) {
+    ...ActivityTypeFragment
+  }
+}
+    ${ActivityTypeFragmentFragmentDoc}`;
 export const ListAttestationsDocument = gql`
   query listAttestations(
     $where: AttestationWhereInput! = {}
@@ -14632,8 +14643,15 @@ export const CreateAttestationDocument = gql`
       ...AttestationFragment
     }
   }
-  ${AttestationFragmentFragmentDoc}
-`;
+}
+    ${AttestationFragmentFragmentDoc}`;
+export const BulkCreateAttestationDocument = gql`
+    mutation bulkCreateAttestation($data: [AttestationCreateManyInput!]!, $skipDuplicates: Boolean!) {
+  createManyAttestation(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+    `;
 export const UpdateAttestationDocument = gql`
   mutation updateAttestation(
     $data: AttestationUpdateInput!
@@ -14989,20 +15007,11 @@ export function getSdk(
         'mutation'
       );
     },
-    updateContribution(
-      variables: UpdateContributionMutationVariables,
-      requestHeaders?: Dom.RequestInit['headers']
-    ): Promise<UpdateContributionMutation> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<UpdateContributionMutation>(
-            UpdateContributionDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders }
-          ),
-        'updateContribution',
-        'mutation'
-      );
+    bulkCreateContribution(variables: BulkCreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateContributionMutation>(BulkCreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateContribution', 'mutation');
+    },
+    updateContribution(variables: UpdateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateContributionMutation>(UpdateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateContribution', 'mutation');
     },
     listActivityTypes(
       variables?: ListActivityTypesQueryVariables,
@@ -15019,20 +15028,11 @@ export function getSdk(
         'query'
       );
     },
-    listAttestations(
-      variables?: ListAttestationsQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers']
-    ): Promise<ListAttestationsQuery> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<ListAttestationsQuery>(
-            ListAttestationsDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders }
-          ),
-        'listAttestations',
-        'query'
-      );
+    createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
+    },
+    listAttestations(variables?: ListAttestationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListAttestationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListAttestationsQuery>(ListAttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listAttestations', 'query');
     },
     createAttestation(
       variables: CreateAttestationMutationVariables,
@@ -15049,34 +15049,11 @@ export function getSdk(
         'mutation'
       );
     },
-    updateAttestation(
-      variables: UpdateAttestationMutationVariables,
-      requestHeaders?: Dom.RequestInit['headers']
-    ): Promise<UpdateAttestationMutation> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<UpdateAttestationMutation>(
-            UpdateAttestationDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders }
-          ),
-        'updateAttestation',
-        'mutation'
-      );
+    bulkCreateAttestation(variables: BulkCreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateAttestationMutation>(BulkCreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateAttestation', 'mutation');
     },
-    listPartners(
-      variables?: ListPartnersQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers']
-    ): Promise<ListPartnersQuery> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<ListPartnersQuery>(ListPartnersDocument, variables, {
-            ...requestHeaders,
-            ...wrappedRequestHeaders,
-          }),
-        'listPartners',
-        'query'
-      );
+    updateAttestation(variables: UpdateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateAttestationMutation>(UpdateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateAttestation', 'mutation');
     },
   };
 }

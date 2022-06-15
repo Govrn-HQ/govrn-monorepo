@@ -2,14 +2,15 @@ import { ethers } from 'ethers';
 import { BaseClient } from './base';
 import { Attestation } from './attestation';
 import {
+  BulkCreateContributionMutationVariables,
   CreateContributionMutationVariables,
   ListContributionsQueryVariables,
   UpdateContributionMutationVariables,
 } from '../protocol-types';
 import {
+  AttestArgs,
   GovrnContract,
   MintArgs,
-  AttestArgs,
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
 
@@ -27,6 +28,11 @@ export class Contribution extends BaseClient {
   public async create(args: CreateContributionMutationVariables) {
     const contributions = await this.sdk.createContribution(args);
     return contributions.createContribution;
+  }
+
+  public async bulkCreate(args: BulkCreateContributionMutationVariables) {
+    const mutation = await this.sdk.bulkCreateContribution(args);
+    return mutation.createManyContribution.count;
   }
 
   public async update(args: UpdateContributionMutationVariables) {

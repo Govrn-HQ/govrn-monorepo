@@ -24,6 +24,15 @@ export type BulkAttestArgs = {
   attestations: Govrn.AttestationStruct[];
 };
 
+export type ContributionsArgs = {
+  tokenId: ethers.BigNumberish;
+};
+
+export type AttestationArgs = {
+  tokenId: ethers.BigNumberish,
+  address: string,
+}
+
 export type NetworkConfig = {
   address: string;
   chainId: number;
@@ -63,5 +72,13 @@ export class GovrnContract {
 
   public async bulkMint(args: BulkMintArgs) {
     return await this.govrn.bulkMint(args.contributions);
+  }
+
+  public async contributions(args: ContributionsArgs) {
+    return await this.govrn.contributions(args.tokenId);
+  }
+
+  public async attestations(args: AttestationArgs) {
+    return await this.govrn.attestations(args.tokenId, args.address)
   }
 }
