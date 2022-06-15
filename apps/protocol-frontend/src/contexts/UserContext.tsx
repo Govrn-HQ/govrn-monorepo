@@ -43,8 +43,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         return;
       }
       setIsAuthenticating(true);
-      // call verify
-      // if successful set is authenticated
       const message = await createSiweMessage(
         userAddress,
         'Sign in with Ethereum to the app.',
