@@ -27,6 +27,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
   const [userContributions, setUserContributions] = useState<any>(null);
+  const [daoContributions, setDaoContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -73,6 +74,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getUser = async () => {
     try {
       const userDataResponse = await govrn.user.get(userDataByAddress.id);
+
       setUserData(userDataResponse);
       return userDataResponse;
     } catch (error) {
@@ -89,6 +91,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       if (userDataByAddressResponse.length > 0) {
         setUserDataByAddress(userDataByAddressResponse[0]);
       }
+
       return userDataByAddress;
     } catch (error) {
       console.error(error);
@@ -99,12 +102,27 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     try {
       const userContributionsResponse = await govrn.contribution.list({
         where: {
-          user_id: { equals: userAddress?.id },
+          user_id: { equals: userData?.id },
         },
         first: 1000,
       });
       setUserContributions(userContributionsResponse);
       return userContributionsResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getDaoContributions = async () => {
+    try {
+      const daoContributionsResponse = await govrn.contribution.list({
+        // where: {
+        //   user_id: { equals: userData?.id },
+        // },
+        first: 1000,
+      });
+      setDaoContributions(daoContributionsResponse);
+      return daoContributionsResponse;
     } catch (error) {
       console.error(error);
     }
@@ -198,6 +216,66 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       console.log(error);
       toast({
         title: 'Unable to Report Contribution',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
+  const createAttestation = async (contribution: any, values: any) => {
+    try {
+      const response = await govrn.attestation.create({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: userData.address,
+                chain_type: {
+                  create: {
+                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
+                  },
+                },
+              },
+              where: {
+                id: userData.id,
+              },
+            },
+          },
+          date_of_attestation: new Date(Date.now()).toISOString(),
+          contribution: {
+            connect: {
+              id: contribution.id,
+            },
+          },
+          confidence: {
+            connectOrCreate: {
+              create: {
+                name: '0',
+              },
+              where: {
+                name: '0',
+              },
+            },
+          },
+        },
+      });
+      toast({
+        title: 'Contribution Report Updated',
+        description: 'Your Contribution report has been updated.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      console.log('response', response);
+      getDaoContributions();
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: 'Unable to Add Attestation',
         description: `Something went wrong. Please try again: ${error}`,
         status: 'error',
         duration: 3000,
@@ -382,12 +460,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   }, [userData]);
 
   useEffect(() => {
+    if (userData !== null) {
+      getDaoContributions();
+    }
+  }, [userData]);
+
+  useEffect(() => {
     getUserActivityTypes();
   }, [userData]);
 
   useEffect(() => {
     getUserAttestations();
   }, [userData]);
+
   return (
     <UserContext.Provider
       value={{
@@ -399,11 +484,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserDataByAddress,
         userContributions,
         setUserContributions,
+        daoContributions,
+        setDaoContributions,
         userAttestations,
         setUserAttestations,
         userActivityTypes,
         setUserActivityTypes,
         createContribution,
+        createAttestation,
         updateContribution,
         updateProfile,
         updateLinearEmail,
@@ -424,10 +512,13 @@ export const useUser = () => {
     setUserData,
     userContributions,
     setUserContributions,
+    daoContributions,
+    setDaoContributions,
     userAttestations,
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createAttestation,
     createContribution,
     updateContribution,
     updateProfile,
@@ -442,10 +533,13 @@ export const useUser = () => {
     setUserData,
     userContributions,
     setUserContributions,
+    daoContributions,
+    setDaoContributions,
     userAttestations,
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createAttestation,
     createContribution,
     updateContribution,
     updateProfile,

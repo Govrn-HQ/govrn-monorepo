@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import * as _ from 'lodash';
 import { format } from 'date-fns';
 import {
   Table,
@@ -21,6 +22,7 @@ import {
   useRowSelect,
 } from 'react-table';
 import { ModalWrapper } from '@govrn/protocol-ui';
+import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
@@ -32,6 +34,7 @@ const AttestationsTable = ({
 }: any) => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
+  const { userData } = useUser();
   const [selectedContribution, setSelectedContribution] = useState<any>();
 
   const handleAddAttestationFormModal = (id: number) => {
@@ -39,9 +42,13 @@ const AttestationsTable = ({
     setModals({ addAttestationFormModal: true });
   };
 
+  const unattestedContributions = _.filter(contributionsData, function (a) {
+    return a.attestations.every((b: any) => b.user_id !== userData.id);
+  });
+
   const data = useMemo(
     () =>
-      contributionsData.map((contribution: any) => ({
+      unattestedContributions.map((contribution: any) => ({
         id: contribution.id,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
@@ -50,7 +57,6 @@ const AttestationsTable = ({
         //   contribution.attestations !== null
         //     ? Object.keys(contribution.attestations).length
         //     : 0,
-        verificationLevel: contribution.verificationLevel,
         guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
@@ -135,7 +141,6 @@ const AttestationsTable = ({
 
   useEffect(() => {
     setSelectedContributions(selectedFlatRows);
-    console.log(selectedFlatRows);
   }, [selectedFlatRows, selectedRowIds]);
 
   return (

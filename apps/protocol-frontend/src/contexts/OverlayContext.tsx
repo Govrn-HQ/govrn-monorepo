@@ -13,6 +13,8 @@ export const OverlayContextProvider: React.FC<OverlayProviderProps> = ({
     reportingFormModal: false,
     editContributionFormModal: false,
     addAttestationFormModal: false,
+    bulkAttestationModal: false,
+    mintModal: false,
   });
 
   return (
