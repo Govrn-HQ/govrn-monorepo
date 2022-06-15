@@ -64,8 +64,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       } catch (e) {
         console.error(e);
       }
-      console.log('Log after verify');
-      console.log(res.text());
     };
     if (isConnected && !isAuthenticated && userAddress) {
       verifyAddress();

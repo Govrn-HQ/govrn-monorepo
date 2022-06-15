@@ -18,59 +18,33 @@ const typeSchema = buildSchemaSync({
   resolvers,
 });
 
-// You need the nonce to prevent replay attacks
-// random hash and then with a nonce
+// Rules WIP
 //
-// Instead of maintaining a nonce
-// keep track of last session login
-// If the current is greater than the last
-// session then we should be good to continue
+// const OwnsData = rule()(async (parent, args, ctx, info) => {
+//   console.log(parent);
+//   console.log(args);
+//   console.log(ctx);
+//   console.log(ctx.req.session);
+//   console.log(Object.keys(info));
+//   console.log('JER');
+//   console.log(ctx.req.session.siwe);
+//   // console.log(info);
+//   return true;
+// });
 //
-// Issue what token can a user use to replay this?
-//
-// Follow the standard set a session of 30 minutes
-// sessions can be cancelled if the nonce is changed
-//
-// Check expiration, domain
-// const getUser = async (authorization?: string, timestamp?: string) => {
-//   try {
-//     const address = ethers.utils.verifyMessage(
-//       `${randomString} ${timestamp}`,
-//       authorization
-//     );
-//     const user = prisma.user.findFirst({ where: { address } });
-//   } catch (e) {
-//     console.error(e);
-//     return null;
+// const isAuthenticated = rule()(async (parent, args, ctx, info) => {
+//   if (!ctx.req.session.siwe) {
+//     return false;
 //   }
-// };
-
-// Rules
-const OwnsData = rule()(async (parent, args, ctx, info) => {
-  console.log(parent);
-  console.log(args);
-  console.log(ctx);
-  console.log(ctx.req.session);
-  console.log(Object.keys(info));
-  console.log('JER');
-  console.log(ctx.req.session.siwe);
-  // console.log(info);
-  return true;
-});
-
-const isAuthenticated = rule()(async (parent, args, ctx, info) => {
-  if (!ctx.req.session.siwe) {
-    return false;
-  }
-  return true;
-});
+//   return true;
+// });
 
 const permissions = shield(
   {
     Query: {
       '*': allow,
-      contributions: deny,
-      users: OwnsData,
+      contributions: allow,
+      users: allow,
     },
     Mutation: {
       '*': allow,
@@ -81,8 +55,6 @@ const permissions = shield(
     debug: true,
   }
 );
-
-console.log(permissions);
 
 const schema = applyMiddleware(typeSchema, permissions);
 
@@ -121,7 +93,6 @@ app.use('/graphql', async function (req, res) {
 // cawait getUser(req.headers.authorization, req.headers.timestamp),
 app.post('/verify', async function (req, res) {
   try {
-    console.log(req.body);
     if (!req.body.message) {
       res
         .status(422)
