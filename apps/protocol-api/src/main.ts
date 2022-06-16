@@ -9,14 +9,16 @@ import { SiweErrorType, SiweMessage, generateNonce } from 'siwe';
 import cors = require('cors');
 
 import { resolvers } from './prisma/generated/type-graphql';
+import { customResolvers } from './prisma/resolvers';
 import { shield, deny, allow, rule } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 
 const prisma = new PrismaClient();
 
 const typeSchema = buildSchemaSync({
-  resolvers,
+  resolvers: [...resolvers, ...customResolvers],
 });
+console.log(typeSchema);
 
 // Rules WIP
 //
