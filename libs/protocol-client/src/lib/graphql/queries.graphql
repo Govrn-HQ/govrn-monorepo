@@ -296,6 +296,12 @@ mutation createContribution($data: ContributionCreateInput!) {
   }
 }
 
+mutation bulkCreateContribution($data: [ContributionCreateManyInput!]!,  $skipDuplicates: Boolean!) {
+  createManyContribution(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+
 mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
   updateContribution(data: $data, where: $where) {
     ...ContributionFragment
@@ -312,15 +318,22 @@ fragment ActivityTypeFragment on ActivityType {
 }
 
 query listActivityTypes($where: ActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ActivityTypeOrderByWithRelationInput!]) {
-    result: activityTypes(
-        where: $where,
-        skip: $skip,
-        take: $first,
-        orderBy: $orderBy,
-    ) {
-      ...ActivityTypeFragment
-    }
+  result: activityTypes(
+    where: $where,
+    skip: $skip,
+    take: $first,
+    orderBy: $orderBy,
+  ) {
+    ...ActivityTypeFragment
+  }
 }
+
+mutation createActivityType($data: ActivityTypeCreateInput!) {
+  createActivityType(data: $data) {
+    ...ActivityTypeFragment
+  }
+}
+
 
 # Attestations
 fragment AttestationFragment on Attestation {
@@ -367,6 +380,12 @@ query listAttestations($where: AttestationWhereInput! = {}, $skip: Int! = 0, $fi
 mutation createAttestation($data: AttestationCreateInput!) {
   createAttestation(data: $data) {
     ...AttestationFragment
+  }
+}
+
+mutation bulkCreateAttestation($data: [AttestationCreateManyInput!]!,  $skipDuplicates: Boolean!) {
+  createManyAttestation(data: $data, skipDuplicates: $skipDuplicates) {
+    count
   }
 }
 
