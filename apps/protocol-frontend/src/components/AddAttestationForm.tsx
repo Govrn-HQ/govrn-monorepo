@@ -72,40 +72,12 @@ const AddAttestationForm = ({
 
   const addAttestation = async (values: any) => {
     try {
-      const response = await govrn.attestation.create({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          date_of_attestation: new Date(Date.now()).toISOString(),
-          contribution: {
-            connect: {
-              id: contribution.id,
-            },
-          },
-          confidence: {
-            connectOrCreate: {
-              create: {
-                name: `${values.confidenceLevel}: ${userData.name}`,
-              },
-              where: {
-                name: `${values.confidenceLevel}: ${userData.name}`,
-              },
-            },
-          },
-        },
+      await govrn.custom.createUserAttestation({
+        address: userData.address,
+        chainName: 'ethereum',
+        confidenceName: `${values.confidenceLevel}: ${userData.name}`,
+        contributionId: contribution.id,
+        userId: userData.id,
       });
     } catch (error) {
       console.log(error);

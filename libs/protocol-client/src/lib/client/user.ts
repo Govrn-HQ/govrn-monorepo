@@ -1,7 +1,7 @@
 import { UserUpdateInput, UserWhereUniqueInput } from '../protocol-types';
 import { BaseClient } from './base';
 import {
-  CreateUserMutationVariables,
+  UserCreateCustomInput,
   ListUsersQueryVariables,
   MutationDeleteGuildUserArgs,
 } from '../protocol-types';
@@ -30,9 +30,9 @@ export class User extends BaseClient {
     return contributions.result;
   }
 
-  public async create(args: CreateUserMutationVariables) {
-    const contributions = await this.sdk.createUser(args);
-    return contributions.createUser;
+  public async create(args: UserCreateCustomInput) {
+    const contributions = await this.sdk.createUserCustom({ data: args });
+    return contributions.createUserCustom;
   }
 }
 

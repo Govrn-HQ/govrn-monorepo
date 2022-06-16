@@ -57,20 +57,8 @@ const CreateUserForm = () => {
   const createUser = async (values: any) => {
     try {
       await govrn.user.create({
-        data: {
-          name: values.username,
-          address: address as string,
-          chain_type: {
-            connectOrCreate: {
-              create: {
-                name: 'ethereum_mainnet',
-              },
-              where: {
-                name: 'ethereum_mainnet',
-              },
-            },
-          },
-        },
+        username: values.username,
+        address: address,
       });
       navigate('/contributions');
     } catch (error) {

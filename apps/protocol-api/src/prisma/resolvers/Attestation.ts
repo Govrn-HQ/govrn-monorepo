@@ -3,57 +3,7 @@ import * as TypeGraphQL from 'type-graphql';
 import { Context } from './types';
 import { Attestation } from '../generated/type-graphql/models/Attestation';
 
-// @Resolver()
-// export class CustomUserResolver {
-// 	  @Query(returns => User, { nullable: true })
-// 	  async bestUser(@Ctx() { prisma }: Context): Promise<User | null> {
-// 			    return await prisma.user.findUnique({
-// 						      where: { email: "bob@prisma.io" },
-// 						    });
-// 			  }
-// }
-//{
-//        data: {
-//          user: {
-//            connectOrCreate: {
-//              create: {
-//                address: userData.address,
-//                chain_type: {
-//                  create: {
-//                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-//                  },
-//                },
-//              },
-//              where: {
-//                id: userData.id,
-//              },
-//            },
-//          },
-//          date_of_attestation: new Date(Date.now()).toISOString(),
-//          contribution: {
-//            connect: {
-//              id: contribution.id,
-//            },
-//          },
-//          confidence: {
-//            connectOrCreate: {
-//              create: {
-//                name: `${values.confidenceLevel}: ${userData.name}`,
-//              },
-//              where: {
-//                name: `${values.confidenceLevel}: ${userData.name}`,
-//              },
-//            },
-//          },
-
-type CreateArgs = {
-  address: string;
-  chainName: string;
-  userId: number;
-  confidenceName: string;
-  contributionId: number;
-};
-@TypeGraphQL.InputType('AttestationCreateInput', {
+@TypeGraphQL.InputType('AttestationUserCreateInput', {
   isAbstract: true,
 })
 export class AttestationUserCreateInput {
@@ -86,14 +36,14 @@ export class AttestationResolver {
   @TypeGraphQL.Mutation((_returns) => Attestation, { nullable: false })
   async createUserAttestation(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    args: CreateArgs
+    @TypeGraphQL.Args() args: CreateUserAttestationArgs
   ) {
     return await prisma.attestation.create({
       data: {
         user: {
           connect: {
             create: {
-              address: args.address,
+              address: args.data.address,
               chain_type: {
                 createOrConnct: {
                   name: 'Ethereum Mainnet', //unsure about this -- TODO: check
@@ -101,7 +51,7 @@ export class AttestationResolver {
               },
             },
             where: {
-              id: args.userId,
+              id: args.data.userId,
             },
           },
         },
@@ -109,7 +59,7 @@ export class AttestationResolver {
       date_of_attestation: new Date(Date.now()).toISOString(),
       contribution: {
         connect: {
-          id: args.contributionId,
+          id: args.data.contributionId,
         },
       },
       confidence: {

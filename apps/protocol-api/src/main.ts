@@ -18,21 +18,20 @@ const prisma = new PrismaClient();
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
 });
-console.log(typeSchema);
 
 // Rules WIP
 //
-// const OwnsData = rule()(async (parent, args, ctx, info) => {
-//   console.log(parent);
-//   console.log(args);
-//   console.log(ctx);
-//   console.log(ctx.req.session);
-//   console.log(Object.keys(info));
-//   console.log('JER');
-//   console.log(ctx.req.session.siwe);
-//   // console.log(info);
-//   return true;
-// });
+const OwnsData = rule()(async (parent, args, ctx, info) => {
+  console.log(parent);
+  console.log(args);
+  console.log(ctx);
+  console.log(ctx.req.session);
+  console.log(Object.keys(info));
+  console.log('JER');
+  console.log(ctx.req.session.siwe);
+  // console.log(info);
+  return true;
+});
 //
 // const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 //   if (!ctx.req.session.siwe) {
@@ -50,6 +49,8 @@ const permissions = shield(
     },
     Mutation: {
       '*': allow,
+      createUserCustom: OwnsData,
+      createUserAttestation: OwnsData,
     },
   },
   {

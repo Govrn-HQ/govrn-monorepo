@@ -1,3 +1,4 @@
 import { AttestationResolver } from './Attestation';
+import { UserCustomResolver } from './User';
 
-export const customResolvers = [AttestationResolver];
+export const customResolvers = [AttestationResolver, UserCustomResolver];

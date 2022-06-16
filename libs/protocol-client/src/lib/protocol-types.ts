@@ -1324,6 +1324,14 @@ export type AttestationUpsertWithWhereUniqueWithoutUserInput = {
   where: AttestationWhereUniqueInput;
 };
 
+export type AttestationUserCreateInput = {
+  address: Scalars['String'];
+  chainName: Scalars['String'];
+  confidenceName: Scalars['String'];
+  contributionId: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
 export type AttestationUser_IdContribution_IdCompoundUniqueInput = {
   contribution_id: Scalars['Int'];
   user_id: Scalars['Int'];
@@ -8240,6 +8248,7 @@ export type Mutation = {
   createUser: User;
   createUserActivity: UserActivity;
   createUserAttestation: Attestation;
+  createUserCustom: User;
   deleteActivityType?: Maybe<ActivityType>;
   deleteAttestation?: Maybe<Attestation>;
   deleteAttestationConfidence?: Maybe<AttestationConfidence>;
@@ -8640,6 +8649,16 @@ export type MutationCreateUserArgs = {
 
 export type MutationCreateUserActivityArgs = {
   data: UserActivityCreateInput;
+};
+
+
+export type MutationCreateUserAttestationArgs = {
+  data: AttestationUserCreateInput;
+};
+
+
+export type MutationCreateUserCustomArgs = {
+  data: UserCreateCustomInput;
 };
 
 
@@ -12742,6 +12761,11 @@ export type UserCountOrderByAggregateInput = {
   updatedAt?: InputMaybe<SortOrder>;
 };
 
+export type UserCreateCustomInput = {
+  address: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type UserCreateInput = {
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
@@ -13705,6 +13729,13 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { createUser: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
 
+export type CreateUserCustomMutationVariables = Exact<{
+  data: UserCreateCustomInput;
+}>;
+
+
+export type CreateUserCustomMutation = { createUserCustom: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
+
 export type ContributionFragmentFragment = { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> };
 
 export type GetContributionQueryVariables = Exact<{
@@ -13812,6 +13843,13 @@ export type ListPartnersQueryVariables = Exact<{
 
 
 export type ListPartnersQuery = { result: Array<{ createdAt: any, updatedAt: any, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
+
+export type CreateUserAttestationMutationVariables = Exact<{
+  data: AttestationUserCreateInput;
+}>;
+
+
+export type CreateUserAttestationMutation = { createUserAttestation: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } };
 
 export const JobFieldsFragmentFragmentDoc = gql`
     fragment JobFieldsFragment on JobRun {
@@ -14139,6 +14177,13 @@ export const CreateUserDocument = gql`
   }
 }
     ${UserFragmentFragmentDoc}`;
+export const CreateUserCustomDocument = gql`
+    mutation createUserCustom($data: UserCreateCustomInput!) {
+  createUserCustom(data: $data) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
 export const GetContributionDocument = gql`
     query getContribution($where: ContributionWhereUniqueInput!) {
   result: contribution(where: $where) {
@@ -14238,6 +14283,13 @@ export const ListPartnersDocument = gql`
   }
 }
     ${PartnerFragmentFragmentDoc}`;
+export const CreateUserAttestationDocument = gql`
+    mutation createUserAttestation($data: AttestationUserCreateInput!) {
+  createUserAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -14300,6 +14352,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
     },
+    createUserCustom(variables: CreateUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserCustomMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserCustomMutation>(CreateUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserCustom', 'mutation');
+    },
     getContribution(variables: GetContributionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionQuery>(GetContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContribution', 'query');
     },
@@ -14335,6 +14390,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     listPartners(variables?: ListPartnersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListPartnersQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListPartnersQuery>(ListPartnersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listPartners', 'query');
+    },
+    createUserAttestation(variables: CreateUserAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserAttestationMutation>(CreateUserAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserAttestation', 'mutation');
     }
   };
 }
