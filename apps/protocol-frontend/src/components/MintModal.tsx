@@ -48,7 +48,11 @@ const MintModal = ({ contributions }: MintModalProps) => {
   };
 
   const agreementCheckboxHandler = () => {
-    setIsChecked(!isChecked);
+    // setIsChecked(!isChecked);
+    setAgreementChecked((prevState: any) => ({
+      ...prevState,
+      agreement: true,
+    }));
   };
 
   return (
@@ -100,7 +104,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => mintHandler(contributions)}
           isLoading={minting}
-          disabled={!isChecked}
+          disabled={!agreementChecked.agreement}
         >
           Mint {contributions.length === 1 ? 'Contribution' : 'Contributions'}
         </Button>
