@@ -16,7 +16,7 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
-  const { isConnected, address } = useWallet();
+  const { isConnected, address, provider } = useWallet();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl);
   const { setModals } = useOverlay();
@@ -165,7 +165,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       });
       toast({
         title: 'Contribution Report Added',
-        description: 'Your Contribution report has been recorded.',
+        description:
+          'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -187,6 +188,33 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const mintContribution = async (contribution: any) => {
+    try {
+      if (provider) {
+        const response = await govrn.contribution.mint(
+          {
+            address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+            chainId: 31337,
+          },
+          provider,
+          userData.address,
+          contribution.id,
+          1,
+          userData.id,
+          {
+            name: contribution.name,
+            details: contribution.details,
+            dateOfSubmission: contribution.submissionDate,
+            dateOfEngagement: contribution.engagementDate,
+            proof: contribution.proof,
+          }
+        );
+        console.log('mint response', response);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
   const createAttestation = async (contribution: any, values: any) => {
     try {
       const response = await govrn.attestation.create({
@@ -454,6 +482,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserActivityTypes,
         createContribution,
         createAttestation,
+        mintContribution,
         updateContribution,
         updateProfile,
         updateLinearEmail,
@@ -482,6 +511,7 @@ export const useUser = () => {
     setUserActivityTypes,
     createAttestation,
     createContribution,
+    mintContribution,
     updateContribution,
     updateProfile,
     updateLinearEmail,
@@ -503,6 +533,7 @@ export const useUser = () => {
     setUserActivityTypes,
     createAttestation,
     createContribution,
+    mintContribution,
     updateContribution,
     updateProfile,
     updateLinearEmail,

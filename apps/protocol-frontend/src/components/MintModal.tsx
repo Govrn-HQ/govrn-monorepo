@@ -19,7 +19,7 @@ interface MintModalProps {
 }
 
 const MintModal = ({ contributions }: MintModalProps) => {
-  const { userData } = useUser();
+  const { userData, mintContribution } = useUser();
   const [isChecked, setIsChecked] = useState(false);
   const [freshAgreementMint, setFreshAgreementMint] = useState(true);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
@@ -35,16 +35,17 @@ const MintModal = ({ contributions }: MintModalProps) => {
     console.log('agreement: ', agreementChecked.agreement);
     setMinting(true);
     contributions.map((contribution, idx) => {
-      if (isChecked === true) {
-        setAgreementChecked((prevState: any) => ({
-          ...prevState,
-          agreement: true,
-        }));
-      }
       console.log(`contribution: ${idx}`, contribution.original);
-      setMinting(false);
-      setFreshAgreementMint(false);
+      mintContribution(contribution.id);
     });
+    if (isChecked === true) {
+      setAgreementChecked((prevState: any) => ({
+        ...prevState,
+        agreement: true,
+      }));
+    }
+    setMinting(false);
+    setFreshAgreementMint(false);
   };
 
   const agreementCheckboxHandler = () => {
@@ -64,8 +65,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
         </Text>
         <Tooltip
           label={`Why Mint?
-        Minting a Contribution creates an immutable record of your
-          Contribution.`}
+        Minting a Contribution makes it immutable and creates a historical record of what's been done that can't be changed.`}
           fontSize="md"
           bgColor="brand.primary.50"
           placement="right"

@@ -50,6 +50,8 @@ const ContributionsTable = ({
       contributionsData.map((contribution: any) => ({
         name: contribution.name,
         id: contribution.id,
+        details: contribution.details,
+        proof: contribution.proof,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
         attestations: contribution.attestations || null,

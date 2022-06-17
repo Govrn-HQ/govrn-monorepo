@@ -44,6 +44,13 @@ const Sidebar = () => {
             <Link to="/">
               <NavButton label="Home" icon={FiHome} />
             </Link>
+            <Link to="/report">
+              <NavButton
+                label="Report"
+                icon={FiPlusSquare}
+                active={location.pathname.includes('/report')}
+              />
+            </Link>
             <Link to="/contributions">
               <NavButton
                 label="Contributions"
@@ -58,13 +65,7 @@ const Sidebar = () => {
                 active={location.pathname.includes('/attestations')}
               />
             </Link>
-            <Link to="/report">
-              <NavButton
-                label="Report"
-                icon={FiPlusSquare}
-                active={location.pathname.includes('/report')}
-              />
-            </Link>
+
             <Link to="/profile">
               <NavButton
                 label="Profile"
