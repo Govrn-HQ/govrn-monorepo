@@ -19,7 +19,7 @@ export class UserCreateCustomInput {
   isAbstract: true,
 })
 export class UserUpdateCustomInput {
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
   id: number;
 
   @TypeGraphQL.Field((_type) => String)
@@ -93,10 +93,10 @@ export class UserCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: UpdateUserCustomArgs
   ) {
-    return await prisma.user.update(
-      { name: { set: args.data.name } },
-      { id: args.data.id }
-    );
+    return await prisma.user.update({
+      data: { name: { set: args.data.name } },
+      where: { id: args.data.id },
+    });
   }
 
   @TypeGraphQL.Query((_returns) => [User], { nullable: false })

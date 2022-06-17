@@ -155,17 +155,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const createContribution = async (values: any, reset: any, navigate: any) => {
     try {
       await govrn.custom.createUserContribution({
-        data: {
-          address: userData.address,
-          chainName: 'ethereum',
-          userId: userData.id,
-          name: values.name,
-          details: values.details,
-          proof: values.proof,
-          activityTypeName: values.activityType,
-          dateOfEngagement: new Date(values.engagementDate).toISOString(),
-          status: 'staging',
-        },
+        address: userData.address,
+        chainName: 'ethereum',
+        userId: userData.id,
+        name: values.name,
+        details: values.details,
+        proof: values.proof,
+        activityTypeName: values.activityType,
+        dateOfEngagement: new Date(values.engagementDate).toISOString(),
+        status: 'staging',
       });
       toast({
         title: 'Contribution Report Added',
@@ -193,14 +191,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createAttestation = async (contribution: any, values: any) => {
     try {
-      const response = await govrn.custom.createUserAttestationa({
-        data: {
-          address: userData.addres,
-          chainName: 'ethereum',
-          userId: userData.id,
-          confidenceName: '0',
-          contributionId: contribution.id,
-        },
+      const response = await govrn.custom.createUserAttestation({
+        address: userData.address,
+        chainName: 'ethereum',
+        userId: userData.id,
+        confidenceName: '0',
+        contributionId: contribution.id,
       });
       toast({
         title: 'Contribution Report Updated',
@@ -275,11 +271,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const updateProfile = async (values: any) => {
     try {
-      await govrn.custom.updateUserCustom({
-        data: {
-          name: values.name,
-          id: userData.id,
-        },
+      await govrn.custom.updateUser({
+        name: values.name,
+        id: userData.id,
       });
       toast({
         title: 'User Profile Updated',

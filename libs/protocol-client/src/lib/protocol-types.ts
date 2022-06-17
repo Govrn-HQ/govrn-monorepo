@@ -1328,7 +1328,7 @@ export type AttestationUserCreateInput = {
   address: Scalars['String'];
   chainName: Scalars['String'];
   confidenceName: Scalars['String'];
-  contributionId: Scalars['String'];
+  contributionId: Scalars['Int'];
   userId: Scalars['Float'];
 };
 
@@ -12774,7 +12774,7 @@ export type UserContributionUpdateInput = {
   activityTypeName: Scalars['String'];
   address: Scalars['String'];
   chainName: Scalars['String'];
-  contributionId: Scalars['String'];
+  contributionId: Scalars['Int'];
   dateOfEngagement: Scalars['DateTime'];
   details: Scalars['String'];
   name: Scalars['String'];
@@ -13279,7 +13279,7 @@ export type UserSumOrderByAggregateInput = {
 };
 
 export type UserUpdateCustomInput = {
-  id: Scalars['Float'];
+  id: Scalars['Int'];
   name: Scalars['String'];
 };
 

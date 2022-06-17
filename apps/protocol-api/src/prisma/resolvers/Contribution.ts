@@ -73,8 +73,8 @@ export class UserContributionUpdateInput {
   @TypeGraphQL.Field((_type) => String)
   status: string;
 
-  @TypeGraphQL.Field((_type) => String)
-  contributionId: string;
+  @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
+  contributionId: number;
 }
 
 @TypeGraphQL.ArgsType()

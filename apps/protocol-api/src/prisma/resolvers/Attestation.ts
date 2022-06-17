@@ -19,7 +19,7 @@ export class AttestationUserCreateInput {
   @TypeGraphQL.Field((_type) => String)
   confidenceName: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
   contributionId: number;
 }
 
@@ -41,11 +41,11 @@ export class AttestationResolver {
     return await prisma.attestation.create({
       data: {
         user: {
-          connect: {
+          connectOrCreate: {
             create: {
               address: args.data.address,
               chain_type: {
-                createOrConnect: {
+                create: {
                   name: 'Ethereum Mainnet', //unsure about this -- TODO: check
                 },
               },
@@ -55,20 +55,20 @@ export class AttestationResolver {
             },
           },
         },
-      },
-      date_of_attestation: new Date(Date.now()).toISOString(),
-      contribution: {
-        connect: {
-          id: args.data.contributionId,
-        },
-      },
-      confidence: {
-        connectOrCreate: {
-          create: {
-            name: `Example`,
+        date_of_attestation: new Date(Date.now()).toISOString(),
+        contribution: {
+          connect: {
+            id: args.data.contributionId,
           },
-          where: {
-            name: `Example`,
+        },
+        confidence: {
+          connectOrCreate: {
+            create: {
+              name: `Example`,
+            },
+            where: {
+              name: `Example`,
+            },
           },
         },
       },
