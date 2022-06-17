@@ -6,9 +6,13 @@ import {
   Text,
   Progress,
   Checkbox,
+  Tooltip,
+  Icon,
+  HStack,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { useLocalStorage } from '../utils/hooks';
+import { FaQuestionCircle } from 'react-icons/fa';
 
 interface MintModalProps {
   contributions: any;
@@ -49,10 +53,25 @@ const MintModal = ({ contributions }: MintModalProps) => {
 
   return (
     <Stack spacing="3" width="100%" color="gray.800">
-      <Text fontSize="sm">
-        Minting {contributions.length}{' '}
-        {contributions.length === 1 ? 'Contribution' : 'Contributions'}
-      </Text>
+      <HStack width="100%" justifyContent="space-between">
+        <Text fontSize="md">
+          Minting {contributions.length}{' '}
+          {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+        </Text>
+        <Tooltip
+          label={`Why Mint?
+        Minting a Contribution creates an immutable record of your
+          Contribution.`}
+          fontSize="md"
+          bgColor="brand.primary.50"
+          placement="right"
+        >
+          <HStack width="fit-content">
+            <Text>Why Mint?</Text>
+            <Icon as={FaQuestionCircle} size="64px" />
+          </HStack>
+        </Tooltip>
+      </HStack>
       <Text>
         Please note that minting will result in your Contribution data becoming
         public. This means that anyone will be able to see your Contribution
