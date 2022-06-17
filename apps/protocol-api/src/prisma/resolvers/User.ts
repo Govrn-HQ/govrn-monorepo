@@ -28,6 +28,12 @@ export class GetUserArgs {
   id: number;
 }
 
+@TypeGraphQL.ArgsType()
+export class ListUserArgs {
+  @TypeGraphQL.Field((_type) => String)
+  address: string;
+}
+
 @TypeGraphQL.Resolver((_of) => User)
 export class UserCustomResolver {
   @TypeGraphQL.Query((_returns) => User, { nullable: false })
@@ -60,6 +66,15 @@ export class UserCustomResolver {
           },
         },
       },
+    });
+  }
+  @TypeGraphQL.Query((_returns) => [User], { nullable: false })
+  async listUserByAddress(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: ListUserArgs
+  ) {
+    return await prisma.user.list({
+      where: { address: { equals: args.address } },
     });
   }
 }

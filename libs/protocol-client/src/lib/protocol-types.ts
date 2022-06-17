@@ -8248,6 +8248,7 @@ export type Mutation = {
   createUser: User;
   createUserActivity: UserActivity;
   createUserAttestation: Attestation;
+  createUserContribution: Contribution;
   createUserCustom: User;
   deleteActivityType?: Maybe<ActivityType>;
   deleteAttestation?: Maybe<Attestation>;
@@ -8654,6 +8655,11 @@ export type MutationCreateUserActivityArgs = {
 
 export type MutationCreateUserAttestationArgs = {
   data: AttestationUserCreateInput;
+};
+
+
+export type MutationCreateUserContributionArgs = {
+  data: UserContributionCreateInput;
 };
 
 
@@ -10116,6 +10122,7 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
+  getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
   groupByAttestationConfidence: Array<AttestationConfidenceGroupBy>;
@@ -10161,6 +10168,7 @@ export type Query = {
   linearTeams: Array<LinearTeam>;
   linearUser?: Maybe<LinearUser>;
   linearUsers: Array<LinearUser>;
+  listUserByAddress: Array<User>;
   partner?: Maybe<Partner>;
   partners: Array<Partner>;
   twitterAccount?: Maybe<TwitterAccount>;
@@ -10786,6 +10794,11 @@ export type QueryFindFirstUserActivityArgs = {
 };
 
 
+export type QueryGetUserArgs = {
+  id: Scalars['Float'];
+};
+
+
 export type QueryGroupByActivityTypeArgs = {
   by: Array<ActivityTypeScalarFieldEnum>;
   having?: InputMaybe<ActivityTypeScalarWhereWithAggregatesInput>;
@@ -11183,6 +11196,11 @@ export type QueryLinearUsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearUserWhereInput>;
+};
+
+
+export type QueryListUserByAddressArgs = {
+  address: Scalars['String'];
 };
 
 
@@ -12728,6 +12746,18 @@ export type UserAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
 };
 
+export type UserContributionCreateInput = {
+  activityTypeName: Scalars['String'];
+  address: Scalars['String'];
+  chainName: Scalars['String'];
+  dateOfEngagement: Scalars['DateTime'];
+  details: Scalars['String'];
+  name: Scalars['String'];
+  proof: Scalars['String'];
+  status: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
 export type UserCount = {
   activities: Scalars['Int'];
   attestations: Scalars['Int'];
@@ -13714,6 +13744,13 @@ export type ListUsersQueryVariables = Exact<{
 
 export type ListUsersQuery = { result: Array<{ address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } }> };
 
+export type ListUserByAddressQueryVariables = Exact<{
+  address: Scalars['String'];
+}>;
+
+
+export type ListUserByAddressQuery = { result: Array<{ address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } }> };
+
 export type UpdateUserMutationVariables = Exact<{
   data: UserUpdateInput;
   where: UserWhereUniqueInput;
@@ -13761,6 +13798,13 @@ export type CreateContributionMutationVariables = Exact<{
 
 
 export type CreateContributionMutation = { createContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } };
+
+export type CreateUserContributionMutationVariables = Exact<{
+  data: UserContributionCreateInput;
+}>;
+
+
+export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } };
 
 export type BulkCreateContributionMutationVariables = Exact<{
   data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
@@ -14163,6 +14207,13 @@ export const ListUsersDocument = gql`
   }
 }
     ${UserFragmentFragmentDoc}`;
+export const ListUserByAddressDocument = gql`
+    query listUserByAddress($address: String!) {
+  result: listUserByAddress(address: $address) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
 export const UpdateUserDocument = gql`
     mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   updateUser(data: $data, where: $where) {
@@ -14206,6 +14257,13 @@ export const ListContributionsDocument = gql`
 export const CreateContributionDocument = gql`
     mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const CreateUserContributionDocument = gql`
+    mutation createUserContribution($data: UserContributionCreateInput!) {
+  createUserContribution(data: $data) {
     ...ContributionFragment
   }
 }
@@ -14346,6 +14404,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     listUsers(variables?: ListUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListUsersQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListUsersQuery>(ListUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listUsers', 'query');
     },
+    listUserByAddress(variables: ListUserByAddressQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListUserByAddressQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListUserByAddressQuery>(ListUserByAddressDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listUserByAddress', 'query');
+    },
     updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
     },
@@ -14363,6 +14424,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');
+    },
+    createUserContribution(variables: CreateUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserContributionMutation>(CreateUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserContribution', 'mutation');
     },
     bulkCreateContribution(variables: BulkCreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateContributionMutation>(BulkCreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateContribution', 'mutation');

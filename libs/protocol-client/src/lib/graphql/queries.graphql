@@ -220,6 +220,13 @@ query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10
     }
 }
 
+query listUserByAddress($address: String!) {
+    result: listUserByAddress(address: $address) {
+      ...UserFragment
+    }
+}
+
+
 
 mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   updateUser(data: $data, where: $where) {
@@ -296,6 +303,12 @@ query listContributions($where: ContributionWhereInput! = {}, $skip: Int! = 0, $
 
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
+mutation createUserContribution($data: UserContributionCreateInput!) {
+  createUserContribution(data: $data) {
     ...ContributionFragment
   }
 }

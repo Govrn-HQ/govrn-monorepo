@@ -82,10 +82,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserByAddress = async () => {
     try {
-      const userDataByAddressResponse = await govrn.user.list({
-        where: { address: { equals: address } },
-      });
-
+      const userDataByAddressResponse = await govrn.custrom.listUserByAddress(
+        address
+      );
       if (userDataByAddressResponse.length > 0) {
         setUserDataByAddress(userDataByAddressResponse[0]);
       }
@@ -156,48 +155,18 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createContribution = async (values: any, reset: any, navigate: any) => {
     try {
-      await govrn.contribution.create({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          name: values.name,
-          details: values.details,
-          proof: values.proof,
-          activity_type: {
-            connectOrCreate: {
-              create: {
-                name: values.activityType,
-              },
-              where: {
-                name: values.activityType,
-              },
-            },
-          },
-          date_of_engagement: new Date(values.engagementDate).toISOString(),
-          status: {
-            connectOrCreate: {
-              create: {
-                name: 'staging',
-              },
-              where: {
-                name: 'staging',
-              },
-            },
-          },
-        },
+      await govrn.custom.createUserContribution({
+				data: {
+					address: userData.address,
+					chainName: 'ethereum',
+					userId: userData.id,
+					name: values.name,
+					details: values.details,
+					proof: values.proof,
+					activityTypeName: values.activityType,
+					dateOfEngagement: new Date(values.engagementDate).toISOString(),
+					status: "staging"
+				}
       });
       toast({
         title: 'Contribution Report Added',
@@ -223,42 +192,31 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  @TypeGraphQL.Field((_type) => String)
+  address: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  chainName: string;
+
+  @TypeGraphQL.Field((_type) => Number)
+  userId: number;
+
+  @TypeGraphQL.Field((_type) => String)
+  confidenceName: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  contributionId: number;
+
   const createAttestation = async (contribution: any, values: any) => {
     try {
-      const response = await govrn.attestation.create({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          date_of_attestation: new Date(Date.now()).toISOString(),
-          contribution: {
-            connect: {
-              id: contribution.id,
-            },
-          },
-          confidence: {
-            connectOrCreate: {
-              create: {
-                name: '0',
-              },
-              where: {
-                name: '0',
-              },
-            },
-          },
-        },
+      const response = await govrn.custom.createUserAttestationa({
+				data: {
+					address: userData.addres,
+					chainName: "ethereum",
+					userId: userData.id
+					confidenceName: "0",
+					contributionId: contribution.id,
+				},
       });
       toast({
         title: 'Contribution Report Updated',

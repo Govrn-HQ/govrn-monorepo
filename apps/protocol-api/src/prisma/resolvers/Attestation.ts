@@ -45,7 +45,7 @@ export class AttestationResolver {
             create: {
               address: args.data.address,
               chain_type: {
-                createOrConnct: {
+                createOrConnect: {
                   name: 'Ethereum Mainnet', //unsure about this -- TODO: check
                 },
               },
