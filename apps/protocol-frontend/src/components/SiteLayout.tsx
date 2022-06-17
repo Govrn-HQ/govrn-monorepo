@@ -1,6 +1,14 @@
 import React from 'react';
-import { Grid, Flex, useBreakpointValue, IconButton } from '@chakra-ui/react';
+import {
+  Grid,
+  Box,
+  Flex,
+  IconButton,
+  useBreakpointValue,
+  useDisclosure,
+} from '@chakra-ui/react';
 import Sidebar from './Sidebar';
+import MobileNav from './MobileNav';
 import { useLocation } from 'react-router-dom';
 import FloatingReportButton from './FloatingReportButton';
 import { HiMenuAlt3 } from 'react-icons/hi';
@@ -14,7 +22,10 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
   children,
 }: SiteLayoutProps) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
+  const isMobile = useBreakpointValue({ base: true, lg: false });
+  const mobileNav = useDisclosure();
   const location = useLocation();
+
   return (
     <Grid
       templateColumns={{ base: '1fr', lg: '20vw auto' }}
@@ -25,18 +36,23 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       bg="gray.50"
       overflowY="auto"
     >
-      {
-        isDesktop && location.pathname !== '/' ? <Sidebar /> : null
-        // <IconButton
-        //   display={{ base: 'flex', md: 'none' }}
-        //   size="lg"
-        //   aria-label="Open menu"
-        //   fontSize="24px"
-        //   color="brand.primary.500"
-        //   // onClick={mobileNav.onOpen}
-        //   icon={<HiMenuAlt3 />}
-        // />
-      }
+      {isMobile && location.pathname !== '/' ? (
+        <IconButton
+          as={HiMenuAlt3}
+          aria-label="Open mobile navigation"
+          color="brand.primary.500"
+          position="fixed"
+          top={4}
+          right={4}
+          zIndex={1}
+          size="sm"
+          onClick={mobileNav.onOpen}
+        />
+      ) : null}
+      {isDesktop && location.pathname !== '/' ? <Sidebar /> : null}
+      <MobileNav isOpen={mobileNav.isOpen} onClose={mobileNav.onClose}>
+        <Box>hi</Box>
+      </MobileNav>
       <Flex direction="column" gridColumnStart={{ base: '0', lg: '2' }}>
         {children}
       </Flex>

@@ -31,9 +31,18 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
   };
 
   return (
-    <Modal isOpen={modals[name]} onClose={handleCloseModal} size={size || 'xl'}>
+    <Modal
+      isOpen={modals[name]}
+      onClose={handleCloseModal}
+      size={size || '2xl'}
+    >
       <ModalOverlay />
-      <ModalContent background="gray.700" minWidth="20vw" paddingY={8}>
+      <ModalContent
+        background="gray.700"
+        minWidth={{ base: 0, lg: '20vw' }}
+        paddingY={8}
+        marginX={4}
+      >
         <ModalHeader color="white">{title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>{content}</ModalBody>

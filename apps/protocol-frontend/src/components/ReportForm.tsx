@@ -81,7 +81,7 @@ const ReportForm = () => {
   };
 
   return (
-    <Stack spacing="4" width="100%" color="gray.900">
+    <Stack spacing={{ base: '6', lg: '4' }} width="100%" color="gray.900">
       <form onSubmit={handleSubmit(createContributionHandler)}>
         <Input
           name="name"
@@ -119,7 +119,7 @@ const ReportForm = () => {
           name="engagementDate"
           localForm={localForm}
           label="Date of Contribution Engagement (UTC)"
-          defaultValue={new Date()}
+          defaultValue={engagementDateValue}
           onChange={(date) => {
             setEngagementDateValue(date);
             setValue('engagementDate', date);
