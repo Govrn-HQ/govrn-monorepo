@@ -98,7 +98,10 @@ const ContributionsTableShell = () => {
                         )}
                       </Stack>
                     </Box>
-                    <Box overflowX="auto" width="100%">
+                    <Box
+                      overflowX={{ base: 'scroll', lg: 'auto' }}
+                      width="100%"
+                    >
                       <ContributionsTable
                         contributionsData={userContributions}
                         setSelectedContributions={setSelectedContributions}

@@ -18,26 +18,26 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
   return (
     <Grid
       templateColumns={{ base: '1fr', lg: '20vw auto' }}
+      paddingX={{ base: 4, lg: 0 }}
       as="section"
       position="relative"
       height="100vh"
       bg="gray.50"
       overflowY="auto"
     >
-      {isDesktop && location.pathname !== '/' ? (
-        <Sidebar />
-      ) : (
-        <IconButton
-          display={{ base: 'flex', md: 'none' }}
-          size="lg"
-          aria-label="Open menu"
-          fontSize="24px"
-          color="brand.primary.500"
-          // onClick={mobileNav.onOpen}
-          icon={<HiMenuAlt3 />}
-        />
-      )}
-      <Flex direction="column" gridColumnStart={{ base: '1', lg: '2' }}>
+      {
+        isDesktop && location.pathname !== '/' ? <Sidebar /> : null
+        // <IconButton
+        //   display={{ base: 'flex', md: 'none' }}
+        //   size="lg"
+        //   aria-label="Open menu"
+        //   fontSize="24px"
+        //   color="brand.primary.500"
+        //   // onClick={mobileNav.onOpen}
+        //   icon={<HiMenuAlt3 />}
+        // />
+      }
+      <Flex direction="column" gridColumnStart={{ base: '0', lg: '2' }}>
         {children}
       </Flex>
       <FloatingReportButton />
