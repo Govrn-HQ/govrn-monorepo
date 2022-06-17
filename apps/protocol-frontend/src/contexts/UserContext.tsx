@@ -17,6 +17,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
   const { isConnected, address, provider } = useWallet();
+  const signer = provider?.getSigner();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl);
   const { setModals } = useOverlay();
@@ -189,6 +190,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const mintContribution = async (contribution: any) => {
+    console.log('contribution mint', contribution);
     try {
       if (provider) {
         const response = await govrn.contribution.mint(
@@ -196,17 +198,17 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
             chainId: 31337,
           },
-          provider,
+          signer,
           userData.address,
           contribution.id,
-          1,
+          contribution.activityTypeId,
           userData.id,
           {
             name: contribution.name,
             details: contribution.details,
             dateOfSubmission: contribution.submissionDate,
             dateOfEngagement: contribution.engagementDate,
-            proof: contribution.proof,
+            // proof: contribution.proof,
           }
         );
         console.log('mint response', response);

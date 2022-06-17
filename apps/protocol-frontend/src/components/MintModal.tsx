@@ -36,7 +36,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
     setMinting(true);
     contributions.map((contribution, idx) => {
       console.log(`contribution: ${idx}`, contribution.original);
-      mintContribution(contribution.id);
+      mintContribution(contribution.original);
     });
     if (isChecked === true) {
       setAgreementChecked((prevState: any) => ({
