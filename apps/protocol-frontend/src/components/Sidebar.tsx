@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Divider, Flex, HStack, Stack } from '@chakra-ui/react';
+import {
+  Divider,
+  Flex,
+  HStack,
+  Stack,
+  IconButton,
+  useDisclosure,
+} from '@chakra-ui/react';
 import {
   FiBarChart2,
   FiCheckSquare,
@@ -13,9 +20,11 @@ import {
 import Logo from './Logo';
 import { NavButton } from './NavButton';
 import ConnectWallet from './ConnectWallet';
+import { HiMenuAlt3 } from 'react-icons/hi';
 
 const Sidebar = () => {
   const location = useLocation();
+  const mobileNav = useDisclosure();
 
   return (
     <Flex
@@ -40,6 +49,7 @@ const Sidebar = () => {
           <Link to="/">
             <Logo />
           </Link>
+
           <Stack spacing="1">
             <Link to="/">
               <NavButton label="Home" icon={FiHome} />

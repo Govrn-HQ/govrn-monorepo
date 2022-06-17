@@ -96,16 +96,19 @@ const HomeShell = () => {
   return (
     <Flex
       direction="column"
+      alignItems={{ base: 'center' }}
+      justifyContent={{ base: 'center' }}
       overflowX="hidden"
       margin="0 auto"
+      paddingX={{ base: 8, lg: 0 }}
       minHeight="100vh"
       minWidth="100vw"
       bgGradient="linear(to-r, white 0%, brand.primary.100 50%, brand.primary.200 100%)"
     >
       <Flex
         direction="column"
-        align="center"
-        justify={['flex-start', 'flex-start', 'center', 'center']}
+        alignItems="center"
+        justifyContent="center"
         flex="1"
         minHeight={['100vh', '100vh', '0', '0']}
       >

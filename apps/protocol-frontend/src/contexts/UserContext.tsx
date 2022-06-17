@@ -208,7 +208,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             details: contribution.details,
             dateOfSubmission: contribution.submissionDate,
             dateOfEngagement: contribution.engagementDate,
-            // proof: contribution.proof,
+            proof: contribution.proof,
           }
         );
         console.log('mint response', response);
