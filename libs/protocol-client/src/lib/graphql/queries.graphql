@@ -234,6 +234,15 @@ mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   }
 }
 
+
+mutation updateUserCustom($data: UserUpdateCustomInput!) {
+  updateUserCustom(data: $data) {
+    ...UserFragment
+  }
+}
+
+
+
 mutation createUser($data: UserCreateInput!) {
   createUser(data: $data) {
     ...UserFragment
@@ -309,6 +318,12 @@ mutation createContribution($data: ContributionCreateInput!) {
 
 mutation createUserContribution($data: UserContributionCreateInput!) {
   createUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
+mutation updateUserContribution($data: UserContributionUpdateInput!) {
+  updateUserContribution(data: $data) {
     ...ContributionFragment
   }
 }

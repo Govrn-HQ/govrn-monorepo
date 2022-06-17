@@ -2,6 +2,8 @@ import { BaseClient } from './base';
 import {
   AttestationUserCreateInput,
   UserContributionCreateInput,
+  UserContributionUpdateInput,
+  UserUpdateCustomInput,
 } from '../protocol-types';
 
 // get accounts
@@ -13,8 +15,18 @@ export class Custom extends BaseClient {
   }
 
   public async createUserContribution(args: UserContributionCreateInput) {
-    const attestation = await this.sdk.createUserContribution({ data: args });
-    return attestation.createUserContribution;
+    const contribution = await this.sdk.createUserContribution({ data: args });
+    return contribution.createUserContribution;
+  }
+
+  public async updateUserContribution(args: UserContributionUpdateInput) {
+    const contribution = await this.sdk.updateUserContribution({ data: args });
+    return contribution.updateUserContribution;
+  }
+
+  public async updateUser(args: UserUpdateCustomInput) {
+    const contribution = await this.sdk.updateUserCustom({ data: args });
+    return contribution.updateUserCustom;
   }
 
   public async listUserByAddress(address: string) {

@@ -42,6 +42,49 @@ export class CreateUserContributionArgs {
   data!: UserContributionCreateInput;
 }
 
+@TypeGraphQL.InputType('UserContributionUpdateInput', {
+  isAbstract: true,
+})
+export class UserContributionUpdateInput {
+  @TypeGraphQL.Field((_type) => String)
+  address: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  chainName: string;
+
+  @TypeGraphQL.Field((_type) => Number)
+  userId: number;
+
+  @TypeGraphQL.Field((_type) => String)
+  name: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  details: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  proof: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  activityTypeName: string;
+
+  @TypeGraphQL.Field((_type) => Date)
+  dateOfEngagement: Date;
+
+  @TypeGraphQL.Field((_type) => String)
+  status: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  contributionId: string;
+}
+
+@TypeGraphQL.ArgsType()
+export class UpdateUserContributionArgs {
+  @TypeGraphQL.Field((_type) => UserContributionUpdateInput, {
+    nullable: false,
+  })
+  data!: UserContributionUpdateInput;
+}
+
 @TypeGraphQL.Resolver((_of) => Contribution)
 export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
@@ -90,6 +133,66 @@ export class ContributionCustomResolver {
             },
           },
         },
+      },
+    });
+  }
+  @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
+  async updateUserContribution(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: UpdateUserContributionArgs
+  ) {
+    return prisma.contribution.update({
+      data: {
+        user: {
+          connectOrCreate: {
+            create: {
+              address: args.data.address,
+              chain_type: {
+                create: {
+                  name: args.data.chainName, //unsure about this -- TODO: check
+                },
+              },
+            },
+            where: {
+              id: args.data.userId,
+            },
+          },
+        },
+        name: {
+          set: args.data.name,
+        },
+        details: {
+          set: args.data.details,
+        },
+        proof: {
+          set: args.data.proof,
+        },
+        activity_type: {
+          connectOrCreate: {
+            create: {
+              name: args.data.activityTypeName,
+            },
+            where: {
+              name: args.data.activityTypeName,
+            },
+          },
+        },
+        date_of_engagement: {
+          set: args.data.dateOfEngagement,
+        },
+        status: {
+          connectOrCreate: {
+            create: {
+              name: args.data.status,
+            },
+            where: {
+              name: args.data.status,
+            },
+          },
+        },
+      },
+      where: {
+        id: args.data.contributionId,
       },
     });
   }

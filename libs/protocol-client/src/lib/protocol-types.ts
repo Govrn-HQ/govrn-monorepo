@@ -8350,6 +8350,8 @@ export type Mutation = {
   updateTwitterUser?: Maybe<TwitterUser>;
   updateUser?: Maybe<User>;
   updateUserActivity?: Maybe<UserActivity>;
+  updateUserContribution: Contribution;
+  updateUserCustom: User;
   upsertActivityType: ActivityType;
   upsertAttestation: Attestation;
   upsertAttestationConfidence: AttestationConfidence;
@@ -9215,6 +9217,16 @@ export type MutationUpdateUserArgs = {
 export type MutationUpdateUserActivityArgs = {
   data: UserActivityUpdateInput;
   where: UserActivityWhereUniqueInput;
+};
+
+
+export type MutationUpdateUserContributionArgs = {
+  data: UserContributionUpdateInput;
+};
+
+
+export type MutationUpdateUserCustomArgs = {
+  data: UserUpdateCustomInput;
 };
 
 
@@ -12758,6 +12770,19 @@ export type UserContributionCreateInput = {
   userId: Scalars['Float'];
 };
 
+export type UserContributionUpdateInput = {
+  activityTypeName: Scalars['String'];
+  address: Scalars['String'];
+  chainName: Scalars['String'];
+  contributionId: Scalars['String'];
+  dateOfEngagement: Scalars['DateTime'];
+  details: Scalars['String'];
+  name: Scalars['String'];
+  proof: Scalars['String'];
+  status: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
 export type UserCount = {
   activities: Scalars['Int'];
   attestations: Scalars['Int'];
@@ -13251,6 +13276,11 @@ export type UserSumAggregate = {
 export type UserSumOrderByAggregateInput = {
   chain_type_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+};
+
+export type UserUpdateCustomInput = {
+  id: Scalars['Float'];
+  name: Scalars['String'];
 };
 
 export type UserUpdateInput = {
@@ -13759,6 +13789,13 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { updateUser?: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } | null };
 
+export type UpdateUserCustomMutationVariables = Exact<{
+  data: UserUpdateCustomInput;
+}>;
+
+
+export type UpdateUserCustomMutation = { updateUserCustom: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
+
 export type CreateUserMutationVariables = Exact<{
   data: UserCreateInput;
 }>;
@@ -13805,6 +13842,13 @@ export type CreateUserContributionMutationVariables = Exact<{
 
 
 export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } };
+
+export type UpdateUserContributionMutationVariables = Exact<{
+  data: UserContributionUpdateInput;
+}>;
+
+
+export type UpdateUserContributionMutation = { updateUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } };
 
 export type BulkCreateContributionMutationVariables = Exact<{
   data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
@@ -14221,6 +14265,13 @@ export const UpdateUserDocument = gql`
   }
 }
     ${UserFragmentFragmentDoc}`;
+export const UpdateUserCustomDocument = gql`
+    mutation updateUserCustom($data: UserUpdateCustomInput!) {
+  updateUserCustom(data: $data) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
 export const CreateUserDocument = gql`
     mutation createUser($data: UserCreateInput!) {
   createUser(data: $data) {
@@ -14264,6 +14315,13 @@ export const CreateContributionDocument = gql`
 export const CreateUserContributionDocument = gql`
     mutation createUserContribution($data: UserContributionCreateInput!) {
   createUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const UpdateUserContributionDocument = gql`
+    mutation updateUserContribution($data: UserContributionUpdateInput!) {
+  updateUserContribution(data: $data) {
     ...ContributionFragment
   }
 }
@@ -14410,6 +14468,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
     },
+    updateUserCustom(variables: UpdateUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserCustomMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserCustomMutation>(UpdateUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserCustom', 'mutation');
+    },
     createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
     },
@@ -14427,6 +14488,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createUserContribution(variables: CreateUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserContributionMutation>(CreateUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserContribution', 'mutation');
+    },
+    updateUserContribution(variables: UpdateUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserContributionMutation>(UpdateUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserContribution', 'mutation');
     },
     bulkCreateContribution(variables: BulkCreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateContributionMutation>(BulkCreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateContribution', 'mutation');

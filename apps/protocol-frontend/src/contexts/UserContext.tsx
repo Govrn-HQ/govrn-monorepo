@@ -59,7 +59,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             'Content-Type': 'application/json',
           },
         });
-        _;
       } catch (e) {
         console.error(e);
       }
@@ -82,7 +81,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserByAddress = async () => {
     try {
-      const userDataByAddressResponse = await govrn.custrom.listUserByAddress(
+      const userDataByAddressResponse = await govrn.custom.listUserByAddress(
         address
       );
       if (userDataByAddressResponse.length > 0) {
@@ -156,17 +155,17 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const createContribution = async (values: any, reset: any, navigate: any) => {
     try {
       await govrn.custom.createUserContribution({
-				data: {
-					address: userData.address,
-					chainName: 'ethereum',
-					userId: userData.id,
-					name: values.name,
-					details: values.details,
-					proof: values.proof,
-					activityTypeName: values.activityType,
-					dateOfEngagement: new Date(values.engagementDate).toISOString(),
-					status: "staging"
-				}
+        data: {
+          address: userData.address,
+          chainName: 'ethereum',
+          userId: userData.id,
+          name: values.name,
+          details: values.details,
+          proof: values.proof,
+          activityTypeName: values.activityType,
+          dateOfEngagement: new Date(values.engagementDate).toISOString(),
+          status: 'staging',
+        },
       });
       toast({
         title: 'Contribution Report Added',
@@ -192,31 +191,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  @TypeGraphQL.Field((_type) => String)
-  address: string;
-
-  @TypeGraphQL.Field((_type) => String)
-  chainName: string;
-
-  @TypeGraphQL.Field((_type) => Number)
-  userId: number;
-
-  @TypeGraphQL.Field((_type) => String)
-  confidenceName: string;
-
-  @TypeGraphQL.Field((_type) => String)
-  contributionId: number;
-
   const createAttestation = async (contribution: any, values: any) => {
     try {
       const response = await govrn.custom.createUserAttestationa({
-				data: {
-					address: userData.addres,
-					chainName: "ethereum",
-					userId: userData.id
-					confidenceName: "0",
-					contributionId: contribution.id,
-				},
+        data: {
+          address: userData.addres,
+          chainName: 'ethereum',
+          userId: userData.id,
+          confidenceName: '0',
+          contributionId: contribution.id,
+        },
       });
       toast({
         title: 'Contribution Report Updated',
@@ -252,58 +236,18 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           'You can only edit Contributions with a Staging status.'
         );
       }
-      await govrn.contribution.update({
+      await govrn.custom.updateUserContribution({
         data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          name: {
-            set: values.name,
-          },
-          details: {
-            set: values.details,
-          },
-          proof: {
-            set: values.proof,
-          },
-          activity_type: {
-            connectOrCreate: {
-              create: {
-                name: values.activityType,
-              },
-              where: {
-                name: values.activityType,
-              },
-            },
-          },
-          date_of_engagement: {
-            set: new Date(values.engagementDate).toISOString(),
-          },
-          status: {
-            connectOrCreate: {
-              create: {
-                name: 'staging',
-              },
-              where: {
-                name: 'staging',
-              },
-            },
-          },
-        },
-        where: {
-          id: contribution.id,
+          address: userData.address,
+          chainName: 'ethereum',
+          userId: userData.id,
+          name: values.name,
+          details: values.details,
+          proof: values.proof,
+          activityTypeName: values.activityType,
+          dateOfEngagement: new Date(values.engagementDate).toISOString(),
+          status: 'staging',
+          contributionId: contribution.id,
         },
       });
       getUserContributions();
@@ -331,10 +275,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const updateProfile = async (values: any) => {
     try {
-      await govrn.user.update(
-        { name: { set: values.name } },
-        { id: userData.id }
-      );
+      await govrn.custom.updateUserCustom({
+        data: {
+          name: values.name,
+          id: userData.id,
+        },
+      });
       toast({
         title: 'User Profile Updated',
         description: 'Your Profile has been updated',
@@ -371,6 +317,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       url: userData.url || '',
     };
     try {
+      // TODO: maybe we should hide linear because
+      // it won't work without some dao configuration
+      // or setup on the workspace side
       await govrn.linear.user.upsert({
         create: linearAssignee,
         update: { email: { set: values.userLinearEmail } },

@@ -22,13 +22,13 @@ const typeSchema = buildSchemaSync({
 // Rules WIP
 //
 const OwnsData = rule()(async (parent, args, ctx, info) => {
-  console.log(parent);
-  console.log(args);
-  console.log(ctx);
-  console.log(ctx.req.session);
-  console.log(Object.keys(info));
-  console.log('JER');
-  console.log(ctx.req.session.siwe);
+  //console.log(parent);
+  //console.log(args);
+  //console.log(ctx);
+  //console.log(ctx.req.session);
+  //console.log(Object.keys(info));
+  //console.log('JER');
+  //console.log(ctx.req.session.siwe);
   // console.log(info);
   return true;
 });
@@ -45,16 +45,20 @@ const permissions = shield(
     Query: {
       '*': allow,
       contributions: allow,
-      users: allow,
+      attestations: allow,
+      listUserByAddress: OwnsData,
     },
     Mutation: {
       '*': allow,
       createUserCustom: OwnsData,
       createUserAttestation: OwnsData,
+      createUserContribution: OwnsData,
+      updateUserContribution: OwnsData,
+      updateUserCustom: OwnsData,
     },
   },
   {
-    fallbackRule: deny,
+    fallbackRule: allow,
     debug: true,
   }
 );
@@ -79,7 +83,7 @@ app.use(
     secret: 'siwe-quickstart-secret',
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, sameSite: true },
+    cookie: { secure: false, sameSite: false },
   })
 );
 app.use('/graphql', async function (req, res) {
@@ -96,6 +100,7 @@ app.use('/graphql', async function (req, res) {
 // cawait getUser(req.headers.authorization, req.headers.timestamp),
 app.post('/verify', async function (req, res) {
   try {
+    console.log(req.body);
     if (!req.body.message) {
       res
         .status(422)
@@ -104,6 +109,8 @@ app.post('/verify', async function (req, res) {
     }
     const message = new SiweMessage(req.body.message);
     const fields = await message.validate(req.body.signature);
+    console.log(fields.data);
+    console.log(req.session);
     if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
