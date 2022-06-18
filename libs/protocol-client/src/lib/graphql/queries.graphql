@@ -97,6 +97,15 @@ mutation createJobRun($data: JobRunCreateInput!) {
 }
 
 # Guild
+fragment GuildFragment on Guild {
+  id,
+  discord_id,
+  name,
+  activity_type {
+    ..ActivityTypeFragment
+  }
+}
+
 mutation createGuild($data: GuildCreateInput!) {
   createGuild(data: $data) {
     congrats_channel
@@ -112,7 +121,11 @@ mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
   }
 }
 
-
+query getGuild($where: GuildWhereUniqueInput!) {
+  result: guild(where: $where) {
+    ..GuildFragment
+  }
+}
 
 
 # Twitter
