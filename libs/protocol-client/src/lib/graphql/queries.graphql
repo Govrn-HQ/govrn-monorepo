@@ -209,6 +209,16 @@ query getUser($where: UserWhereUniqueInput!,) {
     }
 }
 
+query getUserCustom($id: Float!) {
+    result: getUser(
+        id: $id,
+    ) {
+      ...UserFragment
+    }
+}
+
+
+
 query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [UserOrderByWithRelationInput!]) {
     result: users(
         where: $where,
@@ -220,6 +230,13 @@ query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10
     }
 }
 
+query listUserByAddress($address: String!) {
+    result: listUserByAddress(address: $address) {
+      ...UserFragment
+    }
+}
+
+
 
 mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   updateUser(data: $data, where: $where) {
@@ -227,13 +244,26 @@ mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   }
 }
 
+
+mutation updateUserCustom($data: UserUpdateCustomInput!) {
+  updateUserCustom(data: $data) {
+    ...UserFragment
+  }
+}
+
+
+
 mutation createUser($data: UserCreateInput!) {
   createUser(data: $data) {
     ...UserFragment
   }
 }
 
-
+mutation createUserCustom($data: UserCreateCustomInput!) {
+  createUserCustom(data: $data) {
+    ...UserFragment
+  }
+}
 
 # Contribution quries
 fragment ContributionFragment on Contribution {
@@ -292,6 +322,18 @@ query listContributions($where: ContributionWhereInput! = {}, $skip: Int! = 0, $
 
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
+mutation createUserContribution($data: UserContributionCreateInput!) {
+  createUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
+mutation updateUserContribution($data: UserContributionUpdateInput!) {
+  updateUserContribution(data: $data) {
     ...ContributionFragment
   }
 }
@@ -427,6 +469,43 @@ query listPartners($where: PartnerWhereInput! = {}, $skip: Int! = 0, $first: Int
     ) {
       ...PartnerFragment
     }
+}
+
+# Custom queries
+fragment AttestationFragment on Attestation {
+  confidence {
+    createdAt
+    id
+    name
+    updatedAt
+  }
+  contribution {
+    activity_type_id
+    date_of_engagement
+    date_of_submission
+    details
+    id
+    name
+    proof
+    status_id
+    updatedAt
+    user_id
+  }
+  date_of_attestation
+  id
+  updatedAt
+  user {
+    name
+    address
+    id
+  }
+}
+
+
+mutation createUserAttestation($data: AttestationUserCreateInput!) {
+  createUserAttestation(data: $data) {
+    ...AttestationFragment
+  }
 }
 
 

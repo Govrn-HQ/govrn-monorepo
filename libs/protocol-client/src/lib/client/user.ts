@@ -1,7 +1,7 @@
 import { UserUpdateInput, UserWhereUniqueInput } from '../protocol-types';
 import { BaseClient } from './base';
 import {
-  CreateUserMutationVariables,
+  UserCreateCustomInput,
   ListUsersQueryVariables,
   MutationDeleteGuildUserArgs,
 } from '../protocol-types';
@@ -16,7 +16,7 @@ export class User extends BaseClient {
   }
 
   public async get(id: number) {
-    const jobRun = await this.sdk.getUser({ where: { id } });
+    const jobRun = await this.sdk.getUserCustom({ id });
     return jobRun.result;
   }
 
@@ -30,9 +30,11 @@ export class User extends BaseClient {
     return contributions.result;
   }
 
-  public async create(args: CreateUserMutationVariables) {
-    const contributions = await this.sdk.createUser(args);
-    return contributions.createUser;
+  public async create(args: UserCreateCustomInput) {
+    console.log(this.sdk);
+    const contributions = await this.sdk.createUserCustom({ data: args });
+    console.log(contributions);
+    return contributions.createUserCustom;
   }
 }
 

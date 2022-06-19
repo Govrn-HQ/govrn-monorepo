@@ -49,28 +49,16 @@ const CreateUserForm = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = localForm;
-  const govrn = new GovrnProtocol(protocolUrl);
-  const { isConnected, address, chainId } = useWallet();
+  const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
+  const { address } = useWallet();
 
   const navigate = useNavigate();
 
   const createUser = async (values: any) => {
     try {
       await govrn.user.create({
-        data: {
-          name: values.username,
-          address: address as string,
-          chain_type: {
-            connectOrCreate: {
-              create: {
-                name: 'ethereum_mainnet',
-              },
-              where: {
-                name: 'ethereum_mainnet',
-              },
-            },
-          },
-        },
+        username: values.username,
+        address: address,
       });
       navigate('/contributions');
     } catch (error) {
