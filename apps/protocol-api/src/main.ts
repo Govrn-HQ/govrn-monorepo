@@ -19,17 +19,9 @@ const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
 });
 
-// Rules WIP
+// TODO: Figure out is there is a way to genralize this
 //
 const OwnsData = rule()(async (parent, args, ctx, info) => {
-  //console.log(parent);
-  //console.log(args);
-  //console.log(ctx);
-  //console.log(ctx.req.session);
-  //console.log(Object.keys(info));
-  //console.log('JER');
-  console.log(ctx.req.session.siwe);
-  // console.log(info);
   return true;
 });
 //
