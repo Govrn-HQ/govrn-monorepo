@@ -393,6 +393,7 @@ export class SiweMessage {
     params: VerifyParams,
     opts: VerifyOpts = { suppressExceptions: false }
   ): Promise<SiweResponse> {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise<SiweResponse>(async (resolve, reject) => {
       Object.keys(params).forEach((key: keyof VerifyParams) => {
         if (!VerifyParamsKeys.includes(key)) {
@@ -495,7 +496,8 @@ export class SiweMessage {
       let addr;
       try {
         addr = utils.verifyMessage(EIP4361Message, signature);
-      } catch (_) {
+      } catch (e) {
+        console.error(e);
       } finally {
         /** Match signature with message's address */
         if (addr !== this.address) {
@@ -594,7 +596,7 @@ export class SiweMessage {
     }
 
     const ISO8601 =
-      /([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])[Tt]([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\.[0-9]+)?(([Zz])|([+|\-]([01][0-9]|2[0-3]):[0-5][0-9]))/;
+      /([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])[Tt]([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\.[0-9]+)?(([Zz])|([+|\-]([01][0-9]|2[0-3]):[0-5][0-9]))/; // eslint-disable-line no-useless-escape
     /** `issuedAt` conforms to ISO-8601 */
     if (this.issuedAt) {
       if (!ISO8601.test(this.issuedAt)) {
