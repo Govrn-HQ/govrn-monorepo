@@ -10,7 +10,7 @@ import cors = require('cors');
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { shield, deny, allow, rule } from 'graphql-shield';
+import { shield, deny, allow, rule, and } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 
 const prisma = new PrismaClient();
@@ -33,102 +33,102 @@ const OwnsData = rule()(async (parent, args, ctx, info) => {
   return true;
 });
 //
-// const isAuthenticated = rule()(async (parent, args, ctx, info) => {
-//   if (!ctx.req.session.siwe) {
-//     return false;
-//   }
-//   return true;
-// });
+const isAuthenticated = rule()(async (parent, args, ctx, info) => {
+  if (!ctx.req.session.siwe) {
+    return false;
+  }
+  return true;
+});
 
 const permissions = shield(
   {
     Query: {
       '*': deny,
-      contributions: allow,
-      activityTypes: allow,
-      attestations: allow,
-      getUser: allow,
+      contributions: isAuthenticated,
+      activityTypes: isAuthenticated,
+      attestations: isAuthenticated,
+      getUser: isAuthenticated,
       listUserByAddress: OwnsData,
     },
     Mutation: {
       '*': deny,
-      createUserCustom: OwnsData,
-      createUserAttestation: OwnsData,
-      createUserContribution: OwnsData,
-      updateUserContribution: OwnsData,
-      updateUserCustom: OwnsData,
+      createUserCustom: and(OwnsData, isAuthenticated),
+      createUserAttestation: and(OwnsData, isAuthenticated),
+      createUserContribution: and(OwnsData, isAuthenticated),
+      updateUserContribution: and(OwnsData, isAuthenticated),
+      updateUserCustom: and(OwnsData, isAuthenticated),
     },
     ActivityType: {
-      id: allow,
-      createdAt: allow,
-      updatedAt: allow,
-      name: allow,
-      active: allow,
-      default: allow,
-      users: allow,
-      contributions: allow,
-      categoryActivity: allow,
-      guilds: allow,
+      id: isAuthenticated,
+      createdAt: isAuthenticated,
+      updatedAt: isAuthenticated,
+      name: isAuthenticated,
+      active: isAuthenticated,
+      default: isAuthenticated,
+      users: isAuthenticated,
+      contributions: isAuthenticated,
+      categoryActivity: isAuthenticated,
+      guilds: isAuthenticated,
     },
     Attestation: {
-      id: allow,
-      confidence: allow,
-      contribution: allow,
-      user: allow,
-      createdAt: allow,
-      updatedAt: allow,
-      date_of_attestation: allow,
+      id: isAuthenticated,
+      confidence: isAuthenticated,
+      contribution: isAuthenticated,
+      user: isAuthenticated,
+      createdAt: isAuthenticated,
+      updatedAt: isAuthenticated,
+      date_of_attestation: isAuthenticated,
     },
     AttestationConfidence: {
-      name: allow,
-      createdAt: allow,
-      updatedAt: allow,
-      id: allow,
+      name: isAuthenticated,
+      createdAt: isAuthenticated,
+      updatedAt: isAuthenticated,
+      id: isAuthenticated,
     },
     ChainType: {
-      id: allow,
-      createdAt: allow,
-      updatedAt: allow,
-      name: allow,
-      users: allow,
+      id: isAuthenticated,
+      createdAt: isAuthenticated,
+      updatedAt: isAuthenticated,
+      name: isAuthenticated,
+      users: isAuthenticated,
     },
     Contribution: {
-      id: allow,
-      updatedAt: allow,
-      name: allow,
-      status_id: allow,
-      status: allow,
-      activity_type_id: allow,
-      activity_type: allow,
-      user_id: allow,
-      user: allow,
-      date_of_submission: allow,
-      date_of_engagement: allow,
-      details: allow,
-      proof: allow,
-      attestations: allow,
-      partners: allow,
-      guilds: allow,
-      linear_issue: allow,
-      tweet: allow,
-      on_chain_id: allow,
+      id: isAuthenticated,
+      updatedAt: isAuthenticated,
+      name: isAuthenticated,
+      status_id: isAuthenticated,
+      status: isAuthenticated,
+      activity_type_id: isAuthenticated,
+      activity_type: isAuthenticated,
+      user_id: isAuthenticated,
+      user: isAuthenticated,
+      date_of_submission: isAuthenticated,
+      date_of_engagement: isAuthenticated,
+      details: isAuthenticated,
+      proof: isAuthenticated,
+      attestations: isAuthenticated,
+      partners: isAuthenticated,
+      guilds: isAuthenticated,
+      linear_issue: isAuthenticated,
+      tweet: isAuthenticated,
+      on_chain_id: isAuthenticated,
     },
     ContributionStatus: {
-      id: allow,
-      createdAt: allow,
-      updatedAt: allow,
-      name: allow,
-      contributions: allow,
+      id: isAuthenticated,
+      createdAt: isAuthenticated,
+      updatedAt: isAuthenticated,
+      name: isAuthenticated,
+      contributions: isAuthenticated,
     },
     User: {
-      id: allow,
-      createdAt: allow,
-      updatedAt: allow,
-      name: allow,
-      display_name: allow,
-      address: allow,
-      chain_type: allow,
-      full_name: allow,
+      id: isAuthenticated,
+      createdAt: isAuthenticated,
+      updatedAt: isAuthenticated,
+      name: isAuthenticated,
+      display_name: isAuthenticated,
+      address: isAuthenticated,
+      chain_type: isAuthenticated,
+      full_name: isAuthenticated,
     },
   },
   {
@@ -216,7 +216,7 @@ app.get('/nonce', async function (req, res) {
   const nonce = generateNonce();
   req.session.nonce = nonce;
   res.setHeader('Content-Type', 'text/plain');
-  res.status(200).send(nonce);
+  res.status(200).send(req.session.nonce);
 });
 
 app.listen(4000);

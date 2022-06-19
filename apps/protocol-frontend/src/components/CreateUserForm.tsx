@@ -50,7 +50,7 @@ const CreateUserForm = () => {
     formState: { isSubmitting },
   } = localForm;
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
-  const { isConnected, address, chainId } = useWallet();
+  const { address } = useWallet();
 
   const navigate = useNavigate();
 

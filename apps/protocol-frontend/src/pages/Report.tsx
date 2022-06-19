@@ -4,6 +4,7 @@ import { useWallet } from '@raidguild/quiver';
 import SiteLayout from '../components/SiteLayout';
 import ConnectWallet from '../components/ConnectWallet';
 import ReportShell from '../components/ReportShell';
+import { useUser } from '../contexts/UserContext';
 
 const isUser = true;
 
@@ -35,9 +36,10 @@ const NotUserView = () => {
 
 const Report = () => {
   const { isConnected } = useWallet();
+  const { isAuthenticated } = useUser();
   return (
     <SiteLayout>
-      {isConnected ? (
+      {isConnected && isAuthenticated ? (
         <ReportShell />
       ) : (
         <Container

@@ -43,36 +43,39 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     setUserAddress(address);
   }, [isConnected, address, userAddress]);
 
-  useEffect(() => {
-    const verifyAddress = async () => {
-      if (!chainId || !provider) {
-        return;
-      }
-      setIsAuthenticating(true);
-      const message = await createSiweMessage(
-        userAddress,
-        'Sign in with Ethereum to the app.',
-        chainId
-      );
-      const signer = provider.getSigner();
-      const signature = await signer.signMessage(message);
-      try {
-        await fetch(verifyURL, {
-          method: 'POST',
-          credentials: 'include',
-          body: JSON.stringify({ message, signature }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    if (isConnected && !isAuthenticated && userAddress) {
-      verifyAddress();
+  const authenticateAddress = useCallback(async () => {
+    if (!chainId || !provider) {
+      return;
     }
-  }, [isConnected, isAuthenticated, chainId, provider, userAddress]);
+    setIsAuthenticating(true);
+    const message = await createSiweMessage(
+      userAddress,
+      'Sign in with Ethereum to the app.',
+      chainId
+    );
+    const signer = provider.getSigner();
+    const signature = await signer.signMessage(message);
+    try {
+      await fetch(verifyURL, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({ message, signature }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setIsAuthenticated(true);
+    } catch (e) {
+      console.error(e);
+    }
+    setIsAuthenticating(false);
+  }, [userAddress, provider, chainId]);
+
+  useEffect(() => {
+    if (isConnected && !isAuthenticated && userAddress) {
+      authenticateAddress();
+    }
+  }, [isConnected, isAuthenticated, authenticateAddress, userAddress]);
 
   const getUser = async () => {
     try {
@@ -243,18 +246,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         );
       }
       await govrn.custom.updateUserContribution({
-        data: {
-          address: userData.address,
-          chainName: 'ethereum',
-          userId: userData.id,
-          name: values.name,
-          details: values.details,
-          proof: values.proof,
-          activityTypeName: values.activityType,
-          dateOfEngagement: new Date(values.engagementDate).toISOString(),
-          status: 'staging',
-          contributionId: contribution.id,
-        },
+        address: userData.address,
+        chainName: 'ethereum',
+        userId: userData.id,
+        name: values.name,
+        details: values.details,
+        proof: values.proof,
+        activityTypeName: values.activityType,
+        dateOfEngagement: new Date(values.engagementDate).toISOString(),
+        status: 'staging',
+        contributionId: contribution.id,
       });
       getUserContributions();
       toast({
@@ -351,36 +352,40 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   useEffect(() => {
-    if (address) {
+    if (address && isAuthenticated) {
       getUserByAddress();
     }
-  }, [address]);
+  }, [address, isAuthenticated]);
 
   useEffect(() => {
-    if (userDataByAddress) {
+    if (userDataByAddress && isAuthenticated) {
       getUser();
     }
-  }, [userDataByAddress]);
+  }, [userDataByAddress, isAuthenticated]);
 
   useEffect(() => {
-    if (userData !== null) {
+    if (userData !== null && isAuthenticated) {
       getUserContributions();
     }
-  }, [userData]);
+  }, [userData, isAuthenticated]);
 
   useEffect(() => {
-    if (userData !== null) {
+    if (userData !== null && isAuthenticated) {
       getDaoContributions();
     }
-  }, [userData]);
+  }, [userData, isAuthenticated]);
 
   useEffect(() => {
-    getUserActivityTypes();
-  }, [userData]);
+    if (isAuthenticated) {
+      getUserActivityTypes();
+    }
+  }, [userData, isAuthenticated]);
 
   useEffect(() => {
-    getUserAttestations();
-  }, [userData]);
+    if (isAuthenticated) {
+      getUserAttestations();
+    }
+  }, [userData, isAuthenticated]);
 
   return (
     <UserContext.Provider
@@ -404,6 +409,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         updateContribution,
         updateProfile,
         updateLinearEmail,
+        isAuthenticated,
+        isAuthenticating,
+        authenticateAddress,
       }}
     >
       {children}
@@ -432,6 +440,10 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
+
+    isAuthenticated,
+    isAuthenticating,
+    authenticateAddress,
   } = useContext(UserContext);
   return {
     userAddress,
@@ -453,5 +465,8 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
+    isAuthenticated,
+    isAuthenticating,
+    authenticateAddress,
   };
 };
