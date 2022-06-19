@@ -13764,6 +13764,13 @@ export type GetUserQueryVariables = Exact<{
 
 export type GetUserQuery = { result?: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } | null };
 
+export type GetUserCustomQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type GetUserCustomQuery = { result: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
+
 export type ListUsersQueryVariables = Exact<{
   where?: UserWhereInput;
   skip?: Scalars['Int'];
@@ -14244,6 +14251,13 @@ export const GetUserDocument = gql`
   }
 }
     ${UserFragmentFragmentDoc}`;
+export const GetUserCustomDocument = gql`
+    query getUserCustom($id: Float!) {
+  result: getUser(id: $id) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
 export const ListUsersDocument = gql`
     query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [UserOrderByWithRelationInput!]) {
   result: users(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
@@ -14458,6 +14472,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUser', 'query');
+    },
+    getUserCustom(variables: GetUserCustomQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserCustomQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserCustomQuery>(GetUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserCustom', 'query');
     },
     listUsers(variables?: ListUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListUsersQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListUsersQuery>(ListUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listUsers', 'query');

@@ -16,7 +16,7 @@ export class User extends BaseClient {
   }
 
   public async get(id: number) {
-    const jobRun = await this.sdk.getUser({ where: { id } });
+    const jobRun = await this.sdk.getUserCustom({ id });
     return jobRun.result;
   }
 

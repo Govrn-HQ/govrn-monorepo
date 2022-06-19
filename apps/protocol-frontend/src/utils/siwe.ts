@@ -193,6 +193,7 @@ export async function createSiweMessage(
       method: 'GET',
       credentials: 'include',
     });
+    console.log(res);
     const message = new SiweMessage({
       domain,
       address,

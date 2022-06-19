@@ -209,6 +209,16 @@ query getUser($where: UserWhereUniqueInput!,) {
     }
 }
 
+query getUserCustom($id: Float!) {
+    result: getUser(
+        id: $id,
+    ) {
+      ...UserFragment
+    }
+}
+
+
+
 query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [UserOrderByWithRelationInput!]) {
     result: users(
         where: $where,

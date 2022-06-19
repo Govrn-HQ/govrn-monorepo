@@ -61,7 +61,7 @@ export class UserCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: GetUserArgs
   ) {
-    return await prisma.user.findUser({
+    return await prisma.user.findUnique({
       where: { id: args.id },
     });
   }

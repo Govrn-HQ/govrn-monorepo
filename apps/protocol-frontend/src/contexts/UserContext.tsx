@@ -1,4 +1,10 @@
-import React, { useContext, createContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
@@ -51,7 +57,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       const signer = provider.getSigner();
       const signature = await signer.signMessage(message);
       try {
-        const res = await fetch(verifyURL, {
+        await fetch(verifyURL, {
           method: 'POST',
           credentials: 'include',
           body: JSON.stringify({ message, signature }),
@@ -79,8 +85,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const getUserByAddress = async () => {
+  const getUserByAddress = useCallback(async () => {
+    if (!address) {
+      return;
+    }
     try {
+      console.log(govrn);
       const userDataByAddressResponse = await govrn.custom.listUserByAddress(
         address
       );
@@ -92,7 +102,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [address]);
 
   const getUserContributions = async () => {
     try {

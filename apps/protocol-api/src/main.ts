@@ -28,7 +28,7 @@ const OwnsData = rule()(async (parent, args, ctx, info) => {
   //console.log(ctx.req.session);
   //console.log(Object.keys(info));
   //console.log('JER');
-  //console.log(ctx.req.session.siwe);
+  console.log(ctx.req.session.siwe);
   // console.log(info);
   return true;
 });
@@ -43,22 +43,96 @@ const OwnsData = rule()(async (parent, args, ctx, info) => {
 const permissions = shield(
   {
     Query: {
-      '*': allow,
+      '*': deny,
       contributions: allow,
+      activityTypes: allow,
       attestations: allow,
+      getUser: allow,
       listUserByAddress: OwnsData,
     },
     Mutation: {
-      '*': allow,
+      '*': deny,
       createUserCustom: OwnsData,
       createUserAttestation: OwnsData,
       createUserContribution: OwnsData,
       updateUserContribution: OwnsData,
       updateUserCustom: OwnsData,
     },
+    ActivityType: {
+      id: allow,
+      createdAt: allow,
+      updatedAt: allow,
+      name: allow,
+      active: allow,
+      default: allow,
+      users: allow,
+      contributions: allow,
+      categoryActivity: allow,
+      guilds: allow,
+    },
+    Attestation: {
+      id: allow,
+      confidence: allow,
+      contribution: allow,
+      user: allow,
+      createdAt: allow,
+      updatedAt: allow,
+      date_of_attestation: allow,
+    },
+    AttestationConfidence: {
+      name: allow,
+      createdAt: allow,
+      updatedAt: allow,
+      id: allow,
+    },
+    ChainType: {
+      id: allow,
+      createdAt: allow,
+      updatedAt: allow,
+      name: allow,
+      users: allow,
+    },
+    Contribution: {
+      id: allow,
+      updatedAt: allow,
+      name: allow,
+      status_id: allow,
+      status: allow,
+      activity_type_id: allow,
+      activity_type: allow,
+      user_id: allow,
+      user: allow,
+      date_of_submission: allow,
+      date_of_engagement: allow,
+      details: allow,
+      proof: allow,
+      attestations: allow,
+      partners: allow,
+      guilds: allow,
+      linear_issue: allow,
+      tweet: allow,
+      on_chain_id: allow,
+    },
+    ContributionStatus: {
+      id: allow,
+      createdAt: allow,
+      updatedAt: allow,
+      name: allow,
+      contributions: allow,
+    },
+    User: {
+      id: allow,
+      createdAt: allow,
+      updatedAt: allow,
+      name: allow,
+      display_name: allow,
+      address: allow,
+      chain_type: allow,
+      full_name: allow,
+    },
   },
   {
-    fallbackRule: allow,
+    fallbackRule: deny,
     debug: true,
   }
 );
@@ -79,11 +153,11 @@ app.use(
 );
 app.use(
   Session({
-    name: 'siwe-quickstart',
+    name: 'govrn',
     secret: 'siwe-quickstart-secret',
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, sameSite: false },
+    cookie: { secure: false, sameSite: true },
   })
 );
 app.use('/graphql', async function (req, res) {
@@ -97,7 +171,6 @@ app.use('/graphql', async function (req, res) {
   });
   return mid(req, res);
 });
-// cawait getUser(req.headers.authorization, req.headers.timestamp),
 app.post('/verify', async function (req, res) {
   try {
     console.log(req.body);
