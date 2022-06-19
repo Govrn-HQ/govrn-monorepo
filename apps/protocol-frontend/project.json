@@ -17,8 +17,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/protocol-frontend/src/environments/environment.ts",
-              "with": "apps/protocol-frontend/src/environments/environment.prod.ts"
+              "replace": "apps/protocol-frontend/.env",
+              "with": "apps/protocol-frontend/src/env.prod"
             }
           ],
           "optimization": true,

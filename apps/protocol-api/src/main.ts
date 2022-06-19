@@ -1,8 +1,7 @@
 import 'reflect-metadata';
 import { buildSchemaSync } from 'type-graphql';
 import express from 'express';
-import Session from 'express-session';
-import { ethers } from 'ethers';
+import Session from 'cookie-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
 import { SiweErrorType, SiweMessage, generateNonce } from 'siwe';
@@ -181,23 +180,24 @@ app.post('/verify', async function (req, res) {
       return;
     }
     req.session.siwe = fields;
-    req.session.cookie.expires = new Date(fields.data.expirationTime);
-    req.session.save(() => res.status(200).end());
+    console.log(req.session.cookie);
+    // req.session.cookie.expires = new Date(fields.data.expirationTime);
+    res.status(200).end();
   } catch (e) {
     req.session.siwe = null;
     req.session.nonce = null;
     console.error(e);
     switch (e) {
       case SiweErrorType.EXPIRED_MESSAGE: {
-        req.session.save(() => res.status(440).json({ message: e.message }));
+        res.status(440).json({ message: e.message });
         break;
       }
       case SiweErrorType.INVALID_SIGNATURE: {
-        req.session.save(() => res.status(422).json({ message: e.message }));
+        res.status(422).json({ message: e.message });
         break;
       }
       default: {
-        req.session.save(() => res.status(500).json({ message: e.message }));
+        res.status(500).json({ message: e.message });
         break;
       }
     }

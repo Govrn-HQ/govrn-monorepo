@@ -14,7 +14,7 @@ import { createSiweMessage } from '../utils/siwe';
 // TODO: Clean up the Context -- there are some duplicate function definitions inside the useEffects that can be removed and called
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
-const verifyURL = 'http://localhost:4000/verify';
+const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
 
 export const UserContext: any = createContext(null);
 interface UserContextProps {
