@@ -2,7 +2,7 @@ import util = require('util');
 import tslib = require('tslib');
 import cors = require('cors');
 import * as express from 'express';
-import { GovrnProtocol } from '@govrn/protocol-client';
+import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
 
 const app = express();
 app.use(express.json());
@@ -21,9 +21,10 @@ app.get(
       Authorization: API_TOKEN,
     });
     const users = await govrn.user.list({
+      orderBy: { full_name: SortOrder.Asc },
       where: {
         guild_users: {
-          every: { guild_id: { equals: parseInt(req.query.guild_id) } },
+          some: { guild_id: { equals: parseInt(req.query.guild_id) } },
         },
       },
       first: 1000,
@@ -44,14 +45,15 @@ app.get('/contribution/types', async (req, res) => {
   const user_id = parseInt(req.query.user_id.toString());
   const activityTypes = await govrn.activity_type.list({
     first: 1000,
+    orderBy: { name: SortOrder.Asc },
     where: {
       OR: [
         {
           guilds: {
-            every: { guild_id: { equals: guild_id } },
+            some: { guild_id: { equals: guild_id } },
           },
         },
-        { users: { every: { user_id: { equals: user_id || 0 } } } },
+        { users: { some: { user_id: { equals: user_id || 0 } } } },
       ],
     },
   });
