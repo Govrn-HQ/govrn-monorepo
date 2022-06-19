@@ -41,15 +41,8 @@ const getOrInsertUser = async (
 
   // Insert new user into db, if user doesn't exist.
   const newUser = await govrn.user.create({
-    data: {
-      address: data.address,
-      chain_type: {
-        connectOrCreate: {
-          where: { name: 'rinkeby' },
-          create: { name: 'rinkeby' },
-        },
-      },
-    },
+    address: data.address,
+    username: data.address,
   });
 
   return newUser.id;
