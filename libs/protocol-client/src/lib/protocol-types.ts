@@ -13708,6 +13708,8 @@ export type CreateJobRunMutationVariables = Exact<{
 
 export type CreateJobRunMutation = { createJobRun: { completedDate: any, startDate: any, name: string } };
 
+export type GuildFragmentFragment = { congrats_channel?: number | null, createdAt: any, discord_id?: any | null, id: number, logo?: string | null, name?: string | null, updatedAt: any };
+
 export type CreateGuildMutationVariables = Exact<{
   data: GuildCreateInput;
 }>;
@@ -13721,6 +13723,13 @@ export type DeleteGuildUserMutationVariables = Exact<{
 
 
 export type DeleteGuildUserMutation = { deleteGuildUser?: { id: number } | null };
+
+export type GetGuildQueryVariables = Exact<{
+  where: GuildWhereUniqueInput;
+}>;
+
+
+export type GetGuildQuery = { result?: { congrats_channel?: number | null, createdAt: any, discord_id?: any | null, id: number, logo?: string | null, name?: string | null, updatedAt: any } | null };
 
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name: string, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } | null };
 
@@ -13966,6 +13975,17 @@ export const LinearUserFragmentFragmentDoc = gql`
   url
   id
   createdAt
+}
+    `;
+export const GuildFragmentFragmentDoc = gql`
+    fragment GuildFragment on Guild {
+  congrats_channel
+  createdAt
+  discord_id
+  id
+  logo
+  name
+  updatedAt
 }
     `;
 export const ContributionFragmentFragmentDoc = gql`
@@ -14218,6 +14238,13 @@ export const DeleteGuildUserDocument = gql`
   }
 }
     `;
+export const GetGuildDocument = gql`
+    query getGuild($where: GuildWhereUniqueInput!) {
+  result: guild(where: $where) {
+    ...GuildFragment
+  }
+}
+    ${GuildFragmentFragmentDoc}`;
 export const BulkCreateTwitterTweetDocument = gql`
     mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
@@ -14460,6 +14487,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');
+    },
+    getGuild(variables: GetGuildQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildQuery>(GetGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuild', 'query');
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');
