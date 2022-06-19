@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 const PROTOCOL_URL = process.env.PROTOCOL_URL;
+const API_TOKEN = process.env.API_TOKEN;
 
 // Endpoint to fetch users
 app.get(
@@ -16,10 +17,14 @@ app.get(
   util.callbackify(async (req, res) => {
     // TODO: I am guessing over 1000 users
     // this will start to become slow
-    const govrn = new GovrnProtocol(PROTOCOL_URL);
+    const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
+      Authorization: API_TOKEN,
+    });
     const users = await govrn.user.list({
       where: {
-        guild_users: { every: { guild_id: { equals: req.query.guild_id } } },
+        guild_users: {
+          every: { guild_id: { equals: parseInt(req.query.guild_id) } },
+        },
       },
       first: 1000,
     });
@@ -32,7 +37,9 @@ app.get(
 app.get('/contribution/types', async (req, res) => {
   // TODO: I am guessing over 1000 users
   // this will start to become slow
-  const govrn = new GovrnProtocol(PROTOCOL_URL);
+  const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
+    Authorization: API_TOKEN,
+  });
   const guild_id = parseInt(req.query.guild_id.toString());
   const user_id = parseInt(req.query.user_id.toString());
   const activityTypes = await govrn.activity_type.list({
@@ -44,7 +51,7 @@ app.get('/contribution/types', async (req, res) => {
             every: { guild_id: { equals: guild_id } },
           },
         },
-        { users: { every: { user_id: { equals: user_id } } } },
+        { users: { every: { user_id: { equals: user_id || 0 } } } },
       ],
     },
   });
@@ -57,8 +64,10 @@ app.get(
   util.callbackify(async (req, res) => {
     // TODO: I am guessing over 1000 users
     // this will start to become slow
-    const govrn = new GovrnProtocol(PROTOCOL_URL);
-    const g = await govrn.guild.get({ id: req.query.guild_id });
+    const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
+      Authorization: API_TOKEN,
+    });
+    const g = await govrn.guild.get({ id: parseInt(req.query.guild_id) });
     res.send(g);
   })
 );
@@ -91,7 +100,9 @@ app.post(
   util.callbackify(async (req, res) => {
     // TODO: I am guessing over 1000 users
     // this will start to become slow
-    const govrn = new GovrnProtocol(PROTOCOL_URL);
+    const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
+      Authorization: API_TOKEN,
+    });
     govrn.contribution.create({
       data: {
         activity_type: {

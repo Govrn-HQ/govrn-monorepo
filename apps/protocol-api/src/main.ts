@@ -9,10 +9,12 @@ import cors = require('cors');
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { shield, deny, allow, rule, and } from 'graphql-shield';
+import { shield, deny, rule, and, or } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 
 const prisma = new PrismaClient();
+const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
+const BACKEND_TOKENS = [AIRTABLE_API_TOKEN];
 
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
@@ -31,15 +33,28 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
   return true;
 });
 
+const hasToken = rule()(async (parent, args, ctx, info) => {
+  console.log('hasTOken');
+  console.log(ctx.req.headers);
+  const auth = ctx.req.headers['authorization'];
+  if (auth) {
+    const found = BACKEND_TOKENS.find((token) => token === auth);
+    return !!found;
+  }
+  return false;
+});
+
 const permissions = shield(
   {
     Query: {
       '*': deny,
       contributions: isAuthenticated,
-      activityTypes: isAuthenticated,
+      activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
       getUser: isAuthenticated,
+      guild: hasToken,
       listUserByAddress: OwnsData,
+      users: hasToken,
     },
     Mutation: {
       '*': deny,
@@ -50,76 +65,89 @@ const permissions = shield(
       updateUserCustom: and(OwnsData, isAuthenticated),
     },
     ActivityType: {
-      id: isAuthenticated,
-      createdAt: isAuthenticated,
-      updatedAt: isAuthenticated,
-      name: isAuthenticated,
-      active: isAuthenticated,
-      default: isAuthenticated,
-      users: isAuthenticated,
-      contributions: isAuthenticated,
-      categoryActivity: isAuthenticated,
-      guilds: isAuthenticated,
+      id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+      active: or(isAuthenticated, hasToken),
+      default: or(isAuthenticated, hasToken),
+      users: or(isAuthenticated, hasToken),
+      contributions: or(isAuthenticated, hasToken),
+      categoryActivity: or(isAuthenticated, hasToken),
+      guilds: or(isAuthenticated, hasToken),
     },
     Attestation: {
-      id: isAuthenticated,
-      confidence: isAuthenticated,
-      contribution: isAuthenticated,
-      user: isAuthenticated,
-      createdAt: isAuthenticated,
-      updatedAt: isAuthenticated,
-      date_of_attestation: isAuthenticated,
+      id: or(isAuthenticated, hasToken),
+      confidence: or(isAuthenticated, hasToken),
+      contribution: or(isAuthenticated, hasToken),
+      user: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      date_of_attestation: or(isAuthenticated, hasToken),
     },
     AttestationConfidence: {
-      name: isAuthenticated,
-      createdAt: isAuthenticated,
-      updatedAt: isAuthenticated,
-      id: isAuthenticated,
+      name: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      id: or(isAuthenticated, hasToken),
     },
     ChainType: {
-      id: isAuthenticated,
-      createdAt: isAuthenticated,
-      updatedAt: isAuthenticated,
-      name: isAuthenticated,
-      users: isAuthenticated,
+      id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+      users: or(isAuthenticated, hasToken),
     },
     Contribution: {
-      id: isAuthenticated,
-      updatedAt: isAuthenticated,
-      name: isAuthenticated,
-      status_id: isAuthenticated,
-      status: isAuthenticated,
-      activity_type_id: isAuthenticated,
-      activity_type: isAuthenticated,
-      user_id: isAuthenticated,
-      user: isAuthenticated,
-      date_of_submission: isAuthenticated,
-      date_of_engagement: isAuthenticated,
-      details: isAuthenticated,
-      proof: isAuthenticated,
-      attestations: isAuthenticated,
-      partners: isAuthenticated,
-      guilds: isAuthenticated,
-      linear_issue: isAuthenticated,
-      tweet: isAuthenticated,
-      on_chain_id: isAuthenticated,
+      id: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+      status_id: or(isAuthenticated, hasToken),
+      status: or(isAuthenticated, hasToken),
+      activity_type_id: or(isAuthenticated, hasToken),
+      activity_type: or(isAuthenticated, hasToken),
+      user_id: or(isAuthenticated, hasToken),
+      user: or(isAuthenticated, hasToken),
+      date_of_submission: or(isAuthenticated, hasToken),
+      date_of_engagement: or(isAuthenticated, hasToken),
+      details: or(isAuthenticated, hasToken),
+      proof: or(isAuthenticated, hasToken),
+      attestations: or(isAuthenticated, hasToken),
+      partners: or(isAuthenticated, hasToken),
+      guilds: or(isAuthenticated, hasToken),
+      linear_issue: or(isAuthenticated, hasToken),
+      tweet: or(isAuthenticated, hasToken),
+      on_chain_id: or(isAuthenticated, hasToken),
     },
     ContributionStatus: {
-      id: isAuthenticated,
-      createdAt: isAuthenticated,
-      updatedAt: isAuthenticated,
-      name: isAuthenticated,
-      contributions: isAuthenticated,
+      id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+      contributions: or(isAuthenticated, hasToken),
+    },
+    Guild: {
+      activity_type: or(isAuthenticated, hasToken),
+      congrats_channel: or(isAuthenticated, hasToken),
+      contributions: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      discord_id: or(isAuthenticated, hasToken),
+      id: or(isAuthenticated, hasToken),
+      logo: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+      twitter_account: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      users: or(isAuthenticated, hasToken),
     },
     User: {
-      id: isAuthenticated,
-      createdAt: isAuthenticated,
-      updatedAt: isAuthenticated,
-      name: isAuthenticated,
-      display_name: isAuthenticated,
-      address: isAuthenticated,
-      chain_type: isAuthenticated,
-      full_name: isAuthenticated,
+      id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+      display_name: or(isAuthenticated, hasToken),
+      address: or(isAuthenticated, hasToken),
+      chain_type: or(isAuthenticated, hasToken),
+      full_name: or(isAuthenticated, hasToken),
     },
   },
   {
