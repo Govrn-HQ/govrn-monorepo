@@ -146,7 +146,7 @@ app.use(
 app.use(
   Session({
     name: 'govrn',
-    secret: 'siwe-quickstart-secret',
+    secret: process.env['PROTOCOL_COOKIE_SECRET'],
     resave: true,
     saveUninitialized: true,
     cookie: { secure: false, sameSite: true },
