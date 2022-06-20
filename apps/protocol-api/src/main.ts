@@ -14,7 +14,8 @@ import { graphqlHTTP } from 'express-graphql';
 
 const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
-const BACKEND_TOKENS = [AIRTABLE_API_TOKEN];
+const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
+const BACKEND_TOKENS = [AIRTABLE_API_TOKEN, KEVIN_MALONE_TOKEN];
 
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
@@ -126,6 +127,15 @@ const permissions = shield(
       name: or(isAuthenticated, hasToken),
       contributions: or(isAuthenticated, hasToken),
     },
+    DiscordUser: {
+      createdAt: or(isAuthenticated, hasToken),
+      discord_id: or(isAuthenticated, hasToken),
+      display_name: or(isAuthenticated, hasToken),
+      id: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      user: or(isAuthenticated, hasToken),
+      user_id: or(isAuthenticated, hasToken),
+    },
     Guild: {
       activity_type: or(isAuthenticated, hasToken),
       congrats_channel: or(isAuthenticated, hasToken),
@@ -148,6 +158,7 @@ const permissions = shield(
       address: or(isAuthenticated, hasToken),
       chain_type: or(isAuthenticated, hasToken),
       full_name: or(isAuthenticated, hasToken),
+      discord_users: or(isAuthenticated, hasToken),
     },
   },
   {
