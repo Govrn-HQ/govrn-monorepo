@@ -63,10 +63,6 @@ const ReportForm = () => {
     'Other',
   ];
 
-  // useEffect(() => {
-  //   setValue('activityType', activityValue);
-  // }, [activityValue, reset]);
-
   const combinedActivityTypesList = [
     ...new Set([
       ...activityTypesList,
@@ -82,6 +78,9 @@ const ReportForm = () => {
   );
 
   const createContributionHandler = async (values: any) => {
+    console.log('values', values);
+    setActivityValue(values.activityType);
+    console.log(activityValue);
     createContribution(values, reset, navigate);
   };
 

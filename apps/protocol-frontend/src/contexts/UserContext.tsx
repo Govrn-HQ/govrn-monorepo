@@ -176,7 +176,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         position: 'top-right',
       });
       getUserContributions();
-      reset();
+      reset({
+        name: '',
+        details: '',
+        proof: '',
+        activityType: values.activityType,
+        engagementDate: values.engagementDate,
+      });
       navigate('/contributions');
     } catch (error) {
       console.log(error);
