@@ -47,7 +47,10 @@ export class Contribution extends BaseClient {
     id: number,
     activityTypeId: number,
     userId: number,
-    args: MintArgs
+    args: MintArgs,
+    name: string,
+    details: string,
+    proof: string
   ) {
     console.log('is minting');
     const contract = new GovrnContract(networkConfig, provider);
@@ -74,8 +77,8 @@ export class Contribution extends BaseClient {
       console.log('id in the update:', id);
       const updateResponse = await this.update({
         data: {
-          name: { set: ethers.utils.toUtf8String(args.name) },
-          details: { set: ethers.utils.toUtf8String(args.details) },
+          name: { set: ethers.utils.toUtf8String(name) },
+          details: { set: ethers.utils.toUtf8String(details) },
           date_of_submission: {
             set: new Date(args.dateOfSubmission).toString(),
             // set: new Date(12344221).toString(),
@@ -85,7 +88,7 @@ export class Contribution extends BaseClient {
             // set: new Date(12344221).toString(),
           },
           proof: {
-            set: ethers.utils.toUtf8String(args.proof),
+            set: ethers.utils.toUtf8String(proof),
           },
           status: {
             connect: { name: 'minted' },
@@ -102,11 +105,11 @@ export class Contribution extends BaseClient {
     return this.create({
       data: {
         activity_type: { connect: { id: activityTypeId } },
-        name: args.name,
-        details: args.details,
+        name: name,
+        details: details,
         date_of_submission: new Date(args.dateOfSubmission).toString(),
         date_of_engagement: new Date(args.dateOfEngagement).toString(),
-        proof: args.proof,
+        proof: proof,
         status: {
           connect: { name: 'minted' },
         },

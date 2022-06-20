@@ -2,9 +2,9 @@ import { ethers } from 'ethers';
 import { Govrn__factory, Govrn } from './generated';
 
 export type MintArgs = {
-  detailsUri: ethers.BytesLike;
-  dateOfSubmission: ethers.BigNumberish;
-  dateOfEngagement: ethers.BigNumberish;
+  detailsUri: string;
+  dateOfSubmission: number;
+  dateOfEngagement: number;
   overrides?: ethers.Overrides & { from?: string | Promise<string> };
 };
 
