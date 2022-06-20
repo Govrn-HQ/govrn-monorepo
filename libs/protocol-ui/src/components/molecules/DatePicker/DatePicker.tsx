@@ -28,6 +28,7 @@ export interface DatePickerProps {
     date: Date | [Date | null, Date | null] | null,
     event: SyntheticEvent<Date, Event> | undefined
   ) => void;
+  maxDate?: Date | null | undefined;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -37,6 +38,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   defaultValue,
   localForm,
   onChange,
+  maxDate,
 }: DatePickerProps) => {
   const {
     control,
@@ -60,6 +62,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                 selected={defaultValue}
                 onChange={onChange}
                 customInput={<CustomDatePickerButton />}
+                maxDate={maxDate}
               />
             )}
           />

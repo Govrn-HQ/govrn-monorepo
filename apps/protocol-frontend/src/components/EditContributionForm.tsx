@@ -143,6 +143,7 @@ const EditContributionForm = ({
           localForm={localForm}
           label="Date of Contribution Engagement (UTC)"
           defaultValue={engagementDateValue}
+          maxDate={new Date()}
           onChange={(date) => {
             setEngagementDateValue(date);
             setValue('engagementDate', date);

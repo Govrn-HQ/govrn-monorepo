@@ -2,11 +2,9 @@ import { useState } from 'react';
 import {
   Container,
   Stack,
-  HStack,
   Text,
   Box,
   useBreakpointValue,
-  ButtonGroup,
   Button,
   Tabs,
   Tab,
@@ -46,7 +44,13 @@ const ContributionsTableShell = () => {
       >
         <PageHeading>Contributions</PageHeading>
         {userContributions && userContributions?.length > 0 ? (
-          <Tabs variant="soft-rounded" colorScheme="gray">
+          <Tabs
+            variant="soft-rounded"
+            colorScheme="gray"
+            width="100%"
+            maxWidth="100vw"
+            paddingX={{ base: 4, lg: 0 }}
+          >
             <TabList>
               <Tab>Contributions</Tab>
               <Tab>Contribution Types</Tab>
@@ -57,20 +61,25 @@ const ContributionsTableShell = () => {
                   background="white"
                   boxShadow="sm"
                   borderRadius={{ base: 'none', md: 'lg' }}
-                  overflowX="auto"
                 >
                   <Stack spacing="5">
                     <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
                       <Stack
                         direction={{ base: 'column', md: 'row' }}
-                        justify="space-between"
-                        align="center"
+                        justifyContent={{ base: 'center', lg: 'space-between' }}
+                        alignItems={{ base: 'flex-start', lg: 'center' }}
+                        width={{ base: '100%' }}
+                        maxWidth="100vw"
                       >
                         <Text fontSize="lg" fontWeight="medium">
                           My Contributions
                         </Text>
                         {selectedContributions?.length === 0 ? (
-                          <Alert status="info" width="50%" borderRadius="md">
+                          <Alert
+                            status="info"
+                            width={{ base: '100%', lg: '50%' }}
+                            borderRadius="md"
+                          >
                             <AlertDescription>
                               <span
                                 role="img"
@@ -98,13 +107,13 @@ const ContributionsTableShell = () => {
                         )}
                       </Stack>
                     </Box>
-                    <Box overflowX="auto" width="100%">
+                    <Box width="100%" maxWidth="100vw" overflowX="auto">
                       <ContributionsTable
                         contributionsData={userContributions}
                         setSelectedContributions={setSelectedContributions}
                       />
                     </Box>
-                    <Box px={{ base: '4', md: '6' }} pb="5">
+                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
                       <HStack spacing="3" justify="space-between">
                         {!isMobile && (
                           <Text color="muted" fontSize="sm">
@@ -121,7 +130,7 @@ const ContributionsTableShell = () => {
                           <Button>Next</Button>
                         </ButtonGroup>
                       </HStack>
-                    </Box>
+                    </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>
@@ -142,7 +151,7 @@ const ContributionsTableShell = () => {
                         </Text>
                       </Stack>
                     </Box>
-                    <Box overflowX="auto">
+                    <Box width="100%" maxWidth="100vw" overflowX="auto">
                       {userContributions.length > 0 ? (
                         <ContributionTypesTable
                           contributionTypesData={userContributions}
@@ -151,7 +160,7 @@ const ContributionsTableShell = () => {
                         <EmptyContributions />
                       )}
                     </Box>
-                    <Box px={{ base: '4', md: '6' }} pb="5">
+                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
                       <HStack spacing="3" justify="space-between">
                         {!isMobile && (
                           <Text color="muted" fontSize="sm">
@@ -168,7 +177,7 @@ const ContributionsTableShell = () => {
                           <Button>Next</Button>
                         </ButtonGroup>
                       </HStack>
-                    </Box>
+                    </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>

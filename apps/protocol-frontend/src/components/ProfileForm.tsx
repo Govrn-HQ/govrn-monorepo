@@ -1,11 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import {
-  Flex,
-  Heading,
-  Button,
-  Divider,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 
@@ -117,13 +111,18 @@ const ProfileForm = () => {
           paddingTop={4}
           background="white"
           boxShadow="sm"
-          borderRadius={useBreakpointValue({ base: 'none', md: 'lg' })}
+          borderRadius={{ base: 'none', md: 'lg' }}
           marginBottom={4}
         >
           <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
             Your Details
           </Heading>
-          <Flex direction="column" align="flex-end" marginY={8} width="50%">
+          <Flex
+            direction="column"
+            align="flex-end"
+            marginY={8}
+            width={{ base: '100%', lg: '50%' }}
+          >
             <Input
               name="name"
               label="Govrn Username"
@@ -186,13 +185,20 @@ const ProfileForm = () => {
             <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
               Integrations
             </Heading>
-            <Flex direction="column" align="flex-end" marginTop={4} width="50%">
+            <Flex
+              direction="column"
+              align="flex-end"
+              marginTop={4}
+              marginBottom={{ base: 4, lg: 0 }}
+              width={{ base: '100%', lg: '50%' }}
+            >
               <Input
                 name="userLinearEmail"
-                label="Linear Email Address"
+                label="Linear Email Address (Coming Soon!)"
                 tip="Enter the email address you used with Linear for the integration."
                 placeholder="user@govrn.io"
                 localForm={localFormLinear} //TODO: resolve this type issue -- need to investigate this
+                disabled
               />
               <Button
                 type="submit"
@@ -201,6 +207,7 @@ const ProfileForm = () => {
                 backgroundColor="brand.primary.50"
                 transition="all 100ms ease-in-out"
                 _hover={{ bgColor: 'brand.primary.100' }}
+                disabled
               >
                 Link Email
               </Button>
@@ -208,7 +215,13 @@ const ProfileForm = () => {
             <Divider bgColor="gray.300" />
           </Flex>
           <Flex justify="space-between" direction="column" wrap="wrap">
-            <Flex direction="column" align="flex-end" marginTop={4} width="50%">
+            <Flex
+              direction="column"
+              align="flex-end"
+              marginTop={4}
+              marginBottom={{ base: 8, lg: 0 }}
+              width={{ base: '100%', lg: '50%' }}
+            >
               <Input
                 name="userTwitterHandle"
                 label="Twitter Handle (Coming Soon!)"

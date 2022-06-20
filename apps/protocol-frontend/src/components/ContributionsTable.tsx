@@ -50,6 +50,8 @@ const ContributionsTable = ({
       contributionsData.map((contribution: any) => ({
         name: contribution.name,
         id: contribution.id,
+        details: contribution.details,
+        proof: contribution.proof,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
         attestations: contribution.attestations || null,
@@ -168,7 +170,7 @@ const ContributionsTable = ({
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
-      <Table {...getTableProps()}>
+      <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
         <Thead backgroundColor="gray.50">
           {headerGroups.map((headerGroup: any) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>

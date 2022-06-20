@@ -34,6 +34,7 @@ export type AttestationArgs = {
 export type NetworkConfig = {
   address: string;
   chainId: number;
+  name?: string;
 };
 
 export class GovrnContract {
