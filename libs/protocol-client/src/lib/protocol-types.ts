@@ -12318,6 +12318,7 @@ export type TwitterUserWhereUniqueInput = {
 
 export type User = {
   _count?: Maybe<UserCount>;
+  active: Scalars['Boolean'];
   activities: Array<UserActivity>;
   address: Scalars['String'];
   attestations: Array<Attestation>;
@@ -12328,6 +12329,7 @@ export type User = {
   createdAt: Scalars['DateTime'];
   discord_users: Array<DiscordUser>;
   display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   guild_users: Array<GuildUser>;
   id: Scalars['Int'];
@@ -12795,10 +12797,12 @@ export type UserCount = {
 
 export type UserCountAggregate = {
   _all: Scalars['Int'];
+  active: Scalars['Int'];
   address: Scalars['Int'];
   chain_type_id: Scalars['Int'];
   createdAt: Scalars['Int'];
   display_name: Scalars['Int'];
+  email: Scalars['Int'];
   full_name: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['Int'];
@@ -12806,10 +12810,12 @@ export type UserCountAggregate = {
 };
 
 export type UserCountOrderByAggregateInput = {
+  active?: InputMaybe<SortOrder>;
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -12822,6 +12828,7 @@ export type UserCreateCustomInput = {
 };
 
 export type UserCreateInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -12831,6 +12838,7 @@ export type UserCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12840,9 +12848,11 @@ export type UserCreateInput = {
 };
 
 export type UserCreateManyChain_TypeInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   address: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -12855,10 +12865,12 @@ export type UserCreateManyChain_TypeInputEnvelope = {
 };
 
 export type UserCreateManyInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   address: Scalars['String'];
   chain_type_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -12966,6 +12978,7 @@ export type UserCreateOrConnectWithoutTwitter_UserInput = {
 };
 
 export type UserCreateWithoutActivitiesInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
   chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
@@ -12974,6 +12987,7 @@ export type UserCreateWithoutActivitiesInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12983,6 +12997,7 @@ export type UserCreateWithoutActivitiesInput = {
 };
 
 export type UserCreateWithoutAttestationsInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
@@ -12991,6 +13006,7 @@ export type UserCreateWithoutAttestationsInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -13000,6 +13016,7 @@ export type UserCreateWithoutAttestationsInput = {
 };
 
 export type UserCreateWithoutChain_TypeInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13008,6 +13025,7 @@ export type UserCreateWithoutChain_TypeInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -13017,6 +13035,7 @@ export type UserCreateWithoutChain_TypeInput = {
 };
 
 export type UserCreateWithoutContributionPartnersInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13025,6 +13044,7 @@ export type UserCreateWithoutContributionPartnersInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -13034,6 +13054,7 @@ export type UserCreateWithoutContributionPartnersInput = {
 };
 
 export type UserCreateWithoutContributionsInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13042,6 +13063,7 @@ export type UserCreateWithoutContributionsInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -13051,6 +13073,7 @@ export type UserCreateWithoutContributionsInput = {
 };
 
 export type UserCreateWithoutDiscord_UsersInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13059,6 +13082,7 @@ export type UserCreateWithoutDiscord_UsersInput = {
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -13068,6 +13092,7 @@ export type UserCreateWithoutDiscord_UsersInput = {
 };
 
 export type UserCreateWithoutGuild_UsersInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13077,6 +13102,7 @@ export type UserCreateWithoutGuild_UsersInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
@@ -13085,6 +13111,7 @@ export type UserCreateWithoutGuild_UsersInput = {
 };
 
 export type UserCreateWithoutLinear_UsersInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13094,6 +13121,7 @@ export type UserCreateWithoutLinear_UsersInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
@@ -13102,6 +13130,7 @@ export type UserCreateWithoutLinear_UsersInput = {
 };
 
 export type UserCreateWithoutTwitter_UserInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13111,6 +13140,7 @@ export type UserCreateWithoutTwitter_UserInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -13124,10 +13154,12 @@ export type UserGroupBy = {
   _max?: Maybe<UserMaxAggregate>;
   _min?: Maybe<UserMinAggregate>;
   _sum?: Maybe<UserSumAggregate>;
+  active: Scalars['Boolean'];
   address: Scalars['String'];
   chain_type_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
@@ -13141,10 +13173,12 @@ export type UserListRelationFilter = {
 };
 
 export type UserMaxAggregate = {
+  active?: Maybe<Scalars['Boolean']>;
   address?: Maybe<Scalars['String']>;
   chain_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -13152,10 +13186,12 @@ export type UserMaxAggregate = {
 };
 
 export type UserMaxOrderByAggregateInput = {
+  active?: InputMaybe<SortOrder>;
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -13163,10 +13199,12 @@ export type UserMaxOrderByAggregateInput = {
 };
 
 export type UserMinAggregate = {
+  active?: Maybe<Scalars['Boolean']>;
   address?: Maybe<Scalars['String']>;
   chain_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -13174,10 +13212,12 @@ export type UserMinAggregate = {
 };
 
 export type UserMinOrderByAggregateInput = {
+  active?: InputMaybe<SortOrder>;
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -13194,10 +13234,12 @@ export type UserOrderByWithAggregationInput = {
   _max?: InputMaybe<UserMaxOrderByAggregateInput>;
   _min?: InputMaybe<UserMinOrderByAggregateInput>;
   _sum?: InputMaybe<UserSumOrderByAggregateInput>;
+  active?: InputMaybe<SortOrder>;
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -13205,6 +13247,7 @@ export type UserOrderByWithAggregationInput = {
 };
 
 export type UserOrderByWithRelationInput = {
+  active?: InputMaybe<SortOrder>;
   activities?: InputMaybe<UserActivityOrderByRelationAggregateInput>;
   address?: InputMaybe<SortOrder>;
   attestations?: InputMaybe<AttestationOrderByRelationAggregateInput>;
@@ -13215,6 +13258,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   discord_users?: InputMaybe<DiscordUserOrderByRelationAggregateInput>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   guild_users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
@@ -13230,10 +13274,12 @@ export type UserRelationFilter = {
 };
 
 export enum UserScalarFieldEnum {
+  Active = 'active',
   Address = 'address',
   ChainTypeId = 'chain_type_id',
   CreatedAt = 'createdAt',
   DisplayName = 'display_name',
+  Email = 'email',
   FullName = 'full_name',
   Id = 'id',
   Name = 'name',
@@ -13244,10 +13290,12 @@ export type UserScalarWhereInput = {
   AND?: InputMaybe<Array<UserScalarWhereInput>>;
   NOT?: InputMaybe<Array<UserScalarWhereInput>>;
   OR?: InputMaybe<Array<UserScalarWhereInput>>;
+  active?: InputMaybe<BoolFilter>;
   address?: InputMaybe<StringFilter>;
   chain_type_id?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
+  email?: InputMaybe<StringNullableFilter>;
   full_name?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringNullableFilter>;
@@ -13258,10 +13306,12 @@ export type UserScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
+  active?: InputMaybe<BoolWithAggregatesFilter>;
   address?: InputMaybe<StringWithAggregatesFilter>;
   chain_type_id?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   display_name?: InputMaybe<StringNullableWithAggregatesFilter>;
+  email?: InputMaybe<StringNullableWithAggregatesFilter>;
   full_name?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -13284,6 +13334,7 @@ export type UserUpdateCustomInput = {
 };
 
 export type UserUpdateInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13293,6 +13344,7 @@ export type UserUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13302,9 +13354,11 @@ export type UserUpdateInput = {
 };
 
 export type UserUpdateManyMutationInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -13403,6 +13457,7 @@ export type UserUpdateWithWhereUniqueWithoutChain_TypeInput = {
 };
 
 export type UserUpdateWithoutActivitiesInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
   chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
@@ -13411,6 +13466,7 @@ export type UserUpdateWithoutActivitiesInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13420,6 +13476,7 @@ export type UserUpdateWithoutActivitiesInput = {
 };
 
 export type UserUpdateWithoutAttestationsInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
@@ -13428,6 +13485,7 @@ export type UserUpdateWithoutAttestationsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13437,6 +13495,7 @@ export type UserUpdateWithoutAttestationsInput = {
 };
 
 export type UserUpdateWithoutChain_TypeInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13445,6 +13504,7 @@ export type UserUpdateWithoutChain_TypeInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13454,6 +13514,7 @@ export type UserUpdateWithoutChain_TypeInput = {
 };
 
 export type UserUpdateWithoutContributionPartnersInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13462,6 +13523,7 @@ export type UserUpdateWithoutContributionPartnersInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13471,6 +13533,7 @@ export type UserUpdateWithoutContributionPartnersInput = {
 };
 
 export type UserUpdateWithoutContributionsInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13479,6 +13542,7 @@ export type UserUpdateWithoutContributionsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13488,6 +13552,7 @@ export type UserUpdateWithoutContributionsInput = {
 };
 
 export type UserUpdateWithoutDiscord_UsersInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13496,6 +13561,7 @@ export type UserUpdateWithoutDiscord_UsersInput = {
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13505,6 +13571,7 @@ export type UserUpdateWithoutDiscord_UsersInput = {
 };
 
 export type UserUpdateWithoutGuild_UsersInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13514,6 +13581,7 @@ export type UserUpdateWithoutGuild_UsersInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -13522,6 +13590,7 @@ export type UserUpdateWithoutGuild_UsersInput = {
 };
 
 export type UserUpdateWithoutLinear_UsersInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13531,6 +13600,7 @@ export type UserUpdateWithoutLinear_UsersInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -13539,6 +13609,7 @@ export type UserUpdateWithoutLinear_UsersInput = {
 };
 
 export type UserUpdateWithoutTwitter_UserInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13548,6 +13619,7 @@ export type UserUpdateWithoutTwitter_UserInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13605,6 +13677,7 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  active?: InputMaybe<BoolFilter>;
   activities?: InputMaybe<UserActivityListRelationFilter>;
   address?: InputMaybe<StringFilter>;
   attestations?: InputMaybe<AttestationListRelationFilter>;
@@ -13615,6 +13688,7 @@ export type UserWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   discord_users?: InputMaybe<DiscordUserListRelationFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
+  email?: InputMaybe<StringNullableFilter>;
   full_name?: InputMaybe<StringNullableFilter>;
   guild_users?: InputMaybe<GuildUserListRelationFilter>;
   id?: InputMaybe<IntFilter>;
