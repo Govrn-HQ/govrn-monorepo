@@ -1,4 +1,6 @@
 import React, { useContext, createContext, useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
@@ -190,13 +192,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const mintContribution = async (contribution: any) => {
-    console.log('contribution mint', contribution);
     try {
       if (provider) {
+        console.log('above mint');
         const response = await govrn.contribution.mint(
           {
             address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
             chainId: 31337,
+            name: 'Localhost',
           },
           signer,
           userData.address,
@@ -204,19 +207,21 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           contribution.activityTypeId,
           userData.id,
           {
-            name: contribution.name,
-            details: contribution.details,
-            dateOfSubmission: contribution.submissionDate,
-            dateOfEngagement: contribution.engagementDate,
-            proof: contribution.proof,
+            name: ethers.utils.toUtf8Bytes(contribution.name),
+            details: ethers.utils.toUtf8Bytes(contribution.details),
+            dateOfSubmission: new Date(contribution.submissionDate).getTime(),
+            dateOfEngagement: new Date(contribution.engagementDate).getTime(),
+            proof: ethers.utils.toUtf8Bytes(contribution.proof),
           }
         );
+
         console.log('mint response', response);
       }
     } catch (error) {
       console.log('error', error);
     }
   };
+
   const createAttestation = async (contribution: any, values: any) => {
     try {
       const response = await govrn.attestation.create({

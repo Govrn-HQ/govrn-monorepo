@@ -38,14 +38,14 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
     >
       {isMobile && location.pathname !== '/' ? (
         <IconButton
-          as={HiMenuAlt3}
+          icon={<HiMenuAlt3 />}
+          size="lg"
           aria-label="Open mobile navigation"
           color="brand.primary.500"
           position="fixed"
           top={4}
           right={4}
           zIndex={1}
-          size="sm"
           onClick={mobileNav.onOpen}
         />
       ) : null}

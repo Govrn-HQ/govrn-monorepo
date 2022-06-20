@@ -20,11 +20,9 @@ import {
 import Logo from './Logo';
 import { NavButton } from './NavButton';
 import ConnectWallet from './ConnectWallet';
-import { HiMenuAlt3 } from 'react-icons/hi';
 
 const Sidebar = () => {
   const location = useLocation();
-  const mobileNav = useDisclosure();
 
   return (
     <Flex
