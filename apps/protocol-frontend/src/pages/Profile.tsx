@@ -2,11 +2,9 @@ import React from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
-
 import SiteLayout from '../components/SiteLayout';
 import ConnectWallet from '../components/ConnectWallet';
 import ProfileShell from '../components/ProfileShell';
-import { useUser } from '../contexts/UserContext';
 
 const UserView = () => {
   return (
