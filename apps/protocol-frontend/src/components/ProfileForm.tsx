@@ -1,11 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import {
-  Flex,
-  Heading,
-  Button,
-  Divider,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 

@@ -1,6 +1,5 @@
 import React, { useContext, createContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
@@ -208,8 +207,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const mintContribution = async (contribution: any) => {
     try {
       if (provider) {
-        console.log('above mint');
-        const response = await govrn.contribution.mint(
+        await govrn.contribution.mint(
           {
             address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
             chainId: 31337,
@@ -228,7 +226,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             proof: ethers.utils.toUtf8Bytes(contribution.proof),
           }
         );
-        console.log('mint response', response);
         getUserContributions();
         toast({
           title: 'Contribution Successfully Minted',
@@ -254,7 +251,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createAttestation = async (contribution: any, values: any) => {
     try {
-      const response = await govrn.attestation.create({
+      await govrn.attestation.create({
         data: {
           user: {
             connectOrCreate: {
@@ -297,7 +294,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
-      console.log('response', response);
       getDaoContributions();
     } catch (error) {
       console.log(error);

@@ -1,16 +1,6 @@
 import { useMemo } from 'react';
 import { format } from 'date-fns';
-import {
-  Box,
-  Flex,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  chakra,
-} from '@chakra-ui/react';
+import { Box, Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useTable, useSortBy } from 'react-table';
 import { isAfter } from 'date-fns';

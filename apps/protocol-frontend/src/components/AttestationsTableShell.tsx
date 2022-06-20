@@ -1,15 +1,6 @@
 import { useState } from 'react';
 
-import {
-  Container,
-  Stack,
-  HStack,
-  Text,
-  Box,
-  useBreakpointValue,
-  ButtonGroup,
-  Button,
-} from '@chakra-ui/react';
+import { Stack, Text, Box, Button } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import PageHeading from './PageHeading';
