@@ -1,6 +1,7 @@
 import { ActivityType } from './client/activity_type';
 import { Attestation } from './client/attestation';
 import { Contribution } from './client/contribution';
+import { Custom } from './client/custom';
 import { JobRun } from './client/jobRun';
 import { Guild } from './client/guild';
 import { Linear } from './client/linear';
@@ -14,6 +15,7 @@ export class GovrnProtocol {
   activity_type: ActivityType;
   attestation: Attestation;
   client: GraphQLClient;
+  custom: Custom;
   contribution: Contribution;
   jobRun: JobRun;
   guild: Guild;
@@ -21,13 +23,14 @@ export class GovrnProtocol {
   twitter: Twitter;
   user: User;
 
-  constructor(apiUrl: string) {
+  constructor(
+    apiUrl: string,
+    clientParams?: { credentials: RequestCredentials }
+  ) {
     this.client = new GraphQLClient(apiUrl, {
+      ...clientParams,
       headers: {
         'Content-Type': `application/json`,
-        'Access-Control-Allow-Credentials': 'false',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*',
         Accept: `application/json`,
       },
     });
@@ -39,5 +42,6 @@ export class GovrnProtocol {
     this.twitter = new Twitter(this.client);
     this.jobRun = new JobRun(this.client);
     this.guild = new Guild(this.client);
+    this.custom = new Custom(this.client);
   }
 }

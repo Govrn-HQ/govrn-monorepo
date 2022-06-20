@@ -10,6 +10,7 @@ import { useUser } from '../contexts/UserContext';
 
 const HomeShell = () => {
   const { isConnected } = useWallet();
+  const { isAuthenticated } = useUser();
   const [createProfileSteps, setCreateProfileSteps] = useState<number | null>(
     null
   );
@@ -121,7 +122,7 @@ const HomeShell = () => {
         <Text color="gray.800" paddingBottom={4}>
           Anything that governs you, you should be able to govern.
         </Text>
-        {isConnected ? (
+        {isConnected && isAuthenticated ? (
           <NewUserFlow />
         ) : (
           <>

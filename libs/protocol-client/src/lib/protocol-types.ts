@@ -3,9 +3,15 @@ import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -33,7 +39,6 @@ export type ActivityType = {
   users: Array<UserActivity>;
 };
 
-
 export type ActivityTypeCategoryActivityArgs = {
   cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<CategoryActivityTypeScalarFieldEnum>>;
@@ -42,7 +47,6 @@ export type ActivityTypeCategoryActivityArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
-
 
 export type ActivityTypeContributionsArgs = {
   cursor?: InputMaybe<ContributionWhereUniqueInput>;
@@ -53,7 +57,6 @@ export type ActivityTypeContributionsArgs = {
   where?: InputMaybe<ContributionWhereInput>;
 };
 
-
 export type ActivityTypeGuildsArgs = {
   cursor?: InputMaybe<GuildActivityTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildActivityTypeScalarFieldEnum>>;
@@ -62,7 +65,6 @@ export type ActivityTypeGuildsArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildActivityTypeWhereInput>;
 };
-
 
 export type ActivityTypeUsersArgs = {
   cursor?: InputMaybe<UserActivityWhereUniqueInput>;
@@ -304,7 +306,7 @@ export enum ActivityTypeScalarFieldEnum {
   Default = 'default',
   Id = 'id',
   Name = 'name',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type ActivityTypeScalarWhereWithAggregatesInput = {
@@ -704,7 +706,6 @@ export type AttestationConfidence = {
   updatedAt: Scalars['DateTime'];
 };
 
-
 export type AttestationConfidenceAttestationsArgs = {
   cursor?: InputMaybe<AttestationWhereUniqueInput>;
   distinct?: InputMaybe<Array<AttestationScalarFieldEnum>>;
@@ -841,7 +842,7 @@ export enum AttestationConfidenceScalarFieldEnum {
   CreatedAt = 'createdAt',
   Id = 'id',
   Name = 'name',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type AttestationConfidenceScalarWhereWithAggregatesInput = {
@@ -994,21 +995,27 @@ export type AttestationCreateManyUserInputEnvelope = {
 
 export type AttestationCreateNestedManyWithoutConfidenceInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutConfidenceInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<AttestationCreateOrConnectWithoutConfidenceInput>
+  >;
   create?: InputMaybe<Array<AttestationCreateWithoutConfidenceInput>>;
   createMany?: InputMaybe<AttestationCreateManyConfidenceInputEnvelope>;
 };
 
 export type AttestationCreateNestedManyWithoutContributionInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutContributionInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<AttestationCreateOrConnectWithoutContributionInput>
+  >;
   create?: InputMaybe<Array<AttestationCreateWithoutContributionInput>>;
   createMany?: InputMaybe<AttestationCreateManyContributionInputEnvelope>;
 };
 
 export type AttestationCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<AttestationCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<AttestationCreateWithoutUserInput>>;
   createMany?: InputMaybe<AttestationCreateManyUserInputEnvelope>;
 };
@@ -1152,7 +1159,7 @@ export enum AttestationScalarFieldEnum {
   DateOfAttestation = 'date_of_attestation',
   Id = 'id',
   UpdatedAt = 'updatedAt',
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 export type AttestationScalarWhereInput = {
@@ -1227,35 +1234,53 @@ export type AttestationUpdateManyWithWhereWithoutUserInput = {
 
 export type AttestationUpdateManyWithoutConfidenceInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutConfidenceInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<AttestationCreateOrConnectWithoutConfidenceInput>
+  >;
   create?: InputMaybe<Array<AttestationCreateWithoutConfidenceInput>>;
   createMany?: InputMaybe<AttestationCreateManyConfidenceInputEnvelope>;
   delete?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<AttestationScalarWhereInput>>;
   disconnect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   set?: InputMaybe<Array<AttestationWhereUniqueInput>>;
-  update?: InputMaybe<Array<AttestationUpdateWithWhereUniqueWithoutConfidenceInput>>;
-  updateMany?: InputMaybe<Array<AttestationUpdateManyWithWhereWithoutConfidenceInput>>;
-  upsert?: InputMaybe<Array<AttestationUpsertWithWhereUniqueWithoutConfidenceInput>>;
+  update?: InputMaybe<
+    Array<AttestationUpdateWithWhereUniqueWithoutConfidenceInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<AttestationUpdateManyWithWhereWithoutConfidenceInput>
+  >;
+  upsert?: InputMaybe<
+    Array<AttestationUpsertWithWhereUniqueWithoutConfidenceInput>
+  >;
 };
 
 export type AttestationUpdateManyWithoutContributionInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutContributionInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<AttestationCreateOrConnectWithoutContributionInput>
+  >;
   create?: InputMaybe<Array<AttestationCreateWithoutContributionInput>>;
   createMany?: InputMaybe<AttestationCreateManyContributionInputEnvelope>;
   delete?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<AttestationScalarWhereInput>>;
   disconnect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   set?: InputMaybe<Array<AttestationWhereUniqueInput>>;
-  update?: InputMaybe<Array<AttestationUpdateWithWhereUniqueWithoutContributionInput>>;
-  updateMany?: InputMaybe<Array<AttestationUpdateManyWithWhereWithoutContributionInput>>;
-  upsert?: InputMaybe<Array<AttestationUpsertWithWhereUniqueWithoutContributionInput>>;
+  update?: InputMaybe<
+    Array<AttestationUpdateWithWhereUniqueWithoutContributionInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<AttestationUpdateManyWithWhereWithoutContributionInput>
+  >;
+  upsert?: InputMaybe<
+    Array<AttestationUpsertWithWhereUniqueWithoutContributionInput>
+  >;
 };
 
 export type AttestationUpdateManyWithoutUserInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<AttestationCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<AttestationCreateWithoutUserInput>>;
   createMany?: InputMaybe<AttestationCreateManyUserInputEnvelope>;
   delete?: InputMaybe<Array<AttestationWhereUniqueInput>>;
@@ -1263,7 +1288,9 @@ export type AttestationUpdateManyWithoutUserInput = {
   disconnect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   set?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   update?: InputMaybe<Array<AttestationUpdateWithWhereUniqueWithoutUserInput>>;
-  updateMany?: InputMaybe<Array<AttestationUpdateManyWithWhereWithoutUserInput>>;
+  updateMany?: InputMaybe<
+    Array<AttestationUpdateManyWithWhereWithoutUserInput>
+  >;
   upsert?: InputMaybe<Array<AttestationUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
@@ -1322,6 +1349,14 @@ export type AttestationUpsertWithWhereUniqueWithoutUserInput = {
   create: AttestationCreateWithoutUserInput;
   update: AttestationUpdateWithoutUserInput;
   where: AttestationWhereUniqueInput;
+};
+
+export type AttestationUserCreateInput = {
+  address: Scalars['String'];
+  chainName: Scalars['String'];
+  confidenceName: Scalars['String'];
+  contributionId: Scalars['Int'];
+  userId: Scalars['Float'];
 };
 
 export type AttestationUser_IdContribution_IdCompoundUniqueInput = {
@@ -1450,7 +1485,6 @@ export type CategoryActivity = {
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
-
 
 export type CategoryActivityActivityTypesArgs = {
   cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
@@ -1588,7 +1622,7 @@ export enum CategoryActivityScalarFieldEnum {
   CreatedAt = 'createdAt',
   Id = 'id',
   Name = 'name',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type CategoryActivityScalarWhereWithAggregatesInput = {
@@ -1631,10 +1665,11 @@ export type CategoryActivityTypeAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
 };
 
-export type CategoryActivityTypeCategory_Activity_IdActivity_Type_IdCompoundUniqueInput = {
-  activity_type_id: Scalars['Int'];
-  category_activity_id: Scalars['Int'];
-};
+export type CategoryActivityTypeCategory_Activity_IdActivity_Type_IdCompoundUniqueInput =
+  {
+    activity_type_id: Scalars['Int'];
+    category_activity_id: Scalars['Int'];
+  };
 
 export type CategoryActivityTypeCountAggregate = {
   _all: Scalars['Int'];
@@ -1694,17 +1729,26 @@ export type CategoryActivityTypeCreateManyInput = {
 
 export type CategoryActivityTypeCreateNestedManyWithoutActivity_TypeInput = {
   connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput>>;
-  create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutActivity_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput>
+  >;
+  create?: InputMaybe<
+    Array<CategoryActivityTypeCreateWithoutActivity_TypeInput>
+  >;
   createMany?: InputMaybe<CategoryActivityTypeCreateManyActivity_TypeInputEnvelope>;
 };
 
-export type CategoryActivityTypeCreateNestedManyWithoutCategory_ActivityInput = {
-  connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutCategory_ActivityInput>>;
-  create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutCategory_ActivityInput>>;
-  createMany?: InputMaybe<CategoryActivityTypeCreateManyCategory_ActivityInputEnvelope>;
-};
+export type CategoryActivityTypeCreateNestedManyWithoutCategory_ActivityInput =
+  {
+    connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
+    connectOrCreate?: InputMaybe<
+      Array<CategoryActivityTypeCreateOrConnectWithoutCategory_ActivityInput>
+    >;
+    create?: InputMaybe<
+      Array<CategoryActivityTypeCreateWithoutCategory_ActivityInput>
+    >;
+    createMany?: InputMaybe<CategoryActivityTypeCreateManyCategory_ActivityInputEnvelope>;
+  };
 
 export type CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput = {
   create: CategoryActivityTypeCreateWithoutActivity_TypeInput;
@@ -1811,7 +1855,7 @@ export enum CategoryActivityTypeScalarFieldEnum {
   CategoryActivityId = 'category_activity_id',
   CreatedAt = 'createdAt',
   Id = 'id',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type CategoryActivityTypeScalarWhereInput = {
@@ -1865,48 +1909,71 @@ export type CategoryActivityTypeUpdateManyWithWhereWithoutActivity_TypeInput = {
   where: CategoryActivityTypeScalarWhereInput;
 };
 
-export type CategoryActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput = {
-  data: CategoryActivityTypeUpdateManyMutationInput;
-  where: CategoryActivityTypeScalarWhereInput;
-};
+export type CategoryActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput =
+  {
+    data: CategoryActivityTypeUpdateManyMutationInput;
+    where: CategoryActivityTypeScalarWhereInput;
+  };
 
 export type CategoryActivityTypeUpdateManyWithoutActivity_TypeInput = {
   connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput>>;
-  create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutActivity_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput>
+  >;
+  create?: InputMaybe<
+    Array<CategoryActivityTypeCreateWithoutActivity_TypeInput>
+  >;
   createMany?: InputMaybe<CategoryActivityTypeCreateManyActivity_TypeInputEnvelope>;
   delete?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<CategoryActivityTypeScalarWhereInput>>;
   disconnect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
   set?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
-  update?: InputMaybe<Array<CategoryActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput>>;
-  updateMany?: InputMaybe<Array<CategoryActivityTypeUpdateManyWithWhereWithoutActivity_TypeInput>>;
-  upsert?: InputMaybe<Array<CategoryActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
+  update?: InputMaybe<
+    Array<CategoryActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<CategoryActivityTypeUpdateManyWithWhereWithoutActivity_TypeInput>
+  >;
+  upsert?: InputMaybe<
+    Array<CategoryActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput>
+  >;
 };
 
 export type CategoryActivityTypeUpdateManyWithoutCategory_ActivityInput = {
   connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutCategory_ActivityInput>>;
-  create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutCategory_ActivityInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<CategoryActivityTypeCreateOrConnectWithoutCategory_ActivityInput>
+  >;
+  create?: InputMaybe<
+    Array<CategoryActivityTypeCreateWithoutCategory_ActivityInput>
+  >;
   createMany?: InputMaybe<CategoryActivityTypeCreateManyCategory_ActivityInputEnvelope>;
   delete?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<CategoryActivityTypeScalarWhereInput>>;
   disconnect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
   set?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
-  update?: InputMaybe<Array<CategoryActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInput>>;
-  updateMany?: InputMaybe<Array<CategoryActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput>>;
-  upsert?: InputMaybe<Array<CategoryActivityTypeUpsertWithWhereUniqueWithoutCategory_ActivityInput>>;
+  update?: InputMaybe<
+    Array<CategoryActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<CategoryActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput>
+  >;
+  upsert?: InputMaybe<
+    Array<CategoryActivityTypeUpsertWithWhereUniqueWithoutCategory_ActivityInput>
+  >;
 };
 
-export type CategoryActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput = {
-  data: CategoryActivityTypeUpdateWithoutActivity_TypeInput;
-  where: CategoryActivityTypeWhereUniqueInput;
-};
+export type CategoryActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput =
+  {
+    data: CategoryActivityTypeUpdateWithoutActivity_TypeInput;
+    where: CategoryActivityTypeWhereUniqueInput;
+  };
 
-export type CategoryActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInput = {
-  data: CategoryActivityTypeUpdateWithoutCategory_ActivityInput;
-  where: CategoryActivityTypeWhereUniqueInput;
-};
+export type CategoryActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInput =
+  {
+    data: CategoryActivityTypeUpdateWithoutCategory_ActivityInput;
+    where: CategoryActivityTypeWhereUniqueInput;
+  };
 
 export type CategoryActivityTypeUpdateWithoutActivity_TypeInput = {
   category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesInput>;
@@ -1920,17 +1987,19 @@ export type CategoryActivityTypeUpdateWithoutCategory_ActivityInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type CategoryActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput = {
-  create: CategoryActivityTypeCreateWithoutActivity_TypeInput;
-  update: CategoryActivityTypeUpdateWithoutActivity_TypeInput;
-  where: CategoryActivityTypeWhereUniqueInput;
-};
+export type CategoryActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput =
+  {
+    create: CategoryActivityTypeCreateWithoutActivity_TypeInput;
+    update: CategoryActivityTypeUpdateWithoutActivity_TypeInput;
+    where: CategoryActivityTypeWhereUniqueInput;
+  };
 
-export type CategoryActivityTypeUpsertWithWhereUniqueWithoutCategory_ActivityInput = {
-  create: CategoryActivityTypeCreateWithoutCategory_ActivityInput;
-  update: CategoryActivityTypeUpdateWithoutCategory_ActivityInput;
-  where: CategoryActivityTypeWhereUniqueInput;
-};
+export type CategoryActivityTypeUpsertWithWhereUniqueWithoutCategory_ActivityInput =
+  {
+    create: CategoryActivityTypeCreateWithoutCategory_ActivityInput;
+    update: CategoryActivityTypeUpdateWithoutCategory_ActivityInput;
+    where: CategoryActivityTypeWhereUniqueInput;
+  };
 
 export type CategoryActivityTypeWhereInput = {
   AND?: InputMaybe<Array<CategoryActivityTypeWhereInput>>;
@@ -2006,7 +2075,6 @@ export type ChainType = {
   updatedAt: Scalars['DateTime'];
   users: Array<User>;
 };
-
 
 export type ChainTypeUsersArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -2144,7 +2212,7 @@ export enum ChainTypeScalarFieldEnum {
   CreatedAt = 'createdAt',
   Id = 'id',
   Name = 'name',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type ChainTypeScalarWhereWithAggregatesInput = {
@@ -2236,7 +2304,6 @@ export type Contribution = {
   user_id: Scalars['Int'];
 };
 
-
 export type ContributionAttestationsArgs = {
   cursor?: InputMaybe<AttestationWhereUniqueInput>;
   distinct?: InputMaybe<Array<AttestationScalarFieldEnum>>;
@@ -2246,7 +2313,6 @@ export type ContributionAttestationsArgs = {
   where?: InputMaybe<AttestationWhereInput>;
 };
 
-
 export type ContributionGuildsArgs = {
   cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildContributionScalarFieldEnum>>;
@@ -2255,7 +2321,6 @@ export type ContributionGuildsArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
 };
-
 
 export type ContributionPartnersArgs = {
   cursor?: InputMaybe<PartnerWhereUniqueInput>;
@@ -2405,21 +2470,27 @@ export type ContributionCreateManyUserInputEnvelope = {
 
 export type ContributionCreateNestedManyWithoutActivity_TypeInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutActivity_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<ContributionCreateOrConnectWithoutActivity_TypeInput>
+  >;
   create?: InputMaybe<Array<ContributionCreateWithoutActivity_TypeInput>>;
   createMany?: InputMaybe<ContributionCreateManyActivity_TypeInputEnvelope>;
 };
 
 export type ContributionCreateNestedManyWithoutStatusInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutStatusInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<ContributionCreateOrConnectWithoutStatusInput>
+  >;
   create?: InputMaybe<Array<ContributionCreateWithoutStatusInput>>;
   createMany?: InputMaybe<ContributionCreateManyStatusInputEnvelope>;
 };
 
 export type ContributionCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<ContributionCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<ContributionCreateWithoutUserInput>>;
   createMany?: InputMaybe<ContributionCreateManyUserInputEnvelope>;
 };
@@ -2772,7 +2843,7 @@ export enum ContributionScalarFieldEnum {
   Proof = 'proof',
   StatusId = 'status_id',
   UpdatedAt = 'updatedAt',
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 export type ContributionScalarWhereInput = {
@@ -2817,7 +2888,6 @@ export type ContributionStatus = {
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
-
 
 export type ContributionStatusContributionsArgs = {
   cursor?: InputMaybe<ContributionWhereUniqueInput>;
@@ -2955,7 +3025,7 @@ export enum ContributionStatusScalarFieldEnum {
   CreatedAt = 'createdAt',
   Id = 'id',
   Name = 'name',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type ContributionStatusScalarWhereWithAggregatesInput = {
@@ -3085,35 +3155,53 @@ export type ContributionUpdateManyWithWhereWithoutUserInput = {
 
 export type ContributionUpdateManyWithoutActivity_TypeInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutActivity_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<ContributionCreateOrConnectWithoutActivity_TypeInput>
+  >;
   create?: InputMaybe<Array<ContributionCreateWithoutActivity_TypeInput>>;
   createMany?: InputMaybe<ContributionCreateManyActivity_TypeInputEnvelope>;
   delete?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<ContributionScalarWhereInput>>;
   disconnect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   set?: InputMaybe<Array<ContributionWhereUniqueInput>>;
-  update?: InputMaybe<Array<ContributionUpdateWithWhereUniqueWithoutActivity_TypeInput>>;
-  updateMany?: InputMaybe<Array<ContributionUpdateManyWithWhereWithoutActivity_TypeInput>>;
-  upsert?: InputMaybe<Array<ContributionUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
+  update?: InputMaybe<
+    Array<ContributionUpdateWithWhereUniqueWithoutActivity_TypeInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<ContributionUpdateManyWithWhereWithoutActivity_TypeInput>
+  >;
+  upsert?: InputMaybe<
+    Array<ContributionUpsertWithWhereUniqueWithoutActivity_TypeInput>
+  >;
 };
 
 export type ContributionUpdateManyWithoutStatusInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutStatusInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<ContributionCreateOrConnectWithoutStatusInput>
+  >;
   create?: InputMaybe<Array<ContributionCreateWithoutStatusInput>>;
   createMany?: InputMaybe<ContributionCreateManyStatusInputEnvelope>;
   delete?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<ContributionScalarWhereInput>>;
   disconnect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   set?: InputMaybe<Array<ContributionWhereUniqueInput>>;
-  update?: InputMaybe<Array<ContributionUpdateWithWhereUniqueWithoutStatusInput>>;
-  updateMany?: InputMaybe<Array<ContributionUpdateManyWithWhereWithoutStatusInput>>;
-  upsert?: InputMaybe<Array<ContributionUpsertWithWhereUniqueWithoutStatusInput>>;
+  update?: InputMaybe<
+    Array<ContributionUpdateWithWhereUniqueWithoutStatusInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<ContributionUpdateManyWithWhereWithoutStatusInput>
+  >;
+  upsert?: InputMaybe<
+    Array<ContributionUpsertWithWhereUniqueWithoutStatusInput>
+  >;
 };
 
 export type ContributionUpdateManyWithoutUserInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<ContributionCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<ContributionCreateWithoutUserInput>>;
   createMany?: InputMaybe<ContributionCreateManyUserInputEnvelope>;
   delete?: InputMaybe<Array<ContributionWhereUniqueInput>>;
@@ -3121,7 +3209,9 @@ export type ContributionUpdateManyWithoutUserInput = {
   disconnect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   set?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   update?: InputMaybe<Array<ContributionUpdateWithWhereUniqueWithoutUserInput>>;
-  updateMany?: InputMaybe<Array<ContributionUpdateManyWithWhereWithoutUserInput>>;
+  updateMany?: InputMaybe<
+    Array<ContributionUpdateManyWithWhereWithoutUserInput>
+  >;
   upsert?: InputMaybe<Array<ContributionUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
@@ -3520,7 +3610,9 @@ export type DiscordUserCreateManyUserInputEnvelope = {
 
 export type DiscordUserCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<DiscordUserCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<DiscordUserCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<DiscordUserCreateWithoutUserInput>>;
   createMany?: InputMaybe<DiscordUserCreateManyUserInputEnvelope>;
 };
@@ -3627,7 +3719,7 @@ export enum DiscordUserScalarFieldEnum {
   DisplayName = 'display_name',
   Id = 'id',
   UpdatedAt = 'updatedAt',
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 export type DiscordUserScalarWhereInput = {
@@ -3688,7 +3780,9 @@ export type DiscordUserUpdateManyWithWhereWithoutUserInput = {
 
 export type DiscordUserUpdateManyWithoutUserInput = {
   connect?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<DiscordUserCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<DiscordUserCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<DiscordUserCreateWithoutUserInput>>;
   createMany?: InputMaybe<DiscordUserCreateManyUserInputEnvelope>;
   delete?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
@@ -3696,7 +3790,9 @@ export type DiscordUserUpdateManyWithoutUserInput = {
   disconnect?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
   set?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
   update?: InputMaybe<Array<DiscordUserUpdateWithWhereUniqueWithoutUserInput>>;
-  updateMany?: InputMaybe<Array<DiscordUserUpdateManyWithWhereWithoutUserInput>>;
+  updateMany?: InputMaybe<
+    Array<DiscordUserUpdateManyWithWhereWithoutUserInput>
+  >;
   upsert?: InputMaybe<Array<DiscordUserUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
@@ -3778,7 +3874,6 @@ export type Guild = {
   users: Array<GuildUser>;
 };
 
-
 export type GuildActivity_TypeArgs = {
   cursor?: InputMaybe<GuildActivityTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildActivityTypeScalarFieldEnum>>;
@@ -3788,7 +3883,6 @@ export type GuildActivity_TypeArgs = {
   where?: InputMaybe<GuildActivityTypeWhereInput>;
 };
 
-
 export type GuildContributionsArgs = {
   cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildContributionScalarFieldEnum>>;
@@ -3797,7 +3891,6 @@ export type GuildContributionsArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
 };
-
 
 export type GuildUsersArgs = {
   cursor?: InputMaybe<GuildUserWhereUniqueInput>;
@@ -3888,14 +3981,18 @@ export type GuildActivityTypeCreateManyInput = {
 
 export type GuildActivityTypeCreateNestedManyWithoutActivity_TypeInput = {
   connect?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildActivityTypeCreateOrConnectWithoutActivity_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildActivityTypeCreateOrConnectWithoutActivity_TypeInput>
+  >;
   create?: InputMaybe<Array<GuildActivityTypeCreateWithoutActivity_TypeInput>>;
   createMany?: InputMaybe<GuildActivityTypeCreateManyActivity_TypeInputEnvelope>;
 };
 
 export type GuildActivityTypeCreateNestedManyWithoutGuildInput = {
   connect?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildActivityTypeCreateOrConnectWithoutGuildInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildActivityTypeCreateOrConnectWithoutGuildInput>
+  >;
   create?: InputMaybe<Array<GuildActivityTypeCreateWithoutGuildInput>>;
   createMany?: InputMaybe<GuildActivityTypeCreateManyGuildInputEnvelope>;
 };
@@ -4010,7 +4107,7 @@ export enum GuildActivityTypeScalarFieldEnum {
   CreatedAt = 'createdAt',
   GuildId = 'guild_id',
   Id = 'id',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type GuildActivityTypeScalarWhereInput = {
@@ -4071,30 +4168,46 @@ export type GuildActivityTypeUpdateManyWithWhereWithoutGuildInput = {
 
 export type GuildActivityTypeUpdateManyWithoutActivity_TypeInput = {
   connect?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildActivityTypeCreateOrConnectWithoutActivity_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildActivityTypeCreateOrConnectWithoutActivity_TypeInput>
+  >;
   create?: InputMaybe<Array<GuildActivityTypeCreateWithoutActivity_TypeInput>>;
   createMany?: InputMaybe<GuildActivityTypeCreateManyActivity_TypeInputEnvelope>;
   delete?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<GuildActivityTypeScalarWhereInput>>;
   disconnect?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
   set?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
-  update?: InputMaybe<Array<GuildActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput>>;
-  updateMany?: InputMaybe<Array<GuildActivityTypeUpdateManyWithWhereWithoutActivity_TypeInput>>;
-  upsert?: InputMaybe<Array<GuildActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
+  update?: InputMaybe<
+    Array<GuildActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<GuildActivityTypeUpdateManyWithWhereWithoutActivity_TypeInput>
+  >;
+  upsert?: InputMaybe<
+    Array<GuildActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput>
+  >;
 };
 
 export type GuildActivityTypeUpdateManyWithoutGuildInput = {
   connect?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildActivityTypeCreateOrConnectWithoutGuildInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildActivityTypeCreateOrConnectWithoutGuildInput>
+  >;
   create?: InputMaybe<Array<GuildActivityTypeCreateWithoutGuildInput>>;
   createMany?: InputMaybe<GuildActivityTypeCreateManyGuildInputEnvelope>;
   delete?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<GuildActivityTypeScalarWhereInput>>;
   disconnect?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
   set?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
-  update?: InputMaybe<Array<GuildActivityTypeUpdateWithWhereUniqueWithoutGuildInput>>;
-  updateMany?: InputMaybe<Array<GuildActivityTypeUpdateManyWithWhereWithoutGuildInput>>;
-  upsert?: InputMaybe<Array<GuildActivityTypeUpsertWithWhereUniqueWithoutGuildInput>>;
+  update?: InputMaybe<
+    Array<GuildActivityTypeUpdateWithWhereUniqueWithoutGuildInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<GuildActivityTypeUpdateManyWithWhereWithoutGuildInput>
+  >;
+  upsert?: InputMaybe<
+    Array<GuildActivityTypeUpsertWithWhereUniqueWithoutGuildInput>
+  >;
 };
 
 export type GuildActivityTypeUpdateWithWhereUniqueWithoutActivity_TypeInput = {
@@ -4241,14 +4354,18 @@ export type GuildContributionCreateManyInput = {
 
 export type GuildContributionCreateNestedManyWithoutContributionInput = {
   connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutContributionInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildContributionCreateOrConnectWithoutContributionInput>
+  >;
   create?: InputMaybe<Array<GuildContributionCreateWithoutContributionInput>>;
   createMany?: InputMaybe<GuildContributionCreateManyContributionInputEnvelope>;
 };
 
 export type GuildContributionCreateNestedManyWithoutGuildInput = {
   connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutGuildInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildContributionCreateOrConnectWithoutGuildInput>
+  >;
   create?: InputMaybe<Array<GuildContributionCreateWithoutGuildInput>>;
   createMany?: InputMaybe<GuildContributionCreateManyGuildInputEnvelope>;
 };
@@ -4363,7 +4480,7 @@ export enum GuildContributionScalarFieldEnum {
   CreatedAt = 'createdAt',
   GuildId = 'guild_id',
   Id = 'id',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type GuildContributionScalarWhereInput = {
@@ -4424,30 +4541,46 @@ export type GuildContributionUpdateManyWithWhereWithoutGuildInput = {
 
 export type GuildContributionUpdateManyWithoutContributionInput = {
   connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutContributionInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildContributionCreateOrConnectWithoutContributionInput>
+  >;
   create?: InputMaybe<Array<GuildContributionCreateWithoutContributionInput>>;
   createMany?: InputMaybe<GuildContributionCreateManyContributionInputEnvelope>;
   delete?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<GuildContributionScalarWhereInput>>;
   disconnect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
   set?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
-  update?: InputMaybe<Array<GuildContributionUpdateWithWhereUniqueWithoutContributionInput>>;
-  updateMany?: InputMaybe<Array<GuildContributionUpdateManyWithWhereWithoutContributionInput>>;
-  upsert?: InputMaybe<Array<GuildContributionUpsertWithWhereUniqueWithoutContributionInput>>;
+  update?: InputMaybe<
+    Array<GuildContributionUpdateWithWhereUniqueWithoutContributionInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<GuildContributionUpdateManyWithWhereWithoutContributionInput>
+  >;
+  upsert?: InputMaybe<
+    Array<GuildContributionUpsertWithWhereUniqueWithoutContributionInput>
+  >;
 };
 
 export type GuildContributionUpdateManyWithoutGuildInput = {
   connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutGuildInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildContributionCreateOrConnectWithoutGuildInput>
+  >;
   create?: InputMaybe<Array<GuildContributionCreateWithoutGuildInput>>;
   createMany?: InputMaybe<GuildContributionCreateManyGuildInputEnvelope>;
   delete?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<GuildContributionScalarWhereInput>>;
   disconnect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
   set?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
-  update?: InputMaybe<Array<GuildContributionUpdateWithWhereUniqueWithoutGuildInput>>;
-  updateMany?: InputMaybe<Array<GuildContributionUpdateManyWithWhereWithoutGuildInput>>;
-  upsert?: InputMaybe<Array<GuildContributionUpsertWithWhereUniqueWithoutGuildInput>>;
+  update?: InputMaybe<
+    Array<GuildContributionUpdateWithWhereUniqueWithoutGuildInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<GuildContributionUpdateManyWithWhereWithoutGuildInput>
+  >;
+  upsert?: InputMaybe<
+    Array<GuildContributionUpsertWithWhereUniqueWithoutGuildInput>
+  >;
 };
 
 export type GuildContributionUpdateWithWhereUniqueWithoutContributionInput = {
@@ -4740,7 +4873,7 @@ export enum GuildScalarFieldEnum {
   Id = 'id',
   Logo = 'logo',
   Name = 'name',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type GuildScalarWhereWithAggregatesInput = {
@@ -4972,7 +5105,9 @@ export type GuildUserCreateManyUserInputEnvelope = {
 
 export type GuildUserCreateNestedManyWithoutGuildInput = {
   connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutGuildInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildUserCreateOrConnectWithoutGuildInput>
+  >;
   create?: InputMaybe<Array<GuildUserCreateWithoutGuildInput>>;
   createMany?: InputMaybe<GuildUserCreateManyGuildInputEnvelope>;
 };
@@ -5089,7 +5224,7 @@ export enum GuildUserScalarFieldEnum {
   GuildId = 'guild_id',
   Id = 'id',
   UpdatedAt = 'updatedAt',
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 export type GuildUserScalarWhereInput = {
@@ -5150,7 +5285,9 @@ export type GuildUserUpdateManyWithWhereWithoutUserInput = {
 
 export type GuildUserUpdateManyWithoutGuildInput = {
   connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutGuildInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<GuildUserCreateOrConnectWithoutGuildInput>
+  >;
   create?: InputMaybe<Array<GuildUserCreateWithoutGuildInput>>;
   createMany?: InputMaybe<GuildUserCreateManyGuildInputEnvelope>;
   delete?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
@@ -5449,7 +5586,7 @@ export enum JobRunScalarFieldEnum {
   Id = 'id',
   Name = 'name',
   StartDate = 'startDate',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type JobRunScalarWhereWithAggregatesInput = {
@@ -5513,7 +5650,6 @@ export type LinearCycle = {
   number: Scalars['Int'];
   startsAt: Scalars['DateTime'];
 };
-
 
 export type LinearCycleIssuesArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
@@ -5666,7 +5802,7 @@ export enum LinearCycleScalarFieldEnum {
   Id = 'id',
   LinearId = 'linear_id',
   Number = 'number',
-  StartsAt = 'startsAt'
+  StartsAt = 'startsAt',
 }
 
 export type LinearCycleScalarWhereWithAggregatesInput = {
@@ -6144,35 +6280,45 @@ export type LinearIssueCreateManyTeamInputEnvelope = {
 
 export type LinearIssueCreateNestedManyWithoutAssigneeInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutAssigneeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutAssigneeInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutAssigneeInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyAssigneeInputEnvelope>;
 };
 
 export type LinearIssueCreateNestedManyWithoutCreatorInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutCreatorInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutCreatorInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutCreatorInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyCreatorInputEnvelope>;
 };
 
 export type LinearIssueCreateNestedManyWithoutCycleInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutCycleInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutCycleInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutCycleInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyCycleInputEnvelope>;
 };
 
 export type LinearIssueCreateNestedManyWithoutProjectInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutProjectInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutProjectInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutProjectInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyProjectInputEnvelope>;
 };
 
 export type LinearIssueCreateNestedManyWithoutTeamInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutTeamInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutTeamInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutTeamInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyTeamInputEnvelope>;
 };
@@ -6705,7 +6851,7 @@ export enum LinearIssueScalarFieldEnum {
   Title = 'title',
   Trashed = 'trashed',
   UpdatedAt = 'updatedAt',
-  Url = 'url'
+  Url = 'url',
 }
 
 export type LinearIssueScalarWhereInput = {
@@ -6901,35 +7047,53 @@ export type LinearIssueUpdateManyWithWhereWithoutTeamInput = {
 
 export type LinearIssueUpdateManyWithoutAssigneeInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutAssigneeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutAssigneeInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutAssigneeInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyAssigneeInputEnvelope>;
   delete?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<LinearIssueScalarWhereInput>>;
   disconnect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   set?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  update?: InputMaybe<Array<LinearIssueUpdateWithWhereUniqueWithoutAssigneeInput>>;
-  updateMany?: InputMaybe<Array<LinearIssueUpdateManyWithWhereWithoutAssigneeInput>>;
-  upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutAssigneeInput>>;
+  update?: InputMaybe<
+    Array<LinearIssueUpdateWithWhereUniqueWithoutAssigneeInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<LinearIssueUpdateManyWithWhereWithoutAssigneeInput>
+  >;
+  upsert?: InputMaybe<
+    Array<LinearIssueUpsertWithWhereUniqueWithoutAssigneeInput>
+  >;
 };
 
 export type LinearIssueUpdateManyWithoutCreatorInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutCreatorInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutCreatorInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutCreatorInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyCreatorInputEnvelope>;
   delete?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<LinearIssueScalarWhereInput>>;
   disconnect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   set?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  update?: InputMaybe<Array<LinearIssueUpdateWithWhereUniqueWithoutCreatorInput>>;
-  updateMany?: InputMaybe<Array<LinearIssueUpdateManyWithWhereWithoutCreatorInput>>;
-  upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutCreatorInput>>;
+  update?: InputMaybe<
+    Array<LinearIssueUpdateWithWhereUniqueWithoutCreatorInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<LinearIssueUpdateManyWithWhereWithoutCreatorInput>
+  >;
+  upsert?: InputMaybe<
+    Array<LinearIssueUpsertWithWhereUniqueWithoutCreatorInput>
+  >;
 };
 
 export type LinearIssueUpdateManyWithoutCycleInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutCycleInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutCycleInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutCycleInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyCycleInputEnvelope>;
   delete?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
@@ -6937,27 +7101,39 @@ export type LinearIssueUpdateManyWithoutCycleInput = {
   disconnect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   set?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   update?: InputMaybe<Array<LinearIssueUpdateWithWhereUniqueWithoutCycleInput>>;
-  updateMany?: InputMaybe<Array<LinearIssueUpdateManyWithWhereWithoutCycleInput>>;
+  updateMany?: InputMaybe<
+    Array<LinearIssueUpdateManyWithWhereWithoutCycleInput>
+  >;
   upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutCycleInput>>;
 };
 
 export type LinearIssueUpdateManyWithoutProjectInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutProjectInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutProjectInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutProjectInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyProjectInputEnvelope>;
   delete?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<LinearIssueScalarWhereInput>>;
   disconnect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   set?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  update?: InputMaybe<Array<LinearIssueUpdateWithWhereUniqueWithoutProjectInput>>;
-  updateMany?: InputMaybe<Array<LinearIssueUpdateManyWithWhereWithoutProjectInput>>;
-  upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutProjectInput>>;
+  update?: InputMaybe<
+    Array<LinearIssueUpdateWithWhereUniqueWithoutProjectInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<LinearIssueUpdateManyWithWhereWithoutProjectInput>
+  >;
+  upsert?: InputMaybe<
+    Array<LinearIssueUpsertWithWhereUniqueWithoutProjectInput>
+  >;
 };
 
 export type LinearIssueUpdateManyWithoutTeamInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutTeamInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearIssueCreateOrConnectWithoutTeamInput>
+  >;
   create?: InputMaybe<Array<LinearIssueCreateWithoutTeamInput>>;
   createMany?: InputMaybe<LinearIssueCreateManyTeamInputEnvelope>;
   delete?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
@@ -6965,7 +7141,9 @@ export type LinearIssueUpdateManyWithoutTeamInput = {
   disconnect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   set?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   update?: InputMaybe<Array<LinearIssueUpdateWithWhereUniqueWithoutTeamInput>>;
-  updateMany?: InputMaybe<Array<LinearIssueUpdateManyWithWhereWithoutTeamInput>>;
+  updateMany?: InputMaybe<
+    Array<LinearIssueUpdateManyWithWhereWithoutTeamInput>
+  >;
   upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutTeamInput>>;
 };
 
@@ -7288,7 +7466,6 @@ export type LinearProject = {
   name: Scalars['String'];
 };
 
-
 export type LinearProjectIssuesArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearIssueScalarFieldEnum>>;
@@ -7412,7 +7589,7 @@ export type LinearProjectRelationFilter = {
 export enum LinearProjectScalarFieldEnum {
   Id = 'id',
   LinearId = 'linear_id',
-  Name = 'name'
+  Name = 'name',
 }
 
 export type LinearProjectScalarWhereWithAggregatesInput = {
@@ -7486,7 +7663,6 @@ export type LinearTeam = {
   linear_id: Scalars['String'];
   name: Scalars['String'];
 };
-
 
 export type LinearTeamIssuesArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
@@ -7624,7 +7800,7 @@ export enum LinearTeamScalarFieldEnum {
   Id = 'id',
   Key = 'key',
   LinearId = 'linear_id',
-  Name = 'name'
+  Name = 'name',
 }
 
 export type LinearTeamScalarWhereWithAggregatesInput = {
@@ -7711,7 +7887,6 @@ export type LinearUser = {
   user_id?: Maybe<Scalars['Int']>;
 };
 
-
 export type LinearUserAssigned_IssuesArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearIssueScalarFieldEnum>>;
@@ -7720,7 +7895,6 @@ export type LinearUserAssigned_IssuesArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearIssueWhereInput>;
 };
-
 
 export type LinearUserCreated_IssuesArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
@@ -7814,7 +7988,9 @@ export type LinearUserCreateManyUserInputEnvelope = {
 
 export type LinearUserCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<LinearUserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearUserCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearUserCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<LinearUserCreateWithoutUserInput>>;
   createMany?: InputMaybe<LinearUserCreateManyUserInputEnvelope>;
 };
@@ -8003,7 +8179,7 @@ export enum LinearUserScalarFieldEnum {
   LinearId = 'linear_id',
   Name = 'name',
   Url = 'url',
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 export type LinearUserScalarWhereInput = {
@@ -8076,7 +8252,9 @@ export type LinearUserUpdateManyWithWhereWithoutUserInput = {
 
 export type LinearUserUpdateManyWithoutUserInput = {
   connect?: InputMaybe<Array<LinearUserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LinearUserCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<LinearUserCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<LinearUserCreateWithoutUserInput>>;
   createMany?: InputMaybe<LinearUserCreateManyUserInputEnvelope>;
   delete?: InputMaybe<Array<LinearUserWhereUniqueInput>>;
@@ -8239,6 +8417,9 @@ export type Mutation = {
   createTwitterUser: TwitterUser;
   createUser: User;
   createUserActivity: UserActivity;
+  createUserAttestation: Attestation;
+  createUserContribution: Contribution;
+  createUserCustom: User;
   deleteActivityType?: Maybe<ActivityType>;
   deleteAttestation?: Maybe<Attestation>;
   deleteAttestationConfidence?: Maybe<AttestationConfidence>;
@@ -8339,6 +8520,8 @@ export type Mutation = {
   updateTwitterUser?: Maybe<TwitterUser>;
   updateUser?: Maybe<User>;
   updateUserActivity?: Maybe<UserActivity>;
+  updateUserContribution: Contribution;
+  updateUserCustom: User;
   upsertActivityType: ActivityType;
   upsertAttestation: Attestation;
   upsertAttestationConfidence: AttestationConfidence;
@@ -8366,831 +8549,700 @@ export type Mutation = {
   upsertUserActivity: UserActivity;
 };
 
-
 export type MutationCreateActivityTypeArgs = {
   data: ActivityTypeCreateInput;
 };
-
 
 export type MutationCreateAttestationArgs = {
   data: AttestationCreateInput;
 };
 
-
 export type MutationCreateAttestationConfidenceArgs = {
   data: AttestationConfidenceCreateInput;
 };
-
 
 export type MutationCreateCategoryActivityArgs = {
   data: CategoryActivityCreateInput;
 };
 
-
 export type MutationCreateCategoryActivityTypeArgs = {
   data: CategoryActivityTypeCreateInput;
 };
-
 
 export type MutationCreateChainTypeArgs = {
   data: ChainTypeCreateInput;
 };
 
-
 export type MutationCreateContributionArgs = {
   data: ContributionCreateInput;
 };
-
 
 export type MutationCreateContributionStatusArgs = {
   data: ContributionStatusCreateInput;
 };
 
-
 export type MutationCreateDiscordUserArgs = {
   data: DiscordUserCreateInput;
 };
-
 
 export type MutationCreateGuildArgs = {
   data: GuildCreateInput;
 };
 
-
 export type MutationCreateGuildActivityTypeArgs = {
   data: GuildActivityTypeCreateInput;
 };
-
 
 export type MutationCreateGuildContributionArgs = {
   data: GuildContributionCreateInput;
 };
 
-
 export type MutationCreateGuildUserArgs = {
   data: GuildUserCreateInput;
 };
-
 
 export type MutationCreateJobRunArgs = {
   data: JobRunCreateInput;
 };
 
-
 export type MutationCreateLinearCycleArgs = {
   data: LinearCycleCreateInput;
 };
-
 
 export type MutationCreateLinearIssueArgs = {
   data: LinearIssueCreateInput;
 };
 
-
 export type MutationCreateLinearProjectArgs = {
   data: LinearProjectCreateInput;
 };
-
 
 export type MutationCreateLinearTeamArgs = {
   data: LinearTeamCreateInput;
 };
 
-
 export type MutationCreateLinearUserArgs = {
   data: LinearUserCreateInput;
 };
-
 
 export type MutationCreateManyActivityTypeArgs = {
   data: Array<ActivityTypeCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyAttestationArgs = {
   data: Array<AttestationCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyAttestationConfidenceArgs = {
   data: Array<AttestationConfidenceCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyCategoryActivityArgs = {
   data: Array<CategoryActivityCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyCategoryActivityTypeArgs = {
   data: Array<CategoryActivityTypeCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyChainTypeArgs = {
   data: Array<ChainTypeCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyContributionArgs = {
   data: Array<ContributionCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyContributionStatusArgs = {
   data: Array<ContributionStatusCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyDiscordUserArgs = {
   data: Array<DiscordUserCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyGuildArgs = {
   data: Array<GuildCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyGuildActivityTypeArgs = {
   data: Array<GuildActivityTypeCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyGuildContributionArgs = {
   data: Array<GuildContributionCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyGuildUserArgs = {
   data: Array<GuildUserCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyJobRunArgs = {
   data: Array<JobRunCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyLinearCycleArgs = {
   data: Array<LinearCycleCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyLinearIssueArgs = {
   data: Array<LinearIssueCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyLinearProjectArgs = {
   data: Array<LinearProjectCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyLinearTeamArgs = {
   data: Array<LinearTeamCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyLinearUserArgs = {
   data: Array<LinearUserCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyPartnerArgs = {
   data: Array<PartnerCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyTwitterAccountArgs = {
   data: Array<TwitterAccountCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyTwitterTweetArgs = {
   data: Array<TwitterTweetCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyTwitterUserArgs = {
   data: Array<TwitterUserCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreateManyUserArgs = {
   data: Array<UserCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type MutationCreateManyUserActivityArgs = {
   data: Array<UserActivityCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-
 export type MutationCreatePartnerArgs = {
   data: PartnerCreateInput;
 };
-
 
 export type MutationCreateTwitterAccountArgs = {
   data: TwitterAccountCreateInput;
 };
 
-
 export type MutationCreateTwitterTweetArgs = {
   data: TwitterTweetCreateInput;
 };
-
 
 export type MutationCreateTwitterUserArgs = {
   data: TwitterUserCreateInput;
 };
 
-
 export type MutationCreateUserArgs = {
   data: UserCreateInput;
 };
-
 
 export type MutationCreateUserActivityArgs = {
   data: UserActivityCreateInput;
 };
 
+export type MutationCreateUserAttestationArgs = {
+  data: AttestationUserCreateInput;
+};
+
+export type MutationCreateUserContributionArgs = {
+  data: UserContributionCreateInput;
+};
+
+export type MutationCreateUserCustomArgs = {
+  data: UserCreateCustomInput;
+};
 
 export type MutationDeleteActivityTypeArgs = {
   where: ActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationDeleteAttestationArgs = {
   where: AttestationWhereUniqueInput;
 };
-
 
 export type MutationDeleteAttestationConfidenceArgs = {
   where: AttestationConfidenceWhereUniqueInput;
 };
 
-
 export type MutationDeleteCategoryActivityArgs = {
   where: CategoryActivityWhereUniqueInput;
 };
-
 
 export type MutationDeleteCategoryActivityTypeArgs = {
   where: CategoryActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationDeleteChainTypeArgs = {
   where: ChainTypeWhereUniqueInput;
 };
-
 
 export type MutationDeleteContributionArgs = {
   where: ContributionWhereUniqueInput;
 };
 
-
 export type MutationDeleteContributionStatusArgs = {
   where: ContributionStatusWhereUniqueInput;
 };
-
 
 export type MutationDeleteDiscordUserArgs = {
   where: DiscordUserWhereUniqueInput;
 };
 
-
 export type MutationDeleteGuildArgs = {
   where: GuildWhereUniqueInput;
 };
-
 
 export type MutationDeleteGuildActivityTypeArgs = {
   where: GuildActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationDeleteGuildContributionArgs = {
   where: GuildContributionWhereUniqueInput;
 };
-
 
 export type MutationDeleteGuildUserArgs = {
   where: GuildUserWhereUniqueInput;
 };
 
-
 export type MutationDeleteJobRunArgs = {
   where: JobRunWhereUniqueInput;
 };
-
 
 export type MutationDeleteLinearCycleArgs = {
   where: LinearCycleWhereUniqueInput;
 };
 
-
 export type MutationDeleteLinearIssueArgs = {
   where: LinearIssueWhereUniqueInput;
 };
-
 
 export type MutationDeleteLinearProjectArgs = {
   where: LinearProjectWhereUniqueInput;
 };
 
-
 export type MutationDeleteLinearTeamArgs = {
   where: LinearTeamWhereUniqueInput;
 };
-
 
 export type MutationDeleteLinearUserArgs = {
   where: LinearUserWhereUniqueInput;
 };
 
-
 export type MutationDeleteManyActivityTypeArgs = {
   where?: InputMaybe<ActivityTypeWhereInput>;
 };
-
 
 export type MutationDeleteManyAttestationArgs = {
   where?: InputMaybe<AttestationWhereInput>;
 };
 
-
 export type MutationDeleteManyAttestationConfidenceArgs = {
   where?: InputMaybe<AttestationConfidenceWhereInput>;
 };
-
 
 export type MutationDeleteManyCategoryActivityArgs = {
   where?: InputMaybe<CategoryActivityWhereInput>;
 };
 
-
 export type MutationDeleteManyCategoryActivityTypeArgs = {
   where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
-
 
 export type MutationDeleteManyChainTypeArgs = {
   where?: InputMaybe<ChainTypeWhereInput>;
 };
 
-
 export type MutationDeleteManyContributionArgs = {
   where?: InputMaybe<ContributionWhereInput>;
 };
-
 
 export type MutationDeleteManyContributionStatusArgs = {
   where?: InputMaybe<ContributionStatusWhereInput>;
 };
 
-
 export type MutationDeleteManyDiscordUserArgs = {
   where?: InputMaybe<DiscordUserWhereInput>;
 };
-
 
 export type MutationDeleteManyGuildArgs = {
   where?: InputMaybe<GuildWhereInput>;
 };
 
-
 export type MutationDeleteManyGuildActivityTypeArgs = {
   where?: InputMaybe<GuildActivityTypeWhereInput>;
 };
-
 
 export type MutationDeleteManyGuildContributionArgs = {
   where?: InputMaybe<GuildContributionWhereInput>;
 };
 
-
 export type MutationDeleteManyGuildUserArgs = {
   where?: InputMaybe<GuildUserWhereInput>;
 };
-
 
 export type MutationDeleteManyJobRunArgs = {
   where?: InputMaybe<JobRunWhereInput>;
 };
 
-
 export type MutationDeleteManyLinearCycleArgs = {
   where?: InputMaybe<LinearCycleWhereInput>;
 };
-
 
 export type MutationDeleteManyLinearIssueArgs = {
   where?: InputMaybe<LinearIssueWhereInput>;
 };
 
-
 export type MutationDeleteManyLinearProjectArgs = {
   where?: InputMaybe<LinearProjectWhereInput>;
 };
-
 
 export type MutationDeleteManyLinearTeamArgs = {
   where?: InputMaybe<LinearTeamWhereInput>;
 };
 
-
 export type MutationDeleteManyLinearUserArgs = {
   where?: InputMaybe<LinearUserWhereInput>;
 };
-
 
 export type MutationDeleteManyPartnerArgs = {
   where?: InputMaybe<PartnerWhereInput>;
 };
 
-
 export type MutationDeleteManyTwitterAccountArgs = {
   where?: InputMaybe<TwitterAccountWhereInput>;
 };
-
 
 export type MutationDeleteManyTwitterTweetArgs = {
   where?: InputMaybe<TwitterTweetWhereInput>;
 };
 
-
 export type MutationDeleteManyTwitterUserArgs = {
   where?: InputMaybe<TwitterUserWhereInput>;
 };
-
 
 export type MutationDeleteManyUserArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
-
 export type MutationDeleteManyUserActivityArgs = {
   where?: InputMaybe<UserActivityWhereInput>;
 };
-
 
 export type MutationDeletePartnerArgs = {
   where: PartnerWhereUniqueInput;
 };
 
-
 export type MutationDeleteTwitterAccountArgs = {
   where: TwitterAccountWhereUniqueInput;
 };
-
 
 export type MutationDeleteTwitterTweetArgs = {
   where: TwitterTweetWhereUniqueInput;
 };
 
-
 export type MutationDeleteTwitterUserArgs = {
   where: TwitterUserWhereUniqueInput;
 };
-
 
 export type MutationDeleteUserArgs = {
   where: UserWhereUniqueInput;
 };
 
-
 export type MutationDeleteUserActivityArgs = {
   where: UserActivityWhereUniqueInput;
 };
-
 
 export type MutationUpdateActivityTypeArgs = {
   data: ActivityTypeUpdateInput;
   where: ActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationUpdateAttestationArgs = {
   data: AttestationUpdateInput;
   where: AttestationWhereUniqueInput;
 };
-
 
 export type MutationUpdateAttestationConfidenceArgs = {
   data: AttestationConfidenceUpdateInput;
   where: AttestationConfidenceWhereUniqueInput;
 };
 
-
 export type MutationUpdateCategoryActivityArgs = {
   data: CategoryActivityUpdateInput;
   where: CategoryActivityWhereUniqueInput;
 };
-
 
 export type MutationUpdateCategoryActivityTypeArgs = {
   data: CategoryActivityTypeUpdateInput;
   where: CategoryActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationUpdateChainTypeArgs = {
   data: ChainTypeUpdateInput;
   where: ChainTypeWhereUniqueInput;
 };
-
 
 export type MutationUpdateContributionArgs = {
   data: ContributionUpdateInput;
   where: ContributionWhereUniqueInput;
 };
 
-
 export type MutationUpdateContributionStatusArgs = {
   data: ContributionStatusUpdateInput;
   where: ContributionStatusWhereUniqueInput;
 };
-
 
 export type MutationUpdateDiscordUserArgs = {
   data: DiscordUserUpdateInput;
   where: DiscordUserWhereUniqueInput;
 };
 
-
 export type MutationUpdateGuildArgs = {
   data: GuildUpdateInput;
   where: GuildWhereUniqueInput;
 };
-
 
 export type MutationUpdateGuildActivityTypeArgs = {
   data: GuildActivityTypeUpdateInput;
   where: GuildActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationUpdateGuildContributionArgs = {
   data: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
 };
-
 
 export type MutationUpdateGuildUserArgs = {
   data: GuildUserUpdateInput;
   where: GuildUserWhereUniqueInput;
 };
 
-
 export type MutationUpdateJobRunArgs = {
   data: JobRunUpdateInput;
   where: JobRunWhereUniqueInput;
 };
-
 
 export type MutationUpdateLinearCycleArgs = {
   data: LinearCycleUpdateInput;
   where: LinearCycleWhereUniqueInput;
 };
 
-
 export type MutationUpdateLinearIssueArgs = {
   data: LinearIssueUpdateInput;
   where: LinearIssueWhereUniqueInput;
 };
-
 
 export type MutationUpdateLinearProjectArgs = {
   data: LinearProjectUpdateInput;
   where: LinearProjectWhereUniqueInput;
 };
 
-
 export type MutationUpdateLinearTeamArgs = {
   data: LinearTeamUpdateInput;
   where: LinearTeamWhereUniqueInput;
 };
-
 
 export type MutationUpdateLinearUserArgs = {
   data: LinearUserUpdateInput;
   where: LinearUserWhereUniqueInput;
 };
 
-
 export type MutationUpdateManyActivityTypeArgs = {
   data: ActivityTypeUpdateManyMutationInput;
   where?: InputMaybe<ActivityTypeWhereInput>;
 };
-
 
 export type MutationUpdateManyAttestationArgs = {
   data: AttestationUpdateManyMutationInput;
   where?: InputMaybe<AttestationWhereInput>;
 };
 
-
 export type MutationUpdateManyAttestationConfidenceArgs = {
   data: AttestationConfidenceUpdateManyMutationInput;
   where?: InputMaybe<AttestationConfidenceWhereInput>;
 };
-
 
 export type MutationUpdateManyCategoryActivityArgs = {
   data: CategoryActivityUpdateManyMutationInput;
   where?: InputMaybe<CategoryActivityWhereInput>;
 };
 
-
 export type MutationUpdateManyCategoryActivityTypeArgs = {
   data: CategoryActivityTypeUpdateManyMutationInput;
   where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
-
 
 export type MutationUpdateManyChainTypeArgs = {
   data: ChainTypeUpdateManyMutationInput;
   where?: InputMaybe<ChainTypeWhereInput>;
 };
 
-
 export type MutationUpdateManyContributionArgs = {
   data: ContributionUpdateManyMutationInput;
   where?: InputMaybe<ContributionWhereInput>;
 };
-
 
 export type MutationUpdateManyContributionStatusArgs = {
   data: ContributionStatusUpdateManyMutationInput;
   where?: InputMaybe<ContributionStatusWhereInput>;
 };
 
-
 export type MutationUpdateManyDiscordUserArgs = {
   data: DiscordUserUpdateManyMutationInput;
   where?: InputMaybe<DiscordUserWhereInput>;
 };
-
 
 export type MutationUpdateManyGuildArgs = {
   data: GuildUpdateManyMutationInput;
   where?: InputMaybe<GuildWhereInput>;
 };
 
-
 export type MutationUpdateManyGuildActivityTypeArgs = {
   data: GuildActivityTypeUpdateManyMutationInput;
   where?: InputMaybe<GuildActivityTypeWhereInput>;
 };
-
 
 export type MutationUpdateManyGuildContributionArgs = {
   data: GuildContributionUpdateManyMutationInput;
   where?: InputMaybe<GuildContributionWhereInput>;
 };
 
-
 export type MutationUpdateManyGuildUserArgs = {
   data: GuildUserUpdateManyMutationInput;
   where?: InputMaybe<GuildUserWhereInput>;
 };
-
 
 export type MutationUpdateManyJobRunArgs = {
   data: JobRunUpdateManyMutationInput;
   where?: InputMaybe<JobRunWhereInput>;
 };
 
-
 export type MutationUpdateManyLinearCycleArgs = {
   data: LinearCycleUpdateManyMutationInput;
   where?: InputMaybe<LinearCycleWhereInput>;
 };
-
 
 export type MutationUpdateManyLinearIssueArgs = {
   data: LinearIssueUpdateManyMutationInput;
   where?: InputMaybe<LinearIssueWhereInput>;
 };
 
-
 export type MutationUpdateManyLinearProjectArgs = {
   data: LinearProjectUpdateManyMutationInput;
   where?: InputMaybe<LinearProjectWhereInput>;
 };
-
 
 export type MutationUpdateManyLinearTeamArgs = {
   data: LinearTeamUpdateManyMutationInput;
   where?: InputMaybe<LinearTeamWhereInput>;
 };
 
-
 export type MutationUpdateManyLinearUserArgs = {
   data: LinearUserUpdateManyMutationInput;
   where?: InputMaybe<LinearUserWhereInput>;
 };
-
 
 export type MutationUpdateManyPartnerArgs = {
   data: PartnerUpdateManyMutationInput;
   where?: InputMaybe<PartnerWhereInput>;
 };
 
-
 export type MutationUpdateManyTwitterAccountArgs = {
   data: TwitterAccountUpdateManyMutationInput;
   where?: InputMaybe<TwitterAccountWhereInput>;
 };
-
 
 export type MutationUpdateManyTwitterTweetArgs = {
   data: TwitterTweetUpdateManyMutationInput;
   where?: InputMaybe<TwitterTweetWhereInput>;
 };
 
-
 export type MutationUpdateManyTwitterUserArgs = {
   data: TwitterUserUpdateManyMutationInput;
   where?: InputMaybe<TwitterUserWhereInput>;
 };
-
 
 export type MutationUpdateManyUserArgs = {
   data: UserUpdateManyMutationInput;
   where?: InputMaybe<UserWhereInput>;
 };
 
-
 export type MutationUpdateManyUserActivityArgs = {
   data: UserActivityUpdateManyMutationInput;
   where?: InputMaybe<UserActivityWhereInput>;
 };
-
 
 export type MutationUpdatePartnerArgs = {
   data: PartnerUpdateInput;
   where: PartnerWhereUniqueInput;
 };
 
-
 export type MutationUpdateTwitterAccountArgs = {
   data: TwitterAccountUpdateInput;
   where: TwitterAccountWhereUniqueInput;
 };
-
 
 export type MutationUpdateTwitterTweetArgs = {
   data: TwitterTweetUpdateInput;
   where: TwitterTweetWhereUniqueInput;
 };
 
-
 export type MutationUpdateTwitterUserArgs = {
   data: TwitterUserUpdateInput;
   where: TwitterUserWhereUniqueInput;
 };
-
 
 export type MutationUpdateUserArgs = {
   data: UserUpdateInput;
   where: UserWhereUniqueInput;
 };
 
-
 export type MutationUpdateUserActivityArgs = {
   data: UserActivityUpdateInput;
   where: UserActivityWhereUniqueInput;
 };
 
+export type MutationUpdateUserContributionArgs = {
+  data: UserContributionUpdateInput;
+};
+
+export type MutationUpdateUserCustomArgs = {
+  data: UserUpdateCustomInput;
+};
 
 export type MutationUpsertActivityTypeArgs = {
   create: ActivityTypeCreateInput;
@@ -9198,13 +9250,11 @@ export type MutationUpsertActivityTypeArgs = {
   where: ActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationUpsertAttestationArgs = {
   create: AttestationCreateInput;
   update: AttestationUpdateInput;
   where: AttestationWhereUniqueInput;
 };
-
 
 export type MutationUpsertAttestationConfidenceArgs = {
   create: AttestationConfidenceCreateInput;
@@ -9212,13 +9262,11 @@ export type MutationUpsertAttestationConfidenceArgs = {
   where: AttestationConfidenceWhereUniqueInput;
 };
 
-
 export type MutationUpsertCategoryActivityArgs = {
   create: CategoryActivityCreateInput;
   update: CategoryActivityUpdateInput;
   where: CategoryActivityWhereUniqueInput;
 };
-
 
 export type MutationUpsertCategoryActivityTypeArgs = {
   create: CategoryActivityTypeCreateInput;
@@ -9226,13 +9274,11 @@ export type MutationUpsertCategoryActivityTypeArgs = {
   where: CategoryActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationUpsertChainTypeArgs = {
   create: ChainTypeCreateInput;
   update: ChainTypeUpdateInput;
   where: ChainTypeWhereUniqueInput;
 };
-
 
 export type MutationUpsertContributionArgs = {
   create: ContributionCreateInput;
@@ -9240,13 +9286,11 @@ export type MutationUpsertContributionArgs = {
   where: ContributionWhereUniqueInput;
 };
 
-
 export type MutationUpsertContributionStatusArgs = {
   create: ContributionStatusCreateInput;
   update: ContributionStatusUpdateInput;
   where: ContributionStatusWhereUniqueInput;
 };
-
 
 export type MutationUpsertDiscordUserArgs = {
   create: DiscordUserCreateInput;
@@ -9254,13 +9298,11 @@ export type MutationUpsertDiscordUserArgs = {
   where: DiscordUserWhereUniqueInput;
 };
 
-
 export type MutationUpsertGuildArgs = {
   create: GuildCreateInput;
   update: GuildUpdateInput;
   where: GuildWhereUniqueInput;
 };
-
 
 export type MutationUpsertGuildActivityTypeArgs = {
   create: GuildActivityTypeCreateInput;
@@ -9268,13 +9310,11 @@ export type MutationUpsertGuildActivityTypeArgs = {
   where: GuildActivityTypeWhereUniqueInput;
 };
 
-
 export type MutationUpsertGuildContributionArgs = {
   create: GuildContributionCreateInput;
   update: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
 };
-
 
 export type MutationUpsertGuildUserArgs = {
   create: GuildUserCreateInput;
@@ -9282,13 +9322,11 @@ export type MutationUpsertGuildUserArgs = {
   where: GuildUserWhereUniqueInput;
 };
 
-
 export type MutationUpsertJobRunArgs = {
   create: JobRunCreateInput;
   update: JobRunUpdateInput;
   where: JobRunWhereUniqueInput;
 };
-
 
 export type MutationUpsertLinearCycleArgs = {
   create: LinearCycleCreateInput;
@@ -9296,13 +9334,11 @@ export type MutationUpsertLinearCycleArgs = {
   where: LinearCycleWhereUniqueInput;
 };
 
-
 export type MutationUpsertLinearIssueArgs = {
   create: LinearIssueCreateInput;
   update: LinearIssueUpdateInput;
   where: LinearIssueWhereUniqueInput;
 };
-
 
 export type MutationUpsertLinearProjectArgs = {
   create: LinearProjectCreateInput;
@@ -9310,13 +9346,11 @@ export type MutationUpsertLinearProjectArgs = {
   where: LinearProjectWhereUniqueInput;
 };
 
-
 export type MutationUpsertLinearTeamArgs = {
   create: LinearTeamCreateInput;
   update: LinearTeamUpdateInput;
   where: LinearTeamWhereUniqueInput;
 };
-
 
 export type MutationUpsertLinearUserArgs = {
   create: LinearUserCreateInput;
@@ -9324,13 +9358,11 @@ export type MutationUpsertLinearUserArgs = {
   where: LinearUserWhereUniqueInput;
 };
 
-
 export type MutationUpsertPartnerArgs = {
   create: PartnerCreateInput;
   update: PartnerUpdateInput;
   where: PartnerWhereUniqueInput;
 };
-
 
 export type MutationUpsertTwitterAccountArgs = {
   create: TwitterAccountCreateInput;
@@ -9338,13 +9370,11 @@ export type MutationUpsertTwitterAccountArgs = {
   where: TwitterAccountWhereUniqueInput;
 };
 
-
 export type MutationUpsertTwitterTweetArgs = {
   create: TwitterTweetCreateInput;
   update: TwitterTweetUpdateInput;
   where: TwitterTweetWhereUniqueInput;
 };
-
 
 export type MutationUpsertTwitterUserArgs = {
   create: TwitterUserCreateInput;
@@ -9352,13 +9382,11 @@ export type MutationUpsertTwitterUserArgs = {
   where: TwitterUserWhereUniqueInput;
 };
 
-
 export type MutationUpsertUserArgs = {
   create: UserCreateInput;
   update: UserUpdateInput;
   where: UserWhereUniqueInput;
 };
-
 
 export type MutationUpsertUserActivityArgs = {
   create: UserActivityCreateInput;
@@ -9766,7 +9794,9 @@ export type PartnerCreateManyUserInputEnvelope = {
 
 export type PartnerCreateNestedManyWithoutContributionInput = {
   connect?: InputMaybe<Array<PartnerWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<PartnerCreateOrConnectWithoutContributionInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<PartnerCreateOrConnectWithoutContributionInput>
+  >;
   create?: InputMaybe<Array<PartnerCreateWithoutContributionInput>>;
   createMany?: InputMaybe<PartnerCreateManyContributionInputEnvelope>;
 };
@@ -9883,7 +9913,7 @@ export enum PartnerScalarFieldEnum {
   CreatedAt = 'createdAt',
   Id = 'id',
   UpdatedAt = 'updatedAt',
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 export type PartnerScalarWhereInput = {
@@ -9944,16 +9974,24 @@ export type PartnerUpdateManyWithWhereWithoutUserInput = {
 
 export type PartnerUpdateManyWithoutContributionInput = {
   connect?: InputMaybe<Array<PartnerWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<PartnerCreateOrConnectWithoutContributionInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<PartnerCreateOrConnectWithoutContributionInput>
+  >;
   create?: InputMaybe<Array<PartnerCreateWithoutContributionInput>>;
   createMany?: InputMaybe<PartnerCreateManyContributionInputEnvelope>;
   delete?: InputMaybe<Array<PartnerWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<PartnerScalarWhereInput>>;
   disconnect?: InputMaybe<Array<PartnerWhereUniqueInput>>;
   set?: InputMaybe<Array<PartnerWhereUniqueInput>>;
-  update?: InputMaybe<Array<PartnerUpdateWithWhereUniqueWithoutContributionInput>>;
-  updateMany?: InputMaybe<Array<PartnerUpdateManyWithWhereWithoutContributionInput>>;
-  upsert?: InputMaybe<Array<PartnerUpsertWithWhereUniqueWithoutContributionInput>>;
+  update?: InputMaybe<
+    Array<PartnerUpdateWithWhereUniqueWithoutContributionInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<PartnerUpdateManyWithWhereWithoutContributionInput>
+  >;
+  upsert?: InputMaybe<
+    Array<PartnerUpsertWithWhereUniqueWithoutContributionInput>
+  >;
 };
 
 export type PartnerUpdateManyWithoutUserInput = {
@@ -10096,6 +10134,7 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
+  getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
   groupByAttestationConfidence: Array<AttestationConfidenceGroupBy>;
@@ -10141,6 +10180,7 @@ export type Query = {
   linearTeams: Array<LinearTeam>;
   linearUser?: Maybe<LinearUser>;
   linearUsers: Array<LinearUser>;
+  listUserByAddress: Array<User>;
   partner?: Maybe<Partner>;
   partners: Array<Partner>;
   twitterAccount?: Maybe<TwitterAccount>;
@@ -10155,11 +10195,9 @@ export type Query = {
   users: Array<User>;
 };
 
-
 export type QueryActivityTypeArgs = {
   where: ActivityTypeWhereUniqueInput;
 };
-
 
 export type QueryActivityTypesArgs = {
   cursor?: InputMaybe<ActivityTypeWhereUniqueInput>;
@@ -10170,7 +10208,6 @@ export type QueryActivityTypesArgs = {
   where?: InputMaybe<ActivityTypeWhereInput>;
 };
 
-
 export type QueryAggregateActivityTypeArgs = {
   cursor?: InputMaybe<ActivityTypeWhereUniqueInput>;
   orderBy?: InputMaybe<Array<ActivityTypeOrderByWithRelationInput>>;
@@ -10178,7 +10215,6 @@ export type QueryAggregateActivityTypeArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ActivityTypeWhereInput>;
 };
-
 
 export type QueryAggregateAttestationArgs = {
   cursor?: InputMaybe<AttestationWhereUniqueInput>;
@@ -10188,7 +10224,6 @@ export type QueryAggregateAttestationArgs = {
   where?: InputMaybe<AttestationWhereInput>;
 };
 
-
 export type QueryAggregateAttestationConfidenceArgs = {
   cursor?: InputMaybe<AttestationConfidenceWhereUniqueInput>;
   orderBy?: InputMaybe<Array<AttestationConfidenceOrderByWithRelationInput>>;
@@ -10196,7 +10231,6 @@ export type QueryAggregateAttestationConfidenceArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AttestationConfidenceWhereInput>;
 };
-
 
 export type QueryAggregateCategoryActivityArgs = {
   cursor?: InputMaybe<CategoryActivityWhereUniqueInput>;
@@ -10206,7 +10240,6 @@ export type QueryAggregateCategoryActivityArgs = {
   where?: InputMaybe<CategoryActivityWhereInput>;
 };
 
-
 export type QueryAggregateCategoryActivityTypeArgs = {
   cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
   orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithRelationInput>>;
@@ -10214,7 +10247,6 @@ export type QueryAggregateCategoryActivityTypeArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
-
 
 export type QueryAggregateChainTypeArgs = {
   cursor?: InputMaybe<ChainTypeWhereUniqueInput>;
@@ -10224,7 +10256,6 @@ export type QueryAggregateChainTypeArgs = {
   where?: InputMaybe<ChainTypeWhereInput>;
 };
 
-
 export type QueryAggregateContributionArgs = {
   cursor?: InputMaybe<ContributionWhereUniqueInput>;
   orderBy?: InputMaybe<Array<ContributionOrderByWithRelationInput>>;
@@ -10232,7 +10263,6 @@ export type QueryAggregateContributionArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionWhereInput>;
 };
-
 
 export type QueryAggregateContributionStatusArgs = {
   cursor?: InputMaybe<ContributionStatusWhereUniqueInput>;
@@ -10242,7 +10272,6 @@ export type QueryAggregateContributionStatusArgs = {
   where?: InputMaybe<ContributionStatusWhereInput>;
 };
 
-
 export type QueryAggregateDiscordUserArgs = {
   cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
   orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
@@ -10250,7 +10279,6 @@ export type QueryAggregateDiscordUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<DiscordUserWhereInput>;
 };
-
 
 export type QueryAggregateGuildArgs = {
   cursor?: InputMaybe<GuildWhereUniqueInput>;
@@ -10260,7 +10288,6 @@ export type QueryAggregateGuildArgs = {
   where?: InputMaybe<GuildWhereInput>;
 };
 
-
 export type QueryAggregateGuildActivityTypeArgs = {
   cursor?: InputMaybe<GuildActivityTypeWhereUniqueInput>;
   orderBy?: InputMaybe<Array<GuildActivityTypeOrderByWithRelationInput>>;
@@ -10268,7 +10295,6 @@ export type QueryAggregateGuildActivityTypeArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildActivityTypeWhereInput>;
 };
-
 
 export type QueryAggregateGuildContributionArgs = {
   cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
@@ -10278,7 +10304,6 @@ export type QueryAggregateGuildContributionArgs = {
   where?: InputMaybe<GuildContributionWhereInput>;
 };
 
-
 export type QueryAggregateGuildUserArgs = {
   cursor?: InputMaybe<GuildUserWhereUniqueInput>;
   orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
@@ -10286,7 +10311,6 @@ export type QueryAggregateGuildUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildUserWhereInput>;
 };
-
 
 export type QueryAggregateJobRunArgs = {
   cursor?: InputMaybe<JobRunWhereUniqueInput>;
@@ -10296,7 +10320,6 @@ export type QueryAggregateJobRunArgs = {
   where?: InputMaybe<JobRunWhereInput>;
 };
 
-
 export type QueryAggregateLinearCycleArgs = {
   cursor?: InputMaybe<LinearCycleWhereUniqueInput>;
   orderBy?: InputMaybe<Array<LinearCycleOrderByWithRelationInput>>;
@@ -10304,7 +10327,6 @@ export type QueryAggregateLinearCycleArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearCycleWhereInput>;
 };
-
 
 export type QueryAggregateLinearIssueArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
@@ -10314,7 +10336,6 @@ export type QueryAggregateLinearIssueArgs = {
   where?: InputMaybe<LinearIssueWhereInput>;
 };
 
-
 export type QueryAggregateLinearProjectArgs = {
   cursor?: InputMaybe<LinearProjectWhereUniqueInput>;
   orderBy?: InputMaybe<Array<LinearProjectOrderByWithRelationInput>>;
@@ -10322,7 +10343,6 @@ export type QueryAggregateLinearProjectArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearProjectWhereInput>;
 };
-
 
 export type QueryAggregateLinearTeamArgs = {
   cursor?: InputMaybe<LinearTeamWhereUniqueInput>;
@@ -10332,7 +10352,6 @@ export type QueryAggregateLinearTeamArgs = {
   where?: InputMaybe<LinearTeamWhereInput>;
 };
 
-
 export type QueryAggregateLinearUserArgs = {
   cursor?: InputMaybe<LinearUserWhereUniqueInput>;
   orderBy?: InputMaybe<Array<LinearUserOrderByWithRelationInput>>;
@@ -10340,7 +10359,6 @@ export type QueryAggregateLinearUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearUserWhereInput>;
 };
-
 
 export type QueryAggregatePartnerArgs = {
   cursor?: InputMaybe<PartnerWhereUniqueInput>;
@@ -10350,7 +10368,6 @@ export type QueryAggregatePartnerArgs = {
   where?: InputMaybe<PartnerWhereInput>;
 };
 
-
 export type QueryAggregateTwitterAccountArgs = {
   cursor?: InputMaybe<TwitterAccountWhereUniqueInput>;
   orderBy?: InputMaybe<Array<TwitterAccountOrderByWithRelationInput>>;
@@ -10358,7 +10375,6 @@ export type QueryAggregateTwitterAccountArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TwitterAccountWhereInput>;
 };
-
 
 export type QueryAggregateTwitterTweetArgs = {
   cursor?: InputMaybe<TwitterTweetWhereUniqueInput>;
@@ -10368,7 +10384,6 @@ export type QueryAggregateTwitterTweetArgs = {
   where?: InputMaybe<TwitterTweetWhereInput>;
 };
 
-
 export type QueryAggregateTwitterUserArgs = {
   cursor?: InputMaybe<TwitterUserWhereUniqueInput>;
   orderBy?: InputMaybe<Array<TwitterUserOrderByWithRelationInput>>;
@@ -10376,7 +10391,6 @@ export type QueryAggregateTwitterUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TwitterUserWhereInput>;
 };
-
 
 export type QueryAggregateUserArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -10386,7 +10400,6 @@ export type QueryAggregateUserArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
-
 export type QueryAggregateUserActivityArgs = {
   cursor?: InputMaybe<UserActivityWhereUniqueInput>;
   orderBy?: InputMaybe<Array<UserActivityOrderByWithRelationInput>>;
@@ -10395,16 +10408,13 @@ export type QueryAggregateUserActivityArgs = {
   where?: InputMaybe<UserActivityWhereInput>;
 };
 
-
 export type QueryAttestationArgs = {
   where: AttestationWhereUniqueInput;
 };
 
-
 export type QueryAttestationConfidenceArgs = {
   where: AttestationConfidenceWhereUniqueInput;
 };
-
 
 export type QueryAttestationConfidencesArgs = {
   cursor?: InputMaybe<AttestationConfidenceWhereUniqueInput>;
@@ -10415,7 +10425,6 @@ export type QueryAttestationConfidencesArgs = {
   where?: InputMaybe<AttestationConfidenceWhereInput>;
 };
 
-
 export type QueryAttestationsArgs = {
   cursor?: InputMaybe<AttestationWhereUniqueInput>;
   distinct?: InputMaybe<Array<AttestationScalarFieldEnum>>;
@@ -10424,7 +10433,6 @@ export type QueryAttestationsArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AttestationWhereInput>;
 };
-
 
 export type QueryCategoryActivitiesArgs = {
   cursor?: InputMaybe<CategoryActivityWhereUniqueInput>;
@@ -10435,16 +10443,13 @@ export type QueryCategoryActivitiesArgs = {
   where?: InputMaybe<CategoryActivityWhereInput>;
 };
 
-
 export type QueryCategoryActivityArgs = {
   where: CategoryActivityWhereUniqueInput;
 };
 
-
 export type QueryCategoryActivityTypeArgs = {
   where: CategoryActivityTypeWhereUniqueInput;
 };
-
 
 export type QueryCategoryActivityTypesArgs = {
   cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
@@ -10455,11 +10460,9 @@ export type QueryCategoryActivityTypesArgs = {
   where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
 
-
 export type QueryChainTypeArgs = {
   where: ChainTypeWhereUniqueInput;
 };
-
 
 export type QueryChainTypesArgs = {
   cursor?: InputMaybe<ChainTypeWhereUniqueInput>;
@@ -10470,16 +10473,13 @@ export type QueryChainTypesArgs = {
   where?: InputMaybe<ChainTypeWhereInput>;
 };
 
-
 export type QueryContributionArgs = {
   where: ContributionWhereUniqueInput;
 };
 
-
 export type QueryContributionStatusArgs = {
   where: ContributionStatusWhereUniqueInput;
 };
-
 
 export type QueryContributionStatusesArgs = {
   cursor?: InputMaybe<ContributionStatusWhereUniqueInput>;
@@ -10490,7 +10490,6 @@ export type QueryContributionStatusesArgs = {
   where?: InputMaybe<ContributionStatusWhereInput>;
 };
 
-
 export type QueryContributionsArgs = {
   cursor?: InputMaybe<ContributionWhereUniqueInput>;
   distinct?: InputMaybe<Array<ContributionScalarFieldEnum>>;
@@ -10500,11 +10499,9 @@ export type QueryContributionsArgs = {
   where?: InputMaybe<ContributionWhereInput>;
 };
 
-
 export type QueryDiscordUserArgs = {
   where: DiscordUserWhereUniqueInput;
 };
-
 
 export type QueryDiscordUsersArgs = {
   cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
@@ -10515,7 +10512,6 @@ export type QueryDiscordUsersArgs = {
   where?: InputMaybe<DiscordUserWhereInput>;
 };
 
-
 export type QueryFindFirstActivityTypeArgs = {
   cursor?: InputMaybe<ActivityTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<ActivityTypeScalarFieldEnum>>;
@@ -10524,7 +10520,6 @@ export type QueryFindFirstActivityTypeArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ActivityTypeWhereInput>;
 };
-
 
 export type QueryFindFirstAttestationArgs = {
   cursor?: InputMaybe<AttestationWhereUniqueInput>;
@@ -10535,7 +10530,6 @@ export type QueryFindFirstAttestationArgs = {
   where?: InputMaybe<AttestationWhereInput>;
 };
 
-
 export type QueryFindFirstAttestationConfidenceArgs = {
   cursor?: InputMaybe<AttestationConfidenceWhereUniqueInput>;
   distinct?: InputMaybe<Array<AttestationConfidenceScalarFieldEnum>>;
@@ -10544,7 +10538,6 @@ export type QueryFindFirstAttestationConfidenceArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AttestationConfidenceWhereInput>;
 };
-
 
 export type QueryFindFirstCategoryActivityArgs = {
   cursor?: InputMaybe<CategoryActivityWhereUniqueInput>;
@@ -10555,7 +10548,6 @@ export type QueryFindFirstCategoryActivityArgs = {
   where?: InputMaybe<CategoryActivityWhereInput>;
 };
 
-
 export type QueryFindFirstCategoryActivityTypeArgs = {
   cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<CategoryActivityTypeScalarFieldEnum>>;
@@ -10564,7 +10556,6 @@ export type QueryFindFirstCategoryActivityTypeArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
-
 
 export type QueryFindFirstChainTypeArgs = {
   cursor?: InputMaybe<ChainTypeWhereUniqueInput>;
@@ -10575,7 +10566,6 @@ export type QueryFindFirstChainTypeArgs = {
   where?: InputMaybe<ChainTypeWhereInput>;
 };
 
-
 export type QueryFindFirstContributionArgs = {
   cursor?: InputMaybe<ContributionWhereUniqueInput>;
   distinct?: InputMaybe<Array<ContributionScalarFieldEnum>>;
@@ -10584,7 +10574,6 @@ export type QueryFindFirstContributionArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionWhereInput>;
 };
-
 
 export type QueryFindFirstContributionStatusArgs = {
   cursor?: InputMaybe<ContributionStatusWhereUniqueInput>;
@@ -10595,7 +10584,6 @@ export type QueryFindFirstContributionStatusArgs = {
   where?: InputMaybe<ContributionStatusWhereInput>;
 };
 
-
 export type QueryFindFirstDiscordUserArgs = {
   cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<DiscordUserScalarFieldEnum>>;
@@ -10604,7 +10592,6 @@ export type QueryFindFirstDiscordUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<DiscordUserWhereInput>;
 };
-
 
 export type QueryFindFirstGuildArgs = {
   cursor?: InputMaybe<GuildWhereUniqueInput>;
@@ -10615,7 +10602,6 @@ export type QueryFindFirstGuildArgs = {
   where?: InputMaybe<GuildWhereInput>;
 };
 
-
 export type QueryFindFirstGuildActivityTypeArgs = {
   cursor?: InputMaybe<GuildActivityTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildActivityTypeScalarFieldEnum>>;
@@ -10624,7 +10610,6 @@ export type QueryFindFirstGuildActivityTypeArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildActivityTypeWhereInput>;
 };
-
 
 export type QueryFindFirstGuildContributionArgs = {
   cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
@@ -10635,7 +10620,6 @@ export type QueryFindFirstGuildContributionArgs = {
   where?: InputMaybe<GuildContributionWhereInput>;
 };
 
-
 export type QueryFindFirstGuildUserArgs = {
   cursor?: InputMaybe<GuildUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
@@ -10644,7 +10628,6 @@ export type QueryFindFirstGuildUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildUserWhereInput>;
 };
-
 
 export type QueryFindFirstJobRunArgs = {
   cursor?: InputMaybe<JobRunWhereUniqueInput>;
@@ -10655,7 +10638,6 @@ export type QueryFindFirstJobRunArgs = {
   where?: InputMaybe<JobRunWhereInput>;
 };
 
-
 export type QueryFindFirstLinearCycleArgs = {
   cursor?: InputMaybe<LinearCycleWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearCycleScalarFieldEnum>>;
@@ -10664,7 +10646,6 @@ export type QueryFindFirstLinearCycleArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearCycleWhereInput>;
 };
-
 
 export type QueryFindFirstLinearIssueArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
@@ -10675,7 +10656,6 @@ export type QueryFindFirstLinearIssueArgs = {
   where?: InputMaybe<LinearIssueWhereInput>;
 };
 
-
 export type QueryFindFirstLinearProjectArgs = {
   cursor?: InputMaybe<LinearProjectWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearProjectScalarFieldEnum>>;
@@ -10684,7 +10664,6 @@ export type QueryFindFirstLinearProjectArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearProjectWhereInput>;
 };
-
 
 export type QueryFindFirstLinearTeamArgs = {
   cursor?: InputMaybe<LinearTeamWhereUniqueInput>;
@@ -10695,7 +10674,6 @@ export type QueryFindFirstLinearTeamArgs = {
   where?: InputMaybe<LinearTeamWhereInput>;
 };
 
-
 export type QueryFindFirstLinearUserArgs = {
   cursor?: InputMaybe<LinearUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearUserScalarFieldEnum>>;
@@ -10704,7 +10682,6 @@ export type QueryFindFirstLinearUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearUserWhereInput>;
 };
-
 
 export type QueryFindFirstPartnerArgs = {
   cursor?: InputMaybe<PartnerWhereUniqueInput>;
@@ -10715,7 +10692,6 @@ export type QueryFindFirstPartnerArgs = {
   where?: InputMaybe<PartnerWhereInput>;
 };
 
-
 export type QueryFindFirstTwitterAccountArgs = {
   cursor?: InputMaybe<TwitterAccountWhereUniqueInput>;
   distinct?: InputMaybe<Array<TwitterAccountScalarFieldEnum>>;
@@ -10724,7 +10700,6 @@ export type QueryFindFirstTwitterAccountArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TwitterAccountWhereInput>;
 };
-
 
 export type QueryFindFirstTwitterTweetArgs = {
   cursor?: InputMaybe<TwitterTweetWhereUniqueInput>;
@@ -10735,7 +10710,6 @@ export type QueryFindFirstTwitterTweetArgs = {
   where?: InputMaybe<TwitterTweetWhereInput>;
 };
 
-
 export type QueryFindFirstTwitterUserArgs = {
   cursor?: InputMaybe<TwitterUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<TwitterUserScalarFieldEnum>>;
@@ -10744,7 +10718,6 @@ export type QueryFindFirstTwitterUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TwitterUserWhereInput>;
 };
-
 
 export type QueryFindFirstUserArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -10755,7 +10728,6 @@ export type QueryFindFirstUserArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
-
 export type QueryFindFirstUserActivityArgs = {
   cursor?: InputMaybe<UserActivityWhereUniqueInput>;
   distinct?: InputMaybe<Array<UserActivityScalarFieldEnum>>;
@@ -10765,6 +10737,9 @@ export type QueryFindFirstUserActivityArgs = {
   where?: InputMaybe<UserActivityWhereInput>;
 };
 
+export type QueryGetUserArgs = {
+  id: Scalars['Float'];
+};
 
 export type QueryGroupByActivityTypeArgs = {
   by: Array<ActivityTypeScalarFieldEnum>;
@@ -10775,7 +10750,6 @@ export type QueryGroupByActivityTypeArgs = {
   where?: InputMaybe<ActivityTypeWhereInput>;
 };
 
-
 export type QueryGroupByAttestationArgs = {
   by: Array<AttestationScalarFieldEnum>;
   having?: InputMaybe<AttestationScalarWhereWithAggregatesInput>;
@@ -10784,7 +10758,6 @@ export type QueryGroupByAttestationArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AttestationWhereInput>;
 };
-
 
 export type QueryGroupByAttestationConfidenceArgs = {
   by: Array<AttestationConfidenceScalarFieldEnum>;
@@ -10795,7 +10768,6 @@ export type QueryGroupByAttestationConfidenceArgs = {
   where?: InputMaybe<AttestationConfidenceWhereInput>;
 };
 
-
 export type QueryGroupByCategoryActivityArgs = {
   by: Array<CategoryActivityScalarFieldEnum>;
   having?: InputMaybe<CategoryActivityScalarWhereWithAggregatesInput>;
@@ -10804,7 +10776,6 @@ export type QueryGroupByCategoryActivityArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CategoryActivityWhereInput>;
 };
-
 
 export type QueryGroupByCategoryActivityTypeArgs = {
   by: Array<CategoryActivityTypeScalarFieldEnum>;
@@ -10815,7 +10786,6 @@ export type QueryGroupByCategoryActivityTypeArgs = {
   where?: InputMaybe<CategoryActivityTypeWhereInput>;
 };
 
-
 export type QueryGroupByChainTypeArgs = {
   by: Array<ChainTypeScalarFieldEnum>;
   having?: InputMaybe<ChainTypeScalarWhereWithAggregatesInput>;
@@ -10824,7 +10794,6 @@ export type QueryGroupByChainTypeArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ChainTypeWhereInput>;
 };
-
 
 export type QueryGroupByContributionArgs = {
   by: Array<ContributionScalarFieldEnum>;
@@ -10835,7 +10804,6 @@ export type QueryGroupByContributionArgs = {
   where?: InputMaybe<ContributionWhereInput>;
 };
 
-
 export type QueryGroupByContributionStatusArgs = {
   by: Array<ContributionStatusScalarFieldEnum>;
   having?: InputMaybe<ContributionStatusScalarWhereWithAggregatesInput>;
@@ -10844,7 +10812,6 @@ export type QueryGroupByContributionStatusArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionStatusWhereInput>;
 };
-
 
 export type QueryGroupByDiscordUserArgs = {
   by: Array<DiscordUserScalarFieldEnum>;
@@ -10855,7 +10822,6 @@ export type QueryGroupByDiscordUserArgs = {
   where?: InputMaybe<DiscordUserWhereInput>;
 };
 
-
 export type QueryGroupByGuildArgs = {
   by: Array<GuildScalarFieldEnum>;
   having?: InputMaybe<GuildScalarWhereWithAggregatesInput>;
@@ -10864,7 +10830,6 @@ export type QueryGroupByGuildArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildWhereInput>;
 };
-
 
 export type QueryGroupByGuildActivityTypeArgs = {
   by: Array<GuildActivityTypeScalarFieldEnum>;
@@ -10875,7 +10840,6 @@ export type QueryGroupByGuildActivityTypeArgs = {
   where?: InputMaybe<GuildActivityTypeWhereInput>;
 };
 
-
 export type QueryGroupByGuildContributionArgs = {
   by: Array<GuildContributionScalarFieldEnum>;
   having?: InputMaybe<GuildContributionScalarWhereWithAggregatesInput>;
@@ -10884,7 +10848,6 @@ export type QueryGroupByGuildContributionArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
 };
-
 
 export type QueryGroupByGuildUserArgs = {
   by: Array<GuildUserScalarFieldEnum>;
@@ -10895,7 +10858,6 @@ export type QueryGroupByGuildUserArgs = {
   where?: InputMaybe<GuildUserWhereInput>;
 };
 
-
 export type QueryGroupByJobRunArgs = {
   by: Array<JobRunScalarFieldEnum>;
   having?: InputMaybe<JobRunScalarWhereWithAggregatesInput>;
@@ -10904,7 +10866,6 @@ export type QueryGroupByJobRunArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<JobRunWhereInput>;
 };
-
 
 export type QueryGroupByLinearCycleArgs = {
   by: Array<LinearCycleScalarFieldEnum>;
@@ -10915,7 +10876,6 @@ export type QueryGroupByLinearCycleArgs = {
   where?: InputMaybe<LinearCycleWhereInput>;
 };
 
-
 export type QueryGroupByLinearIssueArgs = {
   by: Array<LinearIssueScalarFieldEnum>;
   having?: InputMaybe<LinearIssueScalarWhereWithAggregatesInput>;
@@ -10924,7 +10884,6 @@ export type QueryGroupByLinearIssueArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearIssueWhereInput>;
 };
-
 
 export type QueryGroupByLinearProjectArgs = {
   by: Array<LinearProjectScalarFieldEnum>;
@@ -10935,7 +10894,6 @@ export type QueryGroupByLinearProjectArgs = {
   where?: InputMaybe<LinearProjectWhereInput>;
 };
 
-
 export type QueryGroupByLinearTeamArgs = {
   by: Array<LinearTeamScalarFieldEnum>;
   having?: InputMaybe<LinearTeamScalarWhereWithAggregatesInput>;
@@ -10944,7 +10902,6 @@ export type QueryGroupByLinearTeamArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearTeamWhereInput>;
 };
-
 
 export type QueryGroupByLinearUserArgs = {
   by: Array<LinearUserScalarFieldEnum>;
@@ -10955,7 +10912,6 @@ export type QueryGroupByLinearUserArgs = {
   where?: InputMaybe<LinearUserWhereInput>;
 };
 
-
 export type QueryGroupByPartnerArgs = {
   by: Array<PartnerScalarFieldEnum>;
   having?: InputMaybe<PartnerScalarWhereWithAggregatesInput>;
@@ -10964,7 +10920,6 @@ export type QueryGroupByPartnerArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<PartnerWhereInput>;
 };
-
 
 export type QueryGroupByTwitterAccountArgs = {
   by: Array<TwitterAccountScalarFieldEnum>;
@@ -10975,7 +10930,6 @@ export type QueryGroupByTwitterAccountArgs = {
   where?: InputMaybe<TwitterAccountWhereInput>;
 };
 
-
 export type QueryGroupByTwitterTweetArgs = {
   by: Array<TwitterTweetScalarFieldEnum>;
   having?: InputMaybe<TwitterTweetScalarWhereWithAggregatesInput>;
@@ -10984,7 +10938,6 @@ export type QueryGroupByTwitterTweetArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TwitterTweetWhereInput>;
 };
-
 
 export type QueryGroupByTwitterUserArgs = {
   by: Array<TwitterUserScalarFieldEnum>;
@@ -10995,7 +10948,6 @@ export type QueryGroupByTwitterUserArgs = {
   where?: InputMaybe<TwitterUserWhereInput>;
 };
 
-
 export type QueryGroupByUserArgs = {
   by: Array<UserScalarFieldEnum>;
   having?: InputMaybe<UserScalarWhereWithAggregatesInput>;
@@ -11004,7 +10956,6 @@ export type QueryGroupByUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserWhereInput>;
 };
-
 
 export type QueryGroupByUserActivityArgs = {
   by: Array<UserActivityScalarFieldEnum>;
@@ -11015,16 +10966,13 @@ export type QueryGroupByUserActivityArgs = {
   where?: InputMaybe<UserActivityWhereInput>;
 };
 
-
 export type QueryGuildArgs = {
   where: GuildWhereUniqueInput;
 };
 
-
 export type QueryGuildActivityTypeArgs = {
   where: GuildActivityTypeWhereUniqueInput;
 };
-
 
 export type QueryGuildActivityTypesArgs = {
   cursor?: InputMaybe<GuildActivityTypeWhereUniqueInput>;
@@ -11035,11 +10983,9 @@ export type QueryGuildActivityTypesArgs = {
   where?: InputMaybe<GuildActivityTypeWhereInput>;
 };
 
-
 export type QueryGuildContributionArgs = {
   where: GuildContributionWhereUniqueInput;
 };
-
 
 export type QueryGuildContributionsArgs = {
   cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
@@ -11050,11 +10996,9 @@ export type QueryGuildContributionsArgs = {
   where?: InputMaybe<GuildContributionWhereInput>;
 };
 
-
 export type QueryGuildUserArgs = {
   where: GuildUserWhereUniqueInput;
 };
-
 
 export type QueryGuildUsersArgs = {
   cursor?: InputMaybe<GuildUserWhereUniqueInput>;
@@ -11065,7 +11009,6 @@ export type QueryGuildUsersArgs = {
   where?: InputMaybe<GuildUserWhereInput>;
 };
 
-
 export type QueryGuildsArgs = {
   cursor?: InputMaybe<GuildWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildScalarFieldEnum>>;
@@ -11075,11 +11018,9 @@ export type QueryGuildsArgs = {
   where?: InputMaybe<GuildWhereInput>;
 };
 
-
 export type QueryJobRunArgs = {
   where: JobRunWhereUniqueInput;
 };
-
 
 export type QueryJobRunsArgs = {
   cursor?: InputMaybe<JobRunWhereUniqueInput>;
@@ -11090,11 +11031,9 @@ export type QueryJobRunsArgs = {
   where?: InputMaybe<JobRunWhereInput>;
 };
 
-
 export type QueryLinearCycleArgs = {
   where: LinearCycleWhereUniqueInput;
 };
-
 
 export type QueryLinearCyclesArgs = {
   cursor?: InputMaybe<LinearCycleWhereUniqueInput>;
@@ -11105,11 +11044,9 @@ export type QueryLinearCyclesArgs = {
   where?: InputMaybe<LinearCycleWhereInput>;
 };
 
-
 export type QueryLinearIssueArgs = {
   where: LinearIssueWhereUniqueInput;
 };
-
 
 export type QueryLinearIssuesArgs = {
   cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
@@ -11120,11 +11057,9 @@ export type QueryLinearIssuesArgs = {
   where?: InputMaybe<LinearIssueWhereInput>;
 };
 
-
 export type QueryLinearProjectArgs = {
   where: LinearProjectWhereUniqueInput;
 };
-
 
 export type QueryLinearProjectsArgs = {
   cursor?: InputMaybe<LinearProjectWhereUniqueInput>;
@@ -11135,11 +11070,9 @@ export type QueryLinearProjectsArgs = {
   where?: InputMaybe<LinearProjectWhereInput>;
 };
 
-
 export type QueryLinearTeamArgs = {
   where: LinearTeamWhereUniqueInput;
 };
-
 
 export type QueryLinearTeamsArgs = {
   cursor?: InputMaybe<LinearTeamWhereUniqueInput>;
@@ -11150,11 +11083,9 @@ export type QueryLinearTeamsArgs = {
   where?: InputMaybe<LinearTeamWhereInput>;
 };
 
-
 export type QueryLinearUserArgs = {
   where: LinearUserWhereUniqueInput;
 };
-
 
 export type QueryLinearUsersArgs = {
   cursor?: InputMaybe<LinearUserWhereUniqueInput>;
@@ -11165,11 +11096,13 @@ export type QueryLinearUsersArgs = {
   where?: InputMaybe<LinearUserWhereInput>;
 };
 
+export type QueryListUserByAddressArgs = {
+  address: Scalars['String'];
+};
 
 export type QueryPartnerArgs = {
   where: PartnerWhereUniqueInput;
 };
-
 
 export type QueryPartnersArgs = {
   cursor?: InputMaybe<PartnerWhereUniqueInput>;
@@ -11180,11 +11113,9 @@ export type QueryPartnersArgs = {
   where?: InputMaybe<PartnerWhereInput>;
 };
 
-
 export type QueryTwitterAccountArgs = {
   where: TwitterAccountWhereUniqueInput;
 };
-
 
 export type QueryTwitterAccountsArgs = {
   cursor?: InputMaybe<TwitterAccountWhereUniqueInput>;
@@ -11195,11 +11126,9 @@ export type QueryTwitterAccountsArgs = {
   where?: InputMaybe<TwitterAccountWhereInput>;
 };
 
-
 export type QueryTwitterTweetArgs = {
   where: TwitterTweetWhereUniqueInput;
 };
-
 
 export type QueryTwitterTweetsArgs = {
   cursor?: InputMaybe<TwitterTweetWhereUniqueInput>;
@@ -11210,11 +11139,9 @@ export type QueryTwitterTweetsArgs = {
   where?: InputMaybe<TwitterTweetWhereInput>;
 };
 
-
 export type QueryTwitterUserArgs = {
   where: TwitterUserWhereUniqueInput;
 };
-
 
 export type QueryTwitterUsersArgs = {
   cursor?: InputMaybe<TwitterUserWhereUniqueInput>;
@@ -11225,11 +11152,9 @@ export type QueryTwitterUsersArgs = {
   where?: InputMaybe<TwitterUserWhereInput>;
 };
 
-
 export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
-
 
 export type QueryUserActivitiesArgs = {
   cursor?: InputMaybe<UserActivityWhereUniqueInput>;
@@ -11240,11 +11165,9 @@ export type QueryUserActivitiesArgs = {
   where?: InputMaybe<UserActivityWhereInput>;
 };
 
-
 export type QueryUserActivityArgs = {
   where: UserActivityWhereUniqueInput;
 };
-
 
 export type QueryUsersArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -11257,12 +11180,12 @@ export type QueryUsersArgs = {
 
 export enum QueryMode {
   Default = 'default',
-  Insensitive = 'insensitive'
+  Insensitive = 'insensitive',
 }
 
 export enum SortOrder {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -11480,7 +11403,7 @@ export enum TwitterAccountScalarFieldEnum {
   CreatedAt = 'createdAt',
   GuildId = 'guild_id',
   Id = 'id',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type TwitterAccountScalarWhereWithAggregatesInput = {
@@ -11638,7 +11561,9 @@ export type TwitterTweetCreateManyTwitter_UserInputEnvelope = {
 
 export type TwitterTweetCreateNestedManyWithoutTwitter_UserInput = {
   connect?: InputMaybe<Array<TwitterTweetWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<TwitterTweetCreateOrConnectWithoutTwitter_UserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<TwitterTweetCreateOrConnectWithoutTwitter_UserInput>
+  >;
   create?: InputMaybe<Array<TwitterTweetCreateWithoutTwitter_UserInput>>;
   createMany?: InputMaybe<TwitterTweetCreateManyTwitter_UserInputEnvelope>;
 };
@@ -11779,7 +11704,7 @@ export enum TwitterTweetScalarFieldEnum {
   Text = 'text',
   TwitterTweetId = 'twitter_tweet_id',
   TwitterUserId = 'twitter_user_id',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type TwitterTweetScalarWhereInput = {
@@ -11845,16 +11770,24 @@ export type TwitterTweetUpdateManyWithWhereWithoutTwitter_UserInput = {
 
 export type TwitterTweetUpdateManyWithoutTwitter_UserInput = {
   connect?: InputMaybe<Array<TwitterTweetWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<TwitterTweetCreateOrConnectWithoutTwitter_UserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<TwitterTweetCreateOrConnectWithoutTwitter_UserInput>
+  >;
   create?: InputMaybe<Array<TwitterTweetCreateWithoutTwitter_UserInput>>;
   createMany?: InputMaybe<TwitterTweetCreateManyTwitter_UserInputEnvelope>;
   delete?: InputMaybe<Array<TwitterTweetWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<TwitterTweetScalarWhereInput>>;
   disconnect?: InputMaybe<Array<TwitterTweetWhereUniqueInput>>;
   set?: InputMaybe<Array<TwitterTweetWhereUniqueInput>>;
-  update?: InputMaybe<Array<TwitterTweetUpdateWithWhereUniqueWithoutTwitter_UserInput>>;
-  updateMany?: InputMaybe<Array<TwitterTweetUpdateManyWithWhereWithoutTwitter_UserInput>>;
-  upsert?: InputMaybe<Array<TwitterTweetUpsertWithWhereUniqueWithoutTwitter_UserInput>>;
+  update?: InputMaybe<
+    Array<TwitterTweetUpdateWithWhereUniqueWithoutTwitter_UserInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<TwitterTweetUpdateManyWithWhereWithoutTwitter_UserInput>
+  >;
+  upsert?: InputMaybe<
+    Array<TwitterTweetUpsertWithWhereUniqueWithoutTwitter_UserInput>
+  >;
 };
 
 export type TwitterTweetUpdateOneWithoutContributionInput = {
@@ -11933,7 +11866,6 @@ export type TwitterUser = {
   user_id?: Maybe<Scalars['Int']>;
   username: Scalars['String'];
 };
-
 
 export type TwitterUserTweetsArgs = {
   cursor?: InputMaybe<TwitterTweetWhereUniqueInput>;
@@ -12147,7 +12079,7 @@ export enum TwitterUserScalarFieldEnum {
   TwitterUserId = 'twitter_user_id',
   UpdatedAt = 'updatedAt',
   UserId = 'user_id',
-  Username = 'username'
+  Username = 'username',
 }
 
 export type TwitterUserScalarWhereWithAggregatesInput = {
@@ -12268,6 +12200,7 @@ export type TwitterUserWhereUniqueInput = {
 
 export type User = {
   _count?: Maybe<UserCount>;
+  active: Scalars['Boolean'];
   activities: Array<UserActivity>;
   address: Scalars['String'];
   attestations: Array<Attestation>;
@@ -12278,6 +12211,7 @@ export type User = {
   createdAt: Scalars['DateTime'];
   discord_users: Array<DiscordUser>;
   display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   guild_users: Array<GuildUser>;
   id: Scalars['Int'];
@@ -12286,7 +12220,6 @@ export type User = {
   twitter_user?: Maybe<TwitterUser>;
   updatedAt: Scalars['DateTime'];
 };
-
 
 export type UserActivitiesArgs = {
   cursor?: InputMaybe<UserActivityWhereUniqueInput>;
@@ -12297,7 +12230,6 @@ export type UserActivitiesArgs = {
   where?: InputMaybe<UserActivityWhereInput>;
 };
 
-
 export type UserAttestationsArgs = {
   cursor?: InputMaybe<AttestationWhereUniqueInput>;
   distinct?: InputMaybe<Array<AttestationScalarFieldEnum>>;
@@ -12306,7 +12238,6 @@ export type UserAttestationsArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AttestationWhereInput>;
 };
-
 
 export type UserContributionPartnersArgs = {
   cursor?: InputMaybe<PartnerWhereUniqueInput>;
@@ -12317,7 +12248,6 @@ export type UserContributionPartnersArgs = {
   where?: InputMaybe<PartnerWhereInput>;
 };
 
-
 export type UserContributionsArgs = {
   cursor?: InputMaybe<ContributionWhereUniqueInput>;
   distinct?: InputMaybe<Array<ContributionScalarFieldEnum>>;
@@ -12326,7 +12256,6 @@ export type UserContributionsArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionWhereInput>;
 };
-
 
 export type UserDiscord_UsersArgs = {
   cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
@@ -12337,7 +12266,6 @@ export type UserDiscord_UsersArgs = {
   where?: InputMaybe<DiscordUserWhereInput>;
 };
 
-
 export type UserGuild_UsersArgs = {
   cursor?: InputMaybe<GuildUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
@@ -12346,7 +12274,6 @@ export type UserGuild_UsersArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildUserWhereInput>;
 };
-
 
 export type UserLinear_UsersArgs = {
   cursor?: InputMaybe<LinearUserWhereUniqueInput>;
@@ -12437,14 +12364,18 @@ export type UserActivityCreateManyUserInputEnvelope = {
 
 export type UserActivityCreateNestedManyWithoutActivity_TypeInput = {
   connect?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserActivityCreateOrConnectWithoutActivity_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserActivityCreateOrConnectWithoutActivity_TypeInput>
+  >;
   create?: InputMaybe<Array<UserActivityCreateWithoutActivity_TypeInput>>;
   createMany?: InputMaybe<UserActivityCreateManyActivity_TypeInputEnvelope>;
 };
 
 export type UserActivityCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserActivityCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserActivityCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<UserActivityCreateWithoutUserInput>>;
   createMany?: InputMaybe<UserActivityCreateManyUserInputEnvelope>;
 };
@@ -12554,7 +12485,7 @@ export enum UserActivityScalarFieldEnum {
   CreatedAt = 'createdAt',
   Id = 'id',
   UpdatedAt = 'updatedAt',
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 export type UserActivityScalarWhereInput = {
@@ -12615,21 +12546,31 @@ export type UserActivityUpdateManyWithWhereWithoutUserInput = {
 
 export type UserActivityUpdateManyWithoutActivity_TypeInput = {
   connect?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserActivityCreateOrConnectWithoutActivity_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserActivityCreateOrConnectWithoutActivity_TypeInput>
+  >;
   create?: InputMaybe<Array<UserActivityCreateWithoutActivity_TypeInput>>;
   createMany?: InputMaybe<UserActivityCreateManyActivity_TypeInputEnvelope>;
   delete?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserActivityScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
   set?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
-  update?: InputMaybe<Array<UserActivityUpdateWithWhereUniqueWithoutActivity_TypeInput>>;
-  updateMany?: InputMaybe<Array<UserActivityUpdateManyWithWhereWithoutActivity_TypeInput>>;
-  upsert?: InputMaybe<Array<UserActivityUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
+  update?: InputMaybe<
+    Array<UserActivityUpdateWithWhereUniqueWithoutActivity_TypeInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<UserActivityUpdateManyWithWhereWithoutActivity_TypeInput>
+  >;
+  upsert?: InputMaybe<
+    Array<UserActivityUpsertWithWhereUniqueWithoutActivity_TypeInput>
+  >;
 };
 
 export type UserActivityUpdateManyWithoutUserInput = {
   connect?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserActivityCreateOrConnectWithoutUserInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserActivityCreateOrConnectWithoutUserInput>
+  >;
   create?: InputMaybe<Array<UserActivityCreateWithoutUserInput>>;
   createMany?: InputMaybe<UserActivityCreateManyUserInputEnvelope>;
   delete?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
@@ -12637,7 +12578,9 @@ export type UserActivityUpdateManyWithoutUserInput = {
   disconnect?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
   set?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
   update?: InputMaybe<Array<UserActivityUpdateWithWhereUniqueWithoutUserInput>>;
-  updateMany?: InputMaybe<Array<UserActivityUpdateManyWithWhereWithoutUserInput>>;
+  updateMany?: InputMaybe<
+    Array<UserActivityUpdateManyWithWhereWithoutUserInput>
+  >;
   upsert?: InputMaybe<Array<UserActivityUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
@@ -12708,6 +12651,31 @@ export type UserAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
 };
 
+export type UserContributionCreateInput = {
+  activityTypeName: Scalars['String'];
+  address: Scalars['String'];
+  chainName: Scalars['String'];
+  dateOfEngagement: Scalars['DateTime'];
+  details: Scalars['String'];
+  name: Scalars['String'];
+  proof: Scalars['String'];
+  status: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
+export type UserContributionUpdateInput = {
+  activityTypeName: Scalars['String'];
+  address: Scalars['String'];
+  chainName: Scalars['String'];
+  contributionId: Scalars['Int'];
+  dateOfEngagement: Scalars['DateTime'];
+  details: Scalars['String'];
+  name: Scalars['String'];
+  proof: Scalars['String'];
+  status: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
 export type UserCount = {
   activities: Scalars['Int'];
   attestations: Scalars['Int'];
@@ -12720,10 +12688,12 @@ export type UserCount = {
 
 export type UserCountAggregate = {
   _all: Scalars['Int'];
+  active: Scalars['Int'];
   address: Scalars['Int'];
   chain_type_id: Scalars['Int'];
   createdAt: Scalars['Int'];
   display_name: Scalars['Int'];
+  email: Scalars['Int'];
   full_name: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['Int'];
@@ -12731,17 +12701,25 @@ export type UserCountAggregate = {
 };
 
 export type UserCountOrderByAggregateInput = {
+  active?: InputMaybe<SortOrder>;
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
+export type UserCreateCustomInput = {
+  address: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type UserCreateInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -12751,6 +12729,7 @@ export type UserCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12760,9 +12739,11 @@ export type UserCreateInput = {
 };
 
 export type UserCreateManyChain_TypeInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   address: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -12775,10 +12756,12 @@ export type UserCreateManyChain_TypeInputEnvelope = {
 };
 
 export type UserCreateManyInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   address: Scalars['String'];
   chain_type_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -12787,7 +12770,9 @@ export type UserCreateManyInput = {
 
 export type UserCreateNestedManyWithoutChain_TypeInput = {
   connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutChain_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserCreateOrConnectWithoutChain_TypeInput>
+  >;
   create?: InputMaybe<Array<UserCreateWithoutChain_TypeInput>>;
   createMany?: InputMaybe<UserCreateManyChain_TypeInputEnvelope>;
 };
@@ -12886,6 +12871,7 @@ export type UserCreateOrConnectWithoutTwitter_UserInput = {
 };
 
 export type UserCreateWithoutActivitiesInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
   chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
@@ -12894,6 +12880,7 @@ export type UserCreateWithoutActivitiesInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12903,6 +12890,7 @@ export type UserCreateWithoutActivitiesInput = {
 };
 
 export type UserCreateWithoutAttestationsInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
@@ -12911,6 +12899,7 @@ export type UserCreateWithoutAttestationsInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12920,6 +12909,7 @@ export type UserCreateWithoutAttestationsInput = {
 };
 
 export type UserCreateWithoutChain_TypeInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -12928,6 +12918,7 @@ export type UserCreateWithoutChain_TypeInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12937,6 +12928,7 @@ export type UserCreateWithoutChain_TypeInput = {
 };
 
 export type UserCreateWithoutContributionPartnersInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -12945,6 +12937,7 @@ export type UserCreateWithoutContributionPartnersInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12954,6 +12947,7 @@ export type UserCreateWithoutContributionPartnersInput = {
 };
 
 export type UserCreateWithoutContributionsInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -12962,6 +12956,7 @@ export type UserCreateWithoutContributionsInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12971,6 +12966,7 @@ export type UserCreateWithoutContributionsInput = {
 };
 
 export type UserCreateWithoutDiscord_UsersInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -12979,6 +12975,7 @@ export type UserCreateWithoutDiscord_UsersInput = {
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -12988,6 +12985,7 @@ export type UserCreateWithoutDiscord_UsersInput = {
 };
 
 export type UserCreateWithoutGuild_UsersInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -12997,6 +12995,7 @@ export type UserCreateWithoutGuild_UsersInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
@@ -13005,6 +13004,7 @@ export type UserCreateWithoutGuild_UsersInput = {
 };
 
 export type UserCreateWithoutLinear_UsersInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13014,6 +13014,7 @@ export type UserCreateWithoutLinear_UsersInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
@@ -13022,6 +13023,7 @@ export type UserCreateWithoutLinear_UsersInput = {
 };
 
 export type UserCreateWithoutTwitter_UserInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
@@ -13031,6 +13033,7 @@ export type UserCreateWithoutTwitter_UserInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
   display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
@@ -13044,10 +13047,12 @@ export type UserGroupBy = {
   _max?: Maybe<UserMaxAggregate>;
   _min?: Maybe<UserMinAggregate>;
   _sum?: Maybe<UserSumAggregate>;
+  active: Scalars['Boolean'];
   address: Scalars['String'];
   chain_type_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
@@ -13061,10 +13066,12 @@ export type UserListRelationFilter = {
 };
 
 export type UserMaxAggregate = {
+  active?: Maybe<Scalars['Boolean']>;
   address?: Maybe<Scalars['String']>;
   chain_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -13072,10 +13079,12 @@ export type UserMaxAggregate = {
 };
 
 export type UserMaxOrderByAggregateInput = {
+  active?: InputMaybe<SortOrder>;
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -13083,10 +13092,12 @@ export type UserMaxOrderByAggregateInput = {
 };
 
 export type UserMinAggregate = {
+  active?: Maybe<Scalars['Boolean']>;
   address?: Maybe<Scalars['String']>;
   chain_type_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   full_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -13094,10 +13105,12 @@ export type UserMinAggregate = {
 };
 
 export type UserMinOrderByAggregateInput = {
+  active?: InputMaybe<SortOrder>;
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -13114,10 +13127,12 @@ export type UserOrderByWithAggregationInput = {
   _max?: InputMaybe<UserMaxOrderByAggregateInput>;
   _min?: InputMaybe<UserMinOrderByAggregateInput>;
   _sum?: InputMaybe<UserSumOrderByAggregateInput>;
+  active?: InputMaybe<SortOrder>;
   address?: InputMaybe<SortOrder>;
   chain_type_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -13125,6 +13140,7 @@ export type UserOrderByWithAggregationInput = {
 };
 
 export type UserOrderByWithRelationInput = {
+  active?: InputMaybe<SortOrder>;
   activities?: InputMaybe<UserActivityOrderByRelationAggregateInput>;
   address?: InputMaybe<SortOrder>;
   attestations?: InputMaybe<AttestationOrderByRelationAggregateInput>;
@@ -13135,6 +13151,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   discord_users?: InputMaybe<DiscordUserOrderByRelationAggregateInput>;
   display_name?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
   full_name?: InputMaybe<SortOrder>;
   guild_users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
@@ -13150,24 +13167,28 @@ export type UserRelationFilter = {
 };
 
 export enum UserScalarFieldEnum {
+  Active = 'active',
   Address = 'address',
   ChainTypeId = 'chain_type_id',
   CreatedAt = 'createdAt',
   DisplayName = 'display_name',
+  Email = 'email',
   FullName = 'full_name',
   Id = 'id',
   Name = 'name',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type UserScalarWhereInput = {
   AND?: InputMaybe<Array<UserScalarWhereInput>>;
   NOT?: InputMaybe<Array<UserScalarWhereInput>>;
   OR?: InputMaybe<Array<UserScalarWhereInput>>;
+  active?: InputMaybe<BoolFilter>;
   address?: InputMaybe<StringFilter>;
   chain_type_id?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
+  email?: InputMaybe<StringNullableFilter>;
   full_name?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringNullableFilter>;
@@ -13178,10 +13199,12 @@ export type UserScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
+  active?: InputMaybe<BoolWithAggregatesFilter>;
   address?: InputMaybe<StringWithAggregatesFilter>;
   chain_type_id?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   display_name?: InputMaybe<StringNullableWithAggregatesFilter>;
+  email?: InputMaybe<StringNullableWithAggregatesFilter>;
   full_name?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -13198,7 +13221,13 @@ export type UserSumOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
 };
 
+export type UserUpdateCustomInput = {
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
 export type UserUpdateInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13208,6 +13237,7 @@ export type UserUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13217,9 +13247,11 @@ export type UserUpdateInput = {
 };
 
 export type UserUpdateManyMutationInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -13232,7 +13264,9 @@ export type UserUpdateManyWithWhereWithoutChain_TypeInput = {
 
 export type UserUpdateManyWithoutChain_TypeInput = {
   connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutChain_TypeInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserCreateOrConnectWithoutChain_TypeInput>
+  >;
   create?: InputMaybe<Array<UserCreateWithoutChain_TypeInput>>;
   createMany?: InputMaybe<UserCreateManyChain_TypeInputEnvelope>;
   delete?: InputMaybe<Array<UserWhereUniqueInput>>;
@@ -13318,6 +13352,7 @@ export type UserUpdateWithWhereUniqueWithoutChain_TypeInput = {
 };
 
 export type UserUpdateWithoutActivitiesInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
   chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
@@ -13326,6 +13361,7 @@ export type UserUpdateWithoutActivitiesInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13335,6 +13371,7 @@ export type UserUpdateWithoutActivitiesInput = {
 };
 
 export type UserUpdateWithoutAttestationsInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
@@ -13343,6 +13380,7 @@ export type UserUpdateWithoutAttestationsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13352,6 +13390,7 @@ export type UserUpdateWithoutAttestationsInput = {
 };
 
 export type UserUpdateWithoutChain_TypeInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13360,6 +13399,7 @@ export type UserUpdateWithoutChain_TypeInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13369,6 +13409,7 @@ export type UserUpdateWithoutChain_TypeInput = {
 };
 
 export type UserUpdateWithoutContributionPartnersInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13377,6 +13418,7 @@ export type UserUpdateWithoutContributionPartnersInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13386,6 +13428,7 @@ export type UserUpdateWithoutContributionPartnersInput = {
 };
 
 export type UserUpdateWithoutContributionsInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13394,6 +13437,7 @@ export type UserUpdateWithoutContributionsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13403,6 +13447,7 @@ export type UserUpdateWithoutContributionsInput = {
 };
 
 export type UserUpdateWithoutDiscord_UsersInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13411,6 +13456,7 @@ export type UserUpdateWithoutDiscord_UsersInput = {
   contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13420,6 +13466,7 @@ export type UserUpdateWithoutDiscord_UsersInput = {
 };
 
 export type UserUpdateWithoutGuild_UsersInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13429,6 +13476,7 @@ export type UserUpdateWithoutGuild_UsersInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -13437,6 +13485,7 @@ export type UserUpdateWithoutGuild_UsersInput = {
 };
 
 export type UserUpdateWithoutLinear_UsersInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13446,6 +13495,7 @@ export type UserUpdateWithoutLinear_UsersInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -13454,6 +13504,7 @@ export type UserUpdateWithoutLinear_UsersInput = {
 };
 
 export type UserUpdateWithoutTwitter_UserInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
@@ -13463,6 +13514,7 @@ export type UserUpdateWithoutTwitter_UserInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
@@ -13520,6 +13572,7 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  active?: InputMaybe<BoolFilter>;
   activities?: InputMaybe<UserActivityListRelationFilter>;
   address?: InputMaybe<StringFilter>;
   attestations?: InputMaybe<AttestationListRelationFilter>;
@@ -13530,6 +13583,7 @@ export type UserWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   discord_users?: InputMaybe<DiscordUserListRelationFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
+  email?: InputMaybe<StringNullableFilter>;
   full_name?: InputMaybe<StringNullableFilter>;
   guild_users?: InputMaybe<GuildUserListRelationFilter>;
   id?: InputMaybe<IntFilter>;
@@ -13543,34 +13597,69 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
-export type JobFieldsFragmentFragment = { id: number, createdAt: any, updatedAt: any, completedDate: any, name: string, startDate: any };
+export type JobFieldsFragmentFragment = {
+  id: number;
+  createdAt: any;
+  updatedAt: any;
+  completedDate: any;
+  name: string;
+  startDate: any;
+};
 
 export type ListJobRunsQueryVariables = Exact<{
   where?: JobRunWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<JobRunOrderByWithRelationInput> | JobRunOrderByWithRelationInput>;
+  orderBy?: InputMaybe<
+    Array<JobRunOrderByWithRelationInput> | JobRunOrderByWithRelationInput
+  >;
 }>;
 
-
-export type ListJobRunsQuery = { result: Array<{ id: number, createdAt: any, updatedAt: any, completedDate: any, name: string, startDate: any }> };
+export type ListJobRunsQuery = {
+  result: Array<{
+    id: number;
+    createdAt: any;
+    updatedAt: any;
+    completedDate: any;
+    name: string;
+    startDate: any;
+  }>;
+};
 
 export type GetJobRunQueryVariables = Exact<{
   where: JobRunWhereUniqueInput;
 }>;
 
-
-export type GetJobRunQuery = { result?: { id: number, createdAt: any, updatedAt: any, completedDate: any, name: string, startDate: any } | null };
+export type GetJobRunQuery = {
+  result?: {
+    id: number;
+    createdAt: any;
+    updatedAt: any;
+    completedDate: any;
+    name: string;
+    startDate: any;
+  } | null;
+};
 
 export type BulkCreateIssuesMutationVariables = Exact<{
   data: Array<LinearIssueCreateManyInput> | LinearIssueCreateManyInput;
   skipDuplicates: Scalars['Boolean'];
 }>;
 
+export type BulkCreateIssuesMutation = {
+  createManyLinearIssue: { count: number };
+};
 
-export type BulkCreateIssuesMutation = { createManyLinearIssue: { count: number } };
-
-export type LinearUserFragmentFragment = { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null };
+export type LinearUserFragmentFragment = {
+  active: boolean;
+  displayName?: string | null;
+  email?: string | null;
+  linear_id: string;
+  name?: string | null;
+  url?: string | null;
+  id: number;
+  createdAt?: any | null;
+};
 
 export type UpsertLinearUserMutationVariables = Exact<{
   create: LinearUserCreateInput;
@@ -13578,16 +13667,36 @@ export type UpsertLinearUserMutationVariables = Exact<{
   where: LinearUserWhereUniqueInput;
 }>;
 
-
-export type UpsertLinearUserMutation = { upsertLinearUser: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null } };
+export type UpsertLinearUserMutation = {
+  upsertLinearUser: {
+    active: boolean;
+    displayName?: string | null;
+    email?: string | null;
+    linear_id: string;
+    name?: string | null;
+    url?: string | null;
+    id: number;
+    createdAt?: any | null;
+  };
+};
 
 export type UpdateLinearUserMutationVariables = Exact<{
   data: LinearUserUpdateInput;
   where: LinearUserWhereUniqueInput;
 }>;
 
-
-export type UpdateLinearUserMutation = { updateLinearUser?: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null } | null };
+export type UpdateLinearUserMutation = {
+  updateLinearUser?: {
+    active: boolean;
+    displayName?: string | null;
+    email?: string | null;
+    linear_id: string;
+    name?: string | null;
+    url?: string | null;
+    id: number;
+    createdAt?: any | null;
+  } | null;
+};
 
 export type UpsertLinearCycleMutationVariables = Exact<{
   create: LinearCycleCreateInput;
@@ -13595,8 +13704,15 @@ export type UpsertLinearCycleMutationVariables = Exact<{
   where: LinearCycleWhereUniqueInput;
 }>;
 
-
-export type UpsertLinearCycleMutation = { upsertLinearCycle: { id: number, endsAt: any, linear_id: string, number: number, startsAt: any } };
+export type UpsertLinearCycleMutation = {
+  upsertLinearCycle: {
+    id: number;
+    endsAt: any;
+    linear_id: string;
+    number: number;
+    startsAt: any;
+  };
+};
 
 export type UpsertLinearProjectMutationVariables = Exact<{
   create: LinearProjectCreateInput;
@@ -13604,8 +13720,9 @@ export type UpsertLinearProjectMutationVariables = Exact<{
   where: LinearProjectWhereUniqueInput;
 }>;
 
-
-export type UpsertLinearProjectMutation = { upsertLinearProject: { id: number, linear_id: string, name: string } };
+export type UpsertLinearProjectMutation = {
+  upsertLinearProject: { id: number; linear_id: string; name: string };
+};
 
 export type UpsertLinearTeamMutationVariables = Exact<{
   create: LinearTeamCreateInput;
@@ -13613,53 +13730,132 @@ export type UpsertLinearTeamMutationVariables = Exact<{
   where: LinearTeamWhereUniqueInput;
 }>;
 
-
-export type UpsertLinearTeamMutation = { upsertLinearTeam: { id: number, key: string, name: string, linear_id: string } };
+export type UpsertLinearTeamMutation = {
+  upsertLinearTeam: {
+    id: number;
+    key: string;
+    name: string;
+    linear_id: string;
+  };
+};
 
 export type CreateJobRunMutationVariables = Exact<{
   data: JobRunCreateInput;
 }>;
 
-
-export type CreateJobRunMutation = { createJobRun: { completedDate: any, startDate: any, name: string } };
+export type CreateJobRunMutation = {
+  createJobRun: { completedDate: any; startDate: any; name: string };
+};
 
 export type CreateGuildMutationVariables = Exact<{
   data: GuildCreateInput;
 }>;
 
-
-export type CreateGuildMutation = { createGuild: { congrats_channel?: number | null, discord_id?: any | null, logo?: string | null, name?: string | null } };
+export type CreateGuildMutation = {
+  createGuild: {
+    congrats_channel?: number | null;
+    discord_id?: any | null;
+    logo?: string | null;
+    name?: string | null;
+  };
+};
 
 export type DeleteGuildUserMutationVariables = Exact<{
   where: GuildUserWhereUniqueInput;
 }>;
 
+export type DeleteGuildUserMutation = {
+  deleteGuildUser?: { id: number } | null;
+};
 
-export type DeleteGuildUserMutation = { deleteGuildUser?: { id: number } | null };
-
-export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name: string, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } | null };
+export type TwitterTweetFragmentFragment = {
+  id: number;
+  updatedAt: any;
+  createdAt: any;
+  text: string;
+  twitter_tweet_id: number;
+  twitter_user?: {
+    id: number;
+    name: string;
+    createdAt: any;
+    updatedAt: any;
+    username: string;
+  } | null;
+  contribution?: {
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    updatedAt: any;
+    activity_type: {
+      active: boolean;
+      createdAt: any;
+      id: number;
+      name: string;
+      updatedAt: any;
+    };
+    status: { createdAt: any; id: number; name: string; updatedAt: any };
+    user: {
+      address: string;
+      createdAt: any;
+      display_name?: string | null;
+      full_name?: string | null;
+      id: number;
+      name?: string | null;
+      updatedAt: any;
+    };
+    attestations: Array<{ id: number }>;
+  } | null;
+};
 
 export type BulkCreateTwitterTweetMutationVariables = Exact<{
   data: Array<TwitterTweetCreateManyInput> | TwitterTweetCreateManyInput;
   skipDuplicates: Scalars['Boolean'];
 }>;
 
+export type BulkCreateTwitterTweetMutation = {
+  createManyTwitterTweet: { count: number };
+};
 
-export type BulkCreateTwitterTweetMutation = { createManyTwitterTweet: { count: number } };
-
-export type TwitterAccountFragmentFragment = { account_name: string, createdAt: any, id: number, updatedAt: any, guild?: { id: number, name?: string | null } | null };
+export type TwitterAccountFragmentFragment = {
+  account_name: string;
+  createdAt: any;
+  id: number;
+  updatedAt: any;
+  guild?: { id: number; name?: string | null } | null;
+};
 
 export type ListTwitterAccountsQueryVariables = Exact<{
   where?: TwitterAccountWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<TwitterAccountOrderByWithRelationInput> | TwitterAccountOrderByWithRelationInput>;
+  orderBy?: InputMaybe<
+    | Array<TwitterAccountOrderByWithRelationInput>
+    | TwitterAccountOrderByWithRelationInput
+  >;
 }>;
 
+export type ListTwitterAccountsQuery = {
+  result: Array<{
+    account_name: string;
+    createdAt: any;
+    id: number;
+    updatedAt: any;
+    guild?: { id: number; name?: string | null } | null;
+  }>;
+};
 
-export type ListTwitterAccountsQuery = { result: Array<{ account_name: string, createdAt: any, id: number, updatedAt: any, guild?: { id: number, name?: string | null } | null }> };
-
-export type TwitterUserFragmentFragment = { createdAt: any, updatedAt: any, description: string, id: number, twitter_user_id: string, username: string, user?: { id: number } | null };
+export type TwitterUserFragmentFragment = {
+  createdAt: any;
+  updatedAt: any;
+  description: string;
+  id: number;
+  twitter_user_id: string;
+  username: string;
+  user?: { id: number } | null;
+};
 
 export type UpsertTwitterUserMutationVariables = Exact<{
   create: TwitterUserCreateInput;
@@ -13667,197 +13863,759 @@ export type UpsertTwitterUserMutationVariables = Exact<{
   where: TwitterUserWhereUniqueInput;
 }>;
 
+export type UpsertTwitterUserMutation = {
+  upsertTwitterUser: {
+    createdAt: any;
+    updatedAt: any;
+    description: string;
+    id: number;
+    twitter_user_id: string;
+    username: string;
+    user?: { id: number } | null;
+  };
+};
 
-export type UpsertTwitterUserMutation = { upsertTwitterUser: { createdAt: any, updatedAt: any, description: string, id: number, twitter_user_id: string, username: string, user?: { id: number } | null } };
-
-export type UserFragmentFragment = { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } };
+export type UserFragmentFragment = {
+  address: string;
+  createdAt: any;
+  display_name?: string | null;
+  full_name?: string | null;
+  id: number;
+  name?: string | null;
+  updatedAt: any;
+  chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+};
 
 export type GetUserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
+export type GetUserQuery = {
+  result?: {
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+    chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+  } | null;
+};
 
-export type GetUserQuery = { result?: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } | null };
+export type GetUserCustomQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+export type GetUserCustomQuery = {
+  result: {
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+    chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+  };
+};
 
 export type ListUsersQueryVariables = Exact<{
   where?: UserWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<UserOrderByWithRelationInput> | UserOrderByWithRelationInput>;
+  orderBy?: InputMaybe<
+    Array<UserOrderByWithRelationInput> | UserOrderByWithRelationInput
+  >;
 }>;
 
+export type ListUsersQuery = {
+  result: Array<{
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+    chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+  }>;
+};
 
-export type ListUsersQuery = { result: Array<{ address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } }> };
+export type ListUserByAddressQueryVariables = Exact<{
+  address: Scalars['String'];
+}>;
+
+export type ListUserByAddressQuery = {
+  result: Array<{
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+    chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+  }>;
+};
 
 export type UpdateUserMutationVariables = Exact<{
   data: UserUpdateInput;
   where: UserWhereUniqueInput;
 }>;
 
+export type UpdateUserMutation = {
+  updateUser?: {
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+    chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+  } | null;
+};
 
-export type UpdateUserMutation = { updateUser?: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } | null };
+export type UpdateUserCustomMutationVariables = Exact<{
+  data: UserUpdateCustomInput;
+}>;
+
+export type UpdateUserCustomMutation = {
+  updateUserCustom: {
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+    chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+  };
+};
 
 export type CreateUserMutationVariables = Exact<{
   data: UserCreateInput;
 }>;
 
+export type CreateUserMutation = {
+  createUser: {
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+    chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+  };
+};
 
-export type CreateUserMutation = { createUser: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
+export type CreateUserCustomMutationVariables = Exact<{
+  data: UserCreateCustomInput;
+}>;
 
-export type ContributionFragmentFragment = { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> };
+export type CreateUserCustomMutation = {
+  createUserCustom: {
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+    chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
+  };
+};
+
+export type ContributionFragmentFragment = {
+  date_of_engagement: any;
+  date_of_submission: any;
+  details?: string | null;
+  id: number;
+  name: string;
+  proof?: string | null;
+  updatedAt: any;
+  activity_type: {
+    active: boolean;
+    createdAt: any;
+    id: number;
+    name: string;
+    updatedAt: any;
+  };
+  status: { createdAt: any; id: number; name: string; updatedAt: any };
+  user: {
+    address: string;
+    createdAt: any;
+    display_name?: string | null;
+    full_name?: string | null;
+    id: number;
+    name?: string | null;
+    updatedAt: any;
+  };
+  attestations: Array<{ id: number }>;
+};
 
 export type GetContributionQueryVariables = Exact<{
   where: ContributionWhereUniqueInput;
 }>;
 
-
-export type GetContributionQuery = { result?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } | null };
+export type GetContributionQuery = {
+  result?: {
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    updatedAt: any;
+    activity_type: {
+      active: boolean;
+      createdAt: any;
+      id: number;
+      name: string;
+      updatedAt: any;
+    };
+    status: { createdAt: any; id: number; name: string; updatedAt: any };
+    user: {
+      address: string;
+      createdAt: any;
+      display_name?: string | null;
+      full_name?: string | null;
+      id: number;
+      name?: string | null;
+      updatedAt: any;
+    };
+    attestations: Array<{ id: number }>;
+  } | null;
+};
 
 export type ListContributionsQueryVariables = Exact<{
   where?: ContributionWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<ContributionOrderByWithRelationInput> | ContributionOrderByWithRelationInput>;
+  orderBy?: InputMaybe<
+    | Array<ContributionOrderByWithRelationInput>
+    | ContributionOrderByWithRelationInput
+  >;
 }>;
 
-
-export type ListContributionsQuery = { result: Array<{ date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> }> };
+export type ListContributionsQuery = {
+  result: Array<{
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    updatedAt: any;
+    activity_type: {
+      active: boolean;
+      createdAt: any;
+      id: number;
+      name: string;
+      updatedAt: any;
+    };
+    status: { createdAt: any; id: number; name: string; updatedAt: any };
+    user: {
+      address: string;
+      createdAt: any;
+      display_name?: string | null;
+      full_name?: string | null;
+      id: number;
+      name?: string | null;
+      updatedAt: any;
+    };
+    attestations: Array<{ id: number }>;
+  }>;
+};
 
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;
 }>;
 
+export type CreateContributionMutation = {
+  createContribution: {
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    updatedAt: any;
+    activity_type: {
+      active: boolean;
+      createdAt: any;
+      id: number;
+      name: string;
+      updatedAt: any;
+    };
+    status: { createdAt: any; id: number; name: string; updatedAt: any };
+    user: {
+      address: string;
+      createdAt: any;
+      display_name?: string | null;
+      full_name?: string | null;
+      id: number;
+      name?: string | null;
+      updatedAt: any;
+    };
+    attestations: Array<{ id: number }>;
+  };
+};
 
-export type CreateContributionMutation = { createContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } };
+export type CreateUserContributionMutationVariables = Exact<{
+  data: UserContributionCreateInput;
+}>;
+
+export type CreateUserContributionMutation = {
+  createUserContribution: {
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    updatedAt: any;
+    activity_type: {
+      active: boolean;
+      createdAt: any;
+      id: number;
+      name: string;
+      updatedAt: any;
+    };
+    status: { createdAt: any; id: number; name: string; updatedAt: any };
+    user: {
+      address: string;
+      createdAt: any;
+      display_name?: string | null;
+      full_name?: string | null;
+      id: number;
+      name?: string | null;
+      updatedAt: any;
+    };
+    attestations: Array<{ id: number }>;
+  };
+};
+
+export type UpdateUserContributionMutationVariables = Exact<{
+  data: UserContributionUpdateInput;
+}>;
+
+export type UpdateUserContributionMutation = {
+  updateUserContribution: {
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    updatedAt: any;
+    activity_type: {
+      active: boolean;
+      createdAt: any;
+      id: number;
+      name: string;
+      updatedAt: any;
+    };
+    status: { createdAt: any; id: number; name: string; updatedAt: any };
+    user: {
+      address: string;
+      createdAt: any;
+      display_name?: string | null;
+      full_name?: string | null;
+      id: number;
+      name?: string | null;
+      updatedAt: any;
+    };
+    attestations: Array<{ id: number }>;
+  };
+};
 
 export type BulkCreateContributionMutationVariables = Exact<{
   data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
   skipDuplicates: Scalars['Boolean'];
 }>;
 
-
-export type BulkCreateContributionMutation = { createManyContribution: { count: number } };
+export type BulkCreateContributionMutation = {
+  createManyContribution: { count: number };
+};
 
 export type UpdateContributionMutationVariables = Exact<{
   data: ContributionUpdateInput;
   where: ContributionWhereUniqueInput;
 }>;
 
+export type UpdateContributionMutation = {
+  updateContribution?: {
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    updatedAt: any;
+    activity_type: {
+      active: boolean;
+      createdAt: any;
+      id: number;
+      name: string;
+      updatedAt: any;
+    };
+    status: { createdAt: any; id: number; name: string; updatedAt: any };
+    user: {
+      address: string;
+      createdAt: any;
+      display_name?: string | null;
+      full_name?: string | null;
+      id: number;
+      name?: string | null;
+      updatedAt: any;
+    };
+    attestations: Array<{ id: number }>;
+  } | null;
+};
 
-export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number }> } | null };
-
-export type ActivityTypeFragmentFragment = { active: boolean, createdAt: any, id: number, name: string, updatedAt: any };
+export type ActivityTypeFragmentFragment = {
+  active: boolean;
+  createdAt: any;
+  id: number;
+  name: string;
+  updatedAt: any;
+};
 
 export type ListActivityTypesQueryVariables = Exact<{
   where?: ActivityTypeWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<ActivityTypeOrderByWithRelationInput> | ActivityTypeOrderByWithRelationInput>;
+  orderBy?: InputMaybe<
+    | Array<ActivityTypeOrderByWithRelationInput>
+    | ActivityTypeOrderByWithRelationInput
+  >;
 }>;
 
-
-export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: any, id: number, name: string, updatedAt: any }> };
+export type ListActivityTypesQuery = {
+  result: Array<{
+    active: boolean;
+    createdAt: any;
+    id: number;
+    name: string;
+    updatedAt: any;
+  }>;
+};
 
 export type CreateActivityTypeMutationVariables = Exact<{
   data: ActivityTypeCreateInput;
 }>;
 
+export type CreateActivityTypeMutation = {
+  createActivityType: {
+    active: boolean;
+    createdAt: any;
+    id: number;
+    name: string;
+    updatedAt: any;
+  };
+};
 
-export type CreateActivityTypeMutation = { createActivityType: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any } };
-
-export type AttestationFragmentFragment = { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } };
+export type AttestationFragmentFragment = {
+  date_of_attestation: any;
+  id: number;
+  updatedAt: any;
+  confidence: { createdAt: any; id: number; name: string; updatedAt: any };
+  contribution: {
+    activity_type_id: number;
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    status_id: number;
+    updatedAt: any;
+    user_id: number;
+  };
+  user: { name?: string | null; address: string; id: number };
+};
 
 export type ListAttestationsQueryVariables = Exact<{
   where?: AttestationWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<AttestationOrderByWithRelationInput> | AttestationOrderByWithRelationInput>;
+  orderBy?: InputMaybe<
+    | Array<AttestationOrderByWithRelationInput>
+    | AttestationOrderByWithRelationInput
+  >;
 }>;
 
-
-export type ListAttestationsQuery = { result: Array<{ date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
+export type ListAttestationsQuery = {
+  result: Array<{
+    date_of_attestation: any;
+    id: number;
+    updatedAt: any;
+    confidence: { createdAt: any; id: number; name: string; updatedAt: any };
+    contribution: {
+      activity_type_id: number;
+      date_of_engagement: any;
+      date_of_submission: any;
+      details?: string | null;
+      id: number;
+      name: string;
+      proof?: string | null;
+      status_id: number;
+      updatedAt: any;
+      user_id: number;
+    };
+    user: { name?: string | null; address: string; id: number };
+  }>;
+};
 
 export type CreateAttestationMutationVariables = Exact<{
   data: AttestationCreateInput;
 }>;
 
-
-export type CreateAttestationMutation = { createAttestation: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } };
+export type CreateAttestationMutation = {
+  createAttestation: {
+    date_of_attestation: any;
+    id: number;
+    updatedAt: any;
+    confidence: { createdAt: any; id: number; name: string; updatedAt: any };
+    contribution: {
+      activity_type_id: number;
+      date_of_engagement: any;
+      date_of_submission: any;
+      details?: string | null;
+      id: number;
+      name: string;
+      proof?: string | null;
+      status_id: number;
+      updatedAt: any;
+      user_id: number;
+    };
+    user: { name?: string | null; address: string; id: number };
+  };
+};
 
 export type BulkCreateAttestationMutationVariables = Exact<{
   data: Array<AttestationCreateManyInput> | AttestationCreateManyInput;
   skipDuplicates: Scalars['Boolean'];
 }>;
 
-
-export type BulkCreateAttestationMutation = { createManyAttestation: { count: number } };
+export type BulkCreateAttestationMutation = {
+  createManyAttestation: { count: number };
+};
 
 export type UpdateAttestationMutationVariables = Exact<{
   data: AttestationUpdateInput;
   where: AttestationWhereUniqueInput;
 }>;
 
+export type UpdateAttestationMutation = {
+  updateAttestation?: {
+    date_of_attestation: any;
+    id: number;
+    updatedAt: any;
+    confidence: { createdAt: any; id: number; name: string; updatedAt: any };
+    contribution: {
+      activity_type_id: number;
+      date_of_engagement: any;
+      date_of_submission: any;
+      details?: string | null;
+      id: number;
+      name: string;
+      proof?: string | null;
+      status_id: number;
+      updatedAt: any;
+      user_id: number;
+    };
+    user: { name?: string | null; address: string; id: number };
+  } | null;
+};
 
-export type UpdateAttestationMutation = { updateAttestation?: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } | null };
-
-export type PartnerFragmentFragment = { createdAt: any, updatedAt: any, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } };
+export type PartnerFragmentFragment = {
+  createdAt: any;
+  updatedAt: any;
+  contribution: {
+    activity_type_id: number;
+    date_of_engagement: any;
+    date_of_submission: any;
+    details?: string | null;
+    id: number;
+    name: string;
+    proof?: string | null;
+    status_id: number;
+    updatedAt: any;
+    user_id: number;
+  };
+  user: { name?: string | null; address: string; id: number };
+};
 
 export type ListPartnersQueryVariables = Exact<{
   where?: PartnerWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<PartnerOrderByWithRelationInput> | PartnerOrderByWithRelationInput>;
+  orderBy?: InputMaybe<
+    Array<PartnerOrderByWithRelationInput> | PartnerOrderByWithRelationInput
+  >;
 }>;
 
+export type ListPartnersQuery = {
+  result: Array<{
+    createdAt: any;
+    updatedAt: any;
+    contribution: {
+      activity_type_id: number;
+      date_of_engagement: any;
+      date_of_submission: any;
+      details?: string | null;
+      id: number;
+      name: string;
+      proof?: string | null;
+      status_id: number;
+      updatedAt: any;
+      user_id: number;
+    };
+    user: { name?: string | null; address: string; id: number };
+  }>;
+};
 
-export type ListPartnersQuery = { result: Array<{ createdAt: any, updatedAt: any, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
+export type CreateUserAttestationMutationVariables = Exact<{
+  data: AttestationUserCreateInput;
+}>;
+
+export type CreateUserAttestationMutation = {
+  createUserAttestation: {
+    date_of_attestation: any;
+    id: number;
+    updatedAt: any;
+    confidence: { createdAt: any; id: number; name: string; updatedAt: any };
+    contribution: {
+      activity_type_id: number;
+      date_of_engagement: any;
+      date_of_submission: any;
+      details?: string | null;
+      id: number;
+      name: string;
+      proof?: string | null;
+      status_id: number;
+      updatedAt: any;
+      user_id: number;
+    };
+    user: { name?: string | null; address: string; id: number };
+  };
+};
 
 export const JobFieldsFragmentFragmentDoc = gql`
-    fragment JobFieldsFragment on JobRun {
-  id
-  createdAt
-  updatedAt
-  completedDate
-  name
-  startDate
-}
-    `;
+  fragment JobFieldsFragment on JobRun {
+    id
+    createdAt
+    updatedAt
+    completedDate
+    name
+    startDate
+  }
+`;
 export const LinearUserFragmentFragmentDoc = gql`
-    fragment LinearUserFragment on LinearUser {
-  active
-  displayName
-  email
-  linear_id
-  name
-  url
-  id
-  createdAt
-}
-    `;
-export const ContributionFragmentFragmentDoc = gql`
-    fragment ContributionFragment on Contribution {
-  activity_type {
+  fragment LinearUserFragment on LinearUser {
     active
+    displayName
+    email
+    linear_id
+    name
+    url
+    id
     createdAt
+  }
+`;
+export const ContributionFragmentFragmentDoc = gql`
+  fragment ContributionFragment on Contribution {
+    activity_type {
+      active
+      createdAt
+      id
+      name
+      updatedAt
+    }
+    date_of_engagement
+    date_of_submission
+    details
     id
     name
+    proof
+    status {
+      createdAt
+      id
+      name
+      updatedAt
+    }
     updatedAt
+    user {
+      address
+      createdAt
+      display_name
+      full_name
+      id
+      name
+      updatedAt
+    }
+    attestations {
+      id
+    }
   }
-  date_of_engagement
-  date_of_submission
-  details
-  id
-  name
-  proof
-  status {
-    createdAt
+`;
+export const TwitterTweetFragmentFragmentDoc = gql`
+  fragment TwitterTweetFragment on TwitterTweet {
     id
-    name
+    updatedAt
+    createdAt
+    text
+    twitter_tweet_id
+    twitter_user {
+      id
+      name
+      createdAt
+      updatedAt
+      username
+    }
+    contribution {
+      ...ContributionFragment
+    }
+  }
+`;
+export const TwitterAccountFragmentFragmentDoc = gql`
+  fragment TwitterAccountFragment on TwitterAccount {
+    account_name
+    createdAt
+    guild {
+      id
+      name
+    }
+    id
     updatedAt
   }
-  updatedAt
-  user {
+`;
+export const TwitterUserFragmentFragmentDoc = gql`
+  fragment TwitterUserFragment on TwitterUser {
+    createdAt
+    updatedAt
+    description
+    id
+    twitter_user_id
+    user {
+      id
+    }
+    username
+  }
+`;
+export const UserFragmentFragmentDoc = gql`
+  fragment UserFragment on User {
     address
+    chain_type {
+      id
+      name
+      createdAt
+      updatedAt
+    }
     createdAt
     display_name
     full_name
@@ -13865,476 +14623,1039 @@ export const ContributionFragmentFragmentDoc = gql`
     name
     updatedAt
   }
-  attestations {
-    id
-  }
-}
-    `;
-export const TwitterTweetFragmentFragmentDoc = gql`
-    fragment TwitterTweetFragment on TwitterTweet {
-  id
-  updatedAt
-  createdAt
-  text
-  twitter_tweet_id
-  twitter_user {
-    id
-    name
-    createdAt
-    updatedAt
-    username
-  }
-  contribution {
-    ...ContributionFragment
-  }
-}
-    `;
-export const TwitterAccountFragmentFragmentDoc = gql`
-    fragment TwitterAccountFragment on TwitterAccount {
-  account_name
-  createdAt
-  guild {
-    id
-    name
-  }
-  id
-  updatedAt
-}
-    `;
-export const TwitterUserFragmentFragmentDoc = gql`
-    fragment TwitterUserFragment on TwitterUser {
-  createdAt
-  updatedAt
-  description
-  id
-  twitter_user_id
-  user {
-    id
-  }
-  username
-}
-    `;
-export const UserFragmentFragmentDoc = gql`
-    fragment UserFragment on User {
-  address
-  chain_type {
-    id
-    name
-    createdAt
-    updatedAt
-  }
-  createdAt
-  display_name
-  full_name
-  id
-  name
-  updatedAt
-}
-    `;
+`;
 export const ActivityTypeFragmentFragmentDoc = gql`
-    fragment ActivityTypeFragment on ActivityType {
-  active
-  createdAt
-  id
-  name
-  updatedAt
-}
-    `;
-export const AttestationFragmentFragmentDoc = gql`
-    fragment AttestationFragment on Attestation {
-  confidence {
+  fragment ActivityTypeFragment on ActivityType {
+    active
     createdAt
     id
     name
     updatedAt
   }
-  contribution {
-    activity_type_id
-    date_of_engagement
-    date_of_submission
-    details
-    id
-    name
-    proof
-    status_id
-    updatedAt
-    user_id
-  }
-  date_of_attestation
-  id
-  updatedAt
-  user {
-    name
-    address
-    id
-  }
-}
-    `;
-export const PartnerFragmentFragmentDoc = gql`
-    fragment PartnerFragment on Partner {
-  contribution {
-    activity_type_id
-    date_of_engagement
-    date_of_submission
-    details
-    id
-    name
-    proof
-    status_id
-    updatedAt
-    user_id
-  }
-  createdAt
-  updatedAt
-  user {
-    name
-    address
-    id
-  }
-}
-    `;
-export const ListJobRunsDocument = gql`
-    query listJobRuns($where: JobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [JobRunOrderByWithRelationInput!]) {
-  result: jobRuns(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
-    ...JobFieldsFragment
-  }
-}
-    ${JobFieldsFragmentFragmentDoc}`;
-export const GetJobRunDocument = gql`
-    query getJobRun($where: JobRunWhereUniqueInput!) {
-  result: jobRun(where: $where) {
-    ...JobFieldsFragment
-  }
-}
-    ${JobFieldsFragmentFragmentDoc}`;
-export const BulkCreateIssuesDocument = gql`
-    mutation bulkCreateIssues($data: [LinearIssueCreateManyInput!]!, $skipDuplicates: Boolean!) {
-  createManyLinearIssue(data: $data, skipDuplicates: $skipDuplicates) {
-    count
-  }
-}
-    `;
-export const UpsertLinearUserDocument = gql`
-    mutation upsertLinearUser($create: LinearUserCreateInput!, $update: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
-  upsertLinearUser(create: $create, update: $update, where: $where) {
-    ...LinearUserFragment
-  }
-}
-    ${LinearUserFragmentFragmentDoc}`;
-export const UpdateLinearUserDocument = gql`
-    mutation updateLinearUser($data: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
-  updateLinearUser(data: $data, where: $where) {
-    ...LinearUserFragment
-  }
-}
-    ${LinearUserFragmentFragmentDoc}`;
-export const UpsertLinearCycleDocument = gql`
-    mutation upsertLinearCycle($create: LinearCycleCreateInput!, $update: LinearCycleUpdateInput!, $where: LinearCycleWhereUniqueInput!) {
-  upsertLinearCycle(create: $create, update: $update, where: $where) {
-    id
-    endsAt
-    linear_id
-    number
-    startsAt
-  }
-}
-    `;
-export const UpsertLinearProjectDocument = gql`
-    mutation upsertLinearProject($create: LinearProjectCreateInput!, $update: LinearProjectUpdateInput!, $where: LinearProjectWhereUniqueInput!) {
-  upsertLinearProject(create: $create, update: $update, where: $where) {
-    id
-    linear_id
-    name
-  }
-}
-    `;
-export const UpsertLinearTeamDocument = gql`
-    mutation upsertLinearTeam($create: LinearTeamCreateInput!, $update: LinearTeamUpdateInput!, $where: LinearTeamWhereUniqueInput!) {
-  upsertLinearTeam(create: $create, update: $update, where: $where) {
-    id
-    key
-    name
-    linear_id
-  }
-}
-    `;
-export const CreateJobRunDocument = gql`
-    mutation createJobRun($data: JobRunCreateInput!) {
-  createJobRun(data: $data) {
-    completedDate
-    startDate
-    name
-  }
-}
-    `;
-export const CreateGuildDocument = gql`
-    mutation createGuild($data: GuildCreateInput!) {
-  createGuild(data: $data) {
-    congrats_channel
-    discord_id
-    logo
-    name
-  }
-}
-    `;
-export const DeleteGuildUserDocument = gql`
-    mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
-  deleteGuildUser(where: $where) {
-    id
-  }
-}
-    `;
-export const BulkCreateTwitterTweetDocument = gql`
-    mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!, $skipDuplicates: Boolean!) {
-  createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
-    count
-  }
-}
-    `;
-export const ListTwitterAccountsDocument = gql`
-    query listTwitterAccounts($where: TwitterAccountWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [TwitterAccountOrderByWithRelationInput!]) {
-  result: twitterAccounts(
-    where: $where
-    skip: $skip
-    take: $first
-    orderBy: $orderBy
-  ) {
-    ...TwitterAccountFragment
-  }
-}
-    ${TwitterAccountFragmentFragmentDoc}`;
-export const UpsertTwitterUserDocument = gql`
-    mutation upsertTwitterUser($create: TwitterUserCreateInput!, $update: TwitterUserUpdateInput!, $where: TwitterUserWhereUniqueInput!) {
-  upsertTwitterUser(create: $create, update: $update, where: $where) {
-    ...TwitterUserFragment
-  }
-}
-    ${TwitterUserFragmentFragmentDoc}`;
-export const GetUserDocument = gql`
-    query getUser($where: UserWhereUniqueInput!) {
-  result: user(where: $where) {
-    ...UserFragment
-  }
-}
-    ${UserFragmentFragmentDoc}`;
-export const ListUsersDocument = gql`
-    query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [UserOrderByWithRelationInput!]) {
-  result: users(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
-    ...UserFragment
-  }
-}
-    ${UserFragmentFragmentDoc}`;
-export const UpdateUserDocument = gql`
-    mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
-  updateUser(data: $data, where: $where) {
-    ...UserFragment
-  }
-}
-    ${UserFragmentFragmentDoc}`;
-export const CreateUserDocument = gql`
-    mutation createUser($data: UserCreateInput!) {
-  createUser(data: $data) {
-    ...UserFragment
-  }
-}
-    ${UserFragmentFragmentDoc}`;
-export const GetContributionDocument = gql`
-    query getContribution($where: ContributionWhereUniqueInput!) {
-  result: contribution(where: $where) {
-    ...ContributionFragment
-  }
-}
-    ${ContributionFragmentFragmentDoc}`;
-export const ListContributionsDocument = gql`
-    query listContributions($where: ContributionWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ContributionOrderByWithRelationInput!]) {
-  result: contributions(
-    where: $where
-    skip: $skip
-    take: $first
-    orderBy: $orderBy
-  ) {
-    ...ContributionFragment
-  }
-}
-    ${ContributionFragmentFragmentDoc}`;
-export const CreateContributionDocument = gql`
-    mutation createContribution($data: ContributionCreateInput!) {
-  createContribution(data: $data) {
-    ...ContributionFragment
-  }
-}
-    ${ContributionFragmentFragmentDoc}`;
-export const BulkCreateContributionDocument = gql`
-    mutation bulkCreateContribution($data: [ContributionCreateManyInput!]!, $skipDuplicates: Boolean!) {
-  createManyContribution(data: $data, skipDuplicates: $skipDuplicates) {
-    count
-  }
-}
-    `;
-export const UpdateContributionDocument = gql`
-    mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
-  updateContribution(data: $data, where: $where) {
-    ...ContributionFragment
-  }
-}
-    ${ContributionFragmentFragmentDoc}`;
-export const ListActivityTypesDocument = gql`
-    query listActivityTypes($where: ActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ActivityTypeOrderByWithRelationInput!]) {
-  result: activityTypes(
-    where: $where
-    skip: $skip
-    take: $first
-    orderBy: $orderBy
-  ) {
-    ...ActivityTypeFragment
-  }
-}
-    ${ActivityTypeFragmentFragmentDoc}`;
-export const CreateActivityTypeDocument = gql`
-    mutation createActivityType($data: ActivityTypeCreateInput!) {
-  createActivityType(data: $data) {
-    ...ActivityTypeFragment
-  }
-}
-    ${ActivityTypeFragmentFragmentDoc}`;
-export const ListAttestationsDocument = gql`
-    query listAttestations($where: AttestationWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [AttestationOrderByWithRelationInput!]) {
-  result: attestations(
-    where: $where
-    skip: $skip
-    take: $first
-    orderBy: $orderBy
-  ) {
-    ...AttestationFragment
-  }
-}
-    ${AttestationFragmentFragmentDoc}`;
-export const CreateAttestationDocument = gql`
-    mutation createAttestation($data: AttestationCreateInput!) {
-  createAttestation(data: $data) {
-    ...AttestationFragment
-  }
-}
-    ${AttestationFragmentFragmentDoc}`;
-export const BulkCreateAttestationDocument = gql`
-    mutation bulkCreateAttestation($data: [AttestationCreateManyInput!]!, $skipDuplicates: Boolean!) {
-  createManyAttestation(data: $data, skipDuplicates: $skipDuplicates) {
-    count
-  }
-}
-    `;
-export const UpdateAttestationDocument = gql`
-    mutation updateAttestation($data: AttestationUpdateInput!, $where: AttestationWhereUniqueInput!) {
-  updateAttestation(data: $data, where: $where) {
-    ...AttestationFragment
-  }
-}
-    ${AttestationFragmentFragmentDoc}`;
-export const ListPartnersDocument = gql`
-    query listPartners($where: PartnerWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [PartnerOrderByWithRelationInput!]) {
-  result: partners(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
-    ...PartnerFragment
-  }
-}
-    ${PartnerFragmentFragmentDoc}`;
-
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
-  return {
-    listJobRuns(variables?: ListJobRunsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListJobRunsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListJobRunsQuery>(ListJobRunsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listJobRuns', 'query');
-    },
-    getJobRun(variables: GetJobRunQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetJobRunQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetJobRunQuery>(GetJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getJobRun', 'query');
-    },
-    bulkCreateIssues(variables: BulkCreateIssuesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateIssuesMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateIssuesMutation>(BulkCreateIssuesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateIssues', 'mutation');
-    },
-    upsertLinearUser(variables: UpsertLinearUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearUserMutation>(UpsertLinearUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearUser', 'mutation');
-    },
-    updateLinearUser(variables: UpdateLinearUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateLinearUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateLinearUserMutation>(UpdateLinearUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateLinearUser', 'mutation');
-    },
-    upsertLinearCycle(variables: UpsertLinearCycleMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearCycleMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearCycleMutation>(UpsertLinearCycleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearCycle', 'mutation');
-    },
-    upsertLinearProject(variables: UpsertLinearProjectMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearProjectMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearProjectMutation>(UpsertLinearProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearProject', 'mutation');
-    },
-    upsertLinearTeam(variables: UpsertLinearTeamMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearTeamMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearTeamMutation>(UpsertLinearTeamDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearTeam', 'mutation');
-    },
-    createJobRun(variables: CreateJobRunMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateJobRunMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateJobRunMutation>(CreateJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createJobRun', 'mutation');
-    },
-    createGuild(variables: CreateGuildMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildMutation>(CreateGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuild', 'mutation');
-    },
-    deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');
-    },
-    bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');
-    },
-    listTwitterAccounts(variables?: ListTwitterAccountsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListTwitterAccountsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListTwitterAccountsQuery>(ListTwitterAccountsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listTwitterAccounts', 'query');
-    },
-    upsertTwitterUser(variables: UpsertTwitterUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertTwitterUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertTwitterUserMutation>(UpsertTwitterUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertTwitterUser', 'mutation');
-    },
-    getUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUser', 'query');
-    },
-    listUsers(variables?: ListUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListUsersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListUsersQuery>(ListUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listUsers', 'query');
-    },
-    updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
-    },
-    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
-    },
-    getContribution(variables: GetContributionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionQuery>(GetContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContribution', 'query');
-    },
-    listContributions(variables?: ListContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListContributionsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListContributionsQuery>(ListContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listContributions', 'query');
-    },
-    createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');
-    },
-    bulkCreateContribution(variables: BulkCreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateContributionMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateContributionMutation>(BulkCreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateContribution', 'mutation');
-    },
-    updateContribution(variables: UpdateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateContributionMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateContributionMutation>(UpdateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateContribution', 'mutation');
-    },
-    listActivityTypes(variables?: ListActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesQuery>(ListActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypes', 'query');
-    },
-    createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
-    },
-    listAttestations(variables?: ListAttestationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListAttestationsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListAttestationsQuery>(ListAttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listAttestations', 'query');
-    },
-    createAttestation(variables: CreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAttestationMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateAttestationMutation>(CreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createAttestation', 'mutation');
-    },
-    bulkCreateAttestation(variables: BulkCreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateAttestationMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateAttestationMutation>(BulkCreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateAttestation', 'mutation');
-    },
-    updateAttestation(variables: UpdateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateAttestationMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateAttestationMutation>(UpdateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateAttestation', 'mutation');
-    },
-    listPartners(variables?: ListPartnersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListPartnersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListPartnersQuery>(ListPartnersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listPartners', 'query');
+`;
+export const AttestationFragmentFragmentDoc = gql`
+  fragment AttestationFragment on Attestation {
+    confidence {
+      createdAt
+      id
+      name
+      updatedAt
     }
+    contribution {
+      activity_type_id
+      date_of_engagement
+      date_of_submission
+      details
+      id
+      name
+      proof
+      status_id
+      updatedAt
+      user_id
+    }
+    date_of_attestation
+    id
+    updatedAt
+    user {
+      name
+      address
+      id
+    }
+  }
+`;
+export const PartnerFragmentFragmentDoc = gql`
+  fragment PartnerFragment on Partner {
+    contribution {
+      activity_type_id
+      date_of_engagement
+      date_of_submission
+      details
+      id
+      name
+      proof
+      status_id
+      updatedAt
+      user_id
+    }
+    createdAt
+    updatedAt
+    user {
+      name
+      address
+      id
+    }
+  }
+`;
+export const ListJobRunsDocument = gql`
+  query listJobRuns(
+    $where: JobRunWhereInput! = {}
+    $skip: Int! = 0
+    $first: Int! = 10
+    $orderBy: [JobRunOrderByWithRelationInput!]
+  ) {
+    result: jobRuns(
+      where: $where
+      skip: $skip
+      take: $first
+      orderBy: $orderBy
+    ) {
+      ...JobFieldsFragment
+    }
+  }
+  ${JobFieldsFragmentFragmentDoc}
+`;
+export const GetJobRunDocument = gql`
+  query getJobRun($where: JobRunWhereUniqueInput!) {
+    result: jobRun(where: $where) {
+      ...JobFieldsFragment
+    }
+  }
+  ${JobFieldsFragmentFragmentDoc}
+`;
+export const BulkCreateIssuesDocument = gql`
+  mutation bulkCreateIssues(
+    $data: [LinearIssueCreateManyInput!]!
+    $skipDuplicates: Boolean!
+  ) {
+    createManyLinearIssue(data: $data, skipDuplicates: $skipDuplicates) {
+      count
+    }
+  }
+`;
+export const UpsertLinearUserDocument = gql`
+  mutation upsertLinearUser(
+    $create: LinearUserCreateInput!
+    $update: LinearUserUpdateInput!
+    $where: LinearUserWhereUniqueInput!
+  ) {
+    upsertLinearUser(create: $create, update: $update, where: $where) {
+      ...LinearUserFragment
+    }
+  }
+  ${LinearUserFragmentFragmentDoc}
+`;
+export const UpdateLinearUserDocument = gql`
+  mutation updateLinearUser(
+    $data: LinearUserUpdateInput!
+    $where: LinearUserWhereUniqueInput!
+  ) {
+    updateLinearUser(data: $data, where: $where) {
+      ...LinearUserFragment
+    }
+  }
+  ${LinearUserFragmentFragmentDoc}
+`;
+export const UpsertLinearCycleDocument = gql`
+  mutation upsertLinearCycle(
+    $create: LinearCycleCreateInput!
+    $update: LinearCycleUpdateInput!
+    $where: LinearCycleWhereUniqueInput!
+  ) {
+    upsertLinearCycle(create: $create, update: $update, where: $where) {
+      id
+      endsAt
+      linear_id
+      number
+      startsAt
+    }
+  }
+`;
+export const UpsertLinearProjectDocument = gql`
+  mutation upsertLinearProject(
+    $create: LinearProjectCreateInput!
+    $update: LinearProjectUpdateInput!
+    $where: LinearProjectWhereUniqueInput!
+  ) {
+    upsertLinearProject(create: $create, update: $update, where: $where) {
+      id
+      linear_id
+      name
+    }
+  }
+`;
+export const UpsertLinearTeamDocument = gql`
+  mutation upsertLinearTeam(
+    $create: LinearTeamCreateInput!
+    $update: LinearTeamUpdateInput!
+    $where: LinearTeamWhereUniqueInput!
+  ) {
+    upsertLinearTeam(create: $create, update: $update, where: $where) {
+      id
+      key
+      name
+      linear_id
+    }
+  }
+`;
+export const CreateJobRunDocument = gql`
+  mutation createJobRun($data: JobRunCreateInput!) {
+    createJobRun(data: $data) {
+      completedDate
+      startDate
+      name
+    }
+  }
+`;
+export const CreateGuildDocument = gql`
+  mutation createGuild($data: GuildCreateInput!) {
+    createGuild(data: $data) {
+      congrats_channel
+      discord_id
+      logo
+      name
+    }
+  }
+`;
+export const DeleteGuildUserDocument = gql`
+  mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
+    deleteGuildUser(where: $where) {
+      id
+    }
+  }
+`;
+export const BulkCreateTwitterTweetDocument = gql`
+  mutation bulkCreateTwitterTweet(
+    $data: [TwitterTweetCreateManyInput!]!
+    $skipDuplicates: Boolean!
+  ) {
+    createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
+      count
+    }
+  }
+`;
+export const ListTwitterAccountsDocument = gql`
+  query listTwitterAccounts(
+    $where: TwitterAccountWhereInput! = {}
+    $skip: Int! = 0
+    $first: Int! = 10
+    $orderBy: [TwitterAccountOrderByWithRelationInput!]
+  ) {
+    result: twitterAccounts(
+      where: $where
+      skip: $skip
+      take: $first
+      orderBy: $orderBy
+    ) {
+      ...TwitterAccountFragment
+    }
+  }
+  ${TwitterAccountFragmentFragmentDoc}
+`;
+export const UpsertTwitterUserDocument = gql`
+  mutation upsertTwitterUser(
+    $create: TwitterUserCreateInput!
+    $update: TwitterUserUpdateInput!
+    $where: TwitterUserWhereUniqueInput!
+  ) {
+    upsertTwitterUser(create: $create, update: $update, where: $where) {
+      ...TwitterUserFragment
+    }
+  }
+  ${TwitterUserFragmentFragmentDoc}
+`;
+export const GetUserDocument = gql`
+  query getUser($where: UserWhereUniqueInput!) {
+    result: user(where: $where) {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentFragmentDoc}
+`;
+export const GetUserCustomDocument = gql`
+  query getUserCustom($id: Float!) {
+    result: getUser(id: $id) {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentFragmentDoc}
+`;
+export const ListUsersDocument = gql`
+  query listUsers(
+    $where: UserWhereInput! = {}
+    $skip: Int! = 0
+    $first: Int! = 10
+    $orderBy: [UserOrderByWithRelationInput!]
+  ) {
+    result: users(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentFragmentDoc}
+`;
+export const ListUserByAddressDocument = gql`
+  query listUserByAddress($address: String!) {
+    result: listUserByAddress(address: $address) {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentFragmentDoc}
+`;
+export const UpdateUserDocument = gql`
+  mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+    updateUser(data: $data, where: $where) {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentFragmentDoc}
+`;
+export const UpdateUserCustomDocument = gql`
+  mutation updateUserCustom($data: UserUpdateCustomInput!) {
+    updateUserCustom(data: $data) {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentFragmentDoc}
+`;
+export const CreateUserDocument = gql`
+  mutation createUser($data: UserCreateInput!) {
+    createUser(data: $data) {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentFragmentDoc}
+`;
+export const CreateUserCustomDocument = gql`
+  mutation createUserCustom($data: UserCreateCustomInput!) {
+    createUserCustom(data: $data) {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentFragmentDoc}
+`;
+export const GetContributionDocument = gql`
+  query getContribution($where: ContributionWhereUniqueInput!) {
+    result: contribution(where: $where) {
+      ...ContributionFragment
+    }
+  }
+  ${ContributionFragmentFragmentDoc}
+`;
+export const ListContributionsDocument = gql`
+  query listContributions(
+    $where: ContributionWhereInput! = {}
+    $skip: Int! = 0
+    $first: Int! = 10
+    $orderBy: [ContributionOrderByWithRelationInput!]
+  ) {
+    result: contributions(
+      where: $where
+      skip: $skip
+      take: $first
+      orderBy: $orderBy
+    ) {
+      ...ContributionFragment
+    }
+  }
+  ${ContributionFragmentFragmentDoc}
+`;
+export const CreateContributionDocument = gql`
+  mutation createContribution($data: ContributionCreateInput!) {
+    createContribution(data: $data) {
+      ...ContributionFragment
+    }
+  }
+  ${ContributionFragmentFragmentDoc}
+`;
+export const CreateUserContributionDocument = gql`
+  mutation createUserContribution($data: UserContributionCreateInput!) {
+    createUserContribution(data: $data) {
+      ...ContributionFragment
+    }
+  }
+  ${ContributionFragmentFragmentDoc}
+`;
+export const UpdateUserContributionDocument = gql`
+  mutation updateUserContribution($data: UserContributionUpdateInput!) {
+    updateUserContribution(data: $data) {
+      ...ContributionFragment
+    }
+  }
+  ${ContributionFragmentFragmentDoc}
+`;
+export const BulkCreateContributionDocument = gql`
+  mutation bulkCreateContribution(
+    $data: [ContributionCreateManyInput!]!
+    $skipDuplicates: Boolean!
+  ) {
+    createManyContribution(data: $data, skipDuplicates: $skipDuplicates) {
+      count
+    }
+  }
+`;
+export const UpdateContributionDocument = gql`
+  mutation updateContribution(
+    $data: ContributionUpdateInput!
+    $where: ContributionWhereUniqueInput!
+  ) {
+    updateContribution(data: $data, where: $where) {
+      ...ContributionFragment
+    }
+  }
+  ${ContributionFragmentFragmentDoc}
+`;
+export const ListActivityTypesDocument = gql`
+  query listActivityTypes(
+    $where: ActivityTypeWhereInput! = {}
+    $skip: Int! = 0
+    $first: Int! = 10
+    $orderBy: [ActivityTypeOrderByWithRelationInput!]
+  ) {
+    result: activityTypes(
+      where: $where
+      skip: $skip
+      take: $first
+      orderBy: $orderBy
+    ) {
+      ...ActivityTypeFragment
+    }
+  }
+  ${ActivityTypeFragmentFragmentDoc}
+`;
+export const CreateActivityTypeDocument = gql`
+  mutation createActivityType($data: ActivityTypeCreateInput!) {
+    createActivityType(data: $data) {
+      ...ActivityTypeFragment
+    }
+  }
+  ${ActivityTypeFragmentFragmentDoc}
+`;
+export const ListAttestationsDocument = gql`
+  query listAttestations(
+    $where: AttestationWhereInput! = {}
+    $skip: Int! = 0
+    $first: Int! = 10
+    $orderBy: [AttestationOrderByWithRelationInput!]
+  ) {
+    result: attestations(
+      where: $where
+      skip: $skip
+      take: $first
+      orderBy: $orderBy
+    ) {
+      ...AttestationFragment
+    }
+  }
+  ${AttestationFragmentFragmentDoc}
+`;
+export const CreateAttestationDocument = gql`
+  mutation createAttestation($data: AttestationCreateInput!) {
+    createAttestation(data: $data) {
+      ...AttestationFragment
+    }
+  }
+  ${AttestationFragmentFragmentDoc}
+`;
+export const BulkCreateAttestationDocument = gql`
+  mutation bulkCreateAttestation(
+    $data: [AttestationCreateManyInput!]!
+    $skipDuplicates: Boolean!
+  ) {
+    createManyAttestation(data: $data, skipDuplicates: $skipDuplicates) {
+      count
+    }
+  }
+`;
+export const UpdateAttestationDocument = gql`
+  mutation updateAttestation(
+    $data: AttestationUpdateInput!
+    $where: AttestationWhereUniqueInput!
+  ) {
+    updateAttestation(data: $data, where: $where) {
+      ...AttestationFragment
+    }
+  }
+  ${AttestationFragmentFragmentDoc}
+`;
+export const ListPartnersDocument = gql`
+  query listPartners(
+    $where: PartnerWhereInput! = {}
+    $skip: Int! = 0
+    $first: Int! = 10
+    $orderBy: [PartnerOrderByWithRelationInput!]
+  ) {
+    result: partners(
+      where: $where
+      skip: $skip
+      take: $first
+      orderBy: $orderBy
+    ) {
+      ...PartnerFragment
+    }
+  }
+  ${PartnerFragmentFragmentDoc}
+`;
+export const CreateUserAttestationDocument = gql`
+  mutation createUserAttestation($data: AttestationUserCreateInput!) {
+    createUserAttestation(data: $data) {
+      ...AttestationFragment
+    }
+  }
+  ${AttestationFragmentFragmentDoc}
+`;
+
+export type SdkFunctionWrapper = <T>(
+  action: (requestHeaders?: Record<string, string>) => Promise<T>,
+  operationName: string,
+  operationType?: string
+) => Promise<T>;
+
+const defaultWrapper: SdkFunctionWrapper = (
+  action,
+  _operationName,
+  _operationType
+) => action();
+
+export function getSdk(
+  client: GraphQLClient,
+  withWrapper: SdkFunctionWrapper = defaultWrapper
+) {
+  return {
+    listJobRuns(
+      variables?: ListJobRunsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ListJobRunsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ListJobRunsQuery>(ListJobRunsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'listJobRuns',
+        'query'
+      );
+    },
+    getJobRun(
+      variables: GetJobRunQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<GetJobRunQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetJobRunQuery>(GetJobRunDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getJobRun',
+        'query'
+      );
+    },
+    bulkCreateIssues(
+      variables: BulkCreateIssuesMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<BulkCreateIssuesMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<BulkCreateIssuesMutation>(
+            BulkCreateIssuesDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'bulkCreateIssues',
+        'mutation'
+      );
+    },
+    upsertLinearUser(
+      variables: UpsertLinearUserMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpsertLinearUserMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertLinearUserMutation>(
+            UpsertLinearUserDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'upsertLinearUser',
+        'mutation'
+      );
+    },
+    updateLinearUser(
+      variables: UpdateLinearUserMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpdateLinearUserMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateLinearUserMutation>(
+            UpdateLinearUserDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'updateLinearUser',
+        'mutation'
+      );
+    },
+    upsertLinearCycle(
+      variables: UpsertLinearCycleMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpsertLinearCycleMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertLinearCycleMutation>(
+            UpsertLinearCycleDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'upsertLinearCycle',
+        'mutation'
+      );
+    },
+    upsertLinearProject(
+      variables: UpsertLinearProjectMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpsertLinearProjectMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertLinearProjectMutation>(
+            UpsertLinearProjectDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'upsertLinearProject',
+        'mutation'
+      );
+    },
+    upsertLinearTeam(
+      variables: UpsertLinearTeamMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpsertLinearTeamMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertLinearTeamMutation>(
+            UpsertLinearTeamDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'upsertLinearTeam',
+        'mutation'
+      );
+    },
+    createJobRun(
+      variables: CreateJobRunMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateJobRunMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateJobRunMutation>(
+            CreateJobRunDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'createJobRun',
+        'mutation'
+      );
+    },
+    createGuild(
+      variables: CreateGuildMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateGuildMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateGuildMutation>(CreateGuildDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'createGuild',
+        'mutation'
+      );
+    },
+    deleteGuildUser(
+      variables: DeleteGuildUserMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<DeleteGuildUserMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<DeleteGuildUserMutation>(
+            DeleteGuildUserDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'deleteGuildUser',
+        'mutation'
+      );
+    },
+    bulkCreateTwitterTweet(
+      variables: BulkCreateTwitterTweetMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<BulkCreateTwitterTweetMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<BulkCreateTwitterTweetMutation>(
+            BulkCreateTwitterTweetDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'bulkCreateTwitterTweet',
+        'mutation'
+      );
+    },
+    listTwitterAccounts(
+      variables?: ListTwitterAccountsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ListTwitterAccountsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ListTwitterAccountsQuery>(
+            ListTwitterAccountsDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'listTwitterAccounts',
+        'query'
+      );
+    },
+    upsertTwitterUser(
+      variables: UpsertTwitterUserMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpsertTwitterUserMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertTwitterUserMutation>(
+            UpsertTwitterUserDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'upsertTwitterUser',
+        'mutation'
+      );
+    },
+    getUser(
+      variables: GetUserQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<GetUserQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetUserQuery>(GetUserDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getUser',
+        'query'
+      );
+    },
+    getUserCustom(
+      variables: GetUserCustomQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<GetUserCustomQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetUserCustomQuery>(GetUserCustomDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getUserCustom',
+        'query'
+      );
+    },
+    listUsers(
+      variables?: ListUsersQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ListUsersQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ListUsersQuery>(ListUsersDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'listUsers',
+        'query'
+      );
+    },
+    listUserByAddress(
+      variables: ListUserByAddressQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ListUserByAddressQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ListUserByAddressQuery>(
+            ListUserByAddressDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'listUserByAddress',
+        'query'
+      );
+    },
+    updateUser(
+      variables: UpdateUserMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpdateUserMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateUserMutation>(UpdateUserDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'updateUser',
+        'mutation'
+      );
+    },
+    updateUserCustom(
+      variables: UpdateUserCustomMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpdateUserCustomMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateUserCustomMutation>(
+            UpdateUserCustomDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'updateUserCustom',
+        'mutation'
+      );
+    },
+    createUser(
+      variables: CreateUserMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateUserMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateUserMutation>(CreateUserDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'createUser',
+        'mutation'
+      );
+    },
+    createUserCustom(
+      variables: CreateUserCustomMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateUserCustomMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateUserCustomMutation>(
+            CreateUserCustomDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'createUserCustom',
+        'mutation'
+      );
+    },
+    getContribution(
+      variables: GetContributionQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<GetContributionQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetContributionQuery>(
+            GetContributionDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'getContribution',
+        'query'
+      );
+    },
+    listContributions(
+      variables?: ListContributionsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ListContributionsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ListContributionsQuery>(
+            ListContributionsDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'listContributions',
+        'query'
+      );
+    },
+    createContribution(
+      variables: CreateContributionMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateContributionMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateContributionMutation>(
+            CreateContributionDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'createContribution',
+        'mutation'
+      );
+    },
+    createUserContribution(
+      variables: CreateUserContributionMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateUserContributionMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateUserContributionMutation>(
+            CreateUserContributionDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'createUserContribution',
+        'mutation'
+      );
+    },
+    updateUserContribution(
+      variables: UpdateUserContributionMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpdateUserContributionMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateUserContributionMutation>(
+            UpdateUserContributionDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'updateUserContribution',
+        'mutation'
+      );
+    },
+    bulkCreateContribution(
+      variables: BulkCreateContributionMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<BulkCreateContributionMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<BulkCreateContributionMutation>(
+            BulkCreateContributionDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'bulkCreateContribution',
+        'mutation'
+      );
+    },
+    updateContribution(
+      variables: UpdateContributionMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpdateContributionMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateContributionMutation>(
+            UpdateContributionDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'updateContribution',
+        'mutation'
+      );
+    },
+    listActivityTypes(
+      variables?: ListActivityTypesQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ListActivityTypesQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ListActivityTypesQuery>(
+            ListActivityTypesDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'listActivityTypes',
+        'query'
+      );
+    },
+    createActivityType(
+      variables: CreateActivityTypeMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateActivityTypeMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateActivityTypeMutation>(
+            CreateActivityTypeDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'createActivityType',
+        'mutation'
+      );
+    },
+    listAttestations(
+      variables?: ListAttestationsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ListAttestationsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ListAttestationsQuery>(
+            ListAttestationsDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'listAttestations',
+        'query'
+      );
+    },
+    createAttestation(
+      variables: CreateAttestationMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateAttestationMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateAttestationMutation>(
+            CreateAttestationDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'createAttestation',
+        'mutation'
+      );
+    },
+    bulkCreateAttestation(
+      variables: BulkCreateAttestationMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<BulkCreateAttestationMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<BulkCreateAttestationMutation>(
+            BulkCreateAttestationDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'bulkCreateAttestation',
+        'mutation'
+      );
+    },
+    updateAttestation(
+      variables: UpdateAttestationMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UpdateAttestationMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateAttestationMutation>(
+            UpdateAttestationDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'updateAttestation',
+        'mutation'
+      );
+    },
+    listPartners(
+      variables?: ListPartnersQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ListPartnersQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ListPartnersQuery>(ListPartnersDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'listPartners',
+        'query'
+      );
+    },
+    createUserAttestation(
+      variables: CreateUserAttestationMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateUserAttestationMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateUserAttestationMutation>(
+            CreateUserAttestationDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'createUserAttestation',
+        'mutation'
+      );
+    },
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;

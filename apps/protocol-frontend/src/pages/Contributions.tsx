@@ -34,11 +34,11 @@ const NotUserView = () => {
 
 const Contributions = () => {
   const { isConnected } = useWallet();
-  const { userData } = useUser();
+  const { userData, isAuthenticated } = useUser();
 
   return (
     <SiteLayout>
-      {isConnected ? (
+      {isConnected && isAuthenticated ? (
         <ContributionsTableShell />
       ) : (
         <Container
@@ -52,7 +52,11 @@ const Contributions = () => {
             boxShadow="sm"
             borderRadius={{ base: 'none', md: 'lg' }}
           >
-            {isConnected && userData ? <UserView /> : <NotUserView />}
+            {isConnected && isAuthenticated && userData ? (
+              <UserView />
+            ) : (
+              <NotUserView />
+            )}
           </Box>
         </Container>
       )}

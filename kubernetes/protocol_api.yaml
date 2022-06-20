@@ -31,6 +31,11 @@ spec:
                 secretKeyRef:
                   name: protocol-api
                   key: database_url
+            - name: PROTOCOL_COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: protocol_cookie
           resources:
             requests:
               memory: 300Mi

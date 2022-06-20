@@ -1,13 +1,20 @@
-import React, { useContext, createContext, useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import React, {
+  useCallback,
+  useContext,
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
+import { createSiweMessage } from '../utils/siwe';
 
 // TODO: Clean up the Context -- there are some duplicate function definitions inside the useEffects that can be removed and called
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
+const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
 
 export const UserContext: any = createContext(null);
 interface UserContextProps {
@@ -17,10 +24,10 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
-  const { isConnected, address, provider } = useWallet();
+  const { isConnected, address, chainId, provider } = useWallet();
   const signer = provider?.getSigner();
   const toast = useToast();
-  const govrn = new GovrnProtocol(protocolUrl);
+  const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
   const [userAddress, setUserAddress] = useState<any>(null);
@@ -30,10 +37,46 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [daoContributions, setDaoContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   useEffect(() => {
     setUserAddress(address);
   }, [isConnected, address, userAddress]);
+
+  const authenticateAddress = useCallback(async () => {
+    if (!chainId || !provider) {
+      return;
+    }
+    setIsAuthenticating(true);
+    const message = await createSiweMessage(
+      userAddress,
+      'Sign in with Ethereum to the app.',
+      chainId
+    );
+    const signer = provider.getSigner();
+    const signature = await signer.signMessage(message);
+    try {
+      await fetch(verifyURL, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({ message, signature }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setIsAuthenticated(true);
+    } catch (e) {
+      console.error(e);
+    }
+    setIsAuthenticating(false);
+  }, [userAddress, provider, chainId]);
+
+  useEffect(() => {
+    if (isConnected && !isAuthenticated && userAddress) {
+      authenticateAddress();
+    }
+  }, [isConnected, isAuthenticated, authenticateAddress, userAddress]);
 
   const getUser = async () => {
     try {
@@ -42,16 +85,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserData(userDataResponse);
       return userDataResponse;
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
-  const getUserByAddress = async () => {
+  const getUserByAddress = useCallback(async () => {
+    if (!address) {
+      return;
+    }
     try {
-      const userDataByAddressResponse = await govrn.user.list({
-        where: { address: { equals: address } },
-      });
-
+      console.log(govrn);
+      const userDataByAddressResponse = await govrn.custom.listUserByAddress(
+        address
+      );
       if (userDataByAddressResponse.length > 0) {
         setUserDataByAddress(userDataByAddressResponse[0]);
       }
@@ -60,7 +106,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [address]);
 
   const getUserContributions = async () => {
     try {
@@ -129,48 +175,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createContribution = async (values: any, reset: any, navigate: any) => {
     try {
-      await govrn.contribution.create({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          name: values.name,
-          details: values.details,
-          proof: values.proof,
-          activity_type: {
-            connectOrCreate: {
-              create: {
-                name: values.activityType,
-              },
-              where: {
-                name: values.activityType,
-              },
-            },
-          },
-          date_of_engagement: new Date(values.engagementDate).toISOString(),
-          status: {
-            connectOrCreate: {
-              create: {
-                name: 'staging',
-              },
-              where: {
-                name: 'staging',
-              },
-            },
-          },
-        },
+      await govrn.custom.createUserContribution({
+        address: userData.address,
+        chainName: 'ethereum',
+        userId: userData.id,
+        name: values.name,
+        details: values.details,
+        proof: values.proof,
+        activityTypeName: values.activityType,
+        dateOfEngagement: new Date(values.engagementDate).toISOString(),
+        status: 'staging',
       });
       toast({
         title: 'Contribution Report Added',
@@ -251,6 +265,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createAttestation = async (contribution: any, values: any) => {
     try {
+<<<<<<< HEAD
       await govrn.attestation.create({
         data: {
           user: {
@@ -285,6 +300,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             },
           },
         },
+=======
+      const response = await govrn.custom.createUserAttestation({
+        address: userData.address,
+        chainName: 'ethereum',
+        userId: userData.id,
+        confidenceName: '0',
+        contributionId: contribution.id,
+>>>>>>> master
       });
       toast({
         title: 'Contribution Report Updated',
@@ -319,59 +342,17 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           'You can only edit Contributions with a Staging status.'
         );
       }
-      await govrn.contribution.update({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          name: {
-            set: values.name,
-          },
-          details: {
-            set: values.details,
-          },
-          proof: {
-            set: values.proof,
-          },
-          activity_type: {
-            connectOrCreate: {
-              create: {
-                name: values.activityType,
-              },
-              where: {
-                name: values.activityType,
-              },
-            },
-          },
-          date_of_engagement: {
-            set: new Date(values.engagementDate).toISOString(),
-          },
-          status: {
-            connectOrCreate: {
-              create: {
-                name: 'staging',
-              },
-              where: {
-                name: 'staging',
-              },
-            },
-          },
-        },
-        where: {
-          id: contribution.id,
-        },
+      await govrn.custom.updateUserContribution({
+        address: userData.address,
+        chainName: 'ethereum',
+        userId: userData.id,
+        name: values.name,
+        details: values.details,
+        proof: values.proof,
+        activityTypeName: values.activityType,
+        dateOfEngagement: new Date(values.engagementDate).toISOString(),
+        status: 'staging',
+        contributionId: contribution.id,
       });
       getUserActivityTypes();
       getUserContributions();
@@ -399,10 +380,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const updateProfile = async (values: any) => {
     try {
-      await govrn.user.update(
-        { name: { set: values.name } },
-        { id: userData.id }
-      );
+      await govrn.custom.updateUser({
+        name: values.name,
+        id: userData.id,
+      });
       toast({
         title: 'User Profile Updated',
         description: 'Your Profile has been updated',
@@ -439,6 +420,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       url: userData.url || '',
     };
     try {
+      // TODO: maybe we should hide linear because
+      // it won't work without some dao configuration
+      // or setup on the workspace side
       await govrn.linear.user.upsert({
         create: linearAssignee,
         update: { email: { set: values.userLinearEmail } },
@@ -466,36 +450,40 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   useEffect(() => {
-    if (address) {
+    if (address && isAuthenticated) {
       getUserByAddress();
     }
-  }, [address]);
+  }, [address, isAuthenticated]);
 
   useEffect(() => {
-    if (userDataByAddress) {
+    if (userDataByAddress && isAuthenticated) {
       getUser();
     }
-  }, [userDataByAddress]);
+  }, [userDataByAddress, isAuthenticated]);
 
   useEffect(() => {
-    if (userData !== null) {
+    if (userData !== null && isAuthenticated) {
       getUserContributions();
     }
-  }, [userData]);
+  }, [userData, isAuthenticated]);
 
   useEffect(() => {
-    if (userData !== null) {
+    if (userData !== null && isAuthenticated) {
       getDaoContributions();
     }
-  }, [userData]);
+  }, [userData, isAuthenticated]);
 
   useEffect(() => {
-    getUserActivityTypes();
-  }, [userData]);
+    if (isAuthenticated) {
+      getUserActivityTypes();
+    }
+  }, [userData, isAuthenticated]);
 
   useEffect(() => {
-    getUserAttestations();
-  }, [userData]);
+    if (isAuthenticated) {
+      getUserAttestations();
+    }
+  }, [userData, isAuthenticated]);
 
   return (
     <UserContext.Provider
@@ -520,6 +508,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         updateContribution,
         updateProfile,
         updateLinearEmail,
+        isAuthenticated,
+        isAuthenticating,
+        authenticateAddress,
       }}
     >
       {children}
@@ -549,6 +540,10 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
+
+    isAuthenticated,
+    isAuthenticating,
+    authenticateAddress,
   } = useContext(UserContext);
   return {
     userAddress,
@@ -571,5 +566,8 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
+    isAuthenticated,
+    isAuthenticating,
+    authenticateAddress,
   };
 };

@@ -6,6 +6,7 @@ import { useUser } from '../contexts/UserContext';
 import SiteLayout from '../components/SiteLayout';
 import ConnectWallet from '../components/ConnectWallet';
 import ProfileShell from '../components/ProfileShell';
+import { useUser } from '../contexts/UserContext';
 
 const UserView = () => {
   return (
@@ -34,12 +35,13 @@ const NotUserView = () => {
 };
 
 const Profile = () => {
+  const { isAuthenticated } = useUser();
   const { isConnected } = useWallet();
   const { userData } = useUser();
 
   return (
     <SiteLayout>
-      {isConnected ? (
+      {isConnected && isAuthenticated ? (
         <ProfileShell />
       ) : (
         <Container

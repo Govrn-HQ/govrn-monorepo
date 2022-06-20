@@ -34,10 +34,10 @@ const NotUserView = () => {
 
 const Attestations = () => {
   const { isConnected } = useWallet();
-  const { userData } = useUser();
+  const { userData, isAuthenticated } = useUser();
   return (
     <SiteLayout>
-      {isConnected ? (
+      {isConnected && isAuthenticated ? (
         <AttestationsTableShell />
       ) : (
         <Container
