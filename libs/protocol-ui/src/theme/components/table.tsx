@@ -2,7 +2,7 @@ export default {
   baseStyle: {
     table: {
       bg: 'white',
-      whiteSpace: 'nowrap',
+      whiteSpace: { base: 'wrap', lg: 'nowrap' },
     },
     th: {
       fontWeight: 'medium',

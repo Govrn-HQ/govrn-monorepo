@@ -14,6 +14,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
       justifyContent="flexStart"
       alignItems="center"
       paddingBottom={4}
+      paddingX={{ base: 4, lg: 0 }}
     >
       <Heading color="gray.800" fontWeight="normal">
         {children}

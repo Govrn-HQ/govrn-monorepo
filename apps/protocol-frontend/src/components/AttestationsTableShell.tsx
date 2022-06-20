@@ -28,10 +28,9 @@ const AttestationsTableShell = () => {
     setModals({ bulkAttestationModal: true });
   };
 
-  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <>
-      <Container
+      <Box
         paddingY={{ base: '4', md: '8' }}
         paddingX={{ base: '0', md: '8' }}
         color="gray.700"
@@ -67,13 +66,13 @@ const AttestationsTableShell = () => {
                   </Button>
                 </Stack>
               </Box>
-              <Box overflowX="auto">
+              <Box width="100%" maxWidth="100vw" overflowX="auto">
                 <AttestationsTable
                   contributionsData={daoContributions}
                   setSelectedContributions={setSelectedContributions}
                 />
               </Box>
-              <Box px={{ base: '4', md: '6' }} pb="5">
+              {/* <Box px={{ base: '4', md: '6' }} pb="5">
                 <HStack spacing="3" justify="space-between">
                   {!isMobile && (
                     <Text color="muted" fontSize="sm">
@@ -90,13 +89,13 @@ const AttestationsTableShell = () => {
                     <Button>Next</Button>
                   </ButtonGroup>
                 </HStack>
-              </Box>
+              </Box> */}
             </Stack>
           </Box>
         ) : (
           <EmptyContributions />
         )}
-      </Container>
+      </Box>
       <ModalWrapper
         name="bulkAttestationModal"
         title="Attest to DAO Contributions"
