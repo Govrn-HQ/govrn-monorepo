@@ -50,7 +50,6 @@ export class Contribution extends BaseClient {
     args: MintArgs
   ) {
     console.log('is minting');
-    console.log('args', args);
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);

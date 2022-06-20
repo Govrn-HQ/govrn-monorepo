@@ -214,11 +214,27 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             proof: ethers.utils.toUtf8Bytes(contribution.proof),
           }
         );
-
         console.log('mint response', response);
+        getUserContributions();
+        toast({
+          title: 'Contribution Successfully Minted',
+          description: 'Your Contribution has been minted.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
       }
     } catch (error) {
       console.log('error', error);
+      toast({
+        title: 'Unable to Mint Contribution',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     }
   };
 
