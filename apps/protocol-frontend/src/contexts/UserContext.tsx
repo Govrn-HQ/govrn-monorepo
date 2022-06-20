@@ -1,3 +1,4 @@
+import ethers from 'ethers';
 import React, {
   useCallback,
   useContext,
@@ -265,49 +266,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createAttestation = async (contribution: any, values: any) => {
     try {
-<<<<<<< HEAD
-      await govrn.attestation.create({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: userData.address,
-                chain_type: {
-                  create: {
-                    name: 'Ethereum Mainnet', //unsure about this -- TODO: check
-                  },
-                },
-              },
-              where: {
-                id: userData.id,
-              },
-            },
-          },
-          date_of_attestation: new Date(Date.now()).toISOString(),
-          contribution: {
-            connect: {
-              id: contribution.id,
-            },
-          },
-          confidence: {
-            connectOrCreate: {
-              create: {
-                name: '0',
-              },
-              where: {
-                name: '0',
-              },
-            },
-          },
-        },
-=======
-      const response = await govrn.custom.createUserAttestation({
+      await govrn.custom.createUserAttestation({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
         confidenceName: '0',
         contributionId: contribution.id,
->>>>>>> master
       });
       toast({
         title: 'Contribution Report Updated',
