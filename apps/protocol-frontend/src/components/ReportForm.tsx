@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import {
@@ -53,6 +53,7 @@ const ReportForm = () => {
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
+  const [activityValue, setActivityValue] = useState('');
 
   const activityTypesList = [
     'Pull Request',
@@ -61,6 +62,10 @@ const ReportForm = () => {
     'Design',
     'Other',
   ];
+
+  // useEffect(() => {
+  //   setValue('activityType', activityValue);
+  // }, [activityValue, reset]);
 
   const combinedActivityTypesList = [
     ...new Set([
@@ -120,6 +125,7 @@ const ReportForm = () => {
           localForm={localForm}
           label="Date of Contribution Engagement (UTC)"
           defaultValue={engagementDateValue}
+          maxDate={new Date()}
           onChange={(date) => {
             setEngagementDateValue(date);
             setValue('engagementDate', date);
