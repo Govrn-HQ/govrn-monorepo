@@ -200,10 +200,11 @@ const ProfileForm = () => {
             >
               <Input
                 name="userLinearEmail"
-                label="Linear Email Address"
+                label="Linear Email Address (Coming Soon!)"
                 tip="Enter the email address you used with Linear for the integration."
                 placeholder="user@govrn.io"
                 localForm={localFormLinear} //TODO: resolve this type issue -- need to investigate this
+                disabled
               />
               <Button
                 type="submit"
@@ -212,6 +213,7 @@ const ProfileForm = () => {
                 backgroundColor="brand.primary.50"
                 transition="all 100ms ease-in-out"
                 _hover={{ bgColor: 'brand.primary.100' }}
+                disabled
               >
                 Link Email
               </Button>
