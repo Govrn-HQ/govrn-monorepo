@@ -47,4 +47,14 @@ export class UserMaxOrderByAggregateInput {
     nullable: true
   })
   full_name?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  active?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  email?: "asc" | "desc" | undefined;
 }
