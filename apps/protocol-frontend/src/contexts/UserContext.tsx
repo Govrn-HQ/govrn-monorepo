@@ -110,9 +110,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserActivityTypes = async () => {
     try {
-      const userActivityTypesResponse = await govrn.activity_type.list(
-        userData?.id
-      );
+      const userActivityTypesResponse = await govrn.activity_type.list({
+        where: {
+          users: {
+            every: {
+              user_id: { equals: userAddress?.id },
+            },
+          },
+        },
+        first: 1000,
+      });
       setUserActivityTypes(userActivityTypesResponse);
 
       return userActivityTypesResponse;
@@ -175,6 +182,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
+      getUserActivityTypes();
       getUserContributions();
       reset({
         name: '',
@@ -369,6 +377,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           id: contribution.id,
         },
       });
+      getUserActivityTypes();
       getUserContributions();
       toast({
         title: 'Contribution Report Updated',

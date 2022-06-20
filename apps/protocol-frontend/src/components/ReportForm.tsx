@@ -55,6 +55,10 @@ const ReportForm = () => {
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
   const [activityValue, setActivityValue] = useState('');
 
+  useEffect(() => {
+    setValue('engagementDate', engagementDateValue);
+  }, []);
+
   const activityTypesList = [
     'Pull Request',
     'Documentation',
@@ -65,8 +69,8 @@ const ReportForm = () => {
 
   const combinedActivityTypesList = [
     ...new Set([
-      ...activityTypesList,
       ...userActivityTypes.map((activity) => activity.name),
+      ...activityTypesList,
     ]),
   ];
 
@@ -98,6 +102,7 @@ const ReportForm = () => {
           name="activityType"
           label="Activity Type"
           placeholder="Select an activity type or add a new one"
+          defaultValue={combinedActivityTypeOptions[0]}
           onChange={(activity) => {
             setValue('activityType', activity.value);
           }}
