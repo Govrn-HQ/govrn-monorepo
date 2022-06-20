@@ -42,27 +42,21 @@ export declare namespace Govrn {
 
   export type ContributionStruct = {
     owner: string;
-    name: BytesLike;
-    details: BytesLike;
+    detailsUri: BytesLike;
     dateOfSubmission: BigNumberish;
     dateOfEngagement: BigNumberish;
-    proof: BytesLike;
   };
 
   export type ContributionStructOutput = [
     string,
     string,
-    string,
     BigNumber,
-    BigNumber,
-    string
+    BigNumber
   ] & {
     owner: string;
-    name: string;
-    details: string;
+    detailsUri: string;
     dateOfSubmission: BigNumber;
     dateOfEngagement: BigNumber;
-    proof: string;
   };
 
   export type BulkContributionStruct = {
@@ -113,14 +107,14 @@ export interface GovrnInterface extends utils.Interface {
     "attestations(uint256,address)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "bulkAttest((uint256,uint8,uint256)[])": FunctionFragment;
-    "bulkMint(((address,bytes,bytes,uint256,uint256,bytes))[])": FunctionFragment;
+    "bulkMint(((address,bytes,uint256,uint256))[])": FunctionFragment;
     "bulkPermitAttest((address,uint256,uint8,uint256,uint256,uint8,bytes32,bytes32)[])": FunctionFragment;
     "bulkRevokeAttestation(uint256[])": FunctionFragment;
     "burnContribution(uint256)": FunctionFragment;
     "contributionCount()": FunctionFragment;
     "contributions(uint256)": FunctionFragment;
     "initialize(uint256)": FunctionFragment;
-    "mint(bytes,bytes,uint256,uint256,bytes)": FunctionFragment;
+    "mint(bytes,uint256,uint256)": FunctionFragment;
     "nonces(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -211,7 +205,7 @@ export interface GovrnInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [BytesLike, BytesLike, BigNumberish, BigNumberish, BytesLike]
+    values: [BytesLike, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "nonces", values: [string]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -494,13 +488,11 @@ export interface Govrn extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [string, string, string, BigNumber, BigNumber, string] & {
+      [string, string, BigNumber, BigNumber] & {
         owner: string;
-        name: string;
-        details: string;
+        detailsUri: string;
         dateOfSubmission: BigNumber;
         dateOfEngagement: BigNumber;
-        proof: string;
       }
     >;
 
@@ -510,11 +502,9 @@ export interface Govrn extends BaseContract {
     ): Promise<ContractTransaction>;
 
     mint(
-      _name: BytesLike,
-      _details: BytesLike,
+      _detailsUri: BytesLike,
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
-      _proof: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -624,13 +614,11 @@ export interface Govrn extends BaseContract {
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<
-    [string, string, string, BigNumber, BigNumber, string] & {
+    [string, string, BigNumber, BigNumber] & {
       owner: string;
-      name: string;
-      details: string;
+      detailsUri: string;
       dateOfSubmission: BigNumber;
       dateOfEngagement: BigNumber;
-      proof: string;
     }
   >;
 
@@ -640,11 +628,9 @@ export interface Govrn extends BaseContract {
   ): Promise<ContractTransaction>;
 
   mint(
-    _name: BytesLike,
-    _details: BytesLike,
+    _detailsUri: BytesLike,
     _dateOfSubmission: BigNumberish,
     _dateOfEngagement: BigNumberish,
-    _proof: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -751,13 +737,11 @@ export interface Govrn extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [string, string, string, BigNumber, BigNumber, string] & {
+      [string, string, BigNumber, BigNumber] & {
         owner: string;
-        name: string;
-        details: string;
+        detailsUri: string;
         dateOfSubmission: BigNumber;
         dateOfEngagement: BigNumber;
-        proof: string;
       }
     >;
 
@@ -767,11 +751,9 @@ export interface Govrn extends BaseContract {
     ): Promise<void>;
 
     mint(
-      _name: BytesLike,
-      _details: BytesLike,
+      _detailsUri: BytesLike,
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
-      _proof: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -923,11 +905,9 @@ export interface Govrn extends BaseContract {
     ): Promise<BigNumber>;
 
     mint(
-      _name: BytesLike,
-      _details: BytesLike,
+      _detailsUri: BytesLike,
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
-      _proof: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1042,11 +1022,9 @@ export interface Govrn extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mint(
-      _name: BytesLike,
-      _details: BytesLike,
+      _detailsUri: BytesLike,
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
-      _proof: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -16,38 +16,34 @@ contract ContractTest is DSTestPlus {
     }
 
     function testNewContribution() public {
-        govrn.mint("test", "here", 1, 2, "proof");
+        govrn.mint("here", 1, 2);
         (
             address owner,
-            bytes memory name,
-            bytes memory details,
+            bytes memory detailsUri,
             uint256 dateOfSubmission,
-            uint256 dateOfEngagement,
-            bytes memory proof
+            uint256 dateOfEngagement
         ) = govrn.contributions(0);
         assertTrue(owner == address(this));
-        assertTrue(keccak256(name) == keccak256("test"));
-        assertTrue(keccak256(details) == keccak256("here"));
+        assertTrue(keccak256(detailsUri) == keccak256("here"));
         assertTrue(dateOfSubmission == 1);
         assertTrue(dateOfEngagement == 2);
-        assertTrue(keccak256(proof) == keccak256("proof"));
     }
 
     function testBulkMintTwo() public {
         Govrn.BulkContribution[]
             memory contributions = new Govrn.BulkContribution[](2);
         contributions[0] = Govrn.BulkContribution(
-            Govrn.Contribution(address(this), "test3", "here", 1, 2, "proof")
+            Govrn.Contribution(address(this), "here", 1, 2)
         );
         contributions[1] = Govrn.BulkContribution(
-            Govrn.Contribution(address(this), "test4", "here", 1, 2, "proof")
+            Govrn.Contribution(address(this), "here1", 1, 2)
         );
         govrn.bulkMint(contributions);
 
-        (, bytes memory name, , , , ) = govrn.contributions(0);
-        assertTrue(keccak256(name) == keccak256("test3"));
-        (, bytes memory name2, , , , ) = govrn.contributions(1);
-        assertTrue(keccak256(name2) == keccak256("test4"));
+        (, bytes memory detailsUri, , ) = govrn.contributions(0);
+        assertTrue(keccak256(detailsUri) == keccak256("here"));
+        (, bytes memory detailsUri2, , ) = govrn.contributions(1);
+        assertTrue(keccak256(detailsUri2) == keccak256("here1"));
     }
 }
 
@@ -56,25 +52,21 @@ contract GovrnAttestTest is DSTestPlus {
     Vm public constant vm = Vm(HEVM_ADDRESS);
 
     function mintContribution(
-        bytes memory _name,
-        bytes memory _details,
+        bytes memory _detailsUri,
         uint256 _dateOfSubmission,
-        uint256 _dateOfEngagement,
-        bytes memory _proof
+        uint256 _dateOfEngagement
     ) public {
         govrn.mint(
-            _name,
-            _details,
+            _detailsUri,
             _dateOfSubmission,
-            _dateOfEngagement,
-            _proof
+            _dateOfEngagement
         );
     }
 
     function setUp() public {
         govrn = new Govrn();
         govrn.initialize(1000);
-        this.mintContribution("test", "here", 1, 2, "proof");
+        this.mintContribution("here", 1, 2);
     }
 
     function testAttest() public {
@@ -90,7 +82,7 @@ contract GovrnAttestTest is DSTestPlus {
 
     function testBulkAttest() public {
         // attest
-        this.mintContribution("testName", "here4", 5, 6, "proof2");
+        this.mintContribution("here4", 5, 6);
         Govrn.Attestation[] memory attestations = new Govrn.Attestation[](2);
         attestations[0] = Govrn.Attestation(0, 2, 4);
         attestations[1] = Govrn.Attestation(1, 3, 5);
@@ -119,25 +111,21 @@ contract GovrnPermitAttestTest is DSTestPlus {
     Vm public constant vm = Vm(HEVM_ADDRESS);
 
     function _mintContribution(
-        bytes memory _name,
-        bytes memory _details,
+        bytes memory _detailsUri,
         uint256 _dateOfSubmission,
-        uint256 _dateOfEngagement,
-        bytes memory _proof
+        uint256 _dateOfEngagement
     ) public {
         govrn.mint(
-            _name,
-            _details,
+            _detailsUri,
             _dateOfSubmission,
-            _dateOfEngagement,
-            _proof
+            _dateOfEngagement
         );
     }
 
     function setUp() public {
         govrn = new Govrn();
         govrn.initialize(1000);
-        this._mintContribution("test", "here", 1, 2, "proof");
+        this._mintContribution("here", 1, 2);
     }
 
     // TODO: Add deadline test, bad nonce, bad signature
@@ -146,7 +134,7 @@ contract GovrnPermitAttestTest is DSTestPlus {
         address owner = hevm.addr(privateKey);
         // mint
 
-        govrn.mint("test", "here", 1, 2, "proof");
+        govrn.mint("here", 1, 2);
         (uint8 v, bytes32 r, bytes32 s) = hevm.sign(
             privateKey,
             keccak256(
@@ -186,8 +174,8 @@ contract GovrnPermitAttestTest is DSTestPlus {
         address owner = hevm.addr(privateKey);
         // mint
         Govrn.PermitAttestation[] memory bulkPermitAttest = new Govrn.PermitAttestation[](2);
-        govrn.mint("test", "here", 1, 2, "proof");
-        govrn.mint("test", "here", 1, 2, "proof");
+        govrn.mint("here", 1, 2);
+        govrn.mint("here", 1, 2);
         (uint8 vOne, bytes32 rOne, bytes32 sOne) = hevm.sign(
             privateKey,
             keccak256(
@@ -274,7 +262,7 @@ contract GovrnRevokeTest is DSTestPlus {
     function setUp() public {
         govrn = new Govrn();
         govrn.initialize(1000);
-        govrn.mint("test", "here", 1, 2, "proof");
+        govrn.mint("here", 1, 2);
     }
 
     function testRevokeAttestation() public {
@@ -312,8 +300,8 @@ contract GovrnBulkRevokeTest is DSTestPlus {
     function setUp() public {
         govrn = new Govrn();
         govrn.initialize(1000);
-        govrn.mint("test", "here", 1, 2, "proof");
-        govrn.mint("test", "here", 1, 2, "proof");
+        govrn.mint("here", 1, 2);
+        govrn.mint("here", 1, 2);
     }
 
     function testRevokeAttestation() public {
@@ -357,13 +345,13 @@ contract GovrnBurnTest is DSTestPlus {
     function setUp() public {
         govrn = new Govrn();
         govrn.initialize(1000);
-        govrn.mint("test", "here", 1, 2, "proof");
-        govrn.mint("test", "here", 1, 2, "proof");
+        govrn.mint("here", 1, 2);
+        govrn.mint("here", 1, 2);
     }
 
     function testBurnContribution() public {
         bool burned = govrn.burnContribution(1);
-        (address owner, , , , , ) = govrn.contributions(1);
+        (address owner, , , ) = govrn.contributions(1);
         assertTrue(burned);
         assertTrue(owner == address(0));
         assertTrue(govrn.balanceOf(address(this)) == 1);
