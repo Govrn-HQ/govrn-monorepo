@@ -103,7 +103,7 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
     useTable({ columns, data }, useSortBy);
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
       <Thead backgroundColor="gray.50">
         {headerGroups.map((headerGroup: any) => (
           <Tr {...headerGroup.getHeaderGroupProps()}>

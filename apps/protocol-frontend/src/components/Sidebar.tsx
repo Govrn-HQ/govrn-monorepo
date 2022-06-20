@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Divider, Flex, HStack, Stack } from '@chakra-ui/react';
+import {
+  Divider,
+  Flex,
+  HStack,
+  Stack,
+  IconButton,
+  useDisclosure,
+} from '@chakra-ui/react';
 import {
   FiBarChart2,
   FiCheckSquare,
@@ -40,9 +47,17 @@ const Sidebar = () => {
           <Link to="/">
             <Logo />
           </Link>
+
           <Stack spacing="1">
             <Link to="/">
               <NavButton label="Home" icon={FiHome} />
+            </Link>
+            <Link to="/report">
+              <NavButton
+                label="Report"
+                icon={FiPlusSquare}
+                active={location.pathname.includes('/report')}
+              />
             </Link>
             <Link to="/contributions">
               <NavButton
@@ -58,13 +73,7 @@ const Sidebar = () => {
                 active={location.pathname.includes('/attestations')}
               />
             </Link>
-            <Link to="/report">
-              <NavButton
-                label="Report"
-                icon={FiPlusSquare}
-                active={location.pathname.includes('/report')}
-              />
-            </Link>
+
             <Link to="/profile">
               <NavButton
                 label="Profile"

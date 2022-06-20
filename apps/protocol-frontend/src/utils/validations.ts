@@ -30,7 +30,8 @@ export const editContributionFormValidation = yup.object({
 });
 
 export const reportFormValidation = yup.object({
-  // username: yup.string().required('This field is required.'),
+  name: yup.string().required('This field is required.'),
+  engagementDate: yup.date(),
 });
 
 export const addAttestationFormValidation = yup.object({
