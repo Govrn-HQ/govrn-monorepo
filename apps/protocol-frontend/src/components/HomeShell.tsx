@@ -16,12 +16,15 @@ const HomeShell = () => {
   );
 
   const { userDataByAddress } = useUser();
+  console.log('userDataByAddress', userDataByAddress);
 
   useEffect(() => {
     if (userDataByAddress) {
       setCreateProfileSteps(3);
     }
     if (!userDataByAddress) {
+      console.log('userDataByAddress', userDataByAddress);
+
       setCreateProfileSteps(1);
     }
   }, [userDataByAddress]);

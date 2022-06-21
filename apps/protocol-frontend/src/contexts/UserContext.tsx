@@ -12,8 +12,6 @@ import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
 
-// TODO: Clean up the Context -- there are some duplicate function definitions inside the useEffects that can be removed and called
-
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
 
@@ -171,6 +169,62 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return userActivityTypesResponse;
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const createUser = async (values: any, address: string, navigate?: any) => {
+    try {
+      await govrn.user.create({
+        active: false,
+        address: address,
+        username: values.username,
+      });
+      toast({
+        title: 'User Created',
+        description: `Your username has been created with your address: ${address}. Let's report your first Contribution!`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      navigate('/report');
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: 'Unable to Create User',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
+  const createWaitlistUser = async (values: any, address: string) => {
+    try {
+      await govrn.user.create({
+        active: false,
+        address: address,
+      });
+      toast({
+        title: 'Successfully Joined Waitlist',
+        description: `Thank you for your interest in Govrn! We'll reach out when we open to new users.`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: 'Unable to Join Waitlist',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     }
   };
 
@@ -466,6 +520,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserAttestations,
         userActivityTypes,
         setUserActivityTypes,
+        createUser,
         createContribution,
         createAttestation,
         mintContribution,
@@ -498,6 +553,7 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createUser,
     createAttestation,
     createContribution,
     mintContribution,
@@ -524,6 +580,7 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createUser,
     createAttestation,
     createContribution,
     mintContribution,

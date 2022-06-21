@@ -1,14 +1,10 @@
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GovrnProtocol } from '@govrn/protocol-client';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
-import { createUserFormValidation } from '../utils/validations';
-
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
+import { createWaitlistFormValidation } from '../utils/validations';
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
@@ -41,40 +37,47 @@ const useYupValidationResolver = (userValidationSchema: any) =>
     [userValidationSchema]
   );
 
-const CreateUserForm = () => {
+const CreateWaitlistUserForm = () => {
   const localForm = useForm({
     mode: 'all',
-    resolver: useYupValidationResolver(createUserFormValidation),
+    resolver: useYupValidationResolver(createWaitlistFormValidation),
   });
   const {
     handleSubmit,
     formState: { isSubmitting },
   } = localForm;
-  const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { address } = useWallet();
   const { createUser } = useUser();
-  const navigate = useNavigate();
 
   const createUserHandler = async (values: any) => {
-    try {
-      await govrn.user.create({
-        address: address,
-        username: values.username,
-      });
-      navigate('/contributions');
-    } catch (error) {
-      console.log(error);
-    }
+    createUser(values, address);
   };
 
   return (
     <Stack spacing="4" width="100%" color="gray.700">
+      <Text>
+        Enter your email to join the waitlist. We'll reach out as soon as we
+        open more spots!
+        <span
+          role="img"
+          aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
+        >
+          🌞
+        </span>{' '}
+      </Text>
       <form onSubmit={handleSubmit(createUserHandler)}>
-        <Input
+        {/* <Input
           name="username"
           label="Username"
           tip="What would you like your username to be?"
           placeholder="DAOContributor"
+          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        /> */}
+        <Input
+          name="email"
+          label="Email Address"
+          tip="What is your preferrred email address for us to contact you?"
+          placeholder="daocontributor@dao.gg"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
         <Flex align="flex-end" marginTop={4}>
@@ -87,7 +90,7 @@ const CreateUserForm = () => {
             _hover={{ bgColor: 'brand.primary.100' }}
             isLoading={isSubmitting}
           >
-            Create
+            Join Waitlist
           </Button>
         </Flex>
       </form>
@@ -95,4 +98,4 @@ const CreateUserForm = () => {
   );
 };
 
-export default CreateUserForm;
+export default CreateWaitlistUserForm;
