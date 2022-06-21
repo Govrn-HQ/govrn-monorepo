@@ -11,6 +11,7 @@ import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
+import { Navigate } from 'react-router-dom';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
@@ -202,7 +203,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const createWaitlistUser = async (values: any, address: string) => {
+  const createWaitlistUser = async (
+    values: any,
+    address: string,
+    navigate: any
+  ) => {
     try {
       await govrn.user.create({
         address: address,
@@ -217,6 +222,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
+      navigate('/', { replace: true });
     } catch (error) {
       console.log(error);
       toast({

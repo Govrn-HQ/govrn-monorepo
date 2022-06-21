@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button, Text } from '@chakra-ui/react';
@@ -47,10 +48,11 @@ const CreateWaitlistUserForm = () => {
     formState: { isSubmitting },
   } = localForm;
   const { address } = useWallet();
+  const navigate = useNavigate();
   const { createWaitlistUser } = useUser();
 
   const createUserHandler = async (values: any) => {
-    createWaitlistUser(values, address);
+    createWaitlistUser(values, address, navigate);
   };
 
   return (
