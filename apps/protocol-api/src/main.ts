@@ -160,6 +160,11 @@ const permissions = shield(
       user: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
     },
+    TwitterUser: {
+      id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+      username: or(isAuthenticated, hasToken),
+    },
     User: {
       id: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
@@ -171,6 +176,7 @@ const permissions = shield(
       full_name: or(isAuthenticated, hasToken),
       discord_users: or(isAuthenticated, hasToken),
       guild_users: or(isAuthenticated, hasToken),
+      twitter_user: or(isAuthenticated, hasToken),
     },
   },
   {
