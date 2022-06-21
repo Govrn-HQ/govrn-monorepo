@@ -205,8 +205,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const createWaitlistUser = async (values: any, address: string) => {
     try {
       await govrn.user.create({
-        active: false,
         address: address,
+        email: values.email,
+        username: values.username,
       });
       toast({
         title: 'Successfully Joined Waitlist',
@@ -522,6 +523,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userActivityTypes,
         setUserActivityTypes,
         createUser,
+        createWaitlistUser,
         createContribution,
         createAttestation,
         mintContribution,
@@ -555,6 +557,7 @@ export const useUser = () => {
     userActivityTypes,
     setUserActivityTypes,
     createUser,
+    createWaitlistUser,
     createAttestation,
     createContribution,
     mintContribution,
@@ -582,6 +585,7 @@ export const useUser = () => {
     userActivityTypes,
     setUserActivityTypes,
     createUser,
+    createWaitlistUser,
     createAttestation,
     createContribution,
     mintContribution,

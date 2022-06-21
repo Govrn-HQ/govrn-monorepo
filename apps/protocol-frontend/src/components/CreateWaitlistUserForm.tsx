@@ -47,10 +47,10 @@ const CreateWaitlistUserForm = () => {
     formState: { isSubmitting },
   } = localForm;
   const { address } = useWallet();
-  const { createUser } = useUser();
+  const { createWaitlistUser } = useUser();
 
   const createUserHandler = async (values: any) => {
-    createUser(values, address);
+    createWaitlistUser(values, address);
   };
 
   return (
@@ -58,32 +58,38 @@ const CreateWaitlistUserForm = () => {
       spacing="4"
       width="100%"
       color="gray.700"
-      bg="white"
+      bgColor="whiteAlpha.800"
       padding={8}
       rounded="lg"
       boxShadow="sm"
     >
       <Text>
-        Enter your email to join the waitlist. We'll reach out as soon as we
-        open more spots!
         <span
           role="img"
           aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
         >
           🌞
         </span>{' '}
+        Enter your email and username to join the waitlist. We'll reach out as
+        soon as we open more spots!{' '}
+        <span
+          role="img"
+          aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
+        >
+          🌞
+        </span>
       </Text>
       <form onSubmit={handleSubmit(createUserHandler)}>
-        {/* <Input
+        <Input
           name="username"
           label="Username"
           tip="What would you like your username to be?"
           placeholder="DAOContributor"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
-        /> */}
+        />
         <Input
           name="email"
-          // label="Email Address"
+          label="Email Address"
           tip="What is your preferrred email address for us to contact you?"
           placeholder="daocontributor@dao.gg"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this

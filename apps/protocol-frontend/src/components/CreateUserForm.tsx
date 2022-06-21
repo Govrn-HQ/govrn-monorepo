@@ -50,7 +50,6 @@ const CreateUserForm = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = localForm;
-  const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { address } = useWallet();
   const { createUser } = useUser();
   const navigate = useNavigate();

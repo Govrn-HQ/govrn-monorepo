@@ -16,10 +16,7 @@ const HomeShell = () => {
     null
   );
 
-  const activeUser = false; // TODO: REMOVE THIS -- THIS IS FOR MOCKING WHILE WORKING ON RESOLVER
-
   const { userDataByAddress } = useUser();
-  console.log('userDataByAddress', userDataByAddress);
 
   useEffect(() => {
     if (userDataByAddress) {
@@ -54,23 +51,29 @@ const HomeShell = () => {
           </>
         )}
         {createProfileSteps === 2 && (
-          <Flex
-            justify="space-between"
-            direction="column"
-            wrap="wrap"
-            width="100%"
-            padding={8}
-            background="white"
-            boxShadow="sm"
-            borderRadius="lg"
-            marginBottom={4}
-          >
-            <CreateUserForm />
-          </Flex>
+          <>
+            {userDataByAddress?.active === true ? (
+              <Flex
+                justify="space-between"
+                direction="column"
+                wrap="wrap"
+                width="100%"
+                padding={8}
+                background="white"
+                boxShadow="sm"
+                borderRadius="lg"
+                marginBottom={4}
+              >
+                <CreateUserForm />
+              </Flex>
+            ) : (
+              <CreateWaitlistUserForm />
+            )}
+          </>
         )}
         {createProfileSteps === 3 && (
           <Flex direction="column">
-            {activeUser ? (
+            {userDataByAddress.active === true ? (
               <>
                 <Text color="gray.800" paddingBottom={8}>
                   Welcome back{' '}

@@ -13,6 +13,11 @@ export class UserCreateCustomInput {
 
   @TypeGraphQL.Field((_type) => String)
   address: string;
+
+  @TypeGraphQL.Field((_type) => String, {
+    nullable: true,
+  })
+  email?: string | undefined;
 }
 
 @TypeGraphQL.InputType('UserUpdateCustomInput', {
@@ -75,6 +80,7 @@ export class UserCustomResolver {
       data: {
         name: args.data.username,
         address: args.data.address,
+        email: args.data.email,
         chain_type: {
           connectOrCreate: {
             create: {
