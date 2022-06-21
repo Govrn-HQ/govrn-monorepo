@@ -113,6 +113,7 @@ const permissions = shield(
     },
     User: {
       id: isAuthenticated,
+      active: isAuthenticated,
       createdAt: isAuthenticated,
       updatedAt: isAuthenticated,
       name: isAuthenticated,
