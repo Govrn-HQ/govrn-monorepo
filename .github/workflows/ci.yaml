@@ -68,7 +68,7 @@ jobs:
       - run: yarn install
       - run: npm install -g @graphprotocol/graph-cli
       - name: Build
-        run: npx nx affected:build:production --base $BASE
+        run: npx nx affected:build --configuration production --base $BASE
       - name: Docker Build
         run: npx nx affected --target docker-build --base $BASE --parallel --max-parallel=3
         env:
