@@ -13,6 +13,11 @@ export class UserCreateCustomInput {
 
   @TypeGraphQL.Field((_type) => String)
   address: string;
+
+  @TypeGraphQL.Field((_type) => String, {
+    nullable: true,
+  })
+  email?: string | undefined;
 }
 
 @TypeGraphQL.InputType('UserUpdateCustomInput', {
@@ -71,10 +76,11 @@ export class UserCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserCustomArgs
   ) {
-    return await prisma.user.findUser({
+    return await prisma.user.create({
       data: {
         name: args.data.username,
         address: args.data.address,
+        email: args.data.email,
         chain_type: {
           connectOrCreate: {
             create: {
