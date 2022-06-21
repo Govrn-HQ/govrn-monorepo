@@ -56,15 +56,8 @@ const CreateUserForm = () => {
   const navigate = useNavigate();
 
   const createUserHandler = async (values: any) => {
-    try {
-      await govrn.user.create({
-        address: address,
-        username: values.username,
-      });
-      navigate('/contributions');
-    } catch (error) {
-      console.log(error);
-    }
+    console.log('values', values);
+    createUser(values, address);
   };
 
   return (

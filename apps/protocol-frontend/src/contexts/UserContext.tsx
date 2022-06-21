@@ -97,6 +97,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       const userDataByAddressResponse = await govrn.custom.listUserByAddress(
         address
       );
+      console.log('response', userDataByAddressResponse);
       if (userDataByAddressResponse.length > 0) {
         setUserDataByAddress(userDataByAddressResponse[0]);
       }
@@ -175,7 +176,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const createUser = async (values: any, address: string, navigate?: any) => {
     try {
       await govrn.user.create({
-        active: false,
+        // active: false,
         address: address,
         username: values.username,
       });
