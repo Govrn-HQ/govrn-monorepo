@@ -23,8 +23,6 @@ const HomeShell = () => {
       setCreateProfileSteps(3);
     }
     if (!userDataByAddress) {
-      console.log('userDataByAddress', userDataByAddress);
-
       setCreateProfileSteps(1);
     }
   }, [userDataByAddress]);
@@ -72,7 +70,12 @@ const HomeShell = () => {
           </>
         )}
         {createProfileSteps === 3 && (
-          <Flex direction="column">
+          <Flex
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+          >
             {userDataByAddress.active === true ? (
               <>
                 <Text color="gray.800" paddingBottom={8}>
@@ -101,7 +104,33 @@ const HomeShell = () => {
                 </Link>
               </>
             ) : (
-              <CreateWaitlistUserForm />
+              <>
+                <Text color="gray.800" paddingBottom={8}>
+                  Welcome back{' '}
+                  <Text
+                    as="span"
+                    fontWeight="bolder"
+                    bgGradient="linear(to-l, #7928CA, #FF0080)"
+                    bgClip="text"
+                  >
+                    {userDataByAddress?.name}
+                  </Text>
+                  . We'll reach out as soon as we open up more spots!
+                </Text>
+
+                <Link to="/contributions">
+                  <Button
+                    color="brand.primary.600"
+                    backgroundColor="brand.primary.50"
+                    transition="all 100ms ease-in-out"
+                    _hover={{ bgColor: 'white' }}
+                    marginTop={4}
+                    width="100%"
+                  >
+                    Join Our Discord
+                  </Button>
+                </Link>
+              </>
             )}
           </Flex>
         )}
