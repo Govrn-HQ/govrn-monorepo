@@ -7,6 +7,7 @@ import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
 
 import { useUser } from '../contexts/UserContext';
+import CreateWaitlistUserForm from './CreateWaitlistUserForm';
 
 const HomeShell = () => {
   const { isConnected } = useWallet();
@@ -14,6 +15,8 @@ const HomeShell = () => {
   const [createProfileSteps, setCreateProfileSteps] = useState<number | null>(
     null
   );
+
+  const activeUser = false; // TODO: REMOVE THIS -- THIS IS FOR MOCKING WHILE WORKING ON RESOLVER
 
   const { userDataByAddress } = useUser();
   console.log('userDataByAddress', userDataByAddress);
@@ -67,30 +70,36 @@ const HomeShell = () => {
         )}
         {createProfileSteps === 3 && (
           <Flex direction="column">
-            <Text color="gray.800" paddingBottom={8}>
-              Welcome back{' '}
-              <Text
-                as="span"
-                fontWeight="bolder"
-                bgGradient="linear(to-l, #7928CA, #FF0080)"
-                bgClip="text"
-              >
-                {userDataByAddress?.name}
-              </Text>
-              . Click below to view your contributions.
-            </Text>
-            <Link to="/contributions">
-              <Button
-                color="brand.primary.600"
-                backgroundColor="brand.primary.50"
-                transition="all 100ms ease-in-out"
-                _hover={{ bgColor: 'white' }}
-                marginTop={4}
-                width="100%"
-              >
-                My Contributions
-              </Button>
-            </Link>
+            {activeUser ? (
+              <>
+                <Text color="gray.800" paddingBottom={8}>
+                  Welcome back{' '}
+                  <Text
+                    as="span"
+                    fontWeight="bolder"
+                    bgGradient="linear(to-l, #7928CA, #FF0080)"
+                    bgClip="text"
+                  >
+                    {userDataByAddress?.name}
+                  </Text>
+                  . Click below to view your contributions.
+                </Text>
+                <Link to="/contributions">
+                  <Button
+                    color="brand.primary.600"
+                    backgroundColor="brand.primary.50"
+                    transition="all 100ms ease-in-out"
+                    _hover={{ bgColor: 'white' }}
+                    marginTop={4}
+                    width="100%"
+                  >
+                    My Contributions
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <CreateWaitlistUserForm />
+            )}
           </Flex>
         )}
       </Flex>
@@ -111,8 +120,9 @@ const HomeShell = () => {
     >
       <Flex
         direction="column"
-        alignItems="center"
-        justifyContent="center"
+        alignItems={{ base: 'flex-start', lg: 'center' }}
+        justifyContent={{ base: 'flex-start', lg: 'center' }}
+        paddingY={{ base: '8', lg: '0' }}
         flex="1"
         minHeight={['100vh', '100vh', '0', '0']}
       >

@@ -54,7 +54,15 @@ const CreateWaitlistUserForm = () => {
   };
 
   return (
-    <Stack spacing="4" width="100%" color="gray.700">
+    <Stack
+      spacing="4"
+      width="100%"
+      color="gray.700"
+      bg="white"
+      padding={8}
+      rounded="lg"
+      boxShadow="sm"
+    >
       <Text>
         Enter your email to join the waitlist. We'll reach out as soon as we
         open more spots!
@@ -75,7 +83,7 @@ const CreateWaitlistUserForm = () => {
         /> */}
         <Input
           name="email"
-          label="Email Address"
+          // label="Email Address"
           tip="What is your preferrred email address for us to contact you?"
           placeholder="daocontributor@dao.gg"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
@@ -85,7 +93,7 @@ const CreateWaitlistUserForm = () => {
             type="submit"
             width="100%"
             color="brand.primary.600"
-            backgroundColor="brand.primary.50"
+            backgroundColor="brand.primary.100"
             transition="all 100ms ease-in-out"
             _hover={{ bgColor: 'brand.primary.100' }}
             isLoading={isSubmitting}
