@@ -1,13 +1,6 @@
 import * as React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  Divider,
-  Flex,
-  HStack,
-  Stack,
-  IconButton,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Divider, Flex, HStack, Stack } from '@chakra-ui/react';
 import {
   FiBarChart2,
   FiCheckSquare,
@@ -18,7 +11,8 @@ import {
   FiTwitter,
 } from 'react-icons/fi';
 import Logo from './Logo';
-import { NavButton } from './NavButton';
+import NavButton from './NavButton';
+import NavLink from './NavLink';
 import ConnectWallet from './ConnectWallet';
 
 const Sidebar = () => {
@@ -95,8 +89,16 @@ const Sidebar = () => {
         >
           <Divider />
           <Stack shouldWrapChildren>
-            <NavButton label="Discord" icon={FiDisc} />
-            <NavButton label="Twitter" icon={FiTwitter} />
+            <NavButton
+              label="Discord"
+              icon={FiDisc}
+              linkTo="https://discord.gg/3e36ZHU5aG"
+            />
+            <NavButton
+              label="Twitter"
+              icon={FiTwitter}
+              linkTo="https://twitter.com/govrnHQ"
+            />
           </Stack>
         </Flex>
       </Flex>

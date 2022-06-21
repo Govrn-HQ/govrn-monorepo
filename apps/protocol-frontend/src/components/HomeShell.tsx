@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
-import { Flex, Button, Text } from '@chakra-ui/react';
+import { Flex, Link as ChakraLink, Button, Text, Box } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
@@ -118,7 +118,7 @@ const HomeShell = () => {
                   . We'll reach out as soon as we open up more spots!
                 </Text>
 
-                <Link to="/contributions">
+                <ChakraLink href="https://discord.gg/3e36ZHU5aG" isExternal>
                   <Button
                     color="brand.primary.600"
                     backgroundColor="brand.primary.50"
@@ -129,7 +129,7 @@ const HomeShell = () => {
                   >
                     Join Our Discord
                   </Button>
-                </Link>
+                </ChakraLink>
               </>
             )}
           </Flex>

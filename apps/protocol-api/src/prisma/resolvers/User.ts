@@ -76,7 +76,7 @@ export class UserCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserCustomArgs
   ) {
-    return await prisma.user.findUser({
+    return await prisma.user.create({
       data: {
         name: args.data.username,
         address: args.data.address,
