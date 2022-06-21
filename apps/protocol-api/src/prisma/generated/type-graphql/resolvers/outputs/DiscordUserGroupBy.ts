@@ -32,10 +32,10 @@ export class DiscordUserGroupBy {
   })
   display_name!: string | null;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  discord_id!: bigint;
+  discord_id!: string;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

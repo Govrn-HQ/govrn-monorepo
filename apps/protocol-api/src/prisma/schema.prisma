@@ -38,7 +38,8 @@ model DiscordUser {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   display_name String?
-  discord_id BigInt @unique
+  // Maybe Change this to a string
+  discord_id String @unique
   user_id Int
   user User @relation(fields: [user_id], references: [id])
 }
@@ -47,7 +48,7 @@ model Guild {
   id    Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  discord_id BigInt? @unique // legacy
+  discord_id String? @unique // legacy
   name String? // legacy
   congrats_channel Int? // legacy
   logo String?
@@ -327,10 +328,10 @@ model TwitterUser {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  twitter_user_id String
-  name String
-  username String
-  description String
+  twitter_user_id String?
+  name String?
+  username String @unique
+  description String?
 
   user_id Int?
   user User? @relation(fields: [user_id], references: [id])

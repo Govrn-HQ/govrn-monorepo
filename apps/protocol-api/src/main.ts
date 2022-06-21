@@ -64,6 +64,8 @@ const permissions = shield(
       createUserContribution: and(OwnsData, isAuthenticated),
       updateUserContribution: and(OwnsData, isAuthenticated),
       updateUserCustom: and(OwnsData, isAuthenticated),
+      createUser: or(isAuthenticated, hasToken),
+      createGuildUser: or(isAuthenticated, hasToken),
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
@@ -149,6 +151,15 @@ const permissions = shield(
       updatedAt: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
     },
+    GuildUser: {
+      createdAt: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
+      guild_id: or(isAuthenticated, hasToken),
+      id: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      user: or(isAuthenticated, hasToken),
+      user_id: or(isAuthenticated, hasToken),
+    },
     User: {
       id: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
@@ -159,6 +170,7 @@ const permissions = shield(
       chain_type: or(isAuthenticated, hasToken),
       full_name: or(isAuthenticated, hasToken),
       discord_users: or(isAuthenticated, hasToken),
+      guild_users: or(isAuthenticated, hasToken),
     },
   },
   {
