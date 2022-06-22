@@ -66,6 +66,8 @@ const permissions = shield(
       updateUserCustom: and(OwnsData, isAuthenticated),
       createUser: or(isAuthenticated, hasToken),
       updateUser: hasToken,
+      updateGuild: hasToken,
+      createGuild: hasToken,
       createGuildUser: or(isAuthenticated, hasToken),
     },
     ActivityType: {
