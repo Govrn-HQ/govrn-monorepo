@@ -330,6 +330,52 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const mintAttestation = async (contribution: any, ipfsContentUri: string) => {
+    try {
+      if (provider) {
+        await govrn.contribution.attest(
+          {
+            address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+            chainId: 31337,
+            name: 'Localhost',
+          },
+          signer,
+          userData.address,
+          contribution.id,
+          contribution.activityTypeId,
+          userData.id,
+          {
+            detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
+            dateOfSubmission: new Date(contribution.submissionDate).getTime(),
+            dateOfEngagement: new Date(contribution.engagementDate).getTime(),
+          },
+          ethers.utils.toUtf8Bytes(contribution.name),
+          ethers.utils.toUtf8Bytes(contribution.details),
+          ethers.utils.toUtf8Bytes(contribution.proof)
+        );
+        getDaoContributions();
+        toast({
+          title: 'Attestation Successfully Minted',
+          description: 'Your Attestation has been minted.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      console.log('error', error);
+      toast({
+        title: 'Unable to Mint Attestation',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
   const createAttestation = async (contribution: any, values: any) => {
     try {
       await govrn.custom.createUserAttestation({
@@ -537,6 +583,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createContribution,
         createAttestation,
         mintContribution,
+        mintAttestation,
         updateContribution,
         updateProfile,
         updateLinearEmail,
@@ -571,6 +618,7 @@ export const useUser = () => {
     createAttestation,
     createContribution,
     mintContribution,
+    mintAttestation,
     updateContribution,
     updateProfile,
     updateLinearEmail,
@@ -599,6 +647,7 @@ export const useUser = () => {
     createAttestation,
     createContribution,
     mintContribution,
+    mintAttestation,
     updateContribution,
     updateProfile,
     updateLinearEmail,

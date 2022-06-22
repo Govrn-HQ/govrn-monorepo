@@ -19,8 +19,8 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
         console.log(`contribution ${idx} is on chain`);
       } else {
         console.log(`contribution ${idx} is off chain`);
+        createAttestation(contribution.original);
       }
-      // createAttestation(contribution.original);
       setAttesting(false);
     });
   };
