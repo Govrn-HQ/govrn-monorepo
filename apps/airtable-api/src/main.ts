@@ -15,8 +15,6 @@ const API_TOKEN = process.env.API_TOKEN;
 app.get(
   '/users',
   util.callbackify(async (req, res) => {
-    // TODO: I am guessing over 1000 users
-    // this will start to become slow
     const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
       Authorization: API_TOKEN,
     });
