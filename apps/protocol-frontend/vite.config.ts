@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import strip from '@rollup/plugin-strip';
+import { resolve } from 'path';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { viteExternalsPlugin } from 'vite-plugin-externals';
 
@@ -23,6 +24,10 @@ export default defineConfig({
     alias: {
       stream: 'stream-browserify',
       url: 'url-browserify',
+      http: 'http-browserify',
+      https: 'http-browserify',
+      process: 'process-es6',
+      '~~': resolve(__dirname, 'src'),
     },
   },
   build: {

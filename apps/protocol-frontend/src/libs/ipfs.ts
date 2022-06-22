@@ -20,6 +20,11 @@ export const getIPFSClient = () => {
   return ipfs;
 };
 
+// export const storeIpfs = async () => {
+//   const ipfs = getIPFSClient();
+//   console.log('testing', ipfs);
+// };
+
 export const storeIpfs = async (
   content:
     | {

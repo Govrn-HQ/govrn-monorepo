@@ -32,7 +32,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
   const [minting, setMinting] = useState(false);
   const [currentContribution, setCurrentContribution] = useState(1);
 
-  console.log('store ipfs', storeIpfs);
+  console.log('ipfs', storeIpfs);
   const mintHandler = (contributions) => {
     console.log('agreement: ', agreementChecked.agreement);
     setMinting(true);
