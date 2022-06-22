@@ -36,6 +36,8 @@ const AttestationsTable = ({
   const { userData } = useUser();
   const [selectedContribution, setSelectedContribution] = useState<any>();
 
+  console.log('attestations incoming', contributionsData);
+
   const handleAddAttestationFormModal = (id: number) => {
     setSelectedContribution(id);
     setModals({ addAttestationFormModal: true });

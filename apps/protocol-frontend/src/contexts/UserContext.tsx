@@ -292,20 +292,20 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
             chainId: 31337,
             name: 'Localhost',
-          },
-          signer,
-          userData.address,
-          contribution.id,
-          contribution.activityTypeId,
-          userData.id,
+          }, // network config
+          signer, // provider/signer
+          userData.address, // user address
+          contribution.id, // contribution id
+          contribution.activityTypeId, // contribution activity type id
+          userData.id, // user id
           {
             detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
             dateOfSubmission: new Date(contribution.submissionDate).getTime(),
             dateOfEngagement: new Date(contribution.engagementDate).getTime(),
-          },
-          ethers.utils.toUtf8Bytes(contribution.name),
-          ethers.utils.toUtf8Bytes(contribution.details),
-          ethers.utils.toUtf8Bytes(contribution.proof)
+          }, // details uri
+          ethers.utils.toUtf8Bytes(contribution.name), // contribution name
+          ethers.utils.toUtf8Bytes(contribution.details), // contribution details
+          ethers.utils.toUtf8Bytes(contribution.proof) // contribution proof
         );
         getUserContributions();
         toast({
@@ -330,7 +330,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const mintAttestation = async (contribution: any, ipfsContentUri: string) => {
+  const mintAttestation = async (contribution: any) => {
     try {
       if (provider) {
         await govrn.contribution.attest(
@@ -338,20 +338,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
             chainId: 31337,
             name: 'Localhost',
-          },
-          signer,
-          userData.address,
-          contribution.id,
-          contribution.activityTypeId,
-          userData.id,
+          }, //network config
+          signer, // signer/provider
+          contribution.id, // contribution id
+          contribution.activityTypeId, //activity type id
+          userData.id, // user id
           {
-            detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
-            dateOfSubmission: new Date(contribution.submissionDate).getTime(),
-            dateOfEngagement: new Date(contribution.engagementDate).getTime(),
-          },
-          ethers.utils.toUtf8Bytes(contribution.name),
-          ethers.utils.toUtf8Bytes(contribution.details),
-          ethers.utils.toUtf8Bytes(contribution.proof)
+            contribution: contribution.id,
+            confidence: 0,
+          } // arttest args
         );
         getDaoContributions();
         toast({

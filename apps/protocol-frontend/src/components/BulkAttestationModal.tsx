@@ -7,7 +7,7 @@ interface BulkAttestationModalProps {
 }
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
-  const { userData, createAttestation } = useUser();
+  const { userData, createAttestation, mintAttestation } = useUser();
   const [attesting, setAttesting] = useState(false);
   const [currentAttestation, setCurrentAttestation] = useState(1);
 
@@ -17,6 +17,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
       console.log(`contribution: ${idx}`, contribution.original);
       if (contribution.original.status === 'minted') {
         console.log(`contribution ${idx} is on chain`);
+        mintAttestation(contribution.original);
       } else {
         console.log(`contribution ${idx} is off chain`);
         createAttestation(contribution.original);

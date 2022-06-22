@@ -58,8 +58,8 @@ export class GovrnContract {
   public async attest(args: AttestArgs) {
     return await this.govrn.attest(
       args.contribution,
-      args.confidence,
-      args.overrides
+      args.confidence
+      // args.overrides
     );
   }
 
