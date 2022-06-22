@@ -36,4 +36,14 @@ export default defineConfig({
       transformMixedEsModules: true,
     },
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      // Node.js global to browser globalThis
+      define: {
+        global: 'globalThis',
+        // my fix
+        'globalThis.process.env.NODE_ENV': 'development',
+      },
+    },
+  },
 });
