@@ -284,7 +284,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const mintContribution = async (
     contribution: any,
-    ipfsContentUri: string
+    ipfsContentUri: string,
+    setMintProgress: any
   ) => {
     try {
       if (provider) {
@@ -309,6 +310,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           ethers.utils.toUtf8Bytes(contribution.proof) // contribution proof
         );
         getUserContributions();
+        setMintProgress((prevState) => prevState + 1);
         toast({
           title: 'Contribution Successfully Minted',
           description: 'Your Contribution has been minted.',

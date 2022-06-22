@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Stack,
   Flex,
@@ -32,27 +32,34 @@ const MintModal = ({ contributions }: MintModalProps) => {
   );
   const [minting, setMinting] = useState(false);
   const [mintProgress, setMintProgress] = useState(0);
+  const [mintAmount, setMintAmount] = useState(contributions?.length);
   const [currentContribution, setCurrentContribution] = useState(1);
 
+  useEffect(() => {
+    if (minting && mintProgress === mintAmount) {
+      console.log('done minting');
+      console.log('contrib length', mintAmount);
+      setMinting(false);
+    }
+  }, [mintProgress]);
+
   const mintHandler = async (contributions) => {
-    // console.log('agreement: ', agreementChecked.agreement);
+    setMintAmount(contributions.length);
+    console.log('contrib length', contributions.length);
     setMinting(true);
 
     const unresolvedContributionsMinting = contributions.map(
       async (contribution, idx) => {
-        console.log(`contribution: ${idx}`, contribution.original);
         const ipfsContentUri = await storeIpfs({
           name: contribution.original.name,
           details: contribution.original.details,
           proof: contribution.original.proof,
         });
-        console.log('ipfsContentUri', ipfsContentUri);
-        mintContribution(contribution.original, ipfsContentUri);
-        console.log('idx', idx + 1);
-        setMintProgress((prevState: any) => ({
-          ...prevState,
-          mintProgress: idx + 1,
-        }));
+        mintContribution(
+          contribution.original,
+          ipfsContentUri,
+          setMintProgress
+        );
       }
     );
     await Promise.all(unresolvedContributionsMinting);
@@ -64,7 +71,6 @@ const MintModal = ({ contributions }: MintModalProps) => {
       }));
     }
     setFreshAgreementMint(false);
-    setMinting(false);
   };
 
   const agreementCheckboxHandler = () => {
