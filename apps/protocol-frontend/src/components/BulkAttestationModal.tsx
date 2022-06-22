@@ -11,13 +11,16 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const [attesting, setAttesting] = useState(false);
   const [currentAttestation, setCurrentAttestation] = useState(1);
 
-  console.log('contributions', contributions);
   const createAttestationsHandler = (contributions) => {
     setAttesting(true);
     contributions.map((contribution, idx) => {
-      // mint and attest logic
-      createAttestation(contribution.original);
       console.log(`contribution: ${idx}`, contribution.original);
+      if (contribution.original.status === 'minted') {
+        console.log(`contribution ${idx} is on chain`);
+      } else {
+        console.log(`contribution ${idx} is off chain`);
+      }
+      // createAttestation(contribution.original);
       setAttesting(false);
     });
   };
