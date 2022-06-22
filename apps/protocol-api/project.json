@@ -39,6 +39,12 @@
         "buildTarget": "protocol-api:build"
       }
     },
+    "node-seed": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "protocol-api:build"
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
@@ -55,27 +61,48 @@
       }
     },
     "generate": {
-      "builder": "@nx-tools/nx-prisma:generate",
+      "executor": "@nx-tools/nx-prisma:generate",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
     },
     "reset": {
-      "builder": "@nx-tools/nx-prisma:reset",
+      "executor": "@nx-tools/nx-prisma:reset",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
     },
     "migrate": {
-      "builder": "@nx-tools/nx-prisma:migrate",
+      "executor": "@nx-tools/nx-prisma:migrate",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
     },
+    "seed": {
+      "executor": "@nx-tools/nx-prisma:seed",
+      "options": {
+        "script": "apps/protocol-api/src/prisma/data/seed.ts",
+        "tsConfig": "apps/protocol-api/tsconfig.app.json"
+      }
+    },
+    "truncate": {
+      "executor": "@nx-tools/nx-prisma:seed",
+      "options": {
+        "script": "apps/protocol-api/src/prisma/data/truncate-db.ts",
+        "tsConfig": "apps/protocol-api/tsconfig.app.json"
+      }
+    },
     "prismaDeploy": {
-      "builder": "@nx-tools/nx-prisma:deploy",
+      "executor": "@nx-tools/nx-prisma:deploy",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
+      }
+    },
+    "snapshot": {
+      "executor": "@nx-tools/nx-prisma:seed",
+      "options": {
+        "script": "apps/protocol-api/src/prisma/data/snapshot.ts",
+        "tsConfig": "apps/protocol-api/tsconfig.app.json"
       }
     },
     "docker-build": {
@@ -133,6 +160,17 @@
         "commands": ["kubectl rollout status deployment/protocol-api"],
         "parallel": false
       }
+    },
+    "seed-fresh": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "yarn nx run protocol-api:truncate",
+          "yarn nx run protocol-api:seed"
+        ]
+      },
+      "parallel": false
     }
   },
   "tags": []

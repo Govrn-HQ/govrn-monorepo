@@ -8,7 +8,7 @@ import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { and, deny, or, rule, shield } from 'graphql-shield';
+import { shield, deny, allow, rule, and, or } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 import cors = require('cors');
 
@@ -54,6 +54,10 @@ const permissions = shield(
       guild: hasToken,
       listUserByAddress: OwnsData,
       users: hasToken,
+      jobRuns: allow,
+
+      // TODO: delete me
+      linearProjects: allow,
     },
     Mutation: {
       '*': deny,
@@ -68,6 +72,13 @@ const permissions = shield(
       createGuild: hasToken,
       createContribution: hasToken,
       createGuildUser: or(isAuthenticated, hasToken),
+
+      upsertLinearTeam: allow,
+      upsertLinearProject: allow,
+      upsertLinearCycle: allow,
+      upsertLinearUser: allow,
+      createManyLinearIssue: allow,
+      createJobRun: allow,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
@@ -188,6 +199,56 @@ const permissions = shield(
       twitter_user: or(isAuthenticated, hasToken),
       active: or(isAuthenticated, hasToken),
     },
+    JobRun: {
+      id: allow,
+      createdAt: allow,
+      updatedAt: allow,
+      completedDate: allow,
+      name: allow,
+      startDate: allow,
+    },
+    LinearTeam: {
+      id: allow,
+      key: allow,
+      name: allow,
+      linear_id: allow,
+    },
+    LinearProject: {
+      id: allow,
+      name: allow,
+      linear_id: allow,
+      issues: allow,
+    },
+    LinearCycle: {
+      id: allow,
+      number: allow,
+      startsAt: allow,
+      endsAt: allow,
+      linear_id: allow,
+      issues: allow,
+    },
+    LinearUser: {
+      id: allow,
+      active: allow,
+      createdAt: allow,
+      displayName: allow,
+      email: allow,
+      linear_id: allow,
+      name: allow,
+      url: allow,
+      user_id: allow,
+      user: allow,
+      assigned_issues: allow,
+      created_issues: allow,
+    },
+    AffectedRowsOutput: {
+      count: allow,
+    },
+
+    // TODO: Delete these.
+    LinearIssue: {
+      '*': allow,
+    },
   },
   {
     fallbackRule: deny,
@@ -226,6 +287,7 @@ app.use('/graphql', async function (req, res) {
   const mid = graphqlHTTP({
     schema,
     graphiql: true,
+    pretty: true,
     context: {
       prisma,
       req,
