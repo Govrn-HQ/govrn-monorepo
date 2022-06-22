@@ -49,7 +49,7 @@ const permissions = shield(
   {
     Query: {
       '*': deny,
-      contributions: isAuthenticated,
+      contributions: or(isAuthenticated, hasToken),
       activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
       getUser: isAuthenticated,
@@ -153,6 +153,12 @@ const permissions = shield(
       twitter_account: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
+    },
+    GuildContribution: {
+      id: or(isAuthenticated, hasToken),
+      contribution_id: or(isAuthenticated, hasToken),
+      guild_id: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken)
     },
     GuildUser: {
       createdAt: or(isAuthenticated, hasToken),
