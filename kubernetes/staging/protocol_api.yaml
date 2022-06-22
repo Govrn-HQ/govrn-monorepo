@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: protocol-api
+  labels:
+    environment: production
+    app: protocol-api
+    tier: service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: protocol-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        name: protocol-api
+    spec:
+      containers:
+        - name: web
+          image: <IMAGE>
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: database_url
+            - name: PROTOCOL_COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: protocol_cookie
+          resources:
+            requests:
+              memory: 300Mi
+              cpu: 300m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: protocol-api
+spec:
+  type: ClusterIP
+  selector:
+    name: protocol-api
+  ports:
+    - name: api
+      port: 4000
+      targetPort: 4000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: protocol-api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+    cert-manager.io/issuer: 'letsencrypt-prod'
+spec:
+  tls:
+    - hosts:
+        - api.govrn.app
+      secretName: protocol-api-tls
+  rules:
+    - host: api.govrn.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: protocol-api
+                port:
+                  number: 4000

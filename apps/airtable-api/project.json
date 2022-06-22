@@ -49,7 +49,60 @@
       }
     },
     "docker-build": {
-      "executor": "@nx-tools/nx-docker:build"
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "metadata": {
+          "images": ["registry.digitalocean.com/govrn-protocol/airtable_api"],
+          "load": true,
+          "tags": ["type=sha"]
+        }
+      }
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "metadata": {
+          "images": ["registry.digitalocean.com/govrn-protocol/airtable_api"],
+          "tags": ["type=sha"]
+        }
+      }
+    },
+    "docker-login": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["doctl registry login --expiry-seconds 1200"],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/airtable_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/airtable_api.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/airtable_api.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/airtable_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/airtable_api.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 govrn-staging-do-1-nyc3-1655915241203",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/airtable_api.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "verify": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["kubectl rollout status deployment/airtable-api"],
+        "parallel": false
+      }
     }
   },
   "tags": []

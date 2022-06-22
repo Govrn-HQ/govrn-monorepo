@@ -109,12 +109,23 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/protocol_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/prod/protocol_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/protocol_api.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
-          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/protocol_api.yaml"
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/protocol_api.yaml"
+        ],
+        "parallel": false
+      },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/staging/protocol_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/protocol_api.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 govrn-staging-do-1-nyc3-1655915241203",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/protocol_api.yaml"
         ],
         "parallel": false
       }
+
     },
     "verify": {
       "executor": "@nrwl/workspace:run-commands",
