@@ -32,20 +32,18 @@ const MintModal = ({ contributions }: MintModalProps) => {
   );
   const [minting, setMinting] = useState(false);
   const [mintProgress, setMintProgress] = useState(0);
-  const [mintAmount, setMintAmount] = useState(contributions?.length);
-  const [currentContribution, setCurrentContribution] = useState(1);
+  const [mintTotal, setMintTotal] = useState(contributions?.length);
 
   useEffect(() => {
-    if (minting && mintProgress === mintAmount) {
+    if (minting && mintProgress === mintTotal) {
       console.log('done minting');
-      console.log('contrib length', mintAmount);
+      console.log('contrib length', mintTotal);
       setMinting(false);
     }
   }, [mintProgress]);
 
   const mintHandler = async (contributions) => {
-    setMintAmount(contributions.length);
-    console.log('contrib length', contributions.length);
+    setMintTotal(contributions.length);
     setMinting(true);
 
     const unresolvedContributionsMinting = contributions.map(
@@ -74,7 +72,6 @@ const MintModal = ({ contributions }: MintModalProps) => {
   };
 
   const agreementCheckboxHandler = () => {
-    // setIsChecked(!isChecked);
     setAgreementChecked((prevState: any) => ({
       ...prevState,
       agreement: true,
@@ -123,13 +120,21 @@ const MintModal = ({ contributions }: MintModalProps) => {
           )}
         </>
       ) : (
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="brand.primary.500"
-          size="xl"
-        />
+        <Flex
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={4}
+        >
+          <Text>Confirm each mint transaction in your wallet.</Text>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.100"
+            color="green.500"
+            size="xl"
+          />
+        </Flex>
       )}
       <Flex align="flex-end" marginTop={8}>
         <Button
