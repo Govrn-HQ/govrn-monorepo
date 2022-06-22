@@ -10,7 +10,10 @@ const writeCallback = (filename: string, err) => {
   Logger.success(`:: Data written to ${filename}`);
 };
 
-const writeToFile = async (filename: string, data: any[]) => {
+const writeToFile = async (
+  filename: string,
+  data: { [key: string]: unknown }
+) => {
   const path = `./apps/protocol-api/src/prisma/data/${filename}`;
   await fs.writeFile(path, JSON.stringify(data, null, 2), (err) => {
     writeCallback(filename, err);
@@ -106,7 +109,7 @@ const main = async () => {
     select: linearUserSelect,
   });
 
-  await writeToFile('linear-snapshot.json', linearUsers);
+  await writeToFile('linear-snapshot.json', { linearUsers });
 };
 try {
   main();
