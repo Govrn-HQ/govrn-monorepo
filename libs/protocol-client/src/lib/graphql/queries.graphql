@@ -311,6 +311,7 @@ fragment ContributionFragment on Contribution {
   }
   attestations {
     id
+    user_id
   }
 }
 

@@ -69,6 +69,7 @@ const permissions = shield(
       createdAt: isAuthenticated,
       updatedAt: isAuthenticated,
       date_of_attestation: isAuthenticated,
+      user_id: isAuthenticated,
     },
     AttestationConfidence: {
       name: isAuthenticated,
