@@ -32,13 +32,22 @@ const MintModal = ({ contributions }: MintModalProps) => {
   const [minting, setMinting] = useState(false);
   const [currentContribution, setCurrentContribution] = useState(1);
 
-  console.log('ipfs', storeIpfs);
-  const mintHandler = (contributions) => {
-    console.log('agreement: ', agreementChecked.agreement);
+  const mintHandler = async (contributions) => {
+    console.log('contributions', contributions[0].original.name);
+    // console.log('Minting...', contributions[0].name);
+    const ipfsContent = await storeIpfs({
+      content: contributions[0].original.name,
+
+      // name: contributions[0].original.name,
+      // details: contributions[0].original.details,
+      // proof: contributions[0].original.proof,
+    });
+    console.log('ipfsContent', ipfsContent);
+    // console.log('agreement: ', agreementChecked.agreement);
     setMinting(true);
     contributions.map((contribution, idx) => {
       console.log(`contribution: ${idx}`, contribution.original);
-      mintContribution(contribution.original);
+      // mintContribution(contribution.original);
     });
     if (isChecked === true) {
       setAgreementChecked((prevState: any) => ({

@@ -20,11 +20,6 @@ export const getIPFSClient = () => {
   return ipfs;
 };
 
-// export const storeIpfs = async () => {
-//   const ipfs = getIPFSClient();
-//   console.log('testing', ipfs);
-// };
-
 export const storeIpfs = async (
   content:
     | {
@@ -35,9 +30,11 @@ export const storeIpfs = async (
   const ipfs = getIPFSClient();
   const cid = await ipfs.add(content, {
     cidVersion: 1,
-    hashAlg: 'sha2-256',
+    // hashAlg: 'sha2-256',
   });
+  console.log('cid', cid);
   const resp = await ipfs.pin.add(CID.parse(cid.path));
+  console.log('ipfs resp', resp);
   return `ipfs://${cid.path}`;
 };
 
