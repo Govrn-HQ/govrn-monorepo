@@ -57,7 +57,6 @@ export class Contribution extends BaseClient {
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
 
-    console.log('after waiting', transactionReceipt);
     // let onChainId = null;
     // const logs = transactionReceipt.logs;
     // console.log('transactionReceipt', transactionReceipt);
@@ -74,48 +73,48 @@ export class Contribution extends BaseClient {
     // if (!onChainId) {
     //   throw Error('Failed to fetch on chain Id');
     // }
-    if (id) {
-      console.log('id in the update:', id);
-      const updateResponse = await this.update({
-        data: {
-          name: { set: ethers.utils.toUtf8String(name) },
-          details: { set: ethers.utils.toUtf8String(details) },
-          date_of_submission: {
-            set: new Date(args.dateOfSubmission).toString(),
-          },
-          date_of_engagement: {
-            set: new Date(args.dateOfEngagement).toString(),
-          },
-          proof: {
-            set: ethers.utils.toUtf8String(proof),
-          },
-          status: {
-            connect: { name: 'minted' },
-          },
-          on_chain_id: {
-            set: id,
-          },
-        },
-        where: { id },
-      });
-      console.log('update response:', updateResponse);
-      return updateResponse;
-    }
-    return this.create({
-      data: {
-        activity_type: { connect: { id: activityTypeId } },
-        name: name,
-        details: details,
-        date_of_submission: new Date(args.dateOfSubmission).toString(),
-        date_of_engagement: new Date(args.dateOfEngagement).toString(),
-        proof: proof,
-        status: {
-          connect: { name: 'minted' },
-        },
-        user: { connect: { id: userId } },
-        on_chain_id: id,
-      },
-    });
+    // if (id) {
+    //   console.log('id in the update:', id);
+    //   const updateResponse = await this.update({
+    //     data: {
+    //       name: { set: ethers.utils.toUtf8String(name) },
+    //       details: { set: ethers.utils.toUtf8String(details) },
+    //       date_of_submission: {
+    //         set: new Date(args.dateOfSubmission).toString(),
+    //       },
+    //       date_of_engagement: {
+    //         set: new Date(args.dateOfEngagement).toString(),
+    //       },
+    //       proof: {
+    //         set: ethers.utils.toUtf8String(proof),
+    //       },
+    //       status: {
+    //         connect: { name: 'minted' },
+    //       },
+    //       on_chain_id: {
+    //         set: id,
+    //       },
+    //     },
+    //     where: { id },
+    //   });
+    //   console.log('update response:', updateResponse);
+    //   return updateResponse;
+    // }
+    // return this.create({
+    //   data: {
+    //     activity_type: { connect: { id: activityTypeId } },
+    //     name: name,
+    //     details: details,
+    //     date_of_submission: new Date(args.dateOfSubmission).toString(),
+    //     date_of_engagement: new Date(args.dateOfEngagement).toString(),
+    //     proof: proof,
+    //     status: {
+    //       connect: { name: 'minted' },
+    //     },
+    //     user: { connect: { id: userId } },
+    //     on_chain_id: id,
+    //   },
+    // });
   }
 
   public async attest(

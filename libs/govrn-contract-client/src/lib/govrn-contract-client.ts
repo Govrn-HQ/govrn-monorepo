@@ -50,8 +50,8 @@ export class GovrnContract {
     return await this.govrn.mint(
       args.detailsUri,
       args.dateOfSubmission,
-      args.dateOfEngagement,
-      args.overrides
+      args.dateOfEngagement
+      // args.overrides
     );
   }
 

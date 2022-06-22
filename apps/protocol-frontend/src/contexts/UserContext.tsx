@@ -299,7 +299,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           contribution.activityTypeId,
           userData.id,
           {
-            detailsUri: ipfsContentUri,
+            detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
             dateOfSubmission: new Date(contribution.submissionDate).getTime(),
             dateOfEngagement: new Date(contribution.engagementDate).getTime(),
           },
