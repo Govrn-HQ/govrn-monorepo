@@ -81,7 +81,17 @@ const ContributionsTable = ({
         Header: 'Status',
         accessor: 'status',
         Cell: ({ value }) => {
-          return <Text textTransform="capitalize">{value}</Text>;
+          return (
+            <Text textTransform="capitalize">
+              {value}{' '}
+              <span
+                role="img"
+                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
+              >
+                {value === 'minted' ? '🌞' : '👀'}
+              </span>{' '}
+            </Text>
+          );
         },
       },
       {
@@ -92,7 +102,7 @@ const ContributionsTable = ({
         Header: 'Attestations',
         accessor: 'attestations',
         Cell: ({ value }) => {
-          return <Text textTransform="capitalize">{value.length}</Text>;
+          return <Text textTransform="capitalize">{value.length} </Text>;
         },
       },
     ],

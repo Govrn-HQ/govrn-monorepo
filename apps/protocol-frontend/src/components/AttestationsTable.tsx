@@ -9,8 +9,7 @@ import {
   Thead,
   Tr,
   chakra,
-  HStack,
-  IconButton,
+  Text,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiCheckSquare } from 'react-icons/fi';
@@ -75,7 +74,24 @@ const AttestationsTable = ({
         accessor: 'name',
       },
       {
-        Header: 'Date',
+        Header: 'Status',
+        accessor: 'status',
+        Cell: ({ value }) => {
+          return (
+            <Text textTransform="capitalize">
+              {value}{' '}
+              <span
+                role="img"
+                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
+              >
+                {value === 'minted' ? '🌞' : '👀'}
+              </span>{' '}
+            </Text>
+          );
+        },
+      },
+      {
+        Header: 'Engagement Date',
         accessor: 'engagementDate',
       },
       {
@@ -102,21 +118,21 @@ const AttestationsTable = ({
         ),
       },
       ...columns,
-      {
-        id: 'actions',
-        Header: 'Actions',
-        Cell: ({ row }) => (
-          <HStack spacing="1">
-            <IconButton
-              icon={<FiCheckSquare fontSize="1rem" />}
-              variant="ghost"
-              color="gray.800"
-              aria-label="Add Attestation"
-              onClick={() => handleAddAttestationFormModal(row.original.id)}
-            />
-          </HStack>
-        ),
-      },
+      // {
+      //   id: 'actions',
+      //   Header: 'Actions',
+      //   Cell: ({ row }) => (
+      //     <HStack spacing="1">
+      //       <IconButton
+      //         icon={<FiCheckSquare fontSize="1rem" />}
+      //         variant="ghost"
+      //         color="gray.800"
+      //         aria-label="Add Attestation"
+      //         onClick={() => handleAddAttestationFormModal(row.original.id)}
+      //       />
+      //     </HStack>
+      //   ),
+      // },
     ]);
   };
 
