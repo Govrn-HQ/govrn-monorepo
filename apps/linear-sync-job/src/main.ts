@@ -1,8 +1,8 @@
-import { LinearClient, User, Cycle, Project, Team } from '@linear/sdk';
+import { Cycle, LinearClient, Project, Team, User } from '@linear/sdk';
 import {
   GovrnProtocol,
-  SortOrder,
   LinearIssueCreateManyInput,
+  SortOrder,
 } from '@govrn/protocol-client';
 import 'tslib';
 
@@ -18,10 +18,11 @@ const upsertUser = (govrn: GovrnProtocol, user: User) => {
     linear_id: user.id,
     name: user.name,
     url: user.url,
+    createdAt: user.createdAt,
   };
   const assingneePromise = govrn.linear.user.upsert({
     create: linearAssignee,
-    update: { name: { set: user.name } },
+    update: { name: { set: user.name }, email: { set: user.email } },
     where: { linear_id: user.id },
   });
   return assingneePromise;
