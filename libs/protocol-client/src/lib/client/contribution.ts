@@ -56,8 +56,8 @@ export class Contribution extends BaseClient {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
-    console.log('args', args);
-    console.log('after waiting');
+
+    console.log('after waiting', transactionReceipt);
     // let onChainId = null;
     // const logs = transactionReceipt.logs;
     // console.log('transactionReceipt', transactionReceipt);
@@ -82,11 +82,9 @@ export class Contribution extends BaseClient {
           details: { set: ethers.utils.toUtf8String(details) },
           date_of_submission: {
             set: new Date(args.dateOfSubmission).toString(),
-            // set: new Date(12344221).toString(),
           },
           date_of_engagement: {
             set: new Date(args.dateOfEngagement).toString(),
-            // set: new Date(12344221).toString(),
           },
           proof: {
             set: ethers.utils.toUtf8String(proof),

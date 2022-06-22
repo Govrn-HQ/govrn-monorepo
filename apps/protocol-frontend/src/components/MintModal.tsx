@@ -35,16 +35,18 @@ const MintModal = ({ contributions }: MintModalProps) => {
   const mintHandler = async (contributions) => {
     console.log('contributions', contributions[0].original.name);
     // console.log('Minting...', contributions[0].name);
-    const ipfsContent = await storeIpfs({
+    const ipfsContentUri = await storeIpfs({
       content: contributions[0].original.name,
 
       // name: contributions[0].original.name,
       // details: contributions[0].original.details,
       // proof: contributions[0].original.proof,
     });
-    console.log('ipfsContent', ipfsContent);
+    console.log('ipfsContentUri', ipfsContentUri);
     // console.log('agreement: ', agreementChecked.agreement);
     setMinting(true);
+    mintContribution(contributions[0].original, ipfsContentUri);
+
     contributions.map((contribution, idx) => {
       console.log(`contribution: ${idx}`, contribution.original);
       // mintContribution(contribution.original);

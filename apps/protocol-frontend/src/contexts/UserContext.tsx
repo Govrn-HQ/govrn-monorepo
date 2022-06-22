@@ -281,7 +281,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const mintContribution = async (contribution: any) => {
+  const mintContribution = async (
+    contribution: any,
+    ipfsContentUri: string
+  ) => {
     try {
       if (provider) {
         await govrn.contribution.mint(
@@ -296,8 +299,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           contribution.activityTypeId,
           userData.id,
           {
-            // details: ethers.utils.toUtf8Bytes(contribution.details),
-            details: 'test',
+            detailsUri: ipfsContentUri,
             dateOfSubmission: new Date(contribution.submissionDate).getTime(),
             dateOfEngagement: new Date(contribution.engagementDate).getTime(),
           },
