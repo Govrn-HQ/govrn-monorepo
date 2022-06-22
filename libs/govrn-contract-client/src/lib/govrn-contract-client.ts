@@ -2,12 +2,12 @@ import { ethers } from 'ethers';
 import { Govrn__factory, Govrn } from './generated';
 
 export type MintArgs = {
-  name: ethers.BytesLike;
-  details: ethers.BytesLike;
-  dateOfSubmission: ethers.BigNumberish;
-  dateOfEngagement: ethers.BigNumberish;
-  proof: ethers.BytesLike;
-  overrides?: ethers.Overrides & { from?: string | Promise<string> };
+  name: string;
+  details: string;
+  dateOfSubmission: number;
+  dateOfEngagement: number;
+  proof: string;
+  // overrides?: ethers.Overrides & { from?: string | Promise<string> };
 };
 
 export type AttestArgs = {
@@ -29,13 +29,14 @@ export type ContributionsArgs = {
 };
 
 export type AttestationArgs = {
-  tokenId: ethers.BigNumberish,
-  address: string,
-}
+  tokenId: ethers.BigNumberish;
+  address: string;
+};
 
 export type NetworkConfig = {
   address: string;
   chainId: number;
+  name?: string;
 };
 
 export class GovrnContract {
@@ -53,8 +54,8 @@ export class GovrnContract {
       args.details,
       args.dateOfSubmission,
       args.dateOfEngagement,
-      args.proof,
-      args.overrides
+      args.proof
+      // args.overrides
     );
   }
 
@@ -79,6 +80,6 @@ export class GovrnContract {
   }
 
   public async attestations(args: AttestationArgs) {
-    return await this.govrn.attestations(args.tokenId, args.address)
+    return await this.govrn.attestations(args.tokenId, args.address);
   }
 }

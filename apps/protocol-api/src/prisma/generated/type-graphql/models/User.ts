@@ -59,6 +59,16 @@ export class User {
   })
   full_name?: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  active!: boolean;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  email?: string | null;
+
   activities?: UserActivity[];
 
   attestations?: Attestation[];

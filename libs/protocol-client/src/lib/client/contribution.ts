@@ -49,59 +49,69 @@ export class Contribution extends BaseClient {
     userId: number,
     args: MintArgs
   ) {
+    console.log('is minting');
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
-    const transactionReceipt = await transaction.wait(10);
-    let onChainId = null;
-    const logs = transactionReceipt.logs;
-    for (const log of logs) {
-      const decodedLog = contract.govrn.interface.parseLog(log);
-      // TODO: Can we avoid hardcoding the event name
-      if (decodedLog.name === 'Mint') {
-        onChainId = decodedLog.args['id'];
-        break;
-      }
-    }
-    if (!onChainId) {
-      throw Error('Failed to fetch on chain Id');
-    }
+    const transactionReceipt = await transaction.wait(1);
+    console.log('after waiting');
+    // let onChainId = null;
+    // const logs = transactionReceipt.logs;
+    // console.log('transactionReceipt', transactionReceipt);
+    // for (const log of logs) {
+    //   console.log('on chain id (logs)', log);
+    //   const decodedLog = contract.govrn.interface.parseLog(log);
+    //   // TODO: Can we avoid hardcoding the event name
+    //   if (decodedLog.name === 'Mint') {
+    //     onChainId = decodedLog.args['id'];
+
+    //     break;
+    //   }
+    // }
+    // if (!onChainId) {
+    //   throw Error('Failed to fetch on chain Id');
+    // }
     if (id) {
-      return await this.update({
+      console.log('id in the update:', id);
+      const updateResponse = await this.update({
         data: {
-          name: { set: args.name.toString() },
-          details: { set: args.details.toString() },
+          name: { set: ethers.utils.toUtf8String(args.name) },
+          details: { set: ethers.utils.toUtf8String(args.details) },
           date_of_submission: {
-            set: new Date(args.dateOfSubmission.toString()),
+            set: new Date(args.dateOfSubmission).toString(),
+            // set: new Date(12344221).toString(),
           },
           date_of_engagement: {
-            set: new Date(args.dateOfEngagement.toString()),
+            set: new Date(args.dateOfEngagement).toString(),
+            // set: new Date(12344221).toString(),
           },
           proof: {
-            set: args.proof.toString(),
+            set: ethers.utils.toUtf8String(args.proof),
           },
           status: {
             connect: { name: 'minted' },
           },
           on_chain_id: {
-            set: onChainId,
+            set: id,
           },
         },
         where: { id },
       });
+      console.log('update response:', updateResponse);
+      return updateResponse;
     }
     return this.create({
       data: {
         activity_type: { connect: { id: activityTypeId } },
-        name: args.name.toString(),
-        details: args.details.toString(),
-        date_of_submission: new Date(args.dateOfSubmission.toString()),
-        date_of_engagement: new Date(args.dateOfEngagement.toString()),
-        proof: args.proof.toString(),
+        name: args.name,
+        details: args.details,
+        date_of_submission: new Date(args.dateOfSubmission).toString(),
+        date_of_engagement: new Date(args.dateOfEngagement).toString(),
+        proof: args.proof,
         status: {
           connect: { name: 'minted' },
         },
         user: { connect: { id: userId } },
-        on_chain_id: onChainId,
+        on_chain_id: id,
       },
     });
   }

@@ -11,7 +11,8 @@ import {
   FiTwitter,
 } from 'react-icons/fi';
 import Logo from './Logo';
-import { NavButton } from './NavButton';
+import NavButton from './NavButton';
+import NavLink from './NavLink';
 import ConnectWallet from './ConnectWallet';
 
 const Sidebar = () => {
@@ -40,9 +41,17 @@ const Sidebar = () => {
           <Link to="/">
             <Logo />
           </Link>
+
           <Stack spacing="1">
             <Link to="/">
               <NavButton label="Home" icon={FiHome} />
+            </Link>
+            <Link to="/report">
+              <NavButton
+                label="Report"
+                icon={FiPlusSquare}
+                active={location.pathname.includes('/report')}
+              />
             </Link>
             <Link to="/contributions">
               <NavButton
@@ -58,13 +67,7 @@ const Sidebar = () => {
                 active={location.pathname.includes('/attestations')}
               />
             </Link>
-            <Link to="/report">
-              <NavButton
-                label="Report"
-                icon={FiPlusSquare}
-                active={location.pathname.includes('/report')}
-              />
-            </Link>
+
             <Link to="/profile">
               <NavButton
                 label="Profile"
@@ -86,8 +89,16 @@ const Sidebar = () => {
         >
           <Divider />
           <Stack shouldWrapChildren>
-            <NavButton label="Discord" icon={FiDisc} />
-            <NavButton label="Twitter" icon={FiTwitter} />
+            <NavButton
+              label="Discord"
+              icon={FiDisc}
+              linkTo="https://discord.gg/3e36ZHU5aG"
+            />
+            <NavButton
+              label="Twitter"
+              icon={FiTwitter}
+              linkTo="https://twitter.com/govrnHQ"
+            />
           </Stack>
         </Flex>
       </Flex>

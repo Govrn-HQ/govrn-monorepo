@@ -114,7 +114,8 @@
           "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/protocol_api.yaml"
         ],
         "parallel": false
-      },
+      }
+    },
     "deployStaging": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -125,7 +126,6 @@
         ],
         "parallel": false
       }
-
     },
     "verify": {
       "executor": "@nrwl/workspace:run-commands",

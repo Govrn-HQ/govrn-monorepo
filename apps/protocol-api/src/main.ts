@@ -158,7 +158,7 @@ const permissions = shield(
       id: or(isAuthenticated, hasToken),
       contribution_id: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
-      guild: or(isAuthenticated, hasToken)
+      guild: or(isAuthenticated, hasToken),
     },
     GuildUser: {
       createdAt: or(isAuthenticated, hasToken),
@@ -201,7 +201,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://beta.govrn.app'],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,

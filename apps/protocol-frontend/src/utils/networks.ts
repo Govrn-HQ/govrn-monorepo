@@ -67,19 +67,29 @@ export const networks: { [key: string]: Network } = {
     explorer: 'https://bscscan.com/',
     rpc: 'https://bsc-dataseed.binance.org/',
   },
-  '0x7a69': {
-    chainId: '0x7a69',
+  // '0x7a69': {
+  //   chainId: '0x7a69',
+  //   chainNumber: 31337,
+  //   name: 'Localhost',
+  //   explorer: '',
+  //   symbol: 'ETH',
+  //   rpc: '127.0.0.1:8545',
+  // },
+  '0x539': {
+    chainId: '0x539',
     chainNumber: 31337,
-    explorer: '',
     name: 'Localhost',
     symbol: 'ETH',
-    rpc: '127.0.0.1:8545',
+    explorer: 'http://localhost:1234',
+    rpc: 'http://localhost:8545',
   },
 };
 
 export const chainOptions = [
   { label: 'Mainnet', value: '0x1' },
   { label: 'Rinkeby', value: '0x4' },
+  { label: 'Gnosis Chain', value: '0x64' },
+  { label: 'Localhost', value: '0x7a69' },
 ];
 
 export const getChainIdByName = (chainName: ChainLabel) => {

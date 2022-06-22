@@ -1,4 +1,3 @@
-
 # Job run
 fragment JobFieldsFragment on JobRun {
   id
@@ -9,27 +8,28 @@ fragment JobFieldsFragment on JobRun {
   startDate
 }
 
-query listJobRuns($where: JobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [JobRunOrderByWithRelationInput!]) {
-    result: jobRuns(
-        where: $where,
-        skip: $skip,
-        take: $first,
-        orderBy: $orderBy,
-    ) {
-      ...JobFieldsFragment
-    }
+query listJobRuns(
+  $where: JobRunWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [JobRunOrderByWithRelationInput!]
+) {
+  result: jobRuns(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...JobFieldsFragment
+  }
 }
 
-query getJobRun($where: JobRunWhereUniqueInput!,) {
-    result: jobRun(
-        where: $where,
-    ) {
-      ...JobFieldsFragment
-    }
+query getJobRun($where: JobRunWhereUniqueInput!) {
+  result: jobRun(where: $where) {
+    ...JobFieldsFragment
+  }
 }
 
 # Issues
-mutation bulkCreateIssues($data: [LinearIssueCreateManyInput!]!, $skipDuplicates: Boolean!) {
+mutation bulkCreateIssues(
+  $data: [LinearIssueCreateManyInput!]!
+  $skipDuplicates: Boolean!
+) {
   createManyLinearIssue(data: $data, skipDuplicates: $skipDuplicates) {
     count
   }
@@ -47,20 +47,30 @@ fragment LinearUserFragment on LinearUser {
   createdAt
 }
 
-
-mutation upsertLinearUser($create: LinearUserCreateInput!, $update:  LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
+mutation upsertLinearUser(
+  $create: LinearUserCreateInput!
+  $update: LinearUserUpdateInput!
+  $where: LinearUserWhereUniqueInput!
+) {
   upsertLinearUser(create: $create, update: $update, where: $where) {
     ...LinearUserFragment
   }
 }
 
-mutation updateLinearUser($data: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
+mutation updateLinearUser(
+  $data: LinearUserUpdateInput!
+  $where: LinearUserWhereUniqueInput!
+) {
   updateLinearUser(data: $data, where: $where) {
     ...LinearUserFragment
   }
 }
 
-mutation upsertLinearCycle($create: LinearCycleCreateInput!, $update:  LinearCycleUpdateInput!, $where: LinearCycleWhereUniqueInput!) {
+mutation upsertLinearCycle(
+  $create: LinearCycleCreateInput!
+  $update: LinearCycleUpdateInput!
+  $where: LinearCycleWhereUniqueInput!
+) {
   upsertLinearCycle(create: $create, update: $update, where: $where) {
     id
     endsAt
@@ -70,7 +80,11 @@ mutation upsertLinearCycle($create: LinearCycleCreateInput!, $update:  LinearCyc
   }
 }
 
-mutation upsertLinearProject($create: LinearProjectCreateInput!, $update:  LinearProjectUpdateInput!, $where: LinearProjectWhereUniqueInput!) {
+mutation upsertLinearProject(
+  $create: LinearProjectCreateInput!
+  $update: LinearProjectUpdateInput!
+  $where: LinearProjectWhereUniqueInput!
+) {
   upsertLinearProject(create: $create, update: $update, where: $where) {
     id
     linear_id
@@ -78,7 +92,11 @@ mutation upsertLinearProject($create: LinearProjectCreateInput!, $update:  Linea
   }
 }
 
-mutation upsertLinearTeam($create: LinearTeamCreateInput!, $update:  LinearTeamUpdateInput!, $where: LinearTeamWhereUniqueInput!) {
+mutation upsertLinearTeam(
+  $create: LinearTeamCreateInput!
+  $update: LinearTeamUpdateInput!
+  $where: LinearTeamWhereUniqueInput!
+) {
   upsertLinearTeam(create: $create, update: $update, where: $where) {
     id
     key
@@ -151,10 +169,12 @@ fragment TwitterTweetFragment on TwitterTweet {
   contribution {
     ...ContributionFragment
   }
-
 }
 
-mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!,  $skipDuplicates: Boolean!) {
+mutation bulkCreateTwitterTweet(
+  $data: [TwitterTweetCreateManyInput!]!
+  $skipDuplicates: Boolean!
+) {
   createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
     count
   }
@@ -171,15 +191,20 @@ fragment TwitterAccountFragment on TwitterAccount {
   updatedAt
 }
 
-query listTwitterAccounts($where: TwitterAccountWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [TwitterAccountOrderByWithRelationInput!]) {
-    result: twitterAccounts(
-        where: $where,
-        skip: $skip,
-        take: $first,
-        orderBy: $orderBy,
-    ) {
-      ...TwitterAccountFragment
-    }
+query listTwitterAccounts(
+  $where: TwitterAccountWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [TwitterAccountOrderByWithRelationInput!]
+) {
+  result: twitterAccounts(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...TwitterAccountFragment
+  }
 }
 
 fragment TwitterUserFragment on TwitterUser {
@@ -194,18 +219,20 @@ fragment TwitterUserFragment on TwitterUser {
   username
 }
 
-
-mutation upsertTwitterUser($create: TwitterUserCreateInput!, $update:  TwitterUserUpdateInput!, $where: TwitterUserWhereUniqueInput!) {
+mutation upsertTwitterUser(
+  $create: TwitterUserCreateInput!
+  $update: TwitterUserUpdateInput!
+  $where: TwitterUserWhereUniqueInput!
+) {
   upsertTwitterUser(create: $create, update: $update, where: $where) {
     ...TwitterUserFragment
   }
 }
 
-
-
 # User quries
 fragment UserFragment on User {
   address
+  active
   chain_type {
     id
     name
@@ -220,42 +247,34 @@ fragment UserFragment on User {
   updatedAt
 }
 
-query getUser($where: UserWhereUniqueInput!,) {
-    result: user(
-        where: $where,
-    ) {
-      ...UserFragment
-    }
+query getUser($where: UserWhereUniqueInput!) {
+  result: user(where: $where) {
+    ...UserFragment
+  }
 }
 
 query getUserCustom($id: Float!) {
-    result: getUser(
-        id: $id,
-    ) {
-      ...UserFragment
-    }
+  result: getUser(id: $id) {
+    ...UserFragment
+  }
 }
 
-
-
-query listUsers($where: UserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [UserOrderByWithRelationInput!]) {
-    result: users(
-        where: $where,
-        skip: $skip,
-        take: $first,
-        orderBy: $orderBy,
-    ) {
-      ...UserFragment
-    }
+query listUsers(
+  $where: UserWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [UserOrderByWithRelationInput!]
+) {
+  result: users(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...UserFragment
+  }
 }
 
 query listUserByAddress($address: String!) {
-    result: listUserByAddress(address: $address) {
-      ...UserFragment
-    }
+  result: listUserByAddress(address: $address) {
+    ...UserFragment
+  }
 }
-
-
 
 mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   updateUser(data: $data, where: $where) {
@@ -263,14 +282,11 @@ mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
   }
 }
 
-
 mutation updateUserCustom($data: UserUpdateCustomInput!) {
   updateUserCustom(data: $data) {
     ...UserFragment
   }
 }
-
-
 
 mutation createUser($data: UserCreateInput!) {
   createUser(data: $data) {
@@ -320,23 +336,26 @@ fragment ContributionFragment on Contribution {
   }
 }
 
-query getContribution($where: ContributionWhereUniqueInput!,) {
-    result: contribution(
-        where: $where,
-    ) {
-      ...ContributionFragment
-    }
+query getContribution($where: ContributionWhereUniqueInput!) {
+  result: contribution(where: $where) {
+    ...ContributionFragment
+  }
 }
 
-query listContributions($where: ContributionWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ContributionOrderByWithRelationInput!]) {
-    result: contributions(
-        where: $where,
-        skip: $skip,
-        take: $first,
-        orderBy: $orderBy,
-    ) {
-      ...ContributionFragment
-    }
+query listContributions(
+  $where: ContributionWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [ContributionOrderByWithRelationInput!]
+) {
+  result: contributions(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...ContributionFragment
+  }
 }
 
 mutation createContribution($data: ContributionCreateInput!) {
@@ -357,13 +376,19 @@ mutation updateUserContribution($data: UserContributionUpdateInput!) {
   }
 }
 
-mutation bulkCreateContribution($data: [ContributionCreateManyInput!]!,  $skipDuplicates: Boolean!) {
+mutation bulkCreateContribution(
+  $data: [ContributionCreateManyInput!]!
+  $skipDuplicates: Boolean!
+) {
   createManyContribution(data: $data, skipDuplicates: $skipDuplicates) {
     count
   }
 }
 
-mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
+mutation updateContribution(
+  $data: ContributionUpdateInput!
+  $where: ContributionWhereUniqueInput!
+) {
   updateContribution(data: $data, where: $where) {
     ...ContributionFragment
   }
@@ -378,12 +403,17 @@ fragment ActivityTypeFragment on ActivityType {
   updatedAt
 }
 
-query listActivityTypes($where: ActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ActivityTypeOrderByWithRelationInput!]) {
+query listActivityTypes(
+  $where: ActivityTypeWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [ActivityTypeOrderByWithRelationInput!]
+) {
   result: activityTypes(
-    where: $where,
-    skip: $skip,
-    take: $first,
-    orderBy: $orderBy,
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
   ) {
     ...ActivityTypeFragment
   }
@@ -394,7 +424,6 @@ mutation createActivityType($data: ActivityTypeCreateInput!) {
     ...ActivityTypeFragment
   }
 }
-
 
 # Attestations
 fragment AttestationFragment on Attestation {
@@ -426,17 +455,21 @@ fragment AttestationFragment on Attestation {
   }
 }
 
-query listAttestations($where: AttestationWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [AttestationOrderByWithRelationInput!]) {
-    result: attestations(
-        where: $where,
-        skip: $skip,
-        take: $first,
-        orderBy: $orderBy,
-    ) {
-      ...AttestationFragment
-    }
+query listAttestations(
+  $where: AttestationWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [AttestationOrderByWithRelationInput!]
+) {
+  result: attestations(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...AttestationFragment
+  }
 }
-
 
 mutation createAttestation($data: AttestationCreateInput!) {
   createAttestation(data: $data) {
@@ -444,13 +477,19 @@ mutation createAttestation($data: AttestationCreateInput!) {
   }
 }
 
-mutation bulkCreateAttestation($data: [AttestationCreateManyInput!]!,  $skipDuplicates: Boolean!) {
+mutation bulkCreateAttestation(
+  $data: [AttestationCreateManyInput!]!
+  $skipDuplicates: Boolean!
+) {
   createManyAttestation(data: $data, skipDuplicates: $skipDuplicates) {
     count
   }
 }
 
-mutation updateAttestation($data: AttestationUpdateInput!, $where: AttestationWhereUniqueInput!) {
+mutation updateAttestation(
+  $data: AttestationUpdateInput!
+  $where: AttestationWhereUniqueInput!
+) {
   updateAttestation(data: $data, where: $where) {
     ...AttestationFragment
   }
@@ -479,15 +518,20 @@ fragment PartnerFragment on Partner {
   }
 }
 
-query listPartners($where: PartnerWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [PartnerOrderByWithRelationInput!]) {
-    result: partners(
-        where: $where,
-        skip: $skip,
-        take: $first,
-        orderBy: $orderBy,
-    ) {
-      ...PartnerFragment
-    }
+query listPartners(
+  $where: PartnerWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [PartnerOrderByWithRelationInput!]
+) {
+  result: partners(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...PartnerFragment
+  }
 }
 
 # Custom queries
@@ -520,11 +564,8 @@ fragment AttestationFragment on Attestation {
   }
 }
 
-
 mutation createUserAttestation($data: AttestationUserCreateInput!) {
   createUserAttestation(data: $data) {
     ...AttestationFragment
   }
 }
-
-

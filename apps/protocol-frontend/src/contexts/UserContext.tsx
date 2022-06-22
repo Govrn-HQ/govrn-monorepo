@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import React, {
   useCallback,
   useContext,
@@ -10,8 +11,7 @@ import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
-
-// TODO: Clean up the Context -- there are some duplicate function definitions inside the useEffects that can be removed and called
+import { Navigate } from 'react-router-dom';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
@@ -25,6 +25,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
   const { isConnected, address, chainId, provider } = useWallet();
+  const signer = provider?.getSigner();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
@@ -97,6 +98,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       const userDataByAddressResponse = await govrn.custom.listUserByAddress(
         address
       );
+      console.log('response', userDataByAddressResponse);
       if (userDataByAddressResponse.length > 0) {
         setUserDataByAddress(userDataByAddressResponse[0]);
       }
@@ -154,14 +156,83 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserActivityTypes = async () => {
     try {
-      const userActivityTypesResponse = await govrn.activity_type.list(
-        userData?.id
-      );
+      const userActivityTypesResponse = await govrn.activity_type.list({
+        where: {
+          users: {
+            every: {
+              user_id: { equals: userAddress?.id },
+            },
+          },
+        },
+        first: 1000,
+      });
       setUserActivityTypes(userActivityTypesResponse);
 
       return userActivityTypesResponse;
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const createUser = async (values: any, address: string, navigate?: any) => {
+    try {
+      await govrn.user.create({
+        // active: false,
+        address: address,
+        username: values.username,
+      });
+      toast({
+        title: 'User Created',
+        description: `Your username has been created with your address: ${address}. Let's report your first Contribution!`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      navigate('/report');
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: 'Unable to Create User',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
+  const createWaitlistUser = async (
+    values: any,
+    address: string,
+    navigate: any
+  ) => {
+    try {
+      await govrn.user.create({
+        address: address,
+        email: values.email,
+        username: values.username,
+      });
+      toast({
+        title: 'Successfully Joined Waitlist',
+        description: `Thank you for your interest in Govrn! We'll reach out when we open to new users.`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: 'Unable to Join Waitlist',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     }
   };
 
@@ -180,14 +251,22 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       });
       toast({
         title: 'Contribution Report Added',
-        description: 'Your Contribution report has been recorded.',
+        description:
+          'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
         status: 'success',
         duration: 3000,
         isClosable: true,
         position: 'top-right',
       });
+      getUserActivityTypes();
       getUserContributions();
-      reset();
+      reset({
+        name: '',
+        details: '',
+        proof: '',
+        activityType: values.activityType,
+        engagementDate: values.engagementDate,
+      });
       navigate('/contributions');
     } catch (error) {
       console.log(error);
@@ -202,9 +281,54 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const mintContribution = async (contribution: any) => {
+    try {
+      if (provider) {
+        await govrn.contribution.mint(
+          {
+            address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+            chainId: 31337,
+            name: 'Localhost',
+          },
+          signer,
+          userData.address,
+          contribution.id,
+          contribution.activityTypeId,
+          userData.id,
+          {
+            name: ethers.utils.toUtf8Bytes(contribution.name),
+            details: ethers.utils.toUtf8Bytes(contribution.details),
+            dateOfSubmission: new Date(contribution.submissionDate).getTime(),
+            dateOfEngagement: new Date(contribution.engagementDate).getTime(),
+            proof: ethers.utils.toUtf8Bytes(contribution.proof),
+          }
+        );
+        getUserContributions();
+        toast({
+          title: 'Contribution Successfully Minted',
+          description: 'Your Contribution has been minted.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      console.log('error', error);
+      toast({
+        title: 'Unable to Mint Contribution',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
   const createAttestation = async (contribution: any, values: any) => {
     try {
-      const response = await govrn.custom.createUserAttestation({
+      await govrn.custom.createUserAttestation({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
@@ -219,7 +343,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
-      console.log('response', response);
       getDaoContributions();
     } catch (error) {
       console.log(error);
@@ -257,6 +380,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         status: 'staging',
         contributionId: contribution.id,
       });
+      getUserActivityTypes();
       getUserContributions();
       toast({
         title: 'Contribution Report Updated',
@@ -404,8 +528,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserAttestations,
         userActivityTypes,
         setUserActivityTypes,
+        createUser,
+        createWaitlistUser,
         createContribution,
         createAttestation,
+        mintContribution,
         updateContribution,
         updateProfile,
         updateLinearEmail,
@@ -435,8 +562,11 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createUser,
+    createWaitlistUser,
     createAttestation,
     createContribution,
+    mintContribution,
     updateContribution,
     updateProfile,
     updateLinearEmail,
@@ -460,8 +590,11 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    createUser,
+    createWaitlistUser,
     createAttestation,
     createContribution,
+    mintContribution,
     updateContribution,
     updateProfile,
     updateLinearEmail,

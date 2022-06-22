@@ -1,34 +1,100 @@
 import { useState } from 'react';
-import { Stack, Flex, Button, Text, Progress } from '@chakra-ui/react';
+import {
+  Stack,
+  Flex,
+  Button,
+  Text,
+  Progress,
+  Checkbox,
+  Tooltip,
+  Icon,
+  HStack,
+} from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
+import { useLocalStorage } from '../utils/hooks';
+import { FaQuestionCircle } from 'react-icons/fa';
 
 interface MintModalProps {
   contributions: any;
 }
 
 const MintModal = ({ contributions }: MintModalProps) => {
-  const { userData } = useUser();
+  const { userData, mintContribution } = useUser();
+  const [isChecked, setIsChecked] = useState(false);
+  const [freshAgreementMint, setFreshAgreementMint] = useState(true);
+  const [agreementChecked, setAgreementChecked] = useLocalStorage(
+    'Govrn:Public-Data-Agreement',
+    {
+      agreement: false,
+    }
+  );
   const [minting, setMinting] = useState(false);
   const [currentContribution, setCurrentContribution] = useState(1);
 
-  console.log('contributions', contributions);
   const mintHandler = (contributions) => {
+    console.log('agreement: ', agreementChecked.agreement);
     setMinting(true);
     contributions.map((contribution, idx) => {
-      // mint logic
       console.log(`contribution: ${idx}`, contribution.original);
-      setMinting(false);
+      mintContribution(contribution.original);
     });
+    if (isChecked === true) {
+      setAgreementChecked((prevState: any) => ({
+        ...prevState,
+        agreement: true,
+      }));
+    }
+    setMinting(false);
+    setFreshAgreementMint(false);
+  };
+
+  const agreementCheckboxHandler = () => {
+    // setIsChecked(!isChecked);
+    setAgreementChecked((prevState: any) => ({
+      ...prevState,
+      agreement: true,
+    }));
   };
 
   return (
-    <Stack spacing="4" width="100%" color="gray.800">
-      <Text paddingBottom={2}>
-        Minting {contributions.length}{' '}
-        {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+    <Stack spacing="3" width="100%" color="gray.800">
+      <HStack width="100%" justifyContent="space-between">
+        <Text fontSize="md">
+          Minting {contributions.length}{' '}
+          {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+        </Text>
+        <Tooltip
+          label={`Why Mint?
+        Minting a Contribution makes it immutable and creates a historical record of what's been done that can't be changed.`}
+          fontSize="md"
+          bgColor="brand.primary.50"
+          placement="right"
+        >
+          <HStack width="fit-content">
+            <Text>Why Mint?</Text>
+            <Icon as={FaQuestionCircle} size="64px" />
+          </HStack>
+        </Tooltip>
+      </HStack>
+      <Text>
+        Please note that minting will result in your Contribution data becoming
+        public. This means that anyone will be able to see your Contribution
+        details on Block Explorers such as Etherscan (Mainnet) or Blockscout
+        (Gnosis Chain).
       </Text>
+      <Text>
+        After you agree to the terms, we'll store this in your browser's local
+        storage and we'll ask you again when we update our protocol.
+      </Text>
+      {freshAgreementMint === true && !agreementChecked.agreement && (
+        <Checkbox onChange={agreementCheckboxHandler}>
+          <Text color="black" fontWeight="normal" fontSize="md">
+            I understand
+          </Text>
+        </Checkbox>
+      )}
       {minting ? <Progress color="brand.primary" /> : null}
-      <Flex align="flex-end" marginTop={4}>
+      <Flex align="flex-end" marginTop={8}>
         <Button
           type="submit"
           width="100%"
@@ -38,8 +104,9 @@ const MintModal = ({ contributions }: MintModalProps) => {
           _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => mintHandler(contributions)}
           isLoading={minting}
+          disabled={!agreementChecked.agreement}
         >
-          Mint Contributions
+          Mint {contributions.length === 1 ? 'Contribution' : 'Contributions'}
         </Button>
       </Flex>
     </Stack>

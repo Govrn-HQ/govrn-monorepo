@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useWallet } from '@raidguild/quiver';
+import { useUser } from '../contexts/UserContext';
 import SiteLayout from '../components/SiteLayout';
 import ConnectWallet from '../components/ConnectWallet';
 import ProfileShell from '../components/ProfileShell';
-import { useUser } from '../contexts/UserContext';
 
 const UserView = () => {
   return (
@@ -35,6 +35,8 @@ const NotUserView = () => {
 const Profile = () => {
   const { isAuthenticated } = useUser();
   const { isConnected } = useWallet();
+  const { userData } = useUser();
+
   return (
     <SiteLayout>
       {isConnected && isAuthenticated ? (
@@ -51,7 +53,7 @@ const Profile = () => {
             boxShadow="sm"
             borderRadius={{ base: 'none', md: 'lg' }}
           >
-            {isUser ? <UserView /> : <NotUserView />}
+            {isConnected && userData ? <UserView /> : <NotUserView />}
           </Box>
         </Container>
       )}

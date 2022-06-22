@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import {
@@ -53,6 +53,11 @@ const ReportForm = () => {
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
+  const [activityValue, setActivityValue] = useState('');
+
+  useEffect(() => {
+    setValue('engagementDate', engagementDateValue);
+  }, []);
 
   const activityTypesList = [
     'Pull Request',
@@ -64,8 +69,8 @@ const ReportForm = () => {
 
   const combinedActivityTypesList = [
     ...new Set([
-      ...activityTypesList,
       ...userActivityTypes.map((activity) => activity.name),
+      ...activityTypesList,
     ]),
   ];
 
@@ -77,11 +82,14 @@ const ReportForm = () => {
   );
 
   const createContributionHandler = async (values: any) => {
+    console.log('values', values);
+    setActivityValue(values.activityType);
+    console.log(activityValue);
     createContribution(values, reset, navigate);
   };
 
   return (
-    <Stack spacing="4" width="100%" color="gray.900">
+    <Stack spacing={{ base: '6', lg: '4' }} width="100%" color="gray.900">
       <form onSubmit={handleSubmit(createContributionHandler)}>
         <Input
           name="name"
@@ -94,6 +102,7 @@ const ReportForm = () => {
           name="activityType"
           label="Activity Type"
           placeholder="Select an activity type or add a new one"
+          defaultValue={combinedActivityTypeOptions[0]}
           onChange={(activity) => {
             setValue('activityType', activity.value);
           }}
@@ -119,7 +128,8 @@ const ReportForm = () => {
           name="engagementDate"
           localForm={localForm}
           label="Date of Contribution Engagement (UTC)"
-          defaultValue={new Date()}
+          defaultValue={engagementDateValue}
+          maxDate={new Date()}
           onChange={(date) => {
             setEngagementDateValue(date);
             setValue('engagementDate', date);

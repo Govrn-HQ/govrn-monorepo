@@ -150,7 +150,7 @@ const AttestationsTable = ({
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
-      <Table {...getTableProps()}>
+      <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
         <Thead backgroundColor="gray.50">
           {headerGroups.map((headerGroup: any) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>

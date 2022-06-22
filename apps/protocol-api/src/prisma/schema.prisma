@@ -23,6 +23,8 @@ model User {
   chain_type_id Int
   chain_type ChainType @relation(fields: [chain_type_id], references: [id])
   full_name String?
+  active Boolean @default(false)
+  email String?
   activities UserActivity[]
   attestations Attestation[]
   contributionPartners Partner[]
