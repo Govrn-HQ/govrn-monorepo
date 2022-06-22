@@ -22,6 +22,7 @@ export default defineConfig({
   resolve: {
     alias: {
       stream: 'stream-browserify',
+      url: 'url-browserify',
     },
   },
   build: {
