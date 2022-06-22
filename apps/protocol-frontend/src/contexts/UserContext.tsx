@@ -260,6 +260,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       });
       getUserActivityTypes();
       getUserContributions();
+      getDaoContributions();
       reset({
         name: '',
         details: '',
@@ -346,7 +347,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           {
             contribution: contribution.id,
             confidence: 0,
-          } // arttest args
+          } // attest args
         );
         getDaoContributions();
         toast({

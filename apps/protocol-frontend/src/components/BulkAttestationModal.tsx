@@ -50,7 +50,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
           onClick={() => createAttestationsHandler(contributions)}
           isLoading={attesting}
         >
-          Add Attestations
+          Add {contributions.length === 1 ? 'Attestation' : 'Attestations'}
         </Button>
       </Flex>
     </Stack>

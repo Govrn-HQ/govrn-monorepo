@@ -56,10 +56,10 @@ export class Contribution extends BaseClient {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
+    console.log('transactionReceipt', transactionReceipt);
 
     // let onChainId = null;
     // const logs = transactionReceipt.logs;
-    // console.log('transactionReceipt', transactionReceipt);
     // for (const log of logs) {
     //   console.log('on chain id (logs)', log);
     //   const decodedLog = contract.govrn.interface.parseLog(log);
@@ -126,28 +126,31 @@ export class Contribution extends BaseClient {
     args: AttestArgs
   ) {
     const attestCrud = new Attestation(this.client);
+    console.log('attesting');
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.attest(args);
-    await transaction.wait(10);
-    if (id) {
-      return await attestCrud.update({
-        data: {
-          confidence: { connect: { name: args.confidence.toString() } },
-          contribution: {
-            connect: { on_chain_id: parseInt(args.contribution.toString()) },
-          },
-        },
-        where: { id },
-      });
-    }
-    return attestCrud.create({
-      data: {
-        confidence: { connect: { name: args.confidence.toString() } },
-        contribution: {
-          connect: { on_chain_id: parseInt(args.contribution.toString()) },
-        },
-        user: { connect: { id: userId } },
-      },
-    });
+    const transactionReceipt = await transaction.wait(10);
+    console.log('transactionReceipt', transactionReceipt);
+
+    // if (id) {
+    //   return await attestCrud.update({
+    //     data: {
+    //       confidence: { connect: { name: args.confidence.toString() } },
+    //       contribution: {
+    //         connect: { on_chain_id: parseInt(args.contribution.toString()) },
+    //       },
+    //     },
+    //     where: { id },
+    //   });
+    // }
+    // return attestCrud.create({
+    //   data: {
+    //     confidence: { connect: { name: args.confidence.toString() } },
+    //     contribution: {
+    //       connect: { on_chain_id: parseInt(args.contribution.toString()) },
+    //     },
+    //     user: { connect: { id: userId } },
+    //   },
+    // });
   }
 }
