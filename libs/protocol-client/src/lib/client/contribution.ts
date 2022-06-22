@@ -52,10 +52,11 @@ export class Contribution extends BaseClient {
     details: string,
     proof: string
   ) {
-    console.log('is minting');
+    console.log('is minting', args);
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
+    console.log('args', args);
     console.log('after waiting');
     // let onChainId = null;
     // const logs = transactionReceipt.logs;

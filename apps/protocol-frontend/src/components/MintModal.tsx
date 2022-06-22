@@ -10,6 +10,7 @@ import {
   Icon,
   HStack,
 } from '@chakra-ui/react';
+import { storeIpfs } from '../libs/ipfs';
 import { useUser } from '../contexts/UserContext';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
@@ -31,6 +32,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
   const [minting, setMinting] = useState(false);
   const [currentContribution, setCurrentContribution] = useState(1);
 
+  console.log('store ipfs', storeIpfs);
   const mintHandler = (contributions) => {
     console.log('agreement: ', agreementChecked.agreement);
     setMinting(true);

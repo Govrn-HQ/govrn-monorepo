@@ -296,12 +296,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           contribution.activityTypeId,
           userData.id,
           {
-            name: ethers.utils.toUtf8Bytes(contribution.name),
-            details: ethers.utils.toUtf8Bytes(contribution.details),
+            // details: ethers.utils.toUtf8Bytes(contribution.details),
+            details: 'test',
             dateOfSubmission: new Date(contribution.submissionDate).getTime(),
             dateOfEngagement: new Date(contribution.engagementDate).getTime(),
-            proof: ethers.utils.toUtf8Bytes(contribution.proof),
-          }
+          },
+          ethers.utils.toUtf8Bytes(contribution.name),
+          ethers.utils.toUtf8Bytes(contribution.details),
+          ethers.utils.toUtf8Bytes(contribution.proof)
         );
         getUserContributions();
         toast({
