@@ -36,7 +36,9 @@ const MintModal = ({ contributions }: MintModalProps) => {
     console.log('contributions', contributions[0].original.name);
     // console.log('Minting...', contributions[0].name);
     const ipfsContentUri = await storeIpfs({
-      content: contributions[0].original.name,
+      name: contributions[0].original.name,
+      details: contributions[0].original.details,
+      proof: contributions[0].original.proof,
 
       // name: contributions[0].original.name,
       // details: contributions[0].original.details,

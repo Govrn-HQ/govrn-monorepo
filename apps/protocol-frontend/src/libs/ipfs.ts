@@ -23,14 +23,16 @@ export const getIPFSClient = () => {
 export const storeIpfs = async (
   content:
     | {
-        content: string;
+        name: string;
+        details: string;
+        proof: string;
       }
     | ArrayBuffer
 ) => {
   const ipfs = getIPFSClient();
-  const cid = await ipfs.add(content, {
+  const cid = await ipfs.add(JSON.stringify(content), {
     cidVersion: 1,
-    // hashAlg: 'sha2-256',
+    hashAlg: 'sha2-256',
   });
   console.log('cid', cid);
   const resp = await ipfs.pin.add(CID.parse(cid.path));
