@@ -40,9 +40,16 @@ const AttestationsTableShell = () => {
                   direction={{ base: 'column', md: 'row' }}
                   justify="space-between"
                 >
-                  <Text fontSize="lg" fontWeight="medium">
-                    DAO Contributions
-                  </Text>
+                  <Stack direction="column" gap="2">
+                    <Text fontSize="lg" fontWeight="medium">
+                      DAO Contributions
+                    </Text>
+                    <Text fontSize="md" fontWeight="normal">
+                      These are Contributions that you haven't already Attested
+                      to.
+                    </Text>
+                  </Stack>
+
                   <Button
                     bgColor="brand.primary.50"
                     color="brand.primary.600"

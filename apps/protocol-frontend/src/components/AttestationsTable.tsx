@@ -115,7 +115,7 @@ const AttestationsTable = ({
         Cell: ({ row }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            // disabled={row.original.status === 'minted'}
+            // disabled={row.original.attestations?.user_id === userData.id}
           />
         ),
       },
