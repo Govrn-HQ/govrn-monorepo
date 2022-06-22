@@ -23,10 +23,10 @@ export class DiscordUserCreateInput {
   })
   display_name?: string | undefined;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  discord_id!: bigint;
+  discord_id!: string;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutDiscord_usersInput, {
     nullable: false

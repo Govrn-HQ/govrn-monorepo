@@ -2,9 +2,9 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { BigIntFilter } from "../inputs/BigIntFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
 @TypeGraphQL.InputType("DiscordUserScalarWhereInput", {
@@ -46,10 +46,10 @@ export class DiscordUserScalarWhereInput {
   })
   display_name?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => BigIntFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  discord_id?: BigIntFilter | undefined;
+  discord_id?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true

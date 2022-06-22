@@ -20,14 +20,14 @@ export class TwitterUserCreateInput {
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  twitter_user_id!: string;
+  twitter_user_id?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  name!: string;
+  name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
@@ -35,9 +35,9 @@ export class TwitterUserCreateInput {
   username!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  description!: string;
+  description?: string | undefined;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutTwitter_userInput, {
     nullable: true

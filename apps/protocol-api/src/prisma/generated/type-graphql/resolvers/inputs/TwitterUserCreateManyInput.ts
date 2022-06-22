@@ -23,14 +23,14 @@ export class TwitterUserCreateManyInput {
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  twitter_user_id!: string;
+  twitter_user_id?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  name!: string;
+  name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
@@ -38,9 +38,9 @@ export class TwitterUserCreateManyInput {
   username!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  description!: string;
+  description?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

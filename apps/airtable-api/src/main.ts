@@ -2,13 +2,14 @@ import util = require('util');
 import tslib = require('tslib');
 import cors = require('cors');
 import * as express from 'express';
-import { activityTypes, contributions, guilds, users } from './lib/airtable';
-import { createAndGetActivityType } from './lib/utils';
-import { Formula } from '@qualifyze/airtable-formulator';
+import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+const PROTOCOL_URL = process.env.PROTOCOL_URL;
+const API_TOKEN = process.env.API_TOKEN;
 
 // Endpoint to fetch users
 app.get(
@@ -16,39 +17,47 @@ app.get(
   util.callbackify(async (req, res) => {
     // TODO: I am guessing over 1000 users
     // this will start to become slow
-    const query = {
-      filterByFormula: [
-        '=',
-        { field: 'guild_id' },
-        req.query.guild_id,
-      ] as Formula,
-    };
-
-    const u = [];
-    for await (const person of users.select(query)) {
-      u.push(person.data);
-    }
-    res.send(u);
+    const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
+      Authorization: API_TOKEN,
+    });
+    const users = await govrn.user.list({
+      orderBy: { full_name: SortOrder.Asc },
+      where: {
+        guild_users: {
+          some: { guild_id: { equals: parseInt(req.query.guild_id) } },
+        },
+      },
+      first: 1000,
+    });
+    res.send(users);
   })
 );
 
 // Endpoint to contribution types
+// Activity type list
 app.get('/contribution/types', async (req, res) => {
   // TODO: I am guessing over 1000 users
   // this will start to become slow
-  const query = {
-    filterByFormula: [
-      'OR',
-      ['=', { field: 'guild' }, req.query.guild_id],
-      ['=', { field: 'guild' }, req.query?.user_id || ''],
-    ] as Formula,
-  };
-
-  const u = [];
-  for await (const activity of activityTypes.select(query)) {
-    u.push({ ...activity.data, id: activity.id });
-  }
-  res.send(u);
+  const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
+    Authorization: API_TOKEN,
+  });
+  const guild_id = parseInt(req.query.guild_id.toString());
+  const user_id = parseInt(req.query.user_id.toString());
+  const activityTypes = await govrn.activity_type.list({
+    first: 1000,
+    orderBy: { name: SortOrder.Asc },
+    where: {
+      OR: [
+        {
+          guilds: {
+            some: { guild_id: { equals: guild_id } },
+          },
+        },
+        { users: { some: { user_id: { equals: user_id || 0 } } } },
+      ],
+    },
+  });
+  res.send(activityTypes);
 });
 
 // Endpoint to fetch guild metadata
@@ -57,43 +66,35 @@ app.get(
   util.callbackify(async (req, res) => {
     // TODO: I am guessing over 1000 users
     // this will start to become slow
-    const query = {
-      filterByFormula: [
-        '=',
-        { field: 'guild_id' },
-        req.query.guild_id,
-      ] as Formula,
-    };
-
-    let u = {};
-    for await (const guild of guilds.select(query)) {
-      u = guild.data;
-    }
-    res.send(u);
+    const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
+      Authorization: API_TOKEN,
+    });
+    const g = await govrn.guild.get({ id: parseInt(req.query.guild_id) });
+    res.send(g);
   })
 );
 
 // Endpoint to fetch guild metadata
-app.get(
-  '/contribution',
-  util.callbackify(async (req, res) => {
-    // TODO: I am guessing over 1000 users
-    // this will start to become slow
-    const query = {
-      filterByFormula: [
-        '=',
-        { field: 'member' },
-        req.query.guild_id,
-      ] as Formula,
-    };
-
-    let u = {};
-    for await (const guild of contributions.select(query)) {
-      u = guild.data;
-    }
-    res.send(u);
-  })
-);
+//app.get(
+//  '/contribution',
+//  util.callbackify(async (req, res) => {
+//    // TODO: I am guessing over 1000 users
+//    // this will start to become slow
+//    const query = {
+//      filterByFormula: [
+//        '=',
+//        { field: 'member' },
+//        req.query.guild_id,
+//      ] as Formula,
+//    };
+//
+//    let u = {};
+//    for await (const guild of contributions.select(query)) {
+//      u = guild.data;
+//    }
+//    res.send(u);
+//  })
+//);
 
 // Endpoint to save contribution
 app.post(
@@ -101,26 +102,43 @@ app.post(
   util.callbackify(async (req, res) => {
     // TODO: I am guessing over 1000 users
     // this will start to become slow
-    const contribution = req.body.ActivityType?.id;
-    if (!contribution) {
-      const activity = await createAndGetActivityType(
-        req.body.Member[0],
-        req.body.ActivityType
-      );
-      const rep = await contributions.create({
-        ...req.body,
-        ActivityType: [activity.id],
-      });
-      console.log(rep);
-      return res.send(rep);
-    } else {
-      const rep = await contributions.create({
-        ...req.body,
-        ActivityType: [contribution],
-      });
-      console.log(rep);
-      return res.send(rep);
-    }
+    const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
+      Authorization: API_TOKEN,
+    });
+    govrn.contribution.create({
+      data: {
+        activity_type: {
+          connectOrCreate: {
+            create: {
+              name: req.body.ActivityType,
+              users: {
+                connect: [
+                  {
+                    id: req.body.user_id,
+                  },
+                ],
+              },
+            },
+            where: {
+              name: req.body.ActivityType,
+            },
+          },
+        },
+        name: req.body.ActivityType,
+        date_of_engagement: req.body.DateOfEngagement,
+        details: req.body.Description,
+        status: {
+          connect: {
+            name: 'staged',
+          },
+        },
+        user: {
+          connect: {
+            id: req.body.user_id,
+          },
+        },
+      },
+    });
   })
 );
 

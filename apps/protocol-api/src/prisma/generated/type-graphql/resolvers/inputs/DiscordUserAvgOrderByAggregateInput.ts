@@ -16,10 +16,5 @@ export class DiscordUserAvgOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  discord_id?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
   user_id?: "asc" | "desc" | undefined;
 }

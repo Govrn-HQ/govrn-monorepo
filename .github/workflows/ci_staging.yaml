@@ -1,0 +1,85 @@
+name: Ci branch
+
+on:
+  pull_request:
+    branches:
+      - 'staging'
+  push:
+    branches:
+      - 'staging'
+
+env:
+  BASE: ${{ github.ref == 'refs/heads/staging' && 'origin/staging~1' || 'origin/staging' }}
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
+  SKYNET_JWT: ${{ secrets.SKYNET_JWT }}
+  PROTOCOL_FRONTEND_SEED: ${{ secrets.PROTOCOL_FRONTEND_SEED }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          submodules: recursive
+      - name: Install Foundry
+        uses: onbjerg/foundry-toolchain@v1
+        with:
+          version: nightly
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+      - run: yarn install
+      - run: npm install -g @graphprotocol/graph-cli
+      - run: npx nx affected:lint --base $BASE
+      - name: Test
+        run: npx nx affected:test --base $BASE
+      - name: Build
+        run: npx nx affected:build --base $BASE
+
+  docker-build:
+    if: ${{ github.ref == 'refs/heads/master' }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Install Foundry
+        uses: onbjerg/foundry-toolchain@v1
+        with:
+          version: nightly
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+      - run: yarn install
+      - run: npm install -g @graphprotocol/graph-cli
+      - name: Build
+        run: npx nx affected:build:production --base $BASE
+      - name: Docker Build
+        run: npx nx affected --target docker-build --base $BASE --parallel --max-parallel=3
+        env:
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Docker Login
+        run: npx nx affected --target docker-login --base $BASE --parallel --max-parallel=3
+      - name: Docker Push
+        run: npx nx affected --target docker-push --base $BASE --parallel --max-parallel=3
+        env:
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy
+        run: npx nx affected --target deployStaging --base $BASE --parallel --max-parallel=3
+      - name: Verify
+        run: npx nx affected --target verify --base $BASE --parallel --max-parallel=3

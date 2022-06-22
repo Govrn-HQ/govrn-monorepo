@@ -12,11 +12,6 @@ export class GuildSumAggregate {
   })
   id!: number | null;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
-    nullable: true
-  })
-  discord_id!: bigint | null;
-
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

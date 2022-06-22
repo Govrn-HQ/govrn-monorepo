@@ -2,7 +2,6 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { BigIntNullableFilter } from "../inputs/BigIntNullableFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
@@ -46,10 +45,10 @@ export class GuildWhereInput {
   })
   updatedAt?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => BigIntNullableFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  discord_id?: BigIntNullableFilter | undefined;
+  discord_id?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true

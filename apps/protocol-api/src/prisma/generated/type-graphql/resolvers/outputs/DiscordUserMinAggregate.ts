@@ -27,10 +27,10 @@ export class DiscordUserMinAggregate {
   })
   display_name!: string | null;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  discord_id!: bigint | null;
+  discord_id!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

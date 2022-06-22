@@ -20,10 +20,10 @@ export class GuildCreateWithoutContributionsInput {
   })
   updatedAt?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  discord_id?: bigint | undefined;
+  discord_id?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

@@ -2,10 +2,10 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { BigIntWithAggregatesFilter } from "../inputs/BigIntWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
+import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
 
 @TypeGraphQL.InputType("DiscordUserScalarWhereWithAggregatesInput", {
   isAbstract: true
@@ -46,10 +46,10 @@ export class DiscordUserScalarWhereWithAggregatesInput {
   })
   display_name?: StringNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => BigIntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  discord_id?: BigIntWithAggregatesFilter | undefined;
+  discord_id?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true

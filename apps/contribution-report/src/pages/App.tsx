@@ -69,7 +69,8 @@ const Form = ({ users }: { users: Option[] }) => {
             Member: [userValue],
             DateOfEngagement: value.format('MM/DD/YYYY'),
             Description: data.description,
-            reportedToGuild: guild_id
+            reportedToGuild: guild_id,
+            user_id: userValue,
           },
           {
             baseURL: (VITE_URL || '') as string,
@@ -99,16 +100,18 @@ const Form = ({ users }: { users: Option[] }) => {
       );
       console.log('Activity Types');
       console.log(resp);
-      setActivities([
-        ...resp.data.map(
-          (user: { activity_name_only?: string; id: string }) => {
+      setActivities(
+        [
+          ...resp.data.map((user: { name: string; id: string }) => {
             return {
-              label: user?.activity_name_only || 'Missing',
+              label: user?.name || 'Missing',
               id: user.id,
             };
-          }
-        ),
-      ]);
+          }),
+        ].sort((a, b) =>
+          a.label.localeCompare(b.label, undefined, { sensitivity: 'base' })
+        )
+      );
     };
     fetchActivityTypes();
   }, [guild_id, userValue]);
@@ -207,16 +210,21 @@ export const App = () => {
         baseURL: (VITE_URL || '') as string,
         headers,
       });
-      setUsers([
-        ...resp.data.map(
-          (user: { display_name?: string; Members: string[] }) => {
-            return {
-              label: user?.display_name || 'Missing',
-              id: user.Members[0],
-            };
-          }
-        ),
-      ]);
+      console.log(resp);
+      setUsers(
+        [
+          ...resp.data.map(
+            (user: { display_name?: string; Members: string[] }) => {
+              return {
+                label: user?.display_name || 'Missing',
+                id: user?.id,
+              };
+            }
+          ),
+        ].sort((a, b) =>
+          a.label.localeCompare(b.label, undefined, { sensitivity: 'base' })
+        )
+      );
     };
     fetchUsers();
   }, [guild_id]);
