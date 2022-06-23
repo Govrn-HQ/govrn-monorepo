@@ -384,8 +384,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         contributionId: contribution.id,
       });
       toast({
-        title: 'Contribution Report Updated',
-        description: 'Your Contribution report has been updated.',
+        title: 'Attestation Successfully Added',
+        description: 'Your Attestation has been added.',
         status: 'success',
         duration: 3000,
         isClosable: true,
