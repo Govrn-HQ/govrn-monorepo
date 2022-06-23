@@ -64,3 +64,5 @@ try {
 } catch (e) {
   Logger.error(e);
 }
+
+export default dropDB;
