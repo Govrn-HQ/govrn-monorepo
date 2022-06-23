@@ -26,7 +26,7 @@ const AttestationsTableShell = () => {
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
 
-  console.log('total contributions', daoContributions.length);
+  console.log('daoContributions', daoContributions);
   const attestationsModalHandler = () => {
     setModals({ bulkAttestationModal: true });
   };

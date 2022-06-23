@@ -37,24 +37,21 @@ any) => {
   const attestedContributions = _.filter(nonEmptyContributions, function (a) {
     return a.attestations.every((b: any) => b.user_id === userData.id);
   });
-
+  console.log('attestedContributions', attestedContributions);
   const data = useMemo(
     () =>
       attestedContributions.map((contribution: any) => ({
         id: contribution.id,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
-        attestations: contribution.attestations || null,
-        // attestations:
-        //   contribution.attestations !== null
-        //     ? Object.keys(contribution.attestations).length
-        //     : 0,
         guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
-        attestationDate: null,
-        // format(new Date(contribution.attestationDate), 'P') || null,
+        attestationDate: format(
+          new Date(contribution.attestations[0]?.date_of_attestation),
+          'P'
+        ),
         contributor: contribution.user.name,
       })),
     [contributionsData]
@@ -84,8 +81,8 @@ any) => {
         },
       },
       {
-        Header: 'Engagement Date',
-        accessor: 'engagementDate',
+        Header: 'Attestation Date',
+        accessor: 'attestationDate',
       },
       {
         Header: 'Contributor',
