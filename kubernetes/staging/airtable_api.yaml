@@ -36,6 +36,8 @@ spec:
                 secretKeyRef:
                   name: airtable-api
                   key: protocol_url
+            - name: PORT
+              value: 3333
           resources:
             requests:
               memory: 300Mi

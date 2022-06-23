@@ -103,12 +103,13 @@ app.post(
     const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
       Authorization: API_TOKEN,
     });
-    govrn.contribution.create({
+    console.log(req.body);
+    const g = await govrn.contribution.create({
       data: {
         activity_type: {
           connectOrCreate: {
             create: {
-              name: req.body.ActivityType,
+              name: req.body.ActivityType.label,
               users: {
                 connect: [
                   {
@@ -118,11 +119,11 @@ app.post(
               },
             },
             where: {
-              name: req.body.ActivityType,
+              name: req.body.ActivityType.label,
             },
           },
         },
-        name: req.body.ActivityType,
+        name: req.body.ActivityType.label,
         date_of_engagement: req.body.DateOfEngagement,
         details: req.body.Description,
         status: {
@@ -137,11 +138,13 @@ app.post(
         },
       },
     });
+    console.log(g);
+    res.send(g);
   })
 );
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+  console.log(`Listening at http://localhost:${port}`);
 });
 server.on('error', console.error);

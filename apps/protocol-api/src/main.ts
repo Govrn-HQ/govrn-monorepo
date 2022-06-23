@@ -66,6 +66,7 @@ const permissions = shield(
       updateUser: hasToken,
       updateGuild: hasToken,
       createGuild: hasToken,
+      createContribution: hasToken,
       createGuildUser: or(isAuthenticated, hasToken),
     },
     ActivityType: {
@@ -184,6 +185,7 @@ const permissions = shield(
       discord_users: or(isAuthenticated, hasToken),
       guild_users: or(isAuthenticated, hasToken),
       twitter_user: or(isAuthenticated, hasToken),
+      active: or(isAuthenticated, hasToken),
     },
   },
   {
@@ -199,7 +201,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://beta.govrn.app'],
+    origin: [
+      'http://localhost:3000',
+      'https://beta.govrn.app',
+      'http://localhost:3333',
+    ],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
