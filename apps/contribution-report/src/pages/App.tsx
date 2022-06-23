@@ -12,7 +12,6 @@ import AdapterDayjs from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import styled from '@emotion/styled';
 
-
 type Option = {
   label: string;
   id: string;
@@ -67,7 +66,7 @@ const Form = ({ users }: { users: Option[] }) => {
             Member: [userValue],
             DateOfEngagement: value.format('MM/DD/YYYY'),
             Description: data.description,
-            reportedToGuild: guild_id
+            reportedToGuild: guild_id,
           },
           {
             baseURL: (VITE_URL || '') as string,
