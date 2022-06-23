@@ -12,7 +12,6 @@ import AdapterDayjs from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import styled from '@emotion/styled';
 
-const staticActivities = [{ label: 'Make pr', id: 1 }];
 
 type Option = {
   label: string;

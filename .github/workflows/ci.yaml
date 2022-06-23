@@ -66,6 +66,11 @@ jobs:
           node-version: 16.x
           cache: 'yarn'
       - run: yarn install
+      - name: Create env file
+        run: |
+          touch .env
+          echo VITE_URL=${{secrets.VITE_URL}} >> .env
+          cat .env
       - run: npm install -g @graphprotocol/graph-cli
       - name: Create env file
         run: |
