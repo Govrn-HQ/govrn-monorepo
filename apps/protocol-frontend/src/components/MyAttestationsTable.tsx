@@ -21,7 +21,7 @@ import {
 } from 'react-table';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
-import IndeterminateCheckbox from './IndeterminateCheckbox';
+// import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 
 const MyAttestationsTable = ({
@@ -37,7 +37,7 @@ any) => {
   const attestedContributions = _.filter(nonEmptyContributions, function (a) {
     return a.attestations.every((b: any) => b.user_id === userData.id);
   });
-  console.log('attestedContributions', attestedContributions);
+
   const data = useMemo(
     () =>
       attestedContributions.map((contribution: any) => ({
@@ -95,18 +95,18 @@ any) => {
 
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
-      {
-        id: 'selection',
-        Header: ({ getToggleAllRowsSelectedProps }) => (
-          <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-        ),
-        Cell: ({ row }) => (
-          <IndeterminateCheckbox
-            {...row.getToggleRowSelectedProps()}
-            // disabled={row.original.attestations?.user_id === userData.id}
-          />
-        ),
-      },
+      // {
+      //   id: 'selection',
+      //   Header: ({ getToggleAllRowsSelectedProps }) => (
+      //     <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+      //   ),
+      //   Cell: ({ row }) => (
+      //     <IndeterminateCheckbox
+      //       {...row.getToggleRowSelectedProps()}
+      //       // disabled={row.original.attestations?.user_id === userData.id}
+      //     />
+      //   ),
+      // },
       ...columns,
       // {
       //   id: 'actions',
