@@ -1,9 +1,10 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { Logger } from '@govrn-monorepo/utils';
 import * as LinearSnapshot from './linear-snapshot.json';
-import { DBLinearCycle } from './types';
 
-const createOrCreateCycleOnly = (cycle?: DBLinearCycle) => {
+const connectOrCreateCycleOnly = (
+  cycle?: Prisma.LinearCycleCreateWithoutIssuesInput
+) => {
   if (!cycle) return undefined;
 
   return Prisma.validator<Prisma.LinearCycleCreateOrConnectWithoutIssuesInput>()(
@@ -19,77 +20,131 @@ const createOrCreateCycleOnly = (cycle?: DBLinearCycle) => {
   );
 };
 
+const connectOrCreateProjectOnly = (
+  project?: Prisma.LinearProjectCreateWithoutIssuesInput
+) => {
+  if (!project) return undefined;
+
+  return Prisma.validator<Prisma.LinearProjectCreateOrConnectWithoutIssuesInput>()(
+    {
+      where: { linear_id: project?.linear_id },
+      create: {
+        name: project.name,
+        linear_id: project.linear_id,
+      },
+    }
+  );
+};
+
+const connectOrCreateTeamOnly = (
+  team?: Prisma.LinearTeamCreateWithoutIssuesInput
+) => {
+  if (!team) return undefined;
+
+  return Prisma.validator<Prisma.LinearTeamCreateOrConnectWithoutIssuesInput>()(
+    {
+      where: { linear_id: team?.linear_id },
+      create: {
+        name: team.name,
+        linear_id: team.linear_id,
+        key: team.key,
+      },
+    }
+  );
+};
+
+const connectOrCreateIssueOnly = (issue?) => {
+  if (!issue) return undefined;
+
+  return Prisma.validator<Prisma.LinearIssueCreateOrConnectWithoutAssigneeInput>()(
+    {
+      where: { linear_id: issue?.linear_id },
+      create: {
+        archivedAt: issue.archivedAt,
+        autoArchivedAt: issue.autoArchivedAt,
+        autoClosedAt: issue.autoClosedAt,
+        boardOrder: issue.boardOrder,
+        branchName: issue.branchName,
+        canceledAt: issue.canceledAt,
+        completedAt: issue.completedAt,
+        createdAt: issue.createdAt,
+        customerTickerCount: issue.customerTickerCount,
+        description: issue.description,
+        dueDate: issue.dueDate,
+        estimate: issue.estimate,
+        linear_id: issue.linear_id,
+        identifier: issue.identifier,
+        priority: issue.priority,
+        priorityLabel: issue.priorityLabel,
+        snoozedUntilAt: issue.snoozedUntilAt,
+        sortOrder: issue.sortOrder,
+        startedAt: issue.startedAt,
+        subIssueSortOrder: issue.subIssueSortOrder,
+        title: issue.title,
+        trashed: issue.trashed,
+        updatedAt: issue.updatedAt,
+        url: issue.url,
+        cycle: {
+          connectOrCreate: connectOrCreateCycleOnly(issue?.cycle),
+        },
+        project: {
+          connectOrCreate: connectOrCreateProjectOnly(issue.project),
+        },
+        team: {
+          connectOrCreate: connectOrCreateTeamOnly(issue.team),
+        },
+      },
+    }
+  );
+};
+
+const createLinearUser = (user) => {
+  return Prisma.validator<Prisma.LinearUserCreateArgs>()({
+    data: {
+      active: user.active,
+      createdAt: user.createdAt,
+      displayName: user.displayName,
+      email: user.email,
+      linear_id: user.linear_id,
+      name: user.name,
+      url: user.url,
+      assigned_issues: {
+        connectOrCreate: user.assigned_issues.map(connectOrCreateIssueOnly),
+      },
+      created_issues: {
+        connectOrCreate: user.created_issues.map(connectOrCreateIssueOnly),
+      },
+    },
+  });
+};
+
 const writeLinearSnapshot = async () => {
   const client = new PrismaClient({ errorFormat: 'pretty' });
 
-  const linearUsers = [];
-  LinearSnapshot.linearUsers.forEach((u) => {
-    if (!linearUsers.some((value) => value.linear_id === u.linear_id))
-      linearUsers.push(u);
-  });
-
+  const linearUsers = LinearSnapshot.linearUsers;
   const usersCreation = linearUsers.map((user) =>
-    client.linearUser.create({
-      data: {
-        active: user.active,
-        createdAt: user.createdAt,
-        displayName: user.displayName,
-        email: user.email,
-        linear_id: user.linear_id,
-        name: user.name,
-        url: user.url,
-        assigned_issues: {
-          connectOrCreate: user.assigned_issues.map((issue) => {
-            return {
-              where: {
-                linear_id: issue.linear_id,
-              },
-              create: {
-                archivedAt: issue.archivedAt,
-                autoArchivedAt: issue.autoArchivedAt,
-                autoClosedAt: issue.autoClosedAt,
-                boardOrder: issue.boardOrder,
-                branchName: issue.branchName,
-                canceledAt: issue.canceledAt,
-                completedAt: issue.completedAt,
-                createdAt: issue.createdAt,
-                customerTickerCount: issue.customerTickerCount,
-                description: issue.description,
-                dueDate: issue.dueDate,
-                estimate: issue.estimate,
-                linear_id: issue.linear_id,
-                identifier: issue.identifier,
-                priority: issue.priority,
-                priorityLabel: issue.priorityLabel,
-                snoozedUntilAt: issue.snoozedUntilAt,
-                sortOrder: issue.sortOrder,
-                startedAt: issue.startedAt,
-                subIssueSortOrder: issue.subIssueSortOrder,
-                title: issue.title,
-                trashed: issue.trashed,
-                updatedAt: issue.updatedAt,
-                url: issue.url,
-                cycle: {
-                  connectOrCreate: createOrCreateCycleOnly(issue.cycle),
-                },
-              },
-            };
-          }),
-        },
-      },
-    })
+    client.linearUser.create(createLinearUser(user))
   );
 
-  await client.$transaction(usersCreation);
+  const users = await client.$transaction(usersCreation);
+  Logger.success(
+    `:: ${users.length} Linear user(s) with related issues, teams, and projects have been written.`
+  );
 };
 
 const main = async () => {
-  await writeLinearSnapshot();
+  try {
+    await writeLinearSnapshot();
+  } catch (e) {
+    Logger.error(e);
+
+    Logger.warn(
+      '\n\nMake sure to drop all tables to avoid constraints by running:'
+    );
+    Logger.warn('\t❯ yarn nx run protocol-api:truncate\n\n');
+
+    process.exit(1);
+  }
 };
 
-try {
-  main();
-} catch (e) {
-  Logger.error(e);
-  process.exit(1);
-}
+main();
