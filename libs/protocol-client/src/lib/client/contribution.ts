@@ -30,7 +30,9 @@ export class Contribution extends BaseClient {
     return contributions.createContribution;
   }
 
-  public async bulkCreate(args: BulkCreateContributionMutationVariables) {
+  // public async bulkCreate(args: BulkCreateContributionMutationVariables) {
+  public async bulkCreate(args: any) {
+    // very temporary change to build
     const mutation = await this.sdk.bulkCreateContribution(args);
     return mutation.createManyContribution.count;
   }
