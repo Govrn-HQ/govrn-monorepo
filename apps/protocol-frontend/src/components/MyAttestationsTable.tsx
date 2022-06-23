@@ -12,7 +12,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { FiCheckSquare } from 'react-icons/fi';
 import {
   useTable,
   useSortBy,
@@ -20,34 +19,28 @@ import {
   useGlobalFilter,
   useRowSelect,
 } from 'react-table';
-import { ModalWrapper } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
-import AddAttestationForm from './AddAttestationForm';
 
-const AttestationsTable = ({
+const MyAttestationsTable = ({
   contributionsData,
-  setSelectedContributions,
-}: any) => {
-  const localOverlay = useOverlay();
-  const { setModals } = useOverlay();
+}: // setSelectedContributions,
+any) => {
   const { userData } = useUser();
-  const [selectedContribution, setSelectedContribution] = useState<any>();
 
-  const handleAddAttestationFormModal = (id: number) => {
-    setSelectedContribution(id);
-    setModals({ addAttestationFormModal: true });
-  };
+  const nonEmptyContributions = _.filter(contributionsData, function (a) {
+    return a.attestations.length > 0;
+  });
 
-  const unattestedContributions = _.filter(contributionsData, function (a) {
-    return a.attestations.every((b: any) => b.user_id !== userData.id);
+  const attestedContributions = _.filter(nonEmptyContributions, function (a) {
+    return a.attestations.every((b: any) => b.user_id === userData.id);
   });
 
   const data = useMemo(
     () =>
-      unattestedContributions.map((contribution: any) => ({
+      attestedContributions.map((contribution: any) => ({
         id: contribution.id,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
@@ -155,9 +148,9 @@ const AttestationsTable = ({
     tableHooks
   );
 
-  useEffect(() => {
-    setSelectedContributions(selectedFlatRows);
-  }, [selectedFlatRows, selectedRowIds]);
+  // useEffect(() => {
+  //   setSelectedContributions(selectedFlatRows);
+  // }, [selectedFlatRows, selectedRowIds]);
 
   return (
     <>
@@ -206,21 +199,8 @@ const AttestationsTable = ({
           })}
         </Tbody>
       </Table>
-      <ModalWrapper
-        name="addAttestationFormModal"
-        title="Add Attestation"
-        localOverlay={localOverlay}
-        content={
-          <AddAttestationForm
-            contribution={contributionsData.find(
-              (localContribution) =>
-                localContribution.id === selectedContribution
-            )}
-          />
-        }
-      />
     </>
   );
 };
 
-export default AttestationsTable;
+export default MyAttestationsTable;
