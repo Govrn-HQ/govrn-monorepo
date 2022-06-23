@@ -11,7 +11,7 @@ import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
-import { Navigate } from 'react-router-dom';
+import { networks } from '../utils/networks';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
@@ -25,6 +25,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
   const { isConnected, address, chainId, provider } = useWallet();
+  console.log('chainid', chainId);
+
+  console.log('networks', networks[chainId]);
   const signer = provider?.getSigner();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
@@ -292,8 +295,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         await govrn.contribution.mint(
           {
             address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-            chainId: 31337,
-            name: 'Localhost',
+            chainId: networks[chainId].chainNumber,
+            name: networks[chainId].name,
           }, // network config
           signer, // provider/signer
           userData.address, // user address
@@ -339,8 +342,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         await govrn.contribution.attest(
           {
             address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-            chainId: 31337,
-            name: 'Localhost',
+            chainId: networks[chainId].chainNumber,
+            name: networks[chainId].name,
           }, //network config
           signer, // signer/provider
           contribution.id, // contribution id
