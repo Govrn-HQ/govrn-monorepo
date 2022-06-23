@@ -25,9 +25,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
   const { isConnected, address, chainId, provider } = useWallet();
-  console.log('chainid', chainId);
 
-  console.log('networks', networks[chainId]);
   const signer = provider?.getSigner();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
