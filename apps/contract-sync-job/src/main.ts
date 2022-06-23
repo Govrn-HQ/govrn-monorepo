@@ -118,26 +118,28 @@ const main = async () => {
   );
   const contributions = await Promise.all(
     contributionsEvents.map(
-      async (event): Promise<ContributionCreateManyInput> => {
+      // async (event): Promise<ContributionCreateManyInput> => { needs updated type
+      async (event) => {
         const contr = await govrnContract.contributions({
           tokenId: event.contributionId,
         });
 
-        console.log(`:: Processing Contribution: ${event.id} => ${contr.name}`);
+        // console.log(`:: Processing Contribution: ${event.id} => ${contr.name}`);
 
         const userId = await getOrInsertUser(govrn, {
           address: event.address,
         });
 
         return {
-          name: contr.name,
+          // name: contr.name,
+          detailsUri: contr.detailsUri,
           status_id: 2,
           activity_type_id: contributionActivityTypeId,
           user_id: userId,
           date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
           date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
-          details: contr.details,
-          proof: contr.proof,
+          // details: contr.details,
+          // proof: contr.proof,
           on_chain_id: Number(event.id),
         };
       }
