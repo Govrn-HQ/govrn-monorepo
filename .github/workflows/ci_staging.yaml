@@ -9,7 +9,7 @@ on:
       - 'staging'
 
 env:
-  BASE: ${{ github.ref == 'refs/heads/staging' && 'origin/staging~1' || 'origin/staging' }}
+  BASE: ${{ github.ref == 'refs/heads/staging' && 'origin/master' || 'origin/staging' }}
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
   SKYNET_JWT: ${{ secrets.SKYNET_JWT }}
   PROTOCOL_FRONTEND_STAGING_SEED: ${{ secrets.PROTOCOL_FRONTEND_STAGING_SEED }}
