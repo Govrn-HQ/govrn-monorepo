@@ -36,6 +36,17 @@ spec:
                 secretKeyRef:
                   name: protocol-api
                   key: protocol_cookie
+            - name: AIRTABlE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: airtable_api_token
+            - name: KEVIN_MALONE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: kevin_malone_token
+
           resources:
             requests:
               memory: 300Mi
