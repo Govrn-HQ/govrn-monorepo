@@ -11,7 +11,7 @@ import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
-import { Navigate } from 'react-router-dom';
+import { networks } from '../utils/networks';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
@@ -25,6 +25,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
   const { isConnected, address, chainId, provider } = useWallet();
+
   const signer = provider?.getSigner();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
@@ -98,7 +99,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       const userDataByAddressResponse = await govrn.custom.listUserByAddress(
         address
       );
-      console.log('response', userDataByAddressResponse);
+
       if (userDataByAddressResponse.length > 0) {
         setUserDataByAddress(userDataByAddressResponse[0]);
       }
@@ -260,6 +261,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       });
       getUserActivityTypes();
       getUserContributions();
+      getDaoContributions();
       reset({
         name: '',
         details: '',
@@ -281,29 +283,35 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const mintContribution = async (contribution: any) => {
+  const mintContribution = async (
+    contribution: any,
+    ipfsContentUri: string,
+    setMintProgress: any
+  ) => {
     try {
       if (provider) {
         await govrn.contribution.mint(
           {
             address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-            chainId: 31337,
-            name: 'Localhost',
-          },
-          signer,
-          userData.address,
-          contribution.id,
-          contribution.activityTypeId,
-          userData.id,
+            chainId: networks[chainId].chainNumber,
+            name: networks[chainId].name,
+          }, // network config
+          signer, // provider/signer
+          userData.address, // user address
+          contribution.id, // contribution id
+          contribution.activityTypeId, // contribution activity type id
+          userData.id, // user id
           {
-            name: ethers.utils.toUtf8Bytes(contribution.name),
-            details: ethers.utils.toUtf8Bytes(contribution.details),
+            detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
             dateOfSubmission: new Date(contribution.submissionDate).getTime(),
             dateOfEngagement: new Date(contribution.engagementDate).getTime(),
-            proof: ethers.utils.toUtf8Bytes(contribution.proof),
-          }
+          }, // details uri
+          ethers.utils.toUtf8Bytes(contribution.name), // contribution name
+          ethers.utils.toUtf8Bytes(contribution.details), // contribution details
+          ethers.utils.toUtf8Bytes(contribution.proof) // contribution proof
         );
         getUserContributions();
+        setMintProgress((prevState) => prevState + 1);
         toast({
           title: 'Contribution Successfully Minted',
           description: 'Your Contribution has been minted.',
@@ -326,6 +334,47 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const mintAttestation = async (contribution: any) => {
+    try {
+      if (provider) {
+        await govrn.contribution.attest(
+          {
+            address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+            chainId: networks[chainId].chainNumber,
+            name: networks[chainId].name,
+          }, //network config
+          signer, // signer/provider
+          contribution.id, // contribution id
+          contribution.activityTypeId, //activity type id
+          userData.id, // user id
+          {
+            contribution: contribution.id,
+            confidence: 0,
+          } // attest args
+        );
+        getDaoContributions();
+        toast({
+          title: 'Attestation Successfully Minted',
+          description: 'Your Attestation has been minted.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      console.log('error', error);
+      toast({
+        title: 'Unable to Mint Attestation',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
   const createAttestation = async (contribution: any, values: any) => {
     try {
       await govrn.custom.createUserAttestation({
@@ -336,8 +385,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         contributionId: contribution.id,
       });
       toast({
-        title: 'Contribution Report Updated',
-        description: 'Your Contribution report has been updated.',
+        title: 'Attestation Successfully Added',
+        description: 'Your Attestation has been added.',
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -533,6 +582,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createContribution,
         createAttestation,
         mintContribution,
+        mintAttestation,
         updateContribution,
         updateProfile,
         updateLinearEmail,
@@ -567,6 +617,7 @@ export const useUser = () => {
     createAttestation,
     createContribution,
     mintContribution,
+    mintAttestation,
     updateContribution,
     updateProfile,
     updateLinearEmail,
@@ -595,6 +646,7 @@ export const useUser = () => {
     createAttestation,
     createContribution,
     mintContribution,
+    mintAttestation,
     updateContribution,
     updateProfile,
     updateLinearEmail,

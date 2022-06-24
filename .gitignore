@@ -40,6 +40,7 @@ Thumbs.db
 
 */*.env
 *.env
+*.env.*
 
 *kubernetes/secrets/**
 *kubernetes.yaml

@@ -40,9 +40,9 @@ const Routes = () => {
         <Route
           path="/contributions"
           element={
-            <RequireActiveUser>
-              <Contributions />
-            </RequireActiveUser>
+            // <RequireActiveUser>
+            <Contributions />
+            // </RequireActiveUser>
           }
         />
         <Route

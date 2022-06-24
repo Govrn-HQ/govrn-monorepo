@@ -7,17 +7,21 @@ interface BulkAttestationModalProps {
 }
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
-  const { userData, createAttestation } = useUser();
+  const { userData, createAttestation, mintAttestation } = useUser();
   const [attesting, setAttesting] = useState(false);
   const [currentAttestation, setCurrentAttestation] = useState(1);
 
-  console.log('contributions', contributions);
   const createAttestationsHandler = (contributions) => {
     setAttesting(true);
     contributions.map((contribution, idx) => {
-      // mint and attest logic
-      createAttestation(contribution.original);
       console.log(`contribution: ${idx}`, contribution.original);
+      if (contribution.original.status === 'minted') {
+        console.log(`contribution ${idx} is on chain`);
+        mintAttestation(contribution.original);
+      } else {
+        console.log(`contribution ${idx} is off chain`);
+        createAttestation(contribution.original);
+      }
       setAttesting(false);
     });
   };
@@ -46,7 +50,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
           onClick={() => createAttestationsHandler(contributions)}
           isLoading={attesting}
         >
-          Add Attestations
+          Add {contributions.length === 1 ? 'Attestation' : 'Attestations'}
         </Button>
       </Flex>
     </Stack>

@@ -28,11 +28,9 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
 
     struct Contribution {
         address owner;
-        bytes name;
-        bytes details;
+        bytes detailsUri;
         uint256 dateOfSubmission;
         uint256 dateOfEngagement;
-        bytes proof;
     }
 
     struct BulkContribution {
@@ -110,26 +108,20 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
      * @notice          Create a new contribution
      * @dev             Mint a single contribution
      *
-     * @param _name              Name of the contribution
-     * @param _details           Details describing the contribution
+     * @param _detailsUri        Details describing the contribution
      * @param _dateOfSubmission  When the contribution was submitted
      * @param _dateOfEngagement  When contribution was completed
-     * @param _proof             The uri for the proof of the contribution completion
      *
      */
     function mint(
-        bytes memory _name,
-        bytes memory _details,
+        bytes memory _detailsUri,
         uint256 _dateOfSubmission,
-        uint256 _dateOfEngagement,
-        bytes memory _proof
+        uint256 _dateOfEngagement
     ) public {
         _mint(
-            _name,
-            _details,
+            _detailsUri,
             _dateOfSubmission,
-            _dateOfEngagement,
-            _proof
+            _dateOfEngagement
         );
     }
 
@@ -147,11 +139,9 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
                 revert NotOwner();
             }
             _mint(
-                bulk.contribution.name,
-                bulk.contribution.details,
+                bulk.contribution.detailsUri,
                 bulk.contribution.dateOfSubmission,
-                bulk.contribution.dateOfEngagement,
-                bulk.contribution.proof
+                bulk.contribution.dateOfEngagement
             );
         }
     }
@@ -285,7 +275,7 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
             keccak256(
                 abi.encode(
                     keccak256(
-                        "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+                        "EIP712Domain(string version,uint256 chainId,address verifyingContract)"
                     ),
                     keccak256(bytes("Govrn")),
                     keccak256(bytes(VERSION)),
@@ -296,11 +286,9 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
     }
 
     function _mint(
-        bytes memory _name,
-        bytes memory _details,
+        bytes memory _detailsUri,
         uint256 _dateOfSubmission,
-        uint256 _dateOfEngagement,
-        bytes memory _proof
+        uint256 _dateOfEngagement
     ) internal {
         require(msg.sender != address(0), "INVALID_RECIPIENT");
         if (contributions[contributionCount].owner != address(0)) {
@@ -309,11 +297,9 @@ contract Govrn is UUPSUpgradeable, OwnableUpgradeable {
 
         contributions[contributionCount] = Contribution(
             msg.sender,
-            _name,
-            _details,
+            _detailsUri,
             _dateOfSubmission,
-            _dateOfEngagement,
-            _proof
+            _dateOfEngagement
         );
         // This needs some sort of reentry guard thing
         // we have to make sure there is an increment or weirdness can happen

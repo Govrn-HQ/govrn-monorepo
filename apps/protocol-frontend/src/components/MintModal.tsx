@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Stack,
   Flex,
   Button,
   Text,
   Progress,
+  HStack,
   Checkbox,
   Tooltip,
   Icon,
-  HStack,
+  Spinner,
 } from '@chakra-ui/react';
+import { storeIpfs } from '../libs/ipfs';
 import { useUser } from '../contexts/UserContext';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
@@ -29,27 +31,47 @@ const MintModal = ({ contributions }: MintModalProps) => {
     }
   );
   const [minting, setMinting] = useState(false);
-  const [currentContribution, setCurrentContribution] = useState(1);
+  const [mintProgress, setMintProgress] = useState(0);
+  const [mintTotal, setMintTotal] = useState(contributions?.length);
 
-  const mintHandler = (contributions) => {
-    console.log('agreement: ', agreementChecked.agreement);
+  useEffect(() => {
+    if (minting && mintProgress === mintTotal) {
+      console.log('done minting');
+      console.log('contrib length', mintTotal);
+      setMinting(false);
+    }
+  }, [mintProgress]);
+
+  const mintHandler = async (contributions) => {
+    setMintTotal(contributions.length);
     setMinting(true);
-    contributions.map((contribution, idx) => {
-      console.log(`contribution: ${idx}`, contribution.original);
-      mintContribution(contribution.original);
-    });
+
+    const unresolvedContributionsMinting = contributions.map(
+      async (contribution, idx) => {
+        const ipfsContentUri = await storeIpfs({
+          name: contribution.original.name,
+          details: contribution.original.details,
+          proof: contribution.original.proof,
+        });
+        mintContribution(
+          contribution.original,
+          ipfsContentUri,
+          setMintProgress
+        );
+      }
+    );
+    await Promise.all(unresolvedContributionsMinting);
+
     if (isChecked === true) {
       setAgreementChecked((prevState: any) => ({
         ...prevState,
         agreement: true,
       }));
     }
-    setMinting(false);
     setFreshAgreementMint(false);
   };
 
   const agreementCheckboxHandler = () => {
-    // setIsChecked(!isChecked);
     setAgreementChecked((prevState: any) => ({
       ...prevState,
       agreement: true,
@@ -76,24 +98,44 @@ const MintModal = ({ contributions }: MintModalProps) => {
           </HStack>
         </Tooltip>
       </HStack>
-      <Text>
-        Please note that minting will result in your Contribution data becoming
-        public. This means that anyone will be able to see your Contribution
-        details on Block Explorers such as Etherscan (Mainnet) or Blockscout
-        (Gnosis Chain).
-      </Text>
-      <Text>
-        After you agree to the terms, we'll store this in your browser's local
-        storage and we'll ask you again when we update our protocol.
-      </Text>
-      {freshAgreementMint === true && !agreementChecked.agreement && (
-        <Checkbox onChange={agreementCheckboxHandler}>
-          <Text color="black" fontWeight="normal" fontSize="md">
-            I understand
+      {!minting ? (
+        <>
+          <Text>
+            Please note that minting will result in your Contribution data
+            becoming public. This means that anyone will be able to see your
+            Contribution details on Block Explorers such as Etherscan (Mainnet)
+            or Blockscout (Gnosis Chain).
           </Text>
-        </Checkbox>
+          <Text>
+            After you agree to the terms, we'll store this in your browser's
+            local storage and we'll ask you again when we update our protocol.
+          </Text>
+
+          {freshAgreementMint === true && !agreementChecked.agreement && (
+            <Checkbox onChange={agreementCheckboxHandler}>
+              <Text color="black" fontWeight="normal" fontSize="md">
+                I understand
+              </Text>
+            </Checkbox>
+          )}
+        </>
+      ) : (
+        <Flex
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={4}
+        >
+          <Text>Confirm each mint transaction in your wallet.</Text>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.100"
+            color="green.500"
+            size="xl"
+          />
+        </Flex>
       )}
-      {minting ? <Progress color="brand.primary" /> : null}
       <Flex align="flex-end" marginTop={8}>
         <Button
           type="submit"

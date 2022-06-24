@@ -67,14 +67,6 @@ export const networks: { [key: string]: Network } = {
     explorer: 'https://bscscan.com/',
     rpc: 'https://bsc-dataseed.binance.org/',
   },
-  // '0x7a69': {
-  //   chainId: '0x7a69',
-  //   chainNumber: 31337,
-  //   name: 'Localhost',
-  //   explorer: '',
-  //   symbol: 'ETH',
-  //   rpc: '127.0.0.1:8545',
-  // },
   '0x539': {
     chainId: '0x539',
     chainNumber: 31337,
