@@ -28,14 +28,14 @@ export class TwitterUserGroupBy {
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  twitter_user_id!: string;
+  twitter_user_id!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  name!: string;
+  name!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
@@ -43,9 +43,9 @@ export class TwitterUserGroupBy {
   username!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  description!: string;
+  description!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

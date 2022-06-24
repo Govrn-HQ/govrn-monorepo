@@ -5,6 +5,7 @@ import GovTheme from '@govrn/protocol-ui';
 
 import R from './Routes';
 
+/// New string
 ReactDOM.render(
   <StrictMode>
     <SnackbarProvider maxSnack={3}>

@@ -17,6 +17,11 @@ export class TwitterUserWhereUniqueInput {
   })
   twitter_user_id?: string | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  username?: string | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

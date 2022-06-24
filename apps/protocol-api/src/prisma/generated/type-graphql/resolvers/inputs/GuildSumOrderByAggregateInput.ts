@@ -16,10 +16,5 @@ export class GuildSumOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  discord_id?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
   congrats_channel?: "asc" | "desc" | undefined;
 }

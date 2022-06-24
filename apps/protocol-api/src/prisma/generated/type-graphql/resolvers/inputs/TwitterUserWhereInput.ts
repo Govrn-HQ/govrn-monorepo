@@ -6,6 +6,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TwitterTweetListRelationFilter } from "../inputs/TwitterTweetListRelationFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
@@ -43,25 +44,25 @@ export class TwitterUserWhereInput {
   })
   updatedAt?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  twitter_user_id?: StringFilter | undefined;
+  twitter_user_id?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  name?: StringFilter | undefined;
+  name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
   username?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  description?: StringFilter | undefined;
+  description?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

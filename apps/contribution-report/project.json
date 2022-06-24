@@ -64,7 +64,17 @@
       "executor": "@alexkeating/nx-skynet:deploy",
       "options": {
         "uploadDir": "dist/apps/contribution-report",
-        "registrySeedVarName": "SKYNET_REGISTRY_SEED",
+        "registrySeedVarName": "CONTRIBUTION_REPORT_SKYNET_SEED",
+        "registryDataKey": "skylink.txt",
+        "portalUrl": "https://skynetfree.net",
+        "skynetJwtVarName": "SKYNET_JWT"
+      }
+    },
+    "deployStaging": {
+      "executor": "@alexkeating/nx-skynet:deploy",
+      "options": {
+        "uploadDir": "dist/apps/contribution-report",
+        "registrySeedVarName": "CONTRIBUTION_REPORT_STAGING_SKYNET_SEED",
         "registryDataKey": "skylink.txt",
         "portalUrl": "https://skynetfree.net",
         "skynetJwtVarName": "SKYNET_JWT"

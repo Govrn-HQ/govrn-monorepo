@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airtable-api
+  labels:
+    environment: production
+    app: airtable-api
+    tier: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: airtable-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        name: airtable-api
+    spec:
+      containers:
+        - name: web
+          image: <IMAGE>
+          env:
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: airtable-api
+                  key: api_token
+            - name: PROTOCOL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: airtable-api
+                  key: protocol_url
+            - name: PORT
+              value: '3333'
+          resources:
+            requests:
+              memory: 300Mi
+              cpu: 300m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: airtable-api
+spec:
+  type: ClusterIP
+  selector:
+    name: airtable-api
+  ports:
+    - name: api
+      port: 3333
+      targetPort: 3333
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: airtable-api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+    cert-manager.io/issuer: 'letsencrypt-staging'
+spec:
+  tls:
+    - hosts:
+        - staging.airtable.govrn.app
+      secretName: airtable-api-tls
+  rules:
+    - host: staging.airtable.govrn.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: airtable-api
+                port:
+                  number: 3333
