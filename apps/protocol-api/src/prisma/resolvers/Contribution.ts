@@ -34,6 +34,38 @@ export class UserContributionCreateInput {
   status: string;
 }
 
+@TypeGraphQL.InputType('UserContributionCreateCustomInput', {
+  isAbstract: true,
+})
+export class UserContributionCreateCustomInput {
+  @TypeGraphQL.Field((_type) => String)
+  address: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  chainName: string;
+
+  @TypeGraphQL.Field((_type) => Number)
+  userId: number;
+
+  @TypeGraphQL.Field((_type) => String)
+  name: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  details: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  proof: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  activityTypeName: string;
+
+  @TypeGraphQL.Field((_type) => Date)
+  dateOfEngagement: Date;
+
+  @TypeGraphQL.Field((_type) => String)
+  status: string;
+}
+
 @TypeGraphQL.ArgsType()
 export class CreateUserContributionArgs {
   @TypeGraphQL.Field((_type) => UserContributionCreateInput, {
@@ -42,10 +74,53 @@ export class CreateUserContributionArgs {
   data!: UserContributionCreateInput;
 }
 
+@TypeGraphQL.ArgsType()
+export class CreateUserContributionCustomArgs {
+  @TypeGraphQL.Field((_type) => UserContributionCreateCustomInput, {
+    nullable: false,
+  })
+  data!: UserContributionCreateCustomInput;
+}
+
 @TypeGraphQL.InputType('UserContributionUpdateInput', {
   isAbstract: true,
 })
 export class UserContributionUpdateInput {
+  @TypeGraphQL.Field((_type) => String)
+  address: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  chainName: string;
+
+  @TypeGraphQL.Field((_type) => Number)
+  userId: number;
+
+  @TypeGraphQL.Field((_type) => String)
+  name: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  details: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  proof: string;
+
+  @TypeGraphQL.Field((_type) => String)
+  activityTypeName: string;
+
+  @TypeGraphQL.Field((_type) => Date)
+  dateOfEngagement: Date;
+
+  @TypeGraphQL.Field((_type) => String)
+  status: string;
+
+  @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
+  contributionId: number;
+}
+
+@TypeGraphQL.InputType('UserContributionUpdateCustomInput', {
+  isAbstract: true,
+})
+export class UserContributionUpdateCustomInput {
   @TypeGraphQL.Field((_type) => String)
   address: string;
 
@@ -85,12 +160,20 @@ export class UpdateUserContributionArgs {
   data!: UserContributionUpdateInput;
 }
 
+@TypeGraphQL.ArgsType()
+export class UpdateUserContributionCustomArgs {
+  @TypeGraphQL.Field((_type) => UserContributionUpdateCustomInput, {
+    nullable: false,
+  })
+  data!: UserContributionUpdateCustomInput;
+}
+
 @TypeGraphQL.Resolver((_of) => Contribution)
 export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
-  async createUserContribution(
+  async createUserContributionCustom(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserContributionArgs
+    @TypeGraphQL.Args() args: CreateUserContributionCustomArgs
   ) {
     return await prisma.contribution.create({
       data: {
@@ -137,9 +220,9 @@ export class ContributionCustomResolver {
     });
   }
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
-  async updateUserContribution(
+  async updateUserContributionCustom(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: UpdateUserContributionArgs
+    @TypeGraphQL.Args() args: UpdateUserContributionCustomArgs
   ) {
     return prisma.contribution.update({
       data: {

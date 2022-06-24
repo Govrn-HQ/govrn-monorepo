@@ -350,8 +350,38 @@ mutation createUserContribution($data: UserContributionCreateInput!) {
   }
 }
 
+mutation createUserContribution($data: UserContributionCreateCustomInput!) {
+  createUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
+mutation createUserContributionCustom(
+  $data: UserContributionCreateCustomInput!
+) {
+  createUserContributionCustom(data: $data) {
+    ...ContributionFragment
+  }
+}
+
+mutation createUserContributionCustom(
+  $data: UserContributionCreateCustomInput!
+) {
+  createUserContributionCustom(data: $data) {
+    ...ContributionFragment
+  }
+}
+
 mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
+mutation updateUserContributionCustom(
+  $data: UserContributionUpdateCustomInput!
+) {
+  updateUserContributionCustom(data: $data) {
     ...ContributionFragment
   }
 }
@@ -373,6 +403,15 @@ mutation updateContribution(
     ...ContributionFragment
   }
 }
+
+# mutation updateContributionCustom(
+#   $data: ContributionUpdateInput!
+#   $where: ContributionWhereUniqueInput!
+# ) {
+#   updateContributionCustom(data: $data, where: $where) {
+#     ...ContributionFragment
+#   }
+# }
 
 # Activity type queries
 fragment ActivityTypeFragment on ActivityType {

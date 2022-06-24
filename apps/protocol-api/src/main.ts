@@ -45,8 +45,8 @@ const permissions = shield(
       '*': deny,
       createUserCustom: and(OwnsData, isAuthenticated),
       createUserAttestation: and(OwnsData, isAuthenticated),
-      createUserContribution: and(OwnsData, isAuthenticated),
-      updateUserContribution: and(OwnsData, isAuthenticated),
+      createUserContributionCustom: and(OwnsData, isAuthenticated),
+      updateUserContributionCustom: and(OwnsData, isAuthenticated),
       updateUserCustom: and(OwnsData, isAuthenticated),
     },
     ActivityType: {

@@ -15,7 +15,7 @@ export class Custom extends BaseClient {
   }
 
   public async createUserContribution(args: UserContributionCreateInput) {
-    const contribution = await this.sdk.createUserContribution({ data: args });
+    const contribution = await this.sdk.createUserContributionCustom({ data: args });
     return contribution.createUserContribution;
   }
 
