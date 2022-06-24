@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: registry.digitalocean.com/govrn-protocol/protocol_api:sha-700a8b8
+          image: <IMAGE>
           env:
             - name: DATABASE_URL
               valueFrom:
