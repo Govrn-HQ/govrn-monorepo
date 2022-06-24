@@ -333,6 +333,8 @@ fragment ContributionFragment on Contribution {
   }
   attestations {
     id
+    user_id
+    date_of_attestation
   }
 }
 

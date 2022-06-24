@@ -1,18 +1,17 @@
 import { useState, useEffect, useMemo } from 'react';
+import * as _ from 'lodash';
+import { format } from 'date-fns';
 import {
   Table,
-  HStack,
-  IconButton,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
   chakra,
+  Text,
 } from '@chakra-ui/react';
-import { useUser } from '../contexts/UserContext';
-import { format } from 'date-fns';
+import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   useTable,
   useSortBy,
@@ -20,45 +19,40 @@ import {
   useGlobalFilter,
   useRowSelect,
 } from 'react-table';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { ModalWrapper } from '@govrn/protocol-ui';
+import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
-import IndeterminateCheckbox from './IndeterminateCheckbox';
+// import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
-import EditContributionForm from './EditContributionForm';
 
-// import EditContributionForm from './EditContributionForm';
-
-const ContributionsTable = ({
+const MyAttestationsTable = ({
   contributionsData,
-  setSelectedContributions,
-}: any) => {
+}: // setSelectedContributions,
+any) => {
   const { userData } = useUser();
 
-  const localOverlay = useOverlay();
-  const { setModals } = useOverlay();
-  const [selectedContribution, setSelectedContribution] = useState<any>();
+  const nonEmptyContributions = _.filter(contributionsData, function (a) {
+    return a.attestations.length > 0;
+  });
 
-  const handleEditContributionFormModal = (id: number) => {
-    setSelectedContribution(id);
-    setModals({ editContributionFormModal: true });
-  };
+  const attestedContributions = _.filter(nonEmptyContributions, function (a) {
+    return a.attestations.every((b: any) => b.user_id === userData.id);
+  });
 
   const data = useMemo(
     () =>
-      contributionsData.map((contribution: any) => ({
-        name: contribution.name,
+      attestedContributions.map((contribution: any) => ({
         id: contribution.id,
-        details: contribution.details,
-        proof: contribution.proof,
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
-        attestations: contribution.attestations || null,
-        user: contribution.user.id,
-        activityTypeId: contribution.activity_type.id,
+        guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
+        name: contribution.name,
+        attestationDate: format(
+          new Date(contribution.attestations[0]?.date_of_attestation),
+          'P'
+        ),
+        contributor: contribution.user.name,
       })),
     [contributionsData]
   );
@@ -68,14 +62,6 @@ const ContributionsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value }) => {
-          return (
-            // <Stack direction="row">
-            //   <Checkbox size="lg" />
-            <Text>{value}</Text>
-            // </Stack>
-          );
-        },
       },
       {
         Header: 'Status',
@@ -95,58 +81,48 @@ const ContributionsTable = ({
         },
       },
       {
-        Header: 'Engagement Date',
-        accessor: 'engagementDate',
+        Header: 'Attestation Date',
+        accessor: 'attestationDate',
       },
       {
-        Header: 'Attestations',
-        accessor: 'attestations',
-        Cell: ({ value }) => {
-          return <Text textTransform="capitalize">{value.length} </Text>;
-        },
+        Header: 'Contributor',
+        accessor: 'contributor',
       },
+      { Header: 'DAO', accessor: 'guild' },
     ],
     []
   );
 
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
-      {
-        id: 'selection',
-        Header: ({ getToggleAllRowsSelectedProps }) => (
-          <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-        ),
-        Cell: ({ row }) => (
-          <IndeterminateCheckbox
-            {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status === 'minted'}
-          />
-        ),
-      },
+      // {
+      //   id: 'selection',
+      //   Header: ({ getToggleAllRowsSelectedProps }) => (
+      //     <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+      //   ),
+      //   Cell: ({ row }) => (
+      //     <IndeterminateCheckbox
+      //       {...row.getToggleRowSelectedProps()}
+      //       // disabled={row.original.attestations?.user_id === userData.id}
+      //     />
+      //   ),
+      // },
       ...columns,
-      {
-        id: 'actions',
-        Header: 'Actions',
-        Cell: ({ row }) => (
-          <HStack spacing="1">
-            <IconButton
-              icon={<FiEdit2 fontSize="1rem" />}
-              variant="ghost"
-              color="gray.800"
-              aria-label="Edit Contribution"
-              disabled={row.original.user.id !== userData?.user}
-              onClick={() => handleEditContributionFormModal(row.original.id)}
-            />
-            <IconButton
-              icon={<FiTrash2 fontSize="1rem" />}
-              variant="ghost"
-              color="gray.800"
-              disabled={row.original.user.id !== userData?.user}
-              aria-label="Delete Contribution"
-            />
-          </HStack>
-        ),
-      },
+      // {
+      //   id: 'actions',
+      //   Header: 'Actions',
+      //   Cell: ({ row }) => (
+      //     <HStack spacing="1">
+      //       <IconButton
+      //         icon={<FiCheckSquare fontSize="1rem" />}
+      //         variant="ghost"
+      //         color="gray.800"
+      //         aria-label="Add Attestation"
+      //         onClick={() => handleAddAttestationFormModal(row.original.id)}
+      //       />
+      //     </HStack>
+      //   ),
+      // },
     ]);
   };
 
@@ -169,9 +145,9 @@ const ContributionsTable = ({
     tableHooks
   );
 
-  useEffect(() => {
-    setSelectedContributions(selectedFlatRows);
-  }, [selectedFlatRows, selectedRowIds]);
+  // useEffect(() => {
+  //   setSelectedContributions(selectedFlatRows);
+  // }, [selectedFlatRows, selectedRowIds]);
 
   return (
     <>
@@ -202,7 +178,6 @@ const ContributionsTable = ({
                   </chakra.span>
                 </Th>
               ))}
-              <Th borderColor="gray.100" />
             </Tr>
           ))}
         </Thead>
@@ -213,7 +188,7 @@ const ContributionsTable = ({
               <Tr {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <Td {...cell.getCellProps()} borderColor="gray.100">
-                    <>{cell.render('Cell')}</>
+                    {cell.render('Cell')}
                   </Td>
                 ))}
               </Tr>
@@ -221,22 +196,8 @@ const ContributionsTable = ({
           })}
         </Tbody>
       </Table>
-      <ModalWrapper
-        name="editContributionFormModal"
-        title="Update Contribution Activity"
-        localOverlay={localOverlay}
-        size="3xl"
-        content={
-          <EditContributionForm
-            contribution={contributionsData.find(
-              (localContribution) =>
-                localContribution.id === selectedContribution
-            )}
-          />
-        }
-      />
     </>
   );
 };
 
-export default ContributionsTable;
+export default MyAttestationsTable;

@@ -4,7 +4,6 @@ import {
   Stack,
   Text,
   Box,
-  useBreakpointValue,
   Button,
   Tabs,
   Tab,
@@ -28,7 +27,6 @@ const ContributionsTableShell = () => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
-  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });

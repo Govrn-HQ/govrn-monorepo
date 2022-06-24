@@ -12,9 +12,6 @@ import AdapterDayjs from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import styled from '@emotion/styled';
 
-const staticUsers = [{ label: 'Keating', id: 1 }];
-const staticActivities = [{ label: 'Make pr', id: 1 }];
-
 type Option = {
   label: string;
   id: string;
@@ -27,6 +24,7 @@ const FormContainer = styled.form`
   justify-content: center;
 `;
 
+// Here
 const Form = ({ users }: { users: Option[] }) => {
   const { enqueueSnackbar } = useSnackbar();
 

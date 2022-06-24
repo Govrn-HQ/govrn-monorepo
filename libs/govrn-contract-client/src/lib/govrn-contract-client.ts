@@ -2,12 +2,10 @@ import { ethers } from 'ethers';
 import { Govrn__factory, Govrn } from './generated';
 
 export type MintArgs = {
-  name: string;
-  details: string;
+  detailsUri: string;
   dateOfSubmission: number;
   dateOfEngagement: number;
-  proof: string;
-  // overrides?: ethers.Overrides & { from?: string | Promise<string> };
+  overrides?: ethers.Overrides & { from?: string | Promise<string> };
 };
 
 export type AttestArgs = {
@@ -50,11 +48,9 @@ export class GovrnContract {
 
   public async mint(args: MintArgs) {
     return await this.govrn.mint(
-      args.name,
-      args.details,
+      args.detailsUri,
       args.dateOfSubmission,
-      args.dateOfEngagement,
-      args.proof
+      args.dateOfEngagement
       // args.overrides
     );
   }
@@ -62,8 +58,8 @@ export class GovrnContract {
   public async attest(args: AttestArgs) {
     return await this.govrn.attest(
       args.contribution,
-      args.confidence,
-      args.overrides
+      args.confidence
+      // args.overrides
     );
   }
 

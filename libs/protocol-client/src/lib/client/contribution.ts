@@ -30,7 +30,9 @@ export class Contribution extends BaseClient {
     return contributions.createContribution;
   }
 
-  public async bulkCreate(args: BulkCreateContributionMutationVariables) {
+  // public async bulkCreate(args: BulkCreateContributionMutationVariables) {
+  public async bulkCreate(args: any) {
+    // very temporary change to build
     const mutation = await this.sdk.bulkCreateContribution(args);
     return mutation.createManyContribution.count;
   }
@@ -47,16 +49,19 @@ export class Contribution extends BaseClient {
     id: number,
     activityTypeId: number,
     userId: number,
-    args: MintArgs
+    args: MintArgs,
+    name: string,
+    details: string,
+    proof: string
   ) {
-    console.log('is minting');
+    console.log('is minting', args);
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
-    console.log('after waiting');
+    console.log('transactionReceipt', transactionReceipt);
+
     // let onChainId = null;
     // const logs = transactionReceipt.logs;
-    // console.log('transactionReceipt', transactionReceipt);
     // for (const log of logs) {
     //   console.log('on chain id (logs)', log);
     //   const decodedLog = contract.govrn.interface.parseLog(log);
@@ -70,50 +75,48 @@ export class Contribution extends BaseClient {
     // if (!onChainId) {
     //   throw Error('Failed to fetch on chain Id');
     // }
-    if (id) {
-      console.log('id in the update:', id);
-      const updateResponse = await this.update({
-        data: {
-          name: { set: ethers.utils.toUtf8String(args.name) },
-          details: { set: ethers.utils.toUtf8String(args.details) },
-          date_of_submission: {
-            set: new Date(args.dateOfSubmission).toString(),
-            // set: new Date(12344221).toString(),
-          },
-          date_of_engagement: {
-            set: new Date(args.dateOfEngagement).toString(),
-            // set: new Date(12344221).toString(),
-          },
-          proof: {
-            set: ethers.utils.toUtf8String(args.proof),
-          },
-          status: {
-            connect: { name: 'minted' },
-          },
-          on_chain_id: {
-            set: id,
-          },
-        },
-        where: { id },
-      });
-      console.log('update response:', updateResponse);
-      return updateResponse;
-    }
-    return this.create({
-      data: {
-        activity_type: { connect: { id: activityTypeId } },
-        name: args.name,
-        details: args.details,
-        date_of_submission: new Date(args.dateOfSubmission).toString(),
-        date_of_engagement: new Date(args.dateOfEngagement).toString(),
-        proof: args.proof,
-        status: {
-          connect: { name: 'minted' },
-        },
-        user: { connect: { id: userId } },
-        on_chain_id: id,
-      },
-    });
+    // if (id) {
+    //   console.log('id in the update:', id);
+    //   const updateResponse = await this.update({
+    //     data: {
+    //       name: { set: ethers.utils.toUtf8String(name) },
+    //       details: { set: ethers.utils.toUtf8String(details) },
+    //       date_of_submission: {
+    //         set: new Date(args.dateOfSubmission).toString(),
+    //       },
+    //       date_of_engagement: {
+    //         set: new Date(args.dateOfEngagement).toString(),
+    //       },
+    //       proof: {
+    //         set: ethers.utils.toUtf8String(proof),
+    //       },
+    //       status: {
+    //         connect: { name: 'minted' },
+    //       },
+    //       on_chain_id: {
+    //         set: id,
+    //       },
+    //     },
+    //     where: { id },
+    //   });
+    //   console.log('update response:', updateResponse);
+    //   return updateResponse;
+    // }
+    // return this.create({
+    //   data: {
+    //     activity_type: { connect: { id: activityTypeId } },
+    //     name: name,
+    //     details: details,
+    //     date_of_submission: new Date(args.dateOfSubmission).toString(),
+    //     date_of_engagement: new Date(args.dateOfEngagement).toString(),
+    //     proof: proof,
+    //     status: {
+    //       connect: { name: 'minted' },
+    //     },
+    //     user: { connect: { id: userId } },
+    //     on_chain_id: id,
+    //   },
+    // });
   }
 
   public async attest(
@@ -125,28 +128,31 @@ export class Contribution extends BaseClient {
     args: AttestArgs
   ) {
     const attestCrud = new Attestation(this.client);
+    console.log('attesting');
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.attest(args);
-    await transaction.wait(10);
-    if (id) {
-      return await attestCrud.update({
-        data: {
-          confidence: { connect: { name: args.confidence.toString() } },
-          contribution: {
-            connect: { on_chain_id: parseInt(args.contribution.toString()) },
-          },
-        },
-        where: { id },
-      });
-    }
-    return attestCrud.create({
-      data: {
-        confidence: { connect: { name: args.confidence.toString() } },
-        contribution: {
-          connect: { on_chain_id: parseInt(args.contribution.toString()) },
-        },
-        user: { connect: { id: userId } },
-      },
-    });
+    const transactionReceipt = await transaction.wait(10);
+    console.log('transactionReceipt', transactionReceipt);
+
+    // if (id) {
+    //   return await attestCrud.update({
+    //     data: {
+    //       confidence: { connect: { name: args.confidence.toString() } },
+    //       contribution: {
+    //         connect: { on_chain_id: parseInt(args.contribution.toString()) },
+    //       },
+    //     },
+    //     where: { id },
+    //   });
+    // }
+    // return attestCrud.create({
+    //   data: {
+    //     confidence: { connect: { name: args.confidence.toString() } },
+    //     contribution: {
+    //       connect: { on_chain_id: parseInt(args.contribution.toString()) },
+    //     },
+    //     user: { connect: { id: userId } },
+    //   },
+    // });
   }
 }
