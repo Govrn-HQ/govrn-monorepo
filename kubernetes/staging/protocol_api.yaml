@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: <IMAGE>
+          image: registry.digitalocean.com/govrn-protocol/protocol_api:sha-700a8b8
           env:
             - name: DATABASE_URL
               valueFrom:
@@ -74,7 +74,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: 'true'
-    cert-manager.io/issuer: 'letsencrypt-prod'
+    cert-manager.io/issuer: 'letsencrypt-staging'
 spec:
   tls:
     - hosts:

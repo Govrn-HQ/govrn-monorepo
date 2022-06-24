@@ -66,7 +66,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: 'true'
-    cert-manager.io/issuer: 'letsencrypt-prod'
+    cert-manager.io/issuer: 'letsencrypt-staging'
 spec:
   tls:
     - hosts:
