@@ -46,7 +46,10 @@ const Form = ({ users }: { users: Option[] }) => {
         baseURL: (VITE_URL || '') as string,
         headers,
       });
-      setGuildImg(resp.data.logo[0].url);
+      if (resp.data.logo) {
+        const logo = JSON.parse(resp.data.logo);
+        setGuildImg(logo[0].url);
+      }
     };
     fetchGuild();
   }, [guild_id]);
