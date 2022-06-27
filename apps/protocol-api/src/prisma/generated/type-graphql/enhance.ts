@@ -1228,7 +1228,7 @@ export function applyOutputTypesEnhanceMap(
 const inputsInfo = {
   UserWhereInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "name", "display_name", "address", "chain_type_id", "chain_type", "full_name", "active", "email", "activities", "attestations", "contributionPartners", "contributions", "linear_users", "guild_users", "twitter_user", "discord_users"],
   UserOrderByWithRelationInput: ["id", "createdAt", "updatedAt", "name", "display_name", "address", "chain_type_id", "chain_type", "full_name", "active", "email", "activities", "attestations", "contributionPartners", "contributions", "linear_users", "guild_users", "twitter_user", "discord_users"],
-  UserWhereUniqueInput: ["id"],
+  UserWhereUniqueInput: ["id", "address"],
   UserOrderByWithAggregationInput: ["id", "createdAt", "updatedAt", "name", "display_name", "address", "chain_type_id", "full_name", "active", "email", "_count", "_avg", "_max", "_min", "_sum"],
   UserScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "name", "display_name", "address", "chain_type_id", "full_name", "active", "email"],
   DiscordUserWhereInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "display_name", "discord_id", "user_id", "user"],
