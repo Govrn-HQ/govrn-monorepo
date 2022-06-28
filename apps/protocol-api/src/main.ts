@@ -231,7 +231,6 @@ app.use('/graphql', async function (req, res) {
       req,
     },
   });
-  console.log(req.url);
   return mid(req, res);
 });
 app.post('/verify', async function (req, res) {
