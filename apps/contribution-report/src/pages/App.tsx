@@ -72,6 +72,7 @@ const Form = ({ users }: { users: Option[] }) => {
             Description: data.description,
             reportedToGuild: guild_id,
             user_id: userValue,
+            guild_id: guild_id,
           },
           {
             baseURL: (VITE_URL || '') as string,
@@ -85,7 +86,7 @@ const Form = ({ users }: { users: Option[] }) => {
         enqueueSnackbar('Failed to submit', { variant: 'error' });
       }
     },
-    [activityValue, userValue, value]
+    [activityValue, userValue, value, guild_id]
   );
   useEffect(() => {
     if (!guild_id) {

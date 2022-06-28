@@ -136,6 +136,17 @@ app.post(
             id: req.body.user_id,
           },
         },
+        guilds: {
+          create: [
+            {
+              guild: {
+                connect: {
+                  id: parseInt(req.body.guild_id),
+                },
+              },
+            },
+          ],
+        },
       },
     });
     console.log(g);
