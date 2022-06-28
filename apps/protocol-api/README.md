@@ -57,6 +57,10 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 - `yarn nx run protocol-api:serve`: start a GraphQL server at `http://localhost:4000/graphql`.
 - `yarn nx run protocol-api:generate`: runs [`prisma generate`](https://www.prisma.io/docs/reference/api-reference/command-reference#generate) command, generating artifacts (e.g. `PrismaClient`).[^1]
 - `yarn nx run protocol-api:migrate`: runs [`prisma migrate`](https://www.prisma.io/docs/reference/api-reference/command-reference#prisma-migrate) command, migrating and creating the database if it does not exist.[^1] 
+- `yarn nx run protocol-api:truncate`: Drops all tables in the `govrn` Database Cluster.
+- `yarn nx run protocol-api:snapshot`: Takes a snapshot from current database, and store it in json file.[^2]
+- `yarn nx run protocol-api:seed`: This parses the snapshot generated, and seed the database. [^2]
+- `yarn nx run protocol-api:fresh-seed`: this runs `protocal-api:truncate` then `protocol-api: seed`.[^2]
 - `yarn nx run contract-sync-job:lint`
 
 
@@ -67,5 +71,6 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 
 
 [^1]: uses [`@nx-tools/nx-prisma`](https://github.com/nx-tools/nx-tools/tree/main/packages/nx-prisma) builder that provides a wrapper around the Prisma CLI.
+[^2]: Supports linear Tables only for now
 
 [tables-diagram]: https://uc23339e6c54300c902cea3be2f9.previews.dropboxusercontent.com/p/thumb/ABkXnXgTK9SVrC4jkheewuGlytV3Am4VVFNfHXzNpqSF5C9vMfA0qKa9Ifn913XUW3xa9DI-3oFRF1wSbkYc-jrCko1PdijKW_YNCvVU8qBIPOJk1uu2IJ8fU-SZ5PeR-TFp0WQd-dDaHXPMDi39Ta7qNXccG9tCXG4ELKh2EQqI8oOzxyxUoLsGANnqiYAlc1x97j0NVnKuvKPXsviWqB-0T1w29bD2iNkCbKU0-maHnPcCNUnBtM5Z1QqeTahG9EVkW-ppBLn1EjnG-rUGlmjOSU7W1neA974wgtEZSBwCTCPIz4_9CUdvdpnSuU04Q5npkhQdFCuJimF7ynIdwmEwChwpe0FjlBuZDBJxFcYHE7m4cBW8shIw-Ce8NoUabAWWETke-efYi2t16vLYkpZMJzSy25YrkTso5LSg4i9Fkg/p.png

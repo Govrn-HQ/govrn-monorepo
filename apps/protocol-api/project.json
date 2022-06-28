@@ -161,7 +161,7 @@
         "parallel": false
       }
     },
-    "seed-fresh": {
+    "fresh-seed": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [],
       "options": {
