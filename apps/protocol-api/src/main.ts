@@ -4,13 +4,13 @@ import express from 'express';
 import Session from 'cookie-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
-import { SiweErrorType, SiweMessage, generateNonce } from 'siwe';
-import cors = require('cors');
+import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { shield, deny, rule, and, or } from 'graphql-shield';
+import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
+import cors = require('cors');
 
 const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
