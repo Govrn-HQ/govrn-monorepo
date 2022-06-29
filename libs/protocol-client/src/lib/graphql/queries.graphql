@@ -372,11 +372,25 @@ mutation createUserContribution($data: UserContributionCreateInput!) {
   }
 }
 
+mutation createOnChainUserContribution($data: UserOnChainContributionCreateInput!) {
+  createOnChainUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
 mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
     ...ContributionFragment
   }
 }
+
+mutation updateUserOnChainContribution($data: UserOnChainContributionUpdateInput!) {
+  updateUserOnChainContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
+
 
 mutation bulkCreateContribution(
   $data: [ContributionCreateManyInput!]!
