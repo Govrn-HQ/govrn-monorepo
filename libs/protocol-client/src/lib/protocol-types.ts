@@ -13149,6 +13149,7 @@ export type UserOnChainContributionUpdateInput = {
   onChainId: Scalars['Float'];
   proof: Scalars['String'];
   status: Scalars['String'];
+  userId: Scalars['Float'];
 };
 
 export type UserOrderByRelationAggregateInput = {

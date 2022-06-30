@@ -122,7 +122,7 @@ export class Contribution extends BaseClient {
           confidence: args.confidence.toString(),
           contributionOnChainId: parseInt(args.contribution.toString()),
           userId: userId,
-          id: id,
+          id: id.toString(),
         },
       });
     }
