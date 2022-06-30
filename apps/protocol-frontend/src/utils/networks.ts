@@ -7,7 +7,8 @@ type ChainLabel =
   | 'Polygon'
   | 'Binance Smart Chain'
   | 'Optimism'
-  | 'Localhost';
+  | 'Localhost'
+  | 'Goerli';
 
 type Network = {
   chainId: string;
@@ -16,17 +17,10 @@ type Network = {
   symbol: string;
   explorer: string;
   rpc: string;
+  govrnContract: string;
 };
 
 export const networks: { [key: string]: Network } = {
-  '0x1': {
-    chainId: '0x1',
-    chainNumber: 1,
-    name: 'Mainnet',
-    symbol: 'ETH',
-    explorer: 'https://etherscan.io',
-    rpc: 'https://eth-mainnet.alchemyapi.io/v2/6idtzGwDtRbzil3s6QbYHr2Q_WBfn100',
-  },
   '0x4': {
     chainId: '0x4',
     chainNumber: 4,
@@ -34,39 +28,26 @@ export const networks: { [key: string]: Network } = {
     symbol: 'ETH',
     explorer: 'https://rinkeby.etherscan.io',
     rpc: 'https://eth-rinkeby.alchemyapi.io/v2/n0NXRSZ9olpkJUPDLBC00Es75jaqysyT',
+    govrnContract: '0xC93fD1922592f202DEa7B44381Bb71fb491c8f49',
   },
-  '0x64': {
-    chainId: '0x64',
-    chainNumber: 100,
-    name: 'Gnosis Chain',
-    symbol: 'xDAI',
-    explorer: 'https://blockscout.com/xdai/mainnet',
-    rpc: 'https://rpc.xdaichain.com/',
+  '0x5': {
+    chainId: '0x5',
+    chainNumber: 5,
+    name: 'Goerli',
+    symbol: 'ETH',
+    explorer: 'https://goerli.etherscan.io',
+    rpc: 'https://goerli.infura.io/v3/a8e70ebbf06e4ab8b7f020e3abe204ec',
+    govrnContract: '0x709f84918fc0E2F96F4F67813377e7b27aCB63ee',
   },
-  '0xa': {
-    chainId: '0xa',
-    chainNumber: 100,
-    name: 'Optimism',
-    symbol: 'Eth',
-    explorer: 'https://optimistic.etherscan.io/address/',
-    rpc: 'https://mainnet.optimism.io',
-  },
-  '0x89': {
-    chainId: '0x89',
-    chainNumber: 137,
-    name: 'Polygon',
-    symbol: 'Matic',
-    explorer: 'https://polygonscan.com/',
-    rpc: 'https://polygon-rpc.com/',
-  },
-  '0x38': {
-    chainId: '0x38',
-    chainNumber: 56,
-    name: 'Binance Smart Chain',
-    symbol: 'BSC',
-    explorer: 'https://bscscan.com/',
-    rpc: 'https://bsc-dataseed.binance.org/',
-  },
+  //'0x64': {
+  //  chainId: '0x64',
+  //  chainNumber: 100,
+  //  name: 'Gnosis Chain',
+  //  symbol: 'xDAI',
+  //  explorer: 'https://blockscout.com/xdai/mainnet',
+  //  rpc: 'https://rpc.xdaichain.com/',
+  //  govrnContract: '',
+  //},
   '0x539': {
     chainId: '0x539',
     chainNumber: 31337,
@@ -74,6 +55,7 @@ export const networks: { [key: string]: Network } = {
     symbol: 'ETH',
     explorer: 'http://localhost:1234',
     rpc: 'http://localhost:8545',
+    govrnContract: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
   },
 };
 

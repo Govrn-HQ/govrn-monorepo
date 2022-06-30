@@ -13,6 +13,29 @@ function getRemappings() {
 }
 
 const config: HardhatUserConfig = {
+  networks: {
+    rinkeby: {
+      chainId: 4,
+      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`,
+      gas: 8e6,
+      gasPrice: 10e9,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+    goerli: {
+      chainId: 5,
+      url: `https://goerli.infura.io/v3/${process.env.INFURA_ID}`,
+      gas: 8e6,
+      gasPrice: 10e9,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+    gnosis: {
+      chainId: 5,
+      url: `https://rpc.gnosischain.com/`,
+      gas: 8e6,
+      gasPrice: 10e9,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+  },
   solidity: {
     version: '0.8.13',
     settings: {

@@ -27,6 +27,17 @@
       "options": {
         "command": "npx hardhat run scripts/deployProxy.js",
         "cwd": "./apps/govrn-contract"
+      },
+      "configurations": {
+        "goerli": {
+          "command": "npx hardhat run --network goerli scripts/deployProxy.js"
+        },
+        "rinkeby": {
+          "command": "npx hardhat run --network rinkeby scripts/deployProxy.js"
+        },
+        "gnosis": {
+          "command": "npx hardhat run --network gnosis scripts/deployProxy.js"
+        }
       }
     },
 

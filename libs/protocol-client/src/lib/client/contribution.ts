@@ -83,6 +83,7 @@ export class Contribution extends BaseClient {
           proof: ethers.utils.toUtf8String(proof),
           status: 'minted',
           onChainId: id,
+          userId: userId,
         },
       });
       console.log('update response:', updateResponse);

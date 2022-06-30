@@ -149,6 +149,9 @@ export class UserOnChainContributionUpdateInput {
 
   @TypeGraphQL.Field((_type) => Number)
   onChainId: number;
+
+  @TypeGraphQL.Field((_type) => Number)
+  userId: number;
 }
 
 @TypeGraphQL.ArgsType()
