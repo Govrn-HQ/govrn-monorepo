@@ -17,7 +17,7 @@ const providerOptions: IProviderOptions = {
     options: {
       rpc: {
         '0x4': networks['0x4'].rpc,
-        '0x5': networks['0x5'].rpc,
+        // '0x5': networks['0x5'].rpc,
         // '0x64': networks['0x64'].rpc,
         '0x539': networks['0x539'].rpc,
       },

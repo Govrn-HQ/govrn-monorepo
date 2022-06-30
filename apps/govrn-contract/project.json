@@ -20,6 +20,13 @@
       "options": {
         "command": "forge create --rpc-url http://127.0.0.1:8545/ --constructor-args 86000 -i src/Govrn.sol:Govrn",
         "cwd": "./apps/govrn-contract"
+      },
+      "configurations": {
+        "rinkeby": {
+          "command": "forge create --rpc-url http://127.0.0.1:8545/ --constructor-args 86000 -i src/Govrn.sol:Govrn",
+
+          "cwd": "./apps/govrn-contract"
+        }
       }
     },
     "deployProd": {
@@ -36,11 +43,17 @@
           "command": "npx hardhat run --network rinkeby scripts/deployProxy.js"
         },
         "gnosis": {
-          "command": "npx hardhat run --network gnosis scripts/deployProxy.js"
+          "command": "npx hardhat run --network xdai scripts/deployProxy.js"
         }
       }
     },
-
+    "verifyLocal": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx hardhat verify --network goerli 0x5ce2fD8e5342806765840a16329aD377Ed5d7610",
+        "cwd": "./apps/govrn-contract"
+      }
+    },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
