@@ -20,12 +20,44 @@
       "options": {
         "command": "forge create --rpc-url http://127.0.0.1:8545/ --constructor-args 86000 -i src/Govrn.sol:Govrn",
         "cwd": "./apps/govrn-contract"
+      },
+      "configurations": {
+        "rinkeby": {
+          "command": "forge create --rpc-url http://127.0.0.1:8545/ --constructor-args 86000 -i src/Govrn.sol:Govrn",
+
+          "cwd": "./apps/govrn-contract"
+        }
       }
     },
     "deployProd": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "npx hardhat run scripts/deployProxy.js",
+        "cwd": "./apps/govrn-contract"
+      },
+      "configurations": {
+        "goerli": {
+          "command": "npx hardhat run --network goerli scripts/deployProxy.js"
+        },
+        "rinkeby": {
+          "command": "npx hardhat run --network rinkeby scripts/deployProxy.js"
+        },
+        "gnosis": {
+          "command": "npx hardhat run --network xdai scripts/deployProxy.js"
+        }
+      }
+    },
+    "verifyLocal": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx hardhat verify --network xdai 0x274F91013435f3FE900Aa980021F8241d51D7Fd8",
+        "cwd": "./apps/govrn-contract"
+      }
+    },
+    "flatten": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx hardhat flatten ./lib/openzeppelin-contracts-upgradeable/contracts/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol",
         "cwd": "./apps/govrn-contract"
       }
     },

@@ -1330,6 +1330,19 @@ export type AttestationUserCreateInput = {
   userId: Scalars['Float'];
 };
 
+export type AttestationUserOnChainCreateInput = {
+  confidence: Scalars['String'];
+  contributionOnChainId: Scalars['Float'];
+  userId: Scalars['Float'];
+};
+
+export type AttestationUserOnChainUpdateInput = {
+  confidence: Scalars['String'];
+  contributionOnChainId: Scalars['Float'];
+  id: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
 export type AttestationUser_IdContribution_IdCompoundUniqueInput = {
   contribution_id: Scalars['Int'];
   user_id: Scalars['Int'];
@@ -8169,6 +8182,7 @@ export type Mutation = {
   createManyTwitterUser: AffectedRowsOutput;
   createManyUser: AffectedRowsOutput;
   createManyUserActivity: AffectedRowsOutput;
+  createOnChainUserContribution: Contribution;
   createPartner: Partner;
   createTwitterAccount: TwitterAccount;
   createTwitterTweet: TwitterTweet;
@@ -8178,6 +8192,7 @@ export type Mutation = {
   createUserAttestation: Attestation;
   createUserContribution: Contribution;
   createUserCustom: User;
+  createUserOnChainAttestation: Attestation;
   deleteActivityType?: Maybe<ActivityType>;
   deleteAttestation?: Maybe<Attestation>;
   deleteAttestationConfidence?: Maybe<AttestationConfidence>;
@@ -8280,6 +8295,8 @@ export type Mutation = {
   updateUserActivity?: Maybe<UserActivity>;
   updateUserContribution: Contribution;
   updateUserCustom: User;
+  updateUserOnChainAttestation: Attestation;
+  updateUserOnChainContribution: Contribution;
   upsertActivityType: ActivityType;
   upsertAttestation: Attestation;
   upsertAttestationConfidence: AttestationConfidence;
@@ -8553,6 +8570,11 @@ export type MutationCreateManyUserActivityArgs = {
 };
 
 
+export type MutationCreateOnChainUserContributionArgs = {
+  data: UserOnChainContributionCreateInput;
+};
+
+
 export type MutationCreatePartnerArgs = {
   data: PartnerCreateInput;
 };
@@ -8595,6 +8617,11 @@ export type MutationCreateUserContributionArgs = {
 
 export type MutationCreateUserCustomArgs = {
   data: UserCreateCustomInput;
+};
+
+
+export type MutationCreateUserOnChainAttestationArgs = {
+  data: AttestationUserOnChainCreateInput;
 };
 
 
@@ -9155,6 +9182,16 @@ export type MutationUpdateUserContributionArgs = {
 
 export type MutationUpdateUserCustomArgs = {
   data: UserUpdateCustomInput;
+};
+
+
+export type MutationUpdateUserOnChainAttestationArgs = {
+  data: AttestationUserOnChainUpdateInput;
+};
+
+
+export type MutationUpdateUserOnChainContributionArgs = {
+  data: UserOnChainContributionUpdateInput;
 };
 
 
@@ -13092,6 +13129,29 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: InputMaybe<SortOrder>;
 };
 
+export type UserOnChainContributionCreateInput = {
+  activityTypeId: Scalars['Float'];
+  dateOfEngagement: Scalars['DateTime'];
+  dateOfSubmission: Scalars['DateTime'];
+  details: Scalars['String'];
+  name: Scalars['String'];
+  onChainId: Scalars['Float'];
+  proof: Scalars['String'];
+  status: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
+export type UserOnChainContributionUpdateInput = {
+  dateOfEngagement: Scalars['DateTime'];
+  dateOfSubmission: Scalars['DateTime'];
+  details: Scalars['String'];
+  name: Scalars['String'];
+  onChainId: Scalars['Float'];
+  proof: Scalars['String'];
+  status: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
 export type UserOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
@@ -13567,6 +13627,7 @@ export type UserWhereInput = {
 };
 
 export type UserWhereUniqueInput = {
+  address?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
 };
 
@@ -13801,12 +13862,26 @@ export type CreateUserContributionMutationVariables = Exact<{
 
 export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
 
+export type CreateOnChainUserContributionMutationVariables = Exact<{
+  data: UserOnChainContributionCreateInput;
+}>;
+
+
+export type CreateOnChainUserContributionMutation = { createOnChainUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
+
 export type UpdateUserContributionMutationVariables = Exact<{
   data: UserContributionUpdateInput;
 }>;
 
 
 export type UpdateUserContributionMutation = { updateUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
+
+export type UpdateUserOnChainContributionMutationVariables = Exact<{
+  data: UserOnChainContributionUpdateInput;
+}>;
+
+
+export type UpdateUserOnChainContributionMutation = { updateUserOnChainContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
 
 export type BulkCreateContributionMutationVariables = Exact<{
   data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
@@ -13861,6 +13936,20 @@ export type CreateAttestationMutationVariables = Exact<{
 
 
 export type CreateAttestationMutation = { createAttestation: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } };
+
+export type CreateUserOnChainAttestationMutationVariables = Exact<{
+  data: AttestationUserOnChainCreateInput;
+}>;
+
+
+export type CreateUserOnChainAttestationMutation = { createUserOnChainAttestation: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } };
+
+export type UpdateUserOnChainAttestationMutationVariables = Exact<{
+  data: AttestationUserOnChainUpdateInput;
+}>;
+
+
+export type UpdateUserOnChainAttestationMutation = { updateUserOnChainAttestation: { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number }, user: { name?: string | null, address: string, id: number } } };
 
 export type BulkCreateAttestationMutationVariables = Exact<{
   data: Array<AttestationCreateManyInput> | AttestationCreateManyInput;
@@ -14305,9 +14394,23 @@ export const CreateUserContributionDocument = gql`
   }
 }
     ${ContributionFragmentFragmentDoc}`;
+export const CreateOnChainUserContributionDocument = gql`
+    mutation createOnChainUserContribution($data: UserOnChainContributionCreateInput!) {
+  createOnChainUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
 export const UpdateUserContributionDocument = gql`
     mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const UpdateUserOnChainContributionDocument = gql`
+    mutation updateUserOnChainContribution($data: UserOnChainContributionUpdateInput!) {
+  updateUserOnChainContribution(data: $data) {
     ...ContributionFragment
   }
 }
@@ -14360,6 +14463,20 @@ export const ListAttestationsDocument = gql`
 export const CreateAttestationDocument = gql`
     mutation createAttestation($data: AttestationCreateInput!) {
   createAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
+export const CreateUserOnChainAttestationDocument = gql`
+    mutation createUserOnChainAttestation($data: AttestationUserOnChainCreateInput!) {
+  createUserOnChainAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
+export const UpdateUserOnChainAttestationDocument = gql`
+    mutation updateUserOnChainAttestation($data: AttestationUserOnChainUpdateInput!) {
+  updateUserOnChainAttestation(data: $data) {
     ...AttestationFragment
   }
 }
@@ -14481,8 +14598,14 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createUserContribution(variables: CreateUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserContributionMutation>(CreateUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserContribution', 'mutation');
     },
+    createOnChainUserContribution(variables: CreateOnChainUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateOnChainUserContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateOnChainUserContributionMutation>(CreateOnChainUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createOnChainUserContribution', 'mutation');
+    },
     updateUserContribution(variables: UpdateUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserContributionMutation>(UpdateUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserContribution', 'mutation');
+    },
+    updateUserOnChainContribution(variables: UpdateUserOnChainContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserOnChainContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserOnChainContributionMutation>(UpdateUserOnChainContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserOnChainContribution', 'mutation');
     },
     bulkCreateContribution(variables: BulkCreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateContributionMutation>(BulkCreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateContribution', 'mutation');
@@ -14501,6 +14624,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createAttestation(variables: CreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAttestationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateAttestationMutation>(CreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createAttestation', 'mutation');
+    },
+    createUserOnChainAttestation(variables: CreateUserOnChainAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserOnChainAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserOnChainAttestationMutation>(CreateUserOnChainAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserOnChainAttestation', 'mutation');
+    },
+    updateUserOnChainAttestation(variables: UpdateUserOnChainAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserOnChainAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserOnChainAttestationMutation>(UpdateUserOnChainAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserOnChainAttestation', 'mutation');
     },
     bulkCreateAttestation(variables: BulkCreateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateAttestationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateAttestationMutation>(BulkCreateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateAttestation', 'mutation');

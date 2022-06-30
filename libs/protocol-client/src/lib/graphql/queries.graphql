@@ -372,11 +372,24 @@ mutation createUserContribution($data: UserContributionCreateInput!) {
   }
 }
 
+mutation createOnChainUserContribution($data: UserOnChainContributionCreateInput!) {
+  createOnChainUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
 mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
     ...ContributionFragment
   }
 }
+
+mutation updateUserOnChainContribution($data: UserOnChainContributionUpdateInput!) {
+  updateUserOnChainContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
 
 mutation bulkCreateContribution(
   $data: [ContributionCreateManyInput!]!
@@ -478,6 +491,20 @@ mutation createAttestation($data: AttestationCreateInput!) {
     ...AttestationFragment
   }
 }
+
+mutation createUserOnChainAttestation($data: AttestationUserOnChainCreateInput!) {
+  createUserOnChainAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+
+mutation updateUserOnChainAttestation($data: AttestationUserOnChainUpdateInput!) {
+  updateUserOnChainAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+
+
 
 mutation bulkCreateAttestation(
   $data: [AttestationCreateManyInput!]!
