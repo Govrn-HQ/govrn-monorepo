@@ -210,6 +210,7 @@ app.use(
       'http://localhost:3000',
       'https://beta.govrn.app',
       'http://localhost:3333',
+      'https://000b902v68843r5rsnnqp4evv7k720rcf124bhgfj3dvl0c8q1vobno.siasky.net',
     ],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
