@@ -328,7 +328,12 @@ export class ContributionCustomResolver {
         },
       },
       where: {
-        id: args.data.onChainId,
+        AND: [
+          {
+            id: { equals: args.data.onChainId },
+          },
+          { user_id: { equals: args.data.userId } },
+        ],
       },
     });
   }

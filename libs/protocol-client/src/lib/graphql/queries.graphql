@@ -391,7 +391,6 @@ mutation updateUserOnChainContribution($data: UserOnChainContributionUpdateInput
 }
 
 
-
 mutation bulkCreateContribution(
   $data: [ContributionCreateManyInput!]!
   $skipDuplicates: Boolean!
@@ -492,6 +491,20 @@ mutation createAttestation($data: AttestationCreateInput!) {
     ...AttestationFragment
   }
 }
+
+mutation createUserOnChainAttestation($data: AttestationUserOnChainCreateInput!) {
+  createUserOnChainAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+
+mutation updateUserOnChainAttestation($data: AttestationUserOnChainUpdateInput!) {
+  updateUserOnChainAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+
+
 
 mutation bulkCreateAttestation(
   $data: [AttestationCreateManyInput!]!

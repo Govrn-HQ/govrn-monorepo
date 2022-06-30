@@ -53,11 +53,9 @@ export class Contribution extends BaseClient {
     details: string,
     proof: string
   ) {
-    console.log('is minting', args);
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
-    const transactionReceipt = await transaction.wait(1);
-    console.log('transactionReceipt', transactionReceipt);
+    await transaction.wait(1);
 
     // let onChainId = null;
     // const logs = transactionReceipt.logs;
@@ -90,7 +88,7 @@ export class Contribution extends BaseClient {
       console.log('update response:', updateResponse);
       return updateResponse;
     }
-    return this.sdk.createOnChainUserContribution({
+    return await this.sdk.createOnChainUserContribution({
       data: {
         name: ethers.utils.toUtf8String(name),
         details: ethers.utils.toUtf8String(details),
@@ -113,32 +111,26 @@ export class Contribution extends BaseClient {
     userId: number,
     args: AttestArgs
   ) {
-    const attestCrud = new Attestation(this.client);
-    console.log('attesting');
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.attest(args);
-    const transactionReceipt = await transaction.wait(10);
-    console.log('transactionReceipt', transactionReceipt);
+    await transaction.wait(1);
 
-    // if (id) {
-    //   return await attestCrud.update({
-    //     data: {
-    //       confidence: { connect: { name: args.confidence.toString() } },
-    //       contribution: {
-    //         connect: { on_chain_id: parseInt(args.contribution.toString()) },
-    //       },
-    //     },
-    //     where: { id },
-    //   });
-    // }
-    // return attestCrud.create({
-    //   data: {
-    //     confidence: { connect: { name: args.confidence.toString() } },
-    //     contribution: {
-    //       connect: { on_chain_id: parseInt(args.contribution.toString()) },
-    //     },
-    //     user: { connect: { id: userId } },
-    //   },
-    // });
+    if (id) {
+      return await this.sdk.updateUserOnChainAttestation({
+        data: {
+          confidence: args.confidence.toString(),
+          contributionOnChainId: parseInt(args.contribution.toString()),
+          userId: userId,
+          id: id,
+        },
+      });
+    }
+    return await this.sdk.createUserOnChainAttestation({
+      data: {
+        confidence: args.confidence.toString(),
+        contributionOnChainId: parseInt(args.contribution.toString()),
+        userId: userId,
+      },
+    });
   }
 }
