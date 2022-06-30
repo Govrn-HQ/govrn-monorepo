@@ -50,10 +50,18 @@
     "verifyLocal": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "npx hardhat verify --network goerli 0x5ce2fD8e5342806765840a16329aD377Ed5d7610",
+        "command": "npx hardhat verify --network xdai 0x274F91013435f3FE900Aa980021F8241d51D7Fd8",
         "cwd": "./apps/govrn-contract"
       }
     },
+    "flatten": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx hardhat flatten ./lib/openzeppelin-contracts-upgradeable/contracts/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol",
+        "cwd": "./apps/govrn-contract"
+      }
+    },
+
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
