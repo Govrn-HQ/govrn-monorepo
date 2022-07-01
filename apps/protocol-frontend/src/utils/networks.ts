@@ -45,7 +45,7 @@ export const networks: { [key: string]: Network } = {
     name: 'Gnosis Chain',
     symbol: 'xDAI',
     explorer: 'https://blockscout.com/xdai/mainnet',
-    rpc: 'https://rpc.xdaichain.com/',
+    rpc: 'https://rpc.gnosischain.com/',
     govrnContract: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1',
   },
   '0x539': {
