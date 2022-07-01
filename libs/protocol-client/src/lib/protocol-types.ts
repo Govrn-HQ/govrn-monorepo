@@ -13145,6 +13145,7 @@ export type UserOnChainContributionUpdateInput = {
   dateOfEngagement: Scalars['DateTime'];
   dateOfSubmission: Scalars['DateTime'];
   details: Scalars['String'];
+  id: Scalars['Float'];
   name: Scalars['String'];
   onChainId: Scalars['Float'];
   proof: Scalars['String'];
