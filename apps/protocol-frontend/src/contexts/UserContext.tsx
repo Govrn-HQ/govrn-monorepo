@@ -344,7 +344,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             name: networks[chainId].name,
           }, //network config
           signer, // signer/provider
-          contribution.id, // contribution id
+          null, // attestation id
           contribution.activityTypeId, //activity type id
           userData.id, // user id
           {

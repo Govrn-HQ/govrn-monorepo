@@ -1339,7 +1339,7 @@ export type AttestationUserOnChainCreateInput = {
 export type AttestationUserOnChainUpdateInput = {
   confidence: Scalars['String'];
   contributionOnChainId: Scalars['Float'];
-  id: Scalars['String'];
+  id: Scalars['Float'];
   userId: Scalars['Float'];
 };
 
