@@ -57,7 +57,7 @@ export class CreateUserOnChainAttestationArgs {
   isAbstract: true,
 })
 export class AttestationUserOnChainUpdateInput {
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field((_type) => Number)
   id: number;
 
   @TypeGraphQL.Field((_type) => String)
@@ -140,9 +140,7 @@ export class AttestationResolver {
         },
         user: {
           connect: {
-            connect: {
-              id: args.data.userId,
-            },
+            id: args.data.userId,
           },
         },
       },
@@ -150,10 +148,19 @@ export class AttestationResolver {
   }
   @TypeGraphQL.Mutation((_returns) => Attestation, { nullable: false })
   async updateUserOnChainAttestation(
-    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: UpdateUserOnChainAttestationArgs
   ) {
-    return await prisma.attestation.update({
+    const address = req.session.siwe.data.address;
+    const a = await prisma.attestation.findFirst({
+      where: {
+        AND: [
+          { user: { is: { address: { equals: address } } } },
+          { id: { equals: args.data.id } },
+        ],
+      },
+    });
+    return await prisma.attestation.updateMany({
       data: {
         confidence: {
           connect: {
@@ -174,10 +181,7 @@ export class AttestationResolver {
         },
       },
       where: {
-        AND: [
-          { id: { equals: args.data.id } },
-          { user_id: { equals: args.data.userId } },
-        ],
+        id: a.id,
       },
     });
   }

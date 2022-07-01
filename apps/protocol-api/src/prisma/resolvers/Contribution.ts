@@ -152,6 +152,9 @@ export class UserOnChainContributionUpdateInput {
 
   @TypeGraphQL.Field((_type) => Number)
   userId: number;
+
+  @TypeGraphQL.Field((_type) => Number)
+  id: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -240,11 +243,49 @@ export class ContributionCustomResolver {
 
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async updateUserContribution(
-    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: UpdateUserContributionArgs
   ) {
-    return prisma.contribution.update({
+    const address = req.session.siwe.data.address;
+    const res = await prisma.contribution.updateMany({
       data: {
+        name: {
+          set: args.data.name,
+        },
+        details: {
+          set: args.data.details,
+        },
+        proof: {
+          set: args.data.proof,
+        },
+        date_of_engagement: {
+          set: args.data.dateOfEngagement,
+        },
+      },
+      where: {
+        AND: [
+          {
+            id: { equals: args.data.contributionId },
+          },
+          { user: { is: { address: { equals: address } } } },
+        ],
+      },
+    });
+    if (res.count !== 1) {
+      throw `Wrong number of rows updated ${res.count} updateUserContribution`;
+    }
+    return await prisma.contribution.update({
+      data: {
+        activity_type: {
+          connectOrCreate: {
+            create: {
+              name: args.data.activityTypeName,
+            },
+            where: {
+              name: args.data.activityTypeName,
+            },
+          },
+        },
         user: {
           connectOrCreate: {
             create: {
@@ -260,36 +301,9 @@ export class ContributionCustomResolver {
             },
           },
         },
-        name: {
-          set: args.data.name,
-        },
-        details: {
-          set: args.data.details,
-        },
-        proof: {
-          set: args.data.proof,
-        },
-        activity_type: {
-          connectOrCreate: {
-            create: {
-              name: args.data.activityTypeName,
-            },
-            where: {
-              name: args.data.activityTypeName,
-            },
-          },
-        },
-        date_of_engagement: {
-          set: args.data.dateOfEngagement,
-        },
         status: {
-          connectOrCreate: {
-            create: {
-              name: args.data.status,
-            },
-            where: {
-              name: args.data.status,
-            },
+          connect: {
+            name: args.data.status,
           },
         },
       },
@@ -301,10 +315,11 @@ export class ContributionCustomResolver {
 
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async updateUserOnChainContribution(
-    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: UpdateUserOnChainContributionArgs
   ) {
-    return prisma.contribution.update({
+    const address = req.session.siwe.data.address;
+    const update = await prisma.contribution.updateMany({
       data: {
         name: {
           set: args.data.name,
@@ -321,11 +336,6 @@ export class ContributionCustomResolver {
         date_of_submission: {
           set: args.data.dateOfSubmission,
         },
-        status: {
-          connect: {
-            name: args.data.status,
-          },
-        },
         on_chain_id: {
           set: args.data.onChainId,
         },
@@ -333,10 +343,25 @@ export class ContributionCustomResolver {
       where: {
         AND: [
           {
-            id: { equals: args.data.onChainId },
+            id: { equals: args.data.id },
           },
-          { user_id: { equals: args.data.userId } },
+          { user: { is: { address: { equals: address } } } },
         ],
+      },
+    });
+    if (update.count !== 1) {
+      throw `Wrong number of rows updated ${update.count} updateUserOnChainContribution`;
+    }
+    return await prisma.contribution.update({
+      data: {
+        status: {
+          connect: {
+            name: args.data.status,
+          },
+        },
+      },
+      where: {
+        id: args.data.id,
       },
     });
   }

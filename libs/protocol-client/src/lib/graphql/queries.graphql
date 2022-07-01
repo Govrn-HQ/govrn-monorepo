@@ -336,6 +336,7 @@ fragment ContributionFragment on Contribution {
     user_id
     date_of_attestation
   }
+  on_chain_id
 }
 
 query getContribution($where: ContributionWhereUniqueInput!) {
@@ -459,6 +460,7 @@ fragment AttestationFragment on Attestation {
     status_id
     updatedAt
     user_id
+    on_chain_id
   }
   date_of_attestation
   id
@@ -582,6 +584,7 @@ fragment AttestationFragment on Attestation {
     status_id
     updatedAt
     user_id
+    on_chain_id
   }
   date_of_attestation
   id

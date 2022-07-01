@@ -55,23 +55,23 @@ export class Contribution extends BaseClient {
   ) {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
-    await transaction.wait(1);
+    const transactionReceipt = await transaction.wait(1);
 
-    // let onChainId = null;
-    // const logs = transactionReceipt.logs;
-    // for (const log of logs) {
-    //   console.log('on chain id (logs)', log);
-    //   const decodedLog = contract.govrn.interface.parseLog(log);
-    //   // TODO: Can we avoid hardcoding the event name
-    //   if (decodedLog.name === 'Mint') {
-    //     onChainId = decodedLog.args['id'];
+    let onChainId = null;
+    const logs = transactionReceipt.logs;
+    for (const log of logs) {
+      console.log('on chain id (logs)', log);
+      const decodedLog = contract.govrn.interface.parseLog(log);
+      // TODO: Can we avoid hardcoding the event name
+      if (decodedLog.name === 'Mint') {
+        onChainId = decodedLog.args['id'];
 
-    //     break;
-    //   }
-    // }
-    // if (!onChainId) {
-    //   throw Error('Failed to fetch on chain Id');
-    // }
+        break;
+      }
+    }
+    if (!onChainId) {
+      throw Error('Failed to fetch on chain Id');
+    }
     if (id) {
       console.log('id in the update:', id);
       const updateResponse = await this.sdk.updateUserOnChainContribution({
@@ -82,8 +82,9 @@ export class Contribution extends BaseClient {
           dateOfEngagement: new Date(args.dateOfEngagement).toString(),
           proof: ethers.utils.toUtf8String(proof),
           status: 'minted',
-          onChainId: id,
+          onChainId: onChainId.toNumber(),
           userId: userId,
+          id: id,
         },
       });
       console.log('update response:', updateResponse);
@@ -99,7 +100,7 @@ export class Contribution extends BaseClient {
         proof: ethers.utils.toUtf8String(proof),
         status: 'minted',
         userId: userId,
-        onChainId: id,
+        onChainId: onChainId.toNumber(),
       },
     });
   }
@@ -117,14 +118,16 @@ export class Contribution extends BaseClient {
     await transaction.wait(1);
 
     if (id) {
-      return await this.sdk.updateUserOnChainAttestation({
-        data: {
-          confidence: args.confidence.toString(),
-          contributionOnChainId: parseInt(args.contribution.toString()),
-          userId: userId,
-          id: id.toString(),
-        },
-      });
+      // TODO: figure out this flow a little bit
+      return;
+      // return await this.sdk.updateUserOnChainAttestation({
+      //   data: {
+      //     confidence: args.confidence.toString(),
+      //     contributionOnChainId: parseInt(args.contribution.toString()),
+      //     userId: userId,
+      //     id: id,
+      //   },
+      // });
     }
     return await this.sdk.createUserOnChainAttestation({
       data: {

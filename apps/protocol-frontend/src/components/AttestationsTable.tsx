@@ -61,6 +61,7 @@ const AttestationsTable = ({
         action: '',
         name: contribution.name,
         attestationDate: null,
+        onChainId: contribution.on_chain_id,
         // format(new Date(contribution.attestationDate), 'P') || null,
         contributor: contribution.user.name,
       })),
