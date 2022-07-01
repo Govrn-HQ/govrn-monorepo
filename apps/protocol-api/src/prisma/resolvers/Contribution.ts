@@ -152,6 +152,9 @@ export class UserOnChainContributionUpdateInput {
 
   @TypeGraphQL.Field((_type) => Number)
   userId: number;
+
+  @TypeGraphQL.Field((_type) => Number)
+  id: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -304,7 +307,7 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: UpdateUserOnChainContributionArgs
   ) {
-    return prisma.contribution.update({
+    const update = await prisma.contribution.updateMany({
       data: {
         name: {
           set: args.data.name,
@@ -321,11 +324,6 @@ export class ContributionCustomResolver {
         date_of_submission: {
           set: args.data.dateOfSubmission,
         },
-        status: {
-          connect: {
-            name: args.data.status,
-          },
-        },
         on_chain_id: {
           set: args.data.onChainId,
         },
@@ -333,10 +331,22 @@ export class ContributionCustomResolver {
       where: {
         AND: [
           {
-            id: { equals: args.data.onChainId },
+            id: { equals: args.data.id },
           },
           { user_id: { equals: args.data.userId } },
         ],
+      },
+    });
+    return await prisma.contribution.update({
+      data: {
+        status: {
+          connect: {
+            name: args.data.status,
+          },
+        },
+      },
+      where: {
+        id: args.data.id,
       },
     });
   }

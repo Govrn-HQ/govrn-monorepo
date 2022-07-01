@@ -292,7 +292,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       if (provider) {
         await govrn.contribution.mint(
           {
-            address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+            address: networks[chainId].govrnContract,
             chainId: networks[chainId].chainNumber,
             name: networks[chainId].name,
           }, // network config
@@ -339,7 +339,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       if (provider) {
         await govrn.contribution.attest(
           {
-            address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+            address: networks[chainId].govrnContract,
             chainId: networks[chainId].chainNumber,
             name: networks[chainId].name,
           }, //network config
