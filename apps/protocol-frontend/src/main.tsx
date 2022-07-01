@@ -7,6 +7,7 @@ import { IProviderOptions } from 'web3modal';
 import { networks } from '../src/utils/networks';
 import { ChakraProvider } from '@chakra-ui/react';
 import { OverlayContextProvider } from './contexts/OverlayContext';
+
 import { GovrnTheme } from '@govrn/protocol-ui';
 import Routes from './Routes';
 import { UserContextProvider } from './contexts/UserContext';
