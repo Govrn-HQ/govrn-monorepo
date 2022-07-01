@@ -72,6 +72,7 @@ const permissions = shield(
       updateGuild: hasToken,
       createGuild: hasToken,
       createContribution: hasToken,
+      createUserActivity: hasToken,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
@@ -191,6 +192,13 @@ const permissions = shield(
       guild_users: or(isAuthenticated, hasToken),
       twitter_user: or(isAuthenticated, hasToken),
       active: or(isAuthenticated, hasToken),
+    },
+    UserActivity: {
+      id: hasToken,
+      createdAt: hasToken,
+      updatedAt: hasToken,
+      activity_type: hasToken,
+      user: hasToken,
     },
   },
   {

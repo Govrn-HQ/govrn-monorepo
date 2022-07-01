@@ -13919,6 +13919,15 @@ export type CreateActivityTypeMutationVariables = Exact<{
 
 export type CreateActivityTypeMutation = { createActivityType: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any } };
 
+export type UserActivityFragmentFragment = { createdAt: any, id: number, updatedAt: any, activity_type: { id: number }, user: { id: number } };
+
+export type CreateUserActivityMutationVariables = Exact<{
+  data: UserActivityCreateInput;
+}>;
+
+
+export type CreateUserActivityMutation = { createUserActivity: { createdAt: any, id: number, updatedAt: any, activity_type: { id: number }, user: { id: number } } };
+
 export type AttestationFragmentFragment = { date_of_attestation: any, id: number, updatedAt: any, confidence: { createdAt: any, id: number, name: string, updatedAt: any }, contribution: { activity_type_id: number, date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: any, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } };
 
 export type ListAttestationsQueryVariables = Exact<{
@@ -14127,6 +14136,19 @@ export const ActivityTypeFragmentFragmentDoc = gql`
   createdAt
   id
   name
+  updatedAt
+}
+    `;
+export const UserActivityFragmentFragmentDoc = gql`
+    fragment UserActivityFragment on UserActivity {
+  activity_type {
+    id
+  }
+  createdAt
+  id
+  user {
+    id
+  }
   updatedAt
 }
     `;
@@ -14451,6 +14473,13 @@ export const CreateActivityTypeDocument = gql`
   }
 }
     ${ActivityTypeFragmentFragmentDoc}`;
+export const CreateUserActivityDocument = gql`
+    mutation createUserActivity($data: UserActivityCreateInput!) {
+  createUserActivity(data: $data) {
+    ...UserActivityFragment
+  }
+}
+    ${UserActivityFragmentFragmentDoc}`;
 export const ListAttestationsDocument = gql`
     query listAttestations($where: AttestationWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [AttestationOrderByWithRelationInput!]) {
   result: attestations(
@@ -14621,6 +14650,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
+    },
+    createUserActivity(variables: CreateUserActivityMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserActivityMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserActivityMutation>(CreateUserActivityDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserActivity', 'mutation');
     },
     listAttestations(variables?: ListAttestationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListAttestationsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListAttestationsQuery>(ListAttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listAttestations', 'query');

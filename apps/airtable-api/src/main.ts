@@ -106,8 +106,6 @@ app.post(
     const label = req.body.ActivityType.label
       ? req.body.ActivityType.label
       : req.body.ActivityType;
-    console.log(req.body);
-    console.log(label);
     const g = await govrn.contribution.create({
       data: {
         activity_type: {
@@ -147,17 +145,13 @@ app.post(
       },
     });
     if (!req.body.ActivityType.label) {
-      console.log(g);
-      await govrn.activity_type.update({
+      await govrn.activity_type.userCreate({
         data: {
-          users: {
-            connect: [{ id: req.body.user_id }],
-          },
+          user: { connect: { id: req.body.user_id } },
+          activity_type: { connect: { id: g.activity_type.id } },
         },
-        where: { id: g.activity_type.id },
       });
     }
-    console.log(g);
     res.send(g);
   })
 );
