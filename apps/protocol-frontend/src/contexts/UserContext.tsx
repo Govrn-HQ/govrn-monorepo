@@ -348,7 +348,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           contribution.activityTypeId, //activity type id
           userData.id, // user id
           {
-            contribution: contribution.id,
+            contribution: contribution.onChainId,
             confidence: 0,
           } // attest args
         );

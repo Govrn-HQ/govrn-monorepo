@@ -140,9 +140,7 @@ export class AttestationResolver {
         },
         user: {
           connect: {
-            connect: {
-              id: args.data.userId,
-            },
+            id: args.data.userId,
           },
         },
       },
