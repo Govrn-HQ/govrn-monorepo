@@ -8,7 +8,7 @@ import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { and, deny, or, rule, shield } from 'graphql-shield';
+import { and, deny, or, rule, shield, allow } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 import cors = require('cors');
 
@@ -52,7 +52,7 @@ const permissions = shield(
       attestations: isAuthenticated,
       getUser: isAuthenticated,
       guild: hasToken,
-      listUserByAddress: OwnsData,
+      listUserByAddress: isAuthenticated,
       users: hasToken,
     },
     Mutation: {
@@ -201,17 +201,13 @@ const permissions = shield(
 
 const schema = applyMiddleware(typeSchema, permissions);
 
+console.log(process.env.CORS_ORIGIN);
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'https://beta.govrn.app',
-      'http://localhost:3333',
-      'https://000b902v68843r5rsnnqp4evv7k720rcf124bhgfj3dvl0c8q1vobno.siasky.net',
-    ],
+    origin: process.env.CORS_ORIGIN.split(','),
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,

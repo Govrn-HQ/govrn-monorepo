@@ -6,7 +6,7 @@
     "build": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "graph codegen subgraph.yaml && graph build --network-file ./networks.json",
+        "command": "graph codegen subgraph.yaml && graph build --network rinkeby",
 
         "cwd": "apps/govrn-contract-subgraph"
       }
@@ -35,7 +35,7 @@
     "deployProd": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ alexkeating/govrn-protocol",
+        "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol",
         "cwd": "apps/govrn-contract-subgraph"
       }
     },
