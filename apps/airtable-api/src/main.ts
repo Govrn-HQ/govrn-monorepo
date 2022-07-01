@@ -128,7 +128,7 @@ app.post(
         details: req.body.Description,
         status: {
           connect: {
-            name: 'staged',
+            name: 'staging',
           },
         },
         user: {
