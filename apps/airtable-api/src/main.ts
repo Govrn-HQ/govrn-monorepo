@@ -103,27 +103,24 @@ app.post(
     const govrn = new GovrnProtocol(PROTOCOL_URL, undefined, {
       Authorization: API_TOKEN,
     });
+    const label = req.body.ActivityType.label
+      ? req.body.ActivityType.label
+      : req.body.ActivityType;
     console.log(req.body);
+    console.log(label);
     const g = await govrn.contribution.create({
       data: {
         activity_type: {
           connectOrCreate: {
             create: {
-              name: req.body.ActivityType.label,
-              users: {
-                connect: [
-                  {
-                    id: req.body.user_id,
-                  },
-                ],
-              },
+              name: label,
             },
             where: {
-              name: req.body.ActivityType.label,
+              name: label,
             },
           },
         },
-        name: req.body.ActivityType.label,
+        name: label,
         date_of_engagement: req.body.DateOfEngagement,
         details: req.body.Description,
         status: {
@@ -149,6 +146,17 @@ app.post(
         },
       },
     });
+    if (!req.body.ActivityType.label) {
+      console.log(g);
+      await govrn.activity_type.update({
+        data: {
+          users: {
+            connect: [{ id: req.body.user_id }],
+          },
+        },
+        where: { id: g.activity_type.id },
+      });
+    }
     console.log(g);
     res.send(g);
   })
