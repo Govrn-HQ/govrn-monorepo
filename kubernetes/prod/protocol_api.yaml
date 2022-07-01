@@ -46,7 +46,11 @@ spec:
                 secretKeyRef:
                   name: protocol-api
                   key: kevin_malone_token
-
+            - name: CORS_ORIGIN
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: cors_origin
           resources:
             requests:
               memory: 300Mi
