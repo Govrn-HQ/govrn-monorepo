@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { BaseClient } from './base';
-import { Attestation } from './attestation';
 import {
+  BulkCreateContributionMutationVariables,
   CreateContributionMutationVariables,
   ListContributionsQueryVariables,
   UpdateContributionMutationVariables,
@@ -29,9 +29,7 @@ export class Contribution extends BaseClient {
     return contributions.createContribution;
   }
 
-  // public async bulkCreate(args: BulkCreateContributionMutationVariables) {
-  public async bulkCreate(args: any) {
-    // very temporary change to build
+  public async bulkCreate(args: BulkCreateContributionMutationVariables) {
     const mutation = await this.sdk.bulkCreateContribution(args);
     return mutation.createManyContribution.count;
   }
