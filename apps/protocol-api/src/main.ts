@@ -8,7 +8,7 @@ import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { and, deny, or, rule, shield, allow } from 'graphql-shield';
+import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 import cors = require('cors');
 
@@ -54,25 +54,29 @@ const permissions = shield(
       guild: hasToken,
       listUserByAddress: isAuthenticated,
       users: hasToken,
+      jobRuns: hasToken,
     },
     Mutation: {
       '*': deny,
-      createUserCustom: and(OwnsData, isAuthenticated),
+      createActivityType: hasToken,
+      createContribution: hasToken,
+      createGuild: hasToken,
+      createGuildUser: or(isAuthenticated, hasToken),
+      createJobRun: hasToken,
+      createManyContribution: hasToken,
+      createOnChainUserContribution: isAuthenticated,
+      createUser: or(isAuthenticated, hasToken),
+      createUserActivity: hasToken,
       createUserAttestation: and(OwnsData, isAuthenticated),
       createUserContribution: and(OwnsData, isAuthenticated),
+      createUserCustom: or(hasToken, and(OwnsData, isAuthenticated)),
+      createUserOnChainAttestation: isAuthenticated,
+      updateGuild: hasToken,
+      updateUser: hasToken,
       updateUserContribution: and(OwnsData, isAuthenticated),
       updateUserCustom: and(OwnsData, isAuthenticated),
-      createUser: or(isAuthenticated, hasToken),
-      createGuildUser: or(isAuthenticated, hasToken),
-      createOnChainUserContribution: isAuthenticated,
-      updateUserOnChainContribution: isAuthenticated,
-      createUserOnChainAttestation: isAuthenticated,
       updateUserOnChainAttestation: isAuthenticated,
-      updateUser: hasToken,
-      updateGuild: hasToken,
-      createGuild: hasToken,
-      createContribution: hasToken,
-      createUserActivity: hasToken,
+      updateUserOnChainContribution: isAuthenticated,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
@@ -178,6 +182,17 @@ const permissions = shield(
       id: or(isAuthenticated, hasToken),
       name: or(isAuthenticated, hasToken),
       username: or(isAuthenticated, hasToken),
+    },
+    AffectedRowsOutput: {
+      count: hasToken,
+    },
+    JobRun: {
+      id: hasToken,
+      createdAt: hasToken,
+      updatedAt: hasToken,
+      completedDate: hasToken,
+      startDate: hasToken,
+      name: hasToken,
     },
     User: {
       id: or(isAuthenticated, hasToken),
