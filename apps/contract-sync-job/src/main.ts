@@ -11,6 +11,7 @@ import { GraphQLClient } from 'graphql-request';
 
 const protcolUrl = process.env.PROTOCOL_URL;
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
+const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
 const jobName = 'contract-sync-job';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
@@ -112,8 +113,9 @@ const main = async () => {
 
   const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
   const govrn = new GovrnProtocol(protcolUrl, null, {
-    Authorization: 'Flutes',
+    Authorization: KEVIN_MALONE_TOKEN,
   });
+  console.dir(KEVIN_MALONE_TOKEN);
   const client = new GovrnGraphClient(graphQLClient);
 
   const lastRun = await govrn.jobRun.list({
