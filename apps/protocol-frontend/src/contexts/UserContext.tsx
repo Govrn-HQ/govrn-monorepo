@@ -38,7 +38,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [daoContributions, setDaoContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
-  const [daos, setDaos] = useState<any>(null);
+  const [allDaos, setAllDaos] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
@@ -176,11 +176,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const getDaos = async () => {
+  const getAllDaos = async () => {
     try {
-      const daosResponse = await govrn.guild.get({
-      setDaos(daosResponse);
-      return daosResponse;
+      const allDaosResponse = await govrn.guild.list({ first: 100 });
+      setAllDaos(allDaosResponse);
+      return allDaosResponse;
     } catch (error) {
       console.error(error);
     }
@@ -571,6 +571,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userData, isAuthenticated]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      getAllDaos();
+    }
+  }, [userData, isAuthenticated]);
+
   return (
     <UserContext.Provider
       value={{
@@ -588,7 +594,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserAttestations,
         userActivityTypes,
         setUserActivityTypes,
-        getDaos,
+        allDaos,
+        getAllDaos,
         createUser,
         createWaitlistUser,
         createContribution,
@@ -620,8 +627,8 @@ export const useUser = () => {
     setUserContributions,
     daoContributions,
     setDaoContributions,
-    getDaos,
-    daos,
+    allDaos,
+    setAllDaos,
     userAttestations,
     setUserAttestations,
     userActivityTypes,
@@ -655,8 +662,8 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
-    getDaos,
-    daos,
+    allDaos,
+    setAllDaos,
     createUser,
     createWaitlistUser,
     createAttestation,

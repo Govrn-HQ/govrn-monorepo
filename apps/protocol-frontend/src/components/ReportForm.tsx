@@ -44,9 +44,8 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
   );
 
 const ReportForm = () => {
-  const { userActivityTypes, createContribution, daos } = useUser();
-
-  console.log('daos,', daos);
+  const { userActivityTypes, createContribution, allDaos } = useUser();
+  console.log('daos from context', allDaos);
 
   const navigate = useNavigate();
 
