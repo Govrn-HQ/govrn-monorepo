@@ -11,7 +11,7 @@ import { GraphQLClient } from 'graphql-request';
 
 const protcolUrl = process.env.PROTOCOL_URL;
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
-const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
+const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
 const jobName = 'contract-sync-job';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
@@ -52,7 +52,6 @@ const getOrInsertUser = async (
   if (user.length === 1) {
     return user[0]?.id;
   }
-  console.dir(data);
 
   // Insert new user into db, if user doesn't exist.
   const newUser = await govrn.user.create({
@@ -113,9 +112,8 @@ const main = async () => {
 
   const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
   const govrn = new GovrnProtocol(protcolUrl, null, {
-    Authorization: KEVIN_MALONE_TOKEN,
+    Authorization: CONTRACT_SYNC_TOKEN,
   });
-  console.dir(KEVIN_MALONE_TOKEN);
   const client = new GovrnGraphClient(graphQLClient);
 
   const lastRun = await govrn.jobRun.list({
