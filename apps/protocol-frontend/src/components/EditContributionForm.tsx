@@ -5,6 +5,7 @@ import {
   Textarea,
   DatePicker,
   CreatableSelect,
+  Select,
 } from '@govrn/protocol-ui';
 
 import { useForm } from 'react-hook-form';
@@ -77,6 +78,13 @@ const EditContributionForm = ({
     'Other',
   ];
 
+  const daosList = ['Dao 1', 'Dao 2'];
+
+  const daoListOptions = daosList.map((dao) => ({
+    value: dao,
+    label: dao,
+  }));
+
   const combinedActivityTypesList = [
     ...new Set([
       ...activityTypesList,
@@ -137,6 +145,16 @@ const EditContributionForm = ({
           placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
           defaultValue={contribution.proof}
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <Select
+          name="daoName"
+          label="DAO Name"
+          placeholder="Select a DAO to assocaite this Contribution with."
+          onChange={(dao) => {
+            setValue('daoName', dao.value);
+          }}
+          options={daoListOptions}
+          localForm={localForm}
         />
         <DatePicker
           name="engagementDate"

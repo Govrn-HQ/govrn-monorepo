@@ -125,7 +125,6 @@ fragment GuildFragment on Guild {
   updatedAt
 }
 
-
 mutation createGuild($data: GuildCreateInput!) {
   createGuild(data: $data) {
     congrats_channel
@@ -141,16 +140,22 @@ mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
   }
 }
 
-query getGuild($where: GuildWhereUniqueInput!,) {
-    result: guild(
-        where: $where,
-    ) {
-      ...GuildFragment
-    }
+query getGuild($where: GuildWhereUniqueInput!) {
+  result: guild(where: $where) {
+    ...GuildFragment
+  }
 }
 
-
-
+query listGuilds(
+  $where: GuildWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildOrderByWithRelationInput!]
+) {
+  result: guilds(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...GuildFragment
+  }
+}
 
 # Twitter
 fragment TwitterTweetFragment on TwitterTweet {
@@ -373,7 +378,9 @@ mutation createUserContribution($data: UserContributionCreateInput!) {
   }
 }
 
-mutation createOnChainUserContribution($data: UserOnChainContributionCreateInput!) {
+mutation createOnChainUserContribution(
+  $data: UserOnChainContributionCreateInput!
+) {
   createOnChainUserContribution(data: $data) {
     ...ContributionFragment
   }
@@ -385,12 +392,13 @@ mutation updateUserContribution($data: UserContributionUpdateInput!) {
   }
 }
 
-mutation updateUserOnChainContribution($data: UserOnChainContributionUpdateInput!) {
+mutation updateUserOnChainContribution(
+  $data: UserOnChainContributionUpdateInput!
+) {
   updateUserOnChainContribution(data: $data) {
     ...ContributionFragment
   }
 }
-
 
 mutation bulkCreateContribution(
   $data: [ContributionCreateManyInput!]!
@@ -460,8 +468,6 @@ mutation createUserActivity($data: UserActivityCreateInput!) {
   }
 }
 
-
-
 # Attestations
 fragment AttestationFragment on Attestation {
   confidence {
@@ -515,19 +521,21 @@ mutation createAttestation($data: AttestationCreateInput!) {
   }
 }
 
-mutation createUserOnChainAttestation($data: AttestationUserOnChainCreateInput!) {
+mutation createUserOnChainAttestation(
+  $data: AttestationUserOnChainCreateInput!
+) {
   createUserOnChainAttestation(data: $data) {
     ...AttestationFragment
   }
 }
 
-mutation updateUserOnChainAttestation($data: AttestationUserOnChainUpdateInput!) {
+mutation updateUserOnChainAttestation(
+  $data: AttestationUserOnChainUpdateInput!
+) {
   updateUserOnChainAttestation(data: $data) {
     ...AttestationFragment
   }
 }
-
-
 
 mutation bulkCreateAttestation(
   $data: [AttestationCreateManyInput!]!

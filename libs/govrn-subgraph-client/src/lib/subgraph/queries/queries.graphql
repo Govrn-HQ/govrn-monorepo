@@ -52,3 +52,25 @@ query listContributions(
   }
 }
 
+fragment guildFields on Guild {
+  id
+  name
+  discord_id
+}
+
+query listGuilds(
+  $skip: Int! = 0
+  $first: Int! = 100
+  $orderBy: Contribution_orderBy! = id
+  $orderDirection: OrderDirection! = asc
+) {
+  guilds: guilds(
+    where: $where
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+  ) {
+    ...guildFields
+  }
+}

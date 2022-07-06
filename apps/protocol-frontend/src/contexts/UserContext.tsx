@@ -38,6 +38,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [daoContributions, setDaoContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
+  const [daos, setDaos] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
@@ -170,6 +171,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserActivityTypes(userActivityTypesResponse);
 
       return userActivityTypesResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getDaos = async () => {
+    try {
+      const daosResponse = await govrn.guild.get({
+      setDaos(daosResponse);
+      return daosResponse;
     } catch (error) {
       console.error(error);
     }
@@ -577,6 +588,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserAttestations,
         userActivityTypes,
         setUserActivityTypes,
+        getDaos,
         createUser,
         createWaitlistUser,
         createContribution,
@@ -608,6 +620,8 @@ export const useUser = () => {
     setUserContributions,
     daoContributions,
     setDaoContributions,
+    getDaos,
+    daos,
     userAttestations,
     setUserAttestations,
     userActivityTypes,
@@ -641,6 +655,8 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    getDaos,
+    daos,
     createUser,
     createWaitlistUser,
     createAttestation,

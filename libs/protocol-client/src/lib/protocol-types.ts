@@ -13735,6 +13735,16 @@ export type GetGuildQueryVariables = Exact<{
 
 export type GetGuildQuery = { result?: { congrats_channel?: number | null, createdAt: any, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: any } | null };
 
+export type ListGuildsQueryVariables = Exact<{
+  where?: GuildWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildOrderByWithRelationInput> | GuildOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildsQuery = { result: Array<{ congrats_channel?: number | null, createdAt: any, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: any }> };
+
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } | null };
 
 export type BulkCreateTwitterTweetMutationVariables = Exact<{
@@ -14304,6 +14314,13 @@ export const GetGuildDocument = gql`
   }
 }
     ${GuildFragmentFragmentDoc}`;
+export const ListGuildsDocument = gql`
+    query listGuilds($where: GuildWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildOrderByWithRelationInput!]) {
+  result: guilds(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...GuildFragment
+  }
+}
+    ${GuildFragmentFragmentDoc}`;
 export const BulkCreateTwitterTweetDocument = gql`
     mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
@@ -14584,6 +14601,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getGuild(variables: GetGuildQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetGuildQuery>(GetGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuild', 'query');
+    },
+    listGuilds(variables?: ListGuildsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildsQuery>(ListGuildsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuilds', 'query');
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');

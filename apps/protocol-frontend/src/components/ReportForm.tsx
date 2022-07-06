@@ -6,6 +6,7 @@ import {
   Textarea,
   DatePicker,
   CreatableSelect,
+  Select,
 } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
@@ -43,7 +44,9 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
   );
 
 const ReportForm = () => {
-  const { userActivityTypes, createContribution } = useUser();
+  const { userActivityTypes, createContribution, daos } = useUser();
+
+  console.log('daos,', daos);
 
   const navigate = useNavigate();
 
@@ -54,6 +57,7 @@ const ReportForm = () => {
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
   const [activityValue, setActivityValue] = useState('');
+  const [daoNameValue, setDaoNameValue] = useState('');
 
   useEffect(() => {
     setValue('engagementDate', engagementDateValue);
@@ -73,6 +77,13 @@ const ReportForm = () => {
       ...activityTypesList,
     ]),
   ];
+
+  const daosList = ['Dao 1', 'Dao 2'];
+
+  const daoListOptions = daosList.map((dao) => ({
+    value: dao,
+    label: dao,
+  }));
 
   const combinedActivityTypeOptions = combinedActivityTypesList.map(
     (activity) => ({
@@ -122,6 +133,16 @@ const ReportForm = () => {
           tip="Please add a URL to a proof of your contribution."
           placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <Select
+          name="daoName"
+          label="DAO Name"
+          placeholder="Select a DAO to assocaite this Contribution with."
+          onChange={(dao) => {
+            setValue('daoName', dao.value);
+          }}
+          options={daoListOptions}
+          localForm={localForm}
         />
         <DatePicker
           name="engagementDate"
