@@ -32,7 +32,6 @@ export class User extends BaseClient {
   }
 
   public async create(args: UserCreateCustomInput) {
-    // console.log(this.sdk);
     const contributions = await this.sdk.createUserCustom({ data: args });
     return contributions.createUserCustom;
   }
