@@ -63,6 +63,7 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 ## `.env`
 
 - `PROTOCOL_COOKIE_SECRET`: [secret](https://github.com/expressjs/cookie-session#secret) A string which will be used as single key. You can use any string, ex: `PROTOCOL_COOKIE_SECRET="truculent Falafel"`
+- `CORS_ORIGIN`: A comma separated list of allowed origins. Locally it would be `localhost:3000`.
 - `KEVIN_MALONE_TOKEN`
 
 
