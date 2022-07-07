@@ -118,6 +118,9 @@ export class UserContributionUpdateInput {
 
   @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
   contributionId: number;
+
+  @TypeGraphQL.Field((_type) => Number)
+  guildId: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -323,6 +326,19 @@ export class ContributionCustomResolver {
           },
         },
       },
+      ...(args.data.guildId && {
+        guilds: {
+          create: [
+            {
+              guild: {
+                connect: {
+                  id: args.data.guildId,
+                },
+              },
+            },
+          ],
+        },
+      }),
       where: {
         id: args.data.contributionId,
       },

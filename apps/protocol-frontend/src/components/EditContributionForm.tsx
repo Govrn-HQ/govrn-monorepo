@@ -99,7 +99,6 @@ const EditContributionForm = ({
   );
 
   const updateContributionHandler = async (values: any) => {
-    console.log('values', values);
     updateContribution(contribution, values);
     reset();
   };
