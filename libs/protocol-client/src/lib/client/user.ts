@@ -1,10 +1,11 @@
-import { UserUpdateInput, UserWhereUniqueInput } from '../protocol-types';
-import { BaseClient } from './base';
 import {
-  UserCreateCustomInput,
   ListUsersQueryVariables,
   MutationDeleteGuildUserArgs,
+  UserCreateCustomInput,
+  UserUpdateInput,
+  UserWhereUniqueInput,
 } from '../protocol-types';
+import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
 
 export class User extends BaseClient {
@@ -31,7 +32,6 @@ export class User extends BaseClient {
   }
 
   public async create(args: UserCreateCustomInput) {
-    console.log(this.sdk);
     const contributions = await this.sdk.createUserCustom({ data: args });
     return contributions.createUserCustom;
   }
