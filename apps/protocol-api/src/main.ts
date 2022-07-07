@@ -26,7 +26,7 @@ const typeSchema = buildSchemaSync({
 const OwnsData = rule()(async (parent, args, ctx, info) => {
   return true;
 });
-//
+
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
   if (!ctx.req.session.siwe) {
     return false;
