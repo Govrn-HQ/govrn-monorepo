@@ -57,18 +57,18 @@ const EditContributionForm = ({
     mode: 'all',
     resolver: useYupValidationResolver(editContributionFormValidation),
   });
-  const { handleSubmit, setValue, getValues, reset } = localForm;
+  const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(
     new Date(contribution?.date_of_engagement)
   );
-  console.log('contribution', contribution);
 
   useEffect(() => {
     setValue('name', contribution?.name);
     setValue('details', contribution?.details);
     setValue('proof', contribution?.proof);
     setValue('engagementDate', new Date(contribution?.date_of_engagement));
-    setValue('activityType', contribution.activity_type.name);
+    setValue('activityType', contribution?.activity_type.name);
+    setValue('daoId', contribution?.guilds[0]?.guild.id);
   }, [contribution]);
 
   const activityTypesList = [
@@ -79,11 +79,9 @@ const EditContributionForm = ({
     'Other',
   ];
 
-  const daosList = ['Dao 1', 'Dao 2'];
-
-  const daoListOptions = daosList.map((dao) => ({
-    value: dao,
-    label: dao,
+  const daoListOptions = allDaos.map((dao) => ({
+    value: dao.id,
+    label: dao.name,
   }));
 
   const combinedActivityTypesList = [
@@ -101,6 +99,7 @@ const EditContributionForm = ({
   );
 
   const updateContributionHandler = async (values: any) => {
+    console.log('values', values);
     updateContribution(contribution, values);
     reset();
   };
