@@ -10,6 +10,7 @@ import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
 import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
+
 import cors = require('cors');
 
 const prisma = new PrismaClient();
