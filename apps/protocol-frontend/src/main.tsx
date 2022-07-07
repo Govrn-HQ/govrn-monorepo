@@ -25,6 +25,7 @@ const providerOptions: IProviderOptions = {
     },
   },
 };
+
 const web3modalOptions = {
   cacheProvider: true,
   providerOptions,
