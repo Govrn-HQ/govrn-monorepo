@@ -1,7 +1,7 @@
 
 
 
-<p align="center"><img src="https://beta.govrn.app/assets/govrn-logo.344f0de2.png" width="350"></p>
+<p align="center"><img src="./apps/protocol-frontend/src/assets/govrn-logo.png" width="350"></p>
 
 # Govrn Monorepo
  Our monorepo uses [Nx](https://nx.dev/getting-started/intro) as a build system and for scaffolding.

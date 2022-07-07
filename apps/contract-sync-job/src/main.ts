@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import {
@@ -10,6 +11,7 @@ import { GraphQLClient } from 'graphql-request';
 
 const protcolUrl = process.env.PROTOCOL_URL;
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
+const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
 const jobName = 'contract-sync-job';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
@@ -21,6 +23,18 @@ const networkConfig: NetworkConfig = {
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
+
+export const fetchIPFS = async (ipfsHash: string) => {
+  const resp = await fetch(
+    `https://ipfs.infura.io:5001/api/v0/cat?arg=${ipfsHash
+      .split('/')
+      .slice(2)}`,
+    {
+      method: 'post',
+    }
+  );
+  return await resp?.blob();
+};
 
 const getOrInsertUser = async (
   govrn: GovrnProtocol,
@@ -35,7 +49,7 @@ const getOrInsertUser = async (
   });
 
   // Returns the id, if user exists.
-  if (user.length !== 0) {
+  if (user.length === 1) {
     return user[0]?.id;
   }
 
@@ -97,7 +111,9 @@ const main = async () => {
   console.log(':: Starting to Process Contribution(s)');
 
   const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
-  const govrn = new GovrnProtocol(protcolUrl);
+  const govrn = new GovrnProtocol(protcolUrl, null, {
+    Authorization: CONTRACT_SYNC_TOKEN,
+  });
   const client = new GovrnGraphClient(graphQLClient);
 
   const lastRun = await govrn.jobRun.list({
@@ -118,28 +134,29 @@ const main = async () => {
   );
   const contributions = await Promise.all(
     contributionsEvents.map(
-      // async (event): Promise<ContributionCreateManyInput> => { needs updated type
-      async (event) => {
+      async (event): Promise<ContributionCreateManyInput> => {
         const contr = await govrnContract.contributions({
           tokenId: event.contributionId,
         });
-
-        // console.log(`:: Processing Contribution: ${event.id} => ${contr.name}`);
 
         const userId = await getOrInsertUser(govrn, {
           address: event.address,
         });
 
+        const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
+        const ipfsBlob = await fetchIPFS(detailsUri);
+        const ipfsText = await ipfsBlob.text();
+        const contributionDetails = JSON.parse(ipfsText);
+
         return {
-          // name: contr.name,
-          detailsUri: contr.detailsUri,
+          name: contributionDetails.name,
           status_id: 2,
           activity_type_id: contributionActivityTypeId,
           user_id: userId,
           date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
           date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
-          // details: contr.details,
-          // proof: contr.proof,
+          details: contributionDetails.details,
+          proof: contributionDetails.proof,
           on_chain_id: Number(event.id),
         };
       }
@@ -148,7 +165,7 @@ const main = async () => {
 
   const contributionsCount = await govrn.contribution.bulkCreate({
     data: contributions,
-    skipDuplicates: false,
+    skipDuplicates: true,
   });
 
   console.log(`:: Inserting ${contributionsCount} Contribution(s)`);
@@ -187,7 +204,7 @@ const main = async () => {
 
   const attestationsCount = await govrn.attestation.bulkCreate({
     data: attestations,
-    skipDuplicates: false,
+    skipDuplicates: true,
   });
 
   console.log(
