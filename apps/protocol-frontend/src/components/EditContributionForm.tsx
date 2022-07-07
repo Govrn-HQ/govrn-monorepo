@@ -61,6 +61,7 @@ const EditContributionForm = ({
   const [engagementDateValue, setEngagementDateValue] = useState(
     new Date(contribution?.date_of_engagement)
   );
+  console.log('contribution', contribution);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -147,11 +148,15 @@ const EditContributionForm = ({
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
         <Select
-          name="daoName"
-          label="DAO Name"
+          name="daoId"
+          label="DAO"
           placeholder="Select a DAO to assocaite this Contribution with."
+          defaultValue={{
+            value: contribution?.guilds[0]?.guild.id,
+            label: contribution?.guilds[0]?.guild.name,
+          }}
           onChange={(dao) => {
-            setValue('daoName', dao.value);
+            setValue('daoId', dao.value);
           }}
           options={daoListOptions}
           localForm={localForm}

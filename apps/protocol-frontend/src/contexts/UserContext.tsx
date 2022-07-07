@@ -249,7 +249,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const createContribution = async (values: any, reset: any, navigate: any) => {
-    console.log('createContribution in context', values);
     try {
       const resp = await govrn.custom.createUserContribution({
         address: userData.address,
@@ -441,6 +440,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         activityTypeName: values.activityType,
         dateOfEngagement: new Date(values.engagementDate).toISOString(),
         status: 'staging',
+        guildId: values.daoId,
         contributionId: contribution.id,
       });
       getUserActivityTypes();
