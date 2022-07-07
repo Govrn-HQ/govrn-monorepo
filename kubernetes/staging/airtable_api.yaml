@@ -70,10 +70,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - staging.airtable.govrn.app
+        - airtable-staging.govrn.app
       secretName: airtable-api-tls
   rules:
-    - host: staging.airtable.govrn.app
+    - host: airtable-staging.govrn.app
       http:
         paths:
           - path: /

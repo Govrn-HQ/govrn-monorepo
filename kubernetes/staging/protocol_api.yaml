@@ -78,10 +78,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - staging.api.govrn.app
+        - api-staging.govrn.app
       secretName: protocol-api-tls
   rules:
-    - host: staging.api.govrn.app
+    - host: api-staging.govrn.app
       http:
         paths:
           - path: /
