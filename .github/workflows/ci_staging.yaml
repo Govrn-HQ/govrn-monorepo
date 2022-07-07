@@ -68,6 +68,14 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: npm install -g @graphprotocol/graph-cli
+      - name: Create env file
+        run: |
+          touch .env
+          echo VITE_PROTOCOL_BASE_URL=https://api-staging.govrn.app  >> .env
+          echo VITE_PROTOCOL_URL=https://api-staging.govrn.app/graphql  >> .env
+          echo VITE_URL=${{secrets.VITE_URL_STAGING}} >> .env
+          echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
+          echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
       - name: Build
         run: npx nx affected:build --configuration production --base $BASE
       - name: Docker Build
