@@ -32,6 +32,9 @@ export class UserContributionCreateInput {
 
   @TypeGraphQL.Field((_type) => String)
   status: string;
+
+  @TypeGraphQL.Field((_type) => Number)
+  guildId: number;
 }
 
 @TypeGraphQL.ArgsType()
