@@ -216,17 +216,19 @@ export class ContributionCustomResolver {
             },
           },
         },
-        guilds: {
-          create: [
-            {
-              guild: {
-                connect: {
-                  id: args.data.guildId,
+        ...(args.data.guildId && {
+          guilds: {
+            create: [
+              {
+                guild: {
+                  connect: {
+                    id: args.data.guildId,
+                  },
                 },
               },
-            },
-          ],
-        },
+            ],
+          },
+        }),
       },
     });
   }
