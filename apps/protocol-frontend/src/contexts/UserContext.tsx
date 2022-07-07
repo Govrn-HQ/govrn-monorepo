@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { cookieStorageManager, useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
@@ -249,8 +249,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const createContribution = async (values: any, reset: any, navigate: any) => {
+    console.log('createContribution in context', values);
     try {
-      await govrn.custom.createUserContribution({
+      const resp = await govrn.custom.createUserContribution({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
@@ -260,6 +261,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         activityTypeName: values.activityType,
         dateOfEngagement: new Date(values.engagementDate).toISOString(),
         status: 'staging',
+        guildId: values.daoId,
       });
       toast({
         title: 'Contribution Report Added',
@@ -280,6 +282,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         activityType: values.activityType,
         engagementDate: values.engagementDate,
       });
+      console.log('resp', resp);
       navigate('/contributions');
     } catch (error) {
       console.log(error);
