@@ -46,7 +46,10 @@ const Form = ({ users }: { users: Option[] }) => {
         baseURL: (VITE_URL || '') as string,
         headers,
       });
-      setGuildImg(resp.data.logo[0].url);
+      if (resp.data.logo) {
+        const logo = JSON.parse(resp.data.logo);
+        setGuildImg(logo[0].url);
+      }
     };
     fetchGuild();
   }, [guild_id]);
@@ -69,6 +72,7 @@ const Form = ({ users }: { users: Option[] }) => {
             Description: data.description,
             reportedToGuild: guild_id,
             user_id: userValue,
+            guild_id: guild_id,
           },
           {
             baseURL: (VITE_URL || '') as string,
@@ -82,7 +86,7 @@ const Form = ({ users }: { users: Option[] }) => {
         enqueueSnackbar('Failed to submit', { variant: 'error' });
       }
     },
-    [activityValue, userValue, value]
+    [activityValue, userValue, value, guild_id]
   );
   useEffect(() => {
     if (!guild_id) {

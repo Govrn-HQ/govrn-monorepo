@@ -16,7 +16,6 @@
         "outputPath": "dist/apps/protocol-api",
         "main": "apps/protocol-api/src/main.ts",
         "tsConfig": "apps/protocol-api/tsconfig.app.json",
-        "assets": ["apps/protocol-api/src/assets"],
         "generatePackageJson": true
       },
       "configurations": {
@@ -109,7 +108,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/prod/protocol_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/protocol_api.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/protocol_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/protocol_api.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
           "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/protocol_api.yaml"
         ],

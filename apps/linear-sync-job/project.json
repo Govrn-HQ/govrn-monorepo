@@ -10,7 +10,6 @@
         "outputPath": "dist/apps/linear-sync-job",
         "main": "apps/linear-sync-job/src/main.ts",
         "tsConfig": "apps/linear-sync-job/tsconfig.app.json",
-        "assets": ["apps/linear-sync-job/src/assets"],
         "generatePackageJson": true
       },
       "configurations": {

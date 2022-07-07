@@ -102,7 +102,6 @@ const ReportForm = () => {
           name="activityType"
           label="Activity Type"
           placeholder="Select an activity type or add a new one"
-          defaultValue={combinedActivityTypeOptions[0]}
           onChange={(activity) => {
             setValue('activityType', activity.value);
           }}

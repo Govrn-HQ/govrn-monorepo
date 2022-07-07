@@ -4,13 +4,13 @@ import express from 'express';
 import Session from 'cookie-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
-import { SiweErrorType, SiweMessage, generateNonce } from 'siwe';
-import cors = require('cors');
+import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { shield, deny, rule, and, or } from 'graphql-shield';
+import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
+import cors = require('cors');
 
 const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
@@ -52,22 +52,31 @@ const permissions = shield(
       attestations: isAuthenticated,
       getUser: isAuthenticated,
       guild: hasToken,
-      listUserByAddress: OwnsData,
+      listUserByAddress: isAuthenticated,
       users: hasToken,
+      jobRuns: hasToken,
     },
     Mutation: {
       '*': deny,
-      createUserCustom: and(OwnsData, isAuthenticated),
+      createActivityType: hasToken,
+      createContribution: hasToken,
+      createGuild: hasToken,
+      createGuildUser: or(isAuthenticated, hasToken),
+      createJobRun: hasToken,
+      createManyContribution: hasToken,
+      createOnChainUserContribution: isAuthenticated,
+      createUser: or(isAuthenticated, hasToken),
+      createUserActivity: hasToken,
       createUserAttestation: and(OwnsData, isAuthenticated),
       createUserContribution: and(OwnsData, isAuthenticated),
+      createUserCustom: or(hasToken, and(OwnsData, isAuthenticated)),
+      createUserOnChainAttestation: isAuthenticated,
+      updateGuild: hasToken,
+      updateUser: hasToken,
       updateUserContribution: and(OwnsData, isAuthenticated),
       updateUserCustom: and(OwnsData, isAuthenticated),
-      createUser: or(isAuthenticated, hasToken),
-      updateUser: hasToken,
-      updateGuild: hasToken,
-      createGuild: hasToken,
-      createContribution: hasToken,
-      createGuildUser: or(isAuthenticated, hasToken),
+      updateUserOnChainAttestation: isAuthenticated,
+      updateUserOnChainContribution: isAuthenticated,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
@@ -174,6 +183,17 @@ const permissions = shield(
       name: or(isAuthenticated, hasToken),
       username: or(isAuthenticated, hasToken),
     },
+    AffectedRowsOutput: {
+      count: hasToken,
+    },
+    JobRun: {
+      id: hasToken,
+      createdAt: hasToken,
+      updatedAt: hasToken,
+      completedDate: hasToken,
+      startDate: hasToken,
+      name: hasToken,
+    },
     User: {
       id: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
@@ -188,6 +208,13 @@ const permissions = shield(
       twitter_user: or(isAuthenticated, hasToken),
       active: or(isAuthenticated, hasToken),
     },
+    UserActivity: {
+      id: hasToken,
+      createdAt: hasToken,
+      updatedAt: hasToken,
+      activity_type: hasToken,
+      user: hasToken,
+    },
   },
   {
     fallbackRule: deny,
@@ -197,16 +224,13 @@ const permissions = shield(
 
 const schema = applyMiddleware(typeSchema, permissions);
 
+console.log(process.env.CORS_ORIGIN);
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'https://beta.govrn.app',
-      'http://localhost:3333',
-    ],
+    origin: process.env.CORS_ORIGIN.split(','),
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,

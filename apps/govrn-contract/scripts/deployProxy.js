@@ -2,7 +2,7 @@ const hre = require('hardhat');
 
 async function main() {
   const GovrnV1 = await hre.ethers.getContractFactory('Govrn');
-  const govrn = await hre.upgrades.deployProxy(GovrnV1, [1000], {
+  const govrn = await hre.upgrades.deployProxy(GovrnV1, [604800], {
     kind: 'uups',
   });
   await govrn.deployed();

@@ -7,6 +7,7 @@ import { IProviderOptions } from 'web3modal';
 import { networks } from '../src/utils/networks';
 import { ChakraProvider } from '@chakra-ui/react';
 import { OverlayContextProvider } from './contexts/OverlayContext';
+
 import { GovrnTheme } from '@govrn/protocol-ui';
 import Routes from './Routes';
 import { UserContextProvider } from './contexts/UserContext';
@@ -16,11 +17,9 @@ const providerOptions: IProviderOptions = {
     package: WalletConnectProvider,
     options: {
       rpc: {
-        '0x1': networks['0x1'].rpc,
         '0x4': networks['0x4'].rpc,
+        '0x5': networks['0x5'].rpc,
         '0x64': networks['0x64'].rpc,
-        '0x38': networks['0x38'].rpc,
-        '0x89': networks['0x89'].rpc,
         '0x539': networks['0x539'].rpc,
       },
     },

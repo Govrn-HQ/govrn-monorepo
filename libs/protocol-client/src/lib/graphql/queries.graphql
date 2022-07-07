@@ -336,6 +336,7 @@ fragment ContributionFragment on Contribution {
     user_id
     date_of_attestation
   }
+  on_chain_id
 }
 
 query getContribution($where: ContributionWhereUniqueInput!) {
@@ -372,11 +373,24 @@ mutation createUserContribution($data: UserContributionCreateInput!) {
   }
 }
 
+mutation createOnChainUserContribution($data: UserOnChainContributionCreateInput!) {
+  createOnChainUserContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
 mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
     ...ContributionFragment
   }
 }
+
+mutation updateUserOnChainContribution($data: UserOnChainContributionUpdateInput!) {
+  updateUserOnChainContribution(data: $data) {
+    ...ContributionFragment
+  }
+}
+
 
 mutation bulkCreateContribution(
   $data: [ContributionCreateManyInput!]!
@@ -427,6 +441,27 @@ mutation createActivityType($data: ActivityTypeCreateInput!) {
   }
 }
 
+# UserActivity type queries
+fragment UserActivityFragment on UserActivity {
+  activity_type {
+    id
+  }
+  createdAt
+  id
+  user {
+    id
+  }
+  updatedAt
+}
+
+mutation createUserActivity($data: UserActivityCreateInput!) {
+  createUserActivity(data: $data) {
+    ...UserActivityFragment
+  }
+}
+
+
+
 # Attestations
 fragment AttestationFragment on Attestation {
   confidence {
@@ -446,6 +481,7 @@ fragment AttestationFragment on Attestation {
     status_id
     updatedAt
     user_id
+    on_chain_id
   }
   date_of_attestation
   id
@@ -478,6 +514,20 @@ mutation createAttestation($data: AttestationCreateInput!) {
     ...AttestationFragment
   }
 }
+
+mutation createUserOnChainAttestation($data: AttestationUserOnChainCreateInput!) {
+  createUserOnChainAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+
+mutation updateUserOnChainAttestation($data: AttestationUserOnChainUpdateInput!) {
+  updateUserOnChainAttestation(data: $data) {
+    ...AttestationFragment
+  }
+}
+
+
 
 mutation bulkCreateAttestation(
   $data: [AttestationCreateManyInput!]!
@@ -555,6 +605,7 @@ fragment AttestationFragment on Attestation {
     status_id
     updatedAt
     user_id
+    on_chain_id
   }
   date_of_attestation
   id
