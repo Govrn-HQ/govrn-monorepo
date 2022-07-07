@@ -45,7 +45,6 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
 
 const ReportForm = () => {
   const { userActivityTypes, createContribution, allDaos } = useUser();
-  console.log('daos from context', allDaos);
 
   const navigate = useNavigate();
 
@@ -56,7 +55,6 @@ const ReportForm = () => {
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
   const [activityValue, setActivityValue] = useState('');
-  const [daoNameValue, setDaoNameValue] = useState('');
 
   useEffect(() => {
     setValue('engagementDate', engagementDateValue);
@@ -77,11 +75,9 @@ const ReportForm = () => {
     ]),
   ];
 
-  const daosList = ['Dao 1', 'Dao 2'];
-
-  const daoListOptions = daosList.map((dao) => ({
-    value: dao,
-    label: dao,
+  const daoListOptions = allDaos.map((dao) => ({
+    value: dao.id,
+    label: dao.name,
   }));
 
   const combinedActivityTypeOptions = combinedActivityTypesList.map(
@@ -92,9 +88,7 @@ const ReportForm = () => {
   );
 
   const createContributionHandler = async (values: any) => {
-    console.log('values', values);
     setActivityValue(values.activityType);
-    console.log(activityValue);
     createContribution(values, reset, navigate);
   };
 
@@ -134,11 +128,12 @@ const ReportForm = () => {
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
         <Select
-          name="daoName"
-          label="DAO Name"
+          name="daoId"
+          label="DAO"
+          tip="Please select a DAO to associate this Contribution with. This is optional."
           placeholder="Select a DAO to assocaite this Contribution with."
           onChange={(dao) => {
-            setValue('daoName', dao.value);
+            setValue('daoId', dao.value);
           }}
           options={daoListOptions}
           localForm={localForm}
@@ -147,6 +142,7 @@ const ReportForm = () => {
           name="engagementDate"
           localForm={localForm}
           label="Date of Contribution Engagement (UTC)"
+          tip="Please select the date when you did this Contribution."
           defaultValue={engagementDateValue}
           maxDate={new Date()}
           onChange={(date) => {
