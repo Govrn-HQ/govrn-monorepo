@@ -12682,7 +12682,7 @@ export type UserContributionUpdateInput = {
   address: Scalars['String'];
   chainName: Scalars['String'];
   contributionId: Scalars['Int'];
-  currentGuildId: Scalars['Float'];
+  currentGuildId?: InputMaybe<Scalars['Float']>;
   dateOfEngagement: Scalars['DateTime'];
   details: Scalars['String'];
   guildId: Scalars['Float'];

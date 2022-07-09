@@ -442,7 +442,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         status: 'staging',
         guildId: values.daoId,
         contributionId: contribution.id,
-        currentGuildId: contribution.guilds[0]?.guild?.id,
+        currentGuildId: contribution.guilds[0]?.guild?.id || undefined
       });
       getUserActivityTypes();
       getUserContributions();
