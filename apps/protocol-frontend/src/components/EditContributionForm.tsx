@@ -62,6 +62,8 @@ const EditContributionForm = ({
     new Date(contribution?.date_of_engagement)
   );
 
+  console.log('contribution', contribution);
+
   useEffect(() => {
     setValue('name', contribution?.name);
     setValue('details', contribution?.details);
@@ -99,6 +101,7 @@ const EditContributionForm = ({
   );
 
   const updateContributionHandler = async (values: any) => {
+    console.log('values', values);
     updateContribution(contribution, values);
     reset();
   };
@@ -154,6 +157,7 @@ const EditContributionForm = ({
             label: contribution?.guilds[0]?.guild.name,
           }}
           onChange={(dao) => {
+            console.log('daoId', dao.value);
             setValue('daoId', dao.value);
           }}
           options={daoListOptions}

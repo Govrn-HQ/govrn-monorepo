@@ -12682,8 +12682,10 @@ export type UserContributionUpdateInput = {
   address: Scalars['String'];
   chainName: Scalars['String'];
   contributionId: Scalars['Int'];
+  currentGuildId: Scalars['Float'];
   dateOfEngagement: Scalars['DateTime'];
   details: Scalars['String'];
+  guildId: Scalars['Float'];
   name: Scalars['String'];
   proof: Scalars['String'];
   status: Scalars['String'];

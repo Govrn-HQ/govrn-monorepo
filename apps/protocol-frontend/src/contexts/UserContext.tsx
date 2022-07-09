@@ -430,7 +430,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           'You can only edit Contributions with a Staging status.'
         );
       }
-      await govrn.custom.updateUserContribution({
+      const updateResp = await govrn.custom.updateUserContribution({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
@@ -442,6 +442,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         status: 'staging',
         guildId: values.daoId,
         contributionId: contribution.id,
+        currentGuildId: contribution.guilds[0]?.guild?.id,
       });
       getUserActivityTypes();
       getUserContributions();
@@ -454,6 +455,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         position: 'top-right',
       });
       setModals({ editContributionFormModal: false });
+      console.log('update resp', updateResp);
     } catch (error) {
       console.log(error);
       toast({
