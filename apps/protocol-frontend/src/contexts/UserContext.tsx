@@ -455,7 +455,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         position: 'top-right',
       });
       setModals({ editContributionFormModal: false });
-      console.log('update resp', updateResp);
     } catch (error) {
       console.log(error);
       toast({
