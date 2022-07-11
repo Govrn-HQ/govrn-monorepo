@@ -1,4 +1,5 @@
 import { BaseClient } from './base';
+import { ListGuildsQueryVariables } from '../protocol-types';
 import {
   CreateGuildMutationVariables,
   GuildWhereUniqueInput,
@@ -15,5 +16,10 @@ export class Guild extends BaseClient {
   public async get(args: GuildWhereUniqueInput) {
     const guild = await this.sdk.getGuild({ where: args });
     return guild.result;
+  }
+
+  public async list(args: ListGuildsQueryVariables) {
+    const guilds = await this.sdk.listGuilds(args);
+    return guilds.result;
   }
 }
