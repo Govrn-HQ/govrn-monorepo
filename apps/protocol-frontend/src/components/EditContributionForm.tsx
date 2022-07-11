@@ -5,6 +5,7 @@ import {
   Textarea,
   DatePicker,
   CreatableSelect,
+  Select,
 } from '@govrn/protocol-ui';
 
 import { useForm } from 'react-hook-form';
@@ -51,22 +52,25 @@ const EditContributionForm = ({
   contribution,
   onClose,
 }: EditContributionFormProps) => {
-  const { updateContribution, userActivityTypes } = useUser();
+  const { updateContribution, userActivityTypes, allDaos } = useUser();
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(editContributionFormValidation),
   });
-  const { handleSubmit, setValue, getValues, reset } = localForm;
+  const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(
     new Date(contribution?.date_of_engagement)
   );
+
+  console.log('contribution', contribution);
 
   useEffect(() => {
     setValue('name', contribution?.name);
     setValue('details', contribution?.details);
     setValue('proof', contribution?.proof);
     setValue('engagementDate', new Date(contribution?.date_of_engagement));
-    setValue('activityType', contribution.activity_type.name);
+    setValue('activityType', contribution?.activity_type.name);
+    setValue('daoId', contribution?.guilds[0]?.guild.id);
   }, [contribution]);
 
   const activityTypesList = [
@@ -76,6 +80,11 @@ const EditContributionForm = ({
     'Design',
     'Other',
   ];
+
+  const daoListOptions = allDaos.map((dao) => ({
+    value: dao.id,
+    label: dao.name,
+  }));
 
   const combinedActivityTypesList = [
     ...new Set([
@@ -92,6 +101,7 @@ const EditContributionForm = ({
   );
 
   const updateContributionHandler = async (values: any) => {
+    console.log('values', values);
     updateContribution(contribution, values);
     reset();
   };
@@ -137,6 +147,21 @@ const EditContributionForm = ({
           placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
           defaultValue={contribution.proof}
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+        />
+        <Select
+          name="daoId"
+          label="DAO"
+          placeholder="Select a DAO to assocaite this Contribution with."
+          defaultValue={{
+            value: contribution?.guilds[0]?.guild.id,
+            label: contribution?.guilds[0]?.guild.name,
+          }}
+          onChange={(dao) => {
+            console.log('daoId', dao.value);
+            setValue('daoId', dao.value);
+          }}
+          options={daoListOptions}
+          localForm={localForm}
         />
         <DatePicker
           name="engagementDate"
