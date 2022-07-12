@@ -80,12 +80,6 @@ const EditContributionForm = ({
     'Design',
     'Other',
   ];
-
-  const daoListOptions = allDaos.map((dao) => ({
-    value: dao.id,
-    label: dao.name,
-  }));
-
   const combinedActivityTypesList = [
     ...new Set([
       ...activityTypesList,
@@ -99,6 +93,23 @@ const EditContributionForm = ({
       label: activity,
     })
   );
+
+  const daoListOptions = allDaos.map((dao) => ({
+    value: dao.id,
+    label: dao.name,
+  }));
+
+  const daoReset = [
+    {
+      value: '',
+      label: '',
+    },
+  ];
+
+  const combinedDaoListOptions = [
+    ...new Set([...[{ value: null, label: '' }], ...daoListOptions]),
+  ];
+  console.log('combined', combinedDaoListOptions);
 
   const updateContributionHandler = async (values: any) => {
     console.log('values', values);
@@ -160,7 +171,7 @@ const EditContributionForm = ({
             console.log('daoId', dao.value);
             setValue('daoId', dao.value);
           }}
-          options={daoListOptions}
+          options={combinedDaoListOptions}
           localForm={localForm}
         />
         <DatePicker
