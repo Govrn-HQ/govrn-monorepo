@@ -119,7 +119,7 @@ export class UserContributionUpdateInput {
   @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
   contributionId: number;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field((_type) => Number, { nullable: true })
   guildId: number;
 
   @TypeGraphQL.Field((_type) => Number, { nullable: true })
@@ -296,11 +296,12 @@ export class ContributionCustomResolver {
     if (res.count !== 1) {
       throw `Wrong number of rows updated ${res.count} updateUserContribution`;
     }
+
     if (args.data.currentGuildId !== undefined) {
 
       await prisma.contribution.update({
         data: {
-          ...(args.data.guildId && {
+          ...(args.data.currentGuildId && {
             guilds: {
               delete: [{
                 guild_id_contribution_id: {
@@ -317,6 +318,7 @@ export class ContributionCustomResolver {
         },
       });
     }
+
     return await prisma.contribution.update({
       data: {
         activity_type: {
@@ -349,7 +351,7 @@ export class ContributionCustomResolver {
             name: args.data.status,
           },
         },
-        ...(args.data.guildId && {
+        ...(args.data.guildId !== null && {
           guilds: {
             create: [
               {
