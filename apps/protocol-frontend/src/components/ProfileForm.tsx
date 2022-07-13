@@ -99,6 +99,12 @@ const ProfileForm = () => {
     updateLinearEmail(values);
   };
 
+  const handleLinearOauth = () => {
+    const params = new URLSearchParams();
+    params.append('client_id', 'b28a5bc19ec6eca8abb28392ca4d866f');
+    window.open('https://linear.app/oauth/authorize?');
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(updateProfileHandler)}>
@@ -192,14 +198,6 @@ const ProfileForm = () => {
               marginBottom={{ base: 4, lg: 0 }}
               width={{ base: '100%', lg: '50%' }}
             >
-              <Input
-                name="userLinearEmail"
-                label="Linear Email Address (Coming Soon!)"
-                tip="Enter the email address you used with Linear for the integration."
-                placeholder="user@govrn.io"
-                localForm={localFormLinear} //TODO: resolve this type issue -- need to investigate this
-                disabled
-              />
               <Button
                 type="submit"
                 width="100%"
@@ -207,7 +205,7 @@ const ProfileForm = () => {
                 backgroundColor="brand.primary.50"
                 transition="all 100ms ease-in-out"
                 _hover={{ bgColor: 'brand.primary.100' }}
-                disabled
+                onClick={handleLinearOauth}
               >
                 Link Email
               </Button>
