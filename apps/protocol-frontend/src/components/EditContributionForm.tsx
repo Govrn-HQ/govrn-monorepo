@@ -114,7 +114,6 @@ const EditContributionForm = ({
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
   const updateContributionHandler = async (values: any) => {
-    console.log('values', values);
     updateContribution(contribution, values);
     reset();
   };
