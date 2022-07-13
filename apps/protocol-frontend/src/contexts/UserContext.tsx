@@ -281,7 +281,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         activityType: values.activityType,
         engagementDate: values.engagementDate,
       });
-      console.log('resp', resp);
       navigate('/contributions');
     } catch (error) {
       console.log(error);
@@ -442,8 +441,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         status: 'staging',
         guildId: values.daoId,
         contributionId: contribution.id,
-        currentGuildId: contribution.guilds[0]?.guild?.id || undefined
+        currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
+      console.log('update response', updateResp);
       getUserActivityTypes();
       getUserContributions();
       toast({

@@ -99,20 +99,11 @@ const EditContributionForm = ({
     label: dao.name,
   }));
 
-  const daoReset = [
-    {
-      value: '',
-      label: '',
-    },
-  ];
-
   const combinedDaoListOptions = [
-    ...new Set([...[{ value: null, label: '' }], ...daoListOptions]),
+    ...new Set([...[{ value: null, label: 'No DAO' }], ...daoListOptions]),
   ];
-  console.log('combined', combinedDaoListOptions);
 
   const updateContributionHandler = async (values: any) => {
-    console.log('values', values);
     updateContribution(contribution, values);
     reset();
   };
