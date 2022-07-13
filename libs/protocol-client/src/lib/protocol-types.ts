@@ -12685,7 +12685,7 @@ export type UserContributionUpdateInput = {
   currentGuildId?: InputMaybe<Scalars['Float']>;
   dateOfEngagement: Scalars['DateTime'];
   details: Scalars['String'];
-  guildId: Scalars['Float'];
+  guildId?: InputMaybe<Scalars['Float']>;
   name: Scalars['String'];
   proof: Scalars['String'];
   status: Scalars['String'];
