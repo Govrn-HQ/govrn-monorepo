@@ -46,6 +46,11 @@ spec:
                 secretKeyRef:
                   name: protocol-api
                   key: kevin_malone_token
+            - name: CORS_ORIGIN
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: cors_origin
           resources:
             requests:
               memory: 300Mi
@@ -78,10 +83,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - staging.api.govrn.app
+        - api-staging.govrn.app
       secretName: protocol-api-tls
   rules:
-    - host: staging.api.govrn.app
+    - host: api-staging.govrn.app
       http:
         paths:
           - path: /

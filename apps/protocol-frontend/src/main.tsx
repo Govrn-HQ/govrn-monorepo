@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import 'regenerator-runtime/runtime';
 import { WalletProvider } from '@raidguild/quiver';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
+
 import { IProviderOptions } from 'web3modal';
 import { networks } from '../src/utils/networks';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -25,6 +26,7 @@ const providerOptions: IProviderOptions = {
     },
   },
 };
+
 const web3modalOptions = {
   cacheProvider: true,
   providerOptions,

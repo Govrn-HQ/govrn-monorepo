@@ -6,6 +6,7 @@ import {
   Textarea,
   DatePicker,
   CreatableSelect,
+  Select,
 } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
@@ -43,7 +44,7 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
   );
 
 const ReportForm = () => {
-  const { userActivityTypes, createContribution } = useUser();
+  const { userActivityTypes, createContribution, allDaos } = useUser();
 
   const navigate = useNavigate();
 
@@ -74,6 +75,11 @@ const ReportForm = () => {
     ]),
   ];
 
+  const daoListOptions = allDaos.map((dao) => ({
+    value: dao.id,
+    label: dao.name,
+  }));
+
   const combinedActivityTypeOptions = combinedActivityTypesList.map(
     (activity) => ({
       value: activity,
@@ -82,9 +88,7 @@ const ReportForm = () => {
   );
 
   const createContributionHandler = async (values: any) => {
-    console.log('values', values);
     setActivityValue(values.activityType);
-    console.log(activityValue);
     createContribution(values, reset, navigate);
   };
 
@@ -123,10 +127,22 @@ const ReportForm = () => {
           placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
+        <Select
+          name="daoId"
+          label="DAO"
+          tip="Please select a DAO to associate this Contribution with. This is optional."
+          placeholder="Select a DAO to assocaite this Contribution with."
+          onChange={(dao) => {
+            setValue('daoId', dao.value);
+          }}
+          options={daoListOptions}
+          localForm={localForm}
+        />
         <DatePicker
           name="engagementDate"
           localForm={localForm}
           label="Date of Contribution Engagement (UTC)"
+          tip="Please select the date when you did this Contribution."
           defaultValue={engagementDateValue}
           maxDate={new Date()}
           onChange={(date) => {

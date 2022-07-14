@@ -10,6 +10,7 @@ import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
 import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
+
 import cors = require('cors');
 
 const prisma = new PrismaClient();
@@ -26,7 +27,7 @@ const typeSchema = buildSchemaSync({
 const OwnsData = rule()(async (parent, args, ctx, info) => {
   return true;
 });
-//
+
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
   if (!ctx.req.session.siwe) {
     return false;
@@ -51,7 +52,8 @@ const permissions = shield(
       activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
       getUser: isAuthenticated,
-      guild: hasToken,
+      guild: or(isAuthenticated, hasToken),
+      guilds: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
       users: hasToken,
       jobRuns: hasToken,

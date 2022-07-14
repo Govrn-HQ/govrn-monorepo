@@ -38,6 +38,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [daoContributions, setDaoContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
+  const [allDaos, setAllDaos] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
@@ -175,6 +176,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const getAllDaos = async () => {
+    try {
+      const allDaosResponse = await govrn.guild.list({ first: 100 });
+      setAllDaos(allDaosResponse);
+      return allDaosResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const createUser = async (values: any, address: string, navigate?: any) => {
     try {
       await govrn.user.create({
@@ -239,7 +250,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createContribution = async (values: any, reset: any, navigate: any) => {
     try {
-      await govrn.custom.createUserContribution({
+      const resp = await govrn.custom.createUserContribution({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
@@ -249,6 +260,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         activityTypeName: values.activityType,
         dateOfEngagement: new Date(values.engagementDate).toISOString(),
         status: 'staging',
+        guildId: values.daoId,
       });
       toast({
         title: 'Contribution Report Added',
@@ -417,7 +429,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           'You can only edit Contributions with a Staging status.'
         );
       }
-      await govrn.custom.updateUserContribution({
+      const updateResp = await govrn.custom.updateUserContribution({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
@@ -427,8 +439,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         activityTypeName: values.activityType,
         dateOfEngagement: new Date(values.engagementDate).toISOString(),
         status: 'staging',
+        guildId: values.daoId,
         contributionId: contribution.id,
+        currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
+      console.log('update response', updateResp);
       getUserActivityTypes();
       getUserContributions();
       toast({
@@ -560,6 +575,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userData, isAuthenticated]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      getAllDaos();
+    }
+  }, [userData, isAuthenticated]);
+
   return (
     <UserContext.Provider
       value={{
@@ -577,6 +598,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserAttestations,
         userActivityTypes,
         setUserActivityTypes,
+        allDaos,
+        getAllDaos,
         createUser,
         createWaitlistUser,
         createContribution,
@@ -608,6 +631,8 @@ export const useUser = () => {
     setUserContributions,
     daoContributions,
     setDaoContributions,
+    allDaos,
+    setAllDaos,
     userAttestations,
     setUserAttestations,
     userActivityTypes,
@@ -641,6 +666,8 @@ export const useUser = () => {
     setUserAttestations,
     userActivityTypes,
     setUserActivityTypes,
+    allDaos,
+    setAllDaos,
     createUser,
     createWaitlistUser,
     createAttestation,

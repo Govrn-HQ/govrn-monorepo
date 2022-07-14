@@ -12670,6 +12670,7 @@ export type UserContributionCreateInput = {
   chainName: Scalars['String'];
   dateOfEngagement: Scalars['DateTime'];
   details: Scalars['String'];
+  guildId: Scalars['Float'];
   name: Scalars['String'];
   proof: Scalars['String'];
   status: Scalars['String'];
@@ -12681,8 +12682,10 @@ export type UserContributionUpdateInput = {
   address: Scalars['String'];
   chainName: Scalars['String'];
   contributionId: Scalars['Int'];
+  currentGuildId?: InputMaybe<Scalars['Float']>;
   dateOfEngagement: Scalars['DateTime'];
   details: Scalars['String'];
+  guildId?: InputMaybe<Scalars['Float']>;
   name: Scalars['String'];
   proof: Scalars['String'];
   status: Scalars['String'];
@@ -13735,7 +13738,17 @@ export type GetGuildQueryVariables = Exact<{
 
 export type GetGuildQuery = { result?: { congrats_channel?: number | null, createdAt: any, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: any } | null };
 
-export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } | null };
+export type ListGuildsQueryVariables = Exact<{
+  where?: GuildWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildOrderByWithRelationInput> | GuildOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildsQuery = { result: Array<{ congrats_channel?: number | null, createdAt: any, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: any }> };
+
+export type TwitterTweetFragmentFragment = { id: number, updatedAt: any, createdAt: any, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: any, updatedAt: any, username: string } | null, contribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } | null };
 
 export type BulkCreateTwitterTweetMutationVariables = Exact<{
   data: Array<TwitterTweetCreateManyInput> | TwitterTweetCreateManyInput;
@@ -13830,14 +13843,14 @@ export type CreateUserCustomMutationVariables = Exact<{
 
 export type CreateUserCustomMutation = { createUserCustom: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
 
-export type ContributionFragmentFragment = { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> };
+export type ContributionFragmentFragment = { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> };
 
 export type GetContributionQueryVariables = Exact<{
   where: ContributionWhereUniqueInput;
 }>;
 
 
-export type GetContributionQuery = { result?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } | null };
+export type GetContributionQuery = { result?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } | null };
 
 export type ListContributionsQueryVariables = Exact<{
   where?: ContributionWhereInput;
@@ -13847,42 +13860,42 @@ export type ListContributionsQueryVariables = Exact<{
 }>;
 
 
-export type ListContributionsQuery = { result: Array<{ date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> }> };
+export type ListContributionsQuery = { result: Array<{ date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;
 }>;
 
 
-export type CreateContributionMutation = { createContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
+export type CreateContributionMutation = { createContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type CreateUserContributionMutationVariables = Exact<{
   data: UserContributionCreateInput;
 }>;
 
 
-export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
+export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type CreateOnChainUserContributionMutationVariables = Exact<{
   data: UserOnChainContributionCreateInput;
 }>;
 
 
-export type CreateOnChainUserContributionMutation = { createOnChainUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
+export type CreateOnChainUserContributionMutation = { createOnChainUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UpdateUserContributionMutationVariables = Exact<{
   data: UserContributionUpdateInput;
 }>;
 
 
-export type UpdateUserContributionMutation = { updateUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
+export type UpdateUserContributionMutation = { updateUserContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UpdateUserOnChainContributionMutationVariables = Exact<{
   data: UserOnChainContributionUpdateInput;
 }>;
 
 
-export type UpdateUserOnChainContributionMutation = { updateUserOnChainContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } };
+export type UpdateUserOnChainContributionMutation = { updateUserOnChainContribution: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type BulkCreateContributionMutationVariables = Exact<{
   data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
@@ -13898,7 +13911,7 @@ export type UpdateContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }> } | null };
+export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } | null };
 
 export type ActivityTypeFragmentFragment = { active: boolean, createdAt: any, id: number, name: string, updatedAt: any };
 
@@ -14064,6 +14077,12 @@ export const ContributionFragmentFragmentDoc = gql`
     id
     user_id
     date_of_attestation
+  }
+  guilds {
+    guild {
+      id
+      name
+    }
   }
   on_chain_id
 }
@@ -14300,6 +14319,13 @@ export const DeleteGuildUserDocument = gql`
 export const GetGuildDocument = gql`
     query getGuild($where: GuildWhereUniqueInput!) {
   result: guild(where: $where) {
+    ...GuildFragment
+  }
+}
+    ${GuildFragmentFragmentDoc}`;
+export const ListGuildsDocument = gql`
+    query listGuilds($where: GuildWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildOrderByWithRelationInput!]) {
+  result: guilds(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
     ...GuildFragment
   }
 }
@@ -14584,6 +14610,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getGuild(variables: GetGuildQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetGuildQuery>(GetGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuild', 'query');
+    },
+    listGuilds(variables?: ListGuildsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildsQuery>(ListGuildsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuilds', 'query');
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');
