@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Select } from '@govrn/protocol-ui';
 import { Stack, Flex, Button, Text, Progress } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 
@@ -9,39 +10,55 @@ interface BulkDaoAttributeModalProps {
 const BulkDaoAttributeModal = ({
   contributions,
 }: BulkDaoAttributeModalProps) => {
-  const { userData, createAttestation, mintAttestation } = useUser();
-  const [attesting, setAttesting] = useState(false);
-  const [currentAttestation, setCurrentAttestation] = useState(1);
+  const { allDaos } = useUser();
+  const [attributing, setAttributing] = useState(false);
+  const [currentAttribution, setCurrentAttribution] = useState(1);
 
-  const createAttestationsHandler = (contributions) => {
-    setAttesting(true);
-    contributions.map((contribution, idx) => {
-      console.log(`contribution: ${idx}`, contribution.original);
-      if (contribution.original.status === 'minted') {
-        console.log(`contribution ${idx} is on chain`);
-        mintAttestation(contribution.original);
-      } else {
-        console.log(`contribution ${idx} is off chain`);
-        createAttestation(contribution.original);
-      }
-      setAttesting(false);
-    });
+  const bulkAttributeDaoHandler = (contributions) => {
+    setAttributing(true);
+    console.log('firing');
+    // logic
+    setAttributing(false);
   };
+
+  const daoListOptions = allDaos.map((dao) => ({
+    value: dao.id,
+    label: dao.name,
+  }));
+
+  const daoReset = [
+    {
+      value: null,
+      label: 'No DAO',
+    },
+  ];
+
+  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
   return (
     <Stack spacing="4" width="100%" color="gray.800">
-      <Text paddingBottom={2}>Attesting as: {userData.name}</Text>
       <Text paddingBottom={2}>
-        Attesting to {contributions.length}{' '}
+        Attributing {contributions.length}{' '}
         {contributions.length === 1 ? 'Contribution' : 'Contributions'}
       </Text>
-      {attesting ? (
+      {attributing ? (
         <Progress
           color="brand.primary"
-          value={currentAttestation % contributions.length}
+          value={currentAttribution % contributions.length}
         />
       ) : null}
       <Flex align="flex-end" marginTop={4}>
+        <Select
+          name="daoId"
+          label="DAO"
+          tip="Please select a DAO to associate this Contribution with. This is optional."
+          placeholder="Select a DAO to assocaite this Contribution with."
+          onChange={(dao) => {
+            setValue('daoId', dao.value);
+          }}
+          options={daoListOptions}
+          localForm={localForm}
+        />
         <Button
           type="submit"
           width="100%"
@@ -49,10 +66,11 @@ const BulkDaoAttributeModal = ({
           backgroundColor="brand.primary.50"
           transition="all 100ms ease-in-out"
           _hover={{ bgColor: 'brand.primary.100' }}
-          onClick={() => createAttestationsHandler(contributions)}
-          isLoading={attesting}
+          onClick={() => bulkAttributeDaoHandler(contributions)}
+          isLoading={attributing}
         >
-          Add {contributions.length === 1 ? 'Attestation' : 'Attestations'}
+          Attribute{' '}
+          {contributions.length === 1 ? 'Contribution' : 'Contributions'}
         </Button>
       </Flex>
     </Stack>

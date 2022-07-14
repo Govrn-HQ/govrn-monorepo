@@ -17,6 +17,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import { useUser } from '../contexts/UserContext';
 import { ModalWrapper } from '@govrn/protocol-ui';
 import MintModal from './MintModal';
+import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
@@ -27,9 +28,14 @@ const ContributionsTableShell = () => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
+  const [selectedDAOs, setSelectedDAOs] = useState<any>();
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
+  };
+
+  const bulkDaoAttributeHandler = () => {
+    setModals({ bulkDaoAttributeModal: true });
   };
 
   return (
@@ -103,6 +109,19 @@ const ContributionsTableShell = () => {
                             Mint
                           </Button>
                         )}
+                        <Button
+                          size="md"
+                          bgColor="brand.primary.50"
+                          color="brand.primary.600"
+                          transition="all 100ms ease-in-out"
+                          _hover={{ bgColor: 'brand.primary.100' }}
+                          flexBasis="20%"
+                          colorScheme="brand.primary"
+                          onClick={bulkDaoAttributeHandler}
+                          disabled={selectedContributions?.length === 0}
+                        >
+                          Attribute to DAO
+                        </Button>
                       </Stack>
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
@@ -191,6 +210,15 @@ const ContributionsTableShell = () => {
         localOverlay={localOverlay}
         size="3xl"
         content={<MintModal contributions={selectedContributions} />}
+      />
+      <ModalWrapper
+        name="bulkDaoAttributeModal"
+        title="Attribute Contributions to a DAO"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <BulkDaoAttributeModal contributions={selectedContributions} />
+        }
       />
     </>
   );
