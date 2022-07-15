@@ -9,6 +9,20 @@
         "command": "graph codegen subgraph.yaml && graph build --network rinkeby",
 
         "cwd": "apps/govrn-contract-subgraph"
+      },
+      "configurations": {
+        "rinkeby": {
+          "command": "graph codegen subgraph.yaml && graph build --network rinkeby",
+          "cwd": "apps/govrn-contract-subgraph"
+        },
+        "goerli": {
+          "command": "graph codegen subgraph.yaml && graph build --network goerli",
+          "cwd": "apps/govrn-contract-subgraph"
+        },
+        "gnosis": {
+          "command": "graph codegen subgraph.yaml && graph build --network xdai",
+          "cwd": "apps/govrn-contract-subgraph"
+        }
       }
     },
     "serve": {
@@ -37,6 +51,20 @@
       "options": {
         "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol",
         "cwd": "apps/govrn-contract-subgraph"
+      },
+      "configurations": {
+        "rinkeby": {
+          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol-rinkeby",
+          "cwd": "apps/govrn-contract-subgraph"
+        },
+        "goerli": {
+          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol-goerli",
+          "cwd": "apps/govrn-contract-subgraph"
+        },
+        "gnosis": {
+          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol",
+          "cwd": "apps/govrn-contract-subgraph"
+        }
       }
     },
     "create": {
