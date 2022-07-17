@@ -10,6 +10,7 @@ import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
 import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
+import fetch from 'cross-fetch';
 
 import cors = require('cors');
 
@@ -17,6 +18,10 @@ const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
 const BACKEND_TOKENS = [AIRTABLE_API_TOKEN, KEVIN_MALONE_TOKEN];
+const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
+const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
+const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
+const LINEAR_CLIENT_SECRET = process.env.LINEAR_CLIENT_SECRET;
 
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
@@ -306,6 +311,28 @@ app.get('/nonce', async function (req, res) {
   req.session.nonce = nonce;
   res.setHeader('Content-Type', 'text/plain');
   res.status(200).send(req.session.nonce);
+});
+
+app.get('/linear/oauth', async function (req, res) {
+  const query = req.query;
+  const code = query.code;
+  // 1. Get code
+  // 2. exchange with linear token
+  const params = new URLSearchParams();
+  params.append('code', code.toString());
+  params.append('redirect_uri', LINEAR_REDIRECT_URI);
+  params.append('client_id', LINEAR_CLIENT_ID);
+  params.append('client_secret', LINEAR_CLIENT_SECRET);
+  params.append('grant_type', 'authorization_code');
+  const resp = await fetch(LINEAR_TOKEN_URL, {
+    method: 'POST',
+    body: params,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  });
+  console.log(await resp.json());
+
+  // Redirect to connected to linear page
+  res.status(200).redirect('http://localhost:3000');
 });
 
 app.listen(4000);

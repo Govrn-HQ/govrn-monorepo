@@ -101,8 +101,13 @@ const ProfileForm = () => {
 
   const handleLinearOauth = () => {
     const params = new URLSearchParams();
-    params.append('client_id', 'b28a5bc19ec6eca8abb28392ca4d866f');
-    window.open('https://linear.app/oauth/authorize?');
+    params.append('client_id', 'f800e64aad8072e4423925d3245e09f4');
+    params.append('redirect_uri', 'http://localhost:4000/linear/oauth');
+    params.append('response_type', 'code');
+    params.append('scope', 'read');
+    params.append('state', ''); // generate string to prevent crsf attack
+    params.append('prompt', 'consent');
+    window.open(`https://linear.app/oauth/authorize?${params.toString()}`);
   };
 
   return (
