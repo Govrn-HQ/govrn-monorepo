@@ -31,6 +31,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
+  const [currentChain, setCurrentChain] = useState<string | null | undefined>(
+    undefined
+  );
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
@@ -45,6 +48,25 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   useEffect(() => {
     setUserAddress(address);
   }, [isConnected, address, userAddress]);
+
+  useEffect(() => {
+    // if (isConnected) {
+    console.log('chainId change');
+    console.log('chainid', chainId);
+    // setCurrentChain(chainId);
+    if (chainId && chainId !== '0x64') {
+      console.log('toast');
+      toast({
+        title: 'Unsupported Chain',
+        description: `Please switch to a supported network.`,
+        status: 'error',
+        duration: 6000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      // }
+    }
+  }, [isConnected, chainId]);
 
   const authenticateAddress = useCallback(async () => {
     if (!chainId || !provider) {
@@ -620,6 +642,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
 export const useUser = () => {
   const {
+    currentChain,
+    setCurrentChain,
     userAddress,
     setUserAddress,
     userDataByAddress,
@@ -645,12 +669,13 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
-
     isAuthenticated,
     isAuthenticating,
     authenticateAddress,
   } = useContext(UserContext);
   return {
+    currentChain,
+    setCurrentChain,
     userAddress,
     setUserAddress,
     userDataByAddress,

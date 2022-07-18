@@ -6,7 +6,7 @@ import WalletConnectProvider from '@walletconnect/ethereum-provider';
 
 import { IProviderOptions } from 'web3modal';
 import { networks } from '../src/utils/networks';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, useToast } from '@chakra-ui/react';
 import { OverlayContextProvider } from './contexts/OverlayContext';
 
 import { GovrnTheme } from '@govrn/protocol-ui';
@@ -38,8 +38,8 @@ ReactDOM.render(
     <ChakraProvider theme={GovrnTheme}>
       <WalletProvider
         web3modalOptions={web3modalOptions}
+        // defaultChainId={networks['0x64'].chainId}
         networks={networks}
-        // Optional but useful to handle events.
         handleModalEvents={(eventName, error) => {
           if (error) {
             console.error(error.message);

@@ -15,9 +15,15 @@ import { FiKey, FiChevronDown, FiCopy, FiXCircle } from 'react-icons/fi';
 import { useUser } from '../contexts/UserContext';
 
 const ConnectWallet = () => {
-  const { connectWallet, isConnecting, isConnected, disconnect, address } =
-    useWallet();
-  const { authenticateAddress } = useUser();
+  const {
+    connectWallet,
+    isConnecting,
+    isConnected,
+    switchNetwork,
+    disconnect,
+    address,
+  } = useWallet();
+  const { authenticateAddress, currentChain } = useUser();
   const copyAddress = useClipboard(address as string);
   const connectAndVerify = async () => {
     await connectWallet();
