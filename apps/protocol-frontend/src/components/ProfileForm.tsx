@@ -137,7 +137,7 @@ const ProfileForm = () => {
               color="brand.primary.600"
               backgroundColor="brand.primary.50"
               transition="all 100ms ease-in-out"
-              //_hover={{ bgColor: 'brand.primary.100' }}
+              _hover={{ bgColor: 'brand.primary.100' }}
             >
               Save Username
             </Button>
