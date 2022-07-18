@@ -12670,7 +12670,7 @@ export type UserContributionCreateInput = {
   chainName: Scalars['String'];
   dateOfEngagement: Scalars['DateTime'];
   details: Scalars['String'];
-  guildId: Scalars['Float'];
+  guildId?: InputMaybe<Scalars['Float']>;
   name: Scalars['String'];
   proof: Scalars['String'];
   status: Scalars['String'];

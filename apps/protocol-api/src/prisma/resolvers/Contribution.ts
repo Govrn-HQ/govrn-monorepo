@@ -33,8 +33,8 @@ export class UserContributionCreateInput {
   @TypeGraphQL.Field((_type) => String)
   status: string;
 
-  @TypeGraphQL.Field((_type) => Number)
-  guildId: number;
+  @TypeGraphQL.Field((_type) => Number, { nullable: true })
+  guildId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -181,6 +181,7 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserContributionArgs
   ) {
+    console.log('args', args.data)
     return await prisma.contribution.create({
       data: {
         user: {
@@ -222,7 +223,7 @@ export class ContributionCustomResolver {
             },
           },
         },
-        ...(args.data.guildId && {
+        ...(args.data.guildId !== undefined && {
           guilds: {
             create: [
               {
