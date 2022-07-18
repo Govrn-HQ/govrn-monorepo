@@ -96,7 +96,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return;
     }
     try {
-      console.log(govrn);
       const userDataByAddressResponse = await govrn.custom.listUserByAddress(
         address
       );
