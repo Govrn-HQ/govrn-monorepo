@@ -75,7 +75,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   }, [userAddress, provider, chainId]);
 
   useEffect(() => {
-    if (isConnected && !isAuthenticated && userAddress) {
+    const unauthenticatedRoutes = ['#/linear'];
+    const publicRoute = unauthenticatedRoutes.find(
+      (el) => el === window.location.hash
+    );
+    if (isConnected && !isAuthenticated && userAddress && !publicRoute) {
       authenticateAddress();
     }
   }, [isConnected, isAuthenticated, authenticateAddress, userAddress]);
@@ -442,7 +446,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         status: 'staging',
         guildId: values.daoId,
         contributionId: contribution.id,
-        currentGuildId: contribution.guilds[0]?.guild?.id || undefined
+        currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
       getUserActivityTypes();
       getUserContributions();

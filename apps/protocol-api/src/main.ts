@@ -22,6 +22,7 @@ const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
 const LINEAR_CLIENT_SECRET = process.env.LINEAR_CLIENT_SECRET;
+const PROTOCOL_FRONTEND = process.env.PROTOCOL_FRONTEND;
 
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
@@ -332,7 +333,7 @@ app.get('/linear/oauth', async function (req, res) {
   console.log(await resp.json());
 
   // Redirect to connected to linear page
-  res.status(200).redirect('http://localhost:3000');
+  res.status(200).redirect(PROTOCOL_FRONTEND + '/#/linear');
 });
 
 app.listen(4000);
