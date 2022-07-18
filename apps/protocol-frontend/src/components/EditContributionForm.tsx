@@ -62,8 +62,6 @@ const EditContributionForm = ({
     new Date(contribution?.date_of_engagement)
   );
 
-  console.log('contribution', contribution);
-
   useEffect(() => {
     setValue('name', contribution?.name);
     setValue('details', contribution?.details);
