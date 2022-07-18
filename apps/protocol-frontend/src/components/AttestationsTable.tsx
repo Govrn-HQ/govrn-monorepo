@@ -12,7 +12,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { FiCheckSquare } from 'react-icons/fi';
 import {
   useTable,
   useSortBy,
@@ -56,17 +55,12 @@ const AttestationsTable = ({
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
         attestations: contribution.attestations || null,
-        // attestations:
-        //   contribution.attestations !== null
-        //     ? Object.keys(contribution.attestations).length
-        //     : 0,
         guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
         attestationDate: null,
         onChainId: contribution.on_chain_id,
-        // format(new Date(contribution.attestationDate), 'P') || null,
         contributor: contribution.user.name,
       })),
     [contributionsData]
