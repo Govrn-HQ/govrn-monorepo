@@ -181,7 +181,7 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserContributionArgs
   ) {
-    console.log('args', args.data)
+
     return await prisma.contribution.create({
       data: {
         user: {
