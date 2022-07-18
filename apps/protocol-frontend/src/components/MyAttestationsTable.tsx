@@ -88,7 +88,7 @@ any) => {
         Header: 'Contributor',
         accessor: 'contributor',
       },
-      { Header: 'DAO', accessor: 'guild' },
+      // { Header: 'DAO', accessor: 'guild' },
     ],
     []
   );

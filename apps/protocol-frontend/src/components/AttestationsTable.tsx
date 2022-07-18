@@ -41,7 +41,11 @@ const AttestationsTable = ({
     setModals({ addAttestationFormModal: true });
   };
 
-  const unattestedContributions = _.filter(contributionsData, function (a) {
+  const nonUserContributions = _.filter(contributionsData, function (a) {
+    return a.user.id !== userData.id;
+  });
+
+  const unattestedContributions = _.filter(nonUserContributions, function (a) {
     return a.attestations.every((b: any) => b.user_id !== userData.id);
   });
 
@@ -99,7 +103,7 @@ const AttestationsTable = ({
         Header: 'Contributor',
         accessor: 'contributor',
       },
-      { Header: 'DAO', accessor: 'guild' },
+      // { Header: 'DAO', accessor: 'guild' },
     ],
     []
   );
