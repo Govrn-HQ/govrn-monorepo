@@ -4,6 +4,7 @@ import React, {
   useContext,
   createContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import { useToast } from '@chakra-ui/react';
@@ -48,25 +49,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   useEffect(() => {
     setUserAddress(address);
   }, [isConnected, address, userAddress]);
-
-  useEffect(() => {
-    // if (isConnected) {
-    console.log('chainId change');
-    console.log('chainid', chainId);
-    // setCurrentChain(chainId);
-    if (chainId && chainId !== '0x64') {
-      console.log('toast');
-      toast({
-        title: 'Unsupported Chain',
-        description: `Please switch to a supported network.`,
-        status: 'error',
-        duration: 6000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      // }
-    }
-  }, [isConnected, chainId]);
 
   const authenticateAddress = useCallback(async () => {
     if (!chainId || !provider) {

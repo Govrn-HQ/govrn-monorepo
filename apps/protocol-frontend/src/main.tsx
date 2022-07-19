@@ -7,7 +7,7 @@ import WalletConnectProvider from '@walletconnect/ethereum-provider';
 import { IProviderOptions } from 'web3modal';
 import { networks } from '../src/utils/networks';
 import { ChakraProvider, useToast } from '@chakra-ui/react';
-import { OverlayContextProvider } from './contexts/OverlayContext';
+import { OverlayContextProvider, useOverlay } from './contexts/OverlayContext';
 
 import { GovrnTheme } from '@govrn/protocol-ui';
 import Routes from './Routes';
@@ -27,32 +27,50 @@ const providerOptions: IProviderOptions = {
   },
 };
 
+const defaultChain = networks['0x64'].chainId; // we can move this and some others to a constants file
+
 const web3modalOptions = {
   cacheProvider: true,
   providerOptions,
   theme: 'dark',
 };
 
-ReactDOM.render(
-  <StrictMode>
-    <ChakraProvider theme={GovrnTheme}>
+const App = () => {
+  const toast = useToast();
+  return (
+    <>
       <WalletProvider
         web3modalOptions={web3modalOptions}
-        // defaultChainId={networks['0x64'].chainId}
+        defaultChainId={defaultChain}
         networks={networks}
         handleModalEvents={(eventName, error) => {
           if (error) {
             console.error(error.message);
+            toast({
+              title: 'Unsupported Chain',
+              description: `Please switch to a supported chain (Gnosis Chain). You can switch chains by approving the "Switch network" in MetaMask.`,
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+              position: 'top-right',
+            });
           }
-          console.log(eventName);
         }}
       >
-        <OverlayContextProvider>
-          <UserContextProvider>
-            <Routes />
-          </UserContextProvider>
-        </OverlayContextProvider>
+        <UserContextProvider>
+          <Routes />
+        </UserContextProvider>
       </WalletProvider>
+    </>
+  );
+};
+
+ReactDOM.render(
+  <StrictMode>
+    <ChakraProvider theme={GovrnTheme}>
+      <OverlayContextProvider>
+        <App />
+      </OverlayContextProvider>
     </ChakraProvider>
   </StrictMode>,
   document.getElementById('root')
