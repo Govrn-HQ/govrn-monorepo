@@ -124,7 +124,10 @@ const HomeShell = () => {
                   >
                     {userDataByAddress?.name}
                   </Text>
-                  . <b>We'll reach out as soon as we open up more spots!</b>
+                  .{' '}
+                  <strong>
+                    We'll reach out as soon as we open up more spots!
+                  </strong>
                 </Text>
 
                 <ChakraLink href="https://discord.gg/3e36ZHU5aG" isExternal>
