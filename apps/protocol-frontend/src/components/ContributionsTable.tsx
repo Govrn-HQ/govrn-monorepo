@@ -1,24 +1,26 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
-  Table,
+  Box,
+  chakra,
   HStack,
   IconButton,
+  Stack,
+  Table,
   Tbody,
   Td,
   Text,
   Th,
   Thead,
   Tr,
-  chakra,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { format } from 'date-fns';
 import {
-  useTable,
-  useSortBy,
   useFilters,
   useGlobalFilter,
   useRowSelect,
+  useSortBy,
+  useTable,
 } from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
@@ -180,68 +182,70 @@ const ContributionsTable = ({
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
-    <>
+    <Stack>
       <GlobalFilter
         preGlobalFilteredRows={preGlobalFilteredRows}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
-      <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-        <Thead backgroundColor="gray.50">
-          {headerGroups.map((headerGroup: any) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column: any) => (
-                <Th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  isNumeric={column.isNumeric}
-                  borderColor="gray.100"
-                >
-                  {column.render('Header')}
-                  <chakra.span paddingLeft="4">
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <IoArrowDown aria-label="sorted-descending" />
-                      ) : (
-                        <IoArrowUp aria-label="sorted-ascending" />
-                      )
-                    ) : null}
-                  </chakra.span>
-                </Th>
-              ))}
-              <Th borderColor="gray.100" />
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <Tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <Td {...cell.getCellProps()} borderColor="gray.100">
-                    <>{cell.render('Cell')}</>
-                  </Td>
+      <Box width="100%" maxWidth="100vw" overflowX="auto">
+        <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+          <Thead backgroundColor="gray.50">
+            {headerGroups.map((headerGroup: any) => (
+              <Tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column: any) => (
+                  <Th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    isNumeric={column.isNumeric}
+                    borderColor="gray.100"
+                  >
+                    {column.render('Header')}
+                    <chakra.span paddingLeft="4">
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <IoArrowDown aria-label="sorted-descending" />
+                        ) : (
+                          <IoArrowUp aria-label="sorted-ascending" />
+                        )
+                      ) : null}
+                    </chakra.span>
+                  </Th>
                 ))}
+                <Th borderColor="gray.100" />
               </Tr>
-            );
-          })}
-        </Tbody>
-      </Table>
-      <ModalWrapper
-        name="editContributionFormModal"
-        title="Update Contribution Activity"
-        localOverlay={localOverlay}
-        size="3xl"
-        content={
-          <EditContributionForm
-            contribution={contributionsData.find(
-              (localContribution) =>
-                localContribution.id === selectedContribution
-            )}
-          />
-        }
-      />
-    </>
+            ))}
+          </Thead>
+          <Tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <Tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <Td {...cell.getCellProps()} borderColor="gray.100">
+                      <>{cell.render('Cell')}</>
+                    </Td>
+                  ))}
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+        <ModalWrapper
+          name="editContributionFormModal"
+          title="Update Contribution Activity"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <EditContributionForm
+              contribution={contributionsData.find(
+                (localContribution) =>
+                  localContribution.id === selectedContribution
+              )}
+            />
+          }
+        />
+      </Box>
+    </Stack>
   );
 };
 
