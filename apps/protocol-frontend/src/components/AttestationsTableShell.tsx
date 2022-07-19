@@ -21,7 +21,7 @@ import { ModalWrapper } from '@govrn/protocol-ui';
 import BulkAttestationModal from './BulkAttestationModal';
 
 const AttestationsTableShell = () => {
-  const { daoContributions } = useUser();
+  const { daoContributions, userData } = useUser();
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();

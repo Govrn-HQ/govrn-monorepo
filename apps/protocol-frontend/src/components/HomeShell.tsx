@@ -16,7 +16,7 @@ const HomeShell = () => {
     null
   );
 
-  const { userDataByAddress } = useUser();
+  const { userDataByAddress, userData } = useUser();
 
   useEffect(() => {
     if (userDataByAddress) {
@@ -86,7 +86,7 @@ const HomeShell = () => {
                     bgGradient="linear(to-l, #7928CA, #FF0080)"
                     bgClip="text"
                   >
-                    {userDataByAddress?.name}
+                    {userData?.name || userDataByAddress?.name}
                   </Text>
                   . Click below to view your contributions.
                 </Text>

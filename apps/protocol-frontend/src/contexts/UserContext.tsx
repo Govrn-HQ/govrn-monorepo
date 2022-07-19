@@ -96,7 +96,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return;
     }
     try {
-      console.log(govrn);
       const userDataByAddressResponse = await govrn.custom.listUserByAddress(
         address
       );
@@ -443,7 +442,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
-      console.log('update response', updateResp);
       getUserActivityTypes();
       getUserContributions();
       toast({
@@ -474,6 +472,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         name: values.name,
         id: userData.id,
       });
+      getUser();
       toast({
         title: 'User Profile Updated',
         description: 'Your Profile has been updated',
