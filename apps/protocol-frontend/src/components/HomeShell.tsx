@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
-import { Flex, Link as ChakraLink, Button, Text, Box } from '@chakra-ui/react';
+import {
+  Flex,
+  Link as ChakraLink,
+  Button,
+  Text,
+  Box,
+  Icon,
+} from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
@@ -9,6 +16,7 @@ import CreateUserForm from './CreateUserForm';
 import { useUser } from '../contexts/UserContext';
 import CreateWaitlistUserForm from './CreateWaitlistUserForm';
 import { GOVRN_MOTTO } from '../utils/constants';
+import { FaDiscord } from 'react-icons/all';
 
 const HomeShell = () => {
   const { isConnected } = useWallet();
@@ -116,11 +124,12 @@ const HomeShell = () => {
                   >
                     {userDataByAddress?.name}
                   </Text>
-                  . We'll reach out as soon as we open up more spots!
+                  . <b>We'll reach out as soon as we open up more spots!</b>
                 </Text>
 
                 <ChakraLink href="https://discord.gg/3e36ZHU5aG" isExternal>
                   <Button
+                    leftIcon={<FaDiscord />}
                     color="brand.primary.600"
                     backgroundColor="brand.primary.50"
                     transition="all 100ms ease-in-out"
