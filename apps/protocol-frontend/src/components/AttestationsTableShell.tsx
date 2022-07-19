@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import * as _ from 'lodash';
 import {
-  Stack,
-  Text,
   Box,
   Button,
-  Tabs,
+  Stack,
   Tab,
   TabList,
-  TabPanels,
   TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
@@ -87,12 +86,10 @@ const AttestationsTableShell = () => {
                         </Button>
                       </Stack>
                     </Box>
-                    <Box width="100%" maxWidth="100vw" overflowX="auto">
-                      <AttestationsTable
-                        contributionsData={daoContributions}
-                        setSelectedContributions={setSelectedContributions}
-                      />
-                    </Box>
+                    <AttestationsTable
+                      contributionsData={daoContributions}
+                      setSelectedContributions={setSelectedContributions}
+                    />
                     {/* <Box px={{ base: '4', md: '6' }} pb="5">
                 <HStack spacing="3" justify="space-between">
                   {!isMobile && (
