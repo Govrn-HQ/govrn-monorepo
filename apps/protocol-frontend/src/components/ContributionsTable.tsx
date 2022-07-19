@@ -11,6 +11,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
@@ -129,9 +130,39 @@ const ContributionsTable = ({
       {
         id: 'actions',
         Header: 'Actions',
-        Cell: ({ row }) => (
-          row.original.status ===  'minted' ?
-            (<Tooltip label='Minted contribution(s) cannot be edited' aria-label='A tooltip'>
+        Cell: ({ row }) =>
+          row.original.status === 'minted' ? (
+            <Tooltip
+              label="Minted contribution(s) cannot be edited"
+              aria-label="A tooltip"
+            >
+              <HStack spacing="1">
+                <IconButton
+                  icon={<FiEdit2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  aria-label="Edit Contribution"
+                  disabled={
+                    row.original.user.id !== userData?.user ||
+                    row.original.status === 'minted'
+                  }
+                  onClick={() =>
+                    handleEditContributionFormModal(row.original.id)
+                  }
+                />
+                <IconButton
+                  icon={<FiTrash2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  disabled={
+                    row.original.user.id !== userData?.user ||
+                    row.original.status === 'minted'
+                  }
+                  aria-label="Delete Contribution"
+                />
+              </HStack>
+            </Tooltip>
+          ) : (
             <HStack spacing="1">
               <IconButton
                 icon={<FiEdit2 fontSize="1rem" />}
@@ -155,33 +186,7 @@ const ContributionsTable = ({
                 aria-label="Delete Contribution"
               />
             </HStack>
-            </Tooltip>) 
-            :
-            <HStack spacing="1">
-            <IconButton
-              icon={<FiEdit2 fontSize="1rem" />}
-              variant="ghost"
-              color="gray.800"
-              aria-label="Edit Contribution"
-              disabled={
-                row.original.user.id !== userData?.user ||
-                row.original.status === 'minted'
-              }
-              onClick={() => handleEditContributionFormModal(row.original.id)}
-            />
-            <IconButton
-              icon={<FiTrash2 fontSize="1rem" />}
-              variant="ghost"
-              color="gray.800"
-              disabled={
-                row.original.user.id !== userData?.user ||
-                row.original.status === 'minted'
-              }
-              aria-label="Delete Contribution"
-            />
-      
-          </HStack>
-        ),
+          ),
       },
     ]);
   };
