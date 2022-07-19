@@ -5,6 +5,7 @@ import Session from 'cookie-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
 import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
+import { LinearClient } from '@linear/sdk';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
@@ -313,6 +314,30 @@ app.get('/nonce', async function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   res.status(200).send(req.session.nonce);
 });
+// hk {
+//   _request: [Function (anonymous)],
+//   active: true,
+//   admin: true,
+//   archivedAt: undefined,
+//   avatarUrl: undefined,
+//   createdAt: 2022-03-14T21:42:03.722Z,
+//   createdIssueCount: 128,
+//   description: undefined,
+//   disableReason: undefined,
+//   displayName: 'keating.dev',
+//   email: 'keating.dev@protonmail.com',
+//   id: '4af24acd-f3a9-4b07-bd98-9d7d57706630',
+//   inviteHash: 'cfbcff0369c9e2fb',
+//   isMe: true,
+//   lastSeen: undefined,
+//   name: 'keating.dev@protonmail.com',
+//   statusEmoji: undefined,
+//   statusLabel: undefined,
+//   statusUntilAt: undefined,
+//   timezone: 'America/New_York',
+//   updatedAt: 2022-07-11T13:19:01.455Z,
+//   url: 'https://linear.app/govrn/profiles/keating.dev'
+// }
 
 app.get('/linear/oauth', async function (req, res) {
   const query = req.query;
@@ -330,7 +355,14 @@ app.get('/linear/oauth', async function (req, res) {
     body: params,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   });
-  console.log(await resp.json());
+  // 3. Get linear user and create/connect
+  const respJSON = await resp.json();
+  const client = new LinearClient({ accessToken: respJSON.access_token });
+  const me = await client.viewer;
+
+  // 4. Store api token
+  console.log(respJSON);
+  console.log(me);
 
   // Redirect to connected to linear page
   res.status(200).redirect(PROTOCOL_FRONTEND + '/#/linear');
