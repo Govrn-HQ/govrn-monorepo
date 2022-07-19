@@ -101,11 +101,11 @@ export class UserContributionUpdateInput {
   @TypeGraphQL.Field((_type) => String)
   name: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field((_type) => String, { nullable: true })
   details?: string;
 
-  @TypeGraphQL.Field((_type) => String)
-  proof?: string;
+  @TypeGraphQL.Field((_type) => String, { nullable: true })
+  proof?: string | undefined;
 
   @TypeGraphQL.Field((_type) => String)
   activityTypeName: string;
