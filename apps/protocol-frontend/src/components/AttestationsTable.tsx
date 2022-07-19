@@ -42,7 +42,11 @@ const AttestationsTable = ({
     setModals({ addAttestationFormModal: true });
   };
 
-  const unattestedContributions = _.filter(contributionsData, function (a) {
+  const nonUserContributions = _.filter(contributionsData, function (a) {
+    return a.user.id !== userData.id;
+  });
+
+  const unattestedContributions = _.filter(nonUserContributions, function (a) {
     return a.attestations.every((b: any) => b.user_id !== userData.id);
   });
 
@@ -53,17 +57,12 @@ const AttestationsTable = ({
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
         attestations: contribution.attestations || null,
-        // attestations:
-        //   contribution.attestations !== null
-        //     ? Object.keys(contribution.attestations).length
-        //     : 0,
         guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
         attestationDate: null,
         onChainId: contribution.on_chain_id,
-        // format(new Date(contribution.attestationDate), 'P') || null,
         contributor: contribution.user.name,
       })),
     [contributionsData]
@@ -100,7 +99,7 @@ const AttestationsTable = ({
         Header: 'Contributor',
         accessor: 'contributor',
       },
-      { Header: 'DAO', accessor: 'guild' },
+      // { Header: 'DAO', accessor: 'guild' },
     ],
     []
   );
