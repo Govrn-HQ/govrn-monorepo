@@ -5,12 +5,13 @@ import { useUser } from '../contexts/UserContext';
 import SiteLayout from '../components/SiteLayout';
 import AttestationsTableShell from '../components/AttestationsTableShell';
 import NewUserView from '../components/NewUserView';
+import { GOVRN_MOTTO } from '../utils/constants';
 
 // Force
 const UserView = () => {
   return (
     <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-      <Text>Anything that governs you, you should be able to govern.</Text>
+      <Text>{GOVRN_MOTTO}</Text>
       <Text fontSize="lg" fontWeight="medium">
         Welcome back! Connect your wallet to see Contributions{' '}
         <span role="img" aria-labelledby="eye emoji looking at Contributions">

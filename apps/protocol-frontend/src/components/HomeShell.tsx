@@ -8,6 +8,7 @@ import CreateUserForm from './CreateUserForm';
 
 import { useUser } from '../contexts/UserContext';
 import CreateWaitlistUserForm from './CreateWaitlistUserForm';
+import { GOVRN_MOTTO } from '../utils/constants';
 
 const HomeShell = () => {
   const { isConnected } = useWallet();
@@ -165,7 +166,7 @@ const HomeShell = () => {
           </span>
         </PageHeading>
         <Text color="gray.800" paddingBottom={4}>
-          Anything that governs you, you should be able to govern.
+          {GOVRN_MOTTO}
         </Text>
         {isConnected && isAuthenticated ? (
           <NewUserFlow />
