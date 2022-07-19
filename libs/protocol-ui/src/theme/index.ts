@@ -1,4 +1,5 @@
 import colors from './colors';
+import Button from './components/button'
 import Input from './components/input';
 import Checkbox from './components/checkbox';
 import Table from './components/table';
@@ -20,7 +21,7 @@ export const GovrnTheme = extendTheme({
     heading: 'InterVariable, -apple-system, system-ui, sans-serif',
     body: 'InterVariable, -apple-system, system-ui, sans-serif',
   },
-  components: { Input, Checkbox, Table, Tabs, Textarea },
+  components: { Button, Input, Checkbox, Table, Tabs, Textarea },
   config: {
     initialColorMode: 'light',
     useSystemColorMode: false,

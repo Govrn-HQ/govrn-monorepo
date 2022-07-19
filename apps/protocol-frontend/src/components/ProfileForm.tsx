@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
+import { Flex, Heading, Button, Divider} from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 
@@ -198,16 +198,13 @@ const ProfileForm = () => {
                 tip="Enter the email address you used with Linear for the integration."
                 placeholder="user@govrn.io"
                 localForm={localFormLinear} //TODO: resolve this type issue -- need to investigate this
-                disabled
+                isDisabled
               />
               <Button
                 type="submit"
                 width="100%"
-                color="brand.primary.600"
-                backgroundColor="brand.primary.50"
-                transition="all 100ms ease-in-out"
-                _hover={{ bgColor: 'brand.primary.100' }}
-                disabled
+                variant="disabled"
+                isDisabled
               >
                 Link Email
               </Button>
@@ -228,16 +225,13 @@ const ProfileForm = () => {
                 tip="Enter your Twitter handle for the upcoming Twitter integration."
                 placeholder="govrn"
                 localForm={localForm} //TODO: resolve this type issue -- need to investigate this
-                disabled
+                isDisabled
               />
               <Button
                 type="submit"
                 width="100%"
-                color="brand.primary.600"
-                backgroundColor="brand.primary.50"
-                transition="all 100ms ease-in-out"
-                disabled
-                _hover={{ bgColor: 'brand.primary.100' }}
+                variant="disabled"
+                isDisabled
               >
                 Link Twitter
               </Button>
