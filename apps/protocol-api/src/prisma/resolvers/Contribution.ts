@@ -101,11 +101,11 @@ export class UserContributionUpdateInput {
   @TypeGraphQL.Field((_type) => String)
   name: string;
 
-  @TypeGraphQL.Field((_type) => String)
-  details: string;
+  @TypeGraphQL.Field((_type) => String, { nullable: true })
+  details?: string;
 
-  @TypeGraphQL.Field((_type) => String)
-  proof: string;
+  @TypeGraphQL.Field((_type) => String, { nullable: true })
+  proof?: string | undefined;
 
   @TypeGraphQL.Field((_type) => String)
   activityTypeName: string;
@@ -181,7 +181,6 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserContributionArgs
   ) {
-
     return await prisma.contribution.create({
       data: {
         user: {
@@ -276,10 +275,10 @@ export class ContributionCustomResolver {
           set: args.data.name,
         },
         details: {
-          set: args.data.details,
+          set: args.data?.details,
         },
         proof: {
-          set: args.data.proof,
+          set: args.data?.proof,
         },
         date_of_engagement: {
           set: args.data.dateOfEngagement,
@@ -299,17 +298,17 @@ export class ContributionCustomResolver {
     }
 
     if (args.data.currentGuildId !== undefined) {
-
       await prisma.contribution.update({
         data: {
           ...(args.data.currentGuildId && {
             guilds: {
-              delete: [{
-                guild_id_contribution_id: {
-                  contribution_id: args.data.contributionId,
-                  guild_id: args.data.currentGuildId,
-                }
-              },
+              delete: [
+                {
+                  guild_id_contribution_id: {
+                    contribution_id: args.data.contributionId,
+                    guild_id: args.data.currentGuildId,
+                  },
+                },
               ],
             },
           }),
