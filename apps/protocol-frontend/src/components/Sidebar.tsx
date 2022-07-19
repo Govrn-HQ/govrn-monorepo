@@ -5,15 +5,14 @@ import {
   FiBarChart2,
   FiCheckSquare,
   FiHome,
-  FiUsers,
   FiPlusSquare,
-  FiDisc,
   FiTwitter,
+  FiUsers,
 } from 'react-icons/fi';
 import Logo from './Logo';
 import NavButton from './NavButton';
-import NavLink from './NavLink';
 import ConnectWallet from './ConnectWallet';
+import { FaDiscord } from 'react-icons/all';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -91,7 +90,7 @@ const Sidebar = () => {
           <Stack shouldWrapChildren>
             <NavButton
               label="Discord"
-              icon={FiDisc}
+              icon={FaDiscord}
               linkTo="https://discord.gg/3e36ZHU5aG"
             />
             <NavButton
