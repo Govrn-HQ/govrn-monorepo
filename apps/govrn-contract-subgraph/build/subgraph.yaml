@@ -4,10 +4,10 @@ schema:
 dataSources:
   - kind: ethereum
     name: Govrn
-    network: goerli
+    network: rinkeby
     source:
       abi: Govrn
-      address: "0x44fa8E6588e7a9ad869837d09621Cc663539D753"
+      address: "0xEAd3f8f7Ff86ad09939c39421F374A4b7Ba14204"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

@@ -49,16 +49,16 @@
     "deployProd": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol",
+        "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs Govrn-HQ/govrn-protocol-gnosis",
         "cwd": "apps/govrn-contract-subgraph"
       },
       "configurations": {
         "rinkeby": {
-          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol-rinkeby",
+          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs govrn-hq/govrn-protocol-rinkeby",
           "cwd": "apps/govrn-contract-subgraph"
         },
         "goerli": {
-          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol-goerli",
+          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs govrn-hq/govrn-protocol-goerli",
           "cwd": "apps/govrn-contract-subgraph"
         },
         "gnosis": {
