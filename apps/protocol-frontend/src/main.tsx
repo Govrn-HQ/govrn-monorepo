@@ -45,16 +45,16 @@ const App = () => {
         networks={networks}
         handleModalEvents={(eventName, error) => {
           if (error) {
-            console.error(error.message);
             toast({
               title: 'Unsupported Chain',
-              description: `Please switch to a supported chain (Gnosis Chain). You can switch chains by approving the "Switch network" in MetaMask.`,
+              description: `Please switch to a supported chain (Gnosis Chain). You can switch chains by clicking the "Switch network" button in MetaMask.`,
               status: 'error',
               duration: 3000,
               isClosable: true,
               position: 'top-right',
             });
           }
+          console.log(eventName);
         }}
       >
         <UserContextProvider>
