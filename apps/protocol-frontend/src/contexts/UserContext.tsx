@@ -270,6 +270,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
+      console.log(values);
       getUserActivityTypes();
       getUserContributions();
       getDaoContributions();
