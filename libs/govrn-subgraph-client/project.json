@@ -30,7 +30,7 @@
     "generate-gql-schema": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "get-graphql-schema https://api.thegraph.com/subgraphs/name/alexkeating/govrn-protocol > libs/govrn-subgraph-client/src/lib/subgraph/schema.graphql"
+        "command": "get-graphql-schema https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis > libs/govrn-subgraph-client/src/lib/subgraph/schema.graphql"
       }
     },
     "generate-gql-types": {

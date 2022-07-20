@@ -44,4 +44,4 @@ Each app or lib has its own readme that explains the scoped purpose & required `
 Run `yarn nx graph` to see a [diagram](https://nx.dev/cli/dep-graph) of the dependencies of the project.
 
 ## Furthermore
-Chat with us on [Discord](https://discord.gg/AY84umTe).
+Chat with us on [Discord](https://discord.gg/3e36ZHU5aG). Follow on [Twitter](https://twitter.com/govrnHQ)

@@ -172,7 +172,7 @@ const HomeShell = () => {
         ) : (
           <>
             <Text color="gray.800" paddingBottom={8}>
-              To get started, connect your wallet.
+              To get started, connect your wallet to Gnosis Chain.
             </Text>
             <ConnectWallet />
           </>

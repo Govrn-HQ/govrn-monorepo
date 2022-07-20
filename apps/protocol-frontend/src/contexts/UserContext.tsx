@@ -4,6 +4,7 @@ import React, {
   useContext,
   createContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import { useToast } from '@chakra-ui/react';
@@ -31,6 +32,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
+  const [currentChain, setCurrentChain] = useState<string | null | undefined>(
+    undefined
+  );
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
@@ -620,6 +624,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
 export const useUser = () => {
   const {
+    currentChain,
+    setCurrentChain,
     userAddress,
     setUserAddress,
     userDataByAddress,
@@ -645,12 +651,13 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
-
     isAuthenticated,
     isAuthenticating,
     authenticateAddress,
   } = useContext(UserContext);
   return {
+    currentChain,
+    setCurrentChain,
     userAddress,
     setUserAddress,
     userDataByAddress,
