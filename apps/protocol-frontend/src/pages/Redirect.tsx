@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Flex, Spinner } from '@chakra-ui/react';
 
-const TIMEOUT = 3_000;
+const TIMEOUT = 300;
 
 // This could be expanded to include redirect to another routes
 const RedirectHome = () => {
