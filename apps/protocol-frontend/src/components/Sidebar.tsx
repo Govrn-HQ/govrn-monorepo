@@ -34,6 +34,15 @@ const Sidebar = () => {
       paddingY={{ base: '6', sm: '8' }}
       paddingX={{ base: '4', sm: '6' }}
       zIndex="2"
+      overflowX="auto"
+      css={{
+        // Firefox
+        'scrollbar-width': 'none',
+        // Blink- and WebKit-based browsers
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+      }}
     >
       <Flex direction="column" gap="1" flex="2 2 auto" alignItems="center">
         <Stack spacing={{ base: '5', sm: '6' }} shouldWrapChildren>

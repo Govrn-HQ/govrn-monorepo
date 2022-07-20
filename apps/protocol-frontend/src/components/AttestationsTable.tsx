@@ -167,19 +167,7 @@ const AttestationsTable = ({
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
-      <Box
-        width="100%"
-        maxWidth="100vw"
-        overflowX="auto"
-        css={{
-          // Firefox
-          'scrollbar-width': 'none',
-          // Blink- and WebKit-based browsers
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
-        }}
-      >
+      <Box width="100%" maxWidth="100vw" overflowX="auto">
         <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
           <Thead backgroundColor="gray.50">
             {headerGroups.map((headerGroup: any) => (
