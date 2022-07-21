@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   HashRouter,
   Route,
@@ -16,13 +17,28 @@ import Linear from './pages/Linear';
 import RedirectHome from './pages/Redirect';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
-  const location = useLocation();
-  const { userData } = useUser();
-  const acceptableRoutes = ['/#/linear'];
+  // const location = useLocation();
+  // const { isAuthenticated, isAuthenticating, attemptAuth } = useUser();
+  // const acceptableRoutes = ['/#/linear'];
+  // console.log('Authenticated');
+  // console.log(isAuthenticated);
+  // console.log(isAuthenticating);
+  // const siweActiveURL = `${import.meta.env.VITE_SIWE_ACTIVE_URL}/siwe/active`;
 
-  if (!userData?.active && !acceptableRoutes.find((r) => location.hash === r)) {
-    return <Navigate to="/authenticate" state={{ from: location }} replace />;
-  }
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     try {
+  //       await fetch(siweActiveURL, { credentials: 'include' });
+  //       return;
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //   };
+  // });
+
+  // if (!checkAuth && !acceptableRoutes.find((r) => location.hash === r)) {
+  //   return <Navigate to="/authenticate" state={{ from: location }} replace />;
+  // }
 
   return children;
 };

@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Flex, Spinner } from '@chakra-ui/react';
+import { useUser } from '../contexts/UserContext';
 
 const TIMEOUT = 300;
 
@@ -11,7 +12,8 @@ const RedirectHome = () => {
   const [redirectNow, setRedirectNow] = useState(false);
   setTimeout(() => setRedirectNow(true), TIMEOUT);
 
-  if (redirectNow) navigate('/', { state: location.state, replace: true });
+  if (redirectNow)
+    navigate('/', { state: location.state, replace: true });
 
   return (
     <Flex

@@ -72,7 +72,8 @@ const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
   );
 
 const ProfileForm = () => {
-  const { userData, updateProfile, updateLinearEmail } = useUser();
+  const { userData, updateProfile, updateLinearEmail, disconnectLinear } =
+    useUser();
 
   const localForm = useForm<{ name: string; address: string }>({
     mode: 'all',
@@ -108,19 +109,16 @@ const ProfileForm = () => {
     params.append('scope', 'read');
     params.append('state', ''); // generate string to prevent crsf attack
     params.append('prompt', 'consent');
-    window.open(`https://linear.app/oauth/authorize?${params.toString()}`);
+    window.location.href = `https://linear.app/oauth/authorize?${params.toString()}`;
   };
 
-  const disconnectLinear = () => {
-    const params = new URLSearchParams();
-    params.append('client_id', 'f800e64aad8072e4423925d3245e09f4');
-    params.append('redirect_uri', 'http://localhost:4000/linear/oauth');
-    params.append('response_type', 'code');
-    params.append('scope', 'read');
-    params.append('state', ''); // generate string to prevent crsf attack
-    params.append('prompt', 'consent');
-    window.open(`https://linear.app/oauth/authorize?${params.toString()}`);
-  };
+  const disconnectLinearOnClick = useCallback(async () => {
+    await disconnectLinear({
+      userId: userData.id,
+      username: userData.name,
+      linearUserId: userData.linear_users[0].id,
+    });
+  }, [userData.id, userData.name, userData.linear_users, disconnectLinear]);
 
   return (
     <>
@@ -219,7 +217,7 @@ const ProfileForm = () => {
               <Heading as="h5" size="sm" fontWeight="medium" color="gray.700">
                 Linear
               </Heading>
-              {userData.linear_users.length > 0 ? (
+              {userData?.linear_users && userData.linear_users.length > 0 ? (
                 <Button
                   type="submit"
                   width="100%"
@@ -227,7 +225,7 @@ const ProfileForm = () => {
                   backgroundColor="brand.primary.50"
                   transition="all 100ms ease-in-out"
                   _hover={{ bgColor: 'brand.primary.100' }}
-                  onClick={disconnectLinear}
+                  onClick={disconnectLinearOnClick}
                 >
                   Disconnect Linear
                 </Button>

@@ -313,6 +313,21 @@ app.post('/verify', async function (req, res) {
   }
 });
 
+// TODO: switch so session expiration is managed on the server
+app.get('/siwe/active', async function (req, res) {
+  console.log(req.body);
+  const fields = req.session.siwe;
+  if (!fields?.data) {
+    res.status(422).json({ message: 'No existing session cookie' });
+    return;
+  }
+  if (fields.data.nonce !== req.session.nonce) {
+    res.status(422).json({ message: 'Invalid nonce' });
+    return;
+  }
+  res.status(200).end();
+});
+
 app.get('/nonce', async function (req, res) {
   const nonce = generateNonce();
   req.session.nonce = nonce;
@@ -389,7 +404,7 @@ app.get('/linear/oauth', async function (req, res) {
   });
 
   // Redirect to connected to linear page
-  res.status(200).redirect(PROTOCOL_FRONTEND + '/#/linear');
+  res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
 });
 
 app.listen(4000);

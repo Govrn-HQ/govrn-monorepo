@@ -1,4 +1,5 @@
 import { formatAddress, useWallet } from '@raidguild/quiver';
+import { useMatch, useNavigate } from 'react-router-dom';
 import {
   Button,
   Text,
@@ -23,11 +24,20 @@ const ConnectWallet = () => {
     disconnect,
     address,
   } = useWallet();
-  const { authenticateAddress, currentChain } = useUser();
+  const { authenticateAddress, checkAuthentication, currentChain } = useUser();
   const copyAddress = useClipboard(address as string);
+  const navigate = useNavigate();
   const connectAndVerify = async () => {
     await connectWallet();
-    await authenticateAddress();
+    const exists = await checkAuthentication();
+    if (!exists) {
+      // redirect home unless
+      // the route is in the auth whitelist
+      console.log('Here');
+      console.log(exists);
+      navigate('/authenticate', { replace: true });
+      // await authenticateAddress();
+    }
   };
 
   return (
