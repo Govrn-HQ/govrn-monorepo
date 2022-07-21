@@ -2,12 +2,12 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import 'regenerator-runtime/runtime';
 import { WalletProvider } from '@raidguild/quiver';
-import WalletConnectProvider from '@walletconnect/ethereum-provider';
+import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js';
 
 import { IProviderOptions } from 'web3modal';
 import { networks } from '../src/utils/networks';
 import { ChakraProvider, useToast } from '@chakra-ui/react';
-import { OverlayContextProvider, useOverlay } from './contexts/OverlayContext';
+import { OverlayContextProvider } from './contexts/OverlayContext';
 
 import { GovrnTheme } from '@govrn/protocol-ui';
 import Routes from './Routes';
@@ -38,30 +38,28 @@ const web3modalOptions = {
 const App = () => {
   const toast = useToast();
   return (
-    <>
-      <WalletProvider
-        web3modalOptions={web3modalOptions}
-        defaultChainId={defaultChain}
-        networks={networks}
-        handleModalEvents={(eventName, error) => {
-          if (error) {
-            toast({
-              title: 'Unsupported Chain',
-              description: `Please switch to a supported chain (Gnosis Chain). You can switch chains by clicking the "Switch network" button in MetaMask.`,
-              status: 'error',
-              duration: 3000,
-              isClosable: true,
-              position: 'top-right',
-            });
-          }
-          console.log(eventName);
-        }}
-      >
-        <UserContextProvider>
-          <Routes />
-        </UserContextProvider>
-      </WalletProvider>
-    </>
+    <WalletProvider
+      web3modalOptions={web3modalOptions}
+      defaultChainId={defaultChain}
+      networks={networks}
+      handleModalEvents={(eventName, error) => {
+        if (error) {
+          toast({
+            title: 'Unsupported Chain',
+            description: `Please switch to a supported chain (Gnosis Chain). You can switch chains by clicking the "Switch network" button in MetaMask.`,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right',
+          });
+        }
+        console.log(eventName);
+      }}
+    >
+      <UserContextProvider>
+        <Routes />
+      </UserContextProvider>
+    </WalletProvider>
   );
 };
 

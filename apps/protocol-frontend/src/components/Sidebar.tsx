@@ -5,15 +5,14 @@ import {
   FiBarChart2,
   FiCheckSquare,
   FiHome,
-  FiUsers,
   FiPlusSquare,
-  FiDisc,
   FiTwitter,
+  FiUsers,
 } from 'react-icons/fi';
 import Logo from './Logo';
 import NavButton from './NavButton';
-import NavLink from './NavLink';
 import ConnectWallet from './ConnectWallet';
+import { FaDiscord } from 'react-icons/all';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -35,6 +34,15 @@ const Sidebar = () => {
       paddingY={{ base: '6', sm: '8' }}
       paddingX={{ base: '4', sm: '6' }}
       zIndex="2"
+      overflowX="auto"
+      css={{
+        // Firefox
+        'scrollbar-width': 'none',
+        // Blink- and WebKit-based browsers
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+      }}
     >
       <Flex direction="column" gap="1" flex="2 2 auto" alignItems="center">
         <Stack spacing={{ base: '5', sm: '6' }} shouldWrapChildren>
@@ -91,7 +99,7 @@ const Sidebar = () => {
           <Stack shouldWrapChildren>
             <NavButton
               label="Discord"
-              icon={FiDisc}
+              icon={FaDiscord}
               linkTo="https://discord.gg/3e36ZHU5aG"
             />
             <NavButton

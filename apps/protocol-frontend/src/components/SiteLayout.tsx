@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  Grid,
   Box,
   Flex,
+  Grid,
   IconButton,
   useBreakpointValue,
   useDisclosure,
@@ -57,7 +57,7 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
         direction="column"
         gridColumnStart={{ base: '0', lg: '2' }}
         width="100%"
-        // paddingX={{ base: 4, lg: 0 }}
+        overflow="auto"
       >
         {children}
       </Flex>
