@@ -15,21 +15,14 @@ import { FiKey, FiChevronDown, FiCopy, FiXCircle } from 'react-icons/fi';
 import { useUser } from '../contexts/UserContext';
 
 const ConnectWallet = () => {
-  const {
-    connectWallet,
-    isConnecting,
-    isConnected,
-    switchNetwork,
-    disconnect,
-    address,
-  } = useWallet();
-  const { authenticateAddress, currentChain } = useUser();
+  const { connectWallet, isConnecting, isConnected, disconnect, address } =
+    useWallet();
+  const { authenticateAddress } = useUser();
   const copyAddress = useClipboard(address as string);
   const connectAndVerify = async () => {
     await connectWallet();
     await authenticateAddress();
   };
-
   return (
     <>
       {!isConnected && (
@@ -42,7 +35,6 @@ const ConnectWallet = () => {
             borderWidth: '2px',
             borderColor: 'brand.primary.600',
           }}
-          // width="100%"
           leftIcon={<FiKey />}
           disabled={isConnecting}
           onClick={() => !isConnected && connectAndVerify()}
@@ -55,7 +47,7 @@ const ConnectWallet = () => {
         </Button>
       )}
       {isConnected && (
-        <Menu offset={[0, 4]} placement="bottom-end">
+        <Menu offset={[0, 4]} placement="bottom-end" autoSelect={false}>
           <MenuButton
             as={Button}
             rightIcon={<Icon as={FiChevronDown} color="brand.primary.600" />}
@@ -70,13 +62,21 @@ const ConnectWallet = () => {
             </Text>
           </MenuButton>
           <MenuList backgroundColor="gray.800" minWidth="none">
-            <MenuItem onClick={copyAddress.onCopy}>
+            <MenuItem
+              onClick={copyAddress.onCopy}
+              _hover={{ backgroundColor: 'gray.600' }}
+            >
               <HStack spacing={2}>
-                <Icon as={FiCopy} />
-                <Box>{copyAddress.hasCopied ? 'Copied' : 'Copy Address'}</Box>
+                <Icon as={FiCopy} color="white" />
+                <Box color="white">
+                  {copyAddress.hasCopied ? 'Copied' : 'Copy Address'}
+                </Box>
               </HStack>
             </MenuItem>
-            <MenuItem onClick={() => disconnect()}>
+            <MenuItem
+              onClick={() => disconnect()}
+              _hover={{ backgroundColor: 'gray.600' }}
+            >
               <HStack spacing={2}>
                 <Icon as={FiXCircle} color="red.300" />
                 <Box color="red.300">Sign Out</Box>
