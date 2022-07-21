@@ -4,6 +4,7 @@ import React, {
   useContext,
   createContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import { useToast } from '@chakra-ui/react';
@@ -31,6 +32,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
+  const [currentChain, setCurrentChain] = useState<string | null | undefined>(
+    undefined
+  );
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
@@ -100,7 +104,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return;
     }
     try {
-      console.log(govrn);
       const userDataByAddressResponse = await govrn.custom.listUserByAddress(
         address
       );
@@ -285,7 +288,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         activityType: values.activityType,
         engagementDate: values.engagementDate,
       });
-      console.log('resp', resp);
       navigate('/contributions');
     } catch (error) {
       console.log(error);
@@ -478,6 +480,40 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         name: values.name,
         id: userData.id,
       });
+      getUser();
+      toast({
+        title: 'User Profile Updated',
+        description: 'Your Profile has been updated',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: 'Unable to Update Profile',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
+  const disconnectLinear = async (args: {
+    linearUserId: number;
+    userId: number;
+    username: string;
+  }) => {
+    try {
+      await govrn.custom.updateUser({
+        name: username,
+        id: userId,
+        disconnectLinearId: linearUserId,
+      });
+      getUser();
       toast({
         title: 'User Profile Updated',
         description: 'Your Profile has been updated',
@@ -625,6 +661,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
 export const useUser = () => {
   const {
+    currentChain,
+    setCurrentChain,
     userAddress,
     setUserAddress,
     userDataByAddress,
@@ -650,12 +688,13 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
-
     isAuthenticated,
     isAuthenticating,
     authenticateAddress,
   } = useContext(UserContext);
   return {
+    currentChain,
+    setCurrentChain,
     userAddress,
     setUserAddress,
     userDataByAddress,

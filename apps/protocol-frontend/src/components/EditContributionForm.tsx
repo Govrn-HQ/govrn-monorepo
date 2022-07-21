@@ -62,15 +62,18 @@ const EditContributionForm = ({
     new Date(contribution?.date_of_engagement)
   );
 
-  console.log('contribution', contribution);
-
   useEffect(() => {
     setValue('name', contribution?.name);
     setValue('details', contribution?.details);
     setValue('proof', contribution?.proof);
     setValue('engagementDate', new Date(contribution?.date_of_engagement));
     setValue('activityType', contribution?.activity_type.name);
-    setValue('daoId', contribution?.guilds[0]?.guild.id);
+    setValue(
+      'daoId',
+      contribution?.guilds[0]?.guild.id
+        ? contribution?.guilds[0]?.guild.id
+        : daoReset[0].value
+    );
   }, [contribution]);
 
   const activityTypesList = [
@@ -80,12 +83,6 @@ const EditContributionForm = ({
     'Design',
     'Other',
   ];
-
-  const daoListOptions = allDaos.map((dao) => ({
-    value: dao.id,
-    label: dao.name,
-  }));
-
   const combinedActivityTypesList = [
     ...new Set([
       ...activityTypesList,
@@ -100,8 +97,21 @@ const EditContributionForm = ({
     })
   );
 
+  const daoListOptions = allDaos.map((dao) => ({
+    value: dao.id,
+    label: dao.name,
+  }));
+
+  const daoReset = [
+    {
+      value: null,
+      label: 'No DAO',
+    },
+  ];
+
+  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+
   const updateContributionHandler = async (values: any) => {
-    console.log('values', values);
     updateContribution(contribution, values);
     reset();
   };
@@ -153,14 +163,17 @@ const EditContributionForm = ({
           label="DAO"
           placeholder="Select a DAO to assocaite this Contribution with."
           defaultValue={{
-            value: contribution?.guilds[0]?.guild.id,
-            label: contribution?.guilds[0]?.guild.name,
+            value: contribution?.guilds[0]?.guild.id
+              ? contribution?.guilds[0]?.guild.id
+              : daoReset[0].value,
+            label: contribution?.guilds[0]?.guild.name
+              ? contribution?.guilds[0]?.guild.name
+              : daoReset[0].label,
           }}
           onChange={(dao) => {
-            console.log('daoId', dao.value);
             setValue('daoId', dao.value);
           }}
-          options={daoListOptions}
+          options={combinedDaoListOptions}
           localForm={localForm}
         />
         <DatePicker

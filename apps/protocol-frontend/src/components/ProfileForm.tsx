@@ -91,6 +91,7 @@ const ProfileForm = () => {
     setValue('address', userData?.address);
   }, [userData]);
 
+  console.log(userData);
   const updateProfileHandler = async (values: any) => {
     updateProfile(values);
   };
@@ -100,6 +101,17 @@ const ProfileForm = () => {
   };
 
   const handleLinearOauth = () => {
+    const params = new URLSearchParams();
+    params.append('client_id', 'f800e64aad8072e4423925d3245e09f4');
+    params.append('redirect_uri', 'http://localhost:4000/linear/oauth');
+    params.append('response_type', 'code');
+    params.append('scope', 'read');
+    params.append('state', ''); // generate string to prevent crsf attack
+    params.append('prompt', 'consent');
+    window.open(`https://linear.app/oauth/authorize?${params.toString()}`);
+  };
+
+  const disconnectLinear = () => {
     const params = new URLSearchParams();
     params.append('client_id', 'f800e64aad8072e4423925d3245e09f4');
     params.append('redirect_uri', 'http://localhost:4000/linear/oauth');
@@ -198,22 +210,40 @@ const ProfileForm = () => {
             </Heading>
             <Flex
               direction="column"
-              align="flex-end"
+              align="flex-start"
               marginTop={4}
               marginBottom={{ base: 4, lg: 0 }}
+              gap="20px"
               width={{ base: '100%', lg: '50%' }}
             >
-              <Button
-                type="submit"
-                width="100%"
-                color="brand.primary.600"
-                backgroundColor="brand.primary.50"
-                transition="all 100ms ease-in-out"
-                _hover={{ bgColor: 'brand.primary.100' }}
-                onClick={handleLinearOauth}
-              >
-                Link Email
-              </Button>
+              <Heading as="h5" size="sm" fontWeight="medium" color="gray.700">
+                Linear
+              </Heading>
+              {userData.linear_users.length > 0 ? (
+                <Button
+                  type="submit"
+                  width="100%"
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'brand.primary.100' }}
+                  onClick={disconnectLinear}
+                >
+                  Disconnect Linear
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  width="100%"
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'brand.primary.100' }}
+                  onClick={handleLinearOauth}
+                >
+                  Connect Linear
+                </Button>
+              )}
             </Flex>
             <Divider bgColor="gray.300" />
           </Flex>
@@ -231,17 +261,9 @@ const ProfileForm = () => {
                 tip="Enter your Twitter handle for the upcoming Twitter integration."
                 placeholder="govrn"
                 localForm={localForm} //TODO: resolve this type issue -- need to investigate this
-                disabled
+                isDisabled
               />
-              <Button
-                type="submit"
-                width="100%"
-                color="brand.primary.600"
-                backgroundColor="brand.primary.50"
-                transition="all 100ms ease-in-out"
-                disabled
-                _hover={{ bgColor: 'brand.primary.100' }}
-              >
+              <Button type="submit" width="100%" variant="disabled" isDisabled>
                 Link Twitter
               </Button>
             </Flex>

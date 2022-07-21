@@ -216,6 +216,7 @@ const permissions = shield(
       guild_users: or(isAuthenticated, hasToken),
       twitter_user: or(isAuthenticated, hasToken),
       active: or(isAuthenticated, hasToken),
+      linear_users: or(isAuthenticated, hasToken),
     },
     UserActivity: {
       id: hasToken,
@@ -223,6 +224,10 @@ const permissions = shield(
       updatedAt: hasToken,
       activity_type: hasToken,
       user: hasToken,
+    },
+    LinearUser: {
+      active_token: or(isAuthenticated, hasToken),
+      displayName: or(isAuthenticated, hasToken),
     },
   },
   {
@@ -339,6 +344,8 @@ app.get('/nonce', async function (req, res) {
 //   url: 'https://linear.app/govrn/profiles/keating.dev'
 // }
 
+// TODO: normalize all addresses to lowercase
+// TODO: Add a reauthentication flow when an access token is disabled
 app.get('/linear/oauth', async function (req, res) {
   const query = req.query;
   const code = query.code;
@@ -361,8 +368,25 @@ app.get('/linear/oauth', async function (req, res) {
   const me = await client.viewer;
 
   // 4. Store api token
-  console.log(respJSON);
-  console.log(me);
+  await prisma.linearUser.upsert({
+    create: {
+      active: me.active,
+      displayName: me.displayName,
+      email: me.email,
+      linear_id: me.id,
+      name: me.name,
+      url: me.url,
+      access_token: respJSON.access_token,
+      active_token: true,
+      user: { connect: { address: req.session.siwe.data.address } },
+    },
+    where: { linear_id: me.id },
+    update: {
+      access_token: respJSON.access_token,
+      active_token: true,
+      user: { connect: { address: req.session.siwe.data.address } },
+    },
+  });
 
   // Redirect to connected to linear page
   res.status(200).redirect(PROTOCOL_FRONTEND + '/#/linear');

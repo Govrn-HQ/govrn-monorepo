@@ -13,13 +13,15 @@ import Attestations from './pages/Attestations';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
 import Linear from './pages/Linear';
+import RedirectHome from './pages/Redirect';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
   const { userData } = useUser();
+  const acceptableRoutes = ['/#/linear'];
 
-  if (!userData?.active) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+  if (!userData?.active && !acceptableRoutes.find((r) => location.hash === r)) {
+    return <Navigate to="/authenticate" state={{ from: location }} replace />;
   }
 
   return children;
@@ -29,6 +31,7 @@ const Routes = () => {
   return (
     <HashRouter>
       <RouteContainer>
+        <Route path="/authenticate" element={<RedirectHome />} />
         <Route path="/" element={<Home />} />
         <Route
           path="/profile"
@@ -41,9 +44,9 @@ const Routes = () => {
         <Route
           path="/contributions"
           element={
-            // <RequireActiveUser>
-            <Contributions />
-            // </RequireActiveUser>
+            <RequireActiveUser>
+              <Contributions />
+            </RequireActiveUser>
           }
         />
         <Route

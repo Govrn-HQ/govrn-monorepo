@@ -250,6 +250,9 @@ fragment UserFragment on User {
   id
   name
   updatedAt
+  linear_users {
+    active_token
+  }
 }
 
 query getUser($where: UserWhereUniqueInput!) {

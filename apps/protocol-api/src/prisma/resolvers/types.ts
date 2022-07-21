@@ -1,4 +1,6 @@
+import { PrismaClient } from '@prisma/client';
+
 export interface Context {
-  prisma: any;
+  prisma: PrismaClient;
   req: any;
 }

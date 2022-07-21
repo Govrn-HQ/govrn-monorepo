@@ -44,6 +44,16 @@ export class LinearUserCreateWithoutAssigned_issuesInput {
   })
   url?: string | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  access_token?: string | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  active_token?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutLinear_usersInput, {
     nullable: true
   })

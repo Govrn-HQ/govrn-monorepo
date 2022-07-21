@@ -33,8 +33,8 @@ export class UserContributionCreateInput {
   @TypeGraphQL.Field((_type) => String)
   status: string;
 
-  @TypeGraphQL.Field((_type) => Number)
-  guildId: number;
+  @TypeGraphQL.Field((_type) => Number, { nullable: true })
+  guildId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -101,11 +101,11 @@ export class UserContributionUpdateInput {
   @TypeGraphQL.Field((_type) => String)
   name: string;
 
-  @TypeGraphQL.Field((_type) => String)
-  details: string;
+  @TypeGraphQL.Field((_type) => String, { nullable: true })
+  details?: string;
 
-  @TypeGraphQL.Field((_type) => String)
-  proof: string;
+  @TypeGraphQL.Field((_type) => String, { nullable: true })
+  proof?: string | undefined;
 
   @TypeGraphQL.Field((_type) => String)
   activityTypeName: string;
@@ -119,7 +119,7 @@ export class UserContributionUpdateInput {
   @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
   contributionId: number;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field((_type) => Number, { nullable: true })
   guildId: number;
 
   @TypeGraphQL.Field((_type) => Number, { nullable: true })
@@ -222,7 +222,7 @@ export class ContributionCustomResolver {
             },
           },
         },
-        ...(args.data.guildId && {
+        ...(args.data.guildId !== undefined && {
           guilds: {
             create: [
               {
@@ -275,10 +275,10 @@ export class ContributionCustomResolver {
           set: args.data.name,
         },
         details: {
-          set: args.data.details,
+          set: args.data?.details,
         },
         proof: {
-          set: args.data.proof,
+          set: args.data?.proof,
         },
         date_of_engagement: {
           set: args.data.dateOfEngagement,
@@ -296,18 +296,19 @@ export class ContributionCustomResolver {
     if (res.count !== 1) {
       throw `Wrong number of rows updated ${res.count} updateUserContribution`;
     }
-    if (args.data.currentGuildId !== undefined) {
 
+    if (args.data.currentGuildId !== undefined) {
       await prisma.contribution.update({
         data: {
-          ...(args.data.guildId && {
+          ...(args.data.currentGuildId && {
             guilds: {
-              delete: [{
-                guild_id_contribution_id: {
-                  contribution_id: args.data.contributionId,
-                  guild_id: args.data.currentGuildId,
-                }
-              },
+              delete: [
+                {
+                  guild_id_contribution_id: {
+                    contribution_id: args.data.contributionId,
+                    guild_id: args.data.currentGuildId,
+                  },
+                },
               ],
             },
           }),
@@ -317,6 +318,7 @@ export class ContributionCustomResolver {
         },
       });
     }
+
     return await prisma.contribution.update({
       data: {
         activity_type: {
@@ -349,7 +351,7 @@ export class ContributionCustomResolver {
             name: args.data.status,
           },
         },
-        ...(args.data.guildId && {
+        ...(args.data.guildId !== null && {
           guilds: {
             create: [
               {
