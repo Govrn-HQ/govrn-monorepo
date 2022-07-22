@@ -156,6 +156,8 @@ const AttestationsTable = ({
     tableHooks
   );
 
+  console.dir(getTableProps());
+
   useEffect(() => {
     setSelectedContributions(selectedFlatRows);
   }, [selectedFlatRows, selectedRowIds]);

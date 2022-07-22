@@ -12,6 +12,7 @@ import {
   MintArgs,
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
+import { ContributionItem } from './types';
 
 export class Contribution extends BaseClient {
   public async get(id: number) {
@@ -19,17 +20,23 @@ export class Contribution extends BaseClient {
     return contribution.result;
   }
 
-  public async list(args: ListContributionsQueryVariables) {
+  public async list(
+    args: ListContributionsQueryVariables
+  ): Promise<Array<ContributionItem>> {
     const contributions = await this.sdk.listContributions(args);
     return contributions.result;
   }
 
-  public async create(args: CreateContributionMutationVariables) {
+  public async create(
+    args: CreateContributionMutationVariables
+  ): Promise<ContributionItem> {
     const contributions = await this.sdk.createContribution(args);
     return contributions.createContribution;
   }
 
-  public async bulkCreate(args: BulkCreateContributionMutationVariables) {
+  public async bulkCreate(
+    args: BulkCreateContributionMutationVariables
+  ): Promise<number> {
     const mutation = await this.sdk.bulkCreateContribution(args);
     return mutation.createManyContribution.count;
   }

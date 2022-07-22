@@ -20,9 +20,14 @@ import {
   useFilters,
   useGlobalFilter,
   useRowSelect,
-  useSortBy,
-  useTable,
-} from 'react-table';
+  getSortedRowModel,
+  useReactTable,
+  ColumnDef,
+  getFilteredRowModel,
+  getCoreRowModel,
+  SortingState,
+  flexRender,
+} from '@tanstack/react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { ModalWrapper } from '@govrn/protocol-ui';
@@ -30,8 +35,13 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
+import { ContributionItem } from '@govrn/protocol-client';
 
 // import EditContributionForm from './EditContributionForm';
+
+const renderHeader = (title: string) => {
+  return <Text>{title}</Text>;
+};
 
 const ContributionsTable = ({
   contributionsData,
@@ -50,7 +60,7 @@ const ContributionsTable = ({
 
   const data = useMemo(
     () =>
-      contributionsData.map((contribution: any) => ({
+      contributionsData.map((contribution: ContributionItem) => ({
         name: contribution.name,
         id: contribution.id,
         details: contribution.details,
@@ -66,47 +76,46 @@ const ContributionsTable = ({
     [contributionsData]
   );
 
-  const columns = useMemo(
+  const columns = useMemo<ColumnDef<ContributionItem>[]>(
     () => [
       {
-        Header: 'Name',
-        accessor: 'name',
-        Cell: ({ value }) => {
-          return (
-            // <Stack direction="row">
-            //   <Checkbox size="lg" />
-            <Text>{value}</Text>
-            // </Stack>
-          );
-        },
+        id: 'name',
+        // header: () => renderHeader('Name'),
+        accessorKey: 'name',
       },
       {
-        Header: 'Status',
-        accessor: 'status',
-        Cell: ({ value }) => {
+        id: 'status',
+        header: () => renderHeader('Status'),
+        accessorKey: 'status',
+        cell: (info) => {
           return (
             <Text textTransform="capitalize">
-              {value}{' '}
+              {info.getValue()}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value === 'minted' ? '🌞' : '👀'}
+                {info.getValue() === 'minted' ? '🌞' : '👀'}
               </span>{' '}
             </Text>
           );
         },
       },
       {
-        Header: 'Engagement Date',
+        id: 'engagement_date',
+        header: () => renderHeader('Engagement Date'),
         accessor: 'engagementDate',
+        cell: (info) => {
+          return <Text>{(info.getValue() as string) ?? 'NaN'}</Text>;
+        },
       },
       {
-        Header: 'Attestations',
-        accessor: 'attestations',
-        Cell: ({ value }) => {
-          return <Text textTransform="capitalize">{value.length} </Text>;
-        },
+        id: 'attestations',
+        header: () => renderHeader('Attestations'),
+        accessorKey: 'attestations',
+        cell: (info) => (
+          <Text textTransform="capitalize">{info.getValue().length}</Text>
+        ),
       },
     ],
     []
@@ -190,79 +199,105 @@ const ContributionsTable = ({
       },
     ]);
   };
+  const [rowSelection, setRowSelection] = useState({});
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    state: { globalFilter, selectedRowIds },
-    preGlobalFilteredRows,
-    setGlobalFilter,
-    selectedFlatRows,
-    prepareRow,
-  } = useTable(
-    { columns, data },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    useRowSelect,
-    tableHooks
-  );
+  const [sorting, setSorting] = useState<SortingState>([]);
 
-  useEffect(() => {
-    setSelectedContributions(selectedFlatRows);
-  }, [selectedFlatRows, selectedRowIds]);
+  const { getHeaderGroups, getRowModel } = useReactTable<ContributionItem>({
+    data,
+    columns,
+    // initialState: {}, TODO think about empty table/view for initialState.
+    state: {
+      sorting,
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    debugTable: true,
+  });
+
+  // const {
+  //   getTableProps,
+  //   getTableBodyProps,
+  //   headerGroups,
+  //   rows,
+  //   state: { globalFilter, selectedRowIds },
+  //   preGlobalFilteredRows,
+  //   setGlobalFilter,
+  //   selectedFlatRows,
+  //   prepareRow,
+  // } = useTable(
+  //   { columns, data },
+  //   useFilters,
+  //   useGlobalFilter,
+  //   useSortBy,
+  //   useRowSelect,
+  //   tableHooks
+  // );
+
+  // useEffect(() => {
+  //   setSelectedContributions(selectedFlatRows);
+  // }, [selectedFlatRows, selectedRowIds]);
 
   return (
     <Stack>
-      <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
+      {/*<GlobalFilter*/}
+      {/*  preGlobalFilteredRows={preGlobalFilteredRows}*/}
+      {/*  globalFilter={globalFilter}*/}
+      {/*  setGlobalFilter={setGlobalFilter}*/}
+      {/*/>*/}
       <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+        <table /*{...getTableProps()} maxWidth="100vw" overflowX="auto"  */>
           <Thead backgroundColor="gray.50">
-            {headerGroups.map((headerGroup: any) => (
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column: any) => (
+            {getHeaderGroups().map((headerGroup: any) => (
+              <Tr key={headerGroup.id}>
+                {headerGroup.headers.map((header: any) => (
                   <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    isNumeric={column.isNumeric}
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    isNumeric={header.isNumeric}
                     borderColor="gray.100"
                   >
-                    {column.render('Header')}
-                    <chakra.span paddingLeft="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <IoArrowDown aria-label="sorted-descending" />
-                        ) : (
-                          <IoArrowUp aria-label="sorted-ascending" />
-                        )
-                      ) : null}
-                    </chakra.span>
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    {/*{column.render('Header')}*/}
+                    {/*<chakra.span paddingLeft="4">*/}
+                    {/*  {header.isSorted ? (*/}
+                    {/*    header.isSortedDesc ? (*/}
+                    {/*      <IoArrowDown aria-label="sorted-descending" />*/}
+                    {/*    ) : (*/}
+                    {/*      <IoArrowUp aria-label="sorted-ascending" />*/}
+                    {/*    )*/}
+                    {/*  ) : null}*/}
+                    {/*</chakra.span>*/}
                   </Th>
                 ))}
                 <Th borderColor="gray.100" />
               </Tr>
             ))}
           </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
+          <Tbody /* {...getTableBodyProps()} */>
+            {getRowModel().rows.map((row) => {
               return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <Td {...cell.getCellProps()} borderColor="gray.100">
-                      <>{cell.render('Cell')}</>
+                <Tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Td key={cell.id} borderColor="gray.100">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </Td>
                   ))}
                 </Tr>
               );
             })}
           </Tbody>
-        </Table>
+        </table>
         <ModalWrapper
           name="editContributionFormModal"
           title="Update Contribution Activity"
