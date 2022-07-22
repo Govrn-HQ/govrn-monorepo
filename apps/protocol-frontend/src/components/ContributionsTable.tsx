@@ -250,7 +250,7 @@ const ContributionsTable = ({
       {/*  setGlobalFilter={setGlobalFilter}*/}
       {/*/>*/}
       <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <table /*{...getTableProps()} maxWidth="100vw" overflowX="auto"  */>
+        <Table /*{...getTableProps()} maxWidth="100vw" overflowX="auto"  */>
           <Thead backgroundColor="gray.50">
             {getHeaderGroups().map((headerGroup: any) => (
               <Tr key={headerGroup.id}>
@@ -297,7 +297,7 @@ const ContributionsTable = ({
               );
             })}
           </Tbody>
-        </table>
+        </Table>
         <ModalWrapper
           name="editContributionFormModal"
           title="Update Contribution Activity"
