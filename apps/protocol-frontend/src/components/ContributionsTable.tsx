@@ -58,6 +58,7 @@ const ContributionsTable = ({
     setModals({ editContributionFormModal: true });
   };
 
+  console.log('contributions', contributionsData);
   const data = useMemo(
     () =>
       contributionsData.map((contribution: ContributionItem) => ({
@@ -80,7 +81,7 @@ const ContributionsTable = ({
     () => [
       {
         id: 'name',
-        // header: () => renderHeader('Name'),
+        header: () => renderHeader('Name'),
         accessorKey: 'name',
       },
       {
@@ -104,7 +105,7 @@ const ContributionsTable = ({
       {
         id: 'engagement_date',
         header: () => renderHeader('Engagement Date'),
-        accessor: 'engagementDate',
+        accessorKey: 'engagementDate',
         cell: (info) => {
           return <Text>{(info.getValue() as string) ?? 'NaN'}</Text>;
         },
