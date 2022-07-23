@@ -227,7 +227,7 @@ const permissions = shield(
     },
     LinearUser: {
       active_token: or(isAuthenticated, hasToken),
-      displayName: or(isAuthenticated, hasToken),
+      id: or(isAuthenticated, hasToken),
     },
   },
   {
@@ -315,8 +315,8 @@ app.post('/verify', async function (req, res) {
 
 // TODO: switch so session expiration is managed on the server
 app.get('/siwe/active', async function (req, res) {
-  console.log(req.body);
   const fields = req.session.siwe;
+  console.log(fields);
   if (!fields?.data) {
     res.status(422).json({ message: 'No existing session cookie' });
     return;
@@ -325,6 +325,11 @@ app.get('/siwe/active', async function (req, res) {
     res.status(422).json({ message: 'Invalid nonce' });
     return;
   }
+  if (new Date(fields.data.expirationTime) <= new Date()) {
+    res.status(440).json({ message: 'Token has expired' });
+    return;
+  }
+
   res.status(200).end();
 });
 
@@ -382,8 +387,9 @@ app.get('/linear/oauth', async function (req, res) {
   const client = new LinearClient({ accessToken: respJSON.access_token });
   const me = await client.viewer;
 
+  console.log(me);
   // 4. Store api token
-  await prisma.linearUser.upsert({
+  const r = await prisma.linearUser.upsert({
     create: {
       active: me.active,
       displayName: me.displayName,
@@ -402,6 +408,7 @@ app.get('/linear/oauth', async function (req, res) {
       user: { connect: { address: req.session.siwe.data.address } },
     },
   });
+  console.log(r);
 
   // Redirect to connected to linear page
   res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');

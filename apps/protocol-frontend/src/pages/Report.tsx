@@ -3,7 +3,7 @@ import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useWallet } from '@raidguild/quiver';
 import SiteLayout from '../components/SiteLayout';
 import ReportShell from '../components/ReportShell';
-import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
 import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
 
@@ -25,7 +25,7 @@ const UserView = () => {
 
 const Report = () => {
   const { isConnected } = useWallet();
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated } = useAuth();
   return (
     <SiteLayout>
       {isConnected && isAuthenticated ? (

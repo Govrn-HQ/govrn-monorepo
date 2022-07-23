@@ -1,4 +1,11 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
 import { createSiweMessage } from '../utils/siwe';
 import { VERIFY_URL, SIWE_ACTIVE_URL } from '../utils/constants';
@@ -7,6 +14,8 @@ export type AuthContextType = {
   isAuthenticating: boolean;
   isAuthenticated: boolean;
   checkExistingCreds: boolean;
+  authFlow: () => void;
+  authenticateAddress: () => void;
 };
 
 type ProviderProps = {
@@ -17,6 +26,12 @@ const initialContext = {
   isAuthenticating: false,
   isAuthenticated: false,
   checkExistingCreds: false,
+  authFlow: () => {
+    return;
+  },
+  authenticateAddress: () => {
+    return;
+  },
 };
 
 export const AuthContext = createContext<AuthContextType>(initialContext);
@@ -24,14 +39,19 @@ export const AuthContext = createContext<AuthContextType>(initialContext);
 export const AuthContextProvider = ({ children }: ProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [checkExistingCreds, setCheckExistingCreds] = useState(false);
+  // const navigate = useNavigate();
 
-  const { chainId, provider } = useWallet();
+  const { chainId, provider, isConnected, address } = useWallet();
   const checkAuthentication = async () => {
     setIsAuthenticating(true);
     try {
-      await fetch(SIWE_ACTIVE_URL, { credentials: 'include' });
-      setIsAuthenticated(true);
+      const resp = await fetch(SIWE_ACTIVE_URL, { credentials: 'include' });
       setIsAuthenticating(false);
+      if (resp.status >= 400) {
+        return false;
+      }
+      setIsAuthenticated(true);
       return true;
     } catch (e) {
       console.error(e);
@@ -39,12 +59,12 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     }
   };
   const authenticateAddress = useCallback(async () => {
-    if (!chainId || !provider) {
+    if (!chainId || !provider || !address) {
       return;
     }
     setIsAuthenticating(true);
     const message = await createSiweMessage(
-      userAddress,
+      address,
       'Sign in with Ethereum to the app.',
       chainId
     );
@@ -64,14 +84,67 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       console.error(e);
     }
     setIsAuthenticating(false);
-  }, [userAddress, provider, chainId]);
+  }, [address, provider, chainId]);
+
+  const authFlow = useCallback(async () => {
+    const existing = await checkAuthentication();
+    setCheckExistingCreds(true);
+    // non redirect route
+    console.log(window.location.hash);
+    const noRedirect = ['/'].find((el) => el === window.location.hash);
+    if (noRedirect) {
+      // redirect
+      return true;
+    }
+    if (!existing) {
+      await authenticateAddress();
+    }
+  }, [authenticateAddress]);
 
   // redirect to authenticate unless
   // route is whitelisted
+  useEffect(() => {
+    const unauthenticatedRoutes = ['#/linear'];
+    const publicRoute = unauthenticatedRoutes.find(
+      (el) => el === window.location.hash
+    );
+    console.log(isConnected);
+    console.log(isAuthenticated);
+    console.log(publicRoute);
+    // TODO: If cookie is set
+    if (isConnected && !isAuthenticated && !publicRoute) {
+      authFlow();
+    }
+  }, [isConnected, isAuthenticated, authFlow]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isAuthenticating }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        isAuthenticating,
+        checkExistingCreds,
+        authFlow,
+        authenticateAddress,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  const {
+    isAuthenticated,
+    isAuthenticating,
+    authFlow,
+    checkExistingCreds,
+    authenticateAddress,
+  } = useContext(AuthContext);
+  return {
+    isAuthenticated,
+    isAuthenticating,
+    authFlow,
+    checkExistingCreds,
+    authenticateAddress,
+  };
 };

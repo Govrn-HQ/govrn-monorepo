@@ -11,6 +11,7 @@ import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { networks } from '../utils/networks';
+import { useAuth } from './AuthContext';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -24,6 +25,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 }: UserContextProps) => {
   const { isConnected, address, chainId, provider } = useWallet();
   // TODO: useAuth
+  const { isAuthenticated } = useAuth();
 
   const signer = provider?.getSigner();
   const toast = useToast();
@@ -582,6 +584,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   return (
     <UserContext.Provider
       value={{
+        currentChain,
+        setCurrentChain,
         userAddress,
         setUserAddress,
         userData,

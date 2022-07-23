@@ -6,7 +6,7 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
-import { useUser } from './contexts/UserContext';
+import { useAuth } from './contexts/AuthContext';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Contributions from './pages/Contributions';
@@ -17,28 +17,12 @@ import Linear from './pages/Linear';
 import RedirectHome from './pages/Redirect';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
-  // const location = useLocation();
-  // const { isAuthenticated, isAuthenticating, attemptAuth } = useUser();
-  // const acceptableRoutes = ['/#/linear'];
-  // console.log('Authenticated');
-  // console.log(isAuthenticated);
-  // console.log(isAuthenticating);
-  // const siweActiveURL = `${import.meta.env.VITE_SIWE_ACTIVE_URL}/siwe/active`;
+  const location = useLocation();
+  const { isAuthenticated, checkExistingCreds } = useAuth();
 
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     try {
-  //       await fetch(siweActiveURL, { credentials: 'include' });
-  //       return;
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   };
-  // });
-
-  // if (!checkAuth && !acceptableRoutes.find((r) => location.hash === r)) {
-  //   return <Navigate to="/authenticate" state={{ from: location }} replace />;
-  // }
+  if (!isAuthenticated && checkExistingCreds) {
+    return <Navigate to="/authenticate" state={{ from: location }} replace />;
+  }
 
   return children;
 };

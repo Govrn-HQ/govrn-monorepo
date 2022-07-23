@@ -13,31 +13,16 @@ import {
   useClipboard,
 } from '@chakra-ui/react';
 import { FiKey, FiChevronDown, FiCopy, FiXCircle } from 'react-icons/fi';
-import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const ConnectWallet = () => {
-  const {
-    connectWallet,
-    isConnecting,
-    isConnected,
-    switchNetwork,
-    disconnect,
-    address,
-  } = useWallet();
-  const { authenticateAddress, checkAuthentication, currentChain } = useUser();
+  const { connectWallet, isConnecting, isConnected, disconnect, address } =
+    useWallet();
+  const { authFlow } = useAuth();
   const copyAddress = useClipboard(address as string);
-  const navigate = useNavigate();
   const connectAndVerify = async () => {
     await connectWallet();
-    const exists = await checkAuthentication();
-    if (!exists) {
-      // redirect home unless
-      // the route is in the auth whitelist
-      console.log('Here');
-      console.log(exists);
-      navigate('/authenticate', { replace: true });
-      // await authenticateAddress();
-    }
+    await authFlow();
   };
 
   return (

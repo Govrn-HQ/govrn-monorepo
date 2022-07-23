@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
+
 import 'regenerator-runtime/runtime';
 import { WalletProvider } from '@raidguild/quiver';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
@@ -12,6 +13,7 @@ import { OverlayContextProvider, useOverlay } from './contexts/OverlayContext';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import Routes from './Routes';
 import { UserContextProvider } from './contexts/UserContext';
+import { AuthContextProvider } from './contexts/AuthContext';
 
 const providerOptions: IProviderOptions = {
   walletconnect: {
@@ -38,30 +40,30 @@ const web3modalOptions = {
 const App = () => {
   const toast = useToast();
   return (
-    <>
-      <WalletProvider
-        web3modalOptions={web3modalOptions}
-        defaultChainId={defaultChain}
-        networks={networks}
-        handleModalEvents={(eventName, error) => {
-          if (error) {
-            toast({
-              title: 'Unsupported Chain',
-              description: `Please switch to a supported chain (Gnosis Chain). You can switch chains by clicking the "Switch network" button in MetaMask.`,
-              status: 'error',
-              duration: 3000,
-              isClosable: true,
-              position: 'top-right',
-            });
-          }
-          console.log(eventName);
-        }}
-      >
+    <WalletProvider
+      web3modalOptions={web3modalOptions}
+      defaultChainId={defaultChain}
+      networks={networks}
+      handleModalEvents={(eventName, error) => {
+        if (error) {
+          toast({
+            title: 'Unsupported Chain',
+            description: `Please switch to a supported chain (Gnosis Chain). You can switch chains by clicking the "Switch network" button in MetaMask.`,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right',
+          });
+        }
+        console.log(eventName);
+      }}
+    >
+      <AuthContextProvider>
         <UserContextProvider>
           <Routes />
         </UserContextProvider>
-      </WalletProvider>
-    </>
+      </AuthContextProvider>
+    </WalletProvider>
   );
 };
 

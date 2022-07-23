@@ -72,8 +72,13 @@ const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
   );
 
 const ProfileForm = () => {
-  const { userData, updateProfile, updateLinearEmail, disconnectLinear } =
-    useUser();
+  const {
+    userData,
+    updateProfile,
+    updateLinearEmail,
+    disconnectLinear,
+    getUser,
+  } = useUser();
 
   const localForm = useForm<{ name: string; address: string }>({
     mode: 'all',
@@ -118,7 +123,7 @@ const ProfileForm = () => {
       username: userData.name,
       linearUserId: userData.linear_users[0].id,
     });
-  }, [userData.id, userData.name, userData.linear_users, disconnectLinear]);
+  }, [userData, disconnectLinear]);
 
   return (
     <>
