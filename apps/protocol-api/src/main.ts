@@ -5,11 +5,13 @@ import Session from 'cookie-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
 import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
+import { LinearClient } from '@linear/sdk';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
 import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
+import fetch from 'cross-fetch';
 
 import cors = require('cors');
 
@@ -17,6 +19,11 @@ const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
 const BACKEND_TOKENS = [AIRTABLE_API_TOKEN, KEVIN_MALONE_TOKEN];
+const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
+const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
+const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
+const LINEAR_CLIENT_SECRET = process.env.LINEAR_CLIENT_SECRET;
+const PROTOCOL_FRONTEND = process.env.PROTOCOL_FRONTEND;
 
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
@@ -209,6 +216,7 @@ const permissions = shield(
       guild_users: or(isAuthenticated, hasToken),
       twitter_user: or(isAuthenticated, hasToken),
       active: or(isAuthenticated, hasToken),
+      linear_users: or(isAuthenticated, hasToken),
     },
     UserActivity: {
       id: hasToken,
@@ -216,6 +224,10 @@ const permissions = shield(
       updatedAt: hasToken,
       activity_type: hasToken,
       user: hasToken,
+    },
+    LinearUser: {
+      active_token: or(isAuthenticated, hasToken),
+      id: or(isAuthenticated, hasToken),
     },
   },
   {
@@ -261,7 +273,6 @@ app.use('/graphql', async function (req, res) {
 });
 app.post('/verify', async function (req, res) {
   try {
-    console.log(req.body);
     if (!req.body.message) {
       res
         .status(422)
@@ -270,14 +281,12 @@ app.post('/verify', async function (req, res) {
     }
     const message = new SiweMessage(req.body.message);
     const fields = await message.validate(req.body.signature);
-    console.log(fields.data);
     console.log(req.session);
     if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
     }
     req.session.siwe = fields;
-    console.log(req.session.cookie);
     // req.session.cookie.expires = new Date(fields.data.expirationTime);
     res.status(200).end();
   } catch (e) {
@@ -301,11 +310,72 @@ app.post('/verify', async function (req, res) {
   }
 });
 
+// TODO: switch so session expiration is managed on the server
+app.get('/siwe/active', async function (req, res) {
+  const fields = req.session.siwe;
+  if (!fields?.data) {
+    res.status(422).json({ message: 'No existing session cookie' });
+    return;
+  }
+  if (fields.data.nonce !== req.session.nonce) {
+    res.status(422).json({ message: 'Invalid nonce' });
+    return;
+  }
+  if (new Date(fields.data.expirationTime) <= new Date()) {
+    res.status(440).json({ message: 'Token has expired' });
+    return;
+  }
+
+  res.status(200).end();
+});
+
 app.get('/nonce', async function (req, res) {
   const nonce = generateNonce();
   req.session.nonce = nonce;
   res.setHeader('Content-Type', 'text/plain');
   res.status(200).send(req.session.nonce);
+});
+
+// TODO: normalize all addresses to lowercase
+app.get('/linear/oauth', async function (req, res) {
+  const query = req.query;
+  const code = query.code;
+  const params = new URLSearchParams();
+  params.append('code', code.toString());
+  params.append('redirect_uri', LINEAR_REDIRECT_URI);
+  params.append('client_id', LINEAR_CLIENT_ID);
+  params.append('client_secret', LINEAR_CLIENT_SECRET);
+  params.append('grant_type', 'authorization_code');
+  const resp = await fetch(LINEAR_TOKEN_URL, {
+    method: 'POST',
+    body: params,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  });
+  const respJSON = await resp.json();
+  const client = new LinearClient({ accessToken: respJSON.access_token });
+  const me = await client.viewer;
+
+  await prisma.linearUser.upsert({
+    create: {
+      active: me.active,
+      displayName: me.displayName,
+      email: me.email,
+      linear_id: me.id,
+      name: me.name,
+      url: me.url,
+      access_token: respJSON.access_token,
+      active_token: true,
+      user: { connect: { address: req.session.siwe.data.address } },
+    },
+    where: { linear_id: me.id },
+    update: {
+      access_token: respJSON.access_token,
+      active_token: true,
+      user: { connect: { address: req.session.siwe.data.address } },
+    },
+  });
+
+  res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
 });
 
 app.listen(4000);

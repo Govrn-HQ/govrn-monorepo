@@ -1,18 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
-import {
-  Flex,
-  Link as ChakraLink,
-  Button,
-  Text,
-  Box,
-  Icon,
-} from '@chakra-ui/react';
+import { Flex, Link as ChakraLink, Button, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
 
+import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
 import CreateWaitlistUserForm from './CreateWaitlistUserForm';
 import { GOVRN_MOTTO } from '../utils/constants';
@@ -20,7 +14,7 @@ import { FaDiscord } from 'react-icons/all';
 
 const HomeShell = () => {
   const { isConnected } = useWallet();
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated } = useAuth();
   const [createProfileSteps, setCreateProfileSteps] = useState<number | null>(
     null
   );

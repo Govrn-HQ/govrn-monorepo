@@ -202,6 +202,7 @@ export async function createSiweMessage(
       version: '1',
       chainId: parseInt(chainId),
       nonce: await res.text(),
+      expirationTime: new Date(Date.now() + 1 * 86400000).toISOString(),
     });
     return message.prepareMessage();
   } catch (e) {

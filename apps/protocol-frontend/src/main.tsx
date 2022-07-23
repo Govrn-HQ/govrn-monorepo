@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
+
 import 'regenerator-runtime/runtime';
 import { WalletProvider } from '@raidguild/quiver';
 import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js';
@@ -12,6 +13,7 @@ import { OverlayContextProvider } from './contexts/OverlayContext';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import Routes from './Routes';
 import { UserContextProvider } from './contexts/UserContext';
+import { AuthContextProvider } from './contexts/AuthContext';
 
 const providerOptions: IProviderOptions = {
   walletconnect: {
@@ -56,9 +58,11 @@ const App = () => {
         console.log(eventName);
       }}
     >
-      <UserContextProvider>
-        <Routes />
-      </UserContextProvider>
+      <AuthContextProvider>
+        <UserContextProvider>
+          <Routes />
+        </UserContextProvider>
+      </AuthContextProvider>
     </WalletProvider>
   );
 };

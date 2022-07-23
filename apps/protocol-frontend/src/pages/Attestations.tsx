@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
 import AttestationsTableShell from '../components/AttestationsTableShell';
 import NewUserView from '../components/NewUserView';
@@ -24,7 +25,8 @@ const UserView = () => {
 
 const Attestations = () => {
   const { isConnected } = useWallet();
-  const { userData, isAuthenticated } = useUser();
+  const { userData } = useUser();
+  const { isAuthenticated } = useAuth();
   return (
     <SiteLayout>
       {isConnected && isAuthenticated ? (

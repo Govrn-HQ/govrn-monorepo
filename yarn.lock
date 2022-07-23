@@ -4430,7 +4430,7 @@
 
 "@linear/sdk@^1.22.0":
   version "1.22.0"
-  resolved "https://registry.npmjs.org/@linear/sdk/-/sdk-1.22.0.tgz"
+  resolved "https://registry.yarnpkg.com/@linear/sdk/-/sdk-1.22.0.tgz#e630ccc2448cb8452776f0424177d423d4e2572a"
   integrity sha512-QNWmtar3ZvxWmCdsAwpRU9EWHkxnopb8fsL/6JBvTiFyy4+DWRb9kW9s262njPy/Em07dU3FWSk8gcjQaoZ3kA==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.0"

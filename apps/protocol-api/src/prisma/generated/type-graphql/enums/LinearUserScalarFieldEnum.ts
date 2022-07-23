@@ -9,7 +9,9 @@ export enum LinearUserScalarFieldEnum {
   linear_id = "linear_id",
   name = "name",
   url = "url",
-  user_id = "user_id"
+  user_id = "user_id",
+  access_token = "access_token",
+  active_token = "active_token"
 }
 TypeGraphQL.registerEnumType(LinearUserScalarFieldEnum, {
   name: "LinearUserScalarFieldEnum",

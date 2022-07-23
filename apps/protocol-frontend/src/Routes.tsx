@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   HashRouter,
   Route,
@@ -5,7 +6,7 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
-import { useUser } from './contexts/UserContext';
+import { useAuth } from './contexts/AuthContext';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Contributions from './pages/Contributions';
@@ -16,9 +17,9 @@ import RedirectHome from './pages/Redirect';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
-  const { userData } = useUser();
+  const { isAuthenticated, checkExistingCreds } = useAuth();
 
-  if (!userData?.active) {
+  if (!isAuthenticated && checkExistingCreds) {
     return <Navigate to="/authenticate" state={{ from: location }} replace />;
   }
 

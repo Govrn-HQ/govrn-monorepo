@@ -160,25 +160,18 @@ export class AttestationResolver {
         ],
       },
     });
+    const confidence = await prisma.attestationConfidence.findFirst({
+      where: { name: { equals: args.data.confidence } },
+    });
+    const contribution = await prisma.contribution.findFirst({
+      where: { on_chain_id: { equals: args.data.contributionOnChainId } },
+    });
+
     return await prisma.attestation.updateMany({
       data: {
-        confidence: {
-          connect: {
-            name: args.data.confidence,
-          },
-        },
-        contribution: {
-          connect: {
-            on_chain_id: args.data.contributionOnChainId,
-          },
-        },
-        user: {
-          connect: {
-            connect: {
-              id: args.data.userId,
-            },
-          },
-        },
+        confidence_id: confidence.id,
+        contribution_id: contribution.id,
+        user_id: args.data.userId,
       },
       where: {
         id: a.id,

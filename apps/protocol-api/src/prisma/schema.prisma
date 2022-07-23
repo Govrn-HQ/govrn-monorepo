@@ -279,6 +279,8 @@ model LinearUser {
   name String?
   url String?
   user_id Int?
+  access_token String?
+  active_token Boolean?
   user User? @relation(fields: [user_id], references: [id])
   assigned_issues LinearIssue[]  @relation("Assignee")
   created_issues   LinearIssue[]   @relation("Creator")

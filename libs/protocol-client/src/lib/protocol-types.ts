@@ -7646,7 +7646,9 @@ export type LinearTeamWhereUniqueInput = {
 
 export type LinearUser = {
   _count?: Maybe<LinearUserCount>;
+  access_token?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
+  active_token?: Maybe<Scalars['Boolean']>;
   assigned_issues: Array<LinearIssue>;
   createdAt?: Maybe<Scalars['DateTime']>;
   created_issues: Array<LinearIssue>;
@@ -7697,7 +7699,9 @@ export type LinearUserCount = {
 
 export type LinearUserCountAggregate = {
   _all: Scalars['Int'];
+  access_token: Scalars['Int'];
   active: Scalars['Int'];
+  active_token: Scalars['Int'];
   createdAt: Scalars['Int'];
   displayName: Scalars['Int'];
   email: Scalars['Int'];
@@ -7709,7 +7713,9 @@ export type LinearUserCountAggregate = {
 };
 
 export type LinearUserCountOrderByAggregateInput = {
+  access_token?: InputMaybe<SortOrder>;
   active?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   displayName?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
@@ -7721,7 +7727,9 @@ export type LinearUserCountOrderByAggregateInput = {
 };
 
 export type LinearUserCreateInput = {
+  access_token?: InputMaybe<Scalars['String']>;
   active?: InputMaybe<Scalars['Boolean']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   assigned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   created_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutCreatorInput>;
@@ -7734,7 +7742,9 @@ export type LinearUserCreateInput = {
 };
 
 export type LinearUserCreateManyInput = {
+  access_token?: InputMaybe<Scalars['String']>;
   active?: InputMaybe<Scalars['Boolean']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   displayName?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
@@ -7746,7 +7756,9 @@ export type LinearUserCreateManyInput = {
 };
 
 export type LinearUserCreateManyUserInput = {
+  access_token?: InputMaybe<Scalars['String']>;
   active?: InputMaybe<Scalars['Boolean']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   displayName?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
@@ -7796,7 +7808,9 @@ export type LinearUserCreateOrConnectWithoutUserInput = {
 };
 
 export type LinearUserCreateWithoutAssigned_IssuesInput = {
+  access_token?: InputMaybe<Scalars['String']>;
   active?: InputMaybe<Scalars['Boolean']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   created_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutCreatorInput>;
   displayName?: InputMaybe<Scalars['String']>;
@@ -7808,7 +7822,9 @@ export type LinearUserCreateWithoutAssigned_IssuesInput = {
 };
 
 export type LinearUserCreateWithoutCreated_IssuesInput = {
+  access_token?: InputMaybe<Scalars['String']>;
   active?: InputMaybe<Scalars['Boolean']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   assigned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   displayName?: InputMaybe<Scalars['String']>;
@@ -7820,7 +7836,9 @@ export type LinearUserCreateWithoutCreated_IssuesInput = {
 };
 
 export type LinearUserCreateWithoutUserInput = {
+  access_token?: InputMaybe<Scalars['String']>;
   active?: InputMaybe<Scalars['Boolean']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   assigned_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   created_issues?: InputMaybe<LinearIssueCreateNestedManyWithoutCreatorInput>;
@@ -7837,7 +7855,9 @@ export type LinearUserGroupBy = {
   _max?: Maybe<LinearUserMaxAggregate>;
   _min?: Maybe<LinearUserMinAggregate>;
   _sum?: Maybe<LinearUserSumAggregate>;
+  access_token?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
+  active_token?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   displayName?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
@@ -7855,7 +7875,9 @@ export type LinearUserListRelationFilter = {
 };
 
 export type LinearUserMaxAggregate = {
+  access_token?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
+  active_token?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   displayName?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
@@ -7867,7 +7889,9 @@ export type LinearUserMaxAggregate = {
 };
 
 export type LinearUserMaxOrderByAggregateInput = {
+  access_token?: InputMaybe<SortOrder>;
   active?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   displayName?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
@@ -7879,7 +7903,9 @@ export type LinearUserMaxOrderByAggregateInput = {
 };
 
 export type LinearUserMinAggregate = {
+  access_token?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
+  active_token?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   displayName?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
@@ -7891,7 +7917,9 @@ export type LinearUserMinAggregate = {
 };
 
 export type LinearUserMinOrderByAggregateInput = {
+  access_token?: InputMaybe<SortOrder>;
   active?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   displayName?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
@@ -7912,7 +7940,9 @@ export type LinearUserOrderByWithAggregationInput = {
   _max?: InputMaybe<LinearUserMaxOrderByAggregateInput>;
   _min?: InputMaybe<LinearUserMinOrderByAggregateInput>;
   _sum?: InputMaybe<LinearUserSumOrderByAggregateInput>;
+  access_token?: InputMaybe<SortOrder>;
   active?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   displayName?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
@@ -7924,7 +7954,9 @@ export type LinearUserOrderByWithAggregationInput = {
 };
 
 export type LinearUserOrderByWithRelationInput = {
+  access_token?: InputMaybe<SortOrder>;
   active?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   assigned_issues?: InputMaybe<LinearIssueOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   created_issues?: InputMaybe<LinearIssueOrderByRelationAggregateInput>;
@@ -7944,7 +7976,9 @@ export type LinearUserRelationFilter = {
 };
 
 export enum LinearUserScalarFieldEnum {
+  AccessToken = 'access_token',
   Active = 'active',
+  ActiveToken = 'active_token',
   CreatedAt = 'createdAt',
   DisplayName = 'displayName',
   Email = 'email',
@@ -7959,7 +7993,9 @@ export type LinearUserScalarWhereInput = {
   AND?: InputMaybe<Array<LinearUserScalarWhereInput>>;
   NOT?: InputMaybe<Array<LinearUserScalarWhereInput>>;
   OR?: InputMaybe<Array<LinearUserScalarWhereInput>>;
+  access_token?: InputMaybe<StringNullableFilter>;
   active?: InputMaybe<BoolFilter>;
+  active_token?: InputMaybe<BoolNullableFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   displayName?: InputMaybe<StringNullableFilter>;
   email?: InputMaybe<StringNullableFilter>;
@@ -7974,7 +8010,9 @@ export type LinearUserScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<LinearUserScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<LinearUserScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<LinearUserScalarWhereWithAggregatesInput>>;
+  access_token?: InputMaybe<StringNullableWithAggregatesFilter>;
   active?: InputMaybe<BoolWithAggregatesFilter>;
+  active_token?: InputMaybe<BoolNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeNullableWithAggregatesFilter>;
   displayName?: InputMaybe<StringNullableWithAggregatesFilter>;
   email?: InputMaybe<StringNullableWithAggregatesFilter>;
@@ -7996,7 +8034,9 @@ export type LinearUserSumOrderByAggregateInput = {
 };
 
 export type LinearUserUpdateInput = {
+  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
@@ -8009,7 +8049,9 @@ export type LinearUserUpdateInput = {
 };
 
 export type LinearUserUpdateManyMutationInput = {
+  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -8063,7 +8105,9 @@ export type LinearUserUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type LinearUserUpdateWithoutAssigned_IssuesInput = {
+  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -8075,7 +8119,9 @@ export type LinearUserUpdateWithoutAssigned_IssuesInput = {
 };
 
 export type LinearUserUpdateWithoutCreated_IssuesInput = {
+  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -8087,7 +8133,9 @@ export type LinearUserUpdateWithoutCreated_IssuesInput = {
 };
 
 export type LinearUserUpdateWithoutUserInput = {
+  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
@@ -8118,7 +8166,9 @@ export type LinearUserWhereInput = {
   AND?: InputMaybe<Array<LinearUserWhereInput>>;
   NOT?: InputMaybe<Array<LinearUserWhereInput>>;
   OR?: InputMaybe<Array<LinearUserWhereInput>>;
+  access_token?: InputMaybe<StringNullableFilter>;
   active?: InputMaybe<BoolFilter>;
+  active_token?: InputMaybe<BoolNullableFilter>;
   assigned_issues?: InputMaybe<LinearIssueListRelationFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   created_issues?: InputMaybe<LinearIssueListRelationFilter>;
@@ -12684,10 +12734,10 @@ export type UserContributionUpdateInput = {
   contributionId: Scalars['Int'];
   currentGuildId?: InputMaybe<Scalars['Float']>;
   dateOfEngagement: Scalars['DateTime'];
-  details: Scalars['String'];
+  details?: InputMaybe<Scalars['String']>;
   guildId?: InputMaybe<Scalars['Float']>;
   name: Scalars['String'];
-  proof: Scalars['String'];
+  proof?: InputMaybe<Scalars['String']>;
   status: Scalars['String'];
   userId: Scalars['Float'];
 };
@@ -13261,6 +13311,7 @@ export type UserSumOrderByAggregateInput = {
 };
 
 export type UserUpdateCustomInput = {
+  disconnectLinearId?: InputMaybe<Scalars['Float']>;
   id: Scalars['Int'];
   name: Scalars['String'];
 };
@@ -13781,21 +13832,21 @@ export type UpsertTwitterUserMutationVariables = Exact<{
 
 export type UpsertTwitterUserMutation = { upsertTwitterUser: { createdAt: any, updatedAt: any, description?: string | null, id: number, twitter_user_id?: string | null, username: string, user?: { id: number } | null } };
 
-export type UserFragmentFragment = { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } };
+export type UserFragmentFragment = { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> };
 
 export type GetUserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
 
-export type GetUserQuery = { result?: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } | null };
+export type GetUserQuery = { result?: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> } | null };
 
 export type GetUserCustomQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type GetUserCustomQuery = { result: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
+export type GetUserCustomQuery = { result: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> } };
 
 export type ListUsersQueryVariables = Exact<{
   where?: UserWhereInput;
@@ -13805,14 +13856,14 @@ export type ListUsersQueryVariables = Exact<{
 }>;
 
 
-export type ListUsersQuery = { result: Array<{ address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } }> };
+export type ListUsersQuery = { result: Array<{ address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> }> };
 
 export type ListUserByAddressQueryVariables = Exact<{
   address: Scalars['String'];
 }>;
 
 
-export type ListUserByAddressQuery = { result: Array<{ address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } }> };
+export type ListUserByAddressQuery = { result: Array<{ address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> }> };
 
 export type UpdateUserMutationVariables = Exact<{
   data: UserUpdateInput;
@@ -13820,28 +13871,28 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { updateUser?: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } | null };
+export type UpdateUserMutation = { updateUser?: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> } | null };
 
 export type UpdateUserCustomMutationVariables = Exact<{
   data: UserUpdateCustomInput;
 }>;
 
 
-export type UpdateUserCustomMutation = { updateUserCustom: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
+export type UpdateUserCustomMutation = { updateUserCustom: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> } };
 
 export type CreateUserMutationVariables = Exact<{
   data: UserCreateInput;
 }>;
 
 
-export type CreateUserMutation = { createUser: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
+export type CreateUserMutation = { createUser: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> } };
 
 export type CreateUserCustomMutationVariables = Exact<{
   data: UserCreateCustomInput;
 }>;
 
 
-export type CreateUserCustomMutation = { createUserCustom: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any } } };
+export type CreateUserCustomMutation = { createUserCustom: { address: string, active: boolean, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any, chain_type: { id: number, name: string, createdAt: any, updatedAt: any }, linear_users: Array<{ id: number, active_token?: boolean | null }> } };
 
 export type ContributionFragmentFragment = { date_of_engagement: any, date_of_submission: any, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: any, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: any, id: number, name: string, updatedAt: any }, status: { createdAt: any, id: number, name: string, updatedAt: any }, user: { address: string, createdAt: any, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: any }, attestations: Array<{ id: number, user_id: number, date_of_attestation: any }>, guilds: Array<{ guild: { id: number, name?: string | null } }> };
 
@@ -14147,6 +14198,10 @@ export const UserFragmentFragmentDoc = gql`
   id
   name
   updatedAt
+  linear_users {
+    id
+    active_token
+  }
 }
     `;
 export const ActivityTypeFragmentFragmentDoc = gql`
