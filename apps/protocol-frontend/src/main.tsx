@@ -58,17 +58,11 @@ const App = () => {
         console.log(eventName);
       }}
     >
-<<<<<<< HEAD
       <AuthContextProvider>
         <UserContextProvider>
           <Routes />
         </UserContextProvider>
       </AuthContextProvider>
-=======
-      <UserContextProvider>
-        <Routes />
-      </UserContextProvider>
->>>>>>> origin/staging
     </WalletProvider>
   );
 };

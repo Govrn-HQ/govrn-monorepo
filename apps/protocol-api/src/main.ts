@@ -273,7 +273,6 @@ app.use('/graphql', async function (req, res) {
 });
 app.post('/verify', async function (req, res) {
   try {
-    console.log(req.body);
     if (!req.body.message) {
       res
         .status(422)
@@ -282,14 +281,12 @@ app.post('/verify', async function (req, res) {
     }
     const message = new SiweMessage(req.body.message);
     const fields = await message.validate(req.body.signature);
-    console.log(fields.data);
     console.log(req.session);
     if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
     }
     req.session.siwe = fields;
-    console.log(req.session.cookie);
     // req.session.cookie.expires = new Date(fields.data.expirationTime);
     res.status(200).end();
   } catch (e) {
@@ -316,7 +313,6 @@ app.post('/verify', async function (req, res) {
 // TODO: switch so session expiration is managed on the server
 app.get('/siwe/active', async function (req, res) {
   const fields = req.session.siwe;
-  console.log(fields);
   if (!fields?.data) {
     res.status(422).json({ message: 'No existing session cookie' });
     return;
@@ -339,38 +335,11 @@ app.get('/nonce', async function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   res.status(200).send(req.session.nonce);
 });
-// hk {
-//   _request: [Function (anonymous)],
-//   active: true,
-//   admin: true,
-//   archivedAt: undefined,
-//   avatarUrl: undefined,
-//   createdAt: 2022-03-14T21:42:03.722Z,
-//   createdIssueCount: 128,
-//   description: undefined,
-//   disableReason: undefined,
-//   displayName: 'keating.dev',
-//   email: 'keating.dev@protonmail.com',
-//   id: '4af24acd-f3a9-4b07-bd98-9d7d57706630',
-//   inviteHash: 'cfbcff0369c9e2fb',
-//   isMe: true,
-//   lastSeen: undefined,
-//   name: 'keating.dev@protonmail.com',
-//   statusEmoji: undefined,
-//   statusLabel: undefined,
-//   statusUntilAt: undefined,
-//   timezone: 'America/New_York',
-//   updatedAt: 2022-07-11T13:19:01.455Z,
-//   url: 'https://linear.app/govrn/profiles/keating.dev'
-// }
 
 // TODO: normalize all addresses to lowercase
-// TODO: Add a reauthentication flow when an access token is disabled
 app.get('/linear/oauth', async function (req, res) {
   const query = req.query;
   const code = query.code;
-  // 1. Get code
-  // 2. exchange with linear token
   const params = new URLSearchParams();
   params.append('code', code.toString());
   params.append('redirect_uri', LINEAR_REDIRECT_URI);
@@ -382,14 +351,11 @@ app.get('/linear/oauth', async function (req, res) {
     body: params,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   });
-  // 3. Get linear user and create/connect
   const respJSON = await resp.json();
   const client = new LinearClient({ accessToken: respJSON.access_token });
   const me = await client.viewer;
 
-  console.log(me);
-  // 4. Store api token
-  const r = await prisma.linearUser.upsert({
+  await prisma.linearUser.upsert({
     create: {
       active: me.active,
       displayName: me.displayName,
@@ -408,9 +374,7 @@ app.get('/linear/oauth', async function (req, res) {
       user: { connect: { address: req.session.siwe.data.address } },
     },
   });
-  console.log(r);
 
-  // Redirect to connected to linear page
   res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
 });
 

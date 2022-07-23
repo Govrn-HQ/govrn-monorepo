@@ -24,7 +24,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
   const { isConnected, address, chainId, provider } = useWallet();
-  // TODO: useAuth
   const { isAuthenticated } = useAuth();
 
   const signer = provider?.getSigner();

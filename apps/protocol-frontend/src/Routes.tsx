@@ -13,7 +13,6 @@ import Contributions from './pages/Contributions';
 import Attestations from './pages/Attestations';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
-import Linear from './pages/Linear';
 import RedirectHome from './pages/Redirect';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
@@ -65,7 +64,6 @@ const Routes = () => {
             </RequireActiveUser>
           }
         />
-        <Route path="/linear" element={<Linear />} />
         <Route path="*" element={<FourOFour />} />
       </RouteContainer>
     </HashRouter>

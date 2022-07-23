@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
 import { createSiweMessage } from '../utils/siwe';
 import { VERIFY_URL, SIWE_ACTIVE_URL } from '../utils/constants';
@@ -40,7 +39,6 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [checkExistingCreds, setCheckExistingCreds] = useState(false);
-  // const navigate = useNavigate();
 
   const { chainId, provider, isConnected, address } = useWallet();
   const checkAuthentication = async () => {
@@ -90,7 +88,6 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     const existing = await checkAuthentication();
     setCheckExistingCreds(true);
     // non redirect route
-    console.log(window.location.hash);
     const noRedirect = ['/'].find((el) => el === window.location.hash);
     if (noRedirect) {
       // redirect
@@ -101,17 +98,11 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     }
   }, [authenticateAddress]);
 
-  // redirect to authenticate unless
-  // route is whitelisted
   useEffect(() => {
     const unauthenticatedRoutes = ['#/linear'];
     const publicRoute = unauthenticatedRoutes.find(
       (el) => el === window.location.hash
     );
-    console.log(isConnected);
-    console.log(isAuthenticated);
-    console.log(publicRoute);
-    // TODO: If cookie is set
     if (isConnected && !isAuthenticated && !publicRoute) {
       authFlow();
     }
