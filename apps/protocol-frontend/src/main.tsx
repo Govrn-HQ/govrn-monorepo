@@ -3,12 +3,12 @@ import * as ReactDOM from 'react-dom';
 
 import 'regenerator-runtime/runtime';
 import { WalletProvider } from '@raidguild/quiver';
-import WalletConnectProvider from '@walletconnect/ethereum-provider';
+import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js';
 
 import { IProviderOptions } from 'web3modal';
 import { networks } from '../src/utils/networks';
 import { ChakraProvider, useToast } from '@chakra-ui/react';
-import { OverlayContextProvider, useOverlay } from './contexts/OverlayContext';
+import { OverlayContextProvider } from './contexts/OverlayContext';
 
 import { GovrnTheme } from '@govrn/protocol-ui';
 import Routes from './Routes';
@@ -58,11 +58,17 @@ const App = () => {
         console.log(eventName);
       }}
     >
+<<<<<<< HEAD
       <AuthContextProvider>
         <UserContextProvider>
           <Routes />
         </UserContextProvider>
       </AuthContextProvider>
+=======
+      <UserContextProvider>
+        <Routes />
+      </UserContextProvider>
+>>>>>>> origin/staging
     </WalletProvider>
   );
 };

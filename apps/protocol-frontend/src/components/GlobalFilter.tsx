@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 import {
-  InputGroup,
-  InputLeftElement,
+  Flex,
   Icon,
   Input,
-  Flex,
+  InputGroup,
+  InputLeftElement,
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 
