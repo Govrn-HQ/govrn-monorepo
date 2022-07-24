@@ -59,12 +59,26 @@ const ContributionsTable = ({
         activityTypeId: contribution.activity_type.id,
         status: contribution.status.name,
         action: '',
+        guildName: !contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0]? '---' : contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0]
+
       })),
     [contributionsData]
   );
-
+ 
   const columns = useMemo(
     () => [
+      {
+        Header: 'DAO',
+        accessor: 'guildName',
+        Cell: ({ value }) => {
+          return (
+            // <Stack direction="row">
+            //   <Checkbox size="lg" />
+            <Text>{value}</Text>
+            // </Stack>
+          );
+        },
+      },
       {
         Header: 'Name',
         accessor: 'name',
