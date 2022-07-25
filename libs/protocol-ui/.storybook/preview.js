@@ -1,4 +1,4 @@
-const GovrnTheme = require('../src/theme/index');
+import GovrnTheme from '../src/theme/index';
 
 export const parameters = {
   chakra: {
