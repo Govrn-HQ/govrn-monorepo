@@ -12,8 +12,8 @@
     "@alexkeating/nx-foundry": "^0.0.2",
     "@alexkeating/nx-skynet": "0.0.5",
     "@chakra-ui/react": "^1.8.8",
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@fontsource/inter": "^4.5.10",
     "@graphprotocol/graph-ts": "^0.27.0",
     "@graphql-codegen/cli": "^2.6.2",
@@ -88,6 +88,7 @@
   "devDependencies": {
     "@babel/core": "7.12.13",
     "@babel/preset-typescript": "7.12.13",
+    "@chakra-ui/storybook-addon": "^4.0.4",
     "@emotion/babel-plugin": "11.3.0",
     "@graphql-codegen/near-operation-file-preset": "^2.2.12",
     "@nomiclabs/hardhat-ethers": "^2.0.6",

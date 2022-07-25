@@ -4,6 +4,8 @@ The `protocol-ui` library is our component library and custom theme that customi
 
 Our components are built with [React](https://reactjs.org/ and TypeScript. This library also includes a [Storybook](https://storybook.js.org/) instance.
 
+This library was generated with [Nx](https://nx.dev).
+
 ## Summary and Usage
 
 As of now, `protocol-ui` is for internal use within the monorepo (as opposed to it being published on `npm` as a standalone library). As this is the case you'll need to access it via `@govrn/protocol-ui` when working within the monorepo.
@@ -35,15 +37,19 @@ The form components require some additional scaffolding as they're designed to w
 
 ### Components
 
+Our
+
 ### Storybook
 
 We're in the process of adding our stories and deploying our Storybook. We'll continue to update the README with our progress and deployment details.
 
-### Nx Plugin
-
-This library was generated with [Nx](https://nx.dev).
-
 ### Commands
+
+You can check the available commands in the `project.json` file in the `protocol-ui` library.
+
+- `nx run protocol-ui:storybook` -- serves the Storybook locally on `localhost:3000`
+- `nx run protocol-frontend:lint` -- runs the linter. Useful to check for errors before opening a PR
+- `nx run protocol-frontend:build` -- builds the frontend. Useful to check for errors before opening a PR
 
 ## Testing
 
