@@ -9,10 +9,9 @@ import React, {
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
-import { GovrnProtocol } from '@govrn/protocol-client';
+import { ContributionItem, GovrnProtocol } from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
-import { ContributionItem } from '../../../../libs/protocol-client/src/lib/client/types';
 import { formatDate } from '../utils/date';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
@@ -43,7 +42,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userContributions, setUserContributions] = useState<
     Array<ContributionItem>
   >([]);
-  const [daoContributions, setDaoContributions] = useState<any>(null);
+  const [daoContributions, setDaoContributions] = useState<ContributionItem[]>(
+    []
+  );
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
   const [allDaos, setAllDaos] = useState<any>(null);
