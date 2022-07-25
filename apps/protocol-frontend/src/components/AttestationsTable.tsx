@@ -26,7 +26,6 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import AddAttestationForm from './AddAttestationForm';
-import { formatDate } from '../utils/date';
 import { ContributionItem } from '@govrn/protocol-client';
 
 const AttestationsTable = ({
@@ -60,8 +59,8 @@ const AttestationsTable = ({
     () =>
       unattestedContributions.map((contribution) => ({
         id: contribution.id,
-        date_of_submission: formatDate(contribution.date_of_submission),
-        date_of_engagement: formatDate(contribution.date_of_submission),
+        date_of_submission: contribution.date_of_submission,
+        date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations || null,
         guilds: contribution.attestations || null, // TODO: never used.
         status: contribution.status.name,

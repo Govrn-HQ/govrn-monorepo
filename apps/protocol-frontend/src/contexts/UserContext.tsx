@@ -149,7 +149,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       const daoContributionsResponse = await govrn.contribution.list({
         first: 1000,
       });
-      setDaoContributions(daoContributionsResponse);
+      setDaoContributions(
+        daoContributionsResponse.map((c) => ({
+          ...c,
+          date_of_engagement: formatDate(c.date_of_engagement),
+          date_of_submission: formatDate(c.date_of_submission),
+          updatedAt: formatDate(c.updatedAt),
+        }))
+      );
       return daoContributionsResponse;
     } catch (error) {
       console.error(error);

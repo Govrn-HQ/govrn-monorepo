@@ -21,30 +21,34 @@ import {
   useTable,
 } from 'react-table';
 import { useUser } from '../contexts/UserContext';
-// import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import { formatDate } from '../utils/date';
+import { ContributionItem } from '@govrn/protocol-client';
 
 const MyAttestationsTable = ({
   contributionsData,
 }: // setSelectedContributions,
-any) => {
+{
+  contributionsData: ContributionItem[];
+}) => {
   const { userData } = useUser();
 
-  const nonEmptyContributions = _.filter(contributionsData, function (a) {
-    return a.attestations.length > 0;
-  });
+  const nonEmptyContributions = _.filter(
+    contributionsData,
+    (a) => a.attestations?.length > 0
+  );
 
-  const attestedContributions = _.filter(nonEmptyContributions, function (a) {
-    return a.attestations.every((b: any) => b.user_id === userData.id);
-  });
+  const attestedContributions = _.filter(nonEmptyContributions, (a) =>
+    a.attestations.every((b) => b.user_id === userData.id)
+  );
 
+  // TODO: divide this into different states.
   const data = useMemo(
     () =>
-      attestedContributions.map((contribution: any) => ({
+      attestedContributions.map((contribution) => ({
         id: contribution.id,
-        date_of_submission: formatDate(contribution.date_of_submission),
-        date_of_engagement: formatDate(contribution.date_of_engagement),
+        date_of_submission: contribution.date_of_submission,
+        date_of_engagement: contribution.date_of_engagement,
         guilds: contribution.attestations || null, // TODO: never used.
         status: contribution.status.name,
         action: '',

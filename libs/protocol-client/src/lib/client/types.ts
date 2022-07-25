@@ -24,7 +24,7 @@ export type ContributionItem = {
     name?: string | null;
     updatedAt: string;
   };
-  attestations?: Array<{
+  attestations: Array<{
     id: number;
     user_id: number;
     date_of_attestation: string;
