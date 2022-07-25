@@ -12,6 +12,7 @@
     "protocol-api": "apps/protocol-api",
     "protocol-client": "libs/protocol-client",
     "protocol-frontend": "apps/protocol-frontend",
+    "protocol-ld": "apps/protocol-ld",
     "protocol-ui": "libs/protocol-ui",
     "twitter-contribution-job": "apps/twitter-contribution-job"
   }
