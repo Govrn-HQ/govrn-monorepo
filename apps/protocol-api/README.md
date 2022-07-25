@@ -70,7 +70,7 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 - `KEVIN_MALONE_TOKEN`: Authorization token for GraphQL requests.[^2]
 - `LINEAR_REDIRECT_URI`: The redirect uri used by the frontend when authenticating a user via oauth. It should look similar to http://localhost:4000/linear/oauth
 - `LINEAR_CLIENT_ID`: The client id of our linear app
-- `LINEAR_CLIENT_SCECRET`: The client secret of our linear app
+- `LINEAR_CLIENT_SECRET`: The client secret of our linear app
 - `PROTOCOL_FRONTEND`: The url for our protocol frontend. It should look similar to http://localhost:3000
 
 [^1]: uses [`@nx-tools/nx-prisma`](https://github.com/nx-tools/nx-tools/tree/main/packages/nx-prisma) builder that provides a wrapper around the Prisma CLI.
