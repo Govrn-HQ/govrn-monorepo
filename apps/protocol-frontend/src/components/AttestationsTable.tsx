@@ -33,7 +33,7 @@ const AttestationsTable = ({
   setSelectedContributions,
 }: {
   contributionsData: ContributionItem[];
-  setSelectedContributions: any;
+  setSelectedContributions: (contrs: any[]) => void;
 }) => {
   const localOverlay = useOverlay();
   // const { setModals } = useOverlay();
@@ -162,7 +162,7 @@ const AttestationsTable = ({
   );
 
   useEffect(() => {
-    setSelectedContributions(selectedFlatRows);
+    setSelectedContributions(selectedFlatRows.map((r) => r.original));
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
