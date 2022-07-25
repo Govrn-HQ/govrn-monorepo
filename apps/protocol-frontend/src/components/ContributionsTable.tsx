@@ -15,7 +15,6 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
-import { format } from 'date-fns';
 import {
   useFilters,
   useGlobalFilter,
@@ -30,6 +29,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
+import { formatDate } from '../utils/date';
 
 // import EditContributionForm from './EditContributionForm';
 
@@ -55,8 +55,8 @@ const ContributionsTable = ({
         id: contribution.id,
         details: contribution.details,
         proof: contribution.proof,
-        submissionDate: format(new Date(contribution.date_of_submission), 'P'),
-        engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
+        date_of_submission: formatDate(contribution.date_of_submission),
+        engagementDate: formatDate(contribution.date_of_engagement),
         attestations: contribution.attestations || null,
         user: contribution.user.id,
         activityTypeId: contribution.activity_type.id,

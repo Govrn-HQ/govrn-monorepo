@@ -27,6 +27,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import AddAttestationForm from './AddAttestationForm';
+import { formatDate } from "../utils/date";
 
 const AttestationsTable = ({
   contributionsData,
@@ -54,8 +55,8 @@ const AttestationsTable = ({
     () =>
       unattestedContributions.map((contribution: any) => ({
         id: contribution.id,
-        submissionDate: format(new Date(contribution.date_of_submission), 'P'),
-        engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
+        date_of_submission: formatDate(contribution.date_of_submission),
+        engagementDate: formatDate(contribution.date_of_submission),
         attestations: contribution.attestations || null,
         guilds: contribution.attestations || null,
         status: contribution.status.name,

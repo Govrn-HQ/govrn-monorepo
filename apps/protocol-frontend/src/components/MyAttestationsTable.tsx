@@ -25,6 +25,7 @@ import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 // import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
+import { formatDate } from "../utils/date";
 
 const MyAttestationsTable = ({
   contributionsData,
@@ -44,16 +45,13 @@ any) => {
     () =>
       attestedContributions.map((contribution: any) => ({
         id: contribution.id,
-        submissionDate: format(new Date(contribution.date_of_submission), 'P'),
-        engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
+        date_of_submission: formatDate(contribution.date_of_submission),
+        engagementDate: formatDate(contribution.date_of_engagement),
         guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
-        attestationDate: format(
-          new Date(contribution.attestations[0]?.date_of_attestation),
-          'P'
-        ),
+        attestationDate: formatDate(contribution.attestations[0]?.date_of_attestation),
         contributor: contribution.user.name,
       })),
     [contributionsData]

@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
-import { format } from 'date-fns';
-import { Box, Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useTable, useSortBy } from 'react-table';
 import { isAfter } from 'date-fns';
+import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { useSortBy, useTable } from 'react-table';
+import { ContributionItem } from '@govrn/protocol-client';
+import { formatDate } from '../utils/date';
 
 const ContributionTypesTable = ({ contributionTypesData }: any) => {
   const uniqueKey = 'name';
@@ -13,8 +14,8 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
       contributionTypesData
         .sort((firstContribution: any, nextContribution: any) =>
           isAfter(
-            new Date(firstContribution.engagementDate),
-            new Date(nextContribution.engagementDate)
+            new Date(firstContribution.date_of_engagement),
+            new Date(nextContribution.date_of_engagement)
           )
             ? 1
             : -1
@@ -38,15 +39,9 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
         ).length,
         lastOccurrence: contributionType.engagementDate,
         activityType: contributionType.activity_type.name,
-        guilds: contributionType.guild,
-        submissionDate: format(
-          new Date(contributionType.date_of_submission),
-          'P'
-        ),
-        engagementDate: format(
-          new Date(contributionType.date_of_engagement),
-          'P'
-        ),
+        guilds: contributionType.guilds.map((g) => g.guild.name).join(','),
+        date_of_submission: formatDate(contributionType.date_of_submission),
+        date_of_engagement: formatDate(contributionType.date_of_engagement),
       })),
     []
   );
