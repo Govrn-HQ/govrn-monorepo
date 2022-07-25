@@ -1,5 +1,4 @@
 import util = require('util');
-import tslib = require('tslib');
 import cors = require('cors');
 import * as express from 'express';
 import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
@@ -48,7 +47,7 @@ app.get('/contribution/types', async (req, res) => {
     where: {
       OR: [
         {
-          allGuilds: {
+          guilds: {
             some: { guild_id: { equals: guild_id } },
           },
         },
@@ -132,7 +131,7 @@ app.post(
             id: req.body.user_id,
           },
         },
-        allGuilds: {
+        guilds: {
           create: [
             {
               guild: {

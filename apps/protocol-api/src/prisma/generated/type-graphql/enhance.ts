@@ -67,7 +67,7 @@ const actionResolversMap = {
   Guild: {
     guild: actionResolvers.FindUniqueGuildResolver,
     findFirstGuild: actionResolvers.FindFirstGuildResolver,
-    allGuilds: actionResolvers.FindManyGuildResolver,
+    guilds: actionResolvers.FindManyGuildResolver,
     createGuild: actionResolvers.CreateGuildResolver,
     createManyGuild: actionResolvers.CreateManyGuildResolver,
     deleteGuild: actionResolvers.DeleteGuildResolver,

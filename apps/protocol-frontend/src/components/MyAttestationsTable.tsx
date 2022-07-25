@@ -45,7 +45,7 @@ any) => {
         id: contribution.id,
         date_of_submission: formatDate(contribution.date_of_submission),
         date_of_engagement: formatDate(contribution.date_of_engagement),
-        allGuilds: contribution.attestations || null,
+        guilds: contribution.attestations || null, // TODO: never used.
         status: contribution.status.name,
         action: '',
         name: contribution.name,

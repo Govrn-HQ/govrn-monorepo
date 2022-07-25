@@ -57,7 +57,7 @@ const AttestationsTable = ({
         date_of_submission: formatDate(contribution.date_of_submission),
         date_of_engagement: formatDate(contribution.date_of_submission),
         attestations: contribution.attestations || null,
-        allGuilds: contribution.attestations || null,
+        guilds: contribution.attestations || null, // TODO: never used.
         status: contribution.status.name,
         action: '', // TODO: never used.
         name: contribution.name,

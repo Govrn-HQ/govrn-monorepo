@@ -223,7 +223,7 @@ export class ContributionCustomResolver {
           },
         },
         ...(args.data.guildId !== undefined && {
-          allGuilds: {
+          guilds: {
             create: [
               {
                 guild: {
@@ -301,7 +301,7 @@ export class ContributionCustomResolver {
       await prisma.contribution.update({
         data: {
           ...(args.data.currentGuildId && {
-            allGuilds: {
+            guilds: {
               delete: [
                 {
                   guild_id_contribution_id: {
@@ -352,7 +352,7 @@ export class ContributionCustomResolver {
           },
         },
         ...(args.data.guildId !== null && {
-          allGuilds: {
+          guilds: {
             create: [
               {
                 guild: {
