@@ -73,10 +73,7 @@ const ContributionsTable = ({
         accessor: 'name',
         Cell: ({ value }) => {
           return (
-            // <Stack direction="row">
-            //   <Checkbox size="lg" />
             <Text>{value}</Text>
-            // </Stack>
           );
         },
       },
@@ -114,10 +111,7 @@ const ContributionsTable = ({
         accessor: 'guildName',
         Cell: ({ value }) => {
           return (
-            // <Stack direction="row">
-            //   <Checkbox size="lg" />
             <Text>{value}</Text>
-            // </Stack>
           );
         },
       },
