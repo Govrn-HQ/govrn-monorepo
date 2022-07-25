@@ -37,30 +37,44 @@ The form components require some additional scaffolding as they're designed to w
 
 ### Components
 
-Our
+This library roughly follows [Atomic Design principles](https://bradfrost.com/blog/post/atomic-web-design/). The components are intended to be composable.
+
+- **Components**: We roughly follow Atomic Design principles so our components are organized as _Atoms_, and _Molecules_. As of now, we don't include _Organisms_ as we're focusing on establishing foundational building blocks. The Organism and Page Level layouts are intentionally handled by each app.
+
+- **Atoms**
+
+  - These are the smallest components that are used to build up a larger component. Each Atom is typically a single UI element such as a `<Label>` component.
+  - Atoms can be used on their own or combined together to form Molecules.
+
+- **Molecules**
+
+  - Molecules are composed of Atoms and other Molecules. Molecules are typically used to build up a larger component. An example is an `<Toast/>` component as it composes other Atoms.
+
+- **Theme**
+
+  - This folder contains our `theme` and the customized styles for several Chakra components in the `components` folder.
+  - We have a `GovrnTheme` that composes and scaffolds core theme elements. This theme leverages Chakra's theme provider, so if you want to use it you'll need to pass it into the `ChakraProvider` wrapping your app.
+  - We currently use the default Chakra design tokens and have extended the `colors.ts` by adding in a color scheme based on the primary Govrn brand color. Since this includes values ranging from 50 - 900, you can pass this into Chakra's `colorScheme` prop such as `colorScheme="brand.primary".
+  - If we update or customize these they'll be included in this section as well.
 
 ### Storybook
 
-We're in the process of adding our stories and deploying our Storybook. We'll continue to update the README with our progress and deployment details.
+We're in the process of adding our stories and deploying our Storybook. We'll continue to update the README with our progress and deployment details. Each component contains a Story that powers the Storybook. The Story demonstrates the basic functionality for the component and also any style variants, props, and controls that the component supports.
+
+Our `stories` folder structure matches the `component` structure. You can find the story for each component in this folder.
+
+**Note**: We're in the process of adding these Stories to previously created components.
 
 ### Commands
 
 You can check the available commands in the `project.json` file in the `protocol-ui` library.
 
-- `nx run protocol-ui:storybook` -- serves the Storybook locally on `localhost:3000`
-- `nx run protocol-frontend:lint` -- runs the linter. Useful to check for errors before opening a PR
-- `nx run protocol-frontend:build` -- builds the frontend. Useful to check for errors before opening a PR
+- `nx run protocol-ui:storybook` -- serves the Storybook locally on `localhost:4400`
+- `nx run protocol-ui:lint` -- runs the linter. Useful to check for errors in components before opening a PR
+- `nx run protocol-ui:build` -- builds the frontend. Useful to check for build serrors before opening a PR
 
 ## Testing
 
 Run `nx test protocol-ui` to execute the unit tests via [Jest](https://jestjs.io).
 
 We'll be adding additional tests via [Cypress](https://www.cypress.io/) in the future.
-
-```
-
-```
-
-```
-
-```
