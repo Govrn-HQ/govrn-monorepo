@@ -4,18 +4,16 @@ import React, {
   useContext,
   createContext,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
-import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
+import { useAuth } from './AuthContext';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
-const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
 
 export const UserContext: any = createContext(null);
 interface UserContextProps {
@@ -26,6 +24,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
   const { isConnected, address, chainId, provider } = useWallet();
+  const { isAuthenticated } = useAuth();
 
   const signer = provider?.getSigner();
   const toast = useToast();
@@ -43,46 +42,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
   const [allDaos, setAllDaos] = useState<any>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   useEffect(() => {
     setUserAddress(address);
   }, [isConnected, address, userAddress]);
-
-  const authenticateAddress = useCallback(async () => {
-    if (!chainId || !provider) {
-      return;
-    }
-    setIsAuthenticating(true);
-    const message = await createSiweMessage(
-      userAddress,
-      'Sign in with Ethereum to the app.',
-      chainId
-    );
-    const signer = provider.getSigner();
-    const signature = await signer.signMessage(message);
-    try {
-      await fetch(verifyURL, {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify({ message, signature }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      setIsAuthenticated(true);
-    } catch (e) {
-      console.error(e);
-    }
-    setIsAuthenticating(false);
-  }, [userAddress, provider, chainId]);
-
-  useEffect(() => {
-    if (isConnected && !isAuthenticated && userAddress) {
-      authenticateAddress();
-    }
-  }, [isConnected, isAuthenticated, authenticateAddress, userAddress]);
 
   const getUser = async () => {
     try {
@@ -498,6 +461,39 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const disconnectLinear = async (args: {
+    linearUserId: number;
+    userId: number;
+    username: string;
+  }) => {
+    try {
+      await govrn.custom.updateUser({
+        name: args.username,
+        id: args.userId,
+        disconnectLinearId: args.linearUserId,
+      });
+      getUser();
+      toast({
+        title: 'Disconnected linear user',
+        description: 'Your linear user has been disconnected',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: 'Failed to disconnect linear user',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
   const updateLinearEmail = async (values: any) => {
     const linearAssignee = {
       active: userData.active,
@@ -587,6 +583,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   return (
     <UserContext.Provider
       value={{
+        currentChain,
+        setCurrentChain,
         userAddress,
         setUserAddress,
         userData,
@@ -612,9 +610,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         updateContribution,
         updateProfile,
         updateLinearEmail,
-        isAuthenticated,
-        isAuthenticating,
-        authenticateAddress,
+        disconnectLinear,
       }}
     >
       {children}
@@ -651,9 +647,7 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
-    isAuthenticated,
-    isAuthenticating,
-    authenticateAddress,
+    disconnectLinear,
   } = useContext(UserContext);
   return {
     currentChain,
@@ -683,8 +677,6 @@ export const useUser = () => {
     updateContribution,
     updateProfile,
     updateLinearEmail,
-    isAuthenticated,
-    isAuthenticating,
-    authenticateAddress,
+    disconnectLinear,
   };
 };

@@ -1,4 +1,5 @@
 import { formatAddress, useWallet } from '@raidguild/quiver';
+import { useMatch, useNavigate } from 'react-router-dom';
 import {
   Button,
   Text,
@@ -12,16 +13,16 @@ import {
   useClipboard,
 } from '@chakra-ui/react';
 import { FiKey, FiChevronDown, FiCopy, FiXCircle } from 'react-icons/fi';
-import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const ConnectWallet = () => {
   const { connectWallet, isConnecting, isConnected, disconnect, address } =
     useWallet();
-  const { authenticateAddress } = useUser();
+  const { authFlow } = useAuth();
   const copyAddress = useClipboard(address as string);
   const connectAndVerify = async () => {
     await connectWallet();
-    await authenticateAddress();
+    await authFlow();
   };
   return (
     <>

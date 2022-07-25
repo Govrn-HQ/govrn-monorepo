@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
 import ProfileShell from '../components/ProfileShell';
 import NewUserView from '../components/NewUserView';
@@ -22,7 +23,7 @@ const UserView = () => {
 };
 
 const Profile = () => {
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated } = useAuth();
   const { isConnected } = useWallet();
   const { userData } = useUser();
 

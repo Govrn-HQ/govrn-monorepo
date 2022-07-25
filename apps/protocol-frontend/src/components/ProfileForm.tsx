@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Flex, Heading, Button, Divider} from '@chakra-ui/react';
+import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 
@@ -72,7 +72,13 @@ const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
   );
 
 const ProfileForm = () => {
-  const { userData, updateProfile, updateLinearEmail } = useUser();
+  const {
+    userData,
+    updateProfile,
+    updateLinearEmail,
+    disconnectLinear,
+    getUser,
+  } = useUser();
 
   const localForm = useForm<{ name: string; address: string }>({
     mode: 'all',
@@ -91,6 +97,7 @@ const ProfileForm = () => {
     setValue('address', userData?.address);
   }, [userData]);
 
+  console.log(userData);
   const updateProfileHandler = async (values: any) => {
     updateProfile(values);
   };
@@ -98,6 +105,25 @@ const ProfileForm = () => {
   const updateLinearEmailHandler = async (values: any) => {
     updateLinearEmail(values);
   };
+
+  const handleLinearOauth = () => {
+    const params = new URLSearchParams();
+    params.append('client_id', 'f800e64aad8072e4423925d3245e09f4');
+    params.append('redirect_uri', 'http://localhost:4000/linear/oauth');
+    params.append('response_type', 'code');
+    params.append('scope', 'read');
+    params.append('state', ''); // generate string to prevent crsf attack
+    params.append('prompt', 'consent');
+    window.location.href = `https://linear.app/oauth/authorize?${params.toString()}`;
+  };
+
+  const disconnectLinearOnClick = useCallback(async () => {
+    await disconnectLinear({
+      userId: userData.id,
+      username: userData.name,
+      linearUserId: userData.linear_users[0].id,
+    });
+  }, [userData, disconnectLinear]);
 
   return (
     <>
@@ -187,27 +213,40 @@ const ProfileForm = () => {
             </Heading>
             <Flex
               direction="column"
-              align="flex-end"
+              align="flex-start"
               marginTop={4}
               marginBottom={{ base: 4, lg: 0 }}
+              gap="20px"
               width={{ base: '100%', lg: '50%' }}
             >
-              <Input
-                name="userLinearEmail"
-                label="Linear Email Address (Coming Soon!)"
-                tip="Enter the email address you used with Linear for the integration."
-                placeholder="user@govrn.io"
-                localForm={localFormLinear} //TODO: resolve this type issue -- need to investigate this
-                isDisabled
-              />
-              <Button
-                type="submit"
-                width="100%"
-                variant="disabled"
-                isDisabled
-              >
-                Link Email
-              </Button>
+              <Heading as="h5" size="sm" fontWeight="medium" color="gray.700">
+                Linear
+              </Heading>
+              {userData?.linear_users && userData.linear_users.length > 0 ? (
+                <Button
+                  type="submit"
+                  width="100%"
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'brand.primary.100' }}
+                  onClick={disconnectLinearOnClick}
+                >
+                  Disconnect Linear
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  width="100%"
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'brand.primary.100' }}
+                  onClick={handleLinearOauth}
+                >
+                  Connect Linear
+                </Button>
+              )}
             </Flex>
             <Divider bgColor="gray.300" />
           </Flex>
@@ -227,12 +266,7 @@ const ProfileForm = () => {
                 localForm={localForm} //TODO: resolve this type issue -- need to investigate this
                 isDisabled
               />
-              <Button
-                type="submit"
-                width="100%"
-                variant="disabled"
-                isDisabled
-              >
+              <Button type="submit" width="100%" variant="disabled" isDisabled>
                 Link Twitter
               </Button>
             </Flex>
