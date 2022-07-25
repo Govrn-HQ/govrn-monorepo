@@ -9,7 +9,11 @@ import React, {
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
-import { ContributionItem, GovrnProtocol } from '@govrn/protocol-client';
+import {
+  ContributionItem,
+  GovrnProtocol,
+  UserData,
+} from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
@@ -38,7 +42,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   // );
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [userContributions, setUserContributions] = useState<
     Array<ContributionItem>
   >([]);
@@ -637,7 +641,7 @@ type UseUser = {
   createUser: any;
   createWaitlistUser: any;
   currentChain: any;
-  daoContributions: any;
+  daoContributions: ContributionItem[];
   isAuthenticated: any;
   isAuthenticating: any;
   mintAttestation: any;
@@ -656,8 +660,8 @@ type UseUser = {
   userActivityTypes: any;
   userAddress: any;
   userAttestations: any;
-  userContributions: Array<ContributionItem>;
-  userData: any;
+  userContributions: ContributionItem[];
+  userData: UserData;
   userDataByAddress: any;
 };
 export const useUser: () => UseUser = () => {

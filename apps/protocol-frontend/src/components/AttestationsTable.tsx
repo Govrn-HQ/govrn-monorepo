@@ -27,32 +27,38 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import AddAttestationForm from './AddAttestationForm';
 import { formatDate } from '../utils/date';
+import { ContributionItem } from '@govrn/protocol-client';
 
 const AttestationsTable = ({
   contributionsData,
   setSelectedContributions,
-}: any) => {
+}: {
+  contributionsData: ContributionItem[];
+  setSelectedContributions: any;
+}) => {
   const localOverlay = useOverlay();
-  const { setModals } = useOverlay();
+  // const { setModals } = useOverlay();
   const { userData } = useUser();
-  const [selectedContribution, setSelectedContribution] = useState<any>();
+  const [selectedContribution] = useState<any>();
 
-  const handleAddAttestationFormModal = (id: number) => {
-    setSelectedContribution(id);
-    setModals({ addAttestationFormModal: true });
-  };
+  // const handleAddAttestationFormModal = (id: number) => {
+  //   setSelectedContribution(id);
+  //   setModals({ addAttestationFormModal: true });
+  // };
 
+  // FIXME: warp this into some hook, to avoid re-calculation with every render.
   const nonUserContributions = _.filter(contributionsData, function (a) {
     return a.user.id !== userData.id;
   });
 
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
-    return a.attestations.every((b: any) => b.user_id !== userData.id);
+    return a.attestations?.every((b) => b.user_id !== userData.id) ?? false;
   });
 
+  // TODO: Divide this into different states.
   const data = useMemo(
     () =>
-      unattestedContributions.map((contribution: any) => ({
+      unattestedContributions.map((contribution) => ({
         id: contribution.id,
         date_of_submission: formatDate(contribution.date_of_submission),
         date_of_engagement: formatDate(contribution.date_of_submission),

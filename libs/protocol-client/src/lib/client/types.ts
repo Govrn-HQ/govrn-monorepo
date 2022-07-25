@@ -32,14 +32,19 @@ export type ContributionItem = {
   guilds: Array<{ guild: { id: number; name?: string | null } }>;
 };
 
-// export type User = {
-//   address: string;
-//   active: boolean;
-//   createdAt: any;
-//   display_name?: string | null;
-//   full_name?: string | null;
-//   id: number;
-//   name?: string | null;
-//   updatedAt: any;
-//   chain_type: { id: number; name: string; createdAt: any; updatedAt: any };
-// };
+export type UserData = {
+  address: string;
+  active: boolean;
+  createdAt: string;
+  display_name?: string | null;
+  full_name?: string | null;
+  id: number;
+  name?: string | null;
+  updatedAt: string;
+  chain_type: {
+    id: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+};
