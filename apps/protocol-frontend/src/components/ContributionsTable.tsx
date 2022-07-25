@@ -29,14 +29,15 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
-import { formatDate } from '../utils/date';
-
-// import EditContributionForm from './EditContributionForm';
+import { ContributionItem } from '@govrn/protocol-client';
 
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
-}: any) => {
+}: {
+  contributionsData: ContributionItem[];
+  setSelectedContributions: any;
+}) => {
   const { userData } = useUser();
 
   const localOverlay = useOverlay();
@@ -48,20 +49,21 @@ const ContributionsTable = ({
     setModals({ editContributionFormModal: true });
   };
 
+  // TODO: divide this into different states.
   const data = useMemo(
     () =>
-      contributionsData.map((contribution: any) => ({
+      contributionsData.map((contribution) => ({
         name: contribution.name,
         id: contribution.id,
         details: contribution.details,
         proof: contribution.proof,
-        date_of_submission: formatDate(contribution.date_of_submission),
-        engagementDate: formatDate(contribution.date_of_engagement),
+        date_of_submission: contribution.date_of_submission,
+        engagementDate: contribution.date_of_engagement,
         attestations: contribution.attestations || null,
         user: contribution.user.id,
         activityTypeId: contribution.activity_type.id,
         status: contribution.status.name,
-        action: '',
+        action: '', // TODO: never used.
       })),
     [contributionsData]
   );
@@ -72,12 +74,7 @@ const ContributionsTable = ({
         Header: 'Name',
         accessor: 'name',
         Cell: ({ value }) => {
-          return (
-            // <Stack direction="row">
-            //   <Checkbox size="lg" />
-            <Text>{value}</Text>
-            // </Stack>
-          );
+          return <Text>{value}</Text>;
         },
       },
       {

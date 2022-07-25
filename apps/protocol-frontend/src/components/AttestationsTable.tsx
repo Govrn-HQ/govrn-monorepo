@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import * as _ from 'lodash';
-import { format } from 'date-fns';
 import {
   Box,
   chakra,
@@ -27,7 +26,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import AddAttestationForm from './AddAttestationForm';
-import { formatDate } from "../utils/date";
+import { formatDate } from '../utils/date';
 
 const AttestationsTable = ({
   contributionsData,
@@ -56,11 +55,11 @@ const AttestationsTable = ({
       unattestedContributions.map((contribution: any) => ({
         id: contribution.id,
         date_of_submission: formatDate(contribution.date_of_submission),
-        engagementDate: formatDate(contribution.date_of_submission),
+        date_of_engagement: formatDate(contribution.date_of_submission),
         attestations: contribution.attestations || null,
-        guilds: contribution.attestations || null,
+        allGuilds: contribution.attestations || null,
         status: contribution.status.name,
-        action: '',
+        action: '', // TODO: never used.
         name: contribution.name,
         attestationDate: null,
         onChainId: contribution.on_chain_id,

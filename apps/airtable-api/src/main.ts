@@ -48,7 +48,7 @@ app.get('/contribution/types', async (req, res) => {
     where: {
       OR: [
         {
-          guilds: {
+          allGuilds: {
             some: { guild_id: { equals: guild_id } },
           },
         },
@@ -132,7 +132,7 @@ app.post(
             id: req.body.user_id,
           },
         },
-        guilds: {
+        allGuilds: {
           create: [
             {
               guild: {

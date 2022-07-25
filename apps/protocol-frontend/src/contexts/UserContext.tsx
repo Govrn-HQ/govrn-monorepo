@@ -12,6 +12,8 @@ import { useWallet } from '@raidguild/quiver';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
+import { ContributionItem } from '../../../../libs/protocol-client/src/lib/client/types';
+import { formatDate } from '../utils/date';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
@@ -32,13 +34,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
-  const [currentChain, setCurrentChain] = useState<string | null | undefined>(
-    undefined
-  );
+  // const [currentChain, setCurrentChain] = useState<string | null | undefined>(
+  //   undefined
+  // );
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
-  const [userContributions, setUserContributions] = useState<any>(null);
+  const [userContributions, setUserContributions] = useState<
+    Array<ContributionItem>
+  >([]);
   const [daoContributions, setDaoContributions] = useState<any>(null);
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
@@ -122,7 +126,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         },
         first: 1000,
       });
-      setUserContributions(userContributionsResponse);
+      setUserContributions(
+        userContributionsResponse.map((c) => ({
+          ...c,
+          date_of_engagement: formatDate(c.date_of_engagement),
+          date_of_submission: formatDate(c.date_of_submission),
+        }))
+      );
       return userContributionsResponse;
     } catch (error) {
       console.error(error);
@@ -132,9 +142,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getDaoContributions = async () => {
     try {
       const daoContributionsResponse = await govrn.contribution.list({
-        // where: {
-        //   user_id: { equals: userData?.id },
-        // },
         first: 1000,
       });
       setDaoContributions(daoContributionsResponse);
@@ -282,7 +289,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         details: '',
         proof: '',
         activityType: values.activityType,
-        engagementDate: values.engagementDate,
+        date_of_engagement: values.engagementDate,
       });
       navigate('/contributions');
     } catch (error) {
@@ -603,7 +610,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserActivityTypes,
         setUserAddress,
         setUserAttestations,
-        setUserContributions,
+        // setUserContributions,
         setUserData,
         setUserDataByAddress,
         updateContribution,
@@ -621,8 +628,38 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     </UserContext.Provider>
   );
 };
-
-export const useUser = () => {
+type UseUser = {
+  allDaos: any;
+  authenticateAddress: any;
+  createAttestation: any;
+  createContribution: any;
+  createUser: any;
+  createWaitlistUser: any;
+  currentChain: any;
+  daoContributions: any;
+  isAuthenticated: any;
+  isAuthenticating: any;
+  mintAttestation: any;
+  mintContribution: any;
+  setAllDaos: any;
+  setCurrentChain: any;
+  setDaoContributions: any;
+  setUserActivityTypes: any;
+  setUserAddress: any;
+  setUserAttestations: any;
+  setUserData: any;
+  setUserDataByAddress: any;
+  updateContribution: any;
+  updateLinearEmail: any;
+  updateProfile: any;
+  userActivityTypes: any;
+  userAddress: any;
+  userAttestations: any;
+  userContributions: Array<ContributionItem>;
+  userData: any;
+  userDataByAddress: any;
+};
+export const useUser: () => UseUser = () => {
   const {
     allDaos,
     authenticateAddress,
@@ -642,7 +679,6 @@ export const useUser = () => {
     setUserActivityTypes,
     setUserAddress,
     setUserAttestations,
-    setUserContributions,
     setUserData,
     setUserDataByAddress,
     updateContribution,
@@ -674,7 +710,6 @@ export const useUser = () => {
     setUserActivityTypes,
     setUserAddress,
     setUserAttestations,
-    setUserContributions,
     setUserData,
     setUserDataByAddress,
     updateContribution,

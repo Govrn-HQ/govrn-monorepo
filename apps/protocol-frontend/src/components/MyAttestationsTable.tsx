@@ -1,31 +1,29 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import * as _ from 'lodash';
-import { format } from 'date-fns';
 import {
+  Box,
+  chakra,
+  Stack,
   Table,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
-  chakra,
-  Text,
-  Stack,
-  Box,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
-  useTable,
-  useSortBy,
   useFilters,
   useGlobalFilter,
   useRowSelect,
+  useSortBy,
+  useTable,
 } from 'react-table';
 import { useUser } from '../contexts/UserContext';
-import { useOverlay } from '../contexts/OverlayContext';
 // import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
-import { formatDate } from "../utils/date";
+import { formatDate } from '../utils/date';
 
 const MyAttestationsTable = ({
   contributionsData,
@@ -46,12 +44,14 @@ any) => {
       attestedContributions.map((contribution: any) => ({
         id: contribution.id,
         date_of_submission: formatDate(contribution.date_of_submission),
-        engagementDate: formatDate(contribution.date_of_engagement),
-        guilds: contribution.attestations || null,
+        date_of_engagement: formatDate(contribution.date_of_engagement),
+        allGuilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
-        attestationDate: formatDate(contribution.attestations[0]?.date_of_attestation),
+        attestationDate: formatDate(
+          contribution.attestations[0]?.date_of_attestation
+        ),
         contributor: contribution.user.name,
       })),
     [contributionsData]
