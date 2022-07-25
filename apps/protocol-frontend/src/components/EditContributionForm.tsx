@@ -1,19 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Stack, Flex, Button, Text } from '@chakra-ui/react';
+import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import {
-  Input,
-  Textarea,
-  DatePicker,
   CreatableSelect,
+  DatePicker,
+  Input,
   Select,
+  Textarea,
 } from '@govrn/protocol-ui';
 
 import { useForm } from 'react-hook-form';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
+import { ContributionItem } from '@govrn/protocol-client';
 
 interface EditContributionFormProps {
-  contribution: any;
+  contribution: ContributionItem;
   onClose?: () => void;
 }
 

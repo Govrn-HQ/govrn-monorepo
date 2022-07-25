@@ -267,10 +267,12 @@ const ContributionsTable = ({
           size="3xl"
           content={
             <EditContributionForm
-              contribution={contributionsData.find(
-                (localContribution) =>
-                  localContribution.id === selectedContribution
-              )}
+              contribution={
+                contributionsData.find(
+                  (localContribution) =>
+                    localContribution.id === selectedContribution
+                )!
+              }
             />
           }
         />

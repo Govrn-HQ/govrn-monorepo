@@ -440,9 +440,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const updateContribution = async (contribution: any, values: any) => {
+  const updateContribution = async (
+    contribution: ContributionItem,
+    values: any
+  ) => {
     try {
-      if (userData.id !== contribution.user.id) {
+      if (userData?.id !== contribution.user.id) {
         throw new Error('You can only edit your own Contributions.');
       }
 
@@ -451,7 +454,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           'You can only edit Contributions with a Staging status.'
         );
       }
-      const updateResp = await govrn.custom.updateUserContribution({
+      await govrn.custom.updateUserContribution({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
@@ -465,8 +468,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
-      getUserActivityTypes();
-      getUserContributions();
+      await getUserActivityTypes();
+      await getUserContributions();
+
       toast({
         title: 'Contribution Report Updated',
         description: 'Your Contribution report has been updated.',
