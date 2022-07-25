@@ -1,19 +1,13 @@
 import { Story } from '@storybook/react';
 import React from 'react';
-import { ErrorMessage, ErrorMessageProps } from '../components/atoms/';
+import { ErrorMessage, ErrorMessageProps } from '../../';
 
 export default {
   title: 'Components/Atoms/ErrorMessage',
   component: ErrorMessage,
   argTypes: {
-    title: {
+    errorMessage: {
       control: { type: 'text' },
-    },
-    description: {
-      control: { type: 'text' },
-    },
-    variant: {
-      control: { type: 'radio' },
     },
   },
 };
