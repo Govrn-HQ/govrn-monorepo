@@ -21,7 +21,9 @@ import { formatDate } from '../utils/date';
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 const verifyURL = `${import.meta.env.VITE_PROTOCOL_BASE_URL}/verify`;
 
-export const UserContext: any = createContext(null);
+export const UserContext = createContext<UserContextType>(
+  {} as UserContextType
+);
 
 interface UserContextProps {
   children: React.ReactNode;
@@ -42,7 +44,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   // );
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<UserData>({} as UserData);
   const [userContributions, setUserContributions] = useState<
     Array<ContributionItem>
   >([]);
@@ -293,9 +295,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
-      getUserActivityTypes();
-      getUserContributions();
-      getDaoContributions();
+      await getUserActivityTypes();
+      await getUserContributions();
+      await getDaoContributions();
       reset({
         name: '',
         details: '',
@@ -344,7 +346,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           ethers.utils.toUtf8Bytes(contribution.details), // contribution details
           ethers.utils.toUtf8Bytes(contribution.proof) // contribution proof
         );
-        getUserContributions();
+        await getUserContributions();
         setMintProgress((prevState) => prevState + 1);
         toast({
           title: 'Contribution Successfully Minted',
@@ -386,7 +388,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             confidence: 0,
           } // attest args
         );
-        getDaoContributions();
+        await getDaoContributions();
         toast({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
@@ -426,7 +428,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
-      getDaoContributions();
+      await getDaoContributions();
     } catch (error) {
       console.log(error);
       toast({
@@ -497,9 +499,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     try {
       await govrn.custom.updateUser({
         name: values.name,
-        id: userData.id,
+        // eslint-disable-next-line
+        id: userData?.id!,
       });
-      getUser();
+      await getUser();
       toast({
         title: 'User Profile Updated',
         description: 'Your Profile has been updated',
@@ -533,7 +536,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       },
       linear_id: userData.id.toString(), // linear_id exists outside of our db
       name: userData.name,
-      url: userData.url || '',
+      url: userData?.url ?? '', // FIXME: Property 'url' does not exist on type 'UserData'.
     };
     try {
       // TODO: maybe we should hide linear because
@@ -644,7 +647,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     </UserContext.Provider>
   );
 };
-type UseUser = {
+type UserContextType = {
   allDaos: any;
   authenticateAddress: any;
   createAttestation: any;
@@ -653,8 +656,8 @@ type UseUser = {
   createWaitlistUser: any;
   currentChain: any;
   daoContributions: ContributionItem[];
-  isAuthenticated: any;
-  isAuthenticating: any;
+  isAuthenticated: boolean;
+  isAuthenticating: boolean;
   mintAttestation: any;
   mintContribution: any;
   setAllDaos: any;
@@ -675,7 +678,8 @@ type UseUser = {
   userData: UserData;
   userDataByAddress: any;
 };
-export const useUser: () => UseUser = () => {
+
+export const useUser: () => UserContextType = () => {
   const {
     allDaos,
     authenticateAddress,
@@ -707,6 +711,7 @@ export const useUser: () => UseUser = () => {
     userData,
     userDataByAddress,
   } = useContext(UserContext);
+
   return {
     allDaos,
     authenticateAddress,
