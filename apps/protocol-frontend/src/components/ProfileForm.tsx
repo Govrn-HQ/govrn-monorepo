@@ -9,6 +9,9 @@ import {
   linearFormValidation,
 } from '../utils/validations';
 
+const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
+const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
+
 const useYupValidationResolver = (profileValidationSchema: any) =>
   useCallback(
     async (data) => {
@@ -108,8 +111,8 @@ const ProfileForm = () => {
 
   const handleLinearOauth = () => {
     const params = new URLSearchParams();
-    params.append('client_id', 'f800e64aad8072e4423925d3245e09f4');
-    params.append('redirect_uri', 'http://localhost:4000/linear/oauth');
+    params.append('client_id', LINEAR_CLIENT_ID);
+    params.append('redirect_uri', LINEAR_REDIRECT_URI);
     params.append('response_type', 'code');
     params.append('scope', 'read');
     params.append('state', ''); // generate string to prevent crsf attack
@@ -215,7 +218,7 @@ const ProfileForm = () => {
               direction="column"
               align="flex-start"
               marginTop={4}
-              marginBottom={{ base: 4, lg: 0 }}
+              marginBottom={4}
               gap="20px"
               width={{ base: '100%', lg: '50%' }}
             >
