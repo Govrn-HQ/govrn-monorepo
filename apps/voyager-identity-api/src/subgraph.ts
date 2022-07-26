@@ -1,10 +1,10 @@
-// Environment Variables.
 import { GraphQLClient } from 'graphql-request';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { BigNumber, ethers } from 'ethers';
 import { LDContribution } from './types';
 
+// Environment Variables.
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
@@ -14,17 +14,16 @@ const networkConfig: NetworkConfig = {
   chainId: 100,
 };
 
-// load data from subgraph.
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
+const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
+const client = new GovrnGraphClient(graphQLClient);
 
 export const loadContributions = async (): Promise<LDContribution[]> => {
-  const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
-  const client = new GovrnGraphClient(graphQLClient);
-
+  // Load attestations events from subgraph.
   const events = (await client.listAttestations({})).attestations;
 
-  // load contributions for data like type..etc.
+  // Load corresponding contributions to get `detailsUri`.
   const contrs = await Promise.all(
     events.map(async (e) => {
       const contr = await govrnContract.contributions({
