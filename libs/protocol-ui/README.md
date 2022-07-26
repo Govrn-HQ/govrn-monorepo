@@ -1,6 +1,6 @@
 # Protocol UI
 
-The `protocol-ui` library is our component library and custom theme that customizes and extends [Chakra UI](https://chakra-ui.com/). The initial focus of this is on the functional components we used to build v such as form elements, modal wrappers, and the custom theme that overrides Chakra's base component styles.
+The `protocol-ui` library is our component library and custom theme that customizes and extends [Chakra UI](https://chakra-ui.com/). The initial focus of this is on the functional components we used to build v1 such as form elements, modal wrappers, and the custom theme that overrides Chakra's base component styles.
 
 Our components are built with [React](https://reactjs.org/ and TypeScript. This library also includes a [Storybook](https://storybook.js.org/) instance.
 
