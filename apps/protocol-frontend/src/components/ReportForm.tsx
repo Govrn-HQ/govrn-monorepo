@@ -131,7 +131,7 @@ const ReportForm = () => {
           name="daoId"
           label="DAO"
           tip="Please select a DAO to associate this Contribution with. This is optional."
-          placeholder="Select a DAO to assocaite this Contribution with."
+          placeholder="Select a DAO to associate this Contribution with."
           onChange={(dao) => {
             setValue('daoId', dao.value);
           }}

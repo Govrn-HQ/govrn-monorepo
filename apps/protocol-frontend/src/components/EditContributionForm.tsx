@@ -161,7 +161,7 @@ const EditContributionForm = ({
         <Select
           name="daoId"
           label="DAO"
-          placeholder="Select a DAO to assocaite this Contribution with."
+          placeholder="Select a DAO to associate this Contribution with."
           defaultValue={{
             value: contribution?.guilds[0]?.guild.id
               ? contribution?.guilds[0]?.guild.id

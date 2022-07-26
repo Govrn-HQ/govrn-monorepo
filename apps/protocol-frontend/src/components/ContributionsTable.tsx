@@ -31,8 +31,6 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 
-// import EditContributionForm from './EditContributionForm';
-
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -58,26 +56,24 @@ const ContributionsTable = ({
         submissionDate: format(new Date(contribution.date_of_submission), 'P'),
         engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
         attestations: contribution.attestations || null,
-        user: contribution.user.id,
+        user: contribution.user,
         activityTypeId: contribution.activity_type.id,
-        status: contribution.status.name,
+        status: contribution.status,
         action: '',
-        guildName: contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0]?? '---' ,
-
+        guildName:
+          contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
+          '---',
       })),
     [contributionsData]
   );
- 
+
   const columns = useMemo(
     () => [
-   
       {
         Header: 'Name',
         accessor: 'name',
         Cell: ({ value }) => {
-          return (
-            <Text>{value}</Text>
-          );
+          return <Text>{value}</Text>;
         },
       },
       {
@@ -86,12 +82,12 @@ const ContributionsTable = ({
         Cell: ({ value }) => {
           return (
             <Text textTransform="capitalize">
-              {value}{' '}
+              {value.name}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value === 'minted' ? '🌞' : '👀'}
+                {value.name === 'minted' ? '🌞' : '👀'}
               </span>{' '}
             </Text>
           );
@@ -113,9 +109,7 @@ const ContributionsTable = ({
         Header: 'DAO',
         accessor: 'guildName',
         Cell: ({ value }) => {
-          return (
-            <Text>{value}</Text>
-          );
+          return <Text>{value}</Text>;
         },
       },
     ],
@@ -132,7 +126,7 @@ const ContributionsTable = ({
         Cell: ({ row }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status === 'minted'}
+            disabled={row.original.status.name === 'minted'}
           />
         ),
       },
@@ -141,7 +135,7 @@ const ContributionsTable = ({
         id: 'actions',
         Header: 'Actions',
         Cell: ({ row }) =>
-          row.original.status === 'minted' ? (
+          row.original.status.name === 'minted' ? (
             <Tooltip
               label="Minted contribution(s) cannot be edited"
               aria-label="A tooltip"
@@ -153,8 +147,8 @@ const ContributionsTable = ({
                   color="gray.800"
                   aria-label="Edit Contribution"
                   disabled={
-                    row.original.user.id !== userData?.user ||
-                    row.original.status === 'minted'
+                    row.original.user.id !== userData?.id ||
+                    row.original.status.name === 'minted'
                   }
                   onClick={() =>
                     handleEditContributionFormModal(row.original.id)
@@ -165,8 +159,8 @@ const ContributionsTable = ({
                   variant="ghost"
                   color="gray.800"
                   disabled={
-                    row.original.user.id !== userData?.user ||
-                    row.original.status === 'minted'
+                    row.original.user.id !== userData?.id ||
+                    row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
                 />
@@ -180,8 +174,8 @@ const ContributionsTable = ({
                 color="gray.800"
                 aria-label="Edit Contribution"
                 disabled={
-                  row.original.user.id !== userData?.user ||
-                  row.original.status === 'minted'
+                  row.original.user.id !== userData?.id ||
+                  row.original.status.name === 'minted'
                 }
                 onClick={() => handleEditContributionFormModal(row.original.id)}
               />
@@ -190,8 +184,8 @@ const ContributionsTable = ({
                 variant="ghost"
                 color="gray.800"
                 disabled={
-                  row.original.user.id !== userData?.user ||
-                  row.original.status === 'minted'
+                  row.original.user.id !== userData?.id ||
+                  row.original.status.name === 'minted'
                 }
                 aria-label="Delete Contribution"
               />

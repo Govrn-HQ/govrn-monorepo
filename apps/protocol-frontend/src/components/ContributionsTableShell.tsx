@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Container,
   Stack,
@@ -28,7 +28,22 @@ const ContributionsTableShell = () => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
+  const [selectedContributionsMap, setSelectedContributionsMap] =
+    useState<any>();
   const [selectedDAOs, setSelectedDAOs] = useState<any>();
+
+  useEffect(() => {
+    if (selectedContributions && selectedContributions.length > 0) {
+      setSelectedContributionsMap(
+        selectedContributions?.map((contribution: any) =>
+          userContributions.find(
+            (localContribution) =>
+              contribution.original.id === localContribution.id
+          )
+        )
+      );
+    }
+  }, [selectedContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
@@ -217,7 +232,7 @@ const ContributionsTableShell = () => {
         localOverlay={localOverlay}
         size="3xl"
         content={
-          <BulkDaoAttributeModal contributions={selectedContributions} />
+          <BulkDaoAttributeModal contributions={selectedContributionsMap} />
         }
       />
     </>

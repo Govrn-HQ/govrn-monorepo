@@ -385,6 +385,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const updateContribution = async (contribution: any, values: any) => {
+    console.log('contribution in', contribution);
     try {
       if (userData.id !== contribution.user.id) {
         throw new Error('You can only edit your own Contributions.');
@@ -399,16 +400,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
-        name: values.name,
-        details: values.details,
-        proof: values.proof,
-        activityTypeName: values.activityType,
-        dateOfEngagement: new Date(values.engagementDate).toISOString(),
+        name: values.name ?? contribution.name,
+        details: values.details ?? contribution.details,
+        proof: values.proof ?? contribution.proof,
+        activityTypeName: values.activityType ?? contribution.activityType,
+        dateOfEngagement: new Date(
+          values.engagementDate ?? contribution.engagementDate
+        ).toISOString(),
         status: 'staging',
-        guildId: values.daoId,
+        guildId: values.daoId ?? contribution.dao.id,
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
+      console.log('updateResp', updateResp);
       getUserActivityTypes();
       getUserContributions();
       toast({
