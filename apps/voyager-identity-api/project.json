@@ -1,15 +1,15 @@
 {
-  "root": "apps/protocol-ld",
-  "sourceRoot": "apps/protocol-ld/src",
+  "root": "apps/voyager-identity-api",
+  "sourceRoot": "apps/voyager-identity-api/src",
   "projectType": "application",
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/protocol-ld",
-        "main": "apps/protocol-ld/src/main.ts",
-        "tsConfig": "apps/protocol-ld/tsconfig.app.json"
+        "outputPath": "dist/apps/voyager-identity-api",
+        "main": "apps/voyager-identity-api/src/main.ts",
+        "tsConfig": "apps/voyager-identity-api/tsconfig.app.json"
       },
       "configurations": {
         "production": {
@@ -18,8 +18,8 @@
           "inspect": false,
           "fileReplacements": [
             {
-              "replace": "apps/protocol-ld/src/environments/environment.ts",
-              "with": "apps/protocol-ld/src/environments/environment.prod.ts"
+              "replace": "apps/voyager-identity-api/src/environments/environment.ts",
+              "with": "apps/voyager-identity-api/src/environments/environment.prod.ts"
             }
           ]
         }
@@ -28,21 +28,21 @@
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "protocol-ld:build"
+        "buildTarget": "voyager-identity-api:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/protocol-ld/**/*.ts"]
+        "lintFilePatterns": ["apps/voyager-identity-api/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/protocol-ld"],
+      "outputs": ["coverage/apps/voyager-identity-api"],
       "options": {
-        "jestConfig": "apps/protocol-ld/jest.config.js",
+        "jestConfig": "apps/voyager-identity-api/jest.config.js",
         "passWithNoTests": true
       }
     }
