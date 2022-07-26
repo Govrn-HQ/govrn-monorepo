@@ -33,7 +33,6 @@ const ContributionTypesTable = ({
     ).values(),
   ];
 
-  // FIXME: divide these into different states.
   const data = useMemo(
     () =>
       uniqueContributions.map((contributionType) => ({

@@ -536,7 +536,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       },
       linear_id: userData.id.toString(), // linear_id exists outside of our db
       name: userData.name,
-      url: userData?.url ?? '', // FIXME: Property 'url' does not exist on type 'UserData'.
+      url: userData?.url ?? '',
     };
     try {
       // TODO: maybe we should hide linear because

@@ -42,14 +42,13 @@ const MyAttestationsTable = ({
     a.attestations.every((b) => b.user_id === userData.id)
   );
 
-  // TODO: divide this into different states.
   const data = useMemo(
     () =>
       attestedContributions.map((contribution) => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_engagement,
-        guilds: contribution.attestations || null, // TODO: never used.
+        guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
         name: contribution.name,

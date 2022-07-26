@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import {
+  Row,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -36,7 +37,7 @@ const ContributionsTable = ({
   setSelectedContributions,
 }: {
   contributionsData: ContributionItem[];
-  setSelectedContributions: any;
+  setSelectedContributions: (rows: Row<any>[]) => void;
 }) => {
   const { userData } = useUser();
 
@@ -49,7 +50,6 @@ const ContributionsTable = ({
     setModals({ editContributionFormModal: true });
   };
 
-  // TODO: divide this into different states.
   const data = useMemo(
     () =>
       contributionsData.map((contribution) => ({
@@ -63,7 +63,7 @@ const ContributionsTable = ({
         user: contribution.user.id,
         activityTypeId: contribution.activity_type.id,
         status: contribution.status.name,
-        action: '', // TODO: never used.
+        action: '',
       })),
     [contributionsData]
   );

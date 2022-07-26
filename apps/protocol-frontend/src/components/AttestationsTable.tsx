@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
+  Row,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -39,7 +40,6 @@ const AttestationsTable = ({
   const { userData } = useUser();
   const [selectedContribution] = useState<any>();
 
-  // FIXME: warp this into some hook, to avoid re-calculation with every render.
   const nonUserContributions = _.filter(contributionsData, function (a) {
     return a.user.id !== userData.id;
   });
@@ -48,7 +48,6 @@ const AttestationsTable = ({
     return a.attestations?.every((b) => b.user_id !== userData.id) ?? false;
   });
 
-  // TODO: Divide this into different states.
   const data = useMemo(
     () =>
       unattestedContributions.map((contribution) => ({
@@ -56,9 +55,9 @@ const AttestationsTable = ({
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations || null,
-        guilds: contribution.attestations || null, // TODO: never used.
+        guilds: contribution.attestations || null,
         status: contribution.status.name,
-        action: '', // TODO: never used.
+        action: '',
         name: contribution.name,
         attestationDate: null,
         onChainId: contribution.on_chain_id,
