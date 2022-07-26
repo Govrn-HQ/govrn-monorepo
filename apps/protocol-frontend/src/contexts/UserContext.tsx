@@ -609,7 +609,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     <UserContext.Provider
       value={{
         allDaos,
-        authenticateAddress,
         createAttestation,
         createContribution,
         createUser,
@@ -617,15 +616,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         daoContributions,
         disconnectLinear,
         getAllDaos,
-        isAuthenticated,
-        isAuthenticating,
         mintAttestation,
         mintContribution,
+        setAllDaos,
         setDaoContributions,
         setUserActivityTypes,
         setUserAddress,
         setUserAttestations,
-        // setUserContributions,
         setUserData,
         setUserDataByAddress,
         updateContribution,
@@ -645,15 +642,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 };
 type UserContextType = {
   allDaos: any;
-  authenticateAddress: any;
   createAttestation: any;
   createContribution: any;
   createUser: any;
   createWaitlistUser: any;
   daoContributions: ContributionItem[];
+  disconnectLinear: any;
   getAllDaos: any;
-  isAuthenticated: boolean;
-  isAuthenticating: boolean;
   mintAttestation: any;
   mintContribution: any;
   setAllDaos: any;
@@ -674,65 +669,4 @@ type UserContextType = {
   userDataByAddress: any;
 };
 
-export const useUser: () => UserContextType = () => {
-  const {
-    allDaos,
-    authenticateAddress,
-    createAttestation,
-    createContribution,
-    createWaitlistUser,
-    daoContributions,
-    disconnectLinear,
-    isAuthenticated,
-    isAuthenticating,
-    mintAttestation,
-    mintContribution,
-    setAllDaos,
-    setDaoContributions,
-    setUserActivityTypes,
-    setUserAddress,
-    setUserAttestations,
-    setUserData,
-    setUserDataByAddress,
-    updateContribution,
-    updateLinearEmail,
-    updateProfile,
-    userActivityTypes,
-    userAddress,
-    userAttestations,
-    userContributions,
-    userData,
-    userDataByAddress,
-  } = useContext(UserContext);
-
-  return {
-    allDaos,
-    authenticateAddress,
-    createAttestation,
-    createContribution,
-    createUser,
-    createWaitlistUser,
-    daoContributions,
-    disconnectLinear,
-    isAuthenticated,
-    isAuthenticating,
-    mintAttestation,
-    mintContribution,
-    setAllDaos,
-    setDaoContributions,
-    setUserActivityTypes,
-    setUserAddress,
-    setUserAttestations,
-    setUserData,
-    setUserDataByAddress,
-    updateContribution,
-    updateLinearEmail,
-    updateProfile,
-    userActivityTypes,
-    userAddress,
-    userAttestations,
-    userContributions,
-    userData,
-    userDataByAddress,
-  };
-};
+export const useUser = (): UserContextType => useContext(UserContext);
