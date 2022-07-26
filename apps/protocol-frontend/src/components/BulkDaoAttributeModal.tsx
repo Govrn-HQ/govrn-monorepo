@@ -44,7 +44,7 @@ const useYupValidationResolver = (userValidationSchema: any) =>
 const BulkDaoAttributeModal = ({
   contributions,
 }: BulkDaoAttributeModalProps) => {
-  const { updateContribution, allDaos } = useUser();
+  const { updateContribution, bulkUpdateContributions, allDaos } = useUser();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution, setCurrentAttribution] = useState(1);
   const localForm = useForm({

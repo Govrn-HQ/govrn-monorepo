@@ -385,7 +385,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const updateContribution = async (contribution: any, values: any) => {
-    console.log('contribution in context', contribution);
+    const toastUpdateContributionId = 'toast-update-contribution';
     try {
       if (userData.id !== contribution.user.id) {
         throw new Error('You can only edit your own Contributions.');
@@ -413,17 +413,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
-      console.log('updateResp', updateResp);
       getUserActivityTypes();
       getUserContributions();
-      toast({
-        title: 'Contribution Report Updated',
-        description: 'Your Contribution report has been updated.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
+      if (!toast.isActive(toastUpdateContributionId)) {
+        toast({
+          id: toastUpdateContributionId,
+          title: 'Contribution Report Updated',
+          description: 'Your Contribution report has been updated.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
       setModals({ editContributionFormModal: false });
     } catch (error) {
       console.log(error);
