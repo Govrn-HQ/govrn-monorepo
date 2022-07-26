@@ -218,7 +218,7 @@ const ProfileForm = () => {
               direction="column"
               align="flex-start"
               marginTop={4}
-              marginBottom={{ base: 4, lg: 0 }}
+              marginBottom={4}
               gap="20px"
               width={{ base: '100%', lg: '50%' }}
             >
