@@ -29,6 +29,9 @@ export class UserUpdateCustomInput {
 
   @TypeGraphQL.Field((_type) => String)
   name: string;
+
+  @TypeGraphQL.Field((_type) => Number, { nullable: true })
+  disconnectLinearId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -96,22 +99,32 @@ export class UserCustomResolver {
   }
   @TypeGraphQL.Mutation((_returns) => User, { nullable: false })
   async updateUserCustom(
-    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: UpdateUserCustomArgs
   ) {
+    const address = req.session.siwe.data.address;
+    let extraData = {};
+    if (args.data.disconnectLinearId) {
+      extraData = {
+        ...extraData,
+        linear_users: { disconnect: { id: args.data.disconnectLinearId } },
+      };
+    }
+    // conditionally add linear disconnect
     return await prisma.user.update({
-      data: { name: { set: args.data.name } },
-      where: { id: args.data.id },
+      data: { ...extraData, name: { set: args.data.name } },
+      where: { address: address },
     });
   }
 
   @TypeGraphQL.Query((_returns) => [User], { nullable: false })
   async listUserByAddress(
-    @TypeGraphQL.Ctx() ctx: Context,
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: ListUserArgs
   ) {
-    return await getPrismaFromContext(ctx).user.findMany({
-      where: { address: { equals: args.address } },
+    const address = req.session.siwe.data.address;
+    return await prisma.user.findMany({
+      where: { address: { equals: address } },
     });
   }
 }

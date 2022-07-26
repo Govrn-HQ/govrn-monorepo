@@ -35,5 +35,5 @@ export class FindManyLinearUserArgs {
   @TypeGraphQL.Field(_type => [LinearUserScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "active" | "createdAt" | "displayName" | "email" | "linear_id" | "name" | "url" | "user_id"> | undefined;
+  distinct?: Array<"id" | "active" | "createdAt" | "displayName" | "email" | "linear_id" | "name" | "url" | "user_id" | "access_token" | "active_token"> | undefined;
 }

@@ -64,17 +64,22 @@ const ContributionsTable = ({
         activityTypeId: contribution.activity_type.id,
         status: contribution.status.name,
         action: '',
+        guildName: contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0]?? '---' ,
+
       })),
     [contributionsData]
   );
-
+ 
   const columns = useMemo(
     () => [
+   
       {
         Header: 'Name',
         accessor: 'name',
         Cell: ({ value }) => {
-          return <Text>{value}</Text>;
+          return (
+            <Text>{value}</Text>
+          );
         },
       },
       {
@@ -103,6 +108,16 @@ const ContributionsTable = ({
         accessor: 'attestations',
         Cell: ({ value }) => {
           return <Text textTransform="capitalize">{value.length} </Text>;
+        },
+      },
+
+      {
+        Header: 'DAO',
+        accessor: 'guildName',
+        Cell: ({ value }) => {
+          return (
+            <Text>{value}</Text>
+          );
         },
       },
     ],

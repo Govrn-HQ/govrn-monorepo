@@ -76,6 +76,8 @@ jobs:
           echo VITE_URL=${{secrets.VITE_URL_STAGING}} >> .env
           echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
           echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
+          echo VITE_LINEAR_REDIRECT_URI=${{secrets.VITE_LINEAR_REDIRECT_URI_STAGING}}  >> .env
+          echo VITE_LINEAR_CLIENT_ID=${{secrets.VITE_LINEAR_CLIENT_ID_STAGING}} >> .env
       - name: Build
         run: npx nx affected:build --configuration production --base $BASE
       - name: Docker Build
