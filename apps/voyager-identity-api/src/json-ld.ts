@@ -3,6 +3,7 @@ import { LDContribution } from './types';
 const template = {
   '@context': 'http://www.daostar.org/schemas',
   type: 'attestation',
+  issuer: 'Govrn',
 };
 
 export const transform = async (data: Array<LDContribution>) => {
