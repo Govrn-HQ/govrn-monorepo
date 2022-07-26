@@ -9,6 +9,8 @@ const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 
+const LIMIT = 100;
+
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
   chainId: 100,
@@ -19,9 +21,20 @@ const govrnContract = new GovrnContract(networkConfig, provider);
 const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
 const client = new GovrnGraphClient(graphQLClient);
 
-export const loadContributions = async (): Promise<LDContribution[]> => {
+export const loadContributions = async (options: {
+  page?: number;
+  limit?: number;
+}): Promise<LDContribution[]> => {
   // Load attestations events from subgraph.
-  const events = (await client.listAttestations({})).attestations;
+  const page = options.page || 0; // || for NaN value.
+  const limit = options.limit || LIMIT;
+
+  const events = (
+    await client.listAttestations({
+      skip: page * limit,
+      first: limit,
+    })
+  ).attestations;
 
   // Load corresponding contributions to get `detailsUri`.
   const contrs = await Promise.all(

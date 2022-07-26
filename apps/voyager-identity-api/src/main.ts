@@ -10,7 +10,11 @@ app
     next();
   })
   .get('/api', async (req, res) => {
-    const event = await loadContributions();
+    const page = Number(req.query.page);
+    const limit = Number(req.query.limit);
+
+    console.dir({ page, limit });
+    const event = await loadContributions({ page: null, limit });
     // json > json-ld
     const transformed = await transform(event);
     res.send(JSON.stringify(transformed));
