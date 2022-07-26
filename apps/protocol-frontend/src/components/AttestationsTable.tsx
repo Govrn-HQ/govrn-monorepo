@@ -36,14 +36,8 @@ const AttestationsTable = ({
   setSelectedContributions: (contrs: any[]) => void;
 }) => {
   const localOverlay = useOverlay();
-  // const { setModals } = useOverlay();
   const { userData } = useUser();
   const [selectedContribution] = useState<any>();
-
-  // const handleAddAttestationFormModal = (id: number) => {
-  //   setSelectedContribution(id);
-  //   setModals({ addAttestationFormModal: true });
-  // };
 
   // FIXME: warp this into some hook, to avoid re-calculation with every render.
   const nonUserContributions = _.filter(contributionsData, function (a) {
