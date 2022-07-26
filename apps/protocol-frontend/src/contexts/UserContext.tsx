@@ -39,9 +39,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
-  // const [currentChain, setCurrentChain] = useState<string | null | undefined>(
-  //   undefined
-  // );
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<UserData>({} as UserData);
@@ -654,15 +651,14 @@ type UserContextType = {
   createContribution: any;
   createUser: any;
   createWaitlistUser: any;
-  currentChain: any;
   daoContributions: ContributionItem[];
+  getAllDaos: any;
   isAuthenticated: boolean;
   isAuthenticating: boolean;
   mintAttestation: any;
   mintContribution: any;
   setAllDaos: any;
-  setCurrentChain: any;
-  setDaoContributions: any;
+  setDaoContributions: (data: ContributionItem[]) => void;
   setUserActivityTypes: any;
   setUserAddress: any;
   setUserAttestations: any;
@@ -687,14 +683,12 @@ export const useUser: () => UserContextType = () => {
     createContribution,
     createUser,
     createWaitlistUser,
-    currentChain,
     daoContributions,
     isAuthenticated,
     isAuthenticating,
     mintAttestation,
     mintContribution,
     setAllDaos,
-    setCurrentChain,
     setDaoContributions,
     setUserActivityTypes,
     setUserAddress,
@@ -719,14 +713,12 @@ export const useUser: () => UserContextType = () => {
     createContribution,
     createUser,
     createWaitlistUser,
-    currentChain,
     daoContributions,
     isAuthenticated,
     isAuthenticating,
     mintAttestation,
     mintContribution,
     setAllDaos,
-    setCurrentChain,
     setDaoContributions,
     setUserActivityTypes,
     setUserAddress,
