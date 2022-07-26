@@ -1,5 +1,7 @@
 import util = require('util');
 import cors = require('cors');
+// eslint-disable-next-line
+import tslib = require('tslib');
 import * as express from 'express';
 import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
 
