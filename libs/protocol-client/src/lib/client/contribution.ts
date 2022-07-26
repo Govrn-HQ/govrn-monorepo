@@ -20,9 +20,7 @@ export class Contribution extends BaseClient {
     return contribution.result;
   }
 
-  public async list(
-    args: ListContributionsQueryVariables
-  ): Promise<Array<ContributionItem>> {
+  public async list(args: ListContributionsQueryVariables) {
     const contributions = await this.sdk.listContributions(args);
     return contributions.result;
   }
