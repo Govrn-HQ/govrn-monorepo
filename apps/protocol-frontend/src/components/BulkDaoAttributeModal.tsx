@@ -59,8 +59,7 @@ const BulkDaoAttributeModal = ({
 
   const bulkAttributeDaoHandler = async (values: any) => {
     setAttributing(true);
-    actualContributions.map((contribution, idx) => {
-      console.log('contribution', contribution);
+    contributions.map((contribution, idx) => {
       updateContribution(contribution, values);
     });
 
