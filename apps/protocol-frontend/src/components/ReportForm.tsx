@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import {
@@ -9,49 +9,19 @@ import {
   Select,
 } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { useNavigate } from 'react-router-dom';
 import { ContributionFormValues } from '../types/forms';
-
-const useYupValidationResolver = (reportValidationSchema: any) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await reportFormValidation.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [reportFormValidation]
-  );
 
 const ReportForm = () => {
   const { userActivityTypes, createContribution, allDaos } = useUser();
 
   const navigate = useNavigate();
 
-  const localForm = useForm({
+  const localForm = useForm<ContributionFormValues>({
     mode: 'all',
-    resolver: useYupValidationResolver(reportFormValidation),
+    resolver: yupResolver(reportFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());

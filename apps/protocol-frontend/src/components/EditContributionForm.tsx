@@ -7,8 +7,8 @@ import {
   CreatableSelect,
   Select,
 } from '@govrn/protocol-ui';
-
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
@@ -18,45 +18,14 @@ interface EditContributionFormProps {
   onClose?: () => void;
 }
 
-const useYupValidationResolver = (userValidationSchema: any) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await userValidationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [userValidationSchema]
-  );
-
 const EditContributionForm = ({
   contribution,
   onClose,
 }: EditContributionFormProps) => {
   const { updateContribution, userActivityTypes, allDaos } = useUser();
-  const localForm = useForm({
+  const localForm = useForm<ContributionFormValues>({
     mode: 'all',
-    resolver: useYupValidationResolver(editContributionFormValidation),
+    resolver: yupResolver(editContributionFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(

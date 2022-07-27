@@ -8,10 +8,12 @@ export type ContributionFormValues = {
 };
 
 export type CreateUserFormValues = {
+  address: string;
   username: string;
 }
 
 export type ProfileFormValues = {
+  address: string;
   name: string;
 }
 
