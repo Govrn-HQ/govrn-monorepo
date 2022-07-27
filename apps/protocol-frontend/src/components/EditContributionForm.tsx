@@ -8,9 +8,10 @@ import {
   Select,
 } from '@govrn/protocol-ui';
 
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
+import { ContributionFormValues } from '../types/forms';
 
 interface EditContributionFormProps {
   contribution: any;
@@ -61,7 +62,7 @@ const EditContributionForm = ({
   const [engagementDateValue, setEngagementDateValue] = useState(
     new Date(contribution?.date_of_engagement)
   );
-  console.log('editing contribution', contribution);
+
   useEffect(() => {
     setValue('name', contribution?.name);
     setValue('details', contribution?.details);
@@ -111,7 +112,9 @@ const EditContributionForm = ({
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
-  const updateContributionHandler = async (values: any) => {
+  const updateContributionHandler: SubmitHandler<
+    ContributionFormValues
+  > = async (values: ContributionFormValues) => {
     updateContribution(contribution, values);
     reset();
   };

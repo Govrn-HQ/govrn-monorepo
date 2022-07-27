@@ -8,9 +8,10 @@ import {
   CreatableSelect,
   Select,
 } from '@govrn/protocol-ui';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
 import { useNavigate } from 'react-router-dom';
+import { ContributionFormValues } from '../types/forms';
 
 const useYupValidationResolver = (reportValidationSchema: any) =>
   useCallback(
@@ -87,7 +88,9 @@ const ReportForm = () => {
     })
   );
 
-  const createContributionHandler = async (values: any) => {
+  const createContributionHandler: SubmitHandler<
+    ContributionFormValues
+  > = async (values: ContributionFormValues) => {
     setActivityValue(values.activityType);
     createContribution(values, reset, navigate);
   };

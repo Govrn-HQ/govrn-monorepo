@@ -10,7 +10,11 @@ interface BulkDaoAttributeModalProps {
   onClose?: () => void;
 }
 
-const useYupValidationResolver = (userValidationSchema: any) =>
+type BulkDaoAttributeFormValues = {
+  daoId: string | null;
+};
+
+const useYupValidationResolver = (userValidationSchema) =>
   useCallback(
     async (data) => {
       try {
@@ -53,7 +57,9 @@ const BulkDaoAttributeModal = ({
   });
   const { handleSubmit, setValue } = localForm;
 
-  const bulkAttributeDaoHandler = async (values: any) => {
+  const bulkAttributeDaoHandler = async (
+    values: BulkDaoAttributeFormValues
+  ) => {
     setAttributing(true);
     contributions.map((contribution, idx) => {
       updateContribution(contribution, values, contributions.length);
