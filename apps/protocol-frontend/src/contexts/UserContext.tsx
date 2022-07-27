@@ -46,6 +46,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
+  const [contribution, setContribution] = useState<any>(null);
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     []
   );
@@ -91,6 +92,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       console.error(error);
     }
   }, [address]);
+
+  const getContribution = async (id: number) => {
+    try {
+      const contributionResponse = await govrn.contribution.get(id);
+      setContribution(contributionResponse);
+      return contributionResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getUserContributions = async () => {
     try {
@@ -662,6 +673,24 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   return (
     <UserContext.Provider
       value={{
+        currentChain,
+        setCurrentChain,
+        userAddress,
+        setUserAddress,
+        userData,
+        setUserData,
+        userDataByAddress,
+        setUserDataByAddress,
+        getContribution,
+        setContribution,
+        userContributions,
+        setUserContributions,
+        daoContributions,
+        setDaoContributions,
+        userAttestations,
+        setUserAttestations,
+        userActivityTypes,
+        setUserActivityTypes,
         allDaos,
         createAttestation,
         createContribution,
