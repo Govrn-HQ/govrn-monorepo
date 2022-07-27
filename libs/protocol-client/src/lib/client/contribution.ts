@@ -29,6 +29,29 @@ export class Contribution extends BaseClient {
     return contributions.createContribution;
   }
 
+  public async burn(
+    networkConfig: NetworkConfig,
+    provider: ethers.providers.Provider,
+    id: number
+  ) {
+    const contract = new GovrnContract(networkConfig, provider);
+
+    const contribution = await this.get(id);
+    if (!contribution) {
+      throw Error(`Contribution doesn't exist: ${id}`);
+    }
+
+    // TODO: Can we avoid hardcoding the event name
+    if (contribution?.status.name === 'minted' && contribution.on_chain_id) {
+      const transaction = await contract.burnContribution({
+        tokenId: contribution.on_chain_id,
+      });
+      await transaction.wait(1);
+    }
+
+    return await this.sdk.deleteContribution({ where: { id } });
+  }
+
   public async bulkCreate(args: BulkCreateContributionMutationVariables) {
     const mutation = await this.sdk.bulkCreateContribution(args);
     return mutation.createManyContribution.count;
