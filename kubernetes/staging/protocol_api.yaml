@@ -51,6 +51,18 @@ spec:
                 secretKeyRef:
                   name: protocol-api
                   key: cors_origin
+            - name: LINEAR_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: linear_client_id
+            - name: LINEAR_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: linear_client_secret
+            - name: PROTOCOL_FRONTEND
+              value: 'https://api-staging.govrn.app'
           resources:
             requests:
               memory: 300Mi
