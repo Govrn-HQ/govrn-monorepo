@@ -384,7 +384,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const updateContribution = async (contribution: any, values: any) => {
+  const updateContribution = async (
+    contribution: any,
+    values: any,
+    bulkItemCount?: number
+  ) => {
     const toastUpdateContributionId = 'toast-update-contribution';
     try {
       if (userData.id !== contribution.user.id) {
@@ -418,8 +422,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       if (!toast.isActive(toastUpdateContributionId)) {
         toast({
           id: toastUpdateContributionId,
-          title: 'Contribution Report Updated',
-          description: 'Your Contribution report has been updated.',
+          title: `Contribution ${
+            bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
+          } Updated`,
+          description: `Your Contribution ${
+            bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
+          } been updated.`,
           status: 'success',
           duration: 3000,
           isClosable: true,
