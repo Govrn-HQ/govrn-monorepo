@@ -1,13 +1,14 @@
 import { useCallback, useEffect } from 'react';
 import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { useUser } from '../contexts/UserContext';
 import {
   profileFormValidation,
   linearFormValidation,
 } from '../utils/validations';
+import { ProfileFormValues } from '../types/forms';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
@@ -75,13 +76,8 @@ const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
   );
 
 const ProfileForm = () => {
-  const {
-    userData,
-    updateProfile,
-    updateLinearEmail,
-    disconnectLinear,
-    getUser,
-  } = useUser();
+  const { userData, updateProfile, updateLinearEmail, disconnectLinear } =
+    useUser();
 
   const localForm = useForm<{ name: string; address: string }>({
     mode: 'all',
@@ -100,8 +96,9 @@ const ProfileForm = () => {
     setValue('address', userData?.address);
   }, [userData]);
 
-  console.log(userData);
-  const updateProfileHandler = async (values: any) => {
+  const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (
+    values: ProfileFormValues
+  ) => {
     updateProfile(values);
   };
 

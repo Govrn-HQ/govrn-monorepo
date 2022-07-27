@@ -7,3 +7,6 @@ export type ContributionFormValues = {
   daoId?: string | null;
 };
 
+export type ProfileFormValues = {
+  name: string;
+}
