@@ -16,6 +16,7 @@ import { useAuth } from './AuthContext';
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 export const UserContext: any = createContext(null);
+
 interface UserContextProps {
   children: React.ReactNode;
 }
@@ -288,7 +289,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           ethers.utils.toUtf8Bytes(contribution.details), // contribution details
           ethers.utils.toUtf8Bytes(contribution.proof) // contribution proof
         );
-        getUserContributions();
+        await getUserContributions();
         setMintProgress((prevState) => prevState + 1);
         toast({
           title: 'Contribution Successfully Minted',
@@ -304,6 +305,42 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       toast({
         title: 'Unable to Mint Contribution',
         description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
+  const deleteContribution = async (id: number) => {
+    try {
+      if (provider) {
+        await govrn.contribution.burn(
+          {
+            address: networks[chainId].govrnContract,
+            chainId: networks[chainId].chainNumber,
+            name: networks[chainId].name,
+          },
+          signer,
+          id
+        );
+        await getUserContributions();
+
+        toast({
+          title: 'Contribution Successfully deleted',
+          description: 'Your Contribution has been minted.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    } catch (e) {
+      console.log('error', e);
+      toast({
+        title: 'Unable to delete contribution',
+        description: `Something went wrong. Please try again: ${e}`,
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -588,6 +625,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userAddress,
         setUserAddress,
         userData,
+        deleteContribution,
         setUserData,
         userDataByAddress,
         setUserDataByAddress,
@@ -627,6 +665,7 @@ export const useUser = () => {
     userDataByAddress,
     setUserDataByAddress,
     userData,
+    deleteContribution,
     setUserData,
     userContributions,
     setUserContributions,
@@ -657,6 +696,7 @@ export const useUser = () => {
     userDataByAddress,
     setUserDataByAddress,
     userData,
+    deleteContribution,
     setUserData,
     userContributions,
     setUserContributions,
