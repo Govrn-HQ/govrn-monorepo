@@ -5,6 +5,7 @@ import {
   UpsertLinearCycleMutationVariables,
   UpsertLinearProjectMutationVariables,
   UpsertLinearTeamMutationVariables,
+  ListLinearIssuesQueryVariables,
 } from '../protocol-types';
 import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
@@ -29,6 +30,11 @@ class Issue extends BaseClient {
   public async bulkCreate(args: BulkCreateIssuesMutationVariables) {
     const count = await this.sdk.bulkCreateIssues(args);
     return count;
+  }
+
+  public async list(args: ListLinearIssuesQueryVariables) {
+    const issues = await this.sdk.listLinearIssues(args);
+    return issues;
   }
 }
 

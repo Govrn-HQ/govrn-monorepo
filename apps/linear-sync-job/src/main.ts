@@ -83,6 +83,11 @@ const createJobRun = async (
   return teamPromise;
 };
 
+// Fetch access_token
+// After getting access token
+// Get latest Linear issue to pick later
+//
+// convert to contribution
 const main = async () => {
   console.log(`Starting to process linear issues`);
   const linearClient = new LinearClient({ apiKey });

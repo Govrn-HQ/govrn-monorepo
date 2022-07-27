@@ -13705,6 +13705,18 @@ export type GetJobRunQueryVariables = Exact<{
 
 export type GetJobRunQuery = { result?: { id: number, createdAt: any, updatedAt: any, completedDate: any, name: string, startDate: any } | null };
 
+export type LinearIssueFragmentFragment = { id: number, completedAt?: any | null };
+
+export type ListLinearIssuesQueryVariables = Exact<{
+  where?: LinearIssueWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<LinearIssueOrderByWithRelationInput> | LinearIssueOrderByWithRelationInput>;
+}>;
+
+
+export type ListLinearIssuesQuery = { result: Array<{ id: number, completedAt?: any | null }> };
+
 export type BulkCreateIssuesMutationVariables = Exact<{
   data: Array<LinearIssueCreateManyInput> | LinearIssueCreateManyInput;
   skipDuplicates: Scalars['Boolean'];
@@ -14070,6 +14082,12 @@ export const JobFieldsFragmentFragmentDoc = gql`
   startDate
 }
     `;
+export const LinearIssueFragmentFragmentDoc = gql`
+    fragment LinearIssueFragment on LinearIssue {
+  id
+  completedAt
+}
+    `;
 export const LinearUserFragmentFragmentDoc = gql`
     fragment LinearUserFragment on LinearUser {
   active
@@ -14294,6 +14312,18 @@ export const GetJobRunDocument = gql`
   }
 }
     ${JobFieldsFragmentFragmentDoc}`;
+export const ListLinearIssuesDocument = gql`
+    query listLinearIssues($where: LinearIssueWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearIssueOrderByWithRelationInput!]) {
+  result: linearIssues(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...LinearIssueFragment
+  }
+}
+    ${LinearIssueFragmentFragmentDoc}`;
 export const BulkCreateIssuesDocument = gql`
     mutation bulkCreateIssues($data: [LinearIssueCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyLinearIssue(data: $data, skipDuplicates: $skipDuplicates) {
@@ -14635,6 +14665,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getJobRun(variables: GetJobRunQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetJobRunQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetJobRunQuery>(GetJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getJobRun', 'query');
+    },
+    listLinearIssues(variables?: ListLinearIssuesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListLinearIssuesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListLinearIssuesQuery>(ListLinearIssuesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listLinearIssues', 'query');
     },
     bulkCreateIssues(variables: BulkCreateIssuesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateIssuesMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateIssuesMutation>(BulkCreateIssuesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateIssues', 'mutation');
