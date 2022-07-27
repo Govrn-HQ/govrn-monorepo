@@ -5,8 +5,9 @@ import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { createUserFormValidation } from '../utils/validations';
+import { CreateUserFormValues } from '../types/forms';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -52,10 +53,10 @@ const CreateUserForm = () => {
   } = localForm;
   const { address } = useWallet();
   const { createUser } = useUser();
-  const navigate = useNavigate();
 
-  const createUserHandler = async (values: any) => {
-    console.log('values', values);
+  const createUserHandler: SubmitHandler<CreateUserFormValues> = async (
+    values: CreateUserFormValues
+  ) => {
     createUser(values, address);
   };
 

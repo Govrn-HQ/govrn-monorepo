@@ -7,6 +7,11 @@ export type ContributionFormValues = {
   daoId?: string | null;
 };
 
+export type CreateUserFormValues = {
+  username: string;
+}
+
 export type ProfileFormValues = {
   name: string;
 }
+
