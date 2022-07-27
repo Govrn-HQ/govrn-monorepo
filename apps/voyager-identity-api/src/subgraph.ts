@@ -46,12 +46,10 @@ export const loadContributions = async (options: {
     })
   );
 
-  return contrs.map((c) => {
-    return {
-      id: Number(BigNumber.from(c.contribution.id.toString()).toString()),
-      attestor: c.attestor,
-      owner: c.owner,
-      detailsUri: ethers.utils.toUtf8String(c.detailsUri),
-    };
-  });
+  return contrs.map((c) => ({
+    id: Number(BigNumber.from(c.contribution.id.toString()).toString()),
+    attestor: c.attestor,
+    owner: c.owner,
+    detailsUri: ethers.utils.toUtf8String(c.detailsUri),
+  }));
 };
