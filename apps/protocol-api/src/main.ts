@@ -55,6 +55,7 @@ const permissions = shield(
   {
     Query: {
       '*': deny,
+      contribution: or(isAuthenticated, hasToken),
       contributions: or(isAuthenticated, hasToken),
       activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
@@ -80,6 +81,7 @@ const permissions = shield(
       createUserContribution: and(OwnsData, isAuthenticated),
       createUserCustom: or(hasToken, and(OwnsData, isAuthenticated)),
       createUserOnChainAttestation: isAuthenticated,
+      deleteContribution: or(OwnsData, isAuthenticated),
       updateGuild: hasToken,
       updateUser: hasToken,
       updateUserContribution: and(OwnsData, isAuthenticated),
