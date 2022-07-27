@@ -46,16 +46,12 @@ const BulkDaoAttributeModal = ({
 }: BulkDaoAttributeModalProps) => {
   const { updateContribution, allDaos } = useUser();
   const [attributing, setAttributing] = useState(false);
-  const [currentAttribution, setCurrentAttribution] = useState(1);
+  const [currentAttribution] = useState(1);
   const localForm = useForm({
     mode: 'all',
     resolver: useYupValidationResolver(editContributionFormValidation),
   });
-  const { handleSubmit, setValue, reset } = localForm;
-
-  // const actualContributions = contributions.map((c) => c.original);
-
-  console.log('contributions in modal', contributions);
+  const { handleSubmit, setValue } = localForm;
 
   const bulkAttributeDaoHandler = async (values: any) => {
     setAttributing(true);
@@ -97,8 +93,8 @@ const BulkDaoAttributeModal = ({
         <Select
           name="daoId"
           label="DAO"
-          tip="Please select a DAO to associate this Contribution with. This is optional."
-          placeholder="Select a DAO to associate this Contribution with."
+          tip="Please select a DAO to attribute to. This is optional."
+          placeholder="Select a DAO to attribute to."
           onChange={(dao) => {
             setValue('daoId', dao.value);
           }}
@@ -112,7 +108,6 @@ const BulkDaoAttributeModal = ({
           backgroundColor="brand.primary.50"
           transition="all 100ms ease-in-out"
           _hover={{ bgColor: 'brand.primary.100' }}
-          // onClick={() => bulkAttributeDaoHandler(contributions)}
           isLoading={attributing}
         >
           Attribute{' '}

@@ -96,7 +96,7 @@ const ContributionsTableShell = () => {
                         {selectedContributions?.length === 0 ? (
                           <Alert
                             status="info"
-                            width={{ base: '100%', lg: '50%' }}
+                            width={{ base: '100%', lg: '60%' }}
                             borderRadius="md"
                           >
                             <AlertDescription>
@@ -106,37 +106,40 @@ const ContributionsTableShell = () => {
                               >
                                 🌞
                               </span>{' '}
-                              Please select at least one Contribution to mint.
+                              Please select at least one Contribution to
+                              attribute to a DAO or mint.
                             </AlertDescription>
                           </Alert>
                         ) : (
-                          <Button
-                            size="md"
-                            bgColor="brand.primary.50"
-                            color="brand.primary.600"
-                            transition="all 100ms ease-in-out"
-                            _hover={{ bgColor: 'brand.primary.100' }}
-                            flexBasis="10%"
-                            colorScheme="brand.primary"
-                            onClick={mintModalHandler}
-                            disabled={selectedContributions?.length === 0}
-                          >
-                            Mint
-                          </Button>
+                          <Stack direction="row" spacing={5}>
+                            <Button
+                              size="md"
+                              bgColor="brand.primary.50"
+                              color="brand.primary.600"
+                              transition="all 100ms ease-in-out"
+                              _hover={{ bgColor: 'brand.primary.100' }}
+                              colorScheme="brand.primary"
+                              onClick={bulkDaoAttributeHandler}
+                              disabled={selectedContributions?.length === 0}
+                            >
+                              Attribute to DAO
+                            </Button>
+                            <Button
+                              size="md"
+                              bgColor="white"
+                              color="brand.primary.600"
+                              border="1px solid"
+                              borderColor="brand.primary.500"
+                              transition="all 100ms ease-in-out"
+                              _hover={{ bgColor: 'brand.primary.50' }}
+                              colorScheme="brand.primary"
+                              onClick={mintModalHandler}
+                              disabled={selectedContributions?.length === 0}
+                            >
+                              Mint
+                            </Button>
+                          </Stack>
                         )}
-                        <Button
-                          size="md"
-                          bgColor="brand.primary.50"
-                          color="brand.primary.600"
-                          transition="all 100ms ease-in-out"
-                          _hover={{ bgColor: 'brand.primary.100' }}
-                          flexBasis="20%"
-                          colorScheme="brand.primary"
-                          onClick={bulkDaoAttributeHandler}
-                          disabled={selectedContributions?.length === 0}
-                        >
-                          Attribute to DAO
-                        </Button>
                       </Stack>
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
@@ -145,24 +148,6 @@ const ContributionsTableShell = () => {
                         setSelectedContributions={setSelectedContributions}
                       />
                     </Box>
-                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
-                      <HStack spacing="3" justify="space-between">
-                        {!isMobile && (
-                          <Text color="muted" fontSize="sm">
-                            Showing 1 to (x) of (y) results
-                          </Text>
-                        )}
-                        <ButtonGroup
-                          spacing="3"
-                          justifyContent="space-between"
-                          width={{ base: 'full', md: 'auto' }}
-                          variant="secondary"
-                        >
-                          <Button>Previous</Button>
-                          <Button>Next</Button>
-                        </ButtonGroup>
-                      </HStack>
-                    </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>
@@ -192,24 +177,6 @@ const ContributionsTableShell = () => {
                         <EmptyContributions />
                       )}
                     </Box>
-                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
-                      <HStack spacing="3" justify="space-between">
-                        {!isMobile && (
-                          <Text color="muted" fontSize="sm">
-                            Showing 1 to (x) of (y) results
-                          </Text>
-                        )}
-                        <ButtonGroup
-                          spacing="3"
-                          justifyContent="space-between"
-                          width={{ base: 'full', md: 'auto' }}
-                          variant="secondary"
-                        >
-                          <Button>Previous</Button>
-                          <Button>Next</Button>
-                        </ButtonGroup>
-                      </HStack>
-                    </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>
