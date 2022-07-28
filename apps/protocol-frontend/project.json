@@ -30,6 +30,13 @@
         }
       }
     },
+    "tsc": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "tsc --project apps/protocol-frontend/tsconfig.app.json --noEmit --skipLibCheck",
+        "color": true
+      }
+    },
     "serve": {
       "executor": "@nxext/vite:dev",
       "options": {
