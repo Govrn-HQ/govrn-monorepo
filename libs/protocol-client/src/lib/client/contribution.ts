@@ -40,7 +40,7 @@ export class Contribution extends BaseClient {
   public async delete(
     networkConfig: NetworkConfig,
     provider: ethers.providers.Provider,
-    id: number
+    id: number,
   ) {
     const contract = new GovrnContract(networkConfig, provider);
 
@@ -57,7 +57,7 @@ export class Contribution extends BaseClient {
       await transaction.wait(1);
     }
 
-    return await this.sdk.deleteContribution({ where: { id } });
+    return await this.sdk.deleteContribution({ where: { contributionId: id } });
   }
 
   public async bulkCreate(args: BulkCreateContributionMutationVariables) {
@@ -80,7 +80,7 @@ export class Contribution extends BaseClient {
     args: MintArgs,
     name: string,
     details: string,
-    proof: string
+    proof: string,
   ) {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
@@ -140,7 +140,7 @@ export class Contribution extends BaseClient {
     id: number,
     activityTypeId: number,
     userId: number,
-    args: AttestArgs
+    args: AttestArgs,
   ) {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.attest(args);

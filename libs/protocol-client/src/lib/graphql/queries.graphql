@@ -396,8 +396,8 @@ mutation createOnChainUserContribution(
   }
 }
 
-mutation deleteContribution($where: ContributionWhereUniqueInput!) {
-  deleteContribution(where: $where) {
+mutation deleteContribution($where: UserContributionDeleteInput!) {
+  deleteUserContribution(where: $where) {
     id
   }
 }
