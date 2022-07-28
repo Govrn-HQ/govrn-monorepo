@@ -329,7 +329,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
         toast({
           title: 'Contribution Successfully deleted',
-          description: 'Your Contribution has been minted.',
+          description: 'Your Contribution has been deleted.',
           status: 'success',
           duration: 3000,
           isClosable: true,
