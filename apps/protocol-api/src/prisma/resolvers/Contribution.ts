@@ -460,7 +460,7 @@ export class ContributionCustomResolver {
     }
 
     const contribution = query[0];
-    if (address === contribution.user.address) {
+    if (address !== contribution.user.address) {
       throw Error("User doesn't own this contribution.");
     }
 
