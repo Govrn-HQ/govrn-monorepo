@@ -316,7 +316,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const deleteContribution = async (id: number) => {
     try {
       if (provider) {
-        await govrn.contribution.burn(
+        await govrn.contribution.delete(
           {
             address: networks[chainId].govrnContract,
             chainId: networks[chainId].chainNumber,

@@ -29,7 +29,15 @@ export class Contribution extends BaseClient {
     return contributions.createContribution;
   }
 
-  public async burn(
+  /**
+   * This method deletes the contribution from the db.
+   * if minted, it burns the contribution.
+   *
+   * @param networkConfig
+   * @param provider
+   * @param id contribution id
+   */
+  public async delete(
     networkConfig: NetworkConfig,
     provider: ethers.providers.Provider,
     id: number
