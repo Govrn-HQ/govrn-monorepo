@@ -39,6 +39,7 @@ export type NetworkConfig = {
 
 export class GovrnContract {
   govrn: Govrn;
+
   constructor(
     networkConfig: NetworkConfig,
     provider: ethers.providers.Provider
@@ -77,5 +78,11 @@ export class GovrnContract {
 
   public async attestations(args: AttestationArgs) {
     return await this.govrn.attestations(args.tokenId, args.address);
+  }
+
+  public async burnContribution(args: ContributionsArgs) {
+    return await this.govrn.burnContribution(args.tokenId, {
+      gasLimit: 2100000,
+    });
   }
 }

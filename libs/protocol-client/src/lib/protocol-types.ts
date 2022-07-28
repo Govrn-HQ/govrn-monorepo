@@ -8292,6 +8292,7 @@ export type Mutation = {
   deleteTwitterUser?: Maybe<TwitterUser>;
   deleteUser?: Maybe<User>;
   deleteUserActivity?: Maybe<UserActivity>;
+  deleteUserContribution: Contribution;
   updateActivityType?: Maybe<ActivityType>;
   updateAttestation?: Maybe<Attestation>;
   updateAttestationConfidence?: Maybe<AttestationConfidence>;
@@ -8921,6 +8922,11 @@ export type MutationDeleteUserArgs = {
 
 export type MutationDeleteUserActivityArgs = {
   where: UserActivityWhereUniqueInput;
+};
+
+
+export type MutationDeleteUserContributionArgs = {
+  where: UserContributionDeleteInput;
 };
 
 
@@ -12726,6 +12732,10 @@ export type UserContributionCreateInput = {
   userId: Scalars['Float'];
 };
 
+export type UserContributionDeleteInput = {
+  contributionId: Scalars['Int'];
+};
+
 export type UserContributionUpdateInput = {
   activityTypeName: Scalars['String'];
   address: Scalars['String'];
@@ -13933,6 +13943,13 @@ export type CreateOnChainUserContributionMutationVariables = Exact<{
 
 export type CreateOnChainUserContributionMutation = { createOnChainUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
+export type DeleteContributionMutationVariables = Exact<{
+  where: UserContributionDeleteInput;
+}>;
+
+
+export type DeleteContributionMutation = { deleteUserContribution: { id: number } };
+
 export type UpdateUserContributionMutationVariables = Exact<{
   data: UserContributionUpdateInput;
 }>;
@@ -14506,6 +14523,13 @@ export const CreateOnChainUserContributionDocument = gql`
   }
 }
     ${ContributionFragmentFragmentDoc}`;
+export const DeleteContributionDocument = gql`
+    mutation deleteContribution($where: UserContributionDeleteInput!) {
+  deleteUserContribution(where: $where) {
+    id
+  }
+}
+    `;
 export const UpdateUserContributionDocument = gql`
     mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
@@ -14715,6 +14739,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createOnChainUserContribution(variables: CreateOnChainUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateOnChainUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateOnChainUserContributionMutation>(CreateOnChainUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createOnChainUserContribution', 'mutation');
+    },
+    deleteContribution(variables: DeleteContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteContributionMutation>(DeleteContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteContribution', 'mutation');
     },
     updateUserContribution(variables: UpdateUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserContributionMutation>(UpdateUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserContribution', 'mutation');
