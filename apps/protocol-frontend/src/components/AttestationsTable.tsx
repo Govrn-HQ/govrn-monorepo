@@ -21,26 +21,15 @@ import {
   useSortBy,
   useTable,
 } from 'react-table';
-import { ModalWrapper } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
-import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
-import AddAttestationForm from './AddAttestationForm';
 
 const AttestationsTable = ({
   contributionsData,
   setSelectedContributions,
 }: any) => {
-  const localOverlay = useOverlay();
-  const { setModals } = useOverlay();
   const { userData } = useUser();
-  const [selectedContribution, setSelectedContribution] = useState<any>();
-
-  const handleAddAttestationFormModal = (id: number) => {
-    setSelectedContribution(id);
-    setModals({ addAttestationFormModal: true });
-  };
 
   const nonUserContributions = _.filter(contributionsData, function (a) {
     return a.user.id !== userData.id;
@@ -99,7 +88,6 @@ const AttestationsTable = ({
         Header: 'Contributor',
         accessor: 'contributor',
       },
-      // { Header: 'DAO', accessor: 'guild' },
     ],
     []
   );
@@ -112,28 +100,10 @@ const AttestationsTable = ({
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
         Cell: ({ row }) => (
-          <IndeterminateCheckbox
-            {...row.getToggleRowSelectedProps()}
-            // disabled={row.original.attestations?.user_id === userData.id}
-          />
+          <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
         ),
       },
       ...columns,
-      // {
-      //   id: 'actions',
-      //   Header: 'Actions',
-      //   Cell: ({ row }) => (
-      //     <HStack spacing="1">
-      //       <IconButton
-      //         icon={<FiCheckSquare fontSize="1rem" />}
-      //         variant="ghost"
-      //         color="gray.800"
-      //         aria-label="Add Attestation"
-      //         onClick={() => handleAddAttestationFormModal(row.original.id)}
-      //       />
-      //     </HStack>
-      //   ),
-      // },
     ]);
   };
 
@@ -208,19 +178,6 @@ const AttestationsTable = ({
             })}
           </Tbody>
         </Table>
-        <ModalWrapper
-          name="addAttestationFormModal"
-          title="Add Attestation"
-          localOverlay={localOverlay}
-          content={
-            <AddAttestationForm
-              contribution={contributionsData.find(
-                (localContribution) =>
-                  localContribution.id === selectedContribution
-              )}
-            />
-          }
-        />
       </Box>
     </Stack>
   );

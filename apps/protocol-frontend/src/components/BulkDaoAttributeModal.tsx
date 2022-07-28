@@ -1,49 +1,16 @@
 import { useState, useCallback } from 'react';
 import { Select } from '@govrn/protocol-ui';
-import { Stack, Flex, Button, Text, Progress } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
+import { Stack, Button, Text, Progress } from '@chakra-ui/react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
+import { BulkDaoAttributeFormValues } from '../types/forms';
 
 interface BulkDaoAttributeModalProps {
   contributions: any;
   onClose?: () => void;
 }
-
-type BulkDaoAttributeFormValues = {
-  daoId: string | null;
-};
-
-const useYupValidationResolver = (userValidationSchema) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await userValidationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [userValidationSchema]
-  );
 
 const BulkDaoAttributeModal = ({
   contributions,
@@ -51,15 +18,15 @@ const BulkDaoAttributeModal = ({
   const { updateContribution, allDaos } = useUser();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution] = useState(1);
-  const localForm = useForm({
+  const localForm = useForm<BulkDaoAttributeFormValues>({
     mode: 'all',
-    resolver: useYupValidationResolver(editContributionFormValidation),
+    resolver: yupResolver(editContributionFormValidation),
   });
   const { handleSubmit, setValue } = localForm;
 
-  const bulkAttributeDaoHandler = async (
-    values: BulkDaoAttributeFormValues
-  ) => {
+  const bulkAttributeDaoHandler: SubmitHandler<
+    BulkDaoAttributeFormValues
+  > = async (values: BulkDaoAttributeFormValues) => {
     setAttributing(true);
     contributions.map((contribution, idx) => {
       updateContribution(contribution, values, contributions.length);

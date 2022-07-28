@@ -7,6 +7,10 @@ export type ContributionFormValues = {
   daoId?: string | null;
 };
 
+export type BulkDaoAttributeFormValues = {
+  daoId: string | null;
+};
+
 export type CreateUserFormValues = {
   address: string;
   username: string;
