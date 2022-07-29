@@ -123,6 +123,7 @@ fragment GuildFragment on Guild {
   logo
   name
   updatedAt
+  contribution_reporting_channel
 }
 
 mutation createGuild($data: GuildCreateInput!) {
