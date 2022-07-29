@@ -13,6 +13,12 @@ generator typegraphql {
   output   = "../prisma/generated/type-graphql"
 }
 
+enum GuildStatus {
+  INPUTTED
+  VALIDATED
+  ONBOARDED
+}
+
 model User {
   id    Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -59,6 +65,7 @@ model Guild {
   twitter_account TwitterAccount?
   activity_type GuildActivityType[]
   contribution_reporting_channel Int?
+  status GuildStatus @default(INPUTTED)
 }
 
 model GuildUser {
