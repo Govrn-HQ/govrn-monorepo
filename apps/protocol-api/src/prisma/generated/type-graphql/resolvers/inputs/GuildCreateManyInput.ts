@@ -41,4 +41,9 @@ export class GuildCreateManyInput {
     nullable: true
   })
   logo?: string | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  contribution_reporting_channel?: number | undefined;
 }

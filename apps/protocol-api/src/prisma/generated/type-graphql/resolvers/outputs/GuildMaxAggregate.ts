@@ -41,4 +41,9 @@ export class GuildMaxAggregate {
     nullable: true
   })
   logo!: string | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  contribution_reporting_channel!: number | null;
 }

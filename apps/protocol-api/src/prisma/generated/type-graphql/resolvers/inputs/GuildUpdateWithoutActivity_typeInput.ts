@@ -57,4 +57,9 @@ export class GuildUpdateWithoutActivity_typeInput {
     nullable: true
   })
   twitter_account?: TwitterAccountUpdateOneWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  contribution_reporting_channel?: NullableIntFieldUpdateOperationsInput | undefined;
 }

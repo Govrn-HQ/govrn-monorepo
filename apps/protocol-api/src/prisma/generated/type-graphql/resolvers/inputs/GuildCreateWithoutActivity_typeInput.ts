@@ -54,4 +54,9 @@ export class GuildCreateWithoutActivity_typeInput {
     nullable: true
   })
   twitter_account?: TwitterAccountCreateNestedOneWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  contribution_reporting_channel?: number | undefined;
 }

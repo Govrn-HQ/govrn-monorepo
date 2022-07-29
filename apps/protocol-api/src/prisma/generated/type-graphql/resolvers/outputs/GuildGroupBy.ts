@@ -47,6 +47,11 @@ export class GuildGroupBy {
   })
   logo!: string | null;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  contribution_reporting_channel!: number | null;
+
   @TypeGraphQL.Field(_type => GuildCountAggregate, {
     nullable: true
   })

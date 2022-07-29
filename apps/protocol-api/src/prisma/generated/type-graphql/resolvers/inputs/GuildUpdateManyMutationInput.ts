@@ -39,4 +39,9 @@ export class GuildUpdateManyMutationInput {
     nullable: true
   })
   logo?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  contribution_reporting_channel?: NullableIntFieldUpdateOperationsInput | undefined;
 }

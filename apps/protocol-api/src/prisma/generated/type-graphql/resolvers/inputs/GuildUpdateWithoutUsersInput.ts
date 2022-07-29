@@ -57,4 +57,9 @@ export class GuildUpdateWithoutUsersInput {
     nullable: true
   })
   activity_type?: GuildActivityTypeUpdateManyWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  contribution_reporting_channel?: NullableIntFieldUpdateOperationsInput | undefined;
 }

@@ -84,4 +84,9 @@ export class GuildWhereInput {
     nullable: true
   })
   activity_type?: GuildActivityTypeListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  contribution_reporting_channel?: IntNullableFilter | undefined;
 }
