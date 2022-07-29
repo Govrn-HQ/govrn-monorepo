@@ -56,6 +56,7 @@ const Textarea: React.FC<TextareaProps> = ({
             placeholder={placeholder}
             defaultValue={defaultValue}
             py={6}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             // TODO: is this an error or a bug in ts?
             name={name}

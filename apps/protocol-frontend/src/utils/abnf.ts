@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 // TODO: remove this ^ after migrating from v7 to v8.
 import apgApi from 'apg-js/src/apg-api/api';

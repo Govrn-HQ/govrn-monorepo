@@ -57,6 +57,7 @@ const Input: React.FC<InputProps> = ({
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}
         <Box my={2}>
           <ChakraInput
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             name={name}
             type={type}
