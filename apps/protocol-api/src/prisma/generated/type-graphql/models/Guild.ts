@@ -55,6 +55,11 @@ export class Guild {
 
   activity_type?: GuildActivityType[];
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  contribution_reporting_channel?: number | null;
+
   @TypeGraphQL.Field(_type => GuildCount, {
     nullable: true
   })

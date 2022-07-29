@@ -60,4 +60,9 @@ export class GuildScalarWhereWithAggregatesInput {
     nullable: true
   })
   logo?: StringNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  contribution_reporting_channel?: IntNullableWithAggregatesFilter | undefined;
 }

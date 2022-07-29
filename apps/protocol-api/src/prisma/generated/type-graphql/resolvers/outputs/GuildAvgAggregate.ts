@@ -16,4 +16,9 @@ export class GuildAvgAggregate {
     nullable: true
   })
   congrats_channel!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  contribution_reporting_channel!: number | null;
 }

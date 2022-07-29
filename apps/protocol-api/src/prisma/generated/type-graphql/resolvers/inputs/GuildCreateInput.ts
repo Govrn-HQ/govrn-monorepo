@@ -60,4 +60,9 @@ export class GuildCreateInput {
     nullable: true
   })
   activity_type?: GuildActivityTypeCreateNestedManyWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  contribution_reporting_channel?: number | undefined;
 }

@@ -58,6 +58,7 @@ model Guild {
   users GuildUser[]
   twitter_account TwitterAccount?
   activity_type GuildActivityType[]
+  contribution_reporting_channel Int?
 }
 
 model GuildUser {
