@@ -7,7 +7,6 @@ import {
 } from '../protocol-types';
 import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
-import { UserData } from './types';
 
 export class User extends BaseClient {
   guild: GuildUser;
@@ -17,7 +16,7 @@ export class User extends BaseClient {
     this.guild = new GuildUser(this.client);
   }
 
-  public async get(id: number): Promise<UserData> {
+  public async get(id: number) {
     const user = await this.sdk.getUserCustom({ id });
     return user.result;
   }

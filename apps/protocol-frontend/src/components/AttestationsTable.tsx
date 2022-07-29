@@ -29,13 +29,13 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import AddAttestationForm from './AddAttestationForm';
-import { ContributionItem } from '@govrn/protocol-client';
+import { UIContribution } from '@govrn/ui-types';
 
 const AttestationsTable = ({
   contributionsData,
   setSelectedContributions,
 }: {
-  contributionsData: ContributionItem[];
+  contributionsData: UIContribution[];
   setSelectedContributions: (contrs: any[]) => void;
 }) => {
   const localOverlay = useOverlay();

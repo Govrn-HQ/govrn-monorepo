@@ -26,13 +26,13 @@ import {
 import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { formatDate } from '../utils/date';
-import { ContributionItem } from '@govrn/protocol-client';
+import { UIContribution } from '@govrn/ui-types';
 
 const MyAttestationsTable = ({
   contributionsData,
 }: // setSelectedContributions,
 {
-  contributionsData: ContributionItem[];
+  contributionsData: UIContribution[];
 }) => {
   const { userData } = useUser();
 

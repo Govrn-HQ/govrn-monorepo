@@ -32,13 +32,13 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
-import { ContributionItem } from '@govrn/protocol-client';
+import { UIContribution } from '@govrn/ui-types';
 
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
 }: {
-  contributionsData: ContributionItem[];
+  contributionsData: UIContribution[];
   setSelectedContributions: (rows: Row<any>[]) => void;
 }) => {
   const { userData } = useUser();

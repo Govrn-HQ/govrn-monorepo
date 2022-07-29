@@ -11,16 +11,16 @@ import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import {
-  ActivityTypeItem,
-  ContributionItem,
-  GovrnProtocol,
-  GuildItem,
-  UserData,
-} from '@govrn/protocol-client';
+  UIActivityType,
+  UIContribution,
+  UIGuild,
+  UIUser,
+} from '@govrn/ui-types';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
 import { useAuth } from './AuthContext';
+import { GovrnProtocol } from '@govrn/protocol-client';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -45,18 +45,18 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
-  const [userData, setUserData] = useState<UserData>({} as UserData);
+  const [userData, setUserData] = useState<UIUser>({} as UIUser);
   const [userContributions, setUserContributions] = useState<
-    Array<ContributionItem>
+    Array<UIContribution>
   >([]);
-  const [daoContributions, setDaoContributions] = useState<ContributionItem[]>(
+  const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
     []
   );
   const [userAttestations, setUserAttestations] = useState<any>(null);
-  const [userActivityTypes, setUserActivityTypes] = useState<
-    ActivityTypeItem[]
-  >([]);
-  const [allDaos, setAllDaos] = useState<GuildItem[]>([]);
+  const [userActivityTypes, setUserActivityTypes] = useState<UIActivityType[]>(
+    []
+  );
+  const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
 
   useEffect(() => {
     setUserAddress(address);
@@ -449,7 +449,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const updateContribution = async (
-    contribution: ContributionItem,
+    contribution: UIContribution,
     values: any
   ) => {
     try {
@@ -685,19 +685,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 };
 
 type UserContextType = {
-  allDaos: GuildItem[];
+  allDaos: UIGuild[];
   createAttestation: any;
   createContribution: any;
   createUser: any;
   createWaitlistUser: any;
-  daoContributions: ContributionItem[];
+  daoContributions: UIContribution[];
   disconnectLinear: any;
   getAllDaos: any;
   mintAttestation: any;
   mintContribution: any;
-  setAllDaos: (data: GuildItem[]) => void;
-  setDaoContributions: (data: ContributionItem[]) => void;
-  setUserActivityTypes: (data: ActivityTypeItem[]) => void;
+  setAllDaos: (data: UIGuild[]) => void;
+  setDaoContributions: (data: UIContribution[]) => void;
+  setUserActivityTypes: (data: UIActivityType[]) => void;
   setUserAddress: any;
   setUserAttestations: any;
   setUserData: any;
@@ -705,11 +705,11 @@ type UserContextType = {
   updateContribution: any;
   updateLinearEmail: any;
   updateProfile: any;
-  userActivityTypes: ActivityTypeItem[];
+  userActivityTypes: UIActivityType[];
   userAddress: any;
   userAttestations: any;
-  userContributions: ContributionItem[];
-  userData: UserData;
+  userContributions: UIContribution[];
+  userData: UIUser;
   userDataByAddress: any;
 };
 

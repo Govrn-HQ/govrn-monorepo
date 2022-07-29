@@ -5,17 +5,17 @@ import { isAfter } from 'date-fns';
 import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useSortBy, useTable } from 'react-table';
-import { ContributionItem } from '@govrn/protocol-client';
+import { UIContribution } from '@govrn/ui-types';
 
 const ContributionTypesTable = ({
   contributionTypesData,
 }: {
-  contributionTypesData: ContributionItem[];
+  contributionTypesData: UIContribution[];
 }) => {
   const uniqueKey = 'name';
 
   // FIXME: This will be re-calculated for each render.
-  const uniqueContributions: ContributionItem[] = [
+  const uniqueContributions: UIContribution[] = [
     ...new Map(
       contributionTypesData
         .sort((firstContribution, nextContribution) =>

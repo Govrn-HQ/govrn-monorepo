@@ -11,11 +11,11 @@ import {
 import { useForm } from 'react-hook-form';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
-import { ContributionItem } from '@govrn/protocol-client';
 import { ValidationError } from 'yup';
+import { UIContribution } from '@govrn/ui-types';
 
 interface EditContributionFormProps {
-  contribution: ContributionItem;
+  contribution: UIContribution;
   onClose?: () => void;
 }
 

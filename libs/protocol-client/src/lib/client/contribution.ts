@@ -12,7 +12,6 @@ import {
   MintArgs,
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
-import { ContributionItem } from './types';
 
 export class Contribution extends BaseClient {
   public async get(id: number) {
@@ -41,7 +40,7 @@ export class Contribution extends BaseClient {
   public async delete(
     networkConfig: NetworkConfig,
     provider: ethers.providers.Provider,
-    id: number,
+    id: number
   ) {
     const contract = new GovrnContract(networkConfig, provider);
 
@@ -81,7 +80,7 @@ export class Contribution extends BaseClient {
     args: MintArgs,
     name: string,
     details: string,
-    proof: string,
+    proof: string
   ) {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
@@ -141,7 +140,7 @@ export class Contribution extends BaseClient {
     id: number,
     activityTypeId: number,
     userId: number,
-    args: AttestArgs,
+    args: AttestArgs
   ) {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.attest(args);

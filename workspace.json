@@ -12,8 +12,9 @@
     "protocol-api": "apps/protocol-api",
     "protocol-client": "libs/protocol-client",
     "protocol-frontend": "apps/protocol-frontend",
-    "voyager-identity-api": "apps/voyager-identity-api",
     "protocol-ui": "libs/protocol-ui",
-    "twitter-contribution-job": "apps/twitter-contribution-job"
+    "twitter-contribution-job": "apps/twitter-contribution-job",
+    "ui-types": "libs/ui-types",
+    "voyager-identity-api": "apps/voyager-identity-api"
   }
 }
