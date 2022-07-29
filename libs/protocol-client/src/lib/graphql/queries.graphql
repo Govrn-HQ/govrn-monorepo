@@ -61,7 +61,21 @@ fragment LinearUserFragment on LinearUser {
   url
   id
   createdAt
+  access_token
+  active_access_token
 }
+
+query listLinearUsers(
+  $where: LinearUserWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [LinearUserOrderByWithRelationInput!]
+) {
+  result: linearUsers(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...LinearUserFragment
+  }
+}
+
 
 mutation upsertLinearUser(
   $create: LinearUserCreateInput!

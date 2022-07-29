@@ -3,18 +3,18 @@ import { SortOrder, InputMaybe, Scalars, IntFilter } from './protocol-types';
 
 interface WhereArgs {
   AND?: InputMaybe<Array<WhereArgs>>;
-  id?: InputMaybe<IntFilter>;
+  id: InputMaybe<IntFilter>;
 }
 
 interface OrderBy {
-  id?: InputMaybe<SortOrder>;
+  id: InputMaybe<SortOrder>;
 }
 
 interface GraphQLArgs {
-  where?: WhereArgs;
+  where: WhereArgs;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy?: InputMaybe<Array<OrderBy> | OrderBy>;
+  orderBy: InputMaybe<Array<OrderBy> | OrderBy>;
 }
 
 interface ReturnType {
@@ -45,15 +45,25 @@ export function paginate<T extends GraphQLArgs, V extends ReturnType>(
     },
     async *[Symbol.asyncIterator](): AsyncIterator<V> {
       let ended = false;
-      let pagination_token: string | undefined;
+      let funcVars = variables;
       while (!ended) {
-        const response = await func(variables, requestHeaders);
+        const response = await func(funcVars, requestHeaders);
         yield response;
-        variables = { ...variables, where: {} };
-        // Add in order and where logic
-        pagination_token = response?.meta?.next_token;
-        if (!pagination_token) {
+        if (!response.result.length) {
           ended = true;
+          return;
+        }
+        const lastItem = response.result[-1];
+        if (variables && variables.where) {
+          funcVars = {
+            ...variables,
+            where: { AND: [{ id: { equals: lastItem.id } }, variables.where] },
+          } as T;
+        } else {
+          funcVars = {
+            ...variables,
+            where: { id: { equals: lastItem.id } },
+          } as T;
         }
       }
     },
