@@ -79,7 +79,7 @@ model GuildContribution {
   guild_id Int
   guild Guild @relation(fields: [guild_id], references: [id])
   contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
 
   @@unique([guild_id, contribution_id])
 }
@@ -137,7 +137,7 @@ model Partner {
   user_id Int
   user User @relation(fields: [user_id], references: [id])
   contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
 
   @@unique([user_id, contribution_id])
 }
@@ -151,7 +151,7 @@ model Attestation {
   user_id Int
   user User @relation(fields: [user_id], references: [id])
   contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
   date_of_attestation DateTime @default(now())
 
   @@unique([user_id, contribution_id])

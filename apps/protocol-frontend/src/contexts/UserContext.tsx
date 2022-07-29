@@ -332,6 +332,42 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const deleteContribution = async (id: number) => {
+    try {
+      if (provider) {
+        await govrn.contribution.delete(
+          {
+            address: networks[chainId].govrnContract,
+            chainId: networks[chainId].chainNumber,
+            name: networks[chainId].name,
+          },
+          signer,
+          id
+        );
+        await getUserContributions();
+
+        toast({
+          title: 'Contribution Successfully deleted',
+          description: 'Your Contribution has been deleted.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    } catch (e) {
+      console.log('error', e);
+      toast({
+        title: 'Unable to delete contribution',
+        description: `Something went wrong. Please try again: ${e}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
   const mintAttestation = async (contribution: any) => {
     try {
       if (provider) {
@@ -640,6 +676,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     </UserContext.Provider>
   );
 };
+
 type UserContextType = {
   allDaos: any;
   createAttestation: any;

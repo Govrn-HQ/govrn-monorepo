@@ -30,6 +30,37 @@ export class Contribution extends BaseClient {
     return contributions.createContribution;
   }
 
+  /**
+   * This method deletes the contribution from the db.
+   * if minted, it burns the contribution.
+   *
+   * @param networkConfig
+   * @param provider
+   * @param id contribution id
+   */
+  public async delete(
+    networkConfig: NetworkConfig,
+    provider: ethers.providers.Provider,
+    id: number,
+  ) {
+    const contract = new GovrnContract(networkConfig, provider);
+
+    const contribution = await this.get(id);
+    if (!contribution) {
+      throw Error(`Contribution doesn't exist: ${id}`);
+    }
+
+    // TODO: Can we avoid hardcoding the event name
+    if (contribution?.status.name === 'minted' && contribution.on_chain_id) {
+      const transaction = await contract.burnContribution({
+        tokenId: contribution.on_chain_id,
+      });
+      await transaction.wait(1);
+    }
+
+    return await this.sdk.deleteContribution({ where: { contributionId: id } });
+  }
+
   public async bulkCreate(args: BulkCreateContributionMutationVariables) {
     const mutation = await this.sdk.bulkCreateContribution(args);
     return mutation.createManyContribution.count;
@@ -50,7 +81,7 @@ export class Contribution extends BaseClient {
     args: MintArgs,
     name: string,
     details: string,
-    proof: string
+    proof: string,
   ) {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.mint(args);
@@ -110,7 +141,7 @@ export class Contribution extends BaseClient {
     id: number,
     activityTypeId: number,
     userId: number,
-    args: AttestArgs
+    args: AttestArgs,
   ) {
     const contract = new GovrnContract(networkConfig, provider);
     const transaction = await contract.attest(args);
