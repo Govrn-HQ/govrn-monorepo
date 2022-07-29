@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
-import { Input } from '@govrn/protocol-ui';
+import { Input, type InputLocalFormType } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 
 import { useUser } from '../contexts/UserContext';
@@ -9,8 +9,6 @@ import {
   linearFormValidation,
 } from '../utils/validations';
 import { ValidationError } from 'yup';
-import { UseFormReturn } from 'react-hook-form/dist/types/form';
-import { InputLocalFormType } from '../../../../libs/protocol-ui/src/components/molecules/Input/Input';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
