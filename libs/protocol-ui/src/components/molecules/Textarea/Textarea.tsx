@@ -10,24 +10,21 @@ import {
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
+import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
 type Errors = {
   [name: string]: {
     message: string;
   };
 };
+
 export interface TextareaProps extends ChakraTextareaProps {
   name: string; // this is required for validation
   label?: string;
   placeholder?: string;
   defaultValue?: string;
   tip?: string;
-  localForm: {
-    register: (name: string | undefined) => void;
-    formState: {
-      errors: Errors;
-    };
-  };
+  localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'filled' | 'outline' | 'flushed' | 'unstyled';
 }
 
@@ -59,6 +56,8 @@ const Textarea: React.FC<TextareaProps> = ({
             placeholder={placeholder}
             defaultValue={defaultValue}
             py={6}
+            // @ts-ignore
+            // TODO: is this an error or a bug in ts?
             name={name}
             variant={variant}
             sx={styles}
@@ -66,7 +65,7 @@ const Textarea: React.FC<TextareaProps> = ({
           />
           {errors && (
             <ErrorMessage
-              errorMessage={errors[name] && errors[name]?.message}
+              errorMessage={errors[name] && errors[name]?.message?.toString()}
             />
           )}
         </Box>

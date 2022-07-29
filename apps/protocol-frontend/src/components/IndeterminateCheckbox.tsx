@@ -1,4 +1,4 @@
-import { useEffect, forwardRef, useRef } from 'react';
+import { useEffect, forwardRef, useRef, ReactElement } from 'react';
 import { ComponentWithAs } from '@chakra-ui/react';
 
 // TODO: Move into component library after validating that this works
@@ -15,14 +15,13 @@ type IndeterminateCheckboxProps = ComponentWithAs<
   Input: typeof HTMLInputElement;
 };
 
-// const CustomCalInput = forwardRef<IndetermineCheckboxProps, 'button'>(({ value, onClick }, ref) => (
-
 const IndeterminateCheckbox = forwardRef<IndeterminateCheckboxProps, 'input'>(
-  ({ indeterminate, ...rest }, ref) => {
+  ({ indeterminate, ...rest }: any, ref) => {
     const defaultRef = useRef<HTMLInputElement>(null);
     const resolvedRef = ref || defaultRef;
 
     useEffect(() => {
+      // @ts-ignore: TODO: current is not defined on ref.
       resolvedRef.current.indeterminate = indeterminate;
     }, [resolvedRef, indeterminate]);
 

@@ -8,6 +8,9 @@ import {
   profileFormValidation,
   linearFormValidation,
 } from '../utils/validations';
+import { ValidationError } from 'yup';
+import { UseFormReturn } from 'react-hook-form/dist/types/form';
+import { InputLocalFormType } from '../../../../libs/protocol-ui/src/components/molecules/Input/Input';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
@@ -27,7 +30,7 @@ const useYupValidationResolver = (profileValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -58,7 +61,7 @@ const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -75,13 +78,8 @@ const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
   );
 
 const ProfileForm = () => {
-  const {
-    userData,
-    updateProfile,
-    updateLinearEmail,
-    disconnectLinear,
-    getUser,
-  } = useUser();
+  const { userData, updateProfile, updateLinearEmail, disconnectLinear } =
+    useUser();
 
   const localForm = useForm<{ name: string; address: string }>({
     mode: 'all',
@@ -96,7 +94,7 @@ const ProfileForm = () => {
     localFormLinear;
 
   useEffect(() => {
-    setValue('name', userData?.name);
+    setValue('name', userData?.name ?? '');
     setValue('address', userData?.address);
   }, [userData]);
 
@@ -157,8 +155,12 @@ const ProfileForm = () => {
               label="Govrn Username"
               tip="Enter your username for the Govrn protocol."
               placeholder="govrn-user"
-              defaultValue={userData?.name}
-              localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+              defaultValue={userData?.name ?? ''}
+              localForm={
+                localForm as unknown as InputLocalFormType<{
+                  [key: string]: any;
+                }>
+              }
             />
             <Button
               type="submit"
@@ -266,7 +268,11 @@ const ProfileForm = () => {
                 label="Twitter Handle (Coming Soon!)"
                 tip="Enter your Twitter handle for the upcoming Twitter integration."
                 placeholder="govrn"
-                localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+                localForm={
+                  localForm as unknown as InputLocalFormType<{
+                    [key: string]: any;
+                  }>
+                }
                 isDisabled
               />
               <Button type="submit" width="100%" variant="disabled" isDisabled>

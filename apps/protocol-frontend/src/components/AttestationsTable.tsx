@@ -1,3 +1,5 @@
+// @ts-nocheck
+// TODO, remove this ^ after migrating v7 to v8
 import { useEffect, useMemo, useState } from 'react';
 import * as _ from 'lodash';
 import {
@@ -75,6 +77,7 @@ const AttestationsTable = ({
       {
         Header: 'Status',
         accessor: 'status',
+        // @ts-ignore
         Cell: ({ value }) => {
           return (
             <Text textTransform="capitalize">
@@ -102,7 +105,9 @@ const AttestationsTable = ({
     []
   );
 
-  const tableHooks = (hooks) => {
+  const tableHooks = (hooks: {
+    visibleColumns: ((columns: any) => any[])[];
+  }) => {
     hooks.visibleColumns.push((columns) => [
       {
         id: 'selection',

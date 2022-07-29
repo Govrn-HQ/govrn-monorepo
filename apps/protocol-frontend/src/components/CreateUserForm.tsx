@@ -7,6 +7,7 @@ import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { createUserFormValidation } from '../utils/validations';
+import { ValidationError } from 'yup';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -25,7 +26,7 @@ const useYupValidationResolver = (userValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -67,7 +68,7 @@ const CreateUserForm = () => {
           label="Username"
           tip="What would you like your username to be?"
           placeholder="DAOContributor"
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          localForm={localForm}
         />
         <Flex align="flex-end" marginTop={4}>
           <Button

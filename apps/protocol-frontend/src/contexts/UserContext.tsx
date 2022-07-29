@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import React, {
   createContext,
+  Provider,
   useCallback,
   useContext,
   useEffect,
@@ -10,8 +11,10 @@ import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useWallet } from '@raidguild/quiver';
 import {
+  ActivityTypeItem,
   ContributionItem,
   GovrnProtocol,
+  GuildItem,
   UserData,
 } from '@govrn/protocol-client';
 import { createSiweMessage } from '../utils/siwe';
@@ -50,8 +53,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     []
   );
   const [userAttestations, setUserAttestations] = useState<any>(null);
-  const [userActivityTypes, setUserActivityTypes] = useState<any>(null);
-  const [allDaos, setAllDaos] = useState<any>(null);
+  const [userActivityTypes, setUserActivityTypes] = useState<
+    ActivityTypeItem[]
+  >([]);
+  const [allDaos, setAllDaos] = useState<GuildItem[]>([]);
 
   useEffect(() => {
     setUserAddress(address);
@@ -287,13 +292,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     setMintProgress: any
   ) => {
     try {
-      if (provider) {
+      if (provider && chainId && signer) {
         await govrn.contribution.mint(
           {
             address: networks[chainId].govrnContract,
             chainId: networks[chainId].chainNumber,
             name: networks[chainId].name,
           }, // network config
+          // @ts-ignore
           signer, // provider/signer
           userData.address, // user address
           contribution.id, // contribution id
@@ -309,7 +315,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           ethers.utils.toUtf8Bytes(contribution.proof) // contribution proof
         );
         await getUserContributions();
-        setMintProgress((prevState) => prevState + 1);
+        setMintProgress((prevState: number) => prevState + 1);
         toast({
           title: 'Contribution Successfully Minted',
           description: 'Your Contribution has been minted.',
@@ -334,13 +340,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const deleteContribution = async (id: number) => {
     try {
-      if (provider) {
+      if (provider && chainId) {
         await govrn.contribution.delete(
           {
             address: networks[chainId].govrnContract,
             chainId: networks[chainId].chainNumber,
             name: networks[chainId].name,
           },
+          // @ts-ignore
           signer,
           id
         );
@@ -370,13 +377,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const mintAttestation = async (contribution: any) => {
     try {
-      if (provider) {
+      if (provider && chainId) {
         await govrn.contribution.attest(
           {
             address: networks[chainId].govrnContract,
             chainId: networks[chainId].chainNumber,
             name: networks[chainId].name,
           }, //network config
+          // @ts-ignore
           signer, // signer/provider
           null, // attestation id
           contribution.activityTypeId, //activity type id
@@ -533,7 +541,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         id: args.userId,
         disconnectLinearId: args.linearUserId,
       });
-      getUser();
+      await getUser();
       toast({
         title: 'Disconnected linear user',
         description: 'Your linear user has been disconnected',
@@ -567,7 +575,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       },
       linear_id: userData.id.toString(), // linear_id exists outside of our db
       name: userData.name,
-      url: userData?.url ?? '',
     };
     try {
       // TODO: maybe we should hide linear because
@@ -678,7 +685,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 };
 
 type UserContextType = {
-  allDaos: any;
+  allDaos: GuildItem[];
   createAttestation: any;
   createContribution: any;
   createUser: any;
@@ -688,9 +695,9 @@ type UserContextType = {
   getAllDaos: any;
   mintAttestation: any;
   mintContribution: any;
-  setAllDaos: any;
+  setAllDaos: (data: GuildItem[]) => void;
   setDaoContributions: (data: ContributionItem[]) => void;
-  setUserActivityTypes: any;
+  setUserActivityTypes: (data: ActivityTypeItem[]) => void;
   setUserAddress: any;
   setUserAttestations: any;
   setUserData: any;
@@ -698,7 +705,7 @@ type UserContextType = {
   updateContribution: any;
   updateLinearEmail: any;
   updateProfile: any;
-  userActivityTypes: any;
+  userActivityTypes: ActivityTypeItem[];
   userAddress: any;
   userAttestations: any;
   userContributions: ContributionItem[];

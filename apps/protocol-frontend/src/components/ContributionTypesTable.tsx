@@ -1,3 +1,5 @@
+// @ts-nocheck
+// TODO: Remove this after migrating to v8.
 import { useMemo } from 'react';
 import { isAfter } from 'date-fns';
 import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
@@ -11,8 +13,6 @@ const ContributionTypesTable = ({
   contributionTypesData: ContributionItem[];
 }) => {
   const uniqueKey = 'name';
-
-  console.dir(contributionTypesData);
 
   // FIXME: This will be re-calculated for each render.
   const uniqueContributions: ContributionItem[] = [

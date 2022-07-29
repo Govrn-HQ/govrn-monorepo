@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+// TODO: remove this ^ after migrating from v7 to v8.
 import { useMemo } from 'react';
 import * as _ from 'lodash';
 import {
@@ -96,7 +99,9 @@ const MyAttestationsTable = ({
     []
   );
 
-  const tableHooks = (hooks) => {
+  const tableHooks = (hooks: {
+    visibleColumns: ((columns: any) => any[])[];
+  }) => {
     hooks.visibleColumns.push((columns) => [
       // {
       //   id: 'selection',

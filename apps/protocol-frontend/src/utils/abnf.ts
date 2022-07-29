@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+// TODO: remove this ^ after migrating from v7 to v8.
 import apgApi from 'apg-js/src/apg-api/api';
 import apgLib from 'apg-js/src/apg-lib/node-exports';
 import { ethers } from 'ethers';
@@ -125,18 +128,20 @@ HEXDIG         =  DIGIT / "A" / "B" / "C" / "D" / "E" / "F"
 `;
 
 export class ParsedMessage {
-  domain: string;
-  address: string;
-  statement: string | null;
-  uri: string;
-  version: string;
-  chainId: number;
-  nonce: string;
-  issuedAt: string;
-  expirationTime: string | null;
-  notBefore: string | null;
-  requestId: string | null;
-  resources: Array<string> | null;
+  [key: string]: any;
+
+  domain?: string;
+  address?: string;
+  statement?: string | null;
+  uri?: string;
+  version?: string;
+  chainId?: number;
+  nonce?: string;
+  // issuedAt?: string;
+  // expirationTime?: string | null;
+  // notBefore?: string | null;
+  // requestId?: string | null;
+  resources?: Array<string> | null;
 
   constructor(msg: string) {
     const api = new apgApi(GRAMMAR);
@@ -153,7 +158,13 @@ export class ParsedMessage {
     parser.ast = new apgLib.ast();
     const id = apgLib.ids;
 
-    const domain = function (state, chars, phraseIndex, phraseLength, data) {
+    parser.ast.callbacks.domain = function (
+      state: number,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { domain: string }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.domain = apgLib.utils.charsToString(
@@ -164,8 +175,13 @@ export class ParsedMessage {
       }
       return ret;
     };
-    parser.ast.callbacks.domain = domain;
-    const address = function (state, chars, phraseIndex, phraseLength, data) {
+    const address = function (
+      state: number,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { address: string }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.address = apgLib.utils.charsToString(
@@ -178,7 +194,13 @@ export class ParsedMessage {
     };
     parser.ast.callbacks.address = address;
 
-    const statement = function (state, chars, phraseIndex, phraseLength, data) {
+    const statement = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { statement: any }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.statement = apgLib.utils.charsToString(
@@ -190,7 +212,13 @@ export class ParsedMessage {
       return ret;
     };
     parser.ast.callbacks.statement = statement;
-    const uri = function (state, chars, phraseIndex, phraseLength, data) {
+    const uri = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { uri: any }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         if (!data.uri) {
@@ -204,7 +232,13 @@ export class ParsedMessage {
       return ret;
     };
     parser.ast.callbacks.uri = uri;
-    const version = function (state, chars, phraseIndex, phraseLength, data) {
+    const version = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { version: any }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.version = apgLib.utils.charsToString(
@@ -216,7 +250,13 @@ export class ParsedMessage {
       return ret;
     };
     parser.ast.callbacks.version = version;
-    const chainId = function (state, chars, phraseIndex, phraseLength, data) {
+    const chainId = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { chainId: number }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.chainId = parseInt(
@@ -226,7 +266,13 @@ export class ParsedMessage {
       return ret;
     };
     parser.ast.callbacks['chain-id'] = chainId;
-    const nonce = function (state, chars, phraseIndex, phraseLength, data) {
+    const nonce = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { nonce: any }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.nonce = apgLib.utils.charsToString(
@@ -238,7 +284,13 @@ export class ParsedMessage {
       return ret;
     };
     parser.ast.callbacks.nonce = nonce;
-    const issuedAt = function (state, chars, phraseIndex, phraseLength, data) {
+    const issuedAt = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { issuedAt: any }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.issuedAt = apgLib.utils.charsToString(
@@ -251,11 +303,11 @@ export class ParsedMessage {
     };
     parser.ast.callbacks['issued-at'] = issuedAt;
     const expirationTime = function (
-      state,
-      chars,
-      phraseIndex,
-      phraseLength,
-      data
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { expirationTime: any }
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
@@ -268,7 +320,13 @@ export class ParsedMessage {
       return ret;
     };
     parser.ast.callbacks['expiration-time'] = expirationTime;
-    const notBefore = function (state, chars, phraseIndex, phraseLength, data) {
+    const notBefore = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { notBefore: any }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.notBefore = apgLib.utils.charsToString(
@@ -280,7 +338,13 @@ export class ParsedMessage {
       return ret;
     };
     parser.ast.callbacks['not-before'] = notBefore;
-    const requestId = function (state, chars, phraseIndex, phraseLength, data) {
+    const requestId = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { requestId: any }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.requestId = apgLib.utils.charsToString(
@@ -292,7 +356,13 @@ export class ParsedMessage {
       return ret;
     };
     parser.ast.callbacks['request-id'] = requestId;
-    const resources = function (state, chars, phraseIndex, phraseLength, data) {
+    const resources = function (
+      state: any,
+      chars: any,
+      phraseIndex: any,
+      phraseLength: any,
+      data: { resources: any }
+    ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.resources = apgLib.utils
@@ -315,11 +385,11 @@ export class ParsedMessage {
       this[key] = value;
     }
 
-    if (this.domain.length === 0) {
+    if (this.domain?.length === 0) {
       throw new Error('Domain cannot be empty.');
     }
 
-    if (!isEIP55Address(this.address)) {
+    if (!isEIP55Address(this.address ?? '')) {
       throw new Error('Address not conformant to EIP-55.');
     }
   }
