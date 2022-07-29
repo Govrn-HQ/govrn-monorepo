@@ -1,23 +1,29 @@
 import { Story } from '@storybook/react';
 import React from 'react';
-import { HelperText, HelperTextProps} from '../..';
-
+import { FormControl, InputGroup } from '@chakra-ui/react';
+import { HelperText, HelperTextProps } from '../..';
 
 export default {
-    title: 'Components/Atoms/HelperText',
-    component: HelperText,
-    argTypes: {
-        tipText: {
-            control: {type: 'text'},
-        },
+  title: 'Components/Atoms/HelperText',
+  component: HelperText,
+  argTypes: {
+    tipText: {
+      control: { type: 'text' },
     },
-}
-
-const Template: Story<HelperTextProps> = (args) => <HelperText {...args}/>;
-
-const Default = Template.bind({})
-Default.args = {
-    tipText: 'Some helper text'
+    color: { control: 'color' },
+  },
 };
 
-export {Default};
+const Template: Story<HelperTextProps> = (args) => (
+  <FormControl>
+    <HelperText {...args} />
+  </FormControl>
+);
+
+const Default = Template.bind({});
+Default.args = {
+  tipText: 'Contribution Name is a short title for your Contribution.',
+  color: 'black',
+};
+
+export { Default };
