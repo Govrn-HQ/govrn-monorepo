@@ -4,6 +4,12 @@
   "projectType": "application",
   "targets": {
     "build": {
+      "dependsOn": [
+        {
+          "target": "tsc",
+          "projects": "self"
+        }
+      ],
       "executor": "@nxext/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
