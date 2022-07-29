@@ -10,6 +10,7 @@ export { DiscordUserScalarFieldEnum } from "./DiscordUserScalarFieldEnum";
 export { GuildActivityTypeScalarFieldEnum } from "./GuildActivityTypeScalarFieldEnum";
 export { GuildContributionScalarFieldEnum } from "./GuildContributionScalarFieldEnum";
 export { GuildScalarFieldEnum } from "./GuildScalarFieldEnum";
+export { GuildStatus } from "./GuildStatus";
 export { GuildUserScalarFieldEnum } from "./GuildUserScalarFieldEnum";
 export { JobRunScalarFieldEnum } from "./JobRunScalarFieldEnum";
 export { LinearCycleScalarFieldEnum } from "./LinearCycleScalarFieldEnum";

@@ -7,6 +7,7 @@ import { GuildCountAggregate } from "../outputs/GuildCountAggregate";
 import { GuildMaxAggregate } from "../outputs/GuildMaxAggregate";
 import { GuildMinAggregate } from "../outputs/GuildMinAggregate";
 import { GuildSumAggregate } from "../outputs/GuildSumAggregate";
+import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.ObjectType("GuildGroupBy", {
   isAbstract: true
@@ -51,6 +52,11 @@ export class GuildGroupBy {
     nullable: true
   })
   contribution_reporting_channel!: number | null;
+
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: false
+  })
+  status!: "INPUTTED" | "VALIDATED" | "ONBOARDED";
 
   @TypeGraphQL.Field(_type => GuildCountAggregate, {
     nullable: true
