@@ -92,6 +92,14 @@ const main = async () => {
   console.log(`Starting to process linear issues`);
   const linearClient = new LinearClient({ apiKey });
   const govrn = new GovrnProtocol(protcolUrl);
+  // get users
+  const users = govrn.linear.user.list({
+    where: { active_token: { equals: true } },
+  });
+  for await (const user of users) {
+    console.log('here');
+  }
+
   const lastRun = await govrn.jobRun.list({
     first: 1,
     orderBy: { completedDate: SortOrder.Desc },

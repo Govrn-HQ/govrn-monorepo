@@ -13725,7 +13725,17 @@ export type BulkCreateIssuesMutationVariables = Exact<{
 
 export type BulkCreateIssuesMutation = { createManyLinearIssue: { count: number } };
 
-export type LinearUserFragmentFragment = { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null };
+export type LinearUserFragmentFragment = { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null, access_token?: string | null, active_token?: boolean | null };
+
+export type ListLinearUsersQueryVariables = Exact<{
+  where?: LinearUserWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<LinearUserOrderByWithRelationInput> | LinearUserOrderByWithRelationInput>;
+}>;
+
+
+export type ListLinearUsersQuery = { result: Array<{ active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null, access_token?: string | null, active_token?: boolean | null }> };
 
 export type UpsertLinearUserMutationVariables = Exact<{
   create: LinearUserCreateInput;
@@ -13734,7 +13744,7 @@ export type UpsertLinearUserMutationVariables = Exact<{
 }>;
 
 
-export type UpsertLinearUserMutation = { upsertLinearUser: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null } };
+export type UpsertLinearUserMutation = { upsertLinearUser: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null, access_token?: string | null, active_token?: boolean | null } };
 
 export type UpdateLinearUserMutationVariables = Exact<{
   data: LinearUserUpdateInput;
@@ -13742,7 +13752,7 @@ export type UpdateLinearUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateLinearUserMutation = { updateLinearUser?: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null } | null };
+export type UpdateLinearUserMutation = { updateLinearUser?: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: any | null, access_token?: string | null, active_token?: boolean | null } | null };
 
 export type UpsertLinearCycleMutationVariables = Exact<{
   create: LinearCycleCreateInput;
@@ -14098,6 +14108,8 @@ export const LinearUserFragmentFragmentDoc = gql`
   url
   id
   createdAt
+  access_token
+  active_token
 }
     `;
 export const GuildFragmentFragmentDoc = gql`
@@ -14331,6 +14343,13 @@ export const BulkCreateIssuesDocument = gql`
   }
 }
     `;
+export const ListLinearUsersDocument = gql`
+    query listLinearUsers($where: LinearUserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearUserOrderByWithRelationInput!]) {
+  result: linearUsers(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...LinearUserFragment
+  }
+}
+    ${LinearUserFragmentFragmentDoc}`;
 export const UpsertLinearUserDocument = gql`
     mutation upsertLinearUser($create: LinearUserCreateInput!, $update: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
   upsertLinearUser(create: $create, update: $update, where: $where) {
@@ -14671,6 +14690,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     bulkCreateIssues(variables: BulkCreateIssuesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateIssuesMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateIssuesMutation>(BulkCreateIssuesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateIssues', 'mutation');
+    },
+    listLinearUsers(variables?: ListLinearUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListLinearUsersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListLinearUsersQuery>(ListLinearUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listLinearUsers', 'query');
     },
     upsertLinearUser(variables: UpsertLinearUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearUserMutation>(UpsertLinearUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearUser', 'mutation');

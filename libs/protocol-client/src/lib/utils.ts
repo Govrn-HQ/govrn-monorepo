@@ -3,18 +3,18 @@ import { SortOrder, InputMaybe, Scalars, IntFilter } from './protocol-types';
 
 interface WhereArgs {
   AND?: InputMaybe<Array<WhereArgs>>;
-  id: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
 }
 
 interface OrderBy {
-  id: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 }
 
 interface GraphQLArgs {
-  where: WhereArgs;
+  where?: WhereArgs;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
-  orderBy: InputMaybe<Array<OrderBy> | OrderBy>;
+  orderBy?: InputMaybe<Array<OrderBy> | OrderBy>;
 }
 
 interface ReturnType {
@@ -51,7 +51,6 @@ export function paginate<T extends GraphQLArgs, V extends ReturnType>(
         yield response;
         if (!response.result.length) {
           ended = true;
-          return;
         }
         const lastItem = response.result[-1];
         if (variables && variables.where) {

@@ -6,8 +6,11 @@ import {
   UpsertLinearProjectMutationVariables,
   UpsertLinearTeamMutationVariables,
   ListLinearIssuesQueryVariables,
+  ListLinearUsersQueryVariables,
+  ListLinearUsersQuery,
 } from '../protocol-types';
 import { BaseClient } from './base';
+import { paginate } from '../utils';
 import { GraphQLClient } from 'graphql-request';
 
 export class Linear {
@@ -47,6 +50,13 @@ class User extends BaseClient {
   public async update(args: UpdateLinearUserMutationVariables) {
     const user = await this.sdk.updateLinearUser(args);
     return user.updateLinearUser;
+  }
+
+  public async list(args: ListLinearUsersQueryVariables) {
+    return paginate<ListLinearUsersQueryVariables, ListLinearUsersQuery>(
+      this.sdk.listLinearUsers,
+      args
+    );
   }
 }
 
