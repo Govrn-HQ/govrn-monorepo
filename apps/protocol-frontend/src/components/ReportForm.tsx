@@ -11,6 +11,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { reportFormValidation } from '../utils/validations';
 import { useNavigate } from 'react-router-dom';
+import { ValidationError } from 'yup';
 
 const useYupValidationResolver = (reportValidationSchema: any) =>
   useCallback(
@@ -27,7 +28,7 @@ const useYupValidationResolver = (reportValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -77,7 +78,7 @@ const ReportForm = () => {
 
   const daoListOptions = allDaos.map((dao) => ({
     value: dao.id,
-    label: dao.name,
+    label: dao.name ?? '',
   }));
 
   const combinedActivityTypeOptions = combinedActivityTypesList.map(
@@ -100,7 +101,7 @@ const ReportForm = () => {
           label="Name of Contribution"
           tip="Please add the name of your Contribution."
           placeholder="Govrn Protocol Pull Request"
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          localForm={localForm}
         />
         <CreatableSelect
           name="activityType"
@@ -125,7 +126,7 @@ const ReportForm = () => {
           label="Proof of Contribution"
           tip="Please add a URL to a proof of your contribution."
           placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          localForm={localForm}
         />
         <Select
           name="daoId"
@@ -133,7 +134,7 @@ const ReportForm = () => {
           tip="Please select a DAO to associate this Contribution with. This is optional."
           placeholder="Select a DAO to assocaite this Contribution with."
           onChange={(dao) => {
-            setValue('daoId', dao.value);
+            setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
           }}
           options={daoListOptions}
           localForm={localForm}
@@ -146,6 +147,9 @@ const ReportForm = () => {
           defaultValue={engagementDateValue}
           maxDate={new Date()}
           onChange={(date) => {
+            if (Array.isArray(date)) {
+              return;
+            }
             setEngagementDateValue(date);
             setValue('engagementDate', date);
           }}

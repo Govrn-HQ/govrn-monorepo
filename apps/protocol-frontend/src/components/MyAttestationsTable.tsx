@@ -1,58 +1,59 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import * as _ from 'lodash';
-import { format } from 'date-fns';
 import {
+  Box,
+  chakra,
+  Stack,
   Table,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
-  chakra,
-  Text,
-  Stack,
-  Box,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
-  useTable,
-  useSortBy,
   useFilters,
   useGlobalFilter,
   useRowSelect,
+  useSortBy,
+  useTable,
 } from 'react-table';
 import { useUser } from '../contexts/UserContext';
-import { useOverlay } from '../contexts/OverlayContext';
-// import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
+import { formatDate } from '../utils/date';
+import { UIContribution } from '@govrn/ui-types';
 
 const MyAttestationsTable = ({
   contributionsData,
 }: // setSelectedContributions,
-any) => {
+{
+  contributionsData: UIContribution[];
+}) => {
   const { userData } = useUser();
 
-  const nonEmptyContributions = _.filter(contributionsData, function (a) {
-    return a.attestations.length > 0;
-  });
+  const nonEmptyContributions = _.filter(
+    contributionsData,
+    (a) => a.attestations?.length > 0
+  );
 
-  const attestedContributions = _.filter(nonEmptyContributions, function (a) {
-    return a.attestations.every((b: any) => b.user_id === userData.id);
-  });
+  const attestedContributions = _.filter(nonEmptyContributions, (a) =>
+    a.attestations.every((b) => b.user_id === userData.id)
+  );
 
   const data = useMemo(
     () =>
-      attestedContributions.map((contribution: any) => ({
+      attestedContributions.map((contribution) => ({
         id: contribution.id,
-        submissionDate: format(new Date(contribution.date_of_submission), 'P'),
-        engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
+        date_of_submission: contribution.date_of_submission,
+        date_of_engagement: contribution.date_of_engagement,
         guilds: contribution.attestations || null,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
-        attestationDate: format(
-          new Date(contribution.attestations[0]?.date_of_attestation),
-          'P'
+        attestationDate: formatDate(
+          contribution.attestations[0]?.date_of_attestation
         ),
         contributor: contribution.user.name,
       })),
@@ -95,7 +96,7 @@ any) => {
     []
   );
 
-  const tableHooks = (hooks) => {
+  const tableHooks = (hooks: { visibleColumns }) => {
     hooks.visibleColumns.push((columns) => [
       // {
       //   id: 'selection',

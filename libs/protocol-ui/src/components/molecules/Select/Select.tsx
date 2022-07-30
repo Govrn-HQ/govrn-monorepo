@@ -7,6 +7,7 @@ import customSelectThemeColors from './selectTheme';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
+import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
 type Errors = {
   [name: string]: {
@@ -34,20 +35,15 @@ export interface SelectProps {
   tip?: string;
   options: Option[];
   isRequired?: boolean;
-  localForm: {
-    control: any;
-    // formState: any; // TODO: properly type this -- need to troubleshoot use of key on string
-    formState: {
-      errors: Errors;
-    };
-  };
+  localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   isMulti?: boolean;
   isClearable?: boolean;
   onChange?: (option: Option | Option[]) => void;
   isDisabled?: boolean;
-  [x: string]: any;
   variant?: 'outline' | 'filled';
   value?: any;
+
+  [x: string]: any;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -106,7 +102,7 @@ const Select: React.FC<SelectProps> = ({
           />
           {errors && (
             <ErrorMessage
-              errorMessage={errors[name] && errors[name]?.message}
+              errorMessage={errors[name] && errors[name]?.message?.toString()}
             />
           )}
         </Box>

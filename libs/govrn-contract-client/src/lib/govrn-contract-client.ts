@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { Govrn__factory, Govrn } from './generated';
 
 export type MintArgs = {
-  detailsUri: string;
+  detailsUri: Uint8Array;
   dateOfSubmission: number;
   dateOfEngagement: number;
   overrides?: ethers.Overrides & { from?: string | Promise<string> };
@@ -42,7 +42,7 @@ export class GovrnContract {
 
   constructor(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider
+    provider: ethers.providers.Provider | ethers.Signer
   ) {
     this.govrn = Govrn__factory.connect(networkConfig.address, provider);
   }
