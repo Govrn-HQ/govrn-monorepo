@@ -14,14 +14,14 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   // TODO: after migrating to react-table v8, figure out this type.
   const createAttestationsHandler = (contrs) => {
     setAttesting(true);
-    contrs.map((c, idx) => {
-      console.log(`contribution: ${idx}`, c);
-      if (c.status === 'minted') {
+    contrs.map((contribution, idx) => {
+      console.log(`contribution: ${idx}`, contribution);
+      if (contribution.status === 'minted') {
         console.log(`contribution ${idx} is on chain`);
-        mintAttestation(c);
+        mintAttestation(contribution);
       } else {
         console.log(`contribution ${idx} is off chain`);
-        createAttestation(c);
+        createAttestation(contribution);
       }
       setAttesting(false);
     });
