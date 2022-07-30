@@ -42,12 +42,7 @@ export class Contribution extends BaseClient {
     signer: ethers.Signer,
     id: number
   ) {
-    if (!signer?.provider) {
-      console.error('Provider does not exist on signer of delete');
-      return;
-    }
-
-    const contract = new GovrnContract(networkConfig, signer.provider);
+    const contract = new GovrnContract(networkConfig, signer);
 
     const contribution = await this.get(id);
     if (!contribution) {
@@ -87,11 +82,7 @@ export class Contribution extends BaseClient {
     details: Uint8Array,
     proof: Uint8Array
   ) {
-    if (!signer?.provider) {
-      console.error('Provider does not exist on signer of mint');
-      return;
-    }
-    const contract = new GovrnContract(networkConfig, signer.provider);
+    const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
 
@@ -151,11 +142,7 @@ export class Contribution extends BaseClient {
     userId: number,
     args: AttestArgs
   ) {
-    if (!signer?.provider) {
-      console.error('Provider does not exist on signer of attest');
-      return;
-    }
-    const contract = new GovrnContract(networkConfig, signer.provider);
+    const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
     await transaction.wait(1);
 

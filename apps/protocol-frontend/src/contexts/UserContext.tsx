@@ -306,7 +306,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           userData.id, // user id
           {
             detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
-            dateOfSubmission: new Date(contribution.submissionDate).getTime(),
+            dateOfSubmission: new Date(
+              contribution.date_of_submission
+            ).getTime(),
             dateOfEngagement: new Date(contribution.engagementDate).getTime(),
           }, // details uri
           ethers.utils.toUtf8Bytes(contribution.name), // contribution name

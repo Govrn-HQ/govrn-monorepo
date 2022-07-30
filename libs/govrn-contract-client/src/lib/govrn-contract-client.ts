@@ -42,7 +42,7 @@ export class GovrnContract {
 
   constructor(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider
+    provider: ethers.providers.Provider | ethers.Signer
   ) {
     this.govrn = Govrn__factory.connect(networkConfig.address, provider);
   }
