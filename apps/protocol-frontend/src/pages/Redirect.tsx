@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Flex, Spinner } from '@chakra-ui/react';
+import { useAuth } from '../contexts/AuthContext';
 
 const TIMEOUT = 300;
 
@@ -9,9 +10,11 @@ const RedirectHome = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [redirectNow, setRedirectNow] = useState(false);
+  const { authenticateAddress } = useAuth();
   setTimeout(() => setRedirectNow(true), TIMEOUT);
 
-  if (redirectNow) navigate('/', { state: location.state, replace: true });
+  if (redirectNow) authenticateAddress();
+  navigate('/', { state: location.state, replace: true });
 
   return (
     <Flex

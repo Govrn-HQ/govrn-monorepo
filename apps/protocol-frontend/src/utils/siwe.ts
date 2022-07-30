@@ -120,20 +120,18 @@ export interface SiweResponse {
  * Interface used to return errors in SiweResponses.
  */
 export class SiweError {
+  /** Type of the error. */
+  type: SiweErrorType;
+  /** Expected value or condition to pass. */
+  expected?: string;
+  /** Received value that caused the failure. */
+  received?: string;
+
   constructor(type: SiweErrorType, expected?: string, received?: string) {
     this.type = type;
     this.expected = expected;
     this.received = received;
   }
-
-  /** Type of the error. */
-  type: SiweErrorType;
-
-  /** Expected value or condition to pass. */
-  expected?: string;
-
-  /** Received value that caused the failure. */
-  received?: string;
 }
 
 /**
@@ -202,6 +200,7 @@ export async function createSiweMessage(
       version: '1',
       chainId: parseInt(chainId),
       nonce: await res.text(),
+      expirationTime: new Date(Date.now() + 1 * 86400000).toISOString(),
     });
     return message.prepareMessage();
   } catch (e) {
@@ -283,7 +282,7 @@ export class SiweMessage {
    * @param message {string}
    * @returns {RegExpExecArray} The matching groups for the message
    */
-  regexFromMessage(message: string): RegExpExecArray {
+  static regexFromMessage(message: string): RegExpExecArray {
     const parsedMessage = new ParsedMessageRegExp(message);
     return parsedMessage.match;
   }
@@ -309,7 +308,7 @@ export class SiweMessage {
       this.nonce = generateNonce();
     }
 
-    const chainField = `Chain ID: ` + this.chainId || '1';
+    const chainField = `Chain ID: ${this.chainId}` || '1';
 
     const nonceField = `Nonce: ${this.nonce}`;
 

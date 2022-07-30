@@ -8,12 +8,19 @@ import {
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
+import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
 type Errors = {
   [name: string]: {
     message: string;
   };
 };
+
+export type InputLocalFormType<T> = Pick<
+  UseFormReturn<T>,
+  'formState' | 'register'
+>;
+
 export interface InputProps {
   name: string; // this is required for validation since it's used as the key in the errors object
   label?: string;
@@ -22,12 +29,7 @@ export interface InputProps {
   type?: 'text' | 'number' | 'email'; // may not need this
   defaultValue?: string | number;
   isDisabled?: boolean;
-  localForm: {
-    register: (name: string | undefined) => void;
-    formState: {
-      errors: Errors;
-    };
-  };
+  localForm: InputLocalFormType<{ [key: string]: any }>;
 
   variant?: 'outline' | 'filled';
 }
@@ -67,7 +69,7 @@ const Input: React.FC<InputProps> = ({
           />
           {errors && (
             <ErrorMessage
-              errorMessage={errors[name] && errors[name]?.message}
+              errorMessage={errors[name] && errors[name]?.message?.toString()}
             />
           )}
         </Box>

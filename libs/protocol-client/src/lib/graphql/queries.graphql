@@ -123,6 +123,8 @@ fragment GuildFragment on Guild {
   logo
   name
   updatedAt
+  contribution_reporting_channel
+  status
 }
 
 mutation createGuild($data: GuildCreateInput!) {
@@ -250,6 +252,10 @@ fragment UserFragment on User {
   id
   name
   updatedAt
+  linear_users {
+    id
+    active_token
+  }
 }
 
 query getUser($where: UserWhereUniqueInput!) {
@@ -389,6 +395,12 @@ mutation createOnChainUserContribution(
 ) {
   createOnChainUserContribution(data: $data) {
     ...ContributionFragment
+  }
+}
+
+mutation deleteContribution($where: UserContributionDeleteInput!) {
+  deleteUserContribution(where: $where) {
+    id
   }
 }
 

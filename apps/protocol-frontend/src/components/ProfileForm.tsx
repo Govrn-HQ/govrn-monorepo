@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
-import { Flex, Heading, Button, Divider} from '@chakra-ui/react';
-import { Input } from '@govrn/protocol-ui';
+import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
+import { Input, type InputLocalFormType } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 
 import { useUser } from '../contexts/UserContext';
@@ -8,6 +8,10 @@ import {
   profileFormValidation,
   linearFormValidation,
 } from '../utils/validations';
+import { ValidationError } from 'yup';
+
+const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
+const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 
 const useYupValidationResolver = (profileValidationSchema: any) =>
   useCallback(
@@ -24,7 +28,7 @@ const useYupValidationResolver = (profileValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -55,7 +59,7 @@ const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -72,7 +76,8 @@ const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
   );
 
 const ProfileForm = () => {
-  const { userData, updateProfile, updateLinearEmail } = useUser();
+  const { userData, updateProfile, updateLinearEmail, disconnectLinear } =
+    useUser();
 
   const localForm = useForm<{ name: string; address: string }>({
     mode: 'all',
@@ -87,10 +92,11 @@ const ProfileForm = () => {
     localFormLinear;
 
   useEffect(() => {
-    setValue('name', userData?.name);
+    setValue('name', userData?.name ?? '');
     setValue('address', userData?.address);
   }, [userData]);
 
+  console.log(userData);
   const updateProfileHandler = async (values: any) => {
     updateProfile(values);
   };
@@ -98,6 +104,25 @@ const ProfileForm = () => {
   const updateLinearEmailHandler = async (values: any) => {
     updateLinearEmail(values);
   };
+
+  const handleLinearOauth = () => {
+    const params = new URLSearchParams();
+    params.append('client_id', LINEAR_CLIENT_ID);
+    params.append('redirect_uri', LINEAR_REDIRECT_URI);
+    params.append('response_type', 'code');
+    params.append('scope', 'read');
+    params.append('state', ''); // generate string to prevent crsf attack
+    params.append('prompt', 'consent');
+    window.location.href = `https://linear.app/oauth/authorize?${params.toString()}`;
+  };
+
+  const disconnectLinearOnClick = useCallback(async () => {
+    await disconnectLinear({
+      userId: userData.id,
+      username: userData.name,
+      linearUserId: userData.linear_users[0].id,
+    });
+  }, [userData, disconnectLinear]);
 
   return (
     <>
@@ -128,8 +153,12 @@ const ProfileForm = () => {
               label="Govrn Username"
               tip="Enter your username for the Govrn protocol."
               placeholder="govrn-user"
-              defaultValue={userData?.name}
-              localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+              defaultValue={userData?.name ?? ''}
+              localForm={
+                localForm as unknown as InputLocalFormType<{
+                  [key: string]: any;
+                }>
+              }
             />
             <Button
               type="submit"
@@ -187,27 +216,40 @@ const ProfileForm = () => {
             </Heading>
             <Flex
               direction="column"
-              align="flex-end"
+              align="flex-start"
               marginTop={4}
-              marginBottom={{ base: 4, lg: 0 }}
+              marginBottom={4}
+              gap="20px"
               width={{ base: '100%', lg: '50%' }}
             >
-              <Input
-                name="userLinearEmail"
-                label="Linear Email Address (Coming Soon!)"
-                tip="Enter the email address you used with Linear for the integration."
-                placeholder="user@govrn.io"
-                localForm={localFormLinear} //TODO: resolve this type issue -- need to investigate this
-                isDisabled
-              />
-              <Button
-                type="submit"
-                width="100%"
-                variant="disabled"
-                isDisabled
-              >
-                Link Email
-              </Button>
+              <Heading as="h5" size="sm" fontWeight="medium" color="gray.700">
+                Linear
+              </Heading>
+              {userData?.linear_users && userData.linear_users.length > 0 ? (
+                <Button
+                  type="submit"
+                  width="100%"
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'brand.primary.100' }}
+                  onClick={disconnectLinearOnClick}
+                >
+                  Disconnect Linear
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  width="100%"
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'brand.primary.100' }}
+                  onClick={handleLinearOauth}
+                >
+                  Connect Linear
+                </Button>
+              )}
             </Flex>
             <Divider bgColor="gray.300" />
           </Flex>
@@ -224,15 +266,14 @@ const ProfileForm = () => {
                 label="Twitter Handle (Coming Soon!)"
                 tip="Enter your Twitter handle for the upcoming Twitter integration."
                 placeholder="govrn"
-                localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+                localForm={
+                  localForm as unknown as InputLocalFormType<{
+                    [key: string]: any;
+                  }>
+                }
                 isDisabled
               />
-              <Button
-                type="submit"
-                width="100%"
-                variant="disabled"
-                isDisabled
-              >
+              <Button type="submit" width="100%" variant="disabled" isDisabled>
                 Link Twitter
               </Button>
             </Flex>

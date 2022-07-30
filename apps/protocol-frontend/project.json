@@ -4,6 +4,12 @@
   "projectType": "application",
   "targets": {
     "build": {
+      "dependsOn": [
+        {
+          "target": "tsc",
+          "projects": "self"
+        }
+      ],
       "executor": "@nxext/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -28,6 +34,13 @@
           "extractLicenses": true,
           "vendorChunk": false
         }
+      }
+    },
+    "tsc": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "tsc --project apps/protocol-frontend/tsconfig.app.json --noEmit --skipLibCheck",
+        "color": true
       }
     },
     "serve": {

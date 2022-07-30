@@ -7,6 +7,12 @@
     "build": {
       "executor": "@nxext/vite:package",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": [
+        {
+          "target": "tsc",
+          "projects": "self"
+        }
+      ],
       "options": {
         "outputPath": "dist/libs/protocol-ui",
         "configFile": "@nxext/vite/plugins/vite-package",
@@ -19,6 +25,13 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/protocol-ui/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "tsc": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "tsc --project apps/protocol-frontend/tsconfig.app.json --noEmit --skipLibCheck",
+        "color": true
       }
     },
     "test": {
