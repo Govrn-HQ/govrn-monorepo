@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.InputType("GuildCreateManyInput", {
   isAbstract: true
@@ -46,4 +47,9 @@ export class GuildCreateManyInput {
     nullable: true
   })
   contribution_reporting_channel?: number | undefined;
+
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: true
+  })
+  status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
 }

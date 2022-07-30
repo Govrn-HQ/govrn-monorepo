@@ -47,4 +47,9 @@ export class GuildMinOrderByAggregateInput {
     nullable: true
   })
   contribution_reporting_channel?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  status?: "asc" | "desc" | undefined;
 }

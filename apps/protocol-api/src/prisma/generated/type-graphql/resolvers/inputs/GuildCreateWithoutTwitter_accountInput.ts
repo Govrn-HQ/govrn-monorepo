@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutGuildInput";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
+import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.InputType("GuildCreateWithoutTwitter_accountInput", {
   isAbstract: true
@@ -59,4 +60,9 @@ export class GuildCreateWithoutTwitter_accountInput {
     nullable: true
   })
   contribution_reporting_channel?: number | undefined;
+
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: true
+  })
+  status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
 }

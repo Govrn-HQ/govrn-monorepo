@@ -6,6 +6,7 @@ import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/Gu
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
 import { TwitterAccountCreateNestedOneWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedOneWithoutGuildInput";
+import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.InputType("GuildCreateInput", {
   isAbstract: true
@@ -65,4 +66,9 @@ export class GuildCreateInput {
     nullable: true
   })
   contribution_reporting_channel?: number | undefined;
+
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: true
+  })
+  status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
 }

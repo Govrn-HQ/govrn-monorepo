@@ -3689,6 +3689,27 @@ export type DiscordUserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
+export type EnumGuildStatusFieldUpdateOperationsInput = {
+  set?: InputMaybe<GuildStatus>;
+};
+
+export type EnumGuildStatusFilter = {
+  equals?: InputMaybe<GuildStatus>;
+  in?: InputMaybe<Array<GuildStatus>>;
+  not?: InputMaybe<NestedEnumGuildStatusFilter>;
+  notIn?: InputMaybe<Array<GuildStatus>>;
+};
+
+export type EnumGuildStatusWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumGuildStatusFilter>;
+  _min?: InputMaybe<NestedEnumGuildStatusFilter>;
+  equals?: InputMaybe<GuildStatus>;
+  in?: InputMaybe<Array<GuildStatus>>;
+  not?: InputMaybe<NestedEnumGuildStatusWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<GuildStatus>>;
+};
+
 export type FloatNullableFilter = {
   equals?: InputMaybe<Scalars['Float']>;
   gt?: InputMaybe<Scalars['Float']>;
@@ -3727,6 +3748,7 @@ export type Guild = {
   id: Scalars['Int'];
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  status: GuildStatus;
   twitter_account?: Maybe<TwitterAccount>;
   updatedAt: Scalars['DateTime'];
   users: Array<GuildUser>;
@@ -4471,6 +4493,7 @@ export type GuildCountAggregate = {
   id: Scalars['Int'];
   logo: Scalars['Int'];
   name: Scalars['Int'];
+  status: Scalars['Int'];
   updatedAt: Scalars['Int'];
 };
 
@@ -4482,6 +4505,7 @@ export type GuildCountOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -4494,6 +4518,7 @@ export type GuildCreateInput = {
   discord_id?: InputMaybe<Scalars['String']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<GuildStatus>;
   twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
@@ -4507,6 +4532,7 @@ export type GuildCreateManyInput = {
   id?: InputMaybe<Scalars['Int']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<GuildStatus>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -4562,6 +4588,7 @@ export type GuildCreateWithoutActivity_TypeInput = {
   discord_id?: InputMaybe<Scalars['String']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<GuildStatus>;
   twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
@@ -4575,6 +4602,7 @@ export type GuildCreateWithoutContributionsInput = {
   discord_id?: InputMaybe<Scalars['String']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<GuildStatus>;
   twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
@@ -4589,6 +4617,7 @@ export type GuildCreateWithoutTwitter_AccountInput = {
   discord_id?: InputMaybe<Scalars['String']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<GuildStatus>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
 };
@@ -4602,6 +4631,7 @@ export type GuildCreateWithoutUsersInput = {
   discord_id?: InputMaybe<Scalars['String']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<GuildStatus>;
   twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -4619,6 +4649,7 @@ export type GuildGroupBy = {
   id: Scalars['Int'];
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  status: GuildStatus;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -4630,6 +4661,7 @@ export type GuildMaxAggregate = {
   id?: Maybe<Scalars['Int']>;
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  status?: Maybe<GuildStatus>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -4641,6 +4673,7 @@ export type GuildMaxOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -4652,6 +4685,7 @@ export type GuildMinAggregate = {
   id?: Maybe<Scalars['Int']>;
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  status?: Maybe<GuildStatus>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -4663,6 +4697,7 @@ export type GuildMinOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -4679,6 +4714,7 @@ export type GuildOrderByWithAggregationInput = {
   id?: InputMaybe<SortOrder>;
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -4692,6 +4728,7 @@ export type GuildOrderByWithRelationInput = {
   id?: InputMaybe<SortOrder>;
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
   twitter_account?: InputMaybe<TwitterAccountOrderByWithRelationInput>;
   updatedAt?: InputMaybe<SortOrder>;
   users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
@@ -4710,6 +4747,7 @@ export enum GuildScalarFieldEnum {
   Id = 'id',
   Logo = 'logo',
   Name = 'name',
+  Status = 'status',
   UpdatedAt = 'updatedAt'
 }
 
@@ -4724,8 +4762,15 @@ export type GuildScalarWhereWithAggregatesInput = {
   id?: InputMaybe<IntWithAggregatesFilter>;
   logo?: InputMaybe<StringNullableWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
+  status?: InputMaybe<EnumGuildStatusWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
 };
+
+export enum GuildStatus {
+  Inputted = 'INPUTTED',
+  Onboarded = 'ONBOARDED',
+  Validated = 'VALIDATED'
+}
 
 export type GuildSumAggregate = {
   congrats_channel?: Maybe<Scalars['Int']>;
@@ -4748,6 +4793,7 @@ export type GuildUpdateInput = {
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
@@ -4760,6 +4806,7 @@ export type GuildUpdateManyMutationInput = {
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -4805,6 +4852,7 @@ export type GuildUpdateWithoutActivity_TypeInput = {
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
@@ -4818,6 +4866,7 @@ export type GuildUpdateWithoutContributionsInput = {
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
@@ -4832,6 +4881,7 @@ export type GuildUpdateWithoutTwitter_AccountInput = {
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
 };
@@ -4845,6 +4895,7 @@ export type GuildUpdateWithoutUsersInput = {
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -5223,6 +5274,7 @@ export type GuildWhereInput = {
   id?: InputMaybe<IntFilter>;
   logo?: InputMaybe<StringNullableFilter>;
   name?: InputMaybe<StringNullableFilter>;
+  status?: InputMaybe<EnumGuildStatusFilter>;
   twitter_account?: InputMaybe<TwitterAccountRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   users?: InputMaybe<GuildUserListRelationFilter>;
@@ -9530,6 +9582,23 @@ export type NestedDateTimeWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
+export type NestedEnumGuildStatusFilter = {
+  equals?: InputMaybe<GuildStatus>;
+  in?: InputMaybe<Array<GuildStatus>>;
+  not?: InputMaybe<NestedEnumGuildStatusFilter>;
+  notIn?: InputMaybe<Array<GuildStatus>>;
+};
+
+export type NestedEnumGuildStatusWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumGuildStatusFilter>;
+  _min?: InputMaybe<NestedEnumGuildStatusFilter>;
+  equals?: InputMaybe<GuildStatus>;
+  in?: InputMaybe<Array<GuildStatus>>;
+  not?: InputMaybe<NestedEnumGuildStatusWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<GuildStatus>>;
+};
+
 export type NestedFloatFilter = {
   equals?: InputMaybe<Scalars['Float']>;
   gt?: InputMaybe<Scalars['Float']>;
@@ -13805,7 +13874,7 @@ export type CreateJobRunMutationVariables = Exact<{
 
 export type CreateJobRunMutation = { createJobRun: { completedDate: string | Date, startDate: string | Date, name: string } };
 
-export type GuildFragmentFragment = { congrats_channel?: number | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: number | null };
+export type GuildFragmentFragment = { congrats_channel?: number | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: number | null, status: GuildStatus };
 
 export type CreateGuildMutationVariables = Exact<{
   data: GuildCreateInput;
@@ -13826,7 +13895,7 @@ export type GetGuildQueryVariables = Exact<{
 }>;
 
 
-export type GetGuildQuery = { result?: { congrats_channel?: number | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: number | null } | null };
+export type GetGuildQuery = { result?: { congrats_channel?: number | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: number | null, status: GuildStatus } | null };
 
 export type ListGuildsQueryVariables = Exact<{
   where?: GuildWhereInput;
@@ -13836,7 +13905,7 @@ export type ListGuildsQueryVariables = Exact<{
 }>;
 
 
-export type ListGuildsQuery = { result: Array<{ congrats_channel?: number | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: number | null }> };
+export type ListGuildsQuery = { result: Array<{ congrats_channel?: number | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: number | null, status: GuildStatus }> };
 
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, contribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } | null };
 
@@ -14138,6 +14207,7 @@ export const GuildFragmentFragmentDoc = gql`
   name
   updatedAt
   contribution_reporting_channel
+  status
 }
     `;
 export const ContributionFragmentFragmentDoc = gql`
