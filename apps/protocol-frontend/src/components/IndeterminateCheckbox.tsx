@@ -18,10 +18,10 @@ type IndeterminateCheckboxProps = ComponentWithAs<
 const IndeterminateCheckbox = forwardRef<IndeterminateCheckboxProps, 'input'>(
   ({ indeterminate, ...rest }: any, ref) => {
     const defaultRef = useRef<HTMLInputElement>(null);
-    const resolvedRef = ref || defaultRef;
+    // const resolvedRef = ref || defaultRef;
+    const resolvedRef = defaultRef;
 
     useEffect(() => {
-      // @ts-ignore: TODO: current is not defined on ref.
       resolvedRef.current.indeterminate = indeterminate;
     }, [resolvedRef, indeterminate]);
 
