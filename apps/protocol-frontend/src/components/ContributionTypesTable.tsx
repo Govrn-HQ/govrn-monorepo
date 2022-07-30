@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: Remove this after migrating to v8.
 import { useMemo } from 'react';
 import { isAfter } from 'date-fns';
 import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';

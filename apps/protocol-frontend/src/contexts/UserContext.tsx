@@ -299,7 +299,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             chainId: networks[chainId].chainNumber,
             name: networks[chainId].name,
           }, // network config
-          // @ts-ignore
           signer, // provider/signer
           userData.address, // user address
           contribution.id, // contribution id
@@ -347,7 +346,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             chainId: networks[chainId].chainNumber,
             name: networks[chainId].name,
           },
-          // @ts-ignore
           signer,
           id
         );
@@ -384,7 +382,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             chainId: networks[chainId].chainNumber,
             name: networks[chainId].name,
           }, //network config
-          // @ts-ignore
           signer, // signer/provider
           null, // attestation id
           contribution.activityTypeId, //activity type id

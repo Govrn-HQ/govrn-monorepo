@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: remove this ^ after migrating from v7 to v8.
 import { useMemo } from 'react';
 import * as _ from 'lodash';
 import {
@@ -98,9 +96,7 @@ const MyAttestationsTable = ({
     []
   );
 
-  const tableHooks = (hooks: {
-    visibleColumns: ((columns: any) => any[])[];
-  }) => {
+  const tableHooks = (hooks: { visibleColumns }) => {
     hooks.visibleColumns.push((columns) => [
       // {
       //   id: 'selection',

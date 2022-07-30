@@ -185,7 +185,9 @@ const EditContributionForm = ({
           defaultValue={engagementDateValue}
           maxDate={new Date()}
           onChange={(date) => {
-            // @ts-ignore
+            if (Array.isArray(date)) {
+              return;
+            }
             setEngagementDateValue(date);
             setValue('engagementDate', date);
           }}

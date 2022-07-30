@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO, remove this ^ after migrating v7 to v8
 import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
@@ -153,7 +151,7 @@ const ContributionsTable = ({
                   color="gray.800"
                   aria-label="Edit Contribution"
                   disabled={
-                    row.original.user.id !== userData?.user ||
+                    row.original.user.id !== userData?.id ||
                     row.original.status === 'minted'
                   }
                   onClick={() =>
@@ -165,7 +163,7 @@ const ContributionsTable = ({
                   variant="ghost"
                   color="gray.800"
                   disabled={
-                    row.original.user.id !== userData?.user ||
+                    row.original.user.id !== userData?.id ||
                     row.original.status === 'minted'
                   }
                   aria-label="Delete Contribution"
@@ -180,7 +178,7 @@ const ContributionsTable = ({
                 color="gray.800"
                 aria-label="Edit Contribution"
                 disabled={
-                  row.original.user.id !== userData?.user ||
+                  row.original.user.id !== userData?.id ||
                   row.original.status === 'minted'
                 }
                 onClick={() => handleEditContributionFormModal(row.original.id)}
@@ -190,7 +188,7 @@ const ContributionsTable = ({
                 variant="ghost"
                 color="gray.800"
                 disabled={
-                  row.original.user.id !== userData?.user ||
+                  row.original.user.id !== userData?.id ||
                   row.original.status === 'minted'
                 }
                 aria-label="Delete Contribution"

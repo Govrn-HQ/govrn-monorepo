@@ -1,5 +1,4 @@
-// @ts-nocheck
-// TODO: remove this ^ after migrating from v7 to v8.
+import * as uri from 'valid-url';
 import apgApi from 'apg-js/src/apg-api/api';
 import apgLib from 'apg-js/src/apg-lib/node-exports';
 import { ethers } from 'ethers';

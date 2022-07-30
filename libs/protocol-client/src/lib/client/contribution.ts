@@ -39,10 +39,15 @@ export class Contribution extends BaseClient {
    */
   public async delete(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider,
+    signer: ethers.Signer,
     id: number
   ) {
-    const contract = new GovrnContract(networkConfig, provider);
+    if (!signer?.provider) {
+      console.error('Provider does not exist on signer of delete');
+      return;
+    }
+
+    const contract = new GovrnContract(networkConfig, signer.provider);
 
     const contribution = await this.get(id);
     if (!contribution) {
@@ -72,17 +77,21 @@ export class Contribution extends BaseClient {
 
   public async mint(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider,
+    signer: ethers.Signer,
     address: string,
     id: number,
     activityTypeId: number,
     userId: number,
     args: MintArgs,
-    name: string,
-    details: string,
-    proof: string
+    name: Uint8Array,
+    details: Uint8Array,
+    proof: Uint8Array
   ) {
-    const contract = new GovrnContract(networkConfig, provider);
+    if (!signer?.provider) {
+      console.error('Provider does not exist on signer of mint');
+      return;
+    }
+    const contract = new GovrnContract(networkConfig, signer.provider);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
 
@@ -136,13 +145,17 @@ export class Contribution extends BaseClient {
 
   public async attest(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider,
+    signer: ethers.Signer,
     id: number,
     activityTypeId: number,
     userId: number,
     args: AttestArgs
   ) {
-    const contract = new GovrnContract(networkConfig, provider);
+    if (!signer?.provider) {
+      console.error('Provider does not exist on signer of attest');
+      return;
+    }
+    const contract = new GovrnContract(networkConfig, signer.provider);
     const transaction = await contract.attest(args);
     await transaction.wait(1);
 

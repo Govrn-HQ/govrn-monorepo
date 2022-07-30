@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: JP, would you disable this ^ and check errors.
 import { useCallback, useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
@@ -149,6 +147,9 @@ const ReportForm = () => {
           defaultValue={engagementDateValue}
           maxDate={new Date()}
           onChange={(date) => {
+            if (Array.isArray(date)) {
+              return;
+            }
             setEngagementDateValue(date);
             setValue('engagementDate', date);
           }}
