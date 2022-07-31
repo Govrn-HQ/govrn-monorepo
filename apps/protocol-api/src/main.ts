@@ -31,7 +31,7 @@ const typeSchema = buildSchemaSync({
 
 // TODO: Figure out is there is a way to genralize this
 //
-const OwnsData = rule()(async (parent, args, ctx, info) => {
+const ownsData = rule()(async (parent, args, ctx, info) => {
   return true;
 });
 
@@ -78,15 +78,15 @@ const permissions = shield(
       createOnChainUserContribution: isAuthenticated,
       createUser: or(isAuthenticated, hasToken),
       createUserActivity: hasToken,
-      createUserAttestation: and(OwnsData, isAuthenticated),
-      createUserContribution: and(OwnsData, isAuthenticated),
-      createUserCustom: or(hasToken, and(OwnsData, isAuthenticated)),
+      createUserAttestation: and(ownsData, isAuthenticated),
+      createUserContribution: and(ownsData, isAuthenticated),
+      createUserCustom: or(hasToken, and(ownsData, isAuthenticated)),
       createUserOnChainAttestation: isAuthenticated,
-      deleteContribution: or(OwnsData, isAuthenticated),
+      deleteContribution: or(ownsData, isAuthenticated),
       updateGuild: hasToken,
       updateUser: hasToken,
-      updateUserContribution: and(OwnsData, isAuthenticated),
-      updateUserCustom: and(OwnsData, isAuthenticated),
+      updateUserContribution: and(ownsData, isAuthenticated),
+      updateUserCustom: and(ownsData, isAuthenticated),
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
     },
