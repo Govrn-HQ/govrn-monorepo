@@ -3736,6 +3736,12 @@ export type FloatNullableWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['Float']>>;
 };
 
+export type GetUserContributionCountInput = {
+  end_date: Scalars['DateTime'];
+  id: Scalars['Float'];
+  start_date: Scalars['DateTime'];
+};
+
 export type Guild = {
   _count?: Maybe<GuildCount>;
   activity_type: Array<GuildActivityType>;
@@ -10864,9 +10870,7 @@ export type QueryFindFirstUserActivityArgs = {
 
 
 export type QueryGetContributionCountForUserArgs = {
-  end_date: Scalars['DateTime'];
-  id: Scalars['Float'];
-  start_date: Scalars['DateTime'];
+  where: GetUserContributionCountInput;
 };
 
 
@@ -14028,6 +14032,13 @@ export type ListContributionsQueryVariables = Exact<{
 
 export type ListContributionsQuery = { result: Array<{ date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date }>, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
+export type GetUserContributionCountQueryVariables = Exact<{
+  where: GetUserContributionCountInput;
+}>;
+
+
+export type GetUserContributionCountQuery = { result: number };
+
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;
 }>;
@@ -14610,6 +14621,11 @@ export const ListContributionsDocument = gql`
   }
 }
     ${ContributionFragmentFragmentDoc}`;
+export const GetUserContributionCountDocument = gql`
+    query getUserContributionCount($where: GetUserContributionCountInput!) {
+  result: getContributionCountForUser(where: $where)
+}
+    `;
 export const CreateContributionDocument = gql`
     mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
@@ -14838,6 +14854,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     listContributions(variables?: ListContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListContributionsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListContributionsQuery>(ListContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listContributions', 'query');
+    },
+    getUserContributionCount(variables: GetUserContributionCountQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserContributionCountQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserContributionCountQuery>(GetUserContributionCountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserContributionCount', 'query');
     },
     createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');

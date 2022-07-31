@@ -35,6 +35,18 @@ export class UserUpdateCustomInput {
   disconnectLinearId?: number;
 }
 
+@TypeGraphQL.InputType('GetUserContributionCountInput')
+export class GetUserContributionCountInput {
+  @TypeGraphQL.Field((_type) => Number)
+  id: number;
+
+  @TypeGraphQL.Field((_type) => Date)
+  start_date: Date;
+
+  @TypeGraphQL.Field((_type) => Date)
+  end_date: Date;
+}
+
 @TypeGraphQL.ArgsType()
 export class UpdateUserCustomArgs {
   @TypeGraphQL.Field((_type) => UserUpdateCustomInput, {
@@ -65,14 +77,10 @@ export class ListUserArgs {
 
 @TypeGraphQL.ArgsType()
 export class GetUserContributionCountArgs {
-  @TypeGraphQL.Field((_type) => Number)
-  id: number;
-
-  @TypeGraphQL.Field((_type) => Date)
-  start_date: Date;
-
-  @TypeGraphQL.Field((_type) => Date)
-  end_date: Date;
+  @TypeGraphQL.Field((_type) => GetUserContributionCountInput, {
+    nullable: false,
+  })
+  where!: GetUserContributionCountInput;
 }
 
 @TypeGraphQL.Resolver((_of) => User)
@@ -149,9 +157,9 @@ export class UserCustomResolver {
     return await getPrismaFromContext(ctx).contribution.count({
       where: {
         AND: [
-          { user_id: { equals: args.id } },
-          { date_of_engagement: { gte: args.start_date } },
-          { date_of_engagement: { lte: args.end_date } }
+          { user_id: { equals: args.where.id } },
+          { date_of_engagement: { gte: args.where.start_date } },
+          { date_of_engagement: { lte: args.where.end_date } }
         ]
       }
     })

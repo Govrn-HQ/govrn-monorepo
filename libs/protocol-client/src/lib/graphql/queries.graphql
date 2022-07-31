@@ -378,6 +378,10 @@ query listContributions(
   }
 }
 
+query getUserContributionCount($where: GetUserContributionCountInput!) {
+  result: getContributionCountForUser(where: $where)
+}
+
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
     ...ContributionFragment
