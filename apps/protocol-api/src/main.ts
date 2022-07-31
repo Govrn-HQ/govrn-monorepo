@@ -63,6 +63,7 @@ const permissions = shield(
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
+      getContributionCountForUser: or(isAuthenticated, hasToken),
       users: hasToken,
       jobRuns: hasToken,
     },

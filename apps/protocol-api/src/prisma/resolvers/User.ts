@@ -3,6 +3,7 @@ import * as TypeGraphQL from 'type-graphql';
 import { Context } from './types';
 import { User } from '../generated/type-graphql/models/User';
 import { getPrismaFromContext } from '../generated/type-graphql/helpers';
+import { Int } from 'type-graphql';
 
 @TypeGraphQL.InputType('UserCreateCustomInput', {
   isAbstract: true,
@@ -60,6 +61,18 @@ export class GetUserArgs {
 export class ListUserArgs {
   @TypeGraphQL.Field((_type) => String)
   address: string;
+}
+
+@TypeGraphQL.ArgsType()
+export class GetUserContributionCountArgs {
+  @TypeGraphQL.Field((_type) => Number)
+  id: number;
+
+  @TypeGraphQL.Field((_type) => Date)
+  start_date: Date;
+
+  @TypeGraphQL.Field((_type) => Date)
+  end_date: Date;
 }
 
 @TypeGraphQL.Resolver((_of) => User)
@@ -126,5 +139,21 @@ export class UserCustomResolver {
     return await prisma.user.findMany({
       where: { address: { equals: address } },
     });
+  }
+
+  @TypeGraphQL.Query((_returns) => Int, { nullable: false })
+  async getContributionCountForUser(
+    @TypeGraphQL.Ctx() ctx: Context,
+    @TypeGraphQL.Args() args: GetUserContributionCountArgs
+  ) {
+    return await getPrismaFromContext(ctx).contribution.count({
+      where: {
+        AND: [
+          { user_id: { equals: args.id } },
+          { date_of_engagement: { gte: args.start_date } },
+          { date_of_engagement: { lte: args.end_date } }
+        ]
+      }
+    })
   }
 }
