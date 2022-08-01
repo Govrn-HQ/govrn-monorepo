@@ -62,4 +62,9 @@ export class ContributionMinOrderByAggregateInput {
     nullable: true
   })
   on_chain_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  tx_hash?: "asc" | "desc" | undefined;
 }

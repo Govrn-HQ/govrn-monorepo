@@ -2188,6 +2188,7 @@ export type Contribution = {
   status: ContributionStatus;
   status_id: Scalars['Int'];
   tweet?: Maybe<TwitterTweet>;
+  tx_hash?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
   user_id: Scalars['Int'];
@@ -2256,6 +2257,7 @@ export type ContributionCountAggregate = {
   on_chain_id: Scalars['Int'];
   proof: Scalars['Int'];
   status_id: Scalars['Int'];
+  tx_hash: Scalars['Int'];
   updatedAt: Scalars['Int'];
   user_id: Scalars['Int'];
 };
@@ -2270,6 +2272,7 @@ export type ContributionCountOrderByAggregateInput = {
   on_chain_id?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
@@ -2288,6 +2291,7 @@ export type ContributionCreateInput = {
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
@@ -2301,6 +2305,7 @@ export type ContributionCreateManyActivity_TypeInput = {
   on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
@@ -2320,6 +2325,7 @@ export type ContributionCreateManyInput = {
   on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
@@ -2333,6 +2339,7 @@ export type ContributionCreateManyStatusInput = {
   name: Scalars['String'];
   on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
@@ -2352,6 +2359,7 @@ export type ContributionCreateManyUserInput = {
   on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   status_id: Scalars['Int'];
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -2464,6 +2472,7 @@ export type ContributionCreateWithoutActivity_TypeInput = {
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
@@ -2481,6 +2490,7 @@ export type ContributionCreateWithoutAttestationsInput = {
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
@@ -2498,6 +2508,7 @@ export type ContributionCreateWithoutGuildsInput = {
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
@@ -2515,6 +2526,7 @@ export type ContributionCreateWithoutLinear_IssueInput = {
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
@@ -2532,6 +2544,7 @@ export type ContributionCreateWithoutPartnersInput = {
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
@@ -2549,6 +2562,7 @@ export type ContributionCreateWithoutStatusInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
@@ -2566,6 +2580,7 @@ export type ContributionCreateWithoutTweetInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
@@ -2584,6 +2599,7 @@ export type ContributionCreateWithoutUserInput = {
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
   tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -2602,6 +2618,7 @@ export type ContributionGroupBy = {
   on_chain_id?: Maybe<Scalars['Int']>;
   proof?: Maybe<Scalars['String']>;
   status_id: Scalars['Int'];
+  tx_hash?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user_id: Scalars['Int'];
 };
@@ -2622,6 +2639,7 @@ export type ContributionMaxAggregate = {
   on_chain_id?: Maybe<Scalars['Int']>;
   proof?: Maybe<Scalars['String']>;
   status_id?: Maybe<Scalars['Int']>;
+  tx_hash?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
 };
@@ -2636,6 +2654,7 @@ export type ContributionMaxOrderByAggregateInput = {
   on_chain_id?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
@@ -2650,6 +2669,7 @@ export type ContributionMinAggregate = {
   on_chain_id?: Maybe<Scalars['Int']>;
   proof?: Maybe<Scalars['String']>;
   status_id?: Maybe<Scalars['Int']>;
+  tx_hash?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
 };
@@ -2664,6 +2684,7 @@ export type ContributionMinOrderByAggregateInput = {
   on_chain_id?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
@@ -2687,6 +2708,7 @@ export type ContributionOrderByWithAggregationInput = {
   on_chain_id?: InputMaybe<SortOrder>;
   proof?: InputMaybe<SortOrder>;
   status_id?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
@@ -2708,6 +2730,7 @@ export type ContributionOrderByWithRelationInput = {
   status?: InputMaybe<ContributionStatusOrderByWithRelationInput>;
   status_id?: InputMaybe<SortOrder>;
   tweet?: InputMaybe<TwitterTweetOrderByWithRelationInput>;
+  tx_hash?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user?: InputMaybe<UserOrderByWithRelationInput>;
   user_id?: InputMaybe<SortOrder>;
@@ -2728,6 +2751,7 @@ export enum ContributionScalarFieldEnum {
   OnChainId = 'on_chain_id',
   Proof = 'proof',
   StatusId = 'status_id',
+  TxHash = 'tx_hash',
   UpdatedAt = 'updatedAt',
   UserId = 'user_id'
 }
@@ -2745,6 +2769,7 @@ export type ContributionScalarWhereInput = {
   on_chain_id?: InputMaybe<IntNullableFilter>;
   proof?: InputMaybe<StringNullableFilter>;
   status_id?: InputMaybe<IntFilter>;
+  tx_hash?: InputMaybe<StringNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user_id?: InputMaybe<IntFilter>;
 };
@@ -2762,6 +2787,7 @@ export type ContributionScalarWhereWithAggregatesInput = {
   on_chain_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   proof?: InputMaybe<StringNullableWithAggregatesFilter>;
   status_id?: InputMaybe<IntWithAggregatesFilter>;
+  tx_hash?: InputMaybe<StringNullableWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   user_id?: InputMaybe<IntWithAggregatesFilter>;
 };
@@ -3011,6 +3037,7 @@ export type ContributionUpdateInput = {
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
@@ -3022,6 +3049,7 @@ export type ContributionUpdateManyMutationInput = {
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -3154,6 +3182,7 @@ export type ContributionUpdateWithoutActivity_TypeInput = {
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
@@ -3171,6 +3200,7 @@ export type ContributionUpdateWithoutAttestationsInput = {
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
@@ -3188,6 +3218,7 @@ export type ContributionUpdateWithoutGuildsInput = {
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
@@ -3205,6 +3236,7 @@ export type ContributionUpdateWithoutLinear_IssueInput = {
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
@@ -3222,6 +3254,7 @@ export type ContributionUpdateWithoutPartnersInput = {
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
@@ -3239,6 +3272,7 @@ export type ContributionUpdateWithoutStatusInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
@@ -3256,6 +3290,7 @@ export type ContributionUpdateWithoutTweetInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
@@ -3274,6 +3309,7 @@ export type ContributionUpdateWithoutUserInput = {
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
   tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -3340,6 +3376,7 @@ export type ContributionWhereInput = {
   status?: InputMaybe<ContributionStatusRelationFilter>;
   status_id?: InputMaybe<IntFilter>;
   tweet?: InputMaybe<TwitterTweetRelationFilter>;
+  tx_hash?: InputMaybe<StringNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   user_id?: InputMaybe<IntFilter>;
@@ -3348,6 +3385,7 @@ export type ContributionWhereInput = {
 export type ContributionWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
   on_chain_id?: InputMaybe<Scalars['Int']>;
+  tx_hash?: InputMaybe<Scalars['String']>;
 };
 
 export type DateTimeFieldUpdateOperationsInput = {
