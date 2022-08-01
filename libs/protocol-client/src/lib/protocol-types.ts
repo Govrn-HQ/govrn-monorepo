@@ -13,7 +13,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: string | Date;
 };
 
@@ -13349,6 +13348,7 @@ export type UserOnChainContributionUpdateInput = {
   onChainId: Scalars['Float'];
   proof: Scalars['String'];
   status: Scalars['String'];
+  txHash: Scalars['String'];
   userId: Scalars['Float'];
 };
 
