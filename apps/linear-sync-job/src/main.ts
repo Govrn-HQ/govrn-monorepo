@@ -8,6 +8,8 @@ import 'tslib';
 
 const apiKey = process.env.API_KEY;
 const protcolUrl = process.env.PROTOCOL_URL;
+const protocolApiToken = process.env.PROTOCOL_API_TOKEN;
+console.log(protocolApiToken);
 const jobName = 'linear-sync-job';
 
 const upsertUser = (govrn: GovrnProtocol, user: User) => {
@@ -91,7 +93,9 @@ const createJobRun = async (
 const main = async () => {
   console.log(`Starting to process linear issues`);
   const linearClient = new LinearClient({ apiKey });
-  const govrn = new GovrnProtocol(protcolUrl);
+  const govrn = new GovrnProtocol(protcolUrl, undefined, {
+    Authorization: protocolApiToken,
+  });
   // get users
   const users = govrn.linear.user.list({
     where: { active_token: { equals: true } },

@@ -18,7 +18,12 @@ import cors = require('cors');
 const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
-const BACKEND_TOKENS = [AIRTABLE_API_TOKEN, KEVIN_MALONE_TOKEN];
+const LINEAR_JOB_TOKEN = process.env.LINEAR_JOB_TOKEN;
+const BACKEND_TOKENS = [
+  AIRTABLE_API_TOKEN,
+  KEVIN_MALONE_TOKEN,
+  LINEAR_JOB_TOKEN,
+];
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
@@ -64,6 +69,7 @@ const permissions = shield(
       listUserByAddress: isAuthenticated,
       users: hasToken,
       jobRuns: hasToken,
+      linearUsers: hasToken,
     },
     Mutation: {
       '*': deny,
@@ -226,8 +232,16 @@ const permissions = shield(
       user: hasToken,
     },
     LinearUser: {
-      active_token: or(isAuthenticated, hasToken),
       id: or(isAuthenticated, hasToken),
+      active: hasToken,
+      displayName: hasToken,
+      email: hasToken,
+      linear_id: hasToken,
+      name: hasToken,
+      url: hasToken,
+      createdAt: hasToken,
+      access_token: hasToken,
+      active_token: or(isAuthenticated, hasToken),
     },
   },
   {

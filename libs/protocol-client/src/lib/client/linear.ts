@@ -52,7 +52,7 @@ class User extends BaseClient {
     return user.updateLinearUser;
   }
 
-  public async list(args: ListLinearUsersQueryVariables) {
+  public list(args: ListLinearUsersQueryVariables) {
     return paginate<ListLinearUsersQueryVariables, ListLinearUsersQuery>(
       this.sdk.listLinearUsers,
       args

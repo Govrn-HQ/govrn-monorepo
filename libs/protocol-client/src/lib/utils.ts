@@ -51,17 +51,18 @@ export function paginate<T extends GraphQLArgs, V extends ReturnType>(
         yield response;
         if (!response.result.length) {
           ended = true;
+          break;
         }
-        const lastItem = response.result[-1];
+        const lastItem = response.result.at(-1);
         if (variables && variables.where) {
           funcVars = {
             ...variables,
-            where: { AND: [{ id: { equals: lastItem.id } }, variables.where] },
+            where: { AND: [{ id: { gt: lastItem.id } }, variables.where] },
           } as T;
         } else {
           funcVars = {
             ...variables,
-            where: { id: { equals: lastItem.id } },
+            where: { id: { gt: lastItem.id } },
           } as T;
         }
       }

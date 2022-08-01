@@ -53,13 +53,13 @@ mutation bulkCreateIssues(
 
 # Linear User
 fragment LinearUserFragment on LinearUser {
+  id
   active
   displayName
   email
   linear_id
   name
   url
-  id
   createdAt
   access_token
   active_token
