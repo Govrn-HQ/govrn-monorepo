@@ -62,6 +62,7 @@ const ContributionsTable = ({
 
   const handleDeleteContribution = async (idx: number) => { 
       console.log(idx)
+      console.log('clicked')
       const y = await deleteContribution(idx)
   };
   //handleDeleteContribution(7); 
@@ -202,7 +203,7 @@ const ContributionsTable = ({
                   row.original.user.id !== userData?.id ||
                   row.original.status === 'minted'
                 }
-                onClick={() => handleEditContributionFormModal(row.original.id)}
+              
               />
               <IconButton
                 icon={<FiTrash2 fontSize="1rem" />}
@@ -211,8 +212,10 @@ const ContributionsTable = ({
                 disabled={
                   row.original.user.id !== userData?.id ||
                   row.original.status === 'minted'
+                  
                 }
                 aria-label="Delete Contribution"
+                onClick = {() => handleDeleteContribution(row.original.id)}
               />
             </HStack>
           ),
