@@ -83,4 +83,9 @@ export class ContributionCreateWithoutActivity_typeInput {
     nullable: true
   })
   on_chain_id?: number | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  tx_hash?: string | undefined;
 }

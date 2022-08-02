@@ -144,6 +144,7 @@ const permissions = shield(
       linear_issue: or(isAuthenticated, hasToken),
       tweet: or(isAuthenticated, hasToken),
       on_chain_id: or(isAuthenticated, hasToken),
+      tx_hash: or(isAuthenticated, hasToken),
     },
     ContributionStatus: {
       id: or(isAuthenticated, hasToken),

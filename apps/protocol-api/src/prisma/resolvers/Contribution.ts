@@ -159,6 +159,9 @@ export class UserOnChainContributionUpdateInput {
   @TypeGraphQL.Field((_type) => Number)
   onChainId: number;
 
+  @TypeGraphQL.Field((_type) => String)
+  txHash: string;
+
   @TypeGraphQL.Field((_type) => Number)
   userId: number;
 
@@ -195,7 +198,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async createUserContribution(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserContributionArgs,
+    @TypeGraphQL.Args() args: CreateUserContributionArgs
   ) {
     return await prisma.contribution.create({
       data: {
@@ -258,7 +261,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async createOnChainUserContribution(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserOnChainContributionArgs,
+    @TypeGraphQL.Args() args: CreateUserOnChainContributionArgs
   ) {
     return await prisma.contribution.create({
       data: {
@@ -283,7 +286,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async updateUserContribution(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateUserContributionArgs,
+    @TypeGraphQL.Args() args: UpdateUserContributionArgs
   ) {
     const address = req.session.siwe.data.address;
     const res = await prisma.contribution.updateMany({
@@ -391,7 +394,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async updateUserOnChainContribution(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateUserOnChainContributionArgs,
+    @TypeGraphQL.Args() args: UpdateUserOnChainContributionArgs
   ) {
     const address = req.session.siwe.data.address;
     const update = await prisma.contribution.updateMany({
@@ -413,6 +416,9 @@ export class ContributionCustomResolver {
         },
         on_chain_id: {
           set: args.data.onChainId,
+        },
+        tx_hash: {
+          set: args.data.txHash,
         },
       },
       where: {
@@ -444,7 +450,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async deleteUserContribution(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: DeleteUserContributionArgs,
+    @TypeGraphQL.Args() args: DeleteUserContributionArgs
   ) {
     const contributionId = args.where.contributionId;
     const address = req.session.siwe.data.address;

@@ -87,6 +87,11 @@ export class Contribution {
   })
   on_chain_id?: number | null;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  tx_hash?: string | null;
+
   @TypeGraphQL.Field(_type => ContributionCount, {
     nullable: true
   })
