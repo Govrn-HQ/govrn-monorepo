@@ -174,8 +174,8 @@ const permissions = shield(
       twitter_account: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
-      contribution_reporting_channel: hasToken,
-      status: hasToken,
+      contribution_reporting_channel: or(hasToken, isAuthenticated),
+      status: or(hasToken, isAuthenticated),
     },
     GuildContribution: {
       id: or(isAuthenticated, hasToken),

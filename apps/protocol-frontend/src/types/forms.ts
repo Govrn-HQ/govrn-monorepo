@@ -1,3 +1,4 @@
+
 export type ContributionFormValues = {
   name: string;
   details?: string | null;
@@ -8,7 +9,7 @@ export type ContributionFormValues = {
 };
 
 export type BulkDaoAttributeFormValues = {
-  daoId: string | null;
+  daoId: string | number | null;
 };
 
 export type CreateUserFormValues = {

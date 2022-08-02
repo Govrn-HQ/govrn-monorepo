@@ -29,7 +29,7 @@ export interface InputProps {
   type?: 'text' | 'number' | 'email'; // may not need this
   defaultValue?: string | number;
   isDisabled?: boolean;
-  localForm: Pick<UseFormReturn, 'control' | 'formState' | 'register'>;
+  localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'outline' | 'filled';
 }
 

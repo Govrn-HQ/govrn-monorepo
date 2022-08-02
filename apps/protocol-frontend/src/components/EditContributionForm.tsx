@@ -25,7 +25,7 @@ const EditContributionForm = ({
   onClose,
 }: EditContributionFormProps) => {
   const { updateContribution, userActivityTypes, allDaos } = useUser();
-  const localForm = useForm<ContributionFormValues>({
+  const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(editContributionFormValidation),
   });

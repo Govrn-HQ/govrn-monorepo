@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Select } from '@govrn/protocol-ui';
 import { Stack, Button, Text, Progress } from '@chakra-ui/react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
@@ -18,10 +18,11 @@ const BulkDaoAttributeModal = ({
   const { updateContribution, allDaos } = useUser();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution] = useState(1);
-  const localForm = useForm<BulkDaoAttributeFormValues>({
+  const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(editContributionFormValidation),
   });
+
   const { handleSubmit, setValue } = localForm;
 
   const bulkAttributeDaoHandler: SubmitHandler<
@@ -69,7 +70,6 @@ const BulkDaoAttributeModal = ({
           tip="Please select a DAO to attribute to. This is optional."
           placeholder="Select a DAO to attribute to."
           onChange={(dao) => {
-            console.log('dao', dao.value);
             setValue('daoId', dao.value);
           }}
           options={combinedDaoListOptions}

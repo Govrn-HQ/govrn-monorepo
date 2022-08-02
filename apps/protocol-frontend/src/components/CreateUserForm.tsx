@@ -8,7 +8,7 @@ import { createUserFormValidation } from '../utils/validations';
 import { CreateUserFormValues } from '../types/forms';
 
 const CreateUserForm = () => {
-  const localForm = useForm<CreateUserFormValues>({
+  const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(createUserFormValidation),
   });
