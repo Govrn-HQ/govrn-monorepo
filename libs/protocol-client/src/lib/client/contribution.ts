@@ -114,6 +114,7 @@ export class Contribution extends BaseClient {
           onChainId: onChainId.toNumber(),
           userId: userId,
           id: id,
+          txHash: transaction.hash,
         },
       });
       console.log('update response:', updateResponse);

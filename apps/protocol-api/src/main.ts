@@ -144,6 +144,7 @@ const permissions = shield(
       linear_issue: or(isAuthenticated, hasToken),
       tweet: or(isAuthenticated, hasToken),
       on_chain_id: or(isAuthenticated, hasToken),
+      tx_hash: or(isAuthenticated, hasToken),
     },
     ContributionStatus: {
       id: or(isAuthenticated, hasToken),
@@ -173,8 +174,8 @@ const permissions = shield(
       twitter_account: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
-      contribution_reporting_channel: hasToken,
-      status: hasToken,
+      contribution_reporting_channel: or(hasToken, isAuthenticated),
+      status: or(hasToken, isAuthenticated),
     },
     GuildContribution: {
       id: or(isAuthenticated, hasToken),

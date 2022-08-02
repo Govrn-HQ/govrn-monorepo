@@ -61,4 +61,9 @@ export class ContributionMaxAggregate {
     nullable: true
   })
   on_chain_id!: number | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  tx_hash!: string | null;
 }
