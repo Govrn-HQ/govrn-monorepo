@@ -9,7 +9,6 @@ import 'tslib';
 const apiKey = process.env.API_KEY;
 const protcolUrl = process.env.PROTOCOL_URL;
 const protocolApiToken = process.env.PROTOCOL_API_TOKEN;
-console.log(protocolApiToken);
 const jobName = 'linear-sync-job';
 
 function sleep(ms) {
@@ -91,11 +90,6 @@ const createJobRun = async (
   return teamPromise;
 };
 
-// Fetch access_token
-// After getting access token
-// Get latest Linear issue to pick later
-//
-// convert to contribution
 const main = async () => {
   console.log(`Starting to process linear issues`);
   const linearClient = new LinearClient({ apiKey });
@@ -107,12 +101,8 @@ const main = async () => {
     where: { active_token: { equals: true } },
   });
   for await (const user of users) {
-    // get issues marked as done
-    // Get users last linear and check since that one
-    console.log('here');
     let issues = [];
     let page = 1;
-    // get last issue
     const lastIssue = await govrn.linear.issue.list({
       first: 1,
       orderBy: [{ linear_id: SortOrder.Desc }],
