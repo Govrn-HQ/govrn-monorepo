@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Stack, Flex, Button, Text, Progress } from '@chakra-ui/react';
+import { Button, Flex, Progress, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 
 interface BulkAttestationModalProps {
@@ -9,18 +9,19 @@ interface BulkAttestationModalProps {
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const { userData, createAttestation, mintAttestation } = useUser();
   const [attesting, setAttesting] = useState(false);
-  const [currentAttestation, setCurrentAttestation] = useState(1);
+  const [currentAttestation] = useState(1);
 
-  const createAttestationsHandler = (contributions) => {
+  // TODO: after migrating to react-table v8, figure out this type.
+  const createAttestationsHandler = (contrs) => {
     setAttesting(true);
-    contributions.map((contribution, idx) => {
-      console.log(`contribution: ${idx}`, contribution.original);
-      if (contribution.original.status === 'minted') {
+    contrs.map((contribution, idx) => {
+      console.log(`contribution: ${idx}`, contribution);
+      if (contribution.status === 'minted') {
         console.log(`contribution ${idx} is on chain`);
-        mintAttestation(contribution.original);
+        mintAttestation(contribution);
       } else {
         console.log(`contribution ${idx} is off chain`);
-        createAttestation(contribution.original);
+        createAttestation(contribution);
       }
       setAttesting(false);
     });

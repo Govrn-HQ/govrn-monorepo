@@ -322,6 +322,9 @@ export { DiscordUserUpdateWithoutUserInput } from "./DiscordUserUpdateWithoutUse
 export { DiscordUserUpsertWithWhereUniqueWithoutUserInput } from "./DiscordUserUpsertWithWhereUniqueWithoutUserInput";
 export { DiscordUserWhereInput } from "./DiscordUserWhereInput";
 export { DiscordUserWhereUniqueInput } from "./DiscordUserWhereUniqueInput";
+export { EnumGuildStatusFieldUpdateOperationsInput } from "./EnumGuildStatusFieldUpdateOperationsInput";
+export { EnumGuildStatusFilter } from "./EnumGuildStatusFilter";
+export { EnumGuildStatusWithAggregatesFilter } from "./EnumGuildStatusWithAggregatesFilter";
 export { FloatNullableFilter } from "./FloatNullableFilter";
 export { FloatNullableWithAggregatesFilter } from "./FloatNullableWithAggregatesFilter";
 export { GuildActivityTypeAvgOrderByAggregateInput } from "./GuildActivityTypeAvgOrderByAggregateInput";
@@ -681,6 +684,8 @@ export { NestedDateTimeFilter } from "./NestedDateTimeFilter";
 export { NestedDateTimeNullableFilter } from "./NestedDateTimeNullableFilter";
 export { NestedDateTimeNullableWithAggregatesFilter } from "./NestedDateTimeNullableWithAggregatesFilter";
 export { NestedDateTimeWithAggregatesFilter } from "./NestedDateTimeWithAggregatesFilter";
+export { NestedEnumGuildStatusFilter } from "./NestedEnumGuildStatusFilter";
+export { NestedEnumGuildStatusWithAggregatesFilter } from "./NestedEnumGuildStatusWithAggregatesFilter";
 export { NestedFloatFilter } from "./NestedFloatFilter";
 export { NestedFloatNullableFilter } from "./NestedFloatNullableFilter";
 export { NestedFloatNullableWithAggregatesFilter } from "./NestedFloatNullableWithAggregatesFilter";

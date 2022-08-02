@@ -10,3 +10,4 @@ export { default as Select } from './Select';
 export type { SelectProps } from './Select';
 export { default as Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
+export type { InputLocalFormType } from './Input';

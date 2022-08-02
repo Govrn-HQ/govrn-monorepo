@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { EnumGuildStatusWithAggregatesFilter } from "../inputs/EnumGuildStatusWithAggregatesFilter";
 import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
@@ -60,4 +61,14 @@ export class GuildScalarWhereWithAggregatesInput {
     nullable: true
   })
   logo?: StringNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  contribution_reporting_channel?: IntNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumGuildStatusWithAggregatesFilter, {
+    nullable: true
+  })
+  status?: EnumGuildStatusWithAggregatesFilter | undefined;
 }

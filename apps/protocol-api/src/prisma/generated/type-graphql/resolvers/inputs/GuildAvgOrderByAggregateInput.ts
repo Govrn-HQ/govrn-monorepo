@@ -17,4 +17,9 @@ export class GuildAvgOrderByAggregateInput {
     nullable: true
   })
   congrats_channel?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  contribution_reporting_channel?: "asc" | "desc" | undefined;
 }

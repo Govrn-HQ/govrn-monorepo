@@ -6,6 +6,7 @@ import { Stack, Flex, Button, Text } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { createWaitlistFormValidation } from '../utils/validations';
+import { ValidationError } from 'yup';
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
@@ -22,7 +23,7 @@ const useYupValidationResolver = (userValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -87,14 +88,14 @@ const CreateWaitlistUserForm = () => {
           label="Username"
           tip="What would you like your username to be?"
           placeholder="DAOContributor"
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          localForm={localForm}
         />
         <Input
           name="email"
           label="Email Address"
-          tip="What is your preferrred email address for us to contact you?"
+          tip="What is your preferred email address for us to contact you?"
           placeholder="daocontributor@dao.gg"
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          localForm={localForm}
         />
         <Flex align="flex-end" marginTop={4}>
           <Button

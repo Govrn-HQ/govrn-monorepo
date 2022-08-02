@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@govrn/ui-types": ["libs/ui-types/src/index.ts"],
       "@govrn/govrn-contract-client": [
         "libs/govrn-contract-client/src/index.ts"
       ],

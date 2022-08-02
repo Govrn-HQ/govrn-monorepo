@@ -17,13 +17,13 @@ export class User extends BaseClient {
   }
 
   public async get(id: number) {
-    const jobRun = await this.sdk.getUserCustom({ id });
-    return jobRun.result;
+    const user = await this.sdk.getUserCustom({ id });
+    return user.result;
   }
 
   public async update(data: UserUpdateInput, where: UserWhereUniqueInput) {
-    const jobRun = await this.sdk.updateUser({ where, data });
-    return jobRun.updateUser;
+    const user = await this.sdk.updateUser({ where, data });
+    return user.updateUser;
   }
 
   public async list(args: ListUsersQueryVariables) {

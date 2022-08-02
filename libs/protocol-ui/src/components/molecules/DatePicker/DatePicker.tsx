@@ -7,23 +7,20 @@ import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import CustomDatePickerButton from './CustomDatePickerButton';
+import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
 type Errors = {
   [name: string]: {
     message: string;
   };
 };
+
 export interface DatePickerProps {
   name: string;
   label?: string;
   tip?: string;
   defaultValue?: Date;
-  localForm: {
-    control: any;
-    formState: {
-      errors: Errors;
-    };
-  };
+  localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   onChange: (
     date: Date | [Date | null, Date | null] | null,
     event: SyntheticEvent<Date, Event> | undefined
@@ -68,7 +65,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
           />
           {errors && (
             <ErrorMessage
-              errorMessage={errors[name] && errors[name]?.message}
+              errorMessage={errors[name] && errors[name]?.message?.toString()}
             />
           )}
         </Box>
