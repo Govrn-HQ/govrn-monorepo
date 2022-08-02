@@ -73,7 +73,7 @@ const ReportForm = () => {
           label="Name of Contribution"
           tip="Please add the name of your Contribution."
           placeholder="Govrn Protocol Pull Request"
-          localForm={localForm}
+          localForm={localForm<ContributionFormValues>}
         />
         <CreatableSelect
           name="activityType"

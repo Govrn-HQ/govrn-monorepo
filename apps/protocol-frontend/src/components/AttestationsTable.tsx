@@ -24,7 +24,6 @@ import {
 import { useUser } from '../contexts/UserContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
-import AddAttestationForm from './AddAttestationForm';
 import { UIContribution } from '@govrn/ui-types';
 
 const AttestationsTable = ({

@@ -22,15 +22,14 @@ type Errors = {
 };
 
 type Option = {
-  label: string | number;
-  value: any;
+  label: string;
+  value: string | number;
 };
-
 export interface SelectProps {
   name: string;
   label?: string;
   placeholder?: string;
-  defaultValue?: Option | Option[];
+  defaultValue?: Option[];
   id?: any;
   tip?: string;
   options: Option[];
@@ -38,7 +37,7 @@ export interface SelectProps {
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   isMulti?: boolean;
   isClearable?: boolean;
-  onChange?: (option: Option | Option[]) => void;
+  onChange?: (option: Option) => void;
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;

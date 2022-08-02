@@ -69,6 +69,7 @@ const BulkDaoAttributeModal = ({
           tip="Please select a DAO to attribute to. This is optional."
           placeholder="Select a DAO to attribute to."
           onChange={(dao) => {
+            console.log('dao', dao.value);
             setValue('daoId', dao.value);
           }}
           options={combinedDaoListOptions}
