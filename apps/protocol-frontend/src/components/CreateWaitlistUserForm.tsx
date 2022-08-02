@@ -2,7 +2,8 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button, Text } from '@chakra-ui/react';
+import { Stack, Heading, Flex, Button, Text } from '@chakra-ui/react';
+import PageHeading from './PageHeading';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { createWaitlistFormValidation } from '../utils/validations';
@@ -66,21 +67,25 @@ const CreateWaitlistUserForm = () => {
       rounded="lg"
       boxShadow="sm"
     >
-      <Text>
+      <PageHeading as="h2" fontSize="xl" textAlign="center">
+        {' '}
         <span
           role="img"
           aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
         >
           🌞
         </span>{' '}
-        Enter your email and username to join the waitlist. We'll reach out as
-        soon as we open more spots!{' '}
+        We're Currently in Limited Release{' '}
         <span
           role="img"
           aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
         >
           🌞
-        </span>
+        </span>{' '}
+      </PageHeading>
+      <Text>
+        Enter your email and username to join the waitlist. We'll reach out as
+        soon as we open more spots!{' '}
       </Text>
       <form onSubmit={handleSubmit(createUserHandler)}>
         <Input
