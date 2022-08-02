@@ -1,5 +1,6 @@
 import { Story } from '@storybook/react';
 import React from 'react';
+import { FormControl } from '@chakra-ui/react';
 import { ErrorMessage, ErrorMessageProps } from '../../';
 
 export default {
@@ -12,7 +13,11 @@ export default {
   },
 };
 
-const Template: Story<ErrorMessageProps> = (args) => <ErrorMessage {...args} />;
+const Template: Story<ErrorMessageProps> = (args) => (
+  <FormControl isInvalid>
+    <ErrorMessage {...args} />
+  </FormControl>
+);
 
 const Default = Template.bind({});
 Default.args = {
