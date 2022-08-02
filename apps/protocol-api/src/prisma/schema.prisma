@@ -13,6 +13,12 @@ generator typegraphql {
   output   = "../prisma/generated/type-graphql"
 }
 
+enum GuildStatus {
+  INPUTTED
+  VALIDATED
+  ONBOARDED
+}
+
 model User {
   id    Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -58,6 +64,8 @@ model Guild {
   users GuildUser[]
   twitter_account TwitterAccount?
   activity_type GuildActivityType[]
+  contribution_reporting_channel Int?
+  status GuildStatus @default(INPUTTED)
 }
 
 model GuildUser {
@@ -79,7 +87,7 @@ model GuildContribution {
   guild_id Int
   guild Guild @relation(fields: [guild_id], references: [id])
   contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
 
   @@unique([guild_id, contribution_id])
 }
@@ -128,6 +136,7 @@ model Contribution {
   linear_issue LinearIssue?
   tweet TwitterTweet?
   on_chain_id Int? @unique
+  tx_hash String? @unique
 }
 
 model Partner {
@@ -137,7 +146,7 @@ model Partner {
   user_id Int
   user User @relation(fields: [user_id], references: [id])
   contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
 
   @@unique([user_id, contribution_id])
 }
@@ -151,7 +160,7 @@ model Attestation {
   user_id Int
   user User @relation(fields: [user_id], references: [id])
   contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
   date_of_attestation DateTime @default(now())
 
   @@unique([user_id, contribution_id])

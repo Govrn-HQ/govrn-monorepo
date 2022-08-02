@@ -159,6 +159,9 @@ export class UserOnChainContributionUpdateInput {
   @TypeGraphQL.Field((_type) => Number)
   onChainId: number;
 
+  @TypeGraphQL.Field((_type) => String)
+  txHash: string;
+
   @TypeGraphQL.Field((_type) => Number)
   userId: number;
 
@@ -172,6 +175,22 @@ export class UpdateUserOnChainContributionArgs {
     nullable: false,
   })
   data!: UserOnChainContributionUpdateInput;
+}
+
+@TypeGraphQL.InputType('UserContributionDeleteInput', {
+  isAbstract: true,
+})
+export class UserContributionDeleteInput {
+  @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
+  contributionId: number;
+}
+
+@TypeGraphQL.ArgsType()
+export class DeleteUserContributionArgs {
+  @TypeGraphQL.Field((_type) => UserContributionDeleteInput, {
+    nullable: false,
+  })
+  where!: UserContributionDeleteInput;
 }
 
 @TypeGraphQL.Resolver((_of) => Contribution)
@@ -238,6 +257,7 @@ export class ContributionCustomResolver {
       },
     });
   }
+
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async createOnChainUserContribution(
     @TypeGraphQL.Ctx() { prisma }: Context,
@@ -397,6 +417,9 @@ export class ContributionCustomResolver {
         on_chain_id: {
           set: args.data.onChainId,
         },
+        tx_hash: {
+          set: args.data.txHash,
+        },
       },
       where: {
         AND: [
@@ -421,6 +444,34 @@ export class ContributionCustomResolver {
       where: {
         id: args.data.id,
       },
+    });
+  }
+
+  @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
+  async deleteUserContribution(
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
+    @TypeGraphQL.Args() args: DeleteUserContributionArgs
+  ) {
+    const contributionId = args.where.contributionId;
+    const address = req.session.siwe.data.address;
+    const query = await prisma.contribution.findMany({
+      include: { user: true },
+      where: {
+        id: { equals: contributionId },
+      },
+    });
+
+    if (query.length === 0) {
+      throw Error("Contribution doesn't exist.");
+    }
+
+    const contribution = query[0];
+    if (address !== contribution.user.address) {
+      throw Error("User doesn't own this contribution.");
+    }
+
+    return await prisma.contribution.delete({
+      where: { id: contributionId },
     });
   }
 }

@@ -15,8 +15,8 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
-import { format } from 'date-fns';
 import {
+  Row,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -30,13 +30,15 @@ import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
-
-// import EditContributionForm from './EditContributionForm';
+import { UIContribution } from '@govrn/ui-types';
 
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
-}: any) => {
+}: {
+  contributionsData: UIContribution[];
+  setSelectedContributions: (rows: Row<any>[]) => void;
+}) => {
   const { userData } = useUser();
 
   const localOverlay = useOverlay();
@@ -50,34 +52,32 @@ const ContributionsTable = ({
 
   const data = useMemo(
     () =>
-      contributionsData.map((contribution: any) => ({
+      contributionsData.map((contribution) => ({
         name: contribution.name,
         id: contribution.id,
         details: contribution.details,
         proof: contribution.proof,
-        submissionDate: format(new Date(contribution.date_of_submission), 'P'),
-        engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
+        date_of_submission: contribution.date_of_submission,
+        engagementDate: contribution.date_of_engagement,
         attestations: contribution.attestations || null,
-        user: contribution.user.id,
+        user: contribution.user,
         activityTypeId: contribution.activity_type.id,
-        status: contribution.status.name,
+        status: contribution.status,
         action: '',
-        guildName: contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0]?? '---' ,
-
+        guildName:
+          contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
+          '---',
       })),
     [contributionsData]
   );
- 
+
   const columns = useMemo(
     () => [
-   
       {
         Header: 'Name',
         accessor: 'name',
         Cell: ({ value }) => {
-          return (
-            <Text>{value}</Text>
-          );
+          return <Text>{value}</Text>;
         },
       },
       {
@@ -86,12 +86,12 @@ const ContributionsTable = ({
         Cell: ({ value }) => {
           return (
             <Text textTransform="capitalize">
-              {value}{' '}
+              {value.name}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value === 'minted' ? '🌞' : '👀'}
+                {value.name === 'minted' ? '🌞' : '👀'}
               </span>{' '}
             </Text>
           );
@@ -113,9 +113,7 @@ const ContributionsTable = ({
         Header: 'DAO',
         accessor: 'guildName',
         Cell: ({ value }) => {
-          return (
-            <Text>{value}</Text>
-          );
+          return <Text>{value}</Text>;
         },
       },
     ],
@@ -132,7 +130,7 @@ const ContributionsTable = ({
         Cell: ({ row }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status === 'minted'}
+            disabled={row.original.status.name === 'minted'}
           />
         ),
       },
@@ -141,7 +139,7 @@ const ContributionsTable = ({
         id: 'actions',
         Header: 'Actions',
         Cell: ({ row }) =>
-          row.original.status === 'minted' ? (
+          row.original.status.name === 'minted' ? (
             <Tooltip
               label="Minted contribution(s) cannot be edited"
               aria-label="A tooltip"
@@ -153,8 +151,8 @@ const ContributionsTable = ({
                   color="gray.800"
                   aria-label="Edit Contribution"
                   disabled={
-                    row.original.user.id !== userData?.user ||
-                    row.original.status === 'minted'
+                    row.original.user.id !== userData?.id ||
+                    row.original.status.name === 'minted'
                   }
                   onClick={() =>
                     handleEditContributionFormModal(row.original.id)
@@ -165,8 +163,8 @@ const ContributionsTable = ({
                   variant="ghost"
                   color="gray.800"
                   disabled={
-                    row.original.user.id !== userData?.user ||
-                    row.original.status === 'minted'
+                    row.original.user.id !== userData?.id ||
+                    row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
                 />
@@ -180,8 +178,8 @@ const ContributionsTable = ({
                 color="gray.800"
                 aria-label="Edit Contribution"
                 disabled={
-                  row.original.user.id !== userData?.user ||
-                  row.original.status === 'minted'
+                  row.original.user.id !== userData?.id ||
+                  row.original.status.name === 'minted'
                 }
                 onClick={() => handleEditContributionFormModal(row.original.id)}
               />
@@ -190,8 +188,8 @@ const ContributionsTable = ({
                 variant="ghost"
                 color="gray.800"
                 disabled={
-                  row.original.user.id !== userData?.user ||
-                  row.original.status === 'minted'
+                  row.original.user.id !== userData?.id ||
+                  row.original.status.name === 'minted'
                 }
                 aria-label="Delete Contribution"
               />
@@ -280,10 +278,12 @@ const ContributionsTable = ({
           size="3xl"
           content={
             <EditContributionForm
-              contribution={contributionsData.find(
-                (localContribution) =>
-                  localContribution.id === selectedContribution
-              )}
+              contribution={
+                contributionsData.find(
+                  (localContribution) =>
+                    localContribution.id === selectedContribution
+                )!
+              }
             />
           }
         />

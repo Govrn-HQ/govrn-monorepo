@@ -1,50 +1,16 @@
-import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GovrnProtocol } from '@govrn/protocol-client';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { createUserFormValidation } from '../utils/validations';
-
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
-
-const useYupValidationResolver = (userValidationSchema: any) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await userValidationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [userValidationSchema]
-  );
+import { CreateUserFormValues } from '../types/forms';
 
 const CreateUserForm = () => {
   const localForm = useForm({
     mode: 'all',
-    resolver: useYupValidationResolver(createUserFormValidation),
+    resolver: yupResolver(createUserFormValidation),
   });
   const {
     handleSubmit,
@@ -52,10 +18,10 @@ const CreateUserForm = () => {
   } = localForm;
   const { address } = useWallet();
   const { createUser } = useUser();
-  const navigate = useNavigate();
 
-  const createUserHandler = async (values: any) => {
-    console.log('values', values);
+  const createUserHandler: SubmitHandler<CreateUserFormValues> = async (
+    values: CreateUserFormValues
+  ) => {
     createUser(values, address);
   };
 

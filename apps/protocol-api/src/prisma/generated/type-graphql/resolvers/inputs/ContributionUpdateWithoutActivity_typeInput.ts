@@ -87,4 +87,9 @@ export class ContributionUpdateWithoutActivity_typeInput {
     nullable: true
   })
   on_chain_id?: NullableIntFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  tx_hash?: NullableStringFieldUpdateOperationsInput | undefined;
 }

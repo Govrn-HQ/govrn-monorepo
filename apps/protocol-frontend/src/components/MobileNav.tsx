@@ -1,31 +1,27 @@
 import { Link, useLocation } from 'react-router-dom';
 import {
+  Divider,
   Drawer,
   DrawerBody,
-  DrawerFooter,
+  DrawerCloseButton,
+  DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  HStack,
-  Text,
-  Heading,
-  Stack,
   Flex,
-  Divider,
+  HStack,
+  Stack,
 } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   FiBarChart2,
   FiCheckSquare,
-  FiHome,
-  FiUsers,
-  FiPlusSquare,
   FiDisc,
+  FiHome,
+  FiPlusSquare,
   FiTwitter,
+  FiUsers,
 } from 'react-icons/fi';
 import NavButton from './NavButton';
-import NavLink from './NavLink';
 import ConnectWallet from './ConnectWallet';
 
 interface MobileNavProps {

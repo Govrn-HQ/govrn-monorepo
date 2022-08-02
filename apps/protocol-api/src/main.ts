@@ -60,6 +60,7 @@ const permissions = shield(
   {
     Query: {
       '*': deny,
+      contribution: or(isAuthenticated, hasToken),
       contributions: or(isAuthenticated, hasToken),
       activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
@@ -88,6 +89,7 @@ const permissions = shield(
       createUserContribution: and(OwnsData, isAuthenticated),
       createUserCustom: or(hasToken, and(OwnsData, isAuthenticated)),
       createUserOnChainAttestation: isAuthenticated,
+      deleteContribution: or(OwnsData, isAuthenticated),
       updateGuild: hasToken,
       updateUser: hasToken,
       updateUserContribution: and(OwnsData, isAuthenticated),
@@ -155,6 +157,7 @@ const permissions = shield(
       linear_issue: or(isAuthenticated, hasToken),
       tweet: or(isAuthenticated, hasToken),
       on_chain_id: or(isAuthenticated, hasToken),
+      tx_hash: or(isAuthenticated, hasToken),
     },
     ContributionStatus: {
       id: or(isAuthenticated, hasToken),
@@ -184,6 +187,8 @@ const permissions = shield(
       twitter_account: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
+      contribution_reporting_channel: or(hasToken, isAuthenticated),
+      status: or(hasToken, isAuthenticated),
     },
     GuildContribution: {
       id: or(isAuthenticated, hasToken),

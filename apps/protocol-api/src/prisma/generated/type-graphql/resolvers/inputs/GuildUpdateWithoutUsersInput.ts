@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildStatusFieldUpdateOperationsInput";
 import { GuildActivityTypeUpdateManyWithoutGuildInput } from "../inputs/GuildActivityTypeUpdateManyWithoutGuildInput";
 import { GuildContributionUpdateManyWithoutGuildInput } from "../inputs/GuildContributionUpdateManyWithoutGuildInput";
 import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
@@ -57,4 +58,14 @@ export class GuildUpdateWithoutUsersInput {
     nullable: true
   })
   activity_type?: GuildActivityTypeUpdateManyWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  contribution_reporting_channel?: NullableIntFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => EnumGuildStatusFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
 }

@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.ObjectType("GuildMaxAggregate", {
   isAbstract: true
@@ -41,4 +42,14 @@ export class GuildMaxAggregate {
     nullable: true
   })
   logo!: string | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  contribution_reporting_channel!: number | null;
+
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: true
+  })
+  status!: "INPUTTED" | "VALIDATED" | "ONBOARDED" | null;
 }

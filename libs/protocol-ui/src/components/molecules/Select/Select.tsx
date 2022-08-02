@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactSelect from 'react-select';
-import { Controller } from 'react-hook-form';
+import {
+  Controller,
+  UseFormReturn,
+  Resolver,
+  FieldValues,
+} from 'react-hook-form';
 import { useTheme, FormControl, Stack, Box } from '@chakra-ui/react';
 import customSelectStyles from './selectStyles';
 import customSelectThemeColors from './selectTheme';
@@ -22,9 +27,8 @@ type Errors = {
 
 type Option = {
   label: string | number;
-  value: any;
+  value: string | number;
 };
-
 export interface SelectProps {
   name: string;
   label?: string;
@@ -34,20 +38,15 @@ export interface SelectProps {
   tip?: string;
   options: Option[];
   isRequired?: boolean;
-  localForm: {
-    control: any;
-    // formState: any; // TODO: properly type this -- need to troubleshoot use of key on string
-    formState: {
-      errors: Errors;
-    };
-  };
+  localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   isMulti?: boolean;
   isClearable?: boolean;
-  onChange?: (option: Option | Option[]) => void;
+  onChange?: (option: Option) => void;
   isDisabled?: boolean;
-  [x: string]: any;
   variant?: 'outline' | 'filled';
   value?: any;
+
+  [x: string]: any;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -106,7 +105,7 @@ const Select: React.FC<SelectProps> = ({
           />
           {errors && (
             <ErrorMessage
-              errorMessage={errors[name] && errors[name]?.message}
+              errorMessage={errors[name] && errors[name]?.message?.toString()}
             />
           )}
         </Box>

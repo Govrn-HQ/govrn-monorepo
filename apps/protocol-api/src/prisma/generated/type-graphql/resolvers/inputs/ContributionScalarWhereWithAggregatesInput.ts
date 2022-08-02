@@ -81,4 +81,9 @@ export class ContributionScalarWhereWithAggregatesInput {
     nullable: true
   })
   on_chain_id?: IntNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  tx_hash?: StringNullableWithAggregatesFilter | undefined;
 }

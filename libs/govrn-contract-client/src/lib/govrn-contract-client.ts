@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { Govrn__factory, Govrn } from './generated';
 
 export type MintArgs = {
-  detailsUri: string;
+  detailsUri: Uint8Array;
   dateOfSubmission: number;
   dateOfEngagement: number;
   overrides?: ethers.Overrides & { from?: string | Promise<string> };
@@ -39,9 +39,10 @@ export type NetworkConfig = {
 
 export class GovrnContract {
   govrn: Govrn;
+
   constructor(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider
+    provider: ethers.providers.Provider | ethers.Signer
   ) {
     this.govrn = Govrn__factory.connect(networkConfig.address, provider);
   }
@@ -77,5 +78,11 @@ export class GovrnContract {
 
   public async attestations(args: AttestationArgs) {
     return await this.govrn.attestations(args.tokenId, args.address);
+  }
+
+  public async burnContribution(args: ContributionsArgs) {
+    return await this.govrn.burnContribution(args.tokenId, {
+      gasLimit: 2100000,
+    });
   }
 }
