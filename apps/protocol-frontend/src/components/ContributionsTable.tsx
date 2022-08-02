@@ -60,9 +60,9 @@ const ContributionsTable = ({
         date_of_submission: contribution.date_of_submission,
         engagementDate: contribution.date_of_engagement,
         attestations: contribution.attestations || null,
-        user: contribution.user.id,
+        user: contribution.user,
         activityTypeId: contribution.activity_type.id,
-        status: contribution.status.name,
+        status: contribution.status,
         action: '',
         guildName:
           contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
@@ -86,12 +86,12 @@ const ContributionsTable = ({
         Cell: ({ value }) => {
           return (
             <Text textTransform="capitalize">
-              {value}{' '}
+              {value.name}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value === 'minted' ? '🌞' : '👀'}
+                {value.name === 'minted' ? '🌞' : '👀'}
               </span>{' '}
             </Text>
           );
@@ -130,7 +130,7 @@ const ContributionsTable = ({
         Cell: ({ row }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status === 'minted'}
+            disabled={row.original.status.name === 'minted'}
           />
         ),
       },
@@ -139,7 +139,7 @@ const ContributionsTable = ({
         id: 'actions',
         Header: 'Actions',
         Cell: ({ row }) =>
-          row.original.status === 'minted' ? (
+          row.original.status.name === 'minted' ? (
             <Tooltip
               label="Minted contribution(s) cannot be edited"
               aria-label="A tooltip"
@@ -152,7 +152,7 @@ const ContributionsTable = ({
                   aria-label="Edit Contribution"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status === 'minted'
+                    row.original.status.name === 'minted'
                   }
                   onClick={() =>
                     handleEditContributionFormModal(row.original.id)
@@ -164,7 +164,7 @@ const ContributionsTable = ({
                   color="gray.800"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status === 'minted'
+                    row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
                 />
@@ -179,7 +179,7 @@ const ContributionsTable = ({
                 aria-label="Edit Contribution"
                 disabled={
                   row.original.user.id !== userData?.id ||
-                  row.original.status === 'minted'
+                  row.original.status.name === 'minted'
                 }
                 onClick={() => handleEditContributionFormModal(row.original.id)}
               />
@@ -189,7 +189,7 @@ const ContributionsTable = ({
                 color="gray.800"
                 disabled={
                   row.original.user.id !== userData?.id ||
-                  row.original.status === 'minted'
+                  row.original.status.name === 'minted'
                 }
                 aria-label="Delete Contribution"
               />
