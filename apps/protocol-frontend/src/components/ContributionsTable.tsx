@@ -14,7 +14,8 @@ import {
   Tooltip,
   Tr,
 } from '@chakra-ui/react';
-import { useUser } from '../contexts/UserContext';
+import { useUser} from '../contexts/UserContext';
+
 import {
   Row,
   useFilters,
@@ -39,16 +40,35 @@ const ContributionsTable = ({
   contributionsData: UIContribution[];
   setSelectedContributions: (rows: Row<any>[]) => void;
 }) => {
-  const { userData } = useUser();
+  const { userData, deleteContribution } = useUser();
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<any>();
 
   const handleEditContributionFormModal = (id: number) => {
+    console.log(id)
     setSelectedContribution(id);
     setModals({ editContributionFormModal: true });
   };
+
+  // useEffect(() => {
+  //   const handleDeleteContribution = async (idx: number) => { 
+  //       const y = await deleteContribution(idx)
+  //   }
+  //   handleDeleteContribution(idx)
+  // });
+
+
+  const handleDeleteContribution = async (idx: number) => { 
+      console.log(idx)
+      const y = await deleteContribution(idx)
+  };
+  //handleDeleteContribution(7); 
+  //if I call this function by passing contribution.id=7,
+  //or contribution.id that exists, then contribution is deleted. But deleting from
+  //the delete-icon is not working
+   
 
   const data = useMemo(
     () =>
@@ -70,7 +90,7 @@ const ContributionsTable = ({
       })),
     [contributionsData]
   );
-
+ 
   const columns = useMemo(
     () => [
       {
@@ -119,7 +139,7 @@ const ContributionsTable = ({
     ],
     []
   );
-
+ 
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       {
@@ -167,6 +187,7 @@ const ContributionsTable = ({
                     row.original.status === 'minted'
                   }
                   aria-label="Delete Contribution"
+                  onClick = {() => handleDeleteContribution(row.original.id)}
                 />
               </HStack>
             </Tooltip>
