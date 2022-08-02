@@ -148,13 +148,13 @@ export class UserCustomResolver {
       where: { address: { equals: address } },
     });
   }
-
+  
   @TypeGraphQL.Query((_returns) => Int, { nullable: false })
   async getContributionCountForUser(
     @TypeGraphQL.Ctx() ctx: Context,
     @TypeGraphQL.Args() args: GetUserContributionCountArgs
   ) {
-    return await getPrismaFromContext(ctx).contribution.count({
+    /*return await getPrismaFromContext(ctx).contribution.count({
       where: {
         AND: [
           { user_id: { equals: args.where.id } },
@@ -163,5 +163,24 @@ export class UserCustomResolver {
         ]
       }
     })
+    // grouping by a derived field not yet supported in prisma
+    // would need to group by date, not the datetime as is stored in postg*/
+    // YYY-MM-DD hh:mm:ss.sss
+    const user_id  = args.where.id;
+    const start = fmt_date(args.where.start_date)
+    const end = fmt_date(args.where.end_date)
+    const query = `
+      SELECT date(date_of_engagement), count(date_of_engagement) as count
+      FROM "Contribution"
+      WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}) AND
+      "Contribution".user_id = ${user_id} 
+      GROUP BY date(date_of_engagement)
+      ORDER BY date(date_of_engagement)
+    `;
+    return await getPrismaFromContext(ctx).$queryRaw`${query}`
   }
+}
+
+function fmt_date(date: Date) {
+    return date.toISOString().replace(/[TZ]/g, " ").trim();
 }
