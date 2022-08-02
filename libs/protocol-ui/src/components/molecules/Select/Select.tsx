@@ -7,7 +7,10 @@ import customSelectThemeColors from './selectTheme';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
-import { UseFormReturn } from 'react-hook-form/dist/types/form';
+import {
+  UseFormReturn,
+  UseFormSetValue,
+} from 'react-hook-form/dist/types/form';
 
 type Errors = {
   [name: string]: {
@@ -22,7 +25,7 @@ type Errors = {
 };
 
 type Option = {
-  label: string;
+  label: string | number;
   value: string | number;
 };
 export interface SelectProps {
