@@ -32,7 +32,7 @@ export interface SelectProps {
   name: string;
   label?: string;
   placeholder?: string;
-  defaultValue?: Option[];
+  defaultValue?: Option | Option[];
   id?: any;
   tip?: string;
   options: Option[];
