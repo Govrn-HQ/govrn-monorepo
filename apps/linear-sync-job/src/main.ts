@@ -12,6 +12,12 @@ const protocolApiToken = process.env.PROTOCOL_API_TOKEN;
 console.log(protocolApiToken);
 const jobName = 'linear-sync-job';
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 const upsertUser = (govrn: GovrnProtocol, user: User) => {
   const linearAssignee = {
     active: user.active,
@@ -112,38 +118,67 @@ const main = async () => {
       orderBy: [{ linear_id: SortOrder.Desc }],
     });
     const completedAtFilter =
-      lastIssue.result.length > 0 ? { gt: lastIssue[0].createdAt } : {};
+      lastIssue.result.length > 0
+        ? { gt: lastIssue.result[0].completedAt }
+        : { gt: '1990-01-01' };
     do {
-      const resp = await linearClient.issues({
-        filter: { completedAt: completedAtFilter },
-        first: 100,
-      });
+      let resp;
+      try {
+        resp = await linearClient.issues({
+          filter: {
+            and: [{ completedAt: completedAtFilter }],
+          },
+          first: 100,
+        });
+      } catch (e) {
+        console.error(e);
+        await sleep(1000 * 60 * 60);
+        resp = await linearClient.issues({
+          filter: {
+            and: [{ completedAt: completedAtFilter }],
+          },
+          first: 100,
+        });
+      }
       issues = resp.nodes;
       console.log(`Processing ${issues.length} issues`);
       const linearIssues = [] as LinearIssueCreateManyInput[];
       for (const issue of issues) {
         console.log(`Processing ${issue.title}`);
-        const [
-          issueAssignee,
-          issueCreator,
-          issueCycle,
-          issueProject,
-          issueTeam,
-        ] = await Promise.all([
-          issue.assignee,
-          issue.creator,
-          issue.cycle,
-          issue.project,
-          issue.team,
-        ]);
+        let issueAssignee;
+        let issueCreator;
+        let issueCycle;
+        let issueProject;
+        let issueTeam;
+        try {
+          [issueAssignee, issueCreator, issueCycle, issueProject, issueTeam] =
+            await Promise.all([
+              issue.assignee,
+              issue.creator,
+              issue.cycle,
+              issue.project,
+              issue.team,
+            ]);
+        } catch (e) {
+          console.error(e);
+          await sleep(1000 * 60 * 60);
+          [issueAssignee, issueCreator, issueCycle, issueProject, issueTeam] =
+            await Promise.all([
+              issue.assignee,
+              issue.creator,
+              issue.cycle,
+              issue.project,
+              issue.team,
+            ]);
+        }
 
         let assingneePromise;
         if (issueAssignee) {
-          assingneePromise = upsertUser(govrn, issueAssignee);
+          assingneePromise = await upsertUser(govrn, issueAssignee);
         }
         let creatorPromise;
         if (issueCreator) {
-          creatorPromise = upsertUser(govrn, issueCreator);
+          creatorPromise = await upsertUser(govrn, issueCreator);
         }
         let cyclePromise;
         if (issueCycle) {
