@@ -101,33 +101,35 @@ const main = async () => {
     where: { active_token: { equals: true } },
   });
   for await (const user of users) {
+    // get issues marked as done
+    // Get users last linear and check since that one
     console.log('here');
-  }
-
-  const lastRun = await govrn.jobRun.list({
-    first: 1,
-    orderBy: { completedDate: SortOrder.Desc },
-    where: { name: { equals: jobName } },
-  });
-  const startDate =
-    lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
-  const completedAtFilter =
-    lastRun.length > 0 ? { gt: startDate } : { lt: startDate };
-
-  let issues = [];
-  let page = 1;
-  do {
-    const resp = await linearClient.issues({
-      filter: { completedAt: completedAtFilter },
-      first: 100,
+    let issues = [];
+    let page = 1;
+    // get last issue
+    const lastIssue = await govrn.linear.issue.list({
+      first: 1,
+      orderBy: [{ linear_id: SortOrder.Desc }],
     });
-    issues = resp.nodes;
-    console.log(`Processing ${issues.length} issues`);
-    const linearIssues = [] as LinearIssueCreateManyInput[];
-    for (const issue of issues) {
-      console.log(`Processing ${issue.title}`);
-      const [issueAssignee, issueCreator, issueCycle, issueProject, issueTeam] =
-        await Promise.all([
+    const completedAtFilter =
+      lastIssue.result.length > 0 ? { gt: lastIssue[0].createdAt } : {};
+    do {
+      const resp = await linearClient.issues({
+        filter: { completedAt: completedAtFilter },
+        first: 100,
+      });
+      issues = resp.nodes;
+      console.log(`Processing ${issues.length} issues`);
+      const linearIssues = [] as LinearIssueCreateManyInput[];
+      for (const issue of issues) {
+        console.log(`Processing ${issue.title}`);
+        const [
+          issueAssignee,
+          issueCreator,
+          issueCycle,
+          issueProject,
+          issueTeam,
+        ] = await Promise.all([
           issue.assignee,
           issue.creator,
           issue.cycle,
@@ -135,75 +137,75 @@ const main = async () => {
           issue.team,
         ]);
 
-      let assingneePromise;
-      if (issueAssignee) {
-        assingneePromise = upsertUser(govrn, issueAssignee);
-      }
-      let creatorPromise;
-      if (issueCreator) {
-        creatorPromise = upsertUser(govrn, issueCreator);
-      }
-      let cyclePromise;
-      if (issueCycle) {
-        cyclePromise = upsertCycle(govrn, issueCycle);
-      }
-      let projectPromise;
-      if (issueProject) {
-        projectPromise = upsertProject(govrn, issueProject);
-      }
-      const teamPromise = upsertTeam(govrn, issueTeam);
+        let assingneePromise;
+        if (issueAssignee) {
+          assingneePromise = upsertUser(govrn, issueAssignee);
+        }
+        let creatorPromise;
+        if (issueCreator) {
+          creatorPromise = upsertUser(govrn, issueCreator);
+        }
+        let cyclePromise;
+        if (issueCycle) {
+          cyclePromise = upsertCycle(govrn, issueCycle);
+        }
+        let projectPromise;
+        if (issueProject) {
+          projectPromise = upsertProject(govrn, issueProject);
+        }
+        const teamPromise = upsertTeam(govrn, issueTeam);
 
-      const [assignee, creator, cycle, project, team] = await Promise.all([
-        assingneePromise,
-        creatorPromise,
-        cyclePromise,
-        projectPromise,
-        teamPromise,
-      ]);
-      linearIssues.push({
-        archivedAt: issue.archivedAt,
-        assignee_id: assignee?.id,
-        autoArchivedAt: issue.autoArchivedAt,
-        autoClosedAt: issue.autoClosedAt,
-        boardOrder: issue.boardOrder,
-        branchName: issue.branchName,
-        canceledAt: issue.canceledAt,
-        completedAt: issue.completedAt,
-        createdAt: issue.createdAt,
-        creator_id: creator?.id,
-        customerTickerCount: issue.customerTicketCount,
-        cycle_id: cycle?.id,
-        description: issue.description,
-        dueDate: issue.dueDate,
-        estimate: issue.estimate,
-        identifier: issue.identifier,
-        linear_id: issue.id,
-        priority: issue.priority,
-        priorityLabel: issue.priorityLabel,
-        project_id: project?.id,
-        snoozedUntilAt: issue.snoozedUntilAt,
-        sortOrder: issue.sortOrder,
-        startedAt: issue.startedAt,
-        subIssueSortOrder: issue.subIssueSortOrder,
-        team_id: team.id,
-        title: issue.title,
-        trashed: issue.trashed || false,
-        updatedAt: issue.updatedAt,
-        url: issue.url,
+        const [assignee, creator, cycle, project, team] = await Promise.all([
+          assingneePromise,
+          creatorPromise,
+          cyclePromise,
+          projectPromise,
+          teamPromise,
+        ]);
+        linearIssues.push({
+          archivedAt: issue.archivedAt,
+          assignee_id: assignee?.id,
+          autoArchivedAt: issue.autoArchivedAt,
+          autoClosedAt: issue.autoClosedAt,
+          boardOrder: issue.boardOrder,
+          branchName: issue.branchName,
+          canceledAt: issue.canceledAt,
+          completedAt: issue.completedAt,
+          createdAt: issue.createdAt,
+          creator_id: creator?.id,
+          customerTickerCount: issue.customerTicketCount,
+          cycle_id: cycle?.id,
+          description: issue.description,
+          dueDate: issue.dueDate,
+          estimate: issue.estimate,
+          identifier: issue.identifier,
+          linear_id: issue.id,
+          priority: issue.priority,
+          priorityLabel: issue.priorityLabel,
+          project_id: project?.id,
+          snoozedUntilAt: issue.snoozedUntilAt,
+          sortOrder: issue.sortOrder,
+          startedAt: issue.startedAt,
+          subIssueSortOrder: issue.subIssueSortOrder,
+          team_id: team.id,
+          title: issue.title,
+          trashed: issue.trashed || false,
+          updatedAt: issue.updatedAt,
+          url: issue.url,
+        });
+      }
+      await govrn.linear.issue.bulkCreate({
+        data: linearIssues,
+        skipDuplicates: true,
       });
-    }
-    await govrn.linear.issue.bulkCreate({
-      data: linearIssues,
-      skipDuplicates: true,
-    });
-    if (linearIssues.length < 100) {
-      break;
-    }
-    const next = await resp.fetchNext();
-    issues = next.nodes.slice(page * 100 + 1);
-    page = page + 1;
-  } while (issues.length > 0);
-  await createJobRun(govrn, { startDate, completedDate: new Date() });
+      if (linearIssues.length < 100) {
+        break;
+      }
+      const next = await resp.fetchNext();
+      issues = next.nodes.slice(page * 100 + 1);
+      page = page + 1;
+    } while (issues.length > 0);
+  }
 
   console.log(`Finished processing linear issues`);
 };

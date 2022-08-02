@@ -23,7 +23,7 @@ interface ReturnType {
   }>;
 }
 
-interface PaginatedResponse<T> extends AsyncIterable<T> {
+export interface PaginatedResponse<T> extends AsyncIterable<T> {
   then(
     resolve: ((value: T) => T | PromiseLike<T>) | null | undefined,
     /* eslint-disable  @typescript-eslint/no-explicit-any */
