@@ -6,7 +6,13 @@ import * as express from 'express';
 import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
 
 // Express
+function errorHandler(err, req, res, next) {
+  console.error(err);
+  res.status(500).send();
+}
+
 const app = express();
+app.use(errorHandler);
 app.use(express.json());
 app.use(cors());
 
