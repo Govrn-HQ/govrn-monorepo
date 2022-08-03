@@ -32,6 +32,7 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
+import DeleteContributionDialog  from './DeleteContributionDialog';
 
 const ContributionsTable = ({
   contributionsData,
@@ -51,25 +52,6 @@ const ContributionsTable = ({
     setSelectedContribution(id);
     setModals({ editContributionFormModal: true });
   };
-
-  // useEffect(() => {
-  //   const handleDeleteContribution = async (idx: number) => { 
-  //       const y = await deleteContribution(idx)
-  //   }
-  //   handleDeleteContribution(idx)
-  // });
-
-
-  const handleDeleteContribution = async (idx: number) => { 
-      console.log(idx)
-      console.log('clicked')
-      const y = await deleteContribution(idx)
-  };
-  //handleDeleteContribution(7); 
-  //if I call this function by passing contribution.id=7,
-  //or contribution.id that exists, then contribution is deleted. But deleting from
-  //the delete-icon is not working
-   
 
   const data = useMemo(
     () =>
@@ -179,7 +161,8 @@ const ContributionsTable = ({
                     handleEditContributionFormModal(row.original.id)
                   }
                 />
-                <IconButton
+                <DeleteContributionDialog row={row} userData={userData} deleteContribution={deleteContribution} />
+                {/* <IconButton
                   icon={<FiTrash2 fontSize="1rem" />}
                   variant="ghost"
                   color="gray.800"
@@ -188,8 +171,7 @@ const ContributionsTable = ({
                     row.original.status === 'minted'
                   }
                   aria-label="Delete Contribution"
-                  onClick = {() => handleDeleteContribution(row.original.id)}
-                />
+                /> */}
               </HStack>
             </Tooltip>
           ) : (
@@ -203,9 +185,13 @@ const ContributionsTable = ({
                   row.original.user.id !== userData?.id ||
                   row.original.status === 'minted'
                 }
+                onClick={() =>
+                  handleEditContributionFormModal(row.original.id)
+                }
               
               />
-              <IconButton
+              <DeleteContributionDialog row={row} userData={userData} deleteContribution={deleteContribution} />
+              {/* <IconButton
                 icon={<FiTrash2 fontSize="1rem" />}
                 variant="ghost"
                 color="gray.800"
@@ -216,7 +202,7 @@ const ContributionsTable = ({
                 }
                 aria-label="Delete Contribution"
                 onClick = {() => handleDeleteContribution(row.original.id)}
-              />
+              /> */}
             </HStack>
           ),
       },
