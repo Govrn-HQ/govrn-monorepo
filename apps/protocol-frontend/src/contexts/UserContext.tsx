@@ -46,9 +46,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
-  const [userContributions, setUserContributions] = useState<
-    Array<UIContribution>
-  >([]);
+  // const [userContributions, setUserContributions] = useState<
+  //   Array<UIContribution>
+  // >([]);
+  const [userContributions, setUserContributions] = useState<UIContribution[]>(
+    []
+  );
   const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
     []
   );
