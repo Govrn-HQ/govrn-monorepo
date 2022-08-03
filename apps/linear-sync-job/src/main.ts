@@ -92,7 +92,6 @@ const createJobRun = async (
 
 const main = async () => {
   console.log(`Starting to process linear issues`);
-  const linearClient = new LinearClient({ apiKey });
   const govrn = new GovrnProtocol(protcolUrl, undefined, {
     Authorization: protocolApiToken,
   });
@@ -100,138 +99,144 @@ const main = async () => {
   const users = govrn.linear.user.list({
     where: { active_token: { equals: true } },
   });
-  for await (const user of users) {
-    let issues = [];
-    let page = 1;
-    const lastIssue = await govrn.linear.issue.list({
-      first: 1,
-      orderBy: [{ linear_id: SortOrder.Desc }],
-    });
-    const completedAtFilter =
-      lastIssue.result.length > 0
-        ? { gt: lastIssue.result[0].completedAt }
-        : { gt: '1990-01-01' };
-    do {
-      let resp;
-      try {
-        resp = await linearClient.issues({
-          filter: {
-            and: [{ completedAt: completedAtFilter }],
-          },
-          first: 100,
-        });
-      } catch (e) {
-        console.error(e);
-        await sleep(1000 * 60 * 60);
-        resp = await linearClient.issues({
-          filter: {
-            and: [{ completedAt: completedAtFilter }],
-          },
-          first: 100,
-        });
-      }
-      issues = resp.nodes;
-      console.log(`Processing ${issues.length} issues`);
-      const linearIssues = [] as LinearIssueCreateManyInput[];
-      for (const issue of issues) {
-        console.log(`Processing ${issue.title}`);
-        let issueAssignee;
-        let issueCreator;
-        let issueCycle;
-        let issueProject;
-        let issueTeam;
+  for await (const result of users) {
+    for (const user of result.result) {
+      const linearClient = new LinearClient({ apiKey: user.access_token });
+      let issues = [];
+      let page = 1;
+      const lastIssue = await govrn.linear.issue.list({
+        first: 1,
+        orderBy: [{ linear_id: SortOrder.Desc }],
+      });
+      const completedAtFilter =
+        lastIssue.result.length > 0
+          ? { gt: new Date(lastIssue.result[0].completedAt) }
+          : { gt: new Date('1990-01-01T10:20:30Z') };
+      do {
+        let resp;
         try {
-          [issueAssignee, issueCreator, issueCycle, issueProject, issueTeam] =
-            await Promise.all([
-              issue.assignee,
-              issue.creator,
-              issue.cycle,
-              issue.project,
-              issue.team,
-            ]);
+          resp = await linearClient.issues({
+            filter: {
+              and: [{ completedAt: completedAtFilter }],
+            },
+            first: 100,
+          });
         } catch (e) {
           console.error(e);
           await sleep(1000 * 60 * 60);
-          [issueAssignee, issueCreator, issueCycle, issueProject, issueTeam] =
-            await Promise.all([
-              issue.assignee,
-              issue.creator,
-              issue.cycle,
-              issue.project,
-              issue.team,
-            ]);
+          resp = await linearClient.issues({
+            filter: {
+              and: [{ completedAt: completedAtFilter }],
+            },
+            first: 100,
+          });
         }
+        issues = resp.nodes;
+        console.log(`Processing ${issues.length} issues`);
+        const linearIssues = [] as LinearIssueCreateManyInput[];
+        for (const issue of issues) {
+          console.log(`Processing ${issue.title}`);
+          let issueAssignee;
+          let issueCreator;
+          let issueCycle;
+          let issueProject;
+          let issueTeam;
+          console.log(issue._assignee);
+          // get the private ids
+          // fetch and then handle the responses if they exist
+          try {
+            [issueAssignee, issueCreator, issueCycle, issueProject, issueTeam] =
+              await Promise.all([
+                issue.assignee,
+                issue.creator,
+                issue.cycle,
+                issue.project,
+                issue.team,
+              ]);
+          } catch (e) {
+            console.error(e);
+            await sleep(1000 * 60 * 60);
+            [issueAssignee, issueCreator, issueCycle, issueProject, issueTeam] =
+              await Promise.all([
+                issue.assignee,
+                issue.creator,
+                issue.cycle,
+                issue.project,
+                issue.team,
+              ]);
+          }
 
-        let assingneePromise;
-        if (issueAssignee) {
-          assingneePromise = await upsertUser(govrn, issueAssignee);
-        }
-        let creatorPromise;
-        if (issueCreator) {
-          creatorPromise = await upsertUser(govrn, issueCreator);
-        }
-        let cyclePromise;
-        if (issueCycle) {
-          cyclePromise = upsertCycle(govrn, issueCycle);
-        }
-        let projectPromise;
-        if (issueProject) {
-          projectPromise = upsertProject(govrn, issueProject);
-        }
-        const teamPromise = upsertTeam(govrn, issueTeam);
+          let assingneePromise;
+          if (issueAssignee) {
+            assingneePromise = await upsertUser(govrn, issueAssignee);
+          }
+          let creatorPromise;
+          if (issueCreator) {
+            creatorPromise = await upsertUser(govrn, issueCreator);
+          }
+          let cyclePromise;
+          if (issueCycle) {
+            cyclePromise = upsertCycle(govrn, issueCycle);
+          }
+          let projectPromise;
+          if (issueProject) {
+            projectPromise = upsertProject(govrn, issueProject);
+          }
+          const teamPromise = upsertTeam(govrn, issueTeam);
 
-        const [assignee, creator, cycle, project, team] = await Promise.all([
-          assingneePromise,
-          creatorPromise,
-          cyclePromise,
-          projectPromise,
-          teamPromise,
-        ]);
-        linearIssues.push({
-          archivedAt: issue.archivedAt,
-          assignee_id: assignee?.id,
-          autoArchivedAt: issue.autoArchivedAt,
-          autoClosedAt: issue.autoClosedAt,
-          boardOrder: issue.boardOrder,
-          branchName: issue.branchName,
-          canceledAt: issue.canceledAt,
-          completedAt: issue.completedAt,
-          createdAt: issue.createdAt,
-          creator_id: creator?.id,
-          customerTickerCount: issue.customerTicketCount,
-          cycle_id: cycle?.id,
-          description: issue.description,
-          dueDate: issue.dueDate,
-          estimate: issue.estimate,
-          identifier: issue.identifier,
-          linear_id: issue.id,
-          priority: issue.priority,
-          priorityLabel: issue.priorityLabel,
-          project_id: project?.id,
-          snoozedUntilAt: issue.snoozedUntilAt,
-          sortOrder: issue.sortOrder,
-          startedAt: issue.startedAt,
-          subIssueSortOrder: issue.subIssueSortOrder,
-          team_id: team.id,
-          title: issue.title,
-          trashed: issue.trashed || false,
-          updatedAt: issue.updatedAt,
-          url: issue.url,
+          const [assignee, creator, cycle, project, team] = await Promise.all([
+            assingneePromise,
+            creatorPromise,
+            cyclePromise,
+            projectPromise,
+            teamPromise,
+          ]);
+          linearIssues.push({
+            archivedAt: issue.archivedAt,
+            assignee_id: assignee?.id,
+            autoArchivedAt: issue.autoArchivedAt,
+            autoClosedAt: issue.autoClosedAt,
+            boardOrder: issue.boardOrder,
+            branchName: issue.branchName,
+            canceledAt: issue.canceledAt,
+            completedAt: issue.completedAt,
+            createdAt: issue.createdAt,
+            creator_id: creator?.id,
+            customerTickerCount: issue.customerTicketCount,
+            cycle_id: cycle?.id,
+            description: issue.description,
+            dueDate: issue.dueDate,
+            estimate: issue.estimate,
+            identifier: issue.identifier,
+            linear_id: issue.id,
+            priority: issue.priority,
+            priorityLabel: issue.priorityLabel,
+            project_id: project?.id,
+            snoozedUntilAt: issue.snoozedUntilAt,
+            sortOrder: issue.sortOrder,
+            startedAt: issue.startedAt,
+            subIssueSortOrder: issue.subIssueSortOrder,
+            team_id: team.id,
+            title: issue.title,
+            trashed: issue.trashed || false,
+            updatedAt: issue.updatedAt,
+            url: issue.url,
+          });
+        }
+        // create corresponding contribution
+        await govrn.linear.issue.bulkCreate({
+          data: linearIssues,
+          skipDuplicates: true,
         });
-      }
-      await govrn.linear.issue.bulkCreate({
-        data: linearIssues,
-        skipDuplicates: true,
-      });
-      if (linearIssues.length < 100) {
-        break;
-      }
-      const next = await resp.fetchNext();
-      issues = next.nodes.slice(page * 100 + 1);
-      page = page + 1;
-    } while (issues.length > 0);
+        if (linearIssues.length < 100) {
+          break;
+        }
+        const next = await resp.fetchNext();
+        issues = next.nodes.slice(page * 100 + 1);
+        page = page + 1;
+      } while (issues.length > 0);
+    }
   }
-
   console.log(`Finished processing linear issues`);
 };
 
