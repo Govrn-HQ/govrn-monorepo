@@ -190,6 +190,35 @@ export class DeleteUserContributionArgs {
   where!: UserContributionDeleteInput;
 }
 
+@TypeGraphQL.InputType('GetUserContributionCountInput')
+export class GetContributionCountForUserInDateRange {
+  @TypeGraphQL.Field((_type) => Number)
+  id: number;
+
+  @TypeGraphQL.Field((_type) => Date)
+  start_date: Date;
+
+  @TypeGraphQL.Field((_type) => Date)
+  end_date: Date;
+}
+
+@TypeGraphQL.ArgsType()
+export class GetUserContributionCountArgs {
+  @TypeGraphQL.Field((_type) => GetContributionCountForUserInDateRange, {
+    nullable: false,
+  })
+  where!: GetContributionCountForUserInDateRange;
+}
+
+@TypeGraphQL.ObjectType()
+export class ContributionCountByDate {
+  @TypeGraphQL.Field((_type) => Number)
+  count: number;
+
+  @TypeGraphQL.Field((_type) => String)
+  date: string;
+}
+
 @TypeGraphQL.Resolver((_of) => Contribution)
 export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
@@ -467,5 +496,37 @@ export class ContributionCustomResolver {
     return await prisma.contribution.delete({
       where: { id: contributionId },
     });
+  }
+
+  @TypeGraphQL.Query((_returns) => [ContributionCountByDate], { nullable: false })
+  async getContributionCountByDateForUserInRange(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetUserContributionCountArgs
+  ) {
+    /*return await getPrismaFromContext(ctx).contribution.count({
+      where: {
+        AND: [
+          { user_id: { equals: args.where.id } },
+          { date_of_engagement: { gte: args.where.start_date } },
+          { date_of_engagement: { lte: args.where.end_date } }
+        ]
+      }
+    })
+    // grouping by a derived field not yet supported in prisma
+    // would need to group by date, not the datetime as is stored in postg*/
+    // YYY-MM-DD hh:mm:ss.sss
+    const user_id  = args.where.id;
+    const start = args.where.start_date
+    const end = args.where.end_date
+      
+    const result = await prisma.$queryRaw<ContributionCountByDate>`
+      SELECT date(date_of_engagement), count(date_of_engagement) as count
+      FROM "Contribution"
+      WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}
+      AND "Contribution"."user_id" = ${user_id})
+      GROUP BY date(date_of_engagement)
+      ORDER BY date(date_of_engagement);`;
+    
+    return result;
   }
 }

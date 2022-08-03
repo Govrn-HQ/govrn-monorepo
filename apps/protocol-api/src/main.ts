@@ -63,10 +63,11 @@ const permissions = shield(
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
-      getContributionCountForUser: or(isAuthenticated, hasToken),
+      getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
       users: hasToken,
       jobRuns: hasToken,
     },
+    ContributionCountByDate: or(isAuthenticated, hasToken),
     Mutation: {
       '*': deny,
       createActivityType: hasToken,
