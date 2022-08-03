@@ -2259,6 +2259,11 @@ export type ContributionCountAggregate = {
   user_id: Scalars['Int'];
 };
 
+export type ContributionCountByDate = {
+  count: Scalars['Float'];
+  date: Scalars['String'];
+};
+
 export type ContributionCountOrderByAggregateInput = {
   activity_type_id?: InputMaybe<SortOrder>;
   date_of_engagement?: InputMaybe<SortOrder>;
@@ -10196,7 +10201,7 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
-  getContributionCountForUser: Scalars['Int'];
+  getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
@@ -10869,7 +10874,7 @@ export type QueryFindFirstUserActivityArgs = {
 };
 
 
-export type QueryGetContributionCountForUserArgs = {
+export type QueryGetContributionCountByDateForUserInRangeArgs = {
   where: GetUserContributionCountInput;
 };
 
@@ -14032,12 +14037,12 @@ export type ListContributionsQueryVariables = Exact<{
 
 export type ListContributionsQuery = { result: Array<{ date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date }>, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
-export type GetUserContributionCountQueryVariables = Exact<{
+export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
   where: GetUserContributionCountInput;
 }>;
 
 
-export type GetUserContributionCountQuery = { result: number };
+export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string }> };
 
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;
@@ -14621,9 +14626,12 @@ export const ListContributionsDocument = gql`
   }
 }
     ${ContributionFragmentFragmentDoc}`;
-export const GetUserContributionCountDocument = gql`
-    query getUserContributionCount($where: GetUserContributionCountInput!) {
-  result: getContributionCountForUser(where: $where)
+export const GetContributionCountByDateForUserInRangeDocument = gql`
+    query getContributionCountByDateForUserInRange($where: GetUserContributionCountInput!) {
+  result: getContributionCountByDateForUserInRange(where: $where) {
+    count
+    date
+  }
 }
     `;
 export const CreateContributionDocument = gql`
@@ -14855,8 +14863,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     listContributions(variables?: ListContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListContributionsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListContributionsQuery>(ListContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listContributions', 'query');
     },
-    getUserContributionCount(variables: GetUserContributionCountQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserContributionCountQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetUserContributionCountQuery>(GetUserContributionCountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserContributionCount', 'query');
+    getContributionCountByDateForUserInRange(variables: GetContributionCountByDateForUserInRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountByDateForUserInRangeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountByDateForUserInRangeQuery>(GetContributionCountByDateForUserInRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByDateForUserInRange', 'query');
     },
     createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');
