@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
+  Link as ChakraLink,
   HStack,
   IconButton,
   Stack,
@@ -14,6 +15,7 @@ import {
   Tooltip,
   Tr,
 } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { useUser } from '../contexts/UserContext';
 import {
   Row,
@@ -31,7 +33,11 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
+import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
+type ContributionTableType = Omit<UIContribution, 'name' | 'txHash'> & {
+  name: { name: string; txHash: string | undefined };
+};
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -54,6 +60,7 @@ const ContributionsTable = ({
     () =>
       contributionsData.map((contribution) => ({
         name: contribution.name,
+        txHash: contribution.tx_hash,
         id: contribution.id,
         details: contribution.details,
         proof: contribution.proof,
@@ -76,8 +83,22 @@ const ContributionsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value }) => {
-          return <Text>{value}</Text>;
+        Cell: ({ value, row }) => {
+          return (
+            <>
+              {row.original.txHash !== null ? (
+                <ChakraLink
+                  href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
+                  isExternal
+                >
+                  {value}
+                  <ExternalLinkIcon marginX="2px" />
+                </ChakraLink>
+              ) : (
+                <Text>{value}</Text>
+              )}
+            </>
+          );
         },
       },
       {

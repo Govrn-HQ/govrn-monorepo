@@ -354,6 +354,7 @@ fragment ContributionFragment on Contribution {
     }
   }
   on_chain_id
+  tx_hash
 }
 
 query getContribution($where: ContributionWhereUniqueInput!) {
