@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
@@ -24,8 +25,11 @@ const UserView = () => {
 
 const ContributionDetails = () => {
   const { isConnected } = useWallet();
-  const { userData } = useUser();
+  const { userData, getContribution } = useUser();
   const { isAuthenticated } = useAuth();
+  const { id } = useParams();
+
+  console.log('contribution', getContribution(parseInt(id)));
 
   return (
     <SiteLayout>
