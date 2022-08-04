@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import {FiTrash2 } from 'react-icons/fi';
 import {UIUser} from '@govrn/ui-types';
 import {
@@ -29,10 +29,11 @@ const  DeleteContributionDialog = ({
 
     const { isOpen, onOpen,  onClose } = useDisclosure()
     const cancelRef = useRef<HTMLButtonElement>(null);
+    
 
-    const handleDeleteContribution = async (contribution_id: number | string) => { 
-      console.log(contribution_id)
-      const y = await deleteContribution(contribution_id)
+  const handleDeleteContribution = async (contribution_id: number | string) => { 
+    const y = await deleteContribution(contribution_id);
+    
   };
   
     return (
@@ -77,7 +78,7 @@ const  DeleteContributionDialog = ({
                  transition="all 100ms ease-in-out"
                  _hover={{ bgColor: 'brand.primary.200' }}
                  onClick={() => handleDeleteContribution(row.original.id)} ml={3}> 
-                  Delete
+                  Confirm
                 </Button>
               </AlertDialogFooter>
             </AlertDialogContent>
