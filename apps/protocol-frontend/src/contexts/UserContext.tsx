@@ -676,6 +676,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     <UserContext.Provider
       value={{
         allDaos,
+        contribution,
         createAttestation,
         createContribution,
         createUser,
@@ -712,6 +713,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
 type UserContextType = {
   allDaos: UIGuild[];
+  contribution: UIContribution;
   createAttestation: any;
   createContribution: any;
   createUser: any;
@@ -719,7 +721,6 @@ type UserContextType = {
   daoContributions: UIContribution[];
   disconnectLinear: any;
   getAllDaos: any;
-  // getContribution: (id: number) => Promise<UIContribution>;
   getContribution: any;
   mintAttestation: any;
   mintContribution: any;
