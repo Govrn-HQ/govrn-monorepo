@@ -105,7 +105,7 @@
     "@nrwl/linter": "13.8.4",
     "@nrwl/node": "^13.10.2",
     "@nrwl/react": "13.8.4",
-    "@nrwl/storybook": "^14.1.1",
+    "@nrwl/storybook": "13.10.2",
     "@nrwl/tao": "13.8.4",
     "@nrwl/web": "13.8.4",
     "@nrwl/workspace": "13.8.4",
