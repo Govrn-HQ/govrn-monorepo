@@ -379,6 +379,13 @@ query listContributions(
   }
 }
 
+query getContributionCountByDateForUserInRange($where: GetUserContributionCountInput!) {
+  result: getContributionCountByDateForUserInRange(where: $where) {
+    count
+    date
+  }
+}
+
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
     ...ContributionFragment
