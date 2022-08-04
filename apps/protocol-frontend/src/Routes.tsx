@@ -13,7 +13,7 @@ import Attestations from './pages/Attestations';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
-import ContributionDetails from './pages/ContributionDetails';
+import ContributionDetail from './pages/ContributionDetail';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
@@ -48,7 +48,7 @@ const Routes = () => {
             </RequireActiveUser>
           }
         />
-        <Route path="/contributions/:id" element={<ContributionDetails />} />
+        <Route path="/contributions/:id" element={<ContributionDetail />} />
         <Route
           path="/attestations"
           element={

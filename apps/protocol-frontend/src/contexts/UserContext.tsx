@@ -94,6 +94,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   }, [address]);
 
   const getContribution = async (id: number) => {
+    console.log('typeof id', typeof id);
     try {
       const contributionResponse = await govrn.contribution.get(id);
       console.log('contributionResponse', contributionResponse);
