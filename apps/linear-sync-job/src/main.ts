@@ -2,6 +2,7 @@ import { LinearClient, User, Cycle, Project, Team } from '@linear/sdk';
 import {
   GovrnProtocol,
   SortOrder,
+  ContributionCreateManyInput,
   LinearIssueCreateManyInput,
 } from '@govrn/protocol-client';
 import 'tslib';
@@ -99,6 +100,12 @@ const main = async () => {
   const users = govrn.linear.user.list({
     where: { active_token: { equals: true } },
   });
+
+  const activity = await govrn.activity_type.upsert({
+    create: { name: 'Linear Issue' },
+    update: { name: { set: 'Linear Issue' } },
+    where: { name: 'Linear Issue' },
+  });
   for await (const result of users) {
     for (const user of result.result) {
       const linearClient = new LinearClient({ apiKey: user.access_token });
@@ -108,6 +115,8 @@ const main = async () => {
         first: 1,
         orderBy: [{ linear_id: SortOrder.Desc }],
       });
+      const contributionStatus = await govrn.contribution.status.get('staging');
+
       const completedAtFilter =
         lastIssue.result.length > 0
           ? { gt: new Date(lastIssue.result[0].completedAt) }
@@ -141,9 +150,6 @@ const main = async () => {
           let issueCycle;
           let issueProject;
           let issueTeam;
-          console.log(issue._assignee);
-          // get the private ids
-          // fetch and then handle the responses if they exist
           try {
             [issueAssignee, issueCreator, issueCycle, issueProject, issueTeam] =
               await Promise.all([
@@ -191,6 +197,19 @@ const main = async () => {
             projectPromise,
             teamPromise,
           ]);
+          const contribution = await govrn.contribution.create({
+            data: {
+              // activity type should be linear
+              activity_type: { connect: { id: activity.id } },
+              date_of_engagement: issue.completedAt,
+              details: issue.description,
+              name: issue.title,
+              status: { connect: { id: contributionStatus?.id } },
+              proof: issue.url,
+              user: { connect: { id: user.id } },
+            },
+          });
+
           linearIssues.push({
             archivedAt: issue.archivedAt,
             assignee_id: assignee?.id,
@@ -221,9 +240,9 @@ const main = async () => {
             trashed: issue.trashed || false,
             updatedAt: issue.updatedAt,
             url: issue.url,
+            contribution_id: contribution.id,
           });
         }
-        // create corresponding contribution
         await govrn.linear.issue.bulkCreate({
           data: linearIssues,
           skipDuplicates: true,

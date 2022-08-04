@@ -466,6 +466,14 @@ mutation updateContribution(
   }
 }
 
+# Contribution Status
+query getContributionStatus($name: String!) {
+  contributionStatuses(where: {name: {equals: $name}}) {
+    id
+    name
+  }
+}
+
 # Activity type queries
 fragment ActivityTypeFragment on ActivityType {
   active
@@ -496,6 +504,18 @@ mutation createActivityType($data: ActivityTypeCreateInput!) {
     ...ActivityTypeFragment
   }
 }
+
+mutation upsertActivityType(
+  $create: ActivityTypeCreateInput!
+  $update: ActivityTypeUpdateInput!
+  $where: ActivityTypeWhereUniqueInput!
+) {
+  upsertActivityType(create: $create, update: $update, where: $where) {
+    ...ActivityTypeFragment
+  }
+}
+
+
 
 # UserActivity type queries
 fragment UserActivityFragment on UserActivity {

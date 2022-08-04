@@ -72,6 +72,7 @@ const permissions = shield(
       jobRuns: hasToken,
       linearUsers: hasToken,
       linearIssues: hasToken,
+      contributionStatuses: hasToken,
     },
     Mutation: {
       '*': deny,
@@ -101,6 +102,7 @@ const permissions = shield(
       upsertLinearProject: hasToken,
       upsertLinearTeam: hasToken,
       upsertLinearUser: hasToken,
+      upsertActivityType: hasToken,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),

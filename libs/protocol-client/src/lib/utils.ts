@@ -54,6 +54,9 @@ export function paginate<T extends GraphQLArgs, V extends ReturnType>(
           break;
         }
         const lastItem = response.result.at(-1);
+        if (!lastItem?.id) {
+          break;
+        }
         if (variables && variables.where) {
           funcVars = {
             ...variables,
