@@ -25,7 +25,7 @@ import {
   useTable,
 } from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { FiEdit2} from 'react-icons/fi';
 import { ModalWrapper } from '@govrn/protocol-ui';
 import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
@@ -161,17 +161,13 @@ const ContributionsTable = ({
                     handleEditContributionFormModal(row.original.id)
                   }
                 />
-                <DeleteContributionDialog row={row} userData={userData} deleteContribution={deleteContribution} />
-                {/* <IconButton
-                  icon={<FiTrash2 fontSize="1rem" />}
-                  variant="ghost"
-                  color="gray.800"
-                  disabled={
-                    row.original.user.id !== userData?.id ||
-                    row.original.status === 'minted'
-                  }
-                  aria-label="Delete Contribution"
-                /> */}
+                <DeleteContributionDialog 
+                  row={row} 
+                  userData={userData} 
+                  deleteContribution={deleteContribution} 
+                  DialogSize = {'md'}
+                  />
+          
               </HStack>
             </Tooltip>
           ) : (
@@ -188,21 +184,13 @@ const ContributionsTable = ({
                 onClick={() =>
                   handleEditContributionFormModal(row.original.id)
                 }
-              
               />
-              <DeleteContributionDialog row={row} userData={userData} deleteContribution={deleteContribution} />
-              {/* <IconButton
-                icon={<FiTrash2 fontSize="1rem" />}
-                variant="ghost"
-                color="gray.800"
-                disabled={
-                  row.original.user.id !== userData?.id ||
-                  row.original.status === 'minted'
-                  
-                }
-                aria-label="Delete Contribution"
-                onClick = {() => handleDeleteContribution(row.original.id)}
-              /> */}
+              <DeleteContributionDialog 
+                row={row} 
+                userData={userData} 
+                deleteContribution={deleteContribution} 
+                DialogSize = {'md'}
+                />
             </HStack>
           ),
       },

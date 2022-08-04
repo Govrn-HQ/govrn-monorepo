@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import {FiTrash2 } from 'react-icons/fi';
+import {UIUser} from '@govrn/ui-types';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -11,19 +12,21 @@ import {
     useDisclosure,
   } from '@chakra-ui/react';
 
-
+  
 interface DeleteContributionDialogProps {
-  row: any;
-  userData: any;
-  deleteContribution: any
+  row: string;
+  userData: UIUser;
+  deleteContribution: (string) => void;
+  DialogSize : string;
 }
 
 const  DeleteContributionDialog = ({
-        row,
-        userData,
-        deleteContribution
-
+    row,
+    userData,
+    deleteContribution,
+    DialogSize,
     }:DeleteContributionDialogProps) => {
+
     const { isOpen, onOpen,  onClose } = useDisclosure()
     const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -51,11 +54,12 @@ const  DeleteContributionDialog = ({
           isOpen={isOpen}
           leastDestructiveRef={cancelRef}
           onClose={onClose}
+          size = {DialogSize}
         >
           <AlertDialogOverlay >
             <AlertDialogContent bgColor="brand.primary.50" color="gray.800">
             
-              <AlertDialogBody>
+              <AlertDialogBody mt='20px'>
                 Are you sure you want to delete this contribution? You can't undo this action afterwards.
               </AlertDialogBody>
   
