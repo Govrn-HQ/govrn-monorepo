@@ -7,7 +7,7 @@ const template = {
 };
 
 export const transform = async (data: Array<LDContribution>) => {
-  const transformed = data.map((c) => ({
+  const transformed = data.map(c => ({
     type: 'contribution',
     commit_type: 'Pull Request',
     reference: c.detailsUri,

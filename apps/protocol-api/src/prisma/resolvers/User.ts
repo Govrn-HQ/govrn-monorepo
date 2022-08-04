@@ -7,13 +7,13 @@ import { User } from '../generated/type-graphql/models/User';
   isAbstract: true,
 })
 export class UserCreateCustomInput {
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   username: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   address: string;
 
-  @TypeGraphQL.Field((_type) => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
   })
   email?: string | undefined;
@@ -23,19 +23,19 @@ export class UserCreateCustomInput {
   isAbstract: true,
 })
 export class UserUpdateCustomInput {
-  @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   id: number;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   name: string;
 
-  @TypeGraphQL.Field((_type) => Number, { nullable: true })
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
   disconnectLinearId?: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class UpdateUserCustomArgs {
-  @TypeGraphQL.Field((_type) => UserUpdateCustomInput, {
+  @TypeGraphQL.Field(_type => UserUpdateCustomInput, {
     nullable: false,
   })
   data!: UserUpdateCustomInput;
@@ -43,7 +43,7 @@ export class UpdateUserCustomArgs {
 
 @TypeGraphQL.ArgsType()
 export class CreateUserCustomArgs {
-  @TypeGraphQL.Field((_type) => UserCreateCustomInput, {
+  @TypeGraphQL.Field(_type => UserCreateCustomInput, {
     nullable: false,
   })
   data!: UserCreateCustomInput;
@@ -51,32 +51,32 @@ export class CreateUserCustomArgs {
 
 @TypeGraphQL.ArgsType()
 export class GetUserArgs {
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   id: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class ListUserArgs {
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   address: string;
 }
 
-@TypeGraphQL.Resolver((_of) => User)
+@TypeGraphQL.Resolver(_of => User)
 export class UserCustomResolver {
-  @TypeGraphQL.Query((_returns) => User, { nullable: false })
+  @TypeGraphQL.Query(_returns => User, { nullable: false })
   async getUser(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: GetUserArgs
+    @TypeGraphQL.Args() args: GetUserArgs,
   ) {
     return await prisma.user.findUnique({
       where: { id: args.id },
     });
   }
 
-  @TypeGraphQL.Mutation((_returns) => User, { nullable: false })
+  @TypeGraphQL.Mutation(_returns => User, { nullable: false })
   async createUserCustom(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserCustomArgs
+    @TypeGraphQL.Args() args: CreateUserCustomArgs,
   ) {
     return await prisma.user.create({
       data: {
@@ -97,10 +97,10 @@ export class UserCustomResolver {
     });
   }
 
-  @TypeGraphQL.Mutation((_returns) => User, { nullable: false })
+  @TypeGraphQL.Mutation(_returns => User, { nullable: false })
   async updateUserCustom(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateUserCustomArgs
+    @TypeGraphQL.Args() args: UpdateUserCustomArgs,
   ) {
     const address = req.session.siwe.data.address;
     let extraData = {};
@@ -117,10 +117,10 @@ export class UserCustomResolver {
     });
   }
 
-  @TypeGraphQL.Query((_returns) => [User], { nullable: false })
+  @TypeGraphQL.Query(_returns => [User], { nullable: false })
   async listUserByAddress(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: ListUserArgs
+    @TypeGraphQL.Args() args: ListUserArgs,
   ) {
     const address = req.session.siwe.data.address;
     return await prisma.user.findMany({

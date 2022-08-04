@@ -1,20 +1,20 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { CategoryActivityWhereInput } from "../inputs/CategoryActivityWhereInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { CategoryActivityWhereInput } from '../inputs/CategoryActivityWhereInput';
 
-@TypeGraphQL.InputType("CategoryActivityRelationFilter", {
-  isAbstract: true
+@TypeGraphQL.InputType('CategoryActivityRelationFilter', {
+  isAbstract: true,
 })
 export class CategoryActivityRelationFilter {
   @TypeGraphQL.Field(_type => CategoryActivityWhereInput, {
-    nullable: true
+    nullable: true,
   })
   is?: CategoryActivityWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => CategoryActivityWhereInput, {
-    nullable: true
+    nullable: true,
   })
   isNot?: CategoryActivityWhereInput | undefined;
 }

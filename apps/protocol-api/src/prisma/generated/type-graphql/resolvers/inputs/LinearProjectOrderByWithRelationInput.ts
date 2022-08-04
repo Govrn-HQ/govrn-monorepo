@@ -1,31 +1,31 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { LinearIssueOrderByRelationAggregateInput } from "../inputs/LinearIssueOrderByRelationAggregateInput";
-import { SortOrder } from "../../enums/SortOrder";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { LinearIssueOrderByRelationAggregateInput } from '../inputs/LinearIssueOrderByRelationAggregateInput';
+import { SortOrder } from '../../enums/SortOrder';
 
-@TypeGraphQL.InputType("LinearProjectOrderByWithRelationInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearProjectOrderByWithRelationInput', {
+  isAbstract: true,
 })
 export class LinearProjectOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  id?: "asc" | "desc" | undefined;
+  id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  name?: "asc" | "desc" | undefined;
+  name?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  linear_id?: "asc" | "desc" | undefined;
+  linear_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => LinearIssueOrderByRelationAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   issues?: LinearIssueOrderByRelationAggregateInput | undefined;
 }

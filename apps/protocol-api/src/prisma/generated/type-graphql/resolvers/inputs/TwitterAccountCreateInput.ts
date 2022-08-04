@@ -1,30 +1,30 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { GuildCreateNestedOneWithoutTwitter_accountInput } from "../inputs/GuildCreateNestedOneWithoutTwitter_accountInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { GuildCreateNestedOneWithoutTwitter_accountInput } from '../inputs/GuildCreateNestedOneWithoutTwitter_accountInput';
 
-@TypeGraphQL.InputType("TwitterAccountCreateInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('TwitterAccountCreateInput', {
+  isAbstract: true,
 })
 export class TwitterAccountCreateInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   account_name!: string;
 
   @TypeGraphQL.Field(_type => GuildCreateNestedOneWithoutTwitter_accountInput, {
-    nullable: true
+    nullable: true,
   })
   guild?: GuildCreateNestedOneWithoutTwitter_accountInput | undefined;
 }

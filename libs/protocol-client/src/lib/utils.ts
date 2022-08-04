@@ -27,17 +27,17 @@ export interface PaginatedResponse<T> extends AsyncIterable<T> {
   then(
     resolve: ((value: T) => T | PromiseLike<T>) | null | undefined,
     /* eslint-disable  @typescript-eslint/no-explicit-any */
-    reject: ((reason: any) => T | PromiseLike<T>) | null | undefined
+    reject: ((reason: any) => T | PromiseLike<T>) | null | undefined,
   ): Promise<T>;
 }
 
 export function paginate<T extends GraphQLArgs, V extends ReturnType>(
   func: (
     variables?: T,
-    requestHeaders?: Dom.RequestInit['headers']
+    requestHeaders?: Dom.RequestInit['headers'],
   ) => Promise<V>,
   variables?: T,
-  requestHeaders?: Dom.RequestInit['headers']
+  requestHeaders?: Dom.RequestInit['headers'],
 ): PaginatedResponse<V> {
   return {
     then(resolve, reject) {

@@ -1,86 +1,86 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { BoolNullableWithAggregatesFilter } from "../inputs/BoolNullableWithAggregatesFilter";
-import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
-import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
-import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
-import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
-import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
-import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { BoolNullableWithAggregatesFilter } from '../inputs/BoolNullableWithAggregatesFilter';
+import { BoolWithAggregatesFilter } from '../inputs/BoolWithAggregatesFilter';
+import { DateTimeNullableWithAggregatesFilter } from '../inputs/DateTimeNullableWithAggregatesFilter';
+import { IntNullableWithAggregatesFilter } from '../inputs/IntNullableWithAggregatesFilter';
+import { IntWithAggregatesFilter } from '../inputs/IntWithAggregatesFilter';
+import { StringNullableWithAggregatesFilter } from '../inputs/StringNullableWithAggregatesFilter';
+import { StringWithAggregatesFilter } from '../inputs/StringWithAggregatesFilter';
 
-@TypeGraphQL.InputType("LinearUserScalarWhereWithAggregatesInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearUserScalarWhereWithAggregatesInput', {
+  isAbstract: true,
 })
 export class LinearUserScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => [LinearUserScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   AND?: LinearUserScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearUserScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   OR?: LinearUserScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearUserScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   NOT?: LinearUserScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   id?: IntWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   active?: BoolWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   displayName?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   email?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   linear_id?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   name?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   url?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   user_id?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   access_token?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   active_token?: BoolNullableWithAggregatesFilter | undefined;
 }

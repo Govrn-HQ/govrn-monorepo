@@ -1,50 +1,50 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../scalars";
-import { GuildActivityType } from "../models/GuildActivityType";
-import { GuildContribution } from "../models/GuildContribution";
-import { GuildUser } from "../models/GuildUser";
-import { TwitterAccount } from "../models/TwitterAccount";
-import { GuildStatus } from "../enums/GuildStatus";
-import { GuildCount } from "../resolvers/outputs/GuildCount";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../scalars';
+import { GuildActivityType } from '../models/GuildActivityType';
+import { GuildContribution } from '../models/GuildContribution';
+import { GuildUser } from '../models/GuildUser';
+import { TwitterAccount } from '../models/TwitterAccount';
+import { GuildStatus } from '../enums/GuildStatus';
+import { GuildCount } from '../resolvers/outputs/GuildCount';
 
-@TypeGraphQL.ObjectType("Guild", {
-  isAbstract: true
+@TypeGraphQL.ObjectType('Guild', {
+  isAbstract: true,
 })
 export class Guild {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   id!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   createdAt!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   discord_id?: string | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   name?: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   congrats_channel?: number | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   logo?: string | null;
 
@@ -57,17 +57,17 @@ export class Guild {
   activity_type?: GuildActivityType[];
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   contribution_reporting_channel?: number | null;
 
   @TypeGraphQL.Field(_type => GuildStatus, {
-    nullable: false
+    nullable: false,
   })
-  status!: "INPUTTED" | "VALIDATED" | "ONBOARDED";
+  status!: 'INPUTTED' | 'VALIDATED' | 'ONBOARDED';
 
   @TypeGraphQL.Field(_type => GuildCount, {
-    nullable: true
+    nullable: true,
   })
   _count?: GuildCount | null;
 }

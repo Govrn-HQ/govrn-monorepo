@@ -1,16 +1,16 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { LinearUserCreateManyInput } from "../../../inputs/LinearUserCreateManyInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { LinearUserCreateManyInput } from '../../../inputs/LinearUserCreateManyInput';
 
 @TypeGraphQL.ArgsType()
 export class CreateManyLinearUserArgs {
   @TypeGraphQL.Field(_type => [LinearUserCreateManyInput], {
-    nullable: false
+    nullable: false,
   })
   data!: LinearUserCreateManyInput[];
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   skipDuplicates?: boolean | undefined;
 }

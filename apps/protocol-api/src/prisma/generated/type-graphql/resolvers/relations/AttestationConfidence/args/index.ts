@@ -1,1 +1,1 @@
-export { AttestationConfidenceAttestationsArgs } from "./AttestationConfidenceAttestationsArgs";
+export { AttestationConfidenceAttestationsArgs } from './AttestationConfidenceAttestationsArgs';

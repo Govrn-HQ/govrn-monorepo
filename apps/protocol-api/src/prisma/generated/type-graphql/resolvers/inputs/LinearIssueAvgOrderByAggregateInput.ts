@@ -1,75 +1,75 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { SortOrder } from "../../enums/SortOrder";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { SortOrder } from '../../enums/SortOrder';
 
-@TypeGraphQL.InputType("LinearIssueAvgOrderByAggregateInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearIssueAvgOrderByAggregateInput', {
+  isAbstract: true,
 })
 export class LinearIssueAvgOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  id?: "asc" | "desc" | undefined;
+  id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  boardOrder?: "asc" | "desc" | undefined;
+  boardOrder?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  customerTickerCount?: "asc" | "desc" | undefined;
+  customerTickerCount?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  estimate?: "asc" | "desc" | undefined;
+  estimate?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  priority?: "asc" | "desc" | undefined;
+  priority?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  sortOrder?: "asc" | "desc" | undefined;
+  sortOrder?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  subIssueSortOrder?: "asc" | "desc" | undefined;
+  subIssueSortOrder?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  assignee_id?: "asc" | "desc" | undefined;
+  assignee_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  creator_id?: "asc" | "desc" | undefined;
+  creator_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  cycle_id?: "asc" | "desc" | undefined;
+  cycle_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  project_id?: "asc" | "desc" | undefined;
+  project_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  team_id?: "asc" | "desc" | undefined;
+  team_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  contribution_id?: "asc" | "desc" | undefined;
+  contribution_id?: 'asc' | 'desc' | undefined;
 }
