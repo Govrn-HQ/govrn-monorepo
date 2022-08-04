@@ -46,7 +46,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
-  const [contribution, setContribution] = useState<any>(null);
+  const [contribution, setContribution] = useState<UIContribution>(null);
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     []
   );
@@ -673,24 +673,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   return (
     <UserContext.Provider
       value={{
-        currentChain,
-        setCurrentChain,
-        userAddress,
-        setUserAddress,
-        userData,
-        setUserData,
-        userDataByAddress,
-        setUserDataByAddress,
-        getContribution,
-        setContribution,
-        userContributions,
-        setUserContributions,
-        daoContributions,
-        setDaoContributions,
-        userAttestations,
-        setUserAttestations,
-        userActivityTypes,
-        setUserActivityTypes,
         allDaos,
         createAttestation,
         createContribution,
@@ -699,9 +681,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         daoContributions,
         disconnectLinear,
         getAllDaos,
+        getContribution,
         mintAttestation,
         mintContribution,
         setAllDaos,
+        setContribution,
         setDaoContributions,
         setUserActivityTypes,
         setUserAddress,
@@ -733,9 +717,11 @@ type UserContextType = {
   daoContributions: UIContribution[];
   disconnectLinear: any;
   getAllDaos: any;
+  getContribution: (id: number) => Promise<UIContribution>;
   mintAttestation: any;
   mintContribution: any;
   setAllDaos: (data: UIGuild[]) => void;
+  setContribution: (data: UIContribution) => void;
   setDaoContributions: (data: UIContribution[]) => void;
   setUserActivityTypes: (data: UIActivityType[]) => void;
   setUserAddress: any;
