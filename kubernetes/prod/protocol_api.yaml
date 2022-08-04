@@ -61,6 +61,11 @@ spec:
                 secretKeyRef:
                   name: protocol-api
                   key: linear_client_secret
+            - name: LINEAR_JOB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: linear_job_token
             - name: PROTOCOL_FRONTEND
               value: 'https://api.govrn.app'
           resources:

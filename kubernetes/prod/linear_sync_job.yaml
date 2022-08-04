@@ -24,4 +24,9 @@ spec:
                     secretKeyRef:
                       name: linear-sync-job
                       key: protocol_url
+                - name: PROTOCOL_API_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: linear-sync-job
+                      key: protocol_api_token
           restartPolicy: OnFailure
