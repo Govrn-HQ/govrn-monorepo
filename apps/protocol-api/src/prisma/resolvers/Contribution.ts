@@ -224,7 +224,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async createUserContribution(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserContributionArgs,
+    @TypeGraphQL.Args() args: CreateUserContributionArgs
   ) {
     return await prisma.contribution.create({
       data: {
@@ -287,7 +287,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async createOnChainUserContribution(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserOnChainContributionArgs,
+    @TypeGraphQL.Args() args: CreateUserOnChainContributionArgs
   ) {
     return await prisma.contribution.create({
       data: {
@@ -312,7 +312,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async updateUserContribution(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateUserContributionArgs,
+    @TypeGraphQL.Args() args: UpdateUserContributionArgs
   ) {
     const address = req.session.siwe.data.address;
     const res = await prisma.contribution.updateMany({
@@ -420,7 +420,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async updateUserOnChainContribution(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateUserOnChainContributionArgs,
+    @TypeGraphQL.Args() args: UpdateUserOnChainContributionArgs
   ) {
     const address = req.session.siwe.data.address;
     const update = await prisma.contribution.updateMany({
@@ -473,7 +473,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
   async deleteUserContribution(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: DeleteUserContributionArgs,
+    @TypeGraphQL.Args() args: DeleteUserContributionArgs
   ) {
     const contributionId = args.where.contributionId;
     const address = req.session.siwe.data.address;
@@ -498,27 +498,20 @@ export class ContributionCustomResolver {
     });
   }
 
-  @TypeGraphQL.Query((_returns) => [ContributionCountByDate], { nullable: false })
+  @TypeGraphQL.Query((_returns) => [ContributionCountByDate], {
+    nullable: false,
+  })
   async getContributionCountByDateForUserInRange(
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: GetUserContributionCountArgs
   ) {
-    /*return await getPrismaFromContext(ctx).contribution.count({
-      where: {
-        AND: [
-          { user_id: { equals: args.where.id } },
-          { date_of_engagement: { gte: args.where.start_date } },
-          { date_of_engagement: { lte: args.where.end_date } }
-        ]
-      }
-    })
     // grouping by a derived field not yet supported in prisma
     // would need to group by date, not the datetime as is stored in postg*/
     // YYY-MM-DD hh:mm:ss.sss
-    const user_id  = args.where.id;
-    const start = args.where.start_date
-    const end = args.where.end_date
-      
+    const user_id = args.where.id;
+    const start = args.where.start_date;
+    const end = args.where.end_date;
+
     const result = await prisma.$queryRaw<ContributionCountByDate>`
       SELECT date(date_of_engagement), count(date_of_engagement) as count
       FROM "Contribution"
@@ -526,7 +519,7 @@ export class ContributionCustomResolver {
       AND "Contribution"."user_id" = ${user_id})
       GROUP BY date(date_of_engagement)
       ORDER BY date(date_of_engagement);`;
-    
+
     return result;
   }
 }
