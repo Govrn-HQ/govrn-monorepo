@@ -96,6 +96,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getContribution = async (id: number) => {
     try {
       const contributionResponse = await govrn.contribution.get(id);
+      console.log('contributionResponse', contributionResponse);
       setContribution(contributionResponse);
       return contributionResponse;
     } catch (error) {
@@ -717,7 +718,8 @@ type UserContextType = {
   daoContributions: UIContribution[];
   disconnectLinear: any;
   getAllDaos: any;
-  getContribution: (id: number) => Promise<UIContribution>;
+  // getContribution: (id: number) => Promise<UIContribution>;
+  getContribution: any;
   mintAttestation: any;
   mintContribution: any;
   setAllDaos: (data: UIGuild[]) => void;
