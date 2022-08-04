@@ -384,6 +384,7 @@ fragment ContributionFragment on Contribution {
     }
   }
   on_chain_id
+  tx_hash
 }
 
 query getContribution($where: ContributionWhereUniqueInput!) {
@@ -405,6 +406,13 @@ query listContributions(
     orderBy: $orderBy
   ) {
     ...ContributionFragment
+  }
+}
+
+query getContributionCountByDateForUserInRange($where: GetUserContributionCountInput!) {
+  result: getContributionCountByDateForUserInRange(where: $where) {
+    count
+    date
   }
 }
 

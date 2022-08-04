@@ -2,7 +2,6 @@ import * as TypeGraphQL from 'type-graphql';
 
 import { Context } from './types';
 import { User } from '../generated/type-graphql/models/User';
-import { getPrismaFromContext } from '../generated/type-graphql/helpers';
 
 @TypeGraphQL.InputType('UserCreateCustomInput', {
   isAbstract: true,
@@ -97,6 +96,7 @@ export class UserCustomResolver {
       },
     });
   }
+
   @TypeGraphQL.Mutation((_returns) => User, { nullable: false })
   async updateUserCustom(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
