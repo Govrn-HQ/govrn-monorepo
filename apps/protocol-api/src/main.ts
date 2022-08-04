@@ -18,7 +18,12 @@ import cors = require('cors');
 const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
-const BACKEND_TOKENS = [AIRTABLE_API_TOKEN, KEVIN_MALONE_TOKEN];
+const LINEAR_JOB_TOKEN = process.env.LINEAR_JOB_TOKEN;
+const BACKEND_TOKENS = [
+  AIRTABLE_API_TOKEN,
+  KEVIN_MALONE_TOKEN,
+  LINEAR_JOB_TOKEN,
+];
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
@@ -66,6 +71,9 @@ const permissions = shield(
       getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
       users: hasToken,
       jobRuns: hasToken,
+      linearUsers: hasToken,
+      linearIssues: hasToken,
+      contributionStatuses: hasToken,
     },
     ContributionCountByDate: or(isAuthenticated, hasToken),
     Mutation: {
@@ -76,6 +84,7 @@ const permissions = shield(
       createGuildUser: or(isAuthenticated, hasToken),
       createJobRun: hasToken,
       createManyContribution: hasToken,
+      createManyLinearIssue: hasToken,
       createOnChainUserContribution: isAuthenticated,
       createUser: or(isAuthenticated, hasToken),
       createUserActivity: hasToken,
@@ -90,6 +99,12 @@ const permissions = shield(
       updateUserCustom: and(ownsData, isAuthenticated),
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
+      upsertLinearCycle: hasToken,
+      upsertLinearIssue: hasToken,
+      upsertLinearProject: hasToken,
+      upsertLinearTeam: hasToken,
+      upsertLinearUser: hasToken,
+      upsertActivityType: hasToken,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
@@ -232,9 +247,67 @@ const permissions = shield(
       activity_type: hasToken,
       user: hasToken,
     },
+    LinearIssue: {
+      id: hasToken,
+      archivedAt: hasToken,
+      assignee_id: hasToken,
+      autoArchivedAt: hasToken,
+      autoClosedAt: hasToken,
+      boardOrder: hasToken,
+      branchName: hasToken,
+      canceledAt: hasToken,
+      completedAt: hasToken,
+      createdAt: hasToken,
+      creator_id: hasToken,
+      customerTickerCount: hasToken,
+      cycle_id: hasToken,
+      description: hasToken,
+      dueDate: hasToken,
+      estimate: hasToken,
+      identifier: hasToken,
+      linear_id: hasToken,
+      priority: hasToken,
+      priorityLabel: hasToken,
+      project_id: hasToken,
+      snoozedUntilAt: hasToken,
+      sortOrder: hasToken,
+      startedAt: hasToken,
+      subIssueSortOrder: hasToken,
+      team_id: hasToken,
+      title: hasToken,
+      trashed: hasToken,
+      updatedAt: hasToken,
+      url: hasToken,
+    },
+    LinearTeam: {
+      linear_id: hasToken,
+      name: hasToken,
+      key: hasToken,
+      id: hasToken,
+    },
+    LinearProject: {
+      linear_id: hasToken,
+      name: hasToken,
+      id: hasToken,
+    },
+    LinearCycle: {
+      id: hasToken,
+      endsAt: hasToken,
+      linear_id: hasToken,
+      number: hasToken,
+      startsAt: hasToken,
+    },
     LinearUser: {
-      active_token: or(isAuthenticated, hasToken),
       id: or(isAuthenticated, hasToken),
+      active: hasToken,
+      displayName: hasToken,
+      email: hasToken,
+      linear_id: hasToken,
+      name: hasToken,
+      url: hasToken,
+      createdAt: hasToken,
+      access_token: hasToken,
+      active_token: or(isAuthenticated, hasToken),
     },
   },
   {

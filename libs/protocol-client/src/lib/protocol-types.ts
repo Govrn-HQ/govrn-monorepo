@@ -13868,6 +13868,18 @@ export type GetJobRunQueryVariables = Exact<{
 
 export type GetJobRunQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, completedDate: string | Date, name: string, startDate: string | Date } | null };
 
+export type LinearIssueFragmentFragment = { id: number, completedAt?: string | Date | null };
+
+export type ListLinearIssuesQueryVariables = Exact<{
+  where?: LinearIssueWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<LinearIssueOrderByWithRelationInput> | LinearIssueOrderByWithRelationInput>;
+}>;
+
+
+export type ListLinearIssuesQuery = { result: Array<{ id: number, completedAt?: string | Date | null }> };
+
 export type BulkCreateIssuesMutationVariables = Exact<{
   data: Array<LinearIssueCreateManyInput> | LinearIssueCreateManyInput;
   skipDuplicates: Scalars['Boolean'];
@@ -13876,7 +13888,17 @@ export type BulkCreateIssuesMutationVariables = Exact<{
 
 export type BulkCreateIssuesMutation = { createManyLinearIssue: { count: number } };
 
-export type LinearUserFragmentFragment = { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: string | Date | null };
+export type LinearUserFragmentFragment = { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null };
+
+export type ListLinearUsersQueryVariables = Exact<{
+  where?: LinearUserWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<LinearUserOrderByWithRelationInput> | LinearUserOrderByWithRelationInput>;
+}>;
+
+
+export type ListLinearUsersQuery = { result: Array<{ id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null }> };
 
 export type UpsertLinearUserMutationVariables = Exact<{
   create: LinearUserCreateInput;
@@ -13885,7 +13907,7 @@ export type UpsertLinearUserMutationVariables = Exact<{
 }>;
 
 
-export type UpsertLinearUserMutation = { upsertLinearUser: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: string | Date | null } };
+export type UpsertLinearUserMutation = { upsertLinearUser: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null } };
 
 export type UpdateLinearUserMutationVariables = Exact<{
   data: LinearUserUpdateInput;
@@ -13893,7 +13915,7 @@ export type UpdateLinearUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateLinearUserMutation = { updateLinearUser?: { active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, id: number, createdAt?: string | Date | null } | null };
+export type UpdateLinearUserMutation = { updateLinearUser?: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null } | null };
 
 export type UpsertLinearCycleMutationVariables = Exact<{
   create: LinearCycleCreateInput;
@@ -14141,6 +14163,13 @@ export type UpdateContributionMutationVariables = Exact<{
 
 export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date }>, guilds: Array<{ guild: { id: number, name?: string | null } }> } | null };
 
+export type GetContributionStatusQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type GetContributionStatusQuery = { contributionStatuses: Array<{ id: number, name: string }> };
+
 export type ActivityTypeFragmentFragment = { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date };
 
 export type ListActivityTypesQueryVariables = Exact<{
@@ -14159,6 +14188,15 @@ export type CreateActivityTypeMutationVariables = Exact<{
 
 
 export type CreateActivityTypeMutation = { createActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+
+export type UpsertActivityTypeMutationVariables = Exact<{
+  create: ActivityTypeCreateInput;
+  update: ActivityTypeUpdateInput;
+  where: ActivityTypeWhereUniqueInput;
+}>;
+
+
+export type UpsertActivityTypeMutation = { upsertActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
 
 export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } };
 
@@ -14247,16 +14285,24 @@ export const JobFieldsFragmentFragmentDoc = gql`
   startDate
 }
     `;
+export const LinearIssueFragmentFragmentDoc = gql`
+    fragment LinearIssueFragment on LinearIssue {
+  id
+  completedAt
+}
+    `;
 export const LinearUserFragmentFragmentDoc = gql`
     fragment LinearUserFragment on LinearUser {
+  id
   active
   displayName
   email
   linear_id
   name
   url
-  id
   createdAt
+  access_token
+  active_token
 }
     `;
 export const GuildFragmentFragmentDoc = gql`
@@ -14474,6 +14520,18 @@ export const GetJobRunDocument = gql`
   }
 }
     ${JobFieldsFragmentFragmentDoc}`;
+export const ListLinearIssuesDocument = gql`
+    query listLinearIssues($where: LinearIssueWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearIssueOrderByWithRelationInput!]) {
+  result: linearIssues(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...LinearIssueFragment
+  }
+}
+    ${LinearIssueFragmentFragmentDoc}`;
 export const BulkCreateIssuesDocument = gql`
     mutation bulkCreateIssues($data: [LinearIssueCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyLinearIssue(data: $data, skipDuplicates: $skipDuplicates) {
@@ -14481,6 +14539,13 @@ export const BulkCreateIssuesDocument = gql`
   }
 }
     `;
+export const ListLinearUsersDocument = gql`
+    query listLinearUsers($where: LinearUserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [LinearUserOrderByWithRelationInput!]) {
+  result: linearUsers(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...LinearUserFragment
+  }
+}
+    ${LinearUserFragmentFragmentDoc}`;
 export const UpsertLinearUserDocument = gql`
     mutation upsertLinearUser($create: LinearUserCreateInput!, $update: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
   upsertLinearUser(create: $create, update: $update, where: $where) {
@@ -14730,6 +14795,14 @@ export const UpdateContributionDocument = gql`
   }
 }
     ${ContributionFragmentFragmentDoc}`;
+export const GetContributionStatusDocument = gql`
+    query getContributionStatus($name: String!) {
+  contributionStatuses(where: {name: {equals: $name}}) {
+    id
+    name
+  }
+}
+    `;
 export const ListActivityTypesDocument = gql`
     query listActivityTypes($where: ActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [ActivityTypeOrderByWithRelationInput!]) {
   result: activityTypes(
@@ -14745,6 +14818,13 @@ export const ListActivityTypesDocument = gql`
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
   createActivityType(data: $data) {
+    ...ActivityTypeFragment
+  }
+}
+    ${ActivityTypeFragmentFragmentDoc}`;
+export const UpsertActivityTypeDocument = gql`
+    mutation upsertActivityType($create: ActivityTypeCreateInput!, $update: ActivityTypeUpdateInput!, $where: ActivityTypeWhereUniqueInput!) {
+  upsertActivityType(create: $create, update: $update, where: $where) {
     ...ActivityTypeFragment
   }
 }
@@ -14831,8 +14911,14 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getJobRun(variables: GetJobRunQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetJobRunQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetJobRunQuery>(GetJobRunDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getJobRun', 'query');
     },
+    listLinearIssues(variables?: ListLinearIssuesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListLinearIssuesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListLinearIssuesQuery>(ListLinearIssuesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listLinearIssues', 'query');
+    },
     bulkCreateIssues(variables: BulkCreateIssuesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateIssuesMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateIssuesMutation>(BulkCreateIssuesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateIssues', 'mutation');
+    },
+    listLinearUsers(variables?: ListLinearUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListLinearUsersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListLinearUsersQuery>(ListLinearUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listLinearUsers', 'query');
     },
     upsertLinearUser(variables: UpsertLinearUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertLinearUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertLinearUserMutation>(UpsertLinearUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertLinearUser', 'mutation');
@@ -14930,11 +15016,17 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     updateContribution(variables: UpdateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateContributionMutation>(UpdateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateContribution', 'mutation');
     },
+    getContributionStatus(variables: GetContributionStatusQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionStatusQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionStatusQuery>(GetContributionStatusDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionStatus', 'query');
+    },
     listActivityTypes(variables?: ListActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesQuery>(ListActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypes', 'query');
     },
     createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
+    },
+    upsertActivityType(variables: UpsertActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertActivityTypeMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertActivityTypeMutation>(UpsertActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertActivityType', 'mutation');
     },
     createUserActivity(variables: CreateUserActivityMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserActivityMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserActivityMutation>(CreateUserActivityDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserActivity', 'mutation');

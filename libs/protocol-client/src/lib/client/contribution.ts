@@ -12,8 +12,16 @@ import {
   MintArgs,
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
+import { GraphQLClient } from 'graphql-request';
 
 export class Contribution extends BaseClient {
+  status: ContributionStatus;
+
+  constructor(client: GraphQLClient) {
+    super(client);
+    this.status = new ContributionStatus(this.client);
+  }
+
   public async get(id: number) {
     const contribution = await this.sdk.getContribution({ where: { id } });
     return contribution.result;
@@ -166,5 +174,15 @@ export class Contribution extends BaseClient {
         userId: userId,
       },
     });
+  }
+}
+
+export class ContributionStatus extends BaseClient {
+  public async get(name: string) {
+    const contributions = await this.sdk.getContributionStatus({ name: name });
+    if (contributions.contributionStatuses.length) {
+      return contributions.contributionStatuses[0];
+    }
+    return { id: 0, name: '' };
   }
 }
