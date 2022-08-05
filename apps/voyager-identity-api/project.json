@@ -9,7 +9,8 @@
       "options": {
         "outputPath": "dist/apps/voyager-identity-api",
         "main": "apps/voyager-identity-api/src/main.ts",
-        "tsConfig": "apps/voyager-identity-api/tsconfig.app.json"
+        "tsConfig": "apps/voyager-identity-api/tsconfig.app.json",
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
