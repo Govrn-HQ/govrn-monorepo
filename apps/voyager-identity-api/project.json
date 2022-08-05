@@ -45,6 +45,59 @@
         "jestConfig": "apps/voyager-identity-api/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/voyager_identity_api"
+          ],
+          "load": true,
+          "tags": ["type=sha"]
+        }
+      }
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/voyager_identity_api"
+          ],
+          "tags": ["type=sha"]
+        }
+      }
+    },
+    "docker-login": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["doctl registry login --expiry-seconds 1200"],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/prod/linear_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/voyager_identity_api.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/voyager_identity_api.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/staging/linear_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/voyager_identity_api.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/voyager_identity_api.yaml"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": []

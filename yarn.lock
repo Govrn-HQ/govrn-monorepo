@@ -36,10 +36,10 @@
   resolved "https://registry.yarnpkg.com/@alexkeating/nx-foundry/-/nx-foundry-0.0.2.tgz#98719898cef53af17e8fb3614a2c55cfa8d9d034"
   integrity sha512-iyjBDRzJLNVHOf5uxX1Mtbt7yDTpq3PDKx1gogFhv6R/Y0r4Px1DgH4hUzaJu3cW7qh4j1P4zAneAmnWPFzbbQ==
 
-"@alexkeating/nx-skynet@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@alexkeating/nx-skynet/-/nx-skynet-0.0.5.tgz#1c464bad2c8833d57b74430f4d128ad3b9ffb20e"
-  integrity sha512-Y6z/yJjo/8lWy/ZOrX9yIvicPcA8zChNX8EANcgdcRM/1C1rI0guBY4vHs9P4Jvy/qGIjvw59vhcwf9hJx00gg==
+"@alexkeating/nx-skynet@0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@alexkeating/nx-skynet/-/nx-skynet-0.0.7.tgz#20e5bd9170f61f665fd2cc3001625a033afa9957"
+  integrity sha512-OXKWj2636ZfpAF0kxd4s+RTL9q9G6CxCQj+EBRTGSJiiwFA9QdXfDN7586geTd1WxCCsR8qHYfZePvm6lFP3pA==
   dependencies:
     "@skynetlabs/skynet-nodejs" "^2.5.0"
 
