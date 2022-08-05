@@ -34,9 +34,7 @@ import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog  from './DeleteContributionDialog';
-import deleteContribution from '../contexts/UserContext';
-import { FaLastfmSquare } from 'react-icons/fa';
-import { truncate } from 'fs/promises';
+
 
 const ContributionsTable = ({
   contributionsData,
@@ -45,35 +43,36 @@ const ContributionsTable = ({
   contributionsData: UIContribution[];
   setSelectedContributions: (rows: Row<any>[]) => void;
 }) => {
-  const { userData, deleteContribution } = useUser();
+  const { userData } = useUser();
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<any>();
 
   const handleEditContributionFormModal = (id: number) => {
-    console.log(id)
     setSelectedContribution(id);
     setModals({ editContributionFormModal: true });
   };
 
-  const DeleteContribution = async (contribution_id: string) => { 
-    const y = await deleteContribution(contribution_id);
-    
-  };
 
-  const [dialog, setDialog] = useState<any>({ isOpen: false, title: '' });
+  const [dialog, setDialog] = useState<any>({ isOpen: false, title: '' ,onConfirm: false, contribution_id:''});
   
-  console.log(dialog)
-  const onDelete = (contribution_id: string) => {
+  useEffect(() => {
+            setDialog(dialog)
+               }, [dialog, setDialog]);
+
+
+  const handleDeleteContribution = (contribution_id: string) =>{
     setDialog({
       ...dialog,
-      isOpen: false
+      isOpen: true,
+      title: "Are you sure you want to delete this contribution? You can't undo this action afterwards",
+      contribution_id: contribution_id
     })
-    DeleteContribution(contribution_id)
-  };
 
+  }
 
+  
   const data = useMemo(
     () =>
       contributionsData.map((contribution) => ({
@@ -219,23 +218,22 @@ const ContributionsTable = ({
                   row.original.status.name === 'minted'
                 }
                 aria-label="Delete Contribution"
-                onClick={() => {
-                  setDialog({
-                      isOpen: true,
-                      title: 'Are you sure to delete this record?',
-                      onConfirm: () => {onDelete(row.original.id)}
-                  })
-                }}
-              />
-             
-              
-              <DeleteContributionDialog
-                dialog={dialog}
-                key = {dialog}
-                setDialog={setDialog}
+                onClick = {() => handleDeleteContribution(row.original.id)}
+                // onClick={() => {
+                //   setDialog({
+                //       isOpen: true,
+                //       title: 'Are you sure to delete this record?',
+                //       onConfirm: () => {onDelete(row.original.id)}
+                //   })
+                // }}
               />
 
-              
+              {/* <DeleteContributionDialog
+                dialog={dialog}
+                key={dialog}
+                setDialog={setDialog}
+              /> */}
+            
 
     
             </HStack>
@@ -243,6 +241,10 @@ const ContributionsTable = ({
       },
     ]);
   };
+
+
+
+
 
   const {
     getTableProps,
@@ -262,11 +264,12 @@ const ContributionsTable = ({
     useRowSelect,
     tableHooks
   );
+ 
 
   useEffect(() => {
     setSelectedContributions(selectedFlatRows);
   }, [selectedFlatRows, selectedRowIds]);
-
+  
   return (
     <Stack>
       <GlobalFilter
@@ -332,9 +335,11 @@ const ContributionsTable = ({
             />
           }
         />
+        <DeleteContributionDialog dialog={dialog}  setDialog={setDialog}/>
       </Box>
     </Stack>
   );
+
 };
 
 export default ContributionsTable;
