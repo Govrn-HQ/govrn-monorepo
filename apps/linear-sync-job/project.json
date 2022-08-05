@@ -95,6 +95,17 @@
         ],
         "parallel": false
       }
+    },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/staging/linear_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/linear_sync_job.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/linear_sync_job.yaml"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": []
