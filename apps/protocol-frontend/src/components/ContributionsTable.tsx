@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  AlertDialogBody,
   Box,
   chakra,
   HStack,
@@ -25,7 +26,7 @@ import {
   useTable,
 } from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { FiEdit2} from 'react-icons/fi';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { ModalWrapper } from '@govrn/protocol-ui';
 import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
@@ -33,6 +34,9 @@ import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog  from './DeleteContributionDialog';
+import deleteContribution from '../contexts/UserContext';
+import { FaLastfmSquare } from 'react-icons/fa';
+import { truncate } from 'fs/promises';
 
 const ContributionsTable = ({
   contributionsData,
@@ -52,6 +56,23 @@ const ContributionsTable = ({
     setSelectedContribution(id);
     setModals({ editContributionFormModal: true });
   };
+
+  const DeleteContribution = async (contribution_id: string) => { 
+    const y = await deleteContribution(contribution_id);
+    
+  };
+
+  const [dialog, setDialog] = useState<any>({ isOpen: false, title: '' });
+  
+  console.log(dialog)
+  const onDelete = (contribution_id: string) => {
+    setDialog({
+      ...dialog,
+      isOpen: false
+    })
+    DeleteContribution(contribution_id)
+  };
+
 
   const data = useMemo(
     () =>
@@ -161,12 +182,16 @@ const ContributionsTable = ({
                     handleEditContributionFormModal(row.original.id)
                   }
                 />
-                <DeleteContributionDialog 
-                  row={row} 
-                  userData={userData} 
-                  deleteContribution={deleteContribution} 
-                  DialogSize = {'md'}
-                  />
+                <IconButton
+                  icon={<FiTrash2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  disabled={
+                    row.original.user.id !== userData?.id ||
+                    row.original.status.name === 'minted'
+                  }
+                  aria-label="Delete Contribution"
+                />
           
               </HStack>
             </Tooltip>
@@ -185,12 +210,34 @@ const ContributionsTable = ({
                   handleEditContributionFormModal(row.original.id)
                 }
               />
-              <DeleteContributionDialog 
-                row={row} 
-                userData={userData} 
-                deleteContribution={deleteContribution} 
-                DialogSize = {'md'}
-                />
+              <IconButton
+                icon={<FiTrash2 fontSize="1rem" />}
+                variant="ghost"
+                color="gray.800"
+                disabled={
+                  row.original.user.id !== userData?.id ||
+                  row.original.status.name === 'minted'
+                }
+                aria-label="Delete Contribution"
+                onClick={() => {
+                  setDialog({
+                      isOpen: true,
+                      title: 'Are you sure to delete this record?',
+                      onConfirm: () => {onDelete(row.original.id)}
+                  })
+                }}
+              />
+             
+              
+              <DeleteContributionDialog
+                dialog={dialog}
+                key = {dialog}
+                setDialog={setDialog}
+              />
+
+              
+
+    
             </HStack>
           ),
       },

@@ -60,9 +60,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     setUserAddress(address);
-    const x = async (idx) => { 
-        const y = await deleteContribution(idx)
-    }
+    // const x = async (idx) => { 
+    //     const y = await deleteContribution(idx)
+    // }
 
     //x(idx)
   }, [isConnected, address, userAddress]);
