@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-  AlertDialogBody,
   Box,
   chakra,
   HStack,
@@ -54,18 +53,25 @@ const ContributionsTable = ({
     setModals({ editContributionFormModal: true });
   };
 
+  type DialogProps = {
+    isOpen: boolean;
+    title : string;
+    onConfirm: boolean;
+    contribution_id: string;
 
-  const [dialog, setDialog] = useState<any>({ isOpen: false, title: '' ,onConfirm: false, contribution_id:''});
+  }
+
+  const [dialog, setDialog] = useState<DialogProps>({ isOpen: false, title: '' ,onConfirm: false, contribution_id:''});
   
   useEffect(() => {
             setDialog(dialog)
-               }, [dialog, setDialog]);
+               }, [dialog, setDialog])
 
-
+  
   const handleDeleteContribution = (contribution_id: string) =>{
     setDialog({
       ...dialog,
-      isOpen: true,
+      isOpen: true,  //this opens AlertDialog
       title: "Are you sure you want to delete this contribution? You can't undo this action afterwards",
       contribution_id: contribution_id
     })
@@ -219,23 +225,8 @@ const ContributionsTable = ({
                 }
                 aria-label="Delete Contribution"
                 onClick = {() => handleDeleteContribution(row.original.id)}
-                // onClick={() => {
-                //   setDialog({
-                //       isOpen: true,
-                //       title: 'Are you sure to delete this record?',
-                //       onConfirm: () => {onDelete(row.original.id)}
-                //   })
-                // }}
-              />
-
-              {/* <DeleteContributionDialog
-                dialog={dialog}
-                key={dialog}
-                setDialog={setDialog}
-              /> */}
             
-
-    
+              />
             </HStack>
           ),
       },

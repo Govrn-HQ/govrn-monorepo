@@ -1,5 +1,6 @@
-import { useRef, useEffect} from 'react';
+import { useRef} from 'react';
 import { useUser} from '../contexts/UserContext';
+
 
 import {
     AlertDialog,
@@ -11,19 +12,20 @@ import {
     useDisclosure,
   } from '@chakra-ui/react';
 
+  // type DialogProps = {
+  //   isOpen: boolean;
+  //   title : string;
+  //   onConfirm: boolean;
+  //   contribution_id: string;
 
-// }
-// type prop = {
-//   isOpen: boolean,
-//   title: string
-// };
+  // }
 
-const  DeleteContributionDialog = (props:any) => {
+const  DeleteContributionDialog = (props: any) => {
 
     const {dialog, setDialog} = props;
-    console.log(dialog)
-    console.log(dialog)
-    console.log(dialog)
+    
+    const { onClose } = useDisclosure()
+    const cancelRef = useRef<HTMLButtonElement>(null);
     
     const { deleteContribution } = useUser();
 
@@ -37,18 +39,14 @@ const  DeleteContributionDialog = (props:any) => {
         DeleteContribution(contribution_id)
       }
     }
-    const { isOpen, onOpen,  onClose } = useDisclosure()
-    const cancelRef = useRef<HTMLButtonElement>(null);
-
-  
+   
     return (
         
         <AlertDialog
           isOpen={dialog.isOpen}
           leastDestructiveRef={cancelRef}
           onClose={onClose}
-          
-          //size = {DialogSize}
+  
         >
           <AlertDialogOverlay >
             <AlertDialogContent bgColor="white" color="gray.800">
@@ -60,7 +58,6 @@ const  DeleteContributionDialog = (props:any) => {
               <AlertDialogFooter>
                 <Button 
                  ref={cancelRef} 
-                 //onClick={onClose}
                  onClick={() => setDialog({ ...dialog, isOpen: false })} 
                  >
                   Cancel
@@ -73,7 +70,7 @@ const  DeleteContributionDialog = (props:any) => {
                  transition="all 100ms ease-in-out"
                  _hover={{ bgColor: 'brand.primary.200' }}
                  ml={3}
-                 onClick={()=>onDelete(!dialog.onConfirm, dialog.contribution_id)}
+                 onClick={()=>onDelete(!dialog.onConfirm, dialog.contribution_id)} 
                  >
                   Confirm
                 </Button>
