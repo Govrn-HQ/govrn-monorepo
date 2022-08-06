@@ -11,6 +11,7 @@ import {
   Th,
   Thead,
   Tr,
+  UseTableRowProps,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
@@ -70,7 +71,7 @@ const AttestationsTable = ({
       {
         Header: 'Status',
         accessor: 'status',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: string }) => {
           return (
             <Text textTransform="capitalize">
               {value}{' '}

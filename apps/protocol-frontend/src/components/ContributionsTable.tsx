@@ -18,12 +18,15 @@ import {
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { useUser } from '../contexts/UserContext';
 import {
+  Column,
+  Hooks,
   Row,
   useFilters,
   useGlobalFilter,
   useRowSelect,
   useSortBy,
   useTable,
+  UseTableRowProps,
 } from 'react-table';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
@@ -35,9 +38,10 @@ import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
-type ContributionTableType = Omit<UIContribution, 'name' | 'txHash'> & {
-  name: { name: string; txHash: string | undefined };
+type ContributionTableType = Omit<UIContribution, 'tx_hash'> & {
+  txHash: string;
 };
+
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -83,7 +87,13 @@ const ContributionsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value, row }) => {
+        Cell: ({
+          value,
+          row,
+        }: {
+          value: string;
+          row: UseTableRowProps<ContributionTableType>;
+        }) => {
           return (
             <>
               {row.original.txHash !== null ? (
@@ -104,7 +114,7 @@ const ContributionsTable = ({
       {
         Header: 'Status',
         accessor: 'status',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: { name: string } }) => {
           return (
             <Text textTransform="capitalize">
               {value.name}{' '}
@@ -125,7 +135,7 @@ const ContributionsTable = ({
       {
         Header: 'Attestations',
         accessor: 'attestations',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: { length: number } }) => {
           return <Text textTransform="capitalize">{value.length} </Text>;
         },
       },
@@ -133,7 +143,7 @@ const ContributionsTable = ({
       {
         Header: 'DAO',
         accessor: 'guildName',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: string }) => {
           return <Text>{value}</Text>;
         },
       },
@@ -141,14 +151,16 @@ const ContributionsTable = ({
     []
   );
 
-  const tableHooks = (hooks) => {
+  const tableHooks = (hooks: {
+    visibleColumns: ((columns: any) => any[])[];
+  }) => {
     hooks.visibleColumns.push((columns) => [
       {
         id: 'selection',
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
-        Cell: ({ row }) => (
+        Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
             disabled={row.original.status.name === 'minted'}
@@ -159,7 +171,7 @@ const ContributionsTable = ({
       {
         id: 'actions',
         Header: 'Actions',
-        Cell: ({ row }) =>
+        Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) =>
           row.original.status.name === 'minted' ? (
             <Tooltip
               label="Minted contribution(s) cannot be edited"
