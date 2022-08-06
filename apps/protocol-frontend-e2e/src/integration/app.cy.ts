@@ -3,11 +3,10 @@ import { getGreeting } from '../support/app.po';
 describe('protocol-frontend', () => {
   beforeEach(() => cy.visit('/'));
 
-  it('should display welcome message', () => {
+  it('should have visually hidden h1 for "Govrn" which still shows up in the DOM', () => {
     // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
+    // cy.login('my-email@something.com', 'myPassword');
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome protocol-frontend');
+    getGreeting().contains('Govrn');
   });
 });
