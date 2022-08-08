@@ -43,7 +43,7 @@ const ContributionsTable = ({
   setSelectedContributions: (rows: Row<any>[]) => void;
 }) => {
   const { userData } = useUser();
-
+ 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<any>();
@@ -99,7 +99,7 @@ const ContributionsTable = ({
       })),
     [contributionsData]
   );
- 
+  console.log(data[0])
   const columns = useMemo(
     () => [
       {
@@ -180,8 +180,8 @@ const ContributionsTable = ({
                   color="gray.800"
                   aria-label="Edit Contribution"
                   disabled={
-                    row.original.user.id !== userData?.id ||
-                    row.original.status === 'minted'
+                    //row.original.user.id !== userData?.id ||
+                    row.original.status !== 'minted'
                   }
                   onClick={() =>
                     handleEditContributionFormModal(row.original.id)
@@ -192,10 +192,11 @@ const ContributionsTable = ({
                   variant="ghost"
                   color="gray.800"
                   disabled={
-                    row.original.user.id !== userData?.id ||
-                    row.original.status.name === 'minted'
+                    //row.original.user.id !== userData?.id ||
+                    row.original.status.name !== 'minted'
                   }
                   aria-label="Delete Contribution"
+                  onClick = {() => handleDeleteContribution(row.original.id)}
                 />
           
               </HStack>
@@ -208,7 +209,7 @@ const ContributionsTable = ({
                 color="gray.800"
                 aria-label="Edit Contribution"
                 disabled={
-                  row.original.user.id !== userData?.id ||
+                  //row.original.user.id !== userData?.id ||
                   row.original.status === 'minted'
                 }
                 onClick={() =>
@@ -220,7 +221,7 @@ const ContributionsTable = ({
                 variant="ghost"
                 color="gray.800"
                 disabled={
-                  row.original.user.id !== userData?.id ||
+                  //row.original.user.id !== userData?.id ||
                   row.original.status.name === 'minted'
                 }
                 aria-label="Delete Contribution"
@@ -228,10 +229,12 @@ const ContributionsTable = ({
             
               />
             </HStack>
+            
           ),
       },
     ]);
   };
+
 
 
 

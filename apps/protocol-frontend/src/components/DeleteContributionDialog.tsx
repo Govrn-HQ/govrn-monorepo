@@ -36,7 +36,11 @@ const  DeleteContributionDialog = (props: any) => {
 
     const onDelete = (onConfirm: boolean, contribution_id: string) => {
       if (onConfirm){
+        setDialog({ ...dialog, 
+          isOpen: false,
+         })
         DeleteContribution(contribution_id)
+        
       }
     }
    
