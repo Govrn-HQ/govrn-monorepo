@@ -1,33 +1,33 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { LinearUserOrderByWithRelationInput } from "../../../inputs/LinearUserOrderByWithRelationInput";
-import { LinearUserWhereInput } from "../../../inputs/LinearUserWhereInput";
-import { LinearUserWhereUniqueInput } from "../../../inputs/LinearUserWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { LinearUserOrderByWithRelationInput } from '../../../inputs/LinearUserOrderByWithRelationInput';
+import { LinearUserWhereInput } from '../../../inputs/LinearUserWhereInput';
+import { LinearUserWhereUniqueInput } from '../../../inputs/LinearUserWhereUniqueInput';
 
 @TypeGraphQL.ArgsType()
 export class AggregateLinearUserArgs {
   @TypeGraphQL.Field(_type => LinearUserWhereInput, {
-    nullable: true
+    nullable: true,
   })
   where?: LinearUserWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [LinearUserOrderByWithRelationInput], {
-    nullable: true
+    nullable: true,
   })
   orderBy?: LinearUserOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserWhereUniqueInput, {
-    nullable: true
+    nullable: true,
   })
   cursor?: LinearUserWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   skip?: number | undefined;
 }

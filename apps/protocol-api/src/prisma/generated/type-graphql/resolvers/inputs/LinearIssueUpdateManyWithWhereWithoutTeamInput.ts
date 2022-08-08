@@ -1,21 +1,21 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { LinearIssueScalarWhereInput } from "../inputs/LinearIssueScalarWhereInput";
-import { LinearIssueUpdateManyMutationInput } from "../inputs/LinearIssueUpdateManyMutationInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { LinearIssueScalarWhereInput } from '../inputs/LinearIssueScalarWhereInput';
+import { LinearIssueUpdateManyMutationInput } from '../inputs/LinearIssueUpdateManyMutationInput';
 
-@TypeGraphQL.InputType("LinearIssueUpdateManyWithWhereWithoutTeamInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearIssueUpdateManyWithWhereWithoutTeamInput', {
+  isAbstract: true,
 })
 export class LinearIssueUpdateManyWithWhereWithoutTeamInput {
   @TypeGraphQL.Field(_type => LinearIssueScalarWhereInput, {
-    nullable: false
+    nullable: false,
   })
   where!: LinearIssueScalarWhereInput;
 
   @TypeGraphQL.Field(_type => LinearIssueUpdateManyMutationInput, {
-    nullable: false
+    nullable: false,
   })
   data!: LinearIssueUpdateManyMutationInput;
 }

@@ -1,12 +1,12 @@
-import * as TypeGraphQL from "type-graphql";
+import * as TypeGraphQL from 'type-graphql';
 
 export enum AttestationConfidenceScalarFieldEnum {
-  id = "id",
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-  name = "name"
+  id = 'id',
+  createdAt = 'createdAt',
+  updatedAt = 'updatedAt',
+  name = 'name',
 }
 TypeGraphQL.registerEnumType(AttestationConfidenceScalarFieldEnum, {
-  name: "AttestationConfidenceScalarFieldEnum",
+  name: 'AttestationConfidenceScalarFieldEnum',
   description: undefined,
 });

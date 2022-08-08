@@ -1,65 +1,65 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { LinearCycleAvgOrderByAggregateInput } from "../inputs/LinearCycleAvgOrderByAggregateInput";
-import { LinearCycleCountOrderByAggregateInput } from "../inputs/LinearCycleCountOrderByAggregateInput";
-import { LinearCycleMaxOrderByAggregateInput } from "../inputs/LinearCycleMaxOrderByAggregateInput";
-import { LinearCycleMinOrderByAggregateInput } from "../inputs/LinearCycleMinOrderByAggregateInput";
-import { LinearCycleSumOrderByAggregateInput } from "../inputs/LinearCycleSumOrderByAggregateInput";
-import { SortOrder } from "../../enums/SortOrder";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { LinearCycleAvgOrderByAggregateInput } from '../inputs/LinearCycleAvgOrderByAggregateInput';
+import { LinearCycleCountOrderByAggregateInput } from '../inputs/LinearCycleCountOrderByAggregateInput';
+import { LinearCycleMaxOrderByAggregateInput } from '../inputs/LinearCycleMaxOrderByAggregateInput';
+import { LinearCycleMinOrderByAggregateInput } from '../inputs/LinearCycleMinOrderByAggregateInput';
+import { LinearCycleSumOrderByAggregateInput } from '../inputs/LinearCycleSumOrderByAggregateInput';
+import { SortOrder } from '../../enums/SortOrder';
 
-@TypeGraphQL.InputType("LinearCycleOrderByWithAggregationInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearCycleOrderByWithAggregationInput', {
+  isAbstract: true,
 })
 export class LinearCycleOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  id?: "asc" | "desc" | undefined;
+  id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  number?: "asc" | "desc" | undefined;
+  number?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  startsAt?: "asc" | "desc" | undefined;
+  startsAt?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  endsAt?: "asc" | "desc" | undefined;
+  endsAt?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  linear_id?: "asc" | "desc" | undefined;
+  linear_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleCountOrderByAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   _count?: LinearCycleCountOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleAvgOrderByAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   _avg?: LinearCycleAvgOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleMaxOrderByAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   _max?: LinearCycleMaxOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleMinOrderByAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   _min?: LinearCycleMinOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleSumOrderByAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   _sum?: LinearCycleSumOrderByAggregateInput | undefined;
 }

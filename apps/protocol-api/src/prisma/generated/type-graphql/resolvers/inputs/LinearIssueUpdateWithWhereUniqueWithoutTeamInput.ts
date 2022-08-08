@@ -1,21 +1,21 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { LinearIssueUpdateWithoutTeamInput } from "../inputs/LinearIssueUpdateWithoutTeamInput";
-import { LinearIssueWhereUniqueInput } from "../inputs/LinearIssueWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { LinearIssueUpdateWithoutTeamInput } from '../inputs/LinearIssueUpdateWithoutTeamInput';
+import { LinearIssueWhereUniqueInput } from '../inputs/LinearIssueWhereUniqueInput';
 
-@TypeGraphQL.InputType("LinearIssueUpdateWithWhereUniqueWithoutTeamInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearIssueUpdateWithWhereUniqueWithoutTeamInput', {
+  isAbstract: true,
 })
 export class LinearIssueUpdateWithWhereUniqueWithoutTeamInput {
   @TypeGraphQL.Field(_type => LinearIssueWhereUniqueInput, {
-    nullable: false
+    nullable: false,
   })
   where!: LinearIssueWhereUniqueInput;
 
   @TypeGraphQL.Field(_type => LinearIssueUpdateWithoutTeamInput, {
-    nullable: false
+    nullable: false,
   })
   data!: LinearIssueUpdateWithoutTeamInput;
 }

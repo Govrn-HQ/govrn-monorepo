@@ -1,118 +1,118 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { ActivityTypeOrderByWithRelationInput } from "../inputs/ActivityTypeOrderByWithRelationInput";
-import { AttestationOrderByRelationAggregateInput } from "../inputs/AttestationOrderByRelationAggregateInput";
-import { ContributionStatusOrderByWithRelationInput } from "../inputs/ContributionStatusOrderByWithRelationInput";
-import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
-import { LinearIssueOrderByWithRelationInput } from "../inputs/LinearIssueOrderByWithRelationInput";
-import { PartnerOrderByRelationAggregateInput } from "../inputs/PartnerOrderByRelationAggregateInput";
-import { TwitterTweetOrderByWithRelationInput } from "../inputs/TwitterTweetOrderByWithRelationInput";
-import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
-import { SortOrder } from "../../enums/SortOrder";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { ActivityTypeOrderByWithRelationInput } from '../inputs/ActivityTypeOrderByWithRelationInput';
+import { AttestationOrderByRelationAggregateInput } from '../inputs/AttestationOrderByRelationAggregateInput';
+import { ContributionStatusOrderByWithRelationInput } from '../inputs/ContributionStatusOrderByWithRelationInput';
+import { GuildContributionOrderByRelationAggregateInput } from '../inputs/GuildContributionOrderByRelationAggregateInput';
+import { LinearIssueOrderByWithRelationInput } from '../inputs/LinearIssueOrderByWithRelationInput';
+import { PartnerOrderByRelationAggregateInput } from '../inputs/PartnerOrderByRelationAggregateInput';
+import { TwitterTweetOrderByWithRelationInput } from '../inputs/TwitterTweetOrderByWithRelationInput';
+import { UserOrderByWithRelationInput } from '../inputs/UserOrderByWithRelationInput';
+import { SortOrder } from '../../enums/SortOrder';
 
-@TypeGraphQL.InputType("ContributionOrderByWithRelationInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('ContributionOrderByWithRelationInput', {
+  isAbstract: true,
 })
 export class ContributionOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  id?: "asc" | "desc" | undefined;
+  id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  updatedAt?: "asc" | "desc" | undefined;
+  updatedAt?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  name?: "asc" | "desc" | undefined;
+  name?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  status_id?: "asc" | "desc" | undefined;
+  status_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => ContributionStatusOrderByWithRelationInput, {
-    nullable: true
+    nullable: true,
   })
   status?: ContributionStatusOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  activity_type_id?: "asc" | "desc" | undefined;
+  activity_type_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => ActivityTypeOrderByWithRelationInput, {
-    nullable: true
+    nullable: true,
   })
   activity_type?: ActivityTypeOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  user_id?: "asc" | "desc" | undefined;
+  user_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
-    nullable: true
+    nullable: true,
   })
   user?: UserOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  date_of_submission?: "asc" | "desc" | undefined;
+  date_of_submission?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  date_of_engagement?: "asc" | "desc" | undefined;
+  date_of_engagement?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  details?: "asc" | "desc" | undefined;
+  details?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  proof?: "asc" | "desc" | undefined;
+  proof?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => AttestationOrderByRelationAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   attestations?: AttestationOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => PartnerOrderByRelationAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   partners?: PartnerOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildContributionOrderByRelationAggregateInput, {
-    nullable: true
+    nullable: true,
   })
   guilds?: GuildContributionOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearIssueOrderByWithRelationInput, {
-    nullable: true
+    nullable: true,
   })
   linear_issue?: LinearIssueOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterTweetOrderByWithRelationInput, {
-    nullable: true
+    nullable: true,
   })
   tweet?: TwitterTweetOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  on_chain_id?: "asc" | "desc" | undefined;
+  on_chain_id?: 'asc' | 'desc' | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
+    nullable: true,
   })
-  tx_hash?: "asc" | "desc" | undefined;
+  tx_hash?: 'asc' | 'desc' | undefined;
 }

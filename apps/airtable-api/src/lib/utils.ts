@@ -15,7 +15,7 @@ const createOrGetGuildById = async (global_id: string) => {
 
 export const createAndGetActivityType = async (
   userId: string,
-  activity_name: string
+  activity_name: string,
 ) => {
   const userQuery = {
     filterByFormula: ['=', { field: 'record_id' }, userId] as Formula,

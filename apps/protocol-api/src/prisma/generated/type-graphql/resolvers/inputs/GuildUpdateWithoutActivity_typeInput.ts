@@ -1,71 +1,73 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildStatusFieldUpdateOperationsInput";
-import { GuildContributionUpdateManyWithoutGuildInput } from "../inputs/GuildContributionUpdateManyWithoutGuildInput";
-import { GuildUserUpdateManyWithoutGuildInput } from "../inputs/GuildUserUpdateManyWithoutGuildInput";
-import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
-import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { TwitterAccountUpdateOneWithoutGuildInput } from "../inputs/TwitterAccountUpdateOneWithoutGuildInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { DateTimeFieldUpdateOperationsInput } from '../inputs/DateTimeFieldUpdateOperationsInput';
+import { EnumGuildStatusFieldUpdateOperationsInput } from '../inputs/EnumGuildStatusFieldUpdateOperationsInput';
+import { GuildContributionUpdateManyWithoutGuildInput } from '../inputs/GuildContributionUpdateManyWithoutGuildInput';
+import { GuildUserUpdateManyWithoutGuildInput } from '../inputs/GuildUserUpdateManyWithoutGuildInput';
+import { NullableIntFieldUpdateOperationsInput } from '../inputs/NullableIntFieldUpdateOperationsInput';
+import { NullableStringFieldUpdateOperationsInput } from '../inputs/NullableStringFieldUpdateOperationsInput';
+import { TwitterAccountUpdateOneWithoutGuildInput } from '../inputs/TwitterAccountUpdateOneWithoutGuildInput';
 
-@TypeGraphQL.InputType("GuildUpdateWithoutActivity_typeInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('GuildUpdateWithoutActivity_typeInput', {
+  isAbstract: true,
 })
 export class GuildUpdateWithoutActivity_typeInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   discord_id?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   name?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   congrats_channel?: NullableIntFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   logo?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildContributionUpdateManyWithoutGuildInput, {
-    nullable: true
+    nullable: true,
   })
   contributions?: GuildContributionUpdateManyWithoutGuildInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildUserUpdateManyWithoutGuildInput, {
-    nullable: true
+    nullable: true,
   })
   users?: GuildUserUpdateManyWithoutGuildInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterAccountUpdateOneWithoutGuildInput, {
-    nullable: true
+    nullable: true,
   })
   twitter_account?: TwitterAccountUpdateOneWithoutGuildInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
-  contribution_reporting_channel?: NullableIntFieldUpdateOperationsInput | undefined;
+  contribution_reporting_channel?:
+    | NullableIntFieldUpdateOperationsInput
+    | undefined;
 
   @TypeGraphQL.Field(_type => EnumGuildStatusFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
 }

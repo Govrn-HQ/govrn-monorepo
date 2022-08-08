@@ -34,7 +34,7 @@ app.get(
       console.error(e);
       res.status(500).send();
     }
-  })
+  }),
 );
 
 // Endpoint to contribution types
@@ -85,7 +85,7 @@ app.get(
       console.error(e);
       res.status(500).send();
     }
-  })
+  }),
 );
 
 // Endpoint to save contribution
@@ -152,7 +152,7 @@ app.post(
       console.error(e);
       res.status(500).send();
     }
-  })
+  }),
 );
 
 const port = process.env.PORT || 3333;

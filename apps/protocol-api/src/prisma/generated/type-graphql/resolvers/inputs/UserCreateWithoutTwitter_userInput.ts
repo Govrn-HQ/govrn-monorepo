@@ -1,97 +1,97 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { AttestationCreateNestedManyWithoutUserInput } from "../inputs/AttestationCreateNestedManyWithoutUserInput";
-import { ChainTypeCreateNestedOneWithoutUsersInput } from "../inputs/ChainTypeCreateNestedOneWithoutUsersInput";
-import { ContributionCreateNestedManyWithoutUserInput } from "../inputs/ContributionCreateNestedManyWithoutUserInput";
-import { DiscordUserCreateNestedManyWithoutUserInput } from "../inputs/DiscordUserCreateNestedManyWithoutUserInput";
-import { GuildUserCreateNestedManyWithoutUserInput } from "../inputs/GuildUserCreateNestedManyWithoutUserInput";
-import { LinearUserCreateNestedManyWithoutUserInput } from "../inputs/LinearUserCreateNestedManyWithoutUserInput";
-import { PartnerCreateNestedManyWithoutUserInput } from "../inputs/PartnerCreateNestedManyWithoutUserInput";
-import { UserActivityCreateNestedManyWithoutUserInput } from "../inputs/UserActivityCreateNestedManyWithoutUserInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { AttestationCreateNestedManyWithoutUserInput } from '../inputs/AttestationCreateNestedManyWithoutUserInput';
+import { ChainTypeCreateNestedOneWithoutUsersInput } from '../inputs/ChainTypeCreateNestedOneWithoutUsersInput';
+import { ContributionCreateNestedManyWithoutUserInput } from '../inputs/ContributionCreateNestedManyWithoutUserInput';
+import { DiscordUserCreateNestedManyWithoutUserInput } from '../inputs/DiscordUserCreateNestedManyWithoutUserInput';
+import { GuildUserCreateNestedManyWithoutUserInput } from '../inputs/GuildUserCreateNestedManyWithoutUserInput';
+import { LinearUserCreateNestedManyWithoutUserInput } from '../inputs/LinearUserCreateNestedManyWithoutUserInput';
+import { PartnerCreateNestedManyWithoutUserInput } from '../inputs/PartnerCreateNestedManyWithoutUserInput';
+import { UserActivityCreateNestedManyWithoutUserInput } from '../inputs/UserActivityCreateNestedManyWithoutUserInput';
 
-@TypeGraphQL.InputType("UserCreateWithoutTwitter_userInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('UserCreateWithoutTwitter_userInput', {
+  isAbstract: true,
 })
 export class UserCreateWithoutTwitter_userInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   display_name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   address!: string;
 
   @TypeGraphQL.Field(_type => ChainTypeCreateNestedOneWithoutUsersInput, {
-    nullable: false
+    nullable: false,
   })
   chain_type!: ChainTypeCreateNestedOneWithoutUsersInput;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   full_name?: string | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   active?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   email?: string | undefined;
 
   @TypeGraphQL.Field(_type => UserActivityCreateNestedManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   activities?: UserActivityCreateNestedManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => AttestationCreateNestedManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   attestations?: AttestationCreateNestedManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => PartnerCreateNestedManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   contributionPartners?: PartnerCreateNestedManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => ContributionCreateNestedManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   contributions?: ContributionCreateNestedManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserCreateNestedManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   linear_users?: LinearUserCreateNestedManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildUserCreateNestedManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   guild_users?: GuildUserCreateNestedManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => DiscordUserCreateNestedManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   discord_users?: DiscordUserCreateNestedManyWithoutUserInput | undefined;
 }

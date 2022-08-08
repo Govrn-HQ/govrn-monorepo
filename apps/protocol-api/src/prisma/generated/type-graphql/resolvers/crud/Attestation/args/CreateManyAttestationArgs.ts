@@ -1,16 +1,16 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { AttestationCreateManyInput } from "../../../inputs/AttestationCreateManyInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { AttestationCreateManyInput } from '../../../inputs/AttestationCreateManyInput';
 
 @TypeGraphQL.ArgsType()
 export class CreateManyAttestationArgs {
   @TypeGraphQL.Field(_type => [AttestationCreateManyInput], {
-    nullable: false
+    nullable: false,
   })
   data!: AttestationCreateManyInput[];
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   skipDuplicates?: boolean | undefined;
 }

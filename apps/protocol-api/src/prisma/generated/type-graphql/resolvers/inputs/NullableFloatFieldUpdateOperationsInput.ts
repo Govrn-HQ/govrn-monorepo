@@ -1,34 +1,34 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
 
-@TypeGraphQL.InputType("NullableFloatFieldUpdateOperationsInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('NullableFloatFieldUpdateOperationsInput', {
+  isAbstract: true,
 })
 export class NullableFloatFieldUpdateOperationsInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   set?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   increment?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   decrement?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   multiply?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   divide?: number | undefined;
 }

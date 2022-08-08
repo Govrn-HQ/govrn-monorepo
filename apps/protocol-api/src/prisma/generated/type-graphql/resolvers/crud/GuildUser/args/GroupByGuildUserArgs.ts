@@ -1,39 +1,39 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { GuildUserOrderByWithAggregationInput } from "../../../inputs/GuildUserOrderByWithAggregationInput";
-import { GuildUserScalarWhereWithAggregatesInput } from "../../../inputs/GuildUserScalarWhereWithAggregatesInput";
-import { GuildUserWhereInput } from "../../../inputs/GuildUserWhereInput";
-import { GuildUserScalarFieldEnum } from "../../../../enums/GuildUserScalarFieldEnum";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { GuildUserOrderByWithAggregationInput } from '../../../inputs/GuildUserOrderByWithAggregationInput';
+import { GuildUserScalarWhereWithAggregatesInput } from '../../../inputs/GuildUserScalarWhereWithAggregatesInput';
+import { GuildUserWhereInput } from '../../../inputs/GuildUserWhereInput';
+import { GuildUserScalarFieldEnum } from '../../../../enums/GuildUserScalarFieldEnum';
 
 @TypeGraphQL.ArgsType()
 export class GroupByGuildUserArgs {
   @TypeGraphQL.Field(_type => GuildUserWhereInput, {
-    nullable: true
+    nullable: true,
   })
   where?: GuildUserWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [GuildUserOrderByWithAggregationInput], {
-    nullable: true
+    nullable: true,
   })
   orderBy?: GuildUserOrderByWithAggregationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [GuildUserScalarFieldEnum], {
-    nullable: false
+    nullable: false,
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "user_id" | "guild_id">;
+  by!: Array<'id' | 'createdAt' | 'updatedAt' | 'user_id' | 'guild_id'>;
 
   @TypeGraphQL.Field(_type => GuildUserScalarWhereWithAggregatesInput, {
-    nullable: true
+    nullable: true,
   })
   having?: GuildUserScalarWhereWithAggregatesInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   skip?: number | undefined;
 }

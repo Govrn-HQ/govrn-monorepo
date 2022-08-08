@@ -1,1 +1,1 @@
-export { ChainTypeUsersArgs } from "./ChainTypeUsersArgs";
+export { ChainTypeUsersArgs } from './ChainTypeUsersArgs';

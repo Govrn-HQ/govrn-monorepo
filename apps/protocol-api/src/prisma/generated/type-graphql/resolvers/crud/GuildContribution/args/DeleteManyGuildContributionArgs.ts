@@ -1,11 +1,11 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { GuildContributionWhereInput } from "../../../inputs/GuildContributionWhereInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { GuildContributionWhereInput } from '../../../inputs/GuildContributionWhereInput';
 
 @TypeGraphQL.ArgsType()
 export class DeleteManyGuildContributionArgs {
   @TypeGraphQL.Field(_type => GuildContributionWhereInput, {
-    nullable: true
+    nullable: true,
   })
   where?: GuildContributionWhereInput | undefined;
 }

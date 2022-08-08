@@ -50,7 +50,7 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 const hasToken = rule()(async (parent, args, ctx, info) => {
   const auth = ctx.req.headers['authorization'];
   if (auth) {
-    const found = BACKEND_TOKENS.find((token) => token === auth);
+    const found = BACKEND_TOKENS.find(token => token === auth);
     return !!found;
   }
   return false;
@@ -313,7 +313,7 @@ const permissions = shield(
   {
     fallbackRule: deny,
     debug: true,
-  }
+  },
 );
 
 const schema = applyMiddleware(typeSchema, permissions);
@@ -329,7 +329,7 @@ app.use(
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
-  })
+  }),
 );
 app.use(
   Session({
@@ -338,7 +338,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: { secure: false, sameSite: true },
-  })
+  }),
 );
 app.use('/graphql', async function (req, res) {
   const mid = graphqlHTTP({

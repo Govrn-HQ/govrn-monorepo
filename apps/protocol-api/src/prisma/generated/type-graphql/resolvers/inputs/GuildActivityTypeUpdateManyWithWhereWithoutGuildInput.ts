@@ -1,21 +1,24 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { GuildActivityTypeScalarWhereInput } from "../inputs/GuildActivityTypeScalarWhereInput";
-import { GuildActivityTypeUpdateManyMutationInput } from "../inputs/GuildActivityTypeUpdateManyMutationInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { GuildActivityTypeScalarWhereInput } from '../inputs/GuildActivityTypeScalarWhereInput';
+import { GuildActivityTypeUpdateManyMutationInput } from '../inputs/GuildActivityTypeUpdateManyMutationInput';
 
-@TypeGraphQL.InputType("GuildActivityTypeUpdateManyWithWhereWithoutGuildInput", {
-  isAbstract: true
-})
+@TypeGraphQL.InputType(
+  'GuildActivityTypeUpdateManyWithWhereWithoutGuildInput',
+  {
+    isAbstract: true,
+  },
+)
 export class GuildActivityTypeUpdateManyWithWhereWithoutGuildInput {
   @TypeGraphQL.Field(_type => GuildActivityTypeScalarWhereInput, {
-    nullable: false
+    nullable: false,
   })
   where!: GuildActivityTypeScalarWhereInput;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyMutationInput, {
-    nullable: false
+    nullable: false,
   })
   data!: GuildActivityTypeUpdateManyMutationInput;
 }

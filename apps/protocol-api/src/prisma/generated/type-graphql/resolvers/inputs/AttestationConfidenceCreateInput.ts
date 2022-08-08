@@ -1,30 +1,33 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { AttestationCreateNestedManyWithoutConfidenceInput } from "../inputs/AttestationCreateNestedManyWithoutConfidenceInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { AttestationCreateNestedManyWithoutConfidenceInput } from '../inputs/AttestationCreateNestedManyWithoutConfidenceInput';
 
-@TypeGraphQL.InputType("AttestationConfidenceCreateInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('AttestationConfidenceCreateInput', {
+  isAbstract: true,
 })
 export class AttestationConfidenceCreateInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   name!: string;
 
-  @TypeGraphQL.Field(_type => AttestationCreateNestedManyWithoutConfidenceInput, {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => AttestationCreateNestedManyWithoutConfidenceInput,
+    {
+      nullable: true,
+    },
+  )
   attestations?: AttestationCreateNestedManyWithoutConfidenceInput | undefined;
 }

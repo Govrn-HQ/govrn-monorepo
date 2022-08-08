@@ -1,33 +1,33 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { ContributionCreateManyUserInputEnvelope } from "../inputs/ContributionCreateManyUserInputEnvelope";
-import { ContributionCreateOrConnectWithoutUserInput } from "../inputs/ContributionCreateOrConnectWithoutUserInput";
-import { ContributionCreateWithoutUserInput } from "../inputs/ContributionCreateWithoutUserInput";
-import { ContributionWhereUniqueInput } from "../inputs/ContributionWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { ContributionCreateManyUserInputEnvelope } from '../inputs/ContributionCreateManyUserInputEnvelope';
+import { ContributionCreateOrConnectWithoutUserInput } from '../inputs/ContributionCreateOrConnectWithoutUserInput';
+import { ContributionCreateWithoutUserInput } from '../inputs/ContributionCreateWithoutUserInput';
+import { ContributionWhereUniqueInput } from '../inputs/ContributionWhereUniqueInput';
 
-@TypeGraphQL.InputType("ContributionCreateNestedManyWithoutUserInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('ContributionCreateNestedManyWithoutUserInput', {
+  isAbstract: true,
 })
 export class ContributionCreateNestedManyWithoutUserInput {
   @TypeGraphQL.Field(_type => [ContributionCreateWithoutUserInput], {
-    nullable: true
+    nullable: true,
   })
   create?: ContributionCreateWithoutUserInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [ContributionCreateOrConnectWithoutUserInput], {
-    nullable: true
+    nullable: true,
   })
   connectOrCreate?: ContributionCreateOrConnectWithoutUserInput[] | undefined;
 
   @TypeGraphQL.Field(_type => ContributionCreateManyUserInputEnvelope, {
-    nullable: true
+    nullable: true,
   })
   createMany?: ContributionCreateManyUserInputEnvelope | undefined;
 
   @TypeGraphQL.Field(_type => [ContributionWhereUniqueInput], {
-    nullable: true
+    nullable: true,
   })
   connect?: ContributionWhereUniqueInput[] | undefined;
 }

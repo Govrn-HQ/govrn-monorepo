@@ -1,49 +1,49 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { LinearProjectCreateOrConnectWithoutIssuesInput } from "../inputs/LinearProjectCreateOrConnectWithoutIssuesInput";
-import { LinearProjectCreateWithoutIssuesInput } from "../inputs/LinearProjectCreateWithoutIssuesInput";
-import { LinearProjectUpdateWithoutIssuesInput } from "../inputs/LinearProjectUpdateWithoutIssuesInput";
-import { LinearProjectUpsertWithoutIssuesInput } from "../inputs/LinearProjectUpsertWithoutIssuesInput";
-import { LinearProjectWhereUniqueInput } from "../inputs/LinearProjectWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { LinearProjectCreateOrConnectWithoutIssuesInput } from '../inputs/LinearProjectCreateOrConnectWithoutIssuesInput';
+import { LinearProjectCreateWithoutIssuesInput } from '../inputs/LinearProjectCreateWithoutIssuesInput';
+import { LinearProjectUpdateWithoutIssuesInput } from '../inputs/LinearProjectUpdateWithoutIssuesInput';
+import { LinearProjectUpsertWithoutIssuesInput } from '../inputs/LinearProjectUpsertWithoutIssuesInput';
+import { LinearProjectWhereUniqueInput } from '../inputs/LinearProjectWhereUniqueInput';
 
-@TypeGraphQL.InputType("LinearProjectUpdateOneWithoutIssuesInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearProjectUpdateOneWithoutIssuesInput', {
+  isAbstract: true,
 })
 export class LinearProjectUpdateOneWithoutIssuesInput {
   @TypeGraphQL.Field(_type => LinearProjectCreateWithoutIssuesInput, {
-    nullable: true
+    nullable: true,
   })
   create?: LinearProjectCreateWithoutIssuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectCreateOrConnectWithoutIssuesInput, {
-    nullable: true
+    nullable: true,
   })
   connectOrCreate?: LinearProjectCreateOrConnectWithoutIssuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectUpsertWithoutIssuesInput, {
-    nullable: true
+    nullable: true,
   })
   upsert?: LinearProjectUpsertWithoutIssuesInput | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   disconnect?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectWhereUniqueInput, {
-    nullable: true
+    nullable: true,
   })
   connect?: LinearProjectWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectUpdateWithoutIssuesInput, {
-    nullable: true
+    nullable: true,
   })
   update?: LinearProjectUpdateWithoutIssuesInput | undefined;
 }

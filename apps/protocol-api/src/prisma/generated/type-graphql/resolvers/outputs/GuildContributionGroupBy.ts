@@ -1,64 +1,64 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { GuildContributionAvgAggregate } from "../outputs/GuildContributionAvgAggregate";
-import { GuildContributionCountAggregate } from "../outputs/GuildContributionCountAggregate";
-import { GuildContributionMaxAggregate } from "../outputs/GuildContributionMaxAggregate";
-import { GuildContributionMinAggregate } from "../outputs/GuildContributionMinAggregate";
-import { GuildContributionSumAggregate } from "../outputs/GuildContributionSumAggregate";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { GuildContributionAvgAggregate } from '../outputs/GuildContributionAvgAggregate';
+import { GuildContributionCountAggregate } from '../outputs/GuildContributionCountAggregate';
+import { GuildContributionMaxAggregate } from '../outputs/GuildContributionMaxAggregate';
+import { GuildContributionMinAggregate } from '../outputs/GuildContributionMinAggregate';
+import { GuildContributionSumAggregate } from '../outputs/GuildContributionSumAggregate';
 
-@TypeGraphQL.ObjectType("GuildContributionGroupBy", {
-  isAbstract: true
+@TypeGraphQL.ObjectType('GuildContributionGroupBy', {
+  isAbstract: true,
 })
 export class GuildContributionGroupBy {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   id!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   createdAt!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   guild_id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   contribution_id!: number;
 
   @TypeGraphQL.Field(_type => GuildContributionCountAggregate, {
-    nullable: true
+    nullable: true,
   })
   _count!: GuildContributionCountAggregate | null;
 
   @TypeGraphQL.Field(_type => GuildContributionAvgAggregate, {
-    nullable: true
+    nullable: true,
   })
   _avg!: GuildContributionAvgAggregate | null;
 
   @TypeGraphQL.Field(_type => GuildContributionSumAggregate, {
-    nullable: true
+    nullable: true,
   })
   _sum!: GuildContributionSumAggregate | null;
 
   @TypeGraphQL.Field(_type => GuildContributionMinAggregate, {
-    nullable: true
+    nullable: true,
   })
   _min!: GuildContributionMinAggregate | null;
 
   @TypeGraphQL.Field(_type => GuildContributionMaxAggregate, {
-    nullable: true
+    nullable: true,
   })
   _max!: GuildContributionMaxAggregate | null;
 }
