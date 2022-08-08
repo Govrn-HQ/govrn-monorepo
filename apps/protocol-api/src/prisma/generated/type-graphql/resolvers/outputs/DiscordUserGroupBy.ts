@@ -1,69 +1,69 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { DiscordUserAvgAggregate } from '../outputs/DiscordUserAvgAggregate';
-import { DiscordUserCountAggregate } from '../outputs/DiscordUserCountAggregate';
-import { DiscordUserMaxAggregate } from '../outputs/DiscordUserMaxAggregate';
-import { DiscordUserMinAggregate } from '../outputs/DiscordUserMinAggregate';
-import { DiscordUserSumAggregate } from '../outputs/DiscordUserSumAggregate';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { DiscordUserAvgAggregate } from "../outputs/DiscordUserAvgAggregate";
+import { DiscordUserCountAggregate } from "../outputs/DiscordUserCountAggregate";
+import { DiscordUserMaxAggregate } from "../outputs/DiscordUserMaxAggregate";
+import { DiscordUserMinAggregate } from "../outputs/DiscordUserMinAggregate";
+import { DiscordUserSumAggregate } from "../outputs/DiscordUserSumAggregate";
 
-@TypeGraphQL.ObjectType('DiscordUserGroupBy', {
-  isAbstract: true,
+@TypeGraphQL.ObjectType("DiscordUserGroupBy", {
+  isAbstract: true
 })
 export class DiscordUserGroupBy {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   id!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false,
+    nullable: false
   })
   createdAt!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false,
+    nullable: false
   })
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true,
+    nullable: true
   })
   display_name!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false,
+    nullable: false
   })
   discord_id!: string;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   user_id!: number;
 
   @TypeGraphQL.Field(_type => DiscordUserCountAggregate, {
-    nullable: true,
+    nullable: true
   })
   _count!: DiscordUserCountAggregate | null;
 
   @TypeGraphQL.Field(_type => DiscordUserAvgAggregate, {
-    nullable: true,
+    nullable: true
   })
   _avg!: DiscordUserAvgAggregate | null;
 
   @TypeGraphQL.Field(_type => DiscordUserSumAggregate, {
-    nullable: true,
+    nullable: true
   })
   _sum!: DiscordUserSumAggregate | null;
 
   @TypeGraphQL.Field(_type => DiscordUserMinAggregate, {
-    nullable: true,
+    nullable: true
   })
   _min!: DiscordUserMinAggregate | null;
 
   @TypeGraphQL.Field(_type => DiscordUserMaxAggregate, {
-    nullable: true,
+    nullable: true
   })
   _max!: DiscordUserMaxAggregate | null;
 }

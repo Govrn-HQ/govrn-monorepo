@@ -1,14 +1,14 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.ObjectType('ContributionStatusSumAggregate', {
-  isAbstract: true,
+@TypeGraphQL.ObjectType("ContributionStatusSumAggregate", {
+  isAbstract: true
 })
 export class ContributionStatusSumAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   id!: number | null;
 }

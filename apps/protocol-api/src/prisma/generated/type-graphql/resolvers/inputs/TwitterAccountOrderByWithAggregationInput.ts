@@ -1,65 +1,65 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { TwitterAccountAvgOrderByAggregateInput } from '../inputs/TwitterAccountAvgOrderByAggregateInput';
-import { TwitterAccountCountOrderByAggregateInput } from '../inputs/TwitterAccountCountOrderByAggregateInput';
-import { TwitterAccountMaxOrderByAggregateInput } from '../inputs/TwitterAccountMaxOrderByAggregateInput';
-import { TwitterAccountMinOrderByAggregateInput } from '../inputs/TwitterAccountMinOrderByAggregateInput';
-import { TwitterAccountSumOrderByAggregateInput } from '../inputs/TwitterAccountSumOrderByAggregateInput';
-import { SortOrder } from '../../enums/SortOrder';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { TwitterAccountAvgOrderByAggregateInput } from "../inputs/TwitterAccountAvgOrderByAggregateInput";
+import { TwitterAccountCountOrderByAggregateInput } from "../inputs/TwitterAccountCountOrderByAggregateInput";
+import { TwitterAccountMaxOrderByAggregateInput } from "../inputs/TwitterAccountMaxOrderByAggregateInput";
+import { TwitterAccountMinOrderByAggregateInput } from "../inputs/TwitterAccountMinOrderByAggregateInput";
+import { TwitterAccountSumOrderByAggregateInput } from "../inputs/TwitterAccountSumOrderByAggregateInput";
+import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType('TwitterAccountOrderByWithAggregationInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("TwitterAccountOrderByWithAggregationInput", {
+  isAbstract: true
 })
 export class TwitterAccountOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  id?: 'asc' | 'desc' | undefined;
+  id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  createdAt?: 'asc' | 'desc' | undefined;
+  createdAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  updatedAt?: 'asc' | 'desc' | undefined;
+  updatedAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  account_name?: 'asc' | 'desc' | undefined;
+  account_name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  guild_id?: 'asc' | 'desc' | undefined;
+  guild_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => TwitterAccountCountOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _count?: TwitterAccountCountOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterAccountAvgOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _avg?: TwitterAccountAvgOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterAccountMaxOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _max?: TwitterAccountMaxOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterAccountMinOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _min?: TwitterAccountMinOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterAccountSumOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _sum?: TwitterAccountSumOrderByAggregateInput | undefined;
 }

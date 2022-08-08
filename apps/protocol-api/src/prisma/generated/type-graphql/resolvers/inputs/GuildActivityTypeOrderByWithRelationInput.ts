@@ -1,47 +1,47 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { ActivityTypeOrderByWithRelationInput } from '../inputs/ActivityTypeOrderByWithRelationInput';
-import { GuildOrderByWithRelationInput } from '../inputs/GuildOrderByWithRelationInput';
-import { SortOrder } from '../../enums/SortOrder';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { ActivityTypeOrderByWithRelationInput } from "../inputs/ActivityTypeOrderByWithRelationInput";
+import { GuildOrderByWithRelationInput } from "../inputs/GuildOrderByWithRelationInput";
+import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType('GuildActivityTypeOrderByWithRelationInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("GuildActivityTypeOrderByWithRelationInput", {
+  isAbstract: true
 })
 export class GuildActivityTypeOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  id?: 'asc' | 'desc' | undefined;
+  id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  createdAt?: 'asc' | 'desc' | undefined;
+  createdAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  updatedAt?: 'asc' | 'desc' | undefined;
+  updatedAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  guild_id?: 'asc' | 'desc' | undefined;
+  guild_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => GuildOrderByWithRelationInput, {
-    nullable: true,
+    nullable: true
   })
   guild?: GuildOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  activity_type_id?: 'asc' | 'desc' | undefined;
+  activity_type_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => ActivityTypeOrderByWithRelationInput, {
-    nullable: true,
+    nullable: true
   })
   activity_type?: ActivityTypeOrderByWithRelationInput | undefined;
 }

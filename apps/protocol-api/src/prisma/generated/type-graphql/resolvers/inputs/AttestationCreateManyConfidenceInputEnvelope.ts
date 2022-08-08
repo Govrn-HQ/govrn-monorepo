@@ -1,20 +1,20 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { AttestationCreateManyConfidenceInput } from '../inputs/AttestationCreateManyConfidenceInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { AttestationCreateManyConfidenceInput } from "../inputs/AttestationCreateManyConfidenceInput";
 
-@TypeGraphQL.InputType('AttestationCreateManyConfidenceInputEnvelope', {
-  isAbstract: true,
+@TypeGraphQL.InputType("AttestationCreateManyConfidenceInputEnvelope", {
+  isAbstract: true
 })
 export class AttestationCreateManyConfidenceInputEnvelope {
   @TypeGraphQL.Field(_type => [AttestationCreateManyConfidenceInput], {
-    nullable: false,
+    nullable: false
   })
   data!: AttestationCreateManyConfidenceInput[];
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true,
+    nullable: true
   })
   skipDuplicates?: boolean | undefined;
 }

@@ -1,17 +1,17 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { PartnerUpdateInput } from '../../../inputs/PartnerUpdateInput';
-import { PartnerWhereUniqueInput } from '../../../inputs/PartnerWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { PartnerUpdateInput } from "../../../inputs/PartnerUpdateInput";
+import { PartnerWhereUniqueInput } from "../../../inputs/PartnerWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
 export class UpdatePartnerArgs {
   @TypeGraphQL.Field(_type => PartnerUpdateInput, {
-    nullable: false,
+    nullable: false
   })
   data!: PartnerUpdateInput;
 
   @TypeGraphQL.Field(_type => PartnerWhereUniqueInput, {
-    nullable: false,
+    nullable: false
   })
   where!: PartnerWhereUniqueInput;
 }

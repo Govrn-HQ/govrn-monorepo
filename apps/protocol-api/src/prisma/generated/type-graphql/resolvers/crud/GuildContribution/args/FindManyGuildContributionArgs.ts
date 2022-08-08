@@ -1,41 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { GuildContributionOrderByWithRelationInput } from '../../../inputs/GuildContributionOrderByWithRelationInput';
-import { GuildContributionWhereInput } from '../../../inputs/GuildContributionWhereInput';
-import { GuildContributionWhereUniqueInput } from '../../../inputs/GuildContributionWhereUniqueInput';
-import { GuildContributionScalarFieldEnum } from '../../../../enums/GuildContributionScalarFieldEnum';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { GuildContributionOrderByWithRelationInput } from "../../../inputs/GuildContributionOrderByWithRelationInput";
+import { GuildContributionWhereInput } from "../../../inputs/GuildContributionWhereInput";
+import { GuildContributionWhereUniqueInput } from "../../../inputs/GuildContributionWhereUniqueInput";
+import { GuildContributionScalarFieldEnum } from "../../../../enums/GuildContributionScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class FindManyGuildContributionArgs {
   @TypeGraphQL.Field(_type => GuildContributionWhereInput, {
-    nullable: true,
+    nullable: true
   })
   where?: GuildContributionWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [GuildContributionOrderByWithRelationInput], {
-    nullable: true,
+    nullable: true
   })
   orderBy?: GuildContributionOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => GuildContributionWhereUniqueInput, {
-    nullable: true,
+    nullable: true
   })
   cursor?: GuildContributionWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [GuildContributionScalarFieldEnum], {
-    nullable: true,
+    nullable: true
   })
-  distinct?:
-    | Array<'id' | 'createdAt' | 'updatedAt' | 'guild_id' | 'contribution_id'>
-    | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "guild_id" | "contribution_id"> | undefined;
 }

@@ -1,41 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { GuildActivityTypeOrderByWithRelationInput } from '../../../inputs/GuildActivityTypeOrderByWithRelationInput';
-import { GuildActivityTypeWhereInput } from '../../../inputs/GuildActivityTypeWhereInput';
-import { GuildActivityTypeWhereUniqueInput } from '../../../inputs/GuildActivityTypeWhereUniqueInput';
-import { GuildActivityTypeScalarFieldEnum } from '../../../../enums/GuildActivityTypeScalarFieldEnum';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { GuildActivityTypeOrderByWithRelationInput } from "../../../inputs/GuildActivityTypeOrderByWithRelationInput";
+import { GuildActivityTypeWhereInput } from "../../../inputs/GuildActivityTypeWhereInput";
+import { GuildActivityTypeWhereUniqueInput } from "../../../inputs/GuildActivityTypeWhereUniqueInput";
+import { GuildActivityTypeScalarFieldEnum } from "../../../../enums/GuildActivityTypeScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class ActivityTypeGuildsArgs {
   @TypeGraphQL.Field(_type => GuildActivityTypeWhereInput, {
-    nullable: true,
+    nullable: true
   })
   where?: GuildActivityTypeWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [GuildActivityTypeOrderByWithRelationInput], {
-    nullable: true,
+    nullable: true
   })
   orderBy?: GuildActivityTypeOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeWhereUniqueInput, {
-    nullable: true,
+    nullable: true
   })
   cursor?: GuildActivityTypeWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [GuildActivityTypeScalarFieldEnum], {
-    nullable: true,
+    nullable: true
   })
-  distinct?:
-    | Array<'id' | 'createdAt' | 'updatedAt' | 'guild_id' | 'activity_type_id'>
-    | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "guild_id" | "activity_type_id"> | undefined;
 }

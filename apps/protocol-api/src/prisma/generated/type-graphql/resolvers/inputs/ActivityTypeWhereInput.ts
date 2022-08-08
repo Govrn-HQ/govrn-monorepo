@@ -1,82 +1,82 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { BoolFilter } from '../inputs/BoolFilter';
-import { CategoryActivityTypeListRelationFilter } from '../inputs/CategoryActivityTypeListRelationFilter';
-import { ContributionListRelationFilter } from '../inputs/ContributionListRelationFilter';
-import { DateTimeFilter } from '../inputs/DateTimeFilter';
-import { GuildActivityTypeListRelationFilter } from '../inputs/GuildActivityTypeListRelationFilter';
-import { IntFilter } from '../inputs/IntFilter';
-import { StringFilter } from '../inputs/StringFilter';
-import { UserActivityListRelationFilter } from '../inputs/UserActivityListRelationFilter';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { BoolFilter } from "../inputs/BoolFilter";
+import { CategoryActivityTypeListRelationFilter } from "../inputs/CategoryActivityTypeListRelationFilter";
+import { ContributionListRelationFilter } from "../inputs/ContributionListRelationFilter";
+import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
+import { IntFilter } from "../inputs/IntFilter";
+import { StringFilter } from "../inputs/StringFilter";
+import { UserActivityListRelationFilter } from "../inputs/UserActivityListRelationFilter";
 
-@TypeGraphQL.InputType('ActivityTypeWhereInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("ActivityTypeWhereInput", {
+  isAbstract: true
 })
 export class ActivityTypeWhereInput {
   @TypeGraphQL.Field(_type => [ActivityTypeWhereInput], {
-    nullable: true,
+    nullable: true
   })
   AND?: ActivityTypeWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [ActivityTypeWhereInput], {
-    nullable: true,
+    nullable: true
   })
   OR?: ActivityTypeWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [ActivityTypeWhereInput], {
-    nullable: true,
+    nullable: true
   })
   NOT?: ActivityTypeWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true,
+    nullable: true
   })
   id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true,
+    nullable: true
   })
   createdAt?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true,
+    nullable: true
   })
   updatedAt?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
+    nullable: true
   })
   name?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolFilter, {
-    nullable: true,
+    nullable: true
   })
   active?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolFilter, {
-    nullable: true,
+    nullable: true
   })
   default?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserActivityListRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   users?: UserActivityListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => ContributionListRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   contributions?: ContributionListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => CategoryActivityTypeListRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   categoryActivity?: CategoryActivityTypeListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeListRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   guilds?: GuildActivityTypeListRelationFilter | undefined;
 }

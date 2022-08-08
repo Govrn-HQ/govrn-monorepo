@@ -1,39 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { LinearProjectOrderByWithRelationInput } from '../../../inputs/LinearProjectOrderByWithRelationInput';
-import { LinearProjectWhereInput } from '../../../inputs/LinearProjectWhereInput';
-import { LinearProjectWhereUniqueInput } from '../../../inputs/LinearProjectWhereUniqueInput';
-import { LinearProjectScalarFieldEnum } from '../../../../enums/LinearProjectScalarFieldEnum';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { LinearProjectOrderByWithRelationInput } from "../../../inputs/LinearProjectOrderByWithRelationInput";
+import { LinearProjectWhereInput } from "../../../inputs/LinearProjectWhereInput";
+import { LinearProjectWhereUniqueInput } from "../../../inputs/LinearProjectWhereUniqueInput";
+import { LinearProjectScalarFieldEnum } from "../../../../enums/LinearProjectScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class FindFirstLinearProjectArgs {
   @TypeGraphQL.Field(_type => LinearProjectWhereInput, {
-    nullable: true,
+    nullable: true
   })
   where?: LinearProjectWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [LinearProjectOrderByWithRelationInput], {
-    nullable: true,
+    nullable: true
   })
   orderBy?: LinearProjectOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectWhereUniqueInput, {
-    nullable: true,
+    nullable: true
   })
   cursor?: LinearProjectWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [LinearProjectScalarFieldEnum], {
-    nullable: true,
+    nullable: true
   })
-  distinct?: Array<'id' | 'name' | 'linear_id'> | undefined;
+  distinct?: Array<"id" | "name" | "linear_id"> | undefined;
 }

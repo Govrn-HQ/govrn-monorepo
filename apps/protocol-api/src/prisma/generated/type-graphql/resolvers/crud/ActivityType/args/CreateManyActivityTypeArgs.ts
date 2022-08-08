@@ -1,16 +1,16 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { ActivityTypeCreateManyInput } from '../../../inputs/ActivityTypeCreateManyInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { ActivityTypeCreateManyInput } from "../../../inputs/ActivityTypeCreateManyInput";
 
 @TypeGraphQL.ArgsType()
 export class CreateManyActivityTypeArgs {
   @TypeGraphQL.Field(_type => [ActivityTypeCreateManyInput], {
-    nullable: false,
+    nullable: false
   })
   data!: ActivityTypeCreateManyInput[];
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true,
+    nullable: true
   })
   skipDuplicates?: boolean | undefined;
 }

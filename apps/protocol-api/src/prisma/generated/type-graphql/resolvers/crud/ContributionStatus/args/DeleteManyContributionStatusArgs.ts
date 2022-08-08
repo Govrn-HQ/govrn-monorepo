@@ -1,11 +1,11 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { ContributionStatusWhereInput } from '../../../inputs/ContributionStatusWhereInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { ContributionStatusWhereInput } from "../../../inputs/ContributionStatusWhereInput";
 
 @TypeGraphQL.ArgsType()
 export class DeleteManyContributionStatusArgs {
   @TypeGraphQL.Field(_type => ContributionStatusWhereInput, {
-    nullable: true,
+    nullable: true
   })
   where?: ContributionStatusWhereInput | undefined;
 }

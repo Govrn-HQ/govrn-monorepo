@@ -1,25 +1,25 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { LinearIssueCreateNestedManyWithoutProjectInput } from '../inputs/LinearIssueCreateNestedManyWithoutProjectInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { LinearIssueCreateNestedManyWithoutProjectInput } from "../inputs/LinearIssueCreateNestedManyWithoutProjectInput";
 
-@TypeGraphQL.InputType('LinearProjectCreateInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("LinearProjectCreateInput", {
+  isAbstract: true
 })
 export class LinearProjectCreateInput {
   @TypeGraphQL.Field(_type => String, {
-    nullable: false,
+    nullable: false
   })
   name!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false,
+    nullable: false
   })
   linear_id!: string;
 
   @TypeGraphQL.Field(_type => LinearIssueCreateNestedManyWithoutProjectInput, {
-    nullable: true,
+    nullable: true
   })
   issues?: LinearIssueCreateNestedManyWithoutProjectInput | undefined;
 }

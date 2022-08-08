@@ -1,11 +1,11 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { PartnerWhereUniqueInput } from '../../../inputs/PartnerWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { PartnerWhereUniqueInput } from "../../../inputs/PartnerWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
 export class FindUniquePartnerArgs {
   @TypeGraphQL.Field(_type => PartnerWhereUniqueInput, {
-    nullable: false,
+    nullable: false
   })
   where!: PartnerWhereUniqueInput;
 }
