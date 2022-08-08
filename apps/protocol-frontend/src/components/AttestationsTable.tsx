@@ -11,7 +11,6 @@ import {
   Th,
   Thead,
   Tr,
-  UseTableRowProps,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
@@ -21,6 +20,7 @@ import {
   useRowSelect,
   useSortBy,
   useTable,
+  UseTableRowProps,
 } from 'react-table';
 import { useUser } from '../contexts/UserContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';

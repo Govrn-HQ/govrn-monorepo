@@ -1,7 +1,15 @@
-import { Box, Button, Flex, Heading } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Stack,
+  VStack,
+  HStack,
+  Heading,
+  Text,
+} from '@chakra-ui/react';
 import { UIContribution } from '@govrn/ui-types';
 import { Link } from 'react-router-dom';
-
 import { FiArrowLeft } from 'react-icons/fi';
 import PageHeading from './PageHeading';
 
@@ -12,7 +20,6 @@ interface ContributionDetailShellProps {
 const ContributionDetailShell = ({
   contribution,
 }: ContributionDetailShellProps) => {
-  console.log('contribution in shell', contribution);
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -39,9 +46,12 @@ const ContributionDetailShell = ({
         borderRadius={{ base: 'none', md: 'lg' }}
         marginBottom={4}
       >
-        <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
-          {contribution.name}
-        </Heading>
+        <VStack spacing={4}>
+          <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
+            {contribution.name}
+          </Heading>
+          {contribution.details ?? <Text>{contribution.details}</Text>}
+        </VStack>
       </Flex>
     </Box>
   );
