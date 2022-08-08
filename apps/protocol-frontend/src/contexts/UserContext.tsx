@@ -94,12 +94,21 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   }, [address]);
 
   const getContribution = async (id: number) => {
-    console.log('typeof id', typeof id);
     try {
       const contributionResponse = await govrn.contribution.get(id);
-      console.log('contributionResponse', contributionResponse);
-      setContribution(contributionResponse);
-      return contributionResponse;
+      if (contributionResponse) {
+        const formattedResponse = {
+          ...contributionResponse,
+          date_of_engagement: formatDate(
+            contributionResponse.date_of_engagement
+          ),
+          date_of_submission: formatDate(
+            contributionResponse.date_of_submission
+          ),
+        };
+        setContribution(formattedResponse);
+        return formattedResponse;
+      }
     } catch (error) {
       console.error(error);
     }
