@@ -418,44 +418,49 @@ app.get('/nonce', async function (req, res) {
 
 // TODO: normalize all addresses to lowercase
 app.get('/linear/oauth', async function (req, res) {
-  const query = req.query;
-  const code = query.code;
-  const params = new URLSearchParams();
-  params.append('code', code.toString());
-  params.append('redirect_uri', LINEAR_REDIRECT_URI);
-  params.append('client_id', LINEAR_CLIENT_ID);
-  params.append('client_secret', LINEAR_CLIENT_SECRET);
-  params.append('grant_type', 'authorization_code');
-  const resp = await fetch(LINEAR_TOKEN_URL, {
-    method: 'POST',
-    body: params,
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  });
-  const respJSON = await resp.json();
-  const client = new LinearClient({ accessToken: respJSON.access_token });
-  const me = await client.viewer;
+  try {
+    const query = req.query;
+    const code = query.code;
+    const params = new URLSearchParams();
+    params.append('code', code.toString());
+    params.append('redirect_uri', LINEAR_REDIRECT_URI);
+    params.append('client_id', LINEAR_CLIENT_ID);
+    params.append('client_secret', LINEAR_CLIENT_SECRET);
+    params.append('grant_type', 'authorization_code');
+    const resp = await fetch(LINEAR_TOKEN_URL, {
+      method: 'POST',
+      body: params,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+    const respJSON = await resp.json();
+    const client = new LinearClient({ accessToken: respJSON.access_token });
+    const me = await client.viewer;
 
-  await prisma.linearUser.upsert({
-    create: {
-      active: me.active,
-      displayName: me.displayName,
-      email: me.email,
-      linear_id: me.id,
-      name: me.name,
-      url: me.url,
-      access_token: respJSON.access_token,
-      active_token: true,
-      user: { connect: { address: req.session.siwe.data.address } },
-    },
-    where: { linear_id: me.id },
-    update: {
-      access_token: respJSON.access_token,
-      active_token: true,
-      user: { connect: { address: req.session.siwe.data.address } },
-    },
-  });
+    await prisma.linearUser.upsert({
+      create: {
+        active: me.active,
+        displayName: me.displayName,
+        email: me.email,
+        linear_id: me.id,
+        name: me.name,
+        url: me.url,
+        access_token: respJSON.access_token,
+        active_token: true,
+        user: { connect: { address: req.session.siwe.data.address } },
+      },
+      where: { linear_id: me.id },
+      update: {
+        access_token: respJSON.access_token,
+        active_token: true,
+        user: { connect: { address: req.session.siwe.data.address } },
+      },
+    });
 
-  res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+    res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+  } catch (e) {
+    console.error(e);
+    res.status(500).send();
+  }
 });
 
 app.listen(4000);
