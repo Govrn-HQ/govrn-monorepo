@@ -58,7 +58,6 @@ const ContributionsTable = ({
     title : string;
     onConfirm: boolean;
     contribution_id: string;
-
   }
 
   const [dialog, setDialog] = useState<DialogProps>({ isOpen: false, title: '' ,onConfirm: false, contribution_id:''});
@@ -180,7 +179,7 @@ const ContributionsTable = ({
                   color="gray.800"
                   aria-label="Edit Contribution"
                   disabled={
-                    //row.original.user.id !== userData?.id ||
+                    row.original.user!== userData?.id ||
                     row.original.status !== 'minted'
                   }
                   onClick={() =>
@@ -192,7 +191,7 @@ const ContributionsTable = ({
                   variant="ghost"
                   color="gray.800"
                   disabled={
-                    //row.original.user.id !== userData?.id ||
+                    row.original.user !== userData?.id ||
                     row.original.status.name !== 'minted'
                   }
                   aria-label="Delete Contribution"
@@ -209,7 +208,7 @@ const ContributionsTable = ({
                 color="gray.800"
                 aria-label="Edit Contribution"
                 disabled={
-                  //row.original.user.id !== userData?.id ||
+                  row.original.user !== userData?.id ||
                   row.original.status === 'minted'
                 }
                 onClick={() =>
@@ -221,12 +220,12 @@ const ContributionsTable = ({
                 variant="ghost"
                 color="gray.800"
                 disabled={
-                  //row.original.user.id !== userData?.id ||
+                  row.original.user !== userData?.id ||
                   row.original.status.name === 'minted'
                 }
                 aria-label="Delete Contribution"
                 onClick = {() => handleDeleteContribution(row.original.id)}
-            
+                
               />
             </HStack>
             

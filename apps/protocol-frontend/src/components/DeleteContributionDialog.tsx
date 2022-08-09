@@ -12,13 +12,6 @@ import {
     useDisclosure,
   } from '@chakra-ui/react';
 
-  // type DialogProps = {
-  //   isOpen: boolean;
-  //   title : string;
-  //   onConfirm: boolean;
-  //   contribution_id: string;
-
-  // }
 
 const  DeleteContributionDialog = (props: any) => {
 
@@ -40,7 +33,6 @@ const  DeleteContributionDialog = (props: any) => {
           isOpen: false,
          })
         DeleteContribution(contribution_id)
-        
       }
     }
    
