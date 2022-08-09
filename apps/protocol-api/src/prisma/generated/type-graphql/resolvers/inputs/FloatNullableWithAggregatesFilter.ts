@@ -1,77 +1,77 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { NestedFloatNullableFilter } from "../inputs/NestedFloatNullableFilter";
-import { NestedFloatNullableWithAggregatesFilter } from "../inputs/NestedFloatNullableWithAggregatesFilter";
-import { NestedIntNullableFilter } from "../inputs/NestedIntNullableFilter";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { NestedFloatNullableFilter } from '../inputs/NestedFloatNullableFilter';
+import { NestedFloatNullableWithAggregatesFilter } from '../inputs/NestedFloatNullableWithAggregatesFilter';
+import { NestedIntNullableFilter } from '../inputs/NestedIntNullableFilter';
 
-@TypeGraphQL.InputType("FloatNullableWithAggregatesFilter", {
-  isAbstract: true
+@TypeGraphQL.InputType('FloatNullableWithAggregatesFilter', {
+  isAbstract: true,
 })
 export class FloatNullableWithAggregatesFilter {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   equals?: number | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
-    nullable: true
+    nullable: true,
   })
   in?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
-    nullable: true
+    nullable: true,
   })
   notIn?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   lt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   lte?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   gt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   gte?: number | undefined;
 
   @TypeGraphQL.Field(_type => NestedFloatNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   not?: NestedFloatNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => NestedIntNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   _count?: NestedIntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => NestedFloatNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   _avg?: NestedFloatNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => NestedFloatNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   _sum?: NestedFloatNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => NestedFloatNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   _min?: NestedFloatNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => NestedFloatNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   _max?: NestedFloatNullableFilter | undefined;
 }

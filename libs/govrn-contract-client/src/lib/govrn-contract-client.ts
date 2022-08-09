@@ -42,7 +42,7 @@ export class GovrnContract {
 
   constructor(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider | ethers.Signer
+    provider: ethers.providers.Provider | ethers.Signer,
   ) {
     this.govrn = Govrn__factory.connect(networkConfig.address, provider);
   }
@@ -51,7 +51,7 @@ export class GovrnContract {
     return await this.govrn.mint(
       args.detailsUri,
       args.dateOfSubmission,
-      args.dateOfEngagement
+      args.dateOfEngagement,
       // args.overrides
     );
   }
@@ -59,7 +59,7 @@ export class GovrnContract {
   public async attest(args: AttestArgs) {
     return await this.govrn.attest(
       args.contribution,
-      args.confidence
+      args.confidence,
       // args.overrides
     );
   }

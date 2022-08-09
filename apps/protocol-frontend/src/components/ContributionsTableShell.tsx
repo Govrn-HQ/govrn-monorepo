@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Container,
   Stack,
@@ -17,6 +17,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import { useUser } from '../contexts/UserContext';
 import { ModalWrapper } from '@govrn/protocol-ui';
 import MintModal from './MintModal';
+import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
@@ -27,9 +28,29 @@ const ContributionsTableShell = () => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
+  const [selectedContributionsMap, setSelectedContributionsMap] =
+    useState<any>();
+  const [selectedDAOs, setSelectedDAOs] = useState<any>();
+
+  useEffect(() => {
+    if (selectedContributions && selectedContributions.length > 0) {
+      setSelectedContributionsMap(
+        selectedContributions?.map((contribution: any) =>
+          userContributions.find(
+            (localContribution) =>
+              contribution.original.id === localContribution.id
+          )
+        )
+      );
+    }
+  }, [selectedContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
+  };
+
+  const bulkDaoAttributeHandler = () => {
+    setModals({ bulkDaoAttributeModal: true });
   };
 
   return (
@@ -75,7 +96,7 @@ const ContributionsTableShell = () => {
                         {selectedContributions?.length === 0 ? (
                           <Alert
                             status="info"
-                            width={{ base: '100%', lg: '50%' }}
+                            width={{ base: '100%', lg: '60%' }}
                             borderRadius="md"
                           >
                             <AlertDescription>
@@ -85,23 +106,39 @@ const ContributionsTableShell = () => {
                               >
                                 🌞
                               </span>{' '}
-                              Please select at least one Contribution to mint.
+                              Please select at least one Contribution to
+                              attribute to a DAO or mint.
                             </AlertDescription>
                           </Alert>
                         ) : (
-                          <Button
-                            size="md"
-                            bgColor="brand.primary.50"
-                            color="brand.primary.600"
-                            transition="all 100ms ease-in-out"
-                            _hover={{ bgColor: 'brand.primary.100' }}
-                            flexBasis="10%"
-                            colorScheme="brand.primary"
-                            onClick={mintModalHandler}
-                            disabled={selectedContributions?.length === 0}
-                          >
-                            Mint
-                          </Button>
+                          <Stack direction="row" spacing={5}>
+                            <Button
+                              size="md"
+                              bgColor="brand.primary.50"
+                              color="brand.primary.600"
+                              transition="all 100ms ease-in-out"
+                              _hover={{ bgColor: 'brand.primary.100' }}
+                              colorScheme="brand.primary"
+                              onClick={bulkDaoAttributeHandler}
+                              disabled={selectedContributions?.length === 0}
+                            >
+                              Attribute to DAO
+                            </Button>
+                            <Button
+                              size="md"
+                              bgColor="white"
+                              color="brand.primary.600"
+                              border="1px solid"
+                              borderColor="brand.primary.500"
+                              transition="all 100ms ease-in-out"
+                              _hover={{ bgColor: 'brand.primary.50' }}
+                              colorScheme="brand.primary"
+                              onClick={mintModalHandler}
+                              disabled={selectedContributions?.length === 0}
+                            >
+                              Mint
+                            </Button>
+                          </Stack>
                         )}
                       </Stack>
                     </Box>
@@ -111,24 +148,6 @@ const ContributionsTableShell = () => {
                         setSelectedContributions={setSelectedContributions}
                       />
                     </Box>
-                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
-                      <HStack spacing="3" justify="space-between">
-                        {!isMobile && (
-                          <Text color="muted" fontSize="sm">
-                            Showing 1 to (x) of (y) results
-                          </Text>
-                        )}
-                        <ButtonGroup
-                          spacing="3"
-                          justifyContent="space-between"
-                          width={{ base: 'full', md: 'auto' }}
-                          variant="secondary"
-                        >
-                          <Button>Previous</Button>
-                          <Button>Next</Button>
-                        </ButtonGroup>
-                      </HStack>
-                    </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>
@@ -158,24 +177,6 @@ const ContributionsTableShell = () => {
                         <EmptyContributions />
                       )}
                     </Box>
-                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
-                      <HStack spacing="3" justify="space-between">
-                        {!isMobile && (
-                          <Text color="muted" fontSize="sm">
-                            Showing 1 to (x) of (y) results
-                          </Text>
-                        )}
-                        <ButtonGroup
-                          spacing="3"
-                          justifyContent="space-between"
-                          width={{ base: 'full', md: 'auto' }}
-                          variant="secondary"
-                        >
-                          <Button>Previous</Button>
-                          <Button>Next</Button>
-                        </ButtonGroup>
-                      </HStack>
-                    </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>
@@ -191,6 +192,15 @@ const ContributionsTableShell = () => {
         localOverlay={localOverlay}
         size="3xl"
         content={<MintModal contributions={selectedContributions} />}
+      />
+      <ModalWrapper
+        name="bulkDaoAttributeModal"
+        title="Attribute Contributions to a DAO"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <BulkDaoAttributeModal contributions={selectedContributionsMap} />
+        }
       />
     </>
   );

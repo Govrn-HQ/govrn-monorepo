@@ -1,8 +1,14 @@
 export type Maybe<T> = T | undefined;
 export type InputMaybe<T> = T | undefined | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export interface Scalars {
   ID: string;
@@ -94,7 +100,6 @@ export interface Contribution {
   id: Scalars['ID'];
 }
 
-
 export interface ContributionAttestationsArgs {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Attestation_OrderBy>;
@@ -137,9 +142,7 @@ export type Contribution_OrderBy =
   | 'id';
 
 /** Defines the order direction, either ascending or descending */
-export type OrderDirection =
-  | 'asc'
-  | 'desc';
+export type OrderDirection = 'asc' | 'desc';
 
 export interface Query {
   __typename?: 'Query';
@@ -151,18 +154,15 @@ export interface Query {
   contributions: Array<Contribution>;
 }
 
-
 export interface Query_MetaArgs {
   block?: InputMaybe<Block_Height>;
 }
-
 
 export interface QueryAttestationArgs {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 }
-
 
 export interface QueryAttestationsArgs {
   block?: InputMaybe<Block_Height>;
@@ -174,13 +174,11 @@ export interface QueryAttestationsArgs {
   where?: InputMaybe<Attestation_Filter>;
 }
 
-
 export interface QueryContributionArgs {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 }
-
 
 export interface QueryContributionsArgs {
   block?: InputMaybe<Block_Height>;
@@ -202,18 +200,15 @@ export interface Subscription {
   contributions: Array<Contribution>;
 }
 
-
 export interface Subscription_MetaArgs {
   block?: InputMaybe<Block_Height>;
 }
-
 
 export interface SubscriptionAttestationArgs {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 }
-
 
 export interface SubscriptionAttestationsArgs {
   block?: InputMaybe<Block_Height>;
@@ -225,13 +220,11 @@ export interface SubscriptionAttestationsArgs {
   where?: InputMaybe<Attestation_Filter>;
 }
 
-
 export interface SubscriptionContributionArgs {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 }
-
 
 export interface SubscriptionContributionsArgs {
   block?: InputMaybe<Block_Height>;

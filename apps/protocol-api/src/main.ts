@@ -18,7 +18,12 @@ import cors = require('cors');
 const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
-const BACKEND_TOKENS = [AIRTABLE_API_TOKEN, KEVIN_MALONE_TOKEN];
+const LINEAR_JOB_TOKEN = process.env.LINEAR_JOB_TOKEN;
+const BACKEND_TOKENS = [
+  AIRTABLE_API_TOKEN,
+  KEVIN_MALONE_TOKEN,
+  LINEAR_JOB_TOKEN,
+];
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
@@ -31,7 +36,7 @@ const typeSchema = buildSchemaSync({
 
 // TODO: Figure out is there is a way to genralize this
 //
-const OwnsData = rule()(async (parent, args, ctx, info) => {
+const ownsData = rule()(async (parent, args, ctx, info) => {
   return true;
 });
 
@@ -45,7 +50,7 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 const hasToken = rule()(async (parent, args, ctx, info) => {
   const auth = ctx.req.headers['authorization'];
   if (auth) {
-    const found = BACKEND_TOKENS.find((token) => token === auth);
+    const found = BACKEND_TOKENS.find(token => token === auth);
     return !!found;
   }
   return false;
@@ -63,9 +68,14 @@ const permissions = shield(
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
+      getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
       users: hasToken,
       jobRuns: hasToken,
+      linearUsers: hasToken,
+      linearIssues: hasToken,
+      contributionStatuses: hasToken,
     },
+    ContributionCountByDate: or(isAuthenticated, hasToken),
     Mutation: {
       '*': deny,
       createActivityType: hasToken,
@@ -74,21 +84,28 @@ const permissions = shield(
       createGuildUser: or(isAuthenticated, hasToken),
       createJobRun: hasToken,
       createManyContribution: hasToken,
+      createManyLinearIssue: hasToken,
       createOnChainUserContribution: isAuthenticated,
       createUser: or(isAuthenticated, hasToken),
       createUserActivity: hasToken,
-      createUserAttestation: and(OwnsData, isAuthenticated),
-      createUserContribution: and(OwnsData, isAuthenticated),
-      createUserCustom: or(hasToken, and(OwnsData, isAuthenticated)),
+      createUserAttestation: and(ownsData, isAuthenticated),
+      createUserContribution: and(ownsData, isAuthenticated),
+      createUserCustom: or(hasToken, and(ownsData, isAuthenticated)),
       createUserOnChainAttestation: isAuthenticated,
-      deleteContribution: or(OwnsData, isAuthenticated),
+      deleteContribution: or(ownsData, isAuthenticated),
       deleteUserContribution: isAuthenticated,
       updateGuild: hasToken,
       updateUser: hasToken,
-      updateUserContribution: and(OwnsData, isAuthenticated),
-      updateUserCustom: and(OwnsData, isAuthenticated),
+      updateUserContribution: and(ownsData, isAuthenticated),
+      updateUserCustom: and(ownsData, isAuthenticated),
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
+      upsertLinearCycle: hasToken,
+      upsertLinearIssue: hasToken,
+      upsertLinearProject: hasToken,
+      upsertLinearTeam: hasToken,
+      upsertLinearUser: hasToken,
+      upsertActivityType: hasToken,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
@@ -145,6 +162,7 @@ const permissions = shield(
       linear_issue: or(isAuthenticated, hasToken),
       tweet: or(isAuthenticated, hasToken),
       on_chain_id: or(isAuthenticated, hasToken),
+      tx_hash: or(isAuthenticated, hasToken),
     },
     ContributionStatus: {
       id: or(isAuthenticated, hasToken),
@@ -230,15 +248,73 @@ const permissions = shield(
       activity_type: hasToken,
       user: hasToken,
     },
+    LinearIssue: {
+      id: hasToken,
+      archivedAt: hasToken,
+      assignee_id: hasToken,
+      autoArchivedAt: hasToken,
+      autoClosedAt: hasToken,
+      boardOrder: hasToken,
+      branchName: hasToken,
+      canceledAt: hasToken,
+      completedAt: hasToken,
+      createdAt: hasToken,
+      creator_id: hasToken,
+      customerTickerCount: hasToken,
+      cycle_id: hasToken,
+      description: hasToken,
+      dueDate: hasToken,
+      estimate: hasToken,
+      identifier: hasToken,
+      linear_id: hasToken,
+      priority: hasToken,
+      priorityLabel: hasToken,
+      project_id: hasToken,
+      snoozedUntilAt: hasToken,
+      sortOrder: hasToken,
+      startedAt: hasToken,
+      subIssueSortOrder: hasToken,
+      team_id: hasToken,
+      title: hasToken,
+      trashed: hasToken,
+      updatedAt: hasToken,
+      url: hasToken,
+    },
+    LinearTeam: {
+      linear_id: hasToken,
+      name: hasToken,
+      key: hasToken,
+      id: hasToken,
+    },
+    LinearProject: {
+      linear_id: hasToken,
+      name: hasToken,
+      id: hasToken,
+    },
+    LinearCycle: {
+      id: hasToken,
+      endsAt: hasToken,
+      linear_id: hasToken,
+      number: hasToken,
+      startsAt: hasToken,
+    },
     LinearUser: {
-      active_token: or(isAuthenticated, hasToken),
       id: or(isAuthenticated, hasToken),
+      active: hasToken,
+      displayName: hasToken,
+      email: hasToken,
+      linear_id: hasToken,
+      name: hasToken,
+      url: hasToken,
+      createdAt: hasToken,
+      access_token: hasToken,
+      active_token: or(isAuthenticated, hasToken),
     },
   },
   {
     fallbackRule: deny,
     debug: true,
-  }
+  },
 );
 
 const schema = applyMiddleware(typeSchema, permissions);
@@ -254,7 +330,7 @@ app.use(
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
-  })
+  }),
 );
 app.use(
   Session({
@@ -263,7 +339,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: { secure: false, sameSite: true },
-  })
+  }),
 );
 app.use('/graphql', async function (req, res) {
   const mid = graphqlHTTP({
@@ -343,44 +419,49 @@ app.get('/nonce', async function (req, res) {
 
 // TODO: normalize all addresses to lowercase
 app.get('/linear/oauth', async function (req, res) {
-  const query = req.query;
-  const code = query.code;
-  const params = new URLSearchParams();
-  params.append('code', code.toString());
-  params.append('redirect_uri', LINEAR_REDIRECT_URI);
-  params.append('client_id', LINEAR_CLIENT_ID);
-  params.append('client_secret', LINEAR_CLIENT_SECRET);
-  params.append('grant_type', 'authorization_code');
-  const resp = await fetch(LINEAR_TOKEN_URL, {
-    method: 'POST',
-    body: params,
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  });
-  const respJSON = await resp.json();
-  const client = new LinearClient({ accessToken: respJSON.access_token });
-  const me = await client.viewer;
+  try {
+    const query = req.query;
+    const code = query.code;
+    const params = new URLSearchParams();
+    params.append('code', code.toString());
+    params.append('redirect_uri', LINEAR_REDIRECT_URI);
+    params.append('client_id', LINEAR_CLIENT_ID);
+    params.append('client_secret', LINEAR_CLIENT_SECRET);
+    params.append('grant_type', 'authorization_code');
+    const resp = await fetch(LINEAR_TOKEN_URL, {
+      method: 'POST',
+      body: params,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+    const respJSON = await resp.json();
+    const client = new LinearClient({ accessToken: respJSON.access_token });
+    const me = await client.viewer;
 
-  await prisma.linearUser.upsert({
-    create: {
-      active: me.active,
-      displayName: me.displayName,
-      email: me.email,
-      linear_id: me.id,
-      name: me.name,
-      url: me.url,
-      access_token: respJSON.access_token,
-      active_token: true,
-      user: { connect: { address: req.session.siwe.data.address } },
-    },
-    where: { linear_id: me.id },
-    update: {
-      access_token: respJSON.access_token,
-      active_token: true,
-      user: { connect: { address: req.session.siwe.data.address } },
-    },
-  });
+    await prisma.linearUser.upsert({
+      create: {
+        active: me.active,
+        displayName: me.displayName,
+        email: me.email,
+        linear_id: me.id,
+        name: me.name,
+        url: me.url,
+        access_token: respJSON.access_token,
+        active_token: true,
+        user: { connect: { address: req.session.siwe.data.address } },
+      },
+      where: { linear_id: me.id },
+      update: {
+        access_token: respJSON.access_token,
+        active_token: true,
+        user: { connect: { address: req.session.siwe.data.address } },
+      },
+    });
 
-  res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+    res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+  } catch (e) {
+    console.error(e);
+    res.status(500).send();
+  }
 });
 
 app.listen(4000);

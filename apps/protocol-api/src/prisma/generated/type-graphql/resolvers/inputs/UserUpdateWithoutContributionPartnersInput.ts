@@ -1,101 +1,101 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { AttestationUpdateManyWithoutUserInput } from "../inputs/AttestationUpdateManyWithoutUserInput";
-import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
-import { ChainTypeUpdateOneRequiredWithoutUsersInput } from "../inputs/ChainTypeUpdateOneRequiredWithoutUsersInput";
-import { ContributionUpdateManyWithoutUserInput } from "../inputs/ContributionUpdateManyWithoutUserInput";
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { DiscordUserUpdateManyWithoutUserInput } from "../inputs/DiscordUserUpdateManyWithoutUserInput";
-import { GuildUserUpdateManyWithoutUserInput } from "../inputs/GuildUserUpdateManyWithoutUserInput";
-import { LinearUserUpdateManyWithoutUserInput } from "../inputs/LinearUserUpdateManyWithoutUserInput";
-import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { TwitterUserUpdateOneWithoutUserInput } from "../inputs/TwitterUserUpdateOneWithoutUserInput";
-import { UserActivityUpdateManyWithoutUserInput } from "../inputs/UserActivityUpdateManyWithoutUserInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { AttestationUpdateManyWithoutUserInput } from '../inputs/AttestationUpdateManyWithoutUserInput';
+import { BoolFieldUpdateOperationsInput } from '../inputs/BoolFieldUpdateOperationsInput';
+import { ChainTypeUpdateOneRequiredWithoutUsersInput } from '../inputs/ChainTypeUpdateOneRequiredWithoutUsersInput';
+import { ContributionUpdateManyWithoutUserInput } from '../inputs/ContributionUpdateManyWithoutUserInput';
+import { DateTimeFieldUpdateOperationsInput } from '../inputs/DateTimeFieldUpdateOperationsInput';
+import { DiscordUserUpdateManyWithoutUserInput } from '../inputs/DiscordUserUpdateManyWithoutUserInput';
+import { GuildUserUpdateManyWithoutUserInput } from '../inputs/GuildUserUpdateManyWithoutUserInput';
+import { LinearUserUpdateManyWithoutUserInput } from '../inputs/LinearUserUpdateManyWithoutUserInput';
+import { NullableStringFieldUpdateOperationsInput } from '../inputs/NullableStringFieldUpdateOperationsInput';
+import { StringFieldUpdateOperationsInput } from '../inputs/StringFieldUpdateOperationsInput';
+import { TwitterUserUpdateOneWithoutUserInput } from '../inputs/TwitterUserUpdateOneWithoutUserInput';
+import { UserActivityUpdateManyWithoutUserInput } from '../inputs/UserActivityUpdateManyWithoutUserInput';
 
-@TypeGraphQL.InputType("UserUpdateWithoutContributionPartnersInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('UserUpdateWithoutContributionPartnersInput', {
+  isAbstract: true,
 })
 export class UserUpdateWithoutContributionPartnersInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   name?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   display_name?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   address?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => ChainTypeUpdateOneRequiredWithoutUsersInput, {
-    nullable: true
+    nullable: true,
   })
   chain_type?: ChainTypeUpdateOneRequiredWithoutUsersInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   full_name?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   active?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
+    nullable: true,
   })
   email?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => UserActivityUpdateManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   activities?: UserActivityUpdateManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => AttestationUpdateManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   attestations?: AttestationUpdateManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   contributions?: ContributionUpdateManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserUpdateManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   linear_users?: LinearUserUpdateManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildUserUpdateManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   guild_users?: GuildUserUpdateManyWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterUserUpdateOneWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   twitter_user?: TwitterUserUpdateOneWithoutUserInput | undefined;
 
   @TypeGraphQL.Field(_type => DiscordUserUpdateManyWithoutUserInput, {
-    nullable: true
+    nullable: true,
   })
   discord_users?: DiscordUserUpdateManyWithoutUserInput | undefined;
 }

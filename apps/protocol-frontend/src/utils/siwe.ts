@@ -23,7 +23,7 @@ export const isEIP55Address = (address: string) => {
 export const checkContractWalletSignature = async (
   message: SiweMessage,
   signature: string,
-  provider?: any
+  provider?: any,
 ): Promise<boolean> => {
   if (!provider) {
     return false;
@@ -36,7 +36,7 @@ export const checkContractWalletSignature = async (
   const hashMessage = utils.hashMessage(message.prepareMessage());
   const isValidSignature = await walletContract.isValidSignature(
     hashMessage,
-    signature
+    signature,
   );
   if (!isValidSignature) {
     throw new Error('Invalid signature.');
@@ -180,7 +180,7 @@ const BACKEND_ADDR = `${import.meta.env.VITE_PROTOCOL_BASE_URL}`;
 export async function createSiweMessage(
   address: string,
   statement: string,
-  chainId: string
+  chainId: string,
   // provider: ethers.providers.Web3Provider
 ) {
   // const signer = provider.getSigner();
@@ -336,7 +336,7 @@ export class SiweMessage {
 
     if (this.resources) {
       suffixArray.push(
-        [`Resources:`, ...this.resources.map((x) => `- ${x}`)].join('\n')
+        [`Resources:`, ...this.resources.map(x => `- ${x}`)].join('\n'),
       );
     }
 
@@ -378,7 +378,7 @@ export class SiweMessage {
    */
   async validate(signature: string, provider?: providers.Provider) {
     console.warn(
-      'validate() has been deprecated, please update your code to use verify(). validate() may be removed in future versions.'
+      'validate() has been deprecated, please update your code to use verify(). validate() may be removed in future versions.',
     );
     return this.verify({ signature }, { provider, suppressExceptions: false });
   }
@@ -390,7 +390,7 @@ export class SiweMessage {
    */
   async verify(
     params: VerifyParams,
-    opts: VerifyOpts = { suppressExceptions: false }
+    opts: VerifyOpts = { suppressExceptions: false },
   ): Promise<SiweResponse> {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise<SiweResponse>(async (resolve, reject) => {
@@ -414,7 +414,7 @@ export class SiweMessage {
         }
       });
 
-      const assert = (result) => {
+      const assert = result => {
         if (opts.suppressExceptions) {
           resolve(result);
         } else {
@@ -432,7 +432,7 @@ export class SiweMessage {
           error: new SiweError(
             SiweErrorType.DOMAIN_MISMATCH,
             domain,
-            this.domain
+            this.domain,
           ),
         });
       }
@@ -459,7 +459,7 @@ export class SiweMessage {
             error: new SiweError(
               SiweErrorType.EXPIRED_MESSAGE,
               `${checkTime.toISOString()} < ${expirationDate.toISOString()}`,
-              `${checkTime.toISOString()} >= ${expirationDate.toISOString()}`
+              `${checkTime.toISOString()} >= ${expirationDate.toISOString()}`,
             ),
           });
         }
@@ -475,7 +475,7 @@ export class SiweMessage {
             error: new SiweError(
               SiweErrorType.NOT_YET_VALID_MESSAGE,
               `${checkTime.toISOString()} >= ${notBefore.toISOString()}`,
-              `${checkTime.toISOString()} < ${notBefore.toISOString()}`
+              `${checkTime.toISOString()} < ${notBefore.toISOString()}`,
             ),
           });
         }
@@ -506,7 +506,7 @@ export class SiweMessage {
             isValid = await checkContractWalletSignature(
               this,
               signature,
-              opts.provider
+              opts.provider,
             );
           } catch (_) {
             isValid = false;
@@ -518,7 +518,7 @@ export class SiweMessage {
                 error: new SiweError(
                   SiweErrorType.INVALID_SIGNATURE,
                   addr,
-                  `Resolved address to be ${this.address}`
+                  `Resolved address to be ${this.address}`,
                 ),
               });
             }
@@ -542,7 +542,7 @@ export class SiweMessage {
     if (args.length > 0) {
       throw new SiweError(
         SiweErrorType.UNABLE_TO_PARSE,
-        `Unexpected argument in the validateMessage function.`
+        `Unexpected argument in the validateMessage function.`,
       );
     }
 
@@ -554,7 +554,7 @@ export class SiweMessage {
     ) {
       throw new SiweError(
         SiweErrorType.INVALID_DOMAIN,
-        `${this.domain} to be a valid domain.`
+        `${this.domain} to be a valid domain.`,
       );
     }
 
@@ -563,7 +563,7 @@ export class SiweMessage {
       throw new SiweError(
         SiweErrorType.INVALID_ADDRESS,
         utils.getAddress(this.address),
-        this.address
+        this.address,
       );
     }
 
@@ -571,7 +571,7 @@ export class SiweMessage {
     if (!isValidURL(this.uri)) {
       throw new SiweError(
         SiweErrorType.INVALID_URI,
-        `${this.uri} to be a valid uri.`
+        `${this.uri} to be a valid uri.`,
       );
     }
 
@@ -580,7 +580,7 @@ export class SiweMessage {
       throw new SiweError(
         SiweErrorType.INVALID_MESSAGE_VERSION,
         '1',
-        this.version
+        this.version,
       );
     }
 
@@ -590,7 +590,7 @@ export class SiweMessage {
       throw new SiweError(
         SiweErrorType.INVALID_NONCE,
         `Length > 8 (${nonce.length}). Alphanumeric.`,
-        this.nonce
+        this.nonce,
       );
     }
 

@@ -1,17 +1,17 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { AttestationUpdateInput } from "../../../inputs/AttestationUpdateInput";
-import { AttestationWhereUniqueInput } from "../../../inputs/AttestationWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { AttestationUpdateInput } from '../../../inputs/AttestationUpdateInput';
+import { AttestationWhereUniqueInput } from '../../../inputs/AttestationWhereUniqueInput';
 
 @TypeGraphQL.ArgsType()
 export class UpdateAttestationArgs {
   @TypeGraphQL.Field(_type => AttestationUpdateInput, {
-    nullable: false
+    nullable: false,
   })
   data!: AttestationUpdateInput;
 
   @TypeGraphQL.Field(_type => AttestationWhereUniqueInput, {
-    nullable: false
+    nullable: false,
   })
   where!: AttestationWhereUniqueInput;
 }

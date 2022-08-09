@@ -1,34 +1,34 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
 
-@TypeGraphQL.InputType("JobRunCreateInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('JobRunCreateInput', {
+  isAbstract: true,
 })
 export class JobRunCreateInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   completedDate!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   startDate!: Date;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   name!: string;
 }

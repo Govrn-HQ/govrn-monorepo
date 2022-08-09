@@ -1,86 +1,110 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { AttestationCreateNestedManyWithoutContributionInput } from "../inputs/AttestationCreateNestedManyWithoutContributionInput";
-import { ContributionStatusCreateNestedOneWithoutContributionsInput } from "../inputs/ContributionStatusCreateNestedOneWithoutContributionsInput";
-import { GuildContributionCreateNestedManyWithoutContributionInput } from "../inputs/GuildContributionCreateNestedManyWithoutContributionInput";
-import { LinearIssueCreateNestedOneWithoutContributionInput } from "../inputs/LinearIssueCreateNestedOneWithoutContributionInput";
-import { PartnerCreateNestedManyWithoutContributionInput } from "../inputs/PartnerCreateNestedManyWithoutContributionInput";
-import { TwitterTweetCreateNestedOneWithoutContributionInput } from "../inputs/TwitterTweetCreateNestedOneWithoutContributionInput";
-import { UserCreateNestedOneWithoutContributionsInput } from "../inputs/UserCreateNestedOneWithoutContributionsInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { AttestationCreateNestedManyWithoutContributionInput } from '../inputs/AttestationCreateNestedManyWithoutContributionInput';
+import { ContributionStatusCreateNestedOneWithoutContributionsInput } from '../inputs/ContributionStatusCreateNestedOneWithoutContributionsInput';
+import { GuildContributionCreateNestedManyWithoutContributionInput } from '../inputs/GuildContributionCreateNestedManyWithoutContributionInput';
+import { LinearIssueCreateNestedOneWithoutContributionInput } from '../inputs/LinearIssueCreateNestedOneWithoutContributionInput';
+import { PartnerCreateNestedManyWithoutContributionInput } from '../inputs/PartnerCreateNestedManyWithoutContributionInput';
+import { TwitterTweetCreateNestedOneWithoutContributionInput } from '../inputs/TwitterTweetCreateNestedOneWithoutContributionInput';
+import { UserCreateNestedOneWithoutContributionsInput } from '../inputs/UserCreateNestedOneWithoutContributionsInput';
 
-@TypeGraphQL.InputType("ContributionCreateWithoutActivity_typeInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('ContributionCreateWithoutActivity_typeInput', {
+  isAbstract: true,
 })
 export class ContributionCreateWithoutActivity_typeInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   name!: string;
 
-  @TypeGraphQL.Field(_type => ContributionStatusCreateNestedOneWithoutContributionsInput, {
-    nullable: false
-  })
+  @TypeGraphQL.Field(
+    _type => ContributionStatusCreateNestedOneWithoutContributionsInput,
+    {
+      nullable: false,
+    },
+  )
   status!: ContributionStatusCreateNestedOneWithoutContributionsInput;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutContributionsInput, {
-    nullable: false
+    nullable: false,
   })
   user!: UserCreateNestedOneWithoutContributionsInput;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   date_of_submission?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   date_of_engagement!: Date;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   details?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   proof?: string | undefined;
 
-  @TypeGraphQL.Field(_type => AttestationCreateNestedManyWithoutContributionInput, {
-    nullable: true
-  })
-  attestations?: AttestationCreateNestedManyWithoutContributionInput | undefined;
+  @TypeGraphQL.Field(
+    _type => AttestationCreateNestedManyWithoutContributionInput,
+    {
+      nullable: true,
+    },
+  )
+  attestations?:
+    | AttestationCreateNestedManyWithoutContributionInput
+    | undefined;
 
   @TypeGraphQL.Field(_type => PartnerCreateNestedManyWithoutContributionInput, {
-    nullable: true
+    nullable: true,
   })
   partners?: PartnerCreateNestedManyWithoutContributionInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildContributionCreateNestedManyWithoutContributionInput, {
-    nullable: true
-  })
-  guilds?: GuildContributionCreateNestedManyWithoutContributionInput | undefined;
+  @TypeGraphQL.Field(
+    _type => GuildContributionCreateNestedManyWithoutContributionInput,
+    {
+      nullable: true,
+    },
+  )
+  guilds?:
+    | GuildContributionCreateNestedManyWithoutContributionInput
+    | undefined;
 
-  @TypeGraphQL.Field(_type => LinearIssueCreateNestedOneWithoutContributionInput, {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => LinearIssueCreateNestedOneWithoutContributionInput,
+    {
+      nullable: true,
+    },
+  )
   linear_issue?: LinearIssueCreateNestedOneWithoutContributionInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetCreateNestedOneWithoutContributionInput, {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => TwitterTweetCreateNestedOneWithoutContributionInput,
+    {
+      nullable: true,
+    },
+  )
   tweet?: TwitterTweetCreateNestedOneWithoutContributionInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   on_chain_id?: number | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+  })
+  tx_hash?: string | undefined;
 }

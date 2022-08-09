@@ -1,14 +1,14 @@
-import * as TypeGraphQL from "type-graphql";
+import * as TypeGraphQL from 'type-graphql';
 
 export enum JobRunScalarFieldEnum {
-  id = "id",
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-  completedDate = "completedDate",
-  startDate = "startDate",
-  name = "name"
+  id = 'id',
+  createdAt = 'createdAt',
+  updatedAt = 'updatedAt',
+  completedDate = 'completedDate',
+  startDate = 'startDate',
+  name = 'name',
 }
 TypeGraphQL.registerEnumType(JobRunScalarFieldEnum, {
-  name: "JobRunScalarFieldEnum",
+  name: 'JobRunScalarFieldEnum',
   description: undefined,
 });

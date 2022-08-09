@@ -1,52 +1,65 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { ContributionCreateNestedManyWithoutActivity_typeInput } from "../inputs/ContributionCreateNestedManyWithoutActivity_typeInput";
-import { GuildActivityTypeCreateNestedManyWithoutActivity_typeInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutActivity_typeInput";
-import { UserActivityCreateNestedManyWithoutActivity_typeInput } from "../inputs/UserActivityCreateNestedManyWithoutActivity_typeInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { ContributionCreateNestedManyWithoutActivity_typeInput } from '../inputs/ContributionCreateNestedManyWithoutActivity_typeInput';
+import { GuildActivityTypeCreateNestedManyWithoutActivity_typeInput } from '../inputs/GuildActivityTypeCreateNestedManyWithoutActivity_typeInput';
+import { UserActivityCreateNestedManyWithoutActivity_typeInput } from '../inputs/UserActivityCreateNestedManyWithoutActivity_typeInput';
 
-@TypeGraphQL.InputType("ActivityTypeCreateWithoutCategoryActivityInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('ActivityTypeCreateWithoutCategoryActivityInput', {
+  isAbstract: true,
 })
 export class ActivityTypeCreateWithoutCategoryActivityInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   name!: string;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   active?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   default?: boolean | undefined;
 
-  @TypeGraphQL.Field(_type => UserActivityCreateNestedManyWithoutActivity_typeInput, {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => UserActivityCreateNestedManyWithoutActivity_typeInput,
+    {
+      nullable: true,
+    },
+  )
   users?: UserActivityCreateNestedManyWithoutActivity_typeInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionCreateNestedManyWithoutActivity_typeInput, {
-    nullable: true
-  })
-  contributions?: ContributionCreateNestedManyWithoutActivity_typeInput | undefined;
+  @TypeGraphQL.Field(
+    _type => ContributionCreateNestedManyWithoutActivity_typeInput,
+    {
+      nullable: true,
+    },
+  )
+  contributions?:
+    | ContributionCreateNestedManyWithoutActivity_typeInput
+    | undefined;
 
-  @TypeGraphQL.Field(_type => GuildActivityTypeCreateNestedManyWithoutActivity_typeInput, {
-    nullable: true
-  })
-  guilds?: GuildActivityTypeCreateNestedManyWithoutActivity_typeInput | undefined;
+  @TypeGraphQL.Field(
+    _type => GuildActivityTypeCreateNestedManyWithoutActivity_typeInput,
+    {
+      nullable: true,
+    },
+  )
+  guilds?:
+    | GuildActivityTypeCreateNestedManyWithoutActivity_typeInput
+    | undefined;
 }

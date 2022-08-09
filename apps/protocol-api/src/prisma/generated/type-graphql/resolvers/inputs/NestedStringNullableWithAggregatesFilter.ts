@@ -1,81 +1,81 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { NestedIntNullableFilter } from "../inputs/NestedIntNullableFilter";
-import { NestedStringNullableFilter } from "../inputs/NestedStringNullableFilter";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { NestedIntNullableFilter } from '../inputs/NestedIntNullableFilter';
+import { NestedStringNullableFilter } from '../inputs/NestedStringNullableFilter';
 
-@TypeGraphQL.InputType("NestedStringNullableWithAggregatesFilter", {
-  isAbstract: true
+@TypeGraphQL.InputType('NestedStringNullableWithAggregatesFilter', {
+  isAbstract: true,
 })
 export class NestedStringNullableWithAggregatesFilter {
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   equals?: string | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
-    nullable: true
+    nullable: true,
   })
   in?: string[] | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
-    nullable: true
+    nullable: true,
   })
   notIn?: string[] | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   lt?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   lte?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   gt?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   gte?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   contains?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   startsWith?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   endsWith?: string | undefined;
 
   @TypeGraphQL.Field(_type => NestedStringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   not?: NestedStringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => NestedIntNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   _count?: NestedIntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => NestedStringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   _min?: NestedStringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => NestedStringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   _max?: NestedStringNullableFilter | undefined;
 }

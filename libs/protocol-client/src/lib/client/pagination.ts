@@ -19,7 +19,7 @@ interface PaginationContext {
 export async function* cursorPagination<
   T extends Resource,
   E extends WhereArgument,
-  P extends PaginationContext
+  P extends PaginationContext,
 >(method: (arg0: E) => Promise<T[]>, args: E, context: P) {
   const pageResults = [] as T[];
   do {

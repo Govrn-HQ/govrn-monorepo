@@ -8,9 +8,11 @@ import {
   CreatableSelect,
   Select,
 } from '@govrn/protocol-ui';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { useNavigate } from 'react-router-dom';
+import { ContributionFormValues } from '../types/forms';
 import { ValidationError } from 'yup';
 
 const useYupValidationResolver = (reportValidationSchema: any) =>
@@ -51,7 +53,7 @@ const ReportForm = () => {
 
   const localForm = useForm({
     mode: 'all',
-    resolver: useYupValidationResolver(reportFormValidation),
+    resolver: yupResolver(reportFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(new Date());
@@ -88,7 +90,9 @@ const ReportForm = () => {
     })
   );
 
-  const createContributionHandler = async (values: any) => {
+  const createContributionHandler: SubmitHandler<
+    ContributionFormValues
+  > = async (values: ContributionFormValues) => {
     setActivityValue(values.activityType);
     createContribution(values, reset, navigate);
   };
@@ -132,7 +136,7 @@ const ReportForm = () => {
           name="daoId"
           label="DAO"
           tip="Please select a DAO to associate this Contribution with. This is optional."
-          placeholder="Select a DAO to assocaite this Contribution with."
+          placeholder="Select a DAO to associate this Contribution with."
           onChange={(dao) => {
             setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
           }}

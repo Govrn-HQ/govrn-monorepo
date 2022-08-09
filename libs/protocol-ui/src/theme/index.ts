@@ -1,5 +1,5 @@
 import colors from './colors';
-import Button from './components/button'
+import Button from './components/button';
 import Input from './components/input';
 import Checkbox from './components/checkbox';
 import Table from './components/table';

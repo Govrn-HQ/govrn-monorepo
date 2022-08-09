@@ -20,8 +20,8 @@ type Errors = {
 };
 
 type Option = {
-  label: string | number;
-  value: string | number;
+  label: string;
+  value: string;
 };
 
 export interface CreatableSelectProps {

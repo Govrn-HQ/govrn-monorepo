@@ -1,39 +1,39 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { ChainTypeOrderByWithAggregationInput } from "../../../inputs/ChainTypeOrderByWithAggregationInput";
-import { ChainTypeScalarWhereWithAggregatesInput } from "../../../inputs/ChainTypeScalarWhereWithAggregatesInput";
-import { ChainTypeWhereInput } from "../../../inputs/ChainTypeWhereInput";
-import { ChainTypeScalarFieldEnum } from "../../../../enums/ChainTypeScalarFieldEnum";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { ChainTypeOrderByWithAggregationInput } from '../../../inputs/ChainTypeOrderByWithAggregationInput';
+import { ChainTypeScalarWhereWithAggregatesInput } from '../../../inputs/ChainTypeScalarWhereWithAggregatesInput';
+import { ChainTypeWhereInput } from '../../../inputs/ChainTypeWhereInput';
+import { ChainTypeScalarFieldEnum } from '../../../../enums/ChainTypeScalarFieldEnum';
 
 @TypeGraphQL.ArgsType()
 export class GroupByChainTypeArgs {
   @TypeGraphQL.Field(_type => ChainTypeWhereInput, {
-    nullable: true
+    nullable: true,
   })
   where?: ChainTypeWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [ChainTypeOrderByWithAggregationInput], {
-    nullable: true
+    nullable: true,
   })
   orderBy?: ChainTypeOrderByWithAggregationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [ChainTypeScalarFieldEnum], {
-    nullable: false
+    nullable: false,
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "name">;
+  by!: Array<'id' | 'createdAt' | 'updatedAt' | 'name'>;
 
   @TypeGraphQL.Field(_type => ChainTypeScalarWhereWithAggregatesInput, {
-    nullable: true
+    nullable: true,
   })
   having?: ChainTypeScalarWhereWithAggregatesInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   skip?: number | undefined;
 }

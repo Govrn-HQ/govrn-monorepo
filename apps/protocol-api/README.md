@@ -72,6 +72,7 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 - `LINEAR_CLIENT_ID`: The client id of our linear app
 - `LINEAR_CLIENT_SECRET`: The client secret of our linear app
 - `PROTOCOL_FRONTEND`: The url for our protocol frontend. It should look similar to http://localhost:3000
+- `LINEAR_JOB_TOKEN`: Authorization for graphql requests for linear sync job
 
 [^1]: uses [`@nx-tools/nx-prisma`](https://github.com/nx-tools/nx-tools/tree/main/packages/nx-prisma) builder that provides a wrapper around the Prisma CLI.
 [^2]: As example it used at [contract-sync-job](../../apps/contract-sync-job/) app, check `CONTRACT_SYNC_TOKEN` env.

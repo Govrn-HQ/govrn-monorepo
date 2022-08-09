@@ -12,8 +12,16 @@ import {
   MintArgs,
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
+import { GraphQLClient } from 'graphql-request';
 
 export class Contribution extends BaseClient {
+  status: ContributionStatus;
+
+  constructor(client: GraphQLClient) {
+    super(client);
+    this.status = new ContributionStatus(this.client);
+  }
+
   public async get(id: number) {
     const contribution = await this.sdk.getContribution({ where: { id } });
     return contribution.result;
@@ -40,7 +48,7 @@ export class Contribution extends BaseClient {
   public async delete(
     networkConfig: NetworkConfig,
     signer: ethers.Signer,
-    id: number
+    id: number,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
 
@@ -80,7 +88,7 @@ export class Contribution extends BaseClient {
     args: MintArgs,
     name: Uint8Array,
     details: Uint8Array,
-    proof: Uint8Array
+    proof: Uint8Array,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
@@ -114,6 +122,7 @@ export class Contribution extends BaseClient {
           onChainId: onChainId.toNumber(),
           userId: userId,
           id: id,
+          txHash: transaction.hash,
         },
       });
       console.log('update response:', updateResponse);
@@ -140,7 +149,7 @@ export class Contribution extends BaseClient {
     id: number,
     activityTypeId: number,
     userId: number,
-    args: AttestArgs
+    args: AttestArgs,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
@@ -165,5 +174,15 @@ export class Contribution extends BaseClient {
         userId: userId,
       },
     });
+  }
+}
+
+export class ContributionStatus extends BaseClient {
+  public async get(name: string) {
+    const contributions = await this.sdk.getContributionStatus({ name: name });
+    if (contributions.contributionStatuses.length) {
+      return contributions.contributionStatuses[0];
+    }
+    return { id: 0, name: '' };
   }
 }

@@ -1,159 +1,167 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { ContributionCreateNestedOneWithoutLinear_issueInput } from "../inputs/ContributionCreateNestedOneWithoutLinear_issueInput";
-import { LinearCycleCreateNestedOneWithoutIssuesInput } from "../inputs/LinearCycleCreateNestedOneWithoutIssuesInput";
-import { LinearProjectCreateNestedOneWithoutIssuesInput } from "../inputs/LinearProjectCreateNestedOneWithoutIssuesInput";
-import { LinearTeamCreateNestedOneWithoutIssuesInput } from "../inputs/LinearTeamCreateNestedOneWithoutIssuesInput";
-import { LinearUserCreateNestedOneWithoutAssigned_issuesInput } from "../inputs/LinearUserCreateNestedOneWithoutAssigned_issuesInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { ContributionCreateNestedOneWithoutLinear_issueInput } from '../inputs/ContributionCreateNestedOneWithoutLinear_issueInput';
+import { LinearCycleCreateNestedOneWithoutIssuesInput } from '../inputs/LinearCycleCreateNestedOneWithoutIssuesInput';
+import { LinearProjectCreateNestedOneWithoutIssuesInput } from '../inputs/LinearProjectCreateNestedOneWithoutIssuesInput';
+import { LinearTeamCreateNestedOneWithoutIssuesInput } from '../inputs/LinearTeamCreateNestedOneWithoutIssuesInput';
+import { LinearUserCreateNestedOneWithoutAssigned_issuesInput } from '../inputs/LinearUserCreateNestedOneWithoutAssigned_issuesInput';
 
-@TypeGraphQL.InputType("LinearIssueCreateWithoutCreatorInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearIssueCreateWithoutCreatorInput', {
+  isAbstract: true,
 })
 export class LinearIssueCreateWithoutCreatorInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   archivedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   autoArchivedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   autoClosedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   boardOrder?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   branchName?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   canceledAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   completedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   customerTickerCount?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   description?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   dueDate?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   estimate?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   linear_id?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   identifier?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   priority?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   priorityLabel?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   snoozedUntilAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   sortOrder?: number | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   startedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
+    nullable: true,
   })
   subIssueSortOrder?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   title?: string | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   trashed?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   url?: string | undefined;
 
-  @TypeGraphQL.Field(_type => LinearUserCreateNestedOneWithoutAssigned_issuesInput, {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => LinearUserCreateNestedOneWithoutAssigned_issuesInput,
+    {
+      nullable: true,
+    },
+  )
   assignee?: LinearUserCreateNestedOneWithoutAssigned_issuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleCreateNestedOneWithoutIssuesInput, {
-    nullable: true
+    nullable: true,
   })
   cycle?: LinearCycleCreateNestedOneWithoutIssuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectCreateNestedOneWithoutIssuesInput, {
-    nullable: true
+    nullable: true,
   })
   project?: LinearProjectCreateNestedOneWithoutIssuesInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearTeamCreateNestedOneWithoutIssuesInput, {
-    nullable: true
+    nullable: true,
   })
   team?: LinearTeamCreateNestedOneWithoutIssuesInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionCreateNestedOneWithoutLinear_issueInput, {
-    nullable: true
-  })
-  contribution?: ContributionCreateNestedOneWithoutLinear_issueInput | undefined;
+  @TypeGraphQL.Field(
+    _type => ContributionCreateNestedOneWithoutLinear_issueInput,
+    {
+      nullable: true,
+    },
+  )
+  contribution?:
+    | ContributionCreateNestedOneWithoutLinear_issueInput
+    | undefined;
 }

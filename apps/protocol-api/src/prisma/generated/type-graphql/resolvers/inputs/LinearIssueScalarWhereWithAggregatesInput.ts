@@ -1,185 +1,185 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { BoolNullableWithAggregatesFilter } from "../inputs/BoolNullableWithAggregatesFilter";
-import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
-import { FloatNullableWithAggregatesFilter } from "../inputs/FloatNullableWithAggregatesFilter";
-import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
-import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
-import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { BoolNullableWithAggregatesFilter } from '../inputs/BoolNullableWithAggregatesFilter';
+import { DateTimeNullableWithAggregatesFilter } from '../inputs/DateTimeNullableWithAggregatesFilter';
+import { FloatNullableWithAggregatesFilter } from '../inputs/FloatNullableWithAggregatesFilter';
+import { IntNullableWithAggregatesFilter } from '../inputs/IntNullableWithAggregatesFilter';
+import { IntWithAggregatesFilter } from '../inputs/IntWithAggregatesFilter';
+import { StringNullableWithAggregatesFilter } from '../inputs/StringNullableWithAggregatesFilter';
 
-@TypeGraphQL.InputType("LinearIssueScalarWhereWithAggregatesInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearIssueScalarWhereWithAggregatesInput', {
+  isAbstract: true,
 })
 export class LinearIssueScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => [LinearIssueScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   AND?: LinearIssueScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   OR?: LinearIssueScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   NOT?: LinearIssueScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   id?: IntWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   archivedAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   autoArchivedAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   autoClosedAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   boardOrder?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   branchName?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   canceledAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   completedAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   customerTickerCount?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   description?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   dueDate?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   estimate?: FloatNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   linear_id?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   identifier?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   priority?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   priorityLabel?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   snoozedUntilAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   sortOrder?: FloatNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   startedAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   subIssueSortOrder?: FloatNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   title?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   trashed?: BoolNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   url?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   assignee_id?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   creator_id?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   cycle_id?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   project_id?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   team_id?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   contribution_id?: IntNullableWithAggregatesFilter | undefined;
 }

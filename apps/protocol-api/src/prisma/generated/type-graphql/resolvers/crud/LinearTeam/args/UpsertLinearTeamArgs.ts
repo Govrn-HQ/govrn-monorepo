@@ -1,23 +1,23 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { LinearTeamCreateInput } from "../../../inputs/LinearTeamCreateInput";
-import { LinearTeamUpdateInput } from "../../../inputs/LinearTeamUpdateInput";
-import { LinearTeamWhereUniqueInput } from "../../../inputs/LinearTeamWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { LinearTeamCreateInput } from '../../../inputs/LinearTeamCreateInput';
+import { LinearTeamUpdateInput } from '../../../inputs/LinearTeamUpdateInput';
+import { LinearTeamWhereUniqueInput } from '../../../inputs/LinearTeamWhereUniqueInput';
 
 @TypeGraphQL.ArgsType()
 export class UpsertLinearTeamArgs {
   @TypeGraphQL.Field(_type => LinearTeamWhereUniqueInput, {
-    nullable: false
+    nullable: false,
   })
   where!: LinearTeamWhereUniqueInput;
 
   @TypeGraphQL.Field(_type => LinearTeamCreateInput, {
-    nullable: false
+    nullable: false,
   })
   create!: LinearTeamCreateInput;
 
   @TypeGraphQL.Field(_type => LinearTeamUpdateInput, {
-    nullable: false
+    nullable: false,
   })
   update!: LinearTeamUpdateInput;
 }

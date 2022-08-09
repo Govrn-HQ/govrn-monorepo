@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class Attest extends ethereum.Event {
   get params(): Attest__Params {
@@ -71,12 +71,12 @@ export class Govrn__attestationsResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
     map.set(
-      "value1",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1))
+      'value1',
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
     );
-    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
+    map.set('value2', ethereum.Value.fromUnsignedBigInt(this.value2));
     return map;
   }
 }
@@ -95,7 +95,7 @@ export class Govrn__contributionsResult {
     value2: Bytes,
     value3: BigInt,
     value4: BigInt,
-    value5: Bytes
+    value5: Bytes,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -107,26 +107,26 @@ export class Govrn__contributionsResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromBytes(this.value1));
-    map.set("value2", ethereum.Value.fromBytes(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
-    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
-    map.set("value5", ethereum.Value.fromBytes(this.value5));
+    map.set('value0', ethereum.Value.fromAddress(this.value0));
+    map.set('value1', ethereum.Value.fromBytes(this.value1));
+    map.set('value2', ethereum.Value.fromBytes(this.value2));
+    map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set('value4', ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set('value5', ethereum.Value.fromBytes(this.value5));
     return map;
   }
 }
 
 export class Govrn extends ethereum.SmartContract {
   static bind(address: Address): Govrn {
-    return new Govrn("Govrn", address);
+    return new Govrn('Govrn', address);
   }
 
   DOMAIN_SEPARATOR(): Bytes {
     let result = super.call(
-      "DOMAIN_SEPARATOR",
-      "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      'DOMAIN_SEPARATOR',
+      'DOMAIN_SEPARATOR():(bytes32)',
+      [],
     );
 
     return result[0].toBytes();
@@ -134,9 +134,9 @@ export class Govrn extends ethereum.SmartContract {
 
   try_DOMAIN_SEPARATOR(): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
-      "DOMAIN_SEPARATOR",
-      "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      'DOMAIN_SEPARATOR',
+      'DOMAIN_SEPARATOR():(bytes32)',
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -146,13 +146,13 @@ export class Govrn extends ethereum.SmartContract {
   }
 
   VERSION(): string {
-    let result = super.call("VERSION", "VERSION():(string)", []);
+    let result = super.call('VERSION', 'VERSION():(string)', []);
 
     return result[0].toString();
   }
 
   try_VERSION(): ethereum.CallResult<string> {
-    let result = super.tryCall("VERSION", "VERSION():(string)", []);
+    let result = super.tryCall('VERSION', 'VERSION():(string)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -162,32 +162,32 @@ export class Govrn extends ethereum.SmartContract {
 
   attestations(param0: BigInt, param1: Address): Govrn__attestationsResult {
     let result = super.call(
-      "attestations",
-      "attestations(uint256,address):(uint256,uint8,uint256)",
+      'attestations',
+      'attestations(uint256,address):(uint256,uint8,uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromAddress(param1)
-      ]
+        ethereum.Value.fromAddress(param1),
+      ],
     );
 
     return new Govrn__attestationsResult(
       result[0].toBigInt(),
       result[1].toI32(),
-      result[2].toBigInt()
+      result[2].toBigInt(),
     );
   }
 
   try_attestations(
     param0: BigInt,
-    param1: Address
+    param1: Address,
   ): ethereum.CallResult<Govrn__attestationsResult> {
     let result = super.tryCall(
-      "attestations",
-      "attestations(uint256,address):(uint256,uint8,uint256)",
+      'attestations',
+      'attestations(uint256,address):(uint256,uint8,uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromAddress(param1)
-      ]
+        ethereum.Value.fromAddress(param1),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -197,22 +197,22 @@ export class Govrn extends ethereum.SmartContract {
       new Govrn__attestationsResult(
         value[0].toBigInt(),
         value[1].toI32(),
-        value[2].toBigInt()
-      )
+        value[2].toBigInt(),
+      ),
     );
   }
 
   balanceOf(param0: Address): BigInt {
-    let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+    let result = super.call('balanceOf', 'balanceOf(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
   }
 
   try_balanceOf(param0: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+    let result = super.tryCall('balanceOf', 'balanceOf(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -223,9 +223,9 @@ export class Govrn extends ethereum.SmartContract {
 
   contributionCount(): BigInt {
     let result = super.call(
-      "contributionCount",
-      "contributionCount():(uint256)",
-      []
+      'contributionCount',
+      'contributionCount():(uint256)',
+      [],
     );
 
     return result[0].toBigInt();
@@ -233,9 +233,9 @@ export class Govrn extends ethereum.SmartContract {
 
   try_contributionCount(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "contributionCount",
-      "contributionCount():(uint256)",
-      []
+      'contributionCount',
+      'contributionCount():(uint256)',
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -246,9 +246,9 @@ export class Govrn extends ethereum.SmartContract {
 
   contributions(param0: BigInt): Govrn__contributionsResult {
     let result = super.call(
-      "contributions",
-      "contributions(uint256):(address,bytes,bytes,uint256,uint256,bytes)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      'contributions',
+      'contributions(uint256):(address,bytes,bytes,uint256,uint256,bytes)',
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new Govrn__contributionsResult(
@@ -257,17 +257,17 @@ export class Govrn extends ethereum.SmartContract {
       result[2].toBytes(),
       result[3].toBigInt(),
       result[4].toBigInt(),
-      result[5].toBytes()
+      result[5].toBytes(),
     );
   }
 
   try_contributions(
-    param0: BigInt
+    param0: BigInt,
   ): ethereum.CallResult<Govrn__contributionsResult> {
     let result = super.tryCall(
-      "contributions",
-      "contributions(uint256):(address,bytes,bytes,uint256,uint256,bytes)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      'contributions',
+      'contributions(uint256):(address,bytes,bytes,uint256,uint256,bytes)',
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -280,22 +280,22 @@ export class Govrn extends ethereum.SmartContract {
         value[2].toBytes(),
         value[3].toBigInt(),
         value[4].toBigInt(),
-        value[5].toBytes()
-      )
+        value[5].toBytes(),
+      ),
     );
   }
 
   nonces(param0: Address): BigInt {
-    let result = super.call("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+    let result = super.call('nonces', 'nonces(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
   }
 
   try_nonces(param0: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+    let result = super.tryCall('nonces', 'nonces(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -305,16 +305,16 @@ export class Govrn extends ethereum.SmartContract {
   }
 
   ownerOf(_tokenId: BigInt): Address {
-    let result = super.call("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(_tokenId)
+    let result = super.call('ownerOf', 'ownerOf(uint256):(address)', [
+      ethereum.Value.fromUnsignedBigInt(_tokenId),
     ]);
 
     return result[0].toAddress();
   }
 
   try_ownerOf(_tokenId: BigInt): ethereum.CallResult<Address> {
-    let result = super.tryCall("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(_tokenId)
+    let result = super.tryCall('ownerOf', 'ownerOf(uint256):(address)', [
+      ethereum.Value.fromUnsignedBigInt(_tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -324,18 +324,18 @@ export class Govrn extends ethereum.SmartContract {
   }
 
   partners(param0: BigInt, param1: Address): boolean {
-    let result = super.call("partners", "partners(uint256,address):(bool)", [
+    let result = super.call('partners', 'partners(uint256,address):(bool)', [
       ethereum.Value.fromUnsignedBigInt(param0),
-      ethereum.Value.fromAddress(param1)
+      ethereum.Value.fromAddress(param1),
     ]);
 
     return result[0].toBoolean();
   }
 
   try_partners(param0: BigInt, param1: Address): ethereum.CallResult<boolean> {
-    let result = super.tryCall("partners", "partners(uint256,address):(bool)", [
+    let result = super.tryCall('partners', 'partners(uint256,address):(bool)', [
       ethereum.Value.fromUnsignedBigInt(param0),
-      ethereum.Value.fromAddress(param1)
+      ethereum.Value.fromAddress(param1),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -346,9 +346,9 @@ export class Govrn extends ethereum.SmartContract {
 
   revokeAttestatation(_contribution: BigInt): boolean {
     let result = super.call(
-      "revokeAttestatation",
-      "revokeAttestatation(uint256):(bool)",
-      [ethereum.Value.fromUnsignedBigInt(_contribution)]
+      'revokeAttestatation',
+      'revokeAttestatation(uint256):(bool)',
+      [ethereum.Value.fromUnsignedBigInt(_contribution)],
     );
 
     return result[0].toBoolean();
@@ -356,9 +356,9 @@ export class Govrn extends ethereum.SmartContract {
 
   try_revokeAttestatation(_contribution: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "revokeAttestatation",
-      "revokeAttestatation(uint256):(bool)",
-      [ethereum.Value.fromUnsignedBigInt(_contribution)]
+      'revokeAttestatation',
+      'revokeAttestatation(uint256):(bool)',
+      [ethereum.Value.fromUnsignedBigInt(_contribution)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -368,13 +368,13 @@ export class Govrn extends ethereum.SmartContract {
   }
 
   revokePeriod(): BigInt {
-    let result = super.call("revokePeriod", "revokePeriod():(uint256)", []);
+    let result = super.call('revokePeriod', 'revokePeriod():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_revokePeriod(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("revokePeriod", "revokePeriod():(uint256)", []);
+    let result = super.tryCall('revokePeriod', 'revokePeriod():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -499,9 +499,7 @@ export class BulkAttestCall__Inputs {
   }
 
   get _attestations(): Array<BulkAttestCall_attestationsStruct> {
-    return this._call.inputValues[0].value.toTupleArray<
-      BulkAttestCall_attestationsStruct
-    >();
+    return this._call.inputValues[0].value.toTupleArray<BulkAttestCall_attestationsStruct>();
   }
 }
 
@@ -545,9 +543,7 @@ export class BulkMintCall__Inputs {
   }
 
   get _contributions(): Array<BulkMintCall_contributionsStruct> {
-    return this._call.inputValues[0].value.toTupleArray<
-      BulkMintCall_contributionsStruct
-    >();
+    return this._call.inputValues[0].value.toTupleArray<BulkMintCall_contributionsStruct>();
   }
 }
 
@@ -562,7 +558,7 @@ export class BulkMintCall__Outputs {
 export class BulkMintCall_contributionsStruct extends ethereum.Tuple {
   get contribution(): BulkMintCall_contributionsContributionStruct {
     return changetype<BulkMintCall_contributionsContributionStruct>(
-      this[0].toTuple()
+      this[0].toTuple(),
     );
   }
 

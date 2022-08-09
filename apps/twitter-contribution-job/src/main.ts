@@ -38,10 +38,10 @@ const main = async () => {
     {
       first: 10,
     },
-    govrn.twitter
+    govrn.twitter,
   )) {
     const accountNames = accounts
-      .map((account) => {
+      .map(account => {
         return `@${account.account_name}`;
       })
       .join(' OR ');
@@ -74,7 +74,7 @@ const main = async () => {
           where: {
             twitter_user_id: user.id,
           },
-        })
+        }),
       );
     }
     const resp = await Promise.all(upsertPromises);

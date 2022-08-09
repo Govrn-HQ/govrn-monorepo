@@ -29,8 +29,7 @@ export interface InputProps {
   type?: 'text' | 'number' | 'email'; // may not need this
   defaultValue?: string | number;
   isDisabled?: boolean;
-  localForm: InputLocalFormType<{ [key: string]: any }>;
-
+  localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'outline' | 'filled';
 }
 
@@ -57,7 +56,6 @@ const Input: React.FC<InputProps> = ({
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}
         <Box my={2}>
           <ChakraInput
-            name={name}
             type={type}
             height="30px"
             placeholder={placeholder}

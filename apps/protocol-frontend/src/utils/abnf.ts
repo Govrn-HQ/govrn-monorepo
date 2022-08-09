@@ -161,14 +161,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { domain: string }
+      data: { domain: string },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.domain = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -178,14 +178,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { address: string }
+      data: { address: string },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.address = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -197,14 +197,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { statement: any }
+      data: { statement: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.statement = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -215,7 +215,7 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { uri: any }
+      data: { uri: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
@@ -223,7 +223,7 @@ export class ParsedMessage {
           data.uri = apgLib.utils.charsToString(
             chars,
             phraseIndex,
-            phraseLength
+            phraseLength,
           );
         }
       }
@@ -235,14 +235,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { version: any }
+      data: { version: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.version = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -253,12 +253,12 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { chainId: number }
+      data: { chainId: number },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.chainId = parseInt(
-          apgLib.utils.charsToString(chars, phraseIndex, phraseLength)
+          apgLib.utils.charsToString(chars, phraseIndex, phraseLength),
         );
       }
       return ret;
@@ -269,14 +269,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { nonce: any }
+      data: { nonce: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.nonce = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -287,14 +287,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { issuedAt: any }
+      data: { issuedAt: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.issuedAt = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -305,14 +305,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { expirationTime: any }
+      data: { expirationTime: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.expirationTime = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -323,14 +323,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { notBefore: any }
+      data: { notBefore: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.notBefore = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -341,14 +341,14 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { requestId: any }
+      data: { requestId: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
         data.requestId = apgLib.utils.charsToString(
           chars,
           phraseIndex,
-          phraseLength
+          phraseLength,
         );
       }
       return ret;
@@ -359,7 +359,7 @@ export class ParsedMessage {
       chars: any,
       phraseIndex: any,
       phraseLength: any,
-      data: { resources: any }
+      data: { resources: any },
     ) {
       const ret = id.SEM_OK;
       if (state === id.SEM_PRE) {
@@ -464,7 +464,7 @@ export class ParsedMessageRegExp {
     this.resources = match?.groups?.resources?.split('\n- ').slice(1);
 
     if (this.resources?.length > 0) {
-      this.resources.forEach((r) => {
+      this.resources.forEach(r => {
         if (!uri.isUri(r)) {
           throw new Error(`${r} is not a valid resource.`);
         }

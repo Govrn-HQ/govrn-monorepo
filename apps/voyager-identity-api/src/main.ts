@@ -10,14 +10,19 @@ app
     next();
   })
   .get('/api', async (req, res) => {
-    const page = Number(req.query.page);
-    const limit = Number(req.query.limit);
+    try {
+      const page = Number(req.query.page);
+      const limit = Number(req.query.limit);
 
-    console.dir({ page, limit });
-    const event = await loadContributions({ page: null, limit });
-    // json > json-ld
-    const transformed = await transform(event);
-    res.send(JSON.stringify(transformed));
+      console.dir({ page, limit });
+      const event = await loadContributions({ page: null, limit });
+      // json > json-ld
+      const transformed = await transform(event);
+      res.send(JSON.stringify(transformed));
+    } catch (e) {
+      console.error(e);
+      res.status(500).send();
+    }
   });
 
 const port = process.env.port || 3333;

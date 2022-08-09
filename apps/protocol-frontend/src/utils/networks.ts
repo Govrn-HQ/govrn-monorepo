@@ -67,7 +67,7 @@ export const chainOptions = [
 ];
 
 export const getChainIdByName = (chainName: ChainLabel) => {
-  return chainOptions.filter((option) => {
+  return chainOptions.filter(option => {
     return option.value === chainName;
   });
 };
