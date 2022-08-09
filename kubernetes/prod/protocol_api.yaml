@@ -68,6 +68,8 @@ spec:
                   key: linear_job_token
             - name: PROTOCOL_FRONTEND
               value: 'https://api.govrn.app'
+            - name: LINEAR_REDIRECT_URI
+              value: 'http://api.govrn.app/oauth/token'
           resources:
             requests:
               memory: 300Mi
