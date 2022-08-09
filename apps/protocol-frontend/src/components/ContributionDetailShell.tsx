@@ -12,22 +12,24 @@ import {
   Text,
   Link as ChakraLink,
   Divider,
+  Icon,
 } from '@chakra-ui/react';
+import { formatDate } from '../utils/date';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { UIContribution } from '@govrn/ui-types';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import { HiOutlineLink } from 'react-icons/hi';
 import PageHeading from './PageHeading';
+import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
-interface ContributionDetailShellProps {
+interface ContributionDetailShellProps extends UIContribution {
   contribution: UIContribution;
 }
 
 const ContributionDetailShell = ({
   contribution,
 }: ContributionDetailShellProps) => {
-  console.log('contribution', contribution);
-  const { attestations } = contribution;
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -59,7 +61,7 @@ const ContributionDetailShell = ({
         <Flex direction="column" gap={4}>
           <Flex direction={{ base: 'column' }} gap={2}>
             <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
-              {contribution.name}
+              {contribution?.name}
             </Heading>
             <Flex
               direction="row"
@@ -67,48 +69,72 @@ const ContributionDetailShell = ({
               flexBasis={{ base: '100%', lg: '50%' }}
             >
               <Badge colorScheme="gray" variant="subtle" padding={1}>
-                {contribution.status.name === 'minted'
-                  ? `${contribution.status.name} 🌞`
-                  : `${contribution.status.name} 👀`}
+                {contribution?.status.name === 'minted'
+                  ? `${contribution?.status.name} 🌞`
+                  : `${contribution?.status.name} 👀`}
               </Badge>
               <Text fontSize="sm" color="gray.600">
-                {contribution.date_of_engagement}
+                {contribution?.date_of_engagement}
               </Text>
             </Flex>
           </Flex>
-          {contribution.details && <Text>{contribution.details}</Text>}
-          {contribution.proof && (
-            <ChakraLink href={contribution.proof} isExternal>
-              View Proof <ExternalLinkIcon mx="2px" />
-            </ChakraLink>
-          )}
+          {contribution?.details && <Text>{contribution?.details}</Text>}
+          <Stack marginBottom={4} fontSize="sm" fontWeight="bolder">
+            {contribution?.proof && (
+              <ChakraLink href={contribution?.proof} isExternal>
+                View Proof <ExternalLinkIcon mx="2px" />
+              </ChakraLink>
+            )}
+
+            {contribution?.tx_hash !== null && (
+              <ChakraLink
+                href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${contribution?.tx_hash}`}
+                isExternal
+              >
+                View on Block Explorer <Icon as={HiOutlineLink} mx="2px" />
+              </ChakraLink>
+            )}
+          </Stack>
         </Flex>
         <Divider />
-        <Flex paddingY={4}>
-          {attestations.length > 0 && (
-            <Stack spacing="3" width="full">
+        {contribution?.attestations.length > 0 && (
+          <Flex paddingY={4}>
+            <Stack spacing={2} width="full">
               <Heading as="h4" fontSize="lg" fontWeight="normal">
-                {attestations.length} Attestations
+                {contribution?.attestations.length} Attestations
               </Heading>
               <List listStyleType="none">
-                {attestations.map((attestation) => (
+                {contribution?.attestations.map((attestation) => (
                   <ListItem
                     key={attestation.id}
                     value={attestation.id}
                     padding={2}
+                    marginY={4}
                     borderRadius="lg"
+                    backgroundColor="gray.50"
                   >
                     <Stack shouldWrapChildren spacing={2}>
                       <Text fontSize="sm" fontWeight="medium">
-                        {attestation.name}
+                        {attestation.user?.name}
                       </Text>
+                      <HStack justify="space-between">
+                        <HStack spacing="3">
+                          <Text
+                            fontSize="xs"
+                            color="subtle"
+                            fontWeight="medium"
+                          >
+                            {formatDate(attestation.date_of_attestation)}
+                          </Text>
+                        </HStack>
+                      </HStack>
                     </Stack>
                   </ListItem>
                 ))}
               </List>
             </Stack>
-          )}
-        </Flex>
+          </Flex>
+        )}
       </Flex>
     </Box>
   );

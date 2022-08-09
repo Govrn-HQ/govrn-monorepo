@@ -35,9 +35,9 @@ const UserView = () => {
 
 const ContributionDetails = () => {
   const { isConnected } = useWallet();
+  const { id } = useParams();
   const { userData, getContribution } = useUser();
   const { isAuthenticated } = useAuth();
-  const { id } = useParams();
   const [contribution, setContribution] = useState(null);
 
   useEffect(() => {

@@ -94,9 +94,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   }, [address]);
 
   const getContribution = async (id: number) => {
+    console.log('firing getContribution');
     try {
       const contributionResponse = await govrn.contribution.get(id);
       if (contributionResponse) {
+        console.log('contributionResponse', contributionResponse);
         const formattedResponse = {
           ...contributionResponse,
           date_of_engagement: formatDate(
@@ -106,7 +108,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             contributionResponse.date_of_submission
           ),
         };
-        setContribution(formattedResponse ?? null);
+        setContribution(formattedResponse);
         return formattedResponse;
       }
     } catch (error) {
