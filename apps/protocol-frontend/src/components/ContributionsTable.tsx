@@ -173,36 +173,39 @@ const ContributionsTable = ({
         Header: 'Actions',
         Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) =>
           row.original.status.name === 'minted' ? (
-            <Tooltip
-              label="Minted contribution(s) cannot be edited"
-              aria-label="A tooltip"
-            >
-              <HStack spacing="1">
-                <IconButton
-                  icon={<FiEdit2 fontSize="1rem" />}
-                  variant="ghost"
-                  color="gray.800"
-                  aria-label="Edit Contribution"
-                  disabled={
-                    row.original.user.id !== userData?.id ||
-                    row.original.status.name === 'minted'
-                  }
-                  onClick={() =>
-                    handleEditContributionFormModal(row.original.id)
-                  }
-                />
-                <IconButton
-                  icon={<FiTrash2 fontSize="1rem" />}
-                  variant="ghost"
-                  color="gray.800"
-                  disabled={
-                    row.original.user.id !== userData?.id ||
-                    row.original.status.name === 'minted'
-                  }
-                  aria-label="Delete Contribution"
-                />
-              </HStack>
-            </Tooltip>
+            <HStack spacing="1">
+              <Tooltip
+                label="Minted contribution(s) cannot be edited"
+                aria-label="A tooltip"
+              >
+                <Box>
+                  <IconButton
+                    padding={1}
+                    icon={<FiEdit2 fontSize="1rem" />}
+                    variant="ghost"
+                    color="gray.800"
+                    aria-label="Edit Contribution"
+                    disabled={
+                      row.original.user.id !== userData?.id ||
+                      row.original.status.name === 'minted'
+                    }
+                    onClick={() =>
+                      handleEditContributionFormModal(row.original.id)
+                    }
+                  />
+                </Box>
+              </Tooltip>
+              <IconButton
+                icon={<FiTrash2 fontSize="1rem" />}
+                variant="ghost"
+                color="gray.800"
+                disabled={
+                  row.original.user.id !== userData?.id ||
+                  row.original.status.name === 'minted'
+                }
+                aria-label="Delete Contribution"
+              />
+            </HStack>
           ) : (
             <HStack spacing="1">
               <IconButton
