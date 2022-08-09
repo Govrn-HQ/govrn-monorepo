@@ -70,7 +70,7 @@ spec:
         - voyager-identity-api-staging.govrn.app
       secretName: voyager-identity-api-staging-tls
   rules:
-    - host: voyager-staging-api-staging.govrn.app
+    - host: voyager-identity-api-staging.govrn.app
       http:
         paths:
           - path: /
