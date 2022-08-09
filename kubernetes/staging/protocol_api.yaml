@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: <IMAGE>
+          image: registry.digitalocean.com/govrn-protocol/protocol_api:sha-c899394
           env:
             - name: DATABASE_URL
               valueFrom:
@@ -67,9 +67,9 @@ spec:
                   name: protocol-api
                   key: linear_client_secret
             - name: PROTOCOL_FRONTEND
-              value: 'https://api-staging.govrn.app'
+              value: 'https://staging.govrn.app'
             - name: LINEAR_REDIRECT_URI
-              value: 'http://api-staging.govrn.app/oauth/token'
+              value: 'https://api-staging.govrn.app/linear/oauth'
           resources:
             requests:
               memory: 300Mi
