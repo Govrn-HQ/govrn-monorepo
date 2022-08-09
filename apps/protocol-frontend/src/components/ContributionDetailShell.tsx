@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   Flex,
+  List,
+  ListItem,
   Stack,
   VStack,
   HStack,
@@ -9,6 +11,7 @@ import {
   Heading,
   Text,
   Link as ChakraLink,
+  Divider,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { UIContribution } from '@govrn/ui-types';
@@ -24,6 +27,7 @@ const ContributionDetailShell = ({
   contribution,
 }: ContributionDetailShellProps) => {
   console.log('contribution', contribution);
+  const { attestations } = contribution;
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -62,7 +66,7 @@ const ContributionDetailShell = ({
               justifyContent={{ base: 'space-between' }}
               flexBasis={{ base: '100%', lg: '50%' }}
             >
-              <Badge colorScheme="cyan" variant="subtle" paddingTop={1}>
+              <Badge colorScheme="gray" variant="subtle" padding={1}>
                 {contribution.status.name === 'minted'
                   ? `${contribution.status.name} 🌞`
                   : `${contribution.status.name} 👀`}
@@ -77,6 +81,32 @@ const ContributionDetailShell = ({
             <ChakraLink href={contribution.proof} isExternal>
               View Proof <ExternalLinkIcon mx="2px" />
             </ChakraLink>
+          )}
+        </Flex>
+        <Divider />
+        <Flex paddingY={4}>
+          {attestations.length > 0 && (
+            <Stack spacing="3" width="full">
+              <Heading as="h4" fontSize="lg" fontWeight="normal">
+                {attestations.length} Attestations
+              </Heading>
+              <List listStyleType="none">
+                {attestations.map((attestation) => (
+                  <ListItem
+                    key={attestation.id}
+                    value={attestation.id}
+                    padding={2}
+                    borderRadius="lg"
+                  >
+                    <Stack shouldWrapChildren spacing={2}>
+                      <Text fontSize="sm" fontWeight="medium">
+                        {attestation.name}
+                      </Text>
+                    </Stack>
+                  </ListItem>
+                ))}
+              </List>
+            </Stack>
           )}
         </Flex>
       </Flex>

@@ -54,7 +54,7 @@ const ContributionDetails = () => {
     <SiteLayout>
       {isConnected && isAuthenticated ? (
         <>
-          {contribution !== null ? (
+          {contribution !== undefined ? (
             <ContributionDetailShell contribution={contribution} />
           ) : (
             <Box

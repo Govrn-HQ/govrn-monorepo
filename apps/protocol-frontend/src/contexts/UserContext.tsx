@@ -106,7 +106,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             contributionResponse.date_of_submission
           ),
         };
-        setContribution(formattedResponse);
+        setContribution(formattedResponse ?? null);
         return formattedResponse;
       }
     } catch (error) {
