@@ -1,133 +1,133 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { AttestationListRelationFilter } from "../inputs/AttestationListRelationFilter";
-import { BoolFilter } from "../inputs/BoolFilter";
-import { ChainTypeRelationFilter } from "../inputs/ChainTypeRelationFilter";
-import { ContributionListRelationFilter } from "../inputs/ContributionListRelationFilter";
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
-import { DiscordUserListRelationFilter } from "../inputs/DiscordUserListRelationFilter";
-import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
-import { IntFilter } from "../inputs/IntFilter";
-import { LinearUserListRelationFilter } from "../inputs/LinearUserListRelationFilter";
-import { PartnerListRelationFilter } from "../inputs/PartnerListRelationFilter";
-import { StringFilter } from "../inputs/StringFilter";
-import { StringNullableFilter } from "../inputs/StringNullableFilter";
-import { TwitterUserRelationFilter } from "../inputs/TwitterUserRelationFilter";
-import { UserActivityListRelationFilter } from "../inputs/UserActivityListRelationFilter";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { AttestationListRelationFilter } from '../inputs/AttestationListRelationFilter';
+import { BoolFilter } from '../inputs/BoolFilter';
+import { ChainTypeRelationFilter } from '../inputs/ChainTypeRelationFilter';
+import { ContributionListRelationFilter } from '../inputs/ContributionListRelationFilter';
+import { DateTimeFilter } from '../inputs/DateTimeFilter';
+import { DiscordUserListRelationFilter } from '../inputs/DiscordUserListRelationFilter';
+import { GuildUserListRelationFilter } from '../inputs/GuildUserListRelationFilter';
+import { IntFilter } from '../inputs/IntFilter';
+import { LinearUserListRelationFilter } from '../inputs/LinearUserListRelationFilter';
+import { PartnerListRelationFilter } from '../inputs/PartnerListRelationFilter';
+import { StringFilter } from '../inputs/StringFilter';
+import { StringNullableFilter } from '../inputs/StringNullableFilter';
+import { TwitterUserRelationFilter } from '../inputs/TwitterUserRelationFilter';
+import { UserActivityListRelationFilter } from '../inputs/UserActivityListRelationFilter';
 
-@TypeGraphQL.InputType("UserWhereInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('UserWhereInput', {
+  isAbstract: true,
 })
 export class UserWhereInput {
   @TypeGraphQL.Field(_type => [UserWhereInput], {
-    nullable: true
+    nullable: true,
   })
   AND?: UserWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [UserWhereInput], {
-    nullable: true
+    nullable: true,
   })
   OR?: UserWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [UserWhereInput], {
-    nullable: true
+    nullable: true,
   })
   NOT?: UserWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true
+    nullable: true,
   })
   id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   display_name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true
+    nullable: true,
   })
   address?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true
+    nullable: true,
   })
   chain_type_id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => ChainTypeRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   chain_type?: ChainTypeRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   full_name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolFilter, {
-    nullable: true
+    nullable: true,
   })
   active?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   email?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserActivityListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   activities?: UserActivityListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => AttestationListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   attestations?: AttestationListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => PartnerListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   contributionPartners?: PartnerListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => ContributionListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   contributions?: ContributionListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   linear_users?: LinearUserListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildUserListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   guild_users?: GuildUserListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => TwitterUserRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   twitter_user?: TwitterUserRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => DiscordUserListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   discord_users?: DiscordUserListRelationFilter | undefined;
 }

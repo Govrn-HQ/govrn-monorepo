@@ -6,40 +6,40 @@ import { Contribution } from '../generated/type-graphql/models/Contribution';
   isAbstract: true,
 })
 export class UserContributionCreateInput {
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   address: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   chainName: string;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   userId: number;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   name: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   details: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   proof: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   activityTypeName: string;
 
-  @TypeGraphQL.Field((_type) => Date)
+  @TypeGraphQL.Field(_type => Date)
   dateOfEngagement: Date;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   status: string;
 
-  @TypeGraphQL.Field((_type) => Number, { nullable: true })
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
   guildId?: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class CreateUserContributionArgs {
-  @TypeGraphQL.Field((_type) => UserContributionCreateInput, {
+  @TypeGraphQL.Field(_type => UserContributionCreateInput, {
     nullable: false,
   })
   data!: UserContributionCreateInput;
@@ -49,37 +49,37 @@ export class CreateUserContributionArgs {
   isAbstract: true,
 })
 export class UserOnChainContributionCreateInput {
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   activityTypeId: number;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   name: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   details: string;
 
-  @TypeGraphQL.Field((_type) => Date)
+  @TypeGraphQL.Field(_type => Date)
   dateOfSubmission: Date;
 
-  @TypeGraphQL.Field((_type) => Date)
+  @TypeGraphQL.Field(_type => Date)
   dateOfEngagement: Date;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   proof: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   status: string;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   userId: number;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   onChainId: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class CreateUserOnChainContributionArgs {
-  @TypeGraphQL.Field((_type) => UserOnChainContributionCreateInput, {
+  @TypeGraphQL.Field(_type => UserOnChainContributionCreateInput, {
     nullable: false,
   })
   data!: UserOnChainContributionCreateInput;
@@ -89,46 +89,46 @@ export class CreateUserOnChainContributionArgs {
   isAbstract: true,
 })
 export class UserContributionUpdateInput {
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   address: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   chainName: string;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   userId: number;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   name: string;
 
-  @TypeGraphQL.Field((_type) => String, { nullable: true })
+  @TypeGraphQL.Field(_type => String, { nullable: true })
   details?: string;
 
-  @TypeGraphQL.Field((_type) => String, { nullable: true })
+  @TypeGraphQL.Field(_type => String, { nullable: true })
   proof?: string | undefined;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   activityTypeName: string;
 
-  @TypeGraphQL.Field((_type) => Date)
+  @TypeGraphQL.Field(_type => Date)
   dateOfEngagement: Date;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   status: string;
 
-  @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   contributionId: number;
 
-  @TypeGraphQL.Field((_type) => Number, { nullable: true })
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
   guildId: number;
 
-  @TypeGraphQL.Field((_type) => Number, { nullable: true })
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
   currentGuildId?: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class UpdateUserContributionArgs {
-  @TypeGraphQL.Field((_type) => UserContributionUpdateInput, {
+  @TypeGraphQL.Field(_type => UserContributionUpdateInput, {
     nullable: false,
   })
   data!: UserContributionUpdateInput;
@@ -138,48 +138,96 @@ export class UpdateUserContributionArgs {
   isAbstract: true,
 })
 export class UserOnChainContributionUpdateInput {
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   name: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   details: string;
 
-  @TypeGraphQL.Field((_type) => Date)
+  @TypeGraphQL.Field(_type => Date)
   dateOfEngagement: Date;
 
-  @TypeGraphQL.Field((_type) => Date)
+  @TypeGraphQL.Field(_type => Date)
   dateOfSubmission: Date;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   proof: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   status: string;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   onChainId: number;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => String)
+  txHash: string;
+
+  @TypeGraphQL.Field(_type => Number)
   userId: number;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   id: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class UpdateUserOnChainContributionArgs {
-  @TypeGraphQL.Field((_type) => UserOnChainContributionUpdateInput, {
+  @TypeGraphQL.Field(_type => UserOnChainContributionUpdateInput, {
     nullable: false,
   })
   data!: UserOnChainContributionUpdateInput;
 }
 
-@TypeGraphQL.Resolver((_of) => Contribution)
+@TypeGraphQL.InputType('UserContributionDeleteInput', {
+  isAbstract: true,
+})
+export class UserContributionDeleteInput {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
+  contributionId: number;
+}
+
+@TypeGraphQL.ArgsType()
+export class DeleteUserContributionArgs {
+  @TypeGraphQL.Field(_type => UserContributionDeleteInput, {
+    nullable: false,
+  })
+  where!: UserContributionDeleteInput;
+}
+
+@TypeGraphQL.InputType('GetUserContributionCountInput')
+export class GetContributionCountForUserInDateRange {
+  @TypeGraphQL.Field(_type => Number)
+  id: number;
+
+  @TypeGraphQL.Field(_type => Date)
+  start_date: Date;
+
+  @TypeGraphQL.Field(_type => Date)
+  end_date: Date;
+}
+
+@TypeGraphQL.ArgsType()
+export class GetUserContributionCountArgs {
+  @TypeGraphQL.Field(_type => GetContributionCountForUserInDateRange, {
+    nullable: false,
+  })
+  where!: GetContributionCountForUserInDateRange;
+}
+
+@TypeGraphQL.ObjectType()
+export class ContributionCountByDate {
+  @TypeGraphQL.Field(_type => Number)
+  count: number;
+
+  @TypeGraphQL.Field(_type => String)
+  date: string;
+}
+
+@TypeGraphQL.Resolver(_of => Contribution)
 export class ContributionCustomResolver {
-  @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
+  @TypeGraphQL.Mutation(_returns => Contribution, { nullable: false })
   async createUserContribution(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserContributionArgs
+    @TypeGraphQL.Args() args: CreateUserContributionArgs,
   ) {
     return await prisma.contribution.create({
       data: {
@@ -238,10 +286,11 @@ export class ContributionCustomResolver {
       },
     });
   }
-  @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
+
+  @TypeGraphQL.Mutation(_returns => Contribution, { nullable: false })
   async createOnChainUserContribution(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserOnChainContributionArgs
+    @TypeGraphQL.Args() args: CreateUserOnChainContributionArgs,
   ) {
     return await prisma.contribution.create({
       data: {
@@ -263,10 +312,10 @@ export class ContributionCustomResolver {
     });
   }
 
-  @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
+  @TypeGraphQL.Mutation(_returns => Contribution, { nullable: false })
   async updateUserContribution(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateUserContributionArgs
+    @TypeGraphQL.Args() args: UpdateUserContributionArgs,
   ) {
     const address = req.session.siwe.data.address;
     const res = await prisma.contribution.updateMany({
@@ -371,10 +420,10 @@ export class ContributionCustomResolver {
     });
   }
 
-  @TypeGraphQL.Mutation((_returns) => Contribution, { nullable: false })
+  @TypeGraphQL.Mutation(_returns => Contribution, { nullable: false })
   async updateUserOnChainContribution(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateUserOnChainContributionArgs
+    @TypeGraphQL.Args() args: UpdateUserOnChainContributionArgs,
   ) {
     const address = req.session.siwe.data.address;
     const update = await prisma.contribution.updateMany({
@@ -396,6 +445,9 @@ export class ContributionCustomResolver {
         },
         on_chain_id: {
           set: args.data.onChainId,
+        },
+        tx_hash: {
+          set: args.data.txHash,
         },
       },
       where: {
@@ -422,5 +474,58 @@ export class ContributionCustomResolver {
         id: args.data.id,
       },
     });
+  }
+
+  @TypeGraphQL.Mutation(_returns => Contribution, { nullable: false })
+  async deleteUserContribution(
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
+    @TypeGraphQL.Args() args: DeleteUserContributionArgs,
+  ) {
+    const contributionId = args.where.contributionId;
+    const address = req.session.siwe.data.address;
+    const query = await prisma.contribution.findMany({
+      include: { user: true },
+      where: {
+        id: { equals: contributionId },
+      },
+    });
+
+    if (query.length === 0) {
+      throw Error("Contribution doesn't exist.");
+    }
+
+    const contribution = query[0];
+    if (address !== contribution.user.address) {
+      throw Error("User doesn't own this contribution.");
+    }
+
+    return await prisma.contribution.delete({
+      where: { id: contributionId },
+    });
+  }
+
+  @TypeGraphQL.Query(_returns => [ContributionCountByDate], {
+    nullable: false,
+  })
+  async getContributionCountByDateForUserInRange(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetUserContributionCountArgs,
+  ) {
+    // grouping by a derived field not yet supported in prisma
+    // would need to group by date, not the datetime as is stored in postg*/
+    // YYY-MM-DD hh:mm:ss.sss
+    const user_id = args.where.id;
+    const start = args.where.start_date;
+    const end = args.where.end_date;
+
+    const result = await prisma.$queryRaw<ContributionCountByDate>`
+      SELECT date(date_of_engagement), count(date_of_engagement) as count
+      FROM "Contribution"
+      WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}
+      AND "Contribution"."user_id" = ${user_id})
+      GROUP BY date(date_of_engagement)
+      ORDER BY date(date_of_engagement);`;
+
+    return result;
   }
 }

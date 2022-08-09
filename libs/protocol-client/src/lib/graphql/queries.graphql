@@ -26,6 +26,22 @@ query getJobRun($where: JobRunWhereUniqueInput!) {
 }
 
 # Issues
+fragment LinearIssueFragment on LinearIssue {
+  id
+  completedAt
+}
+
+query listLinearIssues(
+  $where: LinearIssueWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [LinearIssueOrderByWithRelationInput!]
+) {
+  result: linearIssues(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...LinearIssueFragment
+  }
+}
+
 mutation bulkCreateIssues(
   $data: [LinearIssueCreateManyInput!]!
   $skipDuplicates: Boolean!
@@ -37,15 +53,29 @@ mutation bulkCreateIssues(
 
 # Linear User
 fragment LinearUserFragment on LinearUser {
+  id
   active
   displayName
   email
   linear_id
   name
   url
-  id
   createdAt
+  access_token
+  active_token
 }
+
+query listLinearUsers(
+  $where: LinearUserWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [LinearUserOrderByWithRelationInput!]
+) {
+  result: linearUsers(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...LinearUserFragment
+  }
+}
+
 
 mutation upsertLinearUser(
   $create: LinearUserCreateInput!
@@ -123,6 +153,8 @@ fragment GuildFragment on Guild {
   logo
   name
   updatedAt
+  contribution_reporting_channel
+  status
 }
 
 mutation createGuild($data: GuildCreateInput!) {
@@ -352,6 +384,7 @@ fragment ContributionFragment on Contribution {
     }
   }
   on_chain_id
+  tx_hash
 }
 
 query getContribution($where: ContributionWhereUniqueInput!) {
@@ -376,6 +409,13 @@ query listContributions(
   }
 }
 
+query getContributionCountByDateForUserInRange($where: GetUserContributionCountInput!) {
+  result: getContributionCountByDateForUserInRange(where: $where) {
+    count
+    date
+  }
+}
+
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
     ...ContributionFragment
@@ -393,6 +433,12 @@ mutation createOnChainUserContribution(
 ) {
   createOnChainUserContribution(data: $data) {
     ...ContributionFragment
+  }
+}
+
+mutation deleteContribution($where: UserContributionDeleteInput!) {
+  deleteUserContribution(where: $where) {
+    id
   }
 }
 
@@ -428,6 +474,14 @@ mutation updateContribution(
   }
 }
 
+# Contribution Status
+query getContributionStatus($name: String!) {
+  contributionStatuses(where: {name: {equals: $name}}) {
+    id
+    name
+  }
+}
+
 # Activity type queries
 fragment ActivityTypeFragment on ActivityType {
   active
@@ -458,6 +512,18 @@ mutation createActivityType($data: ActivityTypeCreateInput!) {
     ...ActivityTypeFragment
   }
 }
+
+mutation upsertActivityType(
+  $create: ActivityTypeCreateInput!
+  $update: ActivityTypeUpdateInput!
+  $where: ActivityTypeWhereUniqueInput!
+) {
+  upsertActivityType(create: $create, update: $update, where: $where) {
+    ...ActivityTypeFragment
+  }
+}
+
+
 
 # UserActivity type queries
 fragment UserActivityFragment on UserActivity {

@@ -14,6 +14,7 @@ export const OverlayContextProvider: React.FC<OverlayProviderProps> = ({
     editContributionFormModal: false,
     addAttestationFormModal: false,
     bulkAttestationModal: false,
+    bulkDaoAttributeModal: false,
     mintModal: false,
   });
 

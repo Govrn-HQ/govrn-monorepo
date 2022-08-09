@@ -1,33 +1,33 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { DiscordUserCreateManyUserInputEnvelope } from "../inputs/DiscordUserCreateManyUserInputEnvelope";
-import { DiscordUserCreateOrConnectWithoutUserInput } from "../inputs/DiscordUserCreateOrConnectWithoutUserInput";
-import { DiscordUserCreateWithoutUserInput } from "../inputs/DiscordUserCreateWithoutUserInput";
-import { DiscordUserWhereUniqueInput } from "../inputs/DiscordUserWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { DiscordUserCreateManyUserInputEnvelope } from '../inputs/DiscordUserCreateManyUserInputEnvelope';
+import { DiscordUserCreateOrConnectWithoutUserInput } from '../inputs/DiscordUserCreateOrConnectWithoutUserInput';
+import { DiscordUserCreateWithoutUserInput } from '../inputs/DiscordUserCreateWithoutUserInput';
+import { DiscordUserWhereUniqueInput } from '../inputs/DiscordUserWhereUniqueInput';
 
-@TypeGraphQL.InputType("DiscordUserCreateNestedManyWithoutUserInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('DiscordUserCreateNestedManyWithoutUserInput', {
+  isAbstract: true,
 })
 export class DiscordUserCreateNestedManyWithoutUserInput {
   @TypeGraphQL.Field(_type => [DiscordUserCreateWithoutUserInput], {
-    nullable: true
+    nullable: true,
   })
   create?: DiscordUserCreateWithoutUserInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [DiscordUserCreateOrConnectWithoutUserInput], {
-    nullable: true
+    nullable: true,
   })
   connectOrCreate?: DiscordUserCreateOrConnectWithoutUserInput[] | undefined;
 
   @TypeGraphQL.Field(_type => DiscordUserCreateManyUserInputEnvelope, {
-    nullable: true
+    nullable: true,
   })
   createMany?: DiscordUserCreateManyUserInputEnvelope | undefined;
 
   @TypeGraphQL.Field(_type => [DiscordUserWhereUniqueInput], {
-    nullable: true
+    nullable: true,
   })
   connect?: DiscordUserWhereUniqueInput[] | undefined;
 }

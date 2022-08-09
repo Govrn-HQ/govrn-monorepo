@@ -1,52 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Stack, Flex, Button, Text } from '@chakra-ui/react';
+import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import {
-  Input,
-  Textarea,
-  DatePicker,
   CreatableSelect,
+  DatePicker,
+  Input,
   Select,
+  Textarea,
 } from '@govrn/protocol-ui';
-
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
+import { ValidationError } from 'yup';
+import { UIContribution } from '@govrn/ui-types';
+import { ContributionFormValues } from '../types/forms';
 
 interface EditContributionFormProps {
-  contribution: any;
+  contribution: UIContribution;
   onClose?: () => void;
 }
-
-const useYupValidationResolver = (userValidationSchema: any) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await userValidationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [userValidationSchema]
-  );
 
 const EditContributionForm = ({
   contribution,
@@ -55,7 +27,7 @@ const EditContributionForm = ({
   const { updateContribution, userActivityTypes, allDaos } = useUser();
   const localForm = useForm({
     mode: 'all',
-    resolver: useYupValidationResolver(editContributionFormValidation),
+    resolver: yupResolver(editContributionFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState(
@@ -99,7 +71,7 @@ const EditContributionForm = ({
 
   const daoListOptions = allDaos.map((dao) => ({
     value: dao.id,
-    label: dao.name,
+    label: dao.name ?? '',
   }));
 
   const daoReset = [
@@ -111,7 +83,9 @@ const EditContributionForm = ({
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
-  const updateContributionHandler = async (values: any) => {
+  const updateContributionHandler: SubmitHandler<
+    ContributionFormValues
+  > = async (values: ContributionFormValues) => {
     updateContribution(contribution, values);
     reset();
   };
@@ -126,7 +100,7 @@ const EditContributionForm = ({
           tip="What is the name of this Contribution?"
           placeholder="DAOContributor"
           defaultValue={contribution.name}
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          localForm={localForm}
         />
         <CreatableSelect
           name="activityType"
@@ -147,7 +121,7 @@ const EditContributionForm = ({
           tip="Briefly describe your Contribution"
           placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
           variant="outline"
-          defaultValue={contribution.details}
+          defaultValue={contribution.details ?? ''}
           localForm={localForm}
         />
         <Input
@@ -155,13 +129,13 @@ const EditContributionForm = ({
           label="Proof of Contribution"
           tip="Please add a URL to a proof of your contribution."
           placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
-          defaultValue={contribution.proof}
+          defaultValue={contribution.proof ?? ''}
           localForm={localForm} //TODO: resolve this type issue -- need to investigate this
         />
         <Select
           name="daoId"
           label="DAO"
-          placeholder="Select a DAO to assocaite this Contribution with."
+          placeholder="Select a DAO to associate this Contribution with."
           defaultValue={{
             value: contribution?.guilds[0]?.guild.id
               ? contribution?.guilds[0]?.guild.id
@@ -171,7 +145,7 @@ const EditContributionForm = ({
               : daoReset[0].label,
           }}
           onChange={(dao) => {
-            setValue('daoId', dao.value);
+            setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
           }}
           options={combinedDaoListOptions}
           localForm={localForm}
@@ -183,6 +157,9 @@ const EditContributionForm = ({
           defaultValue={engagementDateValue}
           maxDate={new Date()}
           onChange={(date) => {
+            if (Array.isArray(date)) {
+              return;
+            }
             setEngagementDateValue(date);
             setValue('engagementDate', date);
           }}

@@ -1,44 +1,44 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
 
-@TypeGraphQL.ObjectType("TwitterTweetMinAggregate", {
-  isAbstract: true
+@TypeGraphQL.ObjectType('TwitterTweetMinAggregate', {
+  isAbstract: true,
 })
 export class TwitterTweetMinAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   id!: number | null;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt!: Date | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   twitter_tweet_id!: number | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   text!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   twitter_user_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   contribution_id!: number | null;
 }

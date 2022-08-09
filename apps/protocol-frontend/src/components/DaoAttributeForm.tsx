@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { useUser } from '../contexts/UserContext';
 import { addAttestationFormValidation } from '../utils/validations';
+import { ValidationError } from 'yup';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -28,7 +29,7 @@ const useYupValidationResolver = (userValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -57,7 +58,7 @@ const confidenceLevelOptions = confidenceLevels.map((confidence) => ({
   label: confidence,
 }));
 
-const AddAttestationForm = ({
+const DaoAttributeForm = ({
   contribution,
   onClose,
 }: AddAttestationFormProps) => {
@@ -93,7 +94,10 @@ const AddAttestationForm = ({
           name="confidenceLevel"
           label="Confidence Level"
           onChange={(confidence) => {
-            setValue('confidenceLevel', confidence.value);
+            setValue(
+              'confidenceLevel',
+              (Array.isArray(confidence) ? confidence[0] : confidence).value
+            );
           }}
           options={confidenceLevelOptions}
           localForm={localForm}
@@ -115,4 +119,4 @@ const AddAttestationForm = ({
   );
 };
 
-export default AddAttestationForm;
+export default DaoAttributeForm;

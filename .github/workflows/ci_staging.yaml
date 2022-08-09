@@ -11,7 +11,7 @@ on:
 env:
   BASE: ${{ github.ref == 'refs/heads/staging' && 'origin/master' || 'origin/staging' }}
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
-  SKYNET_JWT: ${{ secrets.SKYNET_JWT }}
+  SKYNET_API_KEY: ${{ secrets.SKYNET_API_KEY }}
   PROTOCOL_FRONTEND_STAGING_SEED: ${{ secrets.PROTOCOL_FRONTEND_STAGING_SEED }}
   CONTRIBUTION_REPORT_STAGING_SEED: ${{ secrets.CONTRIBUTION_REPORT_STAGING_SEED }}
 
@@ -76,8 +76,8 @@ jobs:
           echo VITE_URL=${{secrets.VITE_URL_STAGING}} >> .env
           echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
           echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
-          echo VITE_LINEAR_REDIRECT_URI=${{secrets.VITE_LINEAR_REDIRECT_URI_STAGING}}  >> .env
-          echo VITE_LINEAR_CLIENT_ID=${{secrets.VITE_LINEAR_CLIENT_ID_STAGING}} >> .env
+          echo VITE_LINEAR_REDIRECT_URI=https://api-staging.govrn.app/linear/oauth  >> .env
+          echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
       - name: Build
         run: npx nx affected:build --configuration production --base $BASE
       - name: Docker Build

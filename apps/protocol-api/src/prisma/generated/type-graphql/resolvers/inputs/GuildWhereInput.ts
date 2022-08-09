@@ -1,87 +1,98 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
-import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
-import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
-import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
-import { IntFilter } from "../inputs/IntFilter";
-import { IntNullableFilter } from "../inputs/IntNullableFilter";
-import { StringNullableFilter } from "../inputs/StringNullableFilter";
-import { TwitterAccountRelationFilter } from "../inputs/TwitterAccountRelationFilter";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { DateTimeFilter } from '../inputs/DateTimeFilter';
+import { EnumGuildStatusFilter } from '../inputs/EnumGuildStatusFilter';
+import { GuildActivityTypeListRelationFilter } from '../inputs/GuildActivityTypeListRelationFilter';
+import { GuildContributionListRelationFilter } from '../inputs/GuildContributionListRelationFilter';
+import { GuildUserListRelationFilter } from '../inputs/GuildUserListRelationFilter';
+import { IntFilter } from '../inputs/IntFilter';
+import { IntNullableFilter } from '../inputs/IntNullableFilter';
+import { StringNullableFilter } from '../inputs/StringNullableFilter';
+import { TwitterAccountRelationFilter } from '../inputs/TwitterAccountRelationFilter';
 
-@TypeGraphQL.InputType("GuildWhereInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('GuildWhereInput', {
+  isAbstract: true,
 })
 export class GuildWhereInput {
   @TypeGraphQL.Field(_type => [GuildWhereInput], {
-    nullable: true
+    nullable: true,
   })
   AND?: GuildWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [GuildWhereInput], {
-    nullable: true
+    nullable: true,
   })
   OR?: GuildWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [GuildWhereInput], {
-    nullable: true
+    nullable: true,
   })
   NOT?: GuildWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true
+    nullable: true,
   })
   id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   discord_id?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   congrats_channel?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
+    nullable: true,
   })
   logo?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildContributionListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   contributions?: GuildContributionListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildUserListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   users?: GuildUserListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => TwitterAccountRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   twitter_account?: TwitterAccountRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeListRelationFilter, {
-    nullable: true
+    nullable: true,
   })
   activity_type?: GuildActivityTypeListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true,
+  })
+  contribution_reporting_channel?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumGuildStatusFilter, {
+    nullable: true,
+  })
+  status?: EnumGuildStatusFilter | undefined;
 }

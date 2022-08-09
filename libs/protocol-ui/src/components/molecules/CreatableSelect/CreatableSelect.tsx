@@ -1,12 +1,11 @@
 import React from 'react';
 import Creatable from 'react-select/creatable';
 import { Controller } from 'react-hook-form';
-import { useTheme, FormControl, Stack, Box } from '@chakra-ui/react';
-import customSelectStyles from './selectStyles';
-import customSelectThemeColors from './selectTheme';
+import { Box, FormControl, Stack } from '@chakra-ui/react';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
+import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
 type Errors = {
   [name: string]: {
@@ -21,8 +20,8 @@ type Errors = {
 };
 
 type Option = {
-  label: string | number;
-  value: string | number;
+  label: string;
+  value: string;
 };
 
 export interface CreatableSelectProps {
@@ -34,20 +33,15 @@ export interface CreatableSelectProps {
   tip?: string;
   options: Option[];
   isRequired?: boolean;
-  localForm: {
-    control: any;
-    // formState: any; // TODO: properly type this -- need to troubleshoot use of key on string
-    formState: {
-      errors: Errors;
-    };
-  };
+  localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   isMulti?: boolean;
   isClearable?: boolean;
   onChange?: (option: Option) => void;
   isDisabled?: boolean;
-  [x: string]: any;
   variant?: 'outline' | 'filled';
   value?: any;
+
+  [x: string]: any;
 }
 
 const CreatableSelect: React.FC<CreatableSelectProps> = ({
@@ -106,7 +100,7 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
           />
           {errors && (
             <ErrorMessage
-              errorMessage={errors[name] && errors[name]?.message}
+              errorMessage={errors[name] && errors[name]?.message?.toString()}
             />
           )}
         </Box>

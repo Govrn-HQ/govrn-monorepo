@@ -1,19 +1,29 @@
-import * as TypeGraphQL from "type-graphql";
-import { LinearIssue } from "../../../models/LinearIssue";
-import { LinearProject } from "../../../models/LinearProject";
-import { LinearProjectIssuesArgs } from "./args/LinearProjectIssuesArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import * as TypeGraphQL from 'type-graphql';
+import { LinearIssue } from '../../../models/LinearIssue';
+import { LinearProject } from '../../../models/LinearProject';
+import { LinearProjectIssuesArgs } from './args/LinearProjectIssuesArgs';
+import {
+  transformFields,
+  getPrismaFromContext,
+  transformCountFieldIntoSelectRelationsCount,
+} from '../../../helpers';
 
 @TypeGraphQL.Resolver(_of => LinearProject)
 export class LinearProjectRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => [LinearIssue], {
-    nullable: false
+    nullable: false,
   })
-  async issues(@TypeGraphQL.Root() linearProject: LinearProject, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: LinearProjectIssuesArgs): Promise<LinearIssue[]> {
-    return getPrismaFromContext(ctx).linearProject.findUnique({
-      where: {
-        id: linearProject.id,
-      },
-    }).issues(args);
+  async issues(
+    @TypeGraphQL.Root() linearProject: LinearProject,
+    @TypeGraphQL.Ctx() ctx: any,
+    @TypeGraphQL.Args() args: LinearProjectIssuesArgs,
+  ): Promise<LinearIssue[]> {
+    return getPrismaFromContext(ctx)
+      .linearProject.findUnique({
+        where: {
+          id: linearProject.id,
+        },
+      })
+      .issues(args);
   }
 }

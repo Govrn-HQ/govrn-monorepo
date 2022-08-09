@@ -1,39 +1,47 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { TwitterTweetOrderByWithAggregationInput } from "../../../inputs/TwitterTweetOrderByWithAggregationInput";
-import { TwitterTweetScalarWhereWithAggregatesInput } from "../../../inputs/TwitterTweetScalarWhereWithAggregatesInput";
-import { TwitterTweetWhereInput } from "../../../inputs/TwitterTweetWhereInput";
-import { TwitterTweetScalarFieldEnum } from "../../../../enums/TwitterTweetScalarFieldEnum";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { TwitterTweetOrderByWithAggregationInput } from '../../../inputs/TwitterTweetOrderByWithAggregationInput';
+import { TwitterTweetScalarWhereWithAggregatesInput } from '../../../inputs/TwitterTweetScalarWhereWithAggregatesInput';
+import { TwitterTweetWhereInput } from '../../../inputs/TwitterTweetWhereInput';
+import { TwitterTweetScalarFieldEnum } from '../../../../enums/TwitterTweetScalarFieldEnum';
 
 @TypeGraphQL.ArgsType()
 export class GroupByTwitterTweetArgs {
   @TypeGraphQL.Field(_type => TwitterTweetWhereInput, {
-    nullable: true
+    nullable: true,
   })
   where?: TwitterTweetWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [TwitterTweetOrderByWithAggregationInput], {
-    nullable: true
+    nullable: true,
   })
   orderBy?: TwitterTweetOrderByWithAggregationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [TwitterTweetScalarFieldEnum], {
-    nullable: false
+    nullable: false,
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "twitter_tweet_id" | "text" | "twitter_user_id" | "contribution_id">;
+  by!: Array<
+    | 'id'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'twitter_tweet_id'
+    | 'text'
+    | 'twitter_user_id'
+    | 'contribution_id'
+  >;
 
   @TypeGraphQL.Field(_type => TwitterTweetScalarWhereWithAggregatesInput, {
-    nullable: true
+    nullable: true,
   })
   having?: TwitterTweetScalarWhereWithAggregatesInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   skip?: number | undefined;
 }

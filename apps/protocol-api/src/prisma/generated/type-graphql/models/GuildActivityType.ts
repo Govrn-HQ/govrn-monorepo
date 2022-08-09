@@ -1,38 +1,38 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../scalars";
-import { ActivityType } from "../models/ActivityType";
-import { Guild } from "../models/Guild";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../scalars';
+import { ActivityType } from '../models/ActivityType';
+import { Guild } from '../models/Guild';
 
-@TypeGraphQL.ObjectType("GuildActivityType", {
-  isAbstract: true
+@TypeGraphQL.ObjectType('GuildActivityType', {
+  isAbstract: true,
 })
 export class GuildActivityType {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   id!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   createdAt!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   guild_id!: number;
 
   guild?: Guild;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   activity_type_id!: number;
 

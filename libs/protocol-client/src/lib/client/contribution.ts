@@ -12,8 +12,16 @@ import {
   MintArgs,
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
+import { GraphQLClient } from 'graphql-request';
 
 export class Contribution extends BaseClient {
+  status: ContributionStatus;
+
+  constructor(client: GraphQLClient) {
+    super(client);
+    this.status = new ContributionStatus(this.client);
+  }
+
   public async get(id: number) {
     const contribution = await this.sdk.getContribution({ where: { id } });
     return contribution.result;
@@ -29,6 +37,37 @@ export class Contribution extends BaseClient {
     return contributions.createContribution;
   }
 
+  /**
+   * This method deletes the contribution from the db.
+   * if minted, it burns the contribution.
+   *
+   * @param networkConfig
+   * @param provider
+   * @param id contribution id
+   */
+  public async delete(
+    networkConfig: NetworkConfig,
+    signer: ethers.Signer,
+    id: number,
+  ) {
+    const contract = new GovrnContract(networkConfig, signer);
+
+    const contribution = await this.get(id);
+    if (!contribution) {
+      throw Error(`Contribution doesn't exist: ${id}`);
+    }
+
+    // TODO: Can we avoid hardcoding the event name
+    if (contribution?.status.name === 'minted' && contribution.on_chain_id) {
+      const transaction = await contract.burnContribution({
+        tokenId: contribution.on_chain_id,
+      });
+      await transaction.wait(1);
+    }
+
+    return await this.sdk.deleteContribution({ where: { contributionId: id } });
+  }
+
   public async bulkCreate(args: BulkCreateContributionMutationVariables) {
     const mutation = await this.sdk.bulkCreateContribution(args);
     return mutation.createManyContribution.count;
@@ -41,17 +80,17 @@ export class Contribution extends BaseClient {
 
   public async mint(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider,
+    signer: ethers.Signer,
     address: string,
     id: number,
     activityTypeId: number,
     userId: number,
     args: MintArgs,
-    name: string,
-    details: string,
-    proof: string
+    name: Uint8Array,
+    details: Uint8Array,
+    proof: Uint8Array,
   ) {
-    const contract = new GovrnContract(networkConfig, provider);
+    const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
 
@@ -83,6 +122,7 @@ export class Contribution extends BaseClient {
           onChainId: onChainId.toNumber(),
           userId: userId,
           id: id,
+          txHash: transaction.hash,
         },
       });
       console.log('update response:', updateResponse);
@@ -105,13 +145,13 @@ export class Contribution extends BaseClient {
 
   public async attest(
     networkConfig: NetworkConfig,
-    provider: ethers.providers.Provider,
+    signer: ethers.Signer,
     id: number,
     activityTypeId: number,
     userId: number,
-    args: AttestArgs
+    args: AttestArgs,
   ) {
-    const contract = new GovrnContract(networkConfig, provider);
+    const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
     await transaction.wait(1);
 
@@ -134,5 +174,15 @@ export class Contribution extends BaseClient {
         userId: userId,
       },
     });
+  }
+}
+
+export class ContributionStatus extends BaseClient {
+  public async get(name: string) {
+    const contributions = await this.sdk.getContributionStatus({ name: name });
+    if (contributions.contributionStatuses.length) {
+      return contributions.contributionStatuses[0];
+    }
+    return { id: 0, name: '' };
   }
 }

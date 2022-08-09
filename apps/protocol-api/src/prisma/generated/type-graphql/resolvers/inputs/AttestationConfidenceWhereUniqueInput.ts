@@ -1,19 +1,19 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
 
-@TypeGraphQL.InputType("AttestationConfidenceWhereUniqueInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('AttestationConfidenceWhereUniqueInput', {
+  isAbstract: true,
 })
 export class AttestationConfidenceWhereUniqueInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   id?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   name?: string | undefined;
 }

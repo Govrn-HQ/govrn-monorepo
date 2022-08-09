@@ -1,25 +1,30 @@
 import { useMemo } from 'react';
-import { format } from 'date-fns';
-import { Box, Table, Tbody, Td, Th, Thead, Tr, chakra } from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useTable, useSortBy } from 'react-table';
 import { isAfter } from 'date-fns';
+import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { useSortBy, useTable } from 'react-table';
+import { UIContribution } from '@govrn/ui-types';
 
-const ContributionTypesTable = ({ contributionTypesData }: any) => {
+const ContributionTypesTable = ({
+  contributionTypesData,
+}: {
+  contributionTypesData: UIContribution[];
+}) => {
   const uniqueKey = 'name';
 
-  const uniqueContributions = [
+  // FIXME: This will be re-calculated for each render.
+  const uniqueContributions: UIContribution[] = [
     ...new Map(
       contributionTypesData
-        .sort((firstContribution: any, nextContribution: any) =>
+        .sort((firstContribution, nextContribution) =>
           isAfter(
-            new Date(firstContribution.engagementDate),
-            new Date(nextContribution.engagementDate)
+            new Date(firstContribution.date_of_engagement),
+            new Date(nextContribution.date_of_engagement)
           )
             ? 1
             : -1
         )
-        .map((contributionType: any) => [
+        .map((contributionType) => [
           contributionType.activity_type[uniqueKey],
           contributionType,
         ])
@@ -28,25 +33,19 @@ const ContributionTypesTable = ({ contributionTypesData }: any) => {
 
   const data = useMemo(
     () =>
-      uniqueContributions.map((contributionType: any) => ({
+      uniqueContributions.map((contributionType) => ({
         id: contributionType.id,
         name: contributionType.name,
         total: contributionTypesData.filter(
-          (contribution: any) =>
+          (contribution) =>
             contribution.activity_type.name ===
             contributionType.activity_type.name
         ).length,
-        lastOccurrence: contributionType.engagementDate,
+        lastOccurrence: contributionType.date_of_engagement,
         activityType: contributionType.activity_type.name,
-        guilds: contributionType.guild,
-        submissionDate: format(
-          new Date(contributionType.date_of_submission),
-          'P'
-        ),
-        engagementDate: format(
-          new Date(contributionType.date_of_engagement),
-          'P'
-        ),
+        guilds: contributionType.guilds.map((g) => g.guild.name).join(','),
+        date_of_submission: contributionType.date_of_submission,
+        date_of_engagement: contributionType.date_of_engagement,
       })),
     []
   );

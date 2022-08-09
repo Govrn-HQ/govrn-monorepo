@@ -1,29 +1,29 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
 
-@TypeGraphQL.InputType("LinearCycleCreateWithoutIssuesInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearCycleCreateWithoutIssuesInput', {
+  isAbstract: true,
 })
 export class LinearCycleCreateWithoutIssuesInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   number!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   startsAt!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   endsAt!: Date;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   linear_id!: string;
 }

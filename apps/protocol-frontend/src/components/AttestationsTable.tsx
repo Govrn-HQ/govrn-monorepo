@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import * as _ from 'lodash';
-import { format } from 'date-fns';
 import {
   Box,
   chakra,
@@ -15,47 +14,41 @@ import {
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
+  Row,
   useFilters,
   useGlobalFilter,
   useRowSelect,
   useSortBy,
   useTable,
 } from 'react-table';
-import { ModalWrapper } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
-import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
-import AddAttestationForm from './AddAttestationForm';
+import { UIContribution } from '@govrn/ui-types';
 
 const AttestationsTable = ({
   contributionsData,
   setSelectedContributions,
-}: any) => {
-  const localOverlay = useOverlay();
-  const { setModals } = useOverlay();
+}: {
+  contributionsData: UIContribution[];
+  setSelectedContributions: (contrs: any[]) => void;
+}) => {
   const { userData } = useUser();
-  const [selectedContribution, setSelectedContribution] = useState<any>();
-
-  const handleAddAttestationFormModal = (id: number) => {
-    setSelectedContribution(id);
-    setModals({ addAttestationFormModal: true });
-  };
 
   const nonUserContributions = _.filter(contributionsData, function (a) {
     return a.user.id !== userData.id;
   });
 
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
-    return a.attestations.every((b: any) => b.user_id !== userData.id);
+    return a.attestations?.every((b) => b.user_id !== userData.id) ?? false;
   });
 
   const data = useMemo(
     () =>
-      unattestedContributions.map((contribution: any) => ({
+      unattestedContributions.map((contribution) => ({
         id: contribution.id,
-        submissionDate: format(new Date(contribution.date_of_submission), 'P'),
-        engagementDate: format(new Date(contribution.date_of_engagement), 'P'),
+        date_of_submission: contribution.date_of_submission,
+        date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations || null,
         guilds: contribution.attestations || null,
         status: contribution.status.name,
@@ -99,12 +92,11 @@ const AttestationsTable = ({
         Header: 'Contributor',
         accessor: 'contributor',
       },
-      // { Header: 'DAO', accessor: 'guild' },
     ],
     []
   );
 
-  const tableHooks = (hooks) => {
+  const tableHooks = (hooks: { visibleColumns }) => {
     hooks.visibleColumns.push((columns) => [
       {
         id: 'selection',
@@ -112,28 +104,10 @@ const AttestationsTable = ({
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
         Cell: ({ row }) => (
-          <IndeterminateCheckbox
-            {...row.getToggleRowSelectedProps()}
-            // disabled={row.original.attestations?.user_id === userData.id}
-          />
+          <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
         ),
       },
       ...columns,
-      // {
-      //   id: 'actions',
-      //   Header: 'Actions',
-      //   Cell: ({ row }) => (
-      //     <HStack spacing="1">
-      //       <IconButton
-      //         icon={<FiCheckSquare fontSize="1rem" />}
-      //         variant="ghost"
-      //         color="gray.800"
-      //         aria-label="Add Attestation"
-      //         onClick={() => handleAddAttestationFormModal(row.original.id)}
-      //       />
-      //     </HStack>
-      //   ),
-      // },
     ]);
   };
 
@@ -157,7 +131,7 @@ const AttestationsTable = ({
   );
 
   useEffect(() => {
-    setSelectedContributions(selectedFlatRows);
+    setSelectedContributions(selectedFlatRows.map((r) => r.original));
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
@@ -208,19 +182,6 @@ const AttestationsTable = ({
             })}
           </Tbody>
         </Table>
-        <ModalWrapper
-          name="addAttestationFormModal"
-          title="Add Attestation"
-          localOverlay={localOverlay}
-          content={
-            <AddAttestationForm
-              contribution={contributionsData.find(
-                (localContribution) =>
-                  localContribution.id === selectedContribution
-              )}
-            />
-          }
-        />
       </Box>
     </Stack>
   );

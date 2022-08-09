@@ -1,64 +1,64 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { TwitterAccountAvgAggregate } from "../outputs/TwitterAccountAvgAggregate";
-import { TwitterAccountCountAggregate } from "../outputs/TwitterAccountCountAggregate";
-import { TwitterAccountMaxAggregate } from "../outputs/TwitterAccountMaxAggregate";
-import { TwitterAccountMinAggregate } from "../outputs/TwitterAccountMinAggregate";
-import { TwitterAccountSumAggregate } from "../outputs/TwitterAccountSumAggregate";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { TwitterAccountAvgAggregate } from '../outputs/TwitterAccountAvgAggregate';
+import { TwitterAccountCountAggregate } from '../outputs/TwitterAccountCountAggregate';
+import { TwitterAccountMaxAggregate } from '../outputs/TwitterAccountMaxAggregate';
+import { TwitterAccountMinAggregate } from '../outputs/TwitterAccountMinAggregate';
+import { TwitterAccountSumAggregate } from '../outputs/TwitterAccountSumAggregate';
 
-@TypeGraphQL.ObjectType("TwitterAccountGroupBy", {
-  isAbstract: true
+@TypeGraphQL.ObjectType('TwitterAccountGroupBy', {
+  isAbstract: true,
 })
 export class TwitterAccountGroupBy {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   id!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   createdAt!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   account_name!: string;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   guild_id!: number | null;
 
   @TypeGraphQL.Field(_type => TwitterAccountCountAggregate, {
-    nullable: true
+    nullable: true,
   })
   _count!: TwitterAccountCountAggregate | null;
 
   @TypeGraphQL.Field(_type => TwitterAccountAvgAggregate, {
-    nullable: true
+    nullable: true,
   })
   _avg!: TwitterAccountAvgAggregate | null;
 
   @TypeGraphQL.Field(_type => TwitterAccountSumAggregate, {
-    nullable: true
+    nullable: true,
   })
   _sum!: TwitterAccountSumAggregate | null;
 
   @TypeGraphQL.Field(_type => TwitterAccountMinAggregate, {
-    nullable: true
+    nullable: true,
   })
   _min!: TwitterAccountMinAggregate | null;
 
   @TypeGraphQL.Field(_type => TwitterAccountMaxAggregate, {
-    nullable: true
+    nullable: true,
   })
   _max!: TwitterAccountMaxAggregate | null;
 }

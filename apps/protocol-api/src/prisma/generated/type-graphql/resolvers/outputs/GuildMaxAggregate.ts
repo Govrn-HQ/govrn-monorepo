@@ -1,44 +1,55 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { GuildStatus } from '../../enums/GuildStatus';
 
-@TypeGraphQL.ObjectType("GuildMaxAggregate", {
-  isAbstract: true
+@TypeGraphQL.ObjectType('GuildMaxAggregate', {
+  isAbstract: true,
 })
 export class GuildMaxAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   id!: number | null;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt!: Date | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   discord_id!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   name!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   congrats_channel!: number | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   logo!: string | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+  })
+  contribution_reporting_channel!: number | null;
+
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: true,
+  })
+  status!: 'INPUTTED' | 'VALIDATED' | 'ONBOARDED' | null;
 }

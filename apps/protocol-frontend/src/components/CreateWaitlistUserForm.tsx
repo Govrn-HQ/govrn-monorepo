@@ -2,10 +2,12 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button, Text } from '@chakra-ui/react';
+import { Stack, Heading, Flex, Button, Text } from '@chakra-ui/react';
+import PageHeading from './PageHeading';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { createWaitlistFormValidation } from '../utils/validations';
+import { ValidationError } from 'yup';
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
@@ -22,7 +24,7 @@ const useYupValidationResolver = (userValidationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: (errors as ValidationError).inner.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {
@@ -65,21 +67,25 @@ const CreateWaitlistUserForm = () => {
       rounded="lg"
       boxShadow="sm"
     >
-      <Text>
+      <PageHeading as="h2" fontSize="xl" textAlign="center">
+        {' '}
         <span
           role="img"
           aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
         >
           🌞
         </span>{' '}
-        Enter your email and username to join the waitlist. We'll reach out as
-        soon as we open more spots!{' '}
+        We're Currently in Limited Release{' '}
         <span
           role="img"
           aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
         >
           🌞
-        </span>
+        </span>{' '}
+      </PageHeading>
+      <Text>
+        Enter your email and username to join the waitlist. We'll reach out as
+        soon as we open more spots!{' '}
       </Text>
       <form onSubmit={handleSubmit(createUserHandler)}>
         <Input
@@ -87,14 +93,14 @@ const CreateWaitlistUserForm = () => {
           label="Username"
           tip="What would you like your username to be?"
           placeholder="DAOContributor"
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          localForm={localForm}
         />
         <Input
           name="email"
           label="Email Address"
-          tip="What is your preferrred email address for us to contact you?"
+          tip="What is your preferred email address for us to contact you?"
           placeholder="daocontributor@dao.gg"
-          localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+          localForm={localForm}
         />
         <Flex align="flex-end" marginTop={4}>
           <Button

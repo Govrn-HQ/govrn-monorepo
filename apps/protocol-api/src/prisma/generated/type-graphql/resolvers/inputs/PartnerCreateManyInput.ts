@@ -1,34 +1,34 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
 
-@TypeGraphQL.InputType("PartnerCreateManyInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('PartnerCreateManyInput', {
+  isAbstract: true,
 })
 export class PartnerCreateManyInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   id?: number | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   user_id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   contribution_id!: number;
 }

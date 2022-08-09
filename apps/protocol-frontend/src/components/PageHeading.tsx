@@ -1,12 +1,13 @@
 import React from 'react';
-import { Stack, Heading } from '@chakra-ui/react';
+import { Stack, Heading, HeadingProps } from '@chakra-ui/react';
 
-interface PageHeadingProps {
+interface PageHeadingProps extends HeadingProps {
   children: React.ReactNode;
 }
 
 const PageHeading: React.FC<PageHeadingProps> = ({
   children,
+  ...props
 }: PageHeadingProps) => {
   return (
     <Stack
@@ -16,7 +17,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
       paddingBottom={4}
       paddingX={{ base: 4, lg: 0 }}
     >
-      <Heading color="gray.800" fontWeight="normal">
+      <Heading color="gray.800" fontWeight="normal" {...props}>
         {children}
       </Heading>
     </Stack>

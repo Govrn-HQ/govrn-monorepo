@@ -7,7 +7,7 @@ export const getIPFSClient = () => {
     Buffer.from(
       import.meta.env.VITE_INFURA_PROJECT_ID +
         ':' +
-        import.meta.env.VITE_INFURA_PROJECT_SECRET
+        import.meta.env.VITE_INFURA_PROJECT_SECRET,
     ).toString('base64');
   const ipfs = create({
     host: 'ipfs.infura.io',
@@ -27,7 +27,7 @@ export const storeIpfs = async (
         details: string;
         proof: string;
       }
-    | ArrayBuffer
+    | ArrayBuffer,
 ) => {
   const ipfs = getIPFSClient();
   const cid = await ipfs.add(JSON.stringify(content), {
@@ -47,7 +47,7 @@ export const fetchIPFS = async (ipfsHash: string) => {
       .slice(2)}`,
     {
       method: 'post',
-    }
+    },
   );
   const blob = await resp?.blob();
   return blob;

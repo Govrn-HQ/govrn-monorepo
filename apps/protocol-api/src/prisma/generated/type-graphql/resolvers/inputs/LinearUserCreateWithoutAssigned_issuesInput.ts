@@ -1,66 +1,66 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { LinearIssueCreateNestedManyWithoutCreatorInput } from "../inputs/LinearIssueCreateNestedManyWithoutCreatorInput";
-import { UserCreateNestedOneWithoutLinear_usersInput } from "../inputs/UserCreateNestedOneWithoutLinear_usersInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { LinearIssueCreateNestedManyWithoutCreatorInput } from '../inputs/LinearIssueCreateNestedManyWithoutCreatorInput';
+import { UserCreateNestedOneWithoutLinear_usersInput } from '../inputs/UserCreateNestedOneWithoutLinear_usersInput';
 
-@TypeGraphQL.InputType("LinearUserCreateWithoutAssigned_issuesInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('LinearUserCreateWithoutAssigned_issuesInput', {
+  isAbstract: true,
 })
 export class LinearUserCreateWithoutAssigned_issuesInput {
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   active?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   displayName?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   email?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   linear_id!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   url?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   access_token?: string | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
+    nullable: true,
   })
   active_token?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutLinear_usersInput, {
-    nullable: true
+    nullable: true,
   })
   user?: UserCreateNestedOneWithoutLinear_usersInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearIssueCreateNestedManyWithoutCreatorInput, {
-    nullable: true
+    nullable: true,
   })
   created_issues?: LinearIssueCreateNestedManyWithoutCreatorInput | undefined;
 }

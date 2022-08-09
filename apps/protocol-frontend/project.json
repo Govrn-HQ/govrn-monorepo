@@ -4,6 +4,12 @@
   "projectType": "application",
   "targets": {
     "build": {
+      "dependsOn": [
+        {
+          "target": "tsc",
+          "projects": "self"
+        }
+      ],
       "executor": "@nxext/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -28,6 +34,13 @@
           "extractLicenses": true,
           "vendorChunk": false
         }
+      }
+    },
+    "tsc": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "tsc --project apps/protocol-frontend/tsconfig.app.json --noEmit --skipLibCheck",
+        "color": true
       }
     },
     "serve": {
@@ -67,7 +80,7 @@
         "registrySeedVarName": "PROTOCOL_FRONTEND_SKYNET_SEED",
         "registryDataKey": "skylink.txt",
         "portalUrl": "https://skynetfree.net",
-        "skynetJwtVarName": "SKYNET_JWT"
+        "skynetApiKeyVarName": "SKYNET_API_KEY"
       }
     },
     "deployStaging": {
@@ -77,7 +90,7 @@
         "registrySeedVarName": "PROTOCOL_FRONTEND_STAGING_SEED",
         "registryDataKey": "skylink.txt",
         "portalUrl": "https://skynetfree.net",
-        "skynetJwtVarName": "SKYNET_JWT"
+        "skynetApiKeyVarName": "SKYNET_API_KEY"
       }
     }
   },
