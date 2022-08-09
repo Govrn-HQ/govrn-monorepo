@@ -432,6 +432,8 @@ app.get('/linear/oauth', async function (req, res) {
       body: params,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     });
+    console.log(resp);
+    console.log(params);
     const respJSON = await resp.json();
     const client = new LinearClient({ accessToken: respJSON.access_token });
     const me = await client.viewer;
