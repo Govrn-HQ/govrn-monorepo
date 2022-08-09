@@ -70,10 +70,10 @@ const ContributionsTable = ({
   }
 
   const [dialog, setDialog] = useState<DialogProps>({ isOpen: false, title: '' ,onConfirm: false, contribution_id:''});
-  
+ 
   useEffect(() => {
             setDialog(dialog)
-               }, [dialog, setDialog])
+               }, [dialog])
 
   
   const handleDeleteContribution = (contribution_id: string) =>{
@@ -108,7 +108,7 @@ const ContributionsTable = ({
       })),
     [contributionsData]
   );
-  console.log(data[0])
+  
   const columns = useMemo(
     () => [
       {
