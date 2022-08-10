@@ -1,91 +1,31 @@
 import { useCallback, useEffect } from 'react';
 import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
 import { Input, type InputLocalFormType } from '@govrn/protocol-ui';
-import { useForm } from 'react-hook-form';
-
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import {
   profileFormValidation,
   linearFormValidation,
 } from '../utils/validations';
+import { ProfileFormValues } from '../types/forms';
 import { ValidationError } from 'yup';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
-
-const useYupValidationResolver = (profileValidationSchema: any) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await profileValidationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: (errors as ValidationError).inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [profileValidationSchema]
-  );
-
-const useYupValidationResolverLinear = (linearFormValidationSchema: any) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await linearFormValidationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: (errors as ValidationError).inner.reduce(
-            (allErrors: any, currentError: any) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {}
-          ),
-        };
-      }
-    },
-    [linearFormValidationSchema]
-  );
+const BACKEND_ADDR = `${import.meta.env.VITE_PROTOCOL_BASE_URL}`;
 
 const ProfileForm = () => {
   const { userData, updateProfile, updateLinearEmail, disconnectLinear } =
     useUser();
 
-  const localForm = useForm<{ name: string; address: string }>({
+  const localForm = useForm<ProfileFormValues>({
     mode: 'all',
-    resolver: useYupValidationResolver(profileFormValidation),
+    resolver: yupResolver(profileFormValidation),
   });
   const localFormLinear = useForm<{ name: string; address: string }>({
     mode: 'all',
-    resolver: useYupValidationResolverLinear(linearFormValidation),
+    resolver: yupResolver(linearFormValidation),
   });
   const { handleSubmit, setValue } = localForm;
   const { handleSubmit: handleSubmitLinear, setValue: setValueLinear } =
@@ -96,8 +36,9 @@ const ProfileForm = () => {
     setValue('address', userData?.address);
   }, [userData]);
 
-  console.log(userData);
-  const updateProfileHandler = async (values: any) => {
+  const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (
+    values: ProfileFormValues,
+  ) => {
     updateProfile(values);
   };
 
@@ -105,13 +46,19 @@ const ProfileForm = () => {
     updateLinearEmail(values);
   };
 
-  const handleLinearOauth = () => {
+  const handleLinearOauth = async () => {
     const params = new URLSearchParams();
+    const res = await fetch(`${BACKEND_ADDR}/linear_nonce`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const state = await res.text();
+
     params.append('client_id', LINEAR_CLIENT_ID);
     params.append('redirect_uri', LINEAR_REDIRECT_URI);
     params.append('response_type', 'code');
     params.append('scope', 'read');
-    params.append('state', ''); // generate string to prevent crsf attack
+    params.append('state', state); // generate string to prevent crsf attack
     params.append('prompt', 'consent');
     window.location.href = `https://linear.app/oauth/authorize?${params.toString()}`;
   };

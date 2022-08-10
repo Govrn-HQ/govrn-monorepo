@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
+  Link as ChakraLink,
   HStack,
   IconButton,
   Stack,
@@ -14,6 +15,7 @@ import {
   Tooltip,
   Tr,
 } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { useUser } from '../contexts/UserContext';
 import {
   Row,
@@ -31,7 +33,11 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
+import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
+type ContributionTableType = Omit<UIContribution, 'name' | 'txHash'> & {
+  name: { name: string; txHash: string | undefined };
+};
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -54,15 +60,16 @@ const ContributionsTable = ({
     () =>
       contributionsData.map((contribution) => ({
         name: contribution.name,
+        txHash: contribution.tx_hash,
         id: contribution.id,
         details: contribution.details,
         proof: contribution.proof,
         date_of_submission: contribution.date_of_submission,
         engagementDate: contribution.date_of_engagement,
         attestations: contribution.attestations || null,
-        user: contribution.user.id,
+        user: contribution.user,
         activityTypeId: contribution.activity_type.id,
-        status: contribution.status.name,
+        status: contribution.status,
         action: '',
         guildName:
           contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
@@ -76,8 +83,22 @@ const ContributionsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value }) => {
-          return <Text>{value}</Text>;
+        Cell: ({ value, row }) => {
+          return (
+            <>
+              {row.original.txHash !== null ? (
+                <ChakraLink
+                  href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
+                  isExternal
+                >
+                  {value}
+                  <ExternalLinkIcon marginX="2px" />
+                </ChakraLink>
+              ) : (
+                <Text>{value}</Text>
+              )}
+            </>
+          );
         },
       },
       {
@@ -86,12 +107,12 @@ const ContributionsTable = ({
         Cell: ({ value }) => {
           return (
             <Text textTransform="capitalize">
-              {value}{' '}
+              {value.name}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value === 'minted' ? '🌞' : '👀'}
+                {value.name === 'minted' ? '🌞' : '👀'}
               </span>{' '}
             </Text>
           );
@@ -130,7 +151,7 @@ const ContributionsTable = ({
         Cell: ({ row }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status === 'minted'}
+            disabled={row.original.status.name === 'minted'}
           />
         ),
       },
@@ -139,7 +160,7 @@ const ContributionsTable = ({
         id: 'actions',
         Header: 'Actions',
         Cell: ({ row }) =>
-          row.original.status === 'minted' ? (
+          row.original.status.name === 'minted' ? (
             <Tooltip
               label="Minted contribution(s) cannot be edited"
               aria-label="A tooltip"
@@ -152,7 +173,7 @@ const ContributionsTable = ({
                   aria-label="Edit Contribution"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status === 'minted'
+                    row.original.status.name === 'minted'
                   }
                   onClick={() =>
                     handleEditContributionFormModal(row.original.id)
@@ -164,7 +185,7 @@ const ContributionsTable = ({
                   color="gray.800"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status === 'minted'
+                    row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
                 />
@@ -179,7 +200,7 @@ const ContributionsTable = ({
                 aria-label="Edit Contribution"
                 disabled={
                   row.original.user.id !== userData?.id ||
-                  row.original.status === 'minted'
+                  row.original.status.name === 'minted'
                 }
                 onClick={() => handleEditContributionFormModal(row.original.id)}
               />
@@ -189,7 +210,7 @@ const ContributionsTable = ({
                 color="gray.800"
                 disabled={
                   row.original.user.id !== userData?.id ||
-                  row.original.status === 'minted'
+                  row.original.status.name === 'minted'
                 }
                 aria-label="Delete Contribution"
               />

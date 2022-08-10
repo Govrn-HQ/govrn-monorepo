@@ -1,33 +1,33 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { AttestationOrderByWithRelationInput } from "../../../inputs/AttestationOrderByWithRelationInput";
-import { AttestationWhereInput } from "../../../inputs/AttestationWhereInput";
-import { AttestationWhereUniqueInput } from "../../../inputs/AttestationWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { AttestationOrderByWithRelationInput } from '../../../inputs/AttestationOrderByWithRelationInput';
+import { AttestationWhereInput } from '../../../inputs/AttestationWhereInput';
+import { AttestationWhereUniqueInput } from '../../../inputs/AttestationWhereUniqueInput';
 
 @TypeGraphQL.ArgsType()
 export class AggregateAttestationArgs {
   @TypeGraphQL.Field(_type => AttestationWhereInput, {
-    nullable: true
+    nullable: true,
   })
   where?: AttestationWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [AttestationOrderByWithRelationInput], {
-    nullable: true
+    nullable: true,
   })
   orderBy?: AttestationOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => AttestationWhereUniqueInput, {
-    nullable: true
+    nullable: true,
   })
   cursor?: AttestationWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   skip?: number | undefined;
 }

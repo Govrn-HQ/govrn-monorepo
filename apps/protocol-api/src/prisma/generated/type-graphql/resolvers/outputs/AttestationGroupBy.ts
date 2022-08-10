@@ -1,74 +1,74 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { AttestationAvgAggregate } from "../outputs/AttestationAvgAggregate";
-import { AttestationCountAggregate } from "../outputs/AttestationCountAggregate";
-import { AttestationMaxAggregate } from "../outputs/AttestationMaxAggregate";
-import { AttestationMinAggregate } from "../outputs/AttestationMinAggregate";
-import { AttestationSumAggregate } from "../outputs/AttestationSumAggregate";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { AttestationAvgAggregate } from '../outputs/AttestationAvgAggregate';
+import { AttestationCountAggregate } from '../outputs/AttestationCountAggregate';
+import { AttestationMaxAggregate } from '../outputs/AttestationMaxAggregate';
+import { AttestationMinAggregate } from '../outputs/AttestationMinAggregate';
+import { AttestationSumAggregate } from '../outputs/AttestationSumAggregate';
 
-@TypeGraphQL.ObjectType("AttestationGroupBy", {
-  isAbstract: true
+@TypeGraphQL.ObjectType('AttestationGroupBy', {
+  isAbstract: true,
 })
 export class AttestationGroupBy {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   id!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   createdAt!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   confidence_id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   user_id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: false,
   })
   contribution_id!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: false,
   })
   date_of_attestation!: Date;
 
   @TypeGraphQL.Field(_type => AttestationCountAggregate, {
-    nullable: true
+    nullable: true,
   })
   _count!: AttestationCountAggregate | null;
 
   @TypeGraphQL.Field(_type => AttestationAvgAggregate, {
-    nullable: true
+    nullable: true,
   })
   _avg!: AttestationAvgAggregate | null;
 
   @TypeGraphQL.Field(_type => AttestationSumAggregate, {
-    nullable: true
+    nullable: true,
   })
   _sum!: AttestationSumAggregate | null;
 
   @TypeGraphQL.Field(_type => AttestationMinAggregate, {
-    nullable: true
+    nullable: true,
   })
   _min!: AttestationMinAggregate | null;
 
   @TypeGraphQL.Field(_type => AttestationMaxAggregate, {
-    nullable: true
+    nullable: true,
   })
   _max!: AttestationMaxAggregate | null;
 }

@@ -1,11 +1,11 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { JobRunWhereUniqueInput } from "../../../inputs/JobRunWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { JobRunWhereUniqueInput } from '../../../inputs/JobRunWhereUniqueInput';
 
 @TypeGraphQL.ArgsType()
 export class FindUniqueJobRunArgs {
   @TypeGraphQL.Field(_type => JobRunWhereUniqueInput, {
-    nullable: false
+    nullable: false,
   })
   where!: JobRunWhereUniqueInput;
 }

@@ -1,17 +1,17 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { LinearIssueUpdateInput } from "../../../inputs/LinearIssueUpdateInput";
-import { LinearIssueWhereUniqueInput } from "../../../inputs/LinearIssueWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { LinearIssueUpdateInput } from '../../../inputs/LinearIssueUpdateInput';
+import { LinearIssueWhereUniqueInput } from '../../../inputs/LinearIssueWhereUniqueInput';
 
 @TypeGraphQL.ArgsType()
 export class UpdateLinearIssueArgs {
   @TypeGraphQL.Field(_type => LinearIssueUpdateInput, {
-    nullable: false
+    nullable: false,
   })
   data!: LinearIssueUpdateInput;
 
   @TypeGraphQL.Field(_type => LinearIssueWhereUniqueInput, {
-    nullable: false
+    nullable: false,
   })
   where!: LinearIssueWhereUniqueInput;
 }

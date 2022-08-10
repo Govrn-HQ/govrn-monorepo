@@ -1,51 +1,60 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
-import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { DateTimeWithAggregatesFilter } from '../inputs/DateTimeWithAggregatesFilter';
+import { IntWithAggregatesFilter } from '../inputs/IntWithAggregatesFilter';
 
-@TypeGraphQL.InputType("CategoryActivityTypeScalarWhereWithAggregatesInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('CategoryActivityTypeScalarWhereWithAggregatesInput', {
+  isAbstract: true,
 })
 export class CategoryActivityTypeScalarWhereWithAggregatesInput {
-  @TypeGraphQL.Field(_type => [CategoryActivityTypeScalarWhereWithAggregatesInput], {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => [CategoryActivityTypeScalarWhereWithAggregatesInput],
+    {
+      nullable: true,
+    },
+  )
   AND?: CategoryActivityTypeScalarWhereWithAggregatesInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [CategoryActivityTypeScalarWhereWithAggregatesInput], {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => [CategoryActivityTypeScalarWhereWithAggregatesInput],
+    {
+      nullable: true,
+    },
+  )
   OR?: CategoryActivityTypeScalarWhereWithAggregatesInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [CategoryActivityTypeScalarWhereWithAggregatesInput], {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => [CategoryActivityTypeScalarWhereWithAggregatesInput],
+    {
+      nullable: true,
+    },
+  )
   NOT?: CategoryActivityTypeScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   id?: IntWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   category_activity_id?: IntWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   activity_type_id?: IntWithAggregatesFilter | undefined;
 }

@@ -3,6 +3,7 @@ import {
   CreateActivityTypeMutationVariables,
   ListActivityTypesQueryVariables,
   CreateUserActivityMutationVariables,
+  UpsertActivityTypeMutationVariables,
 } from '../protocol-types';
 
 export class ActivityType extends BaseClient {
@@ -14,6 +15,11 @@ export class ActivityType extends BaseClient {
   public async create(args: CreateActivityTypeMutationVariables) {
     const activity = await this.sdk.createActivityType(args);
     return activity.createActivityType;
+  }
+
+  public async upsert(args: UpsertActivityTypeMutationVariables) {
+    const activity = await this.sdk.upsertActivityType(args);
+    return activity.upsertActivityType;
   }
 
   // TODO: Rename

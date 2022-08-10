@@ -1,17 +1,17 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { LinearUserUpdateManyMutationInput } from "../../../inputs/LinearUserUpdateManyMutationInput";
-import { LinearUserWhereInput } from "../../../inputs/LinearUserWhereInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { LinearUserUpdateManyMutationInput } from '../../../inputs/LinearUserUpdateManyMutationInput';
+import { LinearUserWhereInput } from '../../../inputs/LinearUserWhereInput';
 
 @TypeGraphQL.ArgsType()
 export class UpdateManyLinearUserArgs {
   @TypeGraphQL.Field(_type => LinearUserUpdateManyMutationInput, {
-    nullable: false
+    nullable: false,
   })
   data!: LinearUserUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => LinearUserWhereInput, {
-    nullable: true
+    nullable: true,
   })
   where?: LinearUserWhereInput | undefined;
 }

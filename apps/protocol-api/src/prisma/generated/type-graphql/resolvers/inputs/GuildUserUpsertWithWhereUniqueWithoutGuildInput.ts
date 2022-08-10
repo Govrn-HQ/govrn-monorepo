@@ -1,27 +1,27 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { GuildUserCreateWithoutGuildInput } from "../inputs/GuildUserCreateWithoutGuildInput";
-import { GuildUserUpdateWithoutGuildInput } from "../inputs/GuildUserUpdateWithoutGuildInput";
-import { GuildUserWhereUniqueInput } from "../inputs/GuildUserWhereUniqueInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { GuildUserCreateWithoutGuildInput } from '../inputs/GuildUserCreateWithoutGuildInput';
+import { GuildUserUpdateWithoutGuildInput } from '../inputs/GuildUserUpdateWithoutGuildInput';
+import { GuildUserWhereUniqueInput } from '../inputs/GuildUserWhereUniqueInput';
 
-@TypeGraphQL.InputType("GuildUserUpsertWithWhereUniqueWithoutGuildInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('GuildUserUpsertWithWhereUniqueWithoutGuildInput', {
+  isAbstract: true,
 })
 export class GuildUserUpsertWithWhereUniqueWithoutGuildInput {
   @TypeGraphQL.Field(_type => GuildUserWhereUniqueInput, {
-    nullable: false
+    nullable: false,
   })
   where!: GuildUserWhereUniqueInput;
 
   @TypeGraphQL.Field(_type => GuildUserUpdateWithoutGuildInput, {
-    nullable: false
+    nullable: false,
   })
   update!: GuildUserUpdateWithoutGuildInput;
 
   @TypeGraphQL.Field(_type => GuildUserCreateWithoutGuildInput, {
-    nullable: false
+    nullable: false,
   })
   create!: GuildUserCreateWithoutGuildInput;
 }

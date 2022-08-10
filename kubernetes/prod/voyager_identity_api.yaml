@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voyager-identity-api
+  labels:
+    environment: production
+    app: voyager-identity-api
+    tier: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: voyager-identity-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        name: voyager-identity-api
+    spec:
+      containers:
+        - name: web
+          image: <IMAGE>
+          env:
+            - name: SUBGRAPH_URL
+              value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
+            - name: CONTRACT_ADDRESS
+              value: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
+            - name: CHAIN_URL
+              valueFrom:
+                secretKeyRef:
+                  name: voyager-identity-api
+                  key: chain_url
+          resources:
+            requests:
+              memory: 300Mi
+              cpu: 300m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: voyager-identity-api
+spec:
+  type: ClusterIP
+  selector:
+    name: voyager-identity-api
+  ports:
+    - name: api
+      port: 3333
+      targetPort: 3333
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: voyager-identity-api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+    cert-manager.io/issuer: 'letsencrypt-staging'
+spec:
+  tls:
+    - hosts:
+        - voyager-identity-api.govrn.app
+      secretName: voyager-identity-api-staging-tls
+  rules:
+    - host: voyager-identity-api.govrn.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: voyager-identity-api
+                port:
+                  number: 3333

@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useWallet } from '@raidguild/quiver';
-import { Flex, Link as ChakraLink, Button, Text } from '@chakra-ui/react';
+import {
+  Flex,
+  Link as ChakraLink,
+  Button,
+  Text,
+  VisuallyHidden,
+  Heading,
+} from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
@@ -157,6 +164,9 @@ const HomeShell = () => {
       minWidth="100vw"
       bgGradient="linear(to-r, white 0%, brand.primary.100 50%, brand.primary.200 100%)"
     >
+      <VisuallyHidden>
+        <Heading as="h1">Govrn</Heading>
+      </VisuallyHidden>
       <Flex
         direction="column"
         alignItems={{ base: 'flex-start', lg: 'center' }}

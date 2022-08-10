@@ -1,39 +1,54 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { ContributionOrderByWithRelationInput } from "../../../inputs/ContributionOrderByWithRelationInput";
-import { ContributionWhereInput } from "../../../inputs/ContributionWhereInput";
-import { ContributionWhereUniqueInput } from "../../../inputs/ContributionWhereUniqueInput";
-import { ContributionScalarFieldEnum } from "../../../../enums/ContributionScalarFieldEnum";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { ContributionOrderByWithRelationInput } from '../../../inputs/ContributionOrderByWithRelationInput';
+import { ContributionWhereInput } from '../../../inputs/ContributionWhereInput';
+import { ContributionWhereUniqueInput } from '../../../inputs/ContributionWhereUniqueInput';
+import { ContributionScalarFieldEnum } from '../../../../enums/ContributionScalarFieldEnum';
 
 @TypeGraphQL.ArgsType()
 export class ActivityTypeContributionsArgs {
   @TypeGraphQL.Field(_type => ContributionWhereInput, {
-    nullable: true
+    nullable: true,
   })
   where?: ContributionWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [ContributionOrderByWithRelationInput], {
-    nullable: true
+    nullable: true,
   })
   orderBy?: ContributionOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => ContributionWhereUniqueInput, {
-    nullable: true
+    nullable: true,
   })
   cursor?: ContributionWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: true,
   })
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [ContributionScalarFieldEnum], {
-    nullable: true
+    nullable: true,
   })
-  distinct?: Array<"id" | "updatedAt" | "name" | "status_id" | "activity_type_id" | "user_id" | "date_of_submission" | "date_of_engagement" | "details" | "proof" | "on_chain_id" | "tx_hash"> | undefined;
+  distinct?:
+    | Array<
+        | 'id'
+        | 'updatedAt'
+        | 'name'
+        | 'status_id'
+        | 'activity_type_id'
+        | 'user_id'
+        | 'date_of_submission'
+        | 'date_of_engagement'
+        | 'details'
+        | 'proof'
+        | 'on_chain_id'
+        | 'tx_hash'
+      >
+    | undefined;
 }

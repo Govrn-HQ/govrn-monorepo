@@ -1,51 +1,51 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
-import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { DateTimeWithAggregatesFilter } from '../inputs/DateTimeWithAggregatesFilter';
+import { IntWithAggregatesFilter } from '../inputs/IntWithAggregatesFilter';
 
-@TypeGraphQL.InputType("UserActivityScalarWhereWithAggregatesInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('UserActivityScalarWhereWithAggregatesInput', {
+  isAbstract: true,
 })
 export class UserActivityScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => [UserActivityScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   AND?: UserActivityScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [UserActivityScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   OR?: UserActivityScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [UserActivityScalarWhereWithAggregatesInput], {
-    nullable: true
+    nullable: true,
   })
   NOT?: UserActivityScalarWhereWithAggregatesInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   id?: IntWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   user_id?: IntWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
+    nullable: true,
   })
   activity_type_id?: IntWithAggregatesFilter | undefined;
 }

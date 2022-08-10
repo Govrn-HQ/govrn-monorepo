@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactSelect from 'react-select';
-import { Controller } from 'react-hook-form';
+import {
+  Controller,
+  UseFormReturn,
+  Resolver,
+  FieldValues,
+} from 'react-hook-form';
 import { useTheme, FormControl, Stack, Box } from '@chakra-ui/react';
 import customSelectStyles from './selectStyles';
 import customSelectThemeColors from './selectTheme';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
-import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
 type Errors = {
   [name: string]: {
@@ -23,9 +27,8 @@ type Errors = {
 
 type Option = {
   label: string | number;
-  value: any;
+  value: string | number;
 };
-
 export interface SelectProps {
   name: string;
   label?: string;
@@ -38,7 +41,7 @@ export interface SelectProps {
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   isMulti?: boolean;
   isClearable?: boolean;
-  onChange?: (option: Option | Option[]) => void;
+  onChange?: (option: Option) => void;
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;

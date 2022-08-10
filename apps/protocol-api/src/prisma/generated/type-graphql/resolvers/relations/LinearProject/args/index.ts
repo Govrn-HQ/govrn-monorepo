@@ -1,1 +1,1 @@
-export { LinearProjectIssuesArgs } from "./LinearProjectIssuesArgs";
+export { LinearProjectIssuesArgs } from './LinearProjectIssuesArgs';

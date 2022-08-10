@@ -58,7 +58,7 @@ const confidenceLevelOptions = confidenceLevels.map((confidence) => ({
   label: confidence,
 }));
 
-const AddAttestationForm = ({
+const DaoAttributeForm = ({
   contribution,
   onClose,
 }: AddAttestationFormProps) => {
@@ -119,4 +119,4 @@ const AddAttestationForm = ({
   );
 };
 
-export default AddAttestationForm;
+export default DaoAttributeForm;

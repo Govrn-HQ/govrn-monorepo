@@ -1,45 +1,48 @@
-import * as TypeGraphQL from "type-graphql";
-import * as GraphQLScalars from "graphql-scalars";
-import { Prisma } from "@prisma/client";
-import { DecimalJSScalar } from "../../scalars";
-import { TwitterTweetCreateNestedManyWithoutTwitter_userInput } from "../inputs/TwitterTweetCreateNestedManyWithoutTwitter_userInput";
+import * as TypeGraphQL from 'type-graphql';
+import * as GraphQLScalars from 'graphql-scalars';
+import { Prisma } from '@prisma/client';
+import { DecimalJSScalar } from '../../scalars';
+import { TwitterTweetCreateNestedManyWithoutTwitter_userInput } from '../inputs/TwitterTweetCreateNestedManyWithoutTwitter_userInput';
 
-@TypeGraphQL.InputType("TwitterUserCreateWithoutUserInput", {
-  isAbstract: true
+@TypeGraphQL.InputType('TwitterUserCreateWithoutUserInput', {
+  isAbstract: true,
 })
 export class TwitterUserCreateWithoutUserInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true
+    nullable: true,
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   twitter_user_id?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: false,
   })
   username!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: true,
   })
   description?: string | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetCreateNestedManyWithoutTwitter_userInput, {
-    nullable: true
-  })
+  @TypeGraphQL.Field(
+    _type => TwitterTweetCreateNestedManyWithoutTwitter_userInput,
+    {
+      nullable: true,
+    },
+  )
   tweets?: TwitterTweetCreateNestedManyWithoutTwitter_userInput | undefined;
 }

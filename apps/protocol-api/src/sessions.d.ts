@@ -5,6 +5,7 @@ declare module 'express-session' {
   interface SessionData {
     userId: string;
     siwe: SiweResponse;
-    nonce: string;
+    nonce?: string;
+    linearNonce?: string;
   }
 }
