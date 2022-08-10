@@ -167,39 +167,31 @@ const ContributionsTable = ({
         id: 'actions',
         Header: 'Actions',
         Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
-          <HStack>
-            {row.original.txHash !== null && (
-              <ChakraLink
-                href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
-                isExternal
-              >
-                <Icon as={HiOutlineLink} mx="2px" />
-              </ChakraLink>
-            )}
+          <HStack spacing={1}>
             {row.original.status.name === 'minted' ? (
               <HStack spacing="1">
-                <Tooltip
-                  label="Minted contribution(s) cannot be edited"
-                  aria-label="A tooltip"
-                >
-                  <Box>
-                    <IconButton
-                      padding={1}
-                      icon={<FiEdit2 fontSize="1rem" />}
-                      variant="ghost"
-                      color="gray.800"
-                      aria-label="Edit Contribution"
-                      disabled={
-                        row.original.user.id !== userData?.id ||
-                        row.original.status.name === 'minted'
-                      }
-                      onClick={() =>
-                        handleEditContributionFormModal(row.original.id)
-                      }
-                    />
-                  </Box>
-                </Tooltip>
-                <IconButton
+                {row.original.txHash !== null && (
+                  <Tooltip
+                    label="Minted Contributions cannot be edited or deleted. View on Block Explorer."
+                    aria-label="A tooltip"
+                  >
+                    <Box>
+                      <ChakraLink
+                        href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
+                        isExternal
+                      >
+                        <IconButton
+                          icon={<HiOutlineLink fontSize="1rem" />}
+                          aria-label="View on Block Explorer"
+                          variant="ghost"
+                          color="gray.800"
+                          padding={1}
+                        />
+                      </ChakraLink>
+                    </Box>
+                  </Tooltip>
+                )}
+                {/* <IconButton
                   icon={<FiTrash2 fontSize="1rem" />}
                   variant="ghost"
                   color="gray.800"
@@ -208,7 +200,7 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
-                />
+                /> */}
               </HStack>
             ) : (
               <HStack spacing="1">
