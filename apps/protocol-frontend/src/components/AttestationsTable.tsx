@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import * as _ from 'lodash';
 import {
   Box,
@@ -110,7 +110,7 @@ const AttestationsTable = ({
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
-        Cell: ({ row }) => (
+        Cell: ({ row }: { row }) => (
           <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
         ),
       },

@@ -30,7 +30,9 @@ type Option =
       label: string | number;
       value: string | number;
     }
-  | { value: number | null; label: string };
+  | { value: number | null; label: string }
+  | { value: number; label: string | null | undefined }
+  | { value: null; label: string };
 
 export interface SelectProps {
   name: string;
