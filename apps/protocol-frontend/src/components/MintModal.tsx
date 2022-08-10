@@ -15,9 +15,18 @@ import { storeIpfs } from '../libs/ipfs';
 import { useUser } from '../contexts/UserContext';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
+import { UIContribution } from '@govrn/ui-types';
+
+type MintContributionType = UIContribution & {
+  original: {
+    name: string;
+    details: string;
+    proof: string;
+  };
+};
 
 interface MintModalProps {
-  contributions: any;
+  contributions: MintContributionType[];
 }
 
 const MintModal = ({ contributions }: MintModalProps) => {
@@ -42,12 +51,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
     }
   }, [mintProgress]);
 
-  const mintHandler = async (contributions) => {
+  const mintHandler = async (contributions: MintContributionType[]) => {
     setMintTotal(contributions.length);
     setMinting(true);
 
     const unresolvedContributionsMinting = contributions.map(
-      async (contribution, idx) => {
+      async (contribution) => {
         const ipfsContentUri = await storeIpfs({
           name: contribution.original.name,
           details: contribution.original.details,
