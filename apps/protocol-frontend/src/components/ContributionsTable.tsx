@@ -203,7 +203,7 @@ const ContributionsTable = ({
                   color="gray.800"
                   aria-label="Edit Contribution"
                   disabled={
-                    row.original.user!== userData?.id ||
+                    row.original.user.id !== userData?.id ||
                     row.original.status !== 'minted'
                   }
                   onClick={() =>
@@ -215,7 +215,7 @@ const ContributionsTable = ({
                   variant="ghost"
                   color="gray.800"
                   disabled={
-                    row.original.user !== userData?.id ||
+                    row.original.user.id !== userData?.id ||
                     row.original.status.name !== 'minted'
                   }
                   aria-label="Delete Contribution"
@@ -232,7 +232,7 @@ const ContributionsTable = ({
                 color="gray.800"
                 aria-label="Edit Contribution"
                 disabled={
-                  row.original.user !== userData?.id ||
+                  row.original.user.id !== userData?.id ||
                   row.original.status === 'minted'
                 }
                 onClick={() =>
@@ -244,7 +244,7 @@ const ContributionsTable = ({
                 variant="ghost"
                 color="gray.800"
                 disabled={
-                  row.original.user !== userData?.id ||
+                  row.original.user.id !== userData?.id ||
                   row.original.status.name === 'minted'
                 }
                 aria-label="Delete Contribution"
