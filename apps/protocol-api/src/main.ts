@@ -416,6 +416,13 @@ app.get('/nonce', async function (req, res) {
   res.status(200).send(req.session.nonce);
 });
 
+app.get('/linear_nonce', async function (req, res) {
+  const nonce = generateNonce();
+  req.session.linearNonce = nonce;
+  res.setHeader('Content-Type', 'text/plain');
+  res.status(200).send(req.session.nonce);
+});
+
 // TODO: normalize all addresses to lowercase
 app.get('/linear/oauth', async function (req, res) {
   try {
@@ -426,7 +433,9 @@ app.get('/linear/oauth', async function (req, res) {
     params.append('redirect_uri', LINEAR_REDIRECT_URI);
     params.append('client_id', LINEAR_CLIENT_ID);
     params.append('client_secret', LINEAR_CLIENT_SECRET);
+    params.append('state', req.session.linearNonce);
     params.append('grant_type', 'authorization_code');
+    console.log(params);
     const resp = await fetch(LINEAR_TOKEN_URL, {
       method: 'POST',
       body: params,

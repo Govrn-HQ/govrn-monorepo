@@ -69,7 +69,7 @@ spec:
             - name: PROTOCOL_FRONTEND
               value: 'https://api.govrn.app'
             - name: LINEAR_REDIRECT_URI
-              value: 'http://api.govrn.app/oauth/token'
+              value: 'https://api.govrn.app/oauth/linear'
           resources:
             requests:
               memory: 300Mi
