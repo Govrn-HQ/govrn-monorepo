@@ -25,7 +25,7 @@ model User {
   updatedAt DateTime @updatedAt @default(now())
   name  String?
   display_name String?
-  address String @unique
+  address String @db.Citext @unique
   chain_type_id Int
   chain_type ChainType @relation(fields: [chain_type_id], references: [id])
   full_name String?
