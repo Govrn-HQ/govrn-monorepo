@@ -15,9 +15,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const createAttestationsHandler = (contributions: UIContribution[]) => {
     setAttesting(true);
     contributions.map((contribution, idx) => {
-      console.log(`contribution: ${idx}`, contribution);
       if (contribution.status.name === 'minted') {
-        console.log(`contribution ${idx} is on chain`);
         mintAttestation(contribution);
       } else {
         console.log(`contribution ${idx} is off chain`);
