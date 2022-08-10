@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useWallet } from '@raidguild/quiver';
+import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Heading, Flex, Button, Text } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
@@ -11,7 +11,7 @@ import { ValidationError } from 'yup';
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
-    async (data) => {
+    async data => {
       try {
         const values = await userValidationSchema.validate(data, {
           abortEarly: false,
@@ -32,12 +32,12 @@ const useYupValidationResolver = (userValidationSchema: any) =>
                 message: currentError.message,
               },
             }),
-            {}
+            {},
           ),
         };
       }
     },
-    [userValidationSchema]
+    [userValidationSchema],
   );
 
 const CreateWaitlistUserForm = () => {
@@ -49,7 +49,7 @@ const CreateWaitlistUserForm = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = localForm;
-  const { address } = useWallet();
+  const { address } = useAccount();
   const navigate = useNavigate();
   const { createWaitlistUser } = useUser();
 

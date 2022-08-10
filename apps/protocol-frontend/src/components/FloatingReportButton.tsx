@@ -1,8 +1,9 @@
 import { Box, IconButton, Tooltip } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
-import { useOverlay } from '../contexts/OverlayContext';
-import { useWallet } from '@raidguild/quiver';
+import { useAccount } from 'wagmi';
 import { ModalWrapper } from '@govrn/protocol-ui';
+
+import { useOverlay } from '../contexts/OverlayContext';
 import ReportForm from './ReportForm';
 
 const FloatingReportButton = () => {
@@ -11,7 +12,8 @@ const FloatingReportButton = () => {
 
   const handleReportingFormModal = () =>
     setModals({ reportingFormModal: true });
-  const { isConnected } = useWallet();
+
+  const { isConnected } = useAccount();
 
   return (
     <Box position="fixed" bottom="40px" right={['16px', '84px']} zIndex={1}>

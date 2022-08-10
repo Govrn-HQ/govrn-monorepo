@@ -1,4 +1,3 @@
-import { useWallet } from '@raidguild/quiver';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
@@ -6,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createUserFormValidation } from '../utils/validations';
 import { CreateUserFormValues } from '../types/forms';
+import { useAccount } from 'wagmi';
 
 const CreateUserForm = () => {
   const localForm = useForm({
@@ -16,11 +16,11 @@ const CreateUserForm = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = localForm;
-  const { address } = useWallet();
+  const { address } = useAccount();
   const { createUser } = useUser();
 
   const createUserHandler: SubmitHandler<CreateUserFormValues> = async (
-    values: CreateUserFormValues
+    values: CreateUserFormValues,
   ) => {
     createUser(values, address);
   };
