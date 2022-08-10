@@ -1,90 +1,90 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { UserAvgOrderByAggregateInput } from '../inputs/UserAvgOrderByAggregateInput';
-import { UserCountOrderByAggregateInput } from '../inputs/UserCountOrderByAggregateInput';
-import { UserMaxOrderByAggregateInput } from '../inputs/UserMaxOrderByAggregateInput';
-import { UserMinOrderByAggregateInput } from '../inputs/UserMinOrderByAggregateInput';
-import { UserSumOrderByAggregateInput } from '../inputs/UserSumOrderByAggregateInput';
-import { SortOrder } from '../../enums/SortOrder';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { UserAvgOrderByAggregateInput } from "../inputs/UserAvgOrderByAggregateInput";
+import { UserCountOrderByAggregateInput } from "../inputs/UserCountOrderByAggregateInput";
+import { UserMaxOrderByAggregateInput } from "../inputs/UserMaxOrderByAggregateInput";
+import { UserMinOrderByAggregateInput } from "../inputs/UserMinOrderByAggregateInput";
+import { UserSumOrderByAggregateInput } from "../inputs/UserSumOrderByAggregateInput";
+import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType('UserOrderByWithAggregationInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("UserOrderByWithAggregationInput", {
+  isAbstract: true
 })
 export class UserOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  id?: 'asc' | 'desc' | undefined;
+  id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  createdAt?: 'asc' | 'desc' | undefined;
+  createdAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  updatedAt?: 'asc' | 'desc' | undefined;
+  updatedAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  name?: 'asc' | 'desc' | undefined;
+  name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  display_name?: 'asc' | 'desc' | undefined;
+  display_name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  address?: 'asc' | 'desc' | undefined;
+  address?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  chain_type_id?: 'asc' | 'desc' | undefined;
+  chain_type_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  full_name?: 'asc' | 'desc' | undefined;
+  full_name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  active?: 'asc' | 'desc' | undefined;
+  active?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  email?: 'asc' | 'desc' | undefined;
+  email?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => UserCountOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _count?: UserCountOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => UserAvgOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _avg?: UserAvgOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => UserMaxOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _max?: UserMaxOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => UserMinOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _min?: UserMinOrderByAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => UserSumOrderByAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   _sum?: UserSumOrderByAggregateInput | undefined;
 }

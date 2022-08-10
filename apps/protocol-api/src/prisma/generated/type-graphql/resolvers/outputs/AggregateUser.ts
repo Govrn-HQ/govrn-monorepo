@@ -1,39 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { UserAvgAggregate } from '../outputs/UserAvgAggregate';
-import { UserCountAggregate } from '../outputs/UserCountAggregate';
-import { UserMaxAggregate } from '../outputs/UserMaxAggregate';
-import { UserMinAggregate } from '../outputs/UserMinAggregate';
-import { UserSumAggregate } from '../outputs/UserSumAggregate';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { UserAvgAggregate } from "../outputs/UserAvgAggregate";
+import { UserCountAggregate } from "../outputs/UserCountAggregate";
+import { UserMaxAggregate } from "../outputs/UserMaxAggregate";
+import { UserMinAggregate } from "../outputs/UserMinAggregate";
+import { UserSumAggregate } from "../outputs/UserSumAggregate";
 
-@TypeGraphQL.ObjectType('AggregateUser', {
-  isAbstract: true,
+@TypeGraphQL.ObjectType("AggregateUser", {
+  isAbstract: true
 })
 export class AggregateUser {
   @TypeGraphQL.Field(_type => UserCountAggregate, {
-    nullable: true,
+    nullable: true
   })
   _count!: UserCountAggregate | null;
 
   @TypeGraphQL.Field(_type => UserAvgAggregate, {
-    nullable: true,
+    nullable: true
   })
   _avg!: UserAvgAggregate | null;
 
   @TypeGraphQL.Field(_type => UserSumAggregate, {
-    nullable: true,
+    nullable: true
   })
   _sum!: UserSumAggregate | null;
 
   @TypeGraphQL.Field(_type => UserMinAggregate, {
-    nullable: true,
+    nullable: true
   })
   _min!: UserMinAggregate | null;
 
   @TypeGraphQL.Field(_type => UserMaxAggregate, {
-    nullable: true,
+    nullable: true
   })
   _max!: UserMaxAggregate | null;
 }

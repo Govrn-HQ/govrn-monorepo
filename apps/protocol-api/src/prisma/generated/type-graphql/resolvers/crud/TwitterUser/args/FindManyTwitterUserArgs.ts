@@ -1,50 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { TwitterUserOrderByWithRelationInput } from '../../../inputs/TwitterUserOrderByWithRelationInput';
-import { TwitterUserWhereInput } from '../../../inputs/TwitterUserWhereInput';
-import { TwitterUserWhereUniqueInput } from '../../../inputs/TwitterUserWhereUniqueInput';
-import { TwitterUserScalarFieldEnum } from '../../../../enums/TwitterUserScalarFieldEnum';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { TwitterUserOrderByWithRelationInput } from "../../../inputs/TwitterUserOrderByWithRelationInput";
+import { TwitterUserWhereInput } from "../../../inputs/TwitterUserWhereInput";
+import { TwitterUserWhereUniqueInput } from "../../../inputs/TwitterUserWhereUniqueInput";
+import { TwitterUserScalarFieldEnum } from "../../../../enums/TwitterUserScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class FindManyTwitterUserArgs {
   @TypeGraphQL.Field(_type => TwitterUserWhereInput, {
-    nullable: true,
+    nullable: true
   })
   where?: TwitterUserWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [TwitterUserOrderByWithRelationInput], {
-    nullable: true,
+    nullable: true
   })
   orderBy?: TwitterUserOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => TwitterUserWhereUniqueInput, {
-    nullable: true,
+    nullable: true
   })
   cursor?: TwitterUserWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [TwitterUserScalarFieldEnum], {
-    nullable: true,
+    nullable: true
   })
-  distinct?:
-    | Array<
-        | 'id'
-        | 'createdAt'
-        | 'updatedAt'
-        | 'twitter_user_id'
-        | 'name'
-        | 'username'
-        | 'description'
-        | 'user_id'
-      >
-    | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "twitter_user_id" | "name" | "username" | "description" | "user_id"> | undefined;
 }

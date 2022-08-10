@@ -1,62 +1,62 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { TwitterTweetOrderByRelationAggregateInput } from '../inputs/TwitterTweetOrderByRelationAggregateInput';
-import { UserOrderByWithRelationInput } from '../inputs/UserOrderByWithRelationInput';
-import { SortOrder } from '../../enums/SortOrder';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { TwitterTweetOrderByRelationAggregateInput } from "../inputs/TwitterTweetOrderByRelationAggregateInput";
+import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
+import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType('TwitterUserOrderByWithRelationInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("TwitterUserOrderByWithRelationInput", {
+  isAbstract: true
 })
 export class TwitterUserOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  id?: 'asc' | 'desc' | undefined;
+  id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  createdAt?: 'asc' | 'desc' | undefined;
+  createdAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  updatedAt?: 'asc' | 'desc' | undefined;
+  updatedAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  twitter_user_id?: 'asc' | 'desc' | undefined;
+  twitter_user_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  name?: 'asc' | 'desc' | undefined;
+  name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  username?: 'asc' | 'desc' | undefined;
+  username?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  description?: 'asc' | 'desc' | undefined;
+  description?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  user_id?: 'asc' | 'desc' | undefined;
+  user_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
-    nullable: true,
+    nullable: true
   })
   user?: UserOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterTweetOrderByRelationAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   tweets?: TwitterTweetOrderByRelationAggregateInput | undefined;
 }

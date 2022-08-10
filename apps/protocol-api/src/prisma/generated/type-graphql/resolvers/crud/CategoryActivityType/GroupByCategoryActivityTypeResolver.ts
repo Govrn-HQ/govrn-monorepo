@@ -1,34 +1,24 @@
-import * as TypeGraphQL from 'type-graphql';
-import graphqlFields from 'graphql-fields';
-import { GraphQLResolveInfo } from 'graphql';
-import { GroupByCategoryActivityTypeArgs } from './args/GroupByCategoryActivityTypeArgs';
-import { CategoryActivityType } from '../../../models/CategoryActivityType';
-import { CategoryActivityTypeGroupBy } from '../../outputs/CategoryActivityTypeGroupBy';
-import {
-  transformFields,
-  getPrismaFromContext,
-  transformCountFieldIntoSelectRelationsCount,
-} from '../../../helpers';
+import * as TypeGraphQL from "type-graphql";
+import graphqlFields from "graphql-fields";
+import { GraphQLResolveInfo } from "graphql";
+import { GroupByCategoryActivityTypeArgs } from "./args/GroupByCategoryActivityTypeArgs";
+import { CategoryActivityType } from "../../../models/CategoryActivityType";
+import { CategoryActivityTypeGroupBy } from "../../outputs/CategoryActivityTypeGroupBy";
+import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => CategoryActivityType)
 export class GroupByCategoryActivityTypeResolver {
   @TypeGraphQL.Query(_returns => [CategoryActivityTypeGroupBy], {
-    nullable: false,
+    nullable: false
   })
-  async groupByCategoryActivityType(
-    @TypeGraphQL.Ctx() ctx: any,
-    @TypeGraphQL.Info() info: GraphQLResolveInfo,
-    @TypeGraphQL.Args() args: GroupByCategoryActivityTypeArgs,
-  ): Promise<CategoryActivityTypeGroupBy[]> {
+  async groupByCategoryActivityType(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: GroupByCategoryActivityTypeArgs): Promise<CategoryActivityTypeGroupBy[]> {
     const { _count, _avg, _sum, _min, _max } = transformFields(
-      graphqlFields(info as any),
+      graphqlFields(info as any)
     );
     return getPrismaFromContext(ctx).categoryActivityType.groupBy({
       ...args,
       ...Object.fromEntries(
-        Object.entries({ _count, _avg, _sum, _min, _max }).filter(
-          ([_, v]) => v != null,
-        ),
+        Object.entries({ _count, _avg, _sum, _min, _max }).filter(([_, v]) => v != null)
       ),
     });
   }

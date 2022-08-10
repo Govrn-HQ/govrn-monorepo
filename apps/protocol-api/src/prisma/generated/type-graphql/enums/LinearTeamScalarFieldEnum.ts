@@ -1,12 +1,12 @@
-import * as TypeGraphQL from 'type-graphql';
+import * as TypeGraphQL from "type-graphql";
 
 export enum LinearTeamScalarFieldEnum {
-  id = 'id',
-  linear_id = 'linear_id',
-  name = 'name',
-  key = 'key',
+  id = "id",
+  linear_id = "linear_id",
+  name = "name",
+  key = "key"
 }
 TypeGraphQL.registerEnumType(LinearTeamScalarFieldEnum, {
-  name: 'LinearTeamScalarFieldEnum',
+  name: "LinearTeamScalarFieldEnum",
   description: undefined,
 });

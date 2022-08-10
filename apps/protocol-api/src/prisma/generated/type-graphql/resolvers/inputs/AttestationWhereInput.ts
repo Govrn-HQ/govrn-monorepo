@@ -1,79 +1,79 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { AttestationConfidenceRelationFilter } from '../inputs/AttestationConfidenceRelationFilter';
-import { ContributionRelationFilter } from '../inputs/ContributionRelationFilter';
-import { DateTimeFilter } from '../inputs/DateTimeFilter';
-import { IntFilter } from '../inputs/IntFilter';
-import { UserRelationFilter } from '../inputs/UserRelationFilter';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { AttestationConfidenceRelationFilter } from "../inputs/AttestationConfidenceRelationFilter";
+import { ContributionRelationFilter } from "../inputs/ContributionRelationFilter";
+import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { IntFilter } from "../inputs/IntFilter";
+import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
-@TypeGraphQL.InputType('AttestationWhereInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("AttestationWhereInput", {
+  isAbstract: true
 })
 export class AttestationWhereInput {
   @TypeGraphQL.Field(_type => [AttestationWhereInput], {
-    nullable: true,
+    nullable: true
   })
   AND?: AttestationWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [AttestationWhereInput], {
-    nullable: true,
+    nullable: true
   })
   OR?: AttestationWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [AttestationWhereInput], {
-    nullable: true,
+    nullable: true
   })
   NOT?: AttestationWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true,
+    nullable: true
   })
   id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true,
+    nullable: true
   })
   createdAt?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true,
+    nullable: true
   })
   updatedAt?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true,
+    nullable: true
   })
   confidence_id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => AttestationConfidenceRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   confidence?: AttestationConfidenceRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true,
+    nullable: true
   })
   user_id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   user?: UserRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true,
+    nullable: true
   })
   contribution_id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => ContributionRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   contribution?: ContributionRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true,
+    nullable: true
   })
   date_of_attestation?: DateTimeFilter | undefined;
 }

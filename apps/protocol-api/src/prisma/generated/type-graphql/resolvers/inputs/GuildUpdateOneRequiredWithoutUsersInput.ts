@@ -1,39 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { GuildCreateOrConnectWithoutUsersInput } from '../inputs/GuildCreateOrConnectWithoutUsersInput';
-import { GuildCreateWithoutUsersInput } from '../inputs/GuildCreateWithoutUsersInput';
-import { GuildUpdateWithoutUsersInput } from '../inputs/GuildUpdateWithoutUsersInput';
-import { GuildUpsertWithoutUsersInput } from '../inputs/GuildUpsertWithoutUsersInput';
-import { GuildWhereUniqueInput } from '../inputs/GuildWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { GuildCreateOrConnectWithoutUsersInput } from "../inputs/GuildCreateOrConnectWithoutUsersInput";
+import { GuildCreateWithoutUsersInput } from "../inputs/GuildCreateWithoutUsersInput";
+import { GuildUpdateWithoutUsersInput } from "../inputs/GuildUpdateWithoutUsersInput";
+import { GuildUpsertWithoutUsersInput } from "../inputs/GuildUpsertWithoutUsersInput";
+import { GuildWhereUniqueInput } from "../inputs/GuildWhereUniqueInput";
 
-@TypeGraphQL.InputType('GuildUpdateOneRequiredWithoutUsersInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("GuildUpdateOneRequiredWithoutUsersInput", {
+  isAbstract: true
 })
 export class GuildUpdateOneRequiredWithoutUsersInput {
   @TypeGraphQL.Field(_type => GuildCreateWithoutUsersInput, {
-    nullable: true,
+    nullable: true
   })
   create?: GuildCreateWithoutUsersInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildCreateOrConnectWithoutUsersInput, {
-    nullable: true,
+    nullable: true
   })
   connectOrCreate?: GuildCreateOrConnectWithoutUsersInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildUpsertWithoutUsersInput, {
-    nullable: true,
+    nullable: true
   })
   upsert?: GuildUpsertWithoutUsersInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildWhereUniqueInput, {
-    nullable: true,
+    nullable: true
   })
   connect?: GuildWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildUpdateWithoutUsersInput, {
-    nullable: true,
+    nullable: true
   })
   update?: GuildUpdateWithoutUsersInput | undefined;
 }

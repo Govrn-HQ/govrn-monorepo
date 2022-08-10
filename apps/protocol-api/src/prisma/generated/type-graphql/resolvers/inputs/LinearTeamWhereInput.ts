@@ -1,52 +1,52 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { IntFilter } from '../inputs/IntFilter';
-import { LinearIssueListRelationFilter } from '../inputs/LinearIssueListRelationFilter';
-import { StringFilter } from '../inputs/StringFilter';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { IntFilter } from "../inputs/IntFilter";
+import { LinearIssueListRelationFilter } from "../inputs/LinearIssueListRelationFilter";
+import { StringFilter } from "../inputs/StringFilter";
 
-@TypeGraphQL.InputType('LinearTeamWhereInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("LinearTeamWhereInput", {
+  isAbstract: true
 })
 export class LinearTeamWhereInput {
   @TypeGraphQL.Field(_type => [LinearTeamWhereInput], {
-    nullable: true,
+    nullable: true
   })
   AND?: LinearTeamWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearTeamWhereInput], {
-    nullable: true,
+    nullable: true
   })
   OR?: LinearTeamWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearTeamWhereInput], {
-    nullable: true,
+    nullable: true
   })
   NOT?: LinearTeamWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true,
+    nullable: true
   })
   id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
+    nullable: true
   })
   linear_id?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
+    nullable: true
   })
   name?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
+    nullable: true
   })
   key?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearIssueListRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   issues?: LinearIssueListRelationFilter | undefined;
 }

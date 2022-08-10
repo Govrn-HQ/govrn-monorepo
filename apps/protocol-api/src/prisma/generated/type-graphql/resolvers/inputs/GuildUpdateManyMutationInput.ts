@@ -1,55 +1,52 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { DateTimeFieldUpdateOperationsInput } from '../inputs/DateTimeFieldUpdateOperationsInput';
-import { EnumGuildStatusFieldUpdateOperationsInput } from '../inputs/EnumGuildStatusFieldUpdateOperationsInput';
-import { NullableIntFieldUpdateOperationsInput } from '../inputs/NullableIntFieldUpdateOperationsInput';
-import { NullableStringFieldUpdateOperationsInput } from '../inputs/NullableStringFieldUpdateOperationsInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildStatusFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 
-@TypeGraphQL.InputType('GuildUpdateManyMutationInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("GuildUpdateManyMutationInput", {
+  isAbstract: true
 })
 export class GuildUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   discord_id?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   name?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
-    nullable: true,
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
   })
-  congrats_channel?: NullableIntFieldUpdateOperationsInput | undefined;
+  congrats_channel?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   logo?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
-    nullable: true,
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
   })
-  contribution_reporting_channel?:
-    | NullableIntFieldUpdateOperationsInput
-    | undefined;
+  contribution_reporting_channel?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => EnumGuildStatusFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
 }
