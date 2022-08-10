@@ -30,7 +30,6 @@ interface ContributionDetailShellProps extends UIContribution {
 const ContributionDetailShell = ({
   contribution,
 }: ContributionDetailShellProps) => {
-  console.log('contribution', contribution);
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -82,7 +81,12 @@ const ContributionDetailShell = ({
               {contribution?.guilds.length > 0 && (
                 <>
                   {contribution?.guilds.map((guild) => (
-                    <Badge colorScheme="cyan" variant="outline" padding={1}>
+                    <Badge
+                      colorScheme="cyan"
+                      variant="outline"
+                      padding={1}
+                      key={guild.guild.id}
+                    >
                       {guild.guild.name}
                     </Badge>
                   ))}
