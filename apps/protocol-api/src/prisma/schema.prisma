@@ -136,7 +136,7 @@ model Contribution {
   linear_issue LinearIssue?
   tweet TwitterTweet?
   on_chain_id Int? @unique
-  tx_hash String? @unique
+  tx_hash String? @db.Citext @unique
 }
 
 model Partner {
