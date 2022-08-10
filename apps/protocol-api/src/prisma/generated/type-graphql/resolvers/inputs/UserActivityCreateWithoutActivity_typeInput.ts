@@ -1,25 +1,25 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { UserCreateNestedOneWithoutActivitiesInput } from '../inputs/UserCreateNestedOneWithoutActivitiesInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { UserCreateNestedOneWithoutActivitiesInput } from "../inputs/UserCreateNestedOneWithoutActivitiesInput";
 
-@TypeGraphQL.InputType('UserActivityCreateWithoutActivity_typeInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("UserActivityCreateWithoutActivity_typeInput", {
+  isAbstract: true
 })
 export class UserActivityCreateWithoutActivity_typeInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutActivitiesInput, {
-    nullable: false,
+    nullable: false
   })
   user!: UserCreateNestedOneWithoutActivitiesInput;
 }

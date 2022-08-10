@@ -1,20 +1,20 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { ContributionWhereInput } from '../inputs/ContributionWhereInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { ContributionWhereInput } from "../inputs/ContributionWhereInput";
 
-@TypeGraphQL.InputType('ContributionRelationFilter', {
-  isAbstract: true,
+@TypeGraphQL.InputType("ContributionRelationFilter", {
+  isAbstract: true
 })
 export class ContributionRelationFilter {
   @TypeGraphQL.Field(_type => ContributionWhereInput, {
-    nullable: true,
+    nullable: true
   })
   is?: ContributionWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => ContributionWhereInput, {
-    nullable: true,
+    nullable: true
   })
   isNot?: ContributionWhereInput | undefined;
 }

@@ -1,220 +1,220 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { BoolNullableFilter } from '../inputs/BoolNullableFilter';
-import { ContributionRelationFilter } from '../inputs/ContributionRelationFilter';
-import { DateTimeNullableFilter } from '../inputs/DateTimeNullableFilter';
-import { FloatNullableFilter } from '../inputs/FloatNullableFilter';
-import { IntFilter } from '../inputs/IntFilter';
-import { IntNullableFilter } from '../inputs/IntNullableFilter';
-import { LinearCycleRelationFilter } from '../inputs/LinearCycleRelationFilter';
-import { LinearProjectRelationFilter } from '../inputs/LinearProjectRelationFilter';
-import { LinearTeamRelationFilter } from '../inputs/LinearTeamRelationFilter';
-import { LinearUserRelationFilter } from '../inputs/LinearUserRelationFilter';
-import { StringNullableFilter } from '../inputs/StringNullableFilter';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { BoolNullableFilter } from "../inputs/BoolNullableFilter";
+import { ContributionRelationFilter } from "../inputs/ContributionRelationFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
+import { FloatNullableFilter } from "../inputs/FloatNullableFilter";
+import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { LinearCycleRelationFilter } from "../inputs/LinearCycleRelationFilter";
+import { LinearProjectRelationFilter } from "../inputs/LinearProjectRelationFilter";
+import { LinearTeamRelationFilter } from "../inputs/LinearTeamRelationFilter";
+import { LinearUserRelationFilter } from "../inputs/LinearUserRelationFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
-@TypeGraphQL.InputType('LinearIssueWhereInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("LinearIssueWhereInput", {
+  isAbstract: true
 })
 export class LinearIssueWhereInput {
   @TypeGraphQL.Field(_type => [LinearIssueWhereInput], {
-    nullable: true,
+    nullable: true
   })
   AND?: LinearIssueWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereInput], {
-    nullable: true,
+    nullable: true
   })
   OR?: LinearIssueWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereInput], {
-    nullable: true,
+    nullable: true
   })
   NOT?: LinearIssueWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true,
+    nullable: true
   })
   id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   archivedAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   autoArchivedAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   autoClosedAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   boardOrder?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   branchName?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   canceledAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   completedAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   createdAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   customerTickerCount?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   description?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   dueDate?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   estimate?: FloatNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   linear_id?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   identifier?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   priority?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   priorityLabel?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   snoozedUntilAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   sortOrder?: FloatNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   startedAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   subIssueSortOrder?: FloatNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   title?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   trashed?: BoolNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   updatedAt?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   url?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   assignee_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   assignee?: LinearUserRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   creator_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   creator?: LinearUserRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   cycle_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearCycleRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   cycle?: LinearCycleRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   project_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearProjectRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   project?: LinearProjectRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   team_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => LinearTeamRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   team?: LinearTeamRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true,
+    nullable: true
   })
   contribution_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => ContributionRelationFilter, {
-    nullable: true,
+    nullable: true
   })
   contribution?: ContributionRelationFilter | undefined;
 }

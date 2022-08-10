@@ -1,49 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { AttestationOrderByWithRelationInput } from '../../../inputs/AttestationOrderByWithRelationInput';
-import { AttestationWhereInput } from '../../../inputs/AttestationWhereInput';
-import { AttestationWhereUniqueInput } from '../../../inputs/AttestationWhereUniqueInput';
-import { AttestationScalarFieldEnum } from '../../../../enums/AttestationScalarFieldEnum';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { AttestationOrderByWithRelationInput } from "../../../inputs/AttestationOrderByWithRelationInput";
+import { AttestationWhereInput } from "../../../inputs/AttestationWhereInput";
+import { AttestationWhereUniqueInput } from "../../../inputs/AttestationWhereUniqueInput";
+import { AttestationScalarFieldEnum } from "../../../../enums/AttestationScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class UserAttestationsArgs {
   @TypeGraphQL.Field(_type => AttestationWhereInput, {
-    nullable: true,
+    nullable: true
   })
   where?: AttestationWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [AttestationOrderByWithRelationInput], {
-    nullable: true,
+    nullable: true
   })
   orderBy?: AttestationOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => AttestationWhereUniqueInput, {
-    nullable: true,
+    nullable: true
   })
   cursor?: AttestationWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [AttestationScalarFieldEnum], {
-    nullable: true,
+    nullable: true
   })
-  distinct?:
-    | Array<
-        | 'id'
-        | 'createdAt'
-        | 'updatedAt'
-        | 'confidence_id'
-        | 'user_id'
-        | 'contribution_id'
-        | 'date_of_attestation'
-      >
-    | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "confidence_id" | "user_id" | "contribution_id" | "date_of_attestation"> | undefined;
 }
