@@ -18,6 +18,7 @@ import SiteLayout from '../components/SiteLayout';
 import ContributionDetailShell from '../components/ContributionDetailShell';
 import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
+import { UIContribution } from '@govrn/ui-types';
 
 const UserView = () => {
   return (
@@ -38,7 +39,9 @@ const ContributionDetails = () => {
   const { id } = useParams();
   const { userData, getContribution } = useUser();
   const { isAuthenticated } = useAuth();
-  const [contribution, setContribution] = useState(null);
+  const [contribution, setContribution] = useState<UIContribution>(
+    {} as UIContribution
+  );
 
   useEffect(() => {
     const fetchContribution = async () => {

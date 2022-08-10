@@ -16,6 +16,7 @@ import {
   UIGuild,
   UIUser,
 } from '@govrn/ui-types';
+import type { Signer } from 'ethers';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
@@ -46,7 +47,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
-  const [contribution, setContribution] = useState<UIContribution>(null);
+  const [contribution, setContribution] = useState<UIContribution>(
+    {} as UIContribution
+  );
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     []
   );

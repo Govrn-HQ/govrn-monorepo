@@ -23,13 +23,7 @@ import { HiOutlineLink } from 'react-icons/hi';
 import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
-interface ContributionDetailShellProps extends UIContribution {
-  contribution: UIContribution;
-}
-
-const ContributionDetailShell = ({
-  contribution,
-}: ContributionDetailShellProps) => {
+const ContributionDetailShell = (contribution: UIContribution) => {
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}

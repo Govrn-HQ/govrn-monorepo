@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
+  Column,
   Row,
   useFilters,
   useGlobalFilter,
@@ -27,12 +28,17 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
 
+type AttestationTableType = UIContribution & {
+  contributor: string;
+  status: string;
+};
+
 const AttestationsTable = ({
   contributionsData,
   setSelectedContributions,
 }: {
   contributionsData: UIContribution[];
-  setSelectedContributions: (contrs: any[]) => void;
+  setSelectedContributions: (contrs: UIContribution[]) => void;
 }) => {
   const { userData } = useUser();
 
@@ -62,7 +68,7 @@ const AttestationsTable = ({
     [contributionsData]
   );
 
-  const columns = useMemo(
+  const columns = useMemo<Column<AttestationTableType>[]>(
     () => [
       {
         Header: 'Name',
@@ -87,7 +93,7 @@ const AttestationsTable = ({
       },
       {
         Header: 'Engagement Date',
-        accessor: 'engagementDate',
+        accessor: 'date_of_engagement',
       },
       {
         Header: 'Contributor',
@@ -123,7 +129,7 @@ const AttestationsTable = ({
     selectedFlatRows,
     prepareRow,
   } = useTable(
-    { columns, data },
+    { columns: columns, data: data, hooks: tableHooks },
     useFilters,
     useGlobalFilter,
     useSortBy,
