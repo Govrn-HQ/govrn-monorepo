@@ -26,7 +26,7 @@ spec:
         - name: web
           image: <IMAGE>
           env:
-            - name: SUBGRAPH_ENDPOINT
+            - name: SUBGRAPH_URL
               value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
             - name: CONTRACT_ADDRESS
               value: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
@@ -70,7 +70,7 @@ spec:
         - voyager-identity-api-staging.govrn.app
       secretName: voyager-identity-api-staging-tls
   rules:
-    - host: voyager-staging-api-staging.govrn.app
+    - host: voyager-identity-api-staging.govrn.app
       http:
         paths:
           - path: /

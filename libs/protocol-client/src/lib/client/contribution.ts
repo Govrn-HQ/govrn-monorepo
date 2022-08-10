@@ -48,7 +48,7 @@ export class Contribution extends BaseClient {
   public async delete(
     networkConfig: NetworkConfig,
     signer: ethers.Signer,
-    id: number
+    id: number,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
 
@@ -88,7 +88,7 @@ export class Contribution extends BaseClient {
     args: MintArgs,
     name: Uint8Array,
     details: Uint8Array,
-    proof: Uint8Array
+    proof: Uint8Array,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
@@ -149,7 +149,7 @@ export class Contribution extends BaseClient {
     id: number,
     activityTypeId: number,
     userId: number,
-    args: AttestArgs
+    args: AttestArgs,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);

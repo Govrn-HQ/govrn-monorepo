@@ -13,7 +13,7 @@ const protocolApiToken = process.env.PROTOCOL_API_TOKEN;
 const jobName = 'linear-sync-job';
 
 function sleep(ms) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, ms);
   });
 }
@@ -79,7 +79,7 @@ const upsertTeam = (govrn: GovrnProtocol, team: Team) => {
 
 const createJobRun = async (
   govrn: GovrnProtocol,
-  job: { startDate: Date; completedDate: Date }
+  job: { startDate: Date; completedDate: Date },
 ) => {
   const teamPromise = await govrn.jobRun.create({
     data: {

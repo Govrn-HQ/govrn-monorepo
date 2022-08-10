@@ -67,7 +67,9 @@ spec:
                   name: protocol-api
                   key: linear_client_secret
             - name: PROTOCOL_FRONTEND
-              value: 'https://api-staging.govrn.app'
+              value: 'https://staging.govrn.app'
+            - name: LINEAR_REDIRECT_URI
+              value: 'https://api-staging.govrn.app/linear/oauth'
           resources:
             requests:
               memory: 300Mi

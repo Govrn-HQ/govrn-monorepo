@@ -10,7 +10,7 @@ function getRemappings() {
     .readFileSync('remappings.txt', 'utf8')
     .split('\n')
     .filter(Boolean)
-    .map((line) => line.trim().split('='));
+    .map(line => line.trim().split('='));
 }
 
 const config: HardhatUserConfig = {
@@ -59,7 +59,7 @@ const config: HardhatUserConfig = {
   },
   // This fully resolves paths for imports in the ./lib directory for Hardhat
   preprocess: {
-    eachLine: (hre) => ({
+    eachLine: hre => ({
       transform: (line: string) => {
         if (line.match(/^\s*import /i)) {
           getRemappings().forEach(([find, replace]) => {

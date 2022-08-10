@@ -90,5 +90,5 @@ type Contribution = {
 };
 
 export const contributions = base.table<Contribution>(
-  'Activity History Staging'
+  'Activity History Staging',
 );

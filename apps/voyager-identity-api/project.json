@@ -82,7 +82,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/prod/linear_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/voyager_identity_api.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/voyager_identity_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/voyager_identity_api.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
           "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/voyager_identity_api.yaml"
         ],
@@ -93,7 +93,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/staging/linear_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/voyager_identity_api.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/voyager_identity_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/voyager_identity_api.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
           "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/voyager_identity_api.yaml"
         ],

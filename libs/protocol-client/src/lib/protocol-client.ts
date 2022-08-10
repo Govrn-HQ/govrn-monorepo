@@ -26,7 +26,7 @@ export class GovrnProtocol {
   constructor(
     apiUrl: string,
     clientParams?: { credentials: RequestCredentials },
-    clientHeaders?: { [key: string]: string }
+    clientHeaders?: { [key: string]: string },
   ) {
     this.client = new GraphQLClient(apiUrl, {
       ...clientParams,

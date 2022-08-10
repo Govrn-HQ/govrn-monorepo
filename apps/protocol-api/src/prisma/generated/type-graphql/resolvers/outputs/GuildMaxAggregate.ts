@@ -33,20 +33,20 @@ export class GuildMaxAggregate {
   })
   name!: string | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  congrats_channel!: number | null;
+  congrats_channel!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   logo!: string | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  contribution_reporting_channel!: number | null;
+  contribution_reporting_channel!: string | null;
 
   @TypeGraphQL.Field(_type => GuildStatus, {
     nullable: true

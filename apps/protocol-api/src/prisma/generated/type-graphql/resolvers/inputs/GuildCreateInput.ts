@@ -32,10 +32,10 @@ export class GuildCreateInput {
   })
   name?: string | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  congrats_channel?: number | undefined;
+  congrats_channel?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -62,10 +62,10 @@ export class GuildCreateInput {
   })
   activity_type?: GuildActivityTypeCreateNestedManyWithoutGuildInput | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  contribution_reporting_channel?: number | undefined;
+  contribution_reporting_channel?: string | undefined;
 
   @TypeGraphQL.Field(_type => GuildStatus, {
     nullable: true

@@ -11,14 +11,4 @@ export class GuildSumAggregate {
     nullable: true
   })
   id!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  congrats_channel!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  contribution_reporting_channel!: number | null;
 }
