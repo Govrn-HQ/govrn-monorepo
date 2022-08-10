@@ -4,6 +4,7 @@ import {
   chakra,
   Link as ChakraLink,
   HStack,
+  Icon,
   IconButton,
   Stack,
   Table,
@@ -16,6 +17,7 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
 import {
   Column,
@@ -28,6 +30,7 @@ import {
   useTable,
   UseTableRowProps,
 } from 'react-table';
+import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { ModalWrapper } from '@govrn/protocol-ui';
@@ -96,17 +99,9 @@ const ContributionsTable = ({
         }) => {
           return (
             <>
-              {row.original.txHash !== null ? (
-                <ChakraLink
-                  href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
-                  isExternal
-                >
-                  {value}
-                  <ExternalLinkIcon marginX="2px" />
-                </ChakraLink>
-              ) : (
+              <Link to={`/contributions/${row.original.id}`}>
                 <Text>{value}</Text>
-              )}
+              </Link>
             </>
           );
         },
@@ -171,66 +166,79 @@ const ContributionsTable = ({
       {
         id: 'actions',
         Header: 'Actions',
-        Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) =>
-          row.original.status.name === 'minted' ? (
-            <HStack spacing="1">
-              <Tooltip
-                label="Minted contribution(s) cannot be edited"
-                aria-label="A tooltip"
+        Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
+          <HStack>
+            {row.original.txHash !== null && (
+              <ChakraLink
+                href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
+                isExternal
               >
-                <Box>
-                  <IconButton
-                    padding={1}
-                    icon={<FiEdit2 fontSize="1rem" />}
-                    variant="ghost"
-                    color="gray.800"
-                    aria-label="Edit Contribution"
-                    disabled={
-                      row.original.user.id !== userData?.id ||
-                      row.original.status.name === 'minted'
-                    }
-                    onClick={() =>
-                      handleEditContributionFormModal(row.original.id)
-                    }
-                  />
-                </Box>
-              </Tooltip>
-              <IconButton
-                icon={<FiTrash2 fontSize="1rem" />}
-                variant="ghost"
-                color="gray.800"
-                disabled={
-                  row.original.user.id !== userData?.id ||
-                  row.original.status.name === 'minted'
-                }
-                aria-label="Delete Contribution"
-              />
-            </HStack>
-          ) : (
-            <HStack spacing="1">
-              <IconButton
-                icon={<FiEdit2 fontSize="1rem" />}
-                variant="ghost"
-                color="gray.800"
-                aria-label="Edit Contribution"
-                disabled={
-                  row.original.user.id !== userData?.id ||
-                  row.original.status.name === 'minted'
-                }
-                onClick={() => handleEditContributionFormModal(row.original.id)}
-              />
-              <IconButton
-                icon={<FiTrash2 fontSize="1rem" />}
-                variant="ghost"
-                color="gray.800"
-                disabled={
-                  row.original.user.id !== userData?.id ||
-                  row.original.status.name === 'minted'
-                }
-                aria-label="Delete Contribution"
-              />
-            </HStack>
-          ),
+                <Icon as={HiOutlineLink} mx="2px" />
+              </ChakraLink>
+            )}
+            {row.original.status.name === 'minted' ? (
+              <HStack spacing="1">
+                <Tooltip
+                  label="Minted contribution(s) cannot be edited"
+                  aria-label="A tooltip"
+                >
+                  <Box>
+                    <IconButton
+                      padding={1}
+                      icon={<FiEdit2 fontSize="1rem" />}
+                      variant="ghost"
+                      color="gray.800"
+                      aria-label="Edit Contribution"
+                      disabled={
+                        row.original.user.id !== userData?.id ||
+                        row.original.status.name === 'minted'
+                      }
+                      onClick={() =>
+                        handleEditContributionFormModal(row.original.id)
+                      }
+                    />
+                  </Box>
+                </Tooltip>
+                <IconButton
+                  icon={<FiTrash2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  disabled={
+                    row.original.user.id !== userData?.id ||
+                    row.original.status.name === 'minted'
+                  }
+                  aria-label="Delete Contribution"
+                />
+              </HStack>
+            ) : (
+              <HStack spacing="1">
+                <IconButton
+                  icon={<FiEdit2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  aria-label="Edit Contribution"
+                  disabled={
+                    row.original.user.id !== userData?.id ||
+                    row.original.status.name === 'minted'
+                  }
+                  onClick={() =>
+                    handleEditContributionFormModal(row.original.id)
+                  }
+                />
+                <IconButton
+                  icon={<FiTrash2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  disabled={
+                    row.original.user.id !== userData?.id ||
+                    row.original.status.name === 'minted'
+                  }
+                  aria-label="Delete Contribution"
+                />
+              </HStack>
+            )}
+          </HStack>
+        ),
       },
     ]);
   };
