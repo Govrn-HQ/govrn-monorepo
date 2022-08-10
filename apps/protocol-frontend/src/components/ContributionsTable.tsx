@@ -80,7 +80,7 @@ const ContributionsTable = ({
     setDialog({
       ...dialog,
       isOpen: true,  //this opens AlertDialog
-      title: "Are you sure you want to delete this contribution? You can't undo this action afterwards",
+      title: "Are you sure you want to delete this Contribution? You can't undo this action.",
       contribution_id: contribution_id
     })
 

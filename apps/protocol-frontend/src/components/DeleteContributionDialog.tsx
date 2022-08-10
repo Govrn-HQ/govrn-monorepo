@@ -61,8 +61,6 @@ const  DeleteContributionDialog = (props: any) => {
 
                 <Button 
                  colorScheme='red' 
-                 color="brand.primary.600"
-                 backgroundColor="brand.primary.100"
                  transition="all 100ms ease-in-out"
                  _hover={{ bgColor: 'brand.primary.200' }}
                  ml={3}
