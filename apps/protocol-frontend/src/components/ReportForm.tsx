@@ -13,7 +13,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { useNavigate } from 'react-router-dom';
 import { ContributionFormValues } from '../types/forms';
-import { ValidationError } from 'yup';
 
 const ReportForm = () => {
   const { userActivityTypes, createContribution, allDaos } = useUser();
@@ -25,7 +24,9 @@ const ReportForm = () => {
     resolver: yupResolver(reportFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
-  const [engagementDateValue, setEngagementDateValue] = useState(new Date());
+  const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
+    new Date()
+  );
 
   useEffect(() => {
     setValue('engagementDate', engagementDateValue);

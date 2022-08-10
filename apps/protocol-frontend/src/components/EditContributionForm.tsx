@@ -11,7 +11,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
-import { ValidationError } from 'yup';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
 
@@ -30,7 +29,7 @@ const EditContributionForm = ({
     resolver: yupResolver(editContributionFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
-  const [engagementDateValue, setEngagementDateValue] = useState(
+  const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
     new Date(contribution?.date_of_engagement)
   );
 
@@ -85,7 +84,7 @@ const EditContributionForm = ({
 
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
-  > = async (values: ContributionFormValues) => {
+  > = async (values) => {
     updateContribution(contribution, values);
     reset();
   };

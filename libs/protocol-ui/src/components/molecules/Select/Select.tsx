@@ -25,10 +25,13 @@ type Errors = {
   };
 };
 
-type Option = {
-  label: string | number;
-  value: string | number;
-};
+type Option =
+  | {
+      label: string | number;
+      value: string | number;
+    }
+  | { value: number | null; label: string };
+
 export interface SelectProps {
   name: string;
   label?: string;
