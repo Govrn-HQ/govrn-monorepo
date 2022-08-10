@@ -23,7 +23,13 @@ import { HiOutlineLink } from 'react-icons/hi';
 import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
-const ContributionDetailShell = (contribution: UIContribution) => {
+interface ContributionDetailShellProps {
+  contribution: UIContribution;
+}
+
+const ContributionDetailShell = ({
+  contribution,
+}: ContributionDetailShellProps) => {
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -74,7 +80,7 @@ const ContributionDetailShell = (contribution: UIContribution) => {
             <Flex>
               {contribution?.guilds.length > 0 && (
                 <>
-                  {contribution?.guilds.map((guild) => (
+                  {contribution?.guilds.map(guild => (
                     <Badge
                       colorScheme="cyan"
                       variant="outline"
@@ -114,7 +120,7 @@ const ContributionDetailShell = (contribution: UIContribution) => {
                 {contribution?.attestations.length} Attestations
               </Heading>
               <List listStyleType="none">
-                {contribution?.attestations.map((attestation) => (
+                {contribution?.attestations.map(attestation => (
                   <ListItem
                     key={attestation.id}
                     value={attestation.id}

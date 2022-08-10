@@ -40,7 +40,7 @@ const ContributionDetails = () => {
   const { userData, getContribution } = useUser();
   const { isAuthenticated } = useAuth();
   const [contribution, setContribution] = useState<UIContribution>(
-    {} as UIContribution
+    {} as UIContribution,
   );
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, ReactNode } from 'react';
 import * as _ from 'lodash';
 import {
   Box,
@@ -21,16 +21,30 @@ import {
   useRowSelect,
   useSortBy,
   useTable,
-  UseTableRowProps,
 } from 'react-table';
-import { useUser } from '../contexts/UserContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
+import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
 
-type AttestationTableType = UIContribution & {
-  contributor: string;
+type AttestationTableType = {
+  id: number;
   status: string;
+  contributor?: string;
+  date_of_submission: Date;
+  date_of_engagement: Date;
+  attestations?: {
+    attestation: {
+      id: number;
+    };
+  };
+  guilds?: {
+    name: string;
+  };
+  action?: ReactNode;
+  name: string;
+  attestationDate: null;
+  onChainId?: number;
 };
 
 const AttestationsTable = ({
@@ -38,7 +52,7 @@ const AttestationsTable = ({
   setSelectedContributions,
 }: {
   contributionsData: UIContribution[];
-  setSelectedContributions: (contrs: UIContribution[]) => void;
+  setSelectedContributions: (contrs: any[]) => void;
 }) => {
   const { userData } = useUser();
 
@@ -47,12 +61,12 @@ const AttestationsTable = ({
   });
 
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
-    return a.attestations?.every((b) => b.user_id !== userData.id) ?? false;
+    return a.attestations?.every(b => b.user_id !== userData.id) ?? false;
   });
 
   const data = useMemo(
     () =>
-      unattestedContributions.map((contribution) => ({
+      unattestedContributions.map(contribution => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
@@ -65,10 +79,10 @@ const AttestationsTable = ({
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
       })),
-    [contributionsData]
+    [contributionsData],
   );
 
-  const columns = useMemo<Column<AttestationTableType>[]>(
+  const columns = useMemo(
     () => [
       {
         Header: 'Name',
@@ -100,11 +114,11 @@ const AttestationsTable = ({
         accessor: 'contributor',
       },
     ],
-    []
+    [],
   );
 
   const tableHooks = (hooks: { visibleColumns }) => {
-    hooks.visibleColumns.push((columns) => [
+    hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
         Header: ({ getToggleAllRowsSelectedProps }) => (
@@ -129,16 +143,16 @@ const AttestationsTable = ({
     selectedFlatRows,
     prepareRow,
   } = useTable(
-    { columns: columns, data: data, hooks: tableHooks },
+    { columns, data },
     useFilters,
     useGlobalFilter,
     useSortBy,
     useRowSelect,
-    tableHooks
+    tableHooks,
   );
 
   useEffect(() => {
-    setSelectedContributions(selectedFlatRows.map((r) => r.original));
+    setSelectedContributions(selectedFlatRows.map(r => r.original));
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
@@ -175,11 +189,11 @@ const AttestationsTable = ({
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map(row => {
               prepareRow(row);
               return (
                 <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
+                  {row.cells.map(cell => (
                     <Td {...cell.getCellProps()} borderColor="gray.100">
                       {cell.render('Cell')}
                     </Td>

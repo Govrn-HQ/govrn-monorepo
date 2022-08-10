@@ -16,12 +16,9 @@ import {
   Tooltip,
   Tr,
 } from '@chakra-ui/react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
 import {
-  Column,
-  Hooks,
   Row,
   useFilters,
   useGlobalFilter,
@@ -65,7 +62,7 @@ const ContributionsTable = ({
 
   const data = useMemo(
     () =>
-      contributionsData.map((contribution) => ({
+      contributionsData.map(contribution => ({
         name: contribution.name,
         txHash: contribution.tx_hash,
         id: contribution.id,
@@ -82,7 +79,7 @@ const ContributionsTable = ({
           contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
           '---',
       })),
-    [contributionsData]
+    [contributionsData],
   );
 
   const columns = useMemo(
@@ -90,13 +87,7 @@ const ContributionsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({
-          value,
-          row,
-        }: {
-          value: string;
-          row: UseTableRowProps<ContributionTableType>;
-        }) => {
+        Cell: ({ value, row }: { value: string; row }) => {
           return (
             <>
               <Link to={`/contributions/${row.original.id}`}>
@@ -143,19 +134,17 @@ const ContributionsTable = ({
         },
       },
     ],
-    []
+    [],
   );
 
-  const tableHooks = (hooks: {
-    visibleColumns: ((columns: any) => any[])[];
-  }) => {
-    hooks.visibleColumns.push((columns) => [
+  const tableHooks = hooks => {
+    hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
-        Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
+        Cell: ({ row }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
             disabled={row.original.status.name === 'minted'}
@@ -191,16 +180,6 @@ const ContributionsTable = ({
                     </Box>
                   </Tooltip>
                 )}
-                {/* <IconButton
-                  icon={<FiTrash2 fontSize="1rem" />}
-                  variant="ghost"
-                  color="gray.800"
-                  disabled={
-                    row.original.user.id !== userData?.id ||
-                    row.original.status.name === 'minted'
-                  }
-                  aria-label="Delete Contribution"
-                /> */}
               </HStack>
             ) : (
               <HStack spacing="1">
@@ -251,7 +230,7 @@ const ContributionsTable = ({
     useGlobalFilter,
     useSortBy,
     useRowSelect,
-    tableHooks
+    tableHooks,
   );
 
   useEffect(() => {
@@ -293,11 +272,11 @@ const ContributionsTable = ({
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map(row => {
               prepareRow(row);
               return (
                 <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
+                  {row.cells.map(cell => (
                     <Td {...cell.getCellProps()} borderColor="gray.100">
                       <>{cell.render('Cell')}</>
                     </Td>
@@ -316,8 +295,8 @@ const ContributionsTable = ({
             <EditContributionForm
               contribution={
                 contributionsData.find(
-                  (localContribution) =>
-                    localContribution.id === selectedContribution
+                  localContribution =>
+                    localContribution.id === selectedContribution,
                 )!
               }
             />
