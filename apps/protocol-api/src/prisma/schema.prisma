@@ -58,13 +58,13 @@ model Guild {
   updatedAt DateTime @updatedAt @default(now())
   discord_id String? @unique // legacy
   name String? // legacy
-  congrats_channel Int? // legacy
+  congrats_channel String? // legacy
   logo String?
   contributions GuildContribution[]
   users GuildUser[]
   twitter_account TwitterAccount?
   activity_type GuildActivityType[]
-  contribution_reporting_channel Int?
+  contribution_reporting_channel String?
   status GuildStatus @default(INPUTTED)
 }
 

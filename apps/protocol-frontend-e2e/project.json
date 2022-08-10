@@ -1,0 +1,28 @@
+{
+  "root": "apps/protocol-frontend-e2e",
+  "sourceRoot": "apps/protocol-frontend-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/protocol-frontend-e2e/cypress.config.ts",
+        "devServerTarget": "protocol-frontend:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "protocol-frontend:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/protocol-frontend-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["protocol-frontend"]
+}

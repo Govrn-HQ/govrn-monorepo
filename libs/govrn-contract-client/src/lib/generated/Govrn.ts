@@ -13,19 +13,19 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from "ethers";
+} from 'ethers';
 import type {
   FunctionFragment,
   Result,
   EventFragment,
-} from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+} from '@ethersproject/abi';
+import type { Listener, Provider } from '@ethersproject/providers';
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
-} from "./common";
+} from './common';
 
 export declare namespace Govrn {
   export type AttestationStruct = {
@@ -51,7 +51,7 @@ export declare namespace Govrn {
     string,
     string,
     BigNumber,
-    BigNumber
+    BigNumber,
   ] & {
     owner: string;
     detailsUri: string;
@@ -64,7 +64,7 @@ export declare namespace Govrn {
   };
 
   export type BulkContributionStructOutput = [
-    Govrn.ContributionStructOutput
+    Govrn.ContributionStructOutput,
   ] & { contribution: Govrn.ContributionStructOutput };
 
   export type PermitAttestationStruct = {
@@ -86,7 +86,7 @@ export declare namespace Govrn {
     BigNumber,
     number,
     string,
-    string
+    string,
   ] & {
     attestor: string;
     contribution: BigNumber;
@@ -101,120 +101,120 @@ export declare namespace Govrn {
 
 export interface GovrnInterface extends utils.Interface {
   functions: {
-    "DOMAIN_SEPARATOR()": FunctionFragment;
-    "VERSION()": FunctionFragment;
-    "attest(uint256,uint8)": FunctionFragment;
-    "attestations(uint256,address)": FunctionFragment;
-    "balanceOf(address)": FunctionFragment;
-    "bulkAttest((uint256,uint8,uint256)[])": FunctionFragment;
-    "bulkMint(((address,bytes,uint256,uint256))[])": FunctionFragment;
-    "bulkPermitAttest((address,uint256,uint8,uint256,uint256,uint8,bytes32,bytes32)[])": FunctionFragment;
-    "bulkRevokeAttestation(uint256[])": FunctionFragment;
-    "burnContribution(uint256)": FunctionFragment;
-    "contributionCount()": FunctionFragment;
-    "contributions(uint256)": FunctionFragment;
-    "initialize(uint256)": FunctionFragment;
-    "mint(bytes,uint256,uint256)": FunctionFragment;
-    "nonces(address)": FunctionFragment;
-    "owner()": FunctionFragment;
-    "ownerOf(uint256)": FunctionFragment;
-    "permitAttest(address,uint256,uint8,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
-    "proxiableUUID()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "revokeAttestatation(uint256)": FunctionFragment;
-    "revokePeriod()": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-    "upgradeTo(address)": FunctionFragment;
-    "upgradeToAndCall(address,bytes)": FunctionFragment;
+    'DOMAIN_SEPARATOR()': FunctionFragment;
+    'VERSION()': FunctionFragment;
+    'attest(uint256,uint8)': FunctionFragment;
+    'attestations(uint256,address)': FunctionFragment;
+    'balanceOf(address)': FunctionFragment;
+    'bulkAttest((uint256,uint8,uint256)[])': FunctionFragment;
+    'bulkMint(((address,bytes,uint256,uint256))[])': FunctionFragment;
+    'bulkPermitAttest((address,uint256,uint8,uint256,uint256,uint8,bytes32,bytes32)[])': FunctionFragment;
+    'bulkRevokeAttestation(uint256[])': FunctionFragment;
+    'burnContribution(uint256)': FunctionFragment;
+    'contributionCount()': FunctionFragment;
+    'contributions(uint256)': FunctionFragment;
+    'initialize(uint256)': FunctionFragment;
+    'mint(bytes,uint256,uint256)': FunctionFragment;
+    'nonces(address)': FunctionFragment;
+    'owner()': FunctionFragment;
+    'ownerOf(uint256)': FunctionFragment;
+    'permitAttest(address,uint256,uint8,uint256,uint256,uint8,bytes32,bytes32)': FunctionFragment;
+    'proxiableUUID()': FunctionFragment;
+    'renounceOwnership()': FunctionFragment;
+    'revokeAttestatation(uint256)': FunctionFragment;
+    'revokePeriod()': FunctionFragment;
+    'transferOwnership(address)': FunctionFragment;
+    'upgradeTo(address)': FunctionFragment;
+    'upgradeToAndCall(address,bytes)': FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "DOMAIN_SEPARATOR"
-      | "VERSION"
-      | "attest"
-      | "attestations"
-      | "balanceOf"
-      | "bulkAttest"
-      | "bulkMint"
-      | "bulkPermitAttest"
-      | "bulkRevokeAttestation"
-      | "burnContribution"
-      | "contributionCount"
-      | "contributions"
-      | "initialize"
-      | "mint"
-      | "nonces"
-      | "owner"
-      | "ownerOf"
-      | "permitAttest"
-      | "proxiableUUID"
-      | "renounceOwnership"
-      | "revokeAttestatation"
-      | "revokePeriod"
-      | "transferOwnership"
-      | "upgradeTo"
-      | "upgradeToAndCall"
+      | 'DOMAIN_SEPARATOR'
+      | 'VERSION'
+      | 'attest'
+      | 'attestations'
+      | 'balanceOf'
+      | 'bulkAttest'
+      | 'bulkMint'
+      | 'bulkPermitAttest'
+      | 'bulkRevokeAttestation'
+      | 'burnContribution'
+      | 'contributionCount'
+      | 'contributions'
+      | 'initialize'
+      | 'mint'
+      | 'nonces'
+      | 'owner'
+      | 'ownerOf'
+      | 'permitAttest'
+      | 'proxiableUUID'
+      | 'renounceOwnership'
+      | 'revokeAttestatation'
+      | 'revokePeriod'
+      | 'transferOwnership'
+      | 'upgradeTo'
+      | 'upgradeToAndCall',
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "DOMAIN_SEPARATOR",
-    values?: undefined
+    functionFragment: 'DOMAIN_SEPARATOR',
+    values?: undefined,
   ): string;
-  encodeFunctionData(functionFragment: "VERSION", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'VERSION', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "attest",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "attestations",
-    values: [BigNumberish, string]
-  ): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "bulkAttest",
-    values: [Govrn.AttestationStruct[]]
+    functionFragment: 'attest',
+    values: [BigNumberish, BigNumberish],
   ): string;
   encodeFunctionData(
-    functionFragment: "bulkMint",
-    values: [Govrn.BulkContributionStruct[]]
+    functionFragment: 'attestations',
+    values: [BigNumberish, string],
+  ): string;
+  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
+  encodeFunctionData(
+    functionFragment: 'bulkAttest',
+    values: [Govrn.AttestationStruct[]],
   ): string;
   encodeFunctionData(
-    functionFragment: "bulkPermitAttest",
-    values: [Govrn.PermitAttestationStruct[]]
+    functionFragment: 'bulkMint',
+    values: [Govrn.BulkContributionStruct[]],
   ): string;
   encodeFunctionData(
-    functionFragment: "bulkRevokeAttestation",
-    values: [BigNumberish[]]
+    functionFragment: 'bulkPermitAttest',
+    values: [Govrn.PermitAttestationStruct[]],
   ): string;
   encodeFunctionData(
-    functionFragment: "burnContribution",
-    values: [BigNumberish]
+    functionFragment: 'bulkRevokeAttestation',
+    values: [BigNumberish[]],
   ): string;
   encodeFunctionData(
-    functionFragment: "contributionCount",
-    values?: undefined
+    functionFragment: 'burnContribution',
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
-    functionFragment: "contributions",
-    values: [BigNumberish]
+    functionFragment: 'contributionCount',
+    values?: undefined,
   ): string;
   encodeFunctionData(
-    functionFragment: "initialize",
-    values: [BigNumberish]
+    functionFragment: 'contributions',
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
-    functionFragment: "mint",
-    values: [BytesLike, BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "nonces", values: [string]): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "ownerOf",
-    values: [BigNumberish]
+    functionFragment: 'initialize',
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
-    functionFragment: "permitAttest",
+    functionFragment: 'mint',
+    values: [BytesLike, BigNumberish, BigNumberish],
+  ): string;
+  encodeFunctionData(functionFragment: 'nonces', values: [string]): string;
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'ownerOf',
+    values: [BigNumberish],
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'permitAttest',
     values: [
       string,
       BigNumberish,
@@ -223,120 +223,120 @@ export interface GovrnInterface extends utils.Interface {
       BigNumberish,
       BigNumberish,
       BytesLike,
-      BytesLike
-    ]
+      BytesLike,
+    ],
   ): string;
   encodeFunctionData(
-    functionFragment: "proxiableUUID",
-    values?: undefined
+    functionFragment: 'proxiableUUID',
+    values?: undefined,
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
+    functionFragment: 'renounceOwnership',
+    values?: undefined,
   ): string;
   encodeFunctionData(
-    functionFragment: "revokeAttestatation",
-    values: [BigNumberish]
+    functionFragment: 'revokeAttestatation',
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
-    functionFragment: "revokePeriod",
-    values?: undefined
+    functionFragment: 'revokePeriod',
+    values?: undefined,
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
+    functionFragment: 'transferOwnership',
+    values: [string],
   ): string;
-  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
+  encodeFunctionData(functionFragment: 'upgradeTo', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "upgradeToAndCall",
-    values: [string, BytesLike]
+    functionFragment: 'upgradeToAndCall',
+    values: [string, BytesLike],
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "DOMAIN_SEPARATOR",
-    data: BytesLike
+    functionFragment: 'DOMAIN_SEPARATOR',
+    data: BytesLike,
   ): Result;
-  decodeFunctionResult(functionFragment: "VERSION", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "attest", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'VERSION', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'attest', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "attestations",
-    data: BytesLike
+    functionFragment: 'attestations',
+    data: BytesLike,
   ): Result;
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "bulkAttest", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "bulkMint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'bulkAttest', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'bulkMint', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "bulkPermitAttest",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "bulkRevokeAttestation",
-    data: BytesLike
+    functionFragment: 'bulkPermitAttest',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "burnContribution",
-    data: BytesLike
+    functionFragment: 'bulkRevokeAttestation',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "contributionCount",
-    data: BytesLike
+    functionFragment: 'burnContribution',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "contributions",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "permitAttest",
-    data: BytesLike
+    functionFragment: 'contributionCount',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "proxiableUUID",
-    data: BytesLike
+    functionFragment: 'contributions',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'nonces', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'ownerOf', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'permitAttest',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
+    functionFragment: 'proxiableUUID',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "revokeAttestatation",
-    data: BytesLike
+    functionFragment: 'renounceOwnership',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "revokePeriod",
-    data: BytesLike
+    functionFragment: 'revokeAttestatation',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
+    functionFragment: 'revokePeriod',
+    data: BytesLike,
   ): Result;
-  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "upgradeToAndCall",
-    data: BytesLike
+    functionFragment: 'transferOwnership',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'upgradeTo', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'upgradeToAndCall',
+    data: BytesLike,
   ): Result;
 
   events: {
-    "AdminChanged(address,address)": EventFragment;
-    "Attest(address,uint256,uint8)": EventFragment;
-    "BeaconUpgraded(address)": EventFragment;
-    "Initialized(uint8)": EventFragment;
-    "Mint(address,uint256)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
-    "Upgraded(address)": EventFragment;
+    'AdminChanged(address,address)': EventFragment;
+    'Attest(address,uint256,uint8)': EventFragment;
+    'BeaconUpgraded(address)': EventFragment;
+    'Initialized(uint8)': EventFragment;
+    'Mint(address,uint256)': EventFragment;
+    'OwnershipTransferred(address,address)': EventFragment;
+    'Upgraded(address)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Attest"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'AdminChanged'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Attest'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'BeaconUpgraded'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Initialized'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Mint'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Upgraded'): EventFragment;
 }
 
 export interface AdminChangedEventObject {
@@ -416,15 +416,15 @@ export interface Govrn extends BaseContract {
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
+    eventFilter?: TypedEventFilter<TEvent>,
   ): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
+    eventFilter: TypedEventFilter<TEvent>,
   ): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
@@ -440,13 +440,13 @@ export interface Govrn extends BaseContract {
     attest(
       _contribution: BigNumberish,
       _confidence: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     attestations(
       arg0: BigNumberish,
       arg1: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<
       [BigNumber, number, BigNumber] & {
         contribution: BigNumber;
@@ -459,34 +459,34 @@ export interface Govrn extends BaseContract {
 
     bulkAttest(
       _attestations: Govrn.AttestationStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     bulkMint(
       _contributions: Govrn.BulkContributionStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     bulkPermitAttest(
       _permitAttestations: Govrn.PermitAttestationStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     bulkRevokeAttestation(
       _contributions: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     burnContribution(
       _contribution: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     contributionCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     contributions(
       arg0: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<
       [string, string, BigNumber, BigNumber] & {
         owner: string;
@@ -498,14 +498,14 @@ export interface Govrn extends BaseContract {
 
     initialize(
       _revokePeriod: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     mint(
       _detailsUri: BytesLike,
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     nonces(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -514,7 +514,7 @@ export interface Govrn extends BaseContract {
 
     ownerOf(
       _tokenId: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<[string]>;
 
     permitAttest(
@@ -526,36 +526,36 @@ export interface Govrn extends BaseContract {
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     revokeAttestatation(
       _contribution: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     revokePeriod(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transferOwnership(
       newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     upgradeTo(
       newImplementation: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
     upgradeToAndCall(
       newImplementation: string,
       data: BytesLike,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
   };
 
@@ -566,13 +566,13 @@ export interface Govrn extends BaseContract {
   attest(
     _contribution: BigNumberish,
     _confidence: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   attestations(
     arg0: BigNumberish,
     arg1: string,
-    overrides?: CallOverrides
+    overrides?: CallOverrides,
   ): Promise<
     [BigNumber, number, BigNumber] & {
       contribution: BigNumber;
@@ -585,34 +585,34 @@ export interface Govrn extends BaseContract {
 
   bulkAttest(
     _attestations: Govrn.AttestationStruct[],
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   bulkMint(
     _contributions: Govrn.BulkContributionStruct[],
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   bulkPermitAttest(
     _permitAttestations: Govrn.PermitAttestationStruct[],
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   bulkRevokeAttestation(
     _contributions: BigNumberish[],
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   burnContribution(
     _contribution: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   contributionCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   contributions(
     arg0: BigNumberish,
-    overrides?: CallOverrides
+    overrides?: CallOverrides,
   ): Promise<
     [string, string, BigNumber, BigNumber] & {
       owner: string;
@@ -624,14 +624,14 @@ export interface Govrn extends BaseContract {
 
   initialize(
     _revokePeriod: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   mint(
     _detailsUri: BytesLike,
     _dateOfSubmission: BigNumberish,
     _dateOfEngagement: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -649,36 +649,36 @@ export interface Govrn extends BaseContract {
     v: BigNumberish,
     r: BytesLike,
     s: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   revokeAttestatation(
     _contribution: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   revokePeriod(overrides?: CallOverrides): Promise<BigNumber>;
 
   transferOwnership(
     newOwner: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   upgradeTo(
     newImplementation: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   upgradeToAndCall(
     newImplementation: string,
     data: BytesLike,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
   callStatic: {
@@ -689,13 +689,13 @@ export interface Govrn extends BaseContract {
     attest(
       _contribution: BigNumberish,
       _confidence: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     attestations(
       arg0: BigNumberish,
       arg1: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<
       [BigNumber, number, BigNumber] & {
         contribution: BigNumber;
@@ -708,34 +708,34 @@ export interface Govrn extends BaseContract {
 
     bulkAttest(
       _attestations: Govrn.AttestationStruct[],
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     bulkMint(
       _contributions: Govrn.BulkContributionStruct[],
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     bulkPermitAttest(
       _permitAttestations: Govrn.PermitAttestationStruct[],
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     bulkRevokeAttestation(
       _contributions: BigNumberish[],
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     burnContribution(
       _contribution: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<boolean>;
 
     contributionCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     contributions(
       arg0: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<
       [string, string, BigNumber, BigNumber] & {
         owner: string;
@@ -747,14 +747,14 @@ export interface Govrn extends BaseContract {
 
     initialize(
       _revokePeriod: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     mint(
       _detailsUri: BytesLike,
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -772,7 +772,7 @@ export interface Govrn extends BaseContract {
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
@@ -781,70 +781,70 @@ export interface Govrn extends BaseContract {
 
     revokeAttestatation(
       _contribution: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<boolean>;
 
     revokePeriod(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     upgradeTo(
       newImplementation: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
 
     upgradeToAndCall(
       newImplementation: string,
       data: BytesLike,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<void>;
   };
 
   filters: {
-    "AdminChanged(address,address)"(
+    'AdminChanged(address,address)'(
       previousAdmin?: null,
-      newAdmin?: null
+      newAdmin?: null,
     ): AdminChangedEventFilter;
     AdminChanged(
       previousAdmin?: null,
-      newAdmin?: null
+      newAdmin?: null,
     ): AdminChangedEventFilter;
 
-    "Attest(address,uint256,uint8)"(
+    'Attest(address,uint256,uint8)'(
       attestor?: string | null,
       contribution?: null,
-      confidence?: null
+      confidence?: null,
     ): AttestEventFilter;
     Attest(
       attestor?: string | null,
       contribution?: null,
-      confidence?: null
+      confidence?: null,
     ): AttestEventFilter;
 
-    "BeaconUpgraded(address)"(
-      beacon?: string | null
+    'BeaconUpgraded(address)'(
+      beacon?: string | null,
     ): BeaconUpgradedEventFilter;
     BeaconUpgraded(beacon?: string | null): BeaconUpgradedEventFilter;
 
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    'Initialized(uint8)'(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;
 
-    "Mint(address,uint256)"(owner?: string | null, id?: null): MintEventFilter;
+    'Mint(address,uint256)'(owner?: string | null, id?: null): MintEventFilter;
     Mint(owner?: string | null, id?: null): MintEventFilter;
 
-    "OwnershipTransferred(address,address)"(
+    'OwnershipTransferred(address,address)'(
       previousOwner?: string | null,
-      newOwner?: string | null
+      newOwner?: string | null,
     ): OwnershipTransferredEventFilter;
     OwnershipTransferred(
       previousOwner?: string | null,
-      newOwner?: string | null
+      newOwner?: string | null,
     ): OwnershipTransferredEventFilter;
 
-    "Upgraded(address)"(implementation?: string | null): UpgradedEventFilter;
+    'Upgraded(address)'(implementation?: string | null): UpgradedEventFilter;
     Upgraded(implementation?: string | null): UpgradedEventFilter;
   };
 
@@ -856,59 +856,59 @@ export interface Govrn extends BaseContract {
     attest(
       _contribution: BigNumberish,
       _confidence: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     attestations(
       arg0: BigNumberish,
       arg1: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
     balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     bulkAttest(
       _attestations: Govrn.AttestationStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     bulkMint(
       _contributions: Govrn.BulkContributionStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     bulkPermitAttest(
       _permitAttestations: Govrn.PermitAttestationStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     bulkRevokeAttestation(
       _contributions: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     burnContribution(
       _contribution: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     contributionCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     contributions(
       arg0: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
     initialize(
       _revokePeriod: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     mint(
       _detailsUri: BytesLike,
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -917,7 +917,7 @@ export interface Govrn extends BaseContract {
 
     ownerOf(
       _tokenId: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
     permitAttest(
@@ -929,36 +929,36 @@ export interface Govrn extends BaseContract {
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     revokeAttestatation(
       _contribution: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     revokePeriod(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     upgradeTo(
       newImplementation: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
     upgradeToAndCall(
       newImplementation: string,
       data: BytesLike,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
   };
 
@@ -970,74 +970,74 @@ export interface Govrn extends BaseContract {
     attest(
       _contribution: BigNumberish,
       _confidence: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     attestations(
       arg0: BigNumberish,
       arg1: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
       arg0: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     bulkAttest(
       _attestations: Govrn.AttestationStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     bulkMint(
       _contributions: Govrn.BulkContributionStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     bulkPermitAttest(
       _permitAttestations: Govrn.PermitAttestationStruct[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     bulkRevokeAttestation(
       _contributions: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     burnContribution(
       _contribution: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     contributionCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     contributions(
       arg0: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     initialize(
       _revokePeriod: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     mint(
       _detailsUri: BytesLike,
       _dateOfSubmission: BigNumberish,
       _dateOfEngagement: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     nonces(
       arg0: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ownerOf(
       _tokenId: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     permitAttest(
@@ -1049,36 +1049,36 @@ export interface Govrn extends BaseContract {
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     revokeAttestatation(
       _contribution: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     revokePeriod(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     upgradeTo(
       newImplementation: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
     upgradeToAndCall(
       newImplementation: string,
       data: BytesLike,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
   };
 }

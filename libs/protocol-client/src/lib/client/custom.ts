@@ -4,7 +4,7 @@ import {
   UserContributionCreateInput,
   UserContributionUpdateInput,
   UserUpdateCustomInput,
-  GetUserContributionCountInput
+  GetUserContributionCountInput,
 } from '../protocol-types';
 
 // get accounts
@@ -35,8 +35,11 @@ export class Custom extends BaseClient {
     return attestation.result;
   }
 
-  public async getContributionCountByDateForUserInRange(args: GetUserContributionCountInput) {
-    const contributionCount = await this.sdk.getContributionCountByDateForUserInRange({ where: args });
+  public async getContributionCountByDateForUserInRange(
+    args: GetUserContributionCountInput,
+  ) {
+    const contributionCount =
+      await this.sdk.getContributionCountByDateForUserInRange({ where: args });
     return contributionCount.result;
   }
 }

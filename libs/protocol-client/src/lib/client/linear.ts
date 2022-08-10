@@ -55,7 +55,7 @@ class User extends BaseClient {
   public list(args: ListLinearUsersQueryVariables) {
     return paginate<ListLinearUsersQueryVariables, ListLinearUsersQuery>(
       this.sdk.listLinearUsers,
-      args
+      args,
     );
   }
 }

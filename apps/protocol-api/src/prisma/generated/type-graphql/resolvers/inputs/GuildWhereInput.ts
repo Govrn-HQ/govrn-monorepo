@@ -8,7 +8,6 @@ import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityType
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
 import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
-import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TwitterAccountRelationFilter } from "../inputs/TwitterAccountRelationFilter";
 
@@ -56,10 +55,10 @@ export class GuildWhereInput {
   })
   name?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  congrats_channel?: IntNullableFilter | undefined;
+  congrats_channel?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
@@ -86,10 +85,10 @@ export class GuildWhereInput {
   })
   activity_type?: GuildActivityTypeListRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  contribution_reporting_channel?: IntNullableFilter | undefined;
+  contribution_reporting_channel?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumGuildStatusFilter, {
     nullable: true

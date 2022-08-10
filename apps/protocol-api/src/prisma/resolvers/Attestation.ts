@@ -7,25 +7,25 @@ import { Attestation } from '../generated/type-graphql/models/Attestation';
   isAbstract: true,
 })
 export class AttestationUserCreateInput {
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   address: string;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   chainName: string;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   userId: number;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   confidenceName: string;
 
-  @TypeGraphQL.Field((_type) => TypeGraphQL.Int)
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   contributionId: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class CreateUserAttestationArgs {
-  @TypeGraphQL.Field((_type) => AttestationUserCreateInput, {
+  @TypeGraphQL.Field(_type => AttestationUserCreateInput, {
     nullable: false,
   })
   data!: AttestationUserCreateInput;
@@ -35,19 +35,19 @@ export class CreateUserAttestationArgs {
   isAbstract: true,
 })
 export class AttestationUserOnChainCreateInput {
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   confidence: string;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   contributionOnChainId: number;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   userId: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class CreateUserOnChainAttestationArgs {
-  @TypeGraphQL.Field((_type) => AttestationUserOnChainCreateInput, {
+  @TypeGraphQL.Field(_type => AttestationUserOnChainCreateInput, {
     nullable: false,
   })
   data!: AttestationUserOnChainCreateInput;
@@ -57,33 +57,33 @@ export class CreateUserOnChainAttestationArgs {
   isAbstract: true,
 })
 export class AttestationUserOnChainUpdateInput {
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   id: number;
 
-  @TypeGraphQL.Field((_type) => String)
+  @TypeGraphQL.Field(_type => String)
   confidence: string;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   contributionOnChainId: number;
 
-  @TypeGraphQL.Field((_type) => Number)
+  @TypeGraphQL.Field(_type => Number)
   userId: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class UpdateUserOnChainAttestationArgs {
-  @TypeGraphQL.Field((_type) => AttestationUserOnChainUpdateInput, {
+  @TypeGraphQL.Field(_type => AttestationUserOnChainUpdateInput, {
     nullable: false,
   })
   data!: AttestationUserOnChainUpdateInput;
 }
 
-@TypeGraphQL.Resolver((_of) => Attestation)
+@TypeGraphQL.Resolver(_of => Attestation)
 export class AttestationResolver {
-  @TypeGraphQL.Mutation((_returns) => Attestation, { nullable: false })
+  @TypeGraphQL.Mutation(_returns => Attestation, { nullable: false })
   async createUserAttestation(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserAttestationArgs
+    @TypeGraphQL.Args() args: CreateUserAttestationArgs,
   ) {
     return await prisma.attestation.create({
       data: {
@@ -121,10 +121,10 @@ export class AttestationResolver {
       },
     });
   }
-  @TypeGraphQL.Mutation((_returns) => Attestation, { nullable: false })
+  @TypeGraphQL.Mutation(_returns => Attestation, { nullable: false })
   async createUserOnChainAttestation(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: CreateUserOnChainAttestationArgs
+    @TypeGraphQL.Args() args: CreateUserOnChainAttestationArgs,
   ) {
     return await prisma.attestation.create({
       data: {
@@ -146,10 +146,10 @@ export class AttestationResolver {
       },
     });
   }
-  @TypeGraphQL.Mutation((_returns) => Attestation, { nullable: false })
+  @TypeGraphQL.Mutation(_returns => Attestation, { nullable: false })
   async updateUserOnChainAttestation(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateUserOnChainAttestationArgs
+    @TypeGraphQL.Args() args: UpdateUserOnChainAttestationArgs,
   ) {
     const address = req.session.siwe.data.address;
     const a = await prisma.attestation.findFirst({

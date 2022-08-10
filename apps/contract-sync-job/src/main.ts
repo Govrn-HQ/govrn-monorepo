@@ -31,14 +31,14 @@ export const fetchIPFS = async (ipfsHash: string) => {
       .slice(2)}`,
     {
       method: 'post',
-    }
+    },
   );
   return await resp?.blob();
 };
 
 const getOrInsertUser = async (
   govrn: GovrnProtocol,
-  data: { address: string }
+  data: { address: string },
 ): Promise<number> => {
   // Query existing user.
   const user = await govrn.user.list({
@@ -64,7 +64,7 @@ const getOrInsertUser = async (
 
 const getOrInsertActivityType = async (
   govrn: GovrnProtocol,
-  data: { name: string }
+  data: { name: string },
 ): Promise<number> => {
   // Check for an existing activity types.
   const activityTypeId = await govrn.activity_type.list({
@@ -82,7 +82,7 @@ const getOrInsertActivityType = async (
 
 async function getContribution(
   govrn: GovrnProtocol,
-  data: { tokenId: number }
+  data: { tokenId: number },
 ) {
   const contrs = await govrn.contribution.list({
     where: { on_chain_id: { equals: data.tokenId } },
@@ -95,7 +95,7 @@ async function getContribution(
 
 const createJobRun = async (
   govrn: GovrnProtocol,
-  job: { startDate: Date; completedDate: Date }
+  job: { startDate: Date; completedDate: Date },
 ) => {
   const teamPromise = await govrn.jobRun.create({
     data: {
@@ -130,7 +130,7 @@ const main = async () => {
     name: 'Contribution',
   });
   console.log(
-    `:: Processing ${contributionsEvents.length} Contribution Event(s)`
+    `:: Processing ${contributionsEvents.length} Contribution Event(s)`,
   );
   const contributions = await Promise.all(
     contributionsEvents.map(
@@ -159,8 +159,8 @@ const main = async () => {
           proof: contributionDetails.proof,
           on_chain_id: Number(event.id),
         };
-      }
-    )
+      },
+    ),
   );
 
   const contributionsCount = await govrn.contribution.bulkCreate({
@@ -176,14 +176,14 @@ const main = async () => {
   console.log(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
 
   const attestations = await Promise.all(
-    attestationEvents.map(async (event) => {
+    attestationEvents.map(async event => {
       const attestation = await govrnContract.attestations({
         tokenId: event.contribution.id,
         address: event.attestor,
       });
 
       console.log(
-        `:: Processing Attestation of contribution: ${attestation.contribution.toNumber()}`
+        `:: Processing Attestation of contribution: ${attestation.contribution.toNumber()}`,
       );
       const contributionId = await getContribution(govrn, {
         tokenId: attestation.contribution.toNumber(),
@@ -199,7 +199,7 @@ const main = async () => {
         contribution_id: contributionId,
         date_of_attestation: new Date(attestation.dateOfSubmission.toNumber()),
       };
-    })
+    }),
   );
 
   const attestationsCount = await govrn.attestation.bulkCreate({
@@ -208,7 +208,7 @@ const main = async () => {
   });
 
   console.log(
-    `:: Inserting ${attestationsCount.createManyAttestation.count} Attestations`
+    `:: Inserting ${attestationsCount.createManyAttestation.count} Attestations`,
   );
 
   await createJobRun(govrn, { startDate, completedDate: new Date() });

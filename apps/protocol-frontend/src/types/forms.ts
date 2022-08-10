@@ -1,4 +1,3 @@
-
 export type ContributionFormValues = {
   name?: string;
   activityType?: string;
@@ -20,4 +19,3 @@ export type ProfileFormValues = {
   address?: string;
   name?: string;
 }
-

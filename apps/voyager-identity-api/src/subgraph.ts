@@ -38,15 +38,15 @@ export const loadContributions = async (options: {
 
   // Load corresponding contributions to get `detailsUri`.
   const contrs = await Promise.all(
-    events.map(async (e) => {
+    events.map(async e => {
       const contr = await govrnContract.contributions({
         tokenId: e.contribution.id,
       });
       return { ...contr, ...e };
-    })
+    }),
   );
 
-  return contrs.map((c) => ({
+  return contrs.map(c => ({
     id: Number(BigNumber.from(c.contribution.id.toString()).toString()),
     attestor: c.attestor,
     owner: c.owner,
