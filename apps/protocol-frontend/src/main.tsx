@@ -15,20 +15,17 @@ import { wagmiClient, chains } from './utils/web3';
 
 import '@rainbow-me/rainbowkit/styles.css';
 
-const App = () => {
-  console.log(chains);
-  return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <AuthContextProvider>
-          <UserContextProvider>
-            <Routes />
-          </UserContextProvider>
-        </AuthContextProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
-  );
-};
+const App = () => (
+  <WagmiConfig client={wagmiClient}>
+    <RainbowKitProvider chains={chains}>
+      <AuthContextProvider>
+        <UserContextProvider>
+          <Routes />
+        </UserContextProvider>
+      </AuthContextProvider>
+    </RainbowKitProvider>
+  </WagmiConfig>
+);
 
 ReactDOM.render(
   <StrictMode>

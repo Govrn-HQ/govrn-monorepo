@@ -15,7 +15,6 @@ import {
   Image,
 } from '@chakra-ui/react';
 import { FiKey, FiChevronDown, FiXCircle } from 'react-icons/fi';
-import { lighten } from 'polished';
 import { displayAddress } from '../utils/web3';
 
 const ConnectWallet = () => {
@@ -51,6 +50,8 @@ const ConnectWallet = () => {
                     color="brand.primary.600"
                     backgroundColor="brand.primary.50"
                     transition="all 100ms ease-in-out"
+                    border="2px"
+                    borderColor="white"
                     _hover={{
                       bgColor: 'brand.primary.100',
                       borderWidth: '2px',
@@ -66,7 +67,23 @@ const ConnectWallet = () => {
               }
 
               if (chain.unsupported) {
-                return <Button onClick={openChainModal}>Wrong network</Button>;
+                return (
+                  <Button
+                    onClick={openChainModal}
+                    color="brand.primary.600"
+                    backgroundColor="brand.primary.50"
+                    transition="all 100ms ease-in-out"
+                    border="2px"
+                    borderColor="white"
+                    _hover={{
+                      bgColor: 'brand.primary.100',
+                      borderWidth: '2px',
+                      borderColor: 'brand.primary.600',
+                    }}
+                  >
+                    Wrong network
+                  </Button>
+                );
               }
 
               return (

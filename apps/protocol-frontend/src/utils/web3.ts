@@ -1,5 +1,6 @@
 import { Chain, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { chain, configureChains, createClient } from 'wagmi';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 const gnosisChain: Chain = {
@@ -15,21 +16,25 @@ const gnosisChain: Chain = {
     symbol: 'xDAI',
   },
   rpcUrls: {
-    default: 'https://api.avax.network/ext/bc/C/rpc',
+    default: 'https://rpc.gnosischain.com/',
   },
   blockExplorers: {
-    default: { name: 'Blockscout', url: 'https://snowtrace.io' },
+    default: { name: 'Blockscout', url: 'https://blockscout.com/xdai/mainnet' },
   },
   testnet: false,
 };
 
-export const { chains, provider } = configureChains(
-  [chain.mainnet, chain.goerli, gnosisChain],
-  [publicProvider()],
-);
+const dev = false;
+const defaultChains = dev
+  ? [gnosisChain, chain.goerli, chain.rinkeby, chain.localhost]
+  : [gnosisChain, chain.goerli, chain.rinkeby];
+export const { chains, provider } = configureChains(defaultChains, [
+  alchemyProvider({ apiKey: 'n0NXRSZ9olpkJUPDLBC00Es75jaqysyT' }),
+  publicProvider(),
+]);
 
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'Govrn',
   chains,
 });
 
