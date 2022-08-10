@@ -84,7 +84,7 @@ const Sidebar = () => {
               />
             </Link>
             <HStack>
-              <ConnectWallet />
+              <ConnectWallet showNetwork />
             </HStack>
           </Stack>
         </Stack>

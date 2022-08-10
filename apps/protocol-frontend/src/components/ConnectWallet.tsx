@@ -17,7 +17,11 @@ import {
 import { FiKey, FiChevronDown, FiXCircle } from 'react-icons/fi';
 import { displayAddress } from '../utils/web3';
 
-const ConnectWallet = () => {
+interface ConnectWalletProps {
+  showNetwork?: boolean;
+}
+
+const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
   const { address, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
   const { data: name } = useEnsName();
@@ -88,22 +92,22 @@ const ConnectWallet = () => {
 
               return (
                 <Flex gap={3}>
-                  <Button
-                    onClick={openChainModal}
-                    display="flex"
-                    alignItems="center"
-                    bg={chain.iconBackground}
-                    p={0}
-                  >
-                    {chain.hasIcon && chain.iconUrl && (
+                  {showNetwork && chain.hasIcon && chain.iconUrl && (
+                    <Button
+                      onClick={openChainModal}
+                      display="flex"
+                      alignItems="center"
+                      bg={chain.iconBackground}
+                      p={0}
+                    >
                       <Image
                         alt={chain.name ?? 'Chain icon'}
                         src={chain.iconUrl}
                         width={25}
                         height={25}
                       />
-                    )}
-                  </Button>
+                    </Button>
+                  )}
 
                   <Menu
                     offset={[0, 4]}
