@@ -15,6 +15,7 @@ import {
   Divider,
   Icon,
 } from '@chakra-ui/react';
+import * as _ from 'lodash';
 import { formatDate } from '../utils/date';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { UIContribution } from '@govrn/ui-types';
@@ -22,7 +23,7 @@ import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
-
+import * as lodash from 'lodash';
 import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { UIUser } from '@govrn/ui-types';
@@ -36,7 +37,7 @@ interface DashboardShellProps {
 // passing in the User so that the name is available upon initial render
 
 const DashboardShell = ({ user }: DashboardShellProps) => {
-  const { allDaos } = useUser();
+  const { allDaos, userContributions } = useUser();
 
   // this is causing a race condition where the defaultValues of the Select is trying to use
   // this before it's available. this will likely be handled with making sure that the contributions/daos are loaded first
@@ -54,8 +55,9 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   ];
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
-
   const [selectedDaos, setSelectedDaos] = useState([]);
+
+  console.log('contributions', userContributions);
 
   useEffect(() => {
     if (allDaos) {
