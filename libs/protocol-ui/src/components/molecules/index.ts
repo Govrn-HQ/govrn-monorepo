@@ -1,5 +1,5 @@
 export { default as ControlledSelect } from './ControlledSelect';
-export type { ControlledSelectProps } from './ControlledSelect';
+export type { ControlledSelectProps, Option } from './ControlledSelect';
 export { default as CreatableSelect } from './CreatableSelect';
 export type { CreatableSelectProps } from './CreatableSelect';
 export { default as DatePicker } from './DatePicker';

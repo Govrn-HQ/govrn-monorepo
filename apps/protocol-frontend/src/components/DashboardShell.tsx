@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -25,7 +26,7 @@ import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { UIUser } from '@govrn/ui-types';
-import { ControlledSelect } from '@govrn/protocol-ui';
+import { ControlledSelect, Option } from '@govrn/protocol-ui';
 
 interface DashboardShellProps {
   user: UIUser;
@@ -53,6 +54,14 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   ];
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+
+  const [selectedDaos, setSelectedDaos] = useState([]);
+
+  useEffect(() => {
+    if (allDaos) {
+      setSelectedDaos(combinedDaoListOptions);
+    }
+  }, [allDaos]);
 
   return (
     <Box
@@ -93,16 +102,15 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                   defaultValue={combinedDaoListOptions}
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
-                  onChange={daos => {
+                  onChange={(daos: Option[]) => {
                     console.log('onChange', daos);
+                    setSelectedDaos(daos);
                   }}
-                  // onChange={dao => {
-                  //   setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
-                  // }}
                   options={daoListOptions}
                   isMulti
                 />
               )}
+              <Text>selected: {selectedDaos.length}</Text>
             </Flex>
           </Flex>
         </Flex>

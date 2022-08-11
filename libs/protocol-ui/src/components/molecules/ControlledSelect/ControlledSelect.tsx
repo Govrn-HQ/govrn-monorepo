@@ -25,7 +25,7 @@ type Errors = {
   };
 };
 
-type Option =
+export type Option =
   | {
       label: string | number;
       value: string | number;
@@ -44,7 +44,7 @@ export interface ControlledSelectProps {
   isRequired?: boolean;
   isMulti?: boolean;
   isClearable?: boolean;
-  onChange?: (option: Option) => void;
+  onChange?: (option: Option | Option[]) => void;
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
