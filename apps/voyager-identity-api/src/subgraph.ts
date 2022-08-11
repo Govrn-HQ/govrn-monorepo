@@ -10,6 +10,7 @@ const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 
 const LIMIT = 100;
+const SKIP_LIMIT = 4999;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
@@ -28,10 +29,11 @@ export const loadContributions = async (options: {
   // Load attestations events from subgraph.
   const page = options.page || 0; // || for NaN value.
   const limit = options.limit || LIMIT;
+  const skip = Math.min(page * limit, SKIP_LIMIT);
 
   const events = (
     await client.listAttestations({
-      skip: page * limit,
+      skip,
       first: limit,
     })
   ).attestations;
