@@ -27,8 +27,8 @@ export const loadContributions = async (options: {
   limit?: number;
 }): Promise<LDContribution[]> => {
   // Load attestations events from subgraph.
-  const page = options.page || 1; // || for NaN value.
-  const limit = options.limit || LIMIT;
+  const page = Math.abs(options.page || 1); // || for NaN value.
+  const limit = Math.abs(options.limit || LIMIT);
   const skip = Math.min((page - 1) * limit, SKIP_LIMIT);
 
   console.dir({ page, limit, skip });
