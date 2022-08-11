@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
-import { useWallet } from '@raidguild/quiver';
+import { useAccount, useNetwork, useSigner } from 'wagmi';
 import {
   UIActivityType,
   UIContribution,
@@ -26,7 +26,7 @@ import { GovrnProtocol } from '@govrn/protocol-client';
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 export const UserContext = createContext<UserContextType>(
-  {} as UserContextType
+  {} as UserContextType,
 );
 
 interface UserContextProps {
@@ -36,10 +36,14 @@ interface UserContextProps {
 export const UserContextProvider: React.FC<UserContextProps> = ({
   children,
 }: UserContextProps) => {
-  const { isConnected, address, chainId, provider } = useWallet();
-  const { isAuthenticated } = useAuth();
+  const { data: signer } = useSigner();
+  const { chain } = useNetwork();
+  const { isAuthenticated, authFlow } = useAuth();
+  const { isConnected, address } = useAccount({
+    onConnect: () => authFlow(),
+    // onDisconnect:
+  });
 
-  const signer = provider?.getSigner();
   const toast = useToast();
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
@@ -51,14 +55,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     {} as UIContribution
   );
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
-    []
+    [],
   );
   const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
-    []
+    [],
   );
   const [userAttestations, setUserAttestations] = useState<any>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<UIActivityType[]>(
-    []
+    [],
   );
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
 
@@ -83,7 +87,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
     try {
       const userDataByAddressResponse = await govrn.custom.listUserByAddress(
-        address
+        address,
       );
 
       if (userDataByAddressResponse.length > 0) {
@@ -126,11 +130,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         first: 1000,
       });
       setUserContributions(
-        userContributionsResponse.map((c) => ({
+        userContributionsResponse.map(c => ({
           ...c,
           date_of_engagement: formatDate(c.date_of_engagement),
           date_of_submission: formatDate(c.date_of_submission),
-        }))
+        })),
       );
       return userContributionsResponse;
     } catch (error) {
@@ -144,12 +148,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         first: 1000,
       });
       setDaoContributions(
-        daoContributionsResponse.map((c) => ({
+        daoContributionsResponse.map(c => ({
           ...c,
           date_of_engagement: formatDate(c.date_of_engagement),
           date_of_submission: formatDate(c.date_of_submission),
           updatedAt: formatDate(c.updatedAt),
-        }))
+        })),
       );
       return daoContributionsResponse;
     } catch (error) {
@@ -234,7 +238,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const createWaitlistUser = async (
     values: any,
     address: string,
-    navigate: any
+    navigate: any,
   ) => {
     try {
       await govrn.user.create({
@@ -314,15 +318,17 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const mintContribution = async (
     contribution: any,
     ipfsContentUri: string,
-    setMintProgress: any
+    setMintProgress: any,
   ) => {
+    console.log(signer);
+    console.log(chain?.id);
     try {
-      if (provider && chainId && signer) {
+      if (signer && chain?.id) {
         await govrn.contribution.mint(
           {
-            address: networks[chainId].govrnContract,
-            chainId: networks[chainId].chainNumber,
-            name: networks[chainId].name,
+            address: networks[chain?.id].govrnContract,
+            chainId: chain?.id,
+            name: networks[chain?.id].name,
           }, // network config
           signer, // provider/signer
           userData.address, // user address
@@ -332,13 +338,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           {
             detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
             dateOfSubmission: new Date(
-              contribution.date_of_submission
+              contribution.date_of_submission,
             ).getTime(),
             dateOfEngagement: new Date(contribution.engagementDate).getTime(),
           }, // details uri
           ethers.utils.toUtf8Bytes(contribution.name), // contribution name
           ethers.utils.toUtf8Bytes(contribution.details), // contribution details
-          ethers.utils.toUtf8Bytes(contribution.proof) // contribution proof
+          ethers.utils.toUtf8Bytes(contribution.proof), // contribution proof
         );
         await getUserContributions();
         setMintProgress((prevState: number) => prevState + 1);
@@ -366,15 +372,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const deleteContribution = async (id: number) => {
     try {
-      if (provider && chainId) {
+      if (signer && chain?.id) {
         await govrn.contribution.delete(
           {
-            address: networks[chainId].govrnContract,
-            chainId: networks[chainId].chainNumber,
-            name: networks[chainId].name,
+            address: networks[chain?.id].govrnContract,
+            chainId: chain?.id,
+            name: networks[chain?.id].name,
           },
           signer,
-          id
+          id,
         );
         await getUserContributions();
 
@@ -402,12 +408,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const mintAttestation = async (contribution: any) => {
     try {
-      if (provider && chainId) {
+      if (signer && chain?.id) {
         await govrn.contribution.attest(
           {
-            address: networks[chainId].govrnContract,
-            chainId: networks[chainId].chainNumber,
-            name: networks[chainId].name,
+            address: networks[chain?.id].govrnContract,
+            chainId: chain?.id,
+            name: networks[chain?.id].name,
           }, //network config
           signer, // signer/provider
           null, // attestation id
@@ -416,7 +422,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           {
             contribution: contribution.onChainId,
             confidence: 0,
-          } // attest args
+          }, // attest args
         );
         await getDaoContributions();
         toast({
@@ -476,7 +482,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     contribution: UIContribution,
 
     values: any,
-    bulkItemCount?: number
+    bulkItemCount?: number,
   ) => {
     const toastUpdateContributionId = 'toast-update-contribution';
     try {
@@ -486,7 +492,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
       if (contribution.status.name !== 'staging') {
         throw new Error(
-          'You can only edit Contributions with a Staging status.'
+          'You can only edit Contributions with a Staging status.',
         );
       }
       await govrn.custom.updateUserContribution({
@@ -499,7 +505,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         activityTypeName:
           values.activityType ?? contribution.activity_type.name,
         dateOfEngagement: new Date(
-          values.engagementDate ?? contribution.date_of_engagement
+          values.engagementDate ?? contribution.date_of_engagement,
         ).toISOString(),
         status: 'staging',
         guildId: values.daoId,

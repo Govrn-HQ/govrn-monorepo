@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useWallet } from '@raidguild/quiver';
+import { useAccount } from 'wagmi';
 import {
   Flex,
   Link as ChakraLink,
@@ -20,10 +20,10 @@ import { GOVRN_MOTTO } from '../utils/constants';
 import { FaDiscord } from 'react-icons/all';
 
 const HomeShell = () => {
-  const { isConnected } = useWallet();
+  const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
   const [createProfileSteps, setCreateProfileSteps] = useState<number | null>(
-    null
+    null,
   );
 
   const { userDataByAddress, userData } = useUser();

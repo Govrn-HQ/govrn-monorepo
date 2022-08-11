@@ -9,7 +9,7 @@ import {
   Button,
   Heading,
 } from '@chakra-ui/react';
-import { useWallet } from '@raidguild/quiver';
+import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -35,7 +35,7 @@ const UserView = () => {
 };
 
 const ContributionDetails = () => {
-  const { isConnected } = useWallet();
+  const { isConnected } = useAccount();
   const { id } = useParams();
   const { userData, getContribution } = useUser();
   const { isAuthenticated } = useAuth();
