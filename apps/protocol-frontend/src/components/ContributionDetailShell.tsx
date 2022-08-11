@@ -30,6 +30,8 @@ interface ContributionDetailShellProps {
 const ContributionDetailShell = ({
   contribution,
 }: ContributionDetailShellProps) => {
+  console.log(contribution?.status);
+  console.log(contribution);
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -69,7 +71,7 @@ const ContributionDetailShell = ({
               flexBasis={{ base: '100%', lg: '50%' }}
             >
               <Badge colorScheme="gray" variant="subtle" padding={1}>
-                {contribution?.status.name === 'minted'
+                {contribution?.status?.name === 'minted'
                   ? `${contribution?.status.name} 🌞`
                   : `${contribution?.status.name} 👀`}
               </Badge>
