@@ -15,7 +15,7 @@ app
       const limit = Number(req.query.limit);
 
       console.dir({ page, limit });
-      const event = await loadContributions({ page: null, limit });
+      const event = await loadContributions({ page, limit });
       // json > json-ld
       const transformed = await transform(event);
       res.send(JSON.stringify(transformed));
