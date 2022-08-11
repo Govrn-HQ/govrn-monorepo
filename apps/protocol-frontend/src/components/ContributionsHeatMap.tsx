@@ -1,11 +1,27 @@
 import React from 'react';
 import { UIContribution } from '@govrn/ui-types';
-import { Stack } from '@chakra-ui/react';
-const HeatMap = require('@uiw/react-heat-map'); // unsure why import didnt work
+import { Flex, Text } from '@chakra-ui/react';
+import HeatMap from '@uiw/react-heat-map';
+import { GovrnTheme } from '@govrn/protocol-ui';
 
 interface ContributionsHeatMapProps {
   contributions: UIContribution[];
 }
+
+const brandColors = GovrnTheme.colors.brand.primary;
+
+const brandPanelColorsMap = {
+  0: brandColors[50],
+  2: brandColors[100],
+  4: brandColors[200],
+  10: brandColors[300],
+  20: brandColors[400],
+  30: brandColors[500],
+  40: brandColors[600],
+  50: brandColors[700],
+  60: brandColors[800],
+  70: brandColors[900],
+};
 
 const ContributionsHeatMap = ({ contributions }: ContributionsHeatMapProps) => {
   console.log('contributions in heat map', contributions);
@@ -20,28 +36,15 @@ const ContributionsHeatMap = ({ contributions }: ContributionsHeatMapProps) => {
   ];
 
   return (
-    <Stack
-      direction="row"
-      // justifyContent="flexStart"
-      // alignItems="center"
-      paddingBottom={4}
-      paddingX={{ base: 4, lg: 0 }}
-    >
+    <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
       <HeatMap
         value={value}
         width={600}
-        style={{ color: '#ad001d' }}
+        style={{ color: 'black' }}
         startDate={new Date('2016/01/01')}
-        panelColors={{
-          0: '#f4decd',
-          2: '#e4b293',
-          4: '#d48462',
-          10: '#c2533a',
-          20: '#ad001d',
-          30: '#000',
-        }}
+        panelColors={brandPanelColorsMap}
       />
-    </Stack>
+    </Flex>
   );
 };
 

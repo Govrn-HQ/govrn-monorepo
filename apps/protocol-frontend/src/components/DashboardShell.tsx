@@ -111,9 +111,9 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                   isMulti
                 />
               )}
-              <Text>selected: {selectedDaos.length}</Text>
+              <pre>[selected DAOs: {selectedDaos.length}]</pre>
             </Flex>
-            <HStack>
+            <Flex direction="column" gap={2}>
               <Heading
                 as="h4"
                 fontSize="lg"
@@ -123,7 +123,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 Contribution Heat Map
               </Heading>
               <ContributionsHeatMap contributions={userContributions} />
-            </HStack>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
