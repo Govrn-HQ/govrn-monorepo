@@ -295,12 +295,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     ipfsContentUri: string,
     setMintProgress: any,
   ) => {
+    console.log(signer);
+    console.log(chain?.id);
     try {
-      if (signer && chain?.id && signer) {
+      if (signer && chain?.id) {
         await govrn.contribution.mint(
           {
             address: networks[chain?.id].govrnContract,
-            chainId: networks[chain?.id].chainNumber,
+            chainId: chain?.id,
             name: networks[chain?.id].name,
           }, // network config
           signer, // provider/signer
@@ -349,7 +351,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         await govrn.contribution.delete(
           {
             address: networks[chain?.id].govrnContract,
-            chainId: networks[chain?.id].chainNumber,
+            chainId: chain?.id,
             name: networks[chain?.id].name,
           },
           signer,
@@ -385,7 +387,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         await govrn.contribution.attest(
           {
             address: networks[chain?.id].govrnContract,
-            chainId: networks[chain?.id].chainNumber,
+            chainId: chain?.id,
             name: networks[chain?.id].name,
           }, //network config
           signer, // signer/provider
