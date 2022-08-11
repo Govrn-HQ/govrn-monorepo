@@ -1,22 +1,21 @@
 export type ContributionFormValues = {
-  name: string;
-  details?: string | null;
-  proof?: string | null;
-  engagementDate: Date;
-  activityType: string;
-  daoId?: string | null;
+  name?: string;
+  activityType?: string;
+  details?: string;
+  proof?: string;
+  daoId?: string;
+  engagementDate?: Date;
 };
 
 export type BulkDaoAttributeFormValues = {
-  daoId: string | number | null;
+  daoId?: string | number | null;
 };
 
 export type CreateUserFormValues = {
-  address: string;
-  username: string;
-};
+  username?: string;
+}
 
 export type ProfileFormValues = {
-  address: string;
-  name: string;
-};
+  address?: string;
+  name?: string;
+}

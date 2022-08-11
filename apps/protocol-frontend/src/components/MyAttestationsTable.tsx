@@ -69,7 +69,7 @@ const MyAttestationsTable = ({
       {
         Header: 'Status',
         accessor: 'status',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: string }) => {
           return (
             <Text textTransform="capitalize">
               {value}{' '}

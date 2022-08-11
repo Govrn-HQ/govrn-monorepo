@@ -16,6 +16,7 @@ import {
   UIGuild,
   UIUser,
 } from '@govrn/ui-types';
+import type { Signer } from 'ethers';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
@@ -50,6 +51,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
+  const [contribution, setContribution] = useState<UIContribution>(
+    {} as UIContribution
+  );
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     [],
   );
@@ -95,6 +99,27 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       console.error(error);
     }
   }, [address]);
+
+  const getContribution = async (id: number) => {
+    try {
+      const contributionResponse = await govrn.contribution.get(id);
+      if (contributionResponse) {
+        const formattedResponse = {
+          ...contributionResponse,
+          date_of_engagement: formatDate(
+            contributionResponse.date_of_engagement
+          ),
+          date_of_submission: formatDate(
+            contributionResponse.date_of_submission
+          ),
+        };
+        setContribution(formattedResponse);
+        return formattedResponse;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getUserContributions = async () => {
     try {
@@ -669,6 +694,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     <UserContext.Provider
       value={{
         allDaos,
+        contribution,
         createAttestation,
         createContribution,
         createUser,
@@ -676,9 +702,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         daoContributions,
         disconnectLinear,
         getAllDaos,
+        getContribution,
         mintAttestation,
         mintContribution,
         setAllDaos,
+        setContribution,
         setDaoContributions,
         setUserActivityTypes,
         setUserAddress,
@@ -703,6 +731,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
 type UserContextType = {
   allDaos: UIGuild[];
+  contribution: UIContribution;
   createAttestation: any;
   createContribution: any;
   createUser: any;
@@ -710,9 +739,11 @@ type UserContextType = {
   daoContributions: UIContribution[];
   disconnectLinear: any;
   getAllDaos: any;
+  getContribution: any;
   mintAttestation: any;
   mintContribution: any;
   setAllDaos: (data: UIGuild[]) => void;
+  setContribution: (data: UIContribution) => void;
   setDaoContributions: (data: UIContribution[]) => void;
   setUserActivityTypes: (data: UIActivityType[]) => void;
   setUserAddress: any;

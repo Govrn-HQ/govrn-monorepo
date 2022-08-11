@@ -19,7 +19,7 @@ export interface DatePickerProps {
   name: string;
   label?: string;
   tip?: string;
-  defaultValue?: Date;
+  defaultValue?: Date | null | undefined;
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   onChange: (
     date: Date | [Date | null, Date | null] | null,

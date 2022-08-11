@@ -56,7 +56,6 @@ const Textarea: React.FC<TextareaProps> = ({
             placeholder={placeholder}
             defaultValue={defaultValue}
             py={6}
-            name={name}
             variant={variant}
             sx={styles}
             {...register(name)}
