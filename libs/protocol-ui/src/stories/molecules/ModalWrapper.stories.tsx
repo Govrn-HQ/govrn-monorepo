@@ -1,26 +1,44 @@
 import { Story } from '@storybook/react';
 import React from 'react';
-import { Text } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Box, Button, Text } from '@chakra-ui/react';
 import { ModalWrapper, ModalWrapperProps } from '../../';
-import { useOverlay } from '../../../../../apps/protocol-frontend/src/contexts/OverlayContext';
 
 export default {
   title: 'Components/Molecules/ModalWrapper',
   component: ModalWrapper,
 };
 
-const Default = (args: ModalWrapperProps) => {
-  const { setModals } = useOverlay();
-  return <ModalWrapper {...args} localOverlay={localOverlay} />;
-};
+const Default = () => {
+  const [modals, setModals] = useState({
+    storybookModal: false,
+  });
 
-Default.args = {
-  name: 'TextareaModal',
-  title: 'Describe Contribution',
-  content: <Text>This is the modal content.</Text>,
-  size: '2xl',
-  titleColor: 'gray',
-  bgColor: 'gray',
+  const localOverlay = {
+    modals,
+    setModals,
+  };
+
+  const storybookModalHandler = () => {
+    setModals({ storybookModal: true });
+  };
+
+  return (
+    <Box>
+      <Button onClick={storybookModalHandler}>Test it out</Button>
+      <ModalWrapper
+        name="storybookModal"
+        title="Mint Your DAO Contributions"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <Box>
+            <Text>Content</Text>
+          </Box>
+        }
+      />
+    </Box>
+  );
 };
 
 export { Default };
