@@ -123,6 +123,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserContributions = async () => {
     try {
+      if (!userData?.id) {
+        throw new Error('getUserContributions has no userData.id');
+      }
       const userContributionsResponse = await govrn.contribution.list({
         where: {
           user_id: { equals: userData?.id },
