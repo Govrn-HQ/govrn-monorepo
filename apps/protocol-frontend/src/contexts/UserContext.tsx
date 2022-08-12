@@ -52,7 +52,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
   const [contribution, setContribution] = useState<UIContribution>(
-    {} as UIContribution
+    {} as UIContribution,
   );
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     [],
@@ -107,10 +107,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         const formattedResponse = {
           ...contributionResponse,
           date_of_engagement: formatDate(
-            contributionResponse.date_of_engagement
+            contributionResponse.date_of_engagement,
           ),
           date_of_submission: formatDate(
-            contributionResponse.date_of_submission
+            contributionResponse.date_of_submission,
           ),
         };
         setContribution(formattedResponse);
@@ -416,7 +416,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
             name: networks[chain?.id].name,
           }, //network config
           signer, // signer/provider
-          null, // attestation id
+          0, // attestation id
           contribution.activityTypeId, //activity type id
           userData.id, // user id
           {

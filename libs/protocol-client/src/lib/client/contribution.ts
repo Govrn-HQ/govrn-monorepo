@@ -94,7 +94,7 @@ export class Contribution extends BaseClient {
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
 
-    let onChainId = null;
+    let onChainId = null as null | ethers.BigNumber;
     const logs = transactionReceipt.logs;
     for (const log of logs) {
       console.log('on chain id (logs)', log);

@@ -256,16 +256,16 @@ export class SiweMessage {
       const parsedMessage = new ParsedMessage(param);
       this.domain = parsedMessage.domain;
       this.address = parsedMessage.address;
-      this.statement = parsedMessage.statement;
+      this.statement = parsedMessage.statement || '';
       this.uri = parsedMessage.uri;
       this.version = parsedMessage.version;
       this.nonce = parsedMessage.nonce;
       this.issuedAt = parsedMessage.issuedAt;
-      this.expirationTime = parsedMessage.expirationTime;
-      this.notBefore = parsedMessage.notBefore;
-      this.requestId = parsedMessage.requestId;
+      this.expirationTime = parsedMessage.expirationTime || '';
+      this.notBefore = parsedMessage.notBefore || '';
+      this.requestId = parsedMessage.requestId || '';
       this.chainId = parsedMessage.chainId;
-      this.resources = parsedMessage.resources;
+      this.resources = parsedMessage.resources || [];
     } else {
       Object.assign(this, param);
       if (typeof this.chainId === 'string') {
@@ -282,7 +282,7 @@ export class SiweMessage {
    * @param message {string}
    * @returns {RegExpExecArray} The matching groups for the message
    */
-  static regexFromMessage(message: string): RegExpExecArray {
+  static regexFromMessage(message: string): RegExpExecArray | undefined {
     const parsedMessage = new ParsedMessageRegExp(message);
     return parsedMessage.match;
   }
@@ -589,7 +589,7 @@ export class SiweMessage {
     if (!nonce || this.nonce.length < 8 || nonce[0] !== this.nonce) {
       throw new SiweError(
         SiweErrorType.INVALID_NONCE,
-        `Length > 8 (${nonce.length}). Alphanumeric.`,
+        `Length > 8 (${nonce ? nonce.length : 0}). Alphanumeric.`,
         this.nonce,
       );
     }
