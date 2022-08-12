@@ -1,31 +1,26 @@
 import { Story } from '@storybook/react';
 import React from 'react';
+import { Text } from '@chakra-ui/react';
 import { ModalWrapper, ModalWrapperProps } from '../../';
-import { Textarea } from '../../components/molecules/Textarea/Textarea';
-//import {useOverlay} from '../../../../../apps/protocol-frontend/src/contexts/OverlayContext';
+import { useOverlay } from '../../../../../apps/protocol-frontend/src/contexts/OverlayContext';
 
 export default {
   title: 'Components/Molecules/ModalWrapper',
   component: ModalWrapper,
 };
 
-const Template: Story<ModalWrapperProps> = args => <ModalWrapper {...args} />;
-
-export const Default = Template.bind({});
+const Default = (args: ModalWrapperProps) => {
+  const { setModals } = useOverlay();
+  return <ModalWrapper {...args} localOverlay={localOverlay} />;
+};
 
 Default.args = {
   name: 'TextareaModal',
   title: 'Describe Contribution',
-  content: (
-    <Textarea
-      name="name"
-      label="Textarea label"
-      placeholder="Describe contribution"
-    />
-  ),
-  isOpen: false,
+  content: <Text>This is the modal content.</Text>,
   size: '2xl',
   titleColor: 'gray',
   bgColor: 'gray',
-  localOverlay: 'Modal Overlay',
 };
+
+export { Default };
