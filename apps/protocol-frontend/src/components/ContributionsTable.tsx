@@ -36,9 +36,7 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
-
 import DeleteContributionDialog from './DeleteContributionDialog';
-
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
 type ContributionTableType = Omit<UIContribution, 'tx_hash'> & {
@@ -236,6 +234,7 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
+                  onClick={() => handleDeleteContribution(row.original.id)}
                 />
               </HStack>
             )}
