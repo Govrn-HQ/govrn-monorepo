@@ -1,40 +1,40 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { SortOrder } from '../../enums/SortOrder';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType('DiscordUserMaxOrderByAggregateInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("DiscordUserMaxOrderByAggregateInput", {
+  isAbstract: true
 })
 export class DiscordUserMaxOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  id?: 'asc' | 'desc' | undefined;
+  id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  createdAt?: 'asc' | 'desc' | undefined;
+  createdAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  updatedAt?: 'asc' | 'desc' | undefined;
+  updatedAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  display_name?: 'asc' | 'desc' | undefined;
+  display_name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  discord_id?: 'asc' | 'desc' | undefined;
+  discord_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  user_id?: 'asc' | 'desc' | undefined;
+  user_id?: "asc" | "desc" | undefined;
 }

@@ -1,114 +1,114 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { AttestationOrderByRelationAggregateInput } from '../inputs/AttestationOrderByRelationAggregateInput';
-import { ChainTypeOrderByWithRelationInput } from '../inputs/ChainTypeOrderByWithRelationInput';
-import { ContributionOrderByRelationAggregateInput } from '../inputs/ContributionOrderByRelationAggregateInput';
-import { DiscordUserOrderByRelationAggregateInput } from '../inputs/DiscordUserOrderByRelationAggregateInput';
-import { GuildUserOrderByRelationAggregateInput } from '../inputs/GuildUserOrderByRelationAggregateInput';
-import { LinearUserOrderByRelationAggregateInput } from '../inputs/LinearUserOrderByRelationAggregateInput';
-import { PartnerOrderByRelationAggregateInput } from '../inputs/PartnerOrderByRelationAggregateInput';
-import { TwitterUserOrderByWithRelationInput } from '../inputs/TwitterUserOrderByWithRelationInput';
-import { UserActivityOrderByRelationAggregateInput } from '../inputs/UserActivityOrderByRelationAggregateInput';
-import { SortOrder } from '../../enums/SortOrder';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { AttestationOrderByRelationAggregateInput } from "../inputs/AttestationOrderByRelationAggregateInput";
+import { ChainTypeOrderByWithRelationInput } from "../inputs/ChainTypeOrderByWithRelationInput";
+import { ContributionOrderByRelationAggregateInput } from "../inputs/ContributionOrderByRelationAggregateInput";
+import { DiscordUserOrderByRelationAggregateInput } from "../inputs/DiscordUserOrderByRelationAggregateInput";
+import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
+import { LinearUserOrderByRelationAggregateInput } from "../inputs/LinearUserOrderByRelationAggregateInput";
+import { PartnerOrderByRelationAggregateInput } from "../inputs/PartnerOrderByRelationAggregateInput";
+import { TwitterUserOrderByWithRelationInput } from "../inputs/TwitterUserOrderByWithRelationInput";
+import { UserActivityOrderByRelationAggregateInput } from "../inputs/UserActivityOrderByRelationAggregateInput";
+import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType('UserOrderByWithRelationInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("UserOrderByWithRelationInput", {
+  isAbstract: true
 })
 export class UserOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  id?: 'asc' | 'desc' | undefined;
+  id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  createdAt?: 'asc' | 'desc' | undefined;
+  createdAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  updatedAt?: 'asc' | 'desc' | undefined;
+  updatedAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  name?: 'asc' | 'desc' | undefined;
+  name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  display_name?: 'asc' | 'desc' | undefined;
+  display_name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  address?: 'asc' | 'desc' | undefined;
+  address?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  chain_type_id?: 'asc' | 'desc' | undefined;
+  chain_type_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => ChainTypeOrderByWithRelationInput, {
-    nullable: true,
+    nullable: true
   })
   chain_type?: ChainTypeOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  full_name?: 'asc' | 'desc' | undefined;
+  full_name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  active?: 'asc' | 'desc' | undefined;
+  active?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  email?: 'asc' | 'desc' | undefined;
+  email?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => UserActivityOrderByRelationAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   activities?: UserActivityOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => AttestationOrderByRelationAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   attestations?: AttestationOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => PartnerOrderByRelationAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   contributionPartners?: PartnerOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => ContributionOrderByRelationAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   contributions?: ContributionOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => LinearUserOrderByRelationAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   linear_users?: LinearUserOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildUserOrderByRelationAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   guild_users?: GuildUserOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterUserOrderByWithRelationInput, {
-    nullable: true,
+    nullable: true
   })
   twitter_user?: TwitterUserOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => DiscordUserOrderByRelationAggregateInput, {
-    nullable: true,
+    nullable: true
   })
   discord_users?: DiscordUserOrderByRelationAggregateInput | undefined;
 }

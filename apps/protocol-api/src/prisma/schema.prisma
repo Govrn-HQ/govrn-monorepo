@@ -25,7 +25,7 @@ model User {
   updatedAt DateTime @updatedAt @default(now())
   name  String?
   display_name String?
-  address String @unique
+  address String @db.Citext @unique
   chain_type_id Int
   chain_type ChainType @relation(fields: [chain_type_id], references: [id])
   full_name String?
@@ -58,13 +58,13 @@ model Guild {
   updatedAt DateTime @updatedAt @default(now())
   discord_id String? @unique // legacy
   name String? // legacy
-  congrats_channel Int? // legacy
+  congrats_channel String? // legacy
   logo String?
   contributions GuildContribution[]
   users GuildUser[]
   twitter_account TwitterAccount?
   activity_type GuildActivityType[]
-  contribution_reporting_channel Int?
+  contribution_reporting_channel String?
   status GuildStatus @default(INPUTTED)
 }
 
@@ -136,7 +136,7 @@ model Contribution {
   linear_issue LinearIssue?
   tweet TwitterTweet?
   on_chain_id Int? @unique
-  tx_hash String? @unique
+  tx_hash String? @db.Citext @unique
 }
 
 model Partner {

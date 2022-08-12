@@ -75,7 +75,7 @@ jobs:
           echo VITE_URL=${{secrets.VITE_URL}} >> .env
           echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID}}  >> .env
           echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET}} >> .env
-          echo VITE_LINEAR_REDIRECT_URI=https://govrn.app  >> .env
+          echo VITE_LINEAR_REDIRECT_URI=https://api.govrn.app/linear/oauth  >> .env
           echo VITE_LINEAR_CLIENT_ID=9131c342273502268438468f08337b29 >> .env
       - name: Build
         run: npx nx affected:build --configuration production --base $BASE

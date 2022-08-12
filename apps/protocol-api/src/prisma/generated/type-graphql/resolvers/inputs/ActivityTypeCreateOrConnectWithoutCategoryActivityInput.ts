@@ -1,24 +1,21 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { ActivityTypeCreateWithoutCategoryActivityInput } from '../inputs/ActivityTypeCreateWithoutCategoryActivityInput';
-import { ActivityTypeWhereUniqueInput } from '../inputs/ActivityTypeWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { ActivityTypeCreateWithoutCategoryActivityInput } from "../inputs/ActivityTypeCreateWithoutCategoryActivityInput";
+import { ActivityTypeWhereUniqueInput } from "../inputs/ActivityTypeWhereUniqueInput";
 
-@TypeGraphQL.InputType(
-  'ActivityTypeCreateOrConnectWithoutCategoryActivityInput',
-  {
-    isAbstract: true,
-  },
-)
+@TypeGraphQL.InputType("ActivityTypeCreateOrConnectWithoutCategoryActivityInput", {
+  isAbstract: true
+})
 export class ActivityTypeCreateOrConnectWithoutCategoryActivityInput {
   @TypeGraphQL.Field(_type => ActivityTypeWhereUniqueInput, {
-    nullable: false,
+    nullable: false
   })
   where!: ActivityTypeWhereUniqueInput;
 
   @TypeGraphQL.Field(_type => ActivityTypeCreateWithoutCategoryActivityInput, {
-    nullable: false,
+    nullable: false
   })
   create!: ActivityTypeCreateWithoutCategoryActivityInput;
 }

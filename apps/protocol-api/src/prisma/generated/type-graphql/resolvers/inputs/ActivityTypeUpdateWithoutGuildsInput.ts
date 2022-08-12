@@ -1,60 +1,55 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { BoolFieldUpdateOperationsInput } from '../inputs/BoolFieldUpdateOperationsInput';
-import { CategoryActivityTypeUpdateManyWithoutActivity_typeInput } from '../inputs/CategoryActivityTypeUpdateManyWithoutActivity_typeInput';
-import { ContributionUpdateManyWithoutActivity_typeInput } from '../inputs/ContributionUpdateManyWithoutActivity_typeInput';
-import { DateTimeFieldUpdateOperationsInput } from '../inputs/DateTimeFieldUpdateOperationsInput';
-import { StringFieldUpdateOperationsInput } from '../inputs/StringFieldUpdateOperationsInput';
-import { UserActivityUpdateManyWithoutActivity_typeInput } from '../inputs/UserActivityUpdateManyWithoutActivity_typeInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
+import { CategoryActivityTypeUpdateManyWithoutActivity_typeInput } from "../inputs/CategoryActivityTypeUpdateManyWithoutActivity_typeInput";
+import { ContributionUpdateManyWithoutActivity_typeInput } from "../inputs/ContributionUpdateManyWithoutActivity_typeInput";
+import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { UserActivityUpdateManyWithoutActivity_typeInput } from "../inputs/UserActivityUpdateManyWithoutActivity_typeInput";
 
-@TypeGraphQL.InputType('ActivityTypeUpdateWithoutGuildsInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("ActivityTypeUpdateWithoutGuildsInput", {
+  isAbstract: true
 })
 export class ActivityTypeUpdateWithoutGuildsInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   name?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   active?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
-    nullable: true,
+    nullable: true
   })
   default?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => UserActivityUpdateManyWithoutActivity_typeInput, {
-    nullable: true,
+    nullable: true
   })
   users?: UserActivityUpdateManyWithoutActivity_typeInput | undefined;
 
   @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutActivity_typeInput, {
-    nullable: true,
+    nullable: true
   })
   contributions?: ContributionUpdateManyWithoutActivity_typeInput | undefined;
 
-  @TypeGraphQL.Field(
-    _type => CategoryActivityTypeUpdateManyWithoutActivity_typeInput,
-    {
-      nullable: true,
-    },
-  )
-  categoryActivity?:
-    | CategoryActivityTypeUpdateManyWithoutActivity_typeInput
-    | undefined;
+  @TypeGraphQL.Field(_type => CategoryActivityTypeUpdateManyWithoutActivity_typeInput, {
+    nullable: true
+  })
+  categoryActivity?: CategoryActivityTypeUpdateManyWithoutActivity_typeInput | undefined;
 }

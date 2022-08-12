@@ -4,6 +4,7 @@ import {
   chakra,
   Link as ChakraLink,
   HStack,
+  Icon,
   IconButton,
   Stack,
   Table,
@@ -15,10 +16,8 @@ import {
   Tooltip,
   Tr,
 } from '@chakra-ui/react';
-
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
-
 import {
   Row,
   useFilters,
@@ -26,7 +25,9 @@ import {
   useRowSelect,
   useSortBy,
   useTable,
+  UseTableRowProps,
 } from 'react-table';
+import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { ModalWrapper } from '@govrn/protocol-ui';
@@ -36,14 +37,14 @@ import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
 
-import DeleteContributionDialog  from './DeleteContributionDialog';
+import DeleteContributionDialog from './DeleteContributionDialog';
 
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
-
-type ContributionTableType = Omit<UIContribution, 'name' | 'txHash'> & {
-  name: { name: string; txHash: string | undefined };
+type ContributionTableType = Omit<UIContribution, 'tx_hash'> & {
+  txHash: string;
 };
+
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -52,7 +53,7 @@ const ContributionsTable = ({
   setSelectedContributions: (rows: Row<any>[]) => void;
 }) => {
   const { userData } = useUser();
- 
+
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<any>();
@@ -64,32 +65,35 @@ const ContributionsTable = ({
 
   type DialogProps = {
     isOpen: boolean;
-    title : string;
+    title: string;
     onConfirm: boolean;
     contribution_id: string;
-  }
+  };
 
-  const [dialog, setDialog] = useState<DialogProps>({ isOpen: false, title: '' ,onConfirm: false, contribution_id:''});
- 
+  const [dialog, setDialog] = useState<DialogProps>({
+    isOpen: false,
+    title: '',
+    onConfirm: false,
+    contribution_id: '',
+  });
+
   useEffect(() => {
-            setDialog(dialog)
-               }, [dialog])
+    setDialog(dialog);
+  }, [dialog]);
 
-  
-  const handleDeleteContribution = (contribution_id: string) =>{
+  const handleDeleteContribution = (contribution_id: string) => {
     setDialog({
       ...dialog,
-      isOpen: true,  //this opens AlertDialog
-      title: "Are you sure you want to delete this Contribution? You can't undo this action.",
-      contribution_id: contribution_id
-    })
+      isOpen: true, //this opens AlertDialog
+      title:
+        "Are you sure you want to delete this Contribution? You can't undo this action.",
+      contribution_id: contribution_id,
+    });
+  };
 
-  }
-
-  
   const data = useMemo(
     () =>
-      contributionsData.map((contribution) => ({
+      contributionsData.map(contribution => ({
         name: contribution.name,
         txHash: contribution.tx_hash,
         id: contribution.id,
@@ -106,28 +110,20 @@ const ContributionsTable = ({
           contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
           '---',
       })),
-    [contributionsData]
+    [contributionsData],
   );
-  
+
   const columns = useMemo(
     () => [
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value, row }) => {
+        Cell: ({ value, row }: { value: string; row }) => {
           return (
             <>
-              {row.original.txHash !== null ? (
-                <ChakraLink
-                  href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
-                  isExternal
-                >
-                  {value}
-                  <ExternalLinkIcon marginX="2px" />
-                </ChakraLink>
-              ) : (
+              <Link to={`/contributions/${row.original.id}`}>
                 <Text>{value}</Text>
-              )}
+              </Link>
             </>
           );
         },
@@ -135,7 +131,7 @@ const ContributionsTable = ({
       {
         Header: 'Status',
         accessor: 'status',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: { name: string } }) => {
           return (
             <Text textTransform="capitalize">
               {value.name}{' '}
@@ -156,7 +152,7 @@ const ContributionsTable = ({
       {
         Header: 'Attestations',
         accessor: 'attestations',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: { length: number } }) => {
           return <Text textTransform="capitalize">{value.length} </Text>;
         },
       },
@@ -164,16 +160,16 @@ const ContributionsTable = ({
       {
         Header: 'DAO',
         accessor: 'guildName',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: string }) => {
           return <Text>{value}</Text>;
         },
       },
     ],
-    []
+    [],
   );
- 
-  const tableHooks = (hooks) => {
-    hooks.visibleColumns.push((columns) => [
+
+  const tableHooks = hooks => {
+    hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
         Header: ({ getToggleAllRowsSelectedProps }) => (
@@ -190,12 +186,33 @@ const ContributionsTable = ({
       {
         id: 'actions',
         Header: 'Actions',
-        Cell: ({ row }) =>
-          row.original.status.name === 'minted' ? (
-            <Tooltip
-              label="Minted contribution(s) cannot be edited"
-              aria-label="A tooltip"
-            >
+        Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
+          <HStack spacing={1}>
+            {row.original.status.name === 'minted' ? (
+              <HStack spacing="1">
+                {row.original.txHash !== null && (
+                  <Tooltip
+                    label="Minted Contributions cannot be edited or deleted. View on Block Explorer."
+                    aria-label="A tooltip"
+                  >
+                    <Box>
+                      <ChakraLink
+                        href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
+                        isExternal
+                      >
+                        <IconButton
+                          icon={<HiOutlineLink fontSize="1rem" />}
+                          aria-label="View on Block Explorer"
+                          variant="ghost"
+                          color="gray.800"
+                          padding={1}
+                        />
+                      </ChakraLink>
+                    </Box>
+                  </Tooltip>
+                )}
+              </HStack>
+            ) : (
               <HStack spacing="1">
                 <IconButton
                   icon={<FiEdit2 fontSize="1rem" />}
@@ -204,7 +221,7 @@ const ContributionsTable = ({
                   aria-label="Edit Contribution"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status !== 'minted'
+                    row.original.status.name === 'minted'
                   }
                   onClick={() =>
                     handleEditContributionFormModal(row.original.id)
@@ -216,52 +233,17 @@ const ContributionsTable = ({
                   color="gray.800"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status.name !== 'minted'
+                    row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
-                  onClick = {() => handleDeleteContribution(row.original.id)}
                 />
-          
               </HStack>
-            </Tooltip>
-          ) : (
-            <HStack spacing="1">
-              <IconButton
-                icon={<FiEdit2 fontSize="1rem" />}
-                variant="ghost"
-                color="gray.800"
-                aria-label="Edit Contribution"
-                disabled={
-                  row.original.user.id !== userData?.id ||
-                  row.original.status === 'minted'
-                }
-                onClick={() =>
-                  handleEditContributionFormModal(row.original.id)
-                }
-              />
-              <IconButton
-                icon={<FiTrash2 fontSize="1rem" />}
-                variant="ghost"
-                color="gray.800"
-                disabled={
-                  row.original.user.id !== userData?.id ||
-                  row.original.status.name === 'minted'
-                }
-                aria-label="Delete Contribution"
-                onClick = {() => handleDeleteContribution(row.original.id)}
-                
-              />
-            </HStack>
-            
-          ),
+            )}
+          </HStack>
+        ),
       },
     ]);
   };
-
-
-
-
-
 
   const {
     getTableProps,
@@ -279,14 +261,13 @@ const ContributionsTable = ({
     useGlobalFilter,
     useSortBy,
     useRowSelect,
-    tableHooks
+    tableHooks,
   );
- 
 
   useEffect(() => {
     setSelectedContributions(selectedFlatRows);
   }, [selectedFlatRows, selectedRowIds]);
-  
+
   return (
     <Stack>
       <GlobalFilter
@@ -322,11 +303,11 @@ const ContributionsTable = ({
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map(row => {
               prepareRow(row);
               return (
                 <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
+                  {row.cells.map(cell => (
                     <Td {...cell.getCellProps()} borderColor="gray.100">
                       <>{cell.render('Cell')}</>
                     </Td>
@@ -345,18 +326,17 @@ const ContributionsTable = ({
             <EditContributionForm
               contribution={
                 contributionsData.find(
-                  (localContribution) =>
-                    localContribution.id === selectedContribution
+                  localContribution =>
+                    localContribution.id === selectedContribution,
                 )!
               }
             />
           }
         />
-        <DeleteContributionDialog dialog={dialog}  setDialog={setDialog}/>
+        <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
       </Box>
     </Stack>
   );
-
 };
 
 export default ContributionsTable;

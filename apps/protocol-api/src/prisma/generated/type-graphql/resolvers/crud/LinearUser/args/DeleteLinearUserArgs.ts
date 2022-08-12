@@ -1,11 +1,11 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { LinearUserWhereUniqueInput } from '../../../inputs/LinearUserWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { LinearUserWhereUniqueInput } from "../../../inputs/LinearUserWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
 export class DeleteLinearUserArgs {
   @TypeGraphQL.Field(_type => LinearUserWhereUniqueInput, {
-    nullable: false,
+    nullable: false
   })
   where!: LinearUserWhereUniqueInput;
 }

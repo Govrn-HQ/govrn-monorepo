@@ -1,39 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.ObjectType('UserActivityCountAggregate', {
-  isAbstract: true,
+@TypeGraphQL.ObjectType("UserActivityCountAggregate", {
+  isAbstract: true
 })
 export class UserActivityCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   createdAt!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   updatedAt!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   user_id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   activity_type_id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   _all!: number;
 }

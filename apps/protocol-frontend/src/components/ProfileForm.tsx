@@ -13,6 +13,7 @@ import { ValidationError } from 'yup';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
+const BACKEND_ADDR = `${import.meta.env.VITE_PROTOCOL_BASE_URL}`;
 
 const ProfileForm = () => {
   const { userData, updateProfile, updateLinearEmail, disconnectLinear } =
@@ -36,7 +37,7 @@ const ProfileForm = () => {
   }, [userData]);
 
   const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (
-    values: ProfileFormValues
+    values: ProfileFormValues,
   ) => {
     updateProfile(values);
   };
@@ -45,13 +46,19 @@ const ProfileForm = () => {
     updateLinearEmail(values);
   };
 
-  const handleLinearOauth = () => {
+  const handleLinearOauth = async () => {
     const params = new URLSearchParams();
+    const res = await fetch(`${BACKEND_ADDR}/linear_nonce`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const state = await res.text();
+
     params.append('client_id', LINEAR_CLIENT_ID);
     params.append('redirect_uri', LINEAR_REDIRECT_URI);
     params.append('response_type', 'code');
     params.append('scope', 'read');
-    params.append('state', ''); // generate string to prevent crsf attack
+    params.append('state', state); // generate string to prevent crsf attack
     params.append('prompt', 'consent');
     window.location.href = `https://linear.app/oauth/authorize?${params.toString()}`;
   };

@@ -1,1 +1,1 @@
-export { ContributionStatusContributionsArgs } from './ContributionStatusContributionsArgs';
+export { ContributionStatusContributionsArgs } from "./ContributionStatusContributionsArgs";

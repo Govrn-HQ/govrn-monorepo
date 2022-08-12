@@ -17,7 +17,12 @@ const PageHeading: React.FC<PageHeadingProps> = ({
       paddingBottom={4}
       paddingX={{ base: 4, lg: 0 }}
     >
-      <Heading color="gray.800" fontWeight="normal" {...props}>
+      <Heading
+        color="gray.800"
+        fontWeight="normal"
+        {...props}
+        fontSize={props.fontSize ?? props.fontSize}
+      >
         {children}
       </Heading>
     </Stack>

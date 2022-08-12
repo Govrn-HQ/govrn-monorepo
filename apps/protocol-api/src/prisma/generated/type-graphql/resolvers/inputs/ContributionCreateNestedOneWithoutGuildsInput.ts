@@ -1,27 +1,27 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { ContributionCreateOrConnectWithoutGuildsInput } from '../inputs/ContributionCreateOrConnectWithoutGuildsInput';
-import { ContributionCreateWithoutGuildsInput } from '../inputs/ContributionCreateWithoutGuildsInput';
-import { ContributionWhereUniqueInput } from '../inputs/ContributionWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { ContributionCreateOrConnectWithoutGuildsInput } from "../inputs/ContributionCreateOrConnectWithoutGuildsInput";
+import { ContributionCreateWithoutGuildsInput } from "../inputs/ContributionCreateWithoutGuildsInput";
+import { ContributionWhereUniqueInput } from "../inputs/ContributionWhereUniqueInput";
 
-@TypeGraphQL.InputType('ContributionCreateNestedOneWithoutGuildsInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("ContributionCreateNestedOneWithoutGuildsInput", {
+  isAbstract: true
 })
 export class ContributionCreateNestedOneWithoutGuildsInput {
   @TypeGraphQL.Field(_type => ContributionCreateWithoutGuildsInput, {
-    nullable: true,
+    nullable: true
   })
   create?: ContributionCreateWithoutGuildsInput | undefined;
 
   @TypeGraphQL.Field(_type => ContributionCreateOrConnectWithoutGuildsInput, {
-    nullable: true,
+    nullable: true
   })
   connectOrCreate?: ContributionCreateOrConnectWithoutGuildsInput | undefined;
 
   @TypeGraphQL.Field(_type => ContributionWhereUniqueInput, {
-    nullable: true,
+    nullable: true
   })
   connect?: ContributionWhereUniqueInput | undefined;
 }

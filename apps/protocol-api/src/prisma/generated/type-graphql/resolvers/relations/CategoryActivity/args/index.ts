@@ -1,1 +1,1 @@
-export { CategoryActivityActivityTypesArgs } from './CategoryActivityActivityTypesArgs';
+export { CategoryActivityActivityTypesArgs } from "./CategoryActivityActivityTypesArgs";

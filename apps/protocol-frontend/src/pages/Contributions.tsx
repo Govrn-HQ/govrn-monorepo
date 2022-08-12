@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
-import { useWallet } from '@raidguild/quiver';
+import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
@@ -23,7 +23,7 @@ const UserView = () => {
 };
 
 const Contributions = () => {
-  const { isConnected } = useWallet();
+  const { isConnected } = useAccount();
   const { userData } = useUser();
   const { isAuthenticated } = useAuth();
 

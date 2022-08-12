@@ -6,9 +6,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { BulkDaoAttributeFormValues } from '../types/forms';
+import { UIContribution } from '@govrn/ui-types';
 
 interface BulkDaoAttributeModalProps {
-  contributions: any;
+  contributions: UIContribution[];
   onClose?: () => void;
 }
 

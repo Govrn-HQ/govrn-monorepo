@@ -22,7 +22,7 @@ const IndeterminateCheckbox = forwardRef<IndeterminateCheckboxProps, 'input'>(
     const resolvedRef = defaultRef;
 
     useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
+      resolvedRef.current!.indeterminate = indeterminate;
     }, [resolvedRef, indeterminate]);
 
     return <input type="checkbox" ref={resolvedRef} {...rest} />;

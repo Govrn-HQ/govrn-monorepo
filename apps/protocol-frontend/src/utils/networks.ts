@@ -21,7 +21,7 @@ type Network = {
 };
 
 export const networks: { [key: string]: Network } = {
-  '0x4': {
+  4: {
     chainId: '0x4',
     chainNumber: 4,
     name: 'Rinkeby',
@@ -30,7 +30,7 @@ export const networks: { [key: string]: Network } = {
     rpc: 'https://eth-rinkeby.alchemyapi.io/v2/n0NXRSZ9olpkJUPDLBC00Es75jaqysyT',
     govrnContract: '0xEAd3f8f7Ff86ad09939c39421F374A4b7Ba14204',
   },
-  '0x5': {
+  5: {
     chainId: '0x5',
     chainNumber: 5,
     name: 'Goerli',
@@ -39,7 +39,7 @@ export const networks: { [key: string]: Network } = {
     rpc: 'https://goerli.infura.io/v3/a8e70ebbf06e4ab8b7f020e3abe204ec',
     govrnContract: '0x44fa8E6588e7a9ad869837d09621Cc663539D753',
   },
-  '0x64': {
+  100: {
     chainId: '0x64',
     chainNumber: 100,
     name: 'Gnosis Chain',
@@ -48,7 +48,7 @@ export const networks: { [key: string]: Network } = {
     rpc: 'https://rpc.gnosischain.com/',
     govrnContract: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1',
   },
-  '0x539': {
+  31337: {
     chainId: '0x539',
     chainNumber: 31337,
     name: 'Localhost',
