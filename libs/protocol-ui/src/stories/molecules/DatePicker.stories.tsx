@@ -1,21 +1,25 @@
 import React from 'react';
 import { Story } from '@storybook/react';
+import { useForm } from 'react-hook-form';
 import { DatePicker, DatePickerProps } from '../..';
 
 export default {
-    title: 'Components/Molecules/DatePciker',
-    component: DatePicker,
-  
-}
+  title: 'Components/Molecules/DatePicker',
+  component: DatePicker,
+};
 
-const Template: Story<DatePickerProps> = (args) => <DatePicker {...args} />;
+const localForm = useForm();
 
+const Template: Story<DatePickerProps> = args => (
+  <DatePicker {...args} localForm={localForm} />
+);
 
-export const Default = Template.bind({});
+const Default = Template.bind({});
 
 Default.args = {
-    name: 'name',
-    label: 'label of datepicker',
-    localForm: {control: {type: 'text'}, formState: { errors: {} } },
-    
+  name: 'name',
+  label: 'label of datepicker',
+  localForm: { control: { type: 'text' }, formState: { errors: {} } },
 };
+
+export { Default, WithTip };
