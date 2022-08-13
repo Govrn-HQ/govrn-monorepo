@@ -16,6 +16,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "strictNullChecks": true,
+    "noImplicitThis": true,
+    "strictPropertyInitialization": true,
     // "strict": true,
     "types": ["vite/client", "@nxext/react/client"]
   },
