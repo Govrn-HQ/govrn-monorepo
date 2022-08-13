@@ -37,10 +37,10 @@ const ContributionsTableShell = () => {
       setSelectedContributionsMap(
         selectedContributions?.map((contribution: any) =>
           userContributions.find(
-            (localContribution) =>
-              contribution.original.id === localContribution.id
-          )
-        )
+            localContribution =>
+              contribution.original.id === localContribution.id,
+          ),
+        ),
       );
     }
   }, [selectedContributions]);
