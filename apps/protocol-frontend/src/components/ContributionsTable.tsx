@@ -118,11 +118,9 @@ const ContributionsTable = ({
         accessor: 'name',
         Cell: ({ value, row }: { value: string; row }) => {
           return (
-            <>
-              <Link to={`/contributions/${row.original.id}`}>
-                <Text>{value}</Text>
-              </Link>
-            </>
+            <Link to={`/contributions/${row.original.id}`}>
+              <Text>{value}</Text>
+            </Link>
           );
         },
       },
@@ -234,7 +232,9 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
-                  onClick={() => handleDeleteContribution(row.original.id)}
+                  onClick={() =>
+                    handleDeleteContribution(row.original.id.toString())
+                  }
                 />
               </HStack>
             )}
