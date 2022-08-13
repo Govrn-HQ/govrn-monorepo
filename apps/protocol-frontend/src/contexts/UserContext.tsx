@@ -52,7 +52,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
   const [contribution, setContribution] = useState<UIContribution>(
-    {} as UIContribution
+    {} as UIContribution,
   );
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     [],
@@ -107,10 +107,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         const formattedResponse = {
           ...contributionResponse,
           date_of_engagement: formatDate(
-            contributionResponse.date_of_engagement
+            contributionResponse.date_of_engagement,
           ),
           date_of_submission: formatDate(
-            contributionResponse.date_of_submission
+            contributionResponse.date_of_submission,
           ),
         };
         setContribution(formattedResponse);
@@ -123,6 +123,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserContributions = async () => {
     try {
+      if (!userData?.id) {
+        throw new Error('getUserContributions has no userData.id');
+      }
       const userContributionsResponse = await govrn.contribution.list({
         where: {
           user_id: { equals: userData?.id },
@@ -163,9 +166,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserAttestations = async () => {
     try {
+      if (!userData?.id) {
+        throw new Error('getUserActivityTypes has no userData.id');
+      }
       const userAttestationsResponse = await govrn.attestation.list({
         where: {
-          user_id: { equals: userAddress?.id },
+          user_id: { equals: userData?.id },
         },
         first: 1000,
       });
@@ -178,11 +184,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserActivityTypes = async () => {
     try {
+      if (!userData?.id) {
+        throw new Error('getUserActivityTypes has no userData.id');
+      }
       const userActivityTypesResponse = await govrn.activity_type.list({
         where: {
           users: {
             every: {
-              user_id: { equals: userAddress?.id },
+              user_id: { equals: userData?.id },
             },
           },
         },
