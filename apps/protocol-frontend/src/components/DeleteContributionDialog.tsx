@@ -22,6 +22,7 @@ const  DeleteContributionDialog = (props: any) => {
     
     const { deleteContribution } = useUser();
 
+
     const DeleteContribution = async (contribution_id: number) => { 
       const y = await deleteContribution(contribution_id);
       
