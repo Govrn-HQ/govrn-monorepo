@@ -22,7 +22,7 @@ const  DeleteContributionDialog = (props: any) => {
     
     const { deleteContribution } = useUser();
 
-    const DeleteContribution = async (contribution_id: string) => { 
+    const DeleteContribution = async (contribution_id: number) => { 
       const y = await deleteContribution(contribution_id);
       
     };
@@ -32,7 +32,7 @@ const  DeleteContributionDialog = (props: any) => {
         setDialog({ ...dialog, 
           isOpen: false,
          })
-        DeleteContribution(contribution_id)
+        DeleteContribution(Number(contribution_id))
       }
     }
    
