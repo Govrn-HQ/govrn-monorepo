@@ -36,6 +36,7 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
+import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
 type ContributionTableType = Omit<UIContribution, 'tx_hash'> & {
@@ -58,6 +59,34 @@ const ContributionsTable = ({
   const handleEditContributionFormModal = (id: number) => {
     setSelectedContribution(id);
     setModals({ editContributionFormModal: true });
+  };
+
+  type DialogProps = {
+    isOpen: boolean;
+    title: string;
+    onConfirm: boolean;
+    contribution_id: string;
+  };
+
+  const [dialog, setDialog] = useState<DialogProps>({
+    isOpen: false,
+    title: '',
+    onConfirm: false,
+    contribution_id: '',
+  });
+
+  useEffect(() => {
+    setDialog(dialog);
+  }, [dialog]);
+
+  const handleDeleteContribution = (contribution_id: string) => {
+    setDialog({
+      ...dialog,
+      isOpen: true, //this opens AlertDialog
+      title:
+        "Are you sure you want to delete this Contribution? You can't undo this action.",
+      contribution_id: contribution_id,
+    });
   };
 
   const data = useMemo(
@@ -89,11 +118,9 @@ const ContributionsTable = ({
         accessor: 'name',
         Cell: ({ value, row }: { value: string; row }) => {
           return (
-            <>
-              <Link to={`/contributions/${row.original.id}`}>
-                <Text>{value}</Text>
-              </Link>
-            </>
+            <Link to={`/contributions/${row.original.id}`}>
+              <Text>{value}</Text>
+            </Link>
           );
         },
       },
@@ -205,6 +232,9 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
+                  onClick={() =>
+                    handleDeleteContribution(row.original.id.toString())
+                  }
                 />
               </HStack>
             )}
@@ -302,6 +332,7 @@ const ContributionsTable = ({
             />
           }
         />
+        <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
       </Box>
     </Stack>
   );

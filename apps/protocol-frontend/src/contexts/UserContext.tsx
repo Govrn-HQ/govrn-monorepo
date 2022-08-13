@@ -68,7 +68,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     setUserAddress(address);
+    // const x = async (idx) => { 
+    //     const y = await deleteContribution(idx)
+    // }
+
+    //x(idx)
   }, [isConnected, address, userAddress]);
+  
 
   const getUser = async () => {
     try {
@@ -723,6 +729,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserData,
         setUserDataByAddress,
         updateContribution,
+        deleteContribution,
         updateLinearEmail,
         updateProfile,
         userActivityTypes,
@@ -760,6 +767,7 @@ type UserContextType = {
   setUserData: any;
   setUserDataByAddress: any;
   updateContribution: any;
+  deleteContribution: any;
   updateLinearEmail: any;
   updateProfile: any;
   userActivityTypes: UIActivityType[];
