@@ -194,7 +194,7 @@ export class DeleteUserContributionArgs {
 }
 
 @TypeGraphQL.InputType('GetUserContributionCountInput')
-export class GetContributionCountForUserInDateRange {
+export class GetContributionCountForUser {
   @TypeGraphQL.Field(_type => Number)
   id: number;
 
@@ -203,14 +203,17 @@ export class GetContributionCountForUserInDateRange {
 
   @TypeGraphQL.Field(_type => Date)
   end_date: Date;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  guild_id?: number;
 }
 
 @TypeGraphQL.ArgsType()
 export class GetUserContributionCountArgs {
-  @TypeGraphQL.Field(_type => GetContributionCountForUserInDateRange, {
+  @TypeGraphQL.Field(_type => GetContributionCountForUser, {
     nullable: false,
   })
-  where!: GetContributionCountForUserInDateRange;
+  where!: GetContributionCountForUser;
 }
 
 @TypeGraphQL.ObjectType()
@@ -518,14 +521,32 @@ export class ContributionCustomResolver {
     const start = args.where.start_date;
     const end = args.where.end_date;
 
+    // guild_id is only present on the guild contribution table
+    // need to run a join between contribution + guild contribution if guild_id
+    // is supplied
+    const guild_id = args.where.guild_id;
+
+    if (!guild_id) {
+      const result = await prisma.$queryRaw<ContributionCountByDate>`
+        SELECT date(date_of_engagement), count(date_of_engagement) as count
+        FROM "Contribution"
+        WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}
+        AND "Contribution"."user_id" = ${user_id})
+        GROUP BY date(date_of_engagement)
+        ORDER BY date(date_of_engagement);`;
+      return result;
+    }
+
     const result = await prisma.$queryRaw<ContributionCountByDate>`
       SELECT date(date_of_engagement), count(date_of_engagement) as count
       FROM "Contribution"
+      INNER JOIN "GuildContribution"
+      ON "Contribution"."id" = "GuildContribution"."contribution_id"
       WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}
-      AND "Contribution"."user_id" = ${user_id})
+      AND "Contribution"."user_id" = ${user_id} 
+      AND "GuildContribution"."guild_id" = ${guild_id})
       GROUP BY date(date_of_engagement)
       ORDER BY date(date_of_engagement);`;
-
     return result;
   }
 }

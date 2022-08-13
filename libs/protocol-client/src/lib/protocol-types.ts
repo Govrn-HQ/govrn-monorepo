@@ -3781,6 +3781,7 @@ export type FloatNullableWithAggregatesFilter = {
 
 export type GetUserContributionCountInput = {
   end_date: Scalars['DateTime'];
+  guild_id?: InputMaybe<Scalars['Float']>;
   id: Scalars['Float'];
   start_date: Scalars['DateTime'];
 };
