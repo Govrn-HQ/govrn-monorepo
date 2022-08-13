@@ -16,6 +16,7 @@ export const OverlayContextProvider: React.FC<OverlayProviderProps> = ({
     bulkAttestationModal: false,
     bulkDaoAttributeModal: false,
     mintModal: false,
+    storybookModal: false,
   });
 
   return (
