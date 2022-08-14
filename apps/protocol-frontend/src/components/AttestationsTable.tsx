@@ -30,21 +30,20 @@ import { UIContribution } from '@govrn/ui-types';
 type AttestationTableType = {
   id: number;
   status: string;
-  contributor?: string;
-  date_of_submission: Date;
-  date_of_engagement: Date;
+  contributor?: string | null;
+  date_of_submission: string | Date;
+  date_of_engagement: string | Date;
   attestations?: {
-    attestation: {
-      id: number;
-    };
-  };
+    id: number;
+  }[];
   guilds?: {
-    name: string;
-  };
+    guild: {
+      name?: string | null;
+    };
+  }[];
   action?: ReactNode;
   name: string;
-  attestationDate: null;
-  onChainId?: number;
+  onChainId?: number | null;
 };
 
 const AttestationsTable = ({
@@ -57,32 +56,31 @@ const AttestationsTable = ({
   const { userData } = useUser();
 
   const nonUserContributions = _.filter(contributionsData, function (a) {
-    return a.user.id !== userData.id;
+    return a.user.id !== userData?.id;
   });
 
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
-    return a.attestations?.every(b => b.user_id !== userData.id) ?? false;
+    return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
   });
 
-  const data = useMemo(
+  const data = useMemo<AttestationTableType[]>(
     () =>
       unattestedContributions.map(contribution => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
-        attestations: contribution.attestations || null,
-        guilds: contribution.attestations || null,
+        attestations: contribution.attestations,
+        guilds: contribution.guilds,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
-        attestationDate: null,
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
       })),
     [contributionsData],
   );
 
-  const columns = useMemo(
+  const columns = useMemo<Column<AttestationTableType>[]>(
     () => [
       {
         Header: 'Name',

@@ -19,6 +19,7 @@ import {
 import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
 import {
+  Column,
   Row,
   useFilters,
   useGlobalFilter,
@@ -39,8 +40,27 @@ import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 
-type ContributionTableType = Omit<UIContribution, 'tx_hash'> & {
-  txHash: string;
+type ContributionTableType = {
+  name: string;
+  txHash?: string | null;
+  id: number;
+  details?: string | null;
+  proof?: string | null;
+  date_of_submission: Date | string;
+  engagementDate: Date | string;
+  attestations: {
+    id: number;
+  }[];
+  user: {
+    id: number;
+  };
+  activityTypeId: number;
+  status: {
+    id: number;
+    name: string;
+  };
+  action: string;
+  guildName: string;
 };
 
 const ContributionsTable = ({
@@ -89,9 +109,10 @@ const ContributionsTable = ({
     });
   };
 
-  const data = useMemo(
-    () =>
-      contributionsData.map(contribution => ({
+  const data = useMemo<ContributionTableType[]>(() => {
+    const tableData = [] as ContributionTableType[];
+    for (const contribution of contributionsData) {
+      tableData.push({
         name: contribution.name,
         txHash: contribution.tx_hash,
         id: contribution.id,
@@ -107,11 +128,12 @@ const ContributionsTable = ({
         guildName:
           contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
           '---',
-      })),
-    [contributionsData],
-  );
+      });
+    }
+    return tableData;
+  }, [contributionsData]);
 
-  const columns = useMemo(
+  const columns = useMemo<Column<ContributionTableType>[]>(
     () => [
       {
         Header: 'Name',
