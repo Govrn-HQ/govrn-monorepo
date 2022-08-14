@@ -68,7 +68,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     setUserAddress(address);
+    // const x = async (idx) => { 
+    //     const y = await deleteContribution(idx)
+    // }
+
+    //x(idx)
   }, [isConnected, address, userAddress]);
+  
 
   const getUser = async () => {
     try {
@@ -123,6 +129,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserContributions = async () => {
     try {
+      if (!userData?.id) {
+        throw new Error('getUserContributions has no userData.id');
+      }
       const userContributionsResponse = await govrn.contribution.list({
         where: {
           user_id: { equals: userData?.id },
@@ -163,9 +172,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserAttestations = async () => {
     try {
+      if (!userData?.id) {
+        throw new Error('getUserActivityTypes has no userData.id');
+      }
       const userAttestationsResponse = await govrn.attestation.list({
         where: {
-          user_id: { equals: userAddress?.id },
+          user_id: { equals: userData?.id },
         },
         first: 1000,
       });
@@ -178,11 +190,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const getUserActivityTypes = async () => {
     try {
+      if (!userData?.id) {
+        throw new Error('getUserActivityTypes has no userData.id');
+      }
       const userActivityTypesResponse = await govrn.activity_type.list({
         where: {
           users: {
             every: {
-              user_id: { equals: userAddress?.id },
+              user_id: { equals: userData?.id },
             },
           },
         },
@@ -714,6 +729,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserData,
         setUserDataByAddress,
         updateContribution,
+        deleteContribution,
         updateLinearEmail,
         updateProfile,
         userActivityTypes,
@@ -751,6 +767,7 @@ type UserContextType = {
   setUserData: any;
   setUserDataByAddress: any;
   updateContribution: any;
+  deleteContribution: any;
   updateLinearEmail: any;
   updateProfile: any;
   userActivityTypes: UIActivityType[];
