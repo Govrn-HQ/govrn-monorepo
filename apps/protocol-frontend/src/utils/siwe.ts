@@ -252,6 +252,19 @@ export class SiweMessage {
    * @param param {string | SiweMessage} Sign message as a string or an object.
    */
   constructor(param: string | Partial<SiweMessage>) {
+    this.domain = '';
+    this.address = '';
+    this.statement = '';
+    this.uri = '';
+    this.version = '';
+    this.nonce = '';
+    this.issuedAt = '';
+    this.expirationTime = '';
+    this.notBefore = '';
+    this.requestId = '';
+    this.chainId = 0;
+    this.resources = undefined;
+
     if (typeof param === 'string') {
       const parsedMessage = new ParsedMessage(param);
       this.domain = parsedMessage.domain;
@@ -272,7 +285,6 @@ export class SiweMessage {
         this.chainId = parseInt(this.chainId);
       }
     }
-    console.log(this.nonce);
     this.nonce = this.nonce || generateNonce();
     this.validateMessage();
   }

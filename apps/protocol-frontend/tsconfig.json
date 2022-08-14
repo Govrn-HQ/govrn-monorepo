@@ -17,6 +17,8 @@
     "jsx": "react-jsx",
     "strictNullChecks": true,
     "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
     "strictPropertyInitialization": true,
     // "strict": true,
     "types": ["vite/client", "@nxext/react/client"]
