@@ -1,159 +1,159 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.InputType('LinearIssueCreateManyAssigneeInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("LinearIssueCreateManyAssigneeInput", {
+  isAbstract: true
 })
 export class LinearIssueCreateManyAssigneeInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   id?: number | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   archivedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   autoArchivedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   autoClosedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   boardOrder?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true,
+    nullable: true
   })
   branchName?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   canceledAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   completedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   customerTickerCount?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true,
+    nullable: true
   })
   description?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   dueDate?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true,
+    nullable: true
   })
   estimate?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true,
+    nullable: true
   })
   linear_id?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true,
+    nullable: true
   })
   identifier?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   priority?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true,
+    nullable: true
   })
   priorityLabel?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   snoozedUntilAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true,
+    nullable: true
   })
   sortOrder?: number | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   startedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true,
+    nullable: true
   })
   subIssueSortOrder?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true,
+    nullable: true
   })
   title?: string | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true,
+    nullable: true
   })
   trashed?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true,
+    nullable: true
   })
   url?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   creator_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   cycle_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   project_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   team_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   contribution_id?: number | undefined;
 }

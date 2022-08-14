@@ -1,55 +1,55 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { SortOrder } from '../../enums/SortOrder';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType('GuildMinOrderByAggregateInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("GuildMinOrderByAggregateInput", {
+  isAbstract: true
 })
 export class GuildMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  id?: 'asc' | 'desc' | undefined;
+  id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  createdAt?: 'asc' | 'desc' | undefined;
+  createdAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  updatedAt?: 'asc' | 'desc' | undefined;
+  updatedAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  discord_id?: 'asc' | 'desc' | undefined;
+  discord_id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  name?: 'asc' | 'desc' | undefined;
+  name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  congrats_channel?: 'asc' | 'desc' | undefined;
+  congrats_channel?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  logo?: 'asc' | 'desc' | undefined;
+  logo?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  contribution_reporting_channel?: 'asc' | 'desc' | undefined;
+  contribution_reporting_channel?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  status?: 'asc' | 'desc' | undefined;
+  status?: "asc" | "desc" | undefined;
 }

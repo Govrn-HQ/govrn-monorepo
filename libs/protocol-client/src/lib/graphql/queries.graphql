@@ -37,7 +37,12 @@ query listLinearIssues(
   $first: Int! = 10
   $orderBy: [LinearIssueOrderByWithRelationInput!]
 ) {
-  result: linearIssues(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+  result: linearIssues(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
     ...LinearIssueFragment
   }
 }
@@ -71,11 +76,15 @@ query listLinearUsers(
   $first: Int! = 10
   $orderBy: [LinearUserOrderByWithRelationInput!]
 ) {
-  result: linearUsers(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+  result: linearUsers(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
     ...LinearUserFragment
   }
 }
-
 
 mutation upsertLinearUser(
   $create: LinearUserCreateInput!
@@ -376,6 +385,11 @@ fragment ContributionFragment on Contribution {
     id
     user_id
     date_of_attestation
+    user {
+      name
+      address
+      id
+    }
   }
   guilds {
     guild {
@@ -409,7 +423,9 @@ query listContributions(
   }
 }
 
-query getContributionCountByDateForUserInRange($where: GetUserContributionCountInput!) {
+query getContributionCountByDateForUserInRange(
+  $where: GetUserContributionCountInput!
+) {
   result: getContributionCountByDateForUserInRange(where: $where) {
     count
     date
@@ -476,7 +492,7 @@ mutation updateContribution(
 
 # Contribution Status
 query getContributionStatus($name: String!) {
-  contributionStatuses(where: {name: {equals: $name}}) {
+  contributionStatuses(where: { name: { equals: $name } }) {
     id
     name
   }
@@ -522,8 +538,6 @@ mutation upsertActivityType(
     ...ActivityTypeFragment
   }
 }
-
-
 
 # UserActivity type queries
 fragment UserActivityFragment on UserActivity {

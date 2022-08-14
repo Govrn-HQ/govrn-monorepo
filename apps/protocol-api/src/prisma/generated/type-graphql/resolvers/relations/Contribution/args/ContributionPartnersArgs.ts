@@ -1,41 +1,39 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { PartnerOrderByWithRelationInput } from '../../../inputs/PartnerOrderByWithRelationInput';
-import { PartnerWhereInput } from '../../../inputs/PartnerWhereInput';
-import { PartnerWhereUniqueInput } from '../../../inputs/PartnerWhereUniqueInput';
-import { PartnerScalarFieldEnum } from '../../../../enums/PartnerScalarFieldEnum';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { PartnerOrderByWithRelationInput } from "../../../inputs/PartnerOrderByWithRelationInput";
+import { PartnerWhereInput } from "../../../inputs/PartnerWhereInput";
+import { PartnerWhereUniqueInput } from "../../../inputs/PartnerWhereUniqueInput";
+import { PartnerScalarFieldEnum } from "../../../../enums/PartnerScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class ContributionPartnersArgs {
   @TypeGraphQL.Field(_type => PartnerWhereInput, {
-    nullable: true,
+    nullable: true
   })
   where?: PartnerWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => [PartnerOrderByWithRelationInput], {
-    nullable: true,
+    nullable: true
   })
   orderBy?: PartnerOrderByWithRelationInput[] | undefined;
 
   @TypeGraphQL.Field(_type => PartnerWhereUniqueInput, {
-    nullable: true,
+    nullable: true
   })
   cursor?: PartnerWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
+    nullable: true
   })
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [PartnerScalarFieldEnum], {
-    nullable: true,
+    nullable: true
   })
-  distinct?:
-    | Array<'id' | 'createdAt' | 'updatedAt' | 'user_id' | 'contribution_id'>
-    | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "user_id" | "contribution_id"> | undefined;
 }

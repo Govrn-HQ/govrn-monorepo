@@ -1,17 +1,17 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { DiscordUserUpdateInput } from '../../../inputs/DiscordUserUpdateInput';
-import { DiscordUserWhereUniqueInput } from '../../../inputs/DiscordUserWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { DiscordUserUpdateInput } from "../../../inputs/DiscordUserUpdateInput";
+import { DiscordUserWhereUniqueInput } from "../../../inputs/DiscordUserWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
 export class UpdateDiscordUserArgs {
   @TypeGraphQL.Field(_type => DiscordUserUpdateInput, {
-    nullable: false,
+    nullable: false
   })
   data!: DiscordUserUpdateInput;
 
   @TypeGraphQL.Field(_type => DiscordUserWhereUniqueInput, {
-    nullable: false,
+    nullable: false
   })
   where!: DiscordUserWhereUniqueInput;
 }

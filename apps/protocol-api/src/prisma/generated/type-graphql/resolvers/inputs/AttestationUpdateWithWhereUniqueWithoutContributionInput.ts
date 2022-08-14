@@ -1,24 +1,21 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { AttestationUpdateWithoutContributionInput } from '../inputs/AttestationUpdateWithoutContributionInput';
-import { AttestationWhereUniqueInput } from '../inputs/AttestationWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { AttestationUpdateWithoutContributionInput } from "../inputs/AttestationUpdateWithoutContributionInput";
+import { AttestationWhereUniqueInput } from "../inputs/AttestationWhereUniqueInput";
 
-@TypeGraphQL.InputType(
-  'AttestationUpdateWithWhereUniqueWithoutContributionInput',
-  {
-    isAbstract: true,
-  },
-)
+@TypeGraphQL.InputType("AttestationUpdateWithWhereUniqueWithoutContributionInput", {
+  isAbstract: true
+})
 export class AttestationUpdateWithWhereUniqueWithoutContributionInput {
   @TypeGraphQL.Field(_type => AttestationWhereUniqueInput, {
-    nullable: false,
+    nullable: false
   })
   where!: AttestationWhereUniqueInput;
 
   @TypeGraphQL.Field(_type => AttestationUpdateWithoutContributionInput, {
-    nullable: false,
+    nullable: false
   })
   data!: AttestationUpdateWithoutContributionInput;
 }

@@ -1,64 +1,64 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { GuildUserAvgAggregate } from '../outputs/GuildUserAvgAggregate';
-import { GuildUserCountAggregate } from '../outputs/GuildUserCountAggregate';
-import { GuildUserMaxAggregate } from '../outputs/GuildUserMaxAggregate';
-import { GuildUserMinAggregate } from '../outputs/GuildUserMinAggregate';
-import { GuildUserSumAggregate } from '../outputs/GuildUserSumAggregate';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { GuildUserAvgAggregate } from "../outputs/GuildUserAvgAggregate";
+import { GuildUserCountAggregate } from "../outputs/GuildUserCountAggregate";
+import { GuildUserMaxAggregate } from "../outputs/GuildUserMaxAggregate";
+import { GuildUserMinAggregate } from "../outputs/GuildUserMinAggregate";
+import { GuildUserSumAggregate } from "../outputs/GuildUserSumAggregate";
 
-@TypeGraphQL.ObjectType('GuildUserGroupBy', {
-  isAbstract: true,
+@TypeGraphQL.ObjectType("GuildUserGroupBy", {
+  isAbstract: true
 })
 export class GuildUserGroupBy {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   id!: number;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false,
+    nullable: false
   })
   createdAt!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false,
+    nullable: false
   })
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   user_id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false,
+    nullable: false
   })
   guild_id!: number;
 
   @TypeGraphQL.Field(_type => GuildUserCountAggregate, {
-    nullable: true,
+    nullable: true
   })
   _count!: GuildUserCountAggregate | null;
 
   @TypeGraphQL.Field(_type => GuildUserAvgAggregate, {
-    nullable: true,
+    nullable: true
   })
   _avg!: GuildUserAvgAggregate | null;
 
   @TypeGraphQL.Field(_type => GuildUserSumAggregate, {
-    nullable: true,
+    nullable: true
   })
   _sum!: GuildUserSumAggregate | null;
 
   @TypeGraphQL.Field(_type => GuildUserMinAggregate, {
-    nullable: true,
+    nullable: true
   })
   _min!: GuildUserMinAggregate | null;
 
   @TypeGraphQL.Field(_type => GuildUserMaxAggregate, {
-    nullable: true,
+    nullable: true
   })
   _max!: GuildUserMaxAggregate | null;
 }

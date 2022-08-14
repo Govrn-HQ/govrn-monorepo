@@ -1,23 +1,23 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { ContributionStatusCreateInput } from '../../../inputs/ContributionStatusCreateInput';
-import { ContributionStatusUpdateInput } from '../../../inputs/ContributionStatusUpdateInput';
-import { ContributionStatusWhereUniqueInput } from '../../../inputs/ContributionStatusWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { ContributionStatusCreateInput } from "../../../inputs/ContributionStatusCreateInput";
+import { ContributionStatusUpdateInput } from "../../../inputs/ContributionStatusUpdateInput";
+import { ContributionStatusWhereUniqueInput } from "../../../inputs/ContributionStatusWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
 export class UpsertContributionStatusArgs {
   @TypeGraphQL.Field(_type => ContributionStatusWhereUniqueInput, {
-    nullable: false,
+    nullable: false
   })
   where!: ContributionStatusWhereUniqueInput;
 
   @TypeGraphQL.Field(_type => ContributionStatusCreateInput, {
-    nullable: false,
+    nullable: false
   })
   create!: ContributionStatusCreateInput;
 
   @TypeGraphQL.Field(_type => ContributionStatusUpdateInput, {
-    nullable: false,
+    nullable: false
   })
   update!: ContributionStatusUpdateInput;
 }

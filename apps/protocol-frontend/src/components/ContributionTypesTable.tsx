@@ -55,7 +55,7 @@ const ContributionTypesTable = ({
       {
         Header: 'Activity Type',
         accessor: 'activityType',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: string }) => {
           return (
             <Box
               bgColor="blue.50"
@@ -71,7 +71,7 @@ const ContributionTypesTable = ({
       {
         Header: 'Total',
         accessor: 'total',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: number }) => {
           return (
             <Box
               bgColor="blue.50"

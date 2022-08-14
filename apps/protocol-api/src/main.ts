@@ -93,6 +93,7 @@ const permissions = shield(
       createUserCustom: or(hasToken, and(ownsData, isAuthenticated)),
       createUserOnChainAttestation: isAuthenticated,
       deleteContribution: or(ownsData, isAuthenticated),
+      deleteUserContribution: isAuthenticated,
       updateGuild: hasToken,
       updateUser: hasToken,
       updateUserContribution: and(ownsData, isAuthenticated),

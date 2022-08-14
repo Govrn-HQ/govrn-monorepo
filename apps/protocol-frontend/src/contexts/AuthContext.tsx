@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { useWallet } from '@raidguild/quiver';
+import { useAccount, useSignMessage, useNetwork } from 'wagmi';
 import { createSiweMessage } from '../utils/siwe';
 import { VERIFY_URL, SIWE_ACTIVE_URL } from '../utils/constants';
 
@@ -40,7 +40,9 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [checkExistingCreds, setCheckExistingCreds] = useState(false);
 
-  const { chainId, provider, isConnected, address } = useWallet();
+  const { isConnected, address } = useAccount();
+  const { signMessageAsync } = useSignMessage();
+  const { chain } = useNetwork();
   const checkAuthentication = async () => {
     setIsAuthenticating(true);
     try {
@@ -57,17 +59,18 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     }
   };
   const authenticateAddress = useCallback(async () => {
-    if (!chainId || !provider || !address) {
+    if (!chain?.id || !address) {
       return;
     }
     setIsAuthenticating(true);
     const message = await createSiweMessage(
       address,
       'Sign in with Ethereum to the app.',
-      chainId
+      chain?.id.toString(16),
     );
-    const signer = provider.getSigner();
-    const signature = await signer.signMessage(message);
+    const signature = await signMessageAsync({
+      message,
+    });
     try {
       await fetch(VERIFY_URL, {
         method: 'POST',
@@ -82,13 +85,13 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       console.error(e);
     }
     setIsAuthenticating(false);
-  }, [address, provider, chainId]);
+  }, [address, chain?.id]);
 
   const authFlow = useCallback(async () => {
     const existing = await checkAuthentication();
     setCheckExistingCreds(true);
     // non redirect route
-    const noRedirect = ['/'].find((el) => el === window.location.hash);
+    const noRedirect = ['/'].find(el => el === window.location.hash);
     if (noRedirect) {
       // redirect
       return true;
@@ -101,7 +104,7 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
   useEffect(() => {
     const unauthenticatedRoutes = ['#/linear'];
     const publicRoute = unauthenticatedRoutes.find(
-      (el) => el === window.location.hash
+      el => el === window.location.hash,
     );
     if (isConnected && !isAuthenticated && !publicRoute) {
       authFlow();

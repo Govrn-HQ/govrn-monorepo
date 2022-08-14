@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, ReactNode } from 'react';
 import * as _ from 'lodash';
 import {
   Box,
@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
+  Column,
   Row,
   useFilters,
   useGlobalFilter,
@@ -21,10 +22,30 @@ import {
   useSortBy,
   useTable,
 } from 'react-table';
-import { useUser } from '../contexts/UserContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
+import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
+
+type AttestationTableType = {
+  id: number;
+  status: string;
+  contributor?: string;
+  date_of_submission: Date;
+  date_of_engagement: Date;
+  attestations?: {
+    attestation: {
+      id: number;
+    };
+  };
+  guilds?: {
+    name: string;
+  };
+  action?: ReactNode;
+  name: string;
+  attestationDate: null;
+  onChainId?: number;
+};
 
 const AttestationsTable = ({
   contributionsData,
@@ -40,12 +61,12 @@ const AttestationsTable = ({
   });
 
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
-    return a.attestations?.every((b) => b.user_id !== userData.id) ?? false;
+    return a.attestations?.every(b => b.user_id !== userData.id) ?? false;
   });
 
   const data = useMemo(
     () =>
-      unattestedContributions.map((contribution) => ({
+      unattestedContributions.map(contribution => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
@@ -58,7 +79,7 @@ const AttestationsTable = ({
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
       })),
-    [contributionsData]
+    [contributionsData],
   );
 
   const columns = useMemo(
@@ -70,7 +91,7 @@ const AttestationsTable = ({
       {
         Header: 'Status',
         accessor: 'status',
-        Cell: ({ value }) => {
+        Cell: ({ value }: { value: string }) => {
           return (
             <Text textTransform="capitalize">
               {value}{' '}
@@ -86,24 +107,24 @@ const AttestationsTable = ({
       },
       {
         Header: 'Engagement Date',
-        accessor: 'engagementDate',
+        accessor: 'date_of_engagement',
       },
       {
         Header: 'Contributor',
         accessor: 'contributor',
       },
     ],
-    []
+    [],
   );
 
   const tableHooks = (hooks: { visibleColumns }) => {
-    hooks.visibleColumns.push((columns) => [
+    hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
-        Cell: ({ row }) => (
+        Cell: ({ row }: { row }) => (
           <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
         ),
       },
@@ -127,11 +148,11 @@ const AttestationsTable = ({
     useGlobalFilter,
     useSortBy,
     useRowSelect,
-    tableHooks
+    tableHooks,
   );
 
   useEffect(() => {
-    setSelectedContributions(selectedFlatRows.map((r) => r.original));
+    setSelectedContributions(selectedFlatRows.map(r => r.original));
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
@@ -168,11 +189,11 @@ const AttestationsTable = ({
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map(row => {
               prepareRow(row);
               return (
                 <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
+                  {row.cells.map(cell => (
                     <Td {...cell.getCellProps()} borderColor="gray.100">
                       {cell.render('Cell')}
                     </Td>

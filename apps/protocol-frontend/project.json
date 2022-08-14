@@ -77,7 +77,7 @@
       "executor": "@alexkeating/nx-skynet:deploy",
       "options": {
         "uploadDir": "dist/apps/protocol-frontend",
-        "registrySeedVarName": "PROTOCOL_FRONTEND_SKYNET_SEED",
+        "registrySeedVarName": "PROTOCOL_FRONTEND_SEED",
         "registryDataKey": "skylink.txt",
         "portalUrl": "https://skynetfree.net",
         "skynetApiKeyVarName": "SKYNET_API_KEY"

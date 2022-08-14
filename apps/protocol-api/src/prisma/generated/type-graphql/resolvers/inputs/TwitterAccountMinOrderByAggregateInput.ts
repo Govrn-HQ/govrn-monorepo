@@ -1,35 +1,35 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { SortOrder } from '../../enums/SortOrder';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType('TwitterAccountMinOrderByAggregateInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("TwitterAccountMinOrderByAggregateInput", {
+  isAbstract: true
 })
 export class TwitterAccountMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  id?: 'asc' | 'desc' | undefined;
+  id?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  createdAt?: 'asc' | 'desc' | undefined;
+  createdAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  updatedAt?: 'asc' | 'desc' | undefined;
+  updatedAt?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  account_name?: 'asc' | 'desc' | undefined;
+  account_name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true,
+    nullable: true
   })
-  guild_id?: 'asc' | 'desc' | undefined;
+  guild_id?: "asc" | "desc" | undefined;
 }

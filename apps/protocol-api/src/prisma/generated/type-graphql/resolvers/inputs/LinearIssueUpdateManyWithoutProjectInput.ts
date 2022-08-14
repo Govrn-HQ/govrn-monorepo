@@ -1,81 +1,72 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { LinearIssueCreateManyProjectInputEnvelope } from '../inputs/LinearIssueCreateManyProjectInputEnvelope';
-import { LinearIssueCreateOrConnectWithoutProjectInput } from '../inputs/LinearIssueCreateOrConnectWithoutProjectInput';
-import { LinearIssueCreateWithoutProjectInput } from '../inputs/LinearIssueCreateWithoutProjectInput';
-import { LinearIssueScalarWhereInput } from '../inputs/LinearIssueScalarWhereInput';
-import { LinearIssueUpdateManyWithWhereWithoutProjectInput } from '../inputs/LinearIssueUpdateManyWithWhereWithoutProjectInput';
-import { LinearIssueUpdateWithWhereUniqueWithoutProjectInput } from '../inputs/LinearIssueUpdateWithWhereUniqueWithoutProjectInput';
-import { LinearIssueUpsertWithWhereUniqueWithoutProjectInput } from '../inputs/LinearIssueUpsertWithWhereUniqueWithoutProjectInput';
-import { LinearIssueWhereUniqueInput } from '../inputs/LinearIssueWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { LinearIssueCreateManyProjectInputEnvelope } from "../inputs/LinearIssueCreateManyProjectInputEnvelope";
+import { LinearIssueCreateOrConnectWithoutProjectInput } from "../inputs/LinearIssueCreateOrConnectWithoutProjectInput";
+import { LinearIssueCreateWithoutProjectInput } from "../inputs/LinearIssueCreateWithoutProjectInput";
+import { LinearIssueScalarWhereInput } from "../inputs/LinearIssueScalarWhereInput";
+import { LinearIssueUpdateManyWithWhereWithoutProjectInput } from "../inputs/LinearIssueUpdateManyWithWhereWithoutProjectInput";
+import { LinearIssueUpdateWithWhereUniqueWithoutProjectInput } from "../inputs/LinearIssueUpdateWithWhereUniqueWithoutProjectInput";
+import { LinearIssueUpsertWithWhereUniqueWithoutProjectInput } from "../inputs/LinearIssueUpsertWithWhereUniqueWithoutProjectInput";
+import { LinearIssueWhereUniqueInput } from "../inputs/LinearIssueWhereUniqueInput";
 
-@TypeGraphQL.InputType('LinearIssueUpdateManyWithoutProjectInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("LinearIssueUpdateManyWithoutProjectInput", {
+  isAbstract: true
 })
 export class LinearIssueUpdateManyWithoutProjectInput {
   @TypeGraphQL.Field(_type => [LinearIssueCreateWithoutProjectInput], {
-    nullable: true,
+    nullable: true
   })
   create?: LinearIssueCreateWithoutProjectInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueCreateOrConnectWithoutProjectInput], {
-    nullable: true,
+    nullable: true
   })
   connectOrCreate?: LinearIssueCreateOrConnectWithoutProjectInput[] | undefined;
 
-  @TypeGraphQL.Field(
-    _type => [LinearIssueUpsertWithWhereUniqueWithoutProjectInput],
-    {
-      nullable: true,
-    },
-  )
+  @TypeGraphQL.Field(_type => [LinearIssueUpsertWithWhereUniqueWithoutProjectInput], {
+    nullable: true
+  })
   upsert?: LinearIssueUpsertWithWhereUniqueWithoutProjectInput[] | undefined;
 
   @TypeGraphQL.Field(_type => LinearIssueCreateManyProjectInputEnvelope, {
-    nullable: true,
+    nullable: true
   })
   createMany?: LinearIssueCreateManyProjectInputEnvelope | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereUniqueInput], {
-    nullable: true,
+    nullable: true
   })
   set?: LinearIssueWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereUniqueInput], {
-    nullable: true,
+    nullable: true
   })
   disconnect?: LinearIssueWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereUniqueInput], {
-    nullable: true,
+    nullable: true
   })
   delete?: LinearIssueWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereUniqueInput], {
-    nullable: true,
+    nullable: true
   })
   connect?: LinearIssueWhereUniqueInput[] | undefined;
 
-  @TypeGraphQL.Field(
-    _type => [LinearIssueUpdateWithWhereUniqueWithoutProjectInput],
-    {
-      nullable: true,
-    },
-  )
+  @TypeGraphQL.Field(_type => [LinearIssueUpdateWithWhereUniqueWithoutProjectInput], {
+    nullable: true
+  })
   update?: LinearIssueUpdateWithWhereUniqueWithoutProjectInput[] | undefined;
 
-  @TypeGraphQL.Field(
-    _type => [LinearIssueUpdateManyWithWhereWithoutProjectInput],
-    {
-      nullable: true,
-    },
-  )
+  @TypeGraphQL.Field(_type => [LinearIssueUpdateManyWithWhereWithoutProjectInput], {
+    nullable: true
+  })
   updateMany?: LinearIssueUpdateManyWithWhereWithoutProjectInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueScalarWhereInput], {
-    nullable: true,
+    nullable: true
   })
   deleteMany?: LinearIssueScalarWhereInput[] | undefined;
 }

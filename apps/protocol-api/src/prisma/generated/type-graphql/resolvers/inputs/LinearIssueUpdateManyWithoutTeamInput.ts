@@ -1,81 +1,72 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
-import { LinearIssueCreateManyTeamInputEnvelope } from '../inputs/LinearIssueCreateManyTeamInputEnvelope';
-import { LinearIssueCreateOrConnectWithoutTeamInput } from '../inputs/LinearIssueCreateOrConnectWithoutTeamInput';
-import { LinearIssueCreateWithoutTeamInput } from '../inputs/LinearIssueCreateWithoutTeamInput';
-import { LinearIssueScalarWhereInput } from '../inputs/LinearIssueScalarWhereInput';
-import { LinearIssueUpdateManyWithWhereWithoutTeamInput } from '../inputs/LinearIssueUpdateManyWithWhereWithoutTeamInput';
-import { LinearIssueUpdateWithWhereUniqueWithoutTeamInput } from '../inputs/LinearIssueUpdateWithWhereUniqueWithoutTeamInput';
-import { LinearIssueUpsertWithWhereUniqueWithoutTeamInput } from '../inputs/LinearIssueUpsertWithWhereUniqueWithoutTeamInput';
-import { LinearIssueWhereUniqueInput } from '../inputs/LinearIssueWhereUniqueInput';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { LinearIssueCreateManyTeamInputEnvelope } from "../inputs/LinearIssueCreateManyTeamInputEnvelope";
+import { LinearIssueCreateOrConnectWithoutTeamInput } from "../inputs/LinearIssueCreateOrConnectWithoutTeamInput";
+import { LinearIssueCreateWithoutTeamInput } from "../inputs/LinearIssueCreateWithoutTeamInput";
+import { LinearIssueScalarWhereInput } from "../inputs/LinearIssueScalarWhereInput";
+import { LinearIssueUpdateManyWithWhereWithoutTeamInput } from "../inputs/LinearIssueUpdateManyWithWhereWithoutTeamInput";
+import { LinearIssueUpdateWithWhereUniqueWithoutTeamInput } from "../inputs/LinearIssueUpdateWithWhereUniqueWithoutTeamInput";
+import { LinearIssueUpsertWithWhereUniqueWithoutTeamInput } from "../inputs/LinearIssueUpsertWithWhereUniqueWithoutTeamInput";
+import { LinearIssueWhereUniqueInput } from "../inputs/LinearIssueWhereUniqueInput";
 
-@TypeGraphQL.InputType('LinearIssueUpdateManyWithoutTeamInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("LinearIssueUpdateManyWithoutTeamInput", {
+  isAbstract: true
 })
 export class LinearIssueUpdateManyWithoutTeamInput {
   @TypeGraphQL.Field(_type => [LinearIssueCreateWithoutTeamInput], {
-    nullable: true,
+    nullable: true
   })
   create?: LinearIssueCreateWithoutTeamInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueCreateOrConnectWithoutTeamInput], {
-    nullable: true,
+    nullable: true
   })
   connectOrCreate?: LinearIssueCreateOrConnectWithoutTeamInput[] | undefined;
 
-  @TypeGraphQL.Field(
-    _type => [LinearIssueUpsertWithWhereUniqueWithoutTeamInput],
-    {
-      nullable: true,
-    },
-  )
+  @TypeGraphQL.Field(_type => [LinearIssueUpsertWithWhereUniqueWithoutTeamInput], {
+    nullable: true
+  })
   upsert?: LinearIssueUpsertWithWhereUniqueWithoutTeamInput[] | undefined;
 
   @TypeGraphQL.Field(_type => LinearIssueCreateManyTeamInputEnvelope, {
-    nullable: true,
+    nullable: true
   })
   createMany?: LinearIssueCreateManyTeamInputEnvelope | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereUniqueInput], {
-    nullable: true,
+    nullable: true
   })
   set?: LinearIssueWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereUniqueInput], {
-    nullable: true,
+    nullable: true
   })
   disconnect?: LinearIssueWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereUniqueInput], {
-    nullable: true,
+    nullable: true
   })
   delete?: LinearIssueWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueWhereUniqueInput], {
-    nullable: true,
+    nullable: true
   })
   connect?: LinearIssueWhereUniqueInput[] | undefined;
 
-  @TypeGraphQL.Field(
-    _type => [LinearIssueUpdateWithWhereUniqueWithoutTeamInput],
-    {
-      nullable: true,
-    },
-  )
+  @TypeGraphQL.Field(_type => [LinearIssueUpdateWithWhereUniqueWithoutTeamInput], {
+    nullable: true
+  })
   update?: LinearIssueUpdateWithWhereUniqueWithoutTeamInput[] | undefined;
 
-  @TypeGraphQL.Field(
-    _type => [LinearIssueUpdateManyWithWhereWithoutTeamInput],
-    {
-      nullable: true,
-    },
-  )
+  @TypeGraphQL.Field(_type => [LinearIssueUpdateManyWithWhereWithoutTeamInput], {
+    nullable: true
+  })
   updateMany?: LinearIssueUpdateManyWithWhereWithoutTeamInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [LinearIssueScalarWhereInput], {
-    nullable: true,
+    nullable: true
   })
   deleteMany?: LinearIssueScalarWhereInput[] | undefined;
 }

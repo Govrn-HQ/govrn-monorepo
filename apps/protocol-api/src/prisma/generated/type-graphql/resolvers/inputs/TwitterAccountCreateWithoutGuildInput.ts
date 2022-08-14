@@ -1,24 +1,24 @@
-import * as TypeGraphQL from 'type-graphql';
-import * as GraphQLScalars from 'graphql-scalars';
-import { Prisma } from '@prisma/client';
-import { DecimalJSScalar } from '../../scalars';
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.InputType('TwitterAccountCreateWithoutGuildInput', {
-  isAbstract: true,
+@TypeGraphQL.InputType("TwitterAccountCreateWithoutGuildInput", {
+  isAbstract: true
 })
 export class TwitterAccountCreateWithoutGuildInput {
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: true,
+    nullable: true
   })
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false,
+    nullable: false
   })
   account_name!: string;
 }
