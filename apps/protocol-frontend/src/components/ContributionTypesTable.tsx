@@ -2,8 +2,19 @@ import { useMemo } from 'react';
 import { isAfter } from 'date-fns';
 import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useSortBy, useTable } from 'react-table';
+import { useSortBy, useTable, Column } from 'react-table';
 import { UIContribution } from '@govrn/ui-types';
+
+type ContributionTypesTableType = {
+  id: number;
+  name: string;
+  total: number;
+  lastOccurrence: Date | string;
+  activityType: string;
+  guilds: string;
+  date_of_engagement: Date | string;
+  date_of_submission: Date | string;
+};
 
 const ContributionTypesTable = ({
   contributionTypesData,
@@ -19,38 +30,38 @@ const ContributionTypesTable = ({
         .sort((firstContribution, nextContribution) =>
           isAfter(
             new Date(firstContribution.date_of_engagement),
-            new Date(nextContribution.date_of_engagement)
+            new Date(nextContribution.date_of_engagement),
           )
             ? 1
-            : -1
+            : -1,
         )
-        .map((contributionType) => [
+        .map(contributionType => [
           contributionType.activity_type[uniqueKey],
           contributionType,
-        ])
+        ]),
     ).values(),
   ];
 
-  const data = useMemo(
+  const data = useMemo<ContributionTypesTableType[]>(
     () =>
-      uniqueContributions.map((contributionType) => ({
+      uniqueContributions.map(contributionType => ({
         id: contributionType.id,
         name: contributionType.name,
         total: contributionTypesData.filter(
-          (contribution) =>
+          contribution =>
             contribution.activity_type.name ===
-            contributionType.activity_type.name
+            contributionType.activity_type.name,
         ).length,
         lastOccurrence: contributionType.date_of_engagement,
         activityType: contributionType.activity_type.name,
-        guilds: contributionType.guilds.map((g) => g.guild.name).join(','),
+        guilds: contributionType.guilds.map(g => g.guild.name).join(','),
         date_of_submission: contributionType.date_of_submission,
         date_of_engagement: contributionType.date_of_engagement,
       })),
-    []
+    [],
   );
 
-  const columns = useMemo(
+  const columns = useMemo<Column<ContributionTypesTableType>[]>(
     () => [
       {
         Header: 'Activity Type',
@@ -86,7 +97,7 @@ const ContributionTypesTable = ({
       },
       {
         Header: 'Last Occurrence',
-        accessor: 'engagementDate',
+        accessor: 'date_of_engagement',
       },
       {
         Header: 'Name',
@@ -95,7 +106,7 @@ const ContributionTypesTable = ({
 
       { Header: 'DAOs', accessor: 'guilds' },
     ],
-    []
+    [],
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -128,11 +139,11 @@ const ContributionTypesTable = ({
         ))}
       </Thead>
       <Tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
+        {rows.map(row => {
           prepareRow(row);
           return (
             <Tr {...row.getRowProps()}>
-              {row.cells.map((cell) => (
+              {row.cells.map(cell => (
                 <Td {...cell.getCellProps()} borderColor="gray.100">
                   {cell.render('Cell')}
                 </Td>

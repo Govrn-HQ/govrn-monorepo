@@ -252,27 +252,39 @@ export class SiweMessage {
    * @param param {string | SiweMessage} Sign message as a string or an object.
    */
   constructor(param: string | Partial<SiweMessage>) {
+    this.domain = '';
+    this.address = '';
+    this.statement = '';
+    this.uri = '';
+    this.version = '';
+    this.nonce = '';
+    this.issuedAt = '';
+    this.expirationTime = '';
+    this.notBefore = '';
+    this.requestId = '';
+    this.chainId = 0;
+    this.resources = undefined;
+
     if (typeof param === 'string') {
       const parsedMessage = new ParsedMessage(param);
       this.domain = parsedMessage.domain;
       this.address = parsedMessage.address;
-      this.statement = parsedMessage.statement;
+      this.statement = parsedMessage.statement || '';
       this.uri = parsedMessage.uri;
       this.version = parsedMessage.version;
       this.nonce = parsedMessage.nonce;
       this.issuedAt = parsedMessage.issuedAt;
-      this.expirationTime = parsedMessage.expirationTime;
-      this.notBefore = parsedMessage.notBefore;
-      this.requestId = parsedMessage.requestId;
+      this.expirationTime = parsedMessage.expirationTime || '';
+      this.notBefore = parsedMessage.notBefore || '';
+      this.requestId = parsedMessage.requestId || '';
       this.chainId = parsedMessage.chainId;
-      this.resources = parsedMessage.resources;
+      this.resources = parsedMessage.resources || [];
     } else {
       Object.assign(this, param);
       if (typeof this.chainId === 'string') {
         this.chainId = parseInt(this.chainId);
       }
     }
-    console.log(this.nonce);
     this.nonce = this.nonce || generateNonce();
     this.validateMessage();
   }
@@ -282,7 +294,7 @@ export class SiweMessage {
    * @param message {string}
    * @returns {RegExpExecArray} The matching groups for the message
    */
-  static regexFromMessage(message: string): RegExpExecArray {
+  static regexFromMessage(message: string): RegExpExecArray | undefined {
     const parsedMessage = new ParsedMessageRegExp(message);
     return parsedMessage.match;
   }
@@ -394,8 +406,8 @@ export class SiweMessage {
   ): Promise<SiweResponse> {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise<SiweResponse>(async (resolve, reject) => {
-      Object.keys(params).forEach((key: keyof VerifyParams) => {
-        if (!VerifyParamsKeys.includes(key)) {
+      Object.keys(params).forEach((key: string) => {
+        if (!VerifyParamsKeys.includes(key as keyof VerifyParams)) {
           reject({
             success: false,
             data: this,
@@ -404,8 +416,8 @@ export class SiweMessage {
         }
       });
 
-      Object.keys(opts).forEach((key: keyof VerifyOpts) => {
-        if (!VerifyOptsKeys.includes(key)) {
+      Object.keys(opts).forEach((key: string) => {
+        if (!VerifyOptsKeys.includes(key as keyof VerifyOpts)) {
           reject({
             success: false,
             data: this,
@@ -589,7 +601,7 @@ export class SiweMessage {
     if (!nonce || this.nonce.length < 8 || nonce[0] !== this.nonce) {
       throw new SiweError(
         SiweErrorType.INVALID_NONCE,
-        `Length > 8 (${nonce.length}). Alphanumeric.`,
+        `Length > 8 (${nonce ? nonce.length : 0}). Alphanumeric.`,
         this.nonce,
       );
     }

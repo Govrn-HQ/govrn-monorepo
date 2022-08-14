@@ -69,7 +69,7 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       chain?.id.toString(16),
     );
     const signature = await signMessageAsync({
-      message,
+      message: message || '',
     });
     try {
       await fetch(VERIFY_URL, {
