@@ -29,7 +29,11 @@ export const loadContributions = async (options: {
   // Load attestations events from subgraph.
   const page = Math.abs(options.page || 1); // || for NaN value.
   const limit = Math.abs(options.limit || LIMIT);
-  const skip = Math.min((page - 1) * limit, SKIP_LIMIT);
+  const skip = (page - 1) * limit;
+
+  if (skip > SKIP_LIMIT) {
+    throw new Error('Maximum Limit exceeded.');
+  }
 
   console.dir({ page, limit, skip });
 
@@ -51,6 +55,7 @@ export const loadContributions = async (options: {
   );
 
   return contrs.map(c => ({
+    clue: c.id,
     id: Number(BigNumber.from(c.contribution.id.toString()).toString()),
     attestor: c.attestor,
     owner: c.owner,
