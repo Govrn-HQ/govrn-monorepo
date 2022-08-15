@@ -28,6 +28,7 @@ import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { UIUser } from '@govrn/ui-types';
 import { ControlledSelect, Option } from '@govrn/protocol-ui';
+import ContributionsHeatMap from './ContributionsHeatMap';
 
 interface DashboardShellProps {
   user: UIUser;
@@ -56,8 +57,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
   const [selectedDaos, setSelectedDaos] = useState([]);
-
-  console.log('contributions', userContributions);
 
   useEffect(() => {
     if (allDaos) {
@@ -114,6 +113,17 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               )}
               <Text>selected: {selectedDaos.length}</Text>
             </Flex>
+            <HStack>
+              <Heading
+                as="h4"
+                fontSize="lg"
+                color="gray.800"
+                fontWeight="normal"
+              >
+                Contribution Heat Map
+              </Heading>
+              <ContributionsHeatMap contributions={userContributions} />
+            </HStack>
           </Flex>
         </Flex>
       </Flex>
