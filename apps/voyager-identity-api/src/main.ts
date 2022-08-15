@@ -21,7 +21,7 @@ app
       res.send(JSON.stringify(transformed));
     } catch (e) {
       console.error(e);
-      res.status(500).send();
+      res.status(500).send({ error: e?.message ?? 'Error happened!' });
     }
   });
 
