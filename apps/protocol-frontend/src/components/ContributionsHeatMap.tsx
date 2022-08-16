@@ -1,6 +1,6 @@
 import React from 'react';
-import { Flex, Box, Text } from '@chakra-ui/react';
-import { ResponsiveCalendar, ResponsiveTimeRange } from '@nivo/calendar';
+import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
+import { ResponsiveTimeRange } from '@nivo/calendar';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 
@@ -29,8 +29,7 @@ const ContributionsHeatMap = ({
   contributionsCount,
   startDateOffset,
 }: ContributionsHeatMapProps) => {
-  console.log('contributions in heat map', contributionsCount);
-
+  const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount.map(contribution => {
     return {
       day: contribution.date,
@@ -40,17 +39,22 @@ const ContributionsHeatMap = ({
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
-      <Flex direction="column" height="10rem">
+      <Flex
+        direction="column"
+        height={{ base: '10rem', lg: '10rem' }}
+        // maxWidth={{ base: '100%', lg: '100%' }}
+      >
         {contributionsCountMap.length !== 0 ? (
           <ResponsiveTimeRange
             data={contributionsCountMap}
-            weekdayTicks={[1, 3, 5]}
             from={
               startDateOffset
                 ? subWeeks(new Date(), startDateOffset - 1)
                 : subWeeks(new Date(), 1)
             }
             to={new Date()}
+            // direction={isMobile ? 'vertical' : 'horizontal'}
+            weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
             colors={[
               brandColors[100],
@@ -62,27 +66,23 @@ const ContributionsHeatMap = ({
               brandColors[700],
             ]}
             dayRadius={1}
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            margin={
+              isMobile
+                ? { top: 10, right: 20, bottom: 10, left: 20 }
+                : { top: 20, right: 20, bottom: 20, left: 20 }
+            }
             dayBorderWidth={2}
             dayBorderColor="#ffffff"
-            legends={[
-              {
-                anchor: 'bottom-right',
-                direction: 'row',
-                translateY: 36,
-                itemCount: 4,
-                itemWidth: 42,
-                itemHeight: 36,
-                itemsSpacing: 14,
-                itemDirection: 'right-to-left',
-              },
-            ]}
           />
         ) : (
           <Box>No contributions found for this year!</Box>
         )}
       </Flex>
-      <Flex direction="row" alignItems="center" justifyContent="center">
+      <Flex
+        direction="row"
+        alignItems="center"
+        justifyContent={{ base: 'flex-start', lg: 'center' }}
+      >
         <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
           Less
         </Text>
