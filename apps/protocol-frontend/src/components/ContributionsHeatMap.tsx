@@ -1,7 +1,6 @@
 import React from 'react';
-import { UIContribution } from '@govrn/ui-types';
-import { Flex, Text } from '@chakra-ui/react';
-import HeatMap from '@uiw/react-heat-map';
+import { Flex, Box, Text } from '@chakra-ui/react';
+import { ResponsiveCalendar } from '@nivo/calendar';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 
@@ -12,19 +11,18 @@ interface ContributionsHeatMapProps {
 
 const brandColors = GovrnTheme.colors.brand.primary;
 
-const brandPanelColorsMap = {
-  0: '#EDF2F7',
-  1: brandColors[50],
-  4: brandColors[100],
-  10: brandColors[200],
-  20: brandColors[300],
-  30: brandColors[400],
-  40: brandColors[500],
-  50: brandColors[600],
-  60: brandColors[700],
-  70: brandColors[800],
-  80: brandColors[900],
-};
+const brandColorMap = [
+  '#ffe4f9',
+  '#ffb4e2',
+  '#fb84ce',
+  '#f854ba',
+  '#f526a6',
+  '#db0f8d',
+  '#ab076d',
+  '#7b024e',
+  '#4b0030',
+  '#1d0013',
+];
 
 const ContributionsHeatMap = ({
   contributionsCount,
@@ -32,19 +30,68 @@ const ContributionsHeatMap = ({
 }: ContributionsHeatMapProps) => {
   console.log('contributions in heat map', contributionsCount);
 
+  const contributionsCountMap = contributionsCount.map(contribution => {
+    return {
+      day: contribution.date,
+      value: contribution.count,
+    };
+  });
+  console.log('map', contributionsCountMap);
+
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
-      <HeatMap
-        value={contributionsCount}
-        width={600}
-        style={{ color: 'black' }}
-        startDate={
-          startDateOffset
-            ? subWeeks(new Date(), startDateOffset - 1)
-            : subWeeks(new Date(), 19)
-        }
-        panelColors={brandPanelColorsMap}
-      />
+      <Flex direction="column" height="25vh">
+        <ResponsiveCalendar
+          data={contributionsCountMap}
+          from={
+            startDateOffset
+              ? subWeeks(new Date(), startDateOffset - 1)
+              : subWeeks(new Date(), 1)
+          }
+          to={new Date()}
+          emptyColor="#eeeeee"
+          colors={[
+            brandColors[50],
+            brandColors[100],
+            brandColors[200],
+            brandColors[300],
+            brandColors[400],
+            brandColors[500],
+            brandColors[600],
+            brandColors[700],
+            brandColors[800],
+            brandColors[900],
+          ]}
+          margin={{ top: 20, right: 20, bottom: 0, left: 20 }}
+          yearSpacing={0}
+          monthBorderColor="#ffffff"
+          dayBorderWidth={2}
+          dayBorderColor="#ffffff"
+          legends={[
+            {
+              anchor: 'bottom-right',
+              direction: 'row',
+              translateY: 36,
+              itemCount: 4,
+              itemWidth: 42,
+              itemHeight: 36,
+              itemsSpacing: 14,
+              itemDirection: 'right-to-left',
+            },
+          ]}
+        />
+      </Flex>
+      <Flex direction="row" alignItems="center" justifyContent="center">
+        <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
+          Less
+        </Text>
+        {brandColorMap.map(color => (
+          <Box backgroundColor={color} width="15.36px" height="15.36px" />
+        ))}
+        <Text as="span" fontSize="sm" fontWeight="normal" paddingLeft={1}>
+          More
+        </Text>
+      </Flex>
     </Flex>
   );
 };

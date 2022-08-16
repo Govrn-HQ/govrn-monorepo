@@ -123,10 +123,18 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               </Heading>
 
               {contributionsCount && contributionsCount.length > 0 ? (
-                <ContributionsHeatMap
-                  contributionsCount={contributionsCount}
-                  startDateOffset={dateRange}
-                />
+                <>
+                  <Text fontSize="sm">
+                    Displaying {contributionsCount.length}{' '}
+                    {contributionsCount.length === 1
+                      ? 'Contribution'
+                      : 'Contributions'}
+                  </Text>
+                  <ContributionsHeatMap
+                    contributionsCount={contributionsCount}
+                    startDateOffset={dateRange}
+                  />
+                </>
               ) : (
                 <Text>Loading...</Text>
               )}
