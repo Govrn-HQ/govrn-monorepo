@@ -8,6 +8,7 @@ import {
   Text,
   VisuallyHidden,
   Heading,
+  Spinner,
 } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
@@ -26,7 +27,7 @@ const HomeShell = () => {
     null,
   );
 
-  const { userDataByAddress, userData } = useUser();
+  const { userDataByAddress, userData, isUserLoading } = useUser();
 
   useEffect(() => {
     if (userDataByAddress) {
@@ -38,6 +39,14 @@ const HomeShell = () => {
   }, [userDataByAddress]);
 
   const NewUserFlow = () => {
+    if (isUserLoading) {
+      return (
+        <Flex direction="column" alignItems="center" justifyContent="center">
+          <Spinner speed="0.7s" />
+        </Flex>
+      );
+    }
+
     return (
       <Flex direction="column" alignItems="center" justifyContent="center">
         {createProfileSteps === 1 && (
