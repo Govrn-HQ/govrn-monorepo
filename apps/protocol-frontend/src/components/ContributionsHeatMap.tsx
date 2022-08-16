@@ -36,11 +36,10 @@ const ContributionsHeatMap = ({
       value: contribution.count,
     };
   });
-  console.log('map', contributionsCountMap);
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
-      <Flex direction="column" height="25vh">
+      <Flex direction="column" height="10rem">
         <ResponsiveCalendar
           data={contributionsCountMap}
           from={
@@ -62,7 +61,7 @@ const ContributionsHeatMap = ({
             brandColors[800],
             brandColors[900],
           ]}
-          margin={{ top: 20, right: 20, bottom: 0, left: 20 }}
+          margin={{ top: 0, right: 20, bottom: 0, left: 20 }}
           yearSpacing={0}
           monthBorderColor="#ffffff"
           dayBorderWidth={2}
