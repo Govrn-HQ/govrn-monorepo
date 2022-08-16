@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
+  ButtonGroup,
   Flex,
   List,
   ListItem,
@@ -29,6 +30,7 @@ import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { UIUser } from '@govrn/ui-types';
 import { ControlledSelect, Option } from '@govrn/protocol-ui';
 import ContributionsHeatMap from './ContributionsHeatMap';
+import { subWeeks } from 'date-fns';
 
 interface DashboardShellProps {
   user: UIUser;
@@ -40,17 +42,19 @@ interface DashboardShellProps {
 const DashboardShell = ({ user }: DashboardShellProps) => {
   const { allDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState([]);
+  const [dateRange, setDateRange] = useState<number>(12);
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
       const contributionsCountResponse = await getUserContributionsCount({
-        startDate: '2022-05-01',
-        endDate: '2022-08-15',
+        startDate: subWeeks(new Date(), dateRange),
+        endDate: new Date(),
       });
+      console.log('fetching...');
       setContributionsCount(contributionsCountResponse);
     };
     fetchHeatMapCount();
-  }, [user]);
+  }, [user, setDateRange]);
 
   // this is causing a race condition where the defaultValues of the Select is trying to use
   // this before it's available. this will likely be handled with making sure that the contributions/daos are loaded first
@@ -65,6 +69,14 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
       value: null,
       label: 'No DAO',
     },
+  ];
+
+  const dateRangeOptions = [
+    { value: 1, label: 'Last Week' },
+    { value: 4, label: 'Last 4 Weeks' },
+    { value: 12, label: 'Last 12 Weeks' },
+    { value: 24, label: 'Last 6 Months' },
+    { value: 52, label: 'Last Year' },
   ];
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
@@ -134,8 +146,21 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               >
                 {} Contribution Heat Map
               </Heading>
+
               {contributionsCount && contributionsCount.length > 0 ? (
-                <ContributionsHeatMap contributionsCount={contributionsCount} />
+                <Flex>
+                  <ContributionsHeatMap
+                    contributionsCount={contributionsCount}
+                    startDateOffset={dateRange}
+                  />
+                  <ControlledSelect
+                    defaultValue={dateRangeOptions[2]}
+                    onChange={selection => {
+                      setDateRange(selection.value);
+                    }}
+                    options={dateRangeOptions}
+                  />
+                </Flex>
               ) : (
                 <Text>Loading...</Text>
               )}
