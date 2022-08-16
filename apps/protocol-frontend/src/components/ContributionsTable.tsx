@@ -27,6 +27,7 @@ import {
   useSortBy,
   useTable,
   UseTableRowProps,
+  UseTableHooks,
 } from 'react-table';
 import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
@@ -138,7 +139,13 @@ const ContributionsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value, row }: { value: string; row }) => {
+        Cell: ({
+          value,
+          row,
+        }: {
+          value: string;
+          row: Row<ContributionTableType>;
+        }) => {
           return (
             <Link to={`/contributions/${row.original.id}`}>
               <Text>{value}</Text>
@@ -186,14 +193,14 @@ const ContributionsTable = ({
     [],
   );
 
-  const tableHooks = hooks => {
+  const tableHooks = (hooks: UseTableHooks<ContributionTableType>) => {
     hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
-        Cell: ({ row }) => (
+        Cell: ({ row }: { row: Row<ContributionTableType> }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
             disabled={row.original.status.name === 'minted'}

@@ -20,6 +20,7 @@ import {
   useRowSelect,
   useSortBy,
   useTable,
+  UseTableHooks,
 } from 'react-table';
 import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
@@ -105,7 +106,7 @@ const MyAttestationsTable = ({
     [],
   );
 
-  const tableHooks = (hooks: { visibleColumns }) => {
+  const tableHooks = (hooks: UseTableHooks<MyAttestationsTableType>) => {
     hooks.visibleColumns.push(columns => [
       // {
       //   id: 'selection',

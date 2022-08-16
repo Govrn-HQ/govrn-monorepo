@@ -68,13 +68,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     setUserAddress(address);
-    // const x = async (idx) => { 
+    // const x = async (idx) => {
     //     const y = await deleteContribution(idx)
     // }
 
     //x(idx)
   }, [isConnected, address, userAddress]);
-  
 
   const getUser = async () => {
     try {
@@ -779,3 +778,64 @@ type UserContextType = {
 };
 
 export const useUser = (): UserContextType => useContext(UserContext);
+//type UserContextType = {
+//  allDaos: UIGuild[];
+//  contribution: UIContribution;
+//  createAttestation: (arg0: UIContribution) => void;
+//
+//  createContribution: (
+//    arg0: ContributionFormValues,
+//    arg1: UseFormReset<FieldValues>,
+//    arg2: NavigateFunction,
+//  ) => void;
+//  createUser: (
+//    values: CreateUserFormValues,
+//    address: string,
+//    navigate?: NavigateFunction,
+//  ) => void;
+//  createWaitlistUser: (
+//    values: CreateUserFormValues,
+//    address: string,
+//    navigate?: NavigateFunction,
+//  ) => void;
+//  daoContributions: UIContribution[];
+//  disconnectLinear: (args: {
+//    linearUserId: number;
+//    userId: number;
+//    username: string;
+//  }) => Promise<void>;
+//  getAllDaos: () => Promise<UIGuilds>;
+//  getContribution: (id: number) => Promise<UIContribution>;
+//  mintAttestation: (contribution: UIContribution) => Promise<void>;
+//  mintContribution: (
+//    contribution: UIContribution,
+//    ipfsContentUri: string,
+//    setMintProgress: Dispatch<SetStateAction<number>>,
+//  ) => void;
+//  setAllDaos: (data: UIGuild[]) => void;
+//  setContribution: (data: UIContribution) => void;
+//  setDaoContributions: (data: UIContribution[]) => void;
+//  setUserActivityTypes: (data: UIActivityType[]) => void;
+//  setUserAddress: (arg0: string) => void;
+//  setUserAttestations: (arg0: UIAttestations) => void;
+//  setUserData: (arg0: UIUser) => void;
+//  setUserDataByAddress: (arg0: UIUser) => void;
+//  updateContribution: (
+//    contribution: UIContribution,
+//    values: ContributionFormValues,
+//    bulkItemCount?: number,
+//  ) => void;
+//  updateProfile: (values: ProfileFormValues) => void;
+//  deleteContribution: any;
+//  updateLinearEmail: any;
+//  userActivityTypes: UIActivityType[];
+//  userAddress: string;
+//  userAttestations: UIAttestations;
+//  userContributions: UIContribution[];
+//  userData: UIUser | null;
+//  userDataByAddress: UIUser | null;
+//};
+//
+//
+//
+//<<<<<<< HEAD
