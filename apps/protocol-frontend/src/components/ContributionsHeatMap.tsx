@@ -7,7 +7,7 @@ import { subWeeks } from 'date-fns';
 
 interface ContributionsHeatMapProps {
   contributionsCount: any;
-  startDateOffset: number;
+  startDateOffset?: number;
 }
 
 const brandColors = GovrnTheme.colors.brand.primary;
@@ -43,9 +43,8 @@ const ContributionsHeatMap = ({
         startDate={
           startDateOffset
             ? subWeeks(new Date(), startDateOffset - 1)
-            : subWeeks(new Date(), 12)
+            : subWeeks(new Date(), 19)
         }
-        endDate={new Date()}
         panelColors={brandPanelColorsMap}
       />
     </Flex>

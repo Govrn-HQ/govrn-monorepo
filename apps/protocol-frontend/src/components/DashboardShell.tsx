@@ -43,18 +43,22 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   const { allDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState([]);
   const [dateRange, setDateRange] = useState<number>(12);
+  const [selectedDaos, setSelectedDaos] = useState<any>([]);
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
+      console.log('firing fetchHeatMapCount');
+      console.log('selectedDaos', selectedDaos.value);
       const contributionsCountResponse = await getUserContributionsCount({
         startDate: subWeeks(new Date(), dateRange),
         endDate: new Date(),
+        guildIds: selectedDaos.value === null ? null : selectedDaos.value,
       });
       console.log('fetching...');
       setContributionsCount(contributionsCountResponse);
     };
     fetchHeatMapCount();
-  }, [user, setDateRange]);
+  }, [user, setDateRange, selectedDaos]);
 
   // this is causing a race condition where the defaultValues of the Select is trying to use
   // this before it's available. this will likely be handled with making sure that the contributions/daos are loaded first
@@ -80,7 +84,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   ];
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
-  const [selectedDaos, setSelectedDaos] = useState([]);
 
   useEffect(() => {
     if (allDaos) {
@@ -124,18 +127,17 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
             <Flex paddingY={4}>
               {daoListOptions.length > 0 && (
                 <ControlledSelect
-                  defaultValue={combinedDaoListOptions}
+                  defaultValue={combinedDaoListOptions[0]}
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
                   onChange={(daos: Option[]) => {
                     console.log('onChange', daos);
                     setSelectedDaos(daos);
                   }}
-                  options={daoListOptions}
-                  isMulti
+                  options={combinedDaoListOptions}
+                  // isMulti
                 />
               )}
-              <pre>[selected DAOs: {selectedDaos.length}]</pre>
             </Flex>
             <Flex direction="column" gap={2}>
               <Heading
@@ -148,19 +150,10 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               </Heading>
 
               {contributionsCount && contributionsCount.length > 0 ? (
-                <Flex>
-                  <ContributionsHeatMap
-                    contributionsCount={contributionsCount}
-                    startDateOffset={dateRange}
-                  />
-                  <ControlledSelect
-                    defaultValue={dateRangeOptions[2]}
-                    onChange={selection => {
-                      setDateRange(selection.value);
-                    }}
-                    options={dateRangeOptions}
-                  />
-                </Flex>
+                <ContributionsHeatMap
+                  contributionsCount={contributionsCount}
+                  startDateOffset={dateRange}
+                />
               ) : (
                 <Text>Loading...</Text>
               )}

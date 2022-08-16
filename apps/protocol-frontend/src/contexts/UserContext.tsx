@@ -181,7 +181,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     endDate,
     guildIds,
   }) => {
-    console.log('firing');
+    console.log('firing', guildIds);
     try {
       if (!userData?.id) {
         throw new Error('getUserContributionsCount has no userData.id');
@@ -191,7 +191,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           start_date: startDate,
           end_date: endDate,
           id: userData?.id,
-          // guild_id: guildIds[0],
+          guild_id: guildIds,
         });
       console.log(
         'getUserContributionsCountResponse',
