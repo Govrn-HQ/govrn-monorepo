@@ -8,6 +8,10 @@ import { ControlledSelect, Option } from '@govrn/protocol-ui';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import { subWeeks } from 'date-fns';
 
+type SelectedDaoType = {
+  value: null;
+  label: string;
+};
 interface DashboardShellProps {
   user: UIUser;
 }
@@ -19,16 +23,18 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   const { allDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState([]);
   const [dateRange, setDateRange] = useState<number>(52);
-  const [selectedDaos, setSelectedDaos] = useState<any>([]);
+  const [selectedDaos, setSelectedDaos] = useState<Option[]>([]);
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
       const contributionsCountResponse = await getUserContributionsCount({
         startDate: subWeeks(new Date(), dateRange),
         endDate: new Date(),
-        guildIds: selectedDaos[0].value === null ? null : selectedDaos[0].value,
+        guildIds:
+          selectedDaos.length > 0 && selectedDaos[0].value === null
+            ? null
+            : selectedDaos[0].value,
       });
-      console.log('fetching...');
       setContributionsCount(contributionsCountResponse);
     };
     fetchHeatMapCount();

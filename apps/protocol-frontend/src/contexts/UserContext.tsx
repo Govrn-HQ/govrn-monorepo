@@ -71,15 +71,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   );
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
-    useState<any>(null);
+    useState<UserContributionsDateRangeCountType[]>([]);
 
   useEffect(() => {
     setUserAddress(address);
-    // const x = async (idx) => {
-    //     const y = await deleteContribution(idx)
-    // }
-
-    //x(idx)
   }, [isConnected, address, userAddress]);
 
   const getUser = async () => {
@@ -801,12 +796,9 @@ type UserContextType = {
   setContribution: (data: UIContribution) => void;
   setDaoContributions: (data: UIContribution[]) => void;
   setUserActivityTypes: (data: UIActivityType[]) => void;
-  setUserContributionsDateRangeCount: any;
-  // setUserContributionsDateRangeCount: (
-  //   start_date: string | Date,
-  //   end_date: string | Date,
-  //   id: number,
-  // ) => UserContributionsDateRangeCountType;
+  setUserContributionsDateRangeCount: (
+    data: UserContributionsDateRangeCountType[],
+  ) => void;
   setUserAddress: any;
   setUserAttestations: any;
   setUserData: any;
@@ -819,7 +811,7 @@ type UserContextType = {
   userAddress: any;
   userAttestations: any;
   userContributions: UIContribution[];
-  userContributionsDateRangeCount: UserContributionsDateRangeCountType;
+  userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
   userData: UIUser;
   userDataByAddress: any;
 };

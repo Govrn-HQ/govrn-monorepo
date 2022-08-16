@@ -1,12 +1,7 @@
 import React from 'react';
 import ReactSelect from 'react-select';
-import {
-  Controller,
-  UseFormReturn,
-  Resolver,
-  FieldValues,
-} from 'react-hook-form';
-import { useTheme, FormControl, Stack, Box } from '@chakra-ui/react';
+import { Controller, UseFormReturn } from 'react-hook-form';
+import { FormControl, Stack, Box } from '@chakra-ui/react';
 import customSelectStyles from './selectStyles';
 import customSelectThemeColors from './selectTheme';
 import FormLabel from '../../atoms/FormLabel';
@@ -73,9 +68,6 @@ const Select: React.FC<SelectProps> = ({
     formState: { errors },
   } = localForm;
 
-  // const theme = useTheme();
-  // const formThemeColors = customSelectThemeColors(theme);
-
   return (
     <FormControl mb={4} isInvalid={errors && errors[name] !== undefined}>
       <Stack spacing={2}>
@@ -97,13 +89,6 @@ const Select: React.FC<SelectProps> = ({
                 isMulti={isMulti}
                 onChange={onChange}
                 isDisabled={isDisabled}
-                // theme={(localTheme) => ({
-                //   ...localTheme,
-                //   colors: {
-                //     ...formThemeColors,
-                //   },
-                // })}
-                // styles={customSelectStyles}
                 value={value}
               />
             )}

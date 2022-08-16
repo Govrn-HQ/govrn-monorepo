@@ -1,12 +1,6 @@
 import React from 'react';
 import ReactSelect from 'react-select';
-import {
-  Controller,
-  UseFormReturn,
-  Resolver,
-  FieldValues,
-} from 'react-hook-form';
-import { useTheme, FormControl, Stack, Box, Text } from '@chakra-ui/react';
+import { Stack, Box, Text } from '@chakra-ui/react';
 import customSelectStyles from './selectStyles';
 import customSelectThemeColors from './selectTheme';
 import FormLabel from '../../atoms/FormLabel';
@@ -64,9 +58,6 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
   isDisabled,
   value,
 }: ControlledSelectProps) => {
-  // const theme = useTheme();
-  // const formThemeColors = customSelectThemeColors(theme);
-
   return (
     <Stack spacing={2}>
       {label && (
@@ -88,13 +79,6 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
           isMulti={isMulti}
           onChange={onChange}
           isDisabled={isDisabled}
-          // theme={localTheme => ({
-          //   ...localTheme,
-          //   colors: {
-          //     ...formThemeColors,
-          //   },
-          // })}
-          // styles={customSelectStyles}
           value={value}
         />
       </Box>
