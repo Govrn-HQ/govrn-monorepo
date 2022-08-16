@@ -63,6 +63,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userDataByAddress, setUserDataByAddress] = useState<UIUser | null>(
     null,
   );
+  const [isUserLoading, setUserLoading] = useState(false);
+
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
@@ -101,6 +103,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getUserByAddress = useCallback(async () => {
+    setUserLoading(true);
     if (!address) {
       return;
     }
@@ -116,6 +119,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return userDataByAddress;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserLoading(false);
     }
   }, [address]);
 
@@ -705,6 +710,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         daoContributions,
         disconnectLinear,
+        isUserLoading,
         getAllDaos,
         getContribution,
         mintAttestation,
@@ -757,6 +763,7 @@ type UserContextType = {
   }) => Promise<void>;
   getAllDaos: () => Promise<UIGuilds>;
   getContribution: (id: number) => Promise<UIContribution | null>;
+  isUserLoading: boolean;
   mintAttestation: (
     contribution: MintContributionType['original'],
   ) => Promise<void>;

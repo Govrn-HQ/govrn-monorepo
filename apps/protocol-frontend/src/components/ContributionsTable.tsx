@@ -68,7 +68,7 @@ export type DialogProps = {
   isOpen: boolean;
   title: string;
   onConfirm: boolean;
-  contribution_id: string;
+  contribution_id: number;
 };
 
 const ContributionsTable = ({
@@ -93,14 +93,14 @@ const ContributionsTable = ({
     isOpen: false,
     title: '',
     onConfirm: false,
-    contribution_id: '',
+    contribution_id: 0,
   });
 
   useEffect(() => {
     setDialog(dialog);
   }, [dialog]);
 
-  const handleDeleteContribution = (contribution_id: string) => {
+  const handleDeleteContribution = (contribution_id: number) => {
     setDialog({
       ...dialog,
       isOpen: true, //this opens AlertDialog
@@ -261,9 +261,7 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
-                  onClick={() =>
-                    handleDeleteContribution(row.original.id.toString())
-                  }
+                  onClick={() => handleDeleteContribution(row.original.id)}
                 />
               </HStack>
             )}

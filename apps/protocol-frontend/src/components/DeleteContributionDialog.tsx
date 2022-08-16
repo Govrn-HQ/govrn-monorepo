@@ -23,14 +23,10 @@ const DeleteContributionDialog = (props: {
 
   const { deleteContribution } = useUser();
 
-  const deleteContrib = async (contribution_id: number) => {
-    await deleteContribution(contribution_id);
-  };
-
-  const onDelete = (onConfirm: boolean, contribution_id: number) => {
+  const onDelete = async (onConfirm: boolean, contribution_id: number) => {
     if (onConfirm) {
       setDialog({ ...dialog, isOpen: false });
-      deleteContrib(contribution_id);
+      await deleteContribution(contribution_id);
     }
   };
 
