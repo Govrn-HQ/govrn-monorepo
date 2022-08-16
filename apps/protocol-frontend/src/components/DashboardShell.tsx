@@ -1,32 +1,8 @@
 import { useState, useEffect } from 'react';
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Flex,
-  List,
-  ListItem,
-  Stack,
-  VStack,
-  HStack,
-  Badge,
-  Heading,
-  Text,
-  Link as ChakraLink,
-  Divider,
-  Icon,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Link as ChakraLink } from '@chakra-ui/react';
 import * as _ from 'lodash';
-import { formatDate } from '../utils/date';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { UIContribution } from '@govrn/ui-types';
-import { Link } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi';
-import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
-import * as lodash from 'lodash';
 import PageHeading from './PageHeading';
-import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { UIUser } from '@govrn/ui-types';
 import { ControlledSelect, Option } from '@govrn/protocol-ui';
 import ContributionsHeatMap from './ContributionsHeatMap';
@@ -73,11 +49,11 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     },
   ];
 
+  // unused for right now, but here so that we can add a date range selector
+
   const dateRangeOptions = [
-    { value: 1, label: 'Last Week' },
-    { value: 4, label: 'Last 4 Weeks' },
+    { value: 1, label: 'Last Month' },
     { value: 12, label: 'Last 12 Weeks' },
-    { value: 24, label: 'Last 6 Months' },
     { value: 52, label: 'Last Year' },
   ];
 
@@ -128,8 +104,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                   defaultValue={combinedDaoListOptions[0]}
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
-                  onChange={(daos: Option[]) => {
-                    console.log('onChange', daos);
+                  onChange={daos => {
                     setSelectedDaos(daos);
                   }}
                   options={combinedDaoListOptions}
