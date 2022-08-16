@@ -25,7 +25,7 @@ const brandPanelColorsMap = {
   80: brandColors[900],
 };
 
-const ContributionsHeatMap = ({ contributionsCount }) => {
+const ContributionsHeatMap = ({ contributionsCount, startDate, endDate }) => {
   console.log('contributions in heat map', contributionsCount);
   console.log('subWeeks', subWeeks(new Date(), 52));
 
@@ -35,7 +35,8 @@ const ContributionsHeatMap = ({ contributionsCount }) => {
         value={contributionsCount}
         width={600}
         style={{ color: 'black' }}
-        startDate={subWeeks(new Date(), 20)}
+        startDate={startDate ? startDate : subWeeks(new Date(), 12)}
+        endDate={endDate ? endDate : null}
         panelColors={brandPanelColorsMap}
       />
     </Flex>
