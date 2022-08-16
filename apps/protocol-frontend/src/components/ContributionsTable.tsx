@@ -64,6 +64,13 @@ type ContributionTableType = {
   guildName: string;
 };
 
+export type DialogProps = {
+  isOpen: boolean;
+  title: string;
+  onConfirm: boolean;
+  contribution_id: string;
+};
+
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -80,13 +87,6 @@ const ContributionsTable = ({
   const handleEditContributionFormModal = (id: number) => {
     setSelectedContribution(id);
     setModals({ editContributionFormModal: true });
-  };
-
-  type DialogProps = {
-    isOpen: boolean;
-    title: string;
-    onConfirm: boolean;
-    contribution_id: string;
   };
 
   const [dialog, setDialog] = useState<DialogProps>({

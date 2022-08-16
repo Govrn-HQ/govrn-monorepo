@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useRef, Dispatch, SetStateAction } from 'react';
 import { useUser } from '../contexts/UserContext';
+import { DialogProps } from './ContributionsTable';
 
 import {
   AlertDialog,
@@ -11,7 +12,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-const DeleteContributionDialog = (props: any) => {
+const DeleteContributionDialog = (props: {
+  dialog: DialogProps;
+  setDialog: Dispatch<SetStateAction<DialogProps>>;
+}) => {
   const { dialog, setDialog } = props;
 
   const { onClose } = useDisclosure();

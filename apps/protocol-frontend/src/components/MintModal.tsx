@@ -61,7 +61,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
     await Promise.all(unresolvedContributionsMinting);
 
     if (isChecked === true) {
-      setAgreementChecked((prevState: any) => ({
+      setAgreementChecked((prevState: { agreement: boolean }) => ({
         ...prevState,
         agreement: true,
       }));
@@ -70,7 +70,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
   };
 
   const agreementCheckboxHandler = () => {
-    setAgreementChecked((prevState: any) => ({
+    setAgreementChecked((prevState: { agreement: boolean }) => ({
       ...prevState,
       agreement: true,
     }));
