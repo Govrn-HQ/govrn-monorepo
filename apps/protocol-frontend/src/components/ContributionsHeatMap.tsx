@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex, Box, Text } from '@chakra-ui/react';
-import { ResponsiveCalendar } from '@nivo/calendar';
+import { ResponsiveCalendar, ResponsiveTimeRange } from '@nivo/calendar';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 
@@ -16,13 +16,13 @@ interface ContributionsHeatMapProps {
 const brandColors = GovrnTheme.colors.brand.primary;
 
 const brandColorMap = [
-  '#ffe4f9',
   '#ffb4e2',
   '#fb84ce',
   '#f854ba',
   '#f526a6',
   '#db0f8d',
   '#ab076d',
+  '#76024e',
 ];
 
 const ContributionsHeatMap = ({
@@ -42,8 +42,9 @@ const ContributionsHeatMap = ({
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
       <Flex direction="column" height="10rem">
         {contributionsCountMap.length !== 0 ? (
-          <ResponsiveCalendar
+          <ResponsiveTimeRange
             data={contributionsCountMap}
+            weekdayTicks={[1, 3, 5]}
             from={
               startDateOffset
                 ? subWeeks(new Date(), startDateOffset - 1)
@@ -52,20 +53,16 @@ const ContributionsHeatMap = ({
             to={new Date()}
             emptyColor="#eeeeee"
             colors={[
-              brandColors[50],
               brandColors[100],
               brandColors[200],
               brandColors[300],
               brandColors[400],
               brandColors[500],
               brandColors[600],
-              // brandColors[700],
-              // brandColors[800],
-              // brandColors[900],
+              brandColors[700],
             ]}
-            margin={{ top: 0, right: 20, bottom: 0, left: 20 }}
-            yearSpacing={0}
-            monthBorderColor="#ffffff"
+            dayRadius={1}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
             dayBorderWidth={2}
             dayBorderColor="#ffffff"
             legends={[

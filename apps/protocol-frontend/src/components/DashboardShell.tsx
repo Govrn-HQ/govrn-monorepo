@@ -18,7 +18,7 @@ interface DashboardShellProps {
 const DashboardShell = ({ user }: DashboardShellProps) => {
   const { allDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState([]);
-  const [dateRange, setDateRange] = useState<number>(12);
+  const [dateRange, setDateRange] = useState<number>(52);
   const [selectedDaos, setSelectedDaos] = useState<any>([]);
 
   useEffect(() => {
@@ -33,9 +33,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     };
     fetchHeatMapCount();
   }, [user, setDateRange, selectedDaos]);
-
-  // this is causing a race condition where the defaultValues of the Select is trying to use
-  // this before it's available. this will likely be handled with making sure that the contributions/daos are loaded first
 
   const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
@@ -101,7 +98,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
             <Flex paddingY={4}>
               {daoListOptions.length > 0 && (
                 <ControlledSelect
-                  defaultValue={combinedDaoListOptions[0]}
+                  defaultValue={combinedDaoListOptions[0]} // since only single is working for now
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
                   onChange={daos => {
@@ -123,11 +120,23 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               </Heading>
               {contributionsCount && contributionsCount.length !== 0 ? (
                 <>
-                  <Text fontSize="sm">
-                    Displaying {contributionsCount.length}{' '}
+                  <Text as="span" fontSize="sm">
+                    Displaying{' '}
+                    <Text
+                      as="span"
+                      fontWeight="bolder"
+                      bgGradient="linear(to-l, #7928CA, #FF0080)"
+                      bgClip="text"
+                    >
+                      {contributionsCount.length}{' '}
+                    </Text>
                     {contributionsCount.length === 1
                       ? 'Contribution'
                       : 'Contributions'}
+                    <Text as="span" fontSize="sm">
+                      {' '}
+                      in the last year
+                    </Text>
                   </Text>
                   <ContributionsHeatMap
                     contributionsCount={contributionsCount}

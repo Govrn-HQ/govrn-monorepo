@@ -192,6 +192,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           end_date: endDate,
           id: userData?.id,
           guild_id: guildIds,
+          // guild_ids: guildIds,
         });
       console.log(
         'getUserContributionsCountResponse',
