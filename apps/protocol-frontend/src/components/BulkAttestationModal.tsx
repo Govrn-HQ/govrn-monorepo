@@ -37,10 +37,12 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
 
   return (
     <Stack spacing="4" width="100%" color="gray.800">
-      <Text paddingBottom={2}>Attesting as: {userData.name}</Text>
       <Text paddingBottom={2}>
-        Attesting to {contributions.length}{' '}
-        {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+        Attesting as: <strong>{userData.name}</strong>
+      </Text>
+      <Text>
+        Attesting to <strong>{contributions.length} </strong>
+        {contributions.length === 1 ? 'Contribution' : 'Contributions'}:
       </Text>
       <List variant="primary" paddingBottom={3} spacing={2}>
         {contributions.map(value => {
