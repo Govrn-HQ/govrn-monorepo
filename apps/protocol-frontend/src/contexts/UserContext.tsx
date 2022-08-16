@@ -25,7 +25,11 @@ import type { Signer } from 'ethers';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
-import { ContributionFormValues, CreateUserFormValues } from '../types/forms';
+import {
+  ContributionFormValues,
+  CreateUserFormValues,
+  ProfileFormValues,
+} from '../types/forms';
 import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { MintContributionType, MintAttestationType } from '../types/mint';
@@ -524,7 +528,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const updateContribution = async (
     contribution: UIContribution,
 
-    values: any,
+    values: ContributionFormValues,
     bulkItemCount?: number,
   ) => {
     const toastUpdateContributionId = 'toast-update-contribution';
@@ -551,7 +555,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           values.engagementDate ?? contribution.date_of_engagement,
         ).toISOString(),
         status: 'staging',
-        guildId: values.daoId,
+        guildId: Number(values.daoId),
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
@@ -586,10 +590,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const updateProfile = async (values: any) => {
+  const updateProfile = async (values: ProfileFormValues) => {
     try {
       await govrn.custom.updateUser({
-        name: values.name,
+        name: values.name || '',
         // eslint-disable-next-line
         id: userData?.id!,
       });
@@ -639,49 +643,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       console.error(error);
       toast({
         title: 'Failed to disconnect linear user',
-        description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-    }
-  };
-
-  const updateLinearEmail = async (values: any) => {
-    const linearAssignee = {
-      active: userData.active,
-      displayName: userData.name,
-      email: values.userLinearEmail,
-      user: {
-        connect: {
-          id: userData.id,
-        },
-      },
-      linear_id: userData.id.toString(), // linear_id exists outside of our db
-      name: userData.name,
-    };
-    try {
-      // TODO: maybe we should hide linear because
-      // it won't work without some dao configuration
-      // or setup on the workspace side
-      await govrn.linear.user.upsert({
-        create: linearAssignee,
-        update: { email: { set: values.userLinearEmail } },
-        where: { linear_id: userData.id.toString() },
-      });
-      toast({
-        title: 'Linear Email Linked',
-        description: 'Linear Email Address has been linked.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: 'Unable to Link Linear Email Address',
         description: `Something went wrong. Please try again: ${error}`,
         status: 'error',
         duration: 3000,
@@ -758,7 +719,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserDataByAddress,
         updateContribution,
         deleteContribution,
-        updateLinearEmail,
         updateProfile,
         userActivityTypes,
         userAddress,
@@ -818,10 +778,9 @@ type UserContextType = {
     values: ContributionFormValues,
     bulkItemCount?: number,
   ) => void;
-  deleteContribution: any;
+  deleteContribution: (id: number) => void;
 
-  updateLinearEmail: any;
-  updateProfile: any;
+  updateProfile: (arg0: ContributionFormValues) => void;
   userActivityTypes: UIActivityType[];
   userAddress: string | null;
   userAttestations: UIAttestations | null;

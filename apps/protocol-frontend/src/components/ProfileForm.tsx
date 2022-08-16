@@ -16,8 +16,7 @@ const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 const BACKEND_ADDR = `${import.meta.env.VITE_PROTOCOL_BASE_URL}`;
 
 const ProfileForm = () => {
-  const { userData, updateProfile, updateLinearEmail, disconnectLinear } =
-    useUser();
+  const { userData, updateProfile, disconnectLinear } = useUser();
 
   const localForm = useForm<ProfileFormValues>({
     mode: 'all',
@@ -40,10 +39,6 @@ const ProfileForm = () => {
     values: ProfileFormValues,
   ) => {
     updateProfile(values);
-  };
-
-  const updateLinearEmailHandler = async (values: any) => {
-    updateLinearEmail(values);
   };
 
   const handleLinearOauth = async () => {
@@ -148,7 +143,7 @@ const ProfileForm = () => {
           </Flex> */}
         </Flex>
       </form>
-      <form onSubmit={handleSubmitLinear(updateLinearEmailHandler)}>
+      <form>
         <Flex
           justify="space-between"
           direction="column"
