@@ -49,8 +49,8 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   // unused for right now, but here so that we can add a date range selector
 
   const dateRangeOptions = [
-    { value: 1, label: 'Last Month' },
-    { value: 12, label: 'Last 12 Weeks' },
+    { value: 4, label: 'Last Month' },
+    { value: 12, label: '2022' },
     { value: 52, label: 'Last Year' },
   ];
 
