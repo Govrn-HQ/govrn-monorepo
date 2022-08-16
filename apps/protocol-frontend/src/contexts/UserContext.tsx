@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, {
   createContext,
@@ -7,21 +8,27 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { NavigateFunction } from 'react-router-dom';
+import { UseFormReset, FieldValues } from 'react-hook-form';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useAccount, useNetwork, useSigner } from 'wagmi';
 import {
   UIActivityType,
+  UIAttestations,
   UIContribution,
   UIGuild,
   UIUser,
+  UIGuilds,
 } from '@govrn/ui-types';
 import type { Signer } from 'ethers';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
+import { ContributionFormValues, CreateUserFormValues } from '../types/forms';
 import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
+import { MintContributionType, MintAttestationType } from '../types/mint';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
@@ -48,8 +55,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
-  const [userAddress, setUserAddress] = useState<any>(null);
-  const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
+  const [userAddress, setUserAddress] = useState<string | null>(null);
+  const [userDataByAddress, setUserDataByAddress] = useState<UIUser | null>(
+    null,
+  );
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
@@ -60,24 +69,25 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
     [],
   );
-  const [userAttestations, setUserAttestations] = useState<any>(null);
+  const [userAttestations, setUserAttestations] =
+    useState<UIAttestations | null>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<UIActivityType[]>(
     [],
   );
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
 
   useEffect(() => {
-    setUserAddress(address);
-    // const x = async (idx) => {
-    //     const y = await deleteContribution(idx)
-    // }
-
-    //x(idx)
+    if (address) {
+      setUserAddress(address);
+    }
   }, [isConnected, address, userAddress]);
 
   const getUser = async () => {
     try {
-      const userDataResponse = await govrn.user.get(userDataByAddress.id);
+      if (!userDataByAddress?.id) {
+        throw new Error('No address for user');
+      }
+      const userDataResponse = await govrn.user.get(userDataByAddress?.id);
 
       setUserData(userDataResponse);
       return userDataResponse;
@@ -121,8 +131,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setContribution(formattedResponse);
         return formattedResponse;
       }
+      return null;
     } catch (error) {
       console.error(error);
+      return null;
     }
   };
 
@@ -217,11 +229,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return allDaosResponse;
     } catch (error) {
       console.error(error);
+      return [];
     }
   };
 
-  const createUser = async (values: any, address: string, navigate?: any) => {
+  const createUser = async (
+    values: CreateUserFormValues,
+    address: string,
+    navigate?: NavigateFunction,
+  ) => {
     try {
+      if (!values.username) {
+        throw new Error('User has no username');
+      }
       await govrn.user.create({
         // active: false,
         address: address,
@@ -235,7 +255,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
-      navigate('/report');
+      if (navigate) {
+        navigate('/report');
+      }
     } catch (error) {
       console.log(error);
       toast({
@@ -250,15 +272,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const createWaitlistUser = async (
-    values: any,
+    values: CreateUserFormValues,
     address: string,
-    navigate: any,
+    navigate: NavigateFunction,
   ) => {
     try {
       await govrn.user.create({
         address: address,
-        email: values.email,
-        username: values.username,
+        email: values.email || '',
+        username: values.username || '',
       });
       toast({
         title: 'Successfully Joined Waitlist',
@@ -282,19 +304,23 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const createContribution = async (values: any, reset: any, navigate: any) => {
+  const createContribution = async (
+    values: ContributionFormValues,
+    reset: UseFormReset<FieldValues>,
+    navigate: NavigateFunction,
+  ) => {
     try {
-      const resp = await govrn.custom.createUserContribution({
+      await govrn.custom.createUserContribution({
         address: userData.address,
         chainName: 'ethereum',
         userId: userData.id,
-        name: values.name,
-        details: values.details,
-        proof: values.proof,
-        activityTypeName: values.activityType,
-        dateOfEngagement: new Date(values.engagementDate).toISOString(),
+        name: values.name || '',
+        details: values.details || '',
+        proof: values.proof || '',
+        activityTypeName: values.activityType || '',
+        dateOfEngagement: new Date(values.engagementDate || '').toISOString(),
         status: 'staging',
-        guildId: values.daoId,
+        guildId: Number(values.daoId) || undefined,
       });
       toast({
         title: 'Contribution Report Added',
@@ -330,12 +356,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const mintContribution = async (
-    contribution: any,
+    contribution: MintContributionType['original'],
     ipfsContentUri: string,
-    setMintProgress: any,
+    setMintProgress: Dispatch<SetStateAction<number>>,
   ) => {
-    console.log(signer);
-    console.log(chain?.id);
     try {
       if (signer && chain?.id) {
         await govrn.contribution.mint(
@@ -420,8 +444,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const mintAttestation = async (contribution: any) => {
+  const mintAttestation = async (
+    contribution: MintContributionType['original'],
+  ) => {
     try {
+      if (!contribution?.onChainId) {
+        throw new Error('No onChainId for contribution');
+      }
       if (signer && chain?.id) {
         await govrn.contribution.attest(
           {
@@ -461,7 +490,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const createAttestation = async (contribution: any, values: any) => {
+  const createAttestation = async (contribution: UIContribution) => {
     try {
       await govrn.custom.createUserAttestation({
         address: userData.address,
@@ -747,95 +776,58 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 type UserContextType = {
   allDaos: UIGuild[];
   contribution: UIContribution;
-  createAttestation: any;
-  createContribution: any;
-  createUser: any;
-  createWaitlistUser: any;
+  createAttestation: (arg0: UIContribution) => void;
+
+  createContribution: (
+    arg0: ContributionFormValues,
+    arg1: UseFormReset<FieldValues>,
+    arg2: NavigateFunction,
+  ) => void;
+  createUser: (values: CreateUserFormValues, address: string) => void;
+  createWaitlistUser: (
+    values: CreateUserFormValues,
+    address: string,
+    navigate: NavigateFunction,
+  ) => void;
   daoContributions: UIContribution[];
-  disconnectLinear: any;
-  getAllDaos: any;
-  getContribution: any;
-  mintAttestation: any;
-  mintContribution: any;
+  disconnectLinear: (args: {
+    linearUserId: number;
+    userId: number;
+    username: string;
+  }) => Promise<void>;
+  getAllDaos: () => Promise<UIGuilds>;
+  getContribution: (id: number) => Promise<UIContribution | null>;
+  mintAttestation: (
+    contribution: MintContributionType['original'],
+  ) => Promise<void>;
+  mintContribution: (
+    contribution: MintContributionType['original'],
+    ipfsContentUri: string,
+    setMintProgress: Dispatch<SetStateAction<number>>,
+  ) => void;
   setAllDaos: (data: UIGuild[]) => void;
   setContribution: (data: UIContribution) => void;
   setDaoContributions: (data: UIContribution[]) => void;
   setUserActivityTypes: (data: UIActivityType[]) => void;
-  setUserAddress: any;
-  setUserAttestations: any;
-  setUserData: any;
-  setUserDataByAddress: any;
-  updateContribution: any;
+  setUserAddress: (arg0: string) => void;
+  setUserAttestations: (arg0: UIAttestations) => void;
+  setUserData: (arg0: UIUser) => void;
+  setUserDataByAddress: (arg0: UIUser) => void;
+  updateContribution: (
+    contribution: UIContribution,
+    values: ContributionFormValues,
+    bulkItemCount?: number,
+  ) => void;
   deleteContribution: any;
+
   updateLinearEmail: any;
   updateProfile: any;
   userActivityTypes: UIActivityType[];
-  userAddress: any;
-  userAttestations: any;
+  userAddress: string | null;
+  userAttestations: UIAttestations | null;
   userContributions: UIContribution[];
-  userData: UIUser;
-  userDataByAddress: any;
+  userData: UIUser | null;
+  userDataByAddress: UIUser | null;
 };
 
 export const useUser = (): UserContextType => useContext(UserContext);
-//type UserContextType = {
-//  allDaos: UIGuild[];
-//  contribution: UIContribution;
-//  createAttestation: (arg0: UIContribution) => void;
-//
-//  createContribution: (
-//    arg0: ContributionFormValues,
-//    arg1: UseFormReset<FieldValues>,
-//    arg2: NavigateFunction,
-//  ) => void;
-//  createUser: (
-//    values: CreateUserFormValues,
-//    address: string,
-//    navigate?: NavigateFunction,
-//  ) => void;
-//  createWaitlistUser: (
-//    values: CreateUserFormValues,
-//    address: string,
-//    navigate?: NavigateFunction,
-//  ) => void;
-//  daoContributions: UIContribution[];
-//  disconnectLinear: (args: {
-//    linearUserId: number;
-//    userId: number;
-//    username: string;
-//  }) => Promise<void>;
-//  getAllDaos: () => Promise<UIGuilds>;
-//  getContribution: (id: number) => Promise<UIContribution>;
-//  mintAttestation: (contribution: UIContribution) => Promise<void>;
-//  mintContribution: (
-//    contribution: UIContribution,
-//    ipfsContentUri: string,
-//    setMintProgress: Dispatch<SetStateAction<number>>,
-//  ) => void;
-//  setAllDaos: (data: UIGuild[]) => void;
-//  setContribution: (data: UIContribution) => void;
-//  setDaoContributions: (data: UIContribution[]) => void;
-//  setUserActivityTypes: (data: UIActivityType[]) => void;
-//  setUserAddress: (arg0: string) => void;
-//  setUserAttestations: (arg0: UIAttestations) => void;
-//  setUserData: (arg0: UIUser) => void;
-//  setUserDataByAddress: (arg0: UIUser) => void;
-//  updateContribution: (
-//    contribution: UIContribution,
-//    values: ContributionFormValues,
-//    bulkItemCount?: number,
-//  ) => void;
-//  updateProfile: (values: ProfileFormValues) => void;
-//  deleteContribution: any;
-//  updateLinearEmail: any;
-//  userActivityTypes: UIActivityType[];
-//  userAddress: string;
-//  userAttestations: UIAttestations;
-//  userContributions: UIContribution[];
-//  userData: UIUser | null;
-//  userDataByAddress: UIUser | null;
-//};
-//
-//
-//
-//<<<<<<< HEAD

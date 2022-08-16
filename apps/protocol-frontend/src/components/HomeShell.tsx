@@ -86,7 +86,7 @@ const HomeShell = () => {
             justifyContent="center"
             textAlign="center"
           >
-            {userDataByAddress.active === true ? (
+            {userDataByAddress?.active === true ? (
               <>
                 <Text color="gray.800" paddingBottom={8}>
                   Welcome back{' '}

@@ -3,8 +3,8 @@ export type ContributionFormValues = {
   activityType?: string;
   details?: string;
   proof?: string;
-  daoId?: string;
-  engagementDate?: Date;
+  daoId?: string | null | number;
+  engagementDate?: Date | string | number;
 };
 
 export type BulkDaoAttributeFormValues = {
@@ -13,9 +13,10 @@ export type BulkDaoAttributeFormValues = {
 
 export type CreateUserFormValues = {
   username?: string;
-}
+  email?: string;
+};
 
 export type ProfileFormValues = {
   address?: string;
   name?: string;
-}
+};

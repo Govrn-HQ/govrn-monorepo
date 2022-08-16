@@ -64,10 +64,13 @@ const ProfileForm = () => {
   };
 
   const disconnectLinearOnClick = useCallback(async () => {
+    if (!userData?.id || !userData?.name) {
+      return;
+    }
     await disconnectLinear({
-      userId: userData.id,
-      username: userData.name,
-      linearUserId: userData.linear_users[0].id,
+      userId: userData?.id,
+      username: userData?.name || '',
+      linearUserId: userData?.linear_users[0].id,
     });
   }, [userData, disconnectLinear]);
 

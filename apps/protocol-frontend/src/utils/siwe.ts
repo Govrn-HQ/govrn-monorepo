@@ -503,7 +503,7 @@ export class SiweMessage {
         assert({
           success: false,
           data: this,
-          error: e,
+          error: e as SiweError,
         });
       }
 
