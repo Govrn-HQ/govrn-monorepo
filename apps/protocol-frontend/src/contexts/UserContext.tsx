@@ -50,6 +50,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const [userAddress, setUserAddress] = useState<any>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
+  const [isUserLoading, setUserLoading] = useState(false);
+
   const [userData, setUserData] = useState<UIUser>({} as UIUser);
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
@@ -68,13 +70,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     setUserAddress(address);
-    // const x = async (idx) => { 
+    // const x = async (idx) => {
     //     const y = await deleteContribution(idx)
     // }
 
     //x(idx)
   }, [isConnected, address, userAddress]);
-  
 
   const getUser = async () => {
     try {
@@ -88,6 +89,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getUserByAddress = useCallback(async () => {
+    setUserLoading(true);
     if (!address) {
       return;
     }
@@ -103,6 +105,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return userDataByAddress;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserLoading(false);
     }
   }, [address]);
 
@@ -495,7 +499,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const updateContribution = async (
     contribution: UIContribution,
-
     values: any,
     bulkItemCount?: number,
   ) => {
@@ -716,6 +719,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         daoContributions,
         disconnectLinear,
+        isUserLoading,
         getAllDaos,
         getContribution,
         mintAttestation,
@@ -754,6 +758,7 @@ type UserContextType = {
   createWaitlistUser: any;
   daoContributions: UIContribution[];
   disconnectLinear: any;
+  isUserLoading: boolean;
   getAllDaos: any;
   getContribution: any;
   mintAttestation: any;
