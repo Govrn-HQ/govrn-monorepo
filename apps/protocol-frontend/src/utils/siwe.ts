@@ -426,7 +426,11 @@ export class SiweMessage {
         }
       });
 
-      const assert = result => {
+      const assert = (result: {
+        success: boolean;
+        data: SiweMessage;
+        error: SiweError;
+      }) => {
         if (opts.suppressExceptions) {
           resolve(result);
         } else {
@@ -499,14 +503,14 @@ export class SiweMessage {
         assert({
           success: false,
           data: this,
-          error: e,
+          error: e as SiweError,
         });
       }
 
       /** Recover address from signature */
       let addr;
       try {
-        addr = utils.verifyMessage(EIP4361Message, signature);
+        addr = utils.verifyMessage(EIP4361Message || '', signature);
       } catch (e) {
         console.error(e);
       } finally {
@@ -549,7 +553,7 @@ export class SiweMessage {
    * Validates the values of this object fields.
    * @throws Throws an {ErrorType} if a field is invalid.
    */
-  private validateMessage(...args) {
+  private validateMessage(...args: string[]) {
     /** Checks if the user might be using the function to verify instead of validate. */
     if (args.length > 0) {
       throw new SiweError(
