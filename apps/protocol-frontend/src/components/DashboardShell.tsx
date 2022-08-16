@@ -121,8 +121,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               >
                 {} Contribution Heat Map
               </Heading>
-
-              {contributionsCount && contributionsCount.length > 0 ? (
+              {contributionsCount && contributionsCount.length !== 0 ? (
                 <>
                   <Text fontSize="sm">
                     Displaying {contributionsCount.length}{' '}
