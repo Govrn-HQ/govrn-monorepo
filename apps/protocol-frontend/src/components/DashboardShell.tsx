@@ -47,12 +47,10 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
-      console.log('firing fetchHeatMapCount');
-      console.log('selectedDaos', selectedDaos.value);
       const contributionsCountResponse = await getUserContributionsCount({
         startDate: subWeeks(new Date(), dateRange),
         endDate: new Date(),
-        guildIds: selectedDaos.value === null ? null : selectedDaos.value,
+        guildIds: selectedDaos[0].value === null ? null : selectedDaos[0].value,
       });
       console.log('fetching...');
       setContributionsCount(contributionsCountResponse);
@@ -135,7 +133,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                     setSelectedDaos(daos);
                   }}
                   options={combinedDaoListOptions}
-                  // isMulti
+                  isMulti
                 />
               )}
             </Flex>

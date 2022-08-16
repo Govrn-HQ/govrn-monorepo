@@ -31,8 +31,6 @@ const ContributionsHeatMap = ({
   startDateOffset,
 }: ContributionsHeatMapProps) => {
   console.log('contributions in heat map', contributionsCount);
-  console.log('subWeeks', subWeeks(new Date(), 52));
-  console.log('startDateOffset', startDateOffset);
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
