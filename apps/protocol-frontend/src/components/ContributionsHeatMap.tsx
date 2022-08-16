@@ -41,8 +41,8 @@ const ContributionsHeatMap = ({
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
       <Flex
         direction="column"
-        height={{ base: '10rem', lg: '10rem' }}
-        // maxWidth={{ base: '100%', lg: '100%' }}
+        height={{ base: '5rem', lg: '10rem' }}
+        width="100%"
       >
         {contributionsCountMap.length !== 0 ? (
           <ResponsiveTimeRange
@@ -68,7 +68,7 @@ const ContributionsHeatMap = ({
             dayRadius={1}
             margin={
               isMobile
-                ? { top: 10, right: 20, bottom: 10, left: 20 }
+                ? { top: 20, right: 10, bottom: 0, left: 10 }
                 : { top: 20, right: 20, bottom: 20, left: 20 }
             }
             dayBorderWidth={2}
