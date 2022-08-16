@@ -1,6 +1,7 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
-import { useWallet } from '@raidguild/quiver';
+import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
@@ -23,8 +24,8 @@ const UserView = () => {
 };
 
 const Dashboard = () => {
+  const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
-  const { isConnected } = useWallet();
   const { userData } = useUser();
 
   return (
@@ -43,7 +44,11 @@ const Dashboard = () => {
             boxShadow="sm"
             borderRadius={{ base: 'none', md: 'lg' }}
           >
-            {isConnected && userData ? <UserView /> : <NewUserView />}
+            {isConnected && isAuthenticated && userData ? (
+              <UserView />
+            ) : (
+              <NewUserView />
+            )}
           </Box>
         </Container>
       )}

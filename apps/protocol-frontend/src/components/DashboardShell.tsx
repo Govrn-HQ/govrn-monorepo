@@ -38,7 +38,19 @@ interface DashboardShellProps {
 // passing in the User so that the name is available upon initial render
 
 const DashboardShell = ({ user }: DashboardShellProps) => {
-  const { allDaos, userContributions } = useUser();
+  const { allDaos, getUserContributionsCount } = useUser();
+  const [contributionsCount, setContributionsCount] = useState([]);
+
+  useEffect(() => {
+    const fetchHeatMapCount = async () => {
+      const contributionsCountResponse = await getUserContributionsCount({
+        startDate: '2022-05-01',
+        endDate: '2022-08-15',
+      });
+      setContributionsCount(contributionsCountResponse);
+    };
+    fetchHeatMapCount();
+  }, [user]);
 
   // this is causing a race condition where the defaultValues of the Select is trying to use
   // this before it's available. this will likely be handled with making sure that the contributions/daos are loaded first
@@ -120,9 +132,13 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 color="gray.800"
                 fontWeight="normal"
               >
-                Contribution Heat Map
+                {} Contribution Heat Map
               </Heading>
-              <ContributionsHeatMap contributions={userContributions} />
+              {contributionsCount && contributionsCount.length > 0 ? (
+                <ContributionsHeatMap contributionsCount={contributionsCount} />
+              ) : (
+                <Text>Loading...</Text>
+              )}
             </Flex>
           </Flex>
         </Flex>

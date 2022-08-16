@@ -67,7 +67,7 @@ const Routes = () => {
           }
         />
         <Route
-          path="/dashboard"
+          path="/feature/dashboard"
           element={
             <RequireActiveUser>
               <Dashboard />
