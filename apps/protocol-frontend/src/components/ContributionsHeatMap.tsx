@@ -4,8 +4,12 @@ import { ResponsiveCalendar } from '@nivo/calendar';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 
+type ContributionCount = {
+  date: string;
+  count: number;
+};
 interface ContributionsHeatMapProps {
-  contributionsCount: any;
+  contributionsCount: ContributionCount[];
   startDateOffset?: number;
 }
 
@@ -37,7 +41,7 @@ const ContributionsHeatMap = ({
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
       <Flex direction="column" height="10rem">
-        {contributionsCountMap !== 0 ? (
+        {contributionsCountMap.length !== 0 ? (
           <ResponsiveCalendar
             data={contributionsCountMap}
             from={
