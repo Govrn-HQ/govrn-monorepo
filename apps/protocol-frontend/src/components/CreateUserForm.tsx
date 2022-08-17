@@ -19,10 +19,12 @@ const CreateUserForm = () => {
   const { address } = useAccount();
   const { createUser } = useUser();
 
-  const createUserHandler: SubmitHandler<CreateUserFormValues> = async (
-    values
-  ) => {
-    createUser(values, address);
+  const createUserHandler: SubmitHandler<
+    CreateUserFormValues
+  > = async values => {
+    if (address) {
+      createUser(values, address);
+    }
   };
 
   return (

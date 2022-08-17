@@ -12,9 +12,10 @@ import {
 import { useUser } from '../contexts/UserContext';
 import { UIContribution } from '@govrn/ui-types';
 import { MdCheckCircle } from 'react-icons/all';
+import { MintContributionType } from '../types/mint';
 
 interface BulkAttestationModalProps {
-  contributions: UIContribution[];
+  contributions: MintContributionType[];
 }
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
@@ -22,11 +23,11 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const [attesting, setAttesting] = useState(false);
   const [currentAttestation] = useState(1);
 
-  const createAttestationsHandler = (contributions: UIContribution[]) => {
+  const createAttestationsHandler = (contributions: MintContributionType[]) => {
     setAttesting(true);
     contributions.map((contribution, idx) => {
       if (contribution.status.name === 'minted') {
-        mintAttestation(contribution);
+        mintAttestation(contribution.original);
       } else {
         console.log(`contribution ${idx} is off chain`);
         createAttestation(contribution);
@@ -38,7 +39,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       <Text paddingBottom={2}>
-        Attesting as: <strong>{userData.name}</strong>
+        Attesting as: <strong>{userData?.name}</strong>
       </Text>
       <Text>
         Attesting to <strong>{contributions.length} </strong>
