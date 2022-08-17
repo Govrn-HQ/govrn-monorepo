@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import * as TypeGraphQL from 'type-graphql';
 import { Context } from './types';
 import { Contribution } from '../generated/type-graphql/models/Contribution';
@@ -223,6 +224,16 @@ export class ContributionCountByDate {
 
   @TypeGraphQL.Field(_type => String)
   date: string;
+
+  @TypeGraphQL.Field(_type => Number, {
+    nullable: true,
+  })
+  guild_id?: number;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+  })
+  guild_name?: string;
 }
 
 @TypeGraphQL.Resolver(_of => Contribution)
@@ -524,9 +535,10 @@ export class ContributionCustomResolver {
     // guild_id is only present on the guild contribution table
     // need to run a join between contribution + guild contribution if guild_id
     // is supplied
-    const guildIds = args.where.guildIds;
+    console.log(args.where);
+    const guildIds = args.where?.guildIds;
 
-    if (guildIds.length === 0) {
+    if (!guildIds || guildIds.length === 0) {
       const result = await prisma.$queryRaw<ContributionCountByDate>`
         SELECT date(date_of_engagement), count(date_of_engagement) as count
         FROM "Contribution"
@@ -546,9 +558,10 @@ export class ContributionCustomResolver {
       ON g."id" = gc."guild_id"
       WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}
       AND "Contribution"."user_id" = ${user_id} 
-      AND "GuildContribution"."guild_id" in (${guildIds}))
-      GROUP BY date(date_of_engagement)
+      AND gc."guild_id" in (${Prisma.join(guildIds)}))
+      GROUP BY gc.guild_id, g.name, date(date_of_engagement)
       ORDER BY date(date_of_engagement);`;
+    console.log(result);
     return result;
   }
 }
