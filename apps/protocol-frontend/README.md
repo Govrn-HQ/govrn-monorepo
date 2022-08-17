@@ -8,7 +8,7 @@ This is a [React](https://reactjs.org/) app using [Vite](https://vitejs.dev) as 
 
 We use a customized [Chakra UI](https://chakra-ui.com/) as our core component library. We customize the theme and components via our growing [Protocol UI Component Library](./libs/protocol-ui). The frontend app pulls in from `protocol-ui` as well as the core Chakra components.
 
-We use TypeScript across our stack, and our data fetching and contract interaction is done via our [Protocol Client](./libs/protocol-client).
+We use TypeScript across our stack, and our data fetching and contract interaction is done via our [Protocol Client](../../libs/protocol-client).
 
 ### Nx Plugin
 
