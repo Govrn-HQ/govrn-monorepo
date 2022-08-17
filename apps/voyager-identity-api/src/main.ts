@@ -13,9 +13,9 @@ app
     try {
       const page = Number(req.query.page);
       const limit = Number(req.query.limit);
+      const address = req.query.address as string;
 
-      console.dir({ page, limit });
-      const event = await loadContributions({ page, limit });
+      const event = await loadContributions({ address, page, limit });
       // json > json-ld
       const transformed = await transform(event);
       res.send(JSON.stringify(transformed));

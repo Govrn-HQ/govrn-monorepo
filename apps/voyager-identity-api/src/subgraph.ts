@@ -23,10 +23,15 @@ const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
 const client = new GovrnGraphClient(graphQLClient);
 
 export const loadContributions = async (options: {
+  address?: string;
   page?: number;
   limit?: number;
 }): Promise<LDContribution[]> => {
-  // Load attestations events from subgraph.
+  if (!options.address) {
+    throw new Error("Attestor's address is missing");
+  }
+
+  const address = options.address;
   const page = Math.abs(options.page || 1); // || for NaN value.
   const limit = Math.abs(options.limit || LIMIT);
   const skip = (page - 1) * limit;
@@ -35,10 +40,13 @@ export const loadContributions = async (options: {
     throw new Error('Maximum Limit exceeded.');
   }
 
-  console.dir({ page, limit, skip });
-
+  console.dir({ address, page, limit, skip });
+  // Load attestations events from subgraph.
   const events = (
     await client.listAttestations({
+      where: {
+        attestor: address,
+      },
       skip,
       first: limit,
     })
