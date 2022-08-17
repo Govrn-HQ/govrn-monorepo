@@ -26,7 +26,8 @@ export type Option =
     }
   | { value: number | null; label: string }
   | { value: number; label: string | null | undefined }
-  | { value: null; label: string };
+  | { value: null; label: string }
+  | { label: string | number; value: string | number };
 
 export interface ControlledSelectProps {
   label?: string;
@@ -38,7 +39,7 @@ export interface ControlledSelectProps {
   isRequired?: boolean;
   isMulti?: boolean;
   isClearable?: boolean;
-  onChange?: (option: Option | Option[]) => void;
+  onChange?: (option: Option[]) => void;
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
