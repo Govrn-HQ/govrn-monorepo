@@ -21,6 +21,7 @@ import {
   useRowSelect,
   useSortBy,
   useTable,
+  UseTableHooks,
 } from 'react-table';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { useUser } from '../contexts/UserContext';
@@ -115,14 +116,14 @@ const AttestationsTable = ({
     [],
   );
 
-  const tableHooks = (hooks: { visibleColumns }) => {
+  const tableHooks = (hooks: UseTableHooks<AttestationTableType>) => {
     hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
-        Cell: ({ row }: { row }) => (
+        Cell: ({ row }: { row: Row<AttestationTableType> }) => (
           <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
         ),
       },

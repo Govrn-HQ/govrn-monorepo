@@ -6,9 +6,9 @@ The `protocol-frontend` package is the main frontend app for the Govrn Protocol.
 
 This is a [React](https://reactjs.org/) app using [Vite](https://vitejs.dev) as the build tool. If you haven't used Vite before you should check out the docs for an introduction: [Vite: Getting Started](https://vitejs.dev/guide/).
 
-We use a customized [Chakra UI](https://chakra-ui.com/) as our core component library. We customize the theme and components via our growing [Protocol UI Component Library](./libs/protocol-ui). The frontend app pulls in from `protocol-ui` as well as the core Chakra components.
+We use a customized [Chakra UI](https://chakra-ui.com/) as our core component library. We customize the theme and components via our growing [Protocol UI Component Library](../../libs/protocol-ui). The frontend app pulls in from `protocol-ui` as well as the core Chakra components.
 
-We use TypeScript across our stack, and our data fetching and contract interaction is done via our [Protocol Client](./libs/protocol-client).
+We use TypeScript across our stack, and our data fetching and contract interaction is done via our [Protocol Client](../../libs/protocol-client).
 
 ### Nx Plugin
 
@@ -39,7 +39,7 @@ The frontend file structure should be familiar to React devs. The core folders a
 
 ## Local Development Setup
 
-There are a few steps to get up and running locally. You'll need to set up and run a local Postgres database as well as run the [Protocol API](./apps/protocol-api) locally. When developing locally for the first time you'll need to follow the [Protocol API Guide](https://github.com/Govrn-HQ/govrn-monorepo/tree/staging/apps/protocol-api) to get up and running.
+There are a few steps to get up and running locally. You'll need to set up and run a local Postgres database as well as run the [Protocol API](../protocol-api) locally. When developing locally for the first time you'll need to follow the [Protocol API Guide](https://github.com/Govrn-HQ/govrn-monorepo/tree/staging/apps/protocol-api) to get up and running.
 
 Once the API is set up, be sure that you're connected to your Postgres database. Using a tool like [Postico](https://eggerapps.at/postico/) can help with interacting with a Postgres database.
 
