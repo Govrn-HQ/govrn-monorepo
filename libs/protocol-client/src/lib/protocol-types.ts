@@ -2264,6 +2264,8 @@ export type ContributionCountAggregate = {
 export type ContributionCountByDate = {
   count: Scalars['Float'];
   date: Scalars['String'];
+  guild_id?: Maybe<Scalars['Float']>;
+  guild_name?: Maybe<Scalars['String']>;
 };
 
 export type ContributionCountOrderByAggregateInput = {
@@ -3780,10 +3782,10 @@ export type FloatNullableWithAggregatesFilter = {
 };
 
 export type GetUserContributionCountInput = {
-  end_date: Scalars['DateTime'];
-  guild_id?: InputMaybe<Scalars['Float']>;
+  endDate: Scalars['DateTime'];
+  guildIds?: InputMaybe<Array<Scalars['Float']>>;
   id: Scalars['Float'];
-  start_date: Scalars['DateTime'];
+  startDate: Scalars['DateTime'];
 };
 
 export type Guild = {
