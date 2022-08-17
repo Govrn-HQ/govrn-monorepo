@@ -2,6 +2,7 @@ import { GraphQLClient } from 'graphql-request';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { BigNumber, ethers } from 'ethers';
+import { InferType, number, object, string } from 'yup';
 import { LDContribution } from './types';
 
 // Environment Variables.
@@ -17,23 +18,22 @@ const networkConfig: NetworkConfig = {
   chainId: 100,
 };
 
+export const requestSchema = object({
+  address: string().required(),
+  page: number().optional().default(1),
+  limit: number().optional().default(LIMIT),
+});
+
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
 const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
 const client = new GovrnGraphClient(graphQLClient);
 
-export const loadContributions = async (options: {
-  address?: string;
-  page?: number;
-  limit?: number;
-}): Promise<LDContribution[]> => {
-  if (!options.address) {
-    throw new Error("Attestor's address is missing");
-  }
-
-  const address = options.address;
-  const page = Math.abs(options.page || 1); // || for NaN value.
-  const limit = Math.abs(options.limit || LIMIT);
+export const loadContributions = async ({
+  address,
+  limit,
+  page,
+}: InferType<typeof requestSchema>): Promise<LDContribution[]> => {
   const skip = (page - 1) * limit;
 
   if (skip > SKIP_LIMIT) {
