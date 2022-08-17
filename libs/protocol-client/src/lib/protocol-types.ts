@@ -2264,6 +2264,8 @@ export type ContributionCountAggregate = {
 export type ContributionCountByDate = {
   count: Scalars['Float'];
   date: Scalars['String'];
+  guild_id?: Maybe<Scalars['Float']>;
+  guild_name?: Maybe<Scalars['String']>;
 };
 
 export type ContributionCountOrderByAggregateInput = {
