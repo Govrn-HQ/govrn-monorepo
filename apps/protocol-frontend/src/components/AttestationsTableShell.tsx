@@ -18,12 +18,14 @@ import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
 import { ModalWrapper } from '@govrn/protocol-ui';
 import BulkAttestationModal from './BulkAttestationModal';
+import { MintAttestationType } from '../types/mint';
+import { UIContribution } from '@govrn/ui-types';
 
 const AttestationsTableShell = () => {
   const { daoContributions } = useUser();
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
-  const [selectedContributions, setSelectedContributions] = useState<any>();
+  const [selectedContributions, setSelectedContributions] = useState<any[]>([]);
 
   const attestationsModalHandler = () => {
     setModals({ bulkAttestationModal: true });
