@@ -40,32 +40,23 @@ export const loadContributions = async (options: {
     throw new Error('Maximum Limit exceeded.');
   }
 
-  console.dir({ address, page, limit, skip });
-  // Load attestations events from subgraph.
-  const events = (
-    await client.listAttestations({
-      where: {
-        attestor: address,
-      },
-      skip,
-      first: limit,
+  const contrsEvents = (
+    await client.listContributions({
+      where: { address },
     })
-  ).attestations;
+  ).contributions;
 
-  // Load corresponding contributions to get `detailsUri`.
-  const contrs = await Promise.all(
-    events.map(async e => {
+  const x = await Promise.all(
+    contrsEvents.map(async e => {
       const contr = await govrnContract.contributions({
-        tokenId: e.contribution.id,
+        tokenId: e.id,
       });
       return { ...contr, ...e };
     }),
   );
 
-  return contrs.map(c => ({
-    clue: c.id,
-    id: Number(BigNumber.from(c.contribution.id.toString()).toString()),
-    attestor: c.attestor,
+  return x.map(c => ({
+    id: Number(BigNumber.from(c.id.toString()).toString()),
     owner: c.owner,
     detailsUri: ethers.utils.toUtf8String(c.detailsUri),
   }));

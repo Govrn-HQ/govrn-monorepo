@@ -17,7 +17,7 @@ app
 
       const event = await loadContributions({ address, page, limit });
       // json > json-ld
-      const transformed = await transform(event);
+      const transformed = await transform(event, address);
       res.send(JSON.stringify(transformed));
     } catch (e) {
       console.error(e);
