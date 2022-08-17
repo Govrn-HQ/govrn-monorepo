@@ -40,6 +40,11 @@ export const UserContext = createContext<UserContextType>(
   {} as UserContextType,
 );
 
+type UserContributionsDateRangeCountType = {
+  count: number;
+  date: string;
+};
+
 interface UserContextProps {
   children: React.ReactNode;
 }
@@ -81,6 +86,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     [],
   );
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
+  const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
+    useState<UserContributionsDateRangeCountType[]>([]);
 
   useEffect(() => {
     if (address) {
@@ -185,6 +192,31 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         })),
       );
       return daoContributionsResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getUserContributionsCount = async (
+    startDate: Date | string,
+    endDate: Date | string,
+    guildIds: number | null | undefined,
+  ) => {
+    try {
+      if (!userData?.id) {
+        throw new Error('getUserContributionsCount has no userData.id');
+      }
+      const getUserContributionsCountResponse =
+        await govrn.custom.getContributionCountByDateForUserInRange({
+          start_date: startDate,
+          end_date: endDate,
+          id: userData?.id,
+          guild_id: guildIds,
+          // guild_ids: guildIds,
+        });
+
+      setUserContributionsDateRangeCount(getUserContributionsCountResponse);
+      return getUserContributionsCountResponse;
     } catch (error) {
       console.error(error);
     }
@@ -713,6 +745,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isUserLoading,
         getAllDaos,
         getContribution,
+        getUserContributionsCount,
         mintAttestation,
         mintContribution,
         setAllDaos,
@@ -721,6 +754,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserActivityTypes,
         setUserAddress,
         setUserAttestations,
+        setUserContributionsDateRangeCount,
         setUserData,
         setUserDataByAddress,
         updateContribution,
@@ -730,6 +764,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userAddress,
         userAttestations,
         userContributions,
+        userContributionsDateRangeCount,
         userData,
         userDataByAddress,
       }}
@@ -762,6 +797,11 @@ type UserContextType = {
     username: string;
   }) => Promise<void>;
   getAllDaos: () => Promise<UIGuilds>;
+  getUserContributionsCount: (
+    startDate: string | Date,
+    endDate: string | Date,
+    guildIds: number | null | undefined,
+  ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getContribution: (id: number) => Promise<UIContribution | null>;
   isUserLoading: boolean;
   mintAttestation: (
@@ -776,6 +816,9 @@ type UserContextType = {
   setContribution: (data: UIContribution) => void;
   setDaoContributions: (data: UIContribution[]) => void;
   setUserActivityTypes: (data: UIActivityType[]) => void;
+  setUserContributionsDateRangeCount: (
+    data: UserContributionsDateRangeCountType[],
+  ) => void;
   setUserAddress: (arg0: string) => void;
   setUserAttestations: (arg0: UIAttestations) => void;
   setUserData: (arg0: UIUser) => void;
@@ -792,6 +835,7 @@ type UserContextType = {
   userAddress: string | null;
   userAttestations: UIAttestations | null;
   userContributions: UIContribution[];
+  userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };
