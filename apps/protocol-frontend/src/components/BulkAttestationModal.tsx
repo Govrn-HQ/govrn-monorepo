@@ -1,7 +1,17 @@
 import { useState } from 'react';
-import { Button, Flex, Progress, Stack, Text } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  List,
+  ListIcon,
+  ListItem,
+  Progress,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { UIContribution } from '@govrn/ui-types';
+import { MdCheckCircle } from 'react-icons/all';
 import { MintContributionType } from '../types/mint';
 
 interface BulkAttestationModalProps {
@@ -28,11 +38,24 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
 
   return (
     <Stack spacing="4" width="100%" color="gray.800">
-      <Text paddingBottom={2}>Attesting as: {userData?.name}</Text>
       <Text paddingBottom={2}>
-        Attesting to {contributions.length}{' '}
-        {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+        Attesting as: <strong>{userData?.name}</strong>
       </Text>
+      <Text>
+        Attesting to <strong>{contributions.length} </strong>
+        {contributions.length === 1 ? 'Contribution' : 'Contributions'}:
+      </Text>
+      <List variant="primary" paddingBottom={3} spacing={2}>
+        {contributions.map(value => {
+          return (
+            <ListItem>
+              {' '}
+              <ListIcon as={MdCheckCircle} color="green.500" />
+              {value.name}
+            </ListItem>
+          );
+        })}
+      </List>
       {attesting ? (
         <Progress
           color="brand.primary"
