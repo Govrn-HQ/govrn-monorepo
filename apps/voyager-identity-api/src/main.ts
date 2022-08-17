@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { loadContributions } from './subgraph';
+import { loadContributions, requestSchema } from './subgraph';
 import { transform } from './json-ld';
 
 const app = express();
@@ -11,17 +11,14 @@ app
   })
   .get('/api', async (req, res) => {
     try {
-      const page = Number(req.query.page);
-      const limit = Number(req.query.limit);
-
-      console.dir({ page, limit });
-      const event = await loadContributions({ page: null, limit });
+      const query = await requestSchema.validate(req.query);
+      const contributions = await loadContributions(query);
       // json > json-ld
-      const transformed = await transform(event);
+      const transformed = await transform(contributions, query.address);
       res.send(JSON.stringify(transformed));
     } catch (e) {
       console.error(e);
-      res.status(500).send();
+      res.status(500).send({ error: e?.message ?? 'Error happened!' });
     }
   });
 
