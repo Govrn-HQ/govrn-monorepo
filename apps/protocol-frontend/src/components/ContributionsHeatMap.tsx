@@ -87,7 +87,12 @@ const ContributionsHeatMap = ({
           Less
         </Text>
         {brandColorMap.map(color => (
-          <Box backgroundColor={color} width="15.36px" height="15.36px" />
+          <Box
+            key={color}
+            backgroundColor={color}
+            width="15.36px"
+            height="15.36px"
+          />
         ))}
         <Text as="span" fontSize="sm" fontWeight="normal" paddingLeft={1}>
           More

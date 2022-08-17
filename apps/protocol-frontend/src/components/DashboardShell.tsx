@@ -12,8 +12,13 @@ type SelectedDaoType = {
   value: null;
   label: string;
 };
+
+type UserContributionsDateRangeCountType = {
+  count: number;
+  date: string;
+};
 interface DashboardShellProps {
-  user: UIUser;
+  user: UIUser | null;
 }
 
 // fetching will need to happen on this page, will refetch after each filter update
@@ -21,20 +26,21 @@ interface DashboardShellProps {
 
 const DashboardShell = ({ user }: DashboardShellProps) => {
   const { allDaos, getUserContributionsCount } = useUser();
-  const [contributionsCount, setContributionsCount] = useState([]);
+  const [contributionsCount, setContributionsCount] = useState<
+    UserContributionsDateRangeCountType[] | null | undefined
+  >([]);
   const [dateRange, setDateRange] = useState<number>(52);
   const [selectedDaos, setSelectedDaos] = useState<Option[]>([]);
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
-      const contributionsCountResponse = await getUserContributionsCount({
-        startDate: subWeeks(new Date(), dateRange),
-        endDate: new Date(),
-        guildIds:
-          selectedDaos.length > 0 && selectedDaos[0].value === null
-            ? null
-            : selectedDaos[0].value,
-      });
+      const contributionsCountResponse = await getUserContributionsCount(
+        subWeeks(new Date(), dateRange),
+        new Date(),
+        selectedDaos.length > 0 && selectedDaos[0].value === null
+          ? null
+          : Number(selectedDaos.length > 0 && selectedDaos[0].value),
+      );
       setContributionsCount(contributionsCountResponse);
     };
     fetchHeatMapCount();

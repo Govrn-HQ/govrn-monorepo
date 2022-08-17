@@ -42,7 +42,7 @@ export const UserContext = createContext<UserContextType>(
 
 type UserContributionsDateRangeCountType = {
   count: number;
-  date: string | Date;
+  date: string;
 };
 
 interface UserContextProps {
@@ -197,12 +197,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const getUserContributionsCount = async ({
-    startDate,
-    endDate,
-    guildIds,
-  }) => {
-    console.log('firing', guildIds);
+  const getUserContributionsCount = async (
+    startDate: Date | string,
+    endDate: Date | string,
+    guildIds: number | null | undefined,
+  ) => {
     try {
       if (!userData?.id) {
         throw new Error('getUserContributionsCount has no userData.id');
@@ -215,10 +214,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           guild_id: guildIds,
           // guild_ids: guildIds,
         });
-      console.log(
-        'getUserContributionsCountResponse',
-        getUserContributionsCountResponse,
-      );
+
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
       return getUserContributionsCountResponse;
     } catch (error) {
@@ -801,7 +797,11 @@ type UserContextType = {
     username: string;
   }) => Promise<void>;
   getAllDaos: () => Promise<UIGuilds>;
-  getUserContributionsCount: any;
+  getUserContributionsCount: (
+    startDate: string | Date,
+    endDate: string | Date,
+    guildIds: number | null | undefined,
+  ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getContribution: (id: number) => Promise<UIContribution | null>;
   isUserLoading: boolean;
   mintAttestation: (
