@@ -12,9 +12,9 @@ app
   .get('/api', async (req, res) => {
     try {
       const query = await requestSchema.validate(req.query);
-      const event = await loadContributions(query);
+      const contributions = await loadContributions(query);
       // json > json-ld
-      const transformed = await transform(event, query.address);
+      const transformed = await transform(contributions, query.address);
       res.send(JSON.stringify(transformed));
     } catch (e) {
       console.error(e);
