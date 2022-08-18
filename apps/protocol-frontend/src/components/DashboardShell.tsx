@@ -5,13 +5,9 @@ import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import { UIUser } from '@govrn/ui-types';
 import { ControlledSelect, Option } from '@govrn/protocol-ui';
-import ContributionsHeatMap from './ContributionsHeatMap';
 import { subWeeks } from 'date-fns';
-
-type SelectedDaoType = {
-  value: null;
-  label: string;
-};
+import ContributionsHeatMap from './ContributionsHeatMap';
+import ContributionsBarChart from './ContributionsBarChart';
 
 type UserContributionsDateRangeCountType = {
   count: number;
@@ -21,52 +17,54 @@ interface DashboardShellProps {
   user: UIUser | null;
 }
 
-// fetching will need to happen on this page, will refetch after each filter update
-// passing in the User so that the name is available upon initial render
-
 const DashboardShell = ({ user }: DashboardShellProps) => {
   const { allDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState<
     UserContributionsDateRangeCountType[] | null | undefined
   >([]);
-  const [dateRange, setDateRange] = useState<number>(52);
-  const [selectedDaos, setSelectedDaos] = useState<Option[]>([]);
+  const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
+    value: 52,
+    label: 'Last Year',
+  });
+  const [selectedDaos, setSelectedDaos] = useState<
+    { value: number; label: string }[]
+  >([]);
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
-      const contributionsCountResponse = await getUserContributionsCount(
-        subWeeks(new Date(), dateRange),
-        new Date(),
-        selectedDaos.length > 0 && selectedDaos[0].value === null
-          ? null
-          : Number(selectedDaos.length > 0 && selectedDaos[0].value),
-      );
-      setContributionsCount(contributionsCountResponse);
+      if (selectedDaos && selectedDaos.length > 0) {
+        const contributionsCountResponse = await getUserContributionsCount(
+          subWeeks(new Date(), dateRange.value),
+          new Date(),
+          selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
+        );
+        setContributionsCount(contributionsCountResponse);
+      }
     };
     fetchHeatMapCount();
-  }, [user, setDateRange, selectedDaos]);
+  }, [user, dateRange, selectedDaos]);
 
   const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
     label: dao.name ?? '',
   }));
 
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
-    },
-  ];
-
-  // unused for right now, but here so that we can add a date range selector
+  // will include this when we include unassigned -- this is adding some confusion to the UI
+  // const daoReset = [
+  //   {
+  //     value: null,
+  //     label: 'All DAOs',
+  //   },
+  // ];
 
   const dateRangeOptions = [
+    { value: 1, label: 'Last Week' },
     { value: 4, label: 'Last Month' },
-    { value: 12, label: '2022' },
+    { value: 12, label: 'Last Quarter' },
     { value: 52, label: 'Last Year' },
   ];
 
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+  const combinedDaoListOptions = [...new Set([...daoListOptions])];
 
   useEffect(() => {
     if (allDaos) {
@@ -79,7 +77,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
       paddingY={{ base: '4', md: '8' }}
       paddingX={{ base: '4', md: '8' }}
       color="gray.700"
-      maxWidth="900px"
       width="100%"
     >
       <PageHeading>Dashboard</PageHeading>
@@ -107,19 +104,32 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 {user?.name}
               </Text>
             </Heading>
-            <Flex paddingY={4}>
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              paddingY={4}
+              gap={8}
+              justifyContent="space-apart"
+            >
               {daoListOptions.length > 0 && (
                 <ControlledSelect
-                  defaultValue={combinedDaoListOptions[0]} // since only single is working for now
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
                   onChange={daos => {
-                    setSelectedDaos(daos);
+                    setSelectedDaos(Array.isArray(daos) ? daos : [daos]);
                   }}
                   options={combinedDaoListOptions}
                   isMulti
                 />
               )}
+              <ControlledSelect
+                defaultValue={dateRangeOptions.find(date => date.value === 52)}
+                label="Choose Date Range"
+                tip="Choose the date range for your Contributions."
+                onChange={date => {
+                  setDateRange(date);
+                }}
+                options={dateRangeOptions}
+              />
             </Flex>
             <Flex direction="column" gap={2}>
               <Heading
@@ -130,7 +140,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               >
                 {} Contribution Heat Map
               </Heading>
-              {contributionsCount && contributionsCount.length !== 0 ? (
+              {contributionsCount && contributionsCount !== undefined ? (
                 <>
                   <Text as="span" fontSize="sm">
                     Displaying{' '}
@@ -140,19 +150,62 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                       bgGradient="linear(to-l, #7928CA, #FF0080)"
                       bgClip="text"
                     >
-                      {contributionsCount.length}{' '}
+                      {contributionsCount.reduce(
+                        (acc, curr) => acc + curr.count,
+                        0,
+                      )}{' '}
                     </Text>
                     {contributionsCount.length === 1
                       ? 'Contribution'
                       : 'Contributions'}
                     <Text as="span" fontSize="sm">
                       {' '}
-                      in the last year
+                      in the {dateRange?.label.toLowerCase()}
                     </Text>
                   </Text>
                   <ContributionsHeatMap
                     contributionsCount={contributionsCount}
-                    startDateOffset={dateRange}
+                    startDateOffset={dateRange.value}
+                  />
+                </>
+              ) : (
+                <Text>Loading...</Text>
+              )}
+            </Flex>
+            <Flex direction="column" gap={2}>
+              <Heading
+                as="h4"
+                fontSize="lg"
+                color="gray.800"
+                fontWeight="normal"
+              >
+                {} Contribution Bar Chart
+              </Heading>
+              {contributionsCount && contributionsCount !== undefined ? (
+                <>
+                  <Text as="span" fontSize="sm">
+                    Displaying{' '}
+                    <Text
+                      as="span"
+                      fontWeight="bolder"
+                      bgGradient="linear(to-l, #7928CA, #FF0080)"
+                      bgClip="text"
+                    >
+                      {contributionsCount.reduce(
+                        (acc, curr) => acc + curr.count,
+                        0,
+                      )}{' '}
+                    </Text>
+                    {contributionsCount.length === 1
+                      ? 'Contribution'
+                      : 'Contributions'}
+                    <Text as="span" fontSize="sm">
+                      {' '}
+                      in the {dateRange?.label.toLowerCase()}
+                    </Text>
+                  </Text>
+                  <ContributionsBarChart
+                    contributionsCount={contributionsCount}
                   />
                 </>
               ) : (

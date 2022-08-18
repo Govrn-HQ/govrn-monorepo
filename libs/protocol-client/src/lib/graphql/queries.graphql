@@ -429,6 +429,8 @@ query getContributionCountByDateForUserInRange(
   result: getContributionCountByDateForUserInRange(where: $where) {
     count
     date
+    guild_id
+    name
   }
 }
 

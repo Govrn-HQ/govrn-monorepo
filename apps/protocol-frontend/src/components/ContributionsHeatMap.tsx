@@ -39,21 +39,21 @@ const ContributionsHeatMap = ({
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
-      <Flex
-        direction="column"
-        height={{ base: '5rem', lg: '10rem' }}
-        width="100%"
-      >
-        {contributionsCountMap.length !== 0 ? (
+      {contributionsCountMap.length !== 0 && (
+        <Flex
+          direction="column"
+          height={{ base: '5rem', lg: '10rem' }}
+          width="100%"
+          maxWidth="100vw"
+        >
           <ResponsiveTimeRange
             data={contributionsCountMap}
             from={
               startDateOffset
-                ? subWeeks(new Date(), startDateOffset - 1)
-                : subWeeks(new Date(), 1)
+                ? subWeeks(new Date(), startDateOffset)
+                : subWeeks(new Date(), 52)
             }
             to={new Date()}
-            // direction={isMobile ? 'vertical' : 'horizontal'}
             weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
             colors={[
@@ -74,30 +74,30 @@ const ContributionsHeatMap = ({
             dayBorderWidth={2}
             dayBorderColor="#ffffff"
           />
-        ) : (
-          <Box>No contributions found for this year!</Box>
-        )}
-      </Flex>
-      <Flex
-        direction="row"
-        alignItems="center"
-        justifyContent={{ base: 'flex-start', lg: 'center' }}
-      >
-        <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
-          Less
-        </Text>
-        {brandColorMap.map(color => (
-          <Box
-            key={color}
-            backgroundColor={color}
-            width="15.36px"
-            height="15.36px"
-          />
-        ))}
-        <Text as="span" fontSize="sm" fontWeight="normal" paddingLeft={1}>
-          More
-        </Text>
-      </Flex>
+        </Flex>
+      )}
+      {contributionsCountMap.length !== 0 && (
+        <Flex
+          direction="row"
+          alignItems="center"
+          justifyContent={{ base: 'flex-start', lg: 'center' }}
+        >
+          <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
+            Less
+          </Text>
+          {brandColorMap.map(color => (
+            <Box
+              key={color}
+              backgroundColor={color}
+              width="15.36px"
+              height="15.36px"
+            />
+          ))}
+          <Text as="span" fontSize="sm" fontWeight="normal" paddingLeft={1}>
+            More
+          </Text>
+        </Flex>
+      )}
     </Flex>
   );
 };

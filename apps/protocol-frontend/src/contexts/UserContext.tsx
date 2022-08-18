@@ -43,6 +43,8 @@ export const UserContext = createContext<UserContextType>(
 type UserContributionsDateRangeCountType = {
   count: number;
   date: string;
+  guildIds?: number[] | null | undefined;
+  name?: string | null | undefined;
 };
 
 interface UserContextProps {
@@ -165,6 +167,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         },
         first: 1000,
       });
+
       setUserContributions(
         userContributionsResponse.map(c => ({
           ...c,
@@ -200,7 +203,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getUserContributionsCount = async (
     startDate: Date | string,
     endDate: Date | string,
-    guildIds: number | null | undefined,
+    // guildIds: number[] | undefined,
+    guildIds?: number[] | null | undefined,
   ) => {
     try {
       if (!userData?.id) {
@@ -208,13 +212,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       }
       const getUserContributionsCountResponse =
         await govrn.custom.getContributionCountByDateForUserInRange({
-          start_date: startDate,
-          end_date: endDate,
           id: userData?.id,
-          guild_id: guildIds,
-          // guild_ids: guildIds,
+          startDate: startDate,
+          endDate: endDate,
+          guildIds: guildIds,
         });
-
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
       return getUserContributionsCountResponse;
     } catch (error) {
@@ -800,7 +802,7 @@ type UserContextType = {
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,
-    guildIds: number | null | undefined,
+    guildIds?: number[] | null | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getContribution: (id: number) => Promise<UIContribution | null>;
   isUserLoading: boolean;
@@ -829,7 +831,6 @@ type UserContextType = {
     bulkItemCount?: number,
   ) => void;
   deleteContribution: (id: number) => void;
-
   updateProfile: (arg0: ContributionFormValues) => void;
   userActivityTypes: UIActivityType[];
   userAddress: string | null;
