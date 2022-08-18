@@ -93,7 +93,7 @@ const ContributionsBarChart = ({
               tickRotation: 0,
               legend: 'Day',
               legendPosition: 'middle',
-              legendOffset: 0,
+              legendOffset: 10,
             }}
             axisLeft={{
               tickSize: 5,
