@@ -43,8 +43,8 @@ export const UserContext = createContext<UserContextType>(
 type UserContributionsDateRangeCountType = {
   count: number;
   date: string;
-  guild_id?: number[] | undefined;
-  name?: string;
+  guildIds?: number[] | null | undefined;
+  name?: string | null | undefined;
 };
 
 interface UserContextProps {
@@ -88,10 +88,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     [],
   );
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
-  // const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
-  //   useState<UserContributionsDateRangeCountType[]>([]);
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
-    useState<any[]>([]);
+    useState<UserContributionsDateRangeCountType[]>([]);
 
   useEffect(() => {
     if (address) {
@@ -206,7 +204,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getUserContributionsCount = async (
     startDate: Date | string,
     endDate: Date | string,
-    guildIds: number[] | undefined,
+    // guildIds: number[] | undefined,
+    guildIds?: number[] | null | undefined,
   ) => {
     try {
       if (!userData?.id) {
@@ -804,8 +803,8 @@ type UserContextType = {
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,
-    guildIds: number[] | undefined,
-  ) => Promise<UserContributionsDateRangeCountType[] | null>;
+    guildIds?: number[] | null | undefined,
+  ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getContribution: (id: number) => Promise<UIContribution | null>;
   isUserLoading: boolean;
   mintAttestation: (
