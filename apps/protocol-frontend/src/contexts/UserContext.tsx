@@ -217,10 +217,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           endDate: endDate,
           guildIds: guildIds,
         });
-      console.log(
-        'user contributions count context',
-        getUserContributionsCountResponse,
-      );
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
       return getUserContributionsCountResponse;
     } catch (error) {

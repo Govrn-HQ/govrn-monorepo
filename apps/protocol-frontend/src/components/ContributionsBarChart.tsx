@@ -42,16 +42,34 @@ const ContributionsBarChart = ({
     };
   });
 
-  console.log('contributions count', contributionsCount);
-  // console.log('contributionsCountMap', contributionsCountMap);
+  console.log('contributionsCountMap', contributionsCountMap);
 
+  // console.log('merged', merged);
   const mock = [
     { day: '2022-04-23', guild1: 1, guild2: 5, guild3: 8, guild4: 10 },
     { day: '2022-04-20', guild1: 10, guild2: 10, guild3: 8, guild4: 15 },
     { day: '2022-05-20', guild1: 0, guild2: 20, guild3: 8, guild4: 50 },
   ];
 
-  // return as date, value, guild_id, guild_name
+  //day: '2022-06-21', value: 1, guildId: 1, guildName: 'TestDAO'
+
+  const merged = contributionsCountMap.map(item => ({
+    day: item.day,
+    [item.guildName as string]: item.value,
+  }));
+
+  console.log('merged', merged);
+
+  const reduced = _(merged)
+    .groupBy('day')
+    .map(g =>
+      _.mergeWith({}, ...g, (obj, src) =>
+        _.isArray(obj) ? obj.concat(src) : undefined,
+      ),
+    )
+    .value();
+
+  console.log('reduced', reduced);
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
@@ -62,9 +80,9 @@ const ContributionsBarChart = ({
       >
         {contributionsCountMap.length !== 0 ? (
           <ResponsiveBar
-            data={mock}
-            // keys={['hot dog', 'burger', 'sandwich', 'kebab', 'fries', 'donut']}
-            keys={['guild1', 'guild2', 'guild3', 'guild4']}
+            data={reduced}
+            // keys={merged.map(item => Object.keys(item)[1])}
+            keys={['TestDAO', 'jpDAO']}
             indexBy="day"
             margin={{ top: 50, right: 130, bottom: 40, left: 60 }}
             padding={0.3}
