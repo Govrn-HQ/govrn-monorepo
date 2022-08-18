@@ -8,6 +8,8 @@ import * as _ from 'lodash';
 type ContributionCount = {
   date: string;
   count: number;
+  guild_id?: number;
+  name?: string;
 };
 interface ContributionsBarChartProps {
   contributionsCount: ContributionCount[];
@@ -35,10 +37,13 @@ const ContributionsBarChart = ({
     return {
       day: contribution.date,
       value: contribution.count,
+      guildId: contribution.guild_id,
+      guildName: contribution.name,
     };
   });
 
-  console.log('contributionsCountMap', contributionsCountMap);
+  console.log('contributions count', contributionsCount);
+  // console.log('contributionsCountMap', contributionsCountMap);
 
   const mock = [
     { day: '2022-04-23', guild1: 1, guild2: 5, guild3: 8, guild4: 10 },

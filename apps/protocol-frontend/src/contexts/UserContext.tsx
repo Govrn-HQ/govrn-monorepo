@@ -43,6 +43,8 @@ export const UserContext = createContext<UserContextType>(
 type UserContributionsDateRangeCountType = {
   count: number;
   date: string;
+  guild_id?: number;
+  name?: string;
 };
 
 interface UserContextProps {
@@ -86,8 +88,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     [],
   );
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
+  // const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
+  //   useState<UserContributionsDateRangeCountType[]>([]);
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
-    useState<UserContributionsDateRangeCountType[]>([]);
+    useState<any[]>([]);
 
   useEffect(() => {
     if (address) {
@@ -213,7 +217,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           endDate: endDate,
           guildIds: guildIds,
         });
-
+      console.log(
+        'user contributions count context',
+        getUserContributionsCountResponse,
+      );
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
       return getUserContributionsCountResponse;
     } catch (error) {

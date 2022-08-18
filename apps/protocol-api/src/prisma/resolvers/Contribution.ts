@@ -233,7 +233,7 @@ export class ContributionCountByDate {
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
   })
-  guild_name?: string;
+  name?: string;
 }
 
 @TypeGraphQL.Resolver(_of => Contribution)
@@ -557,11 +557,11 @@ export class ContributionCustomResolver {
       INNER JOIN "Guild" as g
       ON g."id" = gc."guild_id"
       WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}
-      AND "Contribution"."user_id" = ${user_id} 
+      AND "Contribution"."user_id" = ${user_id}
       AND gc."guild_id" in (${Prisma.join(guildIds)}))
       GROUP BY gc.guild_id, g.name, date(date_of_engagement)
       ORDER BY date(date_of_engagement);`;
-    console.log(result);
+    console.log('contributioncountbydate', result);
     return result;
   }
 }

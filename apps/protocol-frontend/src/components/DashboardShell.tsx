@@ -36,7 +36,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   useEffect(() => {
     const fetchHeatMapCount = async () => {
       const contributionsCountResponse = await getUserContributionsCount(
-        subWeeks(new Date(), dateRange),
+        subWeeks(new Date(), 24),
         new Date(),
         selectedDaos.length > 0 && selectedDaos[0].value === null
           ? undefined

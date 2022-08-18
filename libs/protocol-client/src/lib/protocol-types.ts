@@ -2265,7 +2265,7 @@ export type ContributionCountByDate = {
   count: Scalars['Float'];
   date: Scalars['String'];
   guild_id?: Maybe<Scalars['Float']>;
-  guild_name?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type ContributionCountOrderByAggregateInput = {
@@ -14098,7 +14098,7 @@ export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
 }>;
 
 
-export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string }> };
+export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string, guild_id?: number | null, name?: string | null }> };
 
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;
@@ -14736,6 +14736,8 @@ export const GetContributionCountByDateForUserInRangeDocument = gql`
   result: getContributionCountByDateForUserInRange(where: $where) {
     count
     date
+    guild_id
+    name
   }
 }
     `;
