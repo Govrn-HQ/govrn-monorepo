@@ -83,6 +83,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     }
   }, [allDaos]);
 
+  console.log('contributionscount', contributionsCount);
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -158,7 +159,10 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                       bgGradient="linear(to-l, #7928CA, #FF0080)"
                       bgClip="text"
                     >
-                      {contributionsCount.length}{' '}
+                      {contributionsCount.reduce(
+                        (acc, curr) => acc + curr.count,
+                        0,
+                      )}{' '}
                     </Text>
                     {contributionsCount.length === 1
                       ? 'Contribution'
@@ -196,7 +200,10 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                       bgGradient="linear(to-l, #7928CA, #FF0080)"
                       bgClip="text"
                     >
-                      {contributionsCount.length}{' '}
+                      {contributionsCount.reduce(
+                        (acc, curr) => acc + curr.count,
+                        0,
+                      )}{' '}
                     </Text>
                     {contributionsCount.length === 1
                       ? 'Contribution'
