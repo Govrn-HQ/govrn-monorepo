@@ -169,6 +169,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         },
         first: 1000,
       });
+
       setUserContributions(
         userContributionsResponse.map(c => ({
           ...c,
@@ -176,6 +177,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           date_of_submission: formatDate(c.date_of_submission),
         })),
       );
+      console.log('user id', userData?.id);
       return userContributionsResponse;
     } catch (error) {
       console.error(error);
@@ -217,6 +219,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           endDate: endDate,
           guildIds: guildIds,
         });
+      console.log(
+        'getUserContributionsCountResponse',
+        getUserContributionsCountResponse,
+      );
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
       return getUserContributionsCountResponse;
     } catch (error) {

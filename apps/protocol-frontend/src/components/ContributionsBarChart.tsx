@@ -61,21 +61,21 @@ const ContributionsBarChart = ({
     )
     .value();
 
-  console.log('merged', merged);
-  console.log('merged keys', [
-    ...new Set(merged.map(item => Object.keys(item)[1])),
-  ]);
+  // console.log('merged', merged);
+  // console.log('merged keys', [
+  //   ...new Set(merged.map(item => Object.keys(item)[1])),
+  // ]);
 
   console.log('reduced', reduced);
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
-      <Flex
-        direction="column"
-        height={{ base: '5rem', lg: '40vh' }}
-        width="100%"
-      >
-        {contributionsCountMap.length !== 0 ? (
+      {contributionsCountMap.length !== 0 && (
+        <Flex
+          direction="column"
+          height={{ base: '5rem', lg: '40vh' }}
+          width="100%"
+        >
           <ResponsiveBar
             data={reduced}
             keys={[...new Set(merged.map(item => Object.keys(item)[1]))]}
@@ -185,10 +185,8 @@ const ContributionsBarChart = ({
             //   );
             // }}
           />
-        ) : (
-          <Box>No contributions found for this year!</Box>
-        )}
-      </Flex>
+        </Flex>
+      )}
     </Flex>
   );
 };

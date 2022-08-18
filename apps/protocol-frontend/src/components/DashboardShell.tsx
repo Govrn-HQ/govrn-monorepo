@@ -30,13 +30,20 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   const [contributionsCount, setContributionsCount] = useState<
     UserContributionsDateRangeCountType[] | null | undefined
   >([]);
-  const [dateRange, setDateRange] = useState<number>(52);
-  const [selectedDaos, setSelectedDaos] = useState<Option[]>([]);
+  const [dateRange, setDateRange] = useState<{ value: number; label: string }>({
+    value: 52,
+    label: 'Last Year',
+  });
+
+  const [selectedDaos, setSelectedDaos] = useState<
+    { value: number | null; label: string }[]
+  >([]);
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
+      console.log('date range', dateRange);
       const contributionsCountResponse = await getUserContributionsCount(
-        subWeeks(new Date(), 24),
+        subWeeks(new Date(), dateRange.value),
         new Date(),
         selectedDaos.length > 0 && selectedDaos[0].value === null
           ? undefined
@@ -45,7 +52,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
       setContributionsCount(contributionsCountResponse);
     };
     fetchHeatMapCount();
-  }, [user, setDateRange, selectedDaos]);
+  }, [user, dateRange, selectedDaos]);
 
   const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
@@ -62,8 +69,9 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   // unused for right now, but here so that we can add a date range selector
 
   const dateRangeOptions = [
+    { value: 1, label: 'Last Week' },
     { value: 4, label: 'Last Month' },
-    { value: 12, label: '2022' },
+    { value: 12, label: 'Last Quarter' },
     { value: 52, label: 'Last Year' },
   ];
 
@@ -121,10 +129,13 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 />
               )}
               <ControlledSelect
-                defaultValue={dateRangeOptions[0]} // since only single is working for now
+                defaultValue={dateRangeOptions.find(date => date.value === 52)}
                 label="Choose Date Range"
                 tip="Choose the date range for your Contributions."
-                onChange={() => console.log('date range changed')}
+                onChange={date => {
+                  console.log('new date', date);
+                  setDateRange(date);
+                }}
                 options={dateRangeOptions}
               />
             </Flex>
@@ -137,7 +148,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               >
                 {} Contribution Heat Map
               </Heading>
-              {contributionsCount && contributionsCount.length !== 0 ? (
+              {contributionsCount && contributionsCount !== undefined ? (
                 <>
                   <Text as="span" fontSize="sm">
                     Displaying{' '}
@@ -154,12 +165,12 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                       : 'Contributions'}
                     <Text as="span" fontSize="sm">
                       {' '}
-                      in the last year
+                      in the {dateRange?.label.toLowerCase()}
                     </Text>
                   </Text>
                   <ContributionsHeatMap
                     contributionsCount={contributionsCount}
-                    startDateOffset={dateRange}
+                    startDateOffset={dateRange.value}
                   />
                 </>
               ) : (
@@ -175,9 +186,9 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               >
                 {} Contribution Bar Chart
               </Heading>
-              {contributionsCount && contributionsCount.length !== 0 ? (
+              {contributionsCount && contributionsCount !== undefined ? (
                 <>
-                  {/* <Text as="span" fontSize="sm">
+                  <Text as="span" fontSize="sm">
                     Displaying{' '}
                     <Text
                       as="span"
@@ -192,12 +203,12 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                       : 'Contributions'}
                     <Text as="span" fontSize="sm">
                       {' '}
-                      in the last year
+                      in the {dateRange?.label.toLowerCase()}
                     </Text>
-                  </Text> */}
+                  </Text>
                   <ContributionsBarChart
                     contributionsCount={contributionsCount}
-                    startDateOffset={dateRange}
+                    startDateOffset={dateRange.value}
                   />
                 </>
               ) : (
