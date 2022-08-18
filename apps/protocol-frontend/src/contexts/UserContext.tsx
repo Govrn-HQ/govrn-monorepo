@@ -175,7 +175,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           date_of_submission: formatDate(c.date_of_submission),
         })),
       );
-      console.log('user id', userData?.id);
       return userContributionsResponse;
     } catch (error) {
       console.error(error);
