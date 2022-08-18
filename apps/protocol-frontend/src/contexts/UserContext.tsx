@@ -200,7 +200,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getUserContributionsCount = async (
     startDate: Date | string,
     endDate: Date | string,
-    guildIds: number | null | undefined,
+    guildIds: number[] | undefined,
   ) => {
     try {
       if (!userData?.id) {
@@ -208,11 +208,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       }
       const getUserContributionsCountResponse =
         await govrn.custom.getContributionCountByDateForUserInRange({
-          start_date: startDate,
-          end_date: endDate,
           id: userData?.id,
-          guild_id: guildIds,
-          // guild_ids: guildIds,
+          startDate: startDate,
+          endDate: endDate,
+          guildIds: guildIds,
         });
 
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
@@ -800,7 +799,7 @@ type UserContextType = {
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,
-    guildIds: number | null | undefined,
+    guildIds: number[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getContribution: (id: number) => Promise<UIContribution | null>;
   isUserLoading: boolean;

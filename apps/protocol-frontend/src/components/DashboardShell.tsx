@@ -39,8 +39,8 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
         subWeeks(new Date(), dateRange),
         new Date(),
         selectedDaos.length > 0 && selectedDaos[0].value === null
-          ? null
-          : Number(selectedDaos.length > 0 && selectedDaos[0].value),
+          ? undefined
+          : selectedDaos.map(dao => dao.value),
       );
       setContributionsCount(contributionsCountResponse);
     };
