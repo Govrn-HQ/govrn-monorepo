@@ -5,8 +5,9 @@ import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import { UIUser } from '@govrn/ui-types';
 import { ControlledSelect, Option } from '@govrn/protocol-ui';
-import ContributionsHeatMap from './ContributionsHeatMap';
 import { subWeeks } from 'date-fns';
+import ContributionsHeatMap from './ContributionsHeatMap';
+import ContributionsBarChart from './ContributionsBarChart';
 
 type SelectedDaoType = {
   value: null;
@@ -79,7 +80,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
       paddingY={{ base: '4', md: '8' }}
       paddingX={{ base: '4', md: '8' }}
       color="gray.700"
-      maxWidth="900px"
       width="100%"
     >
       <PageHeading>Dashboard</PageHeading>
@@ -107,7 +107,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 {user?.name}
               </Text>
             </Heading>
-            <Flex paddingY={4}>
+            <Flex paddingY={4} gap={8} justifyContent="space-apart">
               {daoListOptions.length > 0 && (
                 <ControlledSelect
                   defaultValue={combinedDaoListOptions[0]} // since only single is working for now
@@ -120,6 +120,13 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                   isMulti
                 />
               )}
+              <ControlledSelect
+                defaultValue={dateRangeOptions[0]} // since only single is working for now
+                label="Choose Date Range"
+                tip="Choose the date range for your Contributions."
+                onChange={() => console.log('date range changed')}
+                options={dateRangeOptions}
+              />
             </Flex>
             <Flex direction="column" gap={2}>
               <Heading
@@ -151,6 +158,44 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                     </Text>
                   </Text>
                   <ContributionsHeatMap
+                    contributionsCount={contributionsCount}
+                    startDateOffset={dateRange}
+                  />
+                </>
+              ) : (
+                <Text>Loading...</Text>
+              )}
+            </Flex>
+            <Flex direction="column" gap={2}>
+              <Heading
+                as="h4"
+                fontSize="lg"
+                color="gray.800"
+                fontWeight="normal"
+              >
+                {} Contribution Bar Chart
+              </Heading>
+              {contributionsCount && contributionsCount.length !== 0 ? (
+                <>
+                  {/* <Text as="span" fontSize="sm">
+                    Displaying{' '}
+                    <Text
+                      as="span"
+                      fontWeight="bolder"
+                      bgGradient="linear(to-l, #7928CA, #FF0080)"
+                      bgClip="text"
+                    >
+                      {contributionsCount.length}{' '}
+                    </Text>
+                    {contributionsCount.length === 1
+                      ? 'Contribution'
+                      : 'Contributions'}
+                    <Text as="span" fontSize="sm">
+                      {' '}
+                      in the last year
+                    </Text>
+                  </Text> */}
+                  <ContributionsBarChart
                     contributionsCount={contributionsCount}
                     startDateOffset={dateRange}
                   />
