@@ -42,32 +42,29 @@ const ContributionsBarChart = ({
     };
   });
 
-  console.log('contributionsCountMap', contributionsCountMap);
-
-  // console.log('merged', merged);
-  const mock = [
-    { day: '2022-04-23', guild1: 1, guild2: 5, guild3: 8, guild4: 10 },
-    { day: '2022-04-20', guild1: 10, guild2: 10, guild3: 8, guild4: 15 },
-    { day: '2022-05-20', guild1: 0, guild2: 20, guild3: 8, guild4: 50 },
-  ];
-
-  //day: '2022-06-21', value: 1, guildId: 1, guildName: 'TestDAO'
-
   const merged = contributionsCountMap.map(item => ({
     day: item.day,
     [item.guildName as string]: item.value,
   }));
 
-  console.log('merged', merged);
-
-  const reduced = _(merged)
+  const reduced = _.chain(merged)
     .groupBy('day')
     .map(g =>
-      _.mergeWith({}, ...g, (obj, src) =>
-        _.isArray(obj) ? obj.concat(src) : undefined,
+      _.mergeWith(
+        {},
+        ...g,
+        (
+          acc: { day: string; [x: string]: string | number },
+          curr: { day: string; [x: string]: string | number },
+        ) => (_.isArray(acc) ? acc.concat(curr) : undefined),
       ),
     )
     .value();
+
+  console.log('merged', merged);
+  console.log('merged keys', [
+    ...new Set(merged.map(item => Object.keys(item)[1])),
+  ]);
 
   console.log('reduced', reduced);
 
@@ -81,8 +78,7 @@ const ContributionsBarChart = ({
         {contributionsCountMap.length !== 0 ? (
           <ResponsiveBar
             data={reduced}
-            // keys={merged.map(item => Object.keys(item)[1])}
-            keys={['TestDAO', 'jpDAO']}
+            keys={[...new Set(merged.map(item => Object.keys(item)[1]))]}
             indexBy="day"
             margin={{ top: 50, right: 130, bottom: 40, left: 60 }}
             padding={0.3}
