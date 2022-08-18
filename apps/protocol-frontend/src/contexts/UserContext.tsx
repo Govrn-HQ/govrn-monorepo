@@ -43,7 +43,7 @@ export const UserContext = createContext<UserContextType>(
 type UserContributionsDateRangeCountType = {
   count: number;
   date: string;
-  guild_id?: number;
+  guild_id?: number[] | undefined;
   name?: string;
 };
 
@@ -208,7 +208,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     endDate: Date | string,
     guildIds: number[] | undefined,
   ) => {
-    console.log('guildIds', guildIds);
     try {
       if (!userData?.id) {
         throw new Error('getUserContributionsCount has no userData.id');
@@ -220,10 +219,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           endDate: endDate,
           guildIds: guildIds,
         });
-      console.log(
-        'getUserContributionsCountResponse',
-        getUserContributionsCountResponse,
-      );
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
       return getUserContributionsCountResponse;
     } catch (error) {
@@ -810,7 +805,7 @@ type UserContextType = {
     startDate: string | Date,
     endDate: string | Date,
     guildIds: number[] | undefined,
-  ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
+  ) => Promise<UserContributionsDateRangeCountType[] | null>;
   getContribution: (id: number) => Promise<UIContribution | null>;
   isUserLoading: boolean;
   mintAttestation: (
@@ -838,7 +833,6 @@ type UserContextType = {
     bulkItemCount?: number,
   ) => void;
   deleteContribution: (id: number) => void;
-
   updateProfile: (arg0: ContributionFormValues) => void;
   userActivityTypes: UIActivityType[];
   userAddress: string | null;

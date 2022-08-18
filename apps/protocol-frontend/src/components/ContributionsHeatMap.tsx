@@ -44,6 +44,7 @@ const ContributionsHeatMap = ({
           direction="column"
           height={{ base: '5rem', lg: '10rem' }}
           width="100%"
+          maxWidth="100vw"
         >
           <ResponsiveTimeRange
             data={contributionsCountMap}

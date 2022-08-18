@@ -10,7 +10,7 @@ import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
 
 type SelectedDaoType = {
-  value: null;
+  value: number;
   label: string;
 };
 
@@ -22,19 +22,15 @@ interface DashboardShellProps {
   user: UIUser | null;
 }
 
-// fetching will need to happen on this page, will refetch after each filter update
-// passing in the User so that the name is available upon initial render
-
 const DashboardShell = ({ user }: DashboardShellProps) => {
   const { allDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState<
     UserContributionsDateRangeCountType[] | null | undefined
   >([]);
-  const [dateRange, setDateRange] = useState<{ value: number; label: string }>({
+  const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
     value: 52,
     label: 'Last Year',
   });
-
   const [selectedDaos, setSelectedDaos] = useState<
     { value: number; label: string }[]
   >([]);
@@ -113,10 +109,14 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 {user?.name}
               </Text>
             </Heading>
-            <Flex paddingY={4} gap={8} justifyContent="space-apart">
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              paddingY={4}
+              gap={8}
+              justifyContent="space-apart"
+            >
               {daoListOptions.length > 0 && (
                 <ControlledSelect
-                  defaultValue={combinedDaoListOptions[0]} // since only single is working for now
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
                   onChange={daos => {
@@ -211,7 +211,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                   </Text>
                   <ContributionsBarChart
                     contributionsCount={contributionsCount}
-                    startDateOffset={dateRange.value}
                   />
                 </>
               ) : (

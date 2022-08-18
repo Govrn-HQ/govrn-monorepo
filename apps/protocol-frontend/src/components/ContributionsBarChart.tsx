@@ -62,8 +62,9 @@ const ContributionsBarChart = ({
       {contributionsCountMap.length !== 0 && (
         <Flex
           direction="column"
-          height={{ base: '5rem', lg: '40vh' }}
+          height={{ base: '20vh', lg: '40vh' }}
           width="100%"
+          maxWidth="100vw"
         >
           <ResponsiveBar
             data={reduced}
@@ -88,11 +89,11 @@ const ContributionsBarChart = ({
             axisRight={null}
             axisBottom={{
               tickSize: 5,
-              tickPadding: 5,
+              tickPadding: 10,
               tickRotation: 0,
               legend: 'Day',
               legendPosition: 'middle',
-              legendOffset: 32,
+              legendOffset: 0,
             }}
             axisLeft={{
               tickSize: 5,
@@ -114,7 +115,7 @@ const ContributionsBarChart = ({
                 anchor: 'bottom-right',
                 direction: 'column',
                 justify: false,
-                translateX: 120,
+                translateX: isMobile ? 180 : 120,
                 translateY: 0,
                 itemsSpacing: 2,
                 itemWidth: 150,

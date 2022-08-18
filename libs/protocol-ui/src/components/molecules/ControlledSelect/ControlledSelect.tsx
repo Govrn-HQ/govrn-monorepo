@@ -40,7 +40,7 @@ export interface ControlledSelectProps {
   isRequired?: boolean;
   isMulti?: boolean;
   isClearable?: boolean;
-  onChange?: (option: Option | Option[]) => void;
+  onChange?: (option: { value: number; label: string }) => void;
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
