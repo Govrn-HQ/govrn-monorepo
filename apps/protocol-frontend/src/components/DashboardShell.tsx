@@ -9,11 +9,6 @@ import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
 
-type SelectedDaoType = {
-  value: number;
-  label: string;
-};
-
 type UserContributionsDateRangeCountType = {
   count: number;
   date: string;
@@ -38,6 +33,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   useEffect(() => {
     const fetchHeatMapCount = async () => {
       if (selectedDaos && selectedDaos.length > 0) {
+        console.log('selected daos', selectedDaos);
         const contributionsCountResponse = await getUserContributionsCount(
           subWeeks(new Date(), dateRange.value),
           new Date(),
