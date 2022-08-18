@@ -13,10 +13,7 @@ type ContributionCount = {
 };
 interface ContributionsBarChartProps {
   contributionsCount: ContributionCount[];
-  startDateOffset?: number;
 }
-
-const brandColors = GovrnTheme.colors.brand.primary;
 
 const brandColorMap = [
   '#ffb4e2',
@@ -30,7 +27,6 @@ const brandColorMap = [
 
 const ContributionsBarChart = ({
   contributionsCount,
-  startDateOffset,
 }: ContributionsBarChartProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount.map(contribution => {
@@ -61,13 +57,6 @@ const ContributionsBarChart = ({
     )
     .value();
 
-  // console.log('merged', merged);
-  // console.log('merged keys', [
-  //   ...new Set(merged.map(item => Object.keys(item)[1])),
-  // ]);
-
-  console.log('reduced', reduced);
-
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
       {contributionsCountMap.length !== 0 && (
@@ -91,40 +80,6 @@ const ContributionsBarChart = ({
               brandColorMap[2],
               brandColorMap[3],
             ]}
-            // defs={[
-            //   {
-            //     id: 'dots',
-            //     type: 'patternDots',
-            //     background: 'inherit',
-            //     color: '#38bcb2',
-            //     size: 4,
-            //     padding: 1,
-            //     stagger: true,
-            //   },
-            //   {
-            //     id: 'lines',
-            //     type: 'patternLines',
-            //     background: 'inherit',
-            //     color: '#eed312',
-            //     rotation: -45,
-            //     lineWidth: 6,
-            //     spacing: 10,
-            //   },
-            // ]}
-            // fill={[
-            //   {
-            //     match: {
-            //       id: 'guild1',
-            //     },
-            //     id: 'dots',
-            //   },
-            //   {
-            //     match: {
-            //       id: 'guild2',
-            //     },
-            //     id: 'lines',
-            //   },
-            // ]}
             borderColor={{
               from: 'color',
               modifiers: [['darker', 1.6]],
@@ -179,11 +134,6 @@ const ContributionsBarChart = ({
             ]}
             role="application"
             ariaLabel="Bar Chart for DAO Contributions"
-            // barAriaLabel={function (e) {
-            //   return (
-            //     e.id + ': ' + e.formattedValue + ' in country: ' + e.indexValue
-            //   );
-            // }}
           />
         </Flex>
       )}

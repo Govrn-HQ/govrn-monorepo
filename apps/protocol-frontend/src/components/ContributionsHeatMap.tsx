@@ -37,8 +37,6 @@ const ContributionsHeatMap = ({
     };
   });
 
-  console.log('counts', contributionsCountMap);
-
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
       {contributionsCountMap.length !== 0 && (

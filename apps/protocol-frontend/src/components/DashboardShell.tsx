@@ -36,20 +36,19 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   });
 
   const [selectedDaos, setSelectedDaos] = useState<
-    { value: number | null; label: string }[]
+    { value: number; label: string }[]
   >([]);
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
-      console.log('date range', dateRange);
-      const contributionsCountResponse = await getUserContributionsCount(
-        subWeeks(new Date(), dateRange.value),
-        new Date(),
-        selectedDaos.length > 0 && selectedDaos[0].value === null
-          ? undefined
-          : selectedDaos.map(dao => dao.value),
-      );
-      setContributionsCount(contributionsCountResponse);
+      if (selectedDaos && selectedDaos.length > 0) {
+        const contributionsCountResponse = await getUserContributionsCount(
+          subWeeks(new Date(), dateRange.value),
+          new Date(),
+          selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
+        );
+        setContributionsCount(contributionsCountResponse);
+      }
     };
     fetchHeatMapCount();
   }, [user, dateRange, selectedDaos]);
@@ -59,14 +58,13 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     label: dao.name ?? '',
   }));
 
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
-    },
-  ];
-
-  // unused for right now, but here so that we can add a date range selector
+  // will include this when we include unassigned -- this is adding some confusion to the UI
+  // const daoReset = [
+  //   {
+  //     value: null,
+  //     label: 'All DAOs',
+  //   },
+  // ];
 
   const dateRangeOptions = [
     { value: 1, label: 'Last Week' },
@@ -75,7 +73,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     { value: 52, label: 'Last Year' },
   ];
 
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+  const combinedDaoListOptions = [...new Set([...daoListOptions])];
 
   useEffect(() => {
     if (allDaos) {
@@ -83,7 +81,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     }
   }, [allDaos]);
 
-  console.log('contributionscount', contributionsCount);
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -134,7 +131,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 label="Choose Date Range"
                 tip="Choose the date range for your Contributions."
                 onChange={date => {
-                  console.log('new date', date);
                   setDateRange(date);
                 }}
                 options={dateRangeOptions}
