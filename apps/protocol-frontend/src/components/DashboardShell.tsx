@@ -33,7 +33,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   useEffect(() => {
     const fetchHeatMapCount = async () => {
       if (selectedDaos && selectedDaos.length > 0) {
-        console.log('selected daos', selectedDaos);
         const contributionsCountResponse = await getUserContributionsCount(
           subWeeks(new Date(), dateRange.value),
           new Date(),
@@ -116,7 +115,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
                   onChange={daos => {
-                    setSelectedDaos(daos);
+                    setSelectedDaos(Array.isArray(daos) ? daos : [daos]);
                   }}
                   options={combinedDaoListOptions}
                   isMulti
