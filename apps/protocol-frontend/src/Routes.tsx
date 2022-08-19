@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Contributions from './pages/Contributions';
 import Attestations from './pages/Attestations';
+import Dashboard from './pages/Dashboard';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
@@ -62,6 +63,14 @@ const Routes = () => {
           element={
             <RequireActiveUser>
               <Report />
+            </RequireActiveUser>
+          }
+        />
+        <Route
+          path="/feature/dashboard"
+          element={
+            <RequireActiveUser>
+              <Dashboard />
             </RequireActiveUser>
           }
         />

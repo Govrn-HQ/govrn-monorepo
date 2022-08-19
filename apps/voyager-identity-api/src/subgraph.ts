@@ -2,6 +2,7 @@ import { GraphQLClient } from 'graphql-request';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { BigNumber, ethers } from 'ethers';
+import { InferType, number, object, string } from 'yup';
 import { LDContribution } from './types';
 
 // Environment Variables.
@@ -10,45 +11,52 @@ const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 
 const LIMIT = 100;
+const SKIP_LIMIT = 4999;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
   chainId: 100,
 };
 
+export const requestSchema = object({
+  address: string().required(),
+  page: number().optional().default(1),
+  limit: number().optional().default(LIMIT),
+});
+
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
 const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
 const client = new GovrnGraphClient(graphQLClient);
 
-export const loadContributions = async (options: {
-  page?: number;
-  limit?: number;
-}): Promise<LDContribution[]> => {
-  // Load attestations events from subgraph.
-  const page = options.page || 0; // || for NaN value.
-  const limit = options.limit || LIMIT;
+export const loadContributions = async ({
+  address,
+  limit,
+  page,
+}: InferType<typeof requestSchema>): Promise<LDContribution[]> => {
+  const skip = (page - 1) * limit;
 
-  const events = (
-    await client.listAttestations({
-      skip: page * limit,
-      first: limit,
+  if (skip > SKIP_LIMIT) {
+    throw new Error('Maximum Limit exceeded.');
+  }
+
+  const contrsEvents = (
+    await client.listContributions({
+      where: { address },
     })
-  ).attestations;
+  ).contributions;
 
-  // Load corresponding contributions to get `detailsUri`.
-  const contrs = await Promise.all(
-    events.map(async e => {
+  const x = await Promise.all(
+    contrsEvents.map(async e => {
       const contr = await govrnContract.contributions({
-        tokenId: e.contribution.id,
+        tokenId: e.id,
       });
       return { ...contr, ...e };
     }),
   );
 
-  return contrs.map(c => ({
-    id: Number(BigNumber.from(c.contribution.id.toString()).toString()),
-    attestor: c.attestor,
+  return x.map(c => ({
+    id: Number(BigNumber.from(c.id.toString()).toString()),
     owner: c.owner,
     detailsUri: ethers.utils.toUtf8String(c.detailsUri),
   }));
