@@ -7,15 +7,20 @@ import {
   ModalCloseButton,
   BoxProps,
 } from '@chakra-ui/react';
+import {
+  OverlayContextType,
+  GovrnModals,
+} from '../../../../../../apps/protocol-frontend/src/contexts/OverlayContext';
+import React from 'react';
 
 export interface ModalWrapperProps extends BoxProps {
-  name: string; // name of the modal for use throughout app
+  name: keyof GovrnModals;
   title: string;
   content: React.ReactNode;
   titleColor?: string;
   bgColor?: string;
   size?: string;
-  localOverlay: any; // TODO: type this properly
+  localOverlay: OverlayContextType;
   isOpen?: boolean;
   onClose?: () => void;
 }
