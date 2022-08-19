@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useOverlay } from '../contexts/OverlayContext';
 import { useUser } from '../contexts/UserContext';
-import { ModalWrapper } from '@govrn/protocol-ui';
+import ModalWrapper from './ModalWrapper';
 import MintModal from './MintModal';
 import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 import PageHeading from './PageHeading';

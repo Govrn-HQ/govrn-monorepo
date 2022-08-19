@@ -16,10 +16,8 @@ import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
-import { ModalWrapper } from '@govrn/protocol-ui';
+import ModalWrapper from './ModalWrapper';
 import BulkAttestationModal from './BulkAttestationModal';
-import { MintAttestationType } from '../types/mint';
-import { UIContribution } from '@govrn/ui-types';
 
 const AttestationsTableShell = () => {
   const { daoContributions } = useUser();
