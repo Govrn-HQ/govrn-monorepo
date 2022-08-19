@@ -35,6 +35,8 @@ export const OverlayContextProvider: React.FC<OverlayProviderProps> = ({
 }: OverlayProviderProps) => {
   const [modals, setModals] = useState(defaults);
   const showModal = (modals: Partial<GovrnModals>) => {
+    // This allows to show only one modal at a time.
+    // In addition, this reset any true value for other modals.
     setModals({ ...defaults, ...modals });
   };
 
