@@ -1,49 +1,30 @@
-import { defineConfig } from 'vite';
-import strip from '@rollup/plugin-strip';
-import { resolve } from 'path';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import { viteExternalsPlugin } from 'vite-plugin-externals';
+import GlobalPolyFill from "@esbuild-plugins/node-globals-polyfill";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
-const externalPlugin = viteExternalsPlugin({
-  ...{
-    electron: 'electron',
-    'electron-fetch': 'electron-fetch',
-  },
-});
-
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    strip(),
-    tsconfigPaths({
-      root: '../..',
-    }),
-    externalPlugin,
-  ],
-  resolve: {
-    alias: {
-      stream: 'stream-browserify',
-      url: 'url-browserify',
-      http: 'http-browserify',
-      https: 'http-browserify',
-      process: 'process-es6',
-      '~~': resolve(__dirname, 'src'),
-    },
-  },
-  build: {
-    target: 'esnext',
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-  },
+  // plugins: [react()], // having this in causes a runtime error
   optimizeDeps: {
     esbuildOptions: {
-      // Node.js global to browser globalThis
       define: {
-        global: 'globalThis',
-        // my fix
+        global: "globalThis",
         'globalThis.process.env.NODE_ENV': 'development',
       },
+      plugins: [
+        GlobalPolyFill({
+          process: true,
+          buffer: true,
+        }),
+
+      ],
+    },
+  },
+  resolve: {
+    alias: {
+      process: "process/browser",
+      stream: "stream-browserify",
+      zlib: "browserify-zlib",
+      util: "util",
     },
   },
 });
