@@ -72,7 +72,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   );
   const [isUserLoading, setUserLoading] = useState(false);
 
-  const [userData, setUserData] = useState<UIUser>({} as UIUser);
+  const [userData, setUserData] = useState<UIUser | null>(null);
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
   );
@@ -353,38 +353,40 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     navigate: NavigateFunction,
   ) => {
     try {
-      await govrn.custom.createUserContribution({
-        address: userData.address,
-        chainName: 'ethereum',
-        userId: userData.id,
-        name: values.name || '',
-        details: values.details || '',
-        proof: values.proof || '',
-        activityTypeName: values.activityType || '',
-        dateOfEngagement: new Date(values.engagementDate || '').toISOString(),
-        status: 'staging',
-        guildId: Number(values.daoId) || undefined,
-      });
-      toast({
-        title: 'Contribution Report Added',
-        description:
-          'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      await getUserActivityTypes();
-      await getUserContributions();
-      await getDaoContributions();
-      reset({
-        name: '',
-        details: '',
-        proof: '',
-        activityType: values.activityType,
-        date_of_engagement: values.engagementDate,
-      });
-      navigate('/contributions');
+      if (userData) {
+        await govrn.custom.createUserContribution({
+          address: userData?.address ?? '',
+          chainName: 'ethereum',
+          userId: userData?.id ?? -1,
+          name: values.name || '',
+          details: values.details || '',
+          proof: values.proof || '',
+          activityTypeName: values.activityType || '',
+          dateOfEngagement: new Date(values.engagementDate || '').toISOString(),
+          status: 'staging',
+          guildId: Number(values.daoId) || undefined,
+        });
+        toast({
+          title: 'Contribution Report Added',
+          description:
+            'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+        await getUserActivityTypes();
+        await getUserContributions();
+        await getDaoContributions();
+        reset({
+          name: '',
+          details: '',
+          proof: '',
+          activityType: values.activityType,
+          date_of_engagement: values.engagementDate,
+        });
+        navigate('/contributions');
+      }
     } catch (error) {
       console.log(error);
       toast({
@@ -404,7 +406,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     setMintProgress: Dispatch<SetStateAction<number>>,
   ) => {
     try {
-      if (signer && chain?.id) {
+      if (signer && chain?.id && userData) {
         await govrn.contribution.mint(
           {
             address: networks[chain?.id].govrnContract,
@@ -494,7 +496,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       if (!contribution?.onChainId) {
         throw new Error('No onChainId for contribution');
       }
-      if (signer && chain?.id) {
+      if (signer && chain?.id && userData) {
         await govrn.contribution.attest(
           {
             address: networks[chain?.id].govrnContract,
@@ -535,22 +537,24 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createAttestation = async (contribution: UIContribution) => {
     try {
-      await govrn.custom.createUserAttestation({
-        address: userData.address,
-        chainName: 'ethereum',
-        userId: userData.id,
-        confidenceName: '0',
-        contributionId: contribution.id,
-      });
-      toast({
-        title: 'Attestation Successfully Added',
-        description: 'Your Attestation has been added.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      await getDaoContributions();
+      if (userData) {
+        await govrn.custom.createUserAttestation({
+          address: userData.address,
+          chainName: 'ethereum',
+          userId: userData.id,
+          confidenceName: '0',
+          contributionId: contribution.id,
+        });
+        toast({
+          title: 'Attestation Successfully Added',
+          description: 'Your Attestation has been added.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+        await getDaoContributions();
+      }
     } catch (error) {
       console.log(error);
       toast({
