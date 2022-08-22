@@ -19,6 +19,7 @@ import { useUser } from '../contexts/UserContext';
 import CreateWaitlistUserForm from './CreateWaitlistUserForm';
 import { GOVRN_MOTTO } from '../utils/constants';
 import { FaDiscord } from 'react-icons/all';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 
 const HomeShell = () => {
   const { isConnected } = useAccount();
@@ -40,11 +41,7 @@ const HomeShell = () => {
 
   const NewUserFlow = () => {
     if (isUserLoading) {
-      return (
-        <Flex direction="column" alignItems="center" justifyContent="center">
-          <Spinner speed="0.7s" />
-        </Flex>
-      );
+      return <GovrnSpinner />;
     }
 
     return (
