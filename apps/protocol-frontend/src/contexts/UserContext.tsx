@@ -570,7 +570,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const updateContribution = async (
     contribution: UIContribution,
-
     values: ContributionFormValues,
     bulkItemCount?: number,
   ) => {
@@ -697,43 +696,28 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     if (address && isAuthenticated) {
-      getUserByAddress();
+      getUserByAddress().then();
     }
   }, [address, isAuthenticated]);
 
   useEffect(() => {
     if (userDataByAddress && isAuthenticated) {
-      getUser();
+      getUser().then();
     }
   }, [userDataByAddress, isAuthenticated]);
 
   useEffect(() => {
     if (userData !== null && isAuthenticated) {
-      getUserContributions();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (userData !== null && isAuthenticated) {
-      getDaoContributions();
+      getUserContributions().then();
+      getDaoContributions().then();
     }
   }, [userData, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      getUserActivityTypes();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getUserAttestations();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getAllDaos();
+      getUserActivityTypes().then();
+      getUserAttestations().then();
+      getAllDaos().then();
     }
   }, [userData, isAuthenticated]);
 
