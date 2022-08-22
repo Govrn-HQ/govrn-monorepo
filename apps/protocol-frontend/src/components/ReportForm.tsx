@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text, FormLabel, Switch } from '@chakra-ui/react';
 import {
   Input,
   Textarea,
@@ -25,7 +25,7 @@ const ReportForm = () => {
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
-    new Date()
+    new Date(),
   );
 
   useEffect(() => {
@@ -42,27 +42,37 @@ const ReportForm = () => {
 
   const combinedActivityTypesList = [
     ...new Set([
-      ...userActivityTypes.map((activity) => activity.name),
+      ...userActivityTypes.map(activity => activity.name),
       ...activityTypesList,
     ]),
   ];
 
-  const daoListOptions = allDaos.map((dao) => ({
+  const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
     label: dao.name ?? '',
   }));
 
   const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    (activity) => ({
+    activity => ({
       value: activity,
       label: activity,
-    })
+    }),
   );
 
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
-  > = async (values) => {
-    createContribution(values, reset, navigate);
+  > = async values => {
+    const result = await createContribution(values);
+    if (result) {
+      reset({
+        name: '',
+        details: '',
+        proof: '',
+        activityType: values.activityType,
+        date_of_engagement: values.engagementDate,
+      });
+      navigate('/contributions');
+    }
   };
 
   return (
@@ -80,7 +90,7 @@ const ReportForm = () => {
             name="activityType"
             label="Activity Type"
             placeholder="Select an activity type or add a new one"
-            onChange={(activity) => {
+            onChange={activity => {
               setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}
@@ -106,7 +116,7 @@ const ReportForm = () => {
             label="DAO"
             tip="Please select a DAO to associate this Contribution with. This is optional."
             placeholder="Select a DAO to associate this Contribution with."
-            onChange={(dao) => {
+            onChange={dao => {
               setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
             }}
             options={daoListOptions}
@@ -119,7 +129,7 @@ const ReportForm = () => {
             tip="Please select the date when you did this Contribution."
             defaultValue={engagementDateValue}
             maxDate={new Date()}
-            onChange={(date) => {
+            onChange={date => {
               if (Array.isArray(date)) {
                 return;
               }

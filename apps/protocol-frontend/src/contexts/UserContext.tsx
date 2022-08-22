@@ -349,9 +349,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createContribution = async (
     values: ContributionFormValues,
-    reset: UseFormReset<FieldValues>,
-    navigate: NavigateFunction,
-  ) => {
+  ): Promise<boolean> => {
     try {
       if (userData) {
         await govrn.custom.createUserContribution({
@@ -378,14 +376,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         await getUserActivityTypes();
         await getUserContributions();
         await getDaoContributions();
-        reset({
-          name: '',
-          details: '',
-          proof: '',
-          activityType: values.activityType,
-          date_of_engagement: values.engagementDate,
-        });
-        navigate('/contributions');
+        return true;
       }
     } catch (error) {
       console.log(error);
@@ -398,6 +389,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         position: 'top-right',
       });
     }
+    return false;
   };
 
   const mintContribution = async (
@@ -768,12 +760,7 @@ type UserContextType = {
   allDaos: UIGuild[];
   contribution: UIContribution;
   createAttestation: (arg0: UIContribution) => void;
-
-  createContribution: (
-    arg0: ContributionFormValues,
-    arg1: UseFormReset<FieldValues>,
-    arg2: NavigateFunction,
-  ) => void;
+  createContribution: (arg0: ContributionFormValues) => Promise<boolean>;
   createUser: (values: CreateUserFormValues, address: string) => void;
   createWaitlistUser: (
     values: CreateUserFormValues,
