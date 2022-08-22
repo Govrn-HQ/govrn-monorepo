@@ -25,7 +25,7 @@ const ReportShell = () => {
         background="white"
         boxShadow="sm"
         borderRadius={{ base: 'none', md: 'lg' }}
-        marginBottom={4}
+        marginBottom={7}
       >
         <ReportForm onFinish={() => navigate('/contributions')} />
       </Flex>

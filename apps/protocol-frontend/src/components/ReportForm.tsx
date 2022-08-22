@@ -13,6 +13,33 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 
+function CreateMoreSwitch({
+  isChecked,
+  onChange,
+}: {
+  isChecked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <Flex m={1} display="flex" alignItems="center" justifyContent="end">
+      <FormLabel m={2} htmlFor="create-more">
+        <Text fontSize="small" color="gray.600">
+          Create more
+        </Text>
+      </FormLabel>
+      <Switch
+        id="create-more"
+        size="sm"
+        colorScheme={'brand.primary'}
+        isChecked={isChecked}
+        onChange={() => {
+          onChange();
+        }}
+      />
+    </Flex>
+  );
+}
+
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { userActivityTypes, createContribution, allDaos } = useUser();
 
@@ -24,6 +51,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
     new Date(),
   );
+
+  const [isUserCreatingMore, setUserCreatingMore] = useState(false);
 
   useEffect(() => {
     setValue('engagementDate', engagementDateValue);
@@ -68,8 +97,13 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         activityType: values.activityType,
         date_of_engagement: values.engagementDate,
       });
-      onFinish();
+
+      if (!isUserCreatingMore) onFinish();
     }
+  };
+
+  const toggleCreateMoreSwitch = () => {
+    setUserCreatingMore(!isUserCreatingMore);
   };
 
   return (
@@ -146,6 +180,11 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               Add Contribution
             </Button>
           </Flex>
+
+          <CreateMoreSwitch
+            isChecked={isUserCreatingMore}
+            onChange={() => toggleCreateMoreSwitch()}
+          />
         </form>
       </FormProvider>
     </Stack>
