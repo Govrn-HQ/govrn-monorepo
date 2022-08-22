@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button, Text, FormLabel, Switch } from '@chakra-ui/react';
 import {
@@ -11,13 +11,10 @@ import {
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
-import { useNavigate } from 'react-router-dom';
 import { ContributionFormValues } from '../types/forms';
 
-const ReportForm = () => {
+const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { userActivityTypes, createContribution, allDaos } = useUser();
-
-  const navigate = useNavigate();
 
   const localForm = useForm({
     mode: 'all',
@@ -71,7 +68,7 @@ const ReportForm = () => {
         activityType: values.activityType,
         date_of_engagement: values.engagementDate,
       });
-      navigate('/contributions');
+      onFinish();
     }
   };
 
