@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useOverlay } from '../contexts/OverlayContext';
 import { useUser } from '../contexts/UserContext';
-import { ModalWrapper } from '@govrn/protocol-ui';
+import { GovrnSpinner, ModalWrapper } from '@govrn/protocol-ui';
 import MintModal from './MintModal';
 import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 import PageHeading from './PageHeading';
@@ -24,7 +24,7 @@ import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
 
 const ContributionsTableShell = () => {
-  const { userContributions } = useUser();
+  const { isUserContributionsLoading, userContributions } = useUser();
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
@@ -62,7 +62,9 @@ const ContributionsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Contributions</PageHeading>
-        {userContributions && userContributions?.length > 0 ? (
+        {isUserContributionsLoading ? (
+          <GovrnSpinner />
+        ) : userContributions && userContributions?.length > 0 ? (
           <Tabs
             variant="soft-rounded"
             colorScheme="gray"

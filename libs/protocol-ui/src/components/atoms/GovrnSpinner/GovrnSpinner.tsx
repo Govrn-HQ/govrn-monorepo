@@ -8,6 +8,7 @@ const GovrnSpinner = () => {
       alignItems="center"
       justifyContent="center"
       width="100%"
+      height="100%"
     >
       <Spinner
         thickness="2px"

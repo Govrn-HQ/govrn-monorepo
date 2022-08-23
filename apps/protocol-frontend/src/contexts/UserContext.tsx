@@ -79,6 +79,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     [],
   );
+  const [isUserContributionsLoading, setUserContributionsLoading] =
+    useState(true);
+
   const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
     [],
   );
@@ -157,6 +160,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getUserContributions = async () => {
+    setUserContributionsLoading(true);
     try {
       if (!userData?.id) {
         throw new Error('getUserContributions has no userData.id');
@@ -178,6 +182,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return userContributionsResponse;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserContributionsLoading(false);
     }
   };
 
@@ -724,6 +730,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         daoContributions,
         disconnectLinear,
+        isUserContributionsLoading,
         isUserLoading,
         getAllDaos,
         getContribution,
@@ -780,6 +787,7 @@ type UserContextType = {
     guildIds?: number[] | null | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getContribution: (id: number) => Promise<UIContribution | null>;
+  isUserContributionsLoading: boolean;
   isUserLoading: boolean;
   mintAttestation: (
     contribution: MintContributionType['original'],

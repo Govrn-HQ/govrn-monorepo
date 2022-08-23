@@ -8,7 +8,6 @@ import {
   Text,
   VisuallyHidden,
   Heading,
-  Spinner,
 } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
