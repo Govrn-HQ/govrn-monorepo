@@ -1,13 +1,17 @@
-import GlobalPolyFill from "@esbuild-plugins/node-globals-polyfill";
-import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import GlobalPolyFill from '@esbuild-plugins/node-globals-polyfill';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  // plugins: [react()], // having this in causes a runtime error
+  plugins: [
+    tsconfigPaths({
+      root: '../..',
+    }),
+  ],
   optimizeDeps: {
     esbuildOptions: {
       define: {
-        global: "globalThis",
+        global: 'globalThis',
         'globalThis.process.env.NODE_ENV': 'development',
       },
       plugins: [
@@ -15,16 +19,15 @@ export default defineConfig({
           process: true,
           buffer: true,
         }),
-
       ],
     },
   },
   resolve: {
     alias: {
-      process: "process/browser",
-      stream: "stream-browserify",
-      zlib: "browserify-zlib",
-      util: "util",
+      process: 'process/browser',
+      stream: 'stream-browserify',
+      zlib: 'browserify-zlib',
+      util: 'util',
     },
   },
 });

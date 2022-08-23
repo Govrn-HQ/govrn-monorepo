@@ -27,6 +27,7 @@ import {
   useSortBy,
   useTable,
   UseTableRowProps,
+  UseTableHooks,
 } from 'react-table';
 import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
@@ -63,6 +64,13 @@ type ContributionTableType = {
   guildName: string;
 };
 
+export type DialogProps = {
+  isOpen: boolean;
+  title: string;
+  onConfirm: boolean;
+  contribution_id: number;
+};
+
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -81,25 +89,18 @@ const ContributionsTable = ({
     setModals({ editContributionFormModal: true });
   };
 
-  type DialogProps = {
-    isOpen: boolean;
-    title: string;
-    onConfirm: boolean;
-    contribution_id: string;
-  };
-
   const [dialog, setDialog] = useState<DialogProps>({
     isOpen: false,
     title: '',
     onConfirm: false,
-    contribution_id: '',
+    contribution_id: 0,
   });
 
   useEffect(() => {
     setDialog(dialog);
   }, [dialog]);
 
-  const handleDeleteContribution = (contribution_id: string) => {
+  const handleDeleteContribution = (contribution_id: number) => {
     setDialog({
       ...dialog,
       isOpen: true, //this opens AlertDialog
@@ -138,7 +139,13 @@ const ContributionsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value, row }: { value: string; row }) => {
+        Cell: ({
+          value,
+          row,
+        }: {
+          value: string;
+          row: Row<ContributionTableType>;
+        }) => {
           return (
             <Link to={`/contributions/${row.original.id}`}>
               <Text>{value}</Text>
@@ -186,14 +193,14 @@ const ContributionsTable = ({
     [],
   );
 
-  const tableHooks = hooks => {
+  const tableHooks = (hooks: UseTableHooks<ContributionTableType>) => {
     hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
-        Cell: ({ row }) => (
+        Cell: ({ row }: { row: Row<ContributionTableType> }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
             disabled={row.original.status.name === 'minted'}
@@ -254,9 +261,7 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
-                  onClick={() =>
-                    handleDeleteContribution(row.original.id.toString())
-                  }
+                  onClick={() => handleDeleteContribution(row.original.id)}
                 />
               </HStack>
             )}

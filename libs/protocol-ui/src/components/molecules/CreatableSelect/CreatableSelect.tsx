@@ -63,9 +63,6 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
     formState: { errors },
   } = localForm;
 
-  // const theme = useTheme();
-  // const formThemeColors = customSelectThemeColors(theme);
-
   return (
     <FormControl mb={4} isInvalid={errors && errors[name] !== undefined}>
       <Stack spacing={2}>
@@ -87,13 +84,6 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
                 isMulti={isMulti}
                 onChange={onChange}
                 isDisabled={isDisabled}
-                // theme={(localTheme) => ({
-                //   ...localTheme,
-                //   colors: {
-                //     ...formThemeColors,
-                //   },
-                // })}
-                // styles={customSelectStyles}
                 value={value}
               />
             )}

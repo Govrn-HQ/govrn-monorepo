@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, {
   createContext,
@@ -7,27 +8,44 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { NavigateFunction } from 'react-router-dom';
+import { UseFormReset, FieldValues } from 'react-hook-form';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useAccount, useNetwork, useSigner } from 'wagmi';
 import {
   UIActivityType,
+  UIAttestations,
   UIContribution,
   UIGuild,
   UIUser,
+  UIGuilds,
 } from '@govrn/ui-types';
 import type { Signer } from 'ethers';
 import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
+import {
+  ContributionFormValues,
+  CreateUserFormValues,
+  ProfileFormValues,
+} from '../types/forms';
 import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
+import { MintContributionType, MintAttestationType } from '../types/mint';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 
 export const UserContext = createContext<UserContextType>(
   {} as UserContextType,
 );
+
+type UserContributionsDateRangeCountType = {
+  count: number;
+  date: string;
+  guildIds?: number[] | null | undefined;
+  name?: string | null | undefined;
+};
 
 interface UserContextProps {
   children: React.ReactNode;
@@ -48,9 +66,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
   const { setModals } = useOverlay();
 
-  const [userAddress, setUserAddress] = useState<any>(null);
-  const [userDataByAddress, setUserDataByAddress] = useState<any>(null);
-  const [userData, setUserData] = useState<UIUser>({} as UIUser);
+  const [userAddress, setUserAddress] = useState<string | null>(null);
+  const [userDataByAddress, setUserDataByAddress] = useState<UIUser | null>(
+    null,
+  );
+  const [isUserLoading, setUserLoading] = useState(false);
+
+  const [userData, setUserData] = useState<UIUser | null>(null);
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
   );
@@ -60,25 +82,27 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
     [],
   );
-  const [userAttestations, setUserAttestations] = useState<any>(null);
+  const [userAttestations, setUserAttestations] =
+    useState<UIAttestations | null>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<UIActivityType[]>(
     [],
   );
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
+  const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
+    useState<UserContributionsDateRangeCountType[]>([]);
 
   useEffect(() => {
-    setUserAddress(address);
-    // const x = async (idx) => { 
-    //     const y = await deleteContribution(idx)
-    // }
-
-    //x(idx)
+    if (address) {
+      setUserAddress(address);
+    }
   }, [isConnected, address, userAddress]);
-  
 
   const getUser = async () => {
     try {
-      const userDataResponse = await govrn.user.get(userDataByAddress.id);
+      if (!userDataByAddress?.id) {
+        throw new Error('No address for user');
+      }
+      const userDataResponse = await govrn.user.get(userDataByAddress?.id);
 
       setUserData(userDataResponse);
       return userDataResponse;
@@ -88,6 +112,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getUserByAddress = useCallback(async () => {
+    setUserLoading(true);
     if (!address) {
       return;
     }
@@ -103,6 +128,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return userDataByAddress;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserLoading(false);
     }
   }, [address]);
 
@@ -122,8 +149,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setContribution(formattedResponse);
         return formattedResponse;
       }
+      return null;
     } catch (error) {
       console.error(error);
+      return null;
     }
   };
 
@@ -138,6 +167,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         },
         first: 1000,
       });
+
       setUserContributions(
         userContributionsResponse.map(c => ({
           ...c,
@@ -165,6 +195,30 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         })),
       );
       return daoContributionsResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getUserContributionsCount = async (
+    startDate: Date | string,
+    endDate: Date | string,
+    // guildIds: number[] | undefined,
+    guildIds?: number[] | null | undefined,
+  ) => {
+    try {
+      if (!userData?.id) {
+        throw new Error('getUserContributionsCount has no userData.id');
+      }
+      const getUserContributionsCountResponse =
+        await govrn.custom.getContributionCountByDateForUserInRange({
+          id: userData?.id,
+          startDate: startDate,
+          endDate: endDate,
+          guildIds: guildIds,
+        });
+      setUserContributionsDateRangeCount(getUserContributionsCountResponse);
+      return getUserContributionsCountResponse;
     } catch (error) {
       console.error(error);
     }
@@ -218,11 +272,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return allDaosResponse;
     } catch (error) {
       console.error(error);
+      return [];
     }
   };
 
-  const createUser = async (values: any, address: string, navigate?: any) => {
+  const createUser = async (
+    values: CreateUserFormValues,
+    address: string,
+    navigate?: NavigateFunction,
+  ) => {
     try {
+      if (!values.username) {
+        throw new Error('User has no username');
+      }
       await govrn.user.create({
         // active: false,
         address: address,
@@ -236,7 +298,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
-      navigate('/report');
+      if (navigate) {
+        navigate('/report');
+      }
     } catch (error) {
       console.log(error);
       toast({
@@ -251,15 +315,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const createWaitlistUser = async (
-    values: any,
+    values: CreateUserFormValues,
     address: string,
-    navigate: any,
+    navigate: NavigateFunction,
   ) => {
     try {
       await govrn.user.create({
         address: address,
-        email: values.email,
-        username: values.username,
+        email: values.email || '',
+        username: values.username || '',
       });
       toast({
         title: 'Successfully Joined Waitlist',
@@ -283,40 +347,37 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const createContribution = async (values: any, reset: any, navigate: any) => {
+  const createContribution = async (
+    values: ContributionFormValues,
+  ): Promise<boolean> => {
     try {
-      const resp = await govrn.custom.createUserContribution({
-        address: userData.address,
-        chainName: 'ethereum',
-        userId: userData.id,
-        name: values.name,
-        details: values.details,
-        proof: values.proof,
-        activityTypeName: values.activityType,
-        dateOfEngagement: new Date(values.engagementDate).toISOString(),
-        status: 'staging',
-        guildId: values.daoId,
-      });
-      toast({
-        title: 'Contribution Report Added',
-        description:
-          'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      await getUserActivityTypes();
-      await getUserContributions();
-      await getDaoContributions();
-      reset({
-        name: '',
-        details: '',
-        proof: '',
-        activityType: values.activityType,
-        date_of_engagement: values.engagementDate,
-      });
-      navigate('/contributions');
+      if (userData) {
+        await govrn.custom.createUserContribution({
+          address: userData?.address ?? '',
+          chainName: 'ethereum',
+          userId: userData?.id ?? -1,
+          name: values.name || '',
+          details: values.details || '',
+          proof: values.proof || '',
+          activityTypeName: values.activityType || '',
+          dateOfEngagement: new Date(values.engagementDate || '').toISOString(),
+          status: 'staging',
+          guildId: Number(values.daoId) || undefined,
+        });
+        toast({
+          title: 'Contribution Report Added',
+          description:
+            'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+        await getUserActivityTypes();
+        await getUserContributions();
+        await getDaoContributions();
+        return true;
+      }
     } catch (error) {
       console.log(error);
       toast({
@@ -328,17 +389,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         position: 'top-right',
       });
     }
+    return false;
   };
 
   const mintContribution = async (
-    contribution: any,
+    contribution: MintContributionType['original'],
     ipfsContentUri: string,
-    setMintProgress: any,
+    setMintProgress: Dispatch<SetStateAction<number>>,
   ) => {
-    console.log(signer);
-    console.log(chain?.id);
     try {
-      if (signer && chain?.id) {
+      if (signer && chain?.id && userData) {
         await govrn.contribution.mint(
           {
             address: networks[chain?.id].govrnContract,
@@ -421,9 +481,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const mintAttestation = async (contribution: any) => {
+  const mintAttestation = async (
+    contribution: MintContributionType['original'],
+  ) => {
     try {
-      if (signer && chain?.id) {
+      if (!contribution?.onChainId) {
+        throw new Error('No onChainId for contribution');
+      }
+      if (signer && chain?.id && userData) {
         await govrn.contribution.attest(
           {
             address: networks[chain?.id].govrnContract,
@@ -462,24 +527,26 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const createAttestation = async (contribution: any, values: any) => {
+  const createAttestation = async (contribution: UIContribution) => {
     try {
-      await govrn.custom.createUserAttestation({
-        address: userData.address,
-        chainName: 'ethereum',
-        userId: userData.id,
-        confidenceName: '0',
-        contributionId: contribution.id,
-      });
-      toast({
-        title: 'Attestation Successfully Added',
-        description: 'Your Attestation has been added.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      await getDaoContributions();
+      if (userData) {
+        await govrn.custom.createUserAttestation({
+          address: userData.address,
+          chainName: 'ethereum',
+          userId: userData.id,
+          confidenceName: '0',
+          contributionId: contribution.id,
+        });
+        toast({
+          title: 'Attestation Successfully Added',
+          description: 'Your Attestation has been added.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+        await getDaoContributions();
+      }
     } catch (error) {
       console.log(error);
       toast({
@@ -495,8 +562,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const updateContribution = async (
     contribution: UIContribution,
-
-    values: any,
+    values: ContributionFormValues,
     bulkItemCount?: number,
   ) => {
     const toastUpdateContributionId = 'toast-update-contribution';
@@ -523,7 +589,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           values.engagementDate ?? contribution.date_of_engagement,
         ).toISOString(),
         status: 'staging',
-        guildId: values.daoId,
+        guildId: Number(values.daoId),
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
@@ -558,10 +624,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const updateProfile = async (values: any) => {
+  const updateProfile = async (values: ProfileFormValues) => {
     try {
       await govrn.custom.updateUser({
-        name: values.name,
+        name: values.name || '',
         // eslint-disable-next-line
         id: userData?.id!,
       });
@@ -620,88 +686,30 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const updateLinearEmail = async (values: any) => {
-    const linearAssignee = {
-      active: userData.active,
-      displayName: userData.name,
-      email: values.userLinearEmail,
-      user: {
-        connect: {
-          id: userData.id,
-        },
-      },
-      linear_id: userData.id.toString(), // linear_id exists outside of our db
-      name: userData.name,
-    };
-    try {
-      // TODO: maybe we should hide linear because
-      // it won't work without some dao configuration
-      // or setup on the workspace side
-      await govrn.linear.user.upsert({
-        create: linearAssignee,
-        update: { email: { set: values.userLinearEmail } },
-        where: { linear_id: userData.id.toString() },
-      });
-      toast({
-        title: 'Linear Email Linked',
-        description: 'Linear Email Address has been linked.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: 'Unable to Link Linear Email Address',
-        description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-    }
-  };
-
   useEffect(() => {
     if (address && isAuthenticated) {
-      getUserByAddress();
+      getUserByAddress().then();
     }
   }, [address, isAuthenticated]);
 
   useEffect(() => {
     if (userDataByAddress && isAuthenticated) {
-      getUser();
+      getUser().then();
     }
   }, [userDataByAddress, isAuthenticated]);
 
   useEffect(() => {
     if (userData !== null && isAuthenticated) {
-      getUserContributions();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (userData !== null && isAuthenticated) {
-      getDaoContributions();
+      getUserContributions().then();
+      getDaoContributions().then();
     }
   }, [userData, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      getUserActivityTypes();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getUserAttestations();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getAllDaos();
+      getUserActivityTypes().then();
+      getUserAttestations().then();
+      getAllDaos().then();
     }
   }, [userData, isAuthenticated]);
 
@@ -716,8 +724,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         daoContributions,
         disconnectLinear,
+        isUserLoading,
         getAllDaos,
         getContribution,
+        getUserContributionsCount,
         mintAttestation,
         mintContribution,
         setAllDaos,
@@ -726,16 +736,17 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserActivityTypes,
         setUserAddress,
         setUserAttestations,
+        setUserContributionsDateRangeCount,
         setUserData,
         setUserDataByAddress,
         updateContribution,
         deleteContribution,
-        updateLinearEmail,
         updateProfile,
         userActivityTypes,
         userAddress,
         userAttestations,
         userContributions,
+        userContributionsDateRangeCount,
         userData,
         userDataByAddress,
       }}
@@ -748,34 +759,61 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 type UserContextType = {
   allDaos: UIGuild[];
   contribution: UIContribution;
-  createAttestation: any;
-  createContribution: any;
-  createUser: any;
-  createWaitlistUser: any;
+  createAttestation: (arg0: UIContribution) => void;
+  createContribution: (arg0: ContributionFormValues) => Promise<boolean>;
+  createUser: (values: CreateUserFormValues, address: string) => void;
+  createWaitlistUser: (
+    values: CreateUserFormValues,
+    address: string,
+    navigate: NavigateFunction,
+  ) => void;
   daoContributions: UIContribution[];
-  disconnectLinear: any;
-  getAllDaos: any;
-  getContribution: any;
-  mintAttestation: any;
-  mintContribution: any;
+  disconnectLinear: (args: {
+    linearUserId: number;
+    userId: number;
+    username: string;
+  }) => Promise<void>;
+  getAllDaos: () => Promise<UIGuilds>;
+  getUserContributionsCount: (
+    startDate: string | Date,
+    endDate: string | Date,
+    guildIds?: number[] | null | undefined,
+  ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
+  getContribution: (id: number) => Promise<UIContribution | null>;
+  isUserLoading: boolean;
+  mintAttestation: (
+    contribution: MintContributionType['original'],
+  ) => Promise<void>;
+  mintContribution: (
+    contribution: MintContributionType['original'],
+    ipfsContentUri: string,
+    setMintProgress: Dispatch<SetStateAction<number>>,
+  ) => void;
   setAllDaos: (data: UIGuild[]) => void;
   setContribution: (data: UIContribution) => void;
   setDaoContributions: (data: UIContribution[]) => void;
   setUserActivityTypes: (data: UIActivityType[]) => void;
-  setUserAddress: any;
-  setUserAttestations: any;
-  setUserData: any;
-  setUserDataByAddress: any;
-  updateContribution: any;
-  deleteContribution: any;
-  updateLinearEmail: any;
-  updateProfile: any;
+  setUserContributionsDateRangeCount: (
+    data: UserContributionsDateRangeCountType[],
+  ) => void;
+  setUserAddress: (arg0: string) => void;
+  setUserAttestations: (arg0: UIAttestations) => void;
+  setUserData: (arg0: UIUser) => void;
+  setUserDataByAddress: (arg0: UIUser) => void;
+  updateContribution: (
+    contribution: UIContribution,
+    values: ContributionFormValues,
+    bulkItemCount?: number,
+  ) => void;
+  deleteContribution: (id: number) => void;
+  updateProfile: (arg0: ContributionFormValues) => void;
   userActivityTypes: UIActivityType[];
-  userAddress: any;
-  userAttestations: any;
+  userAddress: string | null;
+  userAttestations: UIAttestations | null;
   userContributions: UIContribution[];
-  userData: UIUser;
-  userDataByAddress: any;
+  userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
+  userData: UIUser | null;
+  userDataByAddress: UIUser | null;
 };
 
 export const useUser = (): UserContextType => useContext(UserContext);
