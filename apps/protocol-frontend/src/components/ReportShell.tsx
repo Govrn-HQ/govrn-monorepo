@@ -2,8 +2,11 @@ import { Container, Flex } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 
 import ReportForm from './ReportForm';
+import { useNavigate } from 'react-router-dom';
 
 const ReportShell = () => {
+  const navigate = useNavigate();
+
   return (
     <Container
       paddingY={{ base: '4', md: '8' }}
@@ -22,9 +25,9 @@ const ReportShell = () => {
         background="white"
         boxShadow="sm"
         borderRadius={{ base: 'none', md: 'lg' }}
-        marginBottom={4}
+        marginBottom={7}
       >
-        <ReportForm />
+        <ReportForm onFinish={() => navigate('/contributions')} />
       </Flex>
     </Container>
   );

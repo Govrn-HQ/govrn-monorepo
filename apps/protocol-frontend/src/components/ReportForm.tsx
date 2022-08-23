@@ -1,6 +1,6 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text, FormLabel, Switch } from '@chakra-ui/react';
 import {
   Input,
   Textarea,
@@ -11,13 +11,37 @@ import {
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
-import { useNavigate } from 'react-router-dom';
 import { ContributionFormValues } from '../types/forms';
 
-const ReportForm = () => {
-  const { userActivityTypes, createContribution, allDaos } = useUser();
+function CreateMoreSwitch({
+  isChecked,
+  onChange,
+}: {
+  isChecked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <Flex m={1} display="flex" alignItems="center" justifyContent="end">
+      <FormLabel m={2} htmlFor="create-more">
+        <Text fontSize="small" color="gray.600">
+          Create more
+        </Text>
+      </FormLabel>
+      <Switch
+        id="create-more"
+        size="sm"
+        colorScheme={'brand.primary'}
+        isChecked={isChecked}
+        onChange={() => {
+          onChange();
+        }}
+      />
+    </Flex>
+  );
+}
 
-  const navigate = useNavigate();
+const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
+  const { userActivityTypes, createContribution, allDaos } = useUser();
 
   const localForm = useForm({
     mode: 'all',
@@ -25,8 +49,10 @@ const ReportForm = () => {
   });
   const { handleSubmit, setValue, reset } = localForm;
   const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
-    new Date()
+    new Date(),
   );
+
+  const [isUserCreatingMore, setUserCreatingMore] = useState(false);
 
   useEffect(() => {
     setValue('engagementDate', engagementDateValue);
@@ -42,27 +68,42 @@ const ReportForm = () => {
 
   const combinedActivityTypesList = [
     ...new Set([
-      ...userActivityTypes.map((activity) => activity.name),
+      ...userActivityTypes.map(activity => activity.name),
       ...activityTypesList,
     ]),
   ];
 
-  const daoListOptions = allDaos.map((dao) => ({
+  const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
     label: dao.name ?? '',
   }));
 
   const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    (activity) => ({
+    activity => ({
       value: activity,
       label: activity,
-    })
+    }),
   );
 
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
-  > = async (values) => {
-    createContribution(values, reset, navigate);
+  > = async values => {
+    const result = await createContribution(values);
+    if (result) {
+      reset({
+        name: '',
+        details: '',
+        proof: '',
+        activityType: values.activityType,
+        date_of_engagement: values.engagementDate,
+      });
+
+      if (!isUserCreatingMore) onFinish();
+    }
+  };
+
+  const toggleCreateMoreSwitch = () => {
+    setUserCreatingMore(!isUserCreatingMore);
   };
 
   return (
@@ -80,7 +121,7 @@ const ReportForm = () => {
             name="activityType"
             label="Activity Type"
             placeholder="Select an activity type or add a new one"
-            onChange={(activity) => {
+            onChange={activity => {
               setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}
@@ -106,7 +147,7 @@ const ReportForm = () => {
             label="DAO"
             tip="Please select a DAO to associate this Contribution with. This is optional."
             placeholder="Select a DAO to associate this Contribution with."
-            onChange={(dao) => {
+            onChange={dao => {
               setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
             }}
             options={daoListOptions}
@@ -119,7 +160,7 @@ const ReportForm = () => {
             tip="Please select the date when you did this Contribution."
             defaultValue={engagementDateValue}
             maxDate={new Date()}
-            onChange={(date) => {
+            onChange={date => {
               if (Array.isArray(date)) {
                 return;
               }
@@ -139,6 +180,11 @@ const ReportForm = () => {
               Add Contribution
             </Button>
           </Flex>
+
+          <CreateMoreSwitch
+            isChecked={isUserCreatingMore}
+            onChange={() => toggleCreateMoreSwitch()}
+          />
         </form>
       </FormProvider>
     </Stack>
