@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, {
   createContext,
-  Provider,
   useCallback,
   useContext,
   useEffect,
@@ -21,8 +20,6 @@ import {
   UIUser,
   UIGuilds,
 } from '@govrn/ui-types';
-import type { Signer } from 'ethers';
-import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
 import {
@@ -85,6 +82,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
     [],
   );
+  const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
+
   const [userAttestations, setUserAttestations] =
     useState<UIAttestations | null>(null);
   const [userActivityTypes, setUserActivityTypes] = useState<UIActivityType[]>(
@@ -188,6 +187,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getDaoContributions = async () => {
+    setDaoContributionLoading(true);
     try {
       const daoContributionsResponse = await govrn.contribution.list({
         first: 1000,
@@ -203,6 +203,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return daoContributionsResponse;
     } catch (error) {
       console.error(error);
+    } finally {
+      setDaoContributionLoading(false);
     }
   };
 
@@ -730,6 +732,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         daoContributions,
         disconnectLinear,
+        isDaoContributionLoading,
         isUserContributionsLoading,
         isUserLoading,
         getAllDaos,
@@ -787,6 +790,7 @@ type UserContextType = {
     guildIds?: number[] | null | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getContribution: (id: number) => Promise<UIContribution | null>;
+  isDaoContributionLoading: boolean;
   isUserContributionsLoading: boolean;
   isUserLoading: boolean;
   mintAttestation: (
