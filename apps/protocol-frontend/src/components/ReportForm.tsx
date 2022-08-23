@@ -7,6 +7,7 @@ import {
   DatePicker,
   CreatableSelect,
   Select,
+  GovrnSpinner,
 } from '@govrn/protocol-ui';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -41,7 +42,13 @@ function CreateMoreSwitch({
 }
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
-  const { userActivityTypes, createContribution, allDaos } = useUser();
+  const {
+    isCreatingContribution,
+    isUserActivityTypesLoading,
+    userActivityTypes,
+    createContribution,
+    allDaos,
+  } = useUser();
 
   const localForm = useForm({
     mode: 'all',
@@ -108,75 +115,78 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
 
   return (
     <Stack spacing={{ base: '6', lg: '4' }} width="100%" color="gray.900">
-      <FormProvider {...localForm}>
-        <form onSubmit={handleSubmit(createContributionHandler)}>
-          <Input
-            name="name"
-            label="Name of Contribution"
-            tip="Please add the name of your Contribution."
-            placeholder="Govrn Protocol Pull Request"
-            localForm={localForm}
-          />
-          <CreatableSelect
-            name="activityType"
-            label="Activity Type"
-            placeholder="Select an activity type or add a new one"
-            onChange={activity => {
-              setValue('activityType', activity.value);
-            }}
-            options={combinedActivityTypeOptions}
-            localForm={localForm}
-          />
-          <Textarea
-            name="details"
-            label="Details"
-            tip="Briefly describe your Contribution"
-            placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
-            variant="outline"
-            localForm={localForm}
-          />
-          <Input
-            name="proof"
-            label="Proof of Contribution"
-            tip="Please add a URL to a proof of your contribution."
-            placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
-            localForm={localForm}
-          />
-          <Select
-            name="daoId"
-            label="DAO"
-            tip="Please select a DAO to associate this Contribution with. This is optional."
-            placeholder="Select a DAO to associate this Contribution with."
-            onChange={dao => {
-              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
-            }}
-            options={daoListOptions}
-            localForm={localForm}
-          />
-          <DatePicker
-            name="engagementDate"
-            localForm={localForm}
-            label="Date of Contribution Engagement (UTC)"
-            tip="Please select the date when you did this Contribution."
-            defaultValue={engagementDateValue}
-            maxDate={new Date()}
-            onChange={date => {
-              if (Array.isArray(date)) {
-                return;
-              }
-              setEngagementDateValue(date);
-              setValue('engagementDate', date);
-            }}
-          />
-          <Flex align="flex-end" marginTop={4} gap={4}>
-            <Button
-              type="submit"
-              width="100%"
-              color="brand.primary.600"
-              backgroundColor="brand.primary.50"
-              transition="all 100ms ease-in-out"
-              _hover={{ bgColor: 'brand.primary.100' }}
-            >
+      {isUserActivityTypesLoading ? (
+        <GovrnSpinner />
+      ) : (
+        <FormProvider {...localForm}>
+          <form onSubmit={handleSubmit(createContributionHandler)}>
+            <Input
+              name="name"
+              label="Name of Contribution"
+              tip="Please add the name of your Contribution."
+              placeholder="Govrn Protocol Pull Request"
+              localForm={localForm}
+            />
+            <CreatableSelect
+              name="activityType"
+              label="Activity Type"
+              placeholder="Select an activity type or add a new one"
+              onChange={activity => {
+                setValue('activityType', activity.value);
+              }}
+              options={combinedActivityTypeOptions}
+              localForm={localForm}
+            />
+            <Textarea
+              name="details"
+              label="Details"
+              tip="Briefly describe your Contribution"
+              placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
+              variant="outline"
+              localForm={localForm}
+            />
+            <Input
+              name="proof"
+              label="Proof of Contribution"
+              tip="Please add a URL to a proof of your contribution."
+              placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
+              localForm={localForm}
+            />
+            <Select
+              name="daoId"
+              label="DAO"
+              tip="Please select a DAO to associate this Contribution with. This is optional."
+              placeholder="Select a DAO to associate this Contribution with."
+              onChange={dao => {
+                setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
+              }}
+              options={daoListOptions}
+              localForm={localForm}
+            />
+            <DatePicker
+              name="engagementDate"
+              localForm={localForm}
+              label="Date of Contribution Engagement (UTC)"
+              tip="Please select the date when you did this Contribution."
+              defaultValue={engagementDateValue}
+              maxDate={new Date()}
+              onChange={date => {
+                if (Array.isArray(date)) {
+                  return;
+                }
+                setEngagementDateValue(date);
+                setValue('engagementDate', date);
+              }}
+            />
+            <Flex align="flex-end" marginTop={4} gap={4}>
+              <Button
+                type="submit"
+                width="100%"
+                color="brand.primary.600"
+                backgroundColor="brand.primary.50"
+                transition="all 100ms ease-in-out"
+                _hover={{ bgColor: 'brand.primary.100' }}
+                isLoading={isCreatingContribution}>
               Add Contribution
             </Button>
           </Flex>
@@ -186,7 +196,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             onChange={() => toggleCreateMoreSwitch()}
           />
         </form>
-      </FormProvider>
+      </FormProvider>)}
     </Stack>
   );
 };
