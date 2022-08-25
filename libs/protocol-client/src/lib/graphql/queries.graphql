@@ -397,6 +397,8 @@ fragment ContributionFragment on Contribution {
     }
   }
   guilds {
+    id
+    guild_id
     guild {
       id
       name

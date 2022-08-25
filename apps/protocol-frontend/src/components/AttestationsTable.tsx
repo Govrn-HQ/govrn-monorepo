@@ -72,6 +72,8 @@ const AttestationsTable = ({
     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
   });
 
+  console.log('unattestedContributions', unattestedContributions);
+
   const data = useMemo<AttestationTableType[]>(
     () =>
       unattestedContributions.map(contribution => ({
