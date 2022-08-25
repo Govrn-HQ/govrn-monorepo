@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, {
   createContext,
-  Provider,
   useCallback,
   useContext,
   useEffect,
@@ -21,8 +20,6 @@ import {
   UIUser,
   UIGuilds,
 } from '@govrn/ui-types';
-import type { Signer } from 'ethers';
-import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
 import {
@@ -79,14 +76,23 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     [],
   );
+  const [isUserContributionsLoading, setUserContributionsLoading] =
+    useState(true);
+
   const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
     [],
   );
+  const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
+
   const [userAttestations, setUserAttestations] =
     useState<UIAttestations | null>(null);
+
   const [userActivityTypes, setUserActivityTypes] = useState<UIActivityType[]>(
     [],
   );
+  const [isUserActivityTypesLoading, setUserActivityTypesLoading] =
+    useState(true);
+
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
     useState<UserContributionsDateRangeCountType[]>([]);
@@ -157,6 +163,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getUserContributions = async () => {
+    setUserContributionsLoading(true);
     try {
       if (!userData?.id) {
         throw new Error('getUserContributions has no userData.id');
@@ -178,10 +185,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return userContributionsResponse;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserContributionsLoading(false);
     }
   };
 
   const getDaoContributions = async () => {
+    setDaoContributionLoading(true);
     try {
       const daoContributionsResponse = await govrn.contribution.list({
         first: 1000,
@@ -197,6 +207,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return daoContributionsResponse;
     } catch (error) {
       console.error(error);
+    } finally {
+      setDaoContributionLoading(false);
     }
   };
 
@@ -243,6 +255,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getUserActivityTypes = async () => {
+    setUserActivityTypesLoading(true);
     try {
       if (!userData?.id) {
         throw new Error('getUserActivityTypes has no userData.id');
@@ -262,6 +275,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return userActivityTypesResponse;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserActivityTypesLoading(false);
     }
   };
 
@@ -347,9 +362,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const [isCreatingContribution, setCreatingContribution] = useState(false);
+
   const createContribution = async (
     values: ContributionFormValues,
   ): Promise<boolean> => {
+    setCreatingContribution(true);
+
     try {
       if (userData) {
         await govrn.custom.createUserContribution({
@@ -388,6 +407,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
+    } finally {
+      setCreatingContribution(false);
     }
     return false;
   };
@@ -724,6 +745,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         daoContributions,
         disconnectLinear,
+        isCreatingContribution,
+        isDaoContributionLoading,
+        isUserActivityTypesLoading,
+        isUserContributionsLoading,
         isUserLoading,
         getAllDaos,
         getContribution,
@@ -780,6 +805,10 @@ type UserContextType = {
     guildIds?: number[] | null | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getContribution: (id: number) => Promise<UIContribution | null>;
+  isCreatingContribution: boolean;
+  isDaoContributionLoading: boolean;
+  isUserActivityTypesLoading: boolean;
+  isUserContributionsLoading: boolean;
   isUserLoading: boolean;
   mintAttestation: (
     contribution: MintContributionType['original'],

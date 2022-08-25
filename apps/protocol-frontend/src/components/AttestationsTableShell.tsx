@@ -16,13 +16,11 @@ import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
-import { ModalWrapper } from '@govrn/protocol-ui';
+import { GovrnSpinner, ModalWrapper } from '@govrn/protocol-ui';
 import BulkAttestationModal from './BulkAttestationModal';
-import { MintAttestationType } from '../types/mint';
-import { UIContribution } from '@govrn/ui-types';
 
 const AttestationsTableShell = () => {
-  const { daoContributions } = useUser();
+  const { isDaoContributionLoading, daoContributions } = useUser();
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any[]>([]);
@@ -40,7 +38,9 @@ const AttestationsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Attestations</PageHeading>
-        {daoContributions && daoContributions.length > 0 ? (
+        {isDaoContributionLoading ? (
+          <GovrnSpinner />
+        ) : daoContributions && daoContributions.length > 0 ? (
           <Tabs
             variant="soft-rounded"
             colorScheme="gray"

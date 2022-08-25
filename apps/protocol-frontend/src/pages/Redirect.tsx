@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Flex, Spinner } from '@chakra-ui/react';
 import { useAuth } from '../contexts/AuthContext';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 
 const TIMEOUT = 300;
 
@@ -23,7 +24,7 @@ const RedirectHome = () => {
       justify="center"
       bgGradient="linear(to-r, white 0%, brand.primary.100 50%, brand.primary.200 100%)"
     >
-      <Spinner speed="0.7s" />
+      <GovrnSpinner />
     </Flex>
   );
 };
