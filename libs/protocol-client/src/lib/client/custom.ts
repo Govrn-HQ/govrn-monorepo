@@ -5,8 +5,8 @@ import {
   UserContributionUpdateInput,
   UserUpdateCustomInput,
   GetUserContributionCountInput,
+  GetActivityTypesPerUserAndDaOs,
 } from '../protocol-types';
-import { GetActivityTypesPerUserAndDAOsArgs } from '../../../../../apps/protocol-api/src/prisma/resolvers/ActivityTypes';
 
 export class Custom extends BaseClient {
   public async createUserAttestation(args: AttestationUserCreateInput) {
@@ -53,10 +53,10 @@ export class Custom extends BaseClient {
     return contributionCount.result;
   }
 
-  public async getActivityTypesByUser(
-    args: GetActivityTypesPerUserAndDAOsArgs,
-  ) {
-    const activityTypes = await this.sdk.getActivityTypesByUser(args);
+  public async getActivityTypesByUser(args: GetActivityTypesPerUserAndDaOs) {
+    const activityTypes = await this.sdk.getActivityTypesByUser({
+      where: args,
+    });
     return activityTypes.result;
   }
 }

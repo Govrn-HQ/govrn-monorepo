@@ -263,7 +263,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         throw new Error('getUserActivityTypes has no userData.id');
       }
       const activityTypesByUser = await govrn.custom.getActivityTypesByUser({
-        where: { userId: userData?.id },
+        userId: userData?.id,
       });
 
       setUserActivityTypes(activityTypesByUser);
