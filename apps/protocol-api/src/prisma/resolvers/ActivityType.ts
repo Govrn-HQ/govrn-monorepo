@@ -1,7 +1,6 @@
 import * as TypeGraphQL from 'type-graphql';
 import { ActivityType } from '../generated/type-graphql';
 import { Context } from './types';
-import { ActivityTypesByUser } from './ActivityTypes';
 
 @TypeGraphQL.InputType('GetActivityTypesPerUserAndDAOs')
 export class GetActivityTypesPerUserAndDAOs {

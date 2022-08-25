@@ -461,6 +461,14 @@ export type ActivityTypeWhereUniqueInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type ActivityTypesByUser = {
+  active: Scalars['Boolean'];
+  createdAt: Scalars['String'];
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type AffectedRowsOutput = {
   count: Scalars['Int'];
 };
@@ -3779,6 +3787,10 @@ export type FloatNullableWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['Float']>;
   not?: InputMaybe<NestedFloatNullableWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['Float']>>;
+};
+
+export type GetActivityTypesPerUserAndDaOs = {
+  userId: Scalars['Float'];
 };
 
 export type GetOrCreateActivityTypeInput = {
@@ -10246,6 +10258,7 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
+  getActivityTypesByUser: Array<ActivityTypesByUser>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
@@ -10916,6 +10929,11 @@ export type QueryFindFirstUserActivityArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserActivityWhereInput>;
+};
+
+
+export type QueryGetActivityTypesByUserArgs = {
+  where: GetActivityTypesPerUserAndDaOs;
 };
 
 
@@ -14189,6 +14207,13 @@ export type ListActivityTypesQueryVariables = Exact<{
 
 export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }> };
 
+export type GetActivityTypesByUserQueryVariables = Exact<{
+  where: GetActivityTypesPerUserAndDaOs;
+}>;
+
+
+export type GetActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string, updatedAt: string }> };
+
 export type CreateActivityTypeMutationVariables = Exact<{
   data: ActivityTypeCreateInput;
 }>;
@@ -14843,6 +14868,17 @@ export const ListActivityTypesDocument = gql`
   }
 }
     ${ActivityTypeFragmentFragmentDoc}`;
+export const GetActivityTypesByUserDocument = gql`
+    query getActivityTypesByUser($where: GetActivityTypesPerUserAndDAOs!) {
+  result: getActivityTypesByUser(where: $where) {
+    id
+    name
+    active
+    createdAt
+    updatedAt
+  }
+}
+    `;
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
   createActivityType(data: $data) {
@@ -15056,6 +15092,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     listActivityTypes(variables?: ListActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesQuery>(ListActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypes', 'query');
+    },
+    getActivityTypesByUser(variables: GetActivityTypesByUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetActivityTypesByUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetActivityTypesByUserQuery>(GetActivityTypesByUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getActivityTypesByUser', 'query');
     },
     createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
