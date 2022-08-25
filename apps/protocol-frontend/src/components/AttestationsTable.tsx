@@ -56,9 +56,18 @@ const AttestationsTable = ({
 }) => {
   const { userData } = useUser();
 
-  const nonUserContributions = _.filter(contributionsData, function (a) {
-    return a.user.id !== userData?.id;
+  const filteredMintedContributions = _.filter(contributionsData, function (a) {
+    return a.status.name === 'minted';
   });
+
+  const nonUserContributions = _.filter(
+    filteredMintedContributions,
+    function (a) {
+      return a.user.id !== userData?.id;
+    },
+  );
+
+  console.log('nonUserContributions', nonUserContributions);
 
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;

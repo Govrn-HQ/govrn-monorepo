@@ -70,8 +70,8 @@ const AttestationsTableShell = () => {
                             DAO Contributions
                           </Text>
                           <Text fontSize="md" fontWeight="normal">
-                            These are Contributions that you haven't already
-                            Attested to.
+                            These are minted Contributions that you haven't
+                            already Attested to.
                           </Text>
                         </Stack>
                         <Button
@@ -92,24 +92,6 @@ const AttestationsTableShell = () => {
                       contributionsData={daoContributions}
                       setSelectedContributions={setSelectedContributions}
                     />
-                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
-                <HStack spacing="3" justify="space-between">
-                  {!isMobile && (
-                    <Text color="muted" fontSize="sm">
-                      Showing 1 to (x) of (y) results
-                    </Text>
-                  )}
-                  <ButtonGroup
-                    spacing="3"
-                    justifyContent="space-between"
-                    width={{ base: 'full', md: 'auto' }}
-                    variant="secondary"
-                  >
-                    <Button>Previous</Button>
-                    <Button>Next</Button>
-                  </ButtonGroup>
-                </HStack>
-              </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>
