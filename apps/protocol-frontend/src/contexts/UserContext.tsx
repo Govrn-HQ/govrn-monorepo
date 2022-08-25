@@ -109,7 +109,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         throw new Error('No address for user');
       }
       const userDataResponse = await govrn.user.get(userDataByAddress?.id);
-
+      console.log('userDataResponse', userDataResponse);
       setUserData(userDataResponse);
       return userDataResponse;
     } catch (error) {
