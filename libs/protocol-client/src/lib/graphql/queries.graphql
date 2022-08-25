@@ -532,6 +532,18 @@ query listActivityTypes(
   }
 }
 
+query getActivityTypesByUser(
+  $where: GetActivityTypesPerUserAndDAOs!
+) {
+  result: getActivityTypesByUser(where: $where) {
+    id
+    name
+    active
+    createdAt
+    updatedAt
+  }
+}
+
 mutation createActivityType($data: ActivityTypeCreateInput!) {
   createActivityType(data: $data) {
     ...ActivityTypeFragment
