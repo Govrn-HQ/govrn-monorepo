@@ -64,6 +64,7 @@ const permissions = shield(
       contributions: or(isAuthenticated, hasToken),
       activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
+      getActivityTypesByUser: isAuthenticated,
       getUser: isAuthenticated,
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),
@@ -215,6 +216,13 @@ const permissions = shield(
       id: or(isAuthenticated, hasToken),
       name: or(isAuthenticated, hasToken),
       username: or(isAuthenticated, hasToken),
+    },
+    ActivityTypesByUser: {
+      id: or(isAuthenticated, isAuthenticated),
+      name: or(isAuthenticated, isAuthenticated),
+      active: or(isAuthenticated, isAuthenticated),
+      updatedAt: or(isAuthenticated, isAuthenticated),
+      createdAt: or(isAuthenticated, isAuthenticated),
     },
     AffectedRowsOutput: {
       count: hasToken,
