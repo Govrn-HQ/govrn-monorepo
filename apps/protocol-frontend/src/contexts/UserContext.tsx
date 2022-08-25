@@ -227,7 +227,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getUserAttestations = async () => {
     try {
       if (!userData?.id) {
-        throw new Error('getUserActivityTypes has no userData.id');
+        throw new Error('getUserAttestations has no userData.id');
       }
       const userAttestationsResponse = await govrn.attestation.list({
         where: {
