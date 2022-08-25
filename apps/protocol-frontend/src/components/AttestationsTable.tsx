@@ -27,6 +27,7 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
+import EmptyContributions from './EmptyContributions';
 
 type AttestationTableType = {
   id: number;
@@ -66,8 +67,6 @@ const AttestationsTable = ({
       return a.user.id !== userData?.id;
     },
   );
-
-  console.log('nonUserContributions', nonUserContributions);
 
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
@@ -133,7 +132,10 @@ const AttestationsTable = ({
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
         Cell: ({ row }: { row: Row<AttestationTableType> }) => (
-          <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+          <IndeterminateCheckbox
+            {...row.getToggleRowSelectedProps()}
+            disabled={row.original.status !== 'minted'}
+          />
         ),
       },
       ...columns,
@@ -164,55 +166,70 @@ const AttestationsTable = ({
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
-    <Stack>
-      <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
-      <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-          <Thead backgroundColor="gray.50">
-            {headerGroups.map((headerGroup: any) => (
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column: any) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    isNumeric={column.isNumeric}
-                    borderColor="gray.100"
-                  >
-                    {column.render('Header')}
-                    <chakra.span paddingLeft="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <IoArrowDown aria-label="sorted-descending" />
-                        ) : (
-                          <IoArrowUp aria-label="sorted-ascending" />
-                        )
-                      ) : null}
-                    </chakra.span>
-                  </Th>
+    <>
+      {unattestedContributions.length > 0 ? (
+        <Stack>
+          <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+          <Box width="100%" maxWidth="100vw" overflowX="auto">
+            <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+              <Thead backgroundColor="gray.50">
+                {headerGroups.map((headerGroup: any) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column: any) => (
+                      <Th
+                        {...column.getHeaderProps(
+                          column.getSortByToggleProps(),
+                        )}
+                        isNumeric={column.isNumeric}
+                        borderColor="gray.100"
+                      >
+                        {column.render('Header')}
+                        <chakra.span paddingLeft="4">
+                          {column.isSorted ? (
+                            column.isSortedDesc ? (
+                              <IoArrowDown aria-label="sorted-descending" />
+                            ) : (
+                              <IoArrowUp aria-label="sorted-ascending" />
+                            )
+                          ) : null}
+                        </chakra.span>
+                      </Th>
+                    ))}
+                  </Tr>
                 ))}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row);
-              return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <Td {...cell.getCellProps()} borderColor="gray.100">
-                      {cell.render('Cell')}
-                    </Td>
-                  ))}
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </Box>
-    </Stack>
+              </Thead>
+              <Tbody {...getTableBodyProps()}>
+                {rows.map(row => {
+                  prepareRow(row);
+                  return (
+                    <Tr {...row.getRowProps()}>
+                      {row.cells.map(cell => (
+                        <Td {...cell.getCellProps()} borderColor="gray.100">
+                          {cell.render('Cell')}
+                        </Td>
+                      ))}
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </Box>
+        </Stack>
+      ) : (
+        <Box
+          paddingX={{ base: '4', md: '6' }}
+          paddingBottom={{ base: '4', md: '6' }}
+        >
+          <Text fontSize="sm" fontWeight="bolder">
+            None found!
+          </Text>
+        </Box>
+      )}
+    </>
   );
 };
 

@@ -45,8 +45,12 @@ const MyAttestationsTable = ({
 }) => {
   const { userData } = useUser();
 
+  const filteredMintedContributions = _.filter(contributionsData, function (a) {
+    return a.status.name === 'minted';
+  });
+
   const nonEmptyContributions = _.filter(
-    contributionsData,
+    filteredMintedContributions,
     a => a.attestations?.length > 0,
   );
 
