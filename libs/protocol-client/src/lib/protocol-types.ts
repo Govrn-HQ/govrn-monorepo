@@ -2265,7 +2265,7 @@ export type ContributionCountByDate = {
   count: Scalars['Float'];
   date: Scalars['String'];
   guild_id?: Maybe<Scalars['Float']>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 export type ContributionCountOrderByAggregateInput = {
@@ -3779,6 +3779,11 @@ export type FloatNullableWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['Float']>;
   not?: InputMaybe<NestedFloatNullableWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['Float']>>;
+};
+
+export type GetOrCreateActivityTypeInput = {
+  activityTypeName: Scalars['String'];
+  userId?: InputMaybe<Scalars['Float']>;
 };
 
 export type GetUserContributionCountInput = {
@@ -8418,6 +8423,7 @@ export type Mutation = {
   deleteUser?: Maybe<User>;
   deleteUserActivity?: Maybe<UserActivity>;
   deleteUserContribution: Contribution;
+  getOrCreateActivityType: ActivityType;
   updateActivityType?: Maybe<ActivityType>;
   updateAttestation?: Maybe<Attestation>;
   updateAttestationConfidence?: Maybe<AttestationConfidence>;
@@ -9052,6 +9058,11 @@ export type MutationDeleteUserActivityArgs = {
 
 export type MutationDeleteUserContributionArgs = {
   where: UserContributionDeleteInput;
+};
+
+
+export type MutationGetOrCreateActivityTypeArgs = {
+  data: GetOrCreateActivityTypeInput;
 };
 
 
@@ -14098,7 +14109,7 @@ export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
 }>;
 
 
-export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string, guild_id?: number | null, name?: string | null }> };
+export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string, guild_id?: number | null, name: string }> };
 
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;
@@ -14183,6 +14194,13 @@ export type CreateActivityTypeMutationVariables = Exact<{
 
 
 export type CreateActivityTypeMutation = { createActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+
+export type GetOrCreateActivityTypeMutationVariables = Exact<{
+  data: GetOrCreateActivityTypeInput;
+}>;
+
+
+export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
 
 export type UpsertActivityTypeMutationVariables = Exact<{
   create: ActivityTypeCreateInput;
@@ -14824,6 +14842,13 @@ export const CreateActivityTypeDocument = gql`
   }
 }
     ${ActivityTypeFragmentFragmentDoc}`;
+export const GetOrCreateActivityTypeDocument = gql`
+    mutation getOrCreateActivityType($data: GetOrCreateActivityTypeInput!) {
+  getOrCreateActivityType(data: $data) {
+    ...ActivityTypeFragment
+  }
+}
+    ${ActivityTypeFragmentFragmentDoc}`;
 export const UpsertActivityTypeDocument = gql`
     mutation upsertActivityType($create: ActivityTypeCreateInput!, $update: ActivityTypeUpdateInput!, $where: ActivityTypeWhereUniqueInput!) {
   upsertActivityType(create: $create, update: $update, where: $where) {
@@ -15026,6 +15051,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
+    },
+    getOrCreateActivityType(variables: GetOrCreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetOrCreateActivityTypeMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetOrCreateActivityTypeMutation>(GetOrCreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getOrCreateActivityType', 'mutation');
     },
     upsertActivityType(variables: UpsertActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertActivityTypeMutation>(UpsertActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertActivityType', 'mutation');

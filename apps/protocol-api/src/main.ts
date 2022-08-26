@@ -79,6 +79,7 @@ const permissions = shield(
     Mutation: {
       '*': deny,
       createActivityType: hasToken,
+      getOrCreateActivityType: isAuthenticated,
       createContribution: hasToken,
       createGuild: hasToken,
       createGuildUser: or(isAuthenticated, hasToken),

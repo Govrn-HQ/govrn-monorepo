@@ -16,6 +16,12 @@ export class Custom extends BaseClient {
   }
 
   public async createUserContribution(args: UserContributionCreateInput) {
+    await this.sdk.getOrCreateActivityType({
+      data: {
+        activityTypeName: args.activityTypeName,
+        userId: args.userId,
+      },
+    });
     const contribution = await this.sdk.createUserContribution({ data: args });
     return contribution.createUserContribution;
   }

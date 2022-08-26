@@ -531,6 +531,12 @@ mutation createActivityType($data: ActivityTypeCreateInput!) {
   }
 }
 
+mutation getOrCreateActivityType($data: GetOrCreateActivityTypeInput!) {
+  getOrCreateActivityType(data: $data) {
+    ...ActivityTypeFragment
+  }
+}
+
 mutation upsertActivityType(
   $create: ActivityTypeCreateInput!
   $update: ActivityTypeUpdateInput!
