@@ -109,7 +109,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         throw new Error('No address for user');
       }
       const userDataResponse = await govrn.user.get(userDataByAddress?.id);
-      console.log('userDataResponse', userDataResponse);
       const userDaosIds = userDataResponse?.guild_users.map(guild => {
         return guild.guild_id;
       });
