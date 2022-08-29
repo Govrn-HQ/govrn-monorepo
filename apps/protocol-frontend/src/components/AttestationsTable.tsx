@@ -81,7 +81,10 @@ const AttestationsTable = ({
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations,
-        guilds: contribution.guilds,
+        // guilds: contribution.guilds,
+        guildName:
+          contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
+          '---',
         status: contribution.status.name,
         action: '',
         name: contribution.name,
@@ -121,6 +124,10 @@ const AttestationsTable = ({
       {
         Header: 'Contributor',
         accessor: 'contributor',
+      },
+      {
+        Header: 'DAOs',
+        accessor: 'guildName',
       },
     ],
     [],
