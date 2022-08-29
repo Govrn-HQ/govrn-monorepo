@@ -57,6 +57,12 @@ const AttestationsTable = ({
 }) => {
   const { userData } = useUser();
 
+  const userDaosIds = userData?.guild_users.map(guild => {
+    return guild.guild_id;
+  });
+
+  console.log('userdaos', userDaosIds);
+
   const filteredMintedContributions = _.filter(contributionsData, function (a) {
     return a.status.name === 'minted';
   });
@@ -68,11 +74,18 @@ const AttestationsTable = ({
     },
   );
 
+  const attributedDaoContributions = _.filter(
+    nonUserContributions,
+    function (a) {
+      return a.guilds.length !== 0;
+    },
+  );
+
+  console.log('attributedDaoContributions', attributedDaoContributions);
+
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
   });
-
-  console.log('unattestedContributions', unattestedContributions);
 
   const data = useMemo<AttestationTableType[]>(
     () =>
@@ -82,7 +95,7 @@ const AttestationsTable = ({
         date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations,
         // guilds: contribution.guilds,
-        guildName:
+        guilds:
           contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
           '---',
         status: contribution.status.name,
@@ -127,7 +140,7 @@ const AttestationsTable = ({
       },
       {
         Header: 'DAOs',
-        accessor: 'guildName',
+        accessor: 'guilds',
       },
     ],
     [],
