@@ -110,6 +110,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       }
       const userDataResponse = await govrn.user.get(userDataByAddress?.id);
       console.log('userDataResponse', userDataResponse);
+      const userDaosIds = userDataResponse?.guild_users.map(guild => {
+        return guild.guild_id;
+      });
+      console.log('userDaosIds', userDaosIds);
       setUserData(userDataResponse);
       return userDataResponse;
     } catch (error) {
