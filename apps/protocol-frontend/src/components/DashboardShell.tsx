@@ -50,12 +50,13 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   }));
 
   // will include this when we include unassigned -- this is adding some confusion to the UI
-  // const daoReset = [
-  //   {
-  //     value: null,
-  //     label: 'All DAOs',
-  //   },
-  // ];
+  const unassignedContributions = [
+    {
+      value: -1,
+      label: 'Unassigned',
+    },
+  ];
+  console.log('contributionsCount', contributionsCount);
 
   const dateRangeOptions = [
     { value: 1, label: 'Last Week' },
@@ -64,7 +65,9 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     { value: 52, label: 'Last Year' },
   ];
 
-  const combinedDaoListOptions = [...new Set([...daoListOptions])];
+  const combinedDaoListOptions = [
+    ...new Set([...unassignedContributions, ...daoListOptions]),
+  ];
 
   useEffect(() => {
     if (allDaos) {

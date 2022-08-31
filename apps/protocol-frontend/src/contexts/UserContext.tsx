@@ -217,7 +217,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getUserContributionsCount = async (
     startDate: Date | string,
     endDate: Date | string,
-    // guildIds: number[] | undefined,
     guildIds?: number[] | null | undefined,
   ) => {
     try {
