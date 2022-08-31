@@ -41,6 +41,7 @@ type AttestationTableType = {
   guilds?: {
     guild: {
       name?: string | null;
+      guild_id?: number;
     };
   }[];
   action?: ReactNode;
@@ -57,11 +58,11 @@ const AttestationsTable = ({
 }) => {
   const { userData } = useUser();
 
-  const userDaosIds = userData?.guild_users.map(guild => {
+  const userDaoIds = userData?.guild_users.map(guild => {
     return guild.guild_id;
   });
 
-  console.log('userdaos', userDaosIds);
+  console.log('userdaos', userDaoIds);
 
   const filteredMintedContributions = _.filter(contributionsData, function (a) {
     return a.status.name === 'minted';
@@ -81,11 +82,19 @@ const AttestationsTable = ({
     },
   );
 
-  console.log('attributedDaoContributions', attributedDaoContributions);
+  const userDaoContributions = _.filter(nonUserContributions, function (a) {
+    // if (userDaoIds) {
+    return a.guilds.some(guild => userDaoIds?.includes(guild.guild_id));
+    // }
+  });
+  console.log('userdao', userDaoContributions);
 
-  const unattestedContributions = _.filter(nonUserContributions, function (a) {
+  const unattestedContributions = _.filter(userDaoContributions, function (a) {
     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
   });
+
+  console.log('attributedDaoContributions', attributedDaoContributions);
+  console.log('user dao contributions', userDaoContributions);
 
   const data = useMemo<AttestationTableType[]>(
     () =>
@@ -94,7 +103,6 @@ const AttestationsTable = ({
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations,
-        // guilds: contribution.guilds,
         guilds:
           contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
           '---',
