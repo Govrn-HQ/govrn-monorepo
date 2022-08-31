@@ -12879,7 +12879,7 @@ export type UserAvgOrderByAggregateInput = {
 };
 
 export type UserContributionCreateInput = {
-  activityTypeName: Scalars['String'];
+  activityTypeId: Scalars['Float'];
   address: Scalars['String'];
   chainName: Scalars['String'];
   dateOfEngagement: Scalars['DateTime'];
