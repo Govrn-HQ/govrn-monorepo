@@ -1,10 +1,10 @@
-import { ActivityTypesCustomResolver } from './ActivityTypes';
+import { ActivityTypeCustomResolver } from './ActivityType';
 import { AttestationResolver } from './Attestation';
 import { ContributionCustomResolver } from './Contribution';
 import { UserCustomResolver } from './User';
 
 export const customResolvers = [
-  ActivityTypesCustomResolver,
+  ActivityTypeCustomResolver,
   AttestationResolver,
   ContributionCustomResolver,
   UserCustomResolver,

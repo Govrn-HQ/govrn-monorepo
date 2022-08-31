@@ -22,7 +22,7 @@ export class GetOrCreateActivityTypeArgs {
 }
 
 @TypeGraphQL.Resolver(_of => ActivityType)
-export class ActivityTypesCustomResolver {
+export class ActivityTypeCustomResolver {
   @TypeGraphQL.Mutation(_returns => ActivityType, { nullable: false })
   async getOrCreateActivityType(
     @TypeGraphQL.Ctx() { prisma }: Context,
