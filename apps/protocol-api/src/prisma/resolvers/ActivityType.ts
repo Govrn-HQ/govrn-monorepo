@@ -62,12 +62,11 @@ export class ActivityTypeCustomResolver {
           },
         },
       },
-    });
-
-    return await prisma.activityType.findUnique({
-      where: {
-        id: userActivityType.activity_type_id,
+      select: {
+        id: true,
+        activity_type: true,
       },
     });
+    return userActivityType.activity_type;
   }
 }
