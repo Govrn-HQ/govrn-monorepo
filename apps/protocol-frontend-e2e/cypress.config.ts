@@ -1,5 +1,22 @@
 import { defineConfig } from 'cypress';
 
+const {Client} = require('pg');
+
+function queryDB(connectionInfo, query) {
+  const client = new Client(connectionInfo)
+
+  client.connect()
+
+  client.query(query, (err, res) => {
+    if (err){
+        console.log(err.stack)
+    }
+    console.log(res.rows[0])
+    client.end()
+  })
+}
+
+
 module.exports = defineConfig({
   fileServerFolder: '.',
   fixturesFolder: './src/fixtures',
@@ -11,13 +28,22 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   e2e: {
     setupNodeEvents(on, config) {
-      return;
+      //return;
+      on('task',{
+        // destructure the argument into the individual fields
+        queryDatabase({ connectionInfo, query }) {
+     
+          return queryDB(connectionInfo, query)
+        },
+
+      })
     },
     specPattern: './src/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: './src/support/index.ts',
   },
   env: {
     "address" : process.env['ADDRESS'],
-    "COOKIE" : process.env['COOKIE']
+    "COOKIE" : process.env['COOKIE'],
+    "DATABASE_URL": process.env['DATABASE_URL']
   },
 });

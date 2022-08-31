@@ -2,19 +2,30 @@
 import { MockExtensionProvider } from '../support/e2e'
 
 const network = "goerli";
-const address: string = Cypress.env('address');
-const COOKIE: string = Cypress.env('COOKIE');
+const address = Cypress.env('address');
+const COOKIE = Cypress.env('COOKIE');
+const baseURL ='http://localhost:3000/';
+const DATABASE_URL = Cypress.env('DATABASE_URL');
+
+const query = `
+  UPDATE "User"
+  SET active = TRUE
+  WHERE email = 'testemail@gmail.com'
+  RETURNING *;
+  
+  `
 
 //Before test, ensure that User is active
-describe("MetaMask", () => {
+describe("MetaMask and seed db", () => {
   it("Lets user connect with Metamask provider", () => {
-   
-    cy.visit("http://localhost:3000/", {
+    cy.visit(baseURL, {
     onBeforeLoad(win) {
         win.ethereum = new MockExtensionProvider(network, address);
         }
 
     });
+    //Get User off the waitlist
+    cy.task('queryDatabase', {DATABASE_URL, query }) 
 
     //add cookie into '/siwe/active' request
     cy.intercept('/siwe/active', req => {
