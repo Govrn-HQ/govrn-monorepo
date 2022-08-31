@@ -1,9 +1,12 @@
-import { useEffect, useMemo, ReactNode } from 'react';
+import { useEffect, useMemo, useState, ReactNode } from 'react';
 import * as _ from 'lodash';
 import {
   Box,
   chakra,
+  Flex,
+  FormLabel,
   Stack,
+  Switch,
   Table,
   Tbody,
   Td,
@@ -57,6 +60,10 @@ const AttestationsTable = ({
   setSelectedContributions: (contrs: any[]) => void;
 }) => {
   const { userData } = useUser();
+  const [showAllDaos, setShowAllDaos] = useState(false);
+  const [displayedContributions, setDisplayedContributions] = useState<
+    UIContribution[]
+  >([]);
 
   const userDaoIds = userData?.guild_users.map(guild => {
     return guild.guild_id;
@@ -89,16 +96,61 @@ const AttestationsTable = ({
   });
   console.log('userdao', userDaoContributions);
 
-  const unattestedContributions = _.filter(userDaoContributions, function (a) {
+  const unattestedDaoContributions = _.filter(
+    userDaoContributions,
+    function (a) {
+      return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
+    },
+  );
+
+  const unattestedContributions = _.filter(nonUserContributions, function (a) {
     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
   });
 
   console.log('attributedDaoContributions', attributedDaoContributions);
   console.log('user dao contributions', userDaoContributions);
 
+  const toggleShowAllDaos = () => {
+    setShowAllDaos(!showAllDaos);
+  };
+
+  function AllDaosSwitch({
+    isChecked,
+    onChange,
+  }: {
+    isChecked: boolean;
+    onChange: () => void;
+  }) {
+    return (
+      <Flex
+        marginX={1}
+        alignItems="center"
+        justifyContent="center"
+        alignSelf="flex-start"
+      >
+        <FormLabel
+          fontSize="sm"
+          fontWeight="md"
+          color="gray.800"
+          margin={2}
+          htmlFor="show-all-daos"
+        >
+          Show All DAOs
+        </FormLabel>
+        <Switch
+          id="show-all-daos"
+          size="sm"
+          colorScheme={'brand.primary'}
+          isChecked={isChecked}
+          onChange={onChange}
+        />
+      </Flex>
+    );
+  }
+
   const data = useMemo<AttestationTableType[]>(
     () =>
-      unattestedContributions.map(contribution => ({
+      displayedContributions.map(contribution => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
@@ -197,13 +249,19 @@ const AttestationsTable = ({
 
   return (
     <>
-      {unattestedContributions.length > 0 ? (
+      {displayedContributions.length > 0 ? (
         <Stack>
-          <GlobalFilter
-            preGlobalFilteredRows={preGlobalFilteredRows}
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-          />
+          <Flex alignItems="center">
+            <GlobalFilter
+              preGlobalFilteredRows={preGlobalFilteredRows}
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
+            <AllDaosSwitch
+              isChecked={showAllDaos}
+              onChange={() => toggleShowAllDaos()}
+            />
+          </Flex>
           <Box width="100%" maxWidth="100vw" overflowX="auto">
             <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
               <Thead backgroundColor="gray.50">
