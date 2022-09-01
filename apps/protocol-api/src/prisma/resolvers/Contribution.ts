@@ -528,14 +528,14 @@ export class ContributionCustomResolver {
     const start = args.where.startDate;
     const end = args.where.endDate;
 
-    let guildWhere = 'gc."guild_id" is NULL';
+    let guildWhere = Prisma.sql`gc."guild_id" is NULL`;
     const guildIds = args.where?.guildIds;
     if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
-      guildWhere = `(gc."guild_id" in (${Prisma.join(
+      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
         guildIds,
       )}) OR gc."guild_id" is NULL)`;
     } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
-      guildWhere = `gc."guild_id" in (${Prisma.join(guildIds)})`;
+      guildWhere = Prisma.sql`gc."guild_id" in (${Prisma.join(guildIds)})`;
     }
 
     return await prisma.$queryRaw<ContributionCountByDate>`
