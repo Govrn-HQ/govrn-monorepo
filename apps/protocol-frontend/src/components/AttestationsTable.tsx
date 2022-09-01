@@ -61,16 +61,10 @@ const AttestationsTable = ({
 }) => {
   const { userData } = useUser();
   const [showAllDaos, setShowAllDaos] = useState(false);
-  const [displayedContributions, setDisplayedContributions] = useState<
-    UIContribution[]
-  >([]);
 
   const userDaoIds = userData?.guild_users.map(guild => {
     return guild.guild_id;
   });
-
-  console.log('userdaos', userDaoIds);
-
   const filteredMintedContributions = _.filter(contributionsData, function (a) {
     return a.status.name === 'minted';
   });
@@ -90,13 +84,10 @@ const AttestationsTable = ({
   );
 
   const userDaoContributions = _.filter(nonUserContributions, function (a) {
-    // if (userDaoIds) {
     return a.guilds.some(guild => userDaoIds?.includes(guild.guild_id));
-    // }
   });
-  console.log('userdao', userDaoContributions);
 
-  const unattestedDaoContributions = _.filter(
+  const unattestedUserDaoContributions = _.filter(
     userDaoContributions,
     function (a) {
       return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
@@ -107,12 +98,22 @@ const AttestationsTable = ({
     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
   });
 
-  console.log('attributedDaoContributions', attributedDaoContributions);
-  console.log('user dao contributions', userDaoContributions);
+  const [displayedContributions, setDisplayedContributions] =
+    useState(userDaoContributions);
 
   const toggleShowAllDaos = () => {
     setShowAllDaos(!showAllDaos);
   };
+
+  useEffect(() => {
+    if (showAllDaos === false) {
+      console.log('setting to user daos', unattestedUserDaoContributions);
+      setDisplayedContributions(unattestedUserDaoContributions);
+    } else {
+      console.log('setting to all daos', unattestedContributions);
+      setDisplayedContributions(unattestedContributions);
+    }
+  }, [showAllDaos]);
 
   function AllDaosSwitch({
     isChecked,
@@ -164,7 +165,7 @@ const AttestationsTable = ({
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
       })),
-    [contributionsData],
+    [displayedContributions],
   );
 
   const columns = useMemo<Column<AttestationTableType>[]>(
