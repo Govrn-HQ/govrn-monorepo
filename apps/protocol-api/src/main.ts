@@ -394,19 +394,27 @@ app.post('/verify', async function (req, res) {
 // TODO: switch so session expiration is managed on the server
 app.get('/siwe/active', async function (req, res) {
   const fields = req.session.siwe;
+  console.log('session');
+  console.log(req.session);
+  console.log(!fields?.data);
+  // make this a switch
   if (!fields?.data) {
     res.status(422).json({ message: 'No existing session cookie' });
-    return;
+    console.log('Missing data');
   }
   if (fields.data.nonce !== req.session.nonce) {
     res.status(422).json({ message: 'Invalid nonce' });
-    return;
   }
   if (new Date(fields.data.expirationTime) <= new Date()) {
     res.status(440).json({ message: 'Token has expired' });
-    return;
   }
 
+  // res.status(200).end();
+  res.end();
+});
+
+app.post('/logout', async function (req, res) {
+  req.session = null;
   res.status(200).end();
 });
 

@@ -1,3 +1,4 @@
+import { useAccount } from 'wagmi';
 import {
   HashRouter,
   Route,

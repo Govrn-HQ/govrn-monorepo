@@ -5,7 +5,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { useAccount, useSignMessage, useNetwork } from 'wagmi';
+import useLogout from '../hooks/useLogout';
+import { useAccount, useSignMessage, useNetwork, Connector } from 'wagmi';
 import { createSiweMessage } from '../utils/siwe';
 import { VERIFY_URL, SIWE_ACTIVE_URL } from '../utils/constants';
 
@@ -40,21 +41,26 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [checkExistingCreds, setCheckExistingCreds] = useState(false);
 
-  const { isConnected, address } = useAccount();
+  const { isConnected, address, connector } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { chain } = useNetwork();
+  const { logout } = useLogout();
+
   const checkAuthentication = async () => {
     setIsAuthenticating(true);
     try {
       const resp = await fetch(SIWE_ACTIVE_URL, { credentials: 'include' });
+      console.log(resp);
       setIsAuthenticating(false);
       if (resp.status >= 400) {
+        setIsAuthenticated(false);
         return false;
       }
       setIsAuthenticated(true);
       return true;
     } catch (e) {
       console.error(e);
+      setIsAuthenticated(false);
       return false;
     }
   };
@@ -91,11 +97,12 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     const existing = await checkAuthentication();
     setCheckExistingCreds(true);
     // non redirect route
-    const noRedirect = ['/'].find(el => el === window.location.hash);
-    if (noRedirect) {
-      // redirect
-      return true;
-    }
+    // const noRedirect = ['/'].find(el => el === window.location.hash);
+    // if (noRedirect) {
+    //   // redirect
+    //   return true;
+    // }
+    console.log(existing);
     if (!existing) {
       await authenticateAddress();
     }
@@ -110,6 +117,28 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       authFlow();
     }
   }, [isConnected, isAuthenticated, authFlow]);
+
+  // Add account and chain listeners
+  useEffect(() => {
+    const listeners = async (connector: Connector) => {
+      const provider = await connector?.getProvider();
+      // call logout
+      provider.on('accountsChanged', async () => {
+        setIsAuthenticated(false);
+        await logout();
+        console.log('Changed');
+      });
+      // logout;
+      provider.on('disconnect', async () => {
+        setIsAuthenticated(false);
+        await logout();
+        console.log('disconnect');
+      });
+    };
+    if (connector) {
+      listeners(connector);
+    }
+  }, [connector]);
 
   return (
     <AuthContext.Provider
