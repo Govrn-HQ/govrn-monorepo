@@ -65,6 +65,7 @@ const AttestationsTable = ({
   const userDaoIds = userData?.guild_users.map(guild => {
     return guild.guild_id;
   });
+
   const filteredMintedContributions = _.filter(contributionsData, function (a) {
     return a.status.name === 'minted';
   });
@@ -73,13 +74,6 @@ const AttestationsTable = ({
     filteredMintedContributions,
     function (a) {
       return a.user.id !== userData?.id;
-    },
-  );
-
-  const attributedDaoContributions = _.filter(
-    nonUserContributions,
-    function (a) {
-      return a.guilds.length !== 0;
     },
   );
 
@@ -107,10 +101,8 @@ const AttestationsTable = ({
 
   useEffect(() => {
     if (showAllDaos === false) {
-      console.log('setting to user daos', unattestedUserDaoContributions);
       setDisplayedContributions(unattestedUserDaoContributions);
     } else {
-      console.log('setting to all daos', unattestedContributions);
       setDisplayedContributions(unattestedContributions);
     }
   }, [showAllDaos]);
