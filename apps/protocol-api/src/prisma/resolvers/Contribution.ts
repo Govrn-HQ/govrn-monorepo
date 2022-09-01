@@ -333,6 +333,8 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Args() args: UpdateUserContributionArgs,
   ) {
     const address = req.session.siwe.data.address;
+
+    console.log('args', args)
     const res = await prisma.contribution.updateMany({
       data: {
         name: {
