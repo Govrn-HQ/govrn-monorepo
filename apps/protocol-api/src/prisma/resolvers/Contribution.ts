@@ -330,6 +330,8 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Args() args: UpdateUserContributionArgs,
   ) {
     const address = req.session.siwe.data.address;
+
+    console.log('args', args)
     const res = await prisma.contribution.updateMany({
       data: {
         name: {
@@ -412,7 +414,7 @@ export class ContributionCustomResolver {
             name: args.data.status,
           },
         },
-        ...(args.data.guildId !== null && {
+        ...(args.data.guildId !== 0 && {
           guilds: {
             create: [
               {
@@ -548,8 +550,8 @@ export class ContributionCustomResolver {
       WHERE (c."date_of_engagement" BETWEEN ${start} AND ${end}
         AND c."user_id" = ${user_id}
         AND (NOT c.id IN (SELECT contribution_id as id FROM "GuildContribution") OR gc."guild_id" in (${Prisma.join(
-          guildIds,
-        )})))
+      guildIds,
+    )})))
       GROUP BY gc.guild_id, g.name, date(date_of_engagement)
       ORDER BY date(date_of_engagement);`;
   }
