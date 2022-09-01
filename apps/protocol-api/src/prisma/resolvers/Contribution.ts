@@ -25,8 +25,8 @@ export class UserContributionCreateInput {
   @TypeGraphQL.Field(_type => String)
   proof: string;
 
-  @TypeGraphQL.Field(_type => Number)
-  activityTypeId: number;
+  @TypeGraphQL.Field(_type => String)
+  activityTypeName: string;
 
   @TypeGraphQL.Field(_type => Date)
   dateOfEngagement: Date;
@@ -265,8 +265,13 @@ export class ContributionCustomResolver {
         details: args.data.details,
         proof: args.data.proof,
         activity_type: {
-          connect: {
-            id: args.data.activityTypeId,
+          connectOrCreate: {
+            create: {
+              name: args.data.activityTypeName,
+            },
+            where: {
+              name: args.data.activityTypeName,
+            },
           },
         },
         date_of_engagement: new Date(args.data.dateOfEngagement).toISOString(),

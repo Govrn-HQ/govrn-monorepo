@@ -7,22 +7,13 @@ import {
   GetUserContributionCountInput,
 } from '../protocol-types';
 
-type CreateUserContributionCreateInput = Omit<
-  UserContributionCreateInput,
-  'activityTypeId'
-> & {
-  activityTypeName: string;
-};
-
-// get accounts
-// bulk create
 export class Custom extends BaseClient {
   public async createUserAttestation(args: AttestationUserCreateInput) {
     const attestation = await this.sdk.createUserAttestation({ data: args });
     return attestation.createUserAttestation;
   }
 
-  public async createUserContribution(args: CreateUserContributionCreateInput) {
+  public async createUserContribution(args: UserContributionCreateInput) {
     const activityType = (
       await this.sdk.getOrCreateActivityType({
         data: {
@@ -33,7 +24,7 @@ export class Custom extends BaseClient {
     ).getOrCreateActivityType;
 
     const contribution = await this.sdk.createUserContribution({
-      data: { ...args, activityTypeId: activityType.id },
+      data: { ...args, activityTypeName: activityType.name },
     });
     return contribution.createUserContribution;
   }
