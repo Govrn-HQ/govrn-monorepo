@@ -610,7 +610,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           values.engagementDate ?? contribution.date_of_engagement,
         ).toISOString(),
         status: 'staging',
-        guildId: Number(values.daoId),
+        guildId: values.daoId === null ? null : Number(values.daoId),
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });

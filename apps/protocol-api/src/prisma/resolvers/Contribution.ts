@@ -414,7 +414,7 @@ export class ContributionCustomResolver {
             name: args.data.status,
           },
         },
-        ...(args.data.guildId !== 0 && {
+        ...(args.data.guildId !== null && {
           guilds: {
             create: [
               {
