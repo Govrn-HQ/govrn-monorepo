@@ -186,17 +186,19 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                 backgroundColor="brand.primary.50"
                 transition="all 100ms ease-in-out"
                 _hover={{ bgColor: 'brand.primary.100' }}
-                isLoading={isCreatingContribution}>
-              Add Contribution
-            </Button>
-          </Flex>
+                isLoading={isCreatingContribution}
+              >
+                Add Contribution
+              </Button>
+            </Flex>
 
-          <CreateMoreSwitch
-            isChecked={isUserCreatingMore}
-            onChange={() => toggleCreateMoreSwitch()}
-          />
-        </form>
-      </FormProvider>)}
+            <CreateMoreSwitch
+              isChecked={isUserCreatingMore}
+              onChange={() => toggleCreateMoreSwitch()}
+            />
+          </form>
+        </FormProvider>
+      )}
     </Stack>
   );
 };
