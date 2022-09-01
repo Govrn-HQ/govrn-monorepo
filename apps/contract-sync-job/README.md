@@ -22,7 +22,7 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 - `DATABASE_URL`: URL references that Database cluster, `govrn`.[^1]
 - `SUBGRAPH_URL`: Link to [subgraph](https://thegraph.com/docs/en/developer/quick-start/) that is used to fetch Contract's events.
 - `CONTRACT_SYNC_TOKEN`: Authorization token for GraphQL requests.[^2]
-- `INFURA_DOMAIN`: The subdomain of the dedicated infura gateway.[^2]
+- `INFURA_SUBDOMAIN`: The subdomain of the dedicated infura gateway.[^2]
 
 [^1]: How to prepare `postgres` and get `DATABASE_URL` go to [`protocol-api`](../protocol-api/README.md#postgres).
 [^2]: For Development, it should match with `KEVIN_MALONE_TOKEN` at [protocol-api](../protocol-api)
