@@ -1,7 +1,9 @@
 import { Box, IconButton, Tooltip } from '@chakra-ui/react';
 import { FiChevronUp } from 'react-icons/fi';
 
-const handleScroll = () => console.log('scrolling');
+const targetElement = document.querySelector('content-top');
+console.log('targetElement', targetElement);
+const handleScroll = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 const ScrollToTopButton = () => {
   return (

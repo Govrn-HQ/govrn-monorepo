@@ -51,11 +51,10 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
         />
       ) : null}
       {isDesktop && location.pathname !== '/' ? <Sidebar /> : null}
-      <MobileNav isOpen={mobileNav.isOpen} onClose={mobileNav.onClose}>
-        <Box>hi</Box>
-      </MobileNav>
+      <MobileNav isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} />
       <Flex
         direction="column"
+        className="content-top"
         gridColumnStart={{ base: '0', lg: '2' }}
         width="100%"
         overflow="auto"
