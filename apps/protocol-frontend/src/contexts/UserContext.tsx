@@ -711,28 +711,28 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     if (address && isAuthenticated) {
-      getUserByAddress().then();
+      getUserByAddress();
     }
   }, [address, isAuthenticated]);
 
   useEffect(() => {
     if (userDataByAddress && isAuthenticated) {
-      getUser().then();
+      getUser();
     }
   }, [userDataByAddress, isAuthenticated]);
 
   useEffect(() => {
     if (userData !== null && isAuthenticated) {
-      getUserContributions().then();
-      getDaoContributions().then();
+      getUserContributions();
+      getDaoContributions();
     }
   }, [userData, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      getUserActivityTypes().then();
-      getUserAttestations().then();
-      getAllDaos().then();
+      getUserActivityTypes();
+      getUserAttestations();
+      getAllDaos();
     }
   }, [userData, isAuthenticated]);
 
