@@ -66,16 +66,13 @@ const AttestationsTable = ({
     return guild.guild_id;
   });
 
-  const filteredMintedContributions = _.filter(contributionsData, function (a) {
+  const mintedContributions = _.filter(contributionsData, function (a) {
     return a.status.name === 'minted';
   });
 
-  const nonUserContributions = _.filter(
-    filteredMintedContributions,
-    function (a) {
-      return a.user.id !== userData?.id;
-    },
-  );
+  const nonUserContributions = _.filter(mintedContributions, function (a) {
+    return a.user.id !== userData?.id;
+  });
 
   const userDaoContributions = _.filter(nonUserContributions, function (a) {
     return a.guilds.some(guild => userDaoIds?.includes(guild.guild_id));

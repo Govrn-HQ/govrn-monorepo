@@ -3788,6 +3788,7 @@ export type GetOrCreateActivityTypeInput = {
 
 export type GetUserContributionCountInput = {
   endDate: Scalars['DateTime'];
+  excludeUnassigned?: InputMaybe<Array<Scalars['Boolean']>>;
   guildIds?: InputMaybe<Array<Scalars['Float']>>;
   id: Scalars['Float'];
   startDate: Scalars['DateTime'];
@@ -12879,7 +12880,7 @@ export type UserAvgOrderByAggregateInput = {
 };
 
 export type UserContributionCreateInput = {
-  activityTypeId: Scalars['Float'];
+  activityTypeName: Scalars['String'];
   address: Scalars['String'];
   chainName: Scalars['String'];
   dateOfEngagement: Scalars['DateTime'];

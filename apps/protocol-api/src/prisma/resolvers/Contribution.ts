@@ -25,8 +25,8 @@ export class UserContributionCreateInput {
   @TypeGraphQL.Field(_type => String)
   proof: string;
 
-  @TypeGraphQL.Field(_type => Number)
-  activityTypeId: number;
+  @TypeGraphQL.Field(_type => String)
+  activityTypeName: string;
 
   @TypeGraphQL.Field(_type => Date)
   dateOfEngagement: Date;
@@ -207,6 +207,9 @@ export class GetContributionCountForUser {
 
   @TypeGraphQL.Field(_type => [Number], { nullable: true })
   guildIds?: number[];
+
+  @TypeGraphQL.Field(_type => [Boolean], { nullable: true })
+  excludeUnassigned?: boolean;
 }
 
 @TypeGraphQL.ArgsType()
@@ -262,8 +265,13 @@ export class ContributionCustomResolver {
         details: args.data.details,
         proof: args.data.proof,
         activity_type: {
-          connect: {
-            id: args.data.activityTypeId,
+          connectOrCreate: {
+            create: {
+              name: args.data.activityTypeName,
+            },
+            where: {
+              name: args.data.activityTypeName,
+            },
           },
         },
         date_of_engagement: new Date(args.data.dateOfEngagement).toISOString(),
@@ -525,10 +533,15 @@ export class ContributionCustomResolver {
     const start = args.where.startDate;
     const end = args.where.endDate;
 
-    // guild_id is only present on the guild contribution table
-    // need to run a join between contribution + guild contribution if guild_id
-    // is supplied
-    const guildIds = args.where?.guildIds ?? [-1];
+    let guildWhere = Prisma.sql`gc."guild_id" is NULL`;
+    const guildIds = args.where?.guildIds;
+    if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
+      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
+        guildIds,
+      )}) OR gc."guild_id" is NULL)`;
+    } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
+      guildWhere = Prisma.sql`gc."guild_id" in (${Prisma.join(guildIds)})`;
+    }
 
     return await prisma.$queryRaw<ContributionCountByDate>`
       SELECT gc.guild_id,
@@ -542,9 +555,7 @@ export class ContributionCustomResolver {
                        ON g."id" = gc."guild_id"
       WHERE (c."date_of_engagement" BETWEEN ${start} AND ${end}
         AND c."user_id" = ${user_id}
-        AND (NOT c.id IN (SELECT contribution_id as id FROM "GuildContribution") OR gc."guild_id" in (${Prisma.join(
-          guildIds,
-        )})))
+        AND ${guildWhere})
       GROUP BY gc.guild_id, g.name, date(date_of_engagement)
       ORDER BY date(date_of_engagement);`;
   }
