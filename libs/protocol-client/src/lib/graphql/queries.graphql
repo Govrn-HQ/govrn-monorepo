@@ -295,6 +295,11 @@ fragment UserFragment on User {
     id
     active_token
   }
+  guild_users {
+    id
+    user_id
+    guild_id
+  }
 }
 
 query getUser($where: UserWhereUniqueInput!) {
@@ -392,6 +397,8 @@ fragment ContributionFragment on Contribution {
     }
   }
   guilds {
+    id
+    guild_id
     guild {
       id
       name
@@ -527,6 +534,12 @@ query listActivityTypes(
 
 mutation createActivityType($data: ActivityTypeCreateInput!) {
   createActivityType(data: $data) {
+    ...ActivityTypeFragment
+  }
+}
+
+mutation getOrCreateActivityType($data: GetOrCreateActivityTypeInput!) {
+  getOrCreateActivityType(data: $data) {
     ...ActivityTypeFragment
   }
 }
