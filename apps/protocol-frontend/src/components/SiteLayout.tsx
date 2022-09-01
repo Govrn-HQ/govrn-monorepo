@@ -12,6 +12,7 @@ import MobileNav from './MobileNav';
 import { useLocation } from 'react-router-dom';
 import FloatingReportButton from './FloatingReportButton';
 import { HiMenuAlt3 } from 'react-icons/hi';
+import ScrollToTopButton from './ScrollToTopButton';
 
 interface SiteLayoutProps {
   children: React.ReactNode;
@@ -61,6 +62,7 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       >
         {children}
       </Flex>
+      <ScrollToTopButton />
       <FloatingReportButton />
     </Grid>
   );
