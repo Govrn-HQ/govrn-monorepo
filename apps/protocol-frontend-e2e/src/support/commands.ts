@@ -1,4 +1,4 @@
-import { MockExtensionProvider } from "./e2e";
+import { MockExtensionProvider } from "./metamaskMockExt";
 
 Cypress.Commands.add('login', (network, address, COOKIE) => {
   cy.visit("http://localhost:3000/", {
