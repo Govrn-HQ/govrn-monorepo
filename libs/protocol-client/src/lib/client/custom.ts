@@ -54,7 +54,7 @@ export class Custom extends BaseClient {
   }
 
   public async getActivityTypesByUser(args: GetActivityTypesPerUserAndDaOs) {
-    const activityTypes = await this.sdk.getActivityTypesByUser({
+    const activityTypes = await this.sdk.listActivityTypesByUser({
       where: args,
     });
     return activityTypes.result;
