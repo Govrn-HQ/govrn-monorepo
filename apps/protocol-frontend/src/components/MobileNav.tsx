@@ -25,7 +25,7 @@ import NavButton from './NavButton';
 import ConnectWallet from './ConnectWallet';
 
 interface MobileNavProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
 }
