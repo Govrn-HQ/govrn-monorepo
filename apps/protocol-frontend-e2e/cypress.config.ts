@@ -1,21 +1,24 @@
 import { defineConfig } from 'cypress';
 
+
 const {Client} = require('pg');
 
-function queryDB(connectionInfo, query) {
+function queryDB(query) {
+  const connectionInfo = 'postgresql://postgres:test@localhost:5432/govrn'; //Cypress.env('DATABASE_URL')
   const client = new Client(connectionInfo)
-
+ 
   client.connect()
 
-  client.query(query, (err, res) => {
-    if (err){
-        console.log(err.stack)
-    }
-    console.log(res.rows[0])
-    client.end()
+  return new Promise((resolve, reject)=>{
+    client.query(query,(err,res) =>{
+      if (err) reject(err)
+      else {
+        client.end()
+        return resolve(res)
+      }
+    })
   })
 }
-
 
 module.exports = defineConfig({
   fileServerFolder: '.',
@@ -30,10 +33,8 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       //return;
       on('task',{
-        // destructure the argument into the individual fields
-        queryDatabase({ connectionInfo, query }) {
-     
-          return queryDB(connectionInfo, query)
+        queryDatabase: query => {
+          return queryDB(query)
         },
 
       })

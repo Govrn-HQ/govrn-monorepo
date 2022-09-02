@@ -5,13 +5,6 @@ import '@testing-library/cypress/add-commands';
 import { BigNumber, ethers } from 'ethers';
 import { Resolver } from "@ethersproject/providers";
 
-declare global {
-  interface Window {
-    ethereum: any;
-    localStorage: Storage;
-  }
-}
-
 export class MockExtensionProvider extends ethers.providers.BaseProvider {
   isMetaMask = true;
   currentAddress: string;
@@ -19,7 +12,6 @@ export class MockExtensionProvider extends ethers.providers.BaseProvider {
   constructor(network: ethers.providers.Networkish, address: string) {
     super(network);
     this.currentAddress = address;
-    console.debug("Creating Mock provider");
   }
 
   get ready(): Promise<ethers.providers.Network> {

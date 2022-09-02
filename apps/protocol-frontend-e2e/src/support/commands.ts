@@ -1,25 +1,53 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
+import { MockExtensionProvider } from "./e2e";
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string): void;
-  }
-}
-//
-// -- This is a parent command --
-Cypress.Commands.add('login', (email, password) => {
-  console.log('Custom command example: Login', email, password);
+
+Cypress.Commands.add('login', (network, address, COOKIE) => {
+  cy.visit("http://localhost:3000/", {
+    onBeforeLoad(win) {
+        win.ethereum = new MockExtensionProvider(network, address);
+    }
+    });
+  //add cookie into '/siwe/active' request
+  cy.intercept('/siwe/active', req => {
+  req.headers['Cookie'] = COOKIE;
+  });
+  //network requests
+  cy.interceptGQL('POST',
+                 ['listUserByAddress','createUserCustom'],
+                  COOKIE
+                  )
+
+
 });
+
+Cypress.Commands.add('interceptGQL',(method, operationNames, COOKIE) =>{
+  //network requests
+  cy.intercept('POST', '/graphql', req => {
+    req.headers['Cookie'] = COOKIE;
+    if (req.body.operationName ===  method[0]) {
+      req.headers['Cookie'] = COOKIE;
+      req.alias = `gql${req.body.operationName}Query`;
+    } 
+    if (req.body.operationName ===  method[1]) {
+      req.headers['Cookie'] = COOKIE;
+      req.alias = `gql${req.body.operationName}Mutation`;
+      req.reply((res) => {
+        cy.log(res.toString());
+        console.log(res.toString());
+
+      });
+    }
+  });
+
+});
+
+
+
+
+
+
+
+
 //
 // -- This is a child command --
 // Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
