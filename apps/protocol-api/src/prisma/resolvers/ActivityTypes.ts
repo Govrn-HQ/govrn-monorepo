@@ -22,15 +22,16 @@ export class ActivityTypesCustomResolver {
     nullable: false,
   })
   async getActivityTypesByUser(
-    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: GetActivityTypesPerUserAndDAOsArgs,
   ) {
+    const address = req.session.siwe.data.address.toString();
     const user_id = args.where.userId;
 
     const guildIds = (
       await prisma.guild.findMany({
         where: {
-          users: { some: { user_id } },
+          users: { some: { user: { id: user_id, address } } },
         },
       })
     ).map(g => g.id);
