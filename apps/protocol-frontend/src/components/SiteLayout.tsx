@@ -32,7 +32,8 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       templateColumns={{ base: '1fr', lg: '20vw auto' }}
       as="section"
       position="relative"
-      // height="100vh"
+      height="100%"
+      minHeight="100vh"
       bg="gray.50"
       overflow="auto"
       width="100%"
@@ -54,7 +55,6 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       <MobileNav isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} />
       <Flex
         direction="column"
-        className="content-top"
         gridColumnStart={{ base: '0', lg: '2' }}
         width="100%"
         overflow="auto"
