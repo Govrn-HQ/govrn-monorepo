@@ -461,14 +461,6 @@ export type ActivityTypeWhereUniqueInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
-export type ActivityTypesByUser = {
-  active: Scalars['Boolean'];
-  createdAt: Scalars['String'];
-  id: Scalars['Float'];
-  name: Scalars['String'];
-  updatedAt: Scalars['String'];
-};
-
 export type AffectedRowsOutput = {
   count: Scalars['Int'];
 };
@@ -10258,7 +10250,7 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
-  getActivityTypesByUser: Array<ActivityTypesByUser>;
+  getActivityTypesByUser: Array<ActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
@@ -14212,7 +14204,7 @@ export type GetActivityTypesByUserQueryVariables = Exact<{
 }>;
 
 
-export type GetActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string, updatedAt: string }> };
+export type GetActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string | Date, updatedAt: string | Date }> };
 
 export type CreateActivityTypeMutationVariables = Exact<{
   data: ActivityTypeCreateInput;

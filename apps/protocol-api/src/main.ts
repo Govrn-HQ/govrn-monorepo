@@ -217,13 +217,6 @@ const permissions = shield(
       name: or(isAuthenticated, hasToken),
       username: or(isAuthenticated, hasToken),
     },
-    ActivityTypesByUser: {
-      id: or(isAuthenticated, isAuthenticated),
-      name: or(isAuthenticated, isAuthenticated),
-      active: or(isAuthenticated, isAuthenticated),
-      updatedAt: or(isAuthenticated, isAuthenticated),
-      createdAt: or(isAuthenticated, isAuthenticated),
-    },
     AffectedRowsOutput: {
       count: hasToken,
     },
