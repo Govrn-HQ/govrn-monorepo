@@ -2,36 +2,35 @@ import * as TypeGraphQL from 'type-graphql';
 import { ActivityType } from '../generated/type-graphql';
 import { Context } from './types';
 
-@TypeGraphQL.InputType('GetActivityTypesPerUserAndDAOs')
-export class GetActivityTypesPerUserAndDAOs {
-  @TypeGraphQL.Field(_type => Number)
-  userId: number;
+@TypeGraphQL.InputType('ListActivityTypesByUserInput')
+export class ListActivityTypesByUserInput {
+  @TypeGraphQL.Field(_type => Number, {
+    nullable: true,
+  })
+  id?: number;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+  })
+  createdAt?: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+  })
+  updatedAt?: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+  })
+  name?: string;
 }
 
 @TypeGraphQL.ArgsType()
-export class GetActivityTypesPerUserAndDAOsArgs {
-  @TypeGraphQL.Field(_type => GetActivityTypesPerUserAndDAOs, {
+export class ListActivityTypesByUserArgs {
+  @TypeGraphQL.Field(_type => ListActivityTypesByUserInput, {
     nullable: false,
   })
-  where: GetActivityTypesPerUserAndDAOs;
-}
-
-@TypeGraphQL.ObjectType()
-export class ActivityTypesByUser {
-  @TypeGraphQL.Field(_type => Number)
-  id: number;
-
-  @TypeGraphQL.Field(_type => Boolean)
-  active: boolean;
-
-  @TypeGraphQL.Field(_type => String)
-  name: string;
-
-  @TypeGraphQL.Field(_type => String)
-  createdAt: string;
-
-  @TypeGraphQL.Field(_type => String)
-  updatedAt: string;
+  where: ListActivityTypesByUserInput;
 }
 
 @TypeGraphQL.InputType('GetOrCreateActivityTypeInput', {
@@ -107,36 +106,28 @@ export class ActivityTypeCustomResolver {
   })
   async listActivityTypesByUser(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: GetActivityTypesPerUserAndDAOsArgs,
+    @TypeGraphQL.Args() args: ListActivityTypesByUserArgs,
   ) {
-    const address = req.session.siwe.data.address.toString();
-    const user_id = args.where.userId;
+    const address = req.session.siwe.data.address as string;
 
     const guildIds = (
       await prisma.guild.findMany({
         where: {
-          users: { some: { user: { id: user_id, address } } },
+          users: { some: { user: { address } } },
         },
       })
     ).map(g => g.id);
 
     return await prisma.activityType.findMany({
       where: {
-        OR: [
+        AND: [
           {
-            users: {
-              some: {
-                user_id: { equals: user_id },
-              },
-            },
+            OR: [
+              { users: { some: { user: { address } } } },
+              { guilds: { some: { guild_id: { in: guildIds } } } },
+            ],
           },
-          {
-            guilds: {
-              some: {
-                guild_id: { in: guildIds },
-              },
-            },
-          },
+          { id: args.where.id },
         ],
       },
     });

@@ -3781,10 +3781,6 @@ export type FloatNullableWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['Float']>>;
 };
 
-export type GetActivityTypesPerUserAndDaOs = {
-  userId: Scalars['Float'];
-};
-
 export type GetOrCreateActivityTypeInput = {
   activityTypeName: Scalars['String'];
   userId?: InputMaybe<Scalars['Float']>;
@@ -8321,6 +8317,13 @@ export type LinearUserWhereUniqueInput = {
   linear_id?: InputMaybe<Scalars['String']>;
 };
 
+export type ListActivityTypesByUserInput = {
+  createdAt?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Float']>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['String']>;
+};
+
 export type Mutation = {
   createActivityType: ActivityType;
   createAttestation: Attestation;
@@ -11335,7 +11338,7 @@ export type QueryLinearUsersArgs = {
 
 
 export type QueryListActivityTypesByUserArgs = {
-  where: GetActivityTypesPerUserAndDaOs;
+  where: ListActivityTypesByUserInput;
 };
 
 
@@ -14200,7 +14203,7 @@ export type ListActivityTypesQueryVariables = Exact<{
 export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }> };
 
 export type ListActivityTypesByUserQueryVariables = Exact<{
-  where: GetActivityTypesPerUserAndDaOs;
+  where: ListActivityTypesByUserInput;
 }>;
 
 
@@ -14861,7 +14864,7 @@ export const ListActivityTypesDocument = gql`
 }
     ${ActivityTypeFragmentFragmentDoc}`;
 export const ListActivityTypesByUserDocument = gql`
-    query listActivityTypesByUser($where: GetActivityTypesPerUserAndDAOs!) {
+    query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
     id
     name

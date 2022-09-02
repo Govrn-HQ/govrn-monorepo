@@ -533,7 +533,7 @@ query listActivityTypes(
 }
 
 query listActivityTypesByUser(
-  $where: GetActivityTypesPerUserAndDAOs!
+  $where: ListActivityTypesByUserInput!
 ) {
   result: listActivityTypesByUser(where: $where) {
     id
