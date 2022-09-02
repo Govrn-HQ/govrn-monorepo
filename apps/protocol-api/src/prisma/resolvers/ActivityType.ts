@@ -102,24 +102,43 @@ export class ActivityTypeCustomResolver {
     return userActivityType.activity_type;
   }
 
-  @TypeGraphQL.Query(_returns => [ActivityTypesByUser], {
+  @TypeGraphQL.Query(_returns => [ActivityType], {
     nullable: false,
   })
-  async getActivityTypesByUser(
-    @TypeGraphQL.Ctx() { prisma }: Context,
+  async listActivityTypesByUser(
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: GetActivityTypesPerUserAndDAOsArgs,
   ) {
+    const address = req.session.siwe.data.address.toString();
     const user_id = args.where.userId;
 
-    return await prisma.$queryRaw<ActivityTypesByUser>`
-      SELECT at.*, ua.user_id, gat.guild_id
-      FROM "ActivityType" at
-             LEFT JOIN "UserActivity" ua
-                       ON at.id = ua.activity_type_id
-             LEFT JOIN "GuildActivityType" gat
-                       ON at.id = gat.activity_type_id
-      WHERE ua.user_id = ${user_id}
-         OR (gat.guild_id IN (SELECT guild_id FROM "GuildUser" WHERE user_id = ${user_id}))
-      ORDER BY at.name;`;
+    const guildIds = (
+      await prisma.guild.findMany({
+        where: {
+          users: { some: { user: { id: user_id, address } } },
+        },
+      })
+    ).map(g => g.id);
+
+    return await prisma.activityType.findMany({
+      where: {
+        OR: [
+          {
+            users: {
+              some: {
+                user_id: { equals: user_id },
+              },
+            },
+          },
+          {
+            guilds: {
+              some: {
+                guild_id: { in: guildIds },
+              },
+            },
+          },
+        ],
+      },
+    });
   }
 }
