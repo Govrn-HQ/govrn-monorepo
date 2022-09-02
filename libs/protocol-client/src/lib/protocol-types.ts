@@ -10250,7 +10250,6 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
-  getActivityTypesByUser: Array<ActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
@@ -10298,6 +10297,7 @@ export type Query = {
   linearTeams: Array<LinearTeam>;
   linearUser?: Maybe<LinearUser>;
   linearUsers: Array<LinearUser>;
+  listActivityTypesByUser: Array<ActivityType>;
   listUserByAddress: Array<User>;
   partner?: Maybe<Partner>;
   partners: Array<Partner>;
@@ -10924,11 +10924,6 @@ export type QueryFindFirstUserActivityArgs = {
 };
 
 
-export type QueryGetActivityTypesByUserArgs = {
-  where: GetActivityTypesPerUserAndDaOs;
-};
-
-
 export type QueryGetContributionCountByDateForUserInRangeArgs = {
   where: GetUserContributionCountInput;
 };
@@ -11336,6 +11331,11 @@ export type QueryLinearUsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearUserWhereInput>;
+};
+
+
+export type QueryListActivityTypesByUserArgs = {
+  where: GetActivityTypesPerUserAndDaOs;
 };
 
 
@@ -14199,12 +14199,12 @@ export type ListActivityTypesQueryVariables = Exact<{
 
 export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }> };
 
-export type GetActivityTypesByUserQueryVariables = Exact<{
+export type ListActivityTypesByUserQueryVariables = Exact<{
   where: GetActivityTypesPerUserAndDaOs;
 }>;
 
 
-export type GetActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string | Date, updatedAt: string | Date }> };
+export type ListActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string | Date, updatedAt: string | Date }> };
 
 export type CreateActivityTypeMutationVariables = Exact<{
   data: ActivityTypeCreateInput;
@@ -14860,9 +14860,9 @@ export const ListActivityTypesDocument = gql`
   }
 }
     ${ActivityTypeFragmentFragmentDoc}`;
-export const GetActivityTypesByUserDocument = gql`
-    query getActivityTypesByUser($where: GetActivityTypesPerUserAndDAOs!) {
-  result: getActivityTypesByUser(where: $where) {
+export const ListActivityTypesByUserDocument = gql`
+    query listActivityTypesByUser($where: GetActivityTypesPerUserAndDAOs!) {
+  result: listActivityTypesByUser(where: $where) {
     id
     name
     active
@@ -15085,8 +15085,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     listActivityTypes(variables?: ListActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesQuery>(ListActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypes', 'query');
     },
-    getActivityTypesByUser(variables: GetActivityTypesByUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetActivityTypesByUserQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetActivityTypesByUserQuery>(GetActivityTypesByUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getActivityTypesByUser', 'query');
+    listActivityTypesByUser(variables: ListActivityTypesByUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesByUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesByUserQuery>(ListActivityTypesByUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypesByUser', 'query');
     },
     createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');

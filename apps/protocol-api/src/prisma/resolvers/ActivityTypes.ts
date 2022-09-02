@@ -21,7 +21,7 @@ export class ActivityTypesCustomResolver {
   @TypeGraphQL.Query(_returns => [ActivityType], {
     nullable: false,
   })
-  async getActivityTypesByUser(
+  async listActivityTypesByUser(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: GetActivityTypesPerUserAndDAOsArgs,
   ) {
