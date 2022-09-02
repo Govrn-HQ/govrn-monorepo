@@ -9,17 +9,21 @@ describe("Login with Metamask", () => {
   
     cy.login(network, address, COOKIE);
 
-    cy.contains('Connect Wallet').click();
-    cy.contains('MetaMask').click();
+    cy.contains('Connect Wallet')
+      .click();
+    cy.contains('MetaMask')
+      .click();
     cy.wait(5000);  //wait for 'Create Profile' button to display
-    cy.contains('Create My Profile').should('be.visible').click();
+    cy.contains('Create My Profile')
+      .should('be.visible')
+      .click();
   });
 
   it("Fill Govrn Waitlist Form", () => {
     cy.interceptGQL('POST',
                     ['listUserByAddress','createUserCustom'],
                      COOKIE
-                  )
+                  );
    
     cy.get('[name="username"]')
       .type('TestUsername');
@@ -27,7 +31,8 @@ describe("Login with Metamask", () => {
     cy.get('[name="email"]')
       .type('testemail@gmail.com');
     
-    cy.contains('Join Waitlist').click();
+    cy.contains('Join Waitlist')
+      .click();
     
   });
 

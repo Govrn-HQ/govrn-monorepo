@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-//import '@cypress/code-coverage/support';
 import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers';
 import '@testing-library/cypress/add-commands';
 import { BigNumber, ethers } from 'ethers';

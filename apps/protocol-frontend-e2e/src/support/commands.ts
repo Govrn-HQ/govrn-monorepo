@@ -1,6 +1,5 @@
 import { MockExtensionProvider } from "./e2e";
 
-
 Cypress.Commands.add('login', (network, address, COOKIE) => {
   cy.visit("http://localhost:3000/", {
     onBeforeLoad(win) {
@@ -16,46 +15,23 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
                  ['listUserByAddress','createUserCustom'],
                   COOKIE
                   )
-
-
 });
-
-Cypress.Commands.add('interceptGQL',(method, operationNames, COOKIE) =>{
+ 
+Cypress.Commands.add('interceptGQL',(httpMethod, operationNames, COOKIE) =>{
   //network requests
-  cy.intercept('POST', '/graphql', req => {
-    req.headers['Cookie'] = COOKIE;
-    if (req.body.operationName ===  method[0]) {
+  for (const operationName of operationNames){  
+    cy.intercept(httpMethod, '/graphql', req => {
       req.headers['Cookie'] = COOKIE;
-      req.alias = `gql${req.body.operationName}Query`;
-    } 
-    if (req.body.operationName ===  method[1]) {
-      req.headers['Cookie'] = COOKIE;
-      req.alias = `gql${req.body.operationName}Mutation`;
-      req.reply((res) => {
-        cy.log(res.toString());
-        console.log(res.toString());
+      if (req.body.operationName === operationName) {
+        req.headers['Cookie'] = COOKIE;
+        operationName ==='createUserCustom'? 
+        req.alias = `gql${req.body.operationName}Mutation`:
+        req.alias = `gql${req.body.operationName}Query`
+       } 
 
-      });
-    }
+    })
+  }
   });
 
-});
 
 
-
-
-
-
-
-
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
