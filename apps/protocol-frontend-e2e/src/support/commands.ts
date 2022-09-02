@@ -8,13 +8,13 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
     });
   //add cookie into '/siwe/active' request
   cy.intercept('/siwe/active', req => {
-  req.headers['Cookie'] = COOKIE;
+    req.headers['Cookie'] = COOKIE;
   });
   //network requests
   cy.interceptGQL('POST',
                  ['listUserByAddress','createUserCustom'],
                   COOKIE
-                  )
+                  );
 });
  
 Cypress.Commands.add('interceptGQL',(httpMethod, operationNames, COOKIE) =>{
@@ -23,13 +23,12 @@ Cypress.Commands.add('interceptGQL',(httpMethod, operationNames, COOKIE) =>{
     cy.intercept(httpMethod, '/graphql', req => {
       req.headers['Cookie'] = COOKIE;
       if (req.body.operationName === operationName) {
-        req.headers['Cookie'] = COOKIE;
         operationName ==='createUserCustom'? 
         req.alias = `gql${req.body.operationName}Mutation`:
         req.alias = `gql${req.body.operationName}Query`
        } 
 
-    })
+    });
   }
   });
 
