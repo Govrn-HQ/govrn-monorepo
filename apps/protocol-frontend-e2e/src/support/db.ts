@@ -27,11 +27,5 @@ const queryDB = (query) => {
 
 export default queryDB;
 
-const query1 = `
-TRUNCATE TABLE "GuildContribution" RESTART IDENTITY CASCADE;
-TRUNCATE TABLE "Contribution" RESTART IDENTITY CASCADE;
-TRUNCATE TABLE "User" RESTART IDENTITY CASCADE;
-`
-//Run func queryDB to automatically clear your db before tests
-//queryDB(query1);
+
 
