@@ -13,7 +13,10 @@ const getUserOffWaitlistQuery = `
 
 describe("MetaMask and seed db", () => {
   it("Lets user connect with Metamask provider", () => {
-    cy.login(network, address, COOKIE);
+    cy.login(network, 
+             address, 
+             COOKIE
+          );
 
     //Get user off the waitlist
     cy.task('queryDatabase', getUserOffWaitlistQuery)
