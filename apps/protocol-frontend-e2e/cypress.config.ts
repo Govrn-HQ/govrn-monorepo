@@ -1,23 +1,5 @@
 import { defineConfig } from 'cypress';
-
-const {Client} = require('pg');
-
-const queryDB = (query) => {
-  const connectionInfo = process.env['DATABASE_URL']
-  const client = new Client(connectionInfo)
- 
-  client.connect()
-
-  return new Promise((resolve, reject)=>{
-    client.query(query,(err,res) =>{
-      if (err) reject(err)
-      else {
-        client.end()
-        return resolve(res)
-      }
-    })
-  })
-}
+import queryDB from './src/support/db';
 
 module.exports = defineConfig({
   fileServerFolder: '.',

@@ -7,7 +7,10 @@ const COOKIE: string = Cypress.env('COOKIE');
 describe("Login with Metamask", () => {
   it("Lets user connect with Metamask provider", () => {
   
-    cy.login(network, address, COOKIE);
+    cy.login(network, 
+            address, 
+            COOKIE
+          );
 
     cy.contains('Connect Wallet')
       .click();
@@ -21,7 +24,9 @@ describe("Login with Metamask", () => {
 
   it("Fill Govrn Waitlist Form", () => {
     cy.interceptGQL('POST',
-                    ['listUserByAddress','createUserCustom'],
+                    ['listUserByAddress',
+                    'createUserCustom'
+                  ],
                      COOKIE
                   );
    

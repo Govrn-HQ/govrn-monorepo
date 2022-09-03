@@ -4,26 +4,28 @@ const network = "goerli";
 const address = Cypress.env('address');
 const COOKIE = Cypress.env('COOKIE');
 
-const query = `
+const getUserOffWaitlistQuery = `
   UPDATE "User"
   SET active = TRUE
   WHERE email = 'testemail@gmail.com'
   RETURNING *;
   `
-//Before test, ensure that User is active
+
 describe("MetaMask and seed db", () => {
   it("Lets user connect with Metamask provider", () => {
     cy.login(network, address, COOKIE);
 
     //Get user off the waitlist
-    cy.task('queryDatabase', query)
+    cy.task('queryDatabase', getUserOffWaitlistQuery)
       .then((res) => {
       expect(res.rows[0].active).to.equal(true);
       });
 
     //network requests
     cy.interceptGQL('POST',
-                  ['listUserByAddress','createUserCustom'],
+                  ['listUserByAddress',
+                  'createUserCustom'
+                ],
                   COOKIE
               );
 
@@ -44,7 +46,7 @@ describe("MetaMask and seed db", () => {
     cy.interceptGQL('POST',
                    ['listUserByAddress',
                    'createUserCustom'
-                   ],
+                  ],
                    COOKIE
               );
   
