@@ -111,6 +111,7 @@ const CreateWaitlistUserForm = () => {
             transition="all 100ms ease-in-out"
             _hover={{ bgColor: 'brand.primary.100' }}
             isLoading={isSubmitting}
+            data-cy="join-waitlist"
           >
             Join Waitlist
           </Button>

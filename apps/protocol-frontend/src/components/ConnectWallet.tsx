@@ -64,6 +64,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                     leftIcon={<FiKey />}
                     disabled={isConnecting}
                     onClick={openConnectModal}
+                    data-cy="connect-wallet"
                   >
                     Connect Wallet
                   </Button>

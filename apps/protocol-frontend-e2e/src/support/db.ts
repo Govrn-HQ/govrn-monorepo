@@ -18,6 +18,7 @@ const queryDB = (query) => {
       if (err) reject(err)
       else {
         client.end()
+        
         return resolve(res)
       }
     })
@@ -31,6 +32,6 @@ TRUNCATE TABLE "GuildContribution" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "Contribution" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "User" RESTART IDENTITY CASCADE;
 `
-// // Run func queryDB to automatically clear your db before tests
+//Run func queryDB to automatically clear your db before tests
 //queryDB(query1);
 

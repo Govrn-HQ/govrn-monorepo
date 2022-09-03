@@ -16,7 +16,7 @@ module.exports = defineConfig({
         queryDatabase: query => {
           return queryDB(query)
         },
-
+  
       })
     },
     specPattern: './src/integration/**/*.cy.{js,jsx,ts,tsx}',

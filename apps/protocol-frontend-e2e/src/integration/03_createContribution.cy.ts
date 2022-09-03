@@ -29,13 +29,14 @@ describe("MetaMask and seed db", () => {
                   COOKIE
               );
 
-    cy.contains('Connect Wallet')
+    cy.get('[data-cy=connect-wallet]')
       .click();
+
     cy.contains('MetaMask')
       .click(); 
 
     cy.wait(3000); //'My Contributions' button to display
-    cy.contains('My Contributions')
+    cy.get('[data-cy="myContributions-btn"]')
       .should('be.visible')
       .click();
 
@@ -50,7 +51,7 @@ describe("MetaMask and seed db", () => {
                    COOKIE
               );
   
-    cy.contains('Report a Contribution')
+    cy.get('[data-cy="reportFirstContribution-btn"]')
       .click();
       
     cy.get('input[name="name"]')
@@ -73,8 +74,9 @@ describe("MetaMask and seed db", () => {
         
     cy.contains('Select a DAO to associate this Contribution with');
         
-    cy.contains('Add Contribution')
+    cy.get('[data-cy="addContribution-btn"]')
       .click({ force: true }) 
+
     cy.contains('Please select at least one Contribution to attribute to a DAO or mint.');
 
   });
