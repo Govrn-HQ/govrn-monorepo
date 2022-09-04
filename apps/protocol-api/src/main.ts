@@ -64,6 +64,7 @@ const permissions = shield(
       contributions: or(isAuthenticated, hasToken),
       activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
+      listActivityTypesByUser: isAuthenticated,
       getUser: isAuthenticated,
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),

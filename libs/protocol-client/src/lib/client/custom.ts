@@ -5,6 +5,7 @@ import {
   UserContributionUpdateInput,
   UserUpdateCustomInput,
   GetUserContributionCountInput,
+  ListActivityTypesByUserInput,
 } from '../protocol-types';
 
 export class Custom extends BaseClient {
@@ -50,5 +51,12 @@ export class Custom extends BaseClient {
     const contributionCount =
       await this.sdk.getContributionCountByDateForUserInRange({ where: args });
     return contributionCount.result;
+  }
+
+  public async listActivityTypesByUser(args: ListActivityTypesByUserInput) {
+    const activityTypes = await this.sdk.listActivityTypesByUser({
+      where: args,
+    });
+    return activityTypes.result;
   }
 }

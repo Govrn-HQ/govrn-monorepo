@@ -8317,6 +8317,13 @@ export type LinearUserWhereUniqueInput = {
   linear_id?: InputMaybe<Scalars['String']>;
 };
 
+export type ListActivityTypesByUserInput = {
+  createdAt?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Float']>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['String']>;
+};
+
 export type Mutation = {
   createActivityType: ActivityType;
   createAttestation: Attestation;
@@ -10293,6 +10300,7 @@ export type Query = {
   linearTeams: Array<LinearTeam>;
   linearUser?: Maybe<LinearUser>;
   linearUsers: Array<LinearUser>;
+  listActivityTypesByUser: Array<ActivityType>;
   listUserByAddress: Array<User>;
   partner?: Maybe<Partner>;
   partners: Array<Partner>;
@@ -11326,6 +11334,11 @@ export type QueryLinearUsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearUserWhereInput>;
+};
+
+
+export type QueryListActivityTypesByUserArgs = {
+  where: ListActivityTypesByUserInput;
 };
 
 
@@ -14189,6 +14202,13 @@ export type ListActivityTypesQueryVariables = Exact<{
 
 export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }> };
 
+export type ListActivityTypesByUserQueryVariables = Exact<{
+  where: ListActivityTypesByUserInput;
+}>;
+
+
+export type ListActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string | Date, updatedAt: string | Date }> };
+
 export type CreateActivityTypeMutationVariables = Exact<{
   data: ActivityTypeCreateInput;
 }>;
@@ -14843,6 +14863,17 @@ export const ListActivityTypesDocument = gql`
   }
 }
     ${ActivityTypeFragmentFragmentDoc}`;
+export const ListActivityTypesByUserDocument = gql`
+    query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
+  result: listActivityTypesByUser(where: $where) {
+    id
+    name
+    active
+    createdAt
+    updatedAt
+  }
+}
+    `;
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
   createActivityType(data: $data) {
@@ -15056,6 +15087,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     listActivityTypes(variables?: ListActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesQuery>(ListActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypes', 'query');
+    },
+    listActivityTypesByUser(variables: ListActivityTypesByUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListActivityTypesByUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListActivityTypesByUserQuery>(ListActivityTypesByUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listActivityTypesByUser', 'query');
     },
     createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
