@@ -18,7 +18,6 @@ const queryDB = (query) => {
       if (err) reject(err)
       else {
         client.end()
-        
         return resolve(res)
       }
     })

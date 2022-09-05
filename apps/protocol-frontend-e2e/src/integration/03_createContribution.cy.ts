@@ -10,60 +10,59 @@ const getUserOffWaitlistQuery = `
   WHERE email = 'testemail@gmail.com'
   RETURNING *;
   `
+beforeEach(()=>{
+  cy.login(network, 
+    address, 
+    COOKIE
+ );
+
+  //Get user off the waitlist
+  cy.task('queryDatabase', getUserOffWaitlistQuery)
+  .then((res) => {
+  expect(res.rows[0].active).to.equal(true);
+  });
+
+  //network requests
+  cy.interceptGQL('POST',
+          ['listUserByAddress',
+          'createUserCustom'
+        ],
+          COOKIE
+      );
+
+  cy.get('[data-cy=connect-wallet]')
+  .click();
+
+  cy.contains('MetaMask')
+  .click(); 
+
+  cy.wait(3000); //'My Contributions' button to display
+  cy.get('[data-cy="myContributions-btn"]')
+  .should('be.visible')
+  .click();
+
+});
 
 describe("MetaMask and seed db", () => {
-  it("Lets user connect with Metamask provider", () => {
-    cy.login(network, 
-             address, 
-             COOKIE
-          );
-
-    //Get user off the waitlist
-    cy.task('queryDatabase', getUserOffWaitlistQuery)
-      .then((res) => {
-      expect(res.rows[0].active).to.equal(true);
-      });
-
-    //network requests
-    cy.interceptGQL('POST',
-                  ['listUserByAddress',
-                  'createUserCustom'
-                ],
-                  COOKIE
-              );
-
-    cy.get('[data-cy=connect-wallet]')
-      .click();
-
-    cy.contains('MetaMask')
-      .click(); 
-
-    cy.wait(3000); //'My Contributions' button to display
-    cy.get('[data-cy="myContributions-btn"]')
-      .should('be.visible')
-      .click();
-
-  });
 
   it('Report your first Contribution', () => {
     //network requests
-    cy.interceptGQL('POST',
-                   ['listUserByAddress',
-                   'createUserCustom'
-                  ],
-                   COOKIE
-              );
+    // cy.interceptGQL('POST',
+    //                ['listUserByAddress',
+    //                'createUserCustom'
+    //               ],
+    //                COOKIE
+    //           );
   
     cy.get('[data-cy="reportFirstContribution-btn"]')
       .click();
       
     cy.get('input[name="name"]')
-        .type('Govrn Protocol Pull Request')
-        .should('have.value', 'Govrn Protocol Pull Request');
+      .type('Govrn Protocol Pull Request')
+      .should('have.value', 'Govrn Protocol Pull Request');
     
     cy.contains('Select an activity type or add a new one')
       .click({ force: true });
-
     cy.get('#react-select-3-listbox')
       .should('contain', 'Pull Request')
       .type('Pull Request{enter}');
@@ -83,6 +82,7 @@ describe("MetaMask and seed db", () => {
     cy.contains('Please select at least one Contribution to attribute to a DAO or mint.');
 
   });
+
  
 });
    
