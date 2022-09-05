@@ -15,6 +15,15 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
                  ['listUserByAddress','createUserCustom'],
                   COOKIE
                   );
+
+  cy.get('[data-cy=connect-wallet]')
+    .click();
+
+  cy.contains('MetaMask')
+    .click();
+
+  cy.wait(1000);  //wait for DOM elem (profile btn) to attach
+
 });
  
 Cypress.Commands.add('interceptGQL',(httpMethod, operationNames, COOKIE) =>{

@@ -10,8 +10,8 @@ TRUNCATE TABLE "Contribution" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "User" RESTART IDENTITY CASCADE;
 `
 
-describe("Login with Metamask", () => {
-  it("Lets user connect with Metamask provider", () => {
+describe("New User Login", () => {
+  it("Clear DB, enable New User Login", () => {
     cy.task('queryDatabase', truncateTablesQuery)
       .then((res) => {
       expect(res[0].rows.length).to.equal(0);
@@ -21,12 +21,6 @@ describe("Login with Metamask", () => {
             address, 
             COOKIE
           );
-
-    cy.get('[data-cy=connect-wallet]')
-      .click();
-    cy.contains('MetaMask')
-      .click();
-    cy.wait(5000);  //wait for 'Create Profile' button to display
     cy.get('[data-cy="create-my-profile-btn"]')
       .should('be.visible')
       .click();
