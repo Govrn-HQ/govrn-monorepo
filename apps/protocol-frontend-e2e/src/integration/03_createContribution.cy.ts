@@ -11,16 +11,16 @@ const getUserOffWaitlistQuery = `
   RETURNING *;
   `
 beforeEach(()=>{
+   //Get user off the waitlist
+  cy.task('queryDatabase', getUserOffWaitlistQuery)
+    .then((res) => {
+    expect(res.rows[0].active).to.equal(true);
+  });
+
   cy.login(network, 
     address, 
     COOKIE
- );
-
-  //Get user off the waitlist
-  cy.task('queryDatabase', getUserOffWaitlistQuery)
-    .then((res) => {
-     expect(res.rows[0].active).to.equal(true);
-    });
+);
 
   //network requests
   cy.interceptGQL('POST',

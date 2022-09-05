@@ -9,6 +9,18 @@ TRUNCATE TABLE "GuildContribution" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "Contribution" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "User" RESTART IDENTITY CASCADE;
 `
+after(()=>{
+
+  cy.login(network, 
+    address, 
+    COOKIE
+  );
+
+  cy.contains("Join Our Discord")
+    .should('be.visible')
+    .click();   
+
+});
 
 describe("New User Login", () => {
   it("Clear DB, enable New User Login", () => {
@@ -43,6 +55,8 @@ describe("New User Login", () => {
     cy.get('[data-cy="join-waitlist"]')
       .click();
     
+    cy.wait(3000);
+
   });
 
 });
