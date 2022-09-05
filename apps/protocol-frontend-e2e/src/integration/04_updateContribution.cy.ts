@@ -32,7 +32,7 @@ describe("MetaMask and seed db", () => {
     cy.get('[name="details"]')
       .clear()
       .click() 
-      .type('I added a section to our onboarding documentation that provides an overview of our Discord channels.');   
+      .type('I added some notes on the documentation that summarizes cypress test automation in Govrn products.');   
     
     cy.get('[name="proof"]')
       .clear()
