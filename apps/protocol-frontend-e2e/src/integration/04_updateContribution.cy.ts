@@ -8,6 +8,9 @@ beforeEach(() => {
         address, 
         COOKIE
      );
+    cy.fixture('contributions.json').then((contributions) => {
+      this.contributions = contributions
+    });
  
     cy.get('[data-cy="myContributions-btn"]')
       .should('be.visible')
@@ -22,25 +25,25 @@ describe("MetaMask and seed db", () => {
 
     cy.get('input[placeholder="DAOContributor"]')
       .clear()
-      .type('Govrn Protocol Note Taking')
-      .should('have.value', 'Govrn Protocol Note Taking');
+      .type(this.contributions[1].name)
+      .should('have.value', this.contributions[1].name);
     
     cy.get(".css-ujecln-Input2 #react-select-3-input")
       .click({ force: true})
-      .type('Note Taking{enter}');
+      .type(`${this.contributions[1].activityType}{enter}`);
    
     cy.get('[name="details"]')
       .clear()
       .click() 
-      .type('I added some notes on the documentation that summarizes cypress test automation in Govrn products.');   
+      .type(this.contributions[1].details);   
     
     cy.get('[name="proof"]')
       .clear()
-      .type('https://github.com/Govrn-HQ/airtable_migration.');   
+      .type(this.contributions[1].proof);   
         
     cy.get(".css-ujecln-Input2 #react-select-5-input") 
       .click({ force: true})
-      .type('MGD{enter}');
+      .type(`${this.contributions[1].dao}{enter}`);
         
     cy.get('[ data-cy="updateContribution-test-btn"]')
       .click();
