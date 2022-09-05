@@ -14,6 +14,10 @@ declare namespace Cypress {
     interceptGQL(httpMethod: Method, operationNames: string[], COOKIE: string): void;
   }
 
+  interface Chainable<Subject> {
+    switchWindow(): void;
+  }
+
   declare interface Window {
       ethereum: any;
       localStorage: Storage;

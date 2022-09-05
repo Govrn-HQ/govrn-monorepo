@@ -10,7 +10,7 @@ const getUserOffWaitlistQuery = `
   WHERE email = 'testemail@gmail.com'
   RETURNING *;
   `
-beforeEach(()=>{
+before(()=>{
    //Get user off the waitlist
   cy.task('queryDatabase', getUserOffWaitlistQuery)
     .then((res) => {

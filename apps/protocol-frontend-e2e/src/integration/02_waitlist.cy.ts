@@ -9,43 +9,47 @@ TRUNCATE TABLE "GuildContribution" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "Contribution" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "User" RESTART IDENTITY CASCADE;
 `
-after(()=>{
+beforeEach(()=>{
+  cy.task('queryDatabase', truncateTablesQuery)
+    .then((res) => {
+    expect(res[0].rows.length).to.equal(0);
+  });
+});
 
+afterEach(()=>{
   cy.login(network, 
     address, 
     COOKIE
-  );
+  ); 
+  // //Now in Discord's window
+  // cy.switchWindow()
+  // cy.title()
+  //   .should('eq', 'Discord');
+  
+  // cy.get('input[name=""username]')
+  //   .type('testUserFromCypress');
 
-  cy.contains("Join Our Discord")
-    .should('be.visible')
-    .click();   
-
+  // cy.get("button")
+  //   .click();
 });
 
 describe("New User Login", () => {
-  it("Clear DB, enable New User Login", () => {
-    cy.task('queryDatabase', truncateTablesQuery)
-      .then((res) => {
-      expect(res[0].rows.length).to.equal(0);
-      });
-      
-    cy.login(network, 
-            address, 
-            COOKIE
-          );
-    cy.get('[data-cy="create-my-profile-btn"]')
-      .should('be.visible')
-      .click();
-  });
-
   it("Fill Govrn Waitlist Form", () => {
+    cy.login(network, 
+      address, 
+      COOKIE
+    );
+ 
     cy.interceptGQL('POST',
-                    ['listUserByAddress',
+                  ['listUserByAddress',
                     'createUserCustom'
                   ],
                      COOKIE
-                  );
-   
+                );
+    cy.wait(1000);
+    cy.get('[data-cy="create-my-profile-btn"]')
+      .click({force:true});
+
     cy.get('input[name="username"]')   //'input[data-cy="username"]'
       .type('TestUsername');
     
@@ -54,7 +58,6 @@ describe("New User Login", () => {
     
     cy.get('[data-cy="join-waitlist"]')
       .click();
-    
     cy.wait(3000);
 
   });
