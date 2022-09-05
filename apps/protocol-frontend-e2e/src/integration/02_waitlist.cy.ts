@@ -14,6 +14,15 @@ beforeEach(()=>{
     .then((res) => {
     expect(res[0].rows.length).to.equal(0);
   });
+
+  cy.fixture('user.json').then((users) => {
+    this.users = users
+  });
+  
+  cy.login(network, 
+    address, 
+    COOKIE
+  );
 });
 
 afterEach(()=>{
@@ -35,26 +44,16 @@ afterEach(()=>{
 
 describe("New User Login", () => {
   it("Fill Govrn Waitlist Form", () => {
-    cy.login(network, 
-      address, 
-      COOKIE
-    );
- 
-    cy.interceptGQL('POST',
-                  ['listUserByAddress',
-                    'createUserCustom'
-                  ],
-                     COOKIE
-                );
-    cy.wait(5000);
+  
     cy.get('[data-cy="create-my-profile-btn"]')
       .click({force:true});
 
+    const userNo = Math.floor(Math.random() * 2);
     cy.get('input[name="username"]')   //'input[data-cy="username"]'
-      .type('TestUsername');
+      .type(this.users[userNo].username);
     
     cy.get('[name="email"]')
-      .type('testemail@gmail.com');
+      .type(this.users[userNo].email);
     
     cy.get('[data-cy="join-waitlist"]')
       .click();

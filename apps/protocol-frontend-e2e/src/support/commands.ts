@@ -33,6 +33,8 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
     }
   });
 
+  cy.wait(5000);
+
 });
  
 Cypress.Commands.add('interceptGQL',(httpMethod, operationNames, COOKIE) =>{
