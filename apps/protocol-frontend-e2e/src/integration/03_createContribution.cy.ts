@@ -18,9 +18,9 @@ beforeEach(()=>{
 
   //Get user off the waitlist
   cy.task('queryDatabase', getUserOffWaitlistQuery)
-  .then((res) => {
-  expect(res.rows[0].active).to.equal(true);
-  });
+    .then((res) => {
+     expect(res.rows[0].active).to.equal(true);
+    });
 
   //network requests
   cy.interceptGQL('POST',
@@ -30,16 +30,9 @@ beforeEach(()=>{
           COOKIE
       );
 
-  cy.get('[data-cy=connect-wallet]')
-  .click();
-
-  cy.contains('MetaMask')
-  .click(); 
-
-  cy.wait(3000); //'My Contributions' button to display
   cy.get('[data-cy="myContributions-btn"]')
-  .should('be.visible')
-  .click();
+    .should('be.visible')
+    .click();
 
 });
 

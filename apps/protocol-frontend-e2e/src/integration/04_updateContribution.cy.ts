@@ -8,21 +8,7 @@ beforeEach(() => {
         address, 
         COOKIE
      );
-    //network requests
-    cy.interceptGQL('POST',
-    ['listUserByAddress',
-    'createUserCustom'
-    ],
-    COOKIE
-    );
-    cy.wait(3000); //wait for el-DOM attachment
-
-    cy.get('[data-cy=connect-wallet]')
-      .click();
-
-    cy.contains('MetaMask')
-      .click(); 
-
+ 
     cy.get('[data-cy="myContributions-btn"]')
       .should('be.visible')
       .click({ force: true });
@@ -57,7 +43,7 @@ describe("MetaMask and seed db", () => {
       .type('MGD{enter}');
         
     cy.get('[ data-cy="updateContribution-test-btn"]')
-      .click({ force: true }) 
+      .click();
 
     cy.contains('Please select at least one Contribution to attribute to a DAO or mint.');
 
