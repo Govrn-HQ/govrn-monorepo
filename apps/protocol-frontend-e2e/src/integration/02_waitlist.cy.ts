@@ -46,7 +46,7 @@ describe("New User Login", () => {
                   ],
                      COOKIE
                 );
-    cy.wait(1000);
+    cy.wait(5000);
     cy.get('[data-cy="create-my-profile-btn"]')
       .click({force:true});
 
