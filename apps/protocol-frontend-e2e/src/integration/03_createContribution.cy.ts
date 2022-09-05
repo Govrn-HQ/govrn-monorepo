@@ -14,9 +14,9 @@ before(()=>{
    //Get user off the waitlist
   cy.task('queryDatabase', getUserOffWaitlistQuery)
     .then((res) => {
-      console.log(res);
     expect(res.rows[0].active).to.equal(true);
   });
+
   cy.fixture('contributions.json').then((contributions) => {
     this.contributions = contributions
   });
@@ -59,8 +59,8 @@ describe("MetaMask and seed db", () => {
         
     cy.get('[data-cy="addContribution-btn"]')
       .click({ force: true }) 
+
     cy.wait(3000);
-    
     cy.contains('Please select at least one Contribution to attribute to a DAO or mint.');
 
   });

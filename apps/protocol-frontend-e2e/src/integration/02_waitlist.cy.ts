@@ -58,6 +58,7 @@ describe("New User Login", () => {
     
     cy.get('[data-cy="join-waitlist"]')
       .click();
+      
     cy.wait(3000);
 
   });

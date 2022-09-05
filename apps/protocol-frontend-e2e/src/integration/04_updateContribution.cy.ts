@@ -8,6 +8,7 @@ beforeEach(() => {
         address, 
         COOKIE
      );
+     
     cy.fixture('contributions.json').then((contributions) => {
       this.contributions = contributions
     });
