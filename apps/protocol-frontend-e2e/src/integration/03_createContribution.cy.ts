@@ -32,7 +32,7 @@ before(()=>{
 
   cy.get('[data-cy="myContributions-btn"]')
     .should('be.visible')
-    .click();
+    .click({force:true});
 
 });
 
@@ -64,7 +64,8 @@ describe("MetaMask and seed db", () => {
         
     cy.get('[data-cy="addContribution-btn"]')
       .click({ force: true }) 
-
+    cy.wait(3000);
+    
     cy.contains('Please select at least one Contribution to attribute to a DAO or mint.');
 
   });
