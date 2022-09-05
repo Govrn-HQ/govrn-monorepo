@@ -18,6 +18,7 @@ import { useUser } from '../contexts/UserContext';
 import CreateWaitlistUserForm from './CreateWaitlistUserForm';
 import { GOVRN_MOTTO } from '../utils/constants';
 import { FaDiscord } from 'react-icons/all';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 
 const HomeShell = () => {
   const { isConnected } = useAccount();
@@ -26,7 +27,7 @@ const HomeShell = () => {
     null,
   );
 
-  const { userDataByAddress, userData } = useUser();
+  const { userDataByAddress, userData, isUserLoading } = useUser();
 
   useEffect(() => {
     if (userDataByAddress) {
@@ -38,6 +39,10 @@ const HomeShell = () => {
   }, [userDataByAddress]);
 
   const NewUserFlow = () => {
+    if (isUserLoading) {
+      return <GovrnSpinner />;
+    }
+
     return (
       <Flex direction="column" alignItems="center" justifyContent="center">
         {createProfileSteps === 1 && (
@@ -87,7 +92,7 @@ const HomeShell = () => {
             justifyContent="center"
             textAlign="center"
           >
-            {userDataByAddress.active === true ? (
+            {userDataByAddress?.active === true ? (
               <>
                 <Text color="gray.800" paddingBottom={8}>
                   Welcome back{' '}

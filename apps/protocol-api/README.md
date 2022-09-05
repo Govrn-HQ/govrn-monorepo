@@ -77,4 +77,4 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 [^1]: uses [`@nx-tools/nx-prisma`](https://github.com/nx-tools/nx-tools/tree/main/packages/nx-prisma) builder that provides a wrapper around the Prisma CLI.
 [^2]: As example it used at [contract-sync-job](../../apps/contract-sync-job/) app, check `CONTRACT_SYNC_TOKEN` env.
 
-[tables-diagram]: https://uc23339e6c54300c902cea3be2f9.previews.dropboxusercontent.com/p/thumb/ABkXnXgTK9SVrC4jkheewuGlytV3Am4VVFNfHXzNpqSF5C9vMfA0qKa9Ifn913XUW3xa9DI-3oFRF1wSbkYc-jrCko1PdijKW_YNCvVU8qBIPOJk1uu2IJ8fU-SZ5PeR-TFp0WQd-dDaHXPMDi39Ta7qNXccG9tCXG4ELKh2EQqI8oOzxyxUoLsGANnqiYAlc1x97j0NVnKuvKPXsviWqB-0T1w29bD2iNkCbKU0-maHnPcCNUnBtM5Z1QqeTahG9EVkW-ppBLn1EjnG-rUGlmjOSU7W1neA974wgtEZSBwCTCPIz4_9CUdvdpnSuU04Q5npkhQdFCuJimF7ynIdwmEwChwpe0FjlBuZDBJxFcYHE7m4cBW8shIw-Ce8NoUabAWWETke-efYi2t16vLYkpZMJzSy25YrkTso5LSg4i9Fkg/p.png
+[tables-diagram]: https://i.imgur.com/gETbxIF.png

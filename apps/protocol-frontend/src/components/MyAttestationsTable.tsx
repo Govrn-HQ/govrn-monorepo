@@ -14,16 +14,28 @@ import {
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
+  Column,
   useFilters,
   useGlobalFilter,
   useRowSelect,
   useSortBy,
   useTable,
+  UseTableHooks,
 } from 'react-table';
 import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { formatDate } from '../utils/date';
 import { UIContribution } from '@govrn/ui-types';
+
+type MyAttestationsTableType = {
+  id: number;
+  date_of_submission: Date | string;
+  date_of_engagement: Date | string;
+  status: string;
+  name: string;
+  attestationDate: string;
+  contributor?: string | null;
+};
 
 const MyAttestationsTable = ({
   contributionsData,
@@ -35,32 +47,30 @@ const MyAttestationsTable = ({
 
   const nonEmptyContributions = _.filter(
     contributionsData,
-    (a) => a.attestations?.length > 0
+    a => a.attestations?.length > 0,
   );
 
-  const attestedContributions = _.filter(nonEmptyContributions, (a) =>
-    a.attestations.every((b) => b.user_id === userData.id)
+  const attestedContributions = _.filter(nonEmptyContributions, a =>
+    a.attestations.every(b => b.user_id === userData?.id),
   );
 
-  const data = useMemo(
+  const data = useMemo<MyAttestationsTableType[]>(
     () =>
-      attestedContributions.map((contribution) => ({
+      attestedContributions.map(contribution => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_engagement,
-        guilds: contribution.attestations || null,
         status: contribution.status.name,
-        action: '',
         name: contribution.name,
         attestationDate: formatDate(
-          contribution.attestations[0]?.date_of_attestation
+          contribution.attestations[0]?.date_of_attestation,
         ),
         contributor: contribution.user.name,
       })),
-    [contributionsData]
+    [contributionsData],
   );
 
-  const columns = useMemo(
+  const columns = useMemo<Column<MyAttestationsTableType>[]>(
     () => [
       {
         Header: 'Name',
@@ -93,11 +103,11 @@ const MyAttestationsTable = ({
       },
       // { Header: 'DAO', accessor: 'guild' },
     ],
-    []
+    [],
   );
 
-  const tableHooks = (hooks: { visibleColumns }) => {
-    hooks.visibleColumns.push((columns) => [
+  const tableHooks = (hooks: UseTableHooks<MyAttestationsTableType>) => {
+    hooks.visibleColumns.push(columns => [
       // {
       //   id: 'selection',
       //   Header: ({ getToggleAllRowsSelectedProps }) => (
@@ -145,7 +155,7 @@ const MyAttestationsTable = ({
     useGlobalFilter,
     useSortBy,
     useRowSelect,
-    tableHooks
+    tableHooks,
   );
 
   // useEffect(() => {
@@ -186,11 +196,11 @@ const MyAttestationsTable = ({
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map(row => {
               prepareRow(row);
               return (
                 <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
+                  {row.cells.map(cell => (
                     <Td {...cell.getCellProps()} borderColor="gray.100">
                       {cell.render('Cell')}
                     </Td>

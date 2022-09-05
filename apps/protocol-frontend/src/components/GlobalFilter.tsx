@@ -37,7 +37,7 @@ const GlobalFilter = ({
         </InputLeftElement>
         <Input
           placeholder={`Search ${rowCount} ${
-            rowCount > 1 ? 'Contributions' : 'Contribution'
+            rowCount === 1 ? 'Contribution' : 'Contributions'
           }`}
           value={value || ''}
           onChange={(e) => {

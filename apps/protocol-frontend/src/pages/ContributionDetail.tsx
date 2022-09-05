@@ -47,7 +47,9 @@ const ContributionDetails = () => {
     const fetchContribution = async () => {
       if (id) {
         const contribution = await getContribution(parseInt(id));
-        setContribution(contribution);
+        if (contribution) {
+          setContribution(contribution);
+        }
       }
     };
     fetchContribution();

@@ -435,33 +435,33 @@ export class ParsedMessageRegExp {
       throw new Error('Message did not match the regular expression.');
     }
     this.match = match;
-    this.domain = match?.groups?.domain;
+    this.domain = match?.groups?.domain || '';
 
     if (this.domain.length === 0 || !/[^#?]*/.test(this.domain)) {
       throw new Error('Domain cannot be empty.');
     }
 
-    this.address = match?.groups?.address;
+    this.address = match?.groups?.address || '';
 
     if (!isEIP55Address(this.address)) {
       throw new Error('Address not conformant to EIP-55.');
     }
 
-    this.statement = match?.groups?.statement;
-    this.uri = match?.groups?.uri;
+    this.statement = match?.groups?.statement || '';
+    this.uri = match?.groups?.uri || '';
 
     if (!isValidURL(this.uri)) {
       throw new Error('Invalid URI.');
     }
 
-    this.version = match?.groups?.version;
-    this.nonce = match?.groups?.nonce;
-    this.chainId = parseInt(match?.groups?.chainId);
-    this.issuedAt = match?.groups?.issuedAt;
-    this.expirationTime = match?.groups?.expirationTime;
-    this.notBefore = match?.groups?.notBefore;
-    this.requestId = match?.groups?.requestId;
-    this.resources = match?.groups?.resources?.split('\n- ').slice(1);
+    this.version = match?.groups?.version || '';
+    this.nonce = match?.groups?.nonce || '';
+    this.chainId = parseInt(match?.groups?.chainId || '');
+    this.issuedAt = match?.groups?.issuedAt || '';
+    this.expirationTime = match?.groups?.expirationTime || '';
+    this.notBefore = match?.groups?.notBefore || '';
+    this.requestId = match?.groups?.requestId || '';
+    this.resources = match?.groups?.resources?.split('\n- ').slice(1) || [];
 
     if (this.resources?.length > 0) {
       this.resources.forEach(r => {

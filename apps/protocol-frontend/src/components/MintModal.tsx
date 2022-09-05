@@ -15,19 +15,8 @@ import { storeIpfs } from '../libs/ipfs';
 import { useUser } from '../contexts/UserContext';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
-import { UIContribution } from '@govrn/ui-types';
-
-type MintContributionType = UIContribution & {
-  original: {
-    name: string;
-    details: string;
-    proof: string;
-  };
-};
-
-interface MintModalProps {
-  contributions: MintContributionType[];
-}
+import { MintModalProps, MintContributionType } from '../types/mint';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { userData, mintContribution } = useUser();
@@ -37,7 +26,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
     'Govrn:Public-Data-Agreement',
     {
       agreement: false,
-    }
+    },
   );
   const [minting, setMinting] = useState(false);
   const [mintProgress, setMintProgress] = useState(0);
@@ -56,7 +45,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
     setMinting(true);
 
     const unresolvedContributionsMinting = contributions.map(
-      async (contribution) => {
+      async contribution => {
         const ipfsContentUri = await storeIpfs({
           name: contribution.original.name,
           details: contribution.original.details,
@@ -65,14 +54,14 @@ const MintModal = ({ contributions }: MintModalProps) => {
         mintContribution(
           contribution.original,
           ipfsContentUri,
-          setMintProgress
+          setMintProgress,
         );
-      }
+      },
     );
     await Promise.all(unresolvedContributionsMinting);
 
-    if (isChecked === true) {
-      setAgreementChecked((prevState: any) => ({
+    if (isChecked) {
+      setAgreementChecked((prevState: { agreement: boolean }) => ({
         ...prevState,
         agreement: true,
       }));
@@ -81,7 +70,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
   };
 
   const agreementCheckboxHandler = () => {
-    setAgreementChecked((prevState: any) => ({
+    setAgreementChecked((prevState: { agreement: boolean }) => ({
       ...prevState,
       agreement: true,
     }));
@@ -136,13 +125,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           gap={4}
         >
           <Text>Confirm each mint transaction in your wallet.</Text>
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.100"
-            color="green.500"
-            size="xl"
-          />
+          <GovrnSpinner />
         </Flex>
       )}
       <Flex align="flex-end" marginTop={8}>

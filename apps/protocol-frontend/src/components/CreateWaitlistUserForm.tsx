@@ -8,6 +8,7 @@ import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
 import { createWaitlistFormValidation } from '../utils/validations';
 import { ValidationError } from 'yup';
+import { CreateUserFormValues } from '../types/forms';
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
@@ -53,8 +54,10 @@ const CreateWaitlistUserForm = () => {
   const navigate = useNavigate();
   const { createWaitlistUser } = useUser();
 
-  const createUserHandler = async (values: any) => {
-    createWaitlistUser(values, address, navigate);
+  const createUserHandler = async (values: CreateUserFormValues) => {
+    if (address) {
+      createWaitlistUser(values, address, navigate);
+    }
   };
 
   return (

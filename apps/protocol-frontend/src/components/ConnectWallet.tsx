@@ -127,7 +127,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                       width="100%"
                     >
                       <Text color="gray.800" fontSize="sm">
-                        {name || displayAddress(address)}
+                        {name || displayAddress(address || '')}
                       </Text>
                     </MenuButton>
                     <MenuList backgroundColor="gray.800" minWidth="none">
