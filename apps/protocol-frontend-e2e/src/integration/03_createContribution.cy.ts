@@ -14,21 +14,17 @@ before(()=>{
    //Get user off the waitlist
   cy.task('queryDatabase', getUserOffWaitlistQuery)
     .then((res) => {
+      console.log(res);
     expect(res.rows[0].active).to.equal(true);
+  });
+  cy.fixture('contributions.json').then((contributions) => {
+    this.contributions = contributions
   });
 
   cy.login(network, 
     address, 
     COOKIE
-);
-
-  //network requests
-  cy.interceptGQL('POST',
-          ['listUserByAddress',
-          'createUserCustom'
-        ],
-          COOKIE
-      );
+  );
 
   cy.get('[data-cy="myContributions-btn"]')
     .should('be.visible')
@@ -44,23 +40,22 @@ describe("MetaMask and seed db", () => {
       .click();
       
     cy.get('input[name="name"]')
-      .type('Govrn Protocol Pull Request')
-      .should('have.value', 'Govrn Protocol Pull Request');
-    
-    cy.contains('Select an activity type or add a new one')
-      .click({ force: true });
-    cy.get('#react-select-3-listbox')
-      .should('contain', 'Pull Request')
-      .type('Pull Request{enter}');
+      .type(this.contributions[0].name)
+      .should('have.value', this.contributions[0].name);
+  
+    cy.get(".css-ujecln-Input2 #react-select-3-input")
+      .type(`${this.contributions[0].activityType}{enter}`);
     
     cy.get('[name="details"]')
       .click() 
-      .type('I added a section to our onboarding documentation that provides an overview of our Discord channels.');   
+      .type(this.contributions[0].details);   
     
     cy.get('[name="proof"]') 
-      .type('https://github.com/Govrn-HQ/airtable_migration.');   
+      .type(this.contributions[0].proof); 
         
-    cy.contains('Select a DAO to associate this Contribution with');
+    cy.get(".css-ujecln-Input2 #react-select-5-input") 
+      .click({ force: true})
+      .type(`${this.contributions[0].dao}{enter}`);
         
     cy.get('[data-cy="addContribution-btn"]')
       .click({ force: true }) 

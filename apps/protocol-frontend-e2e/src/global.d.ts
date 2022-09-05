@@ -22,5 +22,6 @@ declare namespace Cypress {
       ethereum: any;
       localStorage: Storage;
   }
+
 }
 

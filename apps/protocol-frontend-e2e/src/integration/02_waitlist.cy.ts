@@ -15,7 +15,7 @@ beforeEach(()=>{
     expect(res[0].rows.length).to.equal(0);
   });
 
-  cy.fixture('user.json').then((users) => {
+  cy.fixture('users.json').then((users) => {
     this.users = users
   });
   
@@ -30,6 +30,7 @@ afterEach(()=>{
     address, 
     COOKIE
   ); 
+  
   // //Now in Discord's window
   // cy.switchWindow()
   // cy.title()
@@ -48,12 +49,12 @@ describe("New User Login", () => {
     cy.get('[data-cy="create-my-profile-btn"]')
       .click({force:true});
 
-    const userNo = Math.floor(Math.random() * 2);
+   
     cy.get('input[name="username"]')   //'input[data-cy="username"]'
-      .type(this.users[userNo].username);
+      .type(this.users[0].username);
     
     cy.get('[name="email"]')
-      .type(this.users[userNo].email);
+      .type(this.users[0].email);
     
     cy.get('[data-cy="join-waitlist"]')
       .click();

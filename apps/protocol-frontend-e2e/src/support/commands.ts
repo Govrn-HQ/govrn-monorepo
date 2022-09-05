@@ -25,12 +25,12 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
       // waitlisted User redirected to join Govrn's Discord
       cy.contains("Join Our Discord")
         .click({force: true})
-    } else {
+    } else if(text==="Connect Wallet"){
       cy.get('[data-cy=connect-wallet]')
         .click();
       cy.contains('MetaMask')
         .click();
-    }
+    } 
   });
 
   cy.wait(5000);
