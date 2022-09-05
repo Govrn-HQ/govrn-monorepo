@@ -46,14 +46,7 @@ beforeEach(()=>{
 describe("MetaMask and seed db", () => {
 
   it('Report your first Contribution', () => {
-    //network requests
-    // cy.interceptGQL('POST',
-    //                ['listUserByAddress',
-    //                'createUserCustom'
-    //               ],
-    //                COOKIE
-    //           );
-  
+
     cy.get('[data-cy="reportFirstContribution-btn"]')
       .click();
       
