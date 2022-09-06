@@ -21,8 +21,8 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
   cy.get('button').then(($btn) => {
     const text = $btn.text()
     if (text==="Join Our Discord" || text.slice(0, 2)==="0x") {
-      cy.get('[data-cy="joinOurDiscord-testBtn"]', {timeout:5000})
-        .click({force: true})
+      cy.get('[data-cy="joinOurDiscord-testBtn"]', {timeout:10000})
+        .should('be.visble') //we can proceed to Discord by clicking the btn
       cy.wait(3000); //time to view screen contents
       
     } else if(text==="Connect Wallet"){

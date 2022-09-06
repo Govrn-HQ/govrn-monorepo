@@ -31,16 +31,7 @@ afterEach(()=>{
     COOKIE
   ); 
   
-  // //Now in Discord's window
-  // cy.switchWindow()
-  // cy.title()
-  //   .should('eq', 'Discord');
-  
-  // cy.get('input[name=""username]')
-  //   .type('testUserFromCypress');
-
-  // cy.get("button")
-  //   .click();
+  //Now in Discord's window
 });
 
 describe("New User Login", () => {
