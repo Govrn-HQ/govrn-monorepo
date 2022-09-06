@@ -49,16 +49,18 @@ describe("New User Login", () => {
     cy.get('[data-cy="create-my-profile-btn"]')
       .click({force:true});
 
-    cy.get('input[name="username"]')   //'input[data-cy="username"]'
+    cy.get('input[data-testid="chakraInput-test"]') 
+      .eq(0)  
       .type(this.users[0].username);
     
-    cy.get('[name="email"]')
+    cy.get('input[data-testid="chakraInput-test"]') 
+      .eq(1) 
       .type(this.users[0].email);
     
     cy.get('[data-cy="join-waitlist"]')
       .click();
 
-    cy.wait(3000);
+    cy.wait(3000); 
 
   });
 

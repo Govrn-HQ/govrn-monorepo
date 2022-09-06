@@ -20,12 +20,10 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
 
   cy.get('button').then(($btn) => {
     const text = $btn.text()
-    console.log(text);
     if (text==="Join Our Discord" || text.slice(0, 2)==="0x") {
-      // waitlisted User redirected to join Govrn's Discord
-      cy.wait(5000)
-      cy.get('[data-cy="joinOurDiscord-testBtn"]')
+      cy.get('[data-cy="joinOurDiscord-testBtn"]', {timeout:5000})
         .click({force: true})
+      cy.wait(3000); //time to view screen contents
       
     } else if(text==="Connect Wallet"){
       cy.get('[data-cy=connect-wallet]')
@@ -35,7 +33,7 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
     } 
   });
 
-  cy.wait(5000);
+  
 
 });
  
