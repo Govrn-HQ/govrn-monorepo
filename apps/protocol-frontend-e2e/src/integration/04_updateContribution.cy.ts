@@ -8,7 +8,7 @@ beforeEach(() => {
         address, 
         COOKIE
      );
-     
+
     cy.fixture('contributions.json').then((contributions) => {
       this.contributions = contributions
     });
@@ -21,10 +21,11 @@ beforeEach(() => {
 describe("MetaMask and seed db", () => {
  
   it("Update/Edit Contribution", ()=>{
-    cy.get('[aria-label="Edit Contribution"]')
+    cy.get('[data-testid="editContribution-test"]', {timeout:10000})
       .click()
 
-    cy.get('input[placeholder="DAOContributor"]')
+    cy.get('input[data-testid="chakraInput-test"]')
+      .eq(0)
       .clear()
       .type(this.contributions[1].name)
       .should('have.value', this.contributions[1].name);
@@ -33,12 +34,13 @@ describe("MetaMask and seed db", () => {
       .click({ force: true})
       .type(`${this.contributions[1].activityType}{enter}`);
    
-    cy.get('[name="details"]')
+    cy.get('textarea[data-testid="textarea-test"]')
       .clear()
       .click() 
       .type(this.contributions[1].details);   
     
-    cy.get('[name="proof"]')
+    cy.get('input[data-testid="chakraInput-test"]')
+      .eq(1)
       .clear()
       .type(this.contributions[1].proof);   
         
