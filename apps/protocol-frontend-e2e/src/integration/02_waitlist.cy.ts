@@ -49,7 +49,6 @@ describe("New User Login", () => {
     cy.get('[data-cy="create-my-profile-btn"]')
       .click({force:true});
 
-   
     cy.get('input[name="username"]')   //'input[data-cy="username"]'
       .type(this.users[0].username);
     
@@ -58,7 +57,7 @@ describe("New User Login", () => {
     
     cy.get('[data-cy="join-waitlist"]')
       .click();
-      
+
     cy.wait(3000);
 
   });

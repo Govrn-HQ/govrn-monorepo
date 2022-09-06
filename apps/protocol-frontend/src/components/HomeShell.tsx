@@ -147,6 +147,7 @@ const HomeShell = () => {
                     _hover={{ bgColor: 'white' }}
                     marginTop={4}
                     width="100%"
+                    data-cy="joinOurDiscord-testBtn"
                   >
                     Join Our Discord
                   </Button>

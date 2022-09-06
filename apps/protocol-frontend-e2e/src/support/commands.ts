@@ -23,8 +23,10 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
     console.log(text);
     if (text==="Join Our Discord" || text.slice(0, 2)==="0x") {
       // waitlisted User redirected to join Govrn's Discord
-      cy.contains("Join Our Discord")
+      cy.wait(5000)
+      cy.get('[data-cy="joinOurDiscord-testBtn"]')
         .click({force: true})
+      
     } else if(text==="Connect Wallet"){
       cy.get('[data-cy=connect-wallet]')
         .click();
