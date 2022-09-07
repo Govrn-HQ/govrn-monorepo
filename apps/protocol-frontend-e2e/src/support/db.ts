@@ -27,3 +27,6 @@ const queryDB = (query) => {
 
 export default queryDB;
 
+
+
+
