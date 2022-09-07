@@ -137,6 +137,7 @@ const ContributionsTableShell = () => {
                               colorScheme="brand.primary"
                               onClick={mintModalHandler}
                               disabled={selectedContributions?.length === 0}
+                              data-testid="mint-btn-test"
                             >
                               Mint
                             </Button>
