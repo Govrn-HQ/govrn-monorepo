@@ -36,9 +36,14 @@ describe("Attestation flow", () => {
   it("attest to a contribution", ()=>{
 
     // Start attestation flow here
+    cy.contains("Attestations")
+      .should("be.visible")
+      .click()
+
+    cy.contains("These are minted Contributions that you haven't already Attested to.")
+      .should("be.visible")
 
     
-
   });
  
 });
