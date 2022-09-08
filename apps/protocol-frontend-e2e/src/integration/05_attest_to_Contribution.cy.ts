@@ -28,7 +28,6 @@ beforeEach(() => {
       .should('be.visible')
       .click();
    
-      
 });
 
 describe("Attestation flow", () => {
@@ -36,12 +35,12 @@ describe("Attestation flow", () => {
   it("attest to a contribution", ()=>{
 
     // Start attestation flow here
-    cy.contains("Attestations")
-      .should("be.visible")
-      .click()
+    // cy.contains("Attestations")
+    //   .should("be.visible")
+    //   .click()
 
-    cy.contains("These are minted Contributions that you haven't already Attested to.")
-      .should("be.visible")
+    // cy.contains("These are minted Contributions that you haven't already Attested to.")
+    //   .should("be.visible")
 
     
   });
