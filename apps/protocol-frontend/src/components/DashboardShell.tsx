@@ -32,17 +32,39 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
-      if (selectedDaos && selectedDaos.length > 0) {
+      if (selectedDaos) {
+        console.log(
+          'sending',
+          selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
+        );
         const contributionsCountResponse = await getUserContributionsCount(
           subWeeks(new Date(), dateRange.value),
           new Date(),
           selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
         );
-        setContributionsCount(contributionsCountResponse);
+        console.log('contributionsCountResponse', contributionsCountResponse);
+        if (selectedDaos.some(dao => dao.label === 'Unassigned')) {
+          setContributionsCount(contributionsCountResponse);
+        } else {
+          setContributionsCount(
+            contributionsCountResponse?.filter(
+              contribution => contribution?.name !== 'Unassigned',
+            ),
+          );
+        }
+      }
+      if (
+        selectedDaos.length === 0 &&
+        !selectedDaos.some(dao => dao.label === 'Unassigned')
+      ) {
       }
     };
     fetchHeatMapCount();
+    console.log('selectedDaos', selectedDaos);
+    console.log('contribution count', contributionsCount);
   }, [user, dateRange, selectedDaos]);
+
+  useEffect(() => {});
 
   const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
@@ -52,11 +74,10 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   // will include this when we include unassigned -- this is adding some confusion to the UI
   const unassignedContributions = [
     {
-      value: -1,
+      value: null,
       label: 'Unassigned',
     },
   ];
-  console.log('contributionsCount', contributionsCount);
 
   const dateRangeOptions = [
     { value: 1, label: 'Last Week' },
@@ -118,6 +139,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
                   onChange={daos => {
+                    console.log('daos', daos);
                     setSelectedDaos(Array.isArray(daos) ? daos : [daos]);
                   }}
                   options={combinedDaoListOptions}

@@ -535,6 +535,8 @@ export class ContributionCustomResolver {
     const start = args.where.startDate;
     const end = args.where.endDate;
 
+    console.log('args: guildIds', args.where.guildIds)
+
     let guildWhere = Prisma.sql`gc."guild_id" is NULL`;
     const guildIds = args.where?.guildIds;
     if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
