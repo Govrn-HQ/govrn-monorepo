@@ -91,10 +91,12 @@ export class Contribution extends BaseClient {
     proof: Uint8Array,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
+    console.log(contract)
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
 
     let onChainId = null as null | ethers.BigNumber;
+    console.log(onChainId)
     const logs = transactionReceipt.logs;
     for (const log of logs) {
       console.log('on chain id (logs)', log);
