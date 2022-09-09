@@ -35,32 +35,32 @@ before(()=>{
 describe("Create First Contribution", () => {
 
   it('Report your first Contribution', () => {
-
+    cy.wait(3000)
     cy.get('[data-testid="floatingreportbtn-testid"]' , { timeout: 10000 })
       .click();
     cy.wait(10000)
     cy.get('input[data-testid="chakraInput-test"]')
       .eq(0)
-      .type(this.contributions[1].name)
-      .should('have.value', this.contributions[1].name);
+      .type(this.contributions[2].name)
+      .should('have.value', this.contributions[2].name);
     
     cy.get(".css-ujecln-Input2 #react-select-7-input")
       .click({ force: true})
-      .type(`${this.contributions[1].activityType}{enter}`);
+      .type(`${this.contributions[2].activityType}{enter}`);
    
     cy.get('textarea[data-testid="textarea-test"]')
       .clear()
       .click() 
-      .type(this.contributions[1].details);   
+      .type(this.contributions[2].details);   
     
     cy.get('input[data-testid="chakraInput-test"]')
       .eq(1)
       .clear()
-      .type(this.contributions[1].proof);   
+      .type(this.contributions[2].proof);   
         
     cy.get(".css-ujecln-Input2 #react-select-9-input") 
       .click({ force: true})
-      .type(`${this.contributions[1].dao}{enter}`);
+      .type(`${this.contributions[2].dao}{enter}`);
         
     cy.get('[data-cy="addContribution-btn"]')
       .click();
