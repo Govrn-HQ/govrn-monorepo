@@ -57,6 +57,13 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
         selectedDaos.length === 0 &&
         !selectedDaos.some(dao => dao.label === 'Unassigned')
       ) {
+        const contributionsCountResponse = await getUserContributionsCount(
+          subWeeks(new Date(), dateRange.value),
+          new Date(),
+          daoListOptions.map(dao => dao.value).filter(dao => dao !== null),
+        );
+        console.log('fully empty');
+        setContributionsCount(contributionsCountResponse);
       }
     };
     fetchHeatMapCount();
