@@ -5,13 +5,21 @@ import { useAccount } from 'wagmi';
 import { useOverlay } from '../contexts/OverlayContext';
 import ReportForm from './ReportForm';
 import ModalWrapper from './ModalWrapper';
+import { useNavigate } from 'react-router-dom';
 
 const FloatingReportButton = () => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
+  const navigate = useNavigate();
 
   const handleReportingFormModal = () =>
     setModals({ reportingFormModal: true });
+
+  const closeForm = () => {
+    setModals({ reportingFormModal: false });
+    // navigation waits until modal's closing transition finishes.
+    setTimeout(() => navigate('/contributions'), 300);
+  };
 
   const { isConnected } = useAccount();
 
@@ -39,7 +47,7 @@ const FloatingReportButton = () => {
         name="reportingFormModal"
         title="Report Contribution Activity"
         localOverlay={localOverlay}
-        content={<ReportForm />}
+        content={<ReportForm onFinish={() => closeForm()} />}
       />
     </Box>
   );

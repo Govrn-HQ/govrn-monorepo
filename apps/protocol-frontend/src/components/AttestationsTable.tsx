@@ -1,9 +1,12 @@
-import { useEffect, useMemo, ReactNode } from 'react';
+import { useEffect, useMemo, useState, ReactNode } from 'react';
 import * as _ from 'lodash';
 import {
   Box,
   chakra,
+  Flex,
+  FormLabel,
   Stack,
+  Switch,
   Table,
   Tbody,
   Td,
@@ -27,6 +30,7 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
+import EmptyContributions from './EmptyContributions';
 
 type AttestationTableType = {
   id: number;
@@ -40,6 +44,7 @@ type AttestationTableType = {
   guilds?: {
     guild: {
       name?: string | null;
+      guild_id?: number;
     };
   }[];
   action?: ReactNode;
@@ -55,30 +60,101 @@ const AttestationsTable = ({
   setSelectedContributions: (contrs: any[]) => void;
 }) => {
   const { userData } = useUser();
+  const [showAllDaos, setShowAllDaos] = useState(false);
 
-  const nonUserContributions = _.filter(contributionsData, function (a) {
+  const userDaoIds = userData?.guild_users.map(guild => {
+    return guild.guild_id;
+  });
+
+  const mintedContributions = _.filter(contributionsData, function (a) {
+    return a.status.name === 'minted';
+  });
+
+  const nonUserContributions = _.filter(mintedContributions, function (a) {
     return a.user.id !== userData?.id;
   });
+
+  const userDaoContributions = _.filter(nonUserContributions, function (a) {
+    return a.guilds.some(guild => userDaoIds?.includes(guild.guild_id));
+  });
+
+  const unattestedUserDaoContributions = _.filter(
+    userDaoContributions,
+    function (a) {
+      return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
+    },
+  );
 
   const unattestedContributions = _.filter(nonUserContributions, function (a) {
     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
   });
 
+  const [displayedContributions, setDisplayedContributions] =
+    useState(userDaoContributions);
+
+  const toggleShowAllDaos = () => {
+    setShowAllDaos(!showAllDaos);
+  };
+
+  useEffect(() => {
+    if (showAllDaos === false) {
+      setDisplayedContributions(unattestedUserDaoContributions);
+    } else {
+      setDisplayedContributions(unattestedContributions);
+    }
+  }, [showAllDaos]);
+
+  function AllDaosSwitch({
+    isChecked,
+    onChange,
+  }: {
+    isChecked: boolean;
+    onChange: () => void;
+  }) {
+    return (
+      <Flex
+        marginX={1}
+        alignItems="center"
+        justifyContent="center"
+        alignSelf="flex-start"
+      >
+        <FormLabel
+          fontSize="sm"
+          fontWeight="md"
+          color="gray.800"
+          margin={2}
+          htmlFor="show-all-daos"
+        >
+          Show All DAOs
+        </FormLabel>
+        <Switch
+          id="show-all-daos"
+          size="sm"
+          colorScheme={'brand.primary'}
+          isChecked={isChecked}
+          onChange={onChange}
+        />
+      </Flex>
+    );
+  }
+
   const data = useMemo<AttestationTableType[]>(
     () =>
-      unattestedContributions.map(contribution => ({
+      displayedContributions.map(contribution => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations,
-        guilds: contribution.guilds,
+        guilds:
+          contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
+          '---',
         status: contribution.status.name,
         action: '',
         name: contribution.name,
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
       })),
-    [contributionsData],
+    [displayedContributions],
   );
 
   const columns = useMemo<Column<AttestationTableType>[]>(
@@ -112,6 +188,10 @@ const AttestationsTable = ({
         Header: 'Contributor',
         accessor: 'contributor',
       },
+      {
+        Header: 'DAOs',
+        accessor: 'guilds',
+      },
     ],
     [],
   );
@@ -124,7 +204,10 @@ const AttestationsTable = ({
           <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
         ),
         Cell: ({ row }: { row: Row<AttestationTableType> }) => (
-          <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+          <IndeterminateCheckbox
+            {...row.getToggleRowSelectedProps()}
+            disabled={row.original.status !== 'minted'}
+          />
         ),
       },
       ...columns,
@@ -155,55 +238,76 @@ const AttestationsTable = ({
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
-    <Stack>
-      <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
-      <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-          <Thead backgroundColor="gray.50">
-            {headerGroups.map((headerGroup: any) => (
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column: any) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    isNumeric={column.isNumeric}
-                    borderColor="gray.100"
-                  >
-                    {column.render('Header')}
-                    <chakra.span paddingLeft="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <IoArrowDown aria-label="sorted-descending" />
-                        ) : (
-                          <IoArrowUp aria-label="sorted-ascending" />
-                        )
-                      ) : null}
-                    </chakra.span>
-                  </Th>
+    <>
+      {displayedContributions.length > 0 ? (
+        <Stack>
+          <Flex alignItems="center">
+            <GlobalFilter
+              preGlobalFilteredRows={preGlobalFilteredRows}
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
+            <AllDaosSwitch
+              isChecked={showAllDaos}
+              onChange={() => toggleShowAllDaos()}
+            />
+          </Flex>
+          <Box width="100%" maxWidth="100vw" overflowX="auto">
+            <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+              <Thead backgroundColor="gray.50">
+                {headerGroups.map((headerGroup: any) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column: any) => (
+                      <Th
+                        {...column.getHeaderProps(
+                          column.getSortByToggleProps(),
+                        )}
+                        isNumeric={column.isNumeric}
+                        borderColor="gray.100"
+                      >
+                        {column.render('Header')}
+                        <chakra.span paddingLeft="4">
+                          {column.isSorted ? (
+                            column.isSortedDesc ? (
+                              <IoArrowDown aria-label="sorted-descending" />
+                            ) : (
+                              <IoArrowUp aria-label="sorted-ascending" />
+                            )
+                          ) : null}
+                        </chakra.span>
+                      </Th>
+                    ))}
+                  </Tr>
                 ))}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row);
-              return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <Td {...cell.getCellProps()} borderColor="gray.100">
-                      {cell.render('Cell')}
-                    </Td>
-                  ))}
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </Box>
-    </Stack>
+              </Thead>
+              <Tbody {...getTableBodyProps()}>
+                {rows.map(row => {
+                  prepareRow(row);
+                  return (
+                    <Tr {...row.getRowProps()}>
+                      {row.cells.map(cell => (
+                        <Td {...cell.getCellProps()} borderColor="gray.100">
+                          {cell.render('Cell')}
+                        </Td>
+                      ))}
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </Box>
+        </Stack>
+      ) : (
+        <Box
+          paddingX={{ base: '4', md: '6' }}
+          paddingBottom={{ base: '4', md: '6' }}
+        >
+          <Text fontSize="sm" fontWeight="bolder">
+            None found!
+          </Text>
+        </Box>
+      )}
+    </>
   );
 };
 

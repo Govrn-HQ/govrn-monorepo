@@ -12,6 +12,7 @@ import MobileNav from './MobileNav';
 import { useLocation } from 'react-router-dom';
 import FloatingReportButton from './FloatingReportButton';
 import { HiMenuAlt3 } from 'react-icons/hi';
+import ScrollToTopButton from './ScrollToTopButton';
 
 interface SiteLayoutProps {
   children: React.ReactNode;
@@ -31,7 +32,8 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       templateColumns={{ base: '1fr', lg: '20vw auto' }}
       as="section"
       position="relative"
-      height="100vh"
+      height="100%"
+      minHeight="100vh"
       bg="gray.50"
       overflow="auto"
       width="100%"
@@ -50,9 +52,7 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
         />
       ) : null}
       {isDesktop && location.pathname !== '/' ? <Sidebar /> : null}
-      <MobileNav isOpen={mobileNav.isOpen} onClose={mobileNav.onClose}>
-        <Box>hi</Box>
-      </MobileNav>
+      <MobileNav isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} />
       <Flex
         direction="column"
         gridColumnStart={{ base: '0', lg: '2' }}
@@ -61,6 +61,7 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       >
         {children}
       </Flex>
+      <ScrollToTopButton />
       <FloatingReportButton />
     </Grid>
   );
