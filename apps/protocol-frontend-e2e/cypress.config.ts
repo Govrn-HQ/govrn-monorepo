@@ -11,7 +11,6 @@ module.exports = defineConfig({
     '../../dist/cypress/apps/protocol-frontend-e2e/screenshots',
   chromeWebSecurity: false,
   e2e: {
-    experimentalSessionAndOrigin: true,
     setupNodeEvents(on, config) {
       on('task',{
         queryDatabase: query => {
