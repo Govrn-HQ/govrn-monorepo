@@ -74,10 +74,10 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       'Sign in with Ethereum to the app.',
       chain?.id.toString(16),
     );
-    const signature = await signMessageAsync({
-      message: message || '',
-    });
     try {
+      const signature = await signMessageAsync({
+        message: message || '',
+      });
       await fetch(VERIFY_URL, {
         method: 'POST',
         credentials: 'include',
@@ -138,7 +138,7 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     if (connector) {
       listeners(connector);
     }
-  }, [connector]);
+  }, [connector, logout]);
 
   return (
     <AuthContext.Provider

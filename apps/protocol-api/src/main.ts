@@ -403,11 +403,9 @@ app.get('/siwe/active', async function (req, res) {
   if (!fields?.data) {
     res.status(422).json({ message: 'No existing session cookie' });
     console.log('Missing data');
-  }
-  if (fields.data.nonce !== req.session.nonce) {
+  } else if (fields?.data?.nonce !== req.session.nonce) {
     res.status(422).json({ message: 'Invalid nonce' });
-  }
-  if (new Date(fields.data.expirationTime) <= new Date()) {
+  } else if (new Date(fields?.data?.expirationTime) <= new Date()) {
     res.status(440).json({ message: 'Token has expired' });
   }
 
@@ -421,6 +419,7 @@ app.post('/logout', async function (req, res) {
 });
 
 app.get('/nonce', async function (req, res) {
+  console.log(req);
   const nonce = generateNonce();
   req.session.nonce = nonce;
   res.setHeader('Content-Type', 'text/plain');
