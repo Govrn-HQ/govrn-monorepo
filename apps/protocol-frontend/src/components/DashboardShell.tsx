@@ -18,7 +18,7 @@ interface DashboardShellProps {
 }
 
 const DashboardShell = ({ user }: DashboardShellProps) => {
-  const { allDaos, getUserContributionsCount } = useUser();
+  const { allDaos, userDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState<
     UserContributionsDateRangeCountType[] | null | undefined
   >([]);
@@ -44,7 +44,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     fetchHeatMapCount();
   }, [user, dateRange, selectedDaos]);
 
-  const daoListOptions = allDaos.map(dao => ({
+  const allDaoListOptions = allDaos.map(dao => ({
     value: dao.id,
     label: dao.name ?? '',
   }));
@@ -64,7 +64,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     { value: 52, label: 'Last Year' },
   ];
 
-  const combinedDaoListOptions = [...new Set([...daoListOptions])];
+  const combinedDaoListOptions = [...new Set([...allDaoListOptions])];
 
   useEffect(() => {
     if (allDaos) {
@@ -110,7 +110,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               gap={8}
               justifyContent="space-apart"
             >
-              {daoListOptions.length > 0 && (
+              {allDaoListOptions.length > 0 && (
                 <ControlledSelect
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
