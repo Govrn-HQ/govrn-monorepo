@@ -33,16 +33,12 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   useEffect(() => {
     const fetchHeatMapCount = async () => {
       if (selectedDaos) {
-        console.log(
-          'sending',
-          selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
-        );
         const contributionsCountResponse = await getUserContributionsCount(
           subWeeks(new Date(), dateRange.value),
           new Date(),
           selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
         );
-        console.log('contributionsCountResponse', contributionsCountResponse);
+        setContributionsCount(contributionsCountResponse);
         if (selectedDaos.some(dao => dao.label === 'Unassigned')) {
           setContributionsCount(contributionsCountResponse);
         } else {
@@ -53,6 +49,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
           );
         }
       }
+
       if (
         selectedDaos.length === 0 &&
         !selectedDaos.some(dao => dao.label === 'Unassigned')
@@ -62,13 +59,10 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
           new Date(),
           daoListOptions.map(dao => dao.value).filter(dao => dao !== null),
         );
-        console.log('fully empty');
         setContributionsCount(contributionsCountResponse);
       }
     };
     fetchHeatMapCount();
-    console.log('selectedDaos', selectedDaos);
-    console.log('contribution count', contributionsCount);
   }, [user, dateRange, selectedDaos]);
 
   useEffect(() => {});
@@ -78,10 +72,9 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     label: dao.name ?? '',
   }));
 
-  // will include this when we include unassigned -- this is adding some confusion to the UI
   const unassignedContributions = [
     {
-      value: null,
+      value: Number(null),
       label: 'Unassigned',
     },
   ];
@@ -142,26 +135,31 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               justifyContent="space-apart"
             >
               {daoListOptions.length > 0 && (
-                <ControlledSelect
-                  label="Choose DAOs"
-                  tip="Choose DAOs to display Contributions from."
-                  onChange={daos => {
-                    console.log('daos', daos);
-                    setSelectedDaos(Array.isArray(daos) ? daos : [daos]);
-                  }}
-                  options={combinedDaoListOptions}
-                  isMulti
-                />
+                <Flex flexBasis="50%">
+                  <ControlledSelect
+                    label="Choose DAOs"
+                    tip="Choose DAOs to display Contributions from."
+                    onChange={daos => {
+                      setSelectedDaos(Array.isArray(daos) ? daos : [daos]);
+                    }}
+                    options={combinedDaoListOptions}
+                    isMulti
+                  />
+                </Flex>
               )}
-              <ControlledSelect
-                defaultValue={dateRangeOptions.find(date => date.value === 52)}
-                label="Choose Date Range"
-                tip="Choose the date range for your Contributions."
-                onChange={date => {
-                  setDateRange(date);
-                }}
-                options={dateRangeOptions}
-              />
+              <Flex flexBasis="50%">
+                <ControlledSelect
+                  defaultValue={dateRangeOptions.find(
+                    date => date.value === 52,
+                  )}
+                  label="Choose Date Range"
+                  tip="Choose the date range for your Contributions."
+                  onChange={date => {
+                    setDateRange(date);
+                  }}
+                  options={dateRangeOptions}
+                />
+              </Flex>
             </Flex>
             <Flex direction="column" gap={2}>
               <Heading
@@ -170,7 +168,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 color="gray.800"
                 fontWeight="normal"
               >
-                {} Contribution Heat Map
+                Contribution Heat Map
               </Heading>
               {contributionsCount && contributionsCount !== undefined ? (
                 <>
