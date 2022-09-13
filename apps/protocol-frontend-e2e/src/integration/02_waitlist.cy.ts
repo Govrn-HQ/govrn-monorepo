@@ -6,14 +6,17 @@ const COOKIE: string = Cypress.env('COOKIE');
 
 const insertDAOs = `
 INSERT INTO "Guild" (id, name)
-    VALUES (1,'Govrn');
+    VALUES (1,'Govrn')
+ON CONFLICT DO NOTHING;
+
 INSERT INTO "Guild" (id, name)
-    VALUES (2,'MGD');
+    VALUES (2,'MGD')
+ON CONFLICT DO NOTHING;
 `
 beforeEach(()=>{
   cy.task('queryDatabase', insertDAOs)
     .then((res) => {
-    expect(res.length*res[0].rowCount).to.equal(2);
+    expect(res.length*res[0].rowCount).to.equal(0);
   });
 
   cy.fixture('users.json').then((users) => {
