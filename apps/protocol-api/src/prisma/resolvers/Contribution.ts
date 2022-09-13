@@ -334,7 +334,6 @@ export class ContributionCustomResolver {
   ) {
     const address = req.session.siwe.data.address;
 
-    console.log('args', args)
     const res = await prisma.contribution.updateMany({
       data: {
         name: {
