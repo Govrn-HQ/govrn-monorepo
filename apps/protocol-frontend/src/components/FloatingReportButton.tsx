@@ -1,10 +1,10 @@
 import { Box, IconButton, Tooltip } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 import { useAccount } from 'wagmi';
-import { ModalWrapper } from '@govrn/protocol-ui';
 
 import { useOverlay } from '../contexts/OverlayContext';
 import ReportForm from './ReportForm';
+import ModalWrapper from './ModalWrapper';
 import { useNavigate } from 'react-router-dom';
 
 const FloatingReportButton = () => {
