@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Box, Flex, Heading, Text, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Flex, Heading, Skeleton, Text } from '@chakra-ui/react';
 import * as _ from 'lodash';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import { UIUser } from '@govrn/ui-types';
-import { ControlledSelect, Option } from '@govrn/protocol-ui';
+import { ControlledSelect } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
@@ -48,18 +48,17 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
             ),
           );
         }
-      }
-
-      if (
-        selectedDaos.length === 0 &&
-        !selectedDaos.some(dao => dao.label === 'Unassigned')
-      ) {
-        const contributionsCountResponse = await getUserContributionsCount(
-          subWeeks(new Date(), dateRange.value),
-          new Date(),
-          daoListOptions.map(dao => dao.value).filter(dao => dao !== null),
-        );
-        setContributionsCount(contributionsCountResponse);
+        if (
+          selectedDaos.length === 0 &&
+          !selectedDaos.some(dao => dao.label === 'Unassigned')
+        ) {
+          const contributionsCountResponse = await getUserContributionsCount(
+            subWeeks(new Date(), dateRange.value),
+            new Date(),
+            daoListOptions.map(dao => dao.value).filter(dao => dao !== null),
+          );
+          setContributionsCount(contributionsCountResponse);
+        }
       }
     };
     fetchHeatMapCount();
