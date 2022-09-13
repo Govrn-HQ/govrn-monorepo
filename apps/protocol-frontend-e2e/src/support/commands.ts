@@ -22,7 +22,7 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
     const text = $btn.text()
     if (text==="Join Our Discord" || text.slice(0, 2)==="0x") {
       cy.get('[data-cy="joinOurDiscord-testBtn"]' , {timeout:20000})
-        .click() //proceed to Discord by clicking the btn
+        .should('be.visible') 
       
     } else if(text==="Connect Wallet"){
       cy.get('[data-cy=connect-wallet]', {timeout:10000})
