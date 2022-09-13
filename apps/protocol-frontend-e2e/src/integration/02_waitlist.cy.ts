@@ -38,8 +38,8 @@ afterEach(()=>{
 describe("Join Waitlist", () => {
   it("Fill Govrn Waitlist Form", () => {
 
-    // cy.wait(3000) timeout
-    cy.get('[data-cy="create-my-profile-btn"]',)
+    cy.get('[data-cy="create-my-profile-btn"]',{ timeout: 3000 })
+      .should('be.visible')
       .click({force:true});
 
     cy.get('input[data-testid="chakraInput-test"]') 
