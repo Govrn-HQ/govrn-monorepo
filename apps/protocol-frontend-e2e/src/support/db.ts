@@ -1,6 +1,6 @@
 const DATABASE_URL = process.env.DATABASE_URL;
 
-const { Client } = require('pg');
+import { Client } from 'pg';
 
 const queryDB = (query) => {
   const connectionInfo = DATABASE_URL  
