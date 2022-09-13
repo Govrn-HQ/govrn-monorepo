@@ -1,7 +1,3 @@
-const path = require('path');
-require('dotenv').config({
-     path: path.resolve(__dirname, '../../.env') 
-});
 const DATABASE_URL = process.env.DATABASE_URL;
 
 const { Client } = require('pg');
@@ -26,7 +22,4 @@ const queryDB = (query) => {
 }
 
 export default queryDB;
-
-
-
 
