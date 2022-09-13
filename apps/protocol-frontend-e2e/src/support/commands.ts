@@ -52,28 +52,4 @@ Cypress.Commands.add('interceptGQL',(httpMethod, operationNames, COOKIE) =>{
   }
   });
 
-  // Cypress.Commands.add('switchWindow', ()=>{
-  //   return new Promise(resolve=>{
-  //     if(cy.state('window').APP_ID === 1){
-  //       // switch to our ALT window
-  //       console.log('switching to alt popup window...')
-  //       cy.state('document', originalWindow.top.MyAltWindow.document)
-  //       cy.state('window', originalWindow.top.MyAltWindow)
-  //       originalWindow.blur()
-  //     }else{
-  //       console.log('switching back to original window')
-  //       // switch back to originalWindow
-  //       cy.state('document', originalWindow.document)
-  //       cy.state('window', originalWindow)
-  //       originalWindow.top.MyAltWindow.blur()
-  //     }
-  //     window.blur();
-  
-  //     cy.state('window').focus()
-  
-  //     resolve();
-  //   })
-  // })
-
-
 
