@@ -12,6 +12,7 @@ import { GraphQLClient } from 'graphql-request';
 const protcolUrl = process.env.PROTOCOL_URL;
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
+const INFURA_SUBDOMAIN = process.env.INFURA_SUBDOMAIN;
 const jobName = 'contract-sync-job';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
@@ -26,9 +27,7 @@ const govrnContract = new GovrnContract(networkConfig, provider);
 
 export const fetchIPFS = async (ipfsHash: string) => {
   const resp = await fetch(
-    `https://ipfs.infura.io:5001/api/v0/cat?arg=${ipfsHash
-      .split('/')
-      .slice(2)}`,
+    `${INFURA_SUBDOMAIN}/api/v0/cat?arg=${ipfsHash.split('/').slice(2)}`,
     {
       method: 'post',
     },

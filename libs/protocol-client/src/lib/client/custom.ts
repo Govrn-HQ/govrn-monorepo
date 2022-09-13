@@ -5,10 +5,9 @@ import {
   UserContributionUpdateInput,
   UserUpdateCustomInput,
   GetUserContributionCountInput,
+  ListActivityTypesByUserInput,
 } from '../protocol-types';
 
-// get accounts
-// bulk create
 export class Custom extends BaseClient {
   public async createUserAttestation(args: AttestationUserCreateInput) {
     const attestation = await this.sdk.createUserAttestation({ data: args });
@@ -16,7 +15,18 @@ export class Custom extends BaseClient {
   }
 
   public async createUserContribution(args: UserContributionCreateInput) {
-    const contribution = await this.sdk.createUserContribution({ data: args });
+    const activityType = (
+      await this.sdk.getOrCreateActivityType({
+        data: {
+          activityTypeName: args.activityTypeName,
+          userId: args.userId,
+        },
+      })
+    ).getOrCreateActivityType;
+
+    const contribution = await this.sdk.createUserContribution({
+      data: { ...args, activityTypeName: activityType.name },
+    });
     return contribution.createUserContribution;
   }
 
@@ -41,5 +51,12 @@ export class Custom extends BaseClient {
     const contributionCount =
       await this.sdk.getContributionCountByDateForUserInRange({ where: args });
     return contributionCount.result;
+  }
+
+  public async listActivityTypesByUser(args: ListActivityTypesByUserInput) {
+    const activityTypes = await this.sdk.listActivityTypesByUser({
+      where: args,
+    });
+    return activityTypes.result;
   }
 }

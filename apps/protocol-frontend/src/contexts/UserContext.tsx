@@ -109,7 +109,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         throw new Error('No address for user');
       }
       const userDataResponse = await govrn.user.get(userDataByAddress?.id);
-
+      const userDaos = userDataResponse?.guild_users.map(guild => {
+        return guild;
+      });
       setUserData(userDataResponse);
       return userDataResponse;
     } catch (error) {
@@ -260,19 +262,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       if (!userData?.id) {
         throw new Error('getUserActivityTypes has no userData.id');
       }
-      const userActivityTypesResponse = await govrn.activity_type.list({
-        where: {
-          users: {
-            every: {
-              user_id: { equals: userData?.id },
-            },
-          },
-        },
-        first: 1000,
-      });
-      setUserActivityTypes(userActivityTypesResponse);
+      const activityTypesByUser = await govrn.custom.listActivityTypesByUser(
+        {},
+      );
 
-      return userActivityTypesResponse;
+      setUserActivityTypes(activityTypesByUser);
+
+      return activityTypesByUser;
     } catch (error) {
       console.error(error);
     } finally {
@@ -610,7 +606,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           values.engagementDate ?? contribution.date_of_engagement,
         ).toISOString(),
         status: 'staging',
-        guildId: Number(values.daoId),
+        guildId: values.daoId === null ? null : Number(values.daoId),
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
@@ -709,28 +705,28 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     if (address && isAuthenticated) {
-      getUserByAddress().then();
+      getUserByAddress();
     }
   }, [address, isAuthenticated]);
 
   useEffect(() => {
     if (userDataByAddress && isAuthenticated) {
-      getUser().then();
+      getUser();
     }
   }, [userDataByAddress, isAuthenticated]);
 
   useEffect(() => {
     if (userData !== null && isAuthenticated) {
-      getUserContributions().then();
-      getDaoContributions().then();
+      getUserContributions();
+      getDaoContributions();
     }
   }, [userData, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      getUserActivityTypes().then();
-      getUserAttestations().then();
-      getAllDaos().then();
+      getUserActivityTypes();
+      getUserAttestations();
+      getAllDaos();
     }
   }, [userData, isAuthenticated]);
 

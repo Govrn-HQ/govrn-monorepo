@@ -1,7 +1,12 @@
-/**
- * Polyfill stable language features. These imports will be optimized by `@babel/preset-env`.
- *
- * See: https://github.com/zloirock/core-js#babel
- */
+import { Buffer } from 'buffer';
+
+window.Buffer = window.Buffer ?? Buffer;
+window.process = window.process ?? { env: {} }; // Minimal process polyfill
+
+export {};
+
+/*
+// If we see issues with 'regenerator-runtime', add back these imports
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+*/

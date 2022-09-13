@@ -1,5 +1,3 @@
-import React from 'react';
-import { useOverlay } from '../contexts/OverlayContext';
 import {
   Modal,
   ModalOverlay,
@@ -7,13 +5,19 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  BoxProps,
 } from '@chakra-ui/react';
+import { OverlayContextType, GovrnModals } from '../contexts/OverlayContext';
+import React from 'react';
 
-interface ModalWrapperProps {
-  name: string; // name of the modal for use throughout app
+export interface ModalWrapperProps extends BoxProps {
+  name: keyof GovrnModals;
   title: string;
-  content: React.ReactElement;
+  content: React.ReactNode;
+  titleColor?: string;
+  bgColor?: string;
   size?: string;
+  localOverlay: OverlayContextType;
   isOpen?: boolean;
   onClose?: () => void;
 }
@@ -22,9 +26,13 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
   name,
   title,
   content,
+  isOpen,
+  onClose,
   size,
-}) => {
-  const { modals, setModals } = useOverlay();
+  localOverlay,
+  ...props
+}: ModalWrapperProps) => {
+  const { modals, setModals } = localOverlay;
 
   const handleCloseModal = () => {
     setModals({ ...modals, [name]: false });
@@ -38,13 +46,14 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
     >
       <ModalOverlay />
       <ModalContent
-        background="gray.700"
-        minWidth={{ base: 0, lg: '20vw' }}
+        background={props.bgColor ? props.bgColor : 'white'}
+        minWidth="20vw"
         paddingY={8}
-        marginX={4}
       >
-        <ModalHeader color="white">{title}</ModalHeader>
-        <ModalCloseButton />
+        <ModalHeader color={props.color ? props.color : 'gray.800'}>
+          {title}
+        </ModalHeader>
+        <ModalCloseButton color="gray.800" />
         <ModalBody>{content}</ModalBody>
       </ModalContent>
     </Modal>
