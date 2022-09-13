@@ -45,7 +45,7 @@ afterEach(()=>{
   //Now in Discord's window
 });
 
-describe("New User Login", () => {
+describe("Join Waitlist", () => {
   it("Fill Govrn Waitlist Form", () => {
   
     cy.get('[data-cy="create-my-profile-btn"]')
