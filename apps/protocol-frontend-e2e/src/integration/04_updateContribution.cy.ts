@@ -18,7 +18,7 @@ beforeEach(() => {
       .click({ force: true });
 });
 
-describe("MetaMask and seed db", () => {
+describe("Edit first Contribution", () => {
  
   it("Update/Edit Contribution", ()=>{
     cy.get('[data-testid="editContribution-test"]', {timeout:10000})

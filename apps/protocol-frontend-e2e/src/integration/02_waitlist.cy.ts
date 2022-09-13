@@ -45,19 +45,22 @@ afterEach(()=>{
   //Now in Discord's window
 });
 
-describe("New User Login", () => {
+describe("Join Waitlist", () => {
   it("Fill Govrn Waitlist Form", () => {
-  
+
+    cy.wait(3000)
     cy.get('[data-cy="create-my-profile-btn"]')
       .click({force:true});
 
     cy.get('input[data-testid="chakraInput-test"]') 
       .eq(0)  
-      .type(this.users[0].username);
+      .type(this.users[0].username)
+      .should('have.value', this.users[0].username);
     
     cy.get('input[data-testid="chakraInput-test"]') 
       .eq(1) 
-      .type(this.users[0].email);
+      .type(this.users[0].email)
+      .should('have.value',this.users[0].email)
     
     cy.get('[data-cy="join-waitlist"]')
       .click();

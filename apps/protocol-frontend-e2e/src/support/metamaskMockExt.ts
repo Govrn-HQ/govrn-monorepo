@@ -3,7 +3,7 @@ import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers';
 import '@testing-library/cypress/add-commands';
 import { BigNumber, ethers } from 'ethers';
 import { Resolver } from "@ethersproject/providers";
-
+// ref: https://github.com/radicle-dev/radicle-interface
 export class MockExtensionProvider extends ethers.providers.BaseProvider {
   isMetaMask = true;
   currentAddress: string;
