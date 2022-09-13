@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Flex, Heading, Skeleton, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import * as _ from 'lodash';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
@@ -8,6 +8,7 @@ import { ControlledSelect } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
+import { UNASSIGNED } from '../utils/constants';
 
 type UserContributionsDateRangeCountType = {
   count: number;
@@ -39,18 +40,18 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
           selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
         );
         setContributionsCount(contributionsCountResponse);
-        if (selectedDaos.some(dao => dao.label === 'Unassigned')) {
+        if (selectedDaos.some(dao => dao.label === UNASSIGNED)) {
           setContributionsCount(contributionsCountResponse);
         } else {
           setContributionsCount(
             contributionsCountResponse?.filter(
-              contribution => contribution?.name !== 'Unassigned',
+              contribution => contribution?.name !== UNASSIGNED,
             ),
           );
         }
         if (
           selectedDaos.length === 0 &&
-          !selectedDaos.some(dao => dao.label === 'Unassigned')
+          !selectedDaos.some(dao => dao.label === UNASSIGNED)
         ) {
           const contributionsCountResponse = await getUserContributionsCount(
             subWeeks(new Date(), dateRange.value),
@@ -64,8 +65,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     fetchHeatMapCount();
   }, [user, dateRange, selectedDaos]);
 
-  useEffect(() => {});
-
   const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
     label: dao.name ?? '',
@@ -74,7 +73,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   const unassignedContributions = [
     {
       value: Number(null),
-      label: 'Unassigned',
+      label: UNASSIGNED,
     },
   ];
 
