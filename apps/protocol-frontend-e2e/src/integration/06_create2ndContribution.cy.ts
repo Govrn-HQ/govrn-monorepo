@@ -67,9 +67,6 @@ describe("Create First Contribution", () => {
 
     cy.contains('Please select at least one Contribution to attribute to a DAO or mint.');
       
- 
-  
-   
 
   });
 

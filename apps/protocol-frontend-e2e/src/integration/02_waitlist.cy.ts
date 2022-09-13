@@ -17,14 +17,14 @@ INSERT INTO "Guild" (id, name)
     VALUES (2,'MGD');
 `
 beforeEach(()=>{
-  // cy.task('queryDatabase', truncateTablesQuery)
-  //   .then((res) => {
-  //   expect(res[0].rows.length).to.equal(0);
-  // });
-  // cy.task('queryDatabase', insertDAOs)
-  //   .then((res) => {
-  //   expect(res.length*res[0].rowCount).to.equal(2);
-  // });
+  cy.task('queryDatabase', truncateTablesQuery)
+    .then((res) => {
+    expect(res[0].rows.length).to.equal(0);
+  });
+  cy.task('queryDatabase', insertDAOs)
+    .then((res) => {
+    expect(res.length*res[0].rowCount).to.equal(2);
+  });
 
   cy.fixture('users.json').then((users) => {
     this.users = users
