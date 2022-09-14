@@ -302,7 +302,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           },
         },
       });
-      console.log('user daos response', userDaosResponse);
       setUserDaos(userDaosResponse);
       return userDaosResponse;
     } catch (error) {
