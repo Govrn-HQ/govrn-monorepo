@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button, Text, FormLabel, Switch } from '@chakra-ui/react';
+import { uploadImageIpfs } from '../libs/ipfs';
+import {
+  Stack,
+  Flex,
+  FormLabel,
+  IconButton,
+  Button,
+  Text,
+  Switch,
+} from '@chakra-ui/react';
 import {
   Input,
   Textarea,
@@ -13,6 +22,7 @@ import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
+import { HiPaperClip } from 'react-icons/hi';
 
 function CreateMoreSwitch({
   isChecked,
@@ -49,6 +59,16 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     createContribution,
     allDaos,
   } = useUser();
+
+  const [ipfsUri, setIpfsUri] = useState('');
+
+  const handleImageSelect = async e => {
+    const file = e.target.files[0];
+    const ipfsImageUri = await uploadImageIpfs(file);
+    console.log('ipfsImageUri', ipfsImageUri);
+    setIpfsUri(ipfsImageUri);
+    setValue('proof', ipfsImageUri);
+  };
 
   const localForm = useForm({
     mode: 'all',
@@ -145,6 +165,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               variant="outline"
               localForm={localForm}
             />
+
             <Input
               name="proof"
               label="Proof of Contribution"
@@ -152,6 +173,29 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
               localForm={localForm}
             />
+            <Flex
+              alignItems="baseline"
+              justifyContent="flex-start"
+              gap={2}
+              paddingBottom={4}
+            >
+              <label htmlFor="fileUpload">
+                <IconButton
+                  as="label"
+                  htmlFor="fileUpload"
+                  aria-label="Upload a file for your Contribution proof"
+                  icon={<HiPaperClip />}
+                  variant="outline"
+                />
+              </label>
+              <input
+                type="file"
+                id="fileUpload"
+                onChange={handleImageSelect}
+                style={{ display: 'none', visibility: 'hidden' }}
+              />
+              <Text size="sm">Choose a file</Text>
+            </Flex>
             <Select
               name="daoId"
               label="DAO"
