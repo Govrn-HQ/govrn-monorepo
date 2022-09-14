@@ -49,14 +49,6 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     label: dao.name ?? '',
   }));
 
-  // will include this when we include unassigned -- this is adding some confusion to the UI
-  // const daoReset = [
-  //   {
-  //     value: null,
-  //     label: 'All DAOs',
-  //   },
-  // ];
-
   const dateRangeOptions = [
     { value: 1, label: 'Last Week' },
     { value: 4, label: 'Last Month' },
