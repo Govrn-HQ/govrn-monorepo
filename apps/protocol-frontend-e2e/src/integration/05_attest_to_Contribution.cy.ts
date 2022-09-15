@@ -1,13 +1,10 @@
 /// <reference types="cypress" />
-const network = "goerli";
-const address = Cypress.env('address');
-const COOKIE = Cypress.env('COOKIE');
 
 beforeEach(() => {
-    cy.login(network, 
-        address, 
-        COOKIE
-     );
+  cy.fixture('testaccounts.json').then((accounts) => {
+    this.accounts = accounts
+    cy.login(this.accounts[0].address, this.accounts[0].privateKey);
+  });
     //Mint a contribution//
     cy.get('[data-cy="myContributions-btn"]')
       .should('be.visible')
