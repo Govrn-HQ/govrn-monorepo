@@ -10,10 +10,7 @@ INSERT INTO "Guild" (id, name)
 ON CONFLICT DO NOTHING;
 `
 beforeEach(()=>{
-  cy.task('queryDatabase', insertDAOs)
-    .then((res) => {
-    expect(res.length*res[0].rowCount).to.equal(0);
-  });
+  cy.task('queryDatabase', insertDAOs);
 
   cy.fixture('users.json').then((users) => {
     this.users = users
@@ -27,15 +24,13 @@ beforeEach(()=>{
 });
 
 afterEach(()=>{
-  
   cy.login(this.accounts[0].address, this.accounts[0].privateKey);
-  //Now in Discord's window
 });
 
 describe("Join Waitlist", () => {
   it("Fill Govrn Waitlist Form", () => {
 
-    cy.get('[data-cy="create-my-profile-btn"]',{ timeout: 3000 })
+    cy.get('[data-cy="create-my-profile-btn"]',{ timeout: 5000 })
       .should('be.visible')
       .click({force:true});
 
