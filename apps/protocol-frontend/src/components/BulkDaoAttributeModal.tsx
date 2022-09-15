@@ -7,6 +7,7 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { BulkDaoAttributeFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
+import { useContributions } from '../contexts/ContriubtionContext';
 
 interface BulkDaoAttributeModalProps {
   contributions: UIContribution[];
@@ -16,7 +17,8 @@ interface BulkDaoAttributeModalProps {
 const BulkDaoAttributeModal = ({
   contributions,
 }: BulkDaoAttributeModalProps) => {
-  const { updateContribution, allDaos } = useUser();
+  const { allDaos } = useUser();
+  const { updateContribution } = useContributions();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution] = useState(1);
   const localForm = useForm({
@@ -37,7 +39,7 @@ const BulkDaoAttributeModal = ({
     setAttributing(false);
   };
 
-  const daoListOptions = allDaos.map((dao) => ({
+  const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
     label: dao.name,
   }));
@@ -70,7 +72,7 @@ const BulkDaoAttributeModal = ({
           label="DAO"
           tip="Please select a DAO to attribute to. This is optional."
           placeholder="Select a DAO to attribute to."
-          onChange={(dao) => {
+          onChange={dao => {
             setValue('daoId', dao.value);
           }}
           options={combinedDaoListOptions}

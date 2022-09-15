@@ -9,18 +9,21 @@ import { GovrnTheme } from '@govrn/protocol-ui';
 
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
-import { UserContextProvider } from './contexts/UserContext';
+import { ContributionsContextProvider } from './contexts/ContriubtionContext';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 
 import '@rainbow-me/rainbowkit/styles.css';
+import { UserContextProvider } from './contexts/UserContext';
 
 const App = () => (
   <WagmiConfig client={wagmiClient}>
     <RainbowKitProvider chains={chains}>
       <AuthContextProvider>
         <UserContextProvider>
-          <Routes />
+          <ContributionsContextProvider>
+            <Routes />
+          </ContributionsContextProvider>
         </UserContextProvider>
       </AuthContextProvider>
     </RainbowKitProvider>
