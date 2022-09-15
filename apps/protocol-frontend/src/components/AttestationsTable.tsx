@@ -288,7 +288,7 @@ const AttestationsTable = ({
               <InfiniteScroll
                 dataLength={rows.length}
                 next={() => {
-                  daoContributionPagination.loadNext();
+                  daoContributionPagination.next();
                 }}
                 scrollThreshold={0.8}
                 hasMore={daoContributionPagination.hasMore}

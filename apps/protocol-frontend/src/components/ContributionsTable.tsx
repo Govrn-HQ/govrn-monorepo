@@ -4,7 +4,6 @@ import {
   chakra,
   Link as ChakraLink,
   HStack,
-  Icon,
   IconButton,
   Stack,
   Table,
@@ -40,6 +39,9 @@ import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
+import { useContributions } from '../contexts/ContriubtionContext';
+import { GovrnSpinner } from '@govrn/protocol-ui';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 type ContributionTableType = {
   name: string;
@@ -79,6 +81,7 @@ const ContributionsTable = ({
   setSelectedContributions: (rows: Row<any>[]) => void;
 }) => {
   const { userData } = useUser();
+  const { userContributionPagination: pagination } = useContributions();
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
@@ -328,20 +331,41 @@ const ContributionsTable = ({
               </Tr>
             ))}
           </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row);
-              return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <Td {...cell.getCellProps()} borderColor="gray.100">
-                      <>{cell.render('Cell')}</>
-                    </Td>
-                  ))}
-                </Tr>
-              );
-            })}
-          </Tbody>
+          <InfiniteScroll
+            dataLength={rows.length}
+            next={() => {
+              pagination.next();
+            }}
+            scrollThreshold={0.8}
+            hasMore={pagination.hasMore}
+            loader={
+              <tr>
+                <td colSpan={7}>
+                  <GovrnSpinner />
+                </td>
+              </tr>
+            }
+            endMessage={
+              <p style={{ textAlign: 'center' }}>
+                <b>Yay! You have seen it all.</b>
+              </p>
+            }
+          >
+            <Tbody {...getTableBodyProps()}>
+              {rows.map(row => {
+                prepareRow(row);
+                return (
+                  <Tr {...row.getRowProps()}>
+                    {row.cells.map(cell => (
+                      <Td {...cell.getCellProps()} borderColor="gray.100">
+                        <>{cell.render('Cell')}</>
+                      </Td>
+                    ))}
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </InfiniteScroll>
         </Table>
         <ModalWrapper
           name="editContributionFormModal"

@@ -36,6 +36,7 @@ export const ContributionsContextProvider: React.FC<
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
   const [daoContributionPage, setDaoContributionPage] = useState(0);
+  const [userContributionPage, setUserContributionPage] = useState(0);
   const { userData } = useContext(UserContext);
 
   const toast = useToast();
@@ -45,9 +46,12 @@ export const ContributionsContextProvider: React.FC<
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
   );
+
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     [],
   );
+  const [isUserContributionsHaveMore, setUserContributionHasMore] =
+    useState(true);
   const [isUserContributionsLoading, setUserContributionsLoading] =
     useState(true);
 
@@ -65,7 +69,10 @@ export const ContributionsContextProvider: React.FC<
     useState<UserContributionsDateRangeCountType[]>([]);
 
   useEffect(() => {
-    getUserContributions();
+    getUserContributions(userContributionPage);
+  }, [userContributionPage]);
+
+  useEffect(() => {
     getDaoContributions(daoContributionPage);
   }, [daoContributionPage]);
 
@@ -92,12 +99,12 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const loadMoreDaoContribution = () => {
-    setDaoContributionPage(daoContributionPage + 1);
+  const loadNextUserContributionsPage = () => {
+    setUserContributionPage(userContributionPage + 1);
   };
 
-  const getUserContributions = async () => {
-    setUserContributionsLoading(true);
+  const getUserContributions = async (page = 0) => {
+    setUserContributionsLoading(page === 0);
     try {
       if (!userData?.id) {
         throw new Error('getUserContributions has no userData.id');
@@ -107,22 +114,31 @@ export const ContributionsContextProvider: React.FC<
           where: {
             user_id: { equals: userData?.id },
           },
-          first: 1000,
+          first: ITEMS_PER_PAGE,
+          skip: page * ITEMS_PER_PAGE,
         })
       ).result;
 
-      setUserContributions(
-        userContributionsResponse.map(c => ({
-          ...c,
-          date_of_engagement: formatDate(c.date_of_engagement),
-          date_of_submission: formatDate(c.date_of_submission),
-        })),
-      );
+      setUserContributionHasMore(userContributionsResponse.length !== 0);
+
+      const mappedValues = userContributionsResponse.map(c => ({
+        ...c,
+        date_of_engagement: formatDate(c.date_of_engagement),
+        date_of_submission: formatDate(c.date_of_submission),
+      }));
+
+      setUserContributions([...userContributions, ...mappedValues]);
+
       return userContributionsResponse;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserContributionsLoading(false);
     }
-    setUserContributionsLoading(false);
+  };
+
+  const loadNextDaoContributionsPage = () => {
+    setDaoContributionPage(daoContributionPage + 1);
   };
 
   const getDaoContributions = async (page = 0): Promise<UIContribution[]> => {
@@ -150,9 +166,8 @@ export const ContributionsContextProvider: React.FC<
       return daoContributions;
     } catch (error) {
       console.error(error);
-    } finally {
-      setDaoContributionLoading(false);
     }
+    setDaoContributionLoading(false);
     return [];
   };
 
@@ -489,7 +504,7 @@ export const ContributionsContextProvider: React.FC<
         createContribution,
         daoContributions,
         daoContributionPagination: {
-          loadNext: loadMoreDaoContribution,
+          next: loadNextDaoContributionsPage,
           hasMore: isDaoContributionsHaveMore,
         },
         deleteContribution,
@@ -509,6 +524,10 @@ export const ContributionsContextProvider: React.FC<
         userAttestations,
         userContributions,
         userContributionsDateRangeCount,
+        userContributionPagination: {
+          next: loadNextUserContributionsPage,
+          hasMore: isUserContributionsHaveMore,
+        },
       }}
     >
       {children}
@@ -516,15 +535,17 @@ export const ContributionsContextProvider: React.FC<
   );
 };
 
+type Pagination = {
+  next: () => void;
+  hasMore: boolean;
+};
+
 type ContributionContextType = {
   contribution: UIContribution;
   createAttestation: (arg0: UIContribution) => void;
   createContribution: (arg0: ContributionFormValues) => Promise<boolean>;
   daoContributions: UIContribution[];
-  daoContributionPagination: {
-    loadNext: () => void;
-    hasMore: boolean;
-  };
+  daoContributionPagination: Pagination;
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,
@@ -562,6 +583,7 @@ type ContributionContextType = {
   userAttestations: UIAttestations | null;
   userContributions: UIContribution[];
   userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
+  userContributionPagination: Pagination;
 };
 
 export const useContributions = (): ContributionContextType =>
