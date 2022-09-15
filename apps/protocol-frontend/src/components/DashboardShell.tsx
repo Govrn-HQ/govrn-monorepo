@@ -19,7 +19,7 @@ interface DashboardShellProps {
 }
 
 const DashboardShell = ({ user }: DashboardShellProps) => {
-  const { allDaos, getUserContributionsCount } = useUser();
+  const { allDaos, userDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState<
     UserContributionsDateRangeCountType[] | null | undefined
   >([]);
@@ -65,7 +65,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     fetchHeatMapCount();
   }, [user, dateRange, selectedDaos]);
 
-  const daoListOptions = allDaos.map(dao => ({
+  const userDaoListOptions = userDaos.map(dao => ({
     value: dao.id,
     label: dao.name ?? '',
   }));
@@ -85,7 +85,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   ];
 
   const combinedDaoListOptions = [
-    ...new Set([...unassignedContributions, ...daoListOptions]),
+    ...new Set([...unassignedContributions, ...userDaoListOptions]),
   ];
 
   useEffect(() => {
@@ -132,18 +132,16 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               gap={8}
               justifyContent="space-apart"
             >
-              {daoListOptions.length > 0 && (
-                <Flex flexBasis="50%">
-                  <ControlledSelect
-                    label="Choose DAOs"
-                    tip="Choose DAOs to display Contributions from."
-                    onChange={daos => {
-                      setSelectedDaos(Array.isArray(daos) ? daos : [daos]);
-                    }}
-                    options={combinedDaoListOptions}
-                    isMulti
-                  />
-                </Flex>
+              {userDaoListOptions.length > 0 && (
+                <ControlledSelect
+                  label="Choose DAOs"
+                  tip="Choose DAOs to display Contributions from."
+                  onChange={daos => {
+                    setSelectedDaos(Array.isArray(daos) ? daos : [daos]);
+                  }}
+                  options={combinedDaoListOptions}
+                  isMulti
+                />
               )}
               <Flex flexBasis="50%">
                 <ControlledSelect

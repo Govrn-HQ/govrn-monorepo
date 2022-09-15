@@ -94,6 +94,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     useState(true);
 
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
+  const [userDaos, setUserDaos] = useState<UIGuild[]>([]);
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
     useState<UserContributionsDateRangeCountType[]>([]);
 
@@ -109,9 +110,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         throw new Error('No address for user');
       }
       const userDataResponse = await govrn.user.get(userDataByAddress?.id);
-      const userDaos = userDataResponse?.guild_users.map(guild => {
-        return guild;
-      });
       setUserData(userDataResponse);
       return userDataResponse;
     } catch (error) {
@@ -282,6 +280,31 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       const allDaosResponse = await govrn.guild.list({ first: 100 });
       setAllDaos(allDaosResponse);
       return allDaosResponse;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+
+  const getUserDaos = async () => {
+    try {
+      if (!userData?.id) {
+        throw new Error('getUserDaos has no userData.id');
+      }
+      const userDaosResponse = await govrn.guild.list({
+        first: 100,
+        where: {
+          users: {
+            some: {
+              user_id: {
+                equals: userData?.id,
+              },
+            },
+          },
+        },
+      });
+      setUserDaos(userDaosResponse);
+      return userDaosResponse;
     } catch (error) {
       console.error(error);
       return [];
@@ -728,6 +751,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       getUserActivityTypes();
       getUserAttestations();
       getAllDaos();
+      getUserDaos();
     }
   }, [userData, isAuthenticated]);
 
@@ -750,6 +774,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         getAllDaos,
         getContribution,
         getUserContributionsCount,
+        getUserDaos,
         mintAttestation,
         mintContribution,
         setAllDaos,
@@ -759,6 +784,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserAddress,
         setUserAttestations,
         setUserContributionsDateRangeCount,
+        setUserDaos,
         setUserData,
         setUserDataByAddress,
         updateContribution,
@@ -769,6 +795,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userAttestations,
         userContributions,
         userContributionsDateRangeCount,
+        userDaos,
         userData,
         userDataByAddress,
       }}
@@ -802,6 +829,7 @@ type UserContextType = {
     guildIds?: number[] | null | undefined,
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
+  getUserDaos: () => Promise<UIGuilds>;
   getContribution: (id: number) => Promise<UIContribution | null>;
   isCreatingContribution: boolean;
   isDaoContributionLoading: boolean;
@@ -827,6 +855,7 @@ type UserContextType = {
   setUserAttestations: (arg0: UIAttestations) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
+  setUserDaos: (data: UIGuild[]) => void;
   updateContribution: (
     contribution: UIContribution,
     values: ContributionFormValues,
@@ -839,6 +868,7 @@ type UserContextType = {
   userAttestations: UIAttestations | null;
   userContributions: UIContribution[];
   userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
+  userDaos: UIGuild[];
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };

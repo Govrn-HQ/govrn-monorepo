@@ -1,29 +1,50 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 
-export const OverlayContext: any = createContext(null);
+export type GovrnModals = {
+  bulkAttestationModal: boolean;
+  bulkDaoAttributeModal: boolean;
+  mintModal: boolean;
+  editContributionFormModal: boolean;
+  addAttestationFormModal: boolean;
+  storybookModal: boolean;
+  reportingFormModal: boolean;
+};
+const defaults: GovrnModals = {
+  addAttestationFormModal: false,
+  bulkAttestationModal: false,
+  bulkDaoAttributeModal: false,
+  editContributionFormModal: false,
+  mintModal: false,
+  reportingFormModal: false,
+  storybookModal: false,
+};
+
+export type OverlayContextType = {
+  modals: GovrnModals;
+  setModals: (modals: Partial<GovrnModals>) => void;
+};
+
+export const OverlayContext = createContext({} as OverlayContextType);
 
 interface OverlayProviderProps {
-  children: any;
+  children?: ReactNode | undefined;
 }
 
 export const OverlayContextProvider: React.FC<OverlayProviderProps> = ({
   children,
 }: OverlayProviderProps) => {
-  const [modals, setModals] = useState({
-    reportingFormModal: false,
-    editContributionFormModal: false,
-    addAttestationFormModal: false,
-    bulkAttestationModal: false,
-    bulkDaoAttributeModal: false,
-    mintModal: false,
-    storybookModal: false,
-  });
+  const [modals, setModals] = useState(defaults);
+  const showModal = (modals: Partial<GovrnModals>) => {
+    // This allows to show only one modal at a time.
+    // In addition, this reset any true value for other modals.
+    setModals({ ...defaults, ...modals });
+  };
 
   return (
     <OverlayContext.Provider
       value={{
         modals,
-        setModals,
+        setModals: showModal,
       }}
     >
       {children}
@@ -31,12 +52,4 @@ export const OverlayContextProvider: React.FC<OverlayProviderProps> = ({
   );
 };
 
-export default OverlayContextProvider;
-
-export const useOverlay = () => {
-  const { modals, setModals } = useContext(OverlayContext);
-  return {
-    modals,
-    setModals,
-  };
-};
+export const useOverlay = (): OverlayContextType => useContext(OverlayContext);
