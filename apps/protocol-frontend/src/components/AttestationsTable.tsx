@@ -78,7 +78,7 @@ const AttestationsTable = ({
   setSelectedContributions: (contrs: any[]) => void;
 }) => {
   const { userData } = useUser();
-  const { daoPagination } = useContributions();
+  const { daoContributionPagination } = useContributions();
   const [showAllDaos, setShowAllDaos] = useState(false);
 
   const userDaoIds = userData?.guild_users.map(guild => {
@@ -288,10 +288,10 @@ const AttestationsTable = ({
               <InfiniteScroll
                 dataLength={rows.length}
                 next={() => {
-                  daoPagination.loadNext();
+                  daoContributionPagination.loadNext();
                 }}
                 scrollThreshold={0.8}
-                hasMore={daoPagination.hasMore}
+                hasMore={daoContributionPagination.hasMore}
                 loader={
                   <tr>
                     <td colSpan={7}>
