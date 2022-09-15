@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Box, Flex, Heading, Text, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import * as _ from 'lodash';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import { UIUser } from '@govrn/ui-types';
-import { ControlledSelect, Option } from '@govrn/protocol-ui';
+import { ControlledSelect } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
+import { UNASSIGNED } from '../utils/constants';
 
 type UserContributionsDateRangeCountType = {
   count: number;
@@ -18,7 +19,7 @@ interface DashboardShellProps {
 }
 
 const DashboardShell = ({ user }: DashboardShellProps) => {
-  const { allDaos, getUserContributionsCount } = useUser();
+  const { allDaos, userDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState<
     UserContributionsDateRangeCountType[] | null | undefined
   >([]);
@@ -32,30 +33,51 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
 
   useEffect(() => {
     const fetchHeatMapCount = async () => {
-      if (selectedDaos && selectedDaos.length > 0) {
+      if (selectedDaos) {
         const contributionsCountResponse = await getUserContributionsCount(
           subWeeks(new Date(), dateRange.value),
           new Date(),
           selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
         );
         setContributionsCount(contributionsCountResponse);
+        if (selectedDaos.some(dao => dao.label === UNASSIGNED)) {
+          setContributionsCount(contributionsCountResponse);
+        } else {
+          setContributionsCount(
+            contributionsCountResponse?.filter(
+              contribution => contribution?.name !== UNASSIGNED,
+            ),
+          );
+        }
+        if (
+          selectedDaos.length === 0 &&
+          !selectedDaos.some(dao => dao.label === UNASSIGNED)
+        ) {
+          const contributionsCountResponse = await getUserContributionsCount(
+            subWeeks(new Date(), dateRange.value),
+            new Date(),
+            combinedDaoListOptions
+              .map(dao => dao.value)
+              .filter(dao => dao !== null),
+          );
+          setContributionsCount(contributionsCountResponse);
+        }
       }
     };
     fetchHeatMapCount();
   }, [user, dateRange, selectedDaos]);
 
-  const daoListOptions = allDaos.map(dao => ({
+  const userDaoListOptions = userDaos.map(dao => ({
     value: dao.id,
     label: dao.name ?? '',
   }));
 
-  // will include this when we include unassigned -- this is adding some confusion to the UI
-  // const daoReset = [
-  //   {
-  //     value: null,
-  //     label: 'All DAOs',
-  //   },
-  // ];
+  const unassignedContributions = [
+    {
+      value: Number(null),
+      label: UNASSIGNED,
+    },
+  ];
 
   const dateRangeOptions = [
     { value: 1, label: 'Last Week' },
@@ -64,7 +86,9 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     { value: 52, label: 'Last Year' },
   ];
 
-  const combinedDaoListOptions = [...new Set([...daoListOptions])];
+  const combinedDaoListOptions = [
+    ...new Set([...unassignedContributions, ...userDaoListOptions]),
+  ];
 
   useEffect(() => {
     if (allDaos) {
@@ -110,7 +134,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               gap={8}
               justifyContent="space-apart"
             >
-              {daoListOptions.length > 0 && (
+              {userDaoListOptions.length > 0 && (
                 <ControlledSelect
                   label="Choose DAOs"
                   tip="Choose DAOs to display Contributions from."
@@ -121,15 +145,19 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                   isMulti
                 />
               )}
-              <ControlledSelect
-                defaultValue={dateRangeOptions.find(date => date.value === 52)}
-                label="Choose Date Range"
-                tip="Choose the date range for your Contributions."
-                onChange={date => {
-                  setDateRange(date);
-                }}
-                options={dateRangeOptions}
-              />
+              <Flex flexBasis="50%">
+                <ControlledSelect
+                  defaultValue={dateRangeOptions.find(
+                    date => date.value === 52,
+                  )}
+                  label="Choose Date Range"
+                  tip="Choose the date range for your Contributions."
+                  onChange={date => {
+                    setDateRange(date);
+                  }}
+                  options={dateRangeOptions}
+                />
+              </Flex>
             </Flex>
             <Flex direction="column" gap={2}>
               <Heading
@@ -138,7 +166,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 color="gray.800"
                 fontWeight="normal"
               >
-                {} Contribution Heat Map
+                Contribution Heat Map
               </Heading>
               {contributionsCount && contributionsCount !== undefined ? (
                 <>
