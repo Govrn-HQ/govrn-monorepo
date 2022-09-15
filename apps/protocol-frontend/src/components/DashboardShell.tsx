@@ -56,7 +56,9 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
           const contributionsCountResponse = await getUserContributionsCount(
             subWeeks(new Date(), dateRange.value),
             new Date(),
-            daoListOptions.map(dao => dao.value).filter(dao => dao !== null),
+            combinedDaoListOptions
+              .map(dao => dao.value)
+              .filter(dao => dao !== null),
           );
           setContributionsCount(contributionsCountResponse);
         }
