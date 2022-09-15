@@ -3,7 +3,7 @@
   "sourceRoot": "apps/protocol-frontend-e2e/src",
   "projectType": "application",
   "targets": {
-    "test": {
+    "e2eTest": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
         "cypressConfig": "apps/protocol-frontend-e2e/cypress.config.ts",
