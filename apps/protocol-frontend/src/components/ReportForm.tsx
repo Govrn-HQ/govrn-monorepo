@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useUser } from '../contexts/UserContext';
-import { uploadImageIpfs } from '../libs/ipfs';
+import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
 import {
   Stack,
@@ -92,7 +92,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const handleIpfsUpload = async () => {
     if (selectedFile) {
       setIsUploading(true);
-      const ipfsImageUri = await uploadImageIpfs(selectedFile);
+      const ipfsImageUri = await uploadFileIpfs(selectedFile);
       setIsUploading(false);
       setIpfsUri(ipfsImageUri);
       setValue('proof', ipfsImageUri);

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { uploadImageIpfs } from '../libs/ipfs';
+import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
 import { Button, Flex, IconButton, Stack, Text } from '@chakra-ui/react';
 import {
@@ -123,7 +123,7 @@ const EditContributionForm = ({
   const handleIpfsUpload = async () => {
     if (selectedFile) {
       setIsUploading(true);
-      const ipfsImageUri = await uploadImageIpfs(selectedFile);
+      const ipfsImageUri = await uploadFileIpfs(selectedFile);
       setIsUploading(false);
       setIpfsUri(ipfsImageUri);
       setValue('proof', ipfsImageUri);
