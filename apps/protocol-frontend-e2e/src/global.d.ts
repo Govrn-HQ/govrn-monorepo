@@ -5,13 +5,13 @@ declare namespace Cypress {
      * Logs in to Metamask and intercepts with Graphql
   */
   interface Chainable<Subject> {
-    login(network: string, address: string, COOKIE: string): void;
+    login(address, privateKey): void;
   }
   /**
      * Intercepts with Graphql
   */
   interface Chainable<Subject> {
-    interceptGQL(httpMethod: Method, operationNames: string[], COOKIE: string): void;
+    interceptGQL(httpMethod: Method, operationNames: string[]): void;
   }
 
   interface Chainable<Subject> {
