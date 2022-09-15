@@ -3707,7 +3707,7 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
-"@metamask/eth-sig-util@^4.0.0":
+"@metamask/eth-sig-util@^4.0.0", "@metamask/eth-sig-util@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@metamask/eth-sig-util/-/eth-sig-util-4.0.1.tgz#3ad61f6ea9ad73ba5b19db780d40d9aae5157088"
   integrity sha512-tghyZKLHZjcdlDqCA3gNZmLeR0XvOE9U1qoQO9ohyAZT6Pya+H9vkBPcsyXytmYLNgVoin7CKCmweo/R43V+tQ==
@@ -5433,6 +5433,13 @@
   dependencies:
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
+
+"@rsksmart/mock-web3-provider@^1.0.2-beta1":
+  version "1.0.2-beta1"
+  resolved "https://registry.yarnpkg.com/@rsksmart/mock-web3-provider/-/mock-web3-provider-1.0.2-beta1.tgz#d1d3ddd3982cc5f9ec2794e4208eba6622bcda40"
+  integrity sha512-jdeKs7L2TOrIvIsRgQfMA5dqZ0o0Ug+bVts7+A+F5sId3Onr6nxh9qn6c4cvnyCb684i1AsMap0qQzhJ6zP/Xg==
+  dependencies:
+    "@metamask/eth-sig-util" "^4.0.1"
 
 "@scure/base@~1.1.0":
   version "1.1.1"

@@ -1,9 +1,5 @@
 /// <reference types="cypress" />
 
-const network = "goerli";
-const address = Cypress.env('address');
-const COOKIE = Cypress.env('COOKIE');
-
 const getUserOffWaitlistQuery = `
   UPDATE "User"
   SET active = TRUE
@@ -21,10 +17,10 @@ before(()=>{
     this.contributions = contributions
   });
 
-  cy.login(network, 
-    address, 
-    COOKIE
-  );
+  cy.fixture('testaccounts.json').then((accounts) => {
+    this.accounts = accounts
+    cy.login(this.accounts[0].address, this.accounts[0].privateKey);
+  });
 
   cy.get('[data-cy="myContributions-btn"]', {timeout:10000})
     .should('be.visible')

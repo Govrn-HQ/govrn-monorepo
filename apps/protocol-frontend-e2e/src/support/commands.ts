@@ -1,22 +1,19 @@
-import { MockExtensionProvider } from "./metamaskMockExt";
+import { MockProvider } from '@rsksmart/mock-web3-provider'
 
-Cypress.Commands.add('login', (network, address, COOKIE) => {
+Cypress.Commands.add('login', (address, privateKey) => {
   cy.visit("http://localhost:3000/", {
     onBeforeLoad(win) {
-        win.ethereum = new MockExtensionProvider(network, address);
+        win.ethereum = new MockProvider({address, privateKey, networkVersion: 5, debug:false });
     }
     });
-  //add cookie into '/siwe/active' request
-  cy.intercept('/siwe/active', req => {
-    req.headers['Cookie'] = COOKIE;
-  });
+
   //network requests
   cy.interceptGQL('POST',
                  ['listUserByAddress',
                  'createUserCustom'
-                ],
-                  COOKIE
-              );
+                ]
+             
+        );
 
   cy.get('button').then(($btn) => {
     const text = $btn.text()
@@ -33,12 +30,10 @@ Cypress.Commands.add('login', (network, address, COOKIE) => {
   });
 
 });
- 
-Cypress.Commands.add('interceptGQL',(httpMethod, operationNames, COOKIE) =>{
-  //network requests
+//intercept grahql
+Cypress.Commands.add('interceptGQL',(httpMethod, operationNames) =>{
   for (const operationName of operationNames){  
     cy.intercept(httpMethod, '/graphql', req => {
-      req.headers['Cookie'] = COOKIE;
       if (req.body.operationName === operationName) {
         operationName ==='createUserCustom'? 
         req.alias = `gql${req.body.operationName}Mutation`:

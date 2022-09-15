@@ -1,9 +1,5 @@
 /// <reference types="cypress" />
 
-const network = "goerli";
-const address: string = Cypress.env('address');
-const COOKIE: string = Cypress.env('COOKIE');
-
 const insertDAOs = `
 INSERT INTO "Guild" (id, name)
     VALUES (1,'Govrn')
@@ -22,20 +18,17 @@ beforeEach(()=>{
   cy.fixture('users.json').then((users) => {
     this.users = users
   });
-  
-  cy.login(network, 
-    address, 
-    COOKIE
-  );
+
+  cy.fixture('testaccounts.json').then((accounts) => {
+    this.accounts = accounts
+    cy.login(this.accounts[0].address, this.accounts[0].privateKey);
+  });
+ 
 });
 
 afterEach(()=>{
-  cy.login(network, 
-    address, 
-    COOKIE
-  ); 
-
   
+  cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   //Now in Discord's window
 });
 
@@ -58,7 +51,7 @@ describe("Join Waitlist", () => {
     
     cy.get('[data-cy="join-waitlist"]')
       .click();
-
+   
   });
 
 });
