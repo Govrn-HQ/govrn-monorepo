@@ -30,7 +30,9 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
-import EmptyContributions from './EmptyContributions';
+import { GovrnSpinner } from '@govrn/protocol-ui';
+import { useContributions } from '../contexts/ContriubtionContext';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 type AttestationTableType = {
   id: number;
@@ -52,6 +54,22 @@ type AttestationTableType = {
   onChainId?: number | null;
 };
 
+const contributionToTableTypeMapper = (
+  contributions: UIContribution[],
+): AttestationTableType[] =>
+  contributions.map(c => ({
+    id: c.id,
+    date_of_submission: c.date_of_submission,
+    date_of_engagement: c.date_of_submission,
+    attestations: c.attestations,
+    guilds: c.guilds.map((guildObj: any) => guildObj.guild.name)[0] ?? '---',
+    status: c.status.name,
+    action: '',
+    name: c.name,
+    onChainId: c.on_chain_id,
+    contributor: c.user.name,
+  }));
+
 const AttestationsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -60,6 +78,7 @@ const AttestationsTable = ({
   setSelectedContributions: (contrs: any[]) => void;
 }) => {
   const { userData } = useUser();
+  const { daoPagination } = useContributions();
   const [showAllDaos, setShowAllDaos] = useState(false);
 
   const userDaoIds = userData?.guild_users.map(guild => {
@@ -97,7 +116,7 @@ const AttestationsTable = ({
   };
 
   useEffect(() => {
-    if (showAllDaos === false) {
+    if (!showAllDaos) {
       setDisplayedContributions(unattestedUserDaoContributions);
     } else {
       setDisplayedContributions(unattestedContributions);
@@ -139,21 +158,7 @@ const AttestationsTable = ({
   }
 
   const data = useMemo<AttestationTableType[]>(
-    () =>
-      displayedContributions.map(contribution => ({
-        id: contribution.id,
-        date_of_submission: contribution.date_of_submission,
-        date_of_engagement: contribution.date_of_submission,
-        attestations: contribution.attestations,
-        guilds:
-          contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
-          '---',
-        status: contribution.status.name,
-        action: '',
-        name: contribution.name,
-        onChainId: contribution.on_chain_id,
-        contributor: contribution.user.name,
-      })),
+    () => contributionToTableTypeMapper(displayedContributions),
     [displayedContributions],
   );
 
@@ -280,20 +285,41 @@ const AttestationsTable = ({
                   </Tr>
                 ))}
               </Thead>
-              <Tbody {...getTableBodyProps()}>
-                {rows.map(row => {
-                  prepareRow(row);
-                  return (
-                    <Tr {...row.getRowProps()}>
-                      {row.cells.map(cell => (
-                        <Td {...cell.getCellProps()} borderColor="gray.100">
-                          {cell.render('Cell')}
-                        </Td>
-                      ))}
-                    </Tr>
-                  );
-                })}
-              </Tbody>
+              <InfiniteScroll
+                dataLength={rows.length}
+                next={() => {
+                  daoPagination.loadNext();
+                }}
+                scrollThreshold={0.8}
+                hasMore={daoPagination.hasMore}
+                loader={
+                  <tr>
+                    <td colSpan={7}>
+                      <GovrnSpinner />
+                    </td>
+                  </tr>
+                }
+                endMessage={
+                  <p style={{ textAlign: 'center' }}>
+                    <b>Yay! You have seen it all.</b>
+                  </p>
+                }
+              >
+                <Tbody {...getTableBodyProps()}>
+                  {rows.map(row => {
+                    prepareRow(row);
+                    return (
+                      <Tr {...row.getRowProps()}>
+                        {row.cells.map(cell => (
+                          <Td {...cell.getCellProps()} borderColor="gray.100">
+                            {cell.render('Cell')}
+                          </Td>
+                        ))}
+                      </Tr>
+                    );
+                  })}
+                </Tbody>
+              </InfiniteScroll>
             </Table>
           </Box>
         </Stack>

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import * as _ from 'lodash';
 import {
   Box,
   Button,
@@ -11,7 +10,6 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
-import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
