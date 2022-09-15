@@ -65,6 +65,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileUploadButtonClick = () => {
     if (fileInputField.current !== null) {
@@ -90,7 +91,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
 
   const handleIpfsUpload = async () => {
     if (selectedFile) {
+      setIsUploading(true);
       const ipfsImageUri = await uploadImageIpfs(selectedFile);
+      setIsUploading(false);
       setIpfsUri(ipfsImageUri);
       setValue('proof', ipfsImageUri);
     }
@@ -235,11 +238,13 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               )}
               {selectedFile !== null && fileError === null && (
                 <Button
+                  isLoading={isUploading}
                   fontWeight="md"
                   size="sm"
                   leftIcon={<HiCheck />}
                   variant="outline"
                   colorScheme="green"
+                  onClick={handleIpfsUpload}
                   disabled={fileError !== null}
                 >
                   Upload to IPFS
