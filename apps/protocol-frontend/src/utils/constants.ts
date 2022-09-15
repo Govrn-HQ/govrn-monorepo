@@ -8,3 +8,5 @@ export const SIWE_ACTIVE_URL = `${BASE_URL}/siwe/active`;
 export const BLOCK_EXPLORER_URLS = {
   gnosisChain: `https://blockscout.com/xdai/mainnet/tx/`,
 };
+
+export const UNASSIGNED = 'Unassigned'

@@ -215,8 +215,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getUserContributionsCount = async (
     startDate: Date | string,
     endDate: Date | string,
-    // guildIds: number[] | undefined,
     guildIds?: number[] | null | undefined,
+    excludeUnassigned?: boolean[] | undefined,
   ) => {
     try {
       if (!userData?.id) {
@@ -228,6 +228,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           startDate: startDate,
           endDate: endDate,
           guildIds: guildIds,
+          excludeUnassigned: excludeUnassigned,
         });
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
       return getUserContributionsCountResponse;
@@ -826,6 +827,7 @@ type UserContextType = {
     startDate: string | Date,
     endDate: string | Date,
     guildIds?: number[] | null | undefined,
+    excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getUserDaos: () => Promise<UIGuilds>;
   getContribution: (id: number) => Promise<UIContribution | null>;
