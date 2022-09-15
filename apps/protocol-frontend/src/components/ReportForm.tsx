@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { uploadImageIpfs } from '../libs/ipfs';
+import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
 import {
   Stack,
   Flex,
@@ -61,13 +62,25 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   } = useUser();
 
   const [ipfsUri, setIpfsUri] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
+  const fileInputField = useRef<HTMLInputElement>(null);
 
-  const handleImageSelect = async e => {
-    const file = e.target.files[0];
-    const ipfsImageUri = await uploadImageIpfs(file);
-    console.log('ipfsImageUri', ipfsImageUri);
-    setIpfsUri(ipfsImageUri);
-    setValue('proof', ipfsImageUri);
+  const handleFileUploadButtonClick = () => {
+    if (fileInputField.current !== null) {
+      fileInputField.current.click();
+    }
+  };
+  const handleImageSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event?.target.files ? event.target.files[0] : '';
+    console.log('file selected', file);
+    if (file) {
+      setSelectedFile(file);
+    }
+    // const ipfsImageUri = await uploadImageIpfs(file);
+    // setIpfsUri(ipfsImageUri);
+    // setValue('proof', ipfsImageUri);
   };
 
   const localForm = useForm({
@@ -186,11 +199,13 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                   aria-label="Upload a file for your Contribution proof"
                   icon={<HiPaperClip />}
                   variant="outline"
+                  onClick={handleFileUploadButtonClick}
                 />
               </label>
               <input
                 type="file"
                 id="fileUpload"
+                ref={fileInputField}
                 onChange={handleImageSelect}
                 style={{ display: 'none', visibility: 'hidden' }}
               />
