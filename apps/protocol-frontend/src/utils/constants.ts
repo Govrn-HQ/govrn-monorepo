@@ -9,4 +9,4 @@ export const BLOCK_EXPLORER_URLS = {
   gnosisChain: `https://blockscout.com/xdai/mainnet/tx/`,
 };
 
-export const MAX_FILE_UPLOAD_SIZE = 10000000; // 10MB
+export const MAX_FILE_UPLOAD_SIZE = 5000000; // 5MB

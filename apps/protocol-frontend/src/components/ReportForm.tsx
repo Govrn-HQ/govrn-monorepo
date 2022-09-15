@@ -23,7 +23,7 @@ import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
-import { HiPaperClip } from 'react-icons/hi';
+import { HiOutlinePaperClip, HiCheck } from 'react-icons/hi';
 
 function CreateMoreSwitch({
   isChecked,
@@ -62,8 +62,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   } = useUser();
 
   const [ipfsUri, setIpfsUri] = useState('');
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
 
   const handleFileUploadButtonClick = () => {
     if (fileInputField.current !== null) {
@@ -73,14 +74,26 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const file = event?.target.files ? event.target.files[0] : '';
-    console.log('file selected', file);
-    if (file) {
-      setSelectedFile(file);
+    const file = event?.target.files ? event.target.files[0] : null;
+
+    if (file !== null) {
+      setFileError(null);
+      if (file.size > MAX_FILE_UPLOAD_SIZE) {
+        setFileError(
+          'File size is too large. Please select something smaller than 5 MB.',
+        );
+        return;
+      }
     }
-    // const ipfsImageUri = await uploadImageIpfs(file);
-    // setIpfsUri(ipfsImageUri);
-    // setValue('proof', ipfsImageUri);
+    setSelectedFile(file);
+  };
+
+  const handleIpfsUpload = async () => {
+    if (selectedFile) {
+      const ipfsImageUri = await uploadImageIpfs(selectedFile);
+      setIpfsUri(ipfsImageUri);
+      setValue('proof', ipfsImageUri);
+    }
   };
 
   const localForm = useForm({
@@ -182,24 +195,23 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             <Input
               name="proof"
               label="Proof of Contribution"
-              tip="Please add a URL to a proof of your contribution."
+              tip="Please add a URL to a proof of your Contribution or upload a file to IPFS (smaller than 5 MB)."
               placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
               localForm={localForm}
             />
             <Flex
-              alignItems="baseline"
+              alignItems="center"
               justifyContent="flex-start"
               gap={2}
-              paddingBottom={4}
+              paddingBottom={2}
             >
               <label htmlFor="fileUpload">
                 <IconButton
-                  as="label"
-                  htmlFor="fileUpload"
+                  size="sm"
                   aria-label="Upload a file for your Contribution proof"
-                  icon={<HiPaperClip />}
-                  variant="outline"
+                  icon={<HiOutlinePaperClip />}
                   onClick={handleFileUploadButtonClick}
+                  variant="outline"
                 />
               </label>
               <input
@@ -209,7 +221,30 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                 onChange={handleImageSelect}
                 style={{ display: 'none', visibility: 'hidden' }}
               />
-              <Text size="sm">Choose a file</Text>
+              <Text fontSize="xs" color="gray.700">
+                {selectedFile === null
+                  ? 'Select a file to upload to IPFS'
+                  : selectedFile?.name}
+              </Text>
+            </Flex>
+            <Flex paddingBottom={4}>
+              {fileError && (
+                <Text fontSize="xs" color="red.500">
+                  {fileError}
+                </Text>
+              )}
+              {selectedFile !== null && fileError === null && (
+                <Button
+                  fontWeight="md"
+                  size="sm"
+                  leftIcon={<HiCheck />}
+                  variant="outline"
+                  colorScheme="green"
+                  disabled={fileError !== null}
+                >
+                  Upload to IPFS
+                </Button>
+              )}
             </Flex>
             <Select
               name="daoId"
