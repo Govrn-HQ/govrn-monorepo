@@ -21,13 +21,11 @@ export const getIPFSClient = () => {
 };
 
 export const uploadImageIpfs = async (
-  image
+  file: File
 ) => {
   const ipfs = getIPFSClient();
-  const cid = await ipfs.add(image);
-  // return added.cid.toString();
+  const cid = await ipfs.add(file);
   console.log('cid', cid);
-  // const resp = await ipfs.pin.add(CID.parse(cid.path));
   const resp = await ipfs.pin.add(cid.path);
   console.log('ipfs resp', resp);
   return `ipfs://${cid.path}`;

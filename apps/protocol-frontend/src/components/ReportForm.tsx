@@ -61,7 +61,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     allDaos,
   } = useUser();
 
-  const [ipfsUri, setIpfsUri] = useState('');
+  const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState<string | null>(null);
@@ -76,8 +76,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event?.target.files ? event.target.files[0] : null;
-
     if (file !== null) {
+      setValue('proof', '');
       setFileError(null);
       if (file.size > MAX_FILE_UPLOAD_SIZE) {
         setFileError(

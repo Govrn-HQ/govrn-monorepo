@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { useEffect, useState, useRef } from 'react';
+import { uploadImageIpfs } from '../libs/ipfs';
+import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
+import { Button, Flex, IconButton, Stack, Text } from '@chakra-ui/react';
 import {
   CreatableSelect,
   DatePicker,
@@ -13,6 +15,7 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
+import { HiOutlinePaperClip, HiCheck } from 'react-icons/hi';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -89,6 +92,44 @@ const EditContributionForm = ({
     reset();
   };
 
+  const [, setIpfsUri] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputField = useRef<HTMLInputElement>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileUploadButtonClick = () => {
+    if (fileInputField.current !== null) {
+      fileInputField.current.click();
+    }
+  };
+  const handleImageSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event?.target.files ? event.target.files[0] : null;
+    if (file !== null) {
+      setValue('proof', '');
+      setFileError(null);
+      if (file.size > MAX_FILE_UPLOAD_SIZE) {
+        setFileError(
+          'File size is too large. Please select something smaller than 5 MB.',
+        );
+        return;
+      }
+    }
+    setSelectedFile(file);
+  };
+
+  const handleIpfsUpload = async () => {
+    if (selectedFile) {
+      setIsUploading(true);
+      const ipfsImageUri = await uploadImageIpfs(selectedFile);
+      setIsUploading(false);
+      setIpfsUri(ipfsImageUri);
+      setValue('proof', ipfsImageUri);
+    }
+  };
+
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       {contribution !== undefined && (
@@ -127,11 +168,59 @@ const EditContributionForm = ({
           <Input
             name="proof"
             label="Proof of Contribution"
-            tip="Please add a URL to a proof of your contribution."
+            tip="Please add a URL to a proof of your Contribution or upload a file to IPFS (smaller than 5 MB)."
             placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
-            defaultValue={contribution?.proof ?? ''}
-            localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+            localForm={localForm}
           />
+          <Flex
+            alignItems="center"
+            justifyContent="flex-start"
+            gap={2}
+            paddingBottom={2}
+          >
+            <label htmlFor="fileUpload">
+              <IconButton
+                size="sm"
+                aria-label="Upload a file for your Contribution proof"
+                icon={<HiOutlinePaperClip />}
+                onClick={handleFileUploadButtonClick}
+                variant="outline"
+              />
+            </label>
+            <input
+              type="file"
+              id="fileUpload"
+              ref={fileInputField}
+              onChange={handleImageSelect}
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+            <Text fontSize="xs" color="gray.700">
+              {selectedFile === null
+                ? 'Select a file to upload to IPFS'
+                : selectedFile?.name}
+            </Text>
+          </Flex>
+          <Flex paddingBottom={4}>
+            {fileError && (
+              <Text fontSize="xs" color="red.500">
+                {fileError}
+              </Text>
+            )}
+            {selectedFile !== null && fileError === null && (
+              <Button
+                isLoading={isUploading}
+                fontWeight="md"
+                size="sm"
+                leftIcon={<HiCheck />}
+                variant="outline"
+                colorScheme="green"
+                onClick={handleIpfsUpload}
+                disabled={fileError !== null}
+              >
+                Upload to IPFS
+              </Button>
+            )}
+          </Flex>
           <Select
             name="daoId"
             label="DAO"
