@@ -35,7 +35,7 @@ export const ContributionsContextProvider: React.FC<
 > = ({ children }: ContributionContextProps) => {
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
-  const [page, setPage] = useState(0);
+  const [daoContributionPage, setDaoContributionPage] = useState(0);
   const { userData } = useContext(UserContext);
 
   const toast = useToast();
@@ -66,8 +66,8 @@ export const ContributionsContextProvider: React.FC<
 
   useEffect(() => {
     getUserContributions();
-    getDaoContributions(page);
-  }, [page]);
+    getDaoContributions(daoContributionPage);
+  }, [daoContributionPage]);
 
   const getContribution = async (id: number) => {
     try {
@@ -93,7 +93,7 @@ export const ContributionsContextProvider: React.FC<
   };
 
   const loadMoreDaoContribution = () => {
-    setPage(page + 1);
+    setDaoContributionPage(daoContributionPage + 1);
   };
 
   const getUserContributions = async () => {
@@ -488,7 +488,7 @@ export const ContributionsContextProvider: React.FC<
         createAttestation,
         createContribution,
         daoContributions,
-        daoPagination: {
+        daoContributionPagination: {
           loadNext: loadMoreDaoContribution,
           hasMore: isDaoContributionsHaveMore,
         },
@@ -521,7 +521,7 @@ type ContributionContextType = {
   createAttestation: (arg0: UIContribution) => void;
   createContribution: (arg0: ContributionFormValues) => Promise<boolean>;
   daoContributions: UIContribution[];
-  daoPagination: {
+  daoContributionPagination: {
     loadNext: () => void;
     hasMore: boolean;
   };
