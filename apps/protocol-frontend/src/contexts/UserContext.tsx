@@ -16,8 +16,7 @@ import {
 } from '../types/forms';
 import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
-
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
+import { PROTOCOL_URL } from '../utils/constants';
 
 export const UserContext = createContext<UserContextType>(
   {} as UserContextType,
@@ -37,7 +36,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   });
 
   const toast = useToast();
-  const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
+  const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
 
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<UIUser | null>(
@@ -55,7 +54,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
   const [userDaos, setUserDaos] = useState<UIGuild[]>([]);
-
 
   useEffect(() => {
     if (address) {
