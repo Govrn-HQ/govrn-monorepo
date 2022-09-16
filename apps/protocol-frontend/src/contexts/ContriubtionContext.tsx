@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useCallback } from 'react';
 import { ethers } from 'ethers';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
@@ -69,13 +69,15 @@ export const ContributionsContextProvider: React.FC<
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
     useState<UserContributionsDateRangeCountType[]>([]);
 
+  const userId = userData?.id;
+
   useEffect(() => {
     getUserContributions(userContributionPage);
-  }, [userContributionPage]);
+  }, [userContributionPage, userId]);
 
   useEffect(() => {
     getDaoContributions(daoContributionPage);
-  }, [daoContributionPage]);
+  }, [daoContributionPage, userData?.id]);
 
   const getContribution = async (id: number) => {
     try {
