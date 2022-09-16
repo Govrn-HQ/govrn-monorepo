@@ -3,6 +3,7 @@ import { ParsedMessage, ParsedMessageRegExp } from '@spruceid/siwe-parser';
 import { providers, Contract, utils } from 'ethers';
 
 import { randomStringForEntropy } from '@stablelib/random';
+import { BASE_URL } from './constants';
 
 /**
  * This method is supposed to check if an address is conforming to EIP-55.
@@ -175,7 +176,7 @@ export enum SiweErrorType {
   UNABLE_TO_PARSE = 'Unable to parse the message.',
 }
 
-const BACKEND_ADDR = `${import.meta.env.VITE_PROTOCOL_BASE_URL}`;
+const BACKEND_ADDR = `${BASE_URL}`;
 
 export async function createSiweMessage(
   address: string,

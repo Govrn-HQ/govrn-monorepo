@@ -11,8 +11,9 @@ import { ContributionFormValues } from '../types/forms';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { MintContributionType } from '../types/mint';
 import { UserContext } from './UserContext';
+import { Pagination } from './utils';
+import { PROTOCOL_URL } from '../utils/constants';
 
-const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 const ITEMS_PER_PAGE = 100;
 
 export const ContributionContext = createContext<ContributionContextType>(
@@ -33,28 +34,28 @@ interface ContributionContextProps {
 export const ContributionsContextProvider: React.FC<
   ContributionContextProps
 > = ({ children }: ContributionContextProps) => {
+  const { userData } = useContext(UserContext);
+  const toast = useToast();
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
-  const [daoContributionPage, setDaoContributionPage] = useState(0);
-  const [userContributionPage, setUserContributionPage] = useState(0);
-  const { userData } = useContext(UserContext);
 
-  const toast = useToast();
-  const govrn = new GovrnProtocol(protocolUrl, { credentials: 'include' });
+  const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
   const { setModals } = useOverlay();
 
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
   );
 
-  const [userContributions, setUserContributions] = useState<UIContribution[]>(
-    [],
-  );
+  const [userContributionPage, setUserContributionPage] = useState(0);
   const [isUserContributionsHaveMore, setUserContributionHasMore] =
     useState(true);
   const [isUserContributionsLoading, setUserContributionsLoading] =
     useState(true);
+  const [userContributions, setUserContributions] = useState<UIContribution[]>(
+    [],
+  );
 
+  const [daoContributionPage, setDaoContributionPage] = useState(0);
   const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
   const [isDaoContributionsHaveMore, setDaoContributionHasMore] =
     useState(true);
@@ -533,11 +534,6 @@ export const ContributionsContextProvider: React.FC<
       {children}
     </ContributionContext.Provider>
   );
-};
-
-type Pagination = {
-  next: () => void;
-  hasMore: boolean;
 };
 
 type ContributionContextType = {
