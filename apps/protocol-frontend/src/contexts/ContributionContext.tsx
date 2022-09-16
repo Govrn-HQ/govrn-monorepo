@@ -122,8 +122,6 @@ export const ContributionsContextProvider: React.FC<
         })
       ).result;
 
-      setUserContributionHasMore(userContributionsResponse.length !== 0);
-
       const mappedValues = userContributionsResponse.map(c => ({
         ...c,
         date_of_engagement: formatDate(c.date_of_engagement),
@@ -131,6 +129,9 @@ export const ContributionsContextProvider: React.FC<
       }));
 
       setUserContributions([...userContributions, ...mappedValues]);
+      setUserContributionHasMore(
+        userContributionsResponse.length === ITEMS_PER_PAGE,
+      );
 
       return userContributionsResponse;
     } catch (error) {
@@ -154,8 +155,6 @@ export const ContributionsContextProvider: React.FC<
         })
       ).result;
 
-      setDaoContributionHasMore(daoContributionsResponse.length !== 0);
-
       const mappedValues = daoContributionsResponse.map(c => ({
         ...c,
         date_of_engagement: formatDate(c.date_of_engagement),
@@ -163,8 +162,10 @@ export const ContributionsContextProvider: React.FC<
         updatedAt: formatDate(c.updatedAt),
       }));
 
-      if (page === 0) setDaoContributions(mappedValues);
-      else setDaoContributions([...daoContributions, ...mappedValues]);
+      setDaoContributions([...daoContributions, ...mappedValues]);
+      setDaoContributionHasMore(
+        daoContributionsResponse.length === ITEMS_PER_PAGE,
+      );
 
       return daoContributions;
     } catch (error) {
