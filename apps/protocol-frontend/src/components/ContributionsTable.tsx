@@ -42,6 +42,7 @@ import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { useContributions } from '../contexts/ContributionContext';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import TableEndMessage from './TableEndMessage';
 
 type ContributionTableType = {
   name: string;
@@ -345,11 +346,7 @@ const ContributionsTable = ({
                 </td>
               </tr>
             }
-            endMessage={
-              <p style={{ textAlign: 'center' }}>
-                <b>Yay! You have seen it all.</b>
-              </p>
-            }
+            endMessage={<TableEndMessage />}
           >
             <Tbody {...getTableBodyProps()}>
               {rows.map(row => {
