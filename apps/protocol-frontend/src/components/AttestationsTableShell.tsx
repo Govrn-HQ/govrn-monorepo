@@ -20,7 +20,7 @@ import MyAttestationsTable from './MyAttestationsTable';
 import ModalWrapper from './ModalWrapper';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import BulkAttestationModal from './BulkAttestationModal';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 
 const AttestationsTableShell = () => {
   const { isDaoContributionLoading, daoContributions } = useContributions();

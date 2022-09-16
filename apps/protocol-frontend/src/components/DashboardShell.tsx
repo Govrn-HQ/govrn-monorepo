@@ -8,7 +8,7 @@ import { ControlledSelect } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 import { UNASSIGNED } from '../utils/constants';
 
 type UserContributionsDateRangeCountType = {
