@@ -7,7 +7,7 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { BulkDaoAttributeFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 
 interface BulkDaoAttributeModalProps {
   contributions: UIContribution[];

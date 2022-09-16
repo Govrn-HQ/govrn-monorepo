@@ -22,7 +22,7 @@ import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 
 const ContributionsTableShell = () => {
   const { isUserContributionsLoading, userContributions } = useContributions();

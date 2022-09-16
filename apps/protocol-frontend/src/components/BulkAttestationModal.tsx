@@ -12,7 +12,7 @@ import {
 import { useUser } from '../contexts/UserContext';
 import { MdCheckCircle } from 'react-icons/all';
 import { MintContributionType } from '../types/mint';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 
 interface BulkAttestationModalProps {
   contributions: MintContributionType[];

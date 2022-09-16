@@ -9,7 +9,7 @@ import { GovrnTheme } from '@govrn/protocol-ui';
 
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
-import { ContributionsContextProvider } from './contexts/ContriubtionContext';
+import { ContributionsContextProvider } from './contexts/ContributionContext';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 

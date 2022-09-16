@@ -19,7 +19,7 @@ import ContributionDetailShell from '../components/ContributionDetailShell';
 import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
 import { UIContribution } from '@govrn/ui-types';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 
 const UserView = () => {
   return (

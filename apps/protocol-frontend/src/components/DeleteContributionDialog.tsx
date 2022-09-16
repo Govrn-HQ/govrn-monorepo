@@ -11,7 +11,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 
 const DeleteContributionDialog = (props: {
   dialog: DialogProps;

@@ -13,7 +13,7 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 
 interface EditContributionFormProps {
   contribution: UIContribution;

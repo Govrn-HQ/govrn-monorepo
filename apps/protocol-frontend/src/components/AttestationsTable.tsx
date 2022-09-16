@@ -31,7 +31,7 @@ import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
-import { useContributions } from '../contexts/ContriubtionContext';
+import { useContributions } from '../contexts/ContributionContext';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 type AttestationTableType = {
