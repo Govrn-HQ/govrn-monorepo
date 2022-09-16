@@ -83,15 +83,19 @@ async function getContribution(
   govrn: GovrnProtocol,
   data: { tokenId: number },
 ) {
-  const contrs = (
-    await govrn.contribution.list({
-      where: { on_chain_id: { equals: data.tokenId } },
-      first: 1,
-    })
-  ).result;
+  try {
+    const contrs = (
+      await govrn.contribution.list({
+        where: { on_chain_id: { equals: data.tokenId } },
+        first: 1,
+      })
+    ).result;
 
-  if (contrs.length != 0) return contrs[0].id;
-  throw new Error('Contribution must exist for this attestation!');
+    if (contrs.length != 0) return contrs[0].id;
+    throw new Error('Contribution must exist for this attestation!');
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 const createJobRun = async (
