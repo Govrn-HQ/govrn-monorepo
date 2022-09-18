@@ -166,7 +166,6 @@ jobs:
         with:
           start: yarn nx run protocol-api:serve
           command: yarn nx run protocol-frontend-e2e:e2eTest
-          wait-on: 'http://localhost:4000/graphql'
           install: false
       - uses: actions/upload-artifact@v2
         if: failure()
