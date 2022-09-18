@@ -145,11 +145,19 @@ jobs:
         run: ./node_modules/cypress/bin/cypress install
       - name: Create env file
         run: |
+          touch .env
           echo DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test  >> .env
           echo PROTOCOL_FRONTEND=http://localhost:3000  >> .env
           echo CORS_ORIGIN=http://localhost:3000  >> .env
           echo PROTOCOL_COOKIE_SECRET=asdfasjdfl >> .env
-
+          echo VITE_PROTOCOL_BASE_URL=https://localhost:4000 >> .env
+          echo VITE_PROTOCOL_URL=http://localhost:4000/graphql  >> .env
+          echo VITE_URL=http://localhost:3000 >> .env
+          echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
+          echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
+          echo VITE_LINEAR_REDIRECT_URI=http://lochost:4000/linear/oauth  >> .env
+          echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
+          echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
       - name: Create Database
         run: yarn nx run protocol-api:migrate
       - name: Cypress run
@@ -165,10 +173,10 @@ jobs:
         if: failure()
         with:
           name: cypress-screenshots
-          path: /apps/protocol-frontend-e2e/screenshots
+          path: ./dist/cypress/apps/protocol-frontend-e2e/screenshots
       # Test run video was always captured, so this action uses "always()" condition
       - uses: actions/upload-artifact@v2
         if: always()
         with:
           name: cypress-videos
-          path: /apps/protocol-frontend-e2e/videos
+          path: ./dist/cypress/apps/protocol-frontend-e2e/videos
