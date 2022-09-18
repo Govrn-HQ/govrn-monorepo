@@ -145,8 +145,7 @@ jobs:
         run: ./node_modules/cypress/bin/cypress install
       - name: Create env file
         run: |
-          touch .env
-          echo DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test  >> .env
+          echo DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test  > .env
           echo PROTOCOL_FRONTEND=http://localhost:3000  >> .env
           echo CORS_ORIGIN=http://localhost:3000  >> .env
           echo PROTOCOL_COOKIE_SECRET=asdfasjdfl >> .env
