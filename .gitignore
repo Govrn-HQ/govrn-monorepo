@@ -44,3 +44,7 @@ Thumbs.db
 
 *kubernetes/secrets/**
 *kubernetes.yaml
+
+# Testing
+/cypress
+

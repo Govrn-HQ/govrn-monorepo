@@ -47,6 +47,7 @@ const EmptyContributions = () => {
                 transition="all 100ms ease-in-out"
                 _hover={{ bgColor: 'brand.primary.100' }}
                 colorScheme="brand.primary"
+                data-cy="reportFirstContribution-btn"
               >
                 Report a Contribution
               </Button>

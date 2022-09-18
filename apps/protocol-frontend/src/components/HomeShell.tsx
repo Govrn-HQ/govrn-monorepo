@@ -58,6 +58,7 @@ const HomeShell = () => {
               _hover={{ bgColor: 'white' }}
               marginTop={4}
               onClick={() => setCreateProfileSteps(2)}
+              data-cy="create-my-profile-btn"
             >
               Create My Profile
             </Button>
@@ -113,6 +114,7 @@ const HomeShell = () => {
                     _hover={{ bgColor: 'white' }}
                     marginTop={4}
                     width="100%"
+                    data-cy="myContributions-btn"
                   >
                     My Contributions
                   </Button>
@@ -145,6 +147,7 @@ const HomeShell = () => {
                     _hover={{ bgColor: 'white' }}
                     marginTop={4}
                     width="100%"
+                    data-cy="joinOurDiscord-testBtn"
                   >
                     Join Our Discord
                   </Button>
