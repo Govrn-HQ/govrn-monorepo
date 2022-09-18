@@ -32,7 +32,8 @@ describe('Join Waitlist', () => {
       .should('be.visible')
       .click({ force: true });
 
-    cy.get('input[data-testid="chakraInput-test"]')
+    cy.get('input[data-testid="chakraInput-test"]', { timeout: 20000 })
+      .should('be.enabled')
       .eq(0)
       .type(this.users[0].username)
       .should('have.value', this.users[0].username);
