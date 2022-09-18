@@ -162,7 +162,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4
         env:
-          DEBUG: 'cypress:*'
+          DEBUG: 'cypress:server'
         with:
           start: yarn nx run protocol-api:serve
           command: yarn nx run protocol-frontend-e2e:e2eTest
