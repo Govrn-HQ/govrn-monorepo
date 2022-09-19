@@ -17,7 +17,8 @@ import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
-import { GovrnSpinner, ModalWrapper } from '@govrn/protocol-ui';
+import ModalWrapper from './ModalWrapper';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 import BulkAttestationModal from './BulkAttestationModal';
 
 const AttestationsTableShell = () => {
