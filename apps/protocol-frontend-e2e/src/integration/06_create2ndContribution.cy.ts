@@ -1,71 +1,66 @@
 /// <reference types="cypress" />
 
-const network = "goerli";
-const address = Cypress.env('address');
-const COOKIE = Cypress.env('COOKIE');
-
 const getUserOffWaitlistQuery = `
   UPDATE "User"
   SET active = TRUE
   WHERE email = 'testemail@gmail.com'
   RETURNING *;
   `
-before(()=>{
-   //Get user off the waitlist
-  cy.task('queryDatabase', getUserOffWaitlistQuery)
-    .then((res) => {
-    expect(res.rows[0].active).to.equal(true);
+  before(() => {
+    //Get user off the waitlist
+    cy.task('queryDatabase', getUserOffWaitlistQuery).then(res => {
+      expect(res.rows[0].active).to.equal(true);
+    });
+  
+    cy.fixture('contributions.json').then(contributions => {
+      this.contributions = contributions;
+    });
+  
+    cy.fixture('testaccounts.json').then(accounts => {
+      this.accounts = accounts;
+      cy.login(this.accounts[0].address, this.accounts[0].privateKey);
+    });
+  
+    cy.get('[data-cy="myContributions-btn"]', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
   });
 
-  cy.fixture('contributions.json').then((contributions) => {
-    this.contributions = contributions
-  });
+describe("Create Second Contribution", () => {
 
-  cy.login(network, 
-    address, 
-    COOKIE
-  );
+  it('Report your Second Contribution', () => {
+    const contribution = this.contributions[2];
 
-  cy.get('[data-cy="myContributions-btn"]', {timeout:10000})
-    .should('be.visible')
-    .click({force:true});
-
-});
-
-describe("Create First Contribution", () => {
-
-  it('Report your first Contribution', () => {
-    cy.wait(3000)
-    cy.get('[data-testid="floatingreportbtn-testid"]' , { timeout: 10000 })
-      .click();
-    cy.wait(10000)
-    cy.get('input[data-testid="chakraInput-test"]')
-      .eq(0)
-      .type(this.contributions[2].name)
-      .should('have.value', this.contributions[2].name);
+    cy.get('[data-testid="floatingreportbtn-testid"]', {
+      timeout: 10000,
+    }).click();
+   
+    cy.get('input[data-testid="reportForm-name"]') //clarify
+      .type(contribution.name)
+      .should('have.value', contribution.name);
     
     cy.get(".css-ujecln-Input2 #react-select-7-input")
       .click({ force: true})
-      .type(`${this.contributions[2].activityType}{enter}`);
+      .type(`${contribution.activityType}{enter}`);
    
     cy.get('textarea[data-testid="textarea-test"]')
-      .clear()
       .click() 
-      .type(this.contributions[2].details);   
+      .type(contribution.details);   
     
-    cy.get('input[data-testid="chakraInput-test"]')
-      .eq(1)
-      .clear()
-      .type(this.contributions[2].proof);   
+    cy.get('input[data-testid="reportForm-proof"]')
+      .type(contribution.proof);   
         
     cy.get(".css-ujecln-Input2 #react-select-9-input") 
       .click({ force: true})
-      .type(`${this.contributions[2].dao}{enter}`);
+      .type(`${contribution.dao}{enter}`);
         
     cy.get('[data-cy="addContribution-btn"]')
       .click();
 
-    cy.contains('Please select at least one Contribution to attribute to a DAO or mint.');
+    cy.contains(
+      'Please select at least one Contribution to attribute to a DAO or mint.',
+      { timeout: 10000 },
+    );
       
 
   });
