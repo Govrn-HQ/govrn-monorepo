@@ -50,7 +50,6 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     setIsAuthenticating(true);
     try {
       const resp = await fetch(SIWE_ACTIVE_URL, { credentials: 'include' });
-      console.log(resp);
       setIsAuthenticating(false);
       if (resp.status >= 400) {
         setIsAuthenticated(false);
@@ -97,11 +96,10 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     const existing = await checkAuthentication();
     setCheckExistingCreds(true);
     // non redirect route
-    // const noRedirect = ['/'].find(el => el === window.location.hash);
-    // if (noRedirect) {
-    //   // redirect
-    //   return true;
-    // }
+    const noRedirect = ['/'].find(el => el === window.location.hash);
+    if (noRedirect) {
+      return true;
+    }
     console.log(existing);
     if (!existing) {
       await authenticateAddress();
@@ -126,13 +124,11 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       provider.on('accountsChanged', async () => {
         setIsAuthenticated(false);
         await logout();
-        console.log('Changed');
       });
       // logout;
       provider.on('disconnect', async () => {
         setIsAuthenticated(false);
         await logout();
-        console.log('disconnect');
       });
     };
     if (connector) {

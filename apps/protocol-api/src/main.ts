@@ -364,13 +364,12 @@ app.post('/verify', async function (req, res) {
     }
     const message = new SiweMessage(req.body.message);
     const fields = await message.validate(req.body.signature);
-    console.log(req.session);
     if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
     }
     req.session.siwe = fields;
-    // req.session.cookie.expires = new Date(fields.data.expirationTime);
+    req.session.cookie.expires = new Date(fields.data.expirationTime);
     res.status(200).end();
   } catch (e) {
     req.session.siwe = null;
@@ -396,20 +395,14 @@ app.post('/verify', async function (req, res) {
 // TODO: switch so session expiration is managed on the server
 app.get('/siwe/active', async function (req, res) {
   const fields = req.session.siwe;
-  console.log('session');
-  console.log(req.session);
-  console.log(!fields?.data);
-  // make this a switch
   if (!fields?.data) {
     res.status(422).json({ message: 'No existing session cookie' });
-    console.log('Missing data');
   } else if (fields?.data?.nonce !== req.session.nonce) {
     res.status(422).json({ message: 'Invalid nonce' });
   } else if (new Date(fields?.data?.expirationTime) <= new Date()) {
     res.status(440).json({ message: 'Token has expired' });
   }
 
-  // res.status(200).end();
   res.end();
 });
 
@@ -419,7 +412,6 @@ app.post('/logout', async function (req, res) {
 });
 
 app.get('/nonce', async function (req, res) {
-  console.log(req);
   const nonce = generateNonce();
   req.session.nonce = nonce;
   res.setHeader('Content-Type', 'text/plain');
