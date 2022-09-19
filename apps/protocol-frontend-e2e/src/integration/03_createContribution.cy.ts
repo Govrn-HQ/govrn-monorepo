@@ -28,31 +28,29 @@ before(() => {
 
 describe('Create First Contribution', () => {
   it('Report your first Contribution', () => {
+    const contribution = this.contributions[0];
+
     cy.get('[data-cy="reportFirstContribution-btn"]', {
       timeout: 10000,
     }).click();
 
-    cy.get('input[data-testid="chakraInput-test"]', { timeout: 10000 })
-      .should('be.visible')
-      .eq(0)
-      .type(this.contributions[0].name)
-      .should('have.value', this.contributions[0].name);
+    cy.get('input[data-testid="reportForm-name"]')
+      .type(contribution.name)
+      .should('have.value', contribution.name);
 
     cy.get('.css-ujecln-Input2 #react-select-3-input').type(
-      `${this.contributions[0].activityType}{enter}`,
+      `${contribution.activityType}{enter}`,
     );
 
     cy.get('textarea[data-testid="textarea-test"]')
       .click()
-      .type(this.contributions[0].details);
+      .type(contribution.details);
 
-    cy.get('input[data-testid="chakraInput-test"]')
-      .eq(1)
-      .type(this.contributions[0].proof);
+    cy.get('input[data-testid="reportForm-proof"]').type(contribution.proof);
 
     cy.get('.css-ujecln-Input2 #react-select-5-input')
       .click({ force: true })
-      .type(`${this.contributions[0].dao}{enter}`);
+      .type(`${contribution.dao}{enter}`);
 
     cy.get('[data-cy="addContribution-btn"]').click({ force: true });
 

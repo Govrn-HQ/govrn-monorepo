@@ -17,31 +17,31 @@ beforeEach(() => {
 
 describe('Edit first Contribution', () => {
   it('Update/Edit Contribution', () => {
-    cy.get('[data-testid="editContribution-test"]', { timeout: 40000 }).click();
+    const contribution = this.contributions[1];
 
-    cy.get('input[data-testid="chakraInput-test"]')
-      .eq(0)
+    cy.get('[data-testid="editContribution-test"]', { timeout: 10000 }).click();
+
+    cy.get('input[data-testid="editContributionForm-name"]')
       .clear()
-      .type(this.contributions[1].name)
-      .should('have.value', this.contributions[1].name);
+      .type(contribution.name)
+      .should('have.value', contribution.name);
 
     cy.get('.css-ujecln-Input2 #react-select-3-input')
       .click({ force: true })
-      .type(`${this.contributions[1].activityType}{enter}`);
+      .type(`${contribution.activityType}{enter}`);
 
     cy.get('textarea[data-testid="textarea-test"]')
       .clear()
       .click()
-      .type(this.contributions[1].details);
+      .type(contribution.details);
 
-    cy.get('input[data-testid="chakraInput-test"]')
-      .eq(1)
+    cy.get('input[data-testid="editContributionForm-name"]')
       .clear()
-      .type(this.contributions[1].proof);
+      .type(contribution.proof);
 
     cy.get('.css-ujecln-Input2 #react-select-5-input')
       .click({ force: true })
-      .type(`${this.contributions[1].dao}{enter}`);
+      .type(`${contribution.dao}{enter}`);
 
     cy.get('[ data-cy="updateContribution-test-btn"]').click();
 
