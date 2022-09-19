@@ -1,12 +1,4 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
+import { MockProvider } from '@rsksmart/mock-web3-provider';
 
 Cypress.Commands.add('login', (address, privateKey) => {
   cy.visit('http://localhost:3000/', {
