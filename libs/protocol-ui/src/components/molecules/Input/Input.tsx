@@ -31,6 +31,7 @@ export interface InputProps {
   isDisabled?: boolean;
   localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'outline' | 'filled';
+  dataTestId?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -43,6 +44,7 @@ const Input: React.FC<InputProps> = ({
   localForm,
   isDisabled = false,
   variant = 'outline',
+  dataTestId = '',
 }: InputProps) => {
   const {
     register,
@@ -64,7 +66,7 @@ const Input: React.FC<InputProps> = ({
             variant={variant}
             isDisabled={isDisabled}
             {...register(name)}
-            data-testid="chakraInput-test"
+            data-testid={dataTestId}
           />
           {errors && (
             <ErrorMessage

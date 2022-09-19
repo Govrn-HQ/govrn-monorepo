@@ -28,20 +28,22 @@ afterEach(() => {
 
 describe('Join Waitlist', () => {
   it('Fill Govrn Waitlist Form', () => {
+    const user = this.users[0];
+
     cy.get('[data-cy="create-my-profile-btn"]', { timeout: 60000 })
       .should('be.visible')
       .click({ force: true });
 
-    cy.get('input[data-testid="chakraInput-test"]', { timeout: 20000 })
+    cy.get('input[data-testid="createWaitlistUserForm-username"]', {
+      timeout: 20000,
+    })
       .should('be.enabled')
-      .eq(0)
-      .type(this.users[0].username)
-      .should('have.value', this.users[0].username);
+      .type(user.username)
+      .should('have.value', user.username);
 
-    cy.get('input[data-testid="chakraInput-test"]')
-      .eq(1)
-      .type(this.users[0].email)
-      .should('have.value', this.users[0].email);
+    cy.get('input[data-testid="createWaitlistUserForm-email"]')
+      .type(user.email)
+      .should('have.value', user.email);
 
     cy.get('[data-cy="join-waitlist"]').click();
   });
