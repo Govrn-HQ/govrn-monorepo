@@ -70,6 +70,7 @@ const Input: React.FC<InputProps> = ({
             variant={variant}
             isDisabled={isDisabled}
             {...register(name)}
+            data-testid="chakraInput-test"
           />
           {errors && (
             <ErrorMessage

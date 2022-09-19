@@ -286,6 +286,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                 transition="all 100ms ease-in-out"
                 _hover={{ bgColor: 'brand.primary.100' }}
                 isLoading={isCreatingContribution}
+                data-cy="addContribution-btn"
               >
                 Add Contribution
               </Button>

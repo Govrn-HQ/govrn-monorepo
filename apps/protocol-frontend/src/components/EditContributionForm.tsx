@@ -261,6 +261,7 @@ const EditContributionForm = ({
               backgroundColor="brand.primary.50"
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.100' }}
+              data-cy="updateContribution-test-btn"
             >
               Update Contribution
             </Button>

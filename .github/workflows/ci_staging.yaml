@@ -33,13 +33,30 @@ jobs:
         with:
           node-version: 16.x
           cache: 'yarn'
-      - run: yarn install
+      - name: Frozen lock
+        run: yarn install --frozen-lockfile # optional, --immutable
       - run: npm install -g @graphprotocol/graph-cli
-      - run: npx nx affected:lint --base $BASE
+      - run: yarn nx affected:lint --base $BASE
       - name: Test
-        run: npx nx affected:test --base $BASE
+        run: yarn nx affected:test --base $BASE
+      - name: Create env file
+        run: |
+          touch .env
+          echo VITE_PROTOCOL_BASE_URL=https://api-staging.govrn.app  >> .env
+          echo VITE_PROTOCOL_URL=https://api-staging.govrn.app/graphql  >> .env
+          echo VITE_URL=${{secrets.VITE_URL_STAGING}} >> .env
+          echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
+          echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
+          echo VITE_LINEAR_REDIRECT_URI=https://api-staging.govrn.app/linear/oauth  >> .env
+          echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
+          echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
       - name: Build
-        run: npx nx affected:build --base $BASE
+        run: yarn nx affected:build --configuration production --base $BASE
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: ./*
+          key: ${{ github.sha }}
 
   docker-build:
     if: ${{ github.ref == 'refs/heads/staging' }}
@@ -66,32 +83,98 @@ jobs:
         with:
           node-version: 16.x
           cache: 'yarn'
-      - run: yarn install
       - run: npm install -g @graphprotocol/graph-cli
-      - name: Create env file
-        run: |
-          touch .env
-          echo VITE_PROTOCOL_BASE_URL=https://api-staging.govrn.app  >> .env
-          echo VITE_PROTOCOL_URL=https://api-staging.govrn.app/graphql  >> .env
-          echo VITE_URL=${{secrets.VITE_URL_STAGING}} >> .env
-          echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
-          echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
-          echo VITE_LINEAR_REDIRECT_URI=https://api-staging.govrn.app/linear/oauth  >> .env
-          echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
-          echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
-      - name: Build
-        run: npx nx affected:build --configuration production --base $BASE
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: ./*
+          key: ${{ github.sha }}
       - name: Docker Build
-        run: npx nx affected --target docker-build --base $BASE --parallel --max-parallel=3
+        run: yarn nx affected --target docker-build --base $BASE --parallel --max-parallel=3
         env:
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker Login
-        run: npx nx affected --target docker-login --base $BASE --parallel --max-parallel=3
+        run: yarn nx affected --target docker-login --base $BASE --parallel --max-parallel=3
       - name: Docker Push
-        run: npx nx affected --target docker-push --base $BASE --parallel --max-parallel=3
+        run: yarn nx affected --target docker-push --base $BASE --parallel --max-parallel=3
         env:
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy
-        run: npx nx affected --target deployStaging --base $BASE --parallel --max-parallel=3
+        run: yarn nx affected --target deployStaging --base $BASE --parallel --max-parallel=3
       - name: Verify
-        run: npx nx affected --target verify --base $BASE --parallel --max-parallel=3
+        run: yarn nx affected --target verify --base $BASE --parallel --max-parallel=3
+
+  cypress-run:
+    needs: build
+    runs-on:
+      ubuntu-20.04
+      # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: ./*
+          key: ${{ github.sha }}
+      - name: Frozen lock
+        run: yarn install --frozen-lockfile # optional, --immutable
+      - name: Cypress install
+        run: ./node_modules/cypress/bin/cypress install
+      - name: Create env file
+        run: |
+          echo DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test  > .env
+          echo PROTOCOL_FRONTEND=http://localhost:3000  >> .env
+          echo CORS_ORIGIN=http://localhost:3000  >> .env
+          echo PROTOCOL_COOKIE_SECRET=asdfasjdfl >> .env
+          echo VITE_PROTOCOL_BASE_URL=http://localhost:4000 >> .env
+          echo VITE_PROTOCOL_URL=http://localhost:4000/graphql  >> .env
+          echo VITE_URL=http://localhost:3000 >> .env
+          echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
+          echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
+          echo VITE_LINEAR_REDIRECT_URI=http://lochost:4000/linear/oauth  >> .env
+          echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
+          echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
+      - name: Create Database
+        run: yarn nx run protocol-api:migrate
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        env:
+          DEBUG: 'cypress:server'
+        with:
+          start: yarn nx run protocol-api:serve
+          command: yarn nx run protocol-frontend-e2e:e2eTest
+          install: false
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: ./dist/cypress/apps/protocol-frontend-e2e/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: ./dist/cypress/apps/protocol-frontend-e2e/videos
