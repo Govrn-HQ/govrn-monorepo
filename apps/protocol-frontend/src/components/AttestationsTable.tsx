@@ -266,13 +266,7 @@ const AttestationsTable = ({
               }}
               scrollThreshold={0.8}
               hasMore={daoContributionPagination.hasMore}
-              loader={
-                <tr>
-                  <td colSpan={7}>
-                    <GovrnSpinner />
-                  </td>
-                </tr>
-              }
+              loader={<GovrnSpinner />}
               endMessage={<TableEndMessage />}
             >
               <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
