@@ -44,12 +44,7 @@ type AttestationTableType = {
   attestations?: {
     id: number;
   }[];
-  guilds?: {
-    guild: {
-      name?: string | null;
-      guild_id?: number;
-    };
-  }[];
+  guilds?: string;
   action?: ReactNode;
   name: string;
   onChainId?: number | null;
@@ -63,7 +58,7 @@ const contributionToTableTypeMapper = (
     date_of_submission: c.date_of_submission,
     date_of_engagement: c.date_of_submission,
     attestations: c.attestations,
-    guilds: c.guilds.map((guildObj: any) => guildObj.guild.name)[0] ?? '---',
+    guilds: c.guilds[0]?.guild?.name ?? '---',
     status: c.status.name,
     action: '',
     name: c.name,
