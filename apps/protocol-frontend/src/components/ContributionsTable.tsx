@@ -32,7 +32,7 @@ import {
 import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { ModalWrapper } from '@govrn/protocol-ui';
+import ModalWrapper from './ModalWrapper';
 import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
