@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress';
+import queryDB from './src/support/db';
 
 module.exports = defineConfig({
   fileServerFolder: '.',
@@ -11,9 +12,15 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   e2e: {
     setupNodeEvents(on, config) {
-      return;
+      on('task',{
+        queryDatabase: query => {
+          return queryDB(query)
+        },
+  
+      })
     },
     specPattern: './src/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: './src/support/index.ts',
-  },
+  }
+
 });

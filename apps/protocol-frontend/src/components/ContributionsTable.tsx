@@ -248,6 +248,7 @@ const ContributionsTable = ({
                     row.original.user.id !== userData?.id ||
                     row.original.status.name === 'minted'
                   }
+                  data-testid="editContribution-test"
                   onClick={() =>
                     handleEditContributionFormModal(row.original.id)
                   }

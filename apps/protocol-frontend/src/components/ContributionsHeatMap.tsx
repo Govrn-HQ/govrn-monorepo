@@ -39,13 +39,14 @@ const ContributionsHeatMap = ({
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
-      {contributionsCountMap.length !== 0 && (
-        <Flex
-          direction="column"
-          height={{ base: '5rem', lg: '10rem' }}
-          width="100%"
-          maxWidth="100vw"
-        >
+      <Flex
+        direction="column"
+        minHeight={{ base: '5rem', lg: '10rem' }}
+        height={{ base: '5rem', lg: '10rem' }}
+        width="100%"
+        maxWidth="100vw"
+      >
+        {contributionsCountMap.length !== 0 && (
           <ResponsiveTimeRange
             data={contributionsCountMap}
             from={
@@ -74,30 +75,28 @@ const ContributionsHeatMap = ({
             dayBorderWidth={2}
             dayBorderColor="#ffffff"
           />
-        </Flex>
-      )}
-      {contributionsCountMap.length !== 0 && (
-        <Flex
-          direction="row"
-          alignItems="center"
-          justifyContent={{ base: 'flex-start', lg: 'center' }}
-        >
-          <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
-            Less
-          </Text>
-          {brandColorMap.map(color => (
-            <Box
-              key={color}
-              backgroundColor={color}
-              width="15.36px"
-              height="15.36px"
-            />
-          ))}
-          <Text as="span" fontSize="sm" fontWeight="normal" paddingLeft={1}>
-            More
-          </Text>
-        </Flex>
-      )}
+        )}
+      </Flex>
+      <Flex
+        direction="row"
+        alignItems="center"
+        justifyContent={{ base: 'flex-start', lg: 'center' }}
+      >
+        <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
+          Less
+        </Text>
+        {brandColorMap.map(color => (
+          <Box
+            key={color}
+            backgroundColor={color}
+            width="15.36px"
+            height="15.36px"
+          />
+        ))}
+        <Text as="span" fontSize="sm" fontWeight="normal" paddingLeft={1}>
+          More
+        </Text>
+      </Flex>
     </Flex>
   );
 };
