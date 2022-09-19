@@ -314,13 +314,7 @@ const ContributionsTable = ({
           }}
           scrollThreshold={0.8}
           hasMore={pagination.hasMore}
-          loader={
-            <tr>
-              <td colSpan={7}>
-                <GovrnSpinner />
-              </td>
-            </tr>
-          }
+          loader={<GovrnSpinner />}
           endMessage={<TableEndMessage />}
         >
           <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
