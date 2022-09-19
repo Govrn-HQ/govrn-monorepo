@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { buildSchemaSync } from 'type-graphql';
 import express from 'express';
-import Session from 'cookie-session';
+import Session from 'express-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
 import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
@@ -392,7 +392,6 @@ app.post('/verify', async function (req, res) {
   }
 });
 
-// TODO: switch so session expiration is managed on the server
 app.get('/siwe/active', async function (req, res) {
   const fields = req.session.siwe;
   if (!fields?.data) {
@@ -407,7 +406,9 @@ app.get('/siwe/active', async function (req, res) {
 });
 
 app.post('/logout', async function (req, res) {
-  req.session = null;
+  req.session.destroy(() => {
+    console.log('Destroyed cookie');
+  });
   res.status(200).end();
 });
 

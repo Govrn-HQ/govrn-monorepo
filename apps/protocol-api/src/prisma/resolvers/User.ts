@@ -123,6 +123,9 @@ export class UserCustomResolver {
     @TypeGraphQL.Args() args: ListUserArgs,
   ) {
     const address = req.session.siwe.data.address;
+    if (address !== args.address) {
+      throw new Error('Signature address does not equal requested address');
+    }
     return await prisma.user.findMany({
       where: { address: { equals: address } },
     });

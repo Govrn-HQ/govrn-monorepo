@@ -100,7 +100,6 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     if (noRedirect) {
       return true;
     }
-    console.log(existing);
     if (!existing) {
       await authenticateAddress();
     }
