@@ -170,8 +170,9 @@ export const ContributionsContextProvider: React.FC<
       return daoContributions;
     } catch (error) {
       console.error(error);
+    } finally {
+      setDaoContributionLoading(false);
     }
-    setDaoContributionLoading(false);
     return [];
   };
 
