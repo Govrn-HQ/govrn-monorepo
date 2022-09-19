@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, {
   createContext,
-  Provider,
   useCallback,
   useContext,
   useEffect,
@@ -21,8 +20,6 @@ import {
   UIUser,
   UIGuilds,
 } from '@govrn/ui-types';
-import type { Signer } from 'ethers';
-import { createSiweMessage } from '../utils/siwe';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
 import {
@@ -72,22 +69,32 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   );
   const [isUserLoading, setUserLoading] = useState(false);
 
-  const [userData, setUserData] = useState<UIUser>({} as UIUser);
+  const [userData, setUserData] = useState<UIUser | null>(null);
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
   );
   const [userContributions, setUserContributions] = useState<UIContribution[]>(
     [],
   );
+  const [isUserContributionsLoading, setUserContributionsLoading] =
+    useState(true);
+
   const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
     [],
   );
+  const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
+
   const [userAttestations, setUserAttestations] =
     useState<UIAttestations | null>(null);
+
   const [userActivityTypes, setUserActivityTypes] = useState<UIActivityType[]>(
     [],
   );
+  const [isUserActivityTypesLoading, setUserActivityTypesLoading] =
+    useState(true);
+
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
+  const [userDaos, setUserDaos] = useState<UIGuild[]>([]);
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
     useState<UserContributionsDateRangeCountType[]>([]);
 
@@ -103,7 +110,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         throw new Error('No address for user');
       }
       const userDataResponse = await govrn.user.get(userDataByAddress?.id);
-
       setUserData(userDataResponse);
       return userDataResponse;
     } catch (error) {
@@ -157,6 +163,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getUserContributions = async () => {
+    setUserContributionsLoading(true);
     try {
       if (!userData?.id) {
         throw new Error('getUserContributions has no userData.id');
@@ -178,10 +185,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return userContributionsResponse;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserContributionsLoading(false);
     }
   };
 
   const getDaoContributions = async () => {
+    setDaoContributionLoading(true);
     try {
       const daoContributionsResponse = await govrn.contribution.list({
         first: 1000,
@@ -197,14 +207,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       return daoContributionsResponse;
     } catch (error) {
       console.error(error);
+    } finally {
+      setDaoContributionLoading(false);
     }
   };
 
   const getUserContributionsCount = async (
     startDate: Date | string,
     endDate: Date | string,
-    // guildIds: number[] | undefined,
     guildIds?: number[] | null | undefined,
+    excludeUnassigned?: boolean[] | undefined,
   ) => {
     try {
       if (!userData?.id) {
@@ -216,6 +228,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           startDate: startDate,
           endDate: endDate,
           guildIds: guildIds,
+          excludeUnassigned: excludeUnassigned,
         });
       setUserContributionsDateRangeCount(getUserContributionsCountResponse);
       return getUserContributionsCountResponse;
@@ -227,7 +240,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const getUserAttestations = async () => {
     try {
       if (!userData?.id) {
-        throw new Error('getUserActivityTypes has no userData.id');
+        throw new Error('getUserAttestations has no userData.id');
       }
       const userAttestationsResponse = await govrn.attestation.list({
         where: {
@@ -243,25 +256,22 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   };
 
   const getUserActivityTypes = async () => {
+    setUserActivityTypesLoading(true);
     try {
       if (!userData?.id) {
         throw new Error('getUserActivityTypes has no userData.id');
       }
-      const userActivityTypesResponse = await govrn.activity_type.list({
-        where: {
-          users: {
-            every: {
-              user_id: { equals: userData?.id },
-            },
-          },
-        },
-        first: 1000,
-      });
-      setUserActivityTypes(userActivityTypesResponse);
+      const activityTypesByUser = await govrn.custom.listActivityTypesByUser(
+        {},
+      );
 
-      return userActivityTypesResponse;
+      setUserActivityTypes(activityTypesByUser);
+
+      return activityTypesByUser;
     } catch (error) {
       console.error(error);
+    } finally {
+      setUserActivityTypesLoading(false);
     }
   };
 
@@ -270,6 +280,31 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       const allDaosResponse = await govrn.guild.list({ first: 100 });
       setAllDaos(allDaosResponse);
       return allDaosResponse;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+
+  const getUserDaos = async () => {
+    try {
+      if (!userData?.id) {
+        throw new Error('getUserDaos has no userData.id');
+      }
+      const userDaosResponse = await govrn.guild.list({
+        first: 100,
+        where: {
+          users: {
+            some: {
+              user_id: {
+                equals: userData?.id,
+              },
+            },
+          },
+        },
+      });
+      setUserDaos(userDaosResponse);
+      return userDaosResponse;
     } catch (error) {
       console.error(error);
       return [];
@@ -347,44 +382,41 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
+  const [isCreatingContribution, setCreatingContribution] = useState(false);
+
   const createContribution = async (
     values: ContributionFormValues,
-    reset: UseFormReset<FieldValues>,
-    navigate: NavigateFunction,
-  ) => {
+  ): Promise<boolean> => {
+    setCreatingContribution(true);
+
     try {
-      await govrn.custom.createUserContribution({
-        address: userData.address,
-        chainName: 'ethereum',
-        userId: userData.id,
-        name: values.name || '',
-        details: values.details || '',
-        proof: values.proof || '',
-        activityTypeName: values.activityType || '',
-        dateOfEngagement: new Date(values.engagementDate || '').toISOString(),
-        status: 'staging',
-        guildId: Number(values.daoId) || undefined,
-      });
-      toast({
-        title: 'Contribution Report Added',
-        description:
-          'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      await getUserActivityTypes();
-      await getUserContributions();
-      await getDaoContributions();
-      reset({
-        name: '',
-        details: '',
-        proof: '',
-        activityType: values.activityType,
-        date_of_engagement: values.engagementDate,
-      });
-      navigate('/contributions');
+      if (userData) {
+        await govrn.custom.createUserContribution({
+          address: userData?.address ?? '',
+          chainName: 'ethereum',
+          userId: userData?.id ?? -1,
+          name: values.name || '',
+          details: values.details || '',
+          proof: values.proof || '',
+          activityTypeName: values.activityType || '',
+          dateOfEngagement: new Date(values.engagementDate || '').toISOString(),
+          status: 'staging',
+          guildId: Number(values.daoId) || undefined,
+        });
+        toast({
+          title: 'Contribution Report Added',
+          description:
+            'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+        await getUserActivityTypes();
+        await getUserContributions();
+        await getDaoContributions();
+        return true;
+      }
     } catch (error) {
       console.log(error);
       toast({
@@ -395,7 +427,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         isClosable: true,
         position: 'top-right',
       });
+    } finally {
+      setCreatingContribution(false);
     }
+    return false;
   };
 
   const mintContribution = async (
@@ -404,7 +439,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     setMintProgress: Dispatch<SetStateAction<number>>,
   ) => {
     try {
-      if (signer && chain?.id) {
+      if (signer && chain?.id && userData) {
         await govrn.contribution.mint(
           {
             address: networks[chain?.id].govrnContract,
@@ -494,7 +529,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       if (!contribution?.onChainId) {
         throw new Error('No onChainId for contribution');
       }
-      if (signer && chain?.id) {
+      if (signer && chain?.id && userData) {
         await govrn.contribution.attest(
           {
             address: networks[chain?.id].govrnContract,
@@ -535,22 +570,24 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const createAttestation = async (contribution: UIContribution) => {
     try {
-      await govrn.custom.createUserAttestation({
-        address: userData.address,
-        chainName: 'ethereum',
-        userId: userData.id,
-        confidenceName: '0',
-        contributionId: contribution.id,
-      });
-      toast({
-        title: 'Attestation Successfully Added',
-        description: 'Your Attestation has been added.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-      await getDaoContributions();
+      if (userData) {
+        await govrn.custom.createUserAttestation({
+          address: userData.address,
+          chainName: 'ethereum',
+          userId: userData.id,
+          confidenceName: '0',
+          contributionId: contribution.id,
+        });
+        toast({
+          title: 'Attestation Successfully Added',
+          description: 'Your Attestation has been added.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+        await getDaoContributions();
+      }
     } catch (error) {
       console.log(error);
       toast({
@@ -566,7 +603,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const updateContribution = async (
     contribution: UIContribution,
-
     values: ContributionFormValues,
     bulkItemCount?: number,
   ) => {
@@ -594,7 +630,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
           values.engagementDate ?? contribution.date_of_engagement,
         ).toISOString(),
         status: 'staging',
-        guildId: Number(values.daoId),
+        guildId: values.daoId === null ? null : Number(values.daoId),
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
@@ -706,11 +742,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   useEffect(() => {
     if (userData !== null && isAuthenticated) {
       getUserContributions();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (userData !== null && isAuthenticated) {
       getDaoContributions();
     }
   }, [userData, isAuthenticated]);
@@ -718,18 +749,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   useEffect(() => {
     if (isAuthenticated) {
       getUserActivityTypes();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
       getUserAttestations();
-    }
-  }, [userData, isAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
       getAllDaos();
+      getUserDaos();
     }
   }, [userData, isAuthenticated]);
 
@@ -744,10 +766,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         daoContributions,
         disconnectLinear,
+        isCreatingContribution,
+        isDaoContributionLoading,
+        isUserActivityTypesLoading,
+        isUserContributionsLoading,
         isUserLoading,
         getAllDaos,
         getContribution,
         getUserContributionsCount,
+        getUserDaos,
         mintAttestation,
         mintContribution,
         setAllDaos,
@@ -757,6 +784,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserAddress,
         setUserAttestations,
         setUserContributionsDateRangeCount,
+        setUserDaos,
         setUserData,
         setUserDataByAddress,
         updateContribution,
@@ -767,6 +795,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userAttestations,
         userContributions,
         userContributionsDateRangeCount,
+        userDaos,
         userData,
         userDataByAddress,
       }}
@@ -780,12 +809,7 @@ type UserContextType = {
   allDaos: UIGuild[];
   contribution: UIContribution;
   createAttestation: (arg0: UIContribution) => void;
-
-  createContribution: (
-    arg0: ContributionFormValues,
-    arg1: UseFormReset<FieldValues>,
-    arg2: NavigateFunction,
-  ) => void;
+  createContribution: (arg0: ContributionFormValues) => Promise<boolean>;
   createUser: (values: CreateUserFormValues, address: string) => void;
   createWaitlistUser: (
     values: CreateUserFormValues,
@@ -803,8 +827,14 @@ type UserContextType = {
     startDate: string | Date,
     endDate: string | Date,
     guildIds?: number[] | null | undefined,
+    excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
+  getUserDaos: () => Promise<UIGuilds>;
   getContribution: (id: number) => Promise<UIContribution | null>;
+  isCreatingContribution: boolean;
+  isDaoContributionLoading: boolean;
+  isUserActivityTypesLoading: boolean;
+  isUserContributionsLoading: boolean;
   isUserLoading: boolean;
   mintAttestation: (
     contribution: MintContributionType['original'],
@@ -825,6 +855,7 @@ type UserContextType = {
   setUserAttestations: (arg0: UIAttestations) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
+  setUserDaos: (data: UIGuild[]) => void;
   updateContribution: (
     contribution: UIContribution,
     values: ContributionFormValues,
@@ -837,6 +868,7 @@ type UserContextType = {
   userAttestations: UIAttestations | null;
   userContributions: UIContribution[];
   userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
+  userDaos: UIGuild[];
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };

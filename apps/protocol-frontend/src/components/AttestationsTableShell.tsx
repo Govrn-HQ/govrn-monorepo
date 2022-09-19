@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import * as _ from 'lodash';
 import {
   Box,
   Button,
@@ -16,13 +17,12 @@ import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
-import { ModalWrapper } from '@govrn/protocol-ui';
+import ModalWrapper from './ModalWrapper';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 import BulkAttestationModal from './BulkAttestationModal';
-import { MintAttestationType } from '../types/mint';
-import { UIContribution } from '@govrn/ui-types';
 
 const AttestationsTableShell = () => {
-  const { daoContributions } = useUser();
+  const { isDaoContributionLoading, daoContributions } = useUser();
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any[]>([]);
@@ -40,7 +40,9 @@ const AttestationsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Attestations</PageHeading>
-        {daoContributions && daoContributions.length > 0 ? (
+        {isDaoContributionLoading ? (
+          <GovrnSpinner />
+        ) : daoContributions && daoContributions.length > 0 ? (
           <Tabs
             variant="soft-rounded"
             colorScheme="gray"
@@ -70,8 +72,8 @@ const AttestationsTableShell = () => {
                             DAO Contributions
                           </Text>
                           <Text fontSize="md" fontWeight="normal">
-                            These are Contributions that you haven't already
-                            Attested to.
+                            These are minted Contributions that you haven't
+                            already Attested to.
                           </Text>
                         </Stack>
                         <Button
@@ -92,24 +94,6 @@ const AttestationsTableShell = () => {
                       contributionsData={daoContributions}
                       setSelectedContributions={setSelectedContributions}
                     />
-                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
-                <HStack spacing="3" justify="space-between">
-                  {!isMobile && (
-                    <Text color="muted" fontSize="sm">
-                      Showing 1 to (x) of (y) results
-                    </Text>
-                  )}
-                  <ButtonGroup
-                    spacing="3"
-                    justifyContent="space-between"
-                    width={{ base: 'full', md: 'auto' }}
-                    variant="secondary"
-                  >
-                    <Button>Previous</Button>
-                    <Button>Next</Button>
-                  </ButtonGroup>
-                </HStack>
-              </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>

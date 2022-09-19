@@ -207,6 +207,9 @@ export class GetContributionCountForUser {
 
   @TypeGraphQL.Field(_type => [Number], { nullable: true })
   guildIds?: number[];
+
+  @TypeGraphQL.Field(_type => [Boolean], { nullable: true })
+  excludeUnassigned?: boolean;
 }
 
 @TypeGraphQL.ArgsType()
@@ -230,10 +233,8 @@ export class ContributionCountByDate {
   })
   guild_id?: number;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true,
-  })
-  name?: string;
+  @TypeGraphQL.Field(_type => String)
+  name: string;
 }
 
 @TypeGraphQL.Resolver(_of => Contribution)
@@ -332,6 +333,7 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Args() args: UpdateUserContributionArgs,
   ) {
     const address = req.session.siwe.data.address;
+
     const res = await prisma.contribution.updateMany({
       data: {
         name: {
@@ -532,36 +534,30 @@ export class ContributionCustomResolver {
     const start = args.where.startDate;
     const end = args.where.endDate;
 
-    // guild_id is only present on the guild contribution table
-    // need to run a join between contribution + guild contribution if guild_id
-    // is supplied
-    console.log(args.where);
+    let guildWhere = Prisma.sql`gc."guild_id" is NULL`;
     const guildIds = args.where?.guildIds;
-
-    if (!guildIds || guildIds.length === 0) {
-      const result = await prisma.$queryRaw<ContributionCountByDate>`
-        SELECT date(date_of_engagement), count(date_of_engagement) as count
-        FROM "Contribution"
-        WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}
-        AND "Contribution"."user_id" = ${user_id})
-        GROUP BY date(date_of_engagement)
-        ORDER BY date(date_of_engagement);`;
-      return result;
+    if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
+      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
+        guildIds,
+      )}) OR gc."guild_id" is NULL)`;
+    } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
+      guildWhere = Prisma.sql`gc."guild_id" in (${Prisma.join(guildIds)})`;
     }
 
-    const result = await prisma.$queryRaw<ContributionCountByDate>`
-      SELECT gc.guild_id, g.name, date(date_of_engagement), count(date_of_engagement) as count
-      FROM "Contribution"
-      INNER JOIN "GuildContribution" as gc
-      ON "Contribution"."id" = gc."contribution_id"
-      INNER JOIN "Guild" as g
-      ON g."id" = gc."guild_id"
-      WHERE ("Contribution"."date_of_engagement" BETWEEN ${start} AND ${end}
-      AND "Contribution"."user_id" = ${user_id}
-      AND gc."guild_id" in (${Prisma.join(guildIds)}))
+    return await prisma.$queryRaw<ContributionCountByDate>`
+      SELECT gc.guild_id,
+             coalesce(g.name, 'Unassigned') as name,
+             date(date_of_engagement),
+             count(date_of_engagement)      as count
+      FROM "Contribution" c
+             LEFT JOIN "GuildContribution" as gc
+                       ON c."id" = gc."contribution_id"
+             LEFT JOIN "Guild" as g
+                       ON g."id" = gc."guild_id"
+      WHERE (c."date_of_engagement" BETWEEN ${start} AND ${end}
+        AND c."user_id" = ${user_id}
+        AND ${guildWhere})
       GROUP BY gc.guild_id, g.name, date(date_of_engagement)
       ORDER BY date(date_of_engagement);`;
-    console.log('contributioncountbydate', result);
-    return result;
   }
 }

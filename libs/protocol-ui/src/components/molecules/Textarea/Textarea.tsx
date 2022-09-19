@@ -59,6 +59,7 @@ const Textarea: React.FC<TextareaProps> = ({
             variant={variant}
             sx={styles}
             {...register(name)}
+            data-testid="textarea-test"
           />
           {errors && (
             <ErrorMessage

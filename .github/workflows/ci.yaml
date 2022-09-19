@@ -77,6 +77,7 @@ jobs:
           echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET}} >> .env
           echo VITE_LINEAR_REDIRECT_URI=https://api.govrn.app/linear/oauth  >> .env
           echo VITE_LINEAR_CLIENT_ID=9131c342273502268438468f08337b29 >> .env
+          echo VITE_INFURA_SUBDOMAIN=https://govrn.infura-ipfs.io >> .env
       - name: Build
         run: npx nx affected:build --configuration production --base $BASE
       - name: Docker Build

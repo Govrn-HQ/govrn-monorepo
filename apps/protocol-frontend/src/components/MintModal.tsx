@@ -15,8 +15,8 @@ import { storeIpfs } from '../libs/ipfs';
 import { useUser } from '../contexts/UserContext';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
-import { UIContribution } from '@govrn/ui-types';
 import { MintModalProps, MintContributionType } from '../types/mint';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { userData, mintContribution } = useUser();
@@ -60,7 +60,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
     );
     await Promise.all(unresolvedContributionsMinting);
 
-    if (isChecked === true) {
+    if (isChecked) {
       setAgreementChecked((prevState: { agreement: boolean }) => ({
         ...prevState,
         agreement: true,
@@ -125,13 +125,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           gap={4}
         >
           <Text>Confirm each mint transaction in your wallet.</Text>
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.100"
-            color="green.500"
-            size="xl"
-          />
+          <GovrnSpinner />
         </Flex>
       )}
       <Flex align="flex-end" marginTop={8}>
