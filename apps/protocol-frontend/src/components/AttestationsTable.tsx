@@ -30,7 +30,6 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
-import EmptyContributions from './EmptyContributions';
 
 type AttestationTableType = {
   id: number;
@@ -102,7 +101,7 @@ const AttestationsTable = ({
     } else {
       setDisplayedContributions(unattestedContributions);
     }
-  }, [showAllDaos]);
+  }, [showAllDaos, unattestedContributions, unattestedUserDaoContributions]);
 
   function AllDaosSwitch({
     isChecked,
@@ -238,7 +237,6 @@ const AttestationsTable = ({
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
-    <>
       {displayedContributions.length > 0 ? (
         <Stack>
           <Flex alignItems="center">
@@ -307,7 +305,6 @@ const AttestationsTable = ({
           </Text>
         </Box>
       )}
-    </>
   );
 };
 

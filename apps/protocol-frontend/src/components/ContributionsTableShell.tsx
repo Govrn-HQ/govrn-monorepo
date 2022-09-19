@@ -31,7 +31,6 @@ const ContributionsTableShell = () => {
   const [selectedContributions, setSelectedContributions] = useState<any>();
   const [selectedContributionsMap, setSelectedContributionsMap] =
     useState<any>();
-  const [selectedDAOs, setSelectedDAOs] = useState<any>();
 
   useEffect(() => {
     if (selectedContributions && selectedContributions.length > 0) {
@@ -44,7 +43,7 @@ const ContributionsTableShell = () => {
         ),
       );
     }
-  }, [selectedContributions]);
+  }, [selectedContributions, userContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });

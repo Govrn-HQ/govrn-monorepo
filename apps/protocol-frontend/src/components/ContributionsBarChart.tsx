@@ -1,8 +1,6 @@
 import React from 'react';
-import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveBar } from '@nivo/bar';
-import { GovrnTheme } from '@govrn/protocol-ui';
-import { subWeeks } from 'date-fns';
 import * as _ from 'lodash';
 
 type ContributionCount = {

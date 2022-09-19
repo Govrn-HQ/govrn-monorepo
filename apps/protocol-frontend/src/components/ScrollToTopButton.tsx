@@ -22,7 +22,6 @@ const ScrollToTopButton = () => {
   }, []);
 
   return (
-    <>
       {visible && (
         <Box
           position="fixed"
@@ -47,7 +46,6 @@ const ScrollToTopButton = () => {
           />
         </Box>
       )}
-    </>
   );
 };
 

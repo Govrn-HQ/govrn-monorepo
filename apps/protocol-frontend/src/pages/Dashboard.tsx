@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';

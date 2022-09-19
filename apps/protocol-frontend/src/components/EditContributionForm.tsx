@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import {
   CreatableSelect,

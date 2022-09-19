@@ -10,7 +10,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
-import { UIContribution } from '@govrn/ui-types';
 import { MdCheckCircle } from 'react-icons/all';
 import { MintContributionType } from '../types/mint';
 
@@ -29,10 +28,10 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
       if (contribution.status.name === 'minted') {
         mintAttestation(contribution.original);
       } else {
-        console.log(`contribution ${idx} is off chain`);
         createAttestation(contribution);
       }
       setAttesting(false);
+      return true;
     });
   };
 

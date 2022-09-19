@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Select } from '@govrn/protocol-ui';
 import { Stack, Button, Text, Progress } from '@chakra-ui/react';
-import { useForm, SubmitHandler, Resolver } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
@@ -32,12 +32,13 @@ const BulkDaoAttributeModal = ({
     setAttributing(true);
     contributions.map((contribution, idx) => {
       updateContribution(contribution, values, contributions.length);
+      return true;
     });
 
     setAttributing(false);
   };
 
-  const daoListOptions = allDaos.map((dao) => ({
+  const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
     label: dao.name,
   }));
@@ -70,7 +71,7 @@ const BulkDaoAttributeModal = ({
           label="DAO"
           tip="Please select a DAO to attribute to. This is optional."
           placeholder="Select a DAO to attribute to."
-          onChange={(dao) => {
+          onChange={dao => {
             setValue('daoId', dao.value);
           }}
           options={combinedDaoListOptions}

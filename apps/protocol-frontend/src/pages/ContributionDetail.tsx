@@ -58,7 +58,6 @@ const ContributionDetails = () => {
   return (
     <SiteLayout>
       {isConnected && isAuthenticated && contribution?.status ? (
-        <>
           {contribution !== undefined ? (
             <ContributionDetailShell contribution={contribution} />
           ) : (
@@ -115,7 +114,6 @@ const ContributionDetails = () => {
               </Flex>
             </Box>
           )}
-        </>
       ) : (
         <Container
           paddingY={{ base: '4', md: '8' }}

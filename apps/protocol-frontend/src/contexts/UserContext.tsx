@@ -8,7 +8,6 @@ import React, {
   useState,
 } from 'react';
 import { NavigateFunction } from 'react-router-dom';
-import { UseFormReset, FieldValues } from 'react-hook-form';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useAccount, useNetwork, useSigner } from 'wagmi';
@@ -29,7 +28,7 @@ import {
 } from '../types/forms';
 import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
-import { MintContributionType, MintAttestationType } from '../types/mint';
+import { MintContributionType } from '../types/mint';
 
 const protocolUrl = import.meta.env.VITE_PROTOCOL_URL;
 

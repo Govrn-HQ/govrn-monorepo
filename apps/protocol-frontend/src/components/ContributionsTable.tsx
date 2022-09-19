@@ -4,7 +4,6 @@ import {
   chakra,
   Link as ChakraLink,
   HStack,
-  Icon,
   IconButton,
   Stack,
   Table,
