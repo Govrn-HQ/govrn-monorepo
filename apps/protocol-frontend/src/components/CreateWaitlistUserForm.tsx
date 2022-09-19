@@ -97,6 +97,7 @@ const CreateWaitlistUserForm = () => {
           tip="What would you like your username to be?"
           placeholder="DAOContributor"
           localForm={localForm}
+          dataTestId="createWaitlistUserForm-username"
         />
         <Input
           name="email"
@@ -104,6 +105,7 @@ const CreateWaitlistUserForm = () => {
           tip="What is your preferred email address for us to contact you?"
           placeholder="daocontributor@dao.gg"
           localForm={localForm}
+          dataTestId="createWaitlistUserForm-email"
         />
         <Flex align="flex-end" marginTop={4}>
           <Button

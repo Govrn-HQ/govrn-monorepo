@@ -122,6 +122,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               tip="Please add the name of your Contribution."
               placeholder="Govrn Protocol Pull Request"
               localForm={localForm}
+              dataTestId="reportForm-name"
             />
             <CreatableSelect
               name="activityType"
@@ -147,6 +148,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               tip="Please add a URL to a proof of your contribution."
               placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
               localForm={localForm}
+              dataTestId="reportForm-proof"
             />
             <Select
               name="daoId"
