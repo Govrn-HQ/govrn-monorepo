@@ -37,6 +37,7 @@ const CreateUserForm = () => {
             tip="What would you like your username to be?"
             placeholder="DAOContributor"
             localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+            dataTestId="createUserForm-username"
           />
           <Flex align="flex-end" marginTop={4}>
             <Button
