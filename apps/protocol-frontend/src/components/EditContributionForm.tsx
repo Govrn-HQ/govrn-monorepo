@@ -101,6 +101,7 @@ const EditContributionForm = ({
             placeholder="DAOContributor"
             defaultValue={contribution?.name}
             localForm={localForm}
+            dataTestId="editContributionForm-name"
           />
           <CreatableSelect
             name="activityType"
@@ -131,6 +132,7 @@ const EditContributionForm = ({
             placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
             defaultValue={contribution?.proof ?? ''}
             localForm={localForm} //TODO: resolve this type issue -- need to investigate this
+            dataTestId="editContributionForm-proof"
           />
           <Select
             name="daoId"
