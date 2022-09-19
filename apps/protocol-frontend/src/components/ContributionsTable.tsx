@@ -307,48 +307,49 @@ const ContributionsTable = ({
         setGlobalFilter={setGlobalFilter}
       />
       <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-          <Thead backgroundColor="gray.50">
-            {headerGroups.map((headerGroup: any) => (
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column: any) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    isNumeric={column.isNumeric}
-                    borderColor="gray.100"
-                  >
-                    {column.render('Header')}
-                    <chakra.span paddingLeft="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <IoArrowDown aria-label="sorted-descending" />
-                        ) : (
-                          <IoArrowUp aria-label="sorted-ascending" />
-                        )
-                      ) : null}
-                    </chakra.span>
-                  </Th>
-                ))}
-                <Th borderColor="gray.100" />
-              </Tr>
-            ))}
-          </Thead>
-          <InfiniteScroll
-            dataLength={rows.length}
-            next={() => {
-              pagination.next();
-            }}
-            scrollThreshold={0.8}
-            hasMore={pagination.hasMore}
-            loader={
-              <tr>
-                <td colSpan={7}>
-                  <GovrnSpinner />
-                </td>
-              </tr>
-            }
-            endMessage={<TableEndMessage />}
-          >
+        <InfiniteScroll
+          dataLength={rows.length}
+          next={() => {
+            pagination.next();
+          }}
+          scrollThreshold={0.8}
+          hasMore={pagination.hasMore}
+          loader={
+            <tr>
+              <td colSpan={7}>
+                <GovrnSpinner />
+              </td>
+            </tr>
+          }
+          endMessage={<TableEndMessage />}
+        >
+          <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+            <Thead backgroundColor="gray.50">
+              {headerGroups.map((headerGroup: any) => (
+                <Tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column: any) => (
+                    <Th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      isNumeric={column.isNumeric}
+                      borderColor="gray.100"
+                    >
+                      {column.render('Header')}
+                      <chakra.span paddingLeft="4">
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <IoArrowDown aria-label="sorted-descending" />
+                          ) : (
+                            <IoArrowUp aria-label="sorted-ascending" />
+                          )
+                        ) : null}
+                      </chakra.span>
+                    </Th>
+                  ))}
+                  <Th borderColor="gray.100" />
+                </Tr>
+              ))}
+            </Thead>
+
             <Tbody {...getTableBodyProps()}>
               {rows.map(row => {
                 prepareRow(row);
@@ -363,8 +364,8 @@ const ContributionsTable = ({
                 );
               })}
             </Tbody>
-          </InfiniteScroll>
-        </Table>
+          </Table>
+        </InfiniteScroll>
         <ModalWrapper
           name="editContributionFormModal"
           title="Update Contribution Activity"
