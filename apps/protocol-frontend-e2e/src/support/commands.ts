@@ -38,4 +38,6 @@ Cypress.Commands.add('interceptGQL', (httpMethod, operationNames) => {
       }
     });
   }
+
 });
+
