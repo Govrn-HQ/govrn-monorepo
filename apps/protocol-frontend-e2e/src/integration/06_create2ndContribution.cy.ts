@@ -30,12 +30,12 @@ describe("Create Second Contribution", () => {
 
   it('Report your Second Contribution', () => {
     const contribution = this.contributions[2];
-
+    
     cy.get('[data-testid="floatingreportbtn-testid"]', {
       timeout: 10000,
     }).click();
-   
-    cy.get('input[data-testid="reportForm-name"]') //clarify
+    cy.wait(3000);
+    cy.get('input[data-testid="reportForm-name"]') 
       .type(contribution.name)
       .should('have.value', contribution.name);
     
