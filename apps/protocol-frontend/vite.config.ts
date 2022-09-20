@@ -28,6 +28,8 @@ export default defineConfig({
       stream: 'stream-browserify',
       zlib: 'browserify-zlib',
       util: 'util',
+      '@walletconnect/ethereum-provider':
+        '@walletconnect/ethereum-provider/dist/umd/index.min',
     },
   },
 });
