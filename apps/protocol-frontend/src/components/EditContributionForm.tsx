@@ -132,20 +132,18 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     ContributionFormValues
   > = async values => {
     if (selectedFile && fileError === null) {
-      if (selectedFile && fileError === null) {
-        try {
-          await uploadFileIpfs(selectedFile, false);
-        } catch (error) {
-          console.error(error);
-          toast({
-            title: 'Unable to Upload to IPFS',
-            description: `Something went wrong. Please try again: ${error}`,
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-          });
-        }
+      try {
+        await uploadFileIpfs(selectedFile, false);
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: 'Unable to Upload to IPFS',
+          description: `Something went wrong. Please try again: ${error}`,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
       }
     }
     updateContribution(contribution, values);
