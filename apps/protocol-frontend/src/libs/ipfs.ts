@@ -1,5 +1,12 @@
 import { create, CID } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
+import { CID as mfCID } from 'multiformats/cid';
+import * as json from 'multiformats/codecs/json';
+import { sha256 } from 'multiformats/hashes/sha2';
+import { base64 } from 'multiformats/bases/base64';
+const Hash = require('ipfs-only-hash');
+import * as hasher from 'multiformats/hashes/hasher';
+// import { Hash } from 'ipfs-http-client'
 
 export const getIPFSClient = () => {
   const auth =
@@ -20,22 +27,34 @@ export const getIPFSClient = () => {
   return ipfs;
 };
 
-export const uploadFileIpfs = async (
-  file: File
-) => {
+export const uploadFileIpfs = async (file: File) => {
   const ipfs = getIPFSClient();
+  const data = Buffer.from(await file.arrayBuffer());
+  const hash = await Hash.of(data);
+  console.log('hash', hash);
+
+  // const bytes = json.encode(data)
+
+  // const mfHash = await sha256.digest(data)
+  // const testCID = mfCID.create(1, json.code, mfHash)
+
+  const multihasher = await sha256.digest(data);
+  const testCID = CID.create(1, json.code, multihasher);
+  console.log('testCID', testCID.toString(base64.encoder));
+  const onlyHash = await ipfs.add(file, { onlyHash: true });
+  console.log('onlyHash', onlyHash);
   const cid = await ipfs.add(file);
-  console.log('cid', cid)
+  console.log('ipfs cid', cid.path);
   const resp = await ipfs.pin.add(cid.path);
   return `ipfs://${cid.path}`;
-}
+};
 
 export const storeIpfs = async (
   content:
     | {
-      name: string;
-      details: string;
-      proof: string;
+      name: string,
+      details: string,
+      proof: string,
     }
     | ArrayBuffer,
 ) => {
@@ -62,4 +81,3 @@ export const fetchIPFS = async (ipfsHash: string) => {
   const blob = await resp?.blob();
   return blob;
 };
-
