@@ -37,7 +37,7 @@ const Sidebar = () => {
       overflowX="auto"
       css={{
         // Firefox
-        'scrollbar-width': 'none',
+        scrollbarWidth: 'none',
         // Blink- and WebKit-based browsers
         '&::-webkit-scrollbar': {
           display: 'none',

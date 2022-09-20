@@ -164,6 +164,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             placeholder="DAOContributor"
             defaultValue={contribution?.name}
             localForm={localForm}
+            dataTestId="editContributionForm-name"
           />
           <CreatableSelect
             name="activityType"
@@ -193,6 +194,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             tip="Please add a URL to a proof of your Contribution or upload a file to IPFS (smaller than 5 MB)."
             placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
             localForm={localForm}
+            dataTestId="editContributionForm-proof"
           />
           <Flex
             alignItems="center"

@@ -110,7 +110,21 @@ const ContributionTypesTable = ({
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data }, useSortBy);
+    useTable(
+      {
+        columns,
+        data,
+        initialState: {
+          sortBy: columns.map(one => {
+            return {
+              desc: false,
+              id: 'activityType',
+            };
+          }),
+        },
+      },
+      useSortBy,
+    );
 
   return (
     <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
