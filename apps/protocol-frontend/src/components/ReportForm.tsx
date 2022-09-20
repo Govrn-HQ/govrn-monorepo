@@ -10,6 +10,7 @@ import {
   Button,
   Text,
   Switch,
+  useToast,
 } from '@chakra-ui/react';
 import {
   Input,
@@ -61,6 +62,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     allDaos,
   } = useUser();
 
+  const toast = useToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
@@ -145,7 +147,19 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     ContributionFormValues
   > = async values => {
     if (selectedFile && fileError === null) {
-      await uploadFileIpfs(selectedFile, false);
+      try {
+        await uploadFileIpfs(selectedFile, false);
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: 'Unable to Upload to IPFS',
+          description: `Something went wrong. Please try again: ${error}`,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
     }
     const result = await createContribution(values);
     if (result) {

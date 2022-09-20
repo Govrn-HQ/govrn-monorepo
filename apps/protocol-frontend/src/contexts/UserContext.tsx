@@ -8,7 +8,6 @@ import React, {
   useState,
 } from 'react';
 import { NavigateFunction } from 'react-router-dom';
-import { UseFormReset, FieldValues } from 'react-hook-form';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useAccount, useNetwork, useSigner } from 'wagmi';
