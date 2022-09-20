@@ -6,21 +6,25 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { WagmiConfig } from 'wagmi';
 import { ChakraProvider } from '@chakra-ui/react';
 import { GovrnTheme } from '@govrn/protocol-ui';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
 import { UserContextProvider } from './contexts/UserContext';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
-
 import '@rainbow-me/rainbowkit/styles.css';
+
+const queryClient = new QueryClient({});
 
 const App = () => (
   <WagmiConfig client={wagmiClient}>
     <RainbowKitProvider chains={chains}>
       <AuthContextProvider>
         <UserContextProvider>
-          <Routes />
+          <QueryClientProvider client={queryClient}>
+            <Routes />
+          </QueryClientProvider>
         </UserContextProvider>
       </AuthContextProvider>
     </RainbowKitProvider>

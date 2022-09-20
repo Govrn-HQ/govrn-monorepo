@@ -23,6 +23,7 @@ import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
+import { getActivityTypes } from '../hooks/activityTypes';
 
 const ContributionsTableShell = () => {
   const { isUserContributionsLoading, userContributions } = useUser();
@@ -54,6 +55,9 @@ const ContributionsTableShell = () => {
     setModals({ bulkDaoAttributeModal: true });
   };
 
+  const test = getActivityTypes();
+
+  console.log('activity types', test);
   return (
     <>
       <Container
