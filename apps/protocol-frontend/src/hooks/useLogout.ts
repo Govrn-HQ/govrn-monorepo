@@ -18,7 +18,7 @@ const useLogout = () => {
     } catch (err) {
       console.error(err);
       toast({
-        title: 'Failed to disconnect linear user',
+        title: 'Failed to logout user',
         description: `Something went wrong. Please try again: ${err}`,
         status: 'error',
         duration: 3000,

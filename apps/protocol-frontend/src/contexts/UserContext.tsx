@@ -727,9 +727,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  console.log(isAuthenticated);
   useEffect(() => {
-    console.log(isAuthenticated);
     if (address && isAuthenticated) {
       getUserByAddress();
     }
