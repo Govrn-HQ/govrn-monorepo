@@ -53,7 +53,7 @@ const ContributionDetails = () => {
       }
     };
     fetchContribution();
-  }, [id]);
+  }, [id, getContribution]);
 
   return (
     <SiteLayout>

@@ -23,7 +23,7 @@ import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
-import { HiOutlinePaperClip, HiCheck } from 'react-icons/hi';
+import { HiOutlinePaperClip } from 'react-icons/hi';
 
 function CreateMoreSwitch({
   isChecked,
@@ -65,7 +65,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const [, setIsUploading] = useState(false);
 
   const handleFileUploadButtonClick = () => {
     if (fileInputField.current !== null) {
@@ -87,7 +87,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         return;
       }
     }
-    if (file) {
+    if (file && fileError === null) {
       setIsUploading(true);
       setSelectedFile(file);
       const ipfsImageUri = await uploadFileIpfs(file, true);
@@ -144,9 +144,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
-    if (selectedFile) {
-      const ipfsImageUriResponse = await uploadFileIpfs(selectedFile, false);
-      console.log(ipfsImageUriResponse);
+    if (selectedFile && fileError === null) {
+      await uploadFileIpfs(selectedFile, false);
     }
     const result = await createContribution(values);
     if (result) {

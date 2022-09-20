@@ -15,17 +15,14 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
-import { HiOutlinePaperClip, HiCheck } from 'react-icons/hi';
+import { HiOutlinePaperClip } from 'react-icons/hi';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
   onClose?: () => void;
 }
 
-const EditContributionForm = ({
-  contribution,
-  onClose,
-}: EditContributionFormProps) => {
+const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   const { updateContribution, userActivityTypes, allDaos } = useUser();
   const localForm = useForm({
     mode: 'all',
@@ -35,20 +32,6 @@ const EditContributionForm = ({
   const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
     new Date(contribution?.date_of_engagement),
   );
-
-  useEffect(() => {
-    setValue('name', contribution?.name);
-    setValue('details', contribution?.details);
-    setValue('proof', contribution?.proof);
-    setValue('engagementDate', new Date(contribution?.date_of_engagement));
-    setValue('activityType', contribution?.activity_type.name);
-    setValue(
-      'daoId',
-      contribution?.guilds[0]?.guild.id
-        ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
-    );
-  }, [contribution]);
 
   const activityTypesList = [
     'Pull Request',
@@ -85,9 +68,26 @@ const EditContributionForm = ({
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
+  useEffect(() => {
+    setValue('name', contribution?.name);
+    setValue('details', contribution?.details);
+    setValue('proof', contribution?.proof);
+    setValue('engagementDate', new Date(contribution?.date_of_engagement));
+    setValue('activityType', contribution?.activity_type.name);
+    setValue(
+      'daoId',
+      contribution?.guilds[0]?.guild.id
+        ? contribution?.guilds[0]?.guild.id
+        : daoReset[0].value,
+    );
+  }, [contribution, daoReset, setValue]);
+
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
+    if (selectedFile && fileError === null) {
+      await uploadFileIpfs(selectedFile, false);
+    }
     updateContribution(contribution, values);
     reset();
   };
@@ -96,13 +96,14 @@ const EditContributionForm = ({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const [, setIsUploading] = useState(false);
 
   const handleFileUploadButtonClick = () => {
     if (fileInputField.current !== null) {
       fileInputField.current.click();
     }
   };
+
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -112,21 +113,20 @@ const EditContributionForm = ({
       setFileError(null);
       if (file.size > MAX_FILE_UPLOAD_SIZE) {
         setFileError(
-          'File size is too large. Please select something smaller than 5 MB.',
+          'File is too large. Please select something smaller than 5 MB.',
         );
         return;
       }
     }
-    setSelectedFile(file);
-  };
-
-  const handleIpfsUpload = async () => {
-    if (selectedFile) {
+    if (file && fileError === null) {
       setIsUploading(true);
-      const ipfsImageUri = await uploadFileIpfs(selectedFile);
-      setIsUploading(false);
-      setIpfsUri(ipfsImageUri);
-      setValue('proof', ipfsImageUri);
+      setSelectedFile(file);
+      const ipfsImageUri = await uploadFileIpfs(file, true);
+      if (ipfsImageUri) {
+        setIpfsUri(ipfsImageUri);
+        setValue('proof', ipfsImageUri);
+        setIsUploading(false);
+      }
     }
   };
 
@@ -205,20 +205,6 @@ const EditContributionForm = ({
               <Text fontSize="xs" color="red.500">
                 {fileError}
               </Text>
-            )}
-            {selectedFile !== null && fileError === null && (
-              <Button
-                isLoading={isUploading}
-                fontWeight="md"
-                size="sm"
-                leftIcon={<HiCheck />}
-                variant="outline"
-                colorScheme="green"
-                onClick={handleIpfsUpload}
-                disabled={fileError !== null}
-              >
-                Upload to IPFS
-              </Button>
             )}
           </Flex>
           <Select

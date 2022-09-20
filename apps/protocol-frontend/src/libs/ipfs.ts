@@ -19,8 +19,8 @@ export const getIPFSClient = () => {
   });
   return ipfs;
 };
-{ }
-export const uploadFileIpfs = async (file: File, onlyHash: boolean = true) => {
+
+export const uploadFileIpfs = async (file: File, onlyHash = true) => {
   const ipfs = getIPFSClient();
   if (onlyHash) {
     console.log('firing with only hash true')
