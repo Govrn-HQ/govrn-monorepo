@@ -23,16 +23,12 @@ export const getIPFSClient = () => {
 export const uploadFileIpfs = async (file: File, onlyHash = true) => {
   const ipfs = getIPFSClient();
   if (onlyHash) {
-    console.log('firing with only hash true')
     const onlyHashOutput = await ipfs.add(file, { onlyHash: true });
-    console.log('only hash output', onlyHashOutput)
     return `ipfs://${onlyHashOutput.path}`;
   }
   if (!onlyHash) {
     const cid = await ipfs.add(file, { onlyHash });
-    console.log('ipfs cid', cid.path);
     const resp = await ipfs.pin.add(cid.path);
-    console.log('ipfs pin  response', resp);
     return `ipfs://${cid.path}`;
   }
 };
