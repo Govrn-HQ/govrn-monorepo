@@ -72,6 +72,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       fileInputField.current.click();
     }
   };
+
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -81,21 +82,20 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       setFileError(null);
       if (file.size > MAX_FILE_UPLOAD_SIZE) {
         setFileError(
-          'File size is too large. Please select something smaller than 5 MB.',
+          'File is too large. Please select something smaller than 5 MB.',
         );
         return;
       }
     }
-    setSelectedFile(file);
-  };
-
-  const handleIpfsUpload = async () => {
-    if (selectedFile) {
+    if (file) {
       setIsUploading(true);
-      const ipfsImageUri = await uploadFileIpfs(selectedFile);
-      setIsUploading(false);
-      setIpfsUri(ipfsImageUri);
-      setValue('proof', ipfsImageUri);
+      setSelectedFile(file);
+      const ipfsImageUri = await uploadFileIpfs(file, true);
+      if (ipfsImageUri) {
+        setIpfsUri(ipfsImageUri);
+        setValue('proof', ipfsImageUri);
+        setIsUploading(false);
+      }
     }
   };
 
@@ -144,6 +144,10 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
+    if (selectedFile) {
+      const ipfsImageUriResponse = await uploadFileIpfs(selectedFile, false);
+      console.log(ipfsImageUriResponse);
+    }
     const result = await createContribution(values);
     if (result) {
       reset({
@@ -226,7 +230,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               />
               <Text fontSize="xs" color="gray.700">
                 {selectedFile === null
-                  ? 'Select a file to upload to IPFS'
+                  ? 'Select a file to upload to IPFS. Files uploaded to IPFS are publicly available.'
                   : selectedFile?.name}
               </Text>
             </Flex>
@@ -236,7 +240,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                   {fileError}
                 </Text>
               )}
-              {selectedFile !== null && fileError === null && (
+              {/* {selectedFile !== null && fileError === null && (
                 <Button
                   isLoading={isUploading}
                   fontWeight="md"
@@ -249,7 +253,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                 >
                   Upload to IPFS
                 </Button>
-              )}
+              )} */}
             </Flex>
             <Select
               name="daoId"
