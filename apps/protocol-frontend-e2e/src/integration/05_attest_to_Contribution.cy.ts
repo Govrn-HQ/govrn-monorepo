@@ -1,5 +1,11 @@
 /// <reference types="cypress" />
 
+const mintContributionOnDB = `
+  UPDATE "User"
+  SET status_id = 2
+  WHERE name = 'Test Automation'
+  RETURNING *;
+  `;
 beforeEach(() => {
   cy.fixture('testaccounts.json').then((accounts) => {
     this.accounts = accounts
@@ -10,35 +16,54 @@ beforeEach(() => {
       .should('be.visible')
       .click({ force: true });
     
-    // cy.get('input[data-testid="chakraInput-test"]', {timeout:15000}) =>select contribution checkbox
-    //   .eq(3)
     cy.get('input[title="Toggle Row Selected"]')
       .click()
     
-    cy.get('[data-testid="mint-btn-test"]') //click mint btn
+    cy.get('[data-testid="mint-btn-test"]') 
       .should('be.visible')
       .click();
     cy.get('[data-testid="checkbox-testid"]') //I understand
       .click()
-    //mint contribution
+    
     cy.get('[data-testid="mintContribution-test"]')
       .should('be.visible')
       .click();
+  
+    cy.task('queryDatabase', mintContributionOnDB).then(res => {
+      expect(res.rows[0].status_id).to.equal(2);
+    });
    
 });
 
 describe("Attestation flow", () => {
  
-  it("attest to a contribution", ()=>{
+  it("attest to a minted Contribution", ()=>{
+       
+    //test attesting a minted Contribution(More to be done)
+    cy.contains(`These are minted Contributions that you haven't already Attested to.`)
+      .should('be.visible')
 
-    // Start attestation flow here
-    // cy.contains("Attestations")
-    //   .should("be.visible")
-    //   .click()
+    cy.get('input[title="Toggle Row Selected"]')
+      .click()
 
-    // cy.contains("These are minted Contributions that you haven't already Attested to.")
-    //   .should("be.visible")
+    cy.get(' data-testId="attest-testId"')
+      .click()
 
+    cy.contains('Attest to DAO Contributions')
+      .should('be.visible')
+
+    cy.get(' data-testId="addAttestations-btn"')
+      .click()
+    
+    cy.contains('My Attestations')
+      .should('be.visible')
+      .click()
+
+    cy.contains(`These are Contributions that you have already Attested to.`)
+      .should('be.visible')
+
+    cy.contains('Test Automation')
+      .should('be.visible')
     
   });
  
