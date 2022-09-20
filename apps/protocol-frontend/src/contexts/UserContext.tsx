@@ -129,9 +129,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
       if (userDataByAddressResponse.length > 0) {
         setUserDataByAddress(userDataByAddressResponse[0]);
+        return userDataByAddressResponse[0];
       }
-
-      return userDataByAddress;
+      setUserDataByAddress(null);
+      return [];
     } catch (error) {
       console.error(error);
     } finally {
@@ -337,7 +338,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         navigate('/report');
       }
     } catch (error) {
-      console.log(error);
       toast({
         title: 'Unable to Create User',
         description: `Something went wrong. Please try again: ${error}`,
@@ -731,7 +731,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     if (address && isAuthenticated) {
       getUserByAddress();
     }
-  }, [address, isAuthenticated]);
+  }, [address, isAuthenticated, getUserByAddress]);
 
   useEffect(() => {
     if (userDataByAddress && isAuthenticated) {
