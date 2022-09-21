@@ -10,10 +10,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
-import { UserContextProvider } from './contexts/UserContext';
+import { ContributionsContextProvider } from './contexts/ContributionContext';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 import '@rainbow-me/rainbowkit/styles.css';
+import { UserContextProvider } from './contexts/UserContext';
 
 const queryClient = new QueryClient({});
 
@@ -22,9 +23,11 @@ const App = () => (
     <RainbowKitProvider chains={chains}>
       <AuthContextProvider>
         <UserContextProvider>
-          <QueryClientProvider client={queryClient}>
-            <Routes />
-          </QueryClientProvider>
+          <ContributionsContextProvider>
+            <QueryClientProvider client={queryClient}>
+              <Routes />
+            </QueryClientProvider>
+          </ContributionsContextProvider>
         </UserContextProvider>
       </AuthContextProvider>
     </RainbowKitProvider>

@@ -13,6 +13,7 @@ import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
+import { useContributions } from '../contexts/ContributionContext';
 
 function CreateMoreSwitch({
   isChecked,
@@ -42,13 +43,8 @@ function CreateMoreSwitch({
 }
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
-  const {
-    isCreatingContribution,
-    isUserActivityTypesLoading,
-    userActivityTypes,
-    createContribution,
-    allDaos,
-  } = useUser();
+  const { allDaos, isUserActivityTypesLoading, userActivityTypes } = useUser();
+  const { isCreatingContribution, createContribution } = useContributions();
 
   const localForm = useForm({
     mode: 'all',
