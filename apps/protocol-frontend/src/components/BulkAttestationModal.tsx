@@ -10,17 +10,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
+import { UIContribution } from '@govrn/ui-types';
 import { MdCheckCircle } from 'react-icons/all';
 import { MintContributionType } from '../types/mint';
-import { useContributions } from '../contexts/ContributionContext';
 
 interface BulkAttestationModalProps {
   contributions: MintContributionType[];
 }
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
-  const { userData } = useUser();
-  const { createAttestation, mintAttestation } = useContributions();
+  const { userData, createAttestation, mintAttestation } = useUser();
   const [attesting, setAttesting] = useState(false);
   const [currentAttestation] = useState(1);
 

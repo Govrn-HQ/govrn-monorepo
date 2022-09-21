@@ -3,7 +3,6 @@ import { BaseClient } from './base';
 import {
   BulkCreateContributionMutationVariables,
   CreateContributionMutationVariables,
-  ListContributionsQuery,
   ListContributionsQueryVariables,
   UpdateContributionMutationVariables,
 } from '../protocol-types';
@@ -14,7 +13,6 @@ import {
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
 import { GraphQLClient } from 'graphql-request';
-import { paginate } from '../utils';
 
 export class Contribution extends BaseClient {
   status: ContributionStatus;
@@ -30,10 +28,8 @@ export class Contribution extends BaseClient {
   }
 
   public async list(args: ListContributionsQueryVariables) {
-    return paginate<ListContributionsQueryVariables, ListContributionsQuery>(
-      this.sdk.listContributions,
-      args,
-    );
+    const contributions = await this.sdk.listContributions(args);
+    return contributions.result;
   }
 
   public async create(args: CreateContributionMutationVariables) {

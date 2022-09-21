@@ -8,21 +8,18 @@ import { ControlledSelect } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
-import { useContributions } from '../contexts/ContributionContext';
 import { UNASSIGNED } from '../utils/constants';
 
 type UserContributionsDateRangeCountType = {
   count: number;
   date: string;
 };
-
 interface DashboardShellProps {
   user: UIUser | null;
 }
 
 const DashboardShell = ({ user }: DashboardShellProps) => {
-  const { allDaos, userDaos } = useUser();
-  const { getUserContributionsCount } = useContributions();
+  const { allDaos, userDaos, getUserContributionsCount } = useUser();
   const [contributionsCount, setContributionsCount] = useState<
     UserContributionsDateRangeCountType[] | null | undefined
   >([]);
