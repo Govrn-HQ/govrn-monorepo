@@ -4,6 +4,7 @@ import {
   chakra,
   Link as ChakraLink,
   HStack,
+  Icon,
   IconButton,
   Stack,
   Table,
@@ -39,10 +40,6 @@ import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
-import { useContributions } from '../contexts/ContributionContext';
-import { GovrnSpinner } from '@govrn/protocol-ui';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import TableEndMessage from './TableEndMessage';
 
 type ContributionTableType = {
   name: string;
@@ -82,7 +79,6 @@ const ContributionsTable = ({
   setSelectedContributions: (rows: Row<any>[]) => void;
 }) => {
   const { userData } = useUser();
-  const { userContributionPagination: pagination } = useContributions();
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
@@ -307,59 +303,47 @@ const ContributionsTable = ({
         setGlobalFilter={setGlobalFilter}
       />
       <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <InfiniteScroll
-          dataLength={rows.length}
-          next={() => {
-            pagination.next();
-          }}
-          scrollThreshold={0.8}
-          hasMore={pagination.hasMore}
-          loader={<GovrnSpinner />}
-          endMessage={<TableEndMessage />}
-        >
-          <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-            <Thead backgroundColor="gray.50">
-              {headerGroups.map((headerGroup: any) => (
-                <Tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column: any) => (
-                    <Th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      isNumeric={column.isNumeric}
-                      borderColor="gray.100"
-                    >
-                      {column.render('Header')}
-                      <chakra.span paddingLeft="4">
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <IoArrowDown aria-label="sorted-descending" />
-                          ) : (
-                            <IoArrowUp aria-label="sorted-ascending" />
-                          )
-                        ) : null}
-                      </chakra.span>
-                    </Th>
+        <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+          <Thead backgroundColor="gray.50">
+            {headerGroups.map((headerGroup: any) => (
+              <Tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column: any) => (
+                  <Th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    isNumeric={column.isNumeric}
+                    borderColor="gray.100"
+                  >
+                    {column.render('Header')}
+                    <chakra.span paddingLeft="4">
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <IoArrowDown aria-label="sorted-descending" />
+                        ) : (
+                          <IoArrowUp aria-label="sorted-ascending" />
+                        )
+                      ) : null}
+                    </chakra.span>
+                  </Th>
+                ))}
+                <Th borderColor="gray.100" />
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody {...getTableBodyProps()}>
+            {rows.map(row => {
+              prepareRow(row);
+              return (
+                <Tr {...row.getRowProps()}>
+                  {row.cells.map(cell => (
+                    <Td {...cell.getCellProps()} borderColor="gray.100">
+                      <>{cell.render('Cell')}</>
+                    </Td>
                   ))}
-                  <Th borderColor="gray.100" />
                 </Tr>
-              ))}
-            </Thead>
-
-            <Tbody {...getTableBodyProps()}>
-              {rows.map(row => {
-                prepareRow(row);
-                return (
-                  <Tr {...row.getRowProps()}>
-                    {row.cells.map(cell => (
-                      <Td {...cell.getCellProps()} borderColor="gray.100">
-                        <>{cell.render('Cell')}</>
-                      </Td>
-                    ))}
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
-        </InfiniteScroll>
+              );
+            })}
+          </Tbody>
+        </Table>
         <ModalWrapper
           name="editContributionFormModal"
           title="Update Contribution Activity"

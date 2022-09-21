@@ -13,7 +13,6 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
-import { useContributions } from '../contexts/ContributionContext';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -24,8 +23,7 @@ const EditContributionForm = ({
   contribution,
   onClose,
 }: EditContributionFormProps) => {
-  const { allDaos, userActivityTypes } = useUser();
-  const { updateContribution } = useContributions();
+  const { updateContribution, userActivityTypes, allDaos } = useUser();
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(editContributionFormValidation),

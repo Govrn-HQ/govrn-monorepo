@@ -11,7 +11,6 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useContributions } from '../contexts/ContributionContext';
 
 const DeleteContributionDialog = (props: {
   dialog: DialogProps;
@@ -22,7 +21,7 @@ const DeleteContributionDialog = (props: {
   const { onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const { deleteContribution } = useContributions();
+  const { deleteContribution } = useUser();
 
   const onDelete = async (onConfirm: boolean, contribution_id: number) => {
     if (onConfirm) {

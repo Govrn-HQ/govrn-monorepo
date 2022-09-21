@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  Alert,
-  AlertDescription,
-  Box,
-  Button,
   Container,
   Stack,
+  Text,
+  Box,
+  Button,
+  Tabs,
   Tab,
   TabList,
-  TabPanel,
   TabPanels,
-  Tabs,
-  Text,
+  TabPanel,
+  Alert,
+  AlertDescription,
 } from '@chakra-ui/react';
 import { useOverlay } from '../contexts/OverlayContext';
+import { useUser } from '../contexts/UserContext';
 import ModalWrapper from './ModalWrapper';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import MintModal from './MintModal';
@@ -22,15 +23,15 @@ import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
-import { useContributions } from '../contexts/ContributionContext';
 
 const ContributionsTableShell = () => {
-  const { isUserContributionsLoading, userContributions } = useContributions();
+  const { isUserContributionsLoading, userContributions } = useUser();
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any>();
   const [selectedContributionsMap, setSelectedContributionsMap] =
     useState<any>();
+  const [selectedDAOs, setSelectedDAOs] = useState<any>();
 
   useEffect(() => {
     if (selectedContributions && selectedContributions.length > 0) {
