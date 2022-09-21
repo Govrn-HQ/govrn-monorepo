@@ -1,7 +1,8 @@
+console.log('Starting -1');
 import 'reflect-metadata';
 import { buildSchemaSync } from 'type-graphql';
 import express from 'express';
-import Session from 'cookie-session';
+import Session from 'express-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
 import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
@@ -15,6 +16,7 @@ import fetch from 'cross-fetch';
 
 import cors = require('cors');
 
+console.log('Starting');
 const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
@@ -364,13 +366,12 @@ app.post('/verify', async function (req, res) {
     }
     const message = new SiweMessage(req.body.message);
     const fields = await message.validate(req.body.signature);
-    console.log(req.session);
     if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
     }
     req.session.siwe = fields;
-    // req.session.cookie.expires = new Date(fields.data.expirationTime);
+    req.session.cookie.expires = new Date(fields.data.expirationTime);
     res.status(200).end();
   } catch (e) {
     req.session.siwe = null;
@@ -393,22 +394,23 @@ app.post('/verify', async function (req, res) {
   }
 });
 
-// TODO: switch so session expiration is managed on the server
 app.get('/siwe/active', async function (req, res) {
   const fields = req.session.siwe;
   if (!fields?.data) {
     res.status(422).json({ message: 'No existing session cookie' });
-    return;
-  }
-  if (fields.data.nonce !== req.session.nonce) {
+  } else if (fields?.data?.nonce !== req.session.nonce) {
     res.status(422).json({ message: 'Invalid nonce' });
-    return;
-  }
-  if (new Date(fields.data.expirationTime) <= new Date()) {
+  } else if (new Date(fields?.data?.expirationTime) <= new Date()) {
     res.status(440).json({ message: 'Token has expired' });
-    return;
   }
 
+  res.end();
+});
+
+app.post('/logout', async function (req, res) {
+  req.session.destroy(() => {
+    console.log('Destroyed cookie');
+  });
   res.status(200).end();
 });
 
