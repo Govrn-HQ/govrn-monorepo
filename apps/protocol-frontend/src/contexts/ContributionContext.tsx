@@ -14,7 +14,7 @@ import { UserContext } from './UserContext';
 import { Pagination } from './utils';
 import { PROTOCOL_URL } from '../utils/constants';
 
-const ITEMS_PER_PAGE = 100;
+const ITEMS_PER_PAGE = 20;
 
 export const ContributionContext = createContext<ContributionContextType>(
   {} as ContributionContextType,
