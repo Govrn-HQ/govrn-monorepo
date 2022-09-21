@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
 const mintContributionOnDB = `
-  UPDATE "User"
+  UPDATE "Contribution"
   SET status_id = 2
-  WHERE name = 'Test Automation'
+  WHERE proof = 'https://github.com/Govrn-HQ/airtable_migration.'
   RETURNING *;
   `;
 beforeEach(() => {
@@ -27,11 +27,19 @@ beforeEach(() => {
     
     cy.get('[data-testid="mintContribution-test"]')
       .should('be.visible')
-      .click();
+      //.click();
   
     cy.task('queryDatabase', mintContributionOnDB).then(res => {
       expect(res.rows[0].status_id).to.equal(2);
+    
+    cy.get(`.chakra-modal__close-btn`) 
+      .click({force: true})
+
+    cy.visit('http://localhost:3000/#/contributions')
     });
+
+    cy.contains('Attestations')
+      .click({force:true})
    
 });
 
@@ -46,24 +54,24 @@ describe("Attestation flow", () => {
     cy.get('input[title="Toggle Row Selected"]')
       .click()
 
-    cy.get(' data-testId="attest-testId"')
+    cy.get('[data-testId="attest-testId"]')
       .click()
 
     cy.contains('Attest to DAO Contributions')
       .should('be.visible')
 
-    cy.get(' data-testId="addAttestations-btn"')
+    cy.get('[data-testId="addAttestations-btn"]')
       .click()
-    
+    cy.wait(3000)
+    cy.get(`.chakra-modal__close-btn`) 
+      .click({force: true})
+    cy.wait(3000)
     cy.contains('My Attestations')
-      .should('be.visible')
       .click()
 
     cy.contains(`These are Contributions that you have already Attested to.`)
       .should('be.visible')
 
-    cy.contains('Test Automation')
-      .should('be.visible')
     
   });
  
