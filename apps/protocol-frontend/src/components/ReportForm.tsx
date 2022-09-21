@@ -25,6 +25,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
+import { useContributions } from '../contexts/ContributionContext';
 
 function CreateMoreSwitch({
   isChecked,
@@ -54,13 +55,8 @@ function CreateMoreSwitch({
 }
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
-  const {
-    isCreatingContribution,
-    isUserActivityTypesLoading,
-    userActivityTypes,
-    createContribution,
-    allDaos,
-  } = useUser();
+  const { allDaos, isUserActivityTypesLoading, userActivityTypes } = useUser();
+  const { isCreatingContribution, createContribution } = useContributions();
 
   const toast = useToast();
   const [, setIpfsUri] = useState('');

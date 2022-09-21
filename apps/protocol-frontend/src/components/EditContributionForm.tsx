@@ -22,6 +22,7 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
+import { useContributions } from '../contexts/ContributionContext';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 
 interface EditContributionFormProps {
@@ -29,8 +30,12 @@ interface EditContributionFormProps {
   onClose?: () => void;
 }
 
-const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
-  const { updateContribution, userActivityTypes, allDaos } = useUser();
+const EditContributionForm = ({
+  contribution,
+  onClose,
+}: EditContributionFormProps) => {
+  const { allDaos, userActivityTypes } = useUser();
+  const { updateContribution } = useContributions();
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(editContributionFormValidation),
