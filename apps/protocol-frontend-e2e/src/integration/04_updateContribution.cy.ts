@@ -19,7 +19,7 @@ describe('Edit first Contribution', () => {
   it('Update/Edit Contribution', () => {
     const contribution = this.contributions[1];
 
-    cy.get('[data-testid="editContribution-test"]', { timeout: 10000 }).click();
+    cy.get('[data-testid="editContribution-test"]', { timeout: 10000 }).click();  //can't find this element
 
     cy.get('input[data-testid="editContributionForm-name"]')
       .clear()

@@ -34,7 +34,7 @@ describe('Join Waitlist', () => {
       .should('be.visible')
       .click({ force: true });
 
-    cy.get('input[data-testid="createWaitlistUserForm-username"]', {
+    cy.get('input[data-testid="createWaitlistUserForm-username"]', {  //DOM issue here
       timeout: 20000,
     })
       .should('be.enabled')

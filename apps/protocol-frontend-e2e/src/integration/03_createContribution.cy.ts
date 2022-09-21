@@ -34,7 +34,7 @@ describe('Create First Contribution', () => {
       timeout: 10000,
     }).click();
 
-    cy.get('input[data-testid="reportForm-name"]')
+    cy.get('input[data-testid="reportForm-name"]')  // issue (detached from DOM). This DOM element likely became detached somewhere between the previous and current command.
       .type(contribution.name)
       .should('have.value', contribution.name);
 
