@@ -17,9 +17,11 @@ import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps, MintContributionType } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import { useContributions } from '../contexts/ContributionContext';
 
 const MintModal = ({ contributions }: MintModalProps) => {
-  const { userData, mintContribution } = useUser();
+  const { userData } = useUser();
+  const { mintContribution } = useContributions();
   const [isChecked, setIsChecked] = useState(false);
   const [freshAgreementMint, setFreshAgreementMint] = useState(true);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
