@@ -23,7 +23,7 @@ import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
-import { getActivityTypes } from '../hooks/activityTypes';
+import { getActivityTypes } from '../hooks/useActivityTypes';
 
 const ContributionsTableShell = () => {
   const { isUserContributionsLoading, userContributions } = useUser();
