@@ -22,7 +22,7 @@ Cypress.Commands.add('login', (address, privateKey) => {
         'be.visible',
       );
     } else if (text === 'Connect Wallet') {
-      cy.get('[data-cy=connect-wallet]', { timeout: 10000 }).click();
+      cy.get('[data-cy=connect-wallet]', { timeout: 10000 }).should('be.visible').click();
       cy.contains('MetaMask').click();
     }
   });
