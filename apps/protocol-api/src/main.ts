@@ -1,4 +1,3 @@
-console.log('Starting -1');
 import 'reflect-metadata';
 import { buildSchemaSync } from 'type-graphql';
 import express from 'express';
@@ -16,7 +15,6 @@ import fetch from 'cross-fetch';
 
 import cors = require('cors');
 
-console.log('Starting');
 const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
