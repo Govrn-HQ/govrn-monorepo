@@ -13373,6 +13373,7 @@ export type UserOnChainContributionCreateInput = {
   onChainId: Scalars['Float'];
   proof: Scalars['String'];
   status: Scalars['String'];
+  txHash: Scalars['String'];
   userId: Scalars['Float'];
 };
 
