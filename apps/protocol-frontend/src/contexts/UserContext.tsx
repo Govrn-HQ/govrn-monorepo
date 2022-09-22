@@ -310,7 +310,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       getUserActivityTypes();
       getAllDaos();
       getUserDaos();
-      useGovrn();
     }
   }, [userData, isAuthenticated]);
 
