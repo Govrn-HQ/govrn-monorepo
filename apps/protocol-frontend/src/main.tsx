@@ -21,11 +21,11 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { UserContextProvider } from './contexts/UserContext';
 
 const App = () => {
+  // we can refactor this to use a standalone toast
   const toast = useToast();
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
-      onError: (error, query) => {
-        console.log('error', error);
+      onError: error => {
         toast({
           title: 'Something went wrong.',
           description: `Please try again: ${error}`,
