@@ -1,22 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
+import { Stack, Flex, Button, Text, FormLabel, Switch } from '@chakra-ui/react';
 import {
-  Stack,
-  Flex,
-  Button,
-  Text,
-  FormLabel,
-  Switch,
-  useToast,
-} from '@chakra-ui/react';
-import {
-  Input,
-  Textarea,
-  DatePicker,
   CreatableSelect,
-  Select,
+  Input,
+  DatePicker,
   GovrnSpinner,
+  Select,
+  Textarea,
 } from '@govrn/protocol-ui';
+import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
@@ -52,7 +45,7 @@ function CreateMoreSwitch({
 }
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
-  const { allDaos, isUserActivityTypesLoading, userActivityTypes } = useUser();
+  const { allDaos } = useUser();
   const { isCreatingContribution, createContribution } = useContributions();
 
   const localForm = useForm({
@@ -69,26 +62,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   useEffect(() => {
     setValue('engagementDate', engagementDateValue);
   }, []);
-
-  const activityTypesList = [
-    'Pull Request',
-    'Documentation',
-    'Note Taking',
-    'Design',
-    'Other',
-  ];
-
-  const userActivityTypesHook = useUserActivityTypesList();
-
-  console.log('userActivityTypesHook', userActivityTypesHook);
-
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isFetching: userActivityTypesIsFetching,
-    data: userActivityTypesData,
-    error: userActivityTypesError,
-  } = userActivityTypesHook;
 
   const daoListOptions = allDaos.map(dao => ({
     value: dao.id,
@@ -116,20 +89,31 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setUserCreatingMore(!isUserCreatingMore);
   };
 
+  const userActivityTypesHook = useUserActivityTypesList();
+
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: userActivityTypesIsLoading,
+    isFetching: userActivityTypesIsFetching,
+    isError: userActivityTypesIsError,
+    data: userActivityTypesData,
+    error: userActivityTypesError, // unused for now -- handling globally
+  } = userActivityTypesHook;
+
   // the loading and fetching states from the query are true:
   if (userActivityTypesIsLoading || userActivityTypesIsFetching) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
-  if (userActivityTypesError) {
-    return `An error occurred fetching User Activity Types: ${userActivityTypesError}`;
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
   const combinedActivityTypesList = [
     ...new Set([
       ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...activityTypesList,
+      ...DEFAULT_ACTIVITY_TYPES,
     ]),
   ];
 

@@ -38,7 +38,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const toast = useToast();
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
 
-  const [govrnProtocol, setGovrnProtocol] = useState<GovrnProtocol>();
+  const [govrnProtocol, setGovrnProtocol] = useState<GovrnProtocol>(govrn);
 
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<UIUser | null>(
@@ -362,7 +362,7 @@ type UserContextType = {
   }) => Promise<void>;
   getAllDaos: () => Promise<UIGuilds>;
   getUserDaos: () => Promise<UIGuilds>;
-  govrnProtocol: GovrnProtocol | undefined;
+  govrnProtocol: GovrnProtocol;
   isUserActivityTypesLoading: boolean;
   isUserLoading: boolean;
   setAllDaos: (data: UIGuild[]) => void;

@@ -3,10 +3,12 @@ import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import {
   CreatableSelect,
   DatePicker,
+  GovrnSpinner,
   Input,
   Select,
   Textarea,
 } from '@govrn/protocol-ui';
+import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
@@ -14,6 +16,7 @@ import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
 import { useContributions } from '../contexts/ContributionContext';
+import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -49,17 +52,31 @@ const EditContributionForm = ({
     );
   }, [contribution]);
 
-  const activityTypesList = [
-    'Pull Request',
-    'Documentation',
-    'Note Taking',
-    'Design',
-    'Other',
-  ];
+  const userActivityTypesHook = useUserActivityTypesList();
+
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: userActivityTypesIsLoading,
+    isFetching: userActivityTypesIsFetching,
+    isError: userActivityTypesIsError,
+    data: userActivityTypesData,
+    error: userActivityTypesError, // unused for now -- handling globally
+  } = userActivityTypesHook;
+
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading || userActivityTypesIsFetching) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
   const combinedActivityTypesList = [
     ...new Set([
-      ...activityTypesList,
-      ...userActivityTypes.map(activity => activity.name),
+      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
+      ...DEFAULT_ACTIVITY_TYPES,
     ]),
   ];
 

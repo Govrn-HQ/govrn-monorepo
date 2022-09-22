@@ -14,3 +14,10 @@ export const BLOCK_EXPLORER_URLS = {
 
 export const UNASSIGNED = 'Unassigned';
 export const GOVRN_MOTTO = 'Track and record your DAO Contributions.';
+export const DEFAULT_ACTIVITY_TYPES = [
+  'Pull Request',
+  'Documentation',
+  'Note Taking',
+  'Design',
+  'Other',
+];

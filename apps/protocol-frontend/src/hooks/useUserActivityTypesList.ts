@@ -5,12 +5,10 @@ import { UIActivityType } from '@govrn/ui-types';
 
 export const useUserActivityTypesList = () => {
   const { govrnProtocol: govrn } = useUser()
-  if (govrn !== undefined) {
-    const { isLoading, error, data, isFetching } = useQuery(['activityTypes'], async (): Promise<UIActivityType[]> => {
-      const data = await govrn.custom.listActivityTypesByUser({})
-      return data
-    })
-    return { isLoading, error, data, isFetching };
-  }
+  const { isLoading, isFetching, isError, error, data } = useQuery(['activityTypes'], async (): Promise<UIActivityType[]> => {
+    const data = await govrn.custom.listActivityTypesByUser({})
+    return data
+  })
+  return { isLoading, isError, isFetching, error, data };
 }
 
