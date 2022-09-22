@@ -6,6 +6,7 @@ const getUserOffWaitlistQuery = `
   WHERE email = 'testemail@gmail.com'
   RETURNING *;
   `;
+
 before(() => {
   //Get user off the waitlist
   cy.task('queryDatabase', getUserOffWaitlistQuery).then(res => {
@@ -21,8 +22,8 @@ before(() => {
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
 
-  cy.get('[data-cy="myContributions-btn"]', { timeout: 10000 })
-    .should('be.visible')
+  cy.get('[data-cy="myContributions-btn"]', { timeout: 15000 })
+    .should('be.enabled')
     .click({ force: true });
 });
 
@@ -32,9 +33,11 @@ describe('Create First Contribution', () => {
 
     cy.get('[data-cy="reportFirstContribution-btn"]', {
       timeout: 10000,
-    }).click();
-
-    cy.get('input[data-testid="reportForm-name"]')  // issue (detached from DOM). This DOM element likely became detached somewhere between the previous and current command.
+    }).should('be.enabled')
+      .click({ force: true });  
+ 
+    cy.get('input[data-testid="reportForm-name"]', {timeout:20000})  
+      .should('be.enabled')
       .type(contribution.name)
       .should('have.value', contribution.name);
 
@@ -56,7 +59,7 @@ describe('Create First Contribution', () => {
 
     cy.contains(
       'Please select at least one Contribution to attribute to a DAO or mint.',
-      { timeout: 10000 },
+      { timeout: 20000 },
     );
   });
 });

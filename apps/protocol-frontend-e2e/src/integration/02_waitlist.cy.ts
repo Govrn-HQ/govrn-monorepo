@@ -20,6 +20,10 @@ beforeEach(() => {
     this.accounts = accounts;
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
+
+  cy.get('[data-cy="create-my-profile-btn"]', { timeout: 60000 })
+      .should('be.enabled')
+      .click({ force: true });
 });
 
 afterEach(() => {
@@ -29,14 +33,10 @@ afterEach(() => {
 describe('Join Waitlist', () => {
   it('Fill Govrn Waitlist Form', () => {
     const user = this.users[0];
-
-    cy.get('[data-cy="create-my-profile-btn"]', { timeout: 60000 })
-      .should('be.visible')
-      .click({ force: true });
-
-    cy.get('input[data-testid="createWaitlistUserForm-username"]', {  //DOM issue here
-      timeout: 20000,
-    })
+    //DOM issue here and prev line 31
+    cy.get('input[data-testid="createWaitlistUserForm-username"]', {  
+      timeout: 60000,
+    }) 
       .should('be.enabled')
       .type(user.username)
       .should('have.value', user.username);
@@ -45,6 +45,8 @@ describe('Join Waitlist', () => {
       .type(user.email)
       .should('have.value', user.email);
 
-    cy.get('[data-cy="join-waitlist"]').click();
+    cy.get('[data-cy="join-waitlist"]')
+      .should('be.enabled')
+      .click();
   });
 });

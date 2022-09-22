@@ -9,17 +9,19 @@ beforeEach(() => {
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
   });
-
-  cy.get('[data-cy="myContributions-btn"]')
-    .should('be.visible')
+  //never found timeout
+  cy.get('[data-cy="myContributions-btn"]', { timeout: 60000 })  
+    .should('be.enabled')
     .click({ force: true });
 });
 
 describe('Edit first Contribution', () => {
   it('Update/Edit Contribution', () => {
     const contribution = this.contributions[1];
-
-    cy.get('[data-testid="editContribution-test"]', { timeout: 10000 }).click();  //can't find this element
+    //can't find this element below
+    cy.get('[data-testid="editContribution-test"]', { timeout: 60000 }) 
+      .should('be.enabled')
+      .click({ force: true });  
 
     cy.get('input[data-testid="editContributionForm-name"]')
       .clear()

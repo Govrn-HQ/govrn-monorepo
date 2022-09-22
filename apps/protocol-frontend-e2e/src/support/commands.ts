@@ -17,13 +17,22 @@ Cypress.Commands.add('login', (address, privateKey) => {
 
   cy.get('button').then($btn => {
     const text = $btn.text();
-    if (text === 'Join Our Discord' || text.slice(0, 2) === '0x') {
-      cy.get('[data-cy="joinOurDiscord-testBtn"]', { timeout: 60000 }).should(
-        'be.visible',
-      );
+    console.log(text);
+    //text can be null/undefined when joining discord
+    if (!text || 
+        typeof text === 'undefined' || 
+        text === 'Join Our Discord' || 
+        text.slice(0, 2) === '0x') {
+      cy.get('[data-cy="joinOurDiscord-testBtn"]', { timeout: 60000 })
+        .should('be.visible');
+
     } else if (text === 'Connect Wallet') {
-      cy.get('[data-cy=connect-wallet]', { timeout: 10000 }).should('be.visible').click();
-      cy.contains('MetaMask').click();
+      cy.get('[data-cy=connect-wallet]', { timeout: 10000 })
+        .should('be.enabled')
+        .click();
+      cy.contains('MetaMask')
+        .should('be.enabled')
+        .click();
     }
   });
 });
