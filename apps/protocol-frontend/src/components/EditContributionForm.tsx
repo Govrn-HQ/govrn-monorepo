@@ -27,7 +27,7 @@ const EditContributionForm = ({
   contribution,
   onClose,
 }: EditContributionFormProps) => {
-  const { allDaos, userActivityTypes } = useUser();
+  const { allDaos } = useUser();
   const { updateContribution } = useContributions();
   const localForm = useForm({
     mode: 'all',
@@ -37,6 +37,18 @@ const EditContributionForm = ({
   const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
     new Date(contribution?.date_of_engagement),
   );
+
+  const daoListOptions = allDaos.map(dao => ({
+    value: dao.id,
+    label: dao.name ?? '',
+  }));
+
+  const daoReset = [
+    {
+      value: null,
+      label: 'No DAO',
+    },
+  ];
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -86,18 +98,6 @@ const EditContributionForm = ({
       label: activity,
     }),
   );
-
-  const daoListOptions = allDaos.map(dao => ({
-    value: dao.id,
-    label: dao.name ?? '',
-  }));
-
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
-    },
-  ];
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
