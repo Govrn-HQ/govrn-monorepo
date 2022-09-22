@@ -80,9 +80,12 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
 
   const userActivityTypesHook = useUserActivityTypesList();
 
+  console.log('userActivityTypesHook', userActivityTypesHook);
+
+  // renaming these on destructuring incase we have parallel queries:
   const {
-    isLoading,
-    isFetching,
+    isLoading: userActivityTypesIsLoading,
+    isFetching: userActivityTypesIsFetching,
     data: userActivityTypesData,
     error: userActivityTypesError,
   } = userActivityTypesHook;
@@ -113,20 +116,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setUserCreatingMore(!isUserCreatingMore);
   };
 
-  if (isLoading || isFetching) {
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading || userActivityTypesIsFetching) {
     return <GovrnSpinner />;
   }
 
-  if (userActivityTypesError !== null) {
-    const toast = useToast();
-    return toast({
-      title: 'Unable to Fetch User Activity Types',
-      description: `Something went wrong. Please try again: ${userActivityTypesError}`,
-      status: 'error',
-      duration: 3000,
-      isClosable: true,
-      position: 'top-right',
-    });
+  // there is an error with the query:
+  if (userActivityTypesError) {
+    return `An error occurred fetching User Activity Types: ${userActivityTypesError}`;
   }
 
   const combinedActivityTypesList = [
@@ -143,6 +140,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     }),
   );
 
+  // we can now return the component knowing that it is no longer loading and fetching, and there is no error:
   return (
     <Stack spacing={{ base: '6', lg: '4' }} width="100%" color="gray.900">
       <FormProvider {...localForm}>

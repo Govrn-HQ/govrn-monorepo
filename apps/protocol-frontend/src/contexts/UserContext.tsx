@@ -15,7 +15,7 @@ import {
   ProfileFormValues,
 } from '../types/forms';
 import { useAuth } from './AuthContext';
-import { GovrnProtocol, GovrnProtocolType } from '@govrn/protocol-client';
+import { GovrnProtocol } from '@govrn/protocol-client';
 import { PROTOCOL_URL } from '../utils/constants';
 
 export const UserContext = createContext<UserContextType>(
@@ -37,6 +37,8 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const toast = useToast();
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
+
+  const [govrnProtocol, setGovrnProtocol] = useState<GovrnProtocol>();
 
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<UIUser | null>(
@@ -62,7 +64,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   }, [isConnected, address, userAddress]);
 
   const useGovrn = () => {
-    return new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
+    setGovrnProtocol(
+      new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' }),
+    );
   };
 
   const getUser = async () => {
@@ -306,6 +310,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       getUserActivityTypes();
       getAllDaos();
       getUserDaos();
+      useGovrn();
     }
   }, [userData, isAuthenticated]);
 
@@ -317,10 +322,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         disconnectLinear,
         getAllDaos,
+        govrnProtocol,
         isUserActivityTypesLoading,
         isUserLoading,
         getUserDaos,
         setAllDaos,
+        setGovrnProtocol,
         setUserActivityTypes,
         setUserAddress,
         setUserDaos,
@@ -355,9 +362,11 @@ type UserContextType = {
   }) => Promise<void>;
   getAllDaos: () => Promise<UIGuilds>;
   getUserDaos: () => Promise<UIGuilds>;
+  govrnProtocol: GovrnProtocol | undefined;
   isUserActivityTypesLoading: boolean;
   isUserLoading: boolean;
   setAllDaos: (data: UIGuild[]) => void;
+  setGovrnProtocol: (govrnProtocol: GovrnProtocol) => void;
   setUserActivityTypes: (data: UIActivityType[]) => void;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
@@ -369,7 +378,7 @@ type UserContextType = {
   userDaos: UIGuild[];
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
-  useGovrn: () => GovrnProtocol;
+  useGovrn: () => void;
 };
 
 export const useUser = (): UserContextType => useContext(UserContext);
