@@ -15,7 +15,7 @@ import {
   ProfileFormValues,
 } from '../types/forms';
 import { useAuth } from './AuthContext';
-import { GovrnProtocol } from '@govrn/protocol-client';
+import { GovrnProtocol, GovrnProtocolType } from '@govrn/protocol-client';
 import { PROTOCOL_URL } from '../utils/constants';
 
 export const UserContext = createContext<UserContextType>(
@@ -60,6 +60,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserAddress(address);
     }
   }, [isConnected, address, userAddress]);
+
+  const useGovrn = () => {
+    return new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
+  };
 
   const getUser = async () => {
     try {
@@ -328,6 +332,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userDaos,
         userData,
         userDataByAddress,
+        useGovrn,
       }}
     >
       {children}
@@ -364,6 +369,7 @@ type UserContextType = {
   userDaos: UIGuild[];
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
+  useGovrn: () => GovrnProtocol;
 };
 
 export const useUser = (): UserContextType => useContext(UserContext);
