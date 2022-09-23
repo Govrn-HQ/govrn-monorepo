@@ -251,20 +251,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                   {fileError}
                 </Text>
               )}
-              {/* {selectedFile !== null && fileError === null && (
-                <Button
-                  isLoading={isUploading}
-                  fontWeight="md"
-                  size="sm"
-                  leftIcon={<HiCheck />}
-                  variant="outline"
-                  colorScheme="green"
-                  onClick={handleIpfsUpload}
-                  disabled={fileError !== null}
-                >
-                  Upload to IPFS
-                </Button>
-              )} */}
             </Flex>
             <Select
               name="daoId"
