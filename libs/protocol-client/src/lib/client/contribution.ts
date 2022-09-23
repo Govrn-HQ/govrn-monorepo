@@ -16,6 +16,9 @@ import {
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils';
 
+const REQUIRED_CONFIRMATIONS = 1;
+const ERROR_CHAIN_ID = 'Failed to fetch on chain Id';
+
 export class Contribution extends BaseClient {
   status: ContributionStatus;
 
@@ -46,7 +49,7 @@ export class Contribution extends BaseClient {
    * if minted, it burns the contribution.
    *
    * @param networkConfig
-   * @param provider
+   * @param signer
    * @param id contribution id
    */
   public async delete(
@@ -66,7 +69,7 @@ export class Contribution extends BaseClient {
       const transaction = await contract.burnContribution({
         tokenId: contribution.on_chain_id,
       });
-      await transaction.wait(1);
+      await transaction.wait(REQUIRED_CONFIRMATIONS);
     }
 
     return await this.sdk.deleteContribution({ where: { contributionId: id } });
@@ -80,6 +83,74 @@ export class Contribution extends BaseClient {
   public async update(args: UpdateContributionMutationVariables) {
     const contributions = await this.sdk.updateContribution(args);
     return contributions.updateContribution;
+  }
+
+  public async bulkMint(
+    networkConfig: NetworkConfig,
+    signer: ethers.Signer,
+    address: string,
+    contributions: {
+      id: number;
+      activityTypeId: number;
+      userId: number;
+      args: MintArgs;
+      name: Uint8Array;
+      details: Uint8Array;
+      proof: Uint8Array;
+    }[],
+  ) {
+    const contract = new GovrnContract(networkConfig, signer);
+    const args = {
+      contributions: contributions.map(c => ({
+        contribution: {
+          owner: address,
+          detailsUri: c.args.detailsUri,
+          dateOfSubmission: c.args.dateOfSubmission,
+          dateOfEngagement: c.args.dateOfEngagement,
+        },
+      })),
+    };
+    const transaction = await contract.bulkMint(args);
+    const transactionReceipt = await transaction.wait(REQUIRED_CONFIRMATIONS);
+
+    const onChainIds: { [index: number]: ethers.BigNumber | null } =
+      transactionReceipt.logs
+        .map(l => {
+          console.log('on chain id (logs)', l);
+          return contract.govrn.interface.parseLog(l);
+        })
+        .reduce(
+          (prev, current, idx) => ({
+            ...prev,
+            [idx]: current.name === 'Mint' ? current.args['id'] : null,
+          }),
+          {},
+        );
+
+    return await Promise.allSettled(
+      contributions.map(async (c, idx) => {
+        const onChainId = onChainIds[idx];
+
+        // TODO: Should we store it anyway as `staged` contribution?
+        if (!onChainId) {
+          throw new Error(ERROR_CHAIN_ID);
+        }
+
+        if (c.id) {
+          return await this._updateUserOnChainContribution({
+            ...c,
+            onChainId: onChainId?.toNumber() as number,
+            txHash: transaction.hash,
+          });
+        }
+
+        return await this._createOnChainUserContribution({
+          ...c,
+          onChainId: onChainId?.toNumber() as number,
+          txHash: transaction.hash,
+        });
+      }),
+    );
   }
 
   public async mint(
@@ -96,7 +167,7 @@ export class Contribution extends BaseClient {
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
-    const transactionReceipt = await transaction.wait(1);
+    const transactionReceipt = await transaction.wait(REQUIRED_CONFIRMATIONS);
 
     let onChainId = null as null | ethers.BigNumber;
     const logs = transactionReceipt.logs;
@@ -111,40 +182,32 @@ export class Contribution extends BaseClient {
       }
     }
     if (!onChainId) {
-      throw Error('Failed to fetch on chain Id');
+      throw Error(ERROR_CHAIN_ID);
     }
+
     if (id) {
-      console.log('id in the update:', id);
-      const updateResponse = await this.sdk.updateUserOnChainContribution({
-        data: {
-          name: ethers.utils.toUtf8String(name),
-          details: ethers.utils.toUtf8String(details),
-          dateOfSubmission: new Date(args.dateOfSubmission).toString(),
-          dateOfEngagement: new Date(args.dateOfEngagement).toString(),
-          proof: ethers.utils.toUtf8String(proof),
-          status: 'minted',
-          onChainId: onChainId.toNumber(),
-          userId: userId,
-          id: id,
-          txHash: transaction.hash,
-        },
-      });
-      console.log('update response:', updateResponse);
-      return updateResponse;
-    }
-    return await this.sdk.createOnChainUserContribution({
-      data: {
-        name: ethers.utils.toUtf8String(name),
-        details: ethers.utils.toUtf8String(details),
-        activityTypeId: activityTypeId,
-        dateOfSubmission: new Date(args.dateOfSubmission).toString(),
-        dateOfEngagement: new Date(args.dateOfEngagement).toString(),
-        proof: ethers.utils.toUtf8String(proof),
-        status: 'minted',
-        userId: userId,
-        onChainId: onChainId.toNumber(),
+      return await this._updateUserOnChainContribution({
+        id,
+        name,
+        activityTypeId,
+        args,
+        details,
+        proof,
+        userId,
+        onChainId: onChainId?.toNumber() as number,
         txHash: transaction.hash,
-      },
+      });
+    }
+
+    return await this._createOnChainUserContribution({
+      name,
+      details,
+      activityTypeId,
+      args,
+      proof,
+      userId,
+      onChainId: onChainId?.toNumber() as number,
+      txHash: transaction.hash,
     });
   }
 
@@ -158,7 +221,7 @@ export class Contribution extends BaseClient {
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
-    await transaction.wait(1);
+    await transaction.wait(REQUIRED_CONFIRMATIONS);
 
     if (id) {
       // TODO: figure out this flow a little bit
@@ -177,6 +240,70 @@ export class Contribution extends BaseClient {
         confidence: args.confidence.toString(),
         contributionOnChainId: parseInt(args.contribution.toString()),
         userId: userId,
+      },
+    });
+  }
+
+  private async _updateUserOnChainContribution(contribution: {
+    id: number;
+    activityTypeId: number;
+    userId: number;
+    args: MintArgs;
+    name: Uint8Array;
+    details: Uint8Array;
+    proof: Uint8Array;
+    txHash: string;
+    onChainId: number;
+  }) {
+    console.log('id in the update:', contribution.id);
+    const updateResponse = this.sdk.updateUserOnChainContribution({
+      data: {
+        name: ethers.utils.toUtf8String(contribution.name),
+        details: ethers.utils.toUtf8String(contribution.details),
+        dateOfSubmission: new Date(
+          contribution.args.dateOfSubmission,
+        ).toString(),
+        dateOfEngagement: new Date(
+          contribution.args.dateOfEngagement,
+        ).toString(),
+        proof: ethers.utils.toUtf8String(contribution.proof),
+        status: 'minted',
+        onChainId: contribution.onChainId,
+        userId: contribution.userId,
+        id: contribution.id,
+        txHash: contribution.txHash,
+      },
+    });
+    console.log('update response:', updateResponse);
+    return updateResponse;
+  }
+
+  private async _createOnChainUserContribution(contribution: {
+    activityTypeId: number;
+    userId: number;
+    args: MintArgs;
+    name: Uint8Array;
+    details: Uint8Array;
+    proof: Uint8Array;
+    onChainId: number;
+    txHash: string;
+  }) {
+    return await this.sdk.createOnChainUserContribution({
+      data: {
+        name: ethers.utils.toUtf8String(contribution.name),
+        details: ethers.utils.toUtf8String(contribution.details),
+        activityTypeId: contribution.activityTypeId,
+        dateOfSubmission: new Date(
+          contribution.args.dateOfSubmission,
+        ).toString(),
+        dateOfEngagement: new Date(
+          contribution.args.dateOfEngagement,
+        ).toString(),
+        proof: ethers.utils.toUtf8String(contribution.proof),
+        status: 'minted',
+        userId: contribution.userId,
+        onChainId: contribution.onChainId,
+        txHash: contribution.txHash,
       },
     });
   }
