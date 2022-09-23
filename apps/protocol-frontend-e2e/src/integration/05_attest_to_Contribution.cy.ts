@@ -1,21 +1,5 @@
 /// <reference types="cypress" />
 
-const mintContributionDBQuery = `
-  UPDATE "Contribution"
-  SET status_id = 2
-  WHERE name = 'Govrn Protocol Note Taking'
-  RETURNING *;
-  `;
-const User2MintsContributionQuery = `
-  INSERT INTO "User" (id, name, address, chain_type_id, active, email )
-      VALUES (100,'JohnDoe', '0xc2b6bc23853Ab1d3e9D9df9C93ADA346c0A8f715', 1, true, 'johndoe@yahoo.com')
-  ON CONFLICT DO NOTHING;
-
-  INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-      VALUES (10000, 'Test Automation',2, 1, 100, current_timestamp, 'Fixed flaky cypress tests', 'https://github.com/Govrn-HQ/documentation/cypress-automation.')
-  ON CONFLICT DO NOTHING;
-
-`
 const CONTRIBUTIONS_URL = 'http://localhost:3000/#/contributions'
 beforeEach(() => {
   cy.fixture('testaccounts.json').then((accounts) => {
@@ -29,8 +13,33 @@ beforeEach(() => {
   
   //cy.mintContribution(mintContributionDBQuery);
 
-  cy.task('queryDatabase', User2MintsContributionQuery)
+  //cy.task('queryDatabase', User2MintsContributionQuery)
+  cy.fixture('users.json').then((accounts) => {
+    this.accounts = accounts[1]
+    const user2Account = this.accounts
+    console.log(user2Account)
+    const User2Login = `
+    INSERT INTO "User" (id, name, address, chain_type_id, active, email )
+      VALUES (100,'${user2Account.username}', '${user2Account.address}', 
+        1, true, '${user2Account.email}'
+      )
+    ON CONFLICT DO NOTHING;
+    `
+    cy.task('queryDatabase', User2Login);
+  });
 
+  cy.fixture('contributions.json').then((accounts) => {
+    this.accounts = accounts[3]
+    const user2ContributionData = this.accounts
+    const User2CreateAndMintContribution = `
+    INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
+      VALUES (10000, '${user2ContributionData.name}',2 , 1, 100, current_timestamp,
+       '${user2ContributionData.details}', '${user2ContributionData.proof}'
+      )
+    ON CONFLICT DO NOTHING;
+    `
+    cy.task('queryDatabase', User2CreateAndMintContribution);
+  });
 
   cy.visit(CONTRIBUTIONS_URL)
 
@@ -44,9 +53,6 @@ beforeEach(() => {
 
 describe("Attestation flow", () => {
   it("attest to a minted Contribution", ()=>{
-       
-    cy.contains(`These are minted Contributions that you haven't already Attested to.`)
-      .should('be.visible')
 
     cy.get('input[title="Toggle Row Selected"]')
       .click()
@@ -60,13 +66,16 @@ describe("Attestation flow", () => {
     cy.get('[data-testId="addAttestations-btn"]')
       .click()
 
-    cy.get(`.chakra-modal__close-btn`) 
+    cy.get(`.chakra-modal__close-btn`, {timeout:10000}) 
       .click({force: true})
-  
-    cy.contains('My Attestations')
-      .click()
 
-    cy.contains(`These are Contributions that you have already Attested to.`)
+    // eslint-disable-next-line cypress/no-unnecessary-waiting 
+    cy.wait(5000) //wait for the attestation loading-process
+    cy.contains('My Attestations', {timeout:10000})
+      .should('be.visible')
+      .click({force:true})
+
+    cy.contains(`These are Contributions that you have already Attested to.`, {timeout:10000})
       .should('be.visible')
 
   });

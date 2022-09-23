@@ -1,11 +1,13 @@
 [
   {
     "username": "TestUsername",
-    "email": "testemail@gmail.com"
+    "email": "testemail@gmail.com",
+    "address": "0x30a7c4389dAF511fB454a52260C7FF5e53339796"
   },
   {
     "username": "JohnDoe",
-    "email": "johndoe@yahoo.com"
+    "email": "johndoe@yahoo.com",
+    "address": "0xc2b6bc23853Ab1d3e9D9df9C93ADA346c0A8f715"
   }
 
 ]
