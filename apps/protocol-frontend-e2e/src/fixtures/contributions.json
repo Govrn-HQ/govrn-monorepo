@@ -12,6 +12,14 @@
     "details": "I added some notes on the documentation that summarizes cypress test automation in Govrn products.",
     "proof": "https://github.com/Govrn-HQ/documentation/cypress-automation.",
     "dao": "MGD"
+  },
+
+  {
+    "name": "Test Automation",
+    "activityType": "Pull Request",
+    "details": "Created metamask extension scripts to enable Cypress to test Gorvn dApp ",
+    "proof": "https://github.com/Govrn-HQ/documentation/cypress-automation.",
+    "dao": "Govrn"
   }
 
 ]

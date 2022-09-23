@@ -3,6 +3,7 @@ import { BaseClient } from './base';
 import {
   BulkCreateContributionMutationVariables,
   CreateContributionMutationVariables,
+  ListContributionsQuery,
   ListContributionsQueryVariables,
   UpdateContributionMutationVariables,
 } from '../protocol-types';
@@ -13,6 +14,7 @@ import {
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
 import { GraphQLClient } from 'graphql-request';
+import { paginate } from '../utils';
 
 export class Contribution extends BaseClient {
   status: ContributionStatus;
@@ -28,8 +30,10 @@ export class Contribution extends BaseClient {
   }
 
   public async list(args: ListContributionsQueryVariables) {
-    const contributions = await this.sdk.listContributions(args);
-    return contributions.result;
+    return paginate<ListContributionsQueryVariables, ListContributionsQuery>(
+      this.sdk.listContributions,
+      args,
+    );
   }
 
   public async create(args: CreateContributionMutationVariables) {
@@ -91,10 +95,12 @@ export class Contribution extends BaseClient {
     proof: Uint8Array,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
+    console.log(contract)
     const transaction = await contract.mint(args);
     const transactionReceipt = await transaction.wait(1);
 
     let onChainId = null as null | ethers.BigNumber;
+    console.log(onChainId)
     const logs = transactionReceipt.logs;
     for (const log of logs) {
       console.log('on chain id (logs)', log);
