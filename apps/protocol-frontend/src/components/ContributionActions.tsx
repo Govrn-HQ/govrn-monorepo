@@ -23,28 +23,6 @@ const ContributionActions = () => {
         _hover={{ bgColor: 'brand.primary.100' }}
         width="100%"
       ></MenuButton>
-      {/* <MenuList backgroundColor="gray.800" minWidth="none">
-        <MenuItem
-          onClick={copyAddress.onCopy}
-          _hover={{ backgroundColor: 'gray.600' }}
-        >
-          <HStack spacing={2}>
-            <Icon as={FiCopy} color="white" />
-            <Box color="white">
-              {copyAddress.hasCopied ? 'Copied' : 'Copy Address'}
-            </Box>
-          </HStack>
-        </MenuItem>
-        <MenuItem
-          onClick={() => disconnect()}
-          _hover={{ backgroundColor: 'gray.600' }}
-        >
-          <HStack spacing={2}>
-            <Icon as={FiXCircle} color="red.300" />
-            <Box color="red.300">Sign Out</Box>
-          </HStack>
-        </MenuItem>
-      </MenuList> */}
     </Menu>
   );
 };
