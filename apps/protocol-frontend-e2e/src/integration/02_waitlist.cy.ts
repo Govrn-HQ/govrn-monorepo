@@ -9,6 +9,7 @@ INSERT INTO "Guild" (id, name)
     VALUES (2,'MGD')
 ON CONFLICT DO NOTHING;
 `;
+
 beforeEach(() => {
   cy.task('queryDatabase', insertDAOs);
 
@@ -24,6 +25,8 @@ beforeEach(() => {
   cy.get('[data-cy="create-my-profile-btn"]', { timeout: 60000 })
       .should('be.enabled')
       .click({ force: true });
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(3000);
 });
 
 afterEach(() => {
@@ -33,7 +36,7 @@ afterEach(() => {
 describe('Join Waitlist', () => {
   it('Fill Govrn Waitlist Form', () => {
     const user = this.users[0];
-    //DOM issue here and prev line 31
+   
     cy.get('input[data-testid="createWaitlistUserForm-username"]', {  
       timeout: 60000,
     }) 

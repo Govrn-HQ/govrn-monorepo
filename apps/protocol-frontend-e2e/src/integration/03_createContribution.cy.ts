@@ -23,26 +23,32 @@ before(() => {
   });
 
   cy.get('[data-cy="myContributions-btn"]', { timeout: 15000 })
-    .should('be.enabled')
+    .should('be.visible')
     .click({ force: true });
+
+  cy.get('[data-cy="reportFirstContribution-btn"]', {
+      timeout: 10000,
+    }).should('be.visible')
+      .click({ force: true }); 
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(5000)
 });
 
 describe('Create First Contribution', () => {
   it('Report your first Contribution', () => {
     const contribution = this.contributions[0];
-
-    cy.get('[data-cy="reportFirstContribution-btn"]', {
-      timeout: 10000,
-    }).should('be.enabled')
-      .click({ force: true });  
  
     cy.get('input[data-testid="reportForm-name"]', {timeout:20000})  
-      .should('be.enabled')
+      .should('be.visible')
       .type(contribution.name)
       .should('have.value', contribution.name);
 
-    cy.get('.css-ujecln-Input2 #react-select-3-input').type(
-      `${contribution.activityType}{enter}`,
+    cy.get('.css-ujecln-Input2')
+      .should('be.visible')
+      .eq(0)
+      .children()
+      .eq(0)
+      .type(`${contribution.activityType}{enter}`,
     );
 
     cy.get('textarea[data-testid="textarea-test"]')
@@ -51,11 +57,14 @@ describe('Create First Contribution', () => {
 
     cy.get('input[data-testid="reportForm-proof"]').type(contribution.proof);
 
-    cy.get('.css-ujecln-Input2 #react-select-5-input')
-      .click({ force: true })
+    cy.get('.css-ujecln-Input2')
+      .should('be.visible')
+      .eq(1)
+      .children()
+      .eq(0)
       .type(`${contribution.dao}{enter}`);
 
-    cy.get('[data-cy="addContribution-btn"]').click({ force: true });
+    cy.get('[data-cy="addContribution-btn"]').click();
 
     cy.contains(
       'Please select at least one Contribution to attribute to a DAO or mint.',
