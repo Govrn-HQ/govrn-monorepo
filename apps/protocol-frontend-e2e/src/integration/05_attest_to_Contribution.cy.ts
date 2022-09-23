@@ -3,9 +3,19 @@
 const mintContributionDBQuery = `
   UPDATE "Contribution"
   SET status_id = 2
-  WHERE proof = 'https://github.com/Govrn-HQ/airtable_migration.'
+  WHERE name = 'Govrn Protocol Note Taking'
   RETURNING *;
   `;
+const User2MintsContributionQuery = `
+  INSERT INTO "User" (id, name, address, chain_type_id, active, email )
+      VALUES (100,'JohnDoe', '0xc2b6bc23853Ab1d3e9D9df9C93ADA346c0A8f715', 1, true, 'johndoe@yahoo.com')
+  ON CONFLICT DO NOTHING;
+
+  INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
+      VALUES (10000, 'Test Automation',2, 1, 100, current_timestamp, 'Fixed flaky cypress tests', 'https://github.com/Govrn-HQ/documentation/cypress-automation.')
+  ON CONFLICT DO NOTHING;
+
+`
 const CONTRIBUTIONS_URL = 'http://localhost:3000/#/contributions'
 beforeEach(() => {
   cy.fixture('testaccounts.json').then((accounts) => {
@@ -17,7 +27,10 @@ beforeEach(() => {
     .should('be.visible')
     .click({ force: true });
   
-  cy.mintContribution(mintContributionDBQuery);
+  //cy.mintContribution(mintContributionDBQuery);
+
+  cy.task('queryDatabase', User2MintsContributionQuery)
+
 
   cy.visit(CONTRIBUTIONS_URL)
 

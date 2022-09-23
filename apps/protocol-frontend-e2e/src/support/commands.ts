@@ -61,6 +61,7 @@ Cypress.Commands.add('mintContribution', (query) => {
     .should('be.visible')
   
   cy.task('queryDatabase', query).then(res => {
+    console.log(res)
     expect(res.rows[0].status_id).to.equal(2);
 
   cy.get(`.chakra-modal__close-btn`) //close modal
