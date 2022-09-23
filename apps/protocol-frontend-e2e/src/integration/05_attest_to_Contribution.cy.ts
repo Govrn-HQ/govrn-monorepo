@@ -11,9 +11,6 @@ beforeEach(() => {
     .should('be.visible')
     .click({ force: true });
   
-  //cy.mintContribution(mintContributionDBQuery);
-
-  //cy.task('queryDatabase', User2MintsContributionQuery)
   cy.fixture('users.json').then((accounts) => {
     this.accounts = accounts[1]
     const user2Account = this.accounts
