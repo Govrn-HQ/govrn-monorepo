@@ -89,8 +89,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setUserCreatingMore(!isUserCreatingMore);
   };
 
-  const userActivityTypesHook = useUserActivityTypesList();
-
   // renaming these on destructuring incase we have parallel queries:
   const {
     isLoading: userActivityTypesIsLoading,
@@ -98,7 +96,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     isError: userActivityTypesIsError,
     data: userActivityTypesData,
     error: userActivityTypesError, // unused for now -- handling globally
-  } = userActivityTypesHook;
+  } = useUserActivityTypesList();
 
   // the loading and fetching states from the query are true:
   if (userActivityTypesIsLoading || userActivityTypesIsFetching) {
