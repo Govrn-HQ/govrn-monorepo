@@ -13,7 +13,12 @@ declare namespace Cypress {
   interface Chainable<Subject> {
     interceptGQL(httpMethod: Method, operationNames: string[]): void;
   }
-
+  /**
+     * Intercepts with Graphql
+  */
+     interface Chainable<Subject> {
+      mintContribution(query: string): void;
+    }
   interface Chainable<Subject> {
     switchWindow(): void;
   }

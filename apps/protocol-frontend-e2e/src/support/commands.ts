@@ -44,3 +44,29 @@ Cypress.Commands.add('interceptGQL', (httpMethod, operationNames) => {
 
 });
 
+//mint Contribution
+Cypress.Commands.add('mintContribution', (query) => {
+
+  cy.get('input[title="Toggle Row Selected"]')
+  .click()
+
+  cy.get('[data-testid="mint-btn-test"]') 
+    .should('be.visible')
+    .click();
+
+  cy.get('[data-testid="checkbox-testid"]') 
+    .click()
+
+  cy.get('[data-testid="mintContribution-test"]')
+    .should('be.visible')
+  
+  cy.task('queryDatabase', query).then(res => {
+    expect(res.rows[0].status_id).to.equal(2);
+
+  cy.get(`.chakra-modal__close-btn`) //close modal
+    .click({force: true})
+ 
+  });
+
+});
+
