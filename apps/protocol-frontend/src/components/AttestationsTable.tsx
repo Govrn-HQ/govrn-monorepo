@@ -101,7 +101,7 @@ const AttestationsTable = ({
     } else {
       setDisplayedContributions(unattestedContributions);
     }
-  }, [showAllDaos, unattestedContributions, unattestedUserDaoContributions]);
+  }, [showAllDaos]);
 
   function AllDaosSwitch({
     isChecked,
@@ -237,6 +237,7 @@ const AttestationsTable = ({
   }, [selectedFlatRows, selectedRowIds]);
 
   return (
+    <>
       {displayedContributions.length > 0 ? (
         <Stack>
           <Flex alignItems="center">
@@ -305,6 +306,7 @@ const AttestationsTable = ({
           </Text>
         </Box>
       )}
+    </>
   );
 };
 

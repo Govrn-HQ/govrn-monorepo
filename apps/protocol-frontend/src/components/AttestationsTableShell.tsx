@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import * as _ from 'lodash';
 import {
   Box,
   Button,

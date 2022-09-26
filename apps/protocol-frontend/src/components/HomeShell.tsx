@@ -65,6 +65,7 @@ const HomeShell = () => {
           </>
         )}
         {createProfileSteps === 2 && (
+          <>
             {userDataByAddress?.active === true ? (
               <Flex
                 justify="space-between"
@@ -82,6 +83,7 @@ const HomeShell = () => {
             ) : (
               <CreateWaitlistUserForm />
             )}
+          </>
         )}
         {createProfileSteps === 3 && (
           <Flex
