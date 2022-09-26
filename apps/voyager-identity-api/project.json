@@ -4,13 +4,15 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/voyager-identity-api",
         "main": "apps/voyager-identity-api/src/main.ts",
         "tsConfig": "apps/voyager-identity-api/tsconfig.app.json",
-        "generatePackageJson": true
+        "generatePackageJson": true,
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {

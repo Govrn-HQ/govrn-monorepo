@@ -4,14 +4,16 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/airtable-api",
         "main": "apps/airtable-api/src/main.ts",
         "tsConfig": "apps/airtable-api/tsconfig.app.json",
         "assets": ["apps/airtable-api/src/assets"],
-        "generatePackageJson": true
+        "generatePackageJson": true,
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {

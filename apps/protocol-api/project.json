@@ -4,7 +4,7 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "dependsOn": [
         {
@@ -16,7 +16,9 @@
         "outputPath": "dist/apps/protocol-api",
         "main": "apps/protocol-api/src/main.ts",
         "tsConfig": "apps/protocol-api/tsconfig.app.json",
-        "generatePackageJson": true
+        "generatePackageJson": true,
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
