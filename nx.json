@@ -3,9 +3,6 @@
   "affected": {
     "defaultBase": "main"
   },
-  "cli": {
-    "defaultCollection": "@nxext/vite"
-  },
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
