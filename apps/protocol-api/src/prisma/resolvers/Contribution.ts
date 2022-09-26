@@ -76,6 +76,9 @@ export class UserOnChainContributionCreateInput {
 
   @TypeGraphQL.Field(_type => Number)
   onChainId: number;
+
+  @TypeGraphQL.Field(_type => String)
+  txHash: string;
 }
 
 @TypeGraphQL.ArgsType()
@@ -319,6 +322,7 @@ export class ContributionCustomResolver {
         status: {
           connect: { name: 'minted' },
         },
+        tx_hash: args.data.txHash,
         user: {
           connect: { id: args.data.userId },
         },

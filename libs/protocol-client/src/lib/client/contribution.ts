@@ -145,6 +145,7 @@ export class Contribution extends BaseClient {
         status: 'minted',
         userId: userId,
         onChainId: onChainId.toNumber(),
+        txHash: transaction.hash,
       },
     });
   }
