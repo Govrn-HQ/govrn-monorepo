@@ -21,3 +21,9 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Design',
   'Other',
 ];
+
+/* Social Media Links */
+
+export const TWITTER_LINK = 'https://twitter.com/govrnHQ';
+export const DISCORD_LINK = 'https://discord.gg/3e36ZHU5aG';
+export const FEEDBACK_LINK = 'https://forms.gle/uE8w3FgjAcWyqAN58';
