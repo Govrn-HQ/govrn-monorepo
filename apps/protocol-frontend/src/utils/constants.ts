@@ -13,3 +13,16 @@ export const BLOCK_EXPLORER_URLS = {
 export const MAX_FILE_UPLOAD_SIZE = 5000000; // 5MB
 export const UNASSIGNED = 'Unassigned';
 export const GOVRN_MOTTO = 'Track and record your DAO Contributions.';
+export const DEFAULT_ACTIVITY_TYPES = [
+  'Pull Request',
+  'Documentation',
+  'Note Taking',
+  'Design',
+  'Other',
+];
+
+/* Social Media Links */
+
+export const TWITTER_LINK = 'https://twitter.com/govrnHQ';
+export const DISCORD_LINK = 'https://discord.gg/3e36ZHU5aG';
+export const FEEDBACK_LINK = 'https://forms.gle/uE8w3FgjAcWyqAN58';
