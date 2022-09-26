@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import {
   Input as ChakraInput,
   FormControl,
@@ -33,6 +33,7 @@ export interface InputProps {
   localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'outline' | 'filled';
   dataTestId?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -47,6 +48,7 @@ const Input: React.FC<InputProps> = ({
   isDisabled = false,
   variant = 'outline',
   dataTestId = '',
+  onChange,
 }: InputProps) => {
   const {
     register,
@@ -72,6 +74,7 @@ const Input: React.FC<InputProps> = ({
             isDisabled={isDisabled}
             {...register(name)}
             data-testid={dataTestId}
+            onChange={onChange}
           />
           {errors && (
             <ErrorMessage

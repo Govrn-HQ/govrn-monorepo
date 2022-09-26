@@ -64,6 +64,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const fileInputField = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [, setIsUploading] = useState(false);
+  const [ipfsError, setIpfsError] = useState(false);
 
   const handleFileUploadButtonClick = () => {
     if (fileInputField.current !== null) {
@@ -87,11 +88,24 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     }
     if (file && fileError === null) {
       setIsUploading(true);
-      setSelectedFile(file);
-      const ipfsImageUri = await uploadFileIpfs(file, true);
-      if (ipfsImageUri) {
-        setIpfsUri(ipfsImageUri);
-        setValue('proof', ipfsImageUri);
+      try {
+        setSelectedFile(file);
+        const ipfsImageUri = await uploadFileIpfs(file, true);
+        if (ipfsImageUri) {
+          setIpfsUri(ipfsImageUri);
+          setValue('proof', ipfsImageUri);
+          setIsUploading(false);
+        }
+      } catch (error) {
+        setIpfsError(true);
+        toast({
+          title: 'Unable to upload to IPFS.',
+          description: `Please select a different proof URL or try to upload another file.`,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
         setIsUploading(false);
       }
     }
@@ -142,11 +156,13 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
-    if (selectedFile && fileError === null) {
+    if (selectedFile && fileError === null && ipfsError !== true) {
       try {
         await uploadFileIpfs(selectedFile, false);
+        setIpfsError(false);
       } catch (error) {
         console.error(error);
+        setIpfsError(true);
         toast({
           title: 'Unable to Upload to IPFS',
           description: `Something went wrong. Please try again: ${error}`,
@@ -155,19 +171,21 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           isClosable: true,
           position: 'top-right',
         });
+        return;
       }
     }
-    const result = await createContribution(values);
-    if (result) {
-      reset({
-        name: '',
-        details: '',
-        proof: '',
-        activityType: values.activityType,
-        date_of_engagement: values.engagementDate,
-      });
-
-      if (!isUserCreatingMore) onFinish();
+    if (ipfsError === false) {
+      const result = await createContribution(values);
+      if (result) {
+        reset({
+          name: '',
+          details: '',
+          proof: '',
+          activityType: values.activityType,
+          date_of_engagement: values.engagementDate,
+        });
+        if (!isUserCreatingMore) onFinish();
+      }
     }
   };
 
@@ -216,6 +234,13 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
               localForm={localForm}
               dataTestId="reportForm-proof"
+              onChange={e => {
+                if (ipfsError === true) {
+                  setSelectedFile(null);
+                  setIpfsError(false);
+                  setValue('proof', e?.target?.value);
+                }
+              }}
             />
             <Flex
               alignItems="center"
@@ -278,6 +303,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                 setValue('engagementDate', date);
               }}
             />
+            <Flex paddingBottom={4}>
+              {ipfsError && (
+                <Text fontSize="xs" color="red.500">
+                  Something went wrong uploading to IPFS. Please select a
+                  different proof URL or try to upload another file.
+                </Text>
+              )}
+            </Flex>
             <Flex align="flex-end" marginTop={4} gap={4}>
               <Button
                 type="submit"
@@ -288,6 +321,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                 _hover={{ bgColor: 'brand.primary.100' }}
                 isLoading={isCreatingContribution}
                 data-cy="addContribution-btn"
+                disabled={ipfsError}
               >
                 Add Contribution
               </Button>
