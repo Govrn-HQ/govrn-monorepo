@@ -1,15 +1,15 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'airtable-api',
+  displayName: 'govrn-subgraph-client',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/airtable-api',
+  coverageDirectory: '../../coverage/libs/govrn-subgraph-client',
 };

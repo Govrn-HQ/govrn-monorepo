@@ -1,5 +1,6 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'voyager-identity-api',
+  displayName: 'contract-sync-job',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/voyager-identity-api',
+  coverageDirectory: '../../coverage/apps/contract-sync-job',
 };

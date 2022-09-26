@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   displayName: 'contribution-report',
   preset: '../../jest.preset.js',

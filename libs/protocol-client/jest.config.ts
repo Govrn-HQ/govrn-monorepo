@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   displayName: 'protocol-client',
   preset: '../../jest.preset.js',

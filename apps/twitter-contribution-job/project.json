@@ -44,7 +44,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/twitter-contribution-job"],
       "options": {
-        "jestConfig": "apps/twitter-contribution-job/jest.config.js",
+        "jestConfig": "apps/twitter-contribution-job/jest.config.ts",
         "passWithNoTests": true
       }
     },

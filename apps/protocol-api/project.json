@@ -49,7 +49,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/protocol-api"],
       "options": {
-        "jestConfig": "apps/protocol-api/jest.config.js",
+        "jestConfig": "apps/protocol-api/jest.config.ts",
         "passWithNoTests": true
       }
     },

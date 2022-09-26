@@ -43,7 +43,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/contract-sync-job"],
       "options": {
-        "jestConfig": "apps/contract-sync-job/jest.config.js",
+        "jestConfig": "apps/contract-sync-job/jest.config.ts",
         "passWithNoTests": true
       }
     }

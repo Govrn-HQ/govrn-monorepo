@@ -38,7 +38,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/protocol-ui"],
       "options": {
-        "jestConfig": "libs/protocol-ui/jest.config.js",
+        "jestConfig": "libs/protocol-ui/jest.config.ts",
         "passWithNoTests": true
       }
     },

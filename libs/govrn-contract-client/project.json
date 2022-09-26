@@ -29,7 +29,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/govrn-contract-client"],
       "options": {
-        "jestConfig": "libs/govrn-contract-client/jest.config.js",
+        "jestConfig": "libs/govrn-contract-client/jest.config.ts",
         "passWithNoTests": true
       }
     }

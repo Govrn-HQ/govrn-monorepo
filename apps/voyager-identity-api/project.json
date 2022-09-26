@@ -43,7 +43,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/voyager-identity-api"],
       "options": {
-        "jestConfig": "apps/voyager-identity-api/jest.config.js",
+        "jestConfig": "apps/voyager-identity-api/jest.config.ts",
         "passWithNoTests": true
       }
     },

@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   displayName: 'ui-types',
   preset: '../../jest.preset.js',

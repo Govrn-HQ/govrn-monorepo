@@ -43,7 +43,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/linear-sync-job"],
       "options": {
-        "jestConfig": "apps/linear-sync-job/jest.config.js",
+        "jestConfig": "apps/linear-sync-job/jest.config.ts",
         "passWithNoTests": true
       }
     },

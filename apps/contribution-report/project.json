@@ -56,7 +56,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/contribution-report"],
       "options": {
-        "jestConfig": "apps/contribution-report/jest.config.js",
+        "jestConfig": "apps/contribution-report/jest.config.ts",
         "passWithNoTests": true
       }
     },

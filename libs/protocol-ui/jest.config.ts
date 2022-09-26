@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   displayName: 'protocol-ui',
   preset: '../../jest.preset.js',

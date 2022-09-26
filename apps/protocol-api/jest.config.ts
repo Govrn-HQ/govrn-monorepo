@@ -1,5 +1,6 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'contract-sync-job',
+  displayName: 'protocol-api',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/contract-sync-job',
+  coverageDirectory: '../../coverage/apps/protocol-api',
 };

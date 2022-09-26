@@ -44,7 +44,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/airtable-api"],
       "options": {
-        "jestConfig": "apps/airtable-api/jest.config.js",
+        "jestConfig": "apps/airtable-api/jest.config.ts",
         "passWithNoTests": true
       }
     },
