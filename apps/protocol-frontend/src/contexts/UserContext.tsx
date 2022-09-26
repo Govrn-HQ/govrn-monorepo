@@ -46,12 +46,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const [userData, setUserData] = useState<UIUser | null>(null);
 
-  const [userActivityTypes, setUserActivityTypes] = useState<UIActivityType[]>(
-    [],
-  );
-  const [isUserActivityTypesLoading, setUserActivityTypesLoading] =
-    useState(true);
-
   const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
   const [userDaos, setUserDaos] = useState<UIGuild[]>([]);
 
@@ -96,26 +90,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserLoading(false);
     }
   }, [address]);
-
-  const getUserActivityTypes = async () => {
-    setUserActivityTypesLoading(true);
-    try {
-      if (!userData?.id) {
-        throw new Error('getUserActivityTypes has no userData.id');
-      }
-      const activityTypesByUser = await govrn.custom.listActivityTypesByUser(
-        {},
-      );
-
-      setUserActivityTypes(activityTypesByUser);
-
-      return activityTypesByUser;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setUserActivityTypesLoading(false);
-    }
-  };
 
   const getAllDaos = async () => {
     try {
@@ -299,7 +273,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   useEffect(() => {
     if (isAuthenticated) {
-      getUserActivityTypes();
       getAllDaos();
       getUserDaos();
     }
@@ -313,17 +286,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         disconnectLinear,
         getAllDaos,
-        isUserActivityTypesLoading,
+        govrnProtocol: govrn,
         isUserLoading,
         getUserDaos,
         setAllDaos,
-        setUserActivityTypes,
         setUserAddress,
         setUserDaos,
         setUserData,
         setUserDataByAddress,
         updateProfile,
-        userActivityTypes,
         userAddress,
         userDaos,
         userData,
@@ -350,16 +321,14 @@ type UserContextType = {
   }) => Promise<void>;
   getAllDaos: () => Promise<UIGuilds>;
   getUserDaos: () => Promise<UIGuilds>;
-  isUserActivityTypesLoading: boolean;
+  govrnProtocol: GovrnProtocol;
   isUserLoading: boolean;
   setAllDaos: (data: UIGuild[]) => void;
-  setUserActivityTypes: (data: UIActivityType[]) => void;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
   setUserDaos: (data: UIGuild[]) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
-  userActivityTypes: UIActivityType[];
   userAddress: string | null;
   userDaos: UIGuild[];
   userData: UIUser | null;
