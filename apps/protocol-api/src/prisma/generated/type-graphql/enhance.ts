@@ -1263,7 +1263,7 @@ const inputsInfo = {
   ChainTypeScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "name"],
   ContributionWhereInput: ["AND", "OR", "NOT", "id", "updatedAt", "name", "status_id", "status", "activity_type_id", "activity_type", "user_id", "user", "date_of_submission", "date_of_engagement", "details", "proof", "attestations", "partners", "guilds", "linear_issue", "tweet", "on_chain_id", "tx_hash"],
   ContributionOrderByWithRelationInput: ["id", "updatedAt", "name", "status_id", "status", "activity_type_id", "activity_type", "user_id", "user", "date_of_submission", "date_of_engagement", "details", "proof", "attestations", "partners", "guilds", "linear_issue", "tweet", "on_chain_id", "tx_hash"],
-  ContributionWhereUniqueInput: ["id", "on_chain_id", "tx_hash"],
+  ContributionWhereUniqueInput: ["id", "on_chain_id"],
   ContributionOrderByWithAggregationInput: ["id", "updatedAt", "name", "status_id", "activity_type_id", "user_id", "date_of_submission", "date_of_engagement", "details", "proof", "on_chain_id", "tx_hash", "_count", "_avg", "_max", "_min", "_sum"],
   ContributionScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "updatedAt", "name", "status_id", "activity_type_id", "user_id", "date_of_submission", "date_of_engagement", "details", "proof", "on_chain_id", "tx_hash"],
   PartnerWhereInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "user_id", "user", "contribution_id", "contribution"],
