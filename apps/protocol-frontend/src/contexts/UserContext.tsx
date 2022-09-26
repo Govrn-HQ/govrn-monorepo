@@ -38,8 +38,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const toast = useToast();
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
 
-  const [govrnProtocol, setGovrnProtocol] = useState<GovrnProtocol>(govrn);
-
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [userDataByAddress, setUserDataByAddress] = useState<UIUser | null>(
     null,
@@ -56,12 +54,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserAddress(address);
     }
   }, [isConnected, address, userAddress]);
-
-  const useGovrn = () => {
-    setGovrnProtocol(
-      new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' }),
-    );
-  };
 
   const getUser = async () => {
     try {
@@ -294,11 +286,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createWaitlistUser,
         disconnectLinear,
         getAllDaos,
-        govrnProtocol,
+        govrnProtocol: govrn,
         isUserLoading,
         getUserDaos,
         setAllDaos,
-        setGovrnProtocol,
         setUserAddress,
         setUserDaos,
         setUserData,
@@ -308,7 +299,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userDaos,
         userData,
         userDataByAddress,
-        useGovrn,
       }}
     >
       {children}
@@ -334,7 +324,6 @@ type UserContextType = {
   govrnProtocol: GovrnProtocol;
   isUserLoading: boolean;
   setAllDaos: (data: UIGuild[]) => void;
-  setGovrnProtocol: (govrnProtocol: GovrnProtocol) => void;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
@@ -344,7 +333,6 @@ type UserContextType = {
   userDaos: UIGuild[];
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
-  useGovrn: () => void;
 };
 
 export const useUser = (): UserContextType => useContext(UserContext);
