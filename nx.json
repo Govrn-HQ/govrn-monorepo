@@ -24,20 +24,6 @@
       }
     }
   },
-  "targetDependencies": {
-    "docker": [
-      {
-        "target": "build",
-        "projects": "self"
-      }
-    ],
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ]
-  },
   "generators": {
     "@nxext/vite": {
       "application": {
@@ -63,5 +49,13 @@
     }
   },
   "defaultProject": "contribution-report",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json"
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "docker": {
+      "dependsOn": ["build"]
+    },
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  }
 }
