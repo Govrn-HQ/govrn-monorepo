@@ -100,6 +100,7 @@ const EditContributionForm = ({
   const fileInputField = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [, setIsUploading] = useState(false);
+  const [ipfsError, setIpfsError] = useState(false);
 
   const handleFileUploadButtonClick = () => {
     if (fileInputField.current !== null) {
@@ -123,11 +124,24 @@ const EditContributionForm = ({
     }
     if (file && fileError === null) {
       setIsUploading(true);
-      setSelectedFile(file);
-      const ipfsImageUri = await uploadFileIpfs(file, true);
-      if (ipfsImageUri) {
-        setIpfsUri(ipfsImageUri);
-        setValue('proof', ipfsImageUri);
+      try {
+        setSelectedFile(file);
+        const ipfsImageUri = await uploadFileIpfs(file, true);
+        if (ipfsImageUri) {
+          setIpfsUri(ipfsImageUri);
+          setValue('proof', ipfsImageUri);
+          setIsUploading(false);
+        }
+      } catch (error) {
+        setIpfsError(true);
+        toast({
+          title: 'Unable to upload to IPFS.',
+          description: `Please select a different proof URL or try to upload another file.`,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
         setIsUploading(false);
       }
     }
@@ -136,9 +150,10 @@ const EditContributionForm = ({
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
-    if (selectedFile && fileError === null) {
+    if (selectedFile && fileError === null && ipfsError === false) {
       try {
         await uploadFileIpfs(selectedFile, false);
+        setIpfsError(false);
       } catch (error) {
         console.error(error);
         toast({
@@ -149,10 +164,13 @@ const EditContributionForm = ({
           isClosable: true,
           position: 'top-right',
         });
+        return;
       }
     }
-    updateContribution(contribution, values);
-    reset();
+    if (ipfsError === false) {
+      updateContribution(contribution, values);
+      reset();
+    }
   };
 
   return (
@@ -198,6 +216,13 @@ const EditContributionForm = ({
             placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
             localForm={localForm}
             dataTestId="editContributionForm-proof"
+            onChange={e => {
+              if (ipfsError === true) {
+                setSelectedFile(null);
+                setIpfsError(false);
+                setValue('proof', e?.target?.value);
+              }
+            }}
           />
           <Flex
             alignItems="center"
@@ -275,6 +300,7 @@ const EditContributionForm = ({
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.100' }}
               data-cy="updateContribution-test-btn"
+              disabled={ipfsError}
             >
               Update Contribution
             </Button>
