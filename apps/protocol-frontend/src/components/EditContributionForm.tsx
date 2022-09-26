@@ -129,6 +129,7 @@ const EditContributionForm = ({
           setIsUploading(false);
         }
       } catch (error) {
+        setSelectedFile(null);
         setIpfsError(true);
         toast({
           title: 'Unable to upload to IPFS.',
