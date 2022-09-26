@@ -16,8 +16,11 @@ import {
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils';
 
-const REQUIRED_CONFIRMATIONS = 1;
-const ERROR_CHAIN_ID = 'Failed to fetch on chain Id';
+class ChainIdError extends Error {
+  constructor(message?: string) {
+    super(message || 'Failed to fetch on chain Id');
+  }
+}
 
 export class Contribution extends BaseClient {
   status: ContributionStatus;
@@ -69,7 +72,7 @@ export class Contribution extends BaseClient {
       const transaction = await contract.burnContribution({
         tokenId: contribution.on_chain_id,
       });
-      await transaction.wait(REQUIRED_CONFIRMATIONS);
+      await transaction.wait();
     }
 
     return await this.sdk.deleteContribution({ where: { contributionId: id } });
@@ -111,14 +114,11 @@ export class Contribution extends BaseClient {
       })),
     };
     const transaction = await contract.bulkMint(args);
-    const transactionReceipt = await transaction.wait(REQUIRED_CONFIRMATIONS);
+    const transactionReceipt = await transaction.wait();
 
     const onChainIds: { [index: number]: ethers.BigNumber | null } =
       transactionReceipt.logs
-        .map(l => {
-          console.log('on chain id (logs)', l);
-          return contract.govrn.interface.parseLog(l);
-        })
+        .map(l => contract.govrn.interface.parseLog(l))
         .reduce(
           (prev, current, idx) => ({
             ...prev,
@@ -133,7 +133,7 @@ export class Contribution extends BaseClient {
 
         // TODO: Should we store it anyway as `staged` contribution?
         if (!onChainId) {
-          throw new Error(ERROR_CHAIN_ID);
+          throw new ChainIdError();
         }
 
         if (c.id) {
@@ -167,7 +167,7 @@ export class Contribution extends BaseClient {
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
-    const transactionReceipt = await transaction.wait(REQUIRED_CONFIRMATIONS);
+    const transactionReceipt = await transaction.wait();
 
     let onChainId = null as null | ethers.BigNumber;
     const logs = transactionReceipt.logs;
@@ -182,7 +182,7 @@ export class Contribution extends BaseClient {
       }
     }
     if (!onChainId) {
-      throw Error(ERROR_CHAIN_ID);
+      throw new ChainIdError();
     }
 
     if (id) {
@@ -221,7 +221,7 @@ export class Contribution extends BaseClient {
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
-    await transaction.wait(REQUIRED_CONFIRMATIONS);
+    await transaction.wait();
 
     if (id) {
       // TODO: figure out this flow a little bit
