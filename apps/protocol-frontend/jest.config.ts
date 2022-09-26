@@ -1,5 +1,5 @@
 /* eslint-disable */
-module.exports = {
+export default {
   displayName: 'protocol-frontend',
   preset: '../../jest.preset.js',
   transform: {

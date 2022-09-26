@@ -1,5 +1,5 @@
 /* eslint-disable */
-module.exports = {
+export default {
   displayName: 'contract-sync-job',
   preset: '../../jest.preset.js',
   globals: {

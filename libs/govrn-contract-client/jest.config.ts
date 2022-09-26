@@ -1,5 +1,5 @@
 /* eslint-disable */
-module.exports = {
+export default {
   displayName: 'govrn-contract-client',
   preset: '../../jest.preset.js',
   globals: {

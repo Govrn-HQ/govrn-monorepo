@@ -1,5 +1,5 @@
 /* eslint-disable */
-module.exports = {
+export default {
   displayName: 'contribution-report',
   preset: '../../jest.preset.js',
   transform: {

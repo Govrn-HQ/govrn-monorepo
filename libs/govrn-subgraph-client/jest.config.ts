@@ -1,5 +1,5 @@
 /* eslint-disable */
-module.exports = {
+export default {
   displayName: 'govrn-subgraph-client',
   preset: '../../jest.preset.js',
   globals: {

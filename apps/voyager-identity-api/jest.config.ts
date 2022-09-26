@@ -1,5 +1,5 @@
 /* eslint-disable */
-module.exports = {
+export default {
   displayName: 'voyager-identity-api',
   preset: '../../jest.preset.js',
   globals: {
