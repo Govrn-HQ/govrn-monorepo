@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "clean": "rm -rf node_modules dist",
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
