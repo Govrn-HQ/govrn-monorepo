@@ -74,25 +74,6 @@ const EditContributionForm = ({
     );
   }, [contribution]);
 
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isFetching: userActivityTypesIsFetching,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-    error: userActivityTypesError, // unused for now -- handling globally
-  } = useUserActivityTypesList();
-
-  // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading) {
-    return <GovrnSpinner />;
-  }
-
-  // there is an error with the query:
-  if (userActivityTypesIsError) {
-    return <Text>An error occurred fetching User Activity Types.</Text>;
-  }
-
   const combinedActivityTypesList = [
     ...new Set([
       ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
@@ -175,6 +156,25 @@ const EditContributionForm = ({
       }
     }
   };
+
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: userActivityTypesIsLoading,
+    isFetching: userActivityTypesIsFetching,
+    isError: userActivityTypesIsError,
+    data: userActivityTypesData,
+    error: userActivityTypesError, // unused for now -- handling globally
+  } = useUserActivityTypesList();
+
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
 
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
