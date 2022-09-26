@@ -183,7 +183,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   } = useUserActivityTypesList();
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || userActivityTypesIsFetching) {
+  if (userActivityTypesIsLoading) {
     return <GovrnSpinner />;
   }
 

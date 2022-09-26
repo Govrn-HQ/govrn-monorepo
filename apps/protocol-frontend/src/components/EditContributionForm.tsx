@@ -84,7 +84,7 @@ const EditContributionForm = ({
   } = useUserActivityTypesList();
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || userActivityTypesIsFetching) {
+  if (userActivityTypesIsLoading) {
     return <GovrnSpinner />;
   }
 
@@ -121,7 +121,7 @@ const EditContributionForm = ({
         ? contribution?.guilds[0]?.guild.id
         : daoReset[0].value,
     );
-  }, [contribution, daoReset, setValue]);
+  }, [contribution]);
 
   const toast = useToast();
   const [, setIpfsUri] = useState('');
