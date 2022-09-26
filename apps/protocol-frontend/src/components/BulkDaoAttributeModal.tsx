@@ -7,6 +7,7 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { BulkDaoAttributeFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
+import { useContributions } from '../contexts/ContributionContext';
 
 interface BulkDaoAttributeModalProps {
   contributions: UIContribution[];
@@ -16,7 +17,8 @@ interface BulkDaoAttributeModalProps {
 const BulkDaoAttributeModal = ({
   contributions,
 }: BulkDaoAttributeModalProps) => {
-  const { updateContribution, allDaos } = useUser();
+  const { allDaos } = useUser();
+  const { updateContribution } = useContributions();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution] = useState(1);
   const localForm = useForm({

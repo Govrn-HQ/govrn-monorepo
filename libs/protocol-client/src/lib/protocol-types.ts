@@ -3391,7 +3391,6 @@ export type ContributionWhereInput = {
 export type ContributionWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
   on_chain_id?: InputMaybe<Scalars['Int']>;
-  tx_hash?: InputMaybe<Scalars['String']>;
 };
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -13373,6 +13372,7 @@ export type UserOnChainContributionCreateInput = {
   onChainId: Scalars['Float'];
   proof: Scalars['String'];
   status: Scalars['String'];
+  txHash: Scalars['String'];
   userId: Scalars['Float'];
 };
 

@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { TWITTER_LINK, DISCORD_LINK, FEEDBACK_LINK } from '../utils/constants';
 import {
   Divider,
   Drawer,
@@ -15,12 +16,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   FiBarChart2,
   FiCheckSquare,
-  FiDisc,
   FiHome,
+  FiMessageSquare,
   FiPlusSquare,
   FiTwitter,
   FiUsers,
 } from 'react-icons/fi';
+import { FaDiscord } from 'react-icons/fa';
 import NavButton from './NavButton';
 import ConnectWallet from './ConnectWallet';
 
@@ -124,13 +126,18 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                     <Stack shouldWrapChildren>
                       <NavButton
                         label="Discord"
-                        icon={FiDisc}
-                        linkTo="https://discord.gg/3e36ZHU5aG"
+                        icon={FaDiscord}
+                        linkTo={DISCORD_LINK}
                       />
                       <NavButton
                         label="Twitter"
                         icon={FiTwitter}
-                        linkTo="https://twitter.com/govrnHQ"
+                        linkTo={TWITTER_LINK}
+                      />
+                      <NavButton
+                        label="Feedback"
+                        icon={FiMessageSquare}
+                        linkTo={FEEDBACK_LINK}
                       />
                     </Stack>
                   </Flex>

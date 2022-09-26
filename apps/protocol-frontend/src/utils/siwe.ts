@@ -1,6 +1,7 @@
 import { SiweMessage } from 'siwe';
+import { BASE_URL } from './constants';
 
-const BACKEND_ADDR = `${import.meta.env.VITE_PROTOCOL_BASE_URL}`;
+const BACKEND_ADDR = `${BASE_URL}`;
 
 export async function createSiweMessage(
   address: string,
@@ -25,7 +26,7 @@ export async function createSiweMessage(
       version: '1',
       chainId: parseInt(chainId),
       nonce: await res.text(),
-      expirationTime: new Date(Date.now() + 1 * 86400000).toISOString(),
+      expirationTime: new Date(Date.now() + 86400000).toISOString(), // 1 day expiration
     });
     return message.prepareMessage();
   } catch (e) {

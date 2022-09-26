@@ -12,13 +12,15 @@ import {
 import { useUser } from '../contexts/UserContext';
 import { MdCheckCircle } from 'react-icons/all';
 import { MintContributionType } from '../types/mint';
+import { useContributions } from '../contexts/ContributionContext';
 
 interface BulkAttestationModalProps {
   contributions: MintContributionType[];
 }
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
-  const { userData, createAttestation, mintAttestation } = useUser();
+  const { userData } = useUser();
+  const { createAttestation, mintAttestation } = useContributions();
   const [attesting, setAttesting] = useState(false);
   const [currentAttestation] = useState(1);
 

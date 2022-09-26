@@ -5,7 +5,6 @@ import {
   List,
   ListItem,
   Stack,
-  VStack,
   HStack,
   Badge,
   Heading,
@@ -30,8 +29,6 @@ interface ContributionDetailShellProps {
 const ContributionDetailShell = ({
   contribution,
 }: ContributionDetailShellProps) => {
-  console.log(contribution?.status);
-  console.log(contribution);
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
