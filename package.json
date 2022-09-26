@@ -85,7 +85,7 @@
     "react-table": "^7.7.0",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
-    "siwe": "^1.1.6",
+    "siwe": "2.0.5",
     "tslib": "^2.0.0",
     "twitter-api-sdk": "^1.0.6",
     "type-graphql": "^1.1.1",
