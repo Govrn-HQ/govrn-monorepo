@@ -74,20 +74,6 @@ const EditContributionForm = ({
     );
   }, [contribution]);
 
-  const combinedActivityTypesList = [
-    ...new Set([
-      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...DEFAULT_ACTIVITY_TYPES,
-    ]),
-  ];
-
-  const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    activity => ({
-      value: activity,
-      label: activity,
-    }),
-  );
-
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
   useEffect(() => {
@@ -175,6 +161,20 @@ const EditContributionForm = ({
   if (userActivityTypesIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
+
+  const combinedActivityTypesList = [
+    ...new Set([
+      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
+      ...DEFAULT_ACTIVITY_TYPES,
+    ]),
+  ];
+
+  const combinedActivityTypeOptions = combinedActivityTypesList.map(
+    activity => ({
+      value: activity,
+      label: activity,
+    }),
+  );
 
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
