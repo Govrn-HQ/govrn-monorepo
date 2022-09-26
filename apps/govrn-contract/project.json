@@ -1,5 +1,4 @@
 {
-  "root": "apps/govrn-contract",
   "projectType": "application",
   "sourceRoot": "apps/govrn-contract/src",
   "targets": {
@@ -24,7 +23,6 @@
       "configurations": {
         "rinkeby": {
           "command": "forge create --rpc-url http://127.0.0.1:8545/ --constructor-args 86000 -i src/Govrn.sol:Govrn",
-
           "cwd": "./apps/govrn-contract"
         }
       }
@@ -61,7 +59,6 @@
         "cwd": "./apps/govrn-contract"
       }
     },
-
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

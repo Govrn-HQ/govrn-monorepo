@@ -1,5 +1,4 @@
 {
-  "root": "apps/voyager-identity-api",
   "sourceRoot": "apps/voyager-identity-api/src",
   "projectType": "application",
   "targets": {

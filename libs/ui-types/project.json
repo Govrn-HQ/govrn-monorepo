@@ -1,5 +1,4 @@
 {
-  "root": "libs/ui-types",
   "sourceRoot": "libs/ui-types/src",
   "projectType": "library",
   "targets": {

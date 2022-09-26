@@ -1,5 +1,4 @@
 {
-  "root": "apps/protocol-frontend",
   "sourceRoot": "apps/protocol-frontend/src",
   "projectType": "application",
   "targets": {

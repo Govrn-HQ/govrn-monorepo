@@ -1,5 +1,4 @@
 {
-  "root": "apps/linear-sync-job",
   "sourceRoot": "apps/linear-sync-job/src",
   "projectType": "application",
   "targets": {

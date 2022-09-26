@@ -1,5 +1,4 @@
 {
-  "root": "libs/govrn-contract-client",
   "sourceRoot": "libs/govrn-contract-client/src",
   "targets": {
     "build": {
@@ -18,7 +17,6 @@
         "command": "typechain --target ethers-v5 --out-dir ./libs/govrn-contract-client/src/lib/generated ./apps/govrn-contract/out/Govrn.sol/*.json"
       }
     },
-
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

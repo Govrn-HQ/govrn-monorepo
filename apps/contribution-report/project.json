@@ -1,5 +1,4 @@
 {
-  "root": "apps/contribution-report",
   "sourceRoot": "apps/contribution-report/src",
   "projectType": "application",
   "targets": {

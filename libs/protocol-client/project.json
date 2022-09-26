@@ -1,5 +1,4 @@
 {
-  "root": "libs/protocol-client",
   "sourceRoot": "libs/protocol-client/src",
   "targets": {
     "build": {

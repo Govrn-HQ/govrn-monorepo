@@ -1,5 +1,4 @@
 {
-  "root": "apps/twitter-contribution-job",
   "sourceRoot": "apps/twitter-contribution-job/src",
   "projectType": "application",
   "targets": {

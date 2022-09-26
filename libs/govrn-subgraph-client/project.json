@@ -1,5 +1,4 @@
 {
-  "root": "libs/govrn-subgraph-client",
   "sourceRoot": "libs/govrn-subgraph-client/src",
   "targets": {
     "build": {
