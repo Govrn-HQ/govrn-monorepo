@@ -255,8 +255,7 @@ export class Contribution extends BaseClient {
     txHash: string;
     onChainId: number;
   }) {
-    console.log('id in the update:', contribution.id);
-    const updateResponse = this.sdk.updateUserOnChainContribution({
+    return this.sdk.updateUserOnChainContribution({
       data: {
         name: ethers.utils.toUtf8String(contribution.name),
         details: ethers.utils.toUtf8String(contribution.details),
@@ -274,8 +273,6 @@ export class Contribution extends BaseClient {
         txHash: contribution.txHash,
       },
     });
-    console.log('update response:', updateResponse);
-    return updateResponse;
   }
 
   private async _createOnChainUserContribution(contribution: {
