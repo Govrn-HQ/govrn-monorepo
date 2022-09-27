@@ -1,13 +1,14 @@
-import { useState, useCallback } from 'react';
-import { Select } from '@govrn/protocol-ui';
+import { useState } from 'react';
+import { GovrnSpinner, Select } from '@govrn/protocol-ui';
 import { Stack, Button, Text, Progress } from '@chakra-ui/react';
-import { useForm, SubmitHandler, Resolver } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { BulkDaoAttributeFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
 import { useContributions } from '../contexts/ContributionContext';
+import { useDaosList } from '../hooks/useDaosList';
 
 interface BulkDaoAttributeModalProps {
   contributions: UIContribution[];
@@ -17,7 +18,7 @@ interface BulkDaoAttributeModalProps {
 const BulkDaoAttributeModal = ({
   contributions,
 }: BulkDaoAttributeModalProps) => {
-  const { allDaos } = useUser();
+  const { allDaos, userData } = useUser();
   const { updateContribution } = useContributions();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution] = useState(1);
@@ -39,10 +40,20 @@ const BulkDaoAttributeModal = ({
     setAttributing(false);
   };
 
-  const daoListOptions = allDaos.map(dao => ({
-    value: dao.id,
-    label: dao.name,
-  }));
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: daosListIsLoading,
+    isError: daosListIsError,
+    data: daosListData,
+  } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
+
+  const daoListOptions =
+    daosListData?.map(dao => ({
+      value: dao.id,
+      label: dao.name ?? '',
+    })) || [];
 
   const daoReset = [
     {
@@ -52,6 +63,15 @@ const BulkDaoAttributeModal = ({
   ];
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+
+  // the loading and fetching states from the query are true:
+  if (daosListIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  if (daosListIsError) {
+    return <Text>An error occurred fetching DAOs.</Text>;
+  }
 
   return (
     <Stack spacing="4" width="100%" color="gray.800">
