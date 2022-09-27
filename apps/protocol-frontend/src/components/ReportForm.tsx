@@ -58,7 +58,7 @@ function CreateMoreSwitch({
 }
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
-  const { allDaos } = useUser();
+  const { userData } = useUser();
   const { isCreatingContribution, createContribution } = useContributions();
 
   const toast = useToast();
@@ -173,29 +173,24 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   // renaming these on destructuring incase we have parallel queries:
   const {
     isLoading: userActivityTypesIsLoading,
-    isFetching: userActivityTypesIsFetching,
     isError: userActivityTypesIsError,
     data: userActivityTypesData,
-    error: userActivityTypesError, // unused for now -- handling globally
   } = useUserActivityTypesList();
 
   // renaming these on destructuring incase we have parallel queries:
   const {
     isLoading: daosListIsLoading,
-    isFetching: daosListIsFetching,
     isError: daosListIsError,
     data: daosListData,
-  } = useDaosList({ where: { users: { some: { user_id: { equals: 5 } } } } });
+  } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
 
-  const daoListOptions = daosListData?.map(dao => ({
-    value: dao.id,
-    label: dao.name ?? '',
-  }));
-
-  // // the loading and fetching states from the query are true:
-  // if (userActivityTypesIsLoading) {
-  //   return <GovrnSpinner />;
-  // }
+  const daoListOptions =
+    daosListData?.map(dao => ({
+      value: dao.id,
+      label: dao.name ?? '',
+    })) || [];
 
   // there is an error with the query:
   if (userActivityTypesIsError) {

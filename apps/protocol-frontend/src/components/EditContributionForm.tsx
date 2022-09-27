@@ -25,19 +25,17 @@ import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
 import { useContributions } from '../contexts/ContributionContext';
-import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { HiOutlinePaperClip } from 'react-icons/hi';
+import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
+import { useDaosList } from '../hooks/useDaosList';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
   onClose?: () => void;
 }
 
-const EditContributionForm = ({
-  contribution,
-  onClose,
-}: EditContributionFormProps) => {
-  const { allDaos } = useUser();
+const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
+  const { userData } = useUser();
   const { updateContribution } = useContributions();
   const localForm = useForm({
     mode: 'all',
@@ -48,10 +46,27 @@ const EditContributionForm = ({
     new Date(contribution?.date_of_engagement),
   );
 
-  const daoListOptions = allDaos.map(dao => ({
-    value: dao.id,
-    label: dao.name ?? '',
-  }));
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: userActivityTypesIsLoading,
+    isError: userActivityTypesIsError,
+    data: userActivityTypesData,
+  } = useUserActivityTypesList();
+
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: daosListIsLoading,
+    isError: daosListIsError,
+    data: daosListData,
+  } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
+
+  const daoListOptions =
+    daosListData?.map(dao => ({
+      value: dao.id,
+      label: dao.name ?? '',
+    })) || [];
 
   const daoReset = [
     {
@@ -59,6 +74,41 @@ const EditContributionForm = ({
       label: 'No DAO',
     },
   ];
+
+  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
+  const combinedActivityTypesList = [
+    ...new Set([
+      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
+      ...DEFAULT_ACTIVITY_TYPES,
+    ]),
+  ];
+
+  const combinedActivityTypeOptions = combinedActivityTypesList.map(
+    activity => ({
+      value: activity,
+      label: activity,
+    }),
+  );
+
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading || daosListIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
+  if (daosListIsError) {
+    return <Text>An error occurred fetching DAOs.</Text>;
+  }
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -73,8 +123,6 @@ const EditContributionForm = ({
         : daoReset[0].value,
     );
   }, [contribution]);
-
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -143,39 +191,6 @@ const EditContributionForm = ({
       }
     }
   };
-
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isFetching: userActivityTypesIsFetching,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-    error: userActivityTypesError, // unused for now -- handling globally
-  } = useUserActivityTypesList();
-
-  // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading) {
-    return <GovrnSpinner />;
-  }
-
-  // there is an error with the query:
-  if (userActivityTypesIsError) {
-    return <Text>An error occurred fetching User Activity Types.</Text>;
-  }
-
-  const combinedActivityTypesList = [
-    ...new Set([
-      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...DEFAULT_ACTIVITY_TYPES,
-    ]),
-  ];
-
-  const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    activity => ({
-      value: activity,
-      label: activity,
-    }),
-  );
 
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
