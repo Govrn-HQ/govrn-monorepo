@@ -37,10 +37,11 @@ const ContributionsBarChart = ({
     const counts = contributionsCount.reduce((acc, cur) => {
       const date = new Date(cur.date);
       const month = date.getMonth() + 1;
+      const year = date.getFullYear();
       const monthNameShort = date.toLocaleString('en-US', { month: 'short' });
-      const key = `${month}-${cur.guild_id}`;
+      const key = `${month}-${cur.guild_id}-${year}`;
       acc[key] = {
-        day: monthNameShort,
+        day: `${monthNameShort}-${year}`,
         value: acc[key]?.value + cur.count || cur.count,
         guildId: cur.guild_id,
         guildName: cur.name,
