@@ -1,11 +1,13 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
+  for (const tableName of ["User","Guild","Contribution"]){
+    cy.seedDB(tableName);
+  }
   cy.fixture('testaccounts.json').then(accounts => {
     this.accounts = accounts;
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
-
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
   });
@@ -20,6 +22,10 @@ beforeEach(() => {
    .click({ force: true });  
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000);
+});
+afterEach(() => {
+  //teardown 
+  cy.teardownDB(["User", "Guild","Contribution"]);
 });
 
 describe('Edit first Contribution', () => {

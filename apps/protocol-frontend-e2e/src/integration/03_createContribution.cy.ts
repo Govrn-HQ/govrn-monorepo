@@ -1,17 +1,9 @@
 /// <reference types="cypress" />
 
-const getUserOffWaitlistQuery = `
-  UPDATE "User"
-  SET active = TRUE
-  WHERE email = 'testemail@gmail.com'
-  RETURNING *;
-  `;
-
 before(() => {
-  //Get user off the waitlist
-  cy.task('queryDatabase', getUserOffWaitlistQuery).then(res => {
-    expect(res.rows[0].active).to.equal(true);
-  });
+  for (const tableName of ["User","Guild"]){
+    cy.seedDB(tableName);
+  }
 
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
@@ -32,6 +24,10 @@ before(() => {
       .click({ force: true }); 
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000)
+});
+after(() => {
+  //teardown 
+  cy.teardownDB(["User", "Guild","Contribution"]);
 });
 
 describe('Create First Contribution', () => {

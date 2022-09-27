@@ -14,11 +14,18 @@ declare namespace Cypress {
     interceptGQL(httpMethod: Method, operationNames: string[]): void;
   }
   /**
-     * Intercepts with Graphql
+     * Seed DB
   */
-     interface Chainable<Subject> {
-      mintContribution(query: string): void;
+  interface Chainable<Subject> {
+      seedDB(tableName: string): void;
     }
+  /**
+    * teardown DB
+  */
+  interface Chainable<Subject> {
+        teardownDB(tableNames: Array<string>): void;
+      }
+
   interface Chainable<Subject> {
     switchWindow(): void;
   }
