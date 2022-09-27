@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-  for (const tableName of ["User","Guild","Contribution"]){
+  for (const tableName of ["LoginUser2", "Guild", "GuildUser2", "Contribution2"]){
     cy.seedDB(tableName);
   }
   cy.fixture('testaccounts.json').then(accounts => {
@@ -23,9 +23,8 @@ beforeEach(() => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000);
 });
-afterEach(() => {
-  //teardown 
-  cy.teardownDB(["User", "Guild","Contribution"]);
+after(() => {
+  cy.teardownDB(["Guild","User",  "GuildUser", "Contribution"]);
 });
 
 describe('Edit first Contribution', () => {
@@ -60,9 +59,12 @@ describe('Edit first Contribution', () => {
       .type(`${contribution.dao}{enter}`);
 
     cy.get('[ data-cy="updateContribution-test-btn"]').click();
+     // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(2000) //wait for all the remaining xhr requests
 
     cy.contains(
       'Please select at least one Contribution to attribute to a DAO or mint.',
     );
+  
   });
 });

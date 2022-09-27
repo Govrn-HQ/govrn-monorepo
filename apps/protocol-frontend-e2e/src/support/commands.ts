@@ -72,13 +72,13 @@ Cypress.Commands.add('seedDB',(tableName)=>{
     
     });
   }
-  else if (tableName=="Contribution"){
+  else if (tableName=="Contribution2"){
     cy.fixture('contributions.json').then((contributions) => {
       const contribution = contributions[0]
 
       const insertContribution = `
       INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-        VALUES (1, '${contribution.name}',1 , 1, 1, current_timestamp,
+        VALUES (2, '${contribution.name}',1 , 1, 2, current_timestamp,
          '${contribution.details}', '${contribution.proof}'
         )
       ON CONFLICT DO NOTHING;
