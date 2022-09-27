@@ -24,7 +24,7 @@ before(() => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000)
 });
-afterEach(() => {
+after(() => {
   //teardown 
   cy.teardownDB(["User", "Guild","Contribution"]);
 });

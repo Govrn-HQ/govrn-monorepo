@@ -2,6 +2,7 @@
 
 beforeEach(() => {
   cy.seedDB("User");
+  cy.seedDB("Guild");
   cy.seedDB("Contribution");
   cy.fixture('testaccounts.json').then(accounts => {
     this.accounts = accounts;
