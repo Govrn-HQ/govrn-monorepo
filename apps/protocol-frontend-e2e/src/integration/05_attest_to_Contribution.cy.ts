@@ -1,11 +1,13 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-
-  for (const tableName of ["Guild", "LoginUser2", "User2CreateAndMintContribution", "GuildContribution"]){
+  const tableNamesOrActions = ["Guild", "LoginUser2", 
+       "User2CreateAndMintContribution", "GuildContribution"
+    ];
+  for (const tableName of tableNamesOrActions){
     cy.seedDB(tableName);
   }
-
+  
   cy.fixture('testaccounts.json').then((accounts) => {
     this.accounts = accounts
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
