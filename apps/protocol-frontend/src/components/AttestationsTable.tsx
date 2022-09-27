@@ -98,7 +98,7 @@ const AttestationsTable = ({
 
   useEffect(() => {
     if (showAllDaos === false) {
-      setDisplayedContributions(unattestedUserDaoContributions);
+      setDisplayedContributions(unattestedUserDaoContributions); 
     } else {
       setDisplayedContributions(unattestedContributions);
     }

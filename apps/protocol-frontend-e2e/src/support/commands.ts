@@ -44,30 +44,71 @@ Cypress.Commands.add('interceptGQL', (httpMethod, operationNames) => {
 
 });
 
-//mint Contribution
-Cypress.Commands.add('mintContribution', (query) => {
+// Seed DAOs/Guilds into DB
+Cypress.Commands.add('seedDB',(tableName)=>{
+  if (tableName=="Guild"){
+    cy.fixture('daos.json').then((daos) => {
+      const DaoList = daos
+      for (const daoIdx in DaoList){
+        const  insertDAOs = `
+          INSERT INTO "${tableName}" (id, name)
+          VALUES ('${DaoList[daoIdx].id}','${DaoList[daoIdx].name}')
+          ON CONFLICT DO NOTHING;
+        `
+        cy.task('queryDatabase', insertDAOs); 
+      }
+    });
 
-  cy.get('input[title="Toggle Row Selected"]')
-  .click()
+  }
+  else if (tableName=="User"){
+    cy.fixture('users.json').then((userList) => {
+      const user = userList[0]
+      console.log(user)
+      const  insertUserQuery = `
+      INSERT INTO "${tableName}" (id, name, address, chain_type_id, active, email)
+       VALUES (1,'${user.username}', '${user.address}', 1, TRUE, '${user.email}')
+      ON CONFLICT DO NOTHING;
+      `
+      console.log(insertUserQuery)
+      cy.task('queryDatabase', insertUserQuery); 
+    
+    });
+  }
+  else if (tableName=="Contribution"){
+    cy.fixture('contributions.json').then((contributions) => {
+      const contribution = contributions[0]
 
-  cy.get('[data-testid="mint-btn-test"]') 
-    .should('be.visible')
-    .click();
-
-  cy.get('[data-testid="checkbox-testid"]') 
-    .click()
-
-  cy.get('[data-testid="mintContribution-test"]')
-    .should('be.visible')
+      const insertContribution = `
+      INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
+        VALUES (1, '${contribution.name}',1 , 1, 1, current_timestamp,
+         '${contribution.details}', '${contribution.proof}'
+        )
+      ON CONFLICT DO NOTHING;
+      `
+      cy.task('queryDatabase', insertContribution); 
+    
+    });
+  }
   
-  cy.task('queryDatabase', query).then(res => {
-    console.log(res)
-    expect(res.rows[0].status_id).to.equal(2);
-
-  cy.get(`.chakra-modal__close-btn`) //close modal
-    .click({force: true})
- 
-  });
-
 });
+
+// tearDown DB
+Cypress.Commands.add('teardownDB',(tableNames)=>{
+    for (const tableName of tableNames){
+      console.log(tableName)
+      const teardownQuery = `
+        TRUNCATE TABLE "${tableName}" RESTART IDENTITY CASCADE;
+      `
+      cy.task('queryDatabase', teardownQuery); 
+    }
+});
+  
+
+    
+
+
+
+
+
+
 

@@ -1,26 +1,34 @@
 /// <reference types="cypress" />
 
-  before(() => {
-    cy.fixture('contributions.json').then(contributions => {
-      this.contributions = contributions;
-    });
-  
-    cy.fixture('testaccounts.json').then(accounts => {
-      this.accounts = accounts;
-      cy.login(this.accounts[0].address, this.accounts[0].privateKey);
-    });
-  
-    cy.get('[data-cy="myContributions-btn"]', { timeout: 15000 })
-      .should('be.visible')
-      .click({ force: true });
+before(() => {
+  for (const tableName of ["User","Guild","Contribution"]){
+    cy.seedDB(tableName);
+  }
 
-    cy.get('[data-testid="floatingreportbtn-testid"]', {
-        timeout: 10000,
-      }).should('be.visible')
-        .click();
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(5000)
+  cy.fixture('testaccounts.json').then(accounts => {
+    this.accounts = accounts;
+    cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
+
+  cy.get('[data-cy="myContributions-btn"]', { timeout: 15000 })
+    .should('be.visible')
+    .click({ force: true });
+
+  cy.get('[data-testid="floatingreportbtn-testid"]', {
+      timeout: 10000,
+    }).should('be.visible')
+      .click();
+
+  cy.fixture('contributions.json').then(contributions => {
+      this.contributions = contributions;
+      });
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(5000)
+});
+afterEach(() => {
+  //teardown 
+  cy.teardownDB(["GuildContribution", "Contribution","Guild", "User"]);
+});
 
 describe("Create Second Contribution", () => {
   it('Report your Second Contribution', () => {
