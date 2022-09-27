@@ -28,6 +28,11 @@ beforeEach(() => {
    
 });
 
+afterEach(() => {
+  //teardown 
+  cy.teardownDB(["Attestation", "GuildContribution", "Contribution", "Guild",  "User"]);
+});
+
 describe("Attestation flow", () => {
   it("attest to a minted Contribution", ()=>{
 

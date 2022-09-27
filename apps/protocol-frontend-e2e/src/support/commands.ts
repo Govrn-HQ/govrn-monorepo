@@ -164,7 +164,6 @@ Cypress.Commands.add('seedDB',(tableName)=>{
 // tearDown DB
 Cypress.Commands.add('teardownDB',(tableNames)=>{
     for (const tableName of tableNames){
-      console.log(tableName)
       const teardownQuery = `
         TRUNCATE TABLE "${tableName}" RESTART IDENTITY CASCADE;
       `
