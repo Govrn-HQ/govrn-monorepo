@@ -14,6 +14,7 @@ interface NavButtonProps extends ButtonProps {
   label: string;
   active?: boolean;
   linkTo?: string;
+  dataTestId?: string;
 }
 
 export const NavButton = ({
@@ -21,6 +22,7 @@ export const NavButton = ({
   label,
   active,
   linkTo,
+  dataTestId,
   ...buttonProps
 }: NavButtonProps) => {
   return linkTo ? (
@@ -33,6 +35,7 @@ export const NavButton = ({
         backgroundColor={active ? 'gray.50' : 'transparent'}
         _hover={{ bgColor: 'gray.100' }}
         width="100%"
+        data-cy={dataTestId}
         {...buttonProps}
       >
         <HStack spacing="3">
@@ -50,6 +53,7 @@ export const NavButton = ({
       backgroundColor={active ? 'gray.50' : 'transparent'}
       _hover={{ bgColor: 'gray.100' }}
       width="100%"
+      data-cy={dataTestId}
       {...buttonProps}
     >
       <HStack spacing="3">

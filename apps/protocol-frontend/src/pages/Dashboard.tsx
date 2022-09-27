@@ -4,6 +4,7 @@ import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useContributions } from '../contexts/ContributionContext';
 import SiteLayout from '../components/SiteLayout';
 import DashboardShell from '../components/DashboardShell';
 import NewUserView from '../components/NewUserView';
@@ -14,10 +15,7 @@ const UserView = () => {
     <Stack spacing="4" justify="center" align="center" minHeight="50vh">
       <Text>{GOVRN_MOTTO}</Text>
       <Text fontSize="lg" fontWeight="medium">
-        Welcome back! Connect your wallet to view your Dashboard
-        <span role="img" aria-labelledby="eye emoji looking at Dashboard">
-          👀
-        </span>
+        Welcome back! Add a contribution to view your Dashboard
       </Text>
     </Stack>
   );
@@ -27,10 +25,11 @@ const Dashboard = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
   const { userData } = useUser();
+  const { userContributions } = useContributions();
 
   return (
     <SiteLayout>
-      {isConnected && isAuthenticated ? (
+      {isConnected && isAuthenticated && userContributions.length ? (
         <DashboardShell user={userData} />
       ) : (
         <Container

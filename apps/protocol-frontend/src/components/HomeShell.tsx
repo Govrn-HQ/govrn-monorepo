@@ -104,9 +104,9 @@ const HomeShell = () => {
                   >
                     {userData?.name || userDataByAddress?.name}
                   </Text>
-                  . Click below to view your contributions.
+                  . Click below to view your dashboard.
                 </Text>
-                <Link to="/contributions">
+                <Link to="/dashboard">
                   <Button
                     color="brand.primary.600"
                     backgroundColor="brand.primary.50"
@@ -114,9 +114,9 @@ const HomeShell = () => {
                     _hover={{ bgColor: 'white' }}
                     marginTop={4}
                     width="100%"
-                    data-cy="myContributions-btn"
+                    data-cy="myDashboards-btn"
                   >
-                    My Contributions
+                    My Dashboard
                   </Button>
                 </Link>
               </>
