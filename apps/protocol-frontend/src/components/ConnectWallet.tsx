@@ -1,6 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useDisconnect, useEnsName } from 'wagmi';
-import { useMatch, useNavigate } from 'react-router-dom';
 import {
   Button,
   Text,

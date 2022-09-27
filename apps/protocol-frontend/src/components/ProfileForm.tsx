@@ -4,10 +4,7 @@ import { Input, type InputLocalFormType } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
-import {
-  profileFormValidation,
-  linearFormValidation,
-} from '../utils/validations';
+import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
 
@@ -22,13 +19,7 @@ const ProfileForm = () => {
     mode: 'all',
     resolver: yupResolver(profileFormValidation),
   });
-  const localFormLinear = useForm<{ name: string; address: string }>({
-    mode: 'all',
-    resolver: yupResolver(linearFormValidation),
-  });
   const { handleSubmit, setValue } = localForm;
-  const { handleSubmit: handleSubmitLinear, setValue: setValueLinear } =
-    localFormLinear;
 
   useEffect(() => {
     setValue('name', userData?.name ?? '');

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Flex, Spinner } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { useAuth } from '../contexts/AuthContext';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 
