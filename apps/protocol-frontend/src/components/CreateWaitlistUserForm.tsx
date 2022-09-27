@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Heading, Flex, Button, Text } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,7 @@ import { CreateUserFormValues } from '../types/forms';
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
-    async (data: any) => {
+    async (data: CreateUserFormValues) => {
       try {
         const values = await userValidationSchema.validate(data, {
           abortEarly: false,
@@ -26,9 +26,9 @@ const useYupValidationResolver = (userValidationSchema: any) =>
         return {
           values: {},
           errors: (errors as ValidationError).inner.reduce(
-            (allErrors: any, currentError: any) => ({
+            (allErrors, currentError) => ({
               ...allErrors,
-              [currentError.path]: {
+              [currentError.path!]: {
                 type: currentError.type ?? 'validation',
                 message: currentError.message,
               },
