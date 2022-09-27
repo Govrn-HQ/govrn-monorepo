@@ -22,5 +22,5 @@ export type CreateUserFormValues = Partial<
 >;
 
 export type ProfileFormValues = Partial<
-  InferType<typeof profileFormValidation> & { address?: string }
+  InferType<typeof profileFormValidation>
 >;
