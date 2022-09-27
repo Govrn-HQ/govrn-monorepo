@@ -27,8 +27,6 @@ const Dashboard = () => {
   const { userData } = useUser();
   const { userContributions } = useContributions();
 
-  console.log('userData');
-  console.log(userContributions);
   return (
     <SiteLayout>
       {isConnected && isAuthenticated && userContributions.length ? (
