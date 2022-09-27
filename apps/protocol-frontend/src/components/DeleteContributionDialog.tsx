@@ -1,5 +1,4 @@
 import { useRef, Dispatch, SetStateAction } from 'react';
-import { useUser } from '../contexts/UserContext';
 import { DialogProps } from './ContributionsTable';
 
 import {

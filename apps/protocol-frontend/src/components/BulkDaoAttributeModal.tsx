@@ -35,6 +35,7 @@ const BulkDaoAttributeModal = ({
     setAttributing(true);
     contributions.map((contribution, idx) => {
       updateContribution(contribution, values, contributions.length);
+      return true;
     });
 
     setAttributing(false);

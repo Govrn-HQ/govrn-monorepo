@@ -1,15 +1,5 @@
-import {
-  Button,
-  Text,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Icon,
-  HStack,
-  Box,
-} from '@chakra-ui/react';
-import { FiKey, FiChevronDown, FiCopy, FiXCircle } from 'react-icons/fi';
+import { Button, Menu, MenuButton, Icon } from '@chakra-ui/react';
+import { FiChevronDown } from 'react-icons/fi';
 
 const ContributionActions = () => {
   return (

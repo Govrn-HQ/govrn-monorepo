@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Heading, Flex, Button, Text } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 import { Input } from '@govrn/protocol-ui';
 import { useForm } from 'react-hook-form';

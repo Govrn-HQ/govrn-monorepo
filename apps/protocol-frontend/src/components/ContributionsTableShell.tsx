@@ -43,7 +43,7 @@ const ContributionsTableShell = () => {
         ),
       );
     }
-  }, [selectedContributions]);
+  }, [selectedContributions, userContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });

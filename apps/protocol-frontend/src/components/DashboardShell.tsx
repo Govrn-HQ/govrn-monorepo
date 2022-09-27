@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
-import * as _ from 'lodash';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import { UIUser } from '@govrn/ui-types';
