@@ -18,7 +18,7 @@ interface BulkDaoAttributeModalProps {
 const BulkDaoAttributeModal = ({
   contributions,
 }: BulkDaoAttributeModalProps) => {
-  const { allDaos, userData } = useUser();
+  const { userData } = useUser();
   const { updateContribution } = useContributions();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution] = useState(1);
