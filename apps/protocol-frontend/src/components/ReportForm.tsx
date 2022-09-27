@@ -28,6 +28,7 @@ import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useContributions } from '../contexts/ContributionContext';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
+import { useDaosList } from '../hooks/useDaosList';
 
 function CreateMoreSwitch({
   isChecked,
@@ -129,11 +130,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setValue('engagementDate', engagementDateValue);
   }, []);
 
-  const daoListOptions = allDaos.map(dao => ({
-    value: dao.id,
-    label: dao.name ?? '',
-  }));
-
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
@@ -183,10 +179,23 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     error: userActivityTypesError, // unused for now -- handling globally
   } = useUserActivityTypesList();
 
-  // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading) {
-    return <GovrnSpinner />;
-  }
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: daosListIsLoading,
+    isFetching: daosListIsFetching,
+    isError: daosListIsError,
+    data: daosListData,
+  } = useDaosList({ where: { users: { some: { user_id: { equals: 5 } } } } });
+
+  const daoListOptions = daosListData?.map(dao => ({
+    value: dao.id,
+    label: dao.name ?? '',
+  }));
+
+  // // the loading and fetching states from the query are true:
+  // if (userActivityTypesIsLoading) {
+  //   return <GovrnSpinner />;
+  // }
 
   // there is an error with the query:
   if (userActivityTypesIsError) {
@@ -206,6 +215,20 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       label: activity,
     }),
   );
+
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading || daosListIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
+  if (daosListIsError) {
+    return <Text>An error occurred fetching DAOs.</Text>;
+  }
 
   // we can now return the component knowing that it is no longer loading and fetching, and there is no error:
   return (

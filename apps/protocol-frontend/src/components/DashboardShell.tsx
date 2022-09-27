@@ -10,6 +10,7 @@ import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
 import { useContributions } from '../contexts/ContributionContext';
 import { UNASSIGNED } from '../utils/constants';
+import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 
 type UserContributionsDateRangeCountType = {
   count: number;
