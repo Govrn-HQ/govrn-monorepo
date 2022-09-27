@@ -2,6 +2,7 @@
 
 before(() => {
   cy.seedDB("User");
+  cy.seedDB("Guild");
 
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
@@ -58,7 +59,7 @@ describe('Create First Contribution', () => {
       .eq(0)
       .type(`${contribution.dao}{enter}`);
 
-    //cy.get('[data-cy="addContribution-btn"]').click();
+    cy.get('[data-cy="addContribution-btn"]').click();
 
     cy.contains(
       'Please select at least one Contribution to attribute to a DAO or mint.',
