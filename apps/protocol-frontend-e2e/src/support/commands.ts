@@ -89,8 +89,6 @@ Cypress.Commands.add('seedDB',(tableName)=>{
     });
   }
   
-
-
 });
 
 // tearDown DB
@@ -102,7 +100,6 @@ Cypress.Commands.add('teardownDB',(tableNames)=>{
       `
       cy.task('queryDatabase', teardownQuery); 
     }
-   
 });
   
 
