@@ -42,3 +42,58 @@ Cypress.Commands.add('interceptGQL', (httpMethod, operationNames) => {
     });
   }
 });
+
+// Seed DAOs/Guilds into DB
+Cypress.Commands.add('seedDB',(tableName)=>{
+  if (tableName=="Guild"){
+    cy.fixture('daos.json').then((daos) => {
+      const DaoList = daos
+      for (const daoIdx in DaoList){
+        const  insertDAOs = `
+          INSERT INTO "${tableName}" (id, name)
+          VALUES ('${DaoList[daoIdx].id}','${DaoList[daoIdx].name}')
+          ON CONFLICT DO NOTHING;
+        `
+        cy.task('queryDatabase', insertDAOs); 
+      }
+    });
+
+  }
+  else if (tableName=="User"){
+    cy.fixture('users.json').then((userList) => {
+      const user = userList[0]
+      console.log(user)
+      const  insertUserQuery = `
+      INSERT INTO "${tableName}" (id, name, address, chain_type_id, active, email)
+       VALUES (1,'${user.username}', '${user.address}', 1, TRUE, '${user.email}')
+      ON CONFLICT DO NOTHING;
+      `
+      console.log(insertUserQuery)
+      cy.task('queryDatabase', insertUserQuery); 
+    
+    });
+  }
+
+});
+
+// tearDown DB
+Cypress.Commands.add('teardownDB',(tableNames)=>{
+    for (const tableName of tableNames){
+      console.log(tableName)
+      const teardownQuery = `
+        TRUNCATE TABLE "${tableName}" RESTART IDENTITY CASCADE;
+      `
+      cy.task('queryDatabase', teardownQuery); 
+    }
+   
+});
+  
+
+    
+
+
+
+
+
+
+

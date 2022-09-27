@@ -1,17 +1,7 @@
 /// <reference types="cypress" />
 
-const insertDAOs = `
-INSERT INTO "Guild" (id, name)
-    VALUES (1,'Govrn')
-ON CONFLICT DO NOTHING;
-
-INSERT INTO "Guild" (id, name)
-    VALUES (2,'MGD')
-ON CONFLICT DO NOTHING;
-`;
-
 beforeEach(() => {
-  cy.task('queryDatabase', insertDAOs);
+  cy.seedDB("Guild");
 
   cy.fixture('users.json').then(users => {
     this.users = users;
@@ -31,6 +21,8 @@ beforeEach(() => {
 
 afterEach(() => {
   cy.login(this.accounts[0].address, this.accounts[0].privateKey);
+  //teardown 
+  cy.teardownDB(["User", "Guild"]);
 });
 
 describe('Join Waitlist', () => {

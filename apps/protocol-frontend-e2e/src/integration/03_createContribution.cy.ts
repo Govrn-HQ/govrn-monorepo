@@ -1,17 +1,7 @@
 /// <reference types="cypress" />
 
-const getUserOffWaitlistQuery = `
-  UPDATE "User"
-  SET active = TRUE
-  WHERE email = 'testemail@gmail.com'
-  RETURNING *;
-  `;
-
 before(() => {
-  //Get user off the waitlist
-  cy.task('queryDatabase', getUserOffWaitlistQuery).then(res => {
-    expect(res.rows[0].active).to.equal(true);
-  });
+  cy.seedDB("User");
 
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
@@ -32,6 +22,11 @@ before(() => {
       .click({ force: true }); 
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000)
+});
+afterEach(() => {
+ 
+  //teardown 
+  cy.teardownDB(["User", "Guild","Contribution"]);
 });
 
 describe('Create First Contribution', () => {
@@ -64,7 +59,7 @@ describe('Create First Contribution', () => {
       .eq(0)
       .type(`${contribution.dao}{enter}`);
 
-    cy.get('[data-cy="addContribution-btn"]').click();
+    //cy.get('[data-cy="addContribution-btn"]').click();
 
     cy.contains(
       'Please select at least one Contribution to attribute to a DAO or mint.',
