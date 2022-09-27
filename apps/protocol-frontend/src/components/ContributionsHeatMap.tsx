@@ -48,7 +48,9 @@ const ContributionsHeatMap = ({
       >
         {contributionsCountMap.length !== 0 && (
           <ResponsiveTimeRange
-            data={contributionsCountMap}
+            data={contributionsCountMap.filter(
+              contribution => contribution.value !== 0,
+            )}
             from={
               startDateOffset
                 ? subWeeks(new Date(), startDateOffset)

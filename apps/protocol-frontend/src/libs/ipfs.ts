@@ -6,8 +6,8 @@ export const getIPFSClient = () => {
     'Basic ' +
     Buffer.from(
       import.meta.env.VITE_INFURA_PROJECT_ID +
-        ':' +
-        import.meta.env.VITE_INFURA_PROJECT_SECRET,
+      ':' +
+      import.meta.env.VITE_INFURA_PROJECT_SECRET,
     ).toString('base64');
   const ipfs = create({
     host: 'ipfs.infura.io',
@@ -20,13 +20,26 @@ export const getIPFSClient = () => {
   return ipfs;
 };
 
+export const uploadFileIpfs = async (file: File, onlyHash = true) => {
+  const ipfs = getIPFSClient();
+  if (onlyHash) {
+    const onlyHashOutput = await ipfs.add(file, { onlyHash: true });
+    return `ipfs://${onlyHashOutput.path}`;
+  }
+  if (!onlyHash) {
+    const cid = await ipfs.add(file, { onlyHash });
+    const resp = await ipfs.pin.add(cid.path);
+    return `ipfs://${cid.path}`;
+  }
+};
+
 export const storeIpfs = async (
   content:
     | {
-        name: string;
-        details: string;
-        proof: string;
-      }
+      name: string,
+      details: string,
+      proof: string,
+    }
     | ArrayBuffer,
 ) => {
   const ipfs = getIPFSClient();

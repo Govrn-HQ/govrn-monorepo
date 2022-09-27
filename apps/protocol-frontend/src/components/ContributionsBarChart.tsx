@@ -1,8 +1,6 @@
 import React from 'react';
-import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveBar } from '@nivo/bar';
-import { GovrnTheme } from '@govrn/protocol-ui';
-import { subWeeks } from 'date-fns';
 import * as _ from 'lodash';
 
 type ContributionCount = {
@@ -13,6 +11,7 @@ type ContributionCount = {
 };
 interface ContributionsBarChartProps {
   contributionsCount: ContributionCount[];
+  dateRange: { label: string; value: number };
 }
 
 const brandColorMap = [
@@ -25,18 +24,43 @@ const brandColorMap = [
   '#76024e',
 ];
 
+//
+
 const ContributionsBarChart = ({
   contributionsCount,
+  dateRange,
 }: ContributionsBarChartProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
-  const contributionsCountMap = contributionsCount.map(contribution => {
-    return {
-      day: contribution.date,
-      value: contribution.count,
-      guildId: contribution.guild_id,
-      guildName: contribution.name,
-    };
-  });
+  // By day non quarter or month
+  let contributionsCountMap = [];
+  if (dateRange.value >= 12) {
+    const counts = contributionsCount.reduce((acc, cur) => {
+      const date = new Date(cur.date);
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const monthNameShort = date.toLocaleString('en-US', { month: 'short' });
+      const key = `${month}-${cur.guild_id}-${year}`;
+      acc[key] = {
+        day: `${monthNameShort}-${year}`,
+        value: acc[key]?.value + cur.count || cur.count,
+        guildId: cur.guild_id,
+        guildName: cur.name,
+      };
+      return acc;
+    }, {} as { [key: string]: { day: string; value: number; guildId: number | undefined; guildName: string | undefined } });
+
+    contributionsCountMap = Object.values(counts);
+  } else {
+    contributionsCountMap = contributionsCount.map(contribution => {
+      const date = new Date(contribution.date);
+      return {
+        day: date.getDate(),
+        value: contribution.count,
+        guildId: contribution.guild_id,
+        guildName: contribution.name,
+      };
+    });
+  }
 
   const merged = contributionsCountMap.map(item => ({
     day: item.day,
@@ -74,7 +98,6 @@ const ContributionsBarChart = ({
             padding={0.3}
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}
-            maxValue={100}
             colors={[
               brandColorMap[0],
               brandColorMap[1],
@@ -115,7 +138,7 @@ const ContributionsBarChart = ({
                 anchor: 'bottom-right',
                 direction: 'column',
                 justify: false,
-                translateX: isMobile ? 180 : 120,
+                translateX: isMobile ? 180 : 180,
                 translateY: 0,
                 itemsSpacing: 2,
                 itemWidth: 150,
