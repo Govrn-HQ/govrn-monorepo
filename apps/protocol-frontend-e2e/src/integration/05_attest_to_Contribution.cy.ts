@@ -1,7 +1,11 @@
 /// <reference types="cypress" />
 
-const CONTRIBUTIONS_URL = 'http://localhost:3000/#/contributions'
 beforeEach(() => {
+
+  for (const tableName of ["Guild", "LoginUser2", "User2CreateAndMintContribution", "GuildContribution"]){
+    cy.seedDB(tableName);
+  }
+
   cy.fixture('testaccounts.json').then((accounts) => {
     this.accounts = accounts
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
@@ -10,35 +14,8 @@ beforeEach(() => {
   cy.get('[data-cy="myContributions-btn"]', { timeout: 15000 })
     .should('be.visible')
     .click({ force: true });
-  
-  cy.fixture('users.json').then((accounts) => {
-    this.accounts = accounts[1]
-    const user2Account = this.accounts
-    console.log(user2Account)
-    const User2Login = `
-    INSERT INTO "User" (id, name, address, chain_type_id, active, email )
-      VALUES (100,'${user2Account.username}', '${user2Account.address}', 
-        1, true, '${user2Account.email}'
-      )
-    ON CONFLICT DO NOTHING;
-    `
-    cy.task('queryDatabase', User2Login);
-  });
 
-  cy.fixture('contributions.json').then((accounts) => {
-    this.accounts = accounts[3]
-    const user2ContributionData = this.accounts
-    const User2CreateAndMintContribution = `
-    INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-      VALUES (10000, '${user2ContributionData.name}',2 , 1, 100, current_timestamp,
-       '${user2ContributionData.details}', '${user2ContributionData.proof}'
-      )
-    ON CONFLICT DO NOTHING;
-    `
-    cy.task('queryDatabase', User2CreateAndMintContribution);
-  });
-
-  cy.visit(CONTRIBUTIONS_URL)
+  cy.visit('http://localhost:3000/#/contributions')
 
   cy.contains('Attestations')
     .click({force:true})

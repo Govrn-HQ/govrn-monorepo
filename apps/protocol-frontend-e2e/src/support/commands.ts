@@ -89,6 +89,61 @@ Cypress.Commands.add('seedDB',(tableName)=>{
     
     });
   }
+  else if (tableName=="mintContribution"){
+    cy.fixture('contributions.json').then((contributions) => {
+      const contribution = contributions[0]
+
+      const mintedContributionQuery = `
+      INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
+        VALUES (1000, '${contribution.name}',2 , 1, 100, current_timestamp,
+         '${contribution.details}', '${contribution.proof}'
+        )
+      ON CONFLICT DO NOTHING;
+      `
+      cy.task('queryDatabase', mintedContributionQuery); 
+    
+    });
+  }
+  else if (tableName=="GuildContribution"){
+
+    const GuildContributionQuery = `
+    INSERT INTO "GuildContribution" (id, guild_id, contribution_id )
+      VALUES (1, 1, 2)
+    ON CONFLICT DO NOTHING;
+    `
+    cy.task('queryDatabase', GuildContributionQuery); 
+    
+  }
+  else if (tableName=="LoginUser2"){
+    cy.fixture('users.json').then((accounts) => {
+      const user2Account = accounts[1]
+      const User2Login = `
+      INSERT INTO "User" (id, name, address, chain_type_id, active, email )
+        VALUES (2,'${user2Account.username}', '${user2Account.address}', 
+          1, true, '${user2Account.email}'
+        )
+      ON CONFLICT DO NOTHING;
+      `
+      cy.task('queryDatabase', User2Login);
+    });
+  }
+  else if (tableName=="User2CreateAndMintContribution"){
+    cy.fixture('contributions.json').then((contributions) => {
+      const user2ContributionData = contributions[3]
+      const User2CreateAndMintContribution = `
+      INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
+        VALUES (2, '${user2ContributionData.name}',2 , 1, 2, current_timestamp,
+         '${user2ContributionData.details}', '${user2ContributionData.proof}'
+        )
+      ON CONFLICT DO NOTHING;
+      `
+      cy.task('queryDatabase', User2CreateAndMintContribution);
+    });
+
+  }
+
+
+
   
 });
 
