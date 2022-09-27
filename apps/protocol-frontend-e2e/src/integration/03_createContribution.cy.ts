@@ -14,16 +14,21 @@ before(() => {
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
 
-  cy.get('[data-cy="myContributions-btn"]', { timeout: 15000 })
+  cy.get('[data-cy="myDashboards-btn"]', { timeout: 15000 })
+    .should('be.visible')
+    .click({ force: true });
+
+  cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
     .should('be.visible')
     .click({ force: true });
 
   cy.get('[data-cy="reportFirstContribution-btn"]', {
-      timeout: 10000,
-    }).should('be.visible')
-      .click({ force: true }); 
+    timeout: 10000,
+  })
+    .should('be.visible')
+    .click({ force: true });
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(5000)
+  cy.wait(5000);
 });
 after(() => {
   //teardown 
@@ -33,8 +38,8 @@ after(() => {
 describe('Create First Contribution', () => {
   it('Report your first Contribution', () => {
     const contribution = this.contributions[0];
- 
-    cy.get('input[data-testid="reportForm-name"]', {timeout:20000})  
+
+    cy.get('input[data-testid="reportForm-name"]', { timeout: 20000 })
       .should('be.visible')
       .type(contribution.name)
       .should('have.value', contribution.name);
@@ -44,8 +49,7 @@ describe('Create First Contribution', () => {
       .eq(0)
       .children()
       .eq(0)
-      .type(`${contribution.activityType}{enter}`,
-    );
+      .type(`${contribution.activityType}{enter}`);
 
     cy.get('textarea[data-testid="textarea-test"]')
       .click()

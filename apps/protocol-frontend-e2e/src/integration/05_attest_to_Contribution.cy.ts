@@ -14,7 +14,7 @@ beforeEach(() => {
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
 
-  cy.get('[data-cy="myContributions-btn"]', { timeout: 15000 })
+  cy.get('[data-cy="myDashboards-btn"]', { timeout: 15000 })
     .should('be.visible')
     .click({ force: true });
 

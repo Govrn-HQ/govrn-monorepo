@@ -1,6 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUser } from '../contexts/UserContext';
-import { Stack, Flex, Button, Text, FormLabel, Switch } from '@chakra-ui/react';
+import { uploadFileIpfs } from '../libs/ipfs';
+import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
+import {
+  Stack,
+  Flex,
+  FormLabel,
+  IconButton,
+  Button,
+  Text,
+  Switch,
+  useToast,
+} from '@chakra-ui/react';
 import {
   CreatableSelect,
   Input,
@@ -14,6 +25,7 @@ import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
+import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useContributions } from '../contexts/ContributionContext';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 
@@ -48,6 +60,60 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { allDaos } = useUser();
   const { isCreatingContribution, createContribution } = useContributions();
 
+  const toast = useToast();
+  const [, setIpfsUri] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputField = useRef<HTMLInputElement>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [, setIsUploading] = useState(false);
+  const [ipfsError, setIpfsError] = useState(false);
+
+  const handleFileUploadButtonClick = () => {
+    if (fileInputField.current !== null) {
+      fileInputField.current.click();
+    }
+  };
+
+  const handleImageSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event?.target.files ? event.target.files[0] : null;
+    if (file !== null) {
+      setValue('proof', '');
+      setFileError(null);
+      if (file.size > MAX_FILE_UPLOAD_SIZE) {
+        setFileError(
+          'File is too large. Please select something smaller than 5 MB.',
+        );
+        return;
+      }
+    }
+    if (file && fileError === null) {
+      setIsUploading(true);
+      try {
+        setSelectedFile(file);
+        const ipfsImageUri = await uploadFileIpfs(file, true);
+        if (ipfsImageUri) {
+          setIpfsUri(ipfsImageUri);
+          setValue('proof', ipfsImageUri);
+          setIsUploading(false);
+        }
+      } catch (error) {
+        setSelectedFile(null);
+        setIpfsError(true);
+        toast({
+          title: 'Unable to upload to IPFS.',
+          description: `Please select a different proof URL or try to upload another file.`,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+        setIsUploading(false);
+      }
+    }
+  };
+
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(reportFormValidation),
@@ -71,17 +137,36 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
-    const result = await createContribution(values);
-    if (result) {
-      reset({
-        name: '',
-        details: '',
-        proof: '',
-        activityType: values.activityType,
-        date_of_engagement: values.engagementDate,
-      });
-
-      if (!isUserCreatingMore) onFinish();
+    if (selectedFile && fileError === null && ipfsError === false) {
+      try {
+        await uploadFileIpfs(selectedFile, false);
+        setIpfsError(false);
+      } catch (error) {
+        console.error(error);
+        setIpfsError(true);
+        toast({
+          title: 'Unable to Upload to IPFS',
+          description: `Something went wrong. Please try again: ${error}`,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+        return;
+      }
+    }
+    if (ipfsError === false) {
+      const result = await createContribution(values);
+      if (result) {
+        reset({
+          name: '',
+          details: '',
+          proof: '',
+          activityType: values.activityType,
+          date_of_engagement: values.engagementDate,
+        });
+        if (!isUserCreatingMore) onFinish();
+      }
     }
   };
 
@@ -92,14 +177,12 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   // renaming these on destructuring incase we have parallel queries:
   const {
     isLoading: userActivityTypesIsLoading,
-    isFetching: userActivityTypesIsFetching,
     isError: userActivityTypesIsError,
     data: userActivityTypesData,
-    error: userActivityTypesError, // unused for now -- handling globally
   } = useUserActivityTypesList();
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || userActivityTypesIsFetching) {
+  if (userActivityTypesIsLoading) {
     return <GovrnSpinner />;
   }
 
@@ -156,11 +239,53 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Input
             name="proof"
             label="Proof of Contribution"
-            tip="Please add a URL to a proof of your contribution."
+            tip="Please add a URL to a proof of your Contribution or upload a file to IPFS (smaller than 5 MB)."
             placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
             localForm={localForm}
             dataTestId="reportForm-proof"
+            onChange={e => {
+              if (ipfsError === true) {
+                setSelectedFile(null);
+                setIpfsError(false);
+                setValue('proof', e?.target?.value);
+              }
+            }}
           />
+          <Flex
+            alignItems="center"
+            justifyContent="flex-start"
+            gap={2}
+            paddingBottom={2}
+          >
+            <label htmlFor="fileUpload">
+              <IconButton
+                size="sm"
+                aria-label="Upload a file for your Contribution proof"
+                icon={<HiOutlinePaperClip />}
+                onClick={handleFileUploadButtonClick}
+                variant="outline"
+              />
+            </label>
+            <input
+              type="file"
+              id="fileUpload"
+              ref={fileInputField}
+              onChange={handleImageSelect}
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+            <Text fontSize="xs" color="gray.700">
+              {selectedFile === null
+                ? 'Select a file to upload to IPFS. Files uploaded to IPFS are publicly available.'
+                : selectedFile?.name}
+            </Text>
+          </Flex>
+          <Flex paddingBottom={4}>
+            {fileError && (
+              <Text fontSize="xs" color="red.500">
+                {fileError}
+              </Text>
+            )}
+          </Flex>
           <Select
             name="daoId"
             label="DAO"
@@ -187,6 +312,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               setValue('engagementDate', date);
             }}
           />
+          <Flex paddingBottom={4}>
+            {ipfsError && (
+              <Text fontSize="xs" color="red.500">
+                Something went wrong uploading to IPFS. Please select a
+                different proof URL or try to upload another file.
+              </Text>
+            )}
+          </Flex>
           <Flex align="flex-end" marginTop={4} gap={4}>
             <Button
               type="submit"
@@ -197,6 +330,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               _hover={{ bgColor: 'brand.primary.100' }}
               isLoading={isCreatingContribution}
               data-cy="addContribution-btn"
+              disabled={ipfsError}
             >
               Add Contribution
             </Button>
