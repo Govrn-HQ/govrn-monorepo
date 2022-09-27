@@ -108,15 +108,28 @@ Cypress.Commands.add('seedDB',(tableName)=>{
 
     const GuildContributionQuery = `
     INSERT INTO "GuildContribution" (id, guild_id, contribution_id )
-      VALUES (1, 1, 2)
+      VALUES (1, 1, 1)
     ON CONFLICT DO NOTHING;
     `
     cy.task('queryDatabase', GuildContributionQuery); 
     
   }
+  else if (tableName=="LoginUser1"){
+    cy.fixture('users.json').then((accounts) => {
+      const user1Account = accounts[1]
+      const User1Login = `
+      INSERT INTO "User" (id, name, address, chain_type_id, active, email )
+        VALUES (1,'${user1Account.username}', '${user1Account.address}', 
+          1, true, '${user1Account.email}'
+        )
+      ON CONFLICT DO NOTHING;
+      `
+      cy.task('queryDatabase', User1Login);
+    });
+  }
   else if (tableName=="LoginUser2"){
     cy.fixture('users.json').then((accounts) => {
-      const user2Account = accounts[1]
+      const user2Account = accounts[0]
       const User2Login = `
       INSERT INTO "User" (id, name, address, chain_type_id, active, email )
         VALUES (2,'${user2Account.username}', '${user2Account.address}', 
@@ -127,24 +140,37 @@ Cypress.Commands.add('seedDB',(tableName)=>{
       cy.task('queryDatabase', User2Login);
     });
   }
-  else if (tableName=="User2CreateAndMintContribution"){
+  else if (tableName=="User1CreateAndMintContribution"){
     cy.fixture('contributions.json').then((contributions) => {
-      const user2ContributionData = contributions[3]
-      const User2CreateAndMintContribution = `
+      const user1ContributionData = contributions[3]
+      const User1CreateAndMintContribution = `
       INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-        VALUES (2, '${user2ContributionData.name}',2 , 1, 2, current_timestamp,
-         '${user2ContributionData.details}', '${user2ContributionData.proof}'
+        VALUES (1, '${user1ContributionData.name}',2 , 1, 1, current_timestamp,
+         '${user1ContributionData.details}', '${user1ContributionData.proof}'
         )
       ON CONFLICT DO NOTHING;
       `
-      cy.task('queryDatabase', User2CreateAndMintContribution);
+      cy.task('queryDatabase', User1CreateAndMintContribution);
     });
+  }
+  else if (tableName=="GuildUser1"){
+      const GuildUser1Query = `
+      INSERT INTO "GuildUser" (id, user_id, guild_id)
+        VALUES (1, 1, 1)
+      ON CONFLICT DO NOTHING;
+      `
+      cy.task('queryDatabase', GuildUser1Query );
 
   }
+  else if (tableName=="GuildUser2"){
+    const GuildUser1Query = `
+    INSERT INTO "GuildUser" (id, user_id, guild_id)
+      VALUES (2, 2, 1)
+    ON CONFLICT DO NOTHING;
+    `
+    cy.task('queryDatabase', GuildUser1Query );
 
-
-
-  
+}
 });
 
 // tearDown DB
