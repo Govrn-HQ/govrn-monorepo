@@ -30,7 +30,6 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
-import EmptyContributions from './EmptyContributions';
 
 type AttestationTableType = {
   id: number;

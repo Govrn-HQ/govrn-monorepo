@@ -144,10 +144,9 @@ const MyAttestationsTable = ({
     getTableBodyProps,
     headerGroups,
     rows,
-    state: { globalFilter, selectedRowIds },
+    state: { globalFilter },
     preGlobalFilteredRows,
     setGlobalFilter,
-    selectedFlatRows,
     prepareRow,
   } = useTable(
     { columns, data },
@@ -157,10 +156,6 @@ const MyAttestationsTable = ({
     useRowSelect,
     tableHooks,
   );
-
-  // useEffect(() => {
-  //   setSelectedContributions(selectedFlatRows);
-  // }, [selectedFlatRows, selectedRowIds]);
 
   return (
     <Stack>

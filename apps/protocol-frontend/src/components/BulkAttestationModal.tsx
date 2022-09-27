@@ -30,10 +30,10 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
       if (contribution.status.name === 'minted') {
         mintAttestation(contribution.original);
       } else {
-        console.log(`contribution ${idx} is off chain`);
         createAttestation(contribution);
       }
       setAttesting(false);
+      return true;
     });
   };
 
