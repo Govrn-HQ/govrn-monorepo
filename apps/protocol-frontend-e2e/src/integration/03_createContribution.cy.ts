@@ -24,7 +24,6 @@ before(() => {
   cy.wait(5000)
 });
 afterEach(() => {
- 
   //teardown 
   cy.teardownDB(["User", "Guild","Contribution"]);
 });
