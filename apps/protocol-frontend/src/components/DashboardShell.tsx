@@ -37,6 +37,16 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   const [selectedDaos, setSelectedDaos] = useState<
     { value: number; label: string }[]
   >([]);
+
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: userDaosListIsLoading,
+    isError: userDaosListIsError,
+    data: userDaosListData,
+  } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
+
   const fetchHeatMapCount = async (
     dateRangeValue: number,
     setFunc: (
@@ -78,6 +88,10 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   useEffect(() => {
     fetchHeatMapCount(dateRange.value, setContributionsCount);
   }, [user, dateRange, selectedDaos]);
+
+  useEffect(() => {
+    fetchHeatMapCount(52, setFullContributionsCount);
+  }, [user, selectedDaos]);
 
   const userDaoListOptions =
     userDaosListData?.map(dao => ({
