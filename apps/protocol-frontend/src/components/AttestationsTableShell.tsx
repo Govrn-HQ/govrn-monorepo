@@ -11,7 +11,6 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
-import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
@@ -125,24 +124,6 @@ const AttestationsTableShell = () => {
                         <EmptyContributions />
                       )}
                     </Box>
-                    {/* <Box px={{ base: '4', md: '6' }} pb="5">
-                      <HStack spacing="3" justify="space-between">
-                        {!isMobile && (
-                          <Text color="muted" fontSize="sm">
-                            Showing 1 to (x) of (y) results
-                          </Text>
-                        )}
-                        <ButtonGroup
-                          spacing="3"
-                          justifyContent="space-between"
-                          width={{ base: 'full', md: 'auto' }}
-                          variant="secondary"
-                        >
-                          <Button>Previous</Button>
-                          <Button>Next</Button>
-                        </ButtonGroup>
-                      </HStack>
-                    </Box> */}
                   </Stack>
                 </Box>
               </TabPanel>

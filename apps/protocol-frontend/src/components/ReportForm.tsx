@@ -60,7 +60,6 @@ function CreateMoreSwitch({
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { userData } = useUser();
   const { isCreatingContribution, createContribution } = useContributions();
-
   const toast = useToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

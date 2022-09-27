@@ -46,6 +46,20 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     new Date(contribution?.date_of_engagement),
   );
 
+  const toast = useToast();
+  const [, setIpfsUri] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputField = useRef<HTMLInputElement>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [, setIsUploading] = useState(false);
+  const [ipfsError, setIpfsError] = useState(false);
+
+  const handleFileUploadButtonClick = () => {
+    if (fileInputField.current !== null) {
+      fileInputField.current.click();
+    }
+  };
+
   // renaming these on destructuring incase we have parallel queries:
   const {
     isLoading: userActivityTypesIsLoading,
@@ -77,11 +91,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
-  // there is an error with the query:
-  if (userActivityTypesIsError) {
-    return <Text>An error occurred fetching User Activity Types.</Text>;
-  }
-
   const combinedActivityTypesList = [
     ...new Set([
       ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
@@ -96,20 +105,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     }),
   );
 
-  // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || daosListIsLoading) {
-    return <GovrnSpinner />;
-  }
-
-  // there is an error with the query:
-  if (userActivityTypesIsError) {
-    return <Text>An error occurred fetching User Activity Types.</Text>;
-  }
-
-  if (daosListIsError) {
-    return <Text>An error occurred fetching DAOs.</Text>;
-  }
-
   useEffect(() => {
     setValue('name', contribution?.name);
     setValue('details', contribution?.details);
@@ -137,20 +132,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
         : daoReset[0].value,
     );
   }, [contribution]);
-
-  const toast = useToast();
-  const [, setIpfsUri] = useState('');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const fileInputField = useRef<HTMLInputElement>(null);
-  const [fileError, setFileError] = useState<string | null>(null);
-  const [, setIsUploading] = useState(false);
-  const [ipfsError, setIpfsError] = useState(false);
-
-  const handleFileUploadButtonClick = () => {
-    if (fileInputField.current !== null) {
-      fileInputField.current.click();
-    }
-  };
 
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -217,6 +198,20 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       reset();
     }
   };
+
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading || daosListIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
+  if (daosListIsError) {
+    return <Text>An error occurred fetching DAOs.</Text>;
+  }
 
   return (
     <Stack spacing="4" width="100%" color="gray.800">
