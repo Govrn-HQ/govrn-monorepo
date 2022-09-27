@@ -64,7 +64,7 @@ describe('Edit first Contribution', () => {
 
     cy.get('[ data-cy="updateContribution-test-btn"]').click();
      // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(2000) //wait for all the remaining xhr requests
+    cy.wait(3000) //wait for all the remaining xhr requests
 
     cy.contains(
       'Please select at least one Contribution to attribute to a DAO or mint.',
