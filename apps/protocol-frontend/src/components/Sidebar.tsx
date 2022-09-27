@@ -52,8 +52,12 @@ const Sidebar = () => {
           </Link>
 
           <Stack spacing="1">
-            <Link to="/">
-              <NavButton label="Home" icon={FiHome} />
+            <Link to="/dashboard">
+              <NavButton
+                label="Home"
+                icon={FiHome}
+                active={location.pathname.includes('/dashboard')}
+              />
             </Link>
             <Link to="/report">
               <NavButton
