@@ -71,6 +71,7 @@ const Sidebar = () => {
                 label="Contributions"
                 icon={FiBarChart2}
                 active={location.pathname.includes('/contributions')}
+                dataTestId="contributionsSidebar-btn"
               />
             </Link>
             <Link to="/attestations">

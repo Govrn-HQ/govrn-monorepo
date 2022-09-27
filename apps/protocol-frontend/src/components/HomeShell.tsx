@@ -114,7 +114,7 @@ const HomeShell = () => {
                     _hover={{ bgColor: 'white' }}
                     marginTop={4}
                     width="100%"
-                    data-cy="myContributions-btn"
+                    data-cy="myDashboards-btn"
                   >
                     My Dashboard
                   </Button>
