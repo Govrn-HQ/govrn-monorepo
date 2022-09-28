@@ -117,15 +117,13 @@ export class Contribution extends BaseClient {
     const transactionReceipt = await transaction.wait();
 
     const onChainIds: { [index: number]: ethers.BigNumber | null } =
-      transactionReceipt.logs
-        .map(l => contract.govrn.interface.parseLog(l))
-        .reduce(
-          (prev, current, idx) => ({
-            ...prev,
-            [idx]: current.name === 'Mint' ? current.args['id'] : null,
-          }),
-          {},
-        );
+      transactionReceipt.logs.reduce((prev, current, idx) => {
+        const log = contract.govrn.interface.parseLog(current);
+        return {
+          ...prev,
+          [idx]: log.name === 'Mint' ? log.args['id'] : null,
+        };
+      }, {});
 
     return await Promise.allSettled(
       contributions.map(async (c, idx) => {
