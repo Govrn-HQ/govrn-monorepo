@@ -1,5 +1,5 @@
 import * as Dom from 'graphql-request/dist/types.dom';
-import { SortOrder, InputMaybe, Scalars, IntFilter } from './protocol-types';
+import { SortOrder, InputMaybe, Scalars, IntFilter } from '../protocol-types';
 
 interface WhereArgs {
   AND?: InputMaybe<Array<WhereArgs>>;

@@ -14,7 +14,7 @@ import {
   NetworkConfig,
 } from '@govrn/govrn-contract-client';
 import { GraphQLClient } from 'graphql-request';
-import { paginate } from '../utils';
+import { paginate } from '../utils/paginate';
 
 class ChainIdError extends Error {
   constructor(message?: string) {
