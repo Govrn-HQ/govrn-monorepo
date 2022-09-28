@@ -90,7 +90,7 @@ const ContributionsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Contributions</PageHeading>
-        {isLoading ? (
+        {isLoading && contributions.length === 0 ? (
           <GovrnSpinner />
         ) : contributions && contributions?.length > 0 ? (
           <Tabs
