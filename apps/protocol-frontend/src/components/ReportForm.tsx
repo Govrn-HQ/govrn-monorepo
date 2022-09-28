@@ -60,8 +60,6 @@ function CreateMoreSwitch({
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { allDaos } = useUser();
-  const { isCreatingContribution, createContribution } = useContributions();
-
   const toast = useToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -136,7 +134,10 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     label: dao.name ?? '',
   }));
 
-  const { mutateAsync: createNewContribution } = useContributionCreate();
+  const {
+    mutateAsync: createNewContribution,
+    isLoading: createNewContributionIsLoading,
+  } = useContributionCreate();
 
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
@@ -161,7 +162,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     }
     if (ipfsError === false) {
       const result = await createNewContribution(values);
-      // const result = await createContribution(values);
       if (result) {
         reset({
           name: '',
@@ -333,7 +333,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               backgroundColor="brand.primary.50"
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.100' }}
-              isLoading={isCreatingContribution}
+              isLoading={createNewContributionIsLoading}
               data-cy="addContribution-btn"
               disabled={ipfsError}
             >

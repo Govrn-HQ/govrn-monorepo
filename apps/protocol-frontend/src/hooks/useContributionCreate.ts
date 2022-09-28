@@ -24,7 +24,7 @@ export const useContributionCreate = () => {
     })
     return data
   }, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(['activityTypes'])
       toast({
         title: 'Contribution Report Added',
