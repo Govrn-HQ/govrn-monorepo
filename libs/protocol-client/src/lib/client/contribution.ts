@@ -15,6 +15,7 @@ import {
 } from '@govrn/govrn-contract-client';
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
+import patch from '../utils/patch';
 
 class ChainIdError extends Error {
   constructor(message?: string) {
@@ -125,7 +126,7 @@ export class Contribution extends BaseClient {
         };
       }, {});
 
-    return await Promise.allSettled(
+    return await patch(
       contributions.map(async (c, idx) => {
         const onChainId = onChainIds[idx];
 
@@ -148,6 +149,7 @@ export class Contribution extends BaseClient {
           txHash: transaction.hash,
         });
       }),
+      1,
     );
   }
 
