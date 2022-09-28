@@ -66,7 +66,6 @@ const ContributionsTable = ({
   nextPage: () => void;
 }) => {
   const { userData } = useUser();
-  // const { userContributionPagination: pagination } = useContributions();
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();

@@ -31,9 +31,6 @@ import { ContributionTableType } from '../types/table';
 const PAGE_SIZE = 20;
 
 const ContributionsTableShell = () => {
-  // next function
-  // has more boolean
-  // const { isUserContributionsLoading, userContributions } = useContributions();
   const [page, setPage] = useState(0);
   const [contributions, setContributions] = useState<UIContribution[]>([]);
   const { userData } = useUser();
@@ -58,20 +55,6 @@ const ContributionsTableShell = () => {
       setContributions(prevState => [...prevState, ...data]);
     }
   }, [data]);
-  // Handle pagination here
-
-  // useEffect(() => {
-  //   if (selectedContributions && selectedContributions.length > 0) {
-  //     setSelectedContributionsMap(
-  //       selectedContributions?.map((contribution: any) =>
-  //         userContributions.find(
-  //           localContribution =>
-  //             contribution.original.id === localContribution.id,
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }, [selectedContributions, userContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
