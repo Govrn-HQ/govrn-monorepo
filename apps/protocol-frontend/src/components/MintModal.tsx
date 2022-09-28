@@ -46,14 +46,20 @@ const MintModal = ({ contributions }: MintModalProps) => {
       async contribution => {
         const ipfsContentUri = await storeIpfs({
           name: contribution?.original?.name,
-          details: contribution.original.details,
-          proof: contribution.original.proof,
+          details: contribution?.original?.details || '',
+          proof: contribution?.original?.proof || '',
         });
-        mintContribution(
-          contribution.original,
-          ipfsContentUri,
-          setMintProgress,
-        );
+        if (contribution.original) {
+          const original = contribution.original;
+          const originalClean = {
+            ...contribution.original,
+            details: original.details || '',
+            proof: original.proof || '',
+            date_of_submission: original.date_of_submission.toString(),
+            engagementDate: original.engagementDate.toString(),
+          };
+          mintContribution(originalClean, ipfsContentUri, setMintProgress);
+        }
       },
     );
     await Promise.all(unresolvedContributionsMinting);
@@ -136,8 +142,8 @@ const MintModal = ({ contributions }: MintModalProps) => {
           _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => {
             const c = contributions[0];
-            if (c && 'original' in keyof c) {
-              mintHandler(contributions);
+            if (contributions && 'original' in c) {
+              mintHandler(contributions as Row<ContributionTableType>[]);
             }
           }}
           isLoading={minting}

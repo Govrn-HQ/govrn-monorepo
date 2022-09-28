@@ -55,14 +55,18 @@ export type DialogProps = {
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
+  hasMoreItems,
+  nextPage,
 }: {
   contributionsData: UIContribution[];
   setSelectedContributions: (
     rows: UIContribution[] | Row<ContributionTableType>[],
   ) => void;
+  hasMoreItems: boolean;
+  nextPage: () => void;
 }) => {
   const { userData } = useUser();
-  const { userContributionPagination: pagination } = useContributions();
+  // const { userContributionPagination: pagination } = useContributions();
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
@@ -289,11 +293,9 @@ const ContributionsTable = ({
       <Box width="100%" maxWidth="100vw" overflowX="auto">
         <InfiniteScroll
           dataLength={rows.length}
-          next={() => {
-            pagination.next();
-          }}
+          next={nextPage}
           scrollThreshold={0.8}
-          hasMore={pagination.hasMore}
+          hasMore={hasMoreItems}
           loader={<GovrnSpinner />}
           endMessage={<TableEndMessage />}
         >

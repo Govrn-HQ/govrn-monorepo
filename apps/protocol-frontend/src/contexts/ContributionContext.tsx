@@ -48,9 +48,9 @@ export const ContributionsContextProvider: React.FC<
 
   const [userContributionPage, setUserContributionPage] = useState(0);
   // const [isUserContributionsHaveMore, setUserContributionHasMore] =
-  useState(true);
+  // useState(true);
   // const [isUserContributionsLoading, setUserContributionsLoading] =
-  useState(true);
+  // useState(true);
   // const [userContributions, setUserContributions] = useState<UIContribution[]>(
   // [],
   // );

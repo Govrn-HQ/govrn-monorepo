@@ -31,8 +31,11 @@ import { ContributionTableType } from '../types/table';
 const PAGE_SIZE = 20;
 
 const ContributionsTableShell = () => {
+  // next function
+  // has more boolean
   // const { isUserContributionsLoading, userContributions } = useContributions();
   const [page, setPage] = useState(0);
+  const [contributions, setContributions] = useState<UIContribution[]>([]);
   const { userData } = useUser();
   const { isLoading, data } = useContributionList({
     where: {
@@ -50,6 +53,11 @@ const ContributionsTableShell = () => {
     UIContribution[]
   >([]);
 
+  useEffect(() => {
+    if (data) {
+      setContributions(prevState => [...prevState, ...data]);
+    }
+  }, [data]);
   // Handle pagination here
 
   // useEffect(() => {
@@ -84,7 +92,7 @@ const ContributionsTableShell = () => {
         <PageHeading>Contributions</PageHeading>
         {isLoading ? (
           <GovrnSpinner />
-        ) : data && data?.length > 0 ? (
+        ) : contributions && contributions?.length > 0 ? (
           <Tabs
             variant="soft-rounded"
             colorScheme="gray"
@@ -166,8 +174,10 @@ const ContributionsTableShell = () => {
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
                       <ContributionsTable
-                        contributionsData={data}
+                        contributionsData={contributions}
                         setSelectedContributions={setSelectedContributions}
+                        nextPage={() => setPage(page + 1)}
+                        hasMoreItems={!!data && data.length > 0}
                       />
                     </Box>
                   </Stack>
@@ -191,8 +201,10 @@ const ContributionsTableShell = () => {
                       </Stack>
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
-                      {data.length > 0 ? (
-                        <ContributionTypesTable contributionTypesData={data} />
+                      {contributions.length > 0 ? (
+                        <ContributionTypesTable
+                          contributionTypesData={contributions}
+                        />
                       ) : (
                         <EmptyContributions />
                       )}
