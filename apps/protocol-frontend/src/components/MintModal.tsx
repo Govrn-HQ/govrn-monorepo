@@ -4,15 +4,12 @@ import {
   Flex,
   Button,
   Text,
-  Progress,
   HStack,
   Checkbox,
   Tooltip,
   Icon,
-  Spinner,
 } from '@chakra-ui/react';
 import { storeIpfs } from '../libs/ipfs';
-import { useUser } from '../contexts/UserContext';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps, MintContributionType } from '../types/mint';
@@ -20,15 +17,14 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
 
 const MintModal = ({ contributions }: MintModalProps) => {
-  const { userData } = useUser();
   const { mintContribution } = useContributions();
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked] = useState(false);
   const [freshAgreementMint, setFreshAgreementMint] = useState(true);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
     'Govrn:Public-Data-Agreement',
-    {
+    JSON.stringify({
       agreement: false,
-    },
+    }),
   );
   const [minting, setMinting] = useState(false);
   const [mintProgress, setMintProgress] = useState(0);
@@ -36,8 +32,6 @@ const MintModal = ({ contributions }: MintModalProps) => {
 
   useEffect(() => {
     if (minting && mintProgress === mintTotal) {
-      console.log('done minting');
-      console.log('contrib length', mintTotal);
       setMinting(false);
     }
   }, [mintProgress]);

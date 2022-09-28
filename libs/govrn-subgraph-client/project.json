@@ -1,5 +1,5 @@
 {
-  "root": "libs/govrn-subgraph-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/govrn-subgraph-client/src",
   "targets": {
     "build": {
@@ -23,7 +23,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/govrn-subgraph-client"],
       "options": {
-        "jestConfig": "libs/govrn-subgraph-client/jest.config.js",
+        "jestConfig": "libs/govrn-subgraph-client/jest.config.ts",
         "passWithNoTests": true
       }
     },

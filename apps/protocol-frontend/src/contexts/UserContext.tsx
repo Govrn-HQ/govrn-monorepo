@@ -8,7 +8,7 @@ import React, {
 import { NavigateFunction } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
-import { UIActivityType, UIGuild, UIUser, UIGuilds } from '@govrn/ui-types';
+import { UIGuild, UIUser, UIGuilds } from '@govrn/ui-types';
 import {
   ContributionFormValues,
   CreateUserFormValues,

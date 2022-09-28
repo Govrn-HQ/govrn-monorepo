@@ -147,10 +147,8 @@ const EditContributionForm = ({
   // renaming these on destructuring incase we have parallel queries:
   const {
     isLoading: userActivityTypesIsLoading,
-    isFetching: userActivityTypesIsFetching,
     isError: userActivityTypesIsError,
     data: userActivityTypesData,
-    error: userActivityTypesError, // unused for now -- handling globally
   } = useUserActivityTypesList();
 
   // the loading and fetching states from the query are true:

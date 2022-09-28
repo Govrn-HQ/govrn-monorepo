@@ -1,5 +1,3 @@
-import { ChainName } from './definitions';
-
 type ChainLabel =
   | 'Mainnet'
   | 'Rinkeby'
