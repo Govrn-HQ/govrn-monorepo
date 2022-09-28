@@ -253,22 +253,20 @@ export class Contribution extends BaseClient {
     txHash: string;
     onChainId: number;
   }) {
+    const { args, name, details, proof, onChainId, userId, id, txHash } =
+      contribution;
     return this.sdk.updateUserOnChainContribution({
       data: {
-        name: ethers.utils.toUtf8String(contribution.name),
-        details: ethers.utils.toUtf8String(contribution.details),
-        dateOfSubmission: new Date(
-          contribution.args.dateOfSubmission,
-        ).toString(),
-        dateOfEngagement: new Date(
-          contribution.args.dateOfEngagement,
-        ).toString(),
-        proof: ethers.utils.toUtf8String(contribution.proof),
+        name: ethers.utils.toUtf8String(name),
+        details: ethers.utils.toUtf8String(details),
+        dateOfSubmission: new Date(args.dateOfSubmission).toString(),
+        dateOfEngagement: new Date(args.dateOfSubmission).toString(),
+        proof: ethers.utils.toUtf8String(proof),
         status: 'minted',
-        onChainId: contribution.onChainId,
-        userId: contribution.userId,
-        id: contribution.id,
-        txHash: contribution.txHash,
+        onChainId: onChainId,
+        userId: userId,
+        id: id,
+        txHash: txHash,
       },
     });
   }
