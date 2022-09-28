@@ -47,13 +47,13 @@ export const ContributionsContextProvider: React.FC<
   );
 
   const [userContributionPage, setUserContributionPage] = useState(0);
-  const [isUserContributionsHaveMore, setUserContributionHasMore] =
-    useState(true);
-  const [isUserContributionsLoading, setUserContributionsLoading] =
-    useState(true);
-  const [userContributions, setUserContributions] = useState<UIContribution[]>(
-    [],
-  );
+  // const [isUserContributionsHaveMore, setUserContributionHasMore] =
+  useState(true);
+  // const [isUserContributionsLoading, setUserContributionsLoading] =
+  useState(true);
+  // const [userContributions, setUserContributions] = useState<UIContribution[]>(
+  // [],
+  // );
 
   const [daoContributionPage, setDaoContributionPage] = useState(0);
   const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
@@ -71,9 +71,9 @@ export const ContributionsContextProvider: React.FC<
 
   const userId = userData?.id;
 
-  useEffect(() => {
-    getUserContributions(userContributionPage);
-  }, [userContributionPage, userId]);
+  // useEffect(() => {
+  //   getUserContributions(userContributionPage);
+  // }, [userContributionPage, userId]);
 
   useEffect(() => {
     getDaoContributions(daoContributionPage);
@@ -102,44 +102,44 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const loadNextUserContributionsPage = () => {
-    setUserContributionPage(userContributionPage + 1);
-  };
+  // const loadNextUserContributionsPage = () => {
+  //   setUserContributionPage(userContributionPage + 1);
+  // };
 
-  const getUserContributions = async (page = 0) => {
-    setUserContributionsLoading(page === 0);
-    try {
-      if (!userData?.id) {
-        throw new Error('getUserContributions has no userData.id');
-      }
-      const userContributionsResponse = (
-        await govrn.contribution.list({
-          where: {
-            user_id: { equals: userData?.id },
-          },
-          first: ITEMS_PER_PAGE,
-          skip: page * ITEMS_PER_PAGE,
-        })
-      ).result;
+  // const getUserContributions = async (page = 0) => {
+  //   setUserContributionsLoading(page === 0);
+  //   try {
+  //     if (!userData?.id) {
+  //       throw new Error('getUserContributions has no userData.id');
+  //     }
+  //     const userContributionsResponse = (
+  //       await govrn.contribution.list({
+  //         where: {
+  //           user_id: { equals: userData?.id },
+  //         },
+  //         first: ITEMS_PER_PAGE,
+  //         skip: page * ITEMS_PER_PAGE,
+  //       })
+  //     ).result;
 
-      const mappedValues = userContributionsResponse.map(c => ({
-        ...c,
-        date_of_engagement: formatDate(c.date_of_engagement),
-        date_of_submission: formatDate(c.date_of_submission),
-      }));
+  //     const mappedValues = userContributionsResponse.map(c => ({
+  //       ...c,
+  //       date_of_engagement: formatDate(c.date_of_engagement),
+  //       date_of_submission: formatDate(c.date_of_submission),
+  //     }));
 
-      setUserContributions([...userContributions, ...mappedValues]);
-      setUserContributionHasMore(
-        userContributionsResponse.length === ITEMS_PER_PAGE,
-      );
+  //     setUserContributions([...userContributions, ...mappedValues]);
+  //     setUserContributionHasMore(
+  //       userContributionsResponse.length === ITEMS_PER_PAGE,
+  //     );
 
-      return userContributionsResponse;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setUserContributionsLoading(false);
-    }
-  };
+  //     return userContributionsResponse;
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setUserContributionsLoading(false);
+  //   }
+  // };
 
   const loadNextDaoContributionsPage = () => {
     setDaoContributionPage(daoContributionPage + 1);
@@ -250,7 +250,7 @@ export const ContributionsContextProvider: React.FC<
           isClosable: true,
           position: 'top-right',
         });
-        await getUserContributions();
+        // await getUserContributions();
         await getDaoContributions();
         return true;
       }
@@ -299,7 +299,7 @@ export const ContributionsContextProvider: React.FC<
           ethers.utils.toUtf8Bytes(contribution.details),
           ethers.utils.toUtf8Bytes(contribution.proof),
         );
-        await getUserContributions();
+        // await getUserContributions();
         setMintProgress((prevState: number) => prevState + 1);
         toast({
           title: 'Contribution Successfully Minted',
@@ -335,7 +335,7 @@ export const ContributionsContextProvider: React.FC<
           signer,
           id,
         );
-        await getUserContributions();
+        // await getUserContributions();
 
         toast({
           title: 'Contribution Successfully deleted',
@@ -471,7 +471,7 @@ export const ContributionsContextProvider: React.FC<
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
-      await getUserContributions();
+      // await getUserContributions();
       if (!toast.isActive(toastUpdateContributionId)) {
         toast({
           id: toastUpdateContributionId,
@@ -518,7 +518,7 @@ export const ContributionsContextProvider: React.FC<
         getUserContributionsCount,
         isCreatingContribution,
         isDaoContributionLoading,
-        isUserContributionsLoading,
+        // isUserContributionsLoading,
         mintAttestation,
         mintContribution,
         setContribution,
@@ -527,12 +527,12 @@ export const ContributionsContextProvider: React.FC<
         setUserContributionsDateRangeCount,
         updateContribution,
         userAttestations,
-        userContributions,
+        // userContributions,
         userContributionsDateRangeCount,
-        userContributionPagination: {
-          next: loadNextUserContributionsPage,
-          hasMore: isUserContributionsHaveMore,
-        },
+        // userContributionPagination: {
+        //   next: loadNextUserContributionsPage,
+        //   hasMore: isUserContributionsHaveMore,
+        // },
       }}
     >
       {children}
@@ -556,7 +556,7 @@ type ContributionContextType = {
   getDaoContributions(page: number): Promise<UIContribution[]>;
   isCreatingContribution: boolean;
   isDaoContributionLoading: boolean;
-  isUserContributionsLoading: boolean;
+  // isUserContributionsLoading: boolean;
   mintAttestation: (
     contribution: MintContributionType['original'],
   ) => Promise<void>;
@@ -581,9 +581,9 @@ type ContributionContextType = {
   ) => void;
   deleteContribution: (id: number) => void;
   userAttestations: UIAttestations | null;
-  userContributions: UIContribution[];
+  // userContributions: UIContribution[];
   userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
-  userContributionPagination: Pagination;
+  // userContributionPagination: Pagination;
 };
 
 export const useContributions = (): ContributionContextType =>

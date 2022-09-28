@@ -22,28 +22,48 @@ import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
-import { useContributions } from '../contexts/ContributionContext';
+import { useUser } from '../contexts/UserContext';
+import { useContributionList } from '../hooks/useContributionList';
+import { UIContribution } from '@govrn/ui-types';
+import { Row } from 'react-table';
+import { ContributionTableType } from '../types/table';
+
+const PAGE_SIZE = 20;
 
 const ContributionsTableShell = () => {
-  const { isUserContributionsLoading, userContributions } = useContributions();
+  // const { isUserContributionsLoading, userContributions } = useContributions();
+  const [page, setPage] = useState(0);
+  const { userData } = useUser();
+  const { isLoading, data } = useContributionList({
+    where: {
+      user_id: { equals: userData?.id },
+    },
+    first: PAGE_SIZE,
+    skip: page * PAGE_SIZE,
+  });
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
-  const [selectedContributions, setSelectedContributions] = useState<any>();
-  const [selectedContributionsMap, setSelectedContributionsMap] =
-    useState<any>();
+  const [selectedContributions, setSelectedContributions] = useState<
+    UIContribution[] | Row<ContributionTableType>[]
+  >([]);
+  const [selectedContributionsMap, setSelectedContributionsMap] = useState<
+    UIContribution[]
+  >([]);
 
-  useEffect(() => {
-    if (selectedContributions && selectedContributions.length > 0) {
-      setSelectedContributionsMap(
-        selectedContributions?.map((contribution: any) =>
-          userContributions.find(
-            localContribution =>
-              contribution.original.id === localContribution.id,
-          ),
-        ),
-      );
-    }
-  }, [selectedContributions, userContributions]);
+  // Handle pagination here
+
+  // useEffect(() => {
+  //   if (selectedContributions && selectedContributions.length > 0) {
+  //     setSelectedContributionsMap(
+  //       selectedContributions?.map((contribution: any) =>
+  //         userContributions.find(
+  //           localContribution =>
+  //             contribution.original.id === localContribution.id,
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }, [selectedContributions, userContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
@@ -62,9 +82,9 @@ const ContributionsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Contributions</PageHeading>
-        {isUserContributionsLoading ? (
+        {isLoading ? (
           <GovrnSpinner />
-        ) : userContributions && userContributions?.length > 0 ? (
+        ) : data && data?.length > 0 ? (
           <Tabs
             variant="soft-rounded"
             colorScheme="gray"
@@ -146,7 +166,7 @@ const ContributionsTableShell = () => {
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
                       <ContributionsTable
-                        contributionsData={userContributions}
+                        contributionsData={data}
                         setSelectedContributions={setSelectedContributions}
                       />
                     </Box>
@@ -171,10 +191,8 @@ const ContributionsTableShell = () => {
                       </Stack>
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
-                      {userContributions.length > 0 ? (
-                        <ContributionTypesTable
-                          contributionTypesData={userContributions}
-                        />
+                      {data.length > 0 ? (
+                        <ContributionTypesTable contributionTypesData={data} />
                       ) : (
                         <EmptyContributions />
                       )}

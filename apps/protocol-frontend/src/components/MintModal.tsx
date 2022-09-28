@@ -12,9 +12,11 @@ import {
 import { storeIpfs } from '../libs/ipfs';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
-import { MintModalProps, MintContributionType } from '../types/mint';
+import { MintModalProps } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
+import { ContributionTableType } from '../types/table';
+import { Row } from 'react-table';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { mintContribution } = useContributions();
@@ -36,14 +38,14 @@ const MintModal = ({ contributions }: MintModalProps) => {
     }
   }, [mintProgress]);
 
-  const mintHandler = async (contributions: MintContributionType[]) => {
+  const mintHandler = async (contributions: Row<ContributionTableType>[]) => {
     setMintTotal(contributions.length);
     setMinting(true);
 
     const unresolvedContributionsMinting = contributions.map(
       async contribution => {
         const ipfsContentUri = await storeIpfs({
-          name: contribution.original.name,
+          name: contribution?.original?.name,
           details: contribution.original.details,
           proof: contribution.original.proof,
         });
@@ -132,7 +134,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
           backgroundColor="brand.primary.50"
           transition="all 100ms ease-in-out"
           _hover={{ bgColor: 'brand.primary.100' }}
-          onClick={() => mintHandler(contributions)}
+          onClick={() => {
+            const c = contributions[0];
+            if (c && 'original' in keyof c) {
+              mintHandler(contributions);
+            }
+          }}
           isLoading={minting}
           disabled={!agreementChecked.agreement}
         >

@@ -43,29 +43,7 @@ import { useContributions } from '../contexts/ContributionContext';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TableEndMessage from './TableEndMessage';
-
-type ContributionTableType = {
-  name: string;
-  txHash?: string | null;
-  id: number;
-  details?: string | null;
-  proof?: string | null;
-  date_of_submission: Date | string;
-  engagementDate: Date | string;
-  attestations: {
-    id: number;
-  }[];
-  user: {
-    id: number;
-  };
-  activityTypeId: number;
-  status: {
-    id: number;
-    name: string;
-  };
-  action: string;
-  guildName: string;
-};
+import { ContributionTableType } from '../types/table';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -79,7 +57,9 @@ const ContributionsTable = ({
   setSelectedContributions,
 }: {
   contributionsData: UIContribution[];
-  setSelectedContributions: (rows: Row<any>[]) => void;
+  setSelectedContributions: (
+    rows: UIContribution[] | Row<ContributionTableType>[],
+  ) => void;
 }) => {
   const { userData } = useUser();
   const { userContributionPagination: pagination } = useContributions();
