@@ -1,4 +1,5 @@
-module.exports = {
+/* eslint-disable */
+export default {
   displayName: 'linear-sync-job',
   preset: '../../jest.preset.js',
   globals: {

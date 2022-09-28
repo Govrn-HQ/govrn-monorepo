@@ -1,15 +1,15 @@
-module.exports = {
-  displayName: 'contract-sync-job',
+/* eslint-disable */
+export default {
+  displayName: 'protocol-client',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/contract-sync-job',
+  coverageDirectory: '../../coverage/libs/protocol-client',
 };

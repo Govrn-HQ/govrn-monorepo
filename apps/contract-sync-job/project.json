@@ -1,16 +1,18 @@
 {
-  "root": "apps/contract-sync-job",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/contract-sync-job/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/contract-sync-job",
         "main": "apps/contract-sync-job/src/main.ts",
         "tsConfig": "apps/contract-sync-job/tsconfig.app.json",
-        "assets": []
+        "assets": [],
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -43,7 +45,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/contract-sync-job"],
       "options": {
-        "jestConfig": "apps/contract-sync-job/jest.config.js",
+        "jestConfig": "apps/contract-sync-job/jest.config.ts",
         "passWithNoTests": true
       }
     }

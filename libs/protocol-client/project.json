@@ -1,5 +1,5 @@
 {
-  "root": "libs/protocol-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/protocol-client/src",
   "targets": {
     "build": {
@@ -23,7 +23,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/protocol-client"],
       "options": {
-        "jestConfig": "libs/protocol-client/jest.config.js",
+        "jestConfig": "libs/protocol-client/jest.config.ts",
         "passWithNoTests": true
       }
     },

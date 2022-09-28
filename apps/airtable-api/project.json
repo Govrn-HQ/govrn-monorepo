@@ -1,17 +1,19 @@
 {
-  "root": "apps/airtable-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/airtable-api/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/airtable-api",
         "main": "apps/airtable-api/src/main.ts",
         "tsConfig": "apps/airtable-api/tsconfig.app.json",
         "assets": ["apps/airtable-api/src/assets"],
-        "generatePackageJson": true
+        "generatePackageJson": true,
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -44,7 +46,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/airtable-api"],
       "options": {
-        "jestConfig": "apps/airtable-api/jest.config.js",
+        "jestConfig": "apps/airtable-api/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -92,7 +94,6 @@
         "commands": [
           "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/airtable_api:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/airtable_api.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
-
           "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/airtable_api.yaml"
         ],
         "parallel": false
