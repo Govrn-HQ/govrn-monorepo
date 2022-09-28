@@ -23,7 +23,6 @@ const ProfileForm = () => {
 
   useEffect(() => {
     setValue('name', userData?.name ?? '');
-    setValue('address', userData?.address);
   }, [userData]);
 
   const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (

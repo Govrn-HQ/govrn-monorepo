@@ -1,17 +1,19 @@
 {
-  "root": "apps/twitter-contribution-job",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/twitter-contribution-job/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/twitter-contribution-job",
         "main": "apps/twitter-contribution-job/src/main.ts",
         "tsConfig": "apps/twitter-contribution-job/tsconfig.app.json",
         "assets": [],
-        "generatePackageJson": true
+        "generatePackageJson": true,
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -44,7 +46,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/twitter-contribution-job"],
       "options": {
-        "jestConfig": "apps/twitter-contribution-job/jest.config.js",
+        "jestConfig": "apps/twitter-contribution-job/jest.config.ts",
         "passWithNoTests": true
       }
     },
