@@ -29,6 +29,9 @@ import { Row } from 'react-table';
 import { ContributionTableType } from '../types/table';
 
 const PAGE_SIZE = 20;
+// pass setter
+// lower level components should update setter
+// Could be a local context?
 
 const ContributionsTableShell = () => {
   const [page, setPage] = useState(0);
