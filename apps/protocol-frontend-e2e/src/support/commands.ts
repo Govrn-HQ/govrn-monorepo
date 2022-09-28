@@ -75,17 +75,15 @@ Cypress.Commands.add('seedDB',(tableName)=>{
   else if (tableName=="Contribution2" || tableName=="Contribution1"){
     cy.fixture('contributions.json').then((contributions) => {
       const contribution = contributions[0]
-      let id,user_id;
+      let user_id;
       if (tableName[tableName.length-1] == "2"){
-        id=2,
         user_id=2
       }else{
-        id=1,
         user_id=1
       }
       const insertContribution = `
-      INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-        VALUES (${id}, '${contribution.name}',1 , 1, ${user_id}, current_timestamp,
+      INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
+        VALUES ('${contribution.name}',1 , 1, ${user_id}, current_timestamp,
          '${contribution.details}', '${contribution.proof}'
         )
       ON CONFLICT DO NOTHING;
@@ -109,8 +107,8 @@ Cypress.Commands.add('seedDB',(tableName)=>{
   else if (tableName=="GuildContribution"){
 
     const GuildContributionQuery = `
-    INSERT INTO "GuildContribution" (id, guild_id, contribution_id )
-      VALUES (1, 1, 1)
+    INSERT INTO "GuildContribution" (guild_id, contribution_id )
+      VALUES (1, 1)
     ON CONFLICT DO NOTHING;
     `
     cy.task('queryDatabase', GuildContributionQuery); 
@@ -119,8 +117,8 @@ Cypress.Commands.add('seedDB',(tableName)=>{
   else if (tableName=="ContributionStatus"){
 
     const GuildContributionQuery = `
-    INSERT INTO "ContributionStatus" (id, name )
-      VALUES (1, 'staging'), (2,'minted')
+    INSERT INTO "ContributionStatus" (name )
+      VALUES ('staging'), ('minted')
     ON CONFLICT DO NOTHING;
     `
     cy.task('queryDatabase', GuildContributionQuery); 
@@ -128,17 +126,15 @@ Cypress.Commands.add('seedDB',(tableName)=>{
   }
   else if (tableName=="LoginUser1" || tableName=="LoginUser2"){
     cy.fixture('users.json').then((accounts) => {
-      let id: number, userAccount: { username: string; address: string; email: string; };
+      let userAccount: { username: string; address: string; email: string; };
       if (tableName[tableName.length-1] == "1"){ //user1
         userAccount = accounts[1]
-        id=1;
       }else{
         userAccount = accounts[0]
-        id=2;
       }
       const User1Login = `
-      INSERT INTO "User" (id, name, address, chain_type_id, active, email )
-        VALUES (${id},'${userAccount.username}', '${userAccount.address}', 
+      INSERT INTO "User" (name, address, chain_type_id, active, email )
+        VALUES ('${userAccount.username}', '${userAccount.address}', 
           1, true, '${userAccount.email}'
         )
       ON CONFLICT DO NOTHING;
@@ -150,8 +146,8 @@ Cypress.Commands.add('seedDB',(tableName)=>{
     cy.fixture('contributions.json').then((contributions) => {
       const user1ContributionData = contributions[3]
       const User1CreateAndMintContribution = `
-      INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-        VALUES (1, '${user1ContributionData.name}',2 , 1, 1, current_timestamp,
+      INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
+        VALUES ('${user1ContributionData.name}',2 , 1, 1, current_timestamp,
          '${user1ContributionData.details}', '${user1ContributionData.proof}'
         )
       ON CONFLICT DO NOTHING;
@@ -160,17 +156,15 @@ Cypress.Commands.add('seedDB',(tableName)=>{
     });
   }
   else if (tableName=="GuildUser1" || tableName=="GuildUser2"){
-    let user_id: number, id: number;
- 
+    let user_id: number
     if (tableName[tableName.length-1] == "1"){
-      user_id=1, id = 1;
- 
+      user_id=1
     }else{
-      user_id=2, id=2;
+      user_id=2;
     }
       const GuildUser1Query = `
-      INSERT INTO "GuildUser" (id, user_id, guild_id)
-        VALUES (${id}, ${user_id}, 1)
+      INSERT INTO "GuildUser" (user_id, guild_id)
+        VALUES (${user_id}, 1)
       ON CONFLICT DO NOTHING;
       `
       cy.task('queryDatabase', GuildUser1Query );

@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-  for (const tableName of ["LoginUser2", "Guild", "GuildUser2", "Contribution2"]){
+  for (const tableName of ["LoginUser2", "Guild", "GuildUser1","ContributionStatus", "Contribution1"]){
     cy.seedDB(tableName);
   }
   cy.fixture('testaccounts.json').then(accounts => {
