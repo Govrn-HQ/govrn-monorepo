@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
@@ -27,7 +26,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useContributions } from '../contexts/ContributionContext';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 
@@ -60,6 +58,7 @@ function CreateMoreSwitch({
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { allDaos } = useUser();
+
   const toast = useToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
