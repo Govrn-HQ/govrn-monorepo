@@ -50,6 +50,16 @@ const ContributionsBarChart = ({
     }, {} as { [key: string]: { day: string; value: number; guildId: number | undefined; guildName: string | undefined } });
 
     contributionsCountMap = Object.values(counts);
+  } else if (dateRange.value === 4) {
+    contributionsCountMap = contributionsCount.map(contribution => {
+      const date = new Date(contribution.date);
+      return {
+        day: `${date.getMonth()}-${date.getDate()}`,
+        value: contribution.count,
+        guildId: contribution.guild_id,
+        guildName: contribution.name,
+      };
+    });
   } else {
     contributionsCountMap = contributionsCount.map(contribution => {
       const date = new Date(contribution.date);
