@@ -17,5 +17,6 @@
     "twitter-contribution-job": "apps/twitter-contribution-job",
     "ui-types": "libs/ui-types",
     "voyager-identity-api": "apps/voyager-identity-api"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

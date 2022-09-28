@@ -21,19 +21,15 @@ export const createUserFormValidation = yup.object({
   // discourse: yup.string(),
 });
 
-export const createWaitlistFormValidation = yup.object({
-  // username: yup.string().required('This field is required.'),
-  email: yup
-    .string()
-    .email('Please enter a valid email address.')
-    .required('This field is required.'),
-  // discord: yup
-  //   .string()
-  //   .min(2, 'Discord username must be at least 2 characters.')
-  //   .max('32', 'Discord username must be less than 32 characters.'),
-  // twitter: yup.string(),
-  // discourse: yup.string(),
-});
+export const createWaitlistFormValidation = yup
+  .object({
+    username: yup.string().required('This field is required.'),
+    email: yup
+      .string()
+      .email('Please enter a valid email address.')
+      .required('This field is required.'),
+  })
+  .required();
 
 export const attestationFormValidation = yup.object({
   username: yup.string().required('This field is required.'),

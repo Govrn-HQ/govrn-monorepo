@@ -1,16 +1,18 @@
 {
-  "root": "apps/voyager-identity-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/voyager-identity-api/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/voyager-identity-api",
         "main": "apps/voyager-identity-api/src/main.ts",
         "tsConfig": "apps/voyager-identity-api/tsconfig.app.json",
-        "generatePackageJson": true
+        "generatePackageJson": true,
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -43,7 +45,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/voyager-identity-api"],
       "options": {
-        "jestConfig": "apps/voyager-identity-api/jest.config.js",
+        "jestConfig": "apps/voyager-identity-api/jest.config.ts",
         "passWithNoTests": true
       }
     },
