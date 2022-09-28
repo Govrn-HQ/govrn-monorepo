@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
@@ -28,6 +29,7 @@ import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useContributions } from '../contexts/ContributionContext';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
+import { useContributionCreate } from '../hooks/useContributionCreate';
 
 function CreateMoreSwitch({
   isChecked,
@@ -134,6 +136,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     label: dao.name ?? '',
   }));
 
+  const { mutate: createNewContribution } = useContributionCreate();
+
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
@@ -156,17 +160,19 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       }
     }
     if (ipfsError === false) {
-      const result = await createContribution(values);
-      if (result) {
-        reset({
-          name: '',
-          details: '',
-          proof: '',
-          activityType: values.activityType,
-          date_of_engagement: values.engagementDate,
-        });
-        if (!isUserCreatingMore) onFinish();
-      }
+      const contribution = await createNewContribution(values);
+      console.log('contribution', contribution);
+      // const result = await createContribution(values);
+      // if (result) {
+      //   reset({
+      //     name: '',
+      //     details: '',
+      //     proof: '',
+      //     activityType: values.activityType,
+      //     date_of_engagement: values.engagementDate,
+      //   });
+      //   if (!isUserCreatingMore) onFinish();
+      // }
     }
   };
 
