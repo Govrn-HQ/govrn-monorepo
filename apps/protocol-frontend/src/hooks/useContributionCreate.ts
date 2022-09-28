@@ -1,10 +1,12 @@
 
 import { useUser } from '../contexts/UserContext';
+import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ContributionFormValues } from '../types/forms';
 
 
 export const useContributionCreate = () => {
+  const toast = useToast()
   const { govrnProtocol: govrn, userData } = useUser()
   const queryClient = useQueryClient()
   const { mutate, isLoading, isError, isSuccess } = useMutation(async (newContribution: ContributionFormValues) => {
@@ -23,8 +25,17 @@ export const useContributionCreate = () => {
     })
   }, {
     onSuccess: () => {
-      // queryClient.invalidateQueries('contributions')
+      queryClient.invalidateQueries(['activityTypes'])
       console.log('success')
+      toast({
+        title: 'Contribution Report Added',
+        description:
+          'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     }
   })
   return { mutate, isLoading, isError, isSuccess }

@@ -136,7 +136,10 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     label: dao.name ?? '',
   }));
 
-  const { mutate: createNewContribution } = useContributionCreate();
+  const {
+    mutate: createNewContribution,
+    isSuccess: createNewContributionIsSuccess,
+  } = useContributionCreate();
 
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
@@ -160,19 +163,18 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       }
     }
     if (ipfsError === false) {
-      const contribution = await createNewContribution(values);
-      console.log('contribution', contribution);
+      await createNewContribution(values);
       // const result = await createContribution(values);
-      // if (result) {
-      //   reset({
-      //     name: '',
-      //     details: '',
-      //     proof: '',
-      //     activityType: values.activityType,
-      //     date_of_engagement: values.engagementDate,
-      //   });
-      //   if (!isUserCreatingMore) onFinish();
-      // }
+      if (createNewContributionIsSuccess) {
+        reset({
+          name: '',
+          details: '',
+          proof: '',
+          activityType: values.activityType,
+          date_of_engagement: values.engagementDate,
+        });
+        if (!isUserCreatingMore) onFinish();
+      }
     }
   };
 

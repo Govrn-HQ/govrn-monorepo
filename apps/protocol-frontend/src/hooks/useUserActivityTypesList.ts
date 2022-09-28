@@ -14,6 +14,7 @@ export const useUserActivityTypesList = (
   const { govrnProtocol: govrn } = useUser()
   const { isLoading, isFetching, isError, error, data } = useQuery(['activityTypes', args], async (): Promise<UIActivityType[]> => {
     const data = await govrn.custom.listActivityTypesByUser(args ? args : {})
+    console.log('data', data)
     return data
   })
   return { isLoading, isError, isFetching, error, data };
