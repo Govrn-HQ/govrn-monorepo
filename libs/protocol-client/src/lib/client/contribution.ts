@@ -149,7 +149,6 @@ export class Contribution extends BaseClient {
           txHash: transaction.hash,
         });
       }),
-      1,
     );
   }
 
