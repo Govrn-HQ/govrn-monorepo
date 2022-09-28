@@ -9,9 +9,8 @@ export const useContributionCreate = () => {
   const toast = useToast()
   const { govrnProtocol: govrn, userData } = useUser()
   const queryClient = useQueryClient()
-  const { mutate, isLoading, isError, isSuccess } = useMutation(async (newContribution: ContributionFormValues) => {
-    console.log('new  contribution', newContribution)
-    return await govrn.custom.createUserContribution({
+  const { mutateAsync, isLoading, isError, isSuccess } = useMutation(async (newContribution: ContributionFormValues) => {
+    const data = await govrn.custom.createUserContribution({
       address: userData?.address ?? '',
       chainName: 'ethereum',
       userId: userData?.id ?? -1,
@@ -23,10 +22,10 @@ export const useContributionCreate = () => {
       status: 'staging',
       guildId: Number(newContribution.daoId) || undefined,
     })
+    return data
   }, {
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(['activityTypes'])
-      console.log('success')
       toast({
         title: 'Contribution Report Added',
         description:
@@ -36,7 +35,18 @@ export const useContributionCreate = () => {
         isClosable: true,
         position: 'top-right',
       });
-    }
-  })
-  return { mutate, isLoading, isError, isSuccess }
+    },
+    onError: (error) => {
+      toast({
+        title: 'Unable to Report Contribution',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    },
+  }
+  )
+  return { mutateAsync, isLoading, isError, isSuccess }
 }
