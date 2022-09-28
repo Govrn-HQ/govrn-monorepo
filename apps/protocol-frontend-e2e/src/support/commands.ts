@@ -72,13 +72,20 @@ Cypress.Commands.add('seedDB',(tableName)=>{
     
     });
   }
-  else if (tableName=="Contribution2"){
+  else if (tableName=="Contribution2" || tableName=="Contribution1"){
     cy.fixture('contributions.json').then((contributions) => {
       const contribution = contributions[0]
-
+      let id,user_id;
+      if (tableName[tableName.length-1] == "2"){
+        id=2,
+        user_id=2
+      }else{
+        id=1,
+        user_id=1
+      }
       const insertContribution = `
       INSERT INTO "Contribution" (id, name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-        VALUES (2, '${contribution.name}',1 , 1, 2, current_timestamp,
+        VALUES (${id}, '${contribution.name}',1 , 1, ${user_id}, current_timestamp,
          '${contribution.details}', '${contribution.proof}'
         )
       ON CONFLICT DO NOTHING;
@@ -104,6 +111,16 @@ Cypress.Commands.add('seedDB',(tableName)=>{
     const GuildContributionQuery = `
     INSERT INTO "GuildContribution" (id, guild_id, contribution_id )
       VALUES (1, 1, 1)
+    ON CONFLICT DO NOTHING;
+    `
+    cy.task('queryDatabase', GuildContributionQuery); 
+    
+  }
+  else if (tableName=="ContributionStatus"){
+
+    const GuildContributionQuery = `
+    INSERT INTO "ContributionStatus" (id, name )
+      VALUES (1, 'staging'), (2,'minted')
     ON CONFLICT DO NOTHING;
     `
     cy.task('queryDatabase', GuildContributionQuery); 

@@ -2,7 +2,7 @@
 
 beforeEach(() => {
   const tableNamesOrActions = ["Guild", "LoginUser1", "LoginUser2", "GuildUser1","GuildUser2",
-       "User1CreateAndMintContribution", "GuildContribution"
+      "ContributionStatus", "User1CreateAndMintContribution", "GuildContribution"
     ];
   for (const tableName of tableNamesOrActions){
     cy.seedDB(tableName);
@@ -30,7 +30,7 @@ beforeEach(() => {
 
 afterEach(() => {
   //teardown 
-  cy.teardownDB(["Attestation", "GuildContribution", "Contribution", "Guild",  "User"]);
+  cy.teardownDB(["Attestation", "GuildContribution", "ContributionStatus", "Contribution", "Guild",  "User"]);
 });
 
 describe("Attestation flow", () => {

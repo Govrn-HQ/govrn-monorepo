@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
 before(() => {
-  for (const tableName of ["User","Guild","Contribution"]){
+  for (const tableName of ["User","Guild","ContributionStatus","Contribution1"]){
     cy.seedDB(tableName);
-  }
+  };
 
   cy.fixture('testaccounts.json').then(accounts => {
     this.accounts = accounts;
