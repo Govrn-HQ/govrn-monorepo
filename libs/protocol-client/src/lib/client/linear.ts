@@ -10,7 +10,7 @@ import {
   ListLinearUsersQuery,
 } from '../protocol-types';
 import { BaseClient } from './base';
-import { paginate } from '../utils';
+import { paginate } from '../utils/paginate';
 import { GraphQLClient } from 'graphql-request';
 
 export class Linear {
