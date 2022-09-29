@@ -51,8 +51,8 @@ Cypress.Commands.add('seedDB',(tableName)=>{
       const DaoList = daos
       for (const daoIdx in DaoList){
         const  insertDAOs = `
-          INSERT INTO "${tableName}" (id, name)
-          VALUES ('${DaoList[daoIdx].id}','${DaoList[daoIdx].name}')
+          INSERT INTO "${tableName}" (name)
+          VALUES ('${DaoList[daoIdx].name}')
           ON CONFLICT DO NOTHING;
         `
         cy.task('queryDatabase', insertDAOs); 

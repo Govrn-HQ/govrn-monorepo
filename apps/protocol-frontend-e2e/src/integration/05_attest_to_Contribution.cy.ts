@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
+  cy.teardownDB(["ContributionStatus"]) //in case of flicker
   const tableNamesOrActions = ["Guild", "LoginUser1", "LoginUser2", "GuildUser1","GuildUser2",
       "ContributionStatus", "User1CreateAndMintContribution", "GuildContribution"
     ];

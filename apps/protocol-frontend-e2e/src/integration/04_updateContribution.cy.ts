@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
+  cy.teardownDB(["ContributionStatus"]) //in case of flicker
   for (const tableName of ["LoginUser2", "Guild", "GuildUser1","ContributionStatus", "Contribution1"]){
     cy.seedDB(tableName);
   }
