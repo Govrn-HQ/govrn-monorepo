@@ -1,7 +1,7 @@
 const DEFAULT_CHUNK_SIZE = 50;
 
 async function* doPatching<T>(tasks: PromiseLike<T>[], chunk: number) {
-  for (let i = 0; i < tasks.length; i++) {
+  for (let i = 0; i < tasks.length; i += chunk) {
     yield await Promise.allSettled(tasks.slice(i, i + chunk));
   }
 }
