@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 before(() => {
-  for (const tableName of ["User","Guild"]){
+  for (const tableName of ["LoginUser2","Guild"]){
     cy.seedDB(tableName);
   }
 
