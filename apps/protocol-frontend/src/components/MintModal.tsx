@@ -9,7 +9,7 @@ import {
   Tooltip,
   Icon,
 } from '@chakra-ui/react';
-import { storeIpfs } from '../libs/ipfs';
+import { bulkStoreIpfs, storeIpfs } from '../libs/ipfs';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps, MintContributionType } from '../types/mint';
@@ -17,7 +17,7 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
 
 const MintModal = ({ contributions }: MintModalProps) => {
-  const { mintContribution } = useContributions();
+  const { mintContribution, bulkMintContributions } = useContributions();
   const [isChecked] = useState(false);
   const [freshAgreementMint, setFreshAgreementMint] = useState(true);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
@@ -27,34 +27,48 @@ const MintModal = ({ contributions }: MintModalProps) => {
     }),
   );
   const [minting, setMinting] = useState(false);
-  const [mintProgress, setMintProgress] = useState(0);
-  const [mintTotal, setMintTotal] = useState(contributions?.length);
-
-  useEffect(() => {
-    if (minting && mintProgress === mintTotal) {
-      setMinting(false);
-    }
-  }, [mintProgress]);
 
   const mintHandler = async (contributions: MintContributionType[]) => {
-    setMintTotal(contributions.length);
     setMinting(true);
+    if (contributions.length > 1) {
+      const bulkStoreResult = await bulkStoreIpfs(
+        contributions.map(c => ({
+          content: {
+            name: c.original.name,
+            details: c.original.details,
+            proof: c.original.proof,
+          },
+        })),
+      );
 
-    const unresolvedContributionsMinting = contributions.map(
-      async contribution => {
-        const ipfsContentUri = await storeIpfs({
-          name: contribution.original.name,
-          details: contribution.original.details,
-          proof: contribution.original.proof,
-        });
-        mintContribution(
-          contribution.original,
-          ipfsContentUri,
-          setMintProgress,
-        );
-      },
-    );
-    await Promise.all(unresolvedContributionsMinting);
+      // Mint successfully stored contributions in IPFS.
+      await bulkMintContributions(
+        bulkStoreResult
+          .filter(b => b.status === 'fulfilled')
+          .map(v => ({
+            ...contributions[v.index].original,
+            ipfsContentUri: v.value as string,
+          })),
+      );
+    } else if (contributions.length === 1) {
+      const contribution = contributions[0];
+
+      const ipfsContentUri = await storeIpfs({
+        name: contribution.original.name,
+        details: contribution.original.details,
+        proof: contribution.original.proof,
+      });
+
+      await mintContribution(
+        contribution.original,
+        ipfsContentUri,
+        progress => {
+          console.dir({ progress });
+        },
+      );
+    }
+
+    setMinting(false);
 
     if (isChecked) {
       setAgreementChecked((prevState: { agreement: boolean }) => ({
