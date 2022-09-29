@@ -316,7 +316,7 @@ const permissions = shield(
   },
   {
     fallbackRule: deny,
-    debug: true,
+    debug: process.env.NODE_ENV === "development" ? true : false,
   },
 );
 
