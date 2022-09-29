@@ -16,6 +16,7 @@ export type MintContributionType = UIContribution & {
 export interface MintModalProps {
   contributions: MintContributionType[];
 }
+
 export type MintAttestationType = UIAttestations[1] & {
   id: number;
   date_of_submission: string;

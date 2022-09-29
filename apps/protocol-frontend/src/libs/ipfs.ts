@@ -1,5 +1,10 @@
 import { create, CID } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
+import patch from '@govrn/protocol-client';
+
+type StoreIpfsParam = {
+  content: { name: string; details: string; proof: string } | ArrayBuffer;
+};
 
 export const getIPFSClient = () => {
   const auth =
@@ -9,7 +14,7 @@ export const getIPFSClient = () => {
         ':' +
         import.meta.env.VITE_INFURA_PROJECT_SECRET,
     ).toString('base64');
-  const ipfs = create({
+  return create({
     host: 'ipfs.infura.io',
     port: 5001,
     protocol: 'https',
@@ -17,7 +22,6 @@ export const getIPFSClient = () => {
       authorization: auth,
     },
   });
-  return ipfs;
 };
 
 export const uploadFileIpfs = async (file: File, onlyHash = true) => {
@@ -53,6 +57,21 @@ export const storeIpfs = async (
   return `ipfs://${cid.path}`;
 };
 
+export const bulkStoreIpfs = async (
+  params: StoreIpfsParam[],
+): Promise<
+  {
+    index: number;
+    status: 'fulfilled' | 'rejected';
+    value?: string;
+    reason?: any;
+  }[]
+> => {
+  return (await patch(params.map(async i => await storeIpfs(i.content)))).map(
+    (result, index) => ({ index, ...result }),
+  );
+};
+
 export const fetchIPFS = async (ipfsHash: string) => {
   const resp = await fetch(
     `${import.meta.env.VITE_INFURA_SUBDOMAIN}/api/v0/cat?arg=${ipfsHash
@@ -62,6 +81,5 @@ export const fetchIPFS = async (ipfsHash: string) => {
       method: 'post',
     },
   );
-  const blob = await resp?.blob();
-  return blob;
+  return await resp?.blob();
 };
