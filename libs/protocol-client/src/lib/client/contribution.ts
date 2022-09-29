@@ -16,12 +16,7 @@ import {
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
 import patch from '../utils/patch';
-
-class ChainIdError extends Error {
-  constructor(message?: string) {
-    super(message || 'Failed to fetch on chain Id');
-  }
-}
+import { ChainIdError } from '@govrn/protocol-client';
 
 export class Contribution extends BaseClient {
   status: ContributionStatus;
