@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
@@ -270,6 +270,58 @@ export const ContributionsContextProvider: React.FC<
     return false;
   };
 
+  const bulkMintContributions = async (
+    contributions: (MintContributionType['original'] & {
+      ipfsContentUri: string;
+    })[],
+  ) => {
+    try {
+      if (signer && chain?.id && userData) {
+        const result = await govrn.contribution.bulkMint(
+          {
+            address: networks[chain?.id].govrnContract,
+            chainId: chain?.id,
+            name: networks[chain?.id].name,
+          },
+          signer,
+          userData.address,
+          contributions.map(c => ({
+            id: c.id,
+            activityTypeId: c.activityTypeId,
+            userId: userData.id,
+            args: {
+              detailsUri: ethers.utils.toUtf8Bytes(c.ipfsContentUri),
+              dateOfSubmission: new Date(c.date_of_submission).getTime(),
+              dateOfEngagement: new Date(c.engagementDate).getTime(),
+            },
+            name: ethers.utils.toUtf8Bytes(c.name),
+            details: ethers.utils.toUtf8Bytes(c.details),
+            proof: ethers.utils.toUtf8Bytes(c.proof),
+          })),
+        );
+        await getUserContributions();
+        toast({
+          title: 'Contribution Successfully Minted',
+          description: 'Your Contribution has been minted.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      console.log('error', error);
+      toast({
+        title: 'Unable to Mint Contribution',
+        description: `Something went wrong. Please try again: ${error}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
+
   const mintContribution = async (
     contribution: MintContributionType['original'],
     ipfsContentUri: string,
@@ -520,6 +572,7 @@ export const ContributionsContextProvider: React.FC<
         isDaoContributionLoading,
         isUserContributionsLoading,
         mintAttestation,
+        bulkMintContributions,
         mintContribution,
         setContribution,
         setDaoContributions,
@@ -560,6 +613,11 @@ type ContributionContextType = {
   mintAttestation: (
     contribution: MintContributionType['original'],
   ) => Promise<void>;
+  bulkMintContributions: (
+    contributions: (MintContributionType['original'] & {
+      ipfsContentUri: string;
+    })[],
+  ) => void;
   mintContribution: (
     contribution: MintContributionType['original'],
     ipfsContentUri: string,
