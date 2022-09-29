@@ -13,7 +13,7 @@
   "dependencies": {
     "@alexkeating/nx-foundry": "^0.0.2",
     "@alexkeating/nx-skynet": "0.0.7",
-    "@chakra-ui/react": "^1.8.8",
+    "@chakra-ui/react": "^2.3.4",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
