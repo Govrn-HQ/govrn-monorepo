@@ -20,15 +20,9 @@
       },
       "configurations": {
         "production": {
-          "optimization": true,
-          "extractLicenses": true,
+          "optimization": false,
           "inspect": false,
-          "fileReplacements": [
-            {
-              "replace": "apps/protocol-api/src/environments/environment.ts",
-              "with": "apps/protocol-api/src/environments/environment.prod.ts"
-            }
-          ]
+          "fileReplacements": []
         }
       }
     },
