@@ -23546,10 +23546,10 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-siwe@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/siwe/-/siwe-2.0.3.tgz#32df0bb81daa08691c2ba376669a1d4fff2d6261"
-  integrity sha512-mc0KeN50JMoz+bnt7+PSNSOv2b7vehZ6tkJb6oq+FK1zWkfo1G5DVMmQTU5K3XgPLn4NgqlHyBhU2o18Rr1HCA==
+siwe@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/siwe/-/siwe-2.0.5.tgz#784083018e9dfd3ca6139a9f58fab50b89ba6886"
+  integrity sha512-PZku0+V915YvzVuProsC+RD6unKBo3208X/+t9ARk1WHjYMbtGnxuyBuMASdmLFI3nqJiorko5qrT0ihCFwlHQ==
   dependencies:
     "@spruceid/siwe-parser" "2.0.0"
     "@stablelib/random" "^1.0.1"
