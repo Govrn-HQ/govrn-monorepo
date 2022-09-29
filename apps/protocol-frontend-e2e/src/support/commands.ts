@@ -117,9 +117,9 @@ Cypress.Commands.add('seedDB',(tableName)=>{
   else if (tableName=="ContributionStatus"){
 
     const GuildContributionQuery = `
-    INSERT INTO "ContributionStatus" (name )
-      VALUES ('staging'), ('minted')
-    ON CONFLICT DO NOTHING;
+    INSERT INTO "ContributionStatus" (name) VALUES 
+      ('staging'),
+      ('minted');
     `
     cy.task('queryDatabase', GuildContributionQuery); 
     

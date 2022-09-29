@@ -32,7 +32,7 @@ before(() => {
 });
 after(() => {
   //teardown 
-  cy.teardownDB(["User", "Guild","Contribution"]);
+  cy.teardownDB(["User", "Guild","ContributionStatus", "Contribution"]);
 });
 
 describe('Create First Contribution', () => {
@@ -49,6 +49,7 @@ describe('Create First Contribution', () => {
       .children()
       .find('input')
       .type(`${contribution.activityType}{enter}`);
+
 
     cy.get('textarea[data-testid="textarea-test"]')
       .click()

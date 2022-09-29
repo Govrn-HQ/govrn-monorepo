@@ -27,7 +27,7 @@ before(() => {
 });
 afterEach(() => {
   //teardown 
-  cy.teardownDB(["GuildContribution", "Contribution","GuildUser", "Guild", "User"]);
+  cy.teardownDB(["GuildContribution", "ContributionStatus", "Contribution","GuildUser", "Guild", "User"]);
 });
 
 describe("Create Second Contribution", () => {

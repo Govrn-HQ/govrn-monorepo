@@ -30,7 +30,7 @@ beforeEach(() => {
   cy.wait(5000);
 });
 after(() => {
-  cy.teardownDB(["Guild","User",  "GuildUser", "Contribution"]);
+  cy.teardownDB(["Guild","User",  "GuildUser", "ContributionStatus","Contribution"]);
 });
 
 describe('Edit first Contribution', () => {
