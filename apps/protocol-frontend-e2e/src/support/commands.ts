@@ -58,19 +58,6 @@ Cypress.Commands.add('seedDB',(tableName)=>{
         cy.task('queryDatabase', insertDAOs); 
       }
     });
-
-  }
-  else if (tableName=="User"){
-    cy.fixture('users.json').then((userList) => {
-      const user = userList[0]
-      const  insertUserQuery = `
-      INSERT INTO "${tableName}" (id, name, address, chain_type_id, active, email)
-       VALUES (1,'${user.username}', '${user.address}', 1, TRUE, '${user.email}')
-      ON CONFLICT DO NOTHING;
-      `
-      cy.task('queryDatabase', insertUserQuery); 
-    
-    });
   }
   else if (tableName=="Contribution2" || tableName=="Contribution1"){
     cy.fixture('contributions.json').then((contributions) => {
