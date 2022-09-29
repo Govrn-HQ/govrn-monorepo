@@ -1,8 +1,7 @@
-console.log('Starting -1');
 import 'reflect-metadata';
 import { buildSchemaSync } from 'type-graphql';
 import express from 'express';
-import Session from 'express-session';
+import Session from 'cookie-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
 import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
@@ -340,9 +339,9 @@ app.use(
   Session({
     name: 'govrn',
     secret: process.env['PROTOCOL_COOKIE_SECRET'],
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: false, sameSite: true },
+    secure: false,
+    sameSite: true,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
   }),
 );
 app.use('/graphql', async function (req, res) {
@@ -371,7 +370,6 @@ app.post('/verify', async function (req, res) {
       return;
     }
     req.session.siwe = fields;
-    req.session.cookie.expires = new Date(fields.data.expirationTime);
     res.status(200).end();
   } catch (e) {
     req.session.siwe = null;
@@ -408,9 +406,7 @@ app.get('/siwe/active', async function (req, res) {
 });
 
 app.post('/logout', async function (req, res) {
-  req.session.destroy(() => {
-    console.log('Destroyed cookie');
-  });
+  req.session = null;
   res.status(200).end();
 });
 
@@ -440,7 +436,6 @@ app.get('/linear/oauth', async function (req, res) {
     params.append('client_secret', LINEAR_CLIENT_SECRET);
     params.append('state', req.session.linearNonce);
     params.append('grant_type', 'authorization_code');
-    console.log(params);
     const resp = await fetch(LINEAR_TOKEN_URL, {
       method: 'POST',
       body: params,
