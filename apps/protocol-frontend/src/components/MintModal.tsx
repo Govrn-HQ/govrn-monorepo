@@ -15,6 +15,7 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps, MintContributionType } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
+import pluralize from '../utils/pluralize';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { mintContribution, bulkMintContributions } = useContributions();
@@ -150,6 +151,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           isLoading={minting}
           disabled={!agreementChecked.agreement}
         >
+          {contributions.length > 1 ? 'Bulk ' : ''}
           Mint {contributions.length === 1 ? 'Contribution' : 'Contributions'}
         </Button>
       </Flex>

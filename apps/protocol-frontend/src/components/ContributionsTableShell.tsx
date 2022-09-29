@@ -138,7 +138,7 @@ const ContributionsTableShell = () => {
                               onClick={mintModalHandler}
                               disabled={selectedContributions?.length === 0}
                             >
-                              Mint
+                              {selectedContributions > 1 ? 'Bulk' : ''} Mint
                             </Button>
                           </Stack>
                         )}
