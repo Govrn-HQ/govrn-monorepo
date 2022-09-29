@@ -49,7 +49,9 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
   const checkAuthentication = async () => {
     setIsAuthenticating(true);
     try {
-      const resp = await fetch(SIWE_ACTIVE_URL, { credentials: 'include' });
+      const resp = await fetch(`${SIWE_ACTIVE_URL}?address=${address}`, {
+        credentials: 'include',
+      });
       setIsAuthenticating(false);
       if (resp.status >= 400) {
         setIsAuthenticated(false);

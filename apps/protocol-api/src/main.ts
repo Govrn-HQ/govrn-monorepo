@@ -364,7 +364,11 @@ app.post('/verify', async function (req, res) {
       return;
     }
     const message = new SiweMessage(req.body.message);
-    const fields = await message.validate(req.body.signature);
+    console.log(req.body.signature);
+    const fields = await message.verify({
+      signature: req.body.signature,
+      nonce: req.session.nonce,
+    });
     if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
@@ -400,6 +404,10 @@ app.get('/siwe/active', async function (req, res) {
     res.status(422).json({ message: 'Invalid nonce' });
   } else if (new Date(fields?.data?.expirationTime) <= new Date()) {
     res.status(440).json({ message: 'Token has expired' });
+  } else if (req.query.address !== req.session.siwe.data.address) {
+    res
+      .status(422)
+      .json({ message: 'Signature is associated with another address' });
   }
 
   res.end();
