@@ -216,7 +216,8 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       {contribution !== undefined && (
-        <form onSubmit={handleSubmit(updateContributionHandler)}>
+        // <form onSubmit={handleSubmit(updateContributionHandler)}>
+        <form>
           <Text paddingBottom={2}>{contribution?.name}</Text>
           <Input
             name="name"
@@ -333,7 +334,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
           />
           <Flex align="flex-end" marginTop={4}>
             <Button
-              type="submit"
               width="100%"
               color="brand.primary.600"
               backgroundColor="brand.primary.50"
@@ -341,6 +341,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               _hover={{ bgColor: 'brand.primary.100' }}
               data-cy="updateContribution-test-btn"
               disabled={ipfsError}
+              onClick={handleSubmit(updateContributionHandler)}
             >
               Update Contribution
             </Button>
