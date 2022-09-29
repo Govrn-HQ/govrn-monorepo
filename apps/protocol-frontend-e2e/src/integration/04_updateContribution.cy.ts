@@ -21,11 +21,9 @@ beforeEach(() => {
     .click({ force: true });
  
   cy.get(".infinite-scroll-component")
-    .scrollTo('500px')
+    .scrollTo('500px');
 
   cy.get('[data-testid="editContribution-test"]', { timeout: 60000 })
-    .should('be.visible')
-    //.scrollIntoView({ offset: { top: 150, left: 0} })
     .should('be.visible')
     .click({ force: true });
   // eslint-disable-next-line cypress/no-unnecessary-waiting
