@@ -68,12 +68,13 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       return;
     }
     setIsAuthenticating(true);
-    const message = await createSiweMessage(
-      address,
-      'Sign in with Ethereum to the app.',
-      chain?.id.toString(16),
-    );
     try {
+      const message = await createSiweMessage(
+        address,
+        'Sign in with Ethereum to the app.',
+        chain?.id.toString(16),
+      );
+
       const signature = await signMessageAsync({
         message: message || '',
       });
@@ -87,6 +88,7 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       });
       setIsAuthenticated(true);
     } catch (e) {
+      logout();
       console.error(e);
     }
     setIsAuthenticating(false);
