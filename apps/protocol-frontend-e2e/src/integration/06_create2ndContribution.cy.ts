@@ -39,13 +39,6 @@ describe("Create Second Contribution", () => {
       .type(contribution.name)
       .should('have.value', contribution.name);
 
-    // cy.get('.css-ujecln-Input2')
-    //   .should('be.visible')
-    //   .eq(0)
-    //   .children()
-    //   .eq(0)
-    //   .type(`${contribution.activityType}{enter}`,
-    // );
     cy.get('[data-cy="daoCreatableSelect-testing"]')
       .should('be.visible')
       .children()
@@ -58,19 +51,12 @@ describe("Create Second Contribution", () => {
 
     cy.get('input[data-testid="reportForm-proof"]').type(contribution.proof);
 
-    // cy.get('.css-ujecln-Input2')
-    //   .should('be.visible')
-    //   .eq(1)
-    //   .children()
-    //   .eq(0)
-    //   .type(`${contribution.dao}{enter}`);
     cy.get('[data-cy="daoSelect-testing"]')
       .should('be.visible')
       .children()
       .find('input')
       .type(`${contribution.dao}{enter}`);
 
-        
     cy.get('[data-cy="addContribution-btn"]').click();
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000)

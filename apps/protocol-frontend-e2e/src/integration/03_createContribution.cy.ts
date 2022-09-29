@@ -44,11 +44,10 @@ describe('Create First Contribution', () => {
       .type(contribution.name)
       .should('have.value', contribution.name);
 
-    cy.get('.css-ujecln-Input2')
+    cy.get('[data-cy="daoCreatableSelect-testing"]')
       .should('be.visible')
-      .eq(0)
       .children()
-      .eq(0)
+      .find('input')
       .type(`${contribution.activityType}{enter}`);
 
     cy.get('textarea[data-testid="textarea-test"]')
@@ -57,12 +56,11 @@ describe('Create First Contribution', () => {
 
     cy.get('input[data-testid="reportForm-proof"]').type(contribution.proof);
 
-    cy.get('.css-ujecln-Input2')
-      .should('be.visible')
-      .eq(1)
-      .children()
-      .eq(0)
-      .type(`${contribution.dao}{enter}`);
+    cy.get('[data-cy="daoSelect-testing"]')
+    .should('be.visible')
+    .children()
+    .find('input')
+    .type(`${contribution.dao}{enter}`);
 
     cy.get('[data-cy="addContribution-btn"]').click();
 
