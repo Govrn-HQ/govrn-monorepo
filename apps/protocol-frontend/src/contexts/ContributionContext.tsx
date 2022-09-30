@@ -395,12 +395,7 @@ export const ContributionsContextProvider: React.FC<
       console.log('error', error);
       toast({
         title: 'Unable to Mint Contribution',
-        description: `;
-        Something;
-        went;
-        wrong.Please;
-        try
-        again: ${error}`,
+        description: `Something went wrong. Please try again: ${error}`,
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -436,12 +431,7 @@ export const ContributionsContextProvider: React.FC<
       console.log('error', e);
       toast({
         title: 'Unable to delete contribution',
-        description: `;
-        Something;
-        went;
-        wrong.Please;
-        try
-        again: ${e}`,
+        description: `Something went wrong. Please try again: ${e}`,
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -487,12 +477,7 @@ export const ContributionsContextProvider: React.FC<
       console.log('error', error);
       toast({
         title: 'Unable to Mint Attestation',
-        description: `;
-        Something;
-        went;
-        wrong.Please;
-        try
-        again: ${error}`,
+        description: `Something went wrong. Please try again: ${error}`,
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -525,12 +510,7 @@ export const ContributionsContextProvider: React.FC<
       console.log(error);
       toast({
         title: 'Unable to Add Attestation',
-        description: `;
-        Something;
-        went;
-        wrong.Please;
-        try
-        again: ${error}`,
+        description: `Something went wrong. Please try again: ${error}`,
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -576,18 +556,12 @@ export const ContributionsContextProvider: React.FC<
       if (!toast.isActive(toastUpdateContributionId)) {
         toast({
           id: toastUpdateContributionId,
-          title: `;
-        Contribution; ${
-          bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
-        }
-        Updated`,
-          description: `;
-        Your;
-        Contribution; ${
-          bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
-        }
-        been;
-        updated.`,
+          title: `Contribution ${
+            bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
+          } Updated`,
+          description: `Your Contribution ${
+            bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
+          } been updated.`,
           status: 'success',
           duration: 3000,
           isClosable: true,
@@ -599,12 +573,7 @@ export const ContributionsContextProvider: React.FC<
       console.log(error);
       toast({
         title: 'Unable to Update Contribution',
-        description: `;
-        Something;
-        went;
-        wrong.Please;
-        try
-        again: ${error}`,
+        description: `Something went wrong. Please try again: ${error}`,
         status: 'error',
         duration: 3000,
         isClosable: true,
