@@ -15,9 +15,10 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps, MintContributionType } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
-import pluralize from '../utils/pluralize';
+import { useOverlay } from '../contexts/OverlayContext';
 
 const MintModal = ({ contributions }: MintModalProps) => {
+  const { setModals } = useOverlay();
   const { mintContribution, bulkMintContributions } = useContributions();
   const [isChecked] = useState(false);
   const [freshAgreementMint, setFreshAgreementMint] = useState(true);
@@ -69,8 +70,6 @@ const MintModal = ({ contributions }: MintModalProps) => {
       );
     }
 
-    setMinting(false);
-
     if (isChecked) {
       setAgreementChecked((prevState: { agreement: boolean }) => ({
         ...prevState,
@@ -78,6 +77,8 @@ const MintModal = ({ contributions }: MintModalProps) => {
       }));
     }
     setFreshAgreementMint(false);
+
+    setModals({});
   };
 
   const agreementCheckboxHandler = () => {
