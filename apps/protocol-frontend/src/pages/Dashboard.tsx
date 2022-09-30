@@ -3,11 +3,11 @@ import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
-import { UIContribution } from '@govrn/ui-types';
 import { useContributions } from '../contexts/ContributionContext';
 import SiteLayout from '../components/SiteLayout';
 import DashboardShell from '../components/DashboardShell';
 import NewUserView from '../components/NewUserView';
+import ErrorView from '../components/ErrorView';
 import { GOVRN_MOTTO } from '../utils/constants';
 
 const UserView = () => {
@@ -29,28 +29,7 @@ const Dashboard = () => {
 
   if (userContributions === undefined) {
     return (
-      <SiteLayout>
-        <Container
-          paddingY={{ base: '4', md: '8' }}
-          paddingX={{ base: '0', md: '8' }}
-          color="gray.700"
-          maxWidth="1200px"
-        >
-          <Box
-            background="white"
-            boxShadow="sm"
-            borderRadius={{ base: 'none', md: 'lg' }}
-          >
-            <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-              <Text>{GOVRN_MOTTO}</Text>
-              <Text fontSize="lg" fontWeight="medium">
-                There may have been an issue loading your Contributions. Please
-                try again.
-              </Text>
-            </Stack>
-          </Box>
-        </Container>
-      </SiteLayout>
+      <ErrorView errorMessage="There may have been an issue loading your Contributions. Please try again." />
     );
   }
 
