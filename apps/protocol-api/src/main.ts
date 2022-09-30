@@ -322,7 +322,6 @@ const permissions = shield(
 
 const schema = applyMiddleware(typeSchema, permissions);
 
-console.log(process.env.CORS_ORIGIN);
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -364,11 +363,7 @@ app.post('/verify', async function (req, res) {
       return;
     }
     const message = new SiweMessage(req.body.message);
-    console.log(req.body.signature);
-    const fields = await message.verify({
-      signature: req.body.signature,
-      nonce: req.session.nonce,
-    });
+    const fields = await message.validate(req.body.signature);
     if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
