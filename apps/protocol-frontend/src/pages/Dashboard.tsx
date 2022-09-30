@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   return (
     <SiteLayout>
-      {isConnected && isAuthenticated && userContributions.length ? (
+      {isConnected && isAuthenticated && userContributions?.length ? (
         <DashboardShell user={userData} />
       ) : (
         <Container
