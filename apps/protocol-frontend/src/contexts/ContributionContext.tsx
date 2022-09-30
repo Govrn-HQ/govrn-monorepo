@@ -308,7 +308,7 @@ export const ContributionsContextProvider: React.FC<
           .filter((i): i is PromiseRejectedResult => i.status === 'rejected')
           .filter(i => i.reason instanceof ChainIdError);
 
-        if (minted.length > 1) {
+        if (minted.length > 0) {
           toast({
             title: 'Contribution Successfully Minted',
             description: `${pluralize(
