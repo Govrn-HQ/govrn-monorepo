@@ -4,7 +4,7 @@ import express from 'express';
 import Session from 'cookie-session';
 import { PrismaClient } from '@prisma/client';
 import { applyMiddleware } from 'graphql-middleware';
-import { generateNonce, ErrorTypes, SiweMessage } from 'siwe';
+import { generateNonce, SiweErrorType, SiweMessage } from 'siwe';
 import { LinearClient } from '@linear/sdk';
 
 import { resolvers } from './prisma/generated/type-graphql';
@@ -363,9 +363,8 @@ app.post('/verify', async function (req, res) {
       return;
     }
     const message = new SiweMessage(req.body.message);
-    console.log(req.body.signature);
     const fields = await message.validate(req.body.signature);
-    if (fields.nonce !== req.session.nonce) {
+    if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
     }
@@ -376,11 +375,11 @@ app.post('/verify', async function (req, res) {
     req.session.nonce = null;
     console.error(e);
     switch (e) {
-      case ErrorTypes.EXPIRED_MESSAGE: {
+      case SiweErrorType.EXPIRED_MESSAGE: {
         res.status(440).json({ message: e.message });
         break;
       }
-      case ErrorTypes.INVALID_SIGNATURE: {
+      case SiweErrorType.INVALID_SIGNATURE: {
         res.status(422).json({ message: e.message });
         break;
       }
