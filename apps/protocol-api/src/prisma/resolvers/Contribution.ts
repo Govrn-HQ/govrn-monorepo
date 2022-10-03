@@ -223,7 +223,7 @@ export class GetUserContributionCountArgs {
   where!: GetContributionCountForUser;
 }
 
-@TypeGraphQL.ObjectType()
+@TypeGraphQL.ObjectType('ContributionCountByDate', { isAbstract: true })
 export class ContributionCountByDate {
   @TypeGraphQL.Field(_type => Number)
   count: number;
