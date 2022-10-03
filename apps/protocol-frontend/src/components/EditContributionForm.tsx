@@ -25,19 +25,17 @@ import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
 import { useContributions } from '../contexts/ContributionContext';
-import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { HiOutlinePaperClip } from 'react-icons/hi';
+import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
+import { useDaosList } from '../hooks/useDaosList';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
   onClose?: () => void;
 }
 
-const EditContributionForm = ({
-  contribution,
-  onClose,
-}: EditContributionFormProps) => {
-  const { allDaos } = useUser();
+const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
+  const { userData } = useUser();
   const { updateContribution } = useContributions();
   const localForm = useForm({
     mode: 'all',
@@ -47,48 +45,6 @@ const EditContributionForm = ({
   const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
     new Date(contribution?.date_of_engagement),
   );
-
-  const daoListOptions = allDaos.map(dao => ({
-    value: dao.id,
-    label: dao.name ?? '',
-  }));
-
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
-    },
-  ];
-
-  useEffect(() => {
-    setValue('name', contribution?.name);
-    setValue('details', contribution?.details);
-    setValue('proof', contribution?.proof);
-    setValue('engagementDate', new Date(contribution?.date_of_engagement));
-    setValue('activityType', contribution?.activity_type.name);
-    setValue(
-      'daoId',
-      contribution?.guilds[0]?.guild.id
-        ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
-    );
-  }, [contribution]);
-
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
-
-  useEffect(() => {
-    setValue('name', contribution?.name);
-    setValue('details', contribution?.details);
-    setValue('proof', contribution?.proof);
-    setValue('engagementDate', new Date(contribution?.date_of_engagement));
-    setValue('activityType', contribution?.activity_type.name);
-    setValue(
-      'daoId',
-      contribution?.guilds[0]?.guild.id
-        ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
-    );
-  }, [contribution]);
 
   const toast = useToast();
   const [, setIpfsUri] = useState('');
@@ -103,6 +59,79 @@ const EditContributionForm = ({
       fileInputField.current.click();
     }
   };
+
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: userActivityTypesIsLoading,
+    isError: userActivityTypesIsError,
+    data: userActivityTypesData,
+  } = useUserActivityTypesList();
+
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: daosListIsLoading,
+    isError: daosListIsError,
+    data: daosListData,
+  } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
+
+  const daoListOptions =
+    daosListData?.map(dao => ({
+      value: dao.id,
+      label: dao.name ?? '',
+    })) || [];
+
+  const daoReset = [
+    {
+      value: null,
+      label: 'No DAO',
+    },
+  ];
+
+  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+
+  const combinedActivityTypesList = [
+    ...new Set([
+      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
+      ...DEFAULT_ACTIVITY_TYPES,
+    ]),
+  ];
+
+  const combinedActivityTypeOptions = combinedActivityTypesList.map(
+    activity => ({
+      value: activity,
+      label: activity,
+    }),
+  );
+
+  useEffect(() => {
+    setValue('name', contribution?.name);
+    setValue('details', contribution?.details);
+    setValue('proof', contribution?.proof);
+    setValue('engagementDate', new Date(contribution?.date_of_engagement));
+    setValue('activityType', contribution?.activity_type.name);
+    setValue(
+      'daoId',
+      contribution?.guilds[0]?.guild.id
+        ? contribution?.guilds[0]?.guild.id
+        : daoReset[0].value,
+    );
+  }, [contribution]);
+
+  useEffect(() => {
+    setValue('name', contribution?.name);
+    setValue('details', contribution?.details);
+    setValue('proof', contribution?.proof);
+    setValue('engagementDate', new Date(contribution?.date_of_engagement));
+    setValue('activityType', contribution?.activity_type.name);
+    setValue(
+      'daoId',
+      contribution?.guilds[0]?.guild.id
+        ? contribution?.guilds[0]?.guild.id
+        : daoReset[0].value,
+    );
+  }, [contribution]);
 
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -144,37 +173,6 @@ const EditContributionForm = ({
     }
   };
 
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-  } = useUserActivityTypesList();
-
-  // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading) {
-    return <GovrnSpinner />;
-  }
-
-  // there is an error with the query:
-  if (userActivityTypesIsError) {
-    return <Text>An error occurred fetching User Activity Types.</Text>;
-  }
-
-  const combinedActivityTypesList = [
-    ...new Set([
-      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...DEFAULT_ACTIVITY_TYPES,
-    ]),
-  ];
-
-  const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    activity => ({
-      value: activity,
-      label: activity,
-    }),
-  );
-
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
@@ -201,10 +199,24 @@ const EditContributionForm = ({
     }
   };
 
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading || daosListIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
+  if (daosListIsError) {
+    return <Text>An error occurred fetching DAOs.</Text>;
+  }
+
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       {contribution !== undefined && (
-        <form onSubmit={handleSubmit(updateContributionHandler)}>
+        <form>
           <Text paddingBottom={2}>{contribution?.name}</Text>
           <Input
             name="name"
@@ -321,7 +333,6 @@ const EditContributionForm = ({
           />
           <Flex align="flex-end" marginTop={4}>
             <Button
-              type="submit"
               width="100%"
               color="brand.primary.600"
               backgroundColor="brand.primary.50"
@@ -329,6 +340,7 @@ const EditContributionForm = ({
               _hover={{ bgColor: 'brand.primary.100' }}
               data-cy="updateContribution-test-btn"
               disabled={ipfsError}
+              onClick={handleSubmit(updateContributionHandler)}
             >
               Update Contribution
             </Button>
