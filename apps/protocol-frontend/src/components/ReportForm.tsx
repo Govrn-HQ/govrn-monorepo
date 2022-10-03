@@ -228,7 +228,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   return (
     <Stack spacing={{ base: '6', lg: '4' }} width="100%" color="gray.900">
       <FormProvider {...localForm}>
-        {/* <form onSubmit={handleSubmit(createContributionHandler)}> */}
         <form>
           <Input
             name="name"
@@ -342,7 +341,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           </Flex>
           <Flex align="flex-end" marginTop={4} gap={4}>
             <Button
-              // type="submit"
               width="100%"
               color="brand.primary.600"
               backgroundColor="brand.primary.50"

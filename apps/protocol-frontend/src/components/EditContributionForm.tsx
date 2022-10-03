@@ -216,7 +216,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       {contribution !== undefined && (
-        // <form onSubmit={handleSubmit(updateContributionHandler)}>
         <form>
           <Text paddingBottom={2}>{contribution?.name}</Text>
           <Input
