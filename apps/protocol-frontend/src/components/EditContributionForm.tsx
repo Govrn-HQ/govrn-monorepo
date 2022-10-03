@@ -28,6 +28,7 @@ import { useContributions } from '../contexts/ContributionContext';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
+import { useContributionUpdate } from '../hooks/useContributionUpdate';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -173,6 +174,11 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     }
   };
 
+  const {
+    mutateAsync: updateNewContribution,
+    isLoading: updateNewContributionIsLoading,
+  } = useContributionUpdate();
+
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
@@ -194,7 +200,11 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       }
     }
     if (ipfsError === false) {
-      updateContribution(contribution, values);
+      const result = updateNewContribution({
+        updatedValues: values,
+        contribution: contribution,
+      });
+      console.log('result', result);
       reset();
     }
   };
