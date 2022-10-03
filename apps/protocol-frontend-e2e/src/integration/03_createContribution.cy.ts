@@ -24,17 +24,17 @@ before(() => {
 
   cy.get('[data-cy="myDashboards-btn"]', { timeout: 15000 })
     .should('be.visible')
-    .click({ force: true });
+    .click();
 
   cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
     .should('be.visible')
-    .click({ force: true });
+    .click();
 
   cy.get('[data-cy="reportFirstContribution-btn"]', {
     timeout: 10000,
   })
     .should('be.visible')
-    .click({ force: true });
+    .click();
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000);
 });
