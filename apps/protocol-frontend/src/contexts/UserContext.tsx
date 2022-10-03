@@ -46,9 +46,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const [userData, setUserData] = useState<UIUser | null>(null);
 
-  const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
-  const [userDaos, setUserDaos] = useState<UIGuild[]>([]);
-
   useEffect(() => {
     if (address) {
       setUserAddress(address);
@@ -90,42 +87,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserLoading(false);
     }
   }, [address]);
-
-  const getAllDaos = async () => {
-    try {
-      const allDaosResponse = await govrn.guild.list({ first: 100 });
-      setAllDaos(allDaosResponse);
-      return allDaosResponse;
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
-
-  const getUserDaos = async () => {
-    try {
-      if (!userData?.id) {
-        throw new Error('getUserDaos has no userData.id');
-      }
-      const userDaosResponse = await govrn.guild.list({
-        first: 100,
-        where: {
-          users: {
-            some: {
-              user_id: {
-                equals: userData?.id,
-              },
-            },
-          },
-        },
-      });
-      setUserDaos(userDaosResponse);
-      return userDaosResponse;
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
 
   const createUser = async (
     values: CreateUserFormValues,
@@ -271,32 +232,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userDataByAddress, isAuthenticated]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      getAllDaos();
-      getUserDaos();
-    }
-  }, [userData, isAuthenticated]);
-
   return (
     <UserContext.Provider
       value={{
-        allDaos,
         createUser,
         createWaitlistUser,
         disconnectLinear,
-        getAllDaos,
         govrnProtocol: govrn,
         isUserLoading,
-        getUserDaos,
-        setAllDaos,
         setUserAddress,
-        setUserDaos,
         setUserData,
         setUserDataByAddress,
         updateProfile,
         userAddress,
-        userDaos,
         userData,
         userDataByAddress,
       }}
@@ -307,7 +255,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 };
 
 type UserContextType = {
-  allDaos: UIGuild[];
   createUser: (values: CreateUserFormValues, address: string) => void;
   createWaitlistUser: (
     values: CreateUserFormValues,
@@ -319,18 +266,13 @@ type UserContextType = {
     userId: number;
     username: string;
   }) => Promise<void>;
-  getAllDaos: () => Promise<UIGuilds>;
-  getUserDaos: () => Promise<UIGuilds>;
   govrnProtocol: GovrnProtocol;
   isUserLoading: boolean;
-  setAllDaos: (data: UIGuild[]) => void;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
-  setUserDaos: (data: UIGuild[]) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
-  userDaos: UIGuild[];
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };
