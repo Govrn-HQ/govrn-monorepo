@@ -1,56 +1,66 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-    cy.fixture('testaccounts.json').then((accounts) => {
-      this.accounts = accounts
-      cy.login(this.accounts[0].address, this.accounts[0].privateKey);
-    });
+  cy.fixture('testaccounts.json').then(accounts => {
+    this.accounts = accounts;
+    cy.login(this.accounts[0].address, this.accounts[0].privateKey);
+  });
 
-    cy.fixture('contributions.json').then((contributions) => {
-      this.contributions = contributions
-    });
- 
-    cy.get('[data-cy="myContributions-btn"]')
-      .should('be.visible')
-      .click({ force: true });
+  cy.fixture('contributions.json').then(contributions => {
+    this.contributions = contributions;
+  });
+  //never found timeout
+  cy.get('[data-cy="myDashboards-btn"]', { timeout: 60000 })
+    .should('be.enabled')
+    .click({ force: true });
+
+  cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
+    .should('be.visible')
+    .click({ force: true });
+
+  cy.get('[data-testid="editContribution-test"]', { timeout: 60000 })
+    .scrollIntoView()
+    .should('be.visible')
+    .click({ force: true });
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(5000);
 });
 
-describe("Edit first Contribution", () => {
- 
-  it("Update/Edit Contribution", ()=>{
-    cy.get('[data-testid="editContribution-test"]', {timeout:10000})
-      .click()
+describe('Edit first Contribution', () => {
+  it('Update/Edit Contribution', () => {
+    const contribution = this.contributions[1];
 
-    cy.get('input[data-testid="chakraInput-test"]')
-      .eq(0)
+    cy.get('input[data-testid="editContributionForm-name"]')
       .clear()
-      .type(this.contributions[1].name)
-      .should('have.value', this.contributions[1].name);
-    
-    cy.get(".css-ujecln-Input2 #react-select-3-input")
-      .click({ force: true})
-      .type(`${this.contributions[1].activityType}{enter}`);
-   
+      .type(contribution.name)
+      .should('have.value', contribution.name);
+
+    cy.get('.css-ujecln-Input2')
+      .should('be.visible')
+      .eq(0)
+      .children()
+      .eq(0)
+      .type(`${contribution.activityType}{enter}`);
+
     cy.get('textarea[data-testid="textarea-test"]')
       .clear()
-      .click() 
-      .type(this.contributions[1].details);   
-    
-    cy.get('input[data-testid="chakraInput-test"]')
-      .eq(1)
+      .click()
+      .type(contribution.details);
+
+    cy.get('input[data-testid="editContributionForm-proof"]')
       .clear()
-      .type(this.contributions[1].proof);   
-        
-    cy.get(".css-ujecln-Input2 #react-select-5-input") 
-      .click({ force: true})
-      .type(`${this.contributions[1].dao}{enter}`);
-        
-    cy.get('[ data-cy="updateContribution-test-btn"]')
-      .click();
+      .type(contribution.proof);
 
-    cy.contains('Please select at least one Contribution to attribute to a DAO or mint.');
+    cy.get('.css-ujecln-Input2')
+      .eq(1)
+      .children()
+      .eq(0)
+      .type(`${contribution.dao}{enter}`);
 
+    cy.get('[ data-cy="updateContribution-test-btn"]').click();
+
+    cy.contains(
+      'Please select at least one Contribution to attribute to a DAO or mint.',
+    );
   });
- 
 });
-   

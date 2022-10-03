@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { TWITTER_LINK, DISCORD_LINK, FEEDBACK_LINK } from '../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
 import { Divider, Flex, HStack, Stack } from '@chakra-ui/react';
 import {
@@ -8,11 +8,12 @@ import {
   FiPlusSquare,
   FiTwitter,
   FiUsers,
+  FiMessageSquare,
 } from 'react-icons/fi';
+import { FaDiscord } from 'react-icons/fa';
 import Logo from './Logo';
 import NavButton from './NavButton';
 import ConnectWallet from './ConnectWallet';
-import { FaDiscord } from 'react-icons/all';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -37,7 +38,7 @@ const Sidebar = () => {
       overflowX="auto"
       css={{
         // Firefox
-        'scrollbar-width': 'none',
+        scrollbarWidth: 'none',
         // Blink- and WebKit-based browsers
         '&::-webkit-scrollbar': {
           display: 'none',
@@ -51,8 +52,12 @@ const Sidebar = () => {
           </Link>
 
           <Stack spacing="1">
-            <Link to="/">
-              <NavButton label="Home" icon={FiHome} />
+            <Link to="/dashboard">
+              <NavButton
+                label="Home"
+                icon={FiHome}
+                active={location.pathname.includes('/dashboard')}
+              />
             </Link>
             <Link to="/report">
               <NavButton
@@ -66,6 +71,7 @@ const Sidebar = () => {
                 label="Contributions"
                 icon={FiBarChart2}
                 active={location.pathname.includes('/contributions')}
+                dataTestId="contributionsSidebar-btn"
               />
             </Link>
             <Link to="/attestations">
@@ -97,15 +103,12 @@ const Sidebar = () => {
         >
           <Divider />
           <Stack shouldWrapChildren>
+            <NavButton label="Discord" icon={FaDiscord} linkTo={DISCORD_LINK} />
+            <NavButton label="Twitter" icon={FiTwitter} linkTo={TWITTER_LINK} />
             <NavButton
-              label="Discord"
-              icon={FaDiscord}
-              linkTo="https://discord.gg/3e36ZHU5aG"
-            />
-            <NavButton
-              label="Twitter"
-              icon={FiTwitter}
-              linkTo="https://twitter.com/govrnHQ"
+              label="Feedback"
+              icon={FiMessageSquare}
+              linkTo={FEEDBACK_LINK}
             />
           </Stack>
         </Flex>

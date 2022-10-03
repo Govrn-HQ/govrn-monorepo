@@ -76,6 +76,9 @@ export class UserOnChainContributionCreateInput {
 
   @TypeGraphQL.Field(_type => Number)
   onChainId: number;
+
+  @TypeGraphQL.Field(_type => String)
+  txHash: string;
 }
 
 @TypeGraphQL.ArgsType()
@@ -220,7 +223,7 @@ export class GetUserContributionCountArgs {
   where!: GetContributionCountForUser;
 }
 
-@TypeGraphQL.ObjectType()
+@TypeGraphQL.ObjectType('ContributionCountByDate', { isAbstract: true })
 export class ContributionCountByDate {
   @TypeGraphQL.Field(_type => Number)
   count: number;
@@ -319,6 +322,7 @@ export class ContributionCustomResolver {
         status: {
           connect: { name: 'minted' },
         },
+        tx_hash: args.data.txHash,
         user: {
           connect: { id: args.data.userId },
         },
@@ -547,17 +551,22 @@ export class ContributionCustomResolver {
     return await prisma.$queryRaw<ContributionCountByDate>`
       SELECT gc.guild_id,
              coalesce(g.name, 'Unassigned') as name,
-             date(date_of_engagement),
-             count(date_of_engagement)      as count
-      FROM "Contribution" c
+             d.dt as date,
+             count(c.date_of_engagement)      as count
+      FROM (
+        SELECT dt::date
+        FROM generate_series(${start}, ${end}, '1 day'::interval) dt
+    ) d
+		         LEFT JOIN "Contribution" as c
+						           ON c.date_of_engagement::date = d.dt::date
              LEFT JOIN "GuildContribution" as gc
                        ON c."id" = gc."contribution_id"
              LEFT JOIN "Guild" as g
                        ON g."id" = gc."guild_id"
-      WHERE (c."date_of_engagement" BETWEEN ${start} AND ${end}
-        AND c."user_id" = ${user_id}
+      WHERE (d.dt BETWEEN ${start} AND ${end}
+        AND (c."user_id" = ${user_id} OR c."user_id" is null)
         AND ${guildWhere})
-      GROUP BY gc.guild_id, g.name, date(date_of_engagement)
-      ORDER BY date(date_of_engagement);`;
+      GROUP BY gc.guild_id, g.name, d.dt
+      ORDER BY d.dt;`;
   }
 }

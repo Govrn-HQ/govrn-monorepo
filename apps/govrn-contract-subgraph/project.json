@@ -1,5 +1,5 @@
 {
-  "root": "apps/govrn-contract-subgraph",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/govrn-contract-subgraph/src",
   "projectType": "application",
   "targets": {
@@ -7,7 +7,6 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "graph codegen subgraph.yaml && graph build --network rinkeby",
-
         "cwd": "apps/govrn-contract-subgraph"
       },
       "configurations": {

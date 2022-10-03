@@ -1,4 +1,3 @@
-console.log('Starting -1');
 import 'reflect-metadata';
 import { buildSchemaSync } from 'type-graphql';
 import express from 'express';
@@ -317,13 +316,12 @@ const permissions = shield(
   },
   {
     fallbackRule: deny,
-    debug: true,
+    debug: process.env.NODE_ENV === 'development' ? true : false,
   },
 );
 
 const schema = applyMiddleware(typeSchema, permissions);
 
-console.log(process.env.CORS_ORIGIN);
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -340,9 +338,9 @@ app.use(
   Session({
     name: 'govrn',
     secret: process.env['PROTOCOL_COOKIE_SECRET'],
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: false, sameSite: true },
+    secure: false,
+    sameSite: true,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
   }),
 );
 app.use('/graphql', async function (req, res) {
@@ -366,13 +364,11 @@ app.post('/verify', async function (req, res) {
     }
     const message = new SiweMessage(req.body.message);
     const fields = await message.validate(req.body.signature);
-    console.log(req.session);
     if (fields.data.nonce !== req.session.nonce) {
       res.status(422).json({ message: 'Invalid nonce' });
       return;
     }
     req.session.siwe = fields;
-    // req.session.cookie.expires = new Date(fields.data.expirationTime);
     res.status(200).end();
   } catch (e) {
     req.session.siwe = null;
@@ -395,22 +391,25 @@ app.post('/verify', async function (req, res) {
   }
 });
 
-// TODO: switch so session expiration is managed on the server
 app.get('/siwe/active', async function (req, res) {
   const fields = req.session.siwe;
   if (!fields?.data) {
     res.status(422).json({ message: 'No existing session cookie' });
-    return;
-  }
-  if (fields.data.nonce !== req.session.nonce) {
+  } else if (fields?.data?.nonce !== req.session.nonce) {
     res.status(422).json({ message: 'Invalid nonce' });
-    return;
-  }
-  if (new Date(fields.data.expirationTime) <= new Date()) {
+  } else if (new Date(fields?.data?.expirationTime) <= new Date()) {
     res.status(440).json({ message: 'Token has expired' });
-    return;
+  } else if (req.query.address !== req.session.siwe.data.address) {
+    res
+      .status(422)
+      .json({ message: 'Signature is associated with another address' });
   }
 
+  res.end();
+});
+
+app.post('/logout', async function (req, res) {
+  req.session = null;
   res.status(200).end();
 });
 
@@ -440,7 +439,6 @@ app.get('/linear/oauth', async function (req, res) {
     params.append('client_secret', LINEAR_CLIENT_SECRET);
     params.append('state', req.session.linearNonce);
     params.append('grant_type', 'authorization_code');
-    console.log(params);
     const resp = await fetch(LINEAR_TOKEN_URL, {
       method: 'POST',
       body: params,

@@ -1,5 +1,5 @@
 {
-  "root": "apps/protocol-frontend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/protocol-frontend/src",
   "projectType": "application",
   "targets": {
@@ -69,7 +69,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/protocol-frontend"],
       "options": {
-        "jestConfig": "apps/protocol-frontend/jest.config.js",
+        "jestConfig": "apps/protocol-frontend/jest.config.ts",
         "passWithNoTests": true
       }
     },

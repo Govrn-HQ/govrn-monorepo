@@ -3,6 +3,7 @@ import { ParsedMessage, ParsedMessageRegExp } from '@spruceid/siwe-parser';
 import { providers, Contract, utils } from 'ethers';
 
 import { randomStringForEntropy } from '@stablelib/random';
+import { BASE_URL } from './constants';
 
 /**
  * This method is supposed to check if an address is conforming to EIP-55.
@@ -175,7 +176,7 @@ export enum SiweErrorType {
   UNABLE_TO_PARSE = 'Unable to parse the message.',
 }
 
-const BACKEND_ADDR = `${import.meta.env.VITE_PROTOCOL_BASE_URL}`;
+const BACKEND_ADDR = `${BASE_URL}`;
 
 export async function createSiweMessage(
   address: string,
@@ -200,7 +201,7 @@ export async function createSiweMessage(
       version: '1',
       chainId: parseInt(chainId),
       nonce: await res.text(),
-      expirationTime: new Date(Date.now() + 1 * 86400000).toISOString(),
+      expirationTime: new Date(Date.now() + 86400000).toISOString(), // 1 day expiration
     });
     return message.prepareMessage();
   } catch (e) {
@@ -208,7 +209,6 @@ export async function createSiweMessage(
     return;
   }
 }
-
 export class SiweMessage {
   /**RFC 4501 dns authority that is requesting the signing. */
   domain: string;

@@ -1,14 +1,16 @@
-module.exports = {
-  displayName: 'govrn-contract-client',
+/* eslint-disable */
+export default {
+  displayName: 'voyager-identity-api',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
+  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/libs/govrn-contract-client',
+  coverageDirectory: '../../coverage/apps/voyager-identity-api',
 };

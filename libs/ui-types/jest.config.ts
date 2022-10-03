@@ -1,4 +1,5 @@
-module.exports = {
+/* eslint-disable */
+export default {
   displayName: 'ui-types',
   preset: '../../jest.preset.js',
   globals: {

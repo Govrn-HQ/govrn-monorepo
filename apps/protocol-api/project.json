@@ -1,5 +1,5 @@
 {
-  "root": "apps/protocol-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/protocol-api/src",
   "projectType": "application",
   "targets": {
@@ -20,15 +20,9 @@
       },
       "configurations": {
         "production": {
-          "optimization": true,
-          "extractLicenses": true,
+          "optimization": false,
           "inspect": false,
-          "fileReplacements": [
-            {
-              "replace": "apps/protocol-api/src/environments/environment.ts",
-              "with": "apps/protocol-api/src/environments/environment.prod.ts"
-            }
-          ]
+          "fileReplacements": []
         }
       }
     },
@@ -49,30 +43,30 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/protocol-api"],
       "options": {
-        "jestConfig": "apps/protocol-api/jest.config.js",
+        "jestConfig": "apps/protocol-api/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "generate": {
-      "builder": "@nx-tools/nx-prisma:generate",
+      "executor": "@nx-tools/nx-prisma:generate",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
     },
     "reset": {
-      "builder": "@nx-tools/nx-prisma:reset",
+      "executor": "@nx-tools/nx-prisma:reset",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
     },
     "migrate": {
-      "builder": "@nx-tools/nx-prisma:migrate",
+      "executor": "@nx-tools/nx-prisma:migrate",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
     },
     "prismaDeploy": {
-      "builder": "@nx-tools/nx-prisma:deploy",
+      "executor": "@nx-tools/nx-prisma:deploy",
       "options": {
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }

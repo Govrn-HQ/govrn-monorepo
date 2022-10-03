@@ -4,16 +4,13 @@ import { Input, type InputLocalFormType } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
-import {
-  profileFormValidation,
-  linearFormValidation,
-} from '../utils/validations';
+import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
-import { ValidationError } from 'yup';
+import { BASE_URL } from '../utils/constants';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
-const BACKEND_ADDR = `${import.meta.env.VITE_PROTOCOL_BASE_URL}`;
+const BACKEND_ADDR = `${BASE_URL}`;
 
 const ProfileForm = () => {
   const { userData, updateProfile, disconnectLinear } = useUser();
@@ -22,17 +19,10 @@ const ProfileForm = () => {
     mode: 'all',
     resolver: yupResolver(profileFormValidation),
   });
-  const localFormLinear = useForm<{ name: string; address: string }>({
-    mode: 'all',
-    resolver: yupResolver(linearFormValidation),
-  });
   const { handleSubmit, setValue } = localForm;
-  const { handleSubmit: handleSubmitLinear, setValue: setValueLinear } =
-    localFormLinear;
 
   useEffect(() => {
     setValue('name', userData?.name ?? '');
-    setValue('address', userData?.address);
   }, [userData]);
 
   const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (
