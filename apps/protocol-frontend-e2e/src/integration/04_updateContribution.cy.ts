@@ -14,7 +14,7 @@ beforeEach(() => {
     .should('be.enabled')
     .click({ force: true });
 
-  cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
+  cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 100000 })
     .should('be.visible')
     .click({ force: true });
 
@@ -51,13 +51,13 @@ describe('Edit first Contribution', () => {
       .clear()
       .type(contribution.proof);
 
-    cy.get('.css-ujecln-Input2')
-      .eq(1)
-      .children()
-      .eq(0)
-      .type(`${contribution.dao}{enter}`);
+    // cy.get('.css-ujecln-Input2')
+    //   .eq(1)
+    //   .children()
+    //   .eq(0)
+    //   .type(`${contribution.dao}{enter}`);
 
-    cy.get('[ data-cy="updateContribution-test-btn"]').click();
+    cy.get('[ data-cy="updateContribution-test-btn"]', { timeout: 30000 }).should('exist').should('be.visible').click();
 
     cy.contains(
       'Please select at least one Contribution to attribute to a DAO or mint.',
