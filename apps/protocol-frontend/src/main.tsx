@@ -1,6 +1,5 @@
 import { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom';
-
+import { createRoot } from 'react-dom/client';
 import 'regenerator-runtime/runtime';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { WagmiConfig } from 'wagmi';
@@ -19,6 +18,9 @@ import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 import '@rainbow-me/rainbowkit/styles.css';
 import { UserContextProvider } from './contexts/UserContext';
+
+const container = document.getElementById('root');
+const root = createRoot(container!);
 
 const App = () => {
   // we can refactor this to use a standalone toast
@@ -54,7 +56,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(
+root.render(
   <StrictMode>
     <ChakraProvider theme={GovrnTheme}>
       <OverlayContextProvider>
@@ -62,5 +64,4 @@ ReactDOM.render(
       </OverlayContextProvider>
     </ChakraProvider>
   </StrictMode>,
-  document.getElementById('root'),
 );
