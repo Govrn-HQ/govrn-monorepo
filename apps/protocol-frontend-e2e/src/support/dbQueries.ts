@@ -1,9 +1,5 @@
 import queryDB from "./db";
-//types
-type JSONPrimitive = string | number | boolean | null
-type JSONObject = { [k: string]: JSONValue }
-type JSONArray = JSONValue[]
-type JSONValue = JSONArray | JSONObject | JSONPrimitive
+import { JSONObject } from "./index";
 
 export const create_user = (userData: JSONObject) => {
     const  query = `
