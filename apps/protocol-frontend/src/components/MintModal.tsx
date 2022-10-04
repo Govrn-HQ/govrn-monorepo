@@ -46,10 +46,10 @@ const MintModal = ({ contributions }: MintModalProps) => {
       // Mint successfully stored contributions in IPFS.
       await bulkMintContributions(
         bulkStoreResult
-          .filter(b => b.status === 'fulfilled')
-          .map(v => ({
-            ...contributions[v.index].original,
-            ipfsContentUri: v.value as string,
+          .filter(promise => promise.status === 'fulfilled')
+          .map(result => ({
+            ...contributions[result.index].original,
+            ipfsContentUri: result.value as string,
           })),
       );
     } else if (contributions.length === 1) {
