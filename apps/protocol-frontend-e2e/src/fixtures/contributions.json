@@ -2,32 +2,40 @@
   {
     "name": "Govrn Protocol Pull Request",
     "activityType": "Pull Request",
+    "activityTypeID":1,
+    "userID":1,
     "details": "I added a section to our onboarding documentation that provides an overview of our Discord channels.",
-    "proof": "https://github.com/Govrn-HQ/airtable_migration.",
-    "dao": "Govrn"
+    "proof": "https://govrn/e2eTesting2022",
+    "dao": "Govrn-e2eTesting2022"
   },
   {
     "name": "Govrn Protocol Note Taking",
-    "activityType": "Note Taking",
+    "activityType": "Note Taking", 
+    "activityTypeID":3,
+    "userID":2,
     "details": "I added some notes on the documentation that summarizes cypress test automation in Govrn products.",
-    "proof": "https://github.com/Govrn-HQ/planning/note-taking.",
-    "dao": "Govrn"
+    "proof": "https://govrn/e2eTesting2022",
+    "dao": "Govrn-e2eTesting2022"
   },
 
   {
     "name": "Test Automation",
     "activityType": "Pull Request",
+    "activityTypeID":1,
+    "userID":1,
     "details": "Created metamask extension scripts to enable Cypress to test Gorvn dApp ",
-    "proof": "https://github.com/Govrn-HQ/documentation/cypress-automation.",
-    "dao": "Govrn"
+    "proof": "https://govrn/e2eTesting2022",
+    "dao": "Govrn-e2eTesting2022"
   },
 
   {
     "name": "Test Automation",
     "activityType": "Pull Request",
+    "activityTypeID":1,
+    "userID":2,
     "details": "Fixed flaky cypress tests ",
-    "proof": "https://github.com/Govrn-HQ/documentation/cypress-automation.",
-    "dao": "Govrn"
+    "proof": "https://govrn/e2eTesting2022",
+    "dao": "Govrn-e2eTesting2022"
   }
 
 ]
