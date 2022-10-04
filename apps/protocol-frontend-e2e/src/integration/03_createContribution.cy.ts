@@ -22,11 +22,11 @@ before(() => {
 
   cy.get('[data-cy="myDashboards-btn"]', { timeout: 15000 })
     .should('be.visible')
-    .click({ force: true });
+    .click();
 
   cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
     .should('be.visible')
-    .click({ force: true });
+    .click();
 
   cy.get('[data-cy="reportFirstContribution-btn"]', {
     timeout: 10000,
