@@ -1,10 +1,18 @@
   /// <reference types="cypress" />
 
   before(() => {
-    cy.teardownDB(["ContributionStatus"]) //in case of flicker
-    for (const tableName of ["LoginUser2","Guild","GuildUser1","ContributionStatus","Contribution1"]){
-      cy.seedDB(tableName);
-    };
+    // cy.teardownDB(["ContributionStatus"]) //in case of flicker
+    // for (const tableName of ["LoginUser2","Guild","GuildUser1","ContributionStatus","Contribution1"]){
+    //   cy.seedDB(tableName);
+    // };
+    cy.fixture('daos.json').then((guilds) => {
+      for (const guild of guilds){
+        cy.task('create_guild', guild.name);
+      }
+    });
+    cy.fixture('users.json').then(users => {
+      this.users = users;
+    });
   
     cy.fixture('testaccounts.json').then(accounts => {
       this.accounts = accounts;
