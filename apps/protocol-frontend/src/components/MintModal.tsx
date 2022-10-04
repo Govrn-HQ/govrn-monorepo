@@ -15,13 +15,18 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
+import useContributionMint from '../hooks/useContributionMint';
 import { useOverlay } from '../contexts/OverlayContext';
 import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
-  const { mintContribution, bulkMintContributions } = useContributions();
+  const {
+    mutateAsync: mintContribution,
+    isLoading: isMintContributionLoading,
+  } = useContributionMint();
+  const { bulkMintContributions } = useContributions();
 
   const [isChecked, setChecked] = useState(false);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
@@ -85,7 +90,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           date_of_submission: original.date_of_submission.toString(),
           engagementDate: original.engagementDate.toString(),
         };
-        mintContribution(originalClean, ipfsContentUri, setMintProgress);
+        mintContribution({ ...originalClean, ipfsContentUri });
       }
     }
 
@@ -125,9 +130,9 @@ const MintModal = ({ contributions }: MintModalProps) => {
             local storage and we'll ask you again when we update our protocol.
           </Text>
 
-          {!agreementChecked.agreement && (
+          { !agreementChecked.agreement && (
             <Checkbox
-              isChecked={isChecked}
+             isChecked={isChecked}
               onChange={e => setChecked(e.target.checked)}
               data-testid="checkbox-testid"
             >
