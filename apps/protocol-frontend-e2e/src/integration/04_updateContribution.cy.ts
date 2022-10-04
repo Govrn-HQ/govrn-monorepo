@@ -21,7 +21,7 @@ beforeEach(() => {
   cy.get('[data-testid="editContribution-test"]', { timeout: 60000 })
     .scrollIntoView()
     .should('be.visible')
-    .click();
+    .click({force: true});
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000);
 });

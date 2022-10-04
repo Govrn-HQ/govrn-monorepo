@@ -28,13 +28,13 @@ before(() => {
 
   cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
     .should('be.visible')
-    .click();
+    .click({ force: true });
 
   cy.get('[data-cy="reportFirstContribution-btn"]', {
     timeout: 10000,
   })
     .should('be.visible')
-    .click();
+    .click({ force: true });
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000);
 });
