@@ -1,6 +1,7 @@
 import { useUser } from '../contexts/UserContext';
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useOverlay } from '../contexts/OverlayContext';
 import { ContributionFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
 
@@ -10,16 +11,17 @@ interface UpdateContributionProps {
   bulkItemCount?: number;
 }
 
-
-
 export const useContributionUpdate = () => {
   const toast = useToast()
+  const { setModals } = useOverlay();
   const { govrnProtocol: govrn, userData } = useUser()
   const queryClient = useQueryClient()
-  // updatedValues: ContributionFormValues, contribution: UIContribution, bulkItemCount?: number }
+  const toastUpdateContributionId = 'toast-update-contribution';
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(async ({ updatedValues, contribution, bulkItemCount }: UpdateContributionProps) => {
     console.log('updatedValues', updatedValues)
-    console.log()
+    console.log('contribution', contribution)
+    console.log('bulk', bulkItemCount)
+
     if (userData !== null) {
       const data = await govrn.custom.updateUserContribution({
         address: userData.address,
@@ -41,17 +43,23 @@ export const useContributionUpdate = () => {
       return data
     }
   }, {
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      const { bulkItemCount } = variables;
       queryClient.invalidateQueries(['activityTypes', 'userDaos'])
-      toast({
-        title: 'Contribution Update Added',
-        description:
-          'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
+      if (!toast.isActive(toastUpdateContributionId)) {
+        toast({
+          id: toastUpdateContributionId,
+          title: `Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
+            } Updated`,
+          description: `Your Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
+            } been updated.`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+      setModals({ editContributionFormModal: false });
     },
     onError: (error) => {
       toast({

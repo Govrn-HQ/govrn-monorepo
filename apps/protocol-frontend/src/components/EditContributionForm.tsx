@@ -203,6 +203,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       const result = updateNewContribution({
         updatedValues: values,
         contribution: contribution,
+        bulkItemCount: 3,
       });
       console.log('result', result);
       reset();
@@ -350,6 +351,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               _hover={{ bgColor: 'brand.primary.100' }}
               data-cy="updateContribution-test-btn"
               disabled={ipfsError}
+              isLoading={updateNewContributionIsLoading}
               onClick={handleSubmit(updateContributionHandler)}
             >
               Update Contribution
