@@ -22,7 +22,17 @@ export const useContributionUpdate = () => {
     console.log('contribution', contribution)
     console.log('bulk', bulkItemCount)
 
-    if (userData !== null) {
+    try {
+      if (userData?.id !== contribution.user.id) {
+        throw new Error('You can only edit your own Contributions.');
+      }
+
+      if (contribution.status.name !== 'staging') {
+        throw new Error(
+          'You can only edit Contributions with a Staging status.',
+        );
+      }
+      // if (userData !== null) {
       const data = await govrn.custom.updateUserContribution({
         address: userData.address,
         chainName: 'ethereum',
@@ -41,6 +51,8 @@ export const useContributionUpdate = () => {
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       })
       return data
+    } catch (error) {
+      console.log(error)
     }
   }, {
     onSuccess: (_, { bulkItemCount }) => { // destructure the bulkItemCount from the variables (args passed into the mutation)
