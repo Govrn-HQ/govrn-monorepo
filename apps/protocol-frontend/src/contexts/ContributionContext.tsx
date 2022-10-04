@@ -13,8 +13,8 @@ import { MintContributionType } from '../types/mint';
 import { UserContext } from './UserContext';
 import { Pagination } from './utils';
 import { PROTOCOL_URL } from '../utils/constants';
-import pluralize from '../utils/pluralize';
 import { ChainIdError } from '@govrn/protocol-client';
+import pluralize from 'pluralize';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -314,6 +314,7 @@ export const ContributionsContextProvider: React.FC<
             description: `${pluralize(
               'Contribution',
               minted.length,
+              true,
             )} has been minted.`,
             status: 'success',
             duration: 3000,
@@ -328,6 +329,7 @@ export const ContributionsContextProvider: React.FC<
             description: `${pluralize(
               'Contribution',
               failedToMint.length,
+              true,
             )} failed to mint.`,
             status: 'error',
             duration: 4000,
