@@ -1,13 +1,18 @@
 [
   {
-    "username": "TestUsername",
+    "username": "testusernamegovrne2etesting2022",
     "email": "testemail@gmail.com",
-    "address": "0x30a7c4389dAF511fB454a52260C7FF5e53339796"
+    "address": "0x30a7c4389dAF511fB454a52260C7FF5e53339796",
+    "active": true,
+    "chain_type_id": 5
+    
   },
   {
-    "username": "JohnDoe",
+    "username": "johnDoeGovrnE2eTesting2022",
     "email": "johndoe@yahoo.com",
-    "address": "0xfe3b557e8fb62b89f4916b721be55ceb828dbd73"
+    "address": "0xfe3b557e8fb62b89f4916b721be55ceb828dbd73",
+    "active": true,
+    "chain_type_id": 5
   }
 
 ]
