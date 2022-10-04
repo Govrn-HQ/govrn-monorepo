@@ -17,7 +17,7 @@ import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
 import patch from '../utils/patch';
 // noinspection ES6PreferShortImport
-import { ChainIdError } from '../utils/chain-id-error';
+import { ChainIdError } from '../utils/errors';
 
 export class Contribution extends BaseClient {
   status: ContributionStatus;
