@@ -49,11 +49,14 @@ after(() => {
         cy.task('delete_guild', guild_name);
       }
     });
+  
     cy.fixture('contributions.json').then((contributions) => {
       //delete updated contribution
-      const contribution_name = contributions[1].name //contribution not Updating. Must fix
+      const contribution_name = contributions[0].name //contribution not Updating. Must fix
       cy.task('delete_contribution', contribution_name);
     });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(3000);
     cy.fixture('users.json').then((users) => {
       const username = users[0].username
       cy.task('delete_user', username);

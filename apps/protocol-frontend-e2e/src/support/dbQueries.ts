@@ -12,6 +12,7 @@ export const create_user = (userData: JSONObject) => {
       , ${userData.active}, '${userData.email}'
     )
     ON CONFLICT DO NOTHING;
+    COMMIT;
     `
     return queryDB(query)
 };
@@ -19,7 +20,8 @@ export const create_user = (userData: JSONObject) => {
 export const create_guild = (guild_name: string) => {
     const  query = `
     INSERT INTO "Guild" (name)
-    VALUES ('${guild_name}')
+    VALUES ('${guild_name}');
+    COMMIT;
     `
     return queryDB(query)
 };
@@ -32,6 +34,7 @@ export const create_contribution = (contributionData: JSONObject) => {
         VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
         '${contributionData.details}', '${contributionData.proof}')
         ON CONFLICT DO NOTHING;
+        COMMIT;
     `
     return queryDB(query)
 };
