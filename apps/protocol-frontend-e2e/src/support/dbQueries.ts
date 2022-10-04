@@ -11,7 +11,8 @@ export const create_user = (userData: JSONObject) => {
     INSERT INTO "User" (name, address, chain_type_id, active, email )
     VALUES ('${userData.username}', '${userData.address}', ${userData.chain_type_id}
       , ${userData.active}, '${userData.email}'
-    );
+    )
+    ON CONFLICT DO NOTHING;
     `
     return queryDB(query)
 };
@@ -25,12 +26,13 @@ export const create_guild = (guild_name: string) => {
 };
 
 export const create_contribution = (contributionData: JSONObject) => {
-    const statusID = 1      
+    const statusID = 1  
+    console.log(contributionData.proof)    
     const query= `
     INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof)
         VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
-        '${contributionData.details}', '${contributionData.proof}'
-        );
+        '${contributionData.details}', '${contributionData.proof}')
+        ON CONFLICT DO NOTHING;
     `
     return queryDB(query)
 };
@@ -54,10 +56,10 @@ export const delete_guild = (guild_name: string) => {
     return queryDB(query)
 };
 //check 'proof' for contribution
-export const delete_contribution = (proofData: string) => {
+export const delete_contribution = (name: string) => {
     const  query = `
     DELETE FROM "Contribution"
-    WHERE proof = '${proofData}'
+    WHERE name = '${name}'
     `
     return queryDB(query)
 };
@@ -74,9 +76,9 @@ export const contribution_status = () => {
     const  query  = `
     INSERT INTO "ContributionStatus" (name) VALUES 
       ('staging'),
-      ('minted');
+      ('minted')
+    ON CONFLICT DO NOTHING;
     `
-    
     return queryDB(query)
 };
 

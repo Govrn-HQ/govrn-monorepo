@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-  // cy.teardownDB(["ContributionStatus"]) //in case of flicker
-  // for (const tableName of ["LoginUser2", "Guild", "GuildUser1","ContributionStatus", "Contribution1"]){
-  //   cy.seedDB(tableName);
-  // }
   //seed User, GUilds
   cy.fixture('users.json').then((users) => {
     const userData = users[0]
@@ -14,7 +10,7 @@ beforeEach(() => {
     for (const guild of guilds){
       const guild_name = guild.name
       cy.task('create_guild', guild_name);
-      }
+    }
   });
   cy.fixture('contributions.json').then((contributions) => {
     const contributionData=contributions[0]
@@ -31,11 +27,11 @@ beforeEach(() => {
   //never found timeout
   cy.get('[data-cy="myDashboards-btn"]', { timeout: 60000 })
     .should('be.enabled')
-    .click({ force: true });
+    .click();
 
   cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
     .should('be.visible')
-    .click({ force: true });
+    .click();
  
   cy.get(".infinite-scroll-component")
     .scrollTo('500px');
@@ -47,9 +43,6 @@ beforeEach(() => {
   cy.wait(5000);
 });
 after(() => {
-  //cy.teardownDB(["Guild","User",  "GuildUser", "ContributionStatus","Contribution"]);
-    //teardown Guild, Contribution, User
-    // very big number for the ID
     cy.fixture('daos.json').then((guilds) => {
       for (const guild of guilds){
         const guild_name = guild.name
@@ -58,13 +51,14 @@ after(() => {
     });
     cy.fixture('contributions.json').then((contributions) => {
       //delete updated contribution
-      const contribution_proof = contributions[1].proof
-      cy.task('delete_contribution', contribution_proof);
+      const contribution_name = contributions[0].name //contribution not Updating. Must fix
+      cy.task('delete_contribution', contribution_name);
     });
     cy.fixture('users.json').then((users) => {
       const username = users[0].username
       cy.task('delete_user', username);
     });
+   
 });
 
 describe('Edit first Contribution', () => {
@@ -82,7 +76,6 @@ describe('Edit first Contribution', () => {
       .find('input')
       .type(`${contribution.activityType}{enter}`);
 
-
     cy.get('textarea[data-testid="textarea-test"]')
       .clear()
       .click()
@@ -98,7 +91,10 @@ describe('Edit first Contribution', () => {
       .find('input')
       .type(`${contribution.dao}{enter}`);
 
-    cy.get('[ data-cy="updateContribution-test-btn"]').click();
+    cy.get('[ data-cy="updateContribution-test-btn"]',  { timeout: 30000 })
+      .should('exist')
+      .should('be.visible')
+      .click();
      // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000) //wait for all the remaining xhr requests
 
