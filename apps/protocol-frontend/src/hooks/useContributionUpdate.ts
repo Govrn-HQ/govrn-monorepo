@@ -32,25 +32,26 @@ export const useContributionUpdate = () => {
           'You can only edit Contributions with a Staging status.',
         );
       }
-      // if (userData !== null) {
-      const data = await govrn.custom.updateUserContribution({
-        address: userData.address,
-        chainName: 'ethereum',
-        userId: userData.id,
-        name: updatedValues.name ?? contribution.name,
-        details: updatedValues.details ?? contribution.details,
-        proof: updatedValues.proof ?? contribution.proof,
-        activityTypeName:
-          updatedValues.activityType ?? contribution.activity_type.name,
-        dateOfEngagement: new Date(
-          updatedValues.engagementDate ?? contribution.date_of_engagement,
-        ).toISOString(),
-        status: 'staging',
-        guildId: updatedValues.daoId === null ? null : Number(updatedValues.daoId),
-        contributionId: contribution.id,
-        currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
-      })
-      return data
+      if (userData !== null) {
+        const data = await govrn.custom.updateUserContribution({
+          address: userData.address,
+          chainName: 'ethereum',
+          userId: userData.id,
+          name: updatedValues.name ?? contribution.name,
+          details: updatedValues.details ?? contribution.details,
+          proof: updatedValues.proof ?? contribution.proof,
+          activityTypeName:
+            updatedValues.activityType ?? contribution.activity_type.name,
+          dateOfEngagement: new Date(
+            updatedValues.engagementDate ?? contribution.date_of_engagement,
+          ).toISOString(),
+          status: 'staging',
+          guildId: updatedValues.daoId === null ? null : Number(updatedValues.daoId),
+          contributionId: contribution.id,
+          currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
+        })
+        return data
+      }
     } catch (error) {
       console.log(error)
     }

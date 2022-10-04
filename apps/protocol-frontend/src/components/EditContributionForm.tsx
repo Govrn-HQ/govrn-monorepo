@@ -200,7 +200,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       }
     }
     if (ipfsError === false) {
-      const result = updateNewContribution({
+      updateNewContribution({
         updatedValues: values,
         contribution: contribution,
       });
