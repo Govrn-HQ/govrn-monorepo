@@ -203,9 +203,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       const result = updateNewContribution({
         updatedValues: values,
         contribution: contribution,
-        bulkItemCount: 3,
       });
-      console.log('result', result);
       reset();
     }
   };
