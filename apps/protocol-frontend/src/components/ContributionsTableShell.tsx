@@ -28,7 +28,7 @@ const ContributionsTableShell = () => {
   const { isUserContributionsLoading, userContributions } = useContributions();
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
-  const [selectedContributions, setSelectedContributions] = useState<any>();
+  const [selectedContributions, setSelectedContributions] = useState<any[]>([]);
   const [selectedContributionsMap, setSelectedContributionsMap] =
     useState<any>();
 
@@ -138,7 +138,9 @@ const ContributionsTableShell = () => {
                               onClick={mintModalHandler}
                               disabled={selectedContributions?.length === 0}
                             >
-                              {selectedContributions > 1 ? 'Bulk' : ''} Mint
+                              {selectedContributions?.length > 1
+                                ? 'Bulk Mint'
+                                : 'Mint'}
                             </Button>
                           </Stack>
                         )}
