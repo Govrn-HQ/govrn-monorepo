@@ -5,7 +5,6 @@ type JSONObject = { [k: string]: JSONValue }
 type JSONArray = JSONValue[]
 type JSONValue = JSONArray | JSONObject | JSONPrimitive
 
-// think about seeding activityTypeID values(Maybe)
 export const create_user = (userData: JSONObject) => {
     const  query = `
     INSERT INTO "User" (name, address, chain_type_id, active, email )
@@ -47,7 +46,6 @@ export const create_MintedContribution = (contributionData: JSONObject) => {
     `
    return queryDB(query)
 };
-// check 'guild_name'
 export const delete_guild = (guild_name: string) => {
     const  query = `
     DELETE FROM "Guild"
@@ -55,7 +53,6 @@ export const delete_guild = (guild_name: string) => {
     `
     return queryDB(query)
 };
-//check 'proof' for contribution
 export const delete_contribution = (name: string) => {
     const  query = `
     DELETE FROM "Contribution"
@@ -63,7 +60,6 @@ export const delete_contribution = (name: string) => {
     `
     return queryDB(query)
 };
-//check 'name' for contribution
 export const delete_user = (username: string) => {
     console.log(username)
     const  query = `
