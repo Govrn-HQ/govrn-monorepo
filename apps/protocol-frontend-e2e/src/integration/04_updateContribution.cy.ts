@@ -51,7 +51,7 @@ after(() => {
     });
     cy.fixture('contributions.json').then((contributions) => {
       //delete updated contribution
-      const contribution_name = contributions[0].name //contribution not Updating. Must fix
+      const contribution_name = contributions[1].name //contribution not Updating. Must fix
       cy.task('delete_contribution', contribution_name);
     });
     cy.fixture('users.json').then((users) => {
