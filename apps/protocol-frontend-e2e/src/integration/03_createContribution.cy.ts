@@ -5,6 +5,7 @@ before(() => {
     const userData = users[0]
     cy.task('create_user', userData);
   });
+
   cy.fixture('daos.json').then((guilds) => {
     for (const guild of guilds){
       cy.task('create_guild', guild.name);
@@ -44,10 +45,12 @@ after(() => {
       cy.task('delete_guild', guild_name);
     }
   });
+
   cy.fixture('contributions.json').then((contributions) => {
-    const contribution_proof = contributions[0].proof
-    cy.task('delete_contribution', contribution_proof);
+    const name = contributions[0].name
+    cy.task('delete_contribution', name);
   });
+
   cy.fixture('users.json').then((users) => {
     const username = users[0].username
     cy.task('delete_user', username);
@@ -78,10 +81,10 @@ describe('Create First Contribution', () => {
     cy.get('input[data-testid="reportForm-proof"]').type(contribution.proof);
 
     cy.get('[data-cy="daoSelect-testing"]')
-    .should('be.visible')
-    .children()
-    .find('input')
-    .type(`${contribution.dao}{enter}`);
+      .should('be.visible')
+      .children()
+      .find('input')
+      .type(`${contribution.dao}{enter}`);
 
     cy.get('[data-cy="addContribution-btn"]').click();
 
