@@ -3,12 +3,13 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import { UIUser } from '@govrn/ui-types';
-import { ControlledSelect } from '@govrn/protocol-ui';
+import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
 import { useContributions } from '../contexts/ContributionContext';
 import { UNASSIGNED } from '../utils/constants';
+import { useDaosList } from '../hooks/useDaosList';
 
 type UserContributionsDateRangeCountType = {
   count: number;
@@ -20,7 +21,7 @@ interface DashboardShellProps {
 }
 
 const DashboardShell = ({ user }: DashboardShellProps) => {
-  const { allDaos, userDaos } = useUser();
+  const { userData } = useUser();
   const { getUserContributionsCount } = useContributions();
   const [contributionsCount, setContributionsCount] = useState<
     UserContributionsDateRangeCountType[] | null | undefined
@@ -35,6 +36,16 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
   const [selectedDaos, setSelectedDaos] = useState<
     { value: number; label: string }[]
   >([]);
+
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: userDaosListIsLoading,
+    isError: userDaosListIsError,
+    data: userDaosListData,
+  } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
+
   const fetchHeatMapCount = async (
     dateRangeValue: number,
     setFunc: (
@@ -81,10 +92,11 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     fetchHeatMapCount(52, setFullContributionsCount);
   }, [user, selectedDaos]);
 
-  const userDaoListOptions = userDaos.map(dao => ({
-    value: dao.id,
-    label: dao.name ?? '',
-  }));
+  const userDaoListOptions =
+    userDaosListData?.map(dao => ({
+      value: dao.id,
+      label: dao.name ?? '',
+    })) || [];
 
   const unassignedContributions = [
     {
@@ -104,11 +116,15 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     ...new Set([...unassignedContributions, ...userDaoListOptions]),
   ];
 
-  useEffect(() => {
-    if (allDaos) {
-      setSelectedDaos(combinedDaoListOptions);
-    }
-  }, [allDaos]);
+  // the loading and fetching states from the query are true:
+  if (userDaosListIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userDaosListIsError) {
+    return <Text>An error occurred fetching DAOs.</Text>;
+  }
 
   return (
     <Box

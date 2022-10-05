@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/react';
 import type { StoryFn } from '@storybook/react';
-import React from 'react';
 import { Stack, Heading, Text } from '@chakra-ui/react';
 
 export default {

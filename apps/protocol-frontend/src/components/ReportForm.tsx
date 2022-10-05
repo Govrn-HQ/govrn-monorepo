@@ -27,6 +27,7 @@ import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
+import { useDaosList } from '../hooks/useDaosList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 
 function CreateMoreSwitch({
@@ -57,8 +58,7 @@ function CreateMoreSwitch({
 }
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
-  const { allDaos } = useUser();
-
+  const { userData } = useUser();
   const toast = useToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -185,10 +185,20 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     data: userActivityTypesData,
   } = useUserActivityTypesList();
 
-  // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading) {
-    return <GovrnSpinner />;
-  }
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: daosListIsLoading,
+    isError: daosListIsError,
+    data: daosListData,
+  } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
+
+  const daoListOptions =
+    daosListData?.map(dao => ({
+      value: dao.id,
+      label: dao.name ?? '',
+    })) || [];
 
   // there is an error with the query:
   if (userActivityTypesIsError) {
@@ -209,11 +219,25 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     }),
   );
 
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading || daosListIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
+  if (daosListIsError) {
+    return <Text>An error occurred fetching DAOs.</Text>;
+  }
+
   // we can now return the component knowing that it is no longer loading and fetching, and there is no error:
   return (
     <Stack spacing={{ base: '6', lg: '4' }} width="100%" color="gray.900">
       <FormProvider {...localForm}>
-        <form onSubmit={handleSubmit(createContributionHandler)}>
+        <form>
           <Input
             name="name"
             label="Name of Contribution"
@@ -326,7 +350,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           </Flex>
           <Flex align="flex-end" marginTop={4} gap={4}>
             <Button
-              type="submit"
               width="100%"
               color="brand.primary.600"
               backgroundColor="brand.primary.50"
@@ -335,6 +358,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               isLoading={createNewContributionIsLoading}
               data-cy="addContribution-btn"
               disabled={ipfsError}
+              onClick={handleSubmit(createContributionHandler)}
             >
               Add Contribution
             </Button>
