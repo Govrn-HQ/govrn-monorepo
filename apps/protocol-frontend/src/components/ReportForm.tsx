@@ -128,11 +128,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setValue('engagementDate', engagementDateValue);
   }, []);
 
-  const daoListOptions = allDaos.map(dao => ({
-    value: dao.id,
-    label: dao.name ?? '',
-  }));
-
   const {
     mutateAsync: createNewContribution,
     isLoading: createNewContributionIsLoading,
