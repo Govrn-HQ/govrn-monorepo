@@ -14,6 +14,7 @@ beforeEach(() => {
   });
   cy.fixture('contributions.json').then((contributions) => {
     const contributionData=contributions[0]
+    //Will get specific user testID by quering db (based on the user testName)
     cy.task('contribution_status')
     cy.task('create_contribution', contributionData);
   });
