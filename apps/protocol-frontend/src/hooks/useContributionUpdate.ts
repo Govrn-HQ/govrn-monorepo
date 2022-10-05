@@ -18,15 +18,10 @@ export const useContributionUpdate = () => {
   const queryClient = useQueryClient()
   const toastUpdateContributionId = 'toast-update-contribution';
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(async ({ updatedValues, contribution, bulkItemCount }: UpdateContributionProps) => {
-    console.log('updatedValues', updatedValues)
-    console.log('contribution', contribution)
-    console.log('bulk', bulkItemCount)
-
     try {
       if (userData?.id !== contribution.user.id) {
         throw new Error('You can only edit your own Contributions.');
       }
-
       if (contribution.status.name !== 'staging') {
         throw new Error(
           'You can only edit Contributions with a Staging status.',
