@@ -58,8 +58,7 @@ after(() => {
       }
     });
     cy.fixture('contributions.json').then((contributions) => {
-      //should be contribution[1]. But currently form is not updating
-      const name = contributions[0].name  
+      const name = contributions[1].name 
       cy.task('delete_contribution', name);
     });
     // eslint-disable-next-line cypress/no-unnecessary-waiting
