@@ -25,8 +25,8 @@ export const useContributionCreate = () => {
     return data
   }, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['activityTypes']);
-      queryClient.invalidateQueries(['userDaos'])
+      queryClient.invalidateQueries(['activityTypes']); // invalidate and refetch
+      queryClient.invalidateQueries(['userDaos']) // invalidate and refetch
       toast({
         title: 'Contribution Report Added',
         description:
