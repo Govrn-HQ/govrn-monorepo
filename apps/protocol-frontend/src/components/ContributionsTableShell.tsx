@@ -37,7 +37,7 @@ const ContributionsTableShell = () => {
   const [page, setPage] = useState(0);
   const [contributions, setContributions] = useState<UIContribution[]>([]);
   const { userData } = useUser();
-  const { isLoading, data } = useContributionList({
+  const { isLoading, data: rawContributions } = useContributionList({
     where: {
       user_id: { equals: userData?.id },
     },
@@ -54,10 +54,12 @@ const ContributionsTableShell = () => {
   >([]);
 
   useEffect(() => {
-    if (data) {
-      setContributions(prevState => [...prevState, ...data]);
+    if (rawContributions) {
+      console.log('Data');
+      console.log(rawContributions);
+      setContributions(prevState => [...prevState, ...rawContributions]);
     }
-  }, [data]);
+  }, [rawContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
@@ -164,6 +166,7 @@ const ContributionsTableShell = () => {
                         setSelectedContributions={setSelectedContributions}
                         nextPage={() => setPage(page + 1)}
                         hasMoreItems={!!data && data.length > 0}
+                        setContributions={setContributions}
                       />
                     </Box>
                   </Stack>

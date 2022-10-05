@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -57,6 +57,7 @@ const ContributionsTable = ({
   setSelectedContributions,
   hasMoreItems,
   nextPage,
+  setContributions,
 }: {
   contributionsData: UIContribution[];
   setSelectedContributions: (
@@ -64,6 +65,7 @@ const ContributionsTable = ({
   ) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
+  setContributions: Dispatch<SetStateAction<UIContribution[]>>;
 }) => {
   const { userData } = useUser();
 
@@ -353,6 +355,8 @@ const ContributionsTable = ({
                   localContribution =>
                     localContribution.id === selectedContribution,
                 )!
+								contributions={contributionsData}
+								selectedContribution={selectedContribution}
               }
             />
           }

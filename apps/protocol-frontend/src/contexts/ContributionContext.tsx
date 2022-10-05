@@ -5,7 +5,7 @@ import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useNetwork, useSigner } from 'wagmi';
 import { UIAttestations, UIContribution } from '@govrn/ui-types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
 import { ContributionFormValues } from '../types/forms';

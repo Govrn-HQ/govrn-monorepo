@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
 import {
@@ -32,6 +32,8 @@ import { useDaosList } from '../hooks/useDaosList';
 interface EditContributionFormProps {
   contribution: UIContribution;
   onClose?: () => void;
+  contributions: UIContribution[];
+  setContributions: Dispatch<SetStateAction<UIContribution[]>>;
 }
 
 const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
