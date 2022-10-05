@@ -2,7 +2,7 @@
 
 beforeEach(() => {
   //seed User, Guild
-  cy.task('contribution_status') //contribution Status is always there. Will remove this line 5 before merging
+  cy.task('contribution_status') //seeding contribution Status is just for local testing . Will remove this line 5 before merging
   cy.fixture('users.json').then((users) => {
     const userData = users[0]
     cy.task('create_user', userData);
