@@ -128,6 +128,9 @@ export class UserContributionUpdateInput {
 
   @TypeGraphQL.Field(_type => Number, { nullable: true })
   currentGuildId?: number;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  contributionUserAddress?: string;
 }
 
 @TypeGraphQL.ArgsType()
@@ -337,6 +340,16 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Args() args: UpdateUserContributionArgs,
   ) {
     const address = req.session.siwe.data.address;
+
+    console.log('args', args)
+
+    if (args.data.contributionUserAddress !== address) {
+      throw new Error('You can only edit your own Contributions.');
+    }
+
+    if (args.data.status !== 'staging') {
+      throw new Error('You can only edit Contributions with a Staging status.');
+    }
 
     const res = await prisma.contribution.updateMany({
       data: {
