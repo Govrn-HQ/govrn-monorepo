@@ -22,7 +22,7 @@ export const create_guild = (guild_name: string) => {
 
 export const create_contribution = (contributionData: JSONObject) => {
     const statusID = 1  
-    console.log(contributionData.proof)    
+    console.log('PROOOOOOOOOOOOOOF ', contributionData.proof)    
     const query= `
     INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof)
         VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
@@ -38,7 +38,7 @@ export const create_MintedContribution = (contributionData: JSONObject) => {
     INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
       VALUES ('${contributionData.name}',${statusID} ,${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
        '${contributionData.details}', '${contributionData.proof}'
-      )
+      );
     `
    return queryDB(query)
 };
@@ -50,11 +50,12 @@ export const delete_guild = (guild_name: string) => {
     `
     return queryDB(query)
 };
-export const delete_contribution = (proof: string) => {
+export const delete_contribution = (name: string) => {
+    console.log("NAME100", name)
     const  query = `
     DELETE FROM "Contribution"
     CASCADE
-    WHERE proof = '${proof}';
+    WHERE name = '${name}';
  
     `
     return queryDB(query)

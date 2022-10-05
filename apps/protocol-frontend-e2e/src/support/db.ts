@@ -22,4 +22,3 @@ const queryDB = (query: string) => {
 }
 
 export default queryDB;
-

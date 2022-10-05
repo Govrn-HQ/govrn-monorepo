@@ -1,7 +1,8 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-  //seed User, GUilds
+  //seed User, Guild
+  cy.task('contribution_status') //contribution Status is always there. Will remove this line 5 before merging
   cy.fixture('users.json').then((users) => {
     const userData = users[0]
     cy.task('create_user', userData);
@@ -12,12 +13,17 @@ beforeEach(() => {
       cy.task('create_guild', guild_name);
     }
   });
+
   cy.fixture('contributions.json').then((contributions) => {
-    const contributionData=contributions[0]
-    //Will get specific user testID by quering db (based on the user testName)
-    cy.task('contribution_status')
-    cy.task('create_contribution', contributionData);
+    const contributionData = contributions[0]
+    const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+    cy.task('queryDatabase',getUserID).then((res)=>{
+      const userID = res.rows[0].id;
+      contributionData["userID"] = userID;
+      cy.task('create_contribution', contributionData);
+    });
   });
+
   cy.fixture('testaccounts.json').then(accounts => {
     this.accounts = accounts;
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
@@ -44,6 +50,7 @@ beforeEach(() => {
   cy.wait(5000);
 });
 after(() => {
+  //teardown test data from User, Guild
     cy.fixture('daos.json').then((guilds) => {
       for (const guild of guilds){
         const guild_name = guild.name
@@ -51,9 +58,9 @@ after(() => {
       }
     });
     cy.fixture('contributions.json').then((contributions) => {
-      //contribution not Updating. Must fix
-      const contribution_name = contributions[0].name 
-      cy.task('delete_contribution', contribution_name);
+      //should be contribution[1]. But currently form is not updating
+      const name = contributions[0].name  
+      cy.task('delete_contribution', name);
     });
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000);

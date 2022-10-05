@@ -5,7 +5,7 @@
     "activityTypeID":1,
     "userID":1,
     "details": "I added a section to our onboarding documentation that provides an overview of our Discord channels.",
-    "proof": "https://govrn/e2eTesting2022",
+    "proof": "httpsLinkTo/://govrn/e2eTesting2022",
     "dao": "Govrn-e2eTesting2022"
   },
   {
@@ -14,7 +14,7 @@
     "activityTypeID":3,
     "userID":2,
     "details": "I added some notes on the documentation that summarizes cypress test automation in Govrn products.",
-    "proof": "https://govrn/e2eTesting2022",
+    "proof": "httpsLinkTo/://govrn/e2eTesting2022",
     "dao": "Govrn-e2eTesting2022"
   },
 
