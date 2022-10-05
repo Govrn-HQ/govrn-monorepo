@@ -8,7 +8,6 @@ export const create_user = (userData: JSONObject) => {
       , ${userData.active}, '${userData.email}'
     )
     ON CONFLICT DO NOTHING;
-    COMMIT;
     `
     return queryDB(query)
 };
@@ -17,7 +16,6 @@ export const create_guild = (guild_name: string) => {
     const  query = `
     INSERT INTO "Guild" (name)
     VALUES ('${guild_name}');
-    COMMIT;
     `
     return queryDB(query)
 };
@@ -30,7 +28,6 @@ export const create_contribution = (contributionData: JSONObject) => {
         VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
         '${contributionData.details}', '${contributionData.proof}')
         ON CONFLICT DO NOTHING;
-        COMMIT;
     `
     return queryDB(query)
 };
@@ -48,14 +45,17 @@ export const create_MintedContribution = (contributionData: JSONObject) => {
 export const delete_guild = (guild_name: string) => {
     const  query = `
     DELETE FROM "Guild"
+    CASCADE
     WHERE name = '${guild_name}';
     `
     return queryDB(query)
 };
-export const delete_contribution = (name: string) => {
+export const delete_contribution = (proof: string) => {
     const  query = `
     DELETE FROM "Contribution"
-    WHERE name = '${name}'
+    CASCADE
+    WHERE proof = '${proof}';
+ 
     `
     return queryDB(query)
 };
@@ -63,6 +63,7 @@ export const delete_user = (username: string) => {
     console.log(username)
     const  query = `
     DELETE FROM "User"
+    CASCADE
     WHERE name = '${username}';
     `
     return queryDB(query)
