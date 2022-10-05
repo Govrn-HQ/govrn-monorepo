@@ -31,12 +31,12 @@ beforeEach(() => {
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
   });
-  //never found timeout
+
   cy.get('[data-cy="myDashboards-btn"]', { timeout: 60000 })
     .should('be.enabled')
     .click();
 
-  cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
+  cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 100000 })
     .should('be.visible')
     .click();
  
@@ -45,7 +45,7 @@ beforeEach(() => {
 
   cy.get('[data-testid="editContribution-test"]', { timeout: 60000 })
     .should('be.visible')
-    .click({ force: true });
+    .click({force: true});
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000);
 });
@@ -101,12 +101,10 @@ describe('Edit first Contribution', () => {
       .find('input')
       .type(`${contribution.dao}{enter}`);
 
-    cy.get('[ data-cy="updateContribution-test-btn"]',  { timeout: 30000 })
+    cy.get('[ data-cy="updateContribution-test-btn"]', { timeout: 30000 })
       .should('exist')
       .should('be.visible')
       .click();
-     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000) //wait for all the remaining xhr requests
 
     cy.contains(
       'Please select at least one Contribution to attribute to a DAO or mint.',
