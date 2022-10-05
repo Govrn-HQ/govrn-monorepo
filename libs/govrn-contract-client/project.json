@@ -1,5 +1,5 @@
 {
-  "root": "libs/govrn-contract-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/govrn-contract-client/src",
   "targets": {
     "build": {
@@ -18,7 +18,6 @@
         "command": "typechain --target ethers-v5 --out-dir ./libs/govrn-contract-client/src/lib/generated ./apps/govrn-contract/out/Govrn.sol/*.json"
       }
     },
-
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
@@ -30,7 +29,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/govrn-contract-client"],
       "options": {
-        "jestConfig": "libs/govrn-contract-client/jest.config.js",
+        "jestConfig": "libs/govrn-contract-client/jest.config.ts",
         "passWithNoTests": true
       }
     }

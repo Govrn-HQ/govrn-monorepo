@@ -1,3 +1,9 @@
+import {
+  createWaitlistFormValidation,
+  profileFormValidation,
+} from '../utils/validations';
+import type { InferType } from 'yup';
+
 export type ContributionFormValues = {
   name?: string;
   activityType?: string;
@@ -11,12 +17,10 @@ export type BulkDaoAttributeFormValues = {
   daoId?: string | number | null;
 };
 
-export type CreateUserFormValues = {
-  username?: string;
-  email?: string;
-};
+export type CreateUserFormValues = Partial<
+  InferType<typeof createWaitlistFormValidation>
+>;
 
-export type ProfileFormValues = {
-  address?: string;
-  name?: string;
-};
+export type ProfileFormValues = Partial<
+  InferType<typeof profileFormValidation>
+>;

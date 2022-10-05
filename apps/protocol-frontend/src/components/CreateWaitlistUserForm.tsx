@@ -12,7 +12,7 @@ import { CreateUserFormValues } from '../types/forms';
 
 const useYupValidationResolver = (userValidationSchema: any) =>
   useCallback(
-    async data => {
+    async (data: CreateUserFormValues) => {
       try {
         const values = await userValidationSchema.validate(data, {
           abortEarly: false,
@@ -26,9 +26,9 @@ const useYupValidationResolver = (userValidationSchema: any) =>
         return {
           values: {},
           errors: (errors as ValidationError).inner.reduce(
-            (allErrors: any, currentError: any) => ({
+            (allErrors, currentError) => ({
               ...allErrors,
-              [currentError.path]: {
+              [currentError.path!]: {
                 type: currentError.type ?? 'validation',
                 message: currentError.message,
               },

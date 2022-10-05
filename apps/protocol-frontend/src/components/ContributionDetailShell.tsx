@@ -73,7 +73,7 @@ const ContributionDetailShell = ({
                   : `${contribution?.status.name} 👀`}
               </Badge>
               <Text fontSize="sm" color="gray.600">
-                {contribution?.date_of_engagement}
+                {`${contribution?.date_of_engagement}`}
               </Text>
             </Flex>
             <Flex>

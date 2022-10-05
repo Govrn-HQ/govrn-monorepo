@@ -1,14 +1,16 @@
-module.exports = {
-  displayName: 'protocol-client',
+/* eslint-disable */
+export default {
+  displayName: 'twitter-contribution-job',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
+  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/libs/protocol-client',
+  coverageDirectory: '../../coverage/apps/twitter-contribution-job',
 };
