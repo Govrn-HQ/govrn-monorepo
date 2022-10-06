@@ -31,14 +31,11 @@ export const useContributionUpdate = () => {
         dateOfEngagement: new Date(
           updatedValues.engagementDate ?? contribution.date_of_engagement,
         ).toISOString(),
-        // status: 'staging',
-        status: contribution.status.name,
+        status: 'staging', // should always be staging since can only update staged Contributions
         guildId: updatedValues.daoId === null ? null : Number(updatedValues.daoId),
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
-        // contributionUserAddress: contribution.user?.address,
-        contributionUserAddress: '0x0000000000000000000000000000000000000000',
-
+        contributionUserAddress: contribution.user?.address,
       })
       return data
     }
@@ -67,7 +64,7 @@ export const useContributionUpdate = () => {
         console.log('error', error)
         toast({
           title: 'Unable to Update Contribution',
-          description: `Something went wrong. ${error}`,
+          description: `Something went wrong. Please try again.`,
           status: 'error',
           duration: 3000,
           isClosable: true,

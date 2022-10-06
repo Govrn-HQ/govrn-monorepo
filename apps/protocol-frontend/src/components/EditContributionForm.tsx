@@ -176,6 +176,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
 
   const {
     mutateAsync: updateNewContribution,
+    // mutate: updateNewContribution,
     isLoading: updateNewContributionIsLoading,
   } = useContributionUpdate();
 
@@ -200,10 +201,11 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       }
     }
     if (ipfsError === false) {
-      updateNewContribution({
+      const updateRes = await updateNewContribution({
         updatedValues: values,
         contribution: contribution,
       });
+      console.log('updateRes', updateRes);
       reset();
     }
   };

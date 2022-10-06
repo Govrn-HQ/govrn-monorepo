@@ -341,8 +341,6 @@ export class ContributionCustomResolver {
   ) {
     const address = req.session.siwe.data.address;
 
-    console.log('args', args)
-
     if (args.data.contributionUserAddress !== address) {
       throw new Error('You can only edit your own Contributions.');
     }
