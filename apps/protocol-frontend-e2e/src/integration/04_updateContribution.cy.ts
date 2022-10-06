@@ -36,7 +36,7 @@ beforeEach(() => {
     .should('be.enabled')
     .click();
 
-  cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
+  cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 100000 })
     .should('be.visible')
     .click();
  
