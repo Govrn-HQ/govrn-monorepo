@@ -34,31 +34,30 @@ beforeEach(() => {
     });
     });
   //GuildUser1
-  const getUserID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  const getUser1ID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
   const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
-  const GuildUserObject = {}
-  cy.task('queryDatabase', getUserID).then((res)=>{
+  const GuildUser1Object = {}
+  cy.task('queryDatabase', getUser1ID).then((res)=>{
     const  userID = res.rows[0].id;
-    GuildUserObject["userID"]=userID;
+    GuildUser1Object["userID"]=userID;
   });
   cy.task('queryDatabase', getGuildID).then((res)=>{
     const  guildID = res.rows[0].id;
-    GuildUserObject["guildID"]=guildID;
-    cy.task('create_GuildUser', GuildUserObject);
+    GuildUser1Object["guildID"]=guildID;
+    cy.task('create_GuildUser', GuildUser1Object);
   });
 
   //GuildUser2
-  const getUserID=`SELECT id FROM "User" WHERE name='johnDoeGovrnE2eTesting2022'`;
-  const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
-  const GuildUserObject = {}
-  cy.task('queryDatabase', getUserID).then((res)=>{
+  const getUser2ID=`SELECT id FROM "User" WHERE name='johnDoeGovrnE2eTesting2022'`;
+  const GuildUser2Object = {}
+  cy.task('queryDatabase', getUser2ID).then((res)=>{
     const  userID = res.rows[0].id;
     GuildUserObject["userID"]=userID;
   });
   cy.task('queryDatabase', getGuildID).then((res)=>{
     const  guildID = res.rows[0].id;
-    GuildUserObject["guildID"]=guildID;
-    cy.task('create_GuildUser', GuildUserObject);
+    GuildUser2Object["guildID"]=guildID;
+    cy.task('create_GuildUser', GuildUser2Object);
   });
 
   //User-02 creates minted contribution
