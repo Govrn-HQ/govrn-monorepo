@@ -20,8 +20,8 @@ import { useOverlay } from '../contexts/OverlayContext';
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
   const { mintContribution, bulkMintContributions } = useContributions();
-  const [isChecked] = useState(false);
-  const [freshAgreementMint, setFreshAgreementMint] = useState(true);
+
+  const [isChecked, setChecked] = useState(false);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
     'Govrn:Public-Data-Agreement',
     JSON.stringify({
@@ -30,7 +30,18 @@ const MintModal = ({ contributions }: MintModalProps) => {
   );
   const [minting, setMinting] = useState(false);
 
+  const agreementCheckboxHandler = () => {
+    setAgreementChecked((prevState: { agreement: boolean }) => ({
+      ...prevState,
+      agreement: true,
+    }));
+  };
+
   const mintHandler = async (contributions: MintContributionType[]) => {
+    // Mint button is disabled unless user accepts terms.
+    // Consequently, calling this means `isChecked` is already `true`.
+    agreementCheckboxHandler();
+
     setMinting(true);
     if (contributions.length > 1) {
       const bulkStoreResult = await bulkStoreIpfs(
@@ -70,22 +81,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
       );
     }
 
-    if (isChecked) {
-      setAgreementChecked((prevState: { agreement: boolean }) => ({
-        ...prevState,
-        agreement: true,
-      }));
-    }
-    setFreshAgreementMint(false);
-
     setModals({});
-  };
-
-  const agreementCheckboxHandler = () => {
-    setAgreementChecked((prevState: { agreement: boolean }) => ({
-      ...prevState,
-      agreement: true,
-    }));
   };
 
   return (
@@ -121,8 +117,11 @@ const MintModal = ({ contributions }: MintModalProps) => {
             local storage and we'll ask you again when we update our protocol.
           </Text>
 
-          {freshAgreementMint === true && !agreementChecked.agreement && (
-            <Checkbox onChange={agreementCheckboxHandler}>
+          {!agreementChecked.agreement && (
+            <Checkbox
+              isChecked={isChecked}
+              onChange={e => setChecked(e.target.checked)}
+            >
               <Text color="black" fontWeight="normal" fontSize="md">
                 I understand
               </Text>
@@ -150,7 +149,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => mintHandler(contributions)}
           isLoading={minting}
-          disabled={!agreementChecked.agreement}
+          disabled={!isChecked}
         >
           {contributions.length > 1 ? 'Bulk ' : ''}
           Mint {contributions.length === 1 ? 'Contribution' : 'Contributions'}
