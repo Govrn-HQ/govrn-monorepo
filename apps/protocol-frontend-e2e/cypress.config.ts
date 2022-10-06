@@ -3,14 +3,15 @@ import queryDB from './src/support/db';
 import {create_contribution,
   create_user, 
   create_guild, 
+  create_GuildUser,
+  contribution_status,
   delete_guild, 
   delete_user,
   delete_contribution,
-  contribution_status,
   create_chainType,
   delete_chainType,
   delete_UserActivity
-} 
+}
 from './src/support/dbQueries';
 
 module.exports = defineConfig({
@@ -42,6 +43,9 @@ module.exports = defineConfig({
         },
         create_contribution: contributionData => {
           return create_contribution(contributionData)
+        },
+        create_GuildUser: (GuildUserObject: GuildUserObjectType) =>{
+          return create_GuildUser(GuildUserObject)
         },
         delete_contribution: proofData => {
           return delete_contribution(proofData)

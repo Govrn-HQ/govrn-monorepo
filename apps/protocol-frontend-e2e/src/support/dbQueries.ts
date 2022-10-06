@@ -50,6 +50,14 @@ export const create_MintedContribution = (contributionData: JSONObject) => {
     `
    return queryDB(query)
 };
+type GuildUserObjectType = { [key: string]: number }  // will take this to types
+export const create_GuildUser = (GuildUserObject: GuildUserObjectType) => {
+    const  query = `
+    INSERT INTO "GuildUser" (user_id, guild_id)
+    VALUES (${GuildUserObject.userID}, ${GuildUserObject.guildID});
+    `
+    return queryDB(query)
+};
 
 export const delete_guild = (guild_name: string) => {
     const  query = `
