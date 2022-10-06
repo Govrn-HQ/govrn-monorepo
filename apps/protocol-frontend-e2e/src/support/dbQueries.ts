@@ -12,6 +12,15 @@ export const create_user = (userData: JSONObject) => {
     return queryDB(query)
 };
 
+export const create_chainType = (name: string) => {
+    const  query = `
+    INSERT INTO "ChainType" (name)
+    VALUES ('${name}')
+    ON CONFLICT DO NOTHING;
+    `
+    return queryDB(query)
+};
+
 export const create_guild = (guild_name: string) => {
     const  query = `
     INSERT INTO "Guild" (name)
@@ -65,6 +74,17 @@ export const delete_user = (username: string) => {
     `
     return queryDB(query)
 };
+
+export const delete_chainType = (name: string) => {
+    const  query = `
+    DELETE FROM "ChainType"
+    CASCADE
+    WHERE name = '${name}';
+    `
+    return queryDB(query)
+};
+
+
 export const contribution_status = () => {
     const  query  = `
     INSERT INTO "ContributionStatus" (name) VALUES 

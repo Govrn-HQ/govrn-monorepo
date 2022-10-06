@@ -6,7 +6,9 @@ import {create_contribution,
   delete_guild, 
   delete_user,
   delete_contribution,
-  contribution_status
+  contribution_status,
+  create_chainType,
+  delete_chainType
 } 
 from './src/support/dbQueries';
 
@@ -25,11 +27,17 @@ module.exports = defineConfig({
         queryDatabase: query => {
           return queryDB(query)
         },
+        contribution_status: () => {
+          return contribution_status()
+        },
         create_guild: guild_name => {
           return create_guild(guild_name)
         },
         create_user: userData => {
           return create_user(userData)
+        },
+        create_chainType: name => {
+          return create_chainType(name)
         },
         create_contribution: contributionData => {
           return create_contribution(contributionData)
@@ -43,8 +51,8 @@ module.exports = defineConfig({
         delete_guild: guild_name => {
           return delete_guild(guild_name)
         },
-        contribution_status: () => {
-          return contribution_status()
+        delete_chainType: name => {
+          return delete_chainType(name)
         },
   
       })
