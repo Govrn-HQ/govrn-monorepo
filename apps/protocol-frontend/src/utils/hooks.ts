@@ -7,13 +7,11 @@ export const useLocalStorage = <S extends JsonLike>(
   defaultVal: S,
 ) => {
   const [state, setState] = useState<S>(() => {
-    let val;
     try {
-      val = JSON.parse(window.localStorage.getItem(key) || String(defaultVal));
+      return JSON.parse(window.localStorage.getItem(key) || String(defaultVal));
     } catch (e) {
-      val = defaultVal;
+      return defaultVal;
     }
-    return val;
   });
 
   useEffect(() => {
