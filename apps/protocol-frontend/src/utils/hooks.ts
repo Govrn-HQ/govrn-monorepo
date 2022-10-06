@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
 type JsonLike = string | number | boolean | { [k: string]: unknown };
 
 export const useLocalStorage = <S extends JsonLike>(
   key: string,
   defaultVal: S,
-) => {
+): [S, Dispatch<SetStateAction<S>>] => {
   const [state, setState] = useState<S>(() => {
     try {
       return JSON.parse(window.localStorage.getItem(key) || String(defaultVal));
@@ -22,5 +22,5 @@ export const useLocalStorage = <S extends JsonLike>(
     }
   }, [state, key]);
 
-  return [state, setState] as const;
+  return [state, setState];
 };
