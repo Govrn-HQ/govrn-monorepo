@@ -44,7 +44,13 @@ before(() => {
   cy.wait(5000);
 });
 after(() => {
-  //teardown Guild, Contribution, User
+  //teardown Guild, Contribution, UserActivity, User
+  const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  cy.task('queryDatabase',getUserID).then((res)=>{
+    const userID = res.rows[0].id;
+    cy.task('delete_UserActivity', userID);
+  });
+
   cy.fixture('daos.json').then((guilds) => {
     for (const guild of guilds){
       const guild_name = guild.name

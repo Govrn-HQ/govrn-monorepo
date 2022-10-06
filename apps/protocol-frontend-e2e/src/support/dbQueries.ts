@@ -84,6 +84,15 @@ export const delete_chainType = (name: string) => {
     return queryDB(query)
 };
 
+export const delete_UserActivity = (userID: string) => {
+    const  query = `
+    DELETE FROM "UserActivity"
+    CASCADE
+    WHERE user_id = '${userID}';
+    `
+    return queryDB(query)
+};
+
 
 export const contribution_status = () => {
     const  query  = `
