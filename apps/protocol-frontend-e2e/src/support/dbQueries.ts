@@ -24,7 +24,8 @@ export const create_chainType = (name: string) => {
 export const create_guild = (guild_name: string) => {
     const  query = `
     INSERT INTO "Guild" (name)
-    VALUES ('${guild_name}');
+    VALUES ('${guild_name}')
+    ON CONFLICT DO NOTHING;;
     `
     return queryDB(query)
 };
@@ -35,7 +36,7 @@ export const create_contribution = (contributionData: JSONObject) => {
     INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof)
         VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
         '${contributionData.details}', '${contributionData.proof}')
-        ON CONFLICT DO NOTHING;
+    ON CONFLICT DO NOTHING;
     `
     return queryDB(query)
 };

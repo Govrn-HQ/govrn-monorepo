@@ -52,7 +52,7 @@ beforeEach(() => {
   const GuildUser2Object = {}
   cy.task('queryDatabase', getUser2ID).then((res)=>{
     const  userID = res.rows[0].id;
-    GuildUserObject["userID"]=userID;
+    GuildUser2Object["userID"]=userID;
   });
   cy.task('queryDatabase', getGuildID).then((res)=>{
     const  guildID = res.rows[0].id;
