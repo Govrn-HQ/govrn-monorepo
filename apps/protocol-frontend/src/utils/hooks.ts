@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 
-export const useLocalStorage = (key: string, defaultVal: string) => {
-  const [state, setState] = useState(() => {
+type JsonLike = string | number | boolean | { [k: string]: unknown };
+
+export const useLocalStorage = <S extends JsonLike>(
+  key: string,
+  defaultVal: S,
+) => {
+  const [state, setState] = useState<S>(() => {
     let val;
     try {
       val = JSON.parse(window.localStorage.getItem(key) || String(defaultVal));
@@ -13,11 +18,11 @@ export const useLocalStorage = (key: string, defaultVal: string) => {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(key, state);
+      window.localStorage.setItem(key, JSON.stringify(state));
     } catch (error) {
       localStorage.clear();
     }
   }, [state, key]);
 
-  return [state, setState];
+  return [state, setState] as const;
 };

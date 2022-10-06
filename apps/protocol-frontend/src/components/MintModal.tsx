@@ -24,17 +24,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
   const [isChecked, setChecked] = useState(false);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
     'Govrn:Public-Data-Agreement',
-    JSON.stringify({
-      agreement: false,
-    }),
+    { agreement: false },
   );
   const [minting, setMinting] = useState(false);
 
   const agreementCheckboxHandler = () => {
-    setAgreementChecked((prevState: { agreement: boolean }) => ({
-      ...prevState,
-      agreement: true,
-    }));
+    setAgreementChecked({ agreement: true });
   };
 
   const mintHandler = async (contributions: MintContributionType[]) => {
