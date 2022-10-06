@@ -31,7 +31,7 @@ beforeEach(() => {
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
   });
-  //never found timeout
+
   cy.get('[data-cy="myDashboards-btn"]', { timeout: 60000 })
     .should('be.enabled')
     .click();
@@ -45,7 +45,7 @@ beforeEach(() => {
 
   cy.get('[data-testid="editContribution-test"]', { timeout: 60000 })
     .should('be.visible')
-    .click({ force: true });
+    .click({force: true});
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000);
 });
