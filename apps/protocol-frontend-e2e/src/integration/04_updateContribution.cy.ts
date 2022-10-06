@@ -23,11 +23,16 @@ beforeEach(() => {
   cy.fixture('contributions.json').then((contributions) => {
     const contributionData = contributions[0]
     const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+    const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
     cy.task('queryDatabase',getUserID).then((res)=>{
       const userID = res.rows[0].id;
       contributionData["userID"] = userID;
-      cy.task('create_contribution', contributionData);
     });
+    cy.task('queryDatabase',getActivityTypeID).then((res)=>{
+      const ActivityTypeID = res.rows[0].id;
+      contributionData["activityTypeID"] = ActivityTypeID;
+    });
+    cy.task('create_contribution', contributionData);
   });
 
   cy.fixture('testaccounts.json').then(accounts => {
@@ -56,24 +61,31 @@ beforeEach(() => {
   cy.wait(5000);
 });
 after(() => {
-  //teardown test data from User, Guild
-    cy.fixture('daos.json').then((guilds) => {
-      for (const guild of guilds){
-        const guild_name = guild.name
-        cy.task('delete_guild', guild_name);
-      }
-    });
-    cy.fixture('contributions.json').then((contributions) => {
-      const name = contributions[1].name 
-      cy.task('delete_contribution', name);
-    });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(1000);
-    cy.fixture('users.json').then((users) => {
-      const username = users[0].username
-      cy.task('delete_user', username);
-    });
-    cy.task('delete_chainType','Goerli-Test');
+  //teardown test data from User, Guild, UserActivity
+  const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  cy.task('queryDatabase',getUserID).then((res)=>{
+    const userID = res.rows[0].id;
+    cy.task('delete_UserActivity', userID);
+  });
+
+  cy.fixture('daos.json').then((guilds) => {
+    for (const guild of guilds){
+      const guild_name = guild.name
+      cy.task('delete_guild', guild_name);
+    }
+  });
+  
+  cy.fixture('contributions.json').then((contributions) => {
+    const name = contributions[1].name 
+    cy.task('delete_contribution', name);
+  });
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(1000);
+  cy.fixture('users.json').then((users) => {
+    const username = users[0].username
+    cy.task('delete_user', username);
+  });
+  cy.task('delete_chainType','Goerli-Test');
    
 });
 

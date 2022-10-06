@@ -8,7 +8,8 @@ import {create_contribution,
   delete_contribution,
   contribution_status,
   create_chainType,
-  delete_chainType
+  delete_chainType,
+  delete_UserActivity
 } 
 from './src/support/dbQueries';
 
@@ -53,6 +54,9 @@ module.exports = defineConfig({
         },
         delete_chainType: name => {
           return delete_chainType(name)
+        },
+        delete_UserActivity: userID =>{
+          return delete_UserActivity(userID)
         },
   
       })
