@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
@@ -525,7 +525,6 @@ export const ContributionsContextProvider: React.FC<
         setDaoContributions,
         setUserAttestations,
         setUserContributionsDateRangeCount,
-        updateContribution,
         userAttestations,
         userContributions,
         userContributionsDateRangeCount,
@@ -573,12 +572,6 @@ type ContributionContextType = {
     data: UserContributionsDateRangeCountType[],
   ) => void;
   setUserAttestations: (arg0: UIAttestations) => void;
-
-  updateContribution: (
-    contribution: UIContribution,
-    values: ContributionFormValues,
-    bulkItemCount?: number,
-  ) => void;
   deleteContribution: (id: number) => void;
   userAttestations: UIAttestations | null;
   userContributions: UIContribution[];

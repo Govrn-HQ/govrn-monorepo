@@ -24,7 +24,6 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
-import { useContributions } from '../contexts/ContributionContext';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
@@ -37,7 +36,6 @@ interface EditContributionFormProps {
 
 const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   const { userData } = useUser();
-  const { updateContribution } = useContributions();
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(editContributionFormValidation),
@@ -176,7 +174,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
 
   const {
     mutateAsync: updateNewContribution,
-    // mutate: updateNewContribution,
     isLoading: updateNewContributionIsLoading,
   } = useContributionUpdate();
 

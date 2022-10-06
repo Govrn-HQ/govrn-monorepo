@@ -20,7 +20,6 @@ const BulkDaoAttributeModal = ({
   contributions,
 }: BulkDaoAttributeModalProps) => {
   const { userData } = useUser();
-  const { updateContribution } = useContributions();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution] = useState(1);
   const localForm = useForm({
