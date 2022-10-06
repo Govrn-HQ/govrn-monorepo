@@ -50,6 +50,7 @@ export const create_MintedContribution = (contributionData: JSONObject) => {
     `
    return queryDB(query)
 };
+
 export const delete_guild = (guild_name: string) => {
     const  query = `
     DELETE FROM "Guild"
@@ -58,6 +59,7 @@ export const delete_guild = (guild_name: string) => {
     `
     return queryDB(query)
 };
+
 export const delete_contribution = (name: string) => {
     const  query = `
     DELETE FROM "Contribution"
@@ -66,6 +68,7 @@ export const delete_contribution = (name: string) => {
     `
     return queryDB(query)
 };
+
 export const delete_user = (username: string) => {
     const  query = `
     DELETE FROM "User"
@@ -92,7 +95,6 @@ export const delete_UserActivity = (userID: string) => {
     `
     return queryDB(query)
 };
-
 
 export const contribution_status = () => {
     const  query  = `
