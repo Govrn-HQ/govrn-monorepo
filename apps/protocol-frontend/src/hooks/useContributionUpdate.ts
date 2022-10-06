@@ -42,7 +42,6 @@ export const useContributionUpdate = () => {
   },
     {
       onSuccess: (_, { bulkItemCount }) => { // destructure the bulkItemCount from the variables (args passed into the mutation)
-        console.log('firing success toast')
         queryClient.invalidateQueries(['activityTypes']) // invalidate the activity types query -- covers all args
         queryClient.invalidateQueries(['userDaos'])  // invalidate the userDaos query -- covers all args
         if (!toast.isActive(toastUpdateContributionId)) {
