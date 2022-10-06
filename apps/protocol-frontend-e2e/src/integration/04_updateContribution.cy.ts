@@ -2,10 +2,16 @@
 
 beforeEach(() => {
   //seed User, Guild
-  cy.task('contribution_status') //seeding contribution Status is just for local testing . Will remove this line 5 before merging
+  cy.task('create_chainType','Goerli-Test');
+  cy.task('contribution_status');
   cy.fixture('users.json').then((users) => {
     const userData = users[0]
-    cy.task('create_user', userData);
+    const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
+    cy.task('queryDatabase',getChaintTypeID).then((res)=>{
+      const chainTypeID = res.rows[0].id;
+      userData["chain_type_id"] = chainTypeID
+      cy.task('create_user', userData);
+    });
   });
   cy.fixture('daos.json').then((guilds) => {
     for (const guild of guilds){
@@ -67,6 +73,7 @@ after(() => {
       const username = users[0].username
       cy.task('delete_user', username);
     });
+    cy.task('delete_chainType','Goerli-Test');
    
 });
 

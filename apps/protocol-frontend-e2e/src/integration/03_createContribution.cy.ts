@@ -1,9 +1,15 @@
 /// <reference types="cypress" />
 
 before(() => {
+  cy.task('create_chainType','Goerli-Test');
   cy.fixture('users.json').then((users) => {
     const userData = users[0]
-    cy.task('create_user', userData);
+    const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
+    cy.task('queryDatabase',getChaintTypeID).then((res)=>{
+      const chainTypeID = res.rows[0].id;
+      userData["chain_type_id"] = chainTypeID
+      cy.task('create_user', userData);
+    });
   });
 
   cy.fixture('daos.json').then((guilds) => {
@@ -55,6 +61,7 @@ after(() => {
     const username = users[0].username
     cy.task('delete_user', username);
   });
+  cy.task('delete_chainType','Goerli-Test');
 
 });
 
