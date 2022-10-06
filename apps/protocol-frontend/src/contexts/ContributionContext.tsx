@@ -342,9 +342,7 @@ export const ContributionsContextProvider: React.FC<
       console.log('error', error);
       toast({
         title: 'Unable to Mint Contribution',
-        description: `Something went wrong. Please try again
-      : ${error}
-        `,
+        description: 'Something went wrong minting. Please try again.',
         status: 'error',
         duration: 3000,
         isClosable: true,
