@@ -1,10 +1,23 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-  //cy.teardownDB(["ContributionStatus"]) //in case of flicker
-  for (const tableName of ["LoginUser2", "Guild", "GuildUser1","ContributionStatus", "Contribution1"]){
-    cy.seedDB(tableName);
-  }
+  //seed User, GUilds
+  cy.fixture('users.json').then((users) => {
+    const userData = users[0]
+    cy.task('create_user', userData);
+  });
+  cy.fixture('daos.json').then((guilds) => {
+    for (const guild of guilds){
+      const guild_name = guild.name
+      cy.task('create_guild', guild_name);
+      }
+  });
+  cy.fixture('contributions.json').then((contributions) => {
+    const contributionData=contributions[0]
+    cy.task('contribution_status')
+    cy.task('create_contribution', contributionData);
+  });
+
   cy.fixture('testaccounts.json').then(accounts => {
     this.accounts = accounts;
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
@@ -31,7 +44,23 @@ beforeEach(() => {
   cy.wait(5000);
 });
 after(() => {
-  cy.teardownDB(["Guild","User",  "GuildUser", "ContributionStatus","Contribution"]);
+    //teardown Guild, Contribution, User
+  
+    cy.fixture('daos.json').then((guilds) => {
+      for (const guild of guilds){
+        const guild_name = guild.name
+        cy.task('delete_guild', guild_name);
+      }
+    });
+    cy.fixture('contributions.json').then((contributions) => {
+      //delete updated contribution
+      const contribution_proof = contributions[1].proof
+      cy.task('delete_contribution', contribution_proof);
+    });
+    cy.fixture('users.json').then((users) => {
+      const username = users[0].username
+      cy.task('delete_user', username);
+    });
 });
 
 describe('Edit first Contribution', () => {

@@ -1,8 +1,12 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-  cy.seedDB("Guild");
-
+  //seed DB with all guilds
+  cy.fixture('daos.json').then((guilds) => {
+    for (const guild of guilds){
+      cy.task('create_guild', guild.name);
+    }
+  });
   cy.fixture('users.json').then(users => {
     this.users = users;
   });
@@ -21,8 +25,21 @@ beforeEach(() => {
 
 afterEach(() => {
   cy.login(this.accounts[0].address, this.accounts[0].privateKey);
-  //teardown 
-  cy.teardownDB(["User", "Guild"]);
+ 
+  //teatdown User
+  cy.fixture('users.json').then((users) => {
+      const username = users[0].username
+      cy.task('delete_user', username);
+  });
+  //teatdown DAOs
+  cy.fixture('daos.json').then((guilds) => {
+    for (const guild of guilds){
+      const guild_name = guild.name
+      cy.task('delete_guild', guild_name);
+    }
+  });
+ 
+
 });
 
 describe('Join Waitlist', () => {

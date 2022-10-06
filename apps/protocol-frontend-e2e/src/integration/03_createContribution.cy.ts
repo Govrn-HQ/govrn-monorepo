@@ -1,9 +1,15 @@
 /// <reference types="cypress" />
 
 before(() => {
-  for (const tableName of ["LoginUser2","Guild"]){
-    cy.seedDB(tableName);
-  }
+  cy.fixture('users.json').then((users) => {
+    const userData = users[0]
+    cy.task('create_user', userData);
+  });
+  cy.fixture('daos.json').then((guilds) => {
+    for (const guild of guilds){
+      cy.task('create_guild', guild.name);
+      }
+  });
 
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
@@ -31,8 +37,22 @@ before(() => {
   cy.wait(5000);
 });
 after(() => {
-  //teardown 
-  cy.teardownDB(["User", "Guild","ContributionStatus", "Contribution"]);
+  //teardown Guild, Contribution, User
+  cy.fixture('daos.json').then((guilds) => {
+    for (const guild of guilds){
+      const guild_name = guild.name
+      cy.task('delete_guild', guild_name);
+    }
+  });
+  cy.fixture('contributions.json').then((contributions) => {
+    const contribution_proof = contributions[0].proof
+    cy.task('delete_contribution', contribution_proof);
+  });
+  cy.fixture('users.json').then((users) => {
+    const username = users[0].username
+    cy.task('delete_user', username);
+  });
+
 });
 
 describe('Create First Contribution', () => {
