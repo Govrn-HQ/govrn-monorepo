@@ -13,6 +13,7 @@ beforeEach(() => {
       cy.task('create_user', userData);
     });
   });
+  
   cy.fixture('daos.json').then((guilds) => {
     for (const guild of guilds){
       const guild_name = guild.name
@@ -39,6 +40,7 @@ beforeEach(() => {
     this.accounts = accounts;
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
+
   cy.fixture('contributions.json').then(contributions => {
     this.contributions = contributions;
   });
@@ -74,7 +76,7 @@ after(() => {
       cy.task('delete_guild', guild_name);
     }
   });
-  
+
   cy.fixture('contributions.json').then((contributions) => {
     const name = contributions[1].name 
     cy.task('delete_contribution', name);
