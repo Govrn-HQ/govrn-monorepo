@@ -136,7 +136,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           justifyContent="center"
           gap={4}
         >
-          <Text>Confirm each mint transaction in your wallet.</Text>
+          <Text>Confirm the minting transaction in your wallet.</Text>
           <GovrnSpinner />
         </Flex>
       )}
