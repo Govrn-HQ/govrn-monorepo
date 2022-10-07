@@ -1,5 +1,12 @@
 import queryDB from "./db";
-import { JSONObject } from "./index";
+import { JSONObject,
+    GuildUserObjectType,
+    GuildContributionObjectType 
+} 
+from "./index";
+
+
+
 
 export const create_user = (userData: JSONObject) => {
     const  query = `
@@ -34,9 +41,17 @@ export const create_contribution = (contributionData: JSONObject) => {
     const statusID = 1  
     const query= `
     INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof)
-        VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
-        '${contributionData.details}', '${contributionData.proof}')
+        VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, 
+        current_timestamp, '${contributionData.details}', '${contributionData.proof}')
     ON CONFLICT DO NOTHING;
+    `
+    return queryDB(query)
+};
+
+export const create_GuildContribution = (ObjectData: GuildContributionObjectType) => {
+    const  query = `
+    INSERT INTO "GuildContribution" (guild_id, contribution_id)
+    VALUES (${ObjectData.guildID}, ${ObjectData.contributionID});
     `
     return queryDB(query)
 };
@@ -51,7 +66,7 @@ export const create_MintedContribution = (contributionData: JSONObject) => {
     `
    return queryDB(query)
 };
-type GuildUserObjectType = { [key: string]: number }  // will take this to types
+
 export const create_GuildUser = (GuildUserObject: GuildUserObjectType) => {
     const  query = `
     INSERT INTO "GuildUser" (user_id, guild_id)

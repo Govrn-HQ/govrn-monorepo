@@ -1,10 +1,14 @@
 import { defineConfig } from 'cypress';
+import { GuildContributionObjectType, 
+  GuildUserObjectType } 
+from './src/support';
 import queryDB from './src/support/db';
 import {create_contribution,
   create_MintedContribution,
   create_user, 
   create_guild, 
   create_GuildUser,
+  create_GuildContribution,
   contribution_status,
   delete_guild, 
   delete_user,
@@ -50,6 +54,9 @@ module.exports = defineConfig({
         },
         create_GuildUser: (GuildUserObject: GuildUserObjectType) =>{
           return create_GuildUser(GuildUserObject)
+        },
+        create_GuildContribution: (ObjectData: GuildContributionObjectType) =>{
+          return create_GuildContribution(ObjectData)
         },
         delete_contribution: proofData => {
           return delete_contribution(proofData)

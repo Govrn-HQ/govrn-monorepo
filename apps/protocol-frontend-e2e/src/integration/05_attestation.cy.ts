@@ -62,7 +62,7 @@ beforeEach(() => {
 
   //User-02 creates minted contribution
   cy.fixture('contributions.json').then((contributions) => {
-    const contributionData = contributions[0]
+    const contributionData = contributions[1]
     const getUserID = `SELECT id FROM "User" WHERE name='johnDoeGovrnE2eTesting2022'`;
     const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
     cy.task('queryDatabase',getUserID).then((res)=>{
@@ -76,9 +76,29 @@ beforeEach(() => {
     cy.task('create_MintedContribution', contributionData);
   });
 
+  //GuildContribution User02
+  //const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;  //will declare at top
+  const getContributionID=`SELECT id FROM "Contribution" WHERE name='e2eTesting2022-Govrn Protocol Note Taking'`;
+  
+  const GuildContribution2Object = {}
+  cy.task('queryDatabase', getContributionID).then((res)=>{
+    const  contributionID = res.rows[0].id;
+    GuildContribution2Object["contributionID"]=contributionID;
+  });
+  cy.task('queryDatabase', getGuildID).then((res)=>{
+    const  guildID = res.rows[0].id;
+    GuildContribution2Object["guildID"]=guildID;
+    cy.task('create_GuildContribution', GuildContribution2Object);
+  });
+
+
+
+
+
+
   cy.fixture('testaccounts.json').then((accounts) => {
     this.accounts = accounts
-    //login User2
+    //login User-01
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
 
