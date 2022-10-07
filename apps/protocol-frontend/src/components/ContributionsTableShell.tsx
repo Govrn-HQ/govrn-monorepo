@@ -28,12 +28,7 @@ import { UIContribution } from '@govrn/ui-types';
 import { Row } from 'react-table';
 import { ContributionTableType } from '../types/table';
 
-// pass setter
-// lower level components should update setter
-// Could be a local context?
-
 const ContributionsTableShell = () => {
-  // const [contributions, setContributions] = useState<UIContribution[]>([]);
   const { userData } = useUser();
   const {
     data: contributions,
@@ -53,16 +48,6 @@ const ContributionsTableShell = () => {
   const [selectedContributionsMap, setSelectedContributionsMap] = useState<
     UIContribution[]
   >([]);
-
-  // useEffect(() => {
-  //   if (rawContributions && isPreviousData) {
-  //     console.log('Data');
-  //     console.log(rawContributions);
-  //     console.log('existing');
-  //     console.log(contributions);
-  //     setContributions(rawContributions);
-  //   }
-  // }, [rawContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });

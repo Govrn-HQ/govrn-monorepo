@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
 import {
@@ -213,8 +213,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     return <Text>An error occurred fetching DAOs.</Text>;
   }
 
-  console.log('Contribution');
-  console.log(contribution);
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       {contribution !== undefined && (

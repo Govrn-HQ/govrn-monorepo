@@ -48,15 +48,6 @@ export const ContributionsContextProvider: React.FC<
     {} as UIContribution,
   );
 
-  const [userContributionPage, setUserContributionPage] = useState(0);
-  // const [isUserContributionsHaveMore, setUserContributionHasMore] =
-  // useState(true);
-  // const [isUserContributionsLoading, setUserContributionsLoading] =
-  // useState(true);
-  // const [userContributions, setUserContributions] = useState<UIContribution[]>(
-  // [],
-  // );
-
   const [daoContributionPage, setDaoContributionPage] = useState(0);
   const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
   const [isDaoContributionsHaveMore, setDaoContributionHasMore] =

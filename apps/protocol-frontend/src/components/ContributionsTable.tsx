@@ -238,10 +238,9 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   data-testid="editContribution-test"
-                  onClick={() => {
-                    console.log(row.original);
-                    return handleEditContributionFormModal(row.original.id);
-                  }}
+                  onClick={() =>
+                    handleEditContributionFormModal(row.original.id)
+                  }
                 />
                 <IconButton
                   icon={<FiTrash2 fontSize="1rem" />}
