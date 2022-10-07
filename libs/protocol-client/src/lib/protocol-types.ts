@@ -12913,6 +12913,7 @@ export type UserContributionUpdateInput = {
   address: Scalars['String'];
   chainName: Scalars['String'];
   contributionId: Scalars['Int'];
+  contributionUserAddress?: InputMaybe<Scalars['String']>;
   currentGuildId?: InputMaybe<Scalars['Float']>;
   dateOfEngagement: Scalars['DateTime'];
   details?: InputMaybe<Scalars['String']>;
