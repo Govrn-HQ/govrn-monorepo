@@ -106,7 +106,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           </Text>
 
           {freshAgreementMint === true && !agreementChecked.agreement && (
-            <Checkbox onChange={agreementCheckboxHandler}>
+            <Checkbox onChange={agreementCheckboxHandler} data-testid="checkbox-testid">
               <Text color="black" fontWeight="normal" fontSize="md">
                 I understand
               </Text>
@@ -135,6 +135,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           onClick={() => mintHandler(contributions)}
           isLoading={minting}
           disabled={!agreementChecked.agreement}
+          data-testid="mintContribution-test"
         >
           Mint {contributions.length === 1 ? 'Contribution' : 'Contributions'}
         </Button>
