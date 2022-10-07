@@ -6,6 +6,16 @@ import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
+import {components} from 'react-select';
+
+export function SelectContainer(props: any) {
+  return (
+     <components.SelectContainer
+        {...props}
+        innerProps={Object.assign({}, props.innerProps, { 'data-cy': 'daoCreatableSelect-testing' })}
+     />
+  );
+}
 
 type Errors = {
   [name: string]: {
@@ -40,6 +50,7 @@ export interface CreatableSelectProps {
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
+  components?: any;
 
   [x: string]: any;
 }
@@ -57,6 +68,7 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
   isDisabled,
   value,
   localForm,
+  components
 }: CreatableSelectProps) => {
   const {
     control,
@@ -85,6 +97,7 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
                 onChange={onChange}
                 isDisabled={isDisabled}
                 value={value}
+                components={{ SelectContainer }}
               />
             )}
           />
