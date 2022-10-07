@@ -1,16 +1,25 @@
 import { defineConfig } from 'cypress';
+import { GuildContributionObjectType, 
+  GuildUserObjectType } 
+from './src/support';
 import queryDB from './src/support/db';
 import {create_contribution,
+  create_MintedContribution,
   create_user, 
   create_guild, 
-  delete_guild, 
+  create_GuildUser,
+  create_GuildContribution,
+  contribution_status,
+  delete_guild,
   delete_user,
   delete_contribution,
-  contribution_status,
   create_chainType,
   delete_chainType,
-  delete_UserActivity
-} 
+  delete_UserActivity,
+  delete_GuildUser,
+  delete_attestation,
+  delete_GuildContribution
+}
 from './src/support/dbQueries';
 
 module.exports = defineConfig({
@@ -43,6 +52,15 @@ module.exports = defineConfig({
         create_contribution: contributionData => {
           return create_contribution(contributionData)
         },
+        create_MintedContribution: contributionData =>{
+          return create_MintedContribution(contributionData)
+        },
+        create_GuildUser: (GuildUserObject: GuildUserObjectType) =>{
+          return create_GuildUser(GuildUserObject)
+        },
+        create_GuildContribution: (ObjectData: GuildContributionObjectType) =>{
+          return create_GuildContribution(ObjectData)
+        },
         delete_contribution: proofData => {
           return delete_contribution(proofData)
         },
@@ -52,11 +70,20 @@ module.exports = defineConfig({
         delete_guild: guild_name => {
           return delete_guild(guild_name)
         },
+        delete_GuildUser: guildID => {
+          return delete_GuildUser(guildID)
+        },
         delete_chainType: name => {
           return delete_chainType(name)
         },
         delete_UserActivity: userID =>{
           return delete_UserActivity(userID)
+        },
+        delete_attestation: userID =>{
+          return delete_attestation(userID)
+        },
+        delete_GuildContribution: guildID =>{
+          return delete_GuildContribution(guildID)
         },
   
       })
