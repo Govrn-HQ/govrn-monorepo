@@ -10,12 +10,13 @@ import {create_contribution,
   create_GuildUser,
   create_GuildContribution,
   contribution_status,
-  delete_guild, 
+  delete_guild,
   delete_user,
   delete_contribution,
   create_chainType,
   delete_chainType,
   delete_UserActivity,
+  delete_GuildUser,
   delete_attestation,
   delete_GuildContribution
 }
@@ -68,6 +69,9 @@ module.exports = defineConfig({
         },
         delete_guild: guild_name => {
           return delete_guild(guild_name)
+        },
+        delete_GuildUser: guildID => {
+          return delete_GuildUser(guildID)
         },
         delete_chainType: name => {
           return delete_chainType(name)

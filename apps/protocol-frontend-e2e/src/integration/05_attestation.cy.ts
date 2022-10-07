@@ -125,7 +125,8 @@ afterEach(() => {
   });
   cy.task('queryDatabase', getGuildID).then((res)=>{
     const  guildID = res.rows[0].id;
-    cy.task('delete_GuildContribution', guildID)
+    cy.task('delete_GuildContribution', guildID);
+    cy.task('delete_GuildUser', guildID);
   });
   
   cy.task('delete_contribution', 'e2eTesting2022-Govrn Protocol Note Taking');

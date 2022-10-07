@@ -75,6 +75,16 @@ export const create_GuildUser = (GuildUserObject: GuildUserObjectType) => {
     return queryDB(query)
 };
 
+export const delete_GuildUser = (guilID: number) => {
+    const  query = `
+    DELETE FROM "GuildUser"
+    CASCADE
+    WHERE guild_id = ${guilID};
+    `
+    return queryDB(query)
+};
+
+
 export const delete_guild = (guild_name: string) => {
     const  query = `
     DELETE FROM "Guild"
