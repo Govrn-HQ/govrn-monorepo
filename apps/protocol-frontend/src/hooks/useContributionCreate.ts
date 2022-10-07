@@ -1,12 +1,13 @@
 import { useUser } from '../contexts/UserContext';
-import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ContributionFormValues } from '../types/forms';
+import useGovrnToast from '../components/toast';
 
 export const useContributionCreate = () => {
-  const toast = useToast();
+  const toast = useGovrnToast();
   const { govrnProtocol: govrn, userData } = useUser();
   const queryClient = useQueryClient();
+
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async (newContribution: ContributionFormValues) => {
       const data = await govrn.custom.createUserContribution({
@@ -31,24 +32,16 @@ export const useContributionCreate = () => {
         queryClient.invalidateQueries(['userDaos']); // invalidate and refetch
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
-        toast({
+        toast.success({
           title: 'Contribution Report Added',
           description:
             'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       },
       onError: error => {
-        toast({
+        toast.error({
           title: 'Unable to Report Contribution',
           description: `Something went wrong. Please try again: ${error}`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       },
     },
