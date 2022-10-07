@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactSelect from 'react-select';
+import React,{Component} from 'react';
+import ReactSelect, {components} from 'react-select';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { FormControl, Stack, Box } from '@chakra-ui/react';
 import customSelectStyles from './selectStyles';
@@ -8,6 +8,14 @@ import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 
+export function SelectContainer(props: any) {
+  return (
+     <components.SelectContainer
+        {...props}
+        innerProps={Object.assign({}, props.innerProps, { 'data-cy': 'daoSelect-testing' })}
+     />
+  );
+}
 type Errors = {
   [name: string]: {
     label?: {
@@ -45,8 +53,9 @@ export interface SelectProps {
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
-
+  innerProps?: any;
   [x: string]: any;
+  components?: any;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -62,6 +71,8 @@ const Select: React.FC<SelectProps> = ({
   isDisabled,
   value,
   localForm,
+  innerProps,
+  components
 }: SelectProps) => {
   const {
     control,
@@ -90,6 +101,7 @@ const Select: React.FC<SelectProps> = ({
                 onChange={onChange}
                 isDisabled={isDisabled}
                 value={value}
+                components={{ SelectContainer }}
               />
             )}
           />

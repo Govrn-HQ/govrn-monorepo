@@ -2,7 +2,7 @@ const DATABASE_URL = process.env.DATABASE_URL;
 
 import { Client } from 'pg';
 
-const queryDB = (query) => {
+const queryDB = (query: string) => {
   const connectionInfo = DATABASE_URL  
  
   const client = new Client(connectionInfo)
@@ -22,4 +22,3 @@ const queryDB = (query) => {
 }
 
 export default queryDB;
-
