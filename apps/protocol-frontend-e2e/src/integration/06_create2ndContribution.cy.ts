@@ -1,15 +1,66 @@
   /// <reference types="cypress" />
 
   before(() => {
-    // cy.teardownDB(["ContributionStatus"]) //in case of flicker
-    // for (const tableName of ["LoginUser2","Guild","GuildUser1","ContributionStatus","Contribution1"]){
-    //   cy.seedDB(tableName);
-    // };
+    const getChainTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
+    const getUser1ID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+    const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
+    const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
+    const getStagingStatusID = `SELECT id FROM "ContributionStatus" WHERE name='staged'`;
+    const chainTypeName = 'Goerli-Test';
+    const GuildUser1Object = {};
+    
+    //seed Guild
     cy.fixture('daos.json').then((guilds) => {
       for (const guild of guilds){
         cy.task('create_guild', guild.name);
       }
     });
+
+    // seed ChainType
+    cy.task('create_chainType', chainTypeName);
+
+    //seed User table
+    cy.fixture('users.json').then((users) => {
+      const userData = users[0]
+      cy.task('queryDatabase',getChainTypeID).then((res)=>{
+        const chainTypeID = res.rows[0].id;
+        userData["chain_type_id"] = chainTypeID
+        cy.task('create_user', userData);
+      });
+    });
+
+    //seed GuildUser1
+    cy.task('queryDatabase', getUser1ID).then((res)=>{
+      const  userID = res.rows[0].id;
+      GuildUser1Object["userID"]=userID;
+    });
+    cy.task('queryDatabase', getGuildID).then((res)=>{
+      const  guildID = res.rows[0].id;
+      GuildUser1Object["guildID"]=guildID;
+      cy.task('create_GuildUser', GuildUser1Object);
+    });
+
+    //seed ContributionStatus
+    cy.task('contribution_status');
+
+    //seed Contribution
+    cy.fixture('contributions.json').then((contributions) => {
+      const contributionData = contributions[1]
+      cy.task('queryDatabase',getUser1ID).then((res)=>{
+        const userID = res.rows[0].id;
+        contributionData["userID"] = userID;
+      });
+      cy.task('queryDatabase',getActivityTypeID).then((res)=>{
+        const ActivityTypeID = res.rows[0].id;
+        contributionData["activityTypeID"] = ActivityTypeID;
+      });
+      cy.task('queryDatabase',getStagingStatusID).then((res)=>{
+        const statusID = res.rows[0].id;
+        contributionData["statusID"] = statusID;
+      });
+      cy.task('create_contribution', contributionData);
+    });
+
     cy.fixture('users.json').then(users => {
       this.users = users;
     });
@@ -36,7 +87,7 @@
   });
   afterEach(() => {
     //teardown 
-    cy.teardownDB(["GuildContribution", "ContributionStatus", "Contribution","GuildUser", "Guild", "User"]);
+    //cy.teardownDB(["GuildContribution", "ContributionStatus", "Contribution","GuildUser", "Guild", "User"]);
   });
   
   describe("Create Second Contribution", () => {
