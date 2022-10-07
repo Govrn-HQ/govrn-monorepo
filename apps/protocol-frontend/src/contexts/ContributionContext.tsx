@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useNetwork, useSigner } from 'wagmi';
 import { UIAttestations, UIContribution } from '@govrn/ui-types';
+import { useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
 import { formatDate } from '../utils/date';
 import { ContributionFormValues } from '../types/forms';
@@ -38,21 +39,13 @@ export const ContributionsContextProvider: React.FC<
   const toast = useToast();
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
+  const queryClient = useQueryClient();
 
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
   const { setModals } = useOverlay();
 
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
-  );
-
-  const [userContributionPage, setUserContributionPage] = useState(0);
-  const [isUserContributionsHaveMore, setUserContributionHasMore] =
-    useState(true);
-  const [isUserContributionsLoading, setUserContributionsLoading] =
-    useState(true);
-  const [userContributions, setUserContributions] = useState<UIContribution[]>(
-    [],
   );
 
   const [daoContributionPage, setDaoContributionPage] = useState(0);
@@ -70,10 +63,6 @@ export const ContributionsContextProvider: React.FC<
     useState<UserContributionsDateRangeCountType[]>([]);
 
   const userId = userData?.id;
-
-  useEffect(() => {
-    getUserContributions(userContributionPage);
-  }, [userContributionPage, userId]);
 
   useEffect(() => {
     getDaoContributions(daoContributionPage);
@@ -99,45 +88,6 @@ export const ContributionsContextProvider: React.FC<
     } catch (error) {
       console.error(error);
       return null;
-    }
-  };
-
-  const loadNextUserContributionsPage = () => {
-    setUserContributionPage(userContributionPage + 1);
-  };
-
-  const getUserContributions = async (page = 0) => {
-    setUserContributionsLoading(page === 0);
-    try {
-      if (!userData?.id) {
-        throw new Error('getUserContributions has no userData.id');
-      }
-      const userContributionsResponse = (
-        await govrn.contribution.list({
-          where: {
-            user_id: { equals: userData?.id },
-          },
-          first: ITEMS_PER_PAGE,
-          skip: page * ITEMS_PER_PAGE,
-        })
-      ).result;
-
-      const mappedValues = userContributionsResponse.map(c => ({
-        ...c,
-        date_of_engagement: formatDate(c.date_of_engagement),
-        date_of_submission: formatDate(c.date_of_submission),
-      }));
-
-      setUserContributions([...userContributions, ...mappedValues]);
-      setUserContributionHasMore(
-        userContributionsResponse.length === ITEMS_PER_PAGE,
-      );
-
-      return userContributionsResponse;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setUserContributionsLoading(false);
     }
   };
 
@@ -249,7 +199,8 @@ export const ContributionsContextProvider: React.FC<
           ethers.utils.toUtf8Bytes(contribution.details),
           ethers.utils.toUtf8Bytes(contribution.proof),
         );
-        await getUserContributions();
+        queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
         setMintProgress((prevState: number) => prevState + 1);
         toast({
           title: 'Contribution Successfully Minted',
@@ -285,7 +236,8 @@ export const ContributionsContextProvider: React.FC<
           signer,
           id,
         );
-        await getUserContributions();
+        queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
 
         toast({
           title: 'Contribution Successfully deleted',
@@ -421,7 +373,8 @@ export const ContributionsContextProvider: React.FC<
         contributionId: contribution.id,
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
-      await getUserContributions();
+      queryClient.invalidateQueries(['contributionList']);
+      queryClient.invalidateQueries(['contributionInfiniteList']);
       if (!toast.isActive(toastUpdateContributionId)) {
         toast({
           id: toastUpdateContributionId,
@@ -466,7 +419,6 @@ export const ContributionsContextProvider: React.FC<
         getDaoContributions,
         getUserContributionsCount,
         isDaoContributionLoading,
-        isUserContributionsLoading,
         mintAttestation,
         mintContribution,
         setContribution,
@@ -475,12 +427,7 @@ export const ContributionsContextProvider: React.FC<
         setUserContributionsDateRangeCount,
         updateContribution,
         userAttestations,
-        userContributions,
         userContributionsDateRangeCount,
-        userContributionPagination: {
-          next: loadNextUserContributionsPage,
-          hasMore: isUserContributionsHaveMore,
-        },
       }}
     >
       {children}
@@ -502,7 +449,6 @@ type ContributionContextType = {
   getContribution: (id: number) => Promise<UIContribution | null>;
   getDaoContributions(page: number): Promise<UIContribution[]>;
   isDaoContributionLoading: boolean;
-  isUserContributionsLoading: boolean;
   mintAttestation: (
     contribution: MintContributionType['original'],
   ) => Promise<void>;
@@ -527,9 +473,7 @@ type ContributionContextType = {
   ) => void;
   deleteContribution: (id: number) => void;
   userAttestations: UIAttestations | null;
-  userContributions: UIContribution[];
   userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
-  userContributionPagination: Pagination;
 };
 
 export const useContributions = (): ContributionContextType =>
