@@ -1,17 +1,23 @@
 /// <reference types="cypress" />
 
 before(() => {
-  cy.task('create_chainType','Goerli-Test');
+  const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
+  const chainTypeName = 'Goerli-Test'
+  
+  //seed ChainType table
+  cy.task('create_chainType', chainTypeName);
+
+  //seed User table
   cy.fixture('users.json').then((users) => {
     const userData = users[0]
-    const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
     cy.task('queryDatabase',getChaintTypeID).then((res)=>{
       const chainTypeID = res.rows[0].id;
       userData["chain_type_id"] = chainTypeID
       cy.task('create_user', userData);
     });
   });
-
+  
+  //seed Guild table
   cy.fixture('daos.json').then((guilds) => {
     for (const guild of guilds){
       cy.task('create_guild', guild.name);
@@ -44,13 +50,16 @@ before(() => {
   cy.wait(5000);
 });
 after(() => {
-  //teardown Guild, Contribution, UserActivity, User
   const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  const chainTypeName = 'Goerli-Test'
+
+  //teardown UserActivity table
   cy.task('queryDatabase',getUserID).then((res)=>{
     const userID = res.rows[0].id;
     cy.task('delete_UserActivity', userID);
   });
 
+  //teardown Guild table
   cy.fixture('daos.json').then((guilds) => {
     for (const guild of guilds){
       const guild_name = guild.name
@@ -58,16 +67,20 @@ after(() => {
     }
   });
 
+  //teardown Contribution table
   cy.fixture('contributions.json').then((contributions) => {
     const name = contributions[0].name
     cy.task('delete_contribution', name);
   });
 
+  //teardown User table
   cy.fixture('users.json').then((users) => {
     const username = users[0].username
     cy.task('delete_user', username);
   });
-  cy.task('delete_chainType','Goerli-Test');
+
+  //teardown ChainType table
+  cy.task('delete_chainType',chainTypeName);
 
 });
 
