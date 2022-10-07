@@ -7,6 +7,7 @@ beforeEach(() => {
   const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
   const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
   const getContributionID=`SELECT id FROM "Contribution" WHERE name='e2eTesting2022-Govrn Protocol Note Taking'`;
+  const getstatusID = `SELECT id FROM "ContributionStatus" WHERE name='minted'`;
   const GuildUser1Object = {};
   const GuildUser2Object = {};
   const GuildContribution2Object = {};
@@ -20,7 +21,7 @@ beforeEach(() => {
   });
   //ChainType, ContributionStatus
   cy.task('create_chainType','Goerli-Test');
-  //cy.task('contribution_status');
+  cy.task('contribution_status');
 
   //User1
   cy.fixture('users.json').then((users) => {
@@ -73,6 +74,10 @@ beforeEach(() => {
     cy.task('queryDatabase',getActivityTypeID).then((res)=>{
       const ActivityTypeID = res.rows[0].id;
       contributionData["activityTypeID"] = ActivityTypeID;
+    });
+    cy.task('queryDatabase',getstatusID).then((res)=>{
+      const statusID = res.rows[0].id;
+      contributionData["statusID"] = statusID;
     });
     cy.task('create_MintedContribution', contributionData);
   });

@@ -55,10 +55,9 @@ export const create_GuildContribution = (ObjectData: GuildContributionObjectType
 };
 
 export const create_MintedContribution = (contributionData: JSONObject) => {
-    const statusID = 2
     const query = `
     INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-      VALUES ('${contributionData.name}',${statusID} ,${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
+      VALUES ('${contributionData.name}',${contributionData.statusID} ,${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
        '${contributionData.details}', '${contributionData.proof}'
       );
     `
