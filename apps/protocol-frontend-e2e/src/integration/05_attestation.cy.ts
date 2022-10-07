@@ -1,6 +1,16 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
+  const getChainTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
+  const getUser1ID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  const getUser2ID = `SELECT id FROM "User" WHERE name='johnDoeGovrnE2eTesting2022'`;
+  const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
+  const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
+  const getContributionID=`SELECT id FROM "Contribution" WHERE name='e2eTesting2022-Govrn Protocol Note Taking'`;
+  const GuildUser1Object = {};
+  const GuildUser2Object = {};
+  const GuildContribution2Object = {};
+ 
   //Guilds
   cy.fixture('daos.json').then((guilds) => {
     for (const guild of guilds){
@@ -15,8 +25,7 @@ beforeEach(() => {
   //User1
   cy.fixture('users.json').then((users) => {
     const userData = users[0]
-    const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
-    cy.task('queryDatabase',getChaintTypeID).then((res)=>{
+    cy.task('queryDatabase',getChainTypeID).then((res)=>{
       const chainTypeID = res.rows[0].id;
       userData["chain_type_id"] = chainTypeID
       cy.task('create_user', userData);
@@ -26,17 +35,13 @@ beforeEach(() => {
   //User2
   cy.fixture('users.json').then((users) => {
     const userData = users[1]
-    const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
-    cy.task('queryDatabase',getChaintTypeID).then((res)=>{
+    cy.task('queryDatabase',getChainTypeID).then((res)=>{
       const chainTypeID = res.rows[0].id;
       userData["chain_type_id"] = chainTypeID
       cy.task('create_user', userData);
     });
     });
   //GuildUser1
-  const getUser1ID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
-  const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
-  const GuildUser1Object = {}
   cy.task('queryDatabase', getUser1ID).then((res)=>{
     const  userID = res.rows[0].id;
     GuildUser1Object["userID"]=userID;
@@ -48,8 +53,6 @@ beforeEach(() => {
   });
 
   //GuildUser2
-  const getUser2ID=`SELECT id FROM "User" WHERE name='johnDoeGovrnE2eTesting2022'`;
-  const GuildUser2Object = {}
   cy.task('queryDatabase', getUser2ID).then((res)=>{
     const  userID = res.rows[0].id;
     GuildUser2Object["userID"]=userID;
@@ -63,9 +66,7 @@ beforeEach(() => {
   //User-02 creates minted contribution
   cy.fixture('contributions.json').then((contributions) => {
     const contributionData = contributions[1]
-    const getUserID = `SELECT id FROM "User" WHERE name='johnDoeGovrnE2eTesting2022'`;
-    const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
-    cy.task('queryDatabase',getUserID).then((res)=>{
+    cy.task('queryDatabase',getUser2ID).then((res)=>{
       const userID = res.rows[0].id;
       contributionData["userID"] = userID;
     });
@@ -76,11 +77,7 @@ beforeEach(() => {
     cy.task('create_MintedContribution', contributionData);
   });
 
-  //GuildContribution User02
-  //const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;  //will declare at top
-  const getContributionID=`SELECT id FROM "Contribution" WHERE name='e2eTesting2022-Govrn Protocol Note Taking'`;
-  
-  const GuildContribution2Object = {}
+  //GuildContribution User-02
   cy.task('queryDatabase', getContributionID).then((res)=>{
     const  contributionID = res.rows[0].id;
     GuildContribution2Object["contributionID"]=contributionID;
@@ -91,9 +88,9 @@ beforeEach(() => {
     cy.task('create_GuildContribution', GuildContribution2Object);
   });
 
+  //Login as User-01
   cy.fixture('testaccounts.json').then((accounts) => {
     this.accounts = accounts
-    //login User-01
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
 
@@ -112,31 +109,34 @@ beforeEach(() => {
   });
   
 afterEach(() => {
-  //teardown 
-  //cy.teardownDB(["Attestation", "GuildContribution", "Contribution", "ContributionStatus", "Guild",  "User"]);
-  //delete_attestation  (by userid)
   const getUser1ID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
   const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
- 
+  const users=['johnDoeGovrnE2eTesting2022', 'testusernamegovrne2etesting2022']
+  const guilds=['GovrnE2eTesting2022', 'MGDEe2eTesting2022']
+  const target_contributionName='e2eTesting2022-Govrn Protocol Note Taking'
+
+  // teardown Attestation
   cy.task('queryDatabase', getUser1ID).then((res)=>{
     const  userID = res.rows[0].id;
     cy.task('delete_attestation', userID)
-
   });
+
+  // teardown GuildUser and GuildContribution
   cy.task('queryDatabase', getGuildID).then((res)=>{
     const  guildID = res.rows[0].id;
     cy.task('delete_GuildContribution', guildID);
     cy.task('delete_GuildUser', guildID);
   });
-  
-  cy.task('delete_contribution', 'e2eTesting2022-Govrn Protocol Note Taking');
-  
-  //wipe out GuildUser before advancing to Guild
-  const guilds = ['GovrnE2eTesting2022', 'MGDEe2eTesting2022']
+
+  // teardown Contribution
+  cy.task('delete_contribution', target_contributionName);
+
+  // teardown Guild
   for (const guild of guilds){
     cy.task('delete_guild', guild);
   }
-  const users= ['johnDoeGovrnE2eTesting2022', 'testusernamegovrne2etesting2022']
+
+  // teardown User
   for (const user of users){
     cy.task('delete_user', user);
   }
