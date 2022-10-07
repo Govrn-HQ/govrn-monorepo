@@ -116,6 +116,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
             <Checkbox
               isChecked={isChecked}
               onChange={e => setChecked(e.target.checked)}
+              data-testid="checkbox-testid"
             >
               <Text color="black" fontWeight="normal" fontSize="md">
                 I understand
@@ -145,6 +146,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           onClick={() => mintHandler(contributions)}
           isLoading={minting}
           disabled={!agreementChecked.agreement || !isChecked}
+          data-testid="mintContribution-test"
         >
           {contributions.length > 1 ? 'Bulk ' : ''}
           Mint {contributions.length === 1 ? 'Contribution' : 'Contributions'}

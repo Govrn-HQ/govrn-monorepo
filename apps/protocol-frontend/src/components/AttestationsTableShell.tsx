@@ -84,6 +84,7 @@ const AttestationsTableShell = () => {
                           colorScheme="brand.primary"
                           disabled={selectedContributions?.length === 0}
                           onClick={attestationsModalHandler}
+                          data-testId="attest-testId"
                         >
                           Attest
                         </Button>

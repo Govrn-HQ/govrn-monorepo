@@ -38,6 +38,7 @@ const FloatingReportButton = () => {
             bgColor: 'brand.primary.200',
             transform: 'translateY(-4px)',
           }}
+          data-testid="floatingreportbtn-testid"
           icon={<FiPlus />}
           onClick={handleReportingFormModal}
           disabled={!isConnected}

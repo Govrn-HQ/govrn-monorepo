@@ -74,6 +74,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
           _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => createAttestationsHandler(contributions)}
           isLoading={attesting}
+          data-testId="addAttestations-btn"
         >
           Add {pluralize('Attestation', contributions.length)}
         </Button>
