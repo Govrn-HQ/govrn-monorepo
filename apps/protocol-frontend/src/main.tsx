@@ -10,7 +10,6 @@ import {
   QueryClientProvider,
   QueryCache,
 } from '@tanstack/react-query';
-
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
 import { ContributionsContextProvider } from './contexts/ContributionContext';
