@@ -44,11 +44,11 @@ const App = () => {
       <RainbowKitProvider chains={chains}>
         <AuthContextProvider>
           <UserContextProvider>
-            <ContributionsContextProvider>
-              <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient}>
+              <ContributionsContextProvider>
                 <Routes />
-              </QueryClientProvider>
-            </ContributionsContextProvider>
+              </ContributionsContextProvider>
+            </QueryClientProvider>
           </UserContextProvider>
         </AuthContextProvider>
       </RainbowKitProvider>
