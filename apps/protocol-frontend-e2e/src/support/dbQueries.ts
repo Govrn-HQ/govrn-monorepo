@@ -32,7 +32,7 @@ export const create_guild = (guild_name: string) => {
     const  query = `
     INSERT INTO "Guild" (name)
     VALUES ('${guild_name}')
-    ON CONFLICT DO NOTHING;;
+    ON CONFLICT DO NOTHING;
     `
     return queryDB(query)
 };
@@ -106,7 +106,7 @@ export const delete_GuildContribution = (guildID: number) => {
     const  query = `
     DELETE FROM "GuildContribution"
     CASCADE
-    WHERE user_id = '${guildID}';
+    WHERE guild_id = '${guildID}';
     `
     return queryDB(query)
 };

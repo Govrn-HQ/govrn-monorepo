@@ -91,11 +91,6 @@ beforeEach(() => {
     cy.task('create_GuildContribution', GuildContribution2Object);
   });
 
-
-
-
-
-
   cy.fixture('testaccounts.json').then((accounts) => {
     this.accounts = accounts
     //login User-01
@@ -135,6 +130,7 @@ afterEach(() => {
   
   cy.task('delete_contribution', 'e2eTesting2022-Govrn Protocol Note Taking');
   
+  //wipe out GuildUser before advancing to Guild
   const guilds = ['GovrnE2eTesting2022', 'MGDEe2eTesting2022']
   for (const guild of guilds){
     cy.task('delete_guild', guild);
