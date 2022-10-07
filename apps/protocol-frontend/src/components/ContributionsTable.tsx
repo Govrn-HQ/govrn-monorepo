@@ -43,6 +43,7 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
+import { formatDate } from '../utils/date';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -107,7 +108,7 @@ const ContributionsTable = ({
           details: contribution.details,
           proof: contribution.proof,
           date_of_submission: contribution.date_of_submission,
-          engagementDate: contribution.date_of_engagement,
+          engagementDate: formatDate(contribution.date_of_engagement),
           attestations: contribution.attestations || null,
           user: contribution.user,
           activityTypeId: contribution.activity_type.id,

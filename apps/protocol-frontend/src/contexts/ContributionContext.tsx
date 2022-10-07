@@ -201,6 +201,7 @@ export const ContributionsContextProvider: React.FC<
           position: 'top-right',
         });
         queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
         await getDaoContributions();
         return true;
       }
@@ -250,6 +251,7 @@ export const ContributionsContextProvider: React.FC<
           ethers.utils.toUtf8Bytes(contribution.proof),
         );
         queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
         setMintProgress((prevState: number) => prevState + 1);
         toast({
           title: 'Contribution Successfully Minted',
@@ -286,6 +288,7 @@ export const ContributionsContextProvider: React.FC<
           id,
         );
         queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
 
         toast({
           title: 'Contribution Successfully deleted',
@@ -422,6 +425,7 @@ export const ContributionsContextProvider: React.FC<
         currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
       });
       queryClient.invalidateQueries(['contributionList']);
+      queryClient.invalidateQueries(['contributionInfiniteList']);
       if (!toast.isActive(toastUpdateContributionId)) {
         toast({
           id: toastUpdateContributionId,
