@@ -1,12 +1,10 @@
 import queryDB from "./db";
+
 import { JSONObject,
     GuildUserObjectType,
     GuildContributionObjectType 
 } 
 from "./index";
-
-
-
 
 export const create_user = (userData: JSONObject) => {
     const  query = `
@@ -83,7 +81,6 @@ export const delete_GuildUser = (guilID: number) => {
     `
     return queryDB(query)
 };
-
 
 export const delete_guild = (guild_name: string) => {
     const  query = `
