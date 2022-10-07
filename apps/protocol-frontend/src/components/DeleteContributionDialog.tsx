@@ -22,8 +22,6 @@ const DeleteContributionDialog = (props: {
   const { onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  // const { deleteContribution } = useContributions();
-
   const {
     mutateAsync: deleteContribution,
     isLoading: deleteContributionIsLoading,
@@ -32,7 +30,6 @@ const DeleteContributionDialog = (props: {
   const onDelete = async (onConfirm: boolean, contribution_id: number) => {
     if (onConfirm) {
       setDialog({ ...dialog, isOpen: false });
-      // await deleteContribution(contribution_id);
       await deleteContribution(contribution_id);
     }
   };
@@ -51,6 +48,7 @@ const DeleteContributionDialog = (props: {
             <Button
               ref={cancelRef}
               onClick={() => setDialog({ ...dialog, isOpen: false })}
+              isLoading={deleteContributionIsLoading}
             >
               Cancel
             </Button>
