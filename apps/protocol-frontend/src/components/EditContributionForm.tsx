@@ -32,8 +32,6 @@ import { useDaosList } from '../hooks/useDaosList';
 interface EditContributionFormProps {
   contribution: UIContribution;
   onClose?: () => void;
-  contributions: UIContribution[];
-  setContributions: Dispatch<SetStateAction<UIContribution[]>>;
 }
 
 const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
@@ -215,6 +213,8 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     return <Text>An error occurred fetching DAOs.</Text>;
   }
 
+  console.log('Contribution');
+  console.log(contribution);
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       {contribution !== undefined && (

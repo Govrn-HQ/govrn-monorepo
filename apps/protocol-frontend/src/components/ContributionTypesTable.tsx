@@ -4,6 +4,7 @@ import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { useSortBy, useTable, Column } from 'react-table';
 import { UIContribution } from '@govrn/ui-types';
+import { mergePages } from '../utils/arrays';
 
 type ContributionTypesTableType = {
   id: number;
@@ -19,14 +20,14 @@ type ContributionTypesTableType = {
 const ContributionTypesTable = ({
   contributionTypesData,
 }: {
-  contributionTypesData: UIContribution[];
+  contributionTypesData: UIContribution[][];
 }) => {
   const uniqueKey = 'name';
 
   // FIXME: This will be re-calculated for each render.
   const uniqueContributions: UIContribution[] = [
     ...new Map(
-      contributionTypesData
+      mergePages(contributionTypesData)
         .sort((firstContribution, nextContribution) =>
           isAfter(
             new Date(firstContribution.date_of_engagement),
@@ -47,7 +48,7 @@ const ContributionTypesTable = ({
       uniqueContributions.map(contributionType => ({
         id: contributionType.id,
         name: contributionType.name,
-        total: contributionTypesData.filter(
+        total: mergePages(contributionTypesData).filter(
           contribution =>
             contribution.activity_type.name ===
             contributionType.activity_type.name,

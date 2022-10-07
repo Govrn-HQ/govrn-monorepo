@@ -23,26 +23,27 @@ import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
 import { useUser } from '../contexts/UserContext';
-import { useContributionList } from '../hooks/useContributionList';
+import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { UIContribution } from '@govrn/ui-types';
 import { Row } from 'react-table';
 import { ContributionTableType } from '../types/table';
 
-const PAGE_SIZE = 20;
 // pass setter
 // lower level components should update setter
 // Could be a local context?
 
 const ContributionsTableShell = () => {
-  const [page, setPage] = useState(0);
-  const [contributions, setContributions] = useState<UIContribution[]>([]);
+  // const [contributions, setContributions] = useState<UIContribution[]>([]);
   const { userData } = useUser();
-  const { isLoading, data: rawContributions } = useContributionList({
+  const {
+    data: contributions,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+  } = useContributionInfiniteList({
     where: {
       user_id: { equals: userData?.id },
     },
-    first: PAGE_SIZE,
-    skip: page * PAGE_SIZE,
   });
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
@@ -53,13 +54,15 @@ const ContributionsTableShell = () => {
     UIContribution[]
   >([]);
 
-  useEffect(() => {
-    if (rawContributions) {
-      console.log('Data');
-      console.log(rawContributions);
-      setContributions(prevState => [...prevState, ...rawContributions]);
-    }
-  }, [rawContributions]);
+  // useEffect(() => {
+  //   if (rawContributions && isPreviousData) {
+  //     console.log('Data');
+  //     console.log(rawContributions);
+  //     console.log('existing');
+  //     console.log(contributions);
+  //     setContributions(rawContributions);
+  //   }
+  // }, [rawContributions]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
@@ -78,9 +81,9 @@ const ContributionsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Contributions</PageHeading>
-        {isLoading && contributions.length === 0 ? (
+        {isFetching && contributions && contributions.pages.length === 0 ? (
           <GovrnSpinner />
-        ) : contributions && contributions?.length > 0 ? (
+        ) : contributions && contributions.pages.length > 0 ? (
           <Tabs
             variant="soft-rounded"
             colorScheme="gray"
@@ -162,11 +165,10 @@ const ContributionsTableShell = () => {
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
                       <ContributionsTable
-                        contributionsData={contributions}
+                        contributionsData={contributions.pages}
                         setSelectedContributions={setSelectedContributions}
-                        nextPage={() => setPage(page + 1)}
-                        hasMoreItems={!!data && data.length > 0}
-                        setContributions={setContributions}
+                        nextPage={fetchNextPage}
+                        hasMoreItems={hasNextPage || false}
                       />
                     </Box>
                   </Stack>
@@ -190,9 +192,9 @@ const ContributionsTableShell = () => {
                       </Stack>
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
-                      {contributions.length > 0 ? (
+                      {contributions.pages.length > 0 ? (
                         <ContributionTypesTable
-                          contributionTypesData={contributions}
+                          contributionTypesData={contributions.pages}
                         />
                       ) : (
                         <EmptyContributions />
