@@ -8,22 +8,26 @@ beforeEach(() => {
   const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
   const getContributionID=`SELECT id FROM "Contribution" WHERE name='e2eTesting2022-Govrn Protocol Note Taking'`;
   const getstatusID = `SELECT id FROM "ContributionStatus" WHERE name='minted'`;
+  const urlToContributionsPage =  'http://localhost:3000/#/contributions';
+  const chainTypeName = 'Goerli-Test';
   const GuildUser1Object = {};
   const GuildUser2Object = {};
   const GuildContribution2Object = {};
  
-  //Guilds
+  // Guilds
   cy.fixture('daos.json').then((guilds) => {
     for (const guild of guilds){
       const guild_name = guild.name
       cy.task('create_guild', guild_name);
     }
   });
-  //ChainType, ContributionStatus
-  cy.task('create_chainType','Goerli-Test');
+  // seed ChainType
+  cy.task('create_chainType', chainTypeName);
+
+  // seed ContributionStatus
   cy.task('contribution_status');
 
-  //User1
+  // User1
   cy.fixture('users.json').then((users) => {
     const userData = users[0]
     cy.task('queryDatabase',getChainTypeID).then((res)=>{
@@ -33,7 +37,7 @@ beforeEach(() => {
     });
   });
 
-  //User2
+  // User2
   cy.fixture('users.json').then((users) => {
     const userData = users[1]
     cy.task('queryDatabase',getChainTypeID).then((res)=>{
@@ -42,7 +46,8 @@ beforeEach(() => {
       cy.task('create_user', userData);
     });
     });
-  //GuildUser1
+
+  // GuildUser1
   cy.task('queryDatabase', getUser1ID).then((res)=>{
     const  userID = res.rows[0].id;
     GuildUser1Object["userID"]=userID;
@@ -64,7 +69,7 @@ beforeEach(() => {
     cy.task('create_GuildUser', GuildUser2Object);
   });
 
-  //User-02 creates minted contribution
+  // User-02 creates minted contribution
   cy.fixture('contributions.json').then((contributions) => {
     const contributionData = contributions[1]
     cy.task('queryDatabase',getUser2ID).then((res)=>{
@@ -82,7 +87,7 @@ beforeEach(() => {
     cy.task('create_MintedContribution', contributionData);
   });
 
-  //GuildContribution User-02
+  // GuildContribution User-02
   cy.task('queryDatabase', getContributionID).then((res)=>{
     const  contributionID = res.rows[0].id;
     GuildContribution2Object["contributionID"]=contributionID;
@@ -93,7 +98,7 @@ beforeEach(() => {
     cy.task('create_GuildContribution', GuildContribution2Object);
   });
 
-  //Login as User-01
+  // Login as User-01
   cy.fixture('testaccounts.json').then((accounts) => {
     this.accounts = accounts
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
@@ -103,7 +108,7 @@ beforeEach(() => {
     .should('be.visible')
     .click({ force: true });
 
-  cy.visit('http://localhost:3000/#/contributions')
+  cy.visit(urlToContributionsPage);  
 
   cy.contains('Attestations')
     .click({force:true})
