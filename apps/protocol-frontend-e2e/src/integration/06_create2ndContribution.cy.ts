@@ -3,12 +3,10 @@
   before(() => {
     const getChainTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
     const getUser1ID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
-    const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
     const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
-    const getStagingStatusID = `SELECT id FROM "ContributionStatus" WHERE name='staged'`;
+    const getStagingStatusID = `SELECT id FROM "ContributionStatus" WHERE name='staging'`;
     const chainTypeName = 'Goerli-Test';
-    const GuildUser1Object = {};
-    
+  
     //seed Guild
     cy.fixture('daos.json').then((guilds) => {
       for (const guild of guilds){
@@ -27,17 +25,6 @@
         userData["chain_type_id"] = chainTypeID
         cy.task('create_user', userData);
       });
-    });
-
-    //seed GuildUser1
-    cy.task('queryDatabase', getUser1ID).then((res)=>{
-      const  userID = res.rows[0].id;
-      GuildUser1Object["userID"]=userID;
-    });
-    cy.task('queryDatabase', getGuildID).then((res)=>{
-      const  guildID = res.rows[0].id;
-      GuildUser1Object["guildID"]=guildID;
-      cy.task('create_GuildUser', GuildUser1Object);
     });
 
     //seed ContributionStatus
@@ -72,7 +59,7 @@
   
     cy.get('[data-cy="myDashboards-btn"]', { timeout: 15000 })
       .should('be.visible')
-      .click({ force: true });
+      .click();
   
     cy.get('[data-testid="floatingreportbtn-testid"]', {
         timeout: 10000,
@@ -86,8 +73,40 @@
     cy.wait(5000)
   });
   afterEach(() => {
-    //teardown 
-    //cy.teardownDB(["GuildContribution", "ContributionStatus", "Contribution","GuildUser", "Guild", "User"]);
+    const contributionNames = ['e2eTesting2022-Test Automation', 
+    'e2eTesting2022-Govrn Protocol Note Taking'
+  ];
+    const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+    const chainTypeName = 'Goerli-Test';
+   
+    //teardown UserActivity table
+    cy.task('queryDatabase',getUserID).then((res)=>{
+      const userID = res.rows[0].id;
+      cy.task('delete_UserActivity', userID);
+    });
+  
+    //teardown Guild table
+    cy.fixture('daos.json').then((guilds) => {
+      for (const guild of guilds){
+        const guild_name = guild.name
+        cy.task('delete_guild', guild_name);
+      }
+    });
+  
+    //teardown Contribution table
+    for (const contributionName of contributionNames){
+      cy.task('delete_contribution', contributionName);
+    }
+  
+    //teardown User table
+    cy.fixture('users.json').then((users) => {
+      const username = users[0].username
+      cy.task('delete_user', username);
+    });
+  
+    //teardown ChainType table
+    cy.task('delete_chainType',chainTypeName);
+  
   });
   
   describe("Create Second Contribution", () => {
