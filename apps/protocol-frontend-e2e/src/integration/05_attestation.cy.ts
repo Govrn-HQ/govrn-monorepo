@@ -122,7 +122,7 @@ afterEach(() => {
   //delete_attestation  (by userid)
   const getUser1ID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
   const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
-  
+ 
   cy.task('queryDatabase', getUser1ID).then((res)=>{
     const  userID = res.rows[0].id;
     cy.task('delete_attestation', userID)
@@ -131,12 +131,19 @@ afterEach(() => {
   cy.task('queryDatabase', getGuildID).then((res)=>{
     const  guildID = res.rows[0].id;
     cy.task('delete_GuildContribution', guildID)
-
   });
-  //delete_GuildContribution
-  //delete_contribution
-  //delete_guild
-  //delete_user (two test users)
+  
+  cy.task('delete_contribution', 'e2eTesting2022-Govrn Protocol Note Taking');
+  
+  const guilds = ['GovrnE2eTesting2022', 'MGDEe2eTesting2022']
+  for (const guild of guilds){
+    cy.task('delete_guild', guild);
+  }
+  const users= ['johnDoeGovrnE2eTesting2022', 'testusernamegovrne2etesting2022']
+  for (const user of users){
+    cy.task('delete_user', user);
+  }
+  
 });
 
 describe("Attestation flow", () => {
