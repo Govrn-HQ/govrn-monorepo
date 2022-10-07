@@ -20,7 +20,7 @@ beforeEach(() => {
   });
   //ChainType, ContributionStatus
   cy.task('create_chainType','Goerli-Test');
-  cy.task('contribution_status');
+  //cy.task('contribution_status');
 
   //User1
   cy.fixture('users.json').then((users) => {
