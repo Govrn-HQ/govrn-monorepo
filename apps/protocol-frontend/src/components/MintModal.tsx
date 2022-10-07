@@ -12,9 +12,11 @@ import {
 import { storeIpfs } from '../libs/ipfs';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
-import { MintModalProps, MintContributionType } from '../types/mint';
+import { MintModalProps } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
+import { ContributionTableType } from '../types/table';
+import { Row } from 'react-table';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { mintContribution } = useContributions();
@@ -36,22 +38,28 @@ const MintModal = ({ contributions }: MintModalProps) => {
     }
   }, [mintProgress]);
 
-  const mintHandler = async (contributions: MintContributionType[]) => {
+  const mintHandler = async (contributions: Row<ContributionTableType>[]) => {
     setMintTotal(contributions.length);
     setMinting(true);
 
     const unresolvedContributionsMinting = contributions.map(
       async contribution => {
         const ipfsContentUri = await storeIpfs({
-          name: contribution.original.name,
-          details: contribution.original.details,
-          proof: contribution.original.proof,
+          name: contribution?.original?.name,
+          details: contribution?.original?.details || '',
+          proof: contribution?.original?.proof || '',
         });
-        mintContribution(
-          contribution.original,
-          ipfsContentUri,
-          setMintProgress,
-        );
+        if (contribution.original) {
+          const original = contribution.original;
+          const originalClean = {
+            ...contribution.original,
+            details: original.details || '',
+            proof: original.proof || '',
+            date_of_submission: original.date_of_submission.toString(),
+            engagementDate: original.engagementDate.toString(),
+          };
+          mintContribution(originalClean, ipfsContentUri, setMintProgress);
+        }
       },
     );
     await Promise.all(unresolvedContributionsMinting);
@@ -132,7 +140,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
           backgroundColor="brand.primary.50"
           transition="all 100ms ease-in-out"
           _hover={{ bgColor: 'brand.primary.100' }}
-          onClick={() => mintHandler(contributions)}
+          onClick={() => {
+            const c = contributions[0];
+            if (contributions && 'original' in c) {
+              mintHandler(contributions as Row<ContributionTableType>[]);
+            }
+          }}
           isLoading={minting}
           disabled={!agreementChecked.agreement}
           data-testid="mintContribution-test"
