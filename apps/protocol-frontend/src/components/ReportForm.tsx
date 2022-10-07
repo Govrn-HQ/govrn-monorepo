@@ -26,9 +26,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useContributions } from '../contexts/ContributionContext';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
+import { useContributionCreate } from '../hooks/useContributionCreate';
 
 function CreateMoreSwitch({
   isChecked,
@@ -59,7 +59,6 @@ function CreateMoreSwitch({
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { userData } = useUser();
-  const { isCreatingContribution, createContribution } = useContributions();
   const toast = useToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -129,6 +128,11 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setValue('engagementDate', engagementDateValue);
   }, []);
 
+  const {
+    mutateAsync: createNewContribution,
+    isLoading: createNewContributionIsLoading,
+  } = useContributionCreate();
+
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
@@ -151,7 +155,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       }
     }
     if (ipfsError === false) {
-      const result = await createContribution(values);
+      const result = await createNewContribution(values);
       if (result) {
         reset({
           name: '',
@@ -346,7 +350,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               backgroundColor="brand.primary.50"
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.100' }}
-              isLoading={isCreatingContribution}
+              isLoading={createNewContributionIsLoading}
               data-cy="addContribution-btn"
               disabled={ipfsError}
               onClick={handleSubmit(createContributionHandler)}

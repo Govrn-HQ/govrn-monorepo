@@ -147,57 +147,6 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const [isCreatingContribution, setCreatingContribution] = useState(false);
-
-  const createContribution = async (
-    values: ContributionFormValues,
-  ): Promise<boolean> => {
-    setCreatingContribution(true);
-
-    try {
-      if (userData) {
-        await govrn.custom.createUserContribution({
-          address: userData?.address ?? '',
-          chainName: 'ethereum',
-          userId: userData?.id ?? -1,
-          name: values.name || '',
-          details: values.details || '',
-          proof: values.proof || '',
-          activityTypeName: values.activityType || '',
-          dateOfEngagement: new Date(values.engagementDate || '').toISOString(),
-          status: 'staging',
-          guildId: Number(values.daoId) || undefined,
-        });
-        toast({
-          title: 'Contribution Report Added',
-          description:
-            'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
-        });
-        queryClient.invalidateQueries(['contributionList']);
-        queryClient.invalidateQueries(['contributionInfiniteList']);
-        await getDaoContributions();
-        return true;
-      }
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: 'Unable to Report Contribution',
-        description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
-    } finally {
-      setCreatingContribution(false);
-    }
-    return false;
-  };
-
   const mintContribution = async (
     contribution: MintContributionType['original'],
     ipfsContentUri: string,
@@ -437,7 +386,6 @@ export const ContributionsContextProvider: React.FC<
       value={{
         contribution,
         createAttestation,
-        createContribution,
         daoContributions,
         daoContributionPagination: {
           next: loadNextDaoContributionsPage,
@@ -446,7 +394,6 @@ export const ContributionsContextProvider: React.FC<
         deleteContribution,
         getDaoContributions,
         getUserContributionsCount,
-        isCreatingContribution,
         isDaoContributionLoading,
         mintAttestation,
         mintContribution,
@@ -467,7 +414,6 @@ export const ContributionsContextProvider: React.FC<
 type ContributionContextType = {
   contribution: UIContribution;
   createAttestation: (arg0: UIContribution) => void;
-  createContribution: (arg0: ContributionFormValues) => Promise<boolean>;
   daoContributions: UIContribution[];
   daoContributionPagination: Pagination;
   getUserContributionsCount: (
@@ -477,7 +423,6 @@ type ContributionContextType = {
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   getDaoContributions(page: number): Promise<UIContribution[]>;
-  isCreatingContribution: boolean;
   isDaoContributionLoading: boolean;
   mintAttestation: (
     contribution: MintContributionType['original'],
