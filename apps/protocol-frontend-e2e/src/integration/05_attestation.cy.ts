@@ -119,6 +119,24 @@ beforeEach(() => {
 afterEach(() => {
   //teardown 
   //cy.teardownDB(["Attestation", "GuildContribution", "Contribution", "ContributionStatus", "Guild",  "User"]);
+  //delete_attestation  (by userid)
+  const getUser1ID=`SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  const getGuildID=`SELECT id FROM "Guild" WHERE name='GovrnE2eTesting2022'`;
+  
+  cy.task('queryDatabase', getUser1ID).then((res)=>{
+    const  userID = res.rows[0].id;
+    cy.task('delete_attestation', userID)
+
+  });
+  cy.task('queryDatabase', getGuildID).then((res)=>{
+    const  guildID = res.rows[0].id;
+    cy.task('delete_GuildContribution', guildID)
+
+  });
+  //delete_GuildContribution
+  //delete_contribution
+  //delete_guild
+  //delete_user (two test users)
 });
 
 describe("Attestation flow", () => {

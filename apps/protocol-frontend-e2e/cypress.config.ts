@@ -15,7 +15,9 @@ import {create_contribution,
   delete_contribution,
   create_chainType,
   delete_chainType,
-  delete_UserActivity
+  delete_UserActivity,
+  delete_attestation,
+  delete_GuildContribution
 }
 from './src/support/dbQueries';
 
@@ -72,6 +74,12 @@ module.exports = defineConfig({
         },
         delete_UserActivity: userID =>{
           return delete_UserActivity(userID)
+        },
+        delete_attestation: userID =>{
+          return delete_attestation(userID)
+        },
+        delete_GuildContribution: guildID =>{
+          return delete_GuildContribution(guildID)
         },
   
       })

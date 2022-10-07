@@ -93,6 +93,24 @@ export const delete_contribution = (name: string) => {
     return queryDB(query)
 };
 
+export const delete_attestation = (userID: number) => {
+    const  query = `
+    DELETE FROM "Attestation"
+    CASCADE
+    WHERE user_id = '${userID}';
+    `
+    return queryDB(query)
+};
+
+export const delete_GuildContribution = (guildID: number) => {
+    const  query = `
+    DELETE FROM "GuildContribution"
+    CASCADE
+    WHERE user_id = '${guildID}';
+    `
+    return queryDB(query)
+};
+
 export const delete_user = (username: string) => {
     const  query = `
     DELETE FROM "User"
