@@ -1,7 +1,6 @@
 
 import { useUser } from '../contexts/UserContext';
 import { useQuery } from '@tanstack/react-query';
-import { UIGuilds } from '@govrn/ui-types';
 
 export const useDaosList = ({ ...args }) => {
   const { govrnProtocol: govrn } = useUser()

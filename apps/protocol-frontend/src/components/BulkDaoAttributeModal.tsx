@@ -9,6 +9,7 @@ import { BulkDaoAttributeFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
 import { useContributions } from '../contexts/ContributionContext';
 import { useDaosList } from '../hooks/useDaosList';
+import { useContributionUpdate } from '../hooks/useContributionUpdate';
 
 interface BulkDaoAttributeModalProps {
   contributions: UIContribution[];
@@ -19,7 +20,6 @@ const BulkDaoAttributeModal = ({
   contributions,
 }: BulkDaoAttributeModalProps) => {
   const { userData } = useUser();
-  const { updateContribution } = useContributions();
   const [attributing, setAttributing] = useState(false);
   const [currentAttribution] = useState(1);
   const localForm = useForm({
@@ -29,17 +29,10 @@ const BulkDaoAttributeModal = ({
 
   const { handleSubmit, setValue } = localForm;
 
-  const bulkAttributeDaoHandler: SubmitHandler<
-    BulkDaoAttributeFormValues
-  > = async (values: BulkDaoAttributeFormValues) => {
-    setAttributing(true);
-    contributions.map((contribution, idx) => {
-      updateContribution(contribution, values, contributions.length);
-      return true;
-    });
-
-    setAttributing(false);
-  };
+  const {
+    mutateAsync: updateNewContribution,
+    isLoading: updateNewContributionIsLoading,
+  } = useContributionUpdate();
 
   // renaming these on destructuring incase we have parallel queries:
   const {
@@ -64,6 +57,21 @@ const BulkDaoAttributeModal = ({
   ];
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+
+  const bulkAttributeDaoHandler: SubmitHandler<
+    BulkDaoAttributeFormValues
+  > = async (values: BulkDaoAttributeFormValues) => {
+    setAttributing(true);
+    contributions.map((contribution, idx) => {
+      updateNewContribution({
+        updatedValues: values,
+        contribution: contribution,
+        bulkItemCount: contributions.length,
+      });
+      return true;
+    });
+    setAttributing(false);
+  };
 
   // the loading and fetching states from the query are true:
   if (daosListIsLoading) {
@@ -106,7 +114,7 @@ const BulkDaoAttributeModal = ({
           backgroundColor="brand.primary.50"
           transition="all 100ms ease-in-out"
           _hover={{ bgColor: 'brand.primary.100' }}
-          isLoading={attributing}
+          isLoading={attributing || updateNewContributionIsLoading}
         >
           Attribute{' '}
           {contributions.length === 1 ? 'Contribution' : 'Contributions'}

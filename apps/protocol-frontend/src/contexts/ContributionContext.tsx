@@ -401,7 +401,6 @@ export const ContributionsContextProvider: React.FC<
         setDaoContributions,
         setUserAttestations,
         setUserContributionsDateRangeCount,
-        updateContribution,
         userAttestations,
         userContributionsDateRangeCount,
       }}
@@ -440,12 +439,6 @@ type ContributionContextType = {
     data: UserContributionsDateRangeCountType[],
   ) => void;
   setUserAttestations: (arg0: UIAttestations) => void;
-
-  updateContribution: (
-    contribution: UIContribution,
-    values: ContributionFormValues,
-    bulkItemCount?: number,
-  ) => void;
   deleteContribution: (id: number) => void;
   userAttestations: UIAttestations | null;
   userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
