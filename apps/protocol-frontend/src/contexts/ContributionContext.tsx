@@ -68,29 +68,6 @@ export const ContributionsContextProvider: React.FC<
     getDaoContributions(daoContributionPage);
   }, [daoContributionPage, userData?.id]);
 
-  const getContribution = async (id: number) => {
-    try {
-      const contributionResponse = await govrn.contribution.get(id);
-      if (contributionResponse) {
-        const formattedResponse = {
-          ...contributionResponse,
-          date_of_engagement: formatDate(
-            contributionResponse.date_of_engagement,
-          ),
-          date_of_submission: formatDate(
-            contributionResponse.date_of_submission,
-          ),
-        };
-        setContribution(formattedResponse);
-        return formattedResponse;
-      }
-      return null;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
-
   const loadNextDaoContributionsPage = () => {
     setDaoContributionPage(daoContributionPage + 1);
   };
@@ -467,7 +444,6 @@ export const ContributionsContextProvider: React.FC<
           hasMore: isDaoContributionsHaveMore,
         },
         deleteContribution,
-        getContribution,
         getDaoContributions,
         getUserContributionsCount,
         isCreatingContribution,
@@ -500,7 +476,6 @@ type ContributionContextType = {
     guildIds?: number[] | null | undefined,
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
-  getContribution: (id: number) => Promise<UIContribution | null>;
   getDaoContributions(page: number): Promise<UIContribution[]>;
   isCreatingContribution: boolean;
   isDaoContributionLoading: boolean;
