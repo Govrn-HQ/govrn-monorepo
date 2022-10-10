@@ -10,7 +10,6 @@ import {
   Button,
   Text,
   Switch,
-  useToast,
 } from '@chakra-ui/react';
 import {
   CreatableSelect,
@@ -29,6 +28,7 @@ import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
+import useGovrnToast from './toast';
 
 function CreateMoreSwitch({
   isChecked,
@@ -59,7 +59,7 @@ function CreateMoreSwitch({
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { userData } = useUser();
-  const toast = useToast();
+  const toast = useGovrnToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
@@ -100,13 +100,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       } catch (error) {
         setSelectedFile(null);
         setIpfsError(true);
-        toast({
+        toast.error({
           title: 'Unable to upload to IPFS.',
           description: `Please select a different proof URL or try to upload another file.`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         setIsUploading(false);
       }
@@ -143,13 +139,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       } catch (error) {
         console.error(error);
         setIpfsError(true);
-        toast({
+        toast.error({
           title: 'Unable to Upload to IPFS',
           description: `Something went wrong. Please try again: ${error}`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         return;
       }

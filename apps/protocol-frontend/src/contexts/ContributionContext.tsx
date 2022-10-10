@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useNetwork, useSigner } from 'wagmi';
 import { UIAttestations, UIContribution } from '@govrn/ui-types';
@@ -14,6 +13,9 @@ import { MintContributionType } from '../types/mint';
 import { UserContext } from './UserContext';
 import { Pagination } from './utils';
 import { PROTOCOL_URL } from '../utils/constants';
+import { ChainIdError } from '@govrn/protocol-client';
+import pluralize from 'pluralize';
+import useGovrnToast from '../components/toast';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -28,6 +30,23 @@ type UserContributionsDateRangeCountType = {
   name?: string | null | undefined;
 };
 
+type BulkMintOptions = {
+  ipfsContentUri: string;
+  engagementDate: Date | string;
+  attestations: { id: number }[];
+  guildName: string;
+  name: string;
+  action: string;
+  details?: string | null;
+  id: number;
+  proof?: string | null;
+  txHash?: string | null;
+  user: { id: number };
+  date_of_submission: Date | string;
+  activityTypeId: number;
+  status: { id: number; name: string };
+};
+
 interface ContributionContextProps {
   children: React.ReactNode;
 }
@@ -36,7 +55,7 @@ export const ContributionsContextProvider: React.FC<
   ContributionContextProps
 > = ({ children }: ContributionContextProps) => {
   const { userData } = useContext(UserContext);
-  const toast = useToast();
+  const toast = useGovrnToast();
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
   const queryClient = useQueryClient();
@@ -162,24 +181,80 @@ export const ContributionsContextProvider: React.FC<
         queryClient.invalidateQueries(['contributionInfiniteList']);
         queryClient.invalidateQueries(['contributionGet', contribution.id]);
         setMintProgress((prevState: number) => prevState + 1);
-        toast({
+        toast.success({
           title: 'Contribution Successfully Minted',
           description: 'Your Contribution has been minted.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       }
     } catch (error) {
       console.log('error', error);
-      toast({
+      toast.error({
         title: 'Unable to Mint Contribution',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
+      });
+    }
+  };
+
+  const bulkMintContributions = async (contributions: BulkMintOptions[]) => {
+    try {
+      if (signer && chain?.id && userData) {
+        const result = await govrn.contribution.bulkMint(
+          {
+            address: networks[chain?.id].govrnContract,
+            chainId: chain?.id,
+            name: networks[chain?.id].name,
+          },
+          signer,
+          userData.address,
+          contributions.map(c => ({
+            id: c.id,
+            activityTypeId: c.activityTypeId,
+            userId: userData.id,
+            args: {
+              detailsUri: ethers.utils.toUtf8Bytes(c.ipfsContentUri),
+              dateOfSubmission: new Date(c.date_of_submission).getTime(),
+              dateOfEngagement: new Date(c.engagementDate).getTime(),
+            },
+            name: ethers.utils.toUtf8Bytes(c.name),
+            details: ethers.utils.toUtf8Bytes(c.details || ''),
+            proof: ethers.utils.toUtf8Bytes(c.proof || ''),
+          })),
+        );
+        await queryClient.invalidateQueries(['contributionList']);
+        await queryClient.invalidateQueries(['contributionInfiniteList']);
+
+        const minted = result.filter(i => i.status === 'fulfilled');
+        const failedToMint = result
+          .filter((i): i is PromiseRejectedResult => i.status === 'rejected')
+          .filter(i => i.reason instanceof ChainIdError);
+
+        if (minted.length > 0) {
+          toast.success({
+            title: 'Contribution Successfully Minted',
+            description: `${pluralize(
+              'Contribution',
+              minted.length,
+              true,
+            )} has been minted.`,
+          });
+        }
+
+        if (failedToMint.length > 0) {
+          toast.error({
+            title: 'Failed to Mint Some Contribution',
+            description: `${pluralize(
+              'Contribution',
+              failedToMint.length,
+              true,
+            )} failed to mint.`,
+          });
+        }
+      }
+    } catch (error) {
+      console.log('error', error);
+      toast.error({
+        title: 'Unable to Mint Contribution',
+        description: 'Something went wrong minting. Please try again.',
       });
     }
   };
@@ -200,24 +275,16 @@ export const ContributionsContextProvider: React.FC<
         queryClient.invalidateQueries(['contributionInfiniteList']);
         queryClient.invalidateQueries(['contributionGet', id]);
 
-        toast({
+        toast.success({
           title: 'Contribution Successfully deleted',
           description: 'Your Contribution has been deleted.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       }
     } catch (e) {
       console.log('error', e);
-      toast({
+      toast.error({
         title: 'Unable to delete contribution',
         description: `Something went wrong. Please try again: ${e}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -246,24 +313,16 @@ export const ContributionsContextProvider: React.FC<
           },
         );
         await getDaoContributions();
-        toast({
+        toast.success({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       }
     } catch (error) {
       console.log('error', error);
-      toast({
+      toast.error({
         title: 'Unable to Mint Attestation',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -278,25 +337,17 @@ export const ContributionsContextProvider: React.FC<
           confidenceName: '0',
           contributionId: contribution.id,
         });
-        toast({
+        toast.success({
           title: 'Attestation Successfully Added',
           description: 'Your Attestation has been added.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         await getDaoContributions();
       }
     } catch (error) {
       console.log(error);
-      toast({
+      toast.error({
         title: 'Unable to Add Attestation',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -316,6 +367,7 @@ export const ContributionsContextProvider: React.FC<
         getUserContributionsCount,
         isDaoContributionLoading,
         mintAttestation,
+        bulkMintContributions,
         mintContribution,
         setContribution,
         setDaoContributions,
@@ -346,6 +398,7 @@ type ContributionContextType = {
   mintAttestation: (
     contribution: MintContributionType['original'],
   ) => Promise<void>;
+  bulkMintContributions: (contributions: BulkMintOptions[]) => void;
   mintContribution: (
     contribution: MintContributionType['original'],
     ipfsContentUri: string,
