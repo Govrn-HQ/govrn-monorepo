@@ -30,6 +30,23 @@ type UserContributionsDateRangeCountType = {
   name?: string | null | undefined;
 };
 
+type BulkMintOptions = {
+  ipfsContentUri: string;
+  engagementDate: Date | string;
+  attestations: { id: number }[];
+  guildName: string;
+  name: string;
+  action: string;
+  details?: string | null;
+  id: number;
+  proof?: string | null;
+  txHash?: string | null;
+  user: { id: number };
+  date_of_submission: Date | string;
+  activityTypeId: number;
+  status: { id: number; name: string };
+};
+
 interface ContributionContextProps {
   children: React.ReactNode;
 }
@@ -226,11 +243,7 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const bulkMintContributions = async (
-    contributions: (MintContributionType['original'] & {
-      ipfsContentUri: string;
-    })[],
-  ) => {
+  const bulkMintContributions = async (contributions: BulkMintOptions[]) => {
     try {
       if (signer && chain?.id && userData) {
         const result = await govrn.contribution.bulkMint(
@@ -533,11 +546,7 @@ type ContributionContextType = {
   mintAttestation: (
     contribution: MintContributionType['original'],
   ) => Promise<void>;
-  bulkMintContributions: (
-    contributions: (MintContributionType['original'] & {
-      ipfsContentUri: string;
-    })[],
-  ) => void;
+  bulkMintContributions: (contributions: BulkMintOptions[]) => void;
   mintContribution: (
     contribution: MintContributionType['original'],
     ipfsContentUri: string,
