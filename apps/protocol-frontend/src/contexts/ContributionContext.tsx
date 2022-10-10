@@ -261,6 +261,7 @@ export const ContributionsContextProvider: React.FC<
           })),
         );
         await queryClient.invalidateQueries(['contributionList']);
+        await queryClient.invalidateQueries(['contributionInfiniteList']);
 
         const minted = result.filter(i => i.status === 'fulfilled');
         const failedToMint = result
