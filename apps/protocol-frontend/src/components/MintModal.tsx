@@ -125,7 +125,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
             local storage and we'll ask you again when we update our protocol.
           </Text>
 
-          {agreementChecked.agreement && (
+          {!agreementChecked.agreement && (
             <Checkbox
               isChecked={isChecked}
               onChange={e => setChecked(e.target.checked)}
@@ -163,7 +163,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
             }
           }}
           isLoading={minting}
-          disabled={!agreementChecked.agreement || !isChecked}
+          disabled={!(isChecked || agreementChecked.agreement)}
           data-testid="mintContribution-test"
         >
           {contributions.length > 1 ? 'Bulk ' : ''}
