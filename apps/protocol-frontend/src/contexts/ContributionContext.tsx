@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useToast } from '@chakra-ui/react';
 import { useOverlay } from './OverlayContext';
 import { useNetwork, useSigner } from 'wagmi';
 import { UIAttestations, UIContribution } from '@govrn/ui-types';
@@ -14,6 +13,7 @@ import { MintContributionType } from '../types/mint';
 import { UserContext } from './UserContext';
 import { Pagination } from './utils';
 import { PROTOCOL_URL } from '../utils/constants';
+import useGovrnToast from '../components/toast';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -36,7 +36,7 @@ export const ContributionsContextProvider: React.FC<
   ContributionContextProps
 > = ({ children }: ContributionContextProps) => {
   const { userData } = useContext(UserContext);
-  const toast = useToast();
+  const toast = useGovrnToast();
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
   const queryClient = useQueryClient();
@@ -202,24 +202,16 @@ export const ContributionsContextProvider: React.FC<
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
         setMintProgress((prevState: number) => prevState + 1);
-        toast({
+        toast.success({
           title: 'Contribution Successfully Minted',
           description: 'Your Contribution has been minted.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       }
     } catch (error) {
       console.log('error', error);
-      toast({
+      toast.error({
         title: 'Unable to Mint Contribution',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -239,24 +231,16 @@ export const ContributionsContextProvider: React.FC<
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
 
-        toast({
+        toast.success({
           title: 'Contribution Successfully deleted',
           description: 'Your Contribution has been deleted.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       }
     } catch (e) {
       console.log('error', e);
-      toast({
+      toast.error({
         title: 'Unable to delete contribution',
         description: `Something went wrong. Please try again: ${e}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -285,24 +269,16 @@ export const ContributionsContextProvider: React.FC<
           },
         );
         await getDaoContributions();
-        toast({
+        toast.success({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       }
     } catch (error) {
       console.log('error', error);
-      toast({
+      toast.error({
         title: 'Unable to Mint Attestation',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -317,25 +293,17 @@ export const ContributionsContextProvider: React.FC<
           confidenceName: '0',
           contributionId: contribution.id,
         });
-        toast({
+        toast.success({
           title: 'Attestation Successfully Added',
           description: 'Your Attestation has been added.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         await getDaoContributions();
       }
     } catch (error) {
       console.log(error);
-      toast({
+      toast.error({
         title: 'Unable to Add Attestation',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -376,7 +344,7 @@ export const ContributionsContextProvider: React.FC<
       queryClient.invalidateQueries(['contributionList']);
       queryClient.invalidateQueries(['contributionInfiniteList']);
       if (!toast.isActive(toastUpdateContributionId)) {
-        toast({
+        toast.success({
           id: toastUpdateContributionId,
           title: `Contribution ${
             bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
@@ -384,22 +352,14 @@ export const ContributionsContextProvider: React.FC<
           description: `Your Contribution ${
             bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
           } been updated.`,
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       }
       setModals({ editContributionFormModal: false });
     } catch (error) {
       console.log(error);
-      toast({
+      toast.error({
         title: 'Unable to Update Contribution',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };

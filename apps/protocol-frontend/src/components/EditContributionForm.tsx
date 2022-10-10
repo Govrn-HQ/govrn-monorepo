@@ -1,14 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
-import {
-  Button,
-  Flex,
-  IconButton,
-  Stack,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Flex, IconButton, Stack, Text } from '@chakra-ui/react';
 import {
   CreatableSelect,
   DatePicker,
@@ -28,6 +21,7 @@ import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
+import useGovrnToast from './toast';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -45,7 +39,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     new Date(contribution?.date_of_engagement),
   );
 
-  const toast = useToast();
+  const toast = useGovrnToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
@@ -159,13 +153,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       } catch (error) {
         setSelectedFile(null);
         setIpfsError(true);
-        toast({
+        toast.error({
           title: 'Unable to upload to IPFS.',
           description: `Please select a different proof URL or try to upload another file.`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         setIsUploading(false);
       }
@@ -186,13 +176,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
         setIpfsError(false);
       } catch (error) {
         console.error(error);
-        toast({
+        toast.error({
           title: 'Unable to Upload to IPFS',
           description: `Something went wrong. Please try again: ${error}`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         return;
       }
