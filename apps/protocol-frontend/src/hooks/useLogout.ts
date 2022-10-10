@@ -1,9 +1,9 @@
-import { useToast } from '@chakra-ui/react';
 import { useDisconnect } from 'wagmi';
 import { BASE_URL } from '../utils/constants';
+import useGovrnToast from '../components/toast';
 
 const useLogout = () => {
-  const toast = useToast();
+  const toast = useGovrnToast();
   const { disconnect } = useDisconnect();
   const logout = async () => {
     try {
@@ -17,13 +17,9 @@ const useLogout = () => {
       await disconnect();
     } catch (err) {
       console.error(err);
-      toast({
+      toast.error({
         title: 'Failed to logout user',
         description: `Something went wrong. Please try again: ${err}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };

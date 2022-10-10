@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import 'regenerator-runtime/runtime';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { WagmiConfig } from 'wagmi';
-import { ChakraProvider, useToast } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import {
   QueryClient,
@@ -17,23 +17,20 @@ import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 import '@rainbow-me/rainbowkit/styles.css';
 import { UserContextProvider } from './contexts/UserContext';
+import useGovrnToast from './components/toast';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
 
 const App = () => {
   // we can refactor this to use a standalone toast
-  const toast = useToast();
+  const toast = useGovrnToast();
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
       onError: error => {
-        toast({
+        toast.error({
           title: 'Something went wrong.',
           description: `Please try again: ${error}`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       },
     }),
