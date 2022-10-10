@@ -87,29 +87,6 @@ export const ContributionsContextProvider: React.FC<
     getDaoContributions(daoContributionPage);
   }, [daoContributionPage, userData?.id]);
 
-  const getContribution = async (id: number) => {
-    try {
-      const contributionResponse = await govrn.contribution.get(id);
-      if (contributionResponse) {
-        const formattedResponse = {
-          ...contributionResponse,
-          date_of_engagement: formatDate(
-            contributionResponse.date_of_engagement,
-          ),
-          date_of_submission: formatDate(
-            contributionResponse.date_of_submission,
-          ),
-        };
-        setContribution(formattedResponse);
-        return formattedResponse;
-      }
-      return null;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
-
   const loadNextDaoContributionsPage = () => {
     setDaoContributionPage(daoContributionPage + 1);
   };
@@ -171,24 +148,6 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const getUserAttestations = async () => {
-    try {
-      if (!userData?.id) {
-        throw new Error('getUserAttestations has no userData.id');
-      }
-      const userAttestationsResponse = await govrn.attestation.list({
-        where: {
-          user_id: { equals: userData?.id },
-        },
-        first: 1000,
-      });
-      setUserAttestations(userAttestationsResponse);
-      return userAttestationsResponse;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const mintContribution = async (
     contribution: MintContributionType['original'],
     ipfsContentUri: string,
@@ -220,6 +179,7 @@ export const ContributionsContextProvider: React.FC<
         );
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionGet', contribution.id]);
         setMintProgress((prevState: number) => prevState + 1);
         toast.success({
           title: 'Contribution Successfully Minted',
@@ -313,6 +273,7 @@ export const ContributionsContextProvider: React.FC<
         );
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionGet', id]);
 
         toast.success({
           title: 'Contribution Successfully deleted',
@@ -391,62 +352,6 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const updateContribution = async (
-    contribution: UIContribution,
-    values: ContributionFormValues,
-    bulkItemCount?: number,
-  ) => {
-    const toastUpdateContributionId = 'toast-update-contribution';
-    try {
-      if (userData?.id !== contribution.user.id) {
-        throw new Error('You can only edit your own Contributions.');
-      }
-
-      if (contribution.status.name !== 'staging') {
-        throw new Error(
-          'You can only edit Contributions with a Staging status.',
-        );
-      }
-      await govrn.custom.updateUserContribution({
-        address: userData.address,
-        chainName: 'ethereum',
-        userId: userData.id,
-        name: values.name ?? contribution.name,
-        details: values.details ?? contribution.details,
-        proof: values.proof ?? contribution.proof,
-        activityTypeName:
-          values.activityType ?? contribution.activity_type.name,
-        dateOfEngagement: new Date(
-          values.engagementDate ?? contribution.date_of_engagement,
-        ).toISOString(),
-        status: 'staging',
-        guildId: values.daoId === null ? null : Number(values.daoId),
-        contributionId: contribution.id,
-        currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
-      });
-      queryClient.invalidateQueries(['contributionList']);
-      queryClient.invalidateQueries(['contributionInfiniteList']);
-      if (!toast.isActive(toastUpdateContributionId)) {
-        toast.success({
-          id: toastUpdateContributionId,
-          title: `Contribution ${
-            bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
-          } Updated`,
-          description: `Your Contribution ${
-            bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
-          } been updated.`,
-        });
-      }
-      setModals({ editContributionFormModal: false });
-    } catch (error) {
-      console.log(error);
-      toast.error({
-        title: 'Unable to Update Contribution',
-        description: `Something went wrong. Please try again: ${error}`,
-      });
-    }
-  };
-
   return (
     <ContributionContext.Provider
       value={{
@@ -458,7 +363,6 @@ export const ContributionsContextProvider: React.FC<
           hasMore: isDaoContributionsHaveMore,
         },
         deleteContribution,
-        getContribution,
         getDaoContributions,
         getUserContributionsCount,
         isDaoContributionLoading,
@@ -489,7 +393,6 @@ type ContributionContextType = {
     guildIds?: number[] | null | undefined,
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
-  getContribution: (id: number) => Promise<UIContribution | null>;
   getDaoContributions(page: number): Promise<UIContribution[]>;
   isDaoContributionLoading: boolean;
   mintAttestation: (

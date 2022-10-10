@@ -41,7 +41,7 @@ export const useContributionUpdate = () => {
             updatedValues.daoId === null ? null : Number(updatedValues.daoId),
           contributionId: contribution.id,
           currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
-          contributionUserAddress: contribution.user?.address || undefined,
+          contributionUserAddress: contribution.user?.address,
         });
         return data;
       }
@@ -53,6 +53,10 @@ export const useContributionUpdate = () => {
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries([
+          'contributionGet',
+          toastUpdateContributionId,
+        ]);
         if (!toast.isActive(toastUpdateContributionId)) {
           toast({
             id: toastUpdateContributionId,
