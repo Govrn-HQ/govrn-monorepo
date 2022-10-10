@@ -268,44 +268,32 @@ export const ContributionsContextProvider: React.FC<
           .filter(i => i.reason instanceof ChainIdError);
 
         if (minted.length > 0) {
-          toast({
+          toast.success({
             title: 'Contribution Successfully Minted',
             description: `${pluralize(
               'Contribution',
               minted.length,
               true,
             )} has been minted.`,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
           });
         }
 
         if (failedToMint.length > 0) {
-          toast({
+          toast.error({
             title: 'Failed to Mint Some Contribution',
             description: `${pluralize(
               'Contribution',
               failedToMint.length,
               true,
             )} failed to mint.`,
-            status: 'error',
-            duration: 4000,
-            isClosable: true,
-            position: 'top-right',
           });
         }
       }
     } catch (error) {
       console.log('error', error);
-      toast({
+      toast.error({
         title: 'Unable to Mint Contribution',
         description: 'Something went wrong minting. Please try again.',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
