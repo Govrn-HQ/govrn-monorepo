@@ -10,7 +10,6 @@ import {
   QueryClientProvider,
   QueryCache,
 } from '@tanstack/react-query';
-
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
 import { ContributionsContextProvider } from './contexts/ContributionContext';
@@ -44,11 +43,11 @@ const App = () => {
       <RainbowKitProvider chains={chains}>
         <AuthContextProvider>
           <UserContextProvider>
-            <ContributionsContextProvider>
-              <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient}>
+              <ContributionsContextProvider>
                 <Routes />
-              </QueryClientProvider>
-            </ContributionsContextProvider>
+              </ContributionsContextProvider>
+            </QueryClientProvider>
           </UserContextProvider>
         </AuthContextProvider>
       </RainbowKitProvider>

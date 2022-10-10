@@ -24,10 +24,10 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
-import { useContributions } from '../contexts/ContributionContext';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
+import { useContributionUpdate } from '../hooks/useContributionUpdate';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -36,7 +36,6 @@ interface EditContributionFormProps {
 
 const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   const { userData } = useUser();
-  const { updateContribution } = useContributions();
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(editContributionFormValidation),
@@ -173,6 +172,11 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     }
   };
 
+  const {
+    mutateAsync: updateNewContribution,
+    isLoading: updateNewContributionIsLoading,
+  } = useContributionUpdate();
+
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
@@ -194,7 +198,11 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       }
     }
     if (ipfsError === false) {
-      updateContribution(contribution, values);
+      const updateRes = await updateNewContribution({
+        updatedValues: values,
+        contribution: contribution,
+      });
+      console.log('updateRes', updateRes);
       reset();
     }
   };
@@ -340,6 +348,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               _hover={{ bgColor: 'brand.primary.100' }}
               data-cy="updateContribution-test-btn"
               disabled={ipfsError}
+              isLoading={updateNewContributionIsLoading}
               onClick={handleSubmit(updateContributionHandler)}
             >
               Update Contribution

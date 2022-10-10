@@ -12,10 +12,12 @@ import {
 import { bulkStoreIpfs, storeIpfs } from '../libs/ipfs';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
-import { MintModalProps, MintContributionType } from '../types/mint';
+import { MintModalProps } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
 import { useOverlay } from '../contexts/OverlayContext';
+import { ContributionTableType } from '../types/table';
+import { Row } from 'react-table';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
@@ -27,24 +29,31 @@ const MintModal = ({ contributions }: MintModalProps) => {
     { agreement: false },
   );
   const [minting, setMinting] = useState(false);
+  const [mintProgress, setMintProgress] = useState(0);
+  const [mintTotal, setMintTotal] = useState(contributions?.length);
+
+  useEffect(() => {
+    if (minting && mintProgress === mintTotal) {
+      setMinting(false);
+    }
+  }, [mintProgress]);
 
   const agreementCheckboxHandler = () => {
     setAgreementChecked({ agreement: true });
   };
 
-  const mintHandler = async (contributions: MintContributionType[]) => {
+  const mintHandler = async (contributions: Row<ContributionTableType>[]) => {
     // Mint button is disabled unless user accepts terms.
     // Consequently, calling this means `isChecked` is already `true`.
     agreementCheckboxHandler();
-
     setMinting(true);
     if (contributions.length > 1) {
       const bulkStoreResult = await bulkStoreIpfs(
         contributions.map(c => ({
           content: {
             name: c.original.name,
-            details: c.original.details,
-            proof: c.original.proof,
+            details: c.original?.details || '',
+            proof: c.original?.proof || '',
           },
         })),
       );
@@ -62,18 +71,22 @@ const MintModal = ({ contributions }: MintModalProps) => {
       const contribution = contributions[0];
 
       const ipfsContentUri = await storeIpfs({
-        name: contribution.original.name,
-        details: contribution.original.details,
-        proof: contribution.original.proof,
+        name: contribution?.original?.name,
+        details: contribution?.original?.details || '',
+        proof: contribution?.original?.proof || '',
       });
 
-      await mintContribution(
-        contribution.original,
-        ipfsContentUri,
-        progress => {
-          console.dir({ progress });
-        },
-      );
+      if (contribution.original) {
+        const original = contribution.original;
+        const originalClean = {
+          ...contribution.original,
+          details: original.details || '',
+          proof: original.proof || '',
+          date_of_submission: original.date_of_submission.toString(),
+          engagementDate: original.engagementDate.toString(),
+        };
+        mintContribution(originalClean, ipfsContentUri, setMintProgress);
+      }
     }
 
     setModals({});
@@ -143,7 +156,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
           backgroundColor="brand.primary.50"
           transition="all 100ms ease-in-out"
           _hover={{ bgColor: 'brand.primary.100' }}
-          onClick={() => mintHandler(contributions)}
+          onClick={() => {
+            const c = contributions[0];
+            if (contributions && 'original' in c) {
+              mintHandler(contributions as Row<ContributionTableType>[]);
+            }
+          }}
           isLoading={minting}
           disabled={!agreementChecked.agreement || !isChecked}
           data-testid="mintContribution-test"
