@@ -19,9 +19,39 @@ import ModalWrapper from './ModalWrapper';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import BulkAttestationModal from './BulkAttestationModal';
 import { useContributions } from '../contexts/ContributionContext';
+import { useContributionInfiniteList } from '../hooks/useContributionList';
+import { mergePages } from '../utils/arrays';
+import { useUser } from '../contexts/UserContext';
 
 const AttestationsTableShell = () => {
-  const { isDaoContributionLoading, daoContributions } = useContributions();
+  // const { isDaoContributionLoading, daoContributions } = useContributions();
+  //
+  // 1. only minted
+  // 2. guild contribution from user guilds
+  // 3. not a user contribution
+  // 4. Unattested contribution by user
+  // 5. Allow to toggle all daos
+  const { userData } = useUser();
+  const {
+    isFetching,
+    data: contributions,
+    hasNextPage,
+    fetchNextPage,
+  } = useContributionInfiniteList({
+    where: {
+      status: { is: { name: { equals: 'minted' } } },
+      user_id: {
+        not: { equals: userData?.id || 0 },
+      },
+      guilds: {
+        some: {
+          guild_id: {
+            in: userData?.guild_users.map(guild => guild.guild_id) || [],
+          },
+        },
+      },
+    },
+  });
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<any[]>([]);
@@ -39,9 +69,9 @@ const AttestationsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Attestations</PageHeading>
-        {isDaoContributionLoading ? (
+        {isFetching && contributions && contributions.pages.length === 0 ? (
           <GovrnSpinner />
-        ) : daoContributions && daoContributions.length > 0 ? (
+        ) : contributions && contributions.pages.length > 0 ? (
           <Tabs
             variant="soft-rounded"
             colorScheme="gray"
@@ -91,8 +121,10 @@ const AttestationsTableShell = () => {
                       </Stack>
                     </Box>
                     <AttestationsTable
-                      contributionsData={daoContributions}
+                      contributionsData={mergePages(contributions.pages)}
                       setSelectedContributions={setSelectedContributions}
+                      hasMoreItems={hasNextPage}
+                      nextPage={fetchNextPage}
                     />
                   </Stack>
                 </Box>
@@ -116,9 +148,9 @@ const AttestationsTableShell = () => {
                       </Stack>
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
-                      {daoContributions.length > 0 ? (
+                      {contributions && contributions.pages.length > 0 ? (
                         <MyAttestationsTable
-                          contributionsData={daoContributions}
+                          contributionsData={mergePages(contributions.pages)}
                         />
                       ) : (
                         <EmptyContributions />

@@ -61,19 +61,18 @@ export const ContributionsContextProvider: React.FC<
   const queryClient = useQueryClient();
 
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
-  const { setModals } = useOverlay();
 
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
   );
 
-  const [daoContributionPage, setDaoContributionPage] = useState(0);
-  const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
-  const [isDaoContributionsHaveMore, setDaoContributionHasMore] =
-    useState(true);
-  const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
-    [],
-  );
+  // const [daoContributionPage, setDaoContributionPage] = useState(0);
+  // const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
+  // const [isDaoContributionsHaveMore, setDaoContributionHasMore] =
+  // useState(true);
+  // const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
+  //   [],
+  // );
 
   const [userAttestations, setUserAttestations] =
     useState<UIAttestations | null>(null);
@@ -81,46 +80,46 @@ export const ContributionsContextProvider: React.FC<
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
     useState<UserContributionsDateRangeCountType[]>([]);
 
-  const userId = userData?.id;
+  // const userId = userData?.id;
 
-  useEffect(() => {
-    getDaoContributions(daoContributionPage);
-  }, [daoContributionPage, userData?.id]);
+  // useEffect(() => {
+  //   getDaoContributions(daoContributionPage);
+  // }, [daoContributionPage, userData?.id]);
 
-  const loadNextDaoContributionsPage = () => {
-    setDaoContributionPage(daoContributionPage + 1);
-  };
+  // const loadNextDaoContributionsPage = () => {
+  //   setDaoContributionPage(daoContributionPage + 1);
+  // };
 
-  const getDaoContributions = async (page = 0): Promise<UIContribution[]> => {
-    setDaoContributionLoading(page === 0);
-    try {
-      const daoContributionsResponse = (
-        await govrn.contribution.list({
-          first: ITEMS_PER_PAGE,
-          skip: page * ITEMS_PER_PAGE,
-        })
-      ).result;
+  // const getDaoContributions = async (page = 0): Promise<UIContribution[]> => {
+  //   setDaoContributionLoading(page === 0);
+  //   try {
+  //     const daoContributionsResponse = (
+  //       await govrn.contribution.list({
+  //         first: ITEMS_PER_PAGE,
+  //         skip: page * ITEMS_PER_PAGE,
+  //       })
+  //     ).result;
 
-      const mappedValues = daoContributionsResponse.map(c => ({
-        ...c,
-        date_of_engagement: formatDate(c.date_of_engagement),
-        date_of_submission: formatDate(c.date_of_submission),
-        updatedAt: formatDate(c.updatedAt),
-      }));
+  //     const mappedValues = daoContributionsResponse.map(c => ({
+  //       ...c,
+  //       date_of_engagement: formatDate(c.date_of_engagement),
+  //       date_of_submission: formatDate(c.date_of_submission),
+  //       updatedAt: formatDate(c.updatedAt),
+  //     }));
 
-      setDaoContributions([...daoContributions, ...mappedValues]);
-      setDaoContributionHasMore(
-        daoContributionsResponse.length === ITEMS_PER_PAGE,
-      );
+  //     setDaoContributions([...daoContributions, ...mappedValues]);
+  //     setDaoContributionHasMore(
+  //       daoContributionsResponse.length === ITEMS_PER_PAGE,
+  //     );
 
-      return daoContributions;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setDaoContributionLoading(false);
-    }
-    return [];
-  };
+  //     return daoContributions;
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setDaoContributionLoading(false);
+  //   }
+  //   return [];
+  // };
 
   const getUserContributionsCount = async (
     startDate: Date | string,
@@ -312,7 +311,7 @@ export const ContributionsContextProvider: React.FC<
             confidence: 0,
           },
         );
-        await getDaoContributions();
+        // await getDaoContributions();
         toast.success({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
@@ -341,7 +340,7 @@ export const ContributionsContextProvider: React.FC<
           title: 'Attestation Successfully Added',
           description: 'Your Attestation has been added.',
         });
-        await getDaoContributions();
+        // await getDaoContributions();
       }
     } catch (error) {
       console.log(error);
@@ -357,20 +356,20 @@ export const ContributionsContextProvider: React.FC<
       value={{
         contribution,
         createAttestation,
-        daoContributions,
-        daoContributionPagination: {
-          next: loadNextDaoContributionsPage,
-          hasMore: isDaoContributionsHaveMore,
-        },
+        // daoContributions,
+        // daoContributionPagination: {
+        //   next: loadNextDaoContributionsPage,
+        //   hasMore: isDaoContributionsHaveMore,
+        // },
         deleteContribution,
-        getDaoContributions,
+        // getDaoContributions,
         getUserContributionsCount,
-        isDaoContributionLoading,
+        // isDaoContributionLoading,
         mintAttestation,
         bulkMintContributions,
         mintContribution,
         setContribution,
-        setDaoContributions,
+        // setDaoContributions,
         setUserAttestations,
         setUserContributionsDateRangeCount,
         userAttestations,
@@ -385,16 +384,16 @@ export const ContributionsContextProvider: React.FC<
 type ContributionContextType = {
   contribution: UIContribution;
   createAttestation: (arg0: UIContribution) => void;
-  daoContributions: UIContribution[];
-  daoContributionPagination: Pagination;
+  // daoContributions: UIContribution[];
+  // daoContributionPagination: Pagination;
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,
     guildIds?: number[] | null | undefined,
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
-  getDaoContributions(page: number): Promise<UIContribution[]>;
-  isDaoContributionLoading: boolean;
+  // getDaoContributions(page: number): Promise<UIContribution[]>;
+  // isDaoContributionLoading: boolean;
   mintAttestation: (
     contribution: MintContributionType['original'],
   ) => Promise<void>;
@@ -406,7 +405,7 @@ type ContributionContextType = {
   ) => void;
 
   setContribution: (data: UIContribution) => void;
-  setDaoContributions: (data: UIContribution[]) => void;
+  // setDaoContributions: (data: UIContribution[]) => void;
 
   setUserContributionsDateRangeCount: (
     data: UserContributionsDateRangeCountType[],

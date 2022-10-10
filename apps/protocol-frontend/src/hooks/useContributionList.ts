@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { UIContribution } from '@govrn/ui-types';
@@ -55,6 +54,6 @@ export const useContributionInfiniteList = (
     isFetching,
     isFetchingNextPage,
     fetchNextPage,
-    hasNextPage,
+    hasNextPage: hasNextPage || false,
   };
 };
