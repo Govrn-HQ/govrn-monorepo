@@ -9,6 +9,7 @@ import { BulkDaoAttributeFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
 import { useContributions } from '../contexts/ContributionContext';
 import { useDaosList } from '../hooks/useDaosList';
+import pluralize from 'pluralize';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
 
 interface BulkDaoAttributeModalProps {
@@ -86,8 +87,7 @@ const BulkDaoAttributeModal = ({
     <Stack spacing="4" width="100%" color="gray.800">
       <form onSubmit={handleSubmit(bulkAttributeDaoHandler)}>
         <Text paddingBottom={2}>
-          Attributing {contributions.length}{' '}
-          {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+          Attributing {pluralize('Contribution', contributions.length, true)}
         </Text>
         {attributing ? (
           <Progress
@@ -116,8 +116,7 @@ const BulkDaoAttributeModal = ({
           _hover={{ bgColor: 'brand.primary.100' }}
           isLoading={attributing || updateNewContributionIsLoading}
         >
-          Attribute{' '}
-          {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+          Attribute {pluralize('Contribution', contributions.length)}
         </Button>
       </form>
     </Stack>

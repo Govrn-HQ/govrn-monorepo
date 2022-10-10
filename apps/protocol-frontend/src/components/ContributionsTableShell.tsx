@@ -143,7 +143,9 @@ const ContributionsTableShell = () => {
                               disabled={selectedContributions?.length === 0}
                               data-testid="mint-btn-test"
                             >
-                              Mint
+                              {selectedContributions?.length > 1
+                                ? 'Bulk Mint'
+                                : 'Mint'}
                             </Button>
                           </Stack>
                         )}
