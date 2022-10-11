@@ -10,7 +10,6 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useContributions } from '../contexts/ContributionContext';
 import { useContributionDelete } from '../hooks/useContributionDelete';
 
 const DeleteContributionDialog = (props: {
@@ -58,9 +57,7 @@ const DeleteContributionDialog = (props: {
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.200' }}
               ml={3}
-              onClick={() =>
-                onDelete(!dialog.onConfirm, dialog.contribution_id)
-              }
+              onClick={() => onDelete(!dialog.onConfirm, dialog.contributionId)}
             >
               Confirm
             </Button>
