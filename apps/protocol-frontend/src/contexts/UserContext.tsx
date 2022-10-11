@@ -32,7 +32,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const { isAuthenticated, authFlow } = useAuth();
   const { isConnected, address } = useAccount({
     onConnect: () => authFlow(),
-    // onDisconnect:
   });
 
   const toast = useGovrnToast();
@@ -50,7 +49,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     if (address) {
       setUserAddress(address);
     }
-  }, [isConnected, address, userAddress]);
+  }, [isConnected, address]);
 
   const getUser = async () => {
     try {

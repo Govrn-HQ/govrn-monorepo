@@ -63,85 +63,6 @@ const AttestationsTable = ({
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
-  // const { userData } = useUser();
-  const [showAllDaos, setShowAllDaos] = useState(false);
-
-  // const userDaoIds = userData?.guild_users.map(guild => {
-  //   return guild.guild_id;
-  // });
-
-  // const mintedContributions = _.filter(contributionsData, function (a) {
-  //   return a.status.name === 'minted';
-  // });
-
-  // const nonUserContributions = _.filter(mintedContributions, function (a) {
-  //   return a.user.id !== userData?.id;
-  // });
-
-  // const userDaoContributions = _.filter(nonUserContributions, function (a) {
-  //   return a.guilds.some(guild => userDaoIds?.includes(guild.guild_id));
-  // });
-
-  // const unattestedUserDaoContributions = _.filter(
-  //   userDaoContributions,
-  //   function (a) {
-  //     return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
-  //   },
-  // );
-
-  // const unattestedContributions = _.filter(nonUserContributions, function (a) {
-  //   return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
-  // });
-
-  // const [displayedContributions, setDisplayedContributions] =
-  //   useState(userDaoContributions);
-
-  const toggleShowAllDaos = () => {
-    setShowAllDaos(!showAllDaos);
-  };
-
-  // useEffect(() => {
-  //   if (showAllDaos === false) {
-  //     setDisplayedContributions(unattestedUserDaoContributions);
-  //   } else {
-  //     setDisplayedContributions(unattestedContributions);
-  //   }
-  // }, [showAllDaos]);
-
-  function AllDaosSwitch({
-    isChecked,
-    onChange,
-  }: {
-    isChecked: boolean;
-    onChange: () => void;
-  }) {
-    return (
-      <Flex
-        marginX={1}
-        alignItems="center"
-        justifyContent="center"
-        alignSelf="flex-start"
-      >
-        <FormLabel
-          fontSize="sm"
-          fontWeight="md"
-          color="gray.800"
-          margin={2}
-          htmlFor="show-all-daos"
-        >
-          Show All DAOs
-        </FormLabel>
-        <Switch
-          id="show-all-daos"
-          size="sm"
-          colorScheme={'brand.primary'}
-          isChecked={isChecked}
-          onChange={onChange}
-        />
-      </Flex>
-    );
-  }
-
   const data = useMemo<AttestationTableType[]>(
     () =>
       contributionsData.map(contribution => ({
@@ -250,10 +171,6 @@ const AttestationsTable = ({
               preGlobalFilteredRows={preGlobalFilteredRows}
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
-            />
-            <AllDaosSwitch
-              isChecked={showAllDaos}
-              onChange={() => toggleShowAllDaos()}
             />
           </Flex>
           <Box width="100%" maxWidth="100vw" overflowX="auto">
