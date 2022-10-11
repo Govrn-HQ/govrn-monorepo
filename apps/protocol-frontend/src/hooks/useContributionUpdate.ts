@@ -1,9 +1,9 @@
 import { useUser } from '../contexts/UserContext';
-import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useOverlay } from '../contexts/OverlayContext';
 import { ContributionFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
+import useGovrnToast from '../components/toast';
 
 interface UpdateContributionProps {
   updatedValues: ContributionFormValues;
@@ -12,7 +12,7 @@ interface UpdateContributionProps {
 }
 
 export const useContributionUpdate = () => {
-  const toast = useToast();
+  const toast = useGovrnToast();
   const { setModals } = useOverlay();
   const { govrnProtocol: govrn, userData } = useUser();
   const queryClient = useQueryClient();
@@ -58,29 +58,21 @@ export const useContributionUpdate = () => {
           data?.id,
         ]); // invalidate the Contribution Query with the ID of the updated Contribution
         if (!toast.isActive(toastUpdateContributionId)) {
-          toast({
+          toast.success({
             id: toastUpdateContributionId,
             title: `Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
               } Updated`,
             description: `Your Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
               } been updated.`,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
           });
         }
         setModals({ editContributionFormModal: false });
       },
       onError: error => {
         console.log('error', error);
-        toast({
+        toast.error({
           title: 'Unable to Update Contribution',
           description: `Something went wrong. Please try again.`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       },
     },
