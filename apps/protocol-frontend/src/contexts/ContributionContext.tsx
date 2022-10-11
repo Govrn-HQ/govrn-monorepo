@@ -122,12 +122,9 @@ export const ContributionsContextProvider: React.FC<
           ethers.utils.toUtf8Bytes(contribution.details),
           ethers.utils.toUtf8Bytes(contribution.proof),
         );
-        await queryClient.invalidateQueries(['contributionList']);
-        await queryClient.invalidateQueries(['contributionInfiniteList']);
-        await queryClient.invalidateQueries([
-          'contributionGet',
-          contribution.id,
-        ]);
+        queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionGet', contribution.id]);
         setMintProgress((prevState: number) => prevState + 1);
         toast.success({
           title: 'Contribution Successfully Minted',
@@ -168,8 +165,8 @@ export const ContributionsContextProvider: React.FC<
             proof: ethers.utils.toUtf8Bytes(c.proof || ''),
           })),
         );
-        await queryClient.invalidateQueries(['contributionList']);
-        await queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
 
         const minted = result.filter(i => i.status === 'fulfilled');
         const failedToMint = result
@@ -219,9 +216,9 @@ export const ContributionsContextProvider: React.FC<
           signer,
           id,
         );
-        await queryClient.invalidateQueries(['contributionList']);
-        await queryClient.invalidateQueries(['contributionInfiniteList']);
-        await queryClient.invalidateQueries(['contributionGet', id]);
+        queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionGet', id]);
 
         toast.success({
           title: 'Contribution Successfully deleted',
@@ -257,7 +254,7 @@ export const ContributionsContextProvider: React.FC<
             confidence: 0,
           },
         );
-        await queryClient.invalidateQueries(['useContributionInfiniteList']);
+        queryClient.invalidateQueries(['useContributionInfiniteList']);
         toast.success({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
@@ -286,7 +283,7 @@ export const ContributionsContextProvider: React.FC<
           title: 'Attestation Successfully Added',
           description: 'Your Attestation has been added.',
         });
-        await queryClient.invalidateQueries(['useContributionInfiniteList']);
+        queryClient.invalidateQueries(['useContributionInfiniteList']);
       }
     } catch (error) {
       console.log(error);
