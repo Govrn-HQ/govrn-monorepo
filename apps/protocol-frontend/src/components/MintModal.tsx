@@ -21,7 +21,6 @@ import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 
 const MintModal = ({ contributions }: MintModalProps) => {
-  const { setModals } = useOverlay();
   const {
     mutateAsync: mintContribution,
     isLoading: isMintContributionLoading,
@@ -41,7 +40,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
     if (minting && mintProgress === mintTotal) {
       setMinting(false);
     }
-  }, [mintProgress]);
+  }, [mintProgress, mintTotal, minting]);
 
   const agreementCheckboxHandler = () => {
     setAgreementChecked({ agreement: true });
@@ -93,8 +92,6 @@ const MintModal = ({ contributions }: MintModalProps) => {
         mintContribution({ ...originalClean, ipfsContentUri });
       }
     }
-
-    setModals({});
   };
 
   return (
@@ -130,9 +127,9 @@ const MintModal = ({ contributions }: MintModalProps) => {
             local storage and we'll ask you again when we update our protocol.
           </Text>
 
-          { !agreementChecked.agreement && (
+          {!agreementChecked.agreement && (
             <Checkbox
-             isChecked={isChecked}
+              isChecked={isChecked}
               onChange={e => setChecked(e.target.checked)}
               data-testid="checkbox-testid"
             >
