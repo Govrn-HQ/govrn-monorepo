@@ -25,15 +25,15 @@ export const useContributionDelete = () => {
     }
   },
     {
-      onSuccess: (data, variables) => {
+      onSuccess: (data) => {
         queryClient.invalidateQueries(['activityTypes']); // invalidate the activity types query -- covers all args
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
         queryClient.invalidateQueries([
           'contributionGet',
-          variables
-        ]); // invalidate the Contribution Query with the ID of the updated Contribution (since it's the only arg it comes in as variables)
+          data?.deleteUserContribution.id
+        ]); // invalidate the contributionGet Query with the ID of the deleted Contribution
         toast({
           title: 'Contribution successfully deleted',
           description: 'Your Contribution has been deleted.',
