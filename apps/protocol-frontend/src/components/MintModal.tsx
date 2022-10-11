@@ -18,10 +18,12 @@ import { useContributions } from '../contexts/ContributionContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
+import useContributionBulkMint from '../hooks/useContributionBulkMint';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
-  const { mintContribution, bulkMintContributions } = useContributions();
+  const { mutateAsync: bulkMintContributions } = useContributionBulkMint();
+  const { mintContribution } = useContributions();
 
   const [isChecked, setChecked] = useState(false);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
