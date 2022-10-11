@@ -252,6 +252,7 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
+                  data-testid="deleteContribution-test"
                   onClick={() => handleDeleteContribution(row.original.id)}
                 />
               </HStack>
