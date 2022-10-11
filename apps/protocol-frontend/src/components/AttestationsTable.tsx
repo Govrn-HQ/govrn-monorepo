@@ -1,12 +1,11 @@
-import { useEffect, useMemo, useState, ReactNode } from 'react';
+import { useMemo } from 'react';
 import * as _ from 'lodash';
 import {
   Box,
   chakra,
   Flex,
-  FormLabel,
   Stack,
-  Switch,
+  Button,
   Table,
   Tbody,
   Td,
@@ -31,38 +30,22 @@ import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
-type AttestationTableType = {
-  id: number;
-  status: string;
-  contributor?: string | null;
-  date_of_submission: string | Date;
-  date_of_engagement: string | Date;
-  attestations?: {
-    id: number;
-  }[];
-  guilds?: {
-    guild: {
-      name?: string | null;
-      guild_id?: number;
-    };
-  }[];
-  action?: ReactNode;
-  name: string;
-  onChainId?: number | null;
-};
+import { useOverlay } from '../contexts/OverlayContext';
+import { AttestationTableType } from '../types/table';
+import ModalWrapper from './ModalWrapper';
+import BulkAttestationModal from './BulkAttestationModal';
 
 const AttestationsTable = ({
   contributionsData,
-  setSelectedContributions,
   hasMoreItems,
   nextPage,
 }: {
   contributionsData: UIContribution[];
-  setSelectedContributions: (contrs: any[]) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
+  const { setModals } = useOverlay();
+  const localOverlay = useOverlay();
   const data = useMemo<AttestationTableType[]>(
     () =>
       contributionsData.map(contribution => ({
@@ -144,7 +127,7 @@ const AttestationsTable = ({
     getTableBodyProps,
     headerGroups,
     rows,
-    state: { globalFilter, selectedRowIds },
+    state: { globalFilter },
     preGlobalFilteredRows,
     setGlobalFilter,
     selectedFlatRows,
@@ -158,13 +141,54 @@ const AttestationsTable = ({
     tableHooks,
   );
 
-  useEffect(() => {
-    setSelectedContributions(selectedFlatRows.map(r => r.original));
-  }, [selectedFlatRows, selectedRowIds]);
+  const attestationsModalHandler = () => {
+    setModals({ bulkAttestationModal: true });
+  };
 
-  return (
-    <>
-      {contributionsData.length > 0 ? (
+  let component = (
+    <Box
+      paddingX={{ base: '4', md: '6' }}
+      paddingBottom={{ base: '4', md: '6' }}
+    >
+      <Text fontSize="sm" fontWeight="bolder">
+        None found!
+      </Text>
+    </Box>
+  );
+  if (contributionsData.length) {
+    component = (
+      <>
+        <Box paddingX={{ base: '4', md: '6' }} paddingTop="5" paddingBottom="3">
+          <Stack
+            direction={{ base: 'column', md: 'row' }}
+            justify="space-between"
+            alignItems="bottom"
+          >
+            <Stack direction="column" gap="2">
+              <Text fontSize="lg" fontWeight="medium">
+                DAO Contributions
+              </Text>
+              <Text fontSize="md" fontWeight="normal">
+                These are minted Contributions that you haven't already Attested
+                to.
+              </Text>
+            </Stack>
+            <Button
+              bgColor="brand.primary.50"
+              color="brand.primary.600"
+              transition="all 100ms ease-in-out"
+              _hover={{ bgColor: 'brand.primary.100' }}
+              flexBasis="10%"
+              colorScheme="brand.primary"
+              disabled={selectedFlatRows?.length === 0}
+              onClick={attestationsModalHandler}
+              data-testId="attest-testId"
+            >
+              Attest
+            </Button>
+          </Stack>
+        </Box>
+
         <Stack>
           <Flex alignItems="center">
             <GlobalFilter
@@ -226,16 +250,24 @@ const AttestationsTable = ({
             </InfiniteScroll>
           </Box>
         </Stack>
-      ) : (
-        <Box
-          paddingX={{ base: '4', md: '6' }}
-          paddingBottom={{ base: '4', md: '6' }}
-        >
-          <Text fontSize="sm" fontWeight="bolder">
-            None found!
-          </Text>
-        </Box>
-      )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {component}
+      <ModalWrapper
+        name="bulkAttestationModal"
+        title="Attest to DAO Contributions"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <BulkAttestationModal
+            contributions={selectedFlatRows.map(r => r.original)}
+          />
+        }
+      />
     </>
   );
 };

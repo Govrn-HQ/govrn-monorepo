@@ -13,10 +13,11 @@ import { useUser } from '../contexts/UserContext';
 import { MdCheckCircle } from 'react-icons/all';
 import { MintContributionType } from '../types/mint';
 import { useContributions } from '../contexts/ContributionContext';
+import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
 
 interface BulkAttestationModalProps {
-  contributions: MintContributionType[];
+  contributions: AttestationTableType[];
 }
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
@@ -25,11 +26,11 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const [attesting, setAttesting] = useState(false);
   const [currentAttestation] = useState(1);
 
-  const createAttestationsHandler = (contributions: MintContributionType[]) => {
+  const createAttestationsHandler = (contributions: AttestationTableType[]) => {
     setAttesting(true);
     contributions.map((contribution, idx) => {
-      if (contribution.status.name === 'minted') {
-        mintAttestation(contribution.original);
+      if (contribution.status === 'minted') {
+        mintAttestation(contribution);
       } else {
         createAttestation(contribution);
       }
