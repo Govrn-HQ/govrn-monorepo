@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type ContributionTableType = {
   name: string;
   txHash?: string | null;

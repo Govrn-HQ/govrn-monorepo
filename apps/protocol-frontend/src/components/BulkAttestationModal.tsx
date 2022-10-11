@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { MdCheckCircle } from 'react-icons/all';
-import { MintContributionType } from '../types/mint';
 import { useContributions } from '../contexts/ContributionContext';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';

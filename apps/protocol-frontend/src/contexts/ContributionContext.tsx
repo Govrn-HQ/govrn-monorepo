@@ -7,6 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { MintContributionType } from '../types/mint';
+import { AttestationTableType } from '../types/table';
 import { UserContext } from './UserContext';
 import { PROTOCOL_URL } from '../utils/constants';
 import { ChainIdError } from '@govrn/protocol-client';
@@ -236,9 +237,7 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const mintAttestation = async (
-    contribution: MintContributionType['original'],
-  ) => {
+  const mintAttestation = async (contribution: AttestationTableType) => {
     try {
       if (!contribution?.onChainId) {
         throw new Error('No onChainId for contribution');
@@ -252,7 +251,6 @@ export const ContributionsContextProvider: React.FC<
           },
           signer,
           0,
-          contribution.activityTypeId,
           userData.id,
           {
             contribution: contribution.onChainId,
@@ -274,7 +272,7 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const createAttestation = async (contribution: UIContribution) => {
+  const createAttestation = async (contribution: AttestationTableType) => {
     try {
       if (userData) {
         await govrn.custom.createUserAttestation({
@@ -323,16 +321,14 @@ export const ContributionsContextProvider: React.FC<
 
 type ContributionContextType = {
   contribution: UIContribution;
-  createAttestation: (arg0: UIContribution) => void;
+  createAttestation: (arg0: AttestationTableType) => void;
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,
     guildIds?: number[] | null | undefined,
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
-  mintAttestation: (
-    contribution: MintContributionType['original'],
-  ) => Promise<void>;
+  mintAttestation: (contribution: AttestationTableType) => Promise<void>;
   bulkMintContributions: (contributions: BulkMintOptions[]) => void;
   mintContribution: (
     contribution: MintContributionType['original'],
