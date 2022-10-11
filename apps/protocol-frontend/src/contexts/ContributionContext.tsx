@@ -25,23 +25,6 @@ type UserContributionsDateRangeCountType = {
   name?: string | null | undefined;
 };
 
-type BulkMintOptions = {
-  ipfsContentUri: string;
-  engagementDate: Date | string;
-  attestations: { id: number }[];
-  guildName: string;
-  name: string;
-  action: string;
-  details?: string | null;
-  id: number;
-  proof?: string | null;
-  txHash?: string | null;
-  user: { id: number };
-  date_of_submission: Date | string;
-  activityTypeId: number;
-  status: { id: number; name: string };
-};
-
 interface ContributionContextProps {
   children: React.ReactNode;
 }
@@ -136,70 +119,6 @@ export const ContributionsContextProvider: React.FC<
       toast.error({
         title: 'Unable to Mint Contribution',
         description: `Something went wrong. Please try again: ${error}`,
-      });
-    }
-  };
-
-  const bulkMintContributions = async (contributions: BulkMintOptions[]) => {
-    try {
-      if (signer && chain?.id && userData) {
-        const result = await govrn.contribution.bulkMint(
-          {
-            address: networks[chain?.id].govrnContract,
-            chainId: chain?.id,
-            name: networks[chain?.id].name,
-          },
-          signer,
-          userData.address,
-          contributions.map(c => ({
-            id: c.id,
-            activityTypeId: c.activityTypeId,
-            userId: userData.id,
-            args: {
-              detailsUri: ethers.utils.toUtf8Bytes(c.ipfsContentUri),
-              dateOfSubmission: new Date(c.date_of_submission).getTime(),
-              dateOfEngagement: new Date(c.engagementDate).getTime(),
-            },
-            name: ethers.utils.toUtf8Bytes(c.name),
-            details: ethers.utils.toUtf8Bytes(c.details || ''),
-            proof: ethers.utils.toUtf8Bytes(c.proof || ''),
-          })),
-        );
-        queryClient.invalidateQueries(['contributionList']);
-        queryClient.invalidateQueries(['contributionInfiniteList']);
-
-        const minted = result.filter(i => i.status === 'fulfilled');
-        const failedToMint = result
-          .filter((i): i is PromiseRejectedResult => i.status === 'rejected')
-          .filter(i => i.reason instanceof ChainIdError);
-
-        if (minted.length > 0) {
-          toast.success({
-            title: 'Contribution Successfully Minted',
-            description: `${pluralize(
-              'Contribution',
-              minted.length,
-              true,
-            )} has been minted.`,
-          });
-        }
-
-        if (failedToMint.length > 0) {
-          toast.error({
-            title: 'Failed to Mint Some Contribution',
-            description: `${pluralize(
-              'Contribution',
-              failedToMint.length,
-              true,
-            )} failed to mint.`,
-          });
-        }
-      }
-    } catch (error) {
-      console.log('error', error);
-      toast.error({
-        title: 'Unable to Mint Contribution',
-        description: 'Something went wrong minting. Please try again.',
       });
     }
   };
@@ -302,7 +221,6 @@ export const ContributionsContextProvider: React.FC<
         deleteContribution,
         getUserContributionsCount,
         mintAttestation,
-        bulkMintContributions,
         mintContribution,
         setContribution,
         setUserAttestations,
@@ -326,7 +244,6 @@ type ContributionContextType = {
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   mintAttestation: (contribution: AttestationTableType) => Promise<void>;
-  bulkMintContributions: (contributions: BulkMintOptions[]) => void;
   mintContribution: (
     contribution: MintContributionType['original'],
     ipfsContentUri: string,
