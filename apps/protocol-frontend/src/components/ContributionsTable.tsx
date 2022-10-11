@@ -136,10 +136,16 @@ const ContributionsTable = ({
           value: string;
           row: Row<ContributionTableType>;
         }) => {
+          
+         
           return (
+     
+          <div className="text-wrap">
             <Link to={`/contributions/${row.original.id}`}>
               <Text>{value}</Text>
             </Link>
+           </div>
+        
           );
         },
       },
