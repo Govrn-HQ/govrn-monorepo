@@ -45,9 +45,6 @@ const ContributionsTableShell = () => {
   const [selectedContributions, setSelectedContributions] = useState<
     UIContribution[] | Row<ContributionTableType>[]
   >([]);
-  const [selectedContributionsMap, setSelectedContributionsMap] = useState<
-    UIContribution[]
-  >([]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
@@ -210,7 +207,7 @@ const ContributionsTableShell = () => {
         localOverlay={localOverlay}
         size="3xl"
         content={
-          <BulkDaoAttributeModal contributions={selectedContributionsMap} />
+          <BulkDaoAttributeModal contributions={selectedContributions} />
         }
       />
     </>
@@ -218,3 +215,16 @@ const ContributionsTableShell = () => {
 };
 
 export default ContributionsTableShell;
+
+// useEffect(() => {
+//   if (selectedContributions && selectedContributions.length > 0) {
+//     setSelectedContributionsMap(
+//       selectedContributions?.map((contribution: any) =>
+//         userContributions.find(
+//           localContribution =>
+//             contribution.original.id === localContribution.id,
+//         ),
+//       ),
+//     );
+//   }
+// }, [selectedContributions, userContributions]);

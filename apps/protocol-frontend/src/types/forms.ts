@@ -1,3 +1,6 @@
+import { UIContribution } from '@govrn/ui-types';
+import { ContributionTableType } from '../types/table';
+import { Row } from 'react-table';
 import {
   createWaitlistFormValidation,
   profileFormValidation,
@@ -16,6 +19,10 @@ export type ContributionFormValues = {
 export type BulkDaoAttributeFormValues = {
   daoId?: string | number | null;
 };
+
+export interface BulkDaoAttributeModalProps {
+  contributions: UIContribution | Row<ContributionTableType>[];
+}
 
 export type CreateUserFormValues = Partial<
   InferType<typeof createWaitlistFormValidation>

@@ -24,7 +24,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const { createAttestation, mintAttestation } = useContributions();
   const [attesting, setAttesting] = useState(false);
   const [currentAttestation] = useState(1);
-
+  console.log('contributions in mint', contributions);
   const createAttestationsHandler = (contributions: MintContributionType[]) => {
     setAttesting(true);
     contributions.map((contribution, idx) => {
