@@ -59,9 +59,10 @@ const useContributionMint = () => {
       );
     },
     {
-      onSuccess: () => {
+      onSuccess: (data, contribution) => {
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionGet', contribution.id]);
 
         toast.success({
           title: 'Contribution Successfully Minted',
