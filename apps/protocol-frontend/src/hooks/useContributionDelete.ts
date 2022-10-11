@@ -1,11 +1,11 @@
 import { useUser } from '../contexts/UserContext';
 import { useNetwork, useSigner } from 'wagmi';
-import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
+import useGovrnToast from '../components/toast';
 
 export const useContributionDelete = () => {
-  const toast = useToast()
+  const toast = useGovrnToast();
   const { govrnProtocol: govrn } = useUser()
   const queryClient = useQueryClient();
   const { data: signer } = useSigner();
@@ -34,24 +34,16 @@ export const useContributionDelete = () => {
           'contributionGet',
           data?.deleteUserContribution.id
         ]); // invalidate the contributionGet Query with the ID of the deleted Contribution
-        toast({
+        toast.success({
           title: 'Contribution successfully deleted',
           description: 'Your Contribution has been deleted.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       },
       onError: (error) => {
         console.log('error', error)
-        toast({
+        toast.error({
           title: 'Unable to delete contribution',
           description: `Something went wrong. Please try again.`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
       },
     }
