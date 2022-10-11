@@ -13,6 +13,7 @@ import { useUser } from '../contexts/UserContext';
 import { MdCheckCircle } from 'react-icons/all';
 import { MintContributionType } from '../types/mint';
 import { useContributions } from '../contexts/ContributionContext';
+import pluralize from 'pluralize';
 
 interface BulkAttestationModalProps {
   contributions: MintContributionType[];
@@ -44,7 +45,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
       </Text>
       <Text>
         Attesting to <strong>{contributions.length} </strong>
-        {contributions.length === 1 ? 'Contribution' : 'Contributions'}:
+        {pluralize('Contribution', contributions.length)}:
       </Text>
       <List variant="primary" paddingBottom={3} spacing={2}>
         {contributions.map(value => {
@@ -73,8 +74,9 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
           _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => createAttestationsHandler(contributions)}
           isLoading={attesting}
+          data-testId="addAttestations-btn"
         >
-          Add {contributions.length === 1 ? 'Attestation' : 'Attestations'}
+          Add {pluralize('Attestation', contributions.length)}
         </Button>
       </Flex>
     </Stack>

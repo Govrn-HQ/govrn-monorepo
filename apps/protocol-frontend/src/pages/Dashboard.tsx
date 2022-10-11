@@ -3,10 +3,11 @@ import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
-import { useContributions } from '../contexts/ContributionContext';
+import { useContributionList } from '../hooks/useContributionList';
 import SiteLayout from '../components/SiteLayout';
 import DashboardShell from '../components/DashboardShell';
 import NewUserView from '../components/NewUserView';
+import ErrorView from '../components/ErrorView';
 import { GOVRN_MOTTO } from '../utils/constants';
 
 const UserView = () => {
@@ -14,7 +15,7 @@ const UserView = () => {
     <Stack spacing="4" justify="center" align="center" minHeight="50vh">
       <Text>{GOVRN_MOTTO}</Text>
       <Text fontSize="lg" fontWeight="medium">
-        Welcome back! Add a contribution to view your Dashboard
+        Welcome back! Add a Contribution to view your Dashboard
       </Text>
     </Stack>
   );
@@ -24,11 +25,24 @@ const Dashboard = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
   const { userData } = useUser();
-  const { userContributions } = useContributions();
+  const { data: userContributions } = useContributionList({
+    where: {
+      user_id: { equals: userData?.id },
+    },
+  });
+
+  if (userContributions === undefined) {
+    return (
+      <ErrorView errorMessage="There may have been an issue loading your Contributions. Please try again." />
+    );
+  }
 
   return (
     <SiteLayout>
-      {isConnected && isAuthenticated && userContributions.length ? (
+      {isConnected &&
+      isAuthenticated &&
+      userContributions !== undefined &&
+      userContributions?.length ? (
         <DashboardShell user={userData} />
       ) : (
         <Container

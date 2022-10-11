@@ -1,4 +1,6 @@
 import { UIContribution, UIAttestations, UIGuilds } from '@govrn/ui-types';
+import { ContributionTableType } from '../types/table';
+import { Row } from 'react-table';
 
 export type MintContributionType = UIContribution & {
   original: {
@@ -14,8 +16,9 @@ export type MintContributionType = UIContribution & {
 };
 
 export interface MintModalProps {
-  contributions: MintContributionType[];
+  contributions: UIContribution[] | Row<ContributionTableType>[];
 }
+
 export type MintAttestationType = UIAttestations[1] & {
   id: number;
   date_of_submission: string;

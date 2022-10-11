@@ -6,9 +6,8 @@ import React, {
   useState,
 } from 'react';
 import { NavigateFunction } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
-import { UIGuild, UIUser, UIGuilds } from '@govrn/ui-types';
+import { UIUser } from '@govrn/ui-types';
 import {
   ContributionFormValues,
   CreateUserFormValues,
@@ -17,6 +16,7 @@ import {
 import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { PROTOCOL_URL } from '../utils/constants';
+import useGovrnToast from '../components/toast';
 
 export const UserContext = createContext<UserContextType>(
   {} as UserContextType,
@@ -35,7 +35,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     // onDisconnect:
   });
 
-  const toast = useToast();
+  const toast = useGovrnToast();
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
 
   const [userAddress, setUserAddress] = useState<string | null>(null);
@@ -45,9 +45,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [isUserLoading, setUserLoading] = useState(false);
 
   const [userData, setUserData] = useState<UIUser | null>(null);
-
-  const [allDaos, setAllDaos] = useState<UIGuild[]>([]);
-  const [userDaos, setUserDaos] = useState<UIGuild[]>([]);
 
   useEffect(() => {
     if (address) {
@@ -91,42 +88,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [address]);
 
-  const getAllDaos = async () => {
-    try {
-      const allDaosResponse = await govrn.guild.list({ first: 100 });
-      setAllDaos(allDaosResponse);
-      return allDaosResponse;
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
-
-  const getUserDaos = async () => {
-    try {
-      if (!userData?.id) {
-        throw new Error('getUserDaos has no userData.id');
-      }
-      const userDaosResponse = await govrn.guild.list({
-        first: 100,
-        where: {
-          users: {
-            some: {
-              user_id: {
-                equals: userData?.id,
-              },
-            },
-          },
-        },
-      });
-      setUserDaos(userDaosResponse);
-      return userDaosResponse;
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
-
   const createUser = async (
     values: CreateUserFormValues,
     address: string,
@@ -141,25 +102,17 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         address: address,
         username: values.username,
       });
-      toast({
+      toast.success({
         title: 'User Created',
         description: `Your username has been created with your address: ${address}. Let's report your first Contribution!`,
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
       if (navigate) {
         navigate('/report');
       }
     } catch (error) {
-      toast({
+      toast.error({
         title: 'Unable to Create User',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -175,24 +128,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         email: values.email || '',
         username: values.username || '',
       });
-      toast({
+      toast.success({
         title: 'Successfully Joined Waitlist',
         description: `Thank you for your interest in Govrn! We'll reach out when we open to new users.`,
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
       navigate('/', { replace: true });
     } catch (error) {
       console.log(error);
-      toast({
+      toast.error({
         title: 'Unable to Join Waitlist',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -205,23 +150,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         id: userData?.id!,
       });
       await getUser();
-      toast({
+      toast.success({
         title: 'User Profile Updated',
         description: 'Your Profile has been updated',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     } catch (error) {
       console.error(error);
-      toast({
+      toast.error({
         title: 'Unable to Update Profile',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -238,23 +175,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         disconnectLinearId: args.linearUserId,
       });
       await getUser();
-      toast({
+      toast.success({
         title: 'Disconnected linear user',
         description: 'Your linear user has been disconnected',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     } catch (error) {
       console.error(error);
-      toast({
+      toast.error({
         title: 'Failed to disconnect linear user',
         description: `Something went wrong. Please try again: ${error}`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
       });
     }
   };
@@ -271,32 +200,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userDataByAddress, isAuthenticated]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      getAllDaos();
-      getUserDaos();
-    }
-  }, [userData, isAuthenticated]);
-
   return (
     <UserContext.Provider
       value={{
-        allDaos,
         createUser,
         createWaitlistUser,
         disconnectLinear,
-        getAllDaos,
         govrnProtocol: govrn,
         isUserLoading,
-        getUserDaos,
-        setAllDaos,
         setUserAddress,
-        setUserDaos,
         setUserData,
         setUserDataByAddress,
         updateProfile,
         userAddress,
-        userDaos,
         userData,
         userDataByAddress,
       }}
@@ -307,7 +223,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 };
 
 type UserContextType = {
-  allDaos: UIGuild[];
   createUser: (values: CreateUserFormValues, address: string) => void;
   createWaitlistUser: (
     values: CreateUserFormValues,
@@ -319,18 +234,13 @@ type UserContextType = {
     userId: number;
     username: string;
   }) => Promise<void>;
-  getAllDaos: () => Promise<UIGuilds>;
-  getUserDaos: () => Promise<UIGuilds>;
   govrnProtocol: GovrnProtocol;
   isUserLoading: boolean;
-  setAllDaos: (data: UIGuild[]) => void;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
-  setUserDaos: (data: UIGuild[]) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
-  userDaos: UIGuild[];
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };

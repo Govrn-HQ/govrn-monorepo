@@ -18,8 +18,8 @@ import SiteLayout from '../components/SiteLayout';
 import ContributionDetailShell from '../components/ContributionDetailShell';
 import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
-import { UIContribution } from '@govrn/ui-types';
 import { useContributions } from '../contexts/ContributionContext';
+import { useContributionGet } from '../hooks/useContributionGet';
 
 const UserView = () => {
   return (
@@ -39,24 +39,8 @@ const ContributionDetails = () => {
   const { isConnected } = useAccount();
   const { id } = useParams();
   const { userData } = useUser();
-  const { getContribution } = useContributions();
+  const { data: contribution } = useContributionGet(parseInt(id || '0'));
   const { isAuthenticated } = useAuth();
-  const [contribution, setContribution] = useState<UIContribution>(
-    {} as UIContribution,
-  );
-
-  useEffect(() => {
-    const fetchContribution = async () => {
-      if (id) {
-        const contribution = await getContribution(parseInt(id));
-        if (contribution) {
-          setContribution(contribution);
-        }
-      }
-    };
-    fetchContribution();
-  }, [id, getContribution]);
-
   return (
     <SiteLayout>
       {isConnected && isAuthenticated && contribution?.status ? (

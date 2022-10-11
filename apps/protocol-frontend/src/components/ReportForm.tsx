@@ -10,7 +10,6 @@ import {
   Button,
   Text,
   Switch,
-  useToast,
 } from '@chakra-ui/react';
 import {
   CreatableSelect,
@@ -26,8 +25,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useContributions } from '../contexts/ContributionContext';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
+import { useDaosList } from '../hooks/useDaosList';
+import { useContributionCreate } from '../hooks/useContributionCreate';
+import useGovrnToast from './toast';
 
 function CreateMoreSwitch({
   isChecked,
@@ -57,10 +58,8 @@ function CreateMoreSwitch({
 }
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
-  const { allDaos } = useUser();
-  const { isCreatingContribution, createContribution } = useContributions();
-
-  const toast = useToast();
+  const { userData } = useUser();
+  const toast = useGovrnToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
@@ -101,13 +100,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       } catch (error) {
         setSelectedFile(null);
         setIpfsError(true);
-        toast({
+        toast.error({
           title: 'Unable to upload to IPFS.',
           description: `Please select a different proof URL or try to upload another file.`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         setIsUploading(false);
       }
@@ -129,10 +124,10 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setValue('engagementDate', engagementDateValue);
   }, []);
 
-  const daoListOptions = allDaos.map(dao => ({
-    value: dao.id,
-    label: dao.name ?? '',
-  }));
+  const {
+    mutateAsync: createNewContribution,
+    isLoading: createNewContributionIsLoading,
+  } = useContributionCreate();
 
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
@@ -144,19 +139,15 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       } catch (error) {
         console.error(error);
         setIpfsError(true);
-        toast({
+        toast.error({
           title: 'Unable to Upload to IPFS',
           description: `Something went wrong. Please try again: ${error}`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         return;
       }
     }
     if (ipfsError === false) {
-      const result = await createContribution(values);
+      const result = await createNewContribution(values);
       if (result) {
         reset({
           name: '',
@@ -181,10 +172,20 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     data: userActivityTypesData,
   } = useUserActivityTypesList();
 
-  // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading) {
-    return <GovrnSpinner />;
-  }
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: daosListIsLoading,
+    isError: daosListIsError,
+    data: daosListData,
+  } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
+
+  const daoListOptions =
+    daosListData?.map(dao => ({
+      value: dao.id,
+      label: dao.name ?? '',
+    })) || [];
 
   // there is an error with the query:
   if (userActivityTypesIsError) {
@@ -205,11 +206,25 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     }),
   );
 
+  // the loading and fetching states from the query are true:
+  if (userActivityTypesIsLoading || daosListIsLoading) {
+    return <GovrnSpinner />;
+  }
+
+  // there is an error with the query:
+  if (userActivityTypesIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
+  if (daosListIsError) {
+    return <Text>An error occurred fetching DAOs.</Text>;
+  }
+
   // we can now return the component knowing that it is no longer loading and fetching, and there is no error:
   return (
     <Stack spacing={{ base: '6', lg: '4' }} width="100%" color="gray.900">
       <FormProvider {...localForm}>
-        <form onSubmit={handleSubmit(createContributionHandler)}>
+        <form>
           <Input
             name="name"
             label="Name of Contribution"
@@ -322,15 +337,15 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           </Flex>
           <Flex align="flex-end" marginTop={4} gap={4}>
             <Button
-              type="submit"
               width="100%"
               color="brand.primary.600"
               backgroundColor="brand.primary.50"
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.100' }}
-              isLoading={isCreatingContribution}
+              isLoading={createNewContributionIsLoading}
               data-cy="addContribution-btn"
               disabled={ipfsError}
+              onClick={handleSubmit(createContributionHandler)}
             >
               Add Contribution
             </Button>

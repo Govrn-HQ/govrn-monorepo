@@ -22,28 +22,32 @@ import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
-import { useContributions } from '../contexts/ContributionContext';
+import { useUser } from '../contexts/UserContext';
+import { useContributionInfiniteList } from '../hooks/useContributionList';
+import { UIContribution } from '@govrn/ui-types';
+import { Row } from 'react-table';
+import { ContributionTableType } from '../types/table';
 
 const ContributionsTableShell = () => {
-  const { isUserContributionsLoading, userContributions } = useContributions();
+  const { userData } = useUser();
+  const {
+    data: contributions,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+  } = useContributionInfiniteList({
+    where: {
+      user_id: { equals: userData?.id },
+    },
+  });
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
-  const [selectedContributions, setSelectedContributions] = useState<any>();
-  const [selectedContributionsMap, setSelectedContributionsMap] =
-    useState<any>();
-
-  useEffect(() => {
-    if (selectedContributions && selectedContributions.length > 0) {
-      setSelectedContributionsMap(
-        selectedContributions?.map((contribution: any) =>
-          userContributions.find(
-            localContribution =>
-              contribution.original.id === localContribution.id,
-          ),
-        ),
-      );
-    }
-  }, [selectedContributions, userContributions]);
+  const [selectedContributions, setSelectedContributions] = useState<
+    UIContribution[] | Row<ContributionTableType>[]
+  >([]);
+  const [selectedContributionsMap, setSelectedContributionsMap] = useState<
+    UIContribution[]
+  >([]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });
@@ -62,9 +66,9 @@ const ContributionsTableShell = () => {
         maxWidth="1200px"
       >
         <PageHeading>Contributions</PageHeading>
-        {isUserContributionsLoading ? (
+        {isFetching && contributions && contributions.pages.length === 0 ? (
           <GovrnSpinner />
-        ) : userContributions && userContributions?.length > 0 ? (
+        ) : contributions && contributions.pages.length > 0 ? (
           <Tabs
             variant="soft-rounded"
             colorScheme="gray"
@@ -137,8 +141,11 @@ const ContributionsTableShell = () => {
                               colorScheme="brand.primary"
                               onClick={mintModalHandler}
                               disabled={selectedContributions?.length === 0}
+                              data-testid="mint-btn-test"
                             >
-                              Mint
+                              {selectedContributions?.length > 1
+                                ? 'Bulk Mint'
+                                : 'Mint'}
                             </Button>
                           </Stack>
                         )}
@@ -146,8 +153,10 @@ const ContributionsTableShell = () => {
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
                       <ContributionsTable
-                        contributionsData={userContributions}
+                        contributionsData={contributions.pages}
                         setSelectedContributions={setSelectedContributions}
+                        nextPage={fetchNextPage}
+                        hasMoreItems={hasNextPage || false}
                       />
                     </Box>
                   </Stack>
@@ -171,9 +180,9 @@ const ContributionsTableShell = () => {
                       </Stack>
                     </Box>
                     <Box width="100%" maxWidth="100vw" overflowX="auto">
-                      {userContributions.length > 0 ? (
+                      {contributions.pages.length > 0 ? (
                         <ContributionTypesTable
-                          contributionTypesData={userContributions}
+                          contributionTypesData={contributions.pages}
                         />
                       ) : (
                         <EmptyContributions />

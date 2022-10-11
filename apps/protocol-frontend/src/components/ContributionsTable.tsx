@@ -39,33 +39,11 @@ import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
-import { useContributions } from '../contexts/ContributionContext';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import TableEndMessage from './TableEndMessage';
-
-type ContributionTableType = {
-  name: string;
-  txHash?: string | null;
-  id: number;
-  details?: string | null;
-  proof?: string | null;
-  date_of_submission: Date | string;
-  engagementDate: Date | string;
-  attestations: {
-    id: number;
-  }[];
-  user: {
-    id: number;
-  };
-  activityTypeId: number;
-  status: {
-    id: number;
-    name: string;
-  };
-  action: string;
-  guildName: string;
-};
+import { ContributionTableType } from '../types/table';
+import { mergePages } from '../utils/arrays';
+import { formatDate } from '../utils/date';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -77,12 +55,17 @@ export type DialogProps = {
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
+  hasMoreItems,
+  nextPage,
 }: {
-  contributionsData: UIContribution[];
-  setSelectedContributions: (rows: Row<any>[]) => void;
+  contributionsData: UIContribution[][];
+  setSelectedContributions: (
+    rows: UIContribution[] | Row<ContributionTableType>[],
+  ) => void;
+  hasMoreItems: boolean;
+  nextPage: () => void;
 }) => {
   const { userData } = useUser();
-  const { userContributionPagination: pagination } = useContributions();
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
@@ -116,24 +99,27 @@ const ContributionsTable = ({
 
   const data = useMemo<ContributionTableType[]>(() => {
     const tableData = [] as ContributionTableType[];
-    for (const contribution of contributionsData) {
-      tableData.push({
-        name: contribution.name,
-        txHash: contribution.tx_hash,
-        id: contribution.id,
-        details: contribution.details,
-        proof: contribution.proof,
-        date_of_submission: contribution.date_of_submission,
-        engagementDate: contribution.date_of_engagement,
-        attestations: contribution.attestations || null,
-        user: contribution.user,
-        activityTypeId: contribution.activity_type.id,
-        status: contribution.status,
-        action: '',
-        guildName:
-          contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
-          '---',
-      });
+    for (const page of contributionsData) {
+      for (const contribution of page) {
+        tableData.push({
+          name: contribution.name,
+          txHash: contribution.tx_hash,
+          id: contribution.id,
+          details: contribution.details,
+          proof: contribution.proof,
+          date_of_submission: contribution.date_of_submission,
+          engagementDate: formatDate(contribution.date_of_engagement),
+          attestations: contribution.attestations || null,
+          user: contribution.user,
+          activityTypeId: contribution.activity_type.id,
+          status: contribution.status,
+          action: '',
+          guildName:
+            contribution.guilds.map(
+              (guildObj: any) => guildObj.guild.name,
+            )[0] ?? '---',
+        });
+      }
     }
     return tableData;
   }, [contributionsData]);
@@ -309,13 +295,10 @@ const ContributionsTable = ({
       <Box width="100%" maxWidth="100vw" overflowX="auto">
         <InfiniteScroll
           dataLength={rows.length}
-          next={() => {
-            pagination.next();
-          }}
+          next={nextPage}
           scrollThreshold={0.8}
-          hasMore={pagination.hasMore}
+          hasMore={hasMoreItems}
           loader={<GovrnSpinner />}
-          endMessage={<TableEndMessage />}
         >
           <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
             <Thead backgroundColor="gray.50">
@@ -368,7 +351,7 @@ const ContributionsTable = ({
           content={
             <EditContributionForm
               contribution={
-                contributionsData.find(
+                mergePages(contributionsData).find(
                   localContribution =>
                     localContribution.id === selectedContribution,
                 )!

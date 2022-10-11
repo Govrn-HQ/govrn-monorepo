@@ -1,16 +1,27 @@
 /// <reference types="cypress" />
 
-const getUserOffWaitlistQuery = `
-  UPDATE "User"
-  SET active = TRUE
-  WHERE email = 'testemail@gmail.com'
-  RETURNING *;
-  `;
-
 before(() => {
-  //Get user off the waitlist
-  cy.task('queryDatabase', getUserOffWaitlistQuery).then(res => {
-    expect(res.rows[0].active).to.equal(true);
+  const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
+  const chainTypeName = 'Goerli-Test'
+  
+  //seed ChainType table
+  cy.task('create_chainType', chainTypeName);
+
+  //seed User table
+  cy.fixture('users.json').then((users) => {
+    const userData = users[0]
+    cy.task('queryDatabase',getChaintTypeID).then((res)=>{
+      const chainTypeID = res.rows[0].id;
+      userData["chain_type_id"] = chainTypeID
+      cy.task('create_user', userData);
+    });
+  });
+  
+  //seed Guild table
+  cy.fixture('daos.json').then((guilds) => {
+    for (const guild of guilds){
+      cy.task('create_guild', guild.name);
+      }
   });
 
   cy.fixture('contributions.json').then(contributions => {
@@ -23,12 +34,13 @@ before(() => {
   });
 
   cy.get('[data-cy="myDashboards-btn"]', { timeout: 15000 })
+    .scrollIntoView()
     .should('be.visible')
-    .click({ force: true });
+    .click();
 
   cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 15000 })
     .should('be.visible')
-    .click({ force: true });
+    .click();
 
   cy.get('[data-cy="reportFirstContribution-btn"]', {
     timeout: 10000,
@@ -37,6 +49,40 @@ before(() => {
     .click({ force: true });
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(5000);
+});
+after(() => {
+  const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  const chainTypeName = 'Goerli-Test'
+
+  //teardown UserActivity table
+  cy.task('queryDatabase',getUserID).then((res)=>{
+    const userID = res.rows[0].id;
+    cy.task('delete_UserActivity', userID);
+  });
+
+  //teardown Guild table
+  cy.fixture('daos.json').then((guilds) => {
+    for (const guild of guilds){
+      const guild_name = guild.name
+      cy.task('delete_guild', guild_name);
+    }
+  });
+
+  //teardown Contribution table
+  cy.fixture('contributions.json').then((contributions) => {
+    const name = contributions[0].name
+    cy.task('delete_contribution', name);
+  });
+
+  //teardown User table
+  cy.fixture('users.json').then((users) => {
+    const username = users[0].username
+    cy.task('delete_user', username);
+  });
+
+  //teardown ChainType table
+  cy.task('delete_chainType',chainTypeName);
+
 });
 
 describe('Create First Contribution', () => {
@@ -48,12 +94,12 @@ describe('Create First Contribution', () => {
       .type(contribution.name)
       .should('have.value', contribution.name);
 
-    cy.get('.css-ujecln-Input2')
+    cy.get('[data-cy="daoCreatableSelect-testing"]')
       .should('be.visible')
-      .eq(0)
       .children()
-      .eq(0)
+      .find('input')
       .type(`${contribution.activityType}{enter}`);
+
 
     cy.get('textarea[data-testid="textarea-test"]')
       .click()
@@ -61,11 +107,10 @@ describe('Create First Contribution', () => {
 
     cy.get('input[data-testid="reportForm-proof"]').type(contribution.proof);
 
-    cy.get('.css-ujecln-Input2')
+    cy.get('[data-cy="daoSelect-testing"]')
       .should('be.visible')
-      .eq(1)
       .children()
-      .eq(0)
+      .find('input')
       .type(`${contribution.dao}{enter}`);
 
     cy.get('[data-cy="addContribution-btn"]').click();
