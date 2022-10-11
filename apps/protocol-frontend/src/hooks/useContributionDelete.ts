@@ -2,18 +2,17 @@ import { useUser } from '../contexts/UserContext';
 import { useNetwork, useSigner } from 'wagmi';
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useOverlay } from '../contexts/OverlayContext';
 import { networks } from '../utils/networks';
 
 export const useContributionDelete = () => {
   const toast = useToast()
-  const { setModals } = useOverlay();
-  const { govrnProtocol: govrn, userData } = useUser()
+  const { govrnProtocol: govrn } = useUser()
+  const queryClient = useQueryClient();
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
   const { mutate, mutateAsync, isLoading, isError, isSuccess } = useMutation(async (contributionId: number) => {
     if (signer && chain?.id) {
-      await govrn.contribution.delete(
+      const data = await govrn.contribution.delete(
         {
           address: networks[chain?.id].govrnContract,
           chainId: chain?.id,
@@ -22,10 +21,19 @@ export const useContributionDelete = () => {
         signer,
         contributionId,
       );
+      return data;
     }
   },
     {
-      onSuccess: () => {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(['activityTypes']); // invalidate the activity types query -- covers all args
+        queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
+        queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries([
+          'contributionGet',
+          variables
+        ]); // invalidate the Contribution Query with the ID of the updated Contribution (since it's the only arg it comes in as variables)
         toast({
           title: 'Contribution successfully deleted',
           description: 'Your Contribution has been deleted.',

@@ -17,6 +17,7 @@ export const useContributionGet = (id: number) => {
         };
         return formattedResponse;
       }
+      console.log('data', data);
       return null;
     },
   );

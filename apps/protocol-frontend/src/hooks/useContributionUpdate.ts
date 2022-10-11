@@ -43,12 +43,11 @@ export const useContributionUpdate = () => {
           currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
           contributionUserAddress: contribution.user?.address,
         });
-        console.log('data', data);
         return data;
       }
     },
     {
-      onSuccess: (_, { bulkItemCount }) => {
+      onSuccess: (data, { bulkItemCount }) => {
         // destructure the bulkItemCount from the variables (args passed into the mutation)
         queryClient.invalidateQueries(['activityTypes']); // invalidate the activity types query -- covers all args
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
@@ -56,8 +55,8 @@ export const useContributionUpdate = () => {
         queryClient.invalidateQueries(['contributionInfiniteList']);
         queryClient.invalidateQueries([
           'contributionGet',
-          toastUpdateContributionId,
-        ]);
+          data?.id,
+        ]); // invalidate the Contribution Query with the ID of the updated Contribution
         if (!toast.isActive(toastUpdateContributionId)) {
           toast({
             id: toastUpdateContributionId,
