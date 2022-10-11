@@ -43,6 +43,7 @@ export const useContributionUpdate = () => {
           currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
           contributionUserAddress: contribution.user?.address,
         });
+        console.log('data', data);
         return data;
       }
     },
@@ -60,12 +61,10 @@ export const useContributionUpdate = () => {
         if (!toast.isActive(toastUpdateContributionId)) {
           toast({
             id: toastUpdateContributionId,
-            title: `Contribution ${
-              bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
-            } Updated`,
-            description: `Your Contribution ${
-              bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
-            } been updated.`,
+            title: `Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
+              } Updated`,
+            description: `Your Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
+              } been updated.`,
             status: 'success',
             duration: 3000,
             isClosable: true,
