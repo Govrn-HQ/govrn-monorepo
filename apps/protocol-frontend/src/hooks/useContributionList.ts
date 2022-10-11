@@ -28,7 +28,7 @@ export const useContributionInfiniteList = (
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ['contributionInfiniteList', JSON.stringify(args)],
+    ['contributionInfiniteList', args],
     async ({ pageParam }): Promise<UIContribution[]> => {
       const data = await govrn.contribution.list(
         { ...args, first: pageSize, skip: pageParam } || {},

@@ -121,9 +121,12 @@ export const ContributionsContextProvider: React.FC<
           ethers.utils.toUtf8Bytes(contribution.details),
           ethers.utils.toUtf8Bytes(contribution.proof),
         );
-        queryClient.invalidateQueries(['contributionList']);
-        queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries(['contributionGet', contribution.id]);
+        await queryClient.invalidateQueries(['contributionList']);
+        await queryClient.invalidateQueries(['contributionInfiniteList']);
+        await queryClient.invalidateQueries([
+          'contributionGet',
+          contribution.id,
+        ]);
         setMintProgress((prevState: number) => prevState + 1);
         toast.success({
           title: 'Contribution Successfully Minted',
@@ -215,9 +218,9 @@ export const ContributionsContextProvider: React.FC<
           signer,
           id,
         );
-        queryClient.invalidateQueries(['contributionList']);
-        queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries(['contributionGet', id]);
+        await queryClient.invalidateQueries(['contributionList']);
+        await queryClient.invalidateQueries(['contributionInfiniteList']);
+        await queryClient.invalidateQueries(['contributionGet', id]);
 
         toast.success({
           title: 'Contribution Successfully deleted',
@@ -256,7 +259,7 @@ export const ContributionsContextProvider: React.FC<
             confidence: 0,
           },
         );
-        // await getDaoContributions();
+        await queryClient.invalidateQueries(['useContributionInfiniteList']);
         toast.success({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
@@ -285,7 +288,7 @@ export const ContributionsContextProvider: React.FC<
           title: 'Attestation Successfully Added',
           description: 'Your Attestation has been added.',
         });
-        // await getDaoContributions();
+        await queryClient.invalidateQueries(['useContributionInfiniteList']);
       }
     } catch (error) {
       console.log(error);
