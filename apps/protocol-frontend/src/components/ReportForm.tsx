@@ -10,7 +10,6 @@ import {
   Button,
   Text,
   Switch,
-  useToast,
 } from '@chakra-ui/react';
 import {
   CreatableSelect,
@@ -26,9 +25,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useContributions } from '../contexts/ContributionContext';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
+import { useContributionCreate } from '../hooks/useContributionCreate';
+import useGovrnToast from './toast';
 
 function CreateMoreSwitch({
   isChecked,
@@ -59,8 +59,7 @@ function CreateMoreSwitch({
 
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { userData } = useUser();
-  const { isCreatingContribution, createContribution } = useContributions();
-  const toast = useToast();
+  const toast = useGovrnToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
@@ -101,13 +100,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       } catch (error) {
         setSelectedFile(null);
         setIpfsError(true);
-        toast({
+        toast.error({
           title: 'Unable to upload to IPFS.',
           description: `Please select a different proof URL or try to upload another file.`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         setIsUploading(false);
       }
@@ -129,6 +124,11 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setValue('engagementDate', engagementDateValue);
   }, []);
 
+  const {
+    mutateAsync: createNewContribution,
+    isLoading: createNewContributionIsLoading,
+  } = useContributionCreate();
+
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
@@ -139,19 +139,15 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       } catch (error) {
         console.error(error);
         setIpfsError(true);
-        toast({
+        toast.error({
           title: 'Unable to Upload to IPFS',
           description: `Something went wrong. Please try again: ${error}`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         return;
       }
     }
     if (ipfsError === false) {
-      const result = await createContribution(values);
+      const result = await createNewContribution(values);
       if (result) {
         reset({
           name: '',
@@ -346,7 +342,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               backgroundColor="brand.primary.50"
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.100' }}
-              isLoading={isCreatingContribution}
+              isLoading={createNewContributionIsLoading}
               data-cy="addContribution-btn"
               disabled={ipfsError}
               onClick={handleSubmit(createContributionHandler)}

@@ -1,5 +1,10 @@
 import queryDB from "./db";
-import { JSONObject } from "./index";
+
+import { JSONObject,
+    GuildUserObjectType,
+    GuildContributionObjectType 
+} 
+from "./index";
 
 export const create_user = (userData: JSONObject) => {
     const  query = `
@@ -24,7 +29,8 @@ export const create_chainType = (name: string) => {
 export const create_guild = (guild_name: string) => {
     const  query = `
     INSERT INTO "Guild" (name)
-    VALUES ('${guild_name}');
+    VALUES ('${guild_name}')
+    ON CONFLICT DO NOTHING;
     `
     return queryDB(query)
 };
@@ -33,22 +39,46 @@ export const create_contribution = (contributionData: JSONObject) => {
     const statusID = 1  
     const query= `
     INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof)
-        VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
-        '${contributionData.details}', '${contributionData.proof}')
-        ON CONFLICT DO NOTHING;
+        VALUES ('${contributionData.name}',${statusID} , ${contributionData.activityTypeID}, ${contributionData.userID}, 
+        current_timestamp, '${contributionData.details}', '${contributionData.proof}')
+    ON CONFLICT DO NOTHING;
+    `
+    return queryDB(query)
+};
+
+export const create_GuildContribution = (ObjectData: GuildContributionObjectType) => {
+    const  query = `
+    INSERT INTO "GuildContribution" (guild_id, contribution_id)
+    VALUES (${ObjectData.guildID}, ${ObjectData.contributionID});
     `
     return queryDB(query)
 };
 
 export const create_MintedContribution = (contributionData: JSONObject) => {
-    const statusID = 2
     const query = `
     INSERT INTO "Contribution" (name, status_id, activity_type_id, user_id, date_of_engagement, details, proof )
-      VALUES ('${contributionData.name}',${statusID} ,${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
+      VALUES ('${contributionData.name}',${contributionData.statusID} ,${contributionData.activityTypeID}, ${contributionData.userID}, current_timestamp,
        '${contributionData.details}', '${contributionData.proof}'
       );
     `
    return queryDB(query)
+};
+
+export const create_GuildUser = (GuildUserObject: GuildUserObjectType) => {
+    const  query = `
+    INSERT INTO "GuildUser" (user_id, guild_id)
+    VALUES (${GuildUserObject.userID}, ${GuildUserObject.guildID});
+    `
+    return queryDB(query)
+};
+
+export const delete_GuildUser = (guilID: number) => {
+    const  query = `
+    DELETE FROM "GuildUser"
+    CASCADE
+    WHERE guild_id = ${guilID};
+    `
+    return queryDB(query)
 };
 
 export const delete_guild = (guild_name: string) => {
@@ -65,6 +95,24 @@ export const delete_contribution = (name: string) => {
     DELETE FROM "Contribution"
     CASCADE
     WHERE name = '${name}';
+    `
+    return queryDB(query)
+};
+
+export const delete_attestation = (userID: number) => {
+    const  query = `
+    DELETE FROM "Attestation"
+    CASCADE
+    WHERE user_id = '${userID}';
+    `
+    return queryDB(query)
+};
+
+export const delete_GuildContribution = (guildID: number) => {
+    const  query = `
+    DELETE FROM "GuildContribution"
+    CASCADE
+    WHERE guild_id = '${guildID}';
     `
     return queryDB(query)
 };

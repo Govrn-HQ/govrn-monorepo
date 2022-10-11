@@ -1,14 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
-import {
-  Button,
-  Flex,
-  IconButton,
-  Stack,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Flex, IconButton, Stack, Text } from '@chakra-ui/react';
 import {
   CreatableSelect,
   DatePicker,
@@ -24,10 +17,11 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
-import { useContributions } from '../contexts/ContributionContext';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
+import { useContributionUpdate } from '../hooks/useContributionUpdate';
+import useGovrnToast from './toast';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -36,7 +30,6 @@ interface EditContributionFormProps {
 
 const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   const { userData } = useUser();
-  const { updateContribution } = useContributions();
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(editContributionFormValidation),
@@ -46,7 +39,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     new Date(contribution?.date_of_engagement),
   );
 
-  const toast = useToast();
+  const toast = useGovrnToast();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
@@ -160,18 +153,19 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       } catch (error) {
         setSelectedFile(null);
         setIpfsError(true);
-        toast({
+        toast.error({
           title: 'Unable to upload to IPFS.',
           description: `Please select a different proof URL or try to upload another file.`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         setIsUploading(false);
       }
     }
   };
+
+  const {
+    mutateAsync: updateNewContribution,
+    isLoading: updateNewContributionIsLoading,
+  } = useContributionUpdate();
 
   const updateContributionHandler: SubmitHandler<
     ContributionFormValues
@@ -182,19 +176,19 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
         setIpfsError(false);
       } catch (error) {
         console.error(error);
-        toast({
+        toast.error({
           title: 'Unable to Upload to IPFS',
           description: `Something went wrong. Please try again: ${error}`,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top-right',
         });
         return;
       }
     }
     if (ipfsError === false) {
-      updateContribution(contribution, values);
+      const updateRes = await updateNewContribution({
+        updatedValues: values,
+        contribution: contribution,
+      });
+      console.log('updateRes', updateRes);
       reset();
     }
   };
@@ -340,6 +334,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               _hover={{ bgColor: 'brand.primary.100' }}
               data-cy="updateContribution-test-btn"
               disabled={ipfsError}
+              isLoading={updateNewContributionIsLoading}
               onClick={handleSubmit(updateContributionHandler)}
             >
               Update Contribution

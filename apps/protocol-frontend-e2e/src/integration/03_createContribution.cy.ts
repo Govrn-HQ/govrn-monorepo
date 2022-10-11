@@ -34,6 +34,7 @@ before(() => {
   });
 
   cy.get('[data-cy="myDashboards-btn"]', { timeout: 15000 })
+    .scrollIntoView()
     .should('be.visible')
     .click();
 
