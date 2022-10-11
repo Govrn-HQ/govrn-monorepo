@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import * as _ from 'lodash';
 import {
   Box,
   chakra,

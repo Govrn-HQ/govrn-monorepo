@@ -37,6 +37,29 @@ const AttestationsTableShell = () => {
           },
         },
       },
+      attestations: {
+        none: {
+          user_id: { equals: userData?.id || 0 },
+        },
+      },
+    },
+  });
+
+  const {
+    data: attestedContributions,
+    hasNextPage: hasNextPageAttestedContributions,
+    fetchNextPage: fetchNextPageAttestedContributions,
+  } = useContributionInfiniteList({
+    where: {
+      status: { is: { name: { equals: 'minted' } } },
+      user_id: {
+        not: { equals: userData?.id || 0 },
+      },
+      attestations: {
+        some: {
+          user_id: { equals: userData?.id || 0 },
+        },
+      },
     },
   });
 
@@ -99,7 +122,11 @@ const AttestationsTableShell = () => {
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
                     {contributions && contributions.pages.length > 0 ? (
                       <MyAttestationsTable
-                        contributionsData={mergePages(contributions.pages)}
+                        contributionsData={mergePages(
+                          attestedContributions?.pages || [],
+                        )}
+                        hasMoreItems={hasNextPageAttestedContributions}
+                        nextPage={fetchNextPageAttestedContributions}
                       />
                     ) : (
                       <EmptyContributions />
