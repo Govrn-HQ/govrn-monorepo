@@ -1,23 +1,18 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useOverlay } from './OverlayContext';
+import React, { createContext, useContext, useState } from 'react';
 import { useNetwork, useSigner } from 'wagmi';
 import { UIAttestations, UIContribution } from '@govrn/ui-types';
 import { useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
-import { formatDate } from '../utils/date';
-import { ContributionFormValues } from '../types/forms';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { MintContributionType } from '../types/mint';
+import { AttestationTableType } from '../types/table';
 import { UserContext } from './UserContext';
-import { Pagination } from './utils';
 import { PROTOCOL_URL } from '../utils/constants';
 import { ChainIdError } from '@govrn/protocol-client';
 import pluralize from 'pluralize';
 import useGovrnToast from '../components/toast';
-
-const ITEMS_PER_PAGE = 20;
 
 export const ContributionContext = createContext<ContributionContextType>(
   {} as ContributionContextType,
@@ -61,18 +56,9 @@ export const ContributionsContextProvider: React.FC<
   const queryClient = useQueryClient();
 
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
-  const { setModals } = useOverlay();
 
   const [contribution, setContribution] = useState<UIContribution>(
     {} as UIContribution,
-  );
-
-  const [daoContributionPage, setDaoContributionPage] = useState(0);
-  const [isDaoContributionLoading, setDaoContributionLoading] = useState(true);
-  const [isDaoContributionsHaveMore, setDaoContributionHasMore] =
-    useState(true);
-  const [daoContributions, setDaoContributions] = useState<UIContribution[]>(
-    [],
   );
 
   const [userAttestations, setUserAttestations] =
@@ -80,47 +66,6 @@ export const ContributionsContextProvider: React.FC<
 
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
     useState<UserContributionsDateRangeCountType[]>([]);
-
-  const userId = userData?.id;
-
-  useEffect(() => {
-    getDaoContributions(daoContributionPage);
-  }, [daoContributionPage, userData?.id]);
-
-  const loadNextDaoContributionsPage = () => {
-    setDaoContributionPage(daoContributionPage + 1);
-  };
-
-  const getDaoContributions = async (page = 0): Promise<UIContribution[]> => {
-    setDaoContributionLoading(page === 0);
-    try {
-      const daoContributionsResponse = (
-        await govrn.contribution.list({
-          first: ITEMS_PER_PAGE,
-          skip: page * ITEMS_PER_PAGE,
-        })
-      ).result;
-
-      const mappedValues = daoContributionsResponse.map(c => ({
-        ...c,
-        date_of_engagement: formatDate(c.date_of_engagement),
-        date_of_submission: formatDate(c.date_of_submission),
-        updatedAt: formatDate(c.updatedAt),
-      }));
-
-      setDaoContributions([...daoContributions, ...mappedValues]);
-      setDaoContributionHasMore(
-        daoContributionsResponse.length === ITEMS_PER_PAGE,
-      );
-
-      return daoContributions;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setDaoContributionLoading(false);
-    }
-    return [];
-  };
 
   const getUserContributionsCount = async (
     startDate: Date | string,
@@ -220,8 +165,8 @@ export const ContributionsContextProvider: React.FC<
             proof: ethers.utils.toUtf8Bytes(c.proof || ''),
           })),
         );
-        await queryClient.invalidateQueries(['contributionList']);
-        await queryClient.invalidateQueries(['contributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
 
         const minted = result.filter(i => i.status === 'fulfilled');
         const failedToMint = result
@@ -289,9 +234,7 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const mintAttestation = async (
-    contribution: MintContributionType['original'],
-  ) => {
+  const mintAttestation = async (contribution: AttestationTableType) => {
     try {
       if (!contribution?.onChainId) {
         throw new Error('No onChainId for contribution');
@@ -305,14 +248,13 @@ export const ContributionsContextProvider: React.FC<
           },
           signer,
           0,
-          contribution.activityTypeId,
           userData.id,
           {
             contribution: contribution.onChainId,
             confidence: 0,
           },
         );
-        await getDaoContributions();
+        queryClient.invalidateQueries(['useContributionInfiniteList']);
         toast.success({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
@@ -327,7 +269,7 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const createAttestation = async (contribution: UIContribution) => {
+  const createAttestation = async (contribution: AttestationTableType) => {
     try {
       if (userData) {
         await govrn.custom.createUserAttestation({
@@ -341,7 +283,7 @@ export const ContributionsContextProvider: React.FC<
           title: 'Attestation Successfully Added',
           description: 'Your Attestation has been added.',
         });
-        await getDaoContributions();
+        queryClient.invalidateQueries(['useContributionInfiniteList']);
       }
     } catch (error) {
       console.log(error);
@@ -357,20 +299,12 @@ export const ContributionsContextProvider: React.FC<
       value={{
         contribution,
         createAttestation,
-        daoContributions,
-        daoContributionPagination: {
-          next: loadNextDaoContributionsPage,
-          hasMore: isDaoContributionsHaveMore,
-        },
         deleteContribution,
-        getDaoContributions,
         getUserContributionsCount,
-        isDaoContributionLoading,
         mintAttestation,
         bulkMintContributions,
         mintContribution,
         setContribution,
-        setDaoContributions,
         setUserAttestations,
         setUserContributionsDateRangeCount,
         userAttestations,
@@ -384,20 +318,14 @@ export const ContributionsContextProvider: React.FC<
 
 type ContributionContextType = {
   contribution: UIContribution;
-  createAttestation: (arg0: UIContribution) => void;
-  daoContributions: UIContribution[];
-  daoContributionPagination: Pagination;
+  createAttestation: (arg0: AttestationTableType) => void;
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,
     guildIds?: number[] | null | undefined,
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
-  getDaoContributions(page: number): Promise<UIContribution[]>;
-  isDaoContributionLoading: boolean;
-  mintAttestation: (
-    contribution: MintContributionType['original'],
-  ) => Promise<void>;
+  mintAttestation: (contribution: AttestationTableType) => Promise<void>;
   bulkMintContributions: (contributions: BulkMintOptions[]) => void;
   mintContribution: (
     contribution: MintContributionType['original'],
@@ -406,7 +334,6 @@ type ContributionContextType = {
   ) => void;
 
   setContribution: (data: UIContribution) => void;
-  setDaoContributions: (data: UIContribution[]) => void;
 
   setUserContributionsDateRangeCount: (
     data: UserContributionsDateRangeCountType[],

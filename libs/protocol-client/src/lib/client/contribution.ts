@@ -210,7 +210,6 @@ export class Contribution extends BaseClient {
     networkConfig: NetworkConfig,
     signer: ethers.Signer,
     id: number,
-    activityTypeId: number,
     userId: number,
     args: AttestArgs,
   ) {
