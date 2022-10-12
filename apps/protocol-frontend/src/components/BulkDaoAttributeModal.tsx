@@ -9,12 +9,12 @@ import {
   BulkDaoAttributeFormValues,
   BulkDaoAttributeModalProps,
 } from '../types/forms';
-import { UIContribution } from '@govrn/ui-types';
-import { Row } from 'react-table';
-
 import { useDaosList } from '../hooks/useDaosList';
 import pluralize from 'pluralize';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
+import { ContributionTableType } from '../types/table';
+import { Row } from 'react-table';
+import { UIContribution } from '@govrn/ui-types';
 
 const BulkDaoAttributeModal = ({
   contributions,
@@ -56,11 +56,15 @@ const BulkDaoAttributeModal = ({
     },
   ];
 
+  console.log('contributions', contributions);
+
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
   const bulkAttributeDaoHandler: SubmitHandler<
     BulkDaoAttributeFormValues
   > = async (values: BulkDaoAttributeFormValues) => {
+    console.log('attributing', values);
+    console.log('contributions', contributions);
     setAttributing(true);
     contributions.map(contribution => {
       updateNewContribution({

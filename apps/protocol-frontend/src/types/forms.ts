@@ -21,7 +21,7 @@ export type BulkDaoAttributeFormValues = {
 };
 
 export interface BulkDaoAttributeModalProps {
-  contributions: UIContribution | Row<ContributionTableType>[];
+  contributions: UIContribution[] | Row<ContributionTableType>[];
 }
 
 export type CreateUserFormValues = Partial<

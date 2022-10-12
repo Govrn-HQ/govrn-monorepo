@@ -1,4 +1,6 @@
+import { ContributionTableType } from './../types/table';
 import { useUser } from '../contexts/UserContext';
+import { Row } from 'react-table';
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useOverlay } from '../contexts/OverlayContext';
@@ -7,7 +9,7 @@ import { UIContribution } from '@govrn/ui-types';
 
 interface UpdateContributionProps {
   updatedValues: ContributionFormValues;
-  contribution: UIContribution;
+  contribution: UIContribution
   bulkItemCount?: number;
 }
 
@@ -23,6 +25,7 @@ export const useContributionUpdate = () => {
       contribution,
       bulkItemCount,
     }: UpdateContributionProps) => {
+      console.log('contribution in hook', contribution);
       if (userData !== null) {
         const data = await govrn.custom.updateUserContribution({
           address: userData.address,
@@ -43,6 +46,7 @@ export const useContributionUpdate = () => {
           currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
           contributionUserAddress: contribution.user?.address,
         });
+        console.log('data', data)
         return data;
       }
     },

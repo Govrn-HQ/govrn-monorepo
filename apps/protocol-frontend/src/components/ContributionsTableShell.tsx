@@ -54,6 +54,10 @@ const ContributionsTableShell = () => {
     setModals({ bulkDaoAttributeModal: true });
   };
 
+  const mapped = selectedContributions.map(c =>
+    console.log('contribution in map', c.original),
+  );
+
   return (
     <>
       <Container
@@ -215,16 +219,3 @@ const ContributionsTableShell = () => {
 };
 
 export default ContributionsTableShell;
-
-// useEffect(() => {
-//   if (selectedContributions && selectedContributions.length > 0) {
-//     setSelectedContributionsMap(
-//       selectedContributions?.map((contribution: any) =>
-//         userContributions.find(
-//           localContribution =>
-//             contribution.original.id === localContribution.id,
-//         ),
-//       ),
-//     );
-//   }
-// }, [selectedContributions, userContributions]);
