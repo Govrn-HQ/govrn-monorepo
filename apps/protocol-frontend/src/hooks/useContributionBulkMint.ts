@@ -32,10 +32,10 @@ const useContributionBulkMint = () => {
   const { userData, govrnProtocol: govrn } = useUser();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    ['bulk-mint-contribution'],
+    ['BulkMintContribution'],
     async (contributions: BulkMintOptions[]) => {
       if (!(signer && chain?.id && userData)) {
-        throw new Error('What should the message be!?');
+        throw new Error('Not signed in, unable to mint');
       }
 
       return await govrn.contribution.bulkMint(
@@ -62,10 +62,10 @@ const useContributionBulkMint = () => {
       );
     },
     {
-      onSuccess: result => {
+      onSuccess: async result => {
         /* Failed writes/updates to db are included in result. */
 
-        const minted = result.filter(i => i.status === 'fulfilled');
+        const minted = result.filter(promise => promise.status === 'fulfilled');
 
         if (minted.length > 0) {
           queryClient.invalidateQueries(['contributionList']);
@@ -82,8 +82,11 @@ const useContributionBulkMint = () => {
         }
 
         const failedToMint = result
-          .filter((i): i is PromiseRejectedResult => i.status === 'rejected')
-          .filter(i => i.reason instanceof ChainIdError);
+          .filter(
+            (promise): promise is PromiseRejectedResult =>
+              promise.status === 'rejected',
+          )
+          .filter(rejected => rejected.reason instanceof ChainIdError);
 
         if (failedToMint.length > 0) {
           toast.error({
