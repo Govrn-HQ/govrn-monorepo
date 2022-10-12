@@ -6,7 +6,7 @@ import { formatDate } from '../utils/date';
 export const useContributionGet = (id: number) => {
   const { govrnProtocol: govrn } = useUser();
   const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['activityTypes', id],
+    ['contributionGet', id],
     async (): Promise<UIContribution | null> => {
       const data = await govrn.contribution.get(id);
       if (data) {
