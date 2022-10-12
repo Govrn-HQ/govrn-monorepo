@@ -63,6 +63,10 @@ const AttestationsTableShell = () => {
     },
   });
 
+  if (isFetching && contributions && contributions.pages.length === 0) {
+    return <GovrnSpinner />;
+  }
+
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -71,9 +75,7 @@ const AttestationsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Attestations</PageHeading>
-      {isFetching && contributions && contributions.pages.length === 0 ? (
-        <GovrnSpinner />
-      ) : contributions && contributions.pages.length > 0 ? (
+      {contributions && contributions.pages.length > 0 ? (
         <Tabs
           variant="soft-rounded"
           colorScheme="gray"
@@ -120,7 +122,8 @@ const AttestationsTableShell = () => {
                     </Stack>
                   </Box>
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
-                    {contributions && contributions.pages.length > 0 ? (
+                    {attestedContributions &&
+                    attestedContributions?.pages.length > 0 ? (
                       <MyAttestationsTable
                         contributionsData={mergePages(
                           attestedContributions?.pages || [],
