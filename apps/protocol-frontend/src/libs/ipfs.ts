@@ -68,7 +68,7 @@ export const bulkStoreIpfs = async (
   }[]
 > => {
   return (await patch(params.map(async i => await storeIpfs(i.content)))).map(
-    (result: PromiseSettledResult<Awaited<string>>, index: number) => ({
+    (result, index) => ({
       index,
       ...result,
     }),

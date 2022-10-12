@@ -4,11 +4,9 @@ import { ethers } from 'ethers';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import useGovrnToast from '../components/toast';
-import { ContributionTableType } from '../types/table';
+import { MintContributionType } from '../types/mint';
 
-type ContributionData = ContributionTableType & {
-  proof: string;
-  details: string;
+type ContributionData = MintContributionType['original'] & {
   ipfsContentUri: string;
 };
 
@@ -20,10 +18,10 @@ const useContributionMint = () => {
   const { userData, govrnProtocol: govrn } = useUser();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    ['mint-contribution'],
+    ['MintContribution'],
     async (data: ContributionData) => {
       if (!(signer && chain?.id && userData)) {
-        throw new Error('What should the message be!?');
+        throw new Error('Not signed in, unable to mint');
       }
 
       const {
@@ -70,7 +68,7 @@ const useContributionMint = () => {
         });
       },
       onError: error => {
-        console.log('error', error);
+        console.error(error);
 
         toast.error({
           title: 'Unable to Mint Contribution',
