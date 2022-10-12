@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import { ActivityType } from "../../../models/ActivityType";
 import { Attestation } from "../../../models/Attestation";
+import { Chain } from "../../../models/Chain";
 import { Contribution } from "../../../models/Contribution";
 import { ContributionStatus } from "../../../models/ContributionStatus";
 import { GuildContribution } from "../../../models/GuildContribution";
@@ -101,5 +102,16 @@ export class ContributionRelationsResolver {
         id: contribution.id,
       },
     }).tweet({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => Chain, {
+    nullable: true
+  })
+  async chain(@TypeGraphQL.Root() contribution: Contribution, @TypeGraphQL.Ctx() ctx: any): Promise<Chain | null> {
+    return getPrismaFromContext(ctx).contribution.findUnique({
+      where: {
+        id: contribution.id,
+      },
+    }).chain({});
   }
 }

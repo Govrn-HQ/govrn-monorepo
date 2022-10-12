@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { ActivityType } from "../models/ActivityType";
 import { Attestation } from "../models/Attestation";
+import { Chain } from "../models/Chain";
 import { ContributionStatus } from "../models/ContributionStatus";
 import { GuildContribution } from "../models/GuildContribution";
 import { LinearIssue } from "../models/LinearIssue";
@@ -81,6 +82,13 @@ export class Contribution {
   linear_issue?: LinearIssue | null;
 
   tweet?: TwitterTweet | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  chain_id?: number | null;
+
+  chain?: Chain | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeUpdateOneRequiredWithoutContributionsInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutContributionsInput";
 import { AttestationUpdateManyWithoutContributionInput } from "../inputs/AttestationUpdateManyWithoutContributionInput";
+import { ChainUpdateOneWithoutContributionsInput } from "../inputs/ChainUpdateOneWithoutContributionsInput";
 import { ContributionStatusUpdateOneRequiredWithoutContributionsInput } from "../inputs/ContributionStatusUpdateOneRequiredWithoutContributionsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { LinearIssueUpdateOneWithoutContributionInput } from "../inputs/LinearIssueUpdateOneWithoutContributionInput";
@@ -82,6 +83,11 @@ export class ContributionUpdateWithoutGuildsInput {
     nullable: true
   })
   tweet?: TwitterTweetUpdateOneWithoutContributionInput | undefined;
+
+  @TypeGraphQL.Field(_type => ChainUpdateOneWithoutContributionsInput, {
+    nullable: true
+  })
+  chain?: ChainUpdateOneWithoutContributionsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
     nullable: true
