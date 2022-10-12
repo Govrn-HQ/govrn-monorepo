@@ -311,6 +311,7 @@ export const ContributionsContextProvider: React.FC<
             contribution: contribution.onChainId,
             confidence: 0,
           },
+          chain.id,
         );
         await getDaoContributions();
         toast.success({
