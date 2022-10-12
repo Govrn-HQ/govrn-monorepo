@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { isAfter } from 'date-fns';
 import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useSortBy, useTable, Column } from 'react-table';
+import { useSortBy, useTable, Column, HeaderGroup } from 'react-table';
 import { UIContribution } from '@govrn/ui-types';
 import { mergePages } from '../utils/arrays';
 
@@ -59,7 +59,7 @@ const ContributionTypesTable = ({
         date_of_submission: contributionType.date_of_submission,
         date_of_engagement: contributionType.date_of_engagement,
       })),
-    [],
+    [], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const columns = useMemo<Column<ContributionTypesTableType>[]>(
@@ -130,28 +130,31 @@ const ContributionTypesTable = ({
   return (
     <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
       <Thead backgroundColor="gray.50">
-        {headerGroups.map((headerGroup: any) => (
-          <Tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column: any) => (
-              <Th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                isNumeric={column.isNumeric}
-                borderColor="gray.100"
-              >
-                {column.render('Header')}
-                <chakra.span paddingLeft="4">
-                  {column.isSorted ? (
-                    column.isSortedDesc ? (
-                      <IoArrowDown aria-label="sorted-descending" />
-                    ) : (
-                      <IoArrowUp aria-label="sorted-ascending" />
-                    )
-                  ) : null}
-                </chakra.span>
-              </Th>
-            ))}
-          </Tr>
-        ))}
+        {headerGroups.map(
+          (headerGroup: HeaderGroup<ContributionTypesTableType>) => (
+            <Tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(
+                (column: HeaderGroup<ContributionTypesTableType>) => (
+                  <Th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    borderColor="gray.100"
+                  >
+                    {column.render('Header')}
+                    <chakra.span paddingLeft="4">
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <IoArrowDown aria-label="sorted-descending" />
+                        ) : (
+                          <IoArrowUp aria-label="sorted-ascending" />
+                        )
+                      ) : null}
+                    </chakra.span>
+                  </Th>
+                ),
+              )}
+            </Tr>
+          ),
+        )}
       </Thead>
       <Tbody {...getTableBodyProps()}>
         {rows.map(row => {

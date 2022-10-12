@@ -57,16 +57,7 @@ export const storeIpfs = async (
   return `ipfs://${cid.path}`;
 };
 
-export const bulkStoreIpfs = async (
-  params: StoreIpfsParam[],
-): Promise<
-  {
-    index: number;
-    status: 'fulfilled' | 'rejected';
-    value?: string;
-    reason?: any;
-  }[]
-> => {
+export const bulkStoreIpfs = async (params: StoreIpfsParam[]) => {
   return (await patch(params.map(async i => await storeIpfs(i.content)))).map(
     (result, index) => ({ index, ...result }),
   );
