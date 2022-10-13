@@ -28,7 +28,6 @@ import {
   useTable,
   UseTableRowProps,
   UseTableHooks,
-  HeaderGroup,
 } from 'react-table';
 import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
@@ -84,10 +83,6 @@ const ContributionsTable = ({
     onConfirm: false,
     contributionId: 0,
   });
-
-  useEffect(() => {
-    setDialog(dialog);
-  }, [dialog]);
 
   const handleDeleteContribution = (contributionId: number) => {
     setDialog({
