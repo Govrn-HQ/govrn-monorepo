@@ -49,7 +49,6 @@ beforeEach(() => {
 
   });
 
-  
   //Login User
   cy.fixture('testaccounts.json').then(accounts => {
     this.accounts = accounts;
