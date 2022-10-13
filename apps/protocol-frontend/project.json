@@ -62,7 +62,8 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/protocol-frontend/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/protocol-frontend/**/*.{ts,tsx,js,jsx}"],
+        "maxWarnings": 15
       }
     },
     "test": {
