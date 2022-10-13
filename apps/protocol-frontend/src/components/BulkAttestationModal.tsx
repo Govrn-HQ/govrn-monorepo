@@ -11,9 +11,9 @@ import {
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { MdCheckCircle } from 'react-icons/all';
-import { useContributions } from '../contexts/ContributionContext';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
+import useAttestationMint from '../hooks/useAttestationMint';
 
 interface BulkAttestationModalProps {
   contributions: AttestationTableType[];
@@ -21,8 +21,8 @@ interface BulkAttestationModalProps {
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const { userData } = useUser();
-  const { mintAttestation } = useContributions();
-  const [attesting] = useState(false);
+  const { isLoading: attesting, mutateAsync: mintAttestation } =
+    useAttestationMint();
   const [currentAttestation] = useState(1);
 
   const createAttestationsHandler = (contributions: AttestationTableType[]) => {
