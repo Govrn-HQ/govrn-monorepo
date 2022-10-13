@@ -10,7 +10,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useContributions } from '../contexts/ContributionContext';
+import { useContributionDelete } from '../hooks/useContributionDelete';
 
 const DeleteContributionDialog = (props: {
   dialog: DialogProps;
@@ -21,12 +21,15 @@ const DeleteContributionDialog = (props: {
   const { onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const { deleteContribution } = useContributions();
+  const {
+    mutateAsync: deleteContribution,
+    isLoading: deleteContributionIsLoading,
+  } = useContributionDelete();
 
-  const onDelete = async (onConfirm: boolean, contribution_id: number) => {
+  const onDelete = async (onConfirm: boolean, contributionId: number) => {
     if (onConfirm) {
       setDialog({ ...dialog, isOpen: false });
-      await deleteContribution(contribution_id);
+      await deleteContribution(contributionId);
     }
   };
 
@@ -44,6 +47,7 @@ const DeleteContributionDialog = (props: {
             <Button
               ref={cancelRef}
               onClick={() => setDialog({ ...dialog, isOpen: false })}
+              isLoading={deleteContributionIsLoading}
             >
               Cancel
             </Button>
@@ -53,9 +57,7 @@ const DeleteContributionDialog = (props: {
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.200' }}
               ml={3}
-              onClick={() =>
-                onDelete(!dialog.onConfirm, dialog.contribution_id)
-              }
+              onClick={() => onDelete(!dialog.onConfirm, dialog.contributionId)}
             >
               Confirm
             </Button>
