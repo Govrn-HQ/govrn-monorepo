@@ -49,7 +49,7 @@ export type DialogProps = {
   isOpen: boolean;
   title: string;
   onConfirm: boolean;
-  contribution_id: number;
+  contributionId: number;
 };
 
 const ContributionsTable = ({
@@ -80,20 +80,20 @@ const ContributionsTable = ({
     isOpen: false,
     title: '',
     onConfirm: false,
-    contribution_id: 0,
+    contributionId: 0,
   });
 
   useEffect(() => {
     setDialog(dialog);
   }, [dialog]);
 
-  const handleDeleteContribution = (contribution_id: number) => {
+  const handleDeleteContribution = (contributionId: number) => {
     setDialog({
       ...dialog,
       isOpen: true, //this opens AlertDialog
       title:
         "Are you sure you want to delete this Contribution? You can't undo this action.",
-      contribution_id: contribution_id,
+      contributionId: contributionId,
     });
   };
 
