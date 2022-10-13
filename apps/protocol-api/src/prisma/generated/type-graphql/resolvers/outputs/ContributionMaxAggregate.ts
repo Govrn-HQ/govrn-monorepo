@@ -60,6 +60,11 @@ export class ContributionMaxAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
+  chain_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
   on_chain_id!: number | null;
 
   @TypeGraphQL.Field(_type => String, {

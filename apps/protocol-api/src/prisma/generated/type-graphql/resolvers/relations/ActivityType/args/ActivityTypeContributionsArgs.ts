@@ -35,5 +35,5 @@ export class ActivityTypeContributionsArgs {
   @TypeGraphQL.Field(_type => [ContributionScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "updatedAt" | "name" | "status_id" | "activity_type_id" | "user_id" | "date_of_submission" | "date_of_engagement" | "details" | "proof" | "on_chain_id" | "tx_hash"> | undefined;
+  distinct?: Array<"id" | "updatedAt" | "name" | "status_id" | "activity_type_id" | "user_id" | "date_of_submission" | "date_of_engagement" | "details" | "proof" | "chain_id" | "on_chain_id" | "tx_hash"> | undefined;
 }
