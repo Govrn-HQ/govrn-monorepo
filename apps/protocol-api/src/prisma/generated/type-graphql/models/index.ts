@@ -3,6 +3,7 @@ export { Attestation } from "./Attestation";
 export { AttestationConfidence } from "./AttestationConfidence";
 export { CategoryActivity } from "./CategoryActivity";
 export { CategoryActivityType } from "./CategoryActivityType";
+export { Chain } from "./Chain";
 export { ChainType } from "./ChainType";
 export { Contribution } from "./Contribution";
 export { ContributionStatus } from "./ContributionStatus";

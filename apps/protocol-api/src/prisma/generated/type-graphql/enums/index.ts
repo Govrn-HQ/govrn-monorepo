@@ -3,6 +3,7 @@ export { AttestationConfidenceScalarFieldEnum } from "./AttestationConfidenceSca
 export { AttestationScalarFieldEnum } from "./AttestationScalarFieldEnum";
 export { CategoryActivityScalarFieldEnum } from "./CategoryActivityScalarFieldEnum";
 export { CategoryActivityTypeScalarFieldEnum } from "./CategoryActivityTypeScalarFieldEnum";
+export { ChainScalarFieldEnum } from "./ChainScalarFieldEnum";
 export { ChainTypeScalarFieldEnum } from "./ChainTypeScalarFieldEnum";
 export { ContributionScalarFieldEnum } from "./ContributionScalarFieldEnum";
 export { ContributionStatusScalarFieldEnum } from "./ContributionStatusScalarFieldEnum";
