@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeCreateNestedOneWithoutContributionsInput } from "../inputs/ActivityTypeCreateNestedOneWithoutContributionsInput";
 import { AttestationCreateNestedManyWithoutContributionInput } from "../inputs/AttestationCreateNestedManyWithoutContributionInput";
+import { ChainCreateNestedOneWithoutContributionsInput } from "../inputs/ChainCreateNestedOneWithoutContributionsInput";
 import { ContributionStatusCreateNestedOneWithoutContributionsInput } from "../inputs/ContributionStatusCreateNestedOneWithoutContributionsInput";
 import { GuildContributionCreateNestedManyWithoutContributionInput } from "../inputs/GuildContributionCreateNestedManyWithoutContributionInput";
 import { LinearIssueCreateNestedOneWithoutContributionInput } from "../inputs/LinearIssueCreateNestedOneWithoutContributionInput";
@@ -84,6 +85,11 @@ export class ContributionCreateInput {
     nullable: true
   })
   tweet?: TwitterTweetCreateNestedOneWithoutContributionInput | undefined;
+
+  @TypeGraphQL.Field(_type => ChainCreateNestedOneWithoutContributionsInput, {
+    nullable: true
+  })
+  chain?: ChainCreateNestedOneWithoutContributionsInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
