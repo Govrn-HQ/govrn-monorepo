@@ -105,7 +105,11 @@ beforeEach(() => {
     it('Deletes a Contribution', () => {
       cy.get('[data-testid="deleteContribution-test"]', { timeout: 60000 })
         .should('be.visible')
-        .click({force: true});
+        .click();
+      
+      cy.contains('Confirm')
+        .should('be.visible')
+        .click()
   
       cy.contains(
         'Please select at least one Contribution to attribute to a DAO or mint.',
