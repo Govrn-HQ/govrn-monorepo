@@ -130,18 +130,17 @@ export class Contribution extends BaseClient {
         if (!onChainId) {
           throw new ChainIdError();
         }
-
         if (c.id) {
           return await this._updateUserOnChainContribution({
             ...c,
-            onChainId: onChainId?.toNumber() as number,
+            onChainId: onChainId?.toNumber(),
             txHash: transaction.hash,
           });
         }
 
         return await this._createOnChainUserContribution({
           ...c,
-          onChainId: onChainId?.toNumber() as number,
+          onChainId: onChainId?.toNumber(),
           txHash: transaction.hash,
         });
       }),
@@ -167,7 +166,6 @@ export class Contribution extends BaseClient {
     let onChainId = null as null | ethers.BigNumber;
     const logs = transactionReceipt.logs;
     for (const log of logs) {
-      console.log('on chain id (logs)', log);
       const decodedLog = contract.govrn.interface.parseLog(log);
       // TODO: Can we avoid hardcoding the event name
       if (decodedLog.name === 'Mint') {
@@ -189,7 +187,7 @@ export class Contribution extends BaseClient {
         details,
         proof,
         userId,
-        onChainId: onChainId?.toNumber() as number,
+        onChainId: onChainId?.toNumber(),
         txHash: transaction.hash,
       });
     }
@@ -201,7 +199,7 @@ export class Contribution extends BaseClient {
       args,
       proof,
       userId,
-      onChainId: onChainId?.toNumber() as number,
+      onChainId: onChainId?.toNumber(),
       txHash: transaction.hash,
     });
   }
@@ -251,7 +249,7 @@ export class Contribution extends BaseClient {
   }) {
     const { args, name, details, proof, onChainId, userId, id, txHash } =
       contribution;
-    return this.sdk.updateUserOnChainContribution({
+    return await this.sdk.updateUserOnChainContribution({
       data: {
         name: ethers.utils.toUtf8String(name),
         details: ethers.utils.toUtf8String(details),
