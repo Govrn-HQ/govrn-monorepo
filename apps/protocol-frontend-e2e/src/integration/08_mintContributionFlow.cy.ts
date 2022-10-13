@@ -61,13 +61,7 @@ beforeEach(() => {
     cy.get('[data-cy="contributionsSidebar-btn"]', { timeout: 100000 })
       .should('be.visible')
       .click();
-   
-    cy.get(".infinite-scroll-component")
-      .scrollTo('500px');
-  
-    cy.get('[data-testid="editContribution-test"]', { timeout: 60000 })
-      .should('be.visible')
-      .click({force: true});
+
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(5000);
   });
@@ -91,7 +85,7 @@ beforeEach(() => {
     
     //teardown Contribution table
     cy.fixture('contributions.json').then((contributions) => {
-      const name = contributions[1].name 
+      const name = contributions[0].name 
       cy.task('delete_contribution', name);
     });
   
@@ -107,21 +101,17 @@ beforeEach(() => {
   describe('Edit first Contribution', () => {
     it('Update/Edit Contribution', () => {
   
-      // TODO:: BELOW
       cy.get('input[title="Toggle Row Selected"]')
         .click()
   
-      cy.get('[data-testId="attest-testId"]')
+      cy.get('[data-testid="mint-btn-test"]')
         .click()
-  
-      cy.contains('Attest to DAO Contributions')
-        .should('be.visible')
-  
-      cy.get('[data-testId="addAttestations-btn"]')
+
+      cy.get('[data-testid="checkbox-testid"]')
         .click()
-  
-      cy.get(`.chakra-modal__close-btn`, {timeout:10000}) 
-        .click({force: true})
+
+      cy.get('[data-testid="mintContribution-test"]')
+        .should('be.enabled')
    
     });
   });
