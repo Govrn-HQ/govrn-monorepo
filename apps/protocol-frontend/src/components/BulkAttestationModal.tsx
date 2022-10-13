@@ -21,20 +21,13 @@ interface BulkAttestationModalProps {
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const { userData } = useUser();
-  const { createAttestation, mintAttestation } = useContributions();
-  const [attesting, setAttesting] = useState(false);
+  const { mintAttestation } = useContributions();
+  const [attesting] = useState(false);
   const [currentAttestation] = useState(1);
 
   const createAttestationsHandler = (contributions: AttestationTableType[]) => {
-    setAttesting(true);
-    contributions.map((contribution, idx) => {
-      if (contribution.status === 'minted') {
-        mintAttestation(contribution);
-      } else {
-        createAttestation(contribution);
-      }
-      setAttesting(false);
-      return true;
+    contributions.forEach(async contribution => {
+      await mintAttestation(contribution);
     });
   };
 
