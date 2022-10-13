@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeRelationFilter } from "../inputs/ActivityTypeRelationFilter";
 import { AttestationListRelationFilter } from "../inputs/AttestationListRelationFilter";
+import { ChainRelationFilter } from "../inputs/ChainRelationFilter";
 import { ContributionStatusRelationFilter } from "../inputs/ContributionStatusRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
@@ -124,6 +125,16 @@ export class ContributionWhereInput {
     nullable: true
   })
   tweet?: TwitterTweetRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  chain_id?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => ChainRelationFilter, {
+    nullable: true
+  })
+  chain?: ChainRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

@@ -120,6 +120,7 @@ export const ContributionsContextProvider: React.FC<
             contribution: contribution.onChainId,
             confidence: 0,
           },
+          chain.id,
         );
         queryClient.invalidateQueries(['useContributionInfiniteList']);
         toast.success({
@@ -136,36 +137,10 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const createAttestation = async (contribution: AttestationTableType) => {
-    try {
-      if (userData) {
-        await govrn.custom.createUserAttestation({
-          address: userData.address,
-          chainName: 'ethereum',
-          userId: userData.id,
-          confidenceName: '0',
-          contributionId: contribution.id,
-        });
-        toast.success({
-          title: 'Attestation Successfully Added',
-          description: 'Your Attestation has been added.',
-        });
-        queryClient.invalidateQueries(['useContributionInfiniteList']);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error({
-        title: 'Unable to Add Attestation',
-        description: `Something went wrong. Please try again: ${error}`,
-      });
-    }
-  };
-
   return (
     <ContributionContext.Provider
       value={{
         contribution,
-        createAttestation,
         deleteContribution,
         getUserContributionsCount,
         mintAttestation,
@@ -183,7 +158,6 @@ export const ContributionsContextProvider: React.FC<
 
 type ContributionContextType = {
   contribution: UIContribution;
-  createAttestation: (arg0: AttestationTableType) => void;
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,

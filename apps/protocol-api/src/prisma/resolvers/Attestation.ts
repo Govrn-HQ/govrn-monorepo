@@ -42,6 +42,9 @@ export class AttestationUserOnChainCreateInput {
   contributionOnChainId: number;
 
   @TypeGraphQL.Field(_type => Number)
+  chainId: number;
+
+  @TypeGraphQL.Field(_type => Number)
   userId: number;
 }
 
@@ -135,7 +138,10 @@ export class AttestationResolver {
         },
         contribution: {
           connect: {
-            on_chain_id: args.data.contributionOnChainId,
+            chain_id_on_chain_id: {
+              on_chain_id: args.data.contributionOnChainId,
+              chain_id: args.data.chainId,
+            },
           },
         },
         user: {

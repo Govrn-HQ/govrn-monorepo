@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeOrderByWithRelationInput } from "../inputs/ActivityTypeOrderByWithRelationInput";
 import { AttestationOrderByRelationAggregateInput } from "../inputs/AttestationOrderByRelationAggregateInput";
+import { ChainOrderByWithRelationInput } from "../inputs/ChainOrderByWithRelationInput";
 import { ContributionStatusOrderByWithRelationInput } from "../inputs/ContributionStatusOrderByWithRelationInput";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
 import { LinearIssueOrderByWithRelationInput } from "../inputs/LinearIssueOrderByWithRelationInput";
@@ -105,6 +106,16 @@ export class ContributionOrderByWithRelationInput {
     nullable: true
   })
   tweet?: TwitterTweetOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  chain_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => ChainOrderByWithRelationInput, {
+    nullable: true
+  })
+  chain?: ChainOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
