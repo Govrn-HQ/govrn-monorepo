@@ -210,6 +210,7 @@ export class Contribution extends BaseClient {
     id: number,
     userId: number,
     args: AttestArgs,
+    chainId: number,
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
@@ -231,6 +232,7 @@ export class Contribution extends BaseClient {
       data: {
         confidence: args.confidence.toString(),
         contributionOnChainId: parseInt(args.contribution.toString()),
+        chainId: chainId,
         userId: userId,
       },
     });

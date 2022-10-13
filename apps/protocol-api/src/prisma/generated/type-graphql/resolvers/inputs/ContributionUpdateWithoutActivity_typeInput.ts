@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AttestationUpdateManyWithoutContributionInput } from "../inputs/AttestationUpdateManyWithoutContributionInput";
+import { ChainUpdateOneWithoutContributionsInput } from "../inputs/ChainUpdateOneWithoutContributionsInput";
 import { ContributionStatusUpdateOneRequiredWithoutContributionsInput } from "../inputs/ContributionStatusUpdateOneRequiredWithoutContributionsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { GuildContributionUpdateManyWithoutContributionInput } from "../inputs/GuildContributionUpdateManyWithoutContributionInput";
@@ -82,6 +83,11 @@ export class ContributionUpdateWithoutActivity_typeInput {
     nullable: true
   })
   tweet?: TwitterTweetUpdateOneWithoutContributionInput | undefined;
+
+  @TypeGraphQL.Field(_type => ChainUpdateOneWithoutContributionsInput, {
+    nullable: true
+  })
+  chain?: ChainUpdateOneWithoutContributionsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
     nullable: true
