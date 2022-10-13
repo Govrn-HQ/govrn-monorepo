@@ -14,16 +14,16 @@ import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
-import { useContributions } from '../contexts/ContributionContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import useContributionMint from '../hooks/useContributionMint';
 import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
+import useContributionBulkMint from '../hooks/useContributionBulkMint';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
+  const { mutateAsync: bulkMintContributions } = useContributionBulkMint();
   const { mutateAsync: mintContribution } = useContributionMint();
-  const { bulkMintContributions } = useContributions();
 
   const [isChecked, setChecked] = useState(false);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
@@ -39,51 +39,59 @@ const MintModal = ({ contributions }: MintModalProps) => {
   const mintHandler = async (contributions: Row<ContributionTableType>[]) => {
     // Mint button is disabled unless user accepts terms.
     // Consequently, calling this means `isChecked` is already `true`.
-    agreementCheckboxHandler();
-    setMinting(true);
-    if (contributions.length > 1) {
-      const bulkStoreResult = await bulkStoreIpfs(
-        contributions.map(c => ({
-          content: {
-            name: c.original.name,
-            details: c.original?.details || '',
-            proof: c.original?.proof || '',
-          },
-        })),
-      );
-
-      // Mint successfully stored contributions in IPFS.
-      await bulkMintContributions(
-        bulkStoreResult
-          .filter(promise => promise.status === 'fulfilled')
-          .map(result => ({
-            ...contributions[result.index].original,
-            ipfsContentUri: result.value as string,
+    try {
+      agreementCheckboxHandler();
+      setMinting(true);
+      if (contributions.length > 1) {
+        const bulkStoreResult = await bulkStoreIpfs(
+          contributions.map(c => ({
+            content: {
+              name: c.original.name,
+              details: c.original?.details || '',
+              proof: c.original?.proof || '',
+            },
           })),
-      );
-    } else if (contributions.length === 1) {
-      const contribution = contributions[0];
+        );
 
-      const ipfsContentUri = await storeIpfs({
-        name: contribution?.original?.name,
-        details: contribution?.original?.details || '',
-        proof: contribution?.original?.proof || '',
-      });
+        // Mint successfully stored contributions in IPFS.
+        console.log('bulkStoreResult');
+        console.log(bulkStoreResult);
+        console.log(contributions);
+        await bulkMintContributions(
+          bulkStoreResult
+            .filter(promise => promise.status === 'fulfilled')
+            .map(result => ({
+              ...contributions[result.index].original,
+              ipfsContentUri: result.value as string,
+            })),
+        );
+      } else if (contributions.length === 1) {
+        const contribution = contributions[0];
 
-      if (contribution.original) {
-        const original = contribution.original;
-        const originalClean = {
-          ...contribution.original,
-          details: original.details || '',
-          proof: original.proof || '',
-          date_of_submission: original.date_of_submission.toString(),
-          engagementDate: original.engagementDate.toString(),
-        };
-        await mintContribution({ ...originalClean, ipfsContentUri });
+        const ipfsContentUri = await storeIpfs({
+          name: contribution?.original?.name,
+          details: contribution?.original?.details || '',
+          proof: contribution?.original?.proof || '',
+        });
+
+        if (contribution.original) {
+          const original = contribution.original;
+          const originalClean = {
+            ...contribution.original,
+            details: original.details || '',
+            proof: original.proof || '',
+            date_of_submission: original.date_of_submission.toString(),
+            engagementDate: original.engagementDate.toString(),
+          };
+          await mintContribution({ ...originalClean, ipfsContentUri });
+        }
       }
+      setModals({}); // Closes mint modal
+      setMinting(false);
+    } catch {
+      setModals({}); // Closes mint modal
+      setMinting(false);
     }
-    setModals({}); // Closes mint modal
-    setMinting(false);
   };
 
   return (
