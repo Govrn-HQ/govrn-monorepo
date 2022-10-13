@@ -60,6 +60,11 @@ export class ContributionCreateManyInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
+  chain_id?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
   on_chain_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
