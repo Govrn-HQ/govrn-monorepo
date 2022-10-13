@@ -172,11 +172,7 @@ const ProfileForm = () => {
                 label="Twitter Handle (Coming Soon!)"
                 tip="Enter your Twitter handle for the upcoming Twitter integration."
                 placeholder="govrn"
-                localForm={
-                  localForm as unknown as InputLocalFormType<{
-                    [key: string]: any;
-                  }>
-                }
+                localForm={localForm}
                 isDisabled
               />
               <Button type="submit" width="100%" variant="disabled" isDisabled>

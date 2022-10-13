@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import * as _ from 'lodash';
 import {
   Box,
   chakra,
@@ -15,6 +14,7 @@ import {
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   Column,
+  HeaderGroup,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -22,10 +22,11 @@ import {
   useTable,
   UseTableHooks,
 } from 'react-table';
-import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { formatDate } from '../utils/date';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 
 type MyAttestationsTableType = {
   id: number;
@@ -33,30 +34,22 @@ type MyAttestationsTableType = {
   date_of_engagement: Date | string;
   status: string;
   name: string;
-  attestationDate: string;
+  attestationDate: Date | string;
   contributor?: string | null;
 };
 
 const MyAttestationsTable = ({
   contributionsData,
-}: // setSelectedContributions,
-{
+  hasMoreItems,
+  nextPage,
+}: {
   contributionsData: UIContribution[];
+  hasMoreItems: boolean;
+  nextPage: () => void;
 }) => {
-  const { userData } = useUser();
-
-  const nonEmptyContributions = _.filter(
-    contributionsData,
-    a => a.attestations?.length > 0,
-  );
-
-  const attestedContributions = _.filter(nonEmptyContributions, a =>
-    a.attestations.every(b => b.user_id === userData?.id),
-  );
-
   const data = useMemo<MyAttestationsTableType[]>(
     () =>
-      attestedContributions.map(contribution => ({
+      contributionsData.map(contribution => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_engagement,
@@ -107,36 +100,7 @@ const MyAttestationsTable = ({
   );
 
   const tableHooks = (hooks: UseTableHooks<MyAttestationsTableType>) => {
-    hooks.visibleColumns.push(columns => [
-      // {
-      //   id: 'selection',
-      //   Header: ({ getToggleAllRowsSelectedProps }) => (
-      //     <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-      //   ),
-      //   Cell: ({ row }) => (
-      //     <IndeterminateCheckbox
-      //       {...row.getToggleRowSelectedProps()}
-      //       // disabled={row.original.attestations?.user_id === userData.id}
-      //     />
-      //   ),
-      // },
-      ...columns,
-      // {
-      //   id: 'actions',
-      //   Header: 'Actions',
-      //   Cell: ({ row }) => (
-      //     <HStack spacing="1">
-      //       <IconButton
-      //         icon={<FiCheckSquare fontSize="1rem" />}
-      //         variant="ghost"
-      //         color="gray.800"
-      //         aria-label="Add Attestation"
-      //         onClick={() => handleAddAttestationFormModal(row.original.id)}
-      //       />
-      //     </HStack>
-      //   ),
-      // },
-    ]);
+    hooks.visibleColumns.push(columns => [...columns]);
   };
 
   const {
@@ -165,46 +129,60 @@ const MyAttestationsTable = ({
         setGlobalFilter={setGlobalFilter}
       />
       <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-          <Thead backgroundColor="gray.50">
-            {headerGroups.map((headerGroup: any) => (
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column: any) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    isNumeric={column.isNumeric}
-                    borderColor="gray.100"
-                  >
-                    {column.render('Header')}
-                    <chakra.span paddingLeft="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <IoArrowDown aria-label="sorted-descending" />
-                        ) : (
-                          <IoArrowUp aria-label="sorted-ascending" />
-                        )
-                      ) : null}
-                    </chakra.span>
-                  </Th>
-                ))}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row);
-              return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <Td {...cell.getCellProps()} borderColor="gray.100">
-                      {cell.render('Cell')}
-                    </Td>
-                  ))}
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
+        <InfiniteScroll
+          dataLength={rows.length}
+          next={nextPage}
+          scrollThreshold={0.8}
+          hasMore={hasMoreItems}
+          loader={<GovrnSpinner />}
+        >
+          <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+            <Thead backgroundColor="gray.50">
+              {headerGroups.map(
+                (headerGroup: HeaderGroup<MyAttestationsTableType>) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(
+                      (column: HeaderGroup<MyAttestationsTableType>) => (
+                        <Th
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps(),
+                          )}
+                          isNumeric={column.isNumeric}
+                          borderColor="gray.100"
+                        >
+                          {column.render('Header')}
+                          <chakra.span paddingLeft="4">
+                            {column.isSorted ? (
+                              column.isSortedDesc ? (
+                                <IoArrowDown aria-label="sorted-descending" />
+                              ) : (
+                                <IoArrowUp aria-label="sorted-ascending" />
+                              )
+                            ) : null}
+                          </chakra.span>
+                        </Th>
+                      ),
+                    )}
+                  </Tr>
+                ),
+              )}
+            </Thead>
+            <Tbody {...getTableBodyProps()}>
+              {rows.map(row => {
+                prepareRow(row);
+                return (
+                  <Tr {...row.getRowProps()}>
+                    {row.cells.map(cell => (
+                      <Td {...cell.getCellProps()} borderColor="gray.100">
+                        {cell.render('Cell')}
+                      </Td>
+                    ))}
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </InfiniteScroll>
       </Box>
     </Stack>
   );

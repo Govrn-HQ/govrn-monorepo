@@ -1,12 +1,10 @@
-import { useEffect, useMemo, useState, ReactNode } from 'react';
-import * as _ from 'lodash';
+import { useMemo } from 'react';
 import {
   Box,
   chakra,
   Flex,
-  FormLabel,
   Stack,
-  Switch,
+  Button,
   Table,
   Tbody,
   Td,
@@ -19,6 +17,7 @@ import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   Column,
   Row,
+  HeaderGroup,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -27,133 +26,42 @@ import {
   UseTableHooks,
 } from 'react-table';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
-import { useUser } from '../contexts/UserContext';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
-
-type AttestationTableType = {
-  id: number;
-  status: string;
-  contributor?: string | null;
-  date_of_submission: string | Date;
-  date_of_engagement: string | Date;
-  attestations?: {
-    id: number;
-  }[];
-  guilds?: {
-    guild: {
-      name?: string | null;
-      guild_id?: number;
-    };
-  }[];
-  action?: ReactNode;
-  name: string;
-  onChainId?: number | null;
-};
+import { GovrnSpinner } from '@govrn/protocol-ui';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useOverlay } from '../contexts/OverlayContext';
+import { AttestationTableType } from '../types/table';
+import ModalWrapper from './ModalWrapper';
+import BulkAttestationModal from './BulkAttestationModal';
 
 const AttestationsTable = ({
   contributionsData,
-  setSelectedContributions,
+  hasMoreItems,
+  nextPage,
 }: {
   contributionsData: UIContribution[];
-  setSelectedContributions: (contrs: any[]) => void;
+  hasMoreItems: boolean;
+  nextPage: () => void;
 }) => {
-  const { userData } = useUser();
-  const [showAllDaos, setShowAllDaos] = useState(false);
-
-  const userDaoIds = userData?.guild_users.map(guild => {
-    return guild.guild_id;
-  });
-
-  const mintedContributions = _.filter(contributionsData, function (a) {
-    return a.status.name === 'minted';
-  });
-
-  const nonUserContributions = _.filter(mintedContributions, function (a) {
-    return a.user.id !== userData?.id;
-  });
-
-  const userDaoContributions = _.filter(nonUserContributions, function (a) {
-    return a.guilds.some(guild => userDaoIds?.includes(guild.guild_id));
-  });
-
-  const unattestedUserDaoContributions = _.filter(
-    userDaoContributions,
-    function (a) {
-      return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
-    },
-  );
-
-  const unattestedContributions = _.filter(nonUserContributions, function (a) {
-    return a.attestations?.every(b => b.user_id !== userData?.id) ?? false;
-  });
-
-  const [displayedContributions, setDisplayedContributions] =
-    useState(userDaoContributions);
-
-  const toggleShowAllDaos = () => {
-    setShowAllDaos(!showAllDaos);
-  };
-
-  useEffect(() => {
-    if (showAllDaos === false) {
-      setDisplayedContributions(unattestedUserDaoContributions); 
-    } else {
-      setDisplayedContributions(unattestedContributions);
-    }
-  }, [showAllDaos]);
-
-  function AllDaosSwitch({
-    isChecked,
-    onChange,
-  }: {
-    isChecked: boolean;
-    onChange: () => void;
-  }) {
-    return (
-      <Flex
-        marginX={1}
-        alignItems="center"
-        justifyContent="center"
-        alignSelf="flex-start"
-      >
-        <FormLabel
-          fontSize="sm"
-          fontWeight="md"
-          color="gray.800"
-          margin={2}
-          htmlFor="show-all-daos"
-        >
-          Show All DAOs
-        </FormLabel>
-        <Switch
-          id="show-all-daos"
-          size="sm"
-          colorScheme={'brand.primary'}
-          isChecked={isChecked}
-          onChange={onChange}
-        />
-      </Flex>
-    );
-  }
-
+  const { setModals } = useOverlay();
+  const localOverlay = useOverlay();
   const data = useMemo<AttestationTableType[]>(
     () =>
-      displayedContributions.map(contribution => ({
+      contributionsData.map(contribution => ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations,
         guilds:
-          contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
-          '---',
+          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         status: contribution.status.name,
         action: '',
         name: contribution.name,
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
       })),
-    [displayedContributions],
+    [contributionsData],
   );
 
   const columns = useMemo<Column<AttestationTableType>[]>(
@@ -218,7 +126,7 @@ const AttestationsTable = ({
     getTableBodyProps,
     headerGroups,
     rows,
-    state: { globalFilter, selectedRowIds },
+    state: { globalFilter },
     preGlobalFilteredRows,
     setGlobalFilter,
     selectedFlatRows,
@@ -232,13 +140,54 @@ const AttestationsTable = ({
     tableHooks,
   );
 
-  useEffect(() => {
-    setSelectedContributions(selectedFlatRows.map(r => r.original));
-  }, [selectedFlatRows, selectedRowIds]);
+  const attestationsModalHandler = () => {
+    setModals({ bulkAttestationModal: true });
+  };
 
-  return (
-    <>
-      {displayedContributions.length > 0 ? (
+  let component = (
+    <Box
+      paddingX={{ base: '4', md: '6' }}
+      paddingBottom={{ base: '4', md: '6' }}
+    >
+      <Text fontSize="sm" fontWeight="bolder">
+        None found!
+      </Text>
+    </Box>
+  );
+  if (contributionsData.length) {
+    component = (
+      <>
+        <Box paddingX={{ base: '4', md: '6' }} paddingTop="5" paddingBottom="3">
+          <Stack
+            direction={{ base: 'column', md: 'row' }}
+            justify="space-between"
+            alignItems="bottom"
+          >
+            <Stack direction="column" gap="2">
+              <Text fontSize="lg" fontWeight="medium">
+                DAO Contributions
+              </Text>
+              <Text fontSize="md" fontWeight="normal">
+                These are minted Contributions that you haven't already Attested
+                to.
+              </Text>
+            </Stack>
+            <Button
+              bgColor="brand.primary.50"
+              color="brand.primary.600"
+              transition="all 100ms ease-in-out"
+              _hover={{ bgColor: 'brand.primary.100' }}
+              flexBasis="10%"
+              colorScheme="brand.primary"
+              disabled={selectedFlatRows?.length === 0}
+              onClick={attestationsModalHandler}
+              data-testId="attest-testId"
+            >
+              Attest
+            </Button>
+          </Stack>
+        </Box>
+
         <Stack>
           <Flex alignItems="center">
             <GlobalFilter
@@ -246,66 +195,81 @@ const AttestationsTable = ({
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
             />
-            <AllDaosSwitch
-              isChecked={showAllDaos}
-              onChange={() => toggleShowAllDaos()}
-            />
           </Flex>
           <Box width="100%" maxWidth="100vw" overflowX="auto">
-            <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-              <Thead backgroundColor="gray.50">
-                {headerGroups.map((headerGroup: any) => (
-                  <Tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map((column: any) => (
-                      <Th
-                        {...column.getHeaderProps(
-                          column.getSortByToggleProps(),
+            <InfiniteScroll
+              dataLength={rows.length}
+              next={nextPage}
+              scrollThreshold={0.8}
+              hasMore={hasMoreItems}
+              loader={<GovrnSpinner />}
+            >
+              <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+                <Thead backgroundColor="gray.50">
+                  {headerGroups.map(
+                    (headerGroup: HeaderGroup<AttestationTableType>) => (
+                      <Tr {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroup.headers.map(
+                          (column: HeaderGroup<AttestationTableType>) => (
+                            <Th
+                              {...column.getHeaderProps(
+                                column.getSortByToggleProps(),
+                              )}
+                              borderColor="gray.100"
+                            >
+                              {column.render('Header')}
+                              <chakra.span paddingLeft="4">
+                                {column.isSorted ? (
+                                  column.isSortedDesc ? (
+                                    <IoArrowDown aria-label="sorted-descending" />
+                                  ) : (
+                                    <IoArrowUp aria-label="sorted-ascending" />
+                                  )
+                                ) : null}
+                              </chakra.span>
+                            </Th>
+                          ),
                         )}
-                        isNumeric={column.isNumeric}
-                        borderColor="gray.100"
-                      >
-                        {column.render('Header')}
-                        <chakra.span paddingLeft="4">
-                          {column.isSorted ? (
-                            column.isSortedDesc ? (
-                              <IoArrowDown aria-label="sorted-descending" />
-                            ) : (
-                              <IoArrowUp aria-label="sorted-ascending" />
-                            )
-                          ) : null}
-                        </chakra.span>
-                      </Th>
-                    ))}
-                  </Tr>
-                ))}
-              </Thead>
-              <Tbody {...getTableBodyProps()}>
-                {rows.map(row => {
-                  prepareRow(row);
-                  return (
-                    <Tr {...row.getRowProps()}>
-                      {row.cells.map(cell => (
-                        <Td {...cell.getCellProps()} borderColor="gray.100">
-                          {cell.render('Cell')}
-                        </Td>
-                      ))}
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
+                      </Tr>
+                    ),
+                  )}
+                </Thead>
+                <Tbody {...getTableBodyProps()}>
+                  {rows.map(row => {
+                    prepareRow(row);
+                    return (
+                      <Tr {...row.getRowProps()}>
+                        {row.cells.map(cell => (
+                          <Td {...cell.getCellProps()} borderColor="gray.100">
+                            {cell.render('Cell')}
+                          </Td>
+                        ))}
+                      </Tr>
+                    );
+                  })}
+                </Tbody>
+              </Table>
+            </InfiniteScroll>
           </Box>
         </Stack>
-      ) : (
-        <Box
-          paddingX={{ base: '4', md: '6' }}
-          paddingBottom={{ base: '4', md: '6' }}
-        >
-          <Text fontSize="sm" fontWeight="bolder">
-            None found!
-          </Text>
-        </Box>
-      )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {component}
+      <ModalWrapper
+        name="bulkAttestationModal"
+        title="Attest to DAO Contributions"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <BulkAttestationModal
+            contributions={selectedFlatRows.map(r => r.original)}
+          />
+        }
+      />
     </>
   );
 };
