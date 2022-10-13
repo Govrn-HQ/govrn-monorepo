@@ -39,7 +39,7 @@ const useAttestationMint = () => {
       );
     },
     {
-      onSuccess: (data, contribution) => {
+      onSuccess: () => {
         queryClient.invalidateQueries(['useContributionInfiniteList']);
 
         toast.success({
