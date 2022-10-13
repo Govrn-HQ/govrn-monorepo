@@ -5,16 +5,17 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
-import {
-  BulkDaoAttributeFormValues,
-  BulkDaoAttributeModalProps,
-} from '../types/forms';
+import { BulkDaoAttributeFormValues } from '../types/forms';
 import { useDaosList } from '../hooks/useDaosList';
 import pluralize from 'pluralize';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
 import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 import { UIContribution } from '@govrn/ui-types';
+
+interface BulkDaoAttributeModalProps {
+  contributions: UIContribution[];
+}
 
 const BulkDaoAttributeModal = ({
   contributions,
@@ -62,14 +63,15 @@ const BulkDaoAttributeModal = ({
 
   const bulkAttributeDaoHandler: SubmitHandler<
     BulkDaoAttributeFormValues
-  > = async (values: BulkDaoAttributeFormValues) => {
+  > = async values => {
     console.log('attributing', values);
     console.log('contributions', contributions);
     setAttributing(true);
     contributions.map(contribution => {
+      console.log('contribution in map', contribution);
       updateNewContribution({
         updatedValues: values,
-        contribution: contribution.original,
+        contribution: contribution,
         bulkItemCount: contributions.length,
       });
       return true;

@@ -8,6 +8,7 @@ export type ContributionTableType = {
   proof?: string | null;
   date_of_submission: Date | string;
   engagementDate: Date | string;
+  date_of_engagement?: Date | string;
   attestations: {
     id: number;
   }[];
@@ -21,6 +22,12 @@ export type ContributionTableType = {
   };
   action: string;
   guildName: string;
+  guilds?: {
+    guild: {
+      name?: string | null;
+      guild_id?: number;
+    };
+  }[];
 };
 
 export type AttestationTableType = {

@@ -8,7 +8,7 @@ import useGovrnToast from '../components/toast';
 
 interface UpdateContributionProps {
   updatedValues: ContributionFormValues;
-  contribution: UIContribution
+  contribution: UIContribution;
   bulkItemCount?: number;
 }
 
@@ -25,6 +25,9 @@ export const useContributionUpdate = () => {
       bulkItemCount,
     }: UpdateContributionProps) => {
       console.log('contribution in hook', contribution);
+      console.log('contribution name', contribution.name);
+      console.log('values', updatedValues);
+      console.log('bulkItemCount', bulkItemCount);
       if (userData !== null) {
         const data = await govrn.custom.updateUserContribution({
           address: userData.address,
@@ -34,15 +37,14 @@ export const useContributionUpdate = () => {
           details: updatedValues.details ?? contribution.details,
           proof: updatedValues.proof ?? contribution.proof,
           activityTypeName:
-            updatedValues.activityType ?? contribution.activity_type.name,
+            updatedValues.activityType ?? contribution.activity_type?.name,
           dateOfEngagement: new Date(
-            updatedValues.engagementDate ?? contribution.date_of_engagement,
-          ).toISOString(),
+            updatedValues.engagementDate ?? contribution.date_of_engagement).toISOString(),
           status: 'staging', // should always be staging since can only update staged Contributions
           guildId:
             updatedValues.daoId === null ? null : Number(updatedValues.daoId),
           contributionId: contribution.id,
-          currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
+          currentGuildId: contribution.guilds[0]?.guild?.id || 0,
           contributionUserAddress: contribution.user?.address,
         });
         console.log('data', data)
@@ -63,10 +65,12 @@ export const useContributionUpdate = () => {
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
-            title: `Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
-              } Updated`,
-            description: `Your Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
-              } been updated.`,
+            title: 'hooray',
+            description: `You have successfully updated`,
+            // title: `Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
+            //   } Updated`,
+            // description: `Your Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
+            //   } been updated.`,
           });
         }
         setModals({ editContributionFormModal: false });
@@ -75,7 +79,7 @@ export const useContributionUpdate = () => {
         console.log('error', error);
         toast.error({
           title: 'Unable to Update Contribution',
-          description: `Something went wrong. Please try again.`,
+          description: `Something went wrong.Please try again.`,
         });
       },
     },

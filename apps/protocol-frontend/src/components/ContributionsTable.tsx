@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
+  Button,
   chakra,
   Link as ChakraLink,
   HStack,
@@ -44,6 +45,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
+import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -59,9 +61,7 @@ const ContributionsTable = ({
   nextPage,
 }: {
   contributionsData: UIContribution[][];
-  setSelectedContributions: (
-    rows: UIContribution[] | Row<ContributionTableType>[],
-  ) => void;
+  setSelectedContributions: (rows: Row<ContributionTableType>[]) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
@@ -74,6 +74,9 @@ const ContributionsTable = ({
   const handleEditContributionFormModal = (id: number) => {
     setSelectedContribution(id);
     setModals({ editContributionFormModal: true });
+  };
+  const bulkDaoAttributeHandler = () => {
+    setModals({ bulkDaoAttributeModal: true });
   };
 
   const [dialog, setDialog] = useState<DialogProps>({
@@ -287,6 +290,18 @@ const ContributionsTable = ({
 
   return (
     <Stack>
+      <Button
+        size="md"
+        bgColor="brand.primary.50"
+        color="brand.primary.600"
+        transition="all 100ms ease-in-out"
+        _hover={{ bgColor: 'brand.primary.100' }}
+        colorScheme="brand.primary"
+        onClick={bulkDaoAttributeHandler}
+        disabled={selectedFlatRows?.length === 0}
+      >
+        Attribute to DAO
+      </Button>
       <GlobalFilter
         preGlobalFilteredRows={preGlobalFilteredRows}
         globalFilter={globalFilter}
@@ -356,6 +371,18 @@ const ContributionsTable = ({
                     localContribution.id === selectedContribution,
                 )!
               }
+            />
+          }
+        />
+        <ModalWrapper
+          name="bulkDaoAttributeModal"
+          title="Attribute Contributions to a DAO"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <BulkDaoAttributeModal
+              contributions={selectedFlatRows.map(r => r.original)}
+              // contributions={selectedContributions.map(r => r.original)}
             />
           }
         />
