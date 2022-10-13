@@ -120,8 +120,10 @@ beforeEach(() => {
         .should('be.visible')
         .click()
       
-      cy.contains('Contribution Successfully deleted')
-        .should('be.visible')
+      cy.contains(
+          'Please select at least one Contribution to attribute to a DAO or mint.',
+          { timeout: 20000 },
+        );
       
     });
   });
