@@ -5,6 +5,7 @@ beforeEach(() => {
     const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
     const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
     const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
+    const getContributionID = `SELECT id FROM "Contribution" WHERE name='e2eTesting2022-Govrn Protocol Pull Request'`;
   
     //seed ChainType table
     cy.task('create_chainType', chainTypeName );
@@ -71,7 +72,8 @@ beforeEach(() => {
   after(() => {
     const chainTypeName = 'Goerli-Test';
     const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
-  
+    const getContributionID = `SELECT id FROM "Contribution" WHERE name='e2eTesting2022-Govrn Protocol Pull Request'`;
+
     //teardown UserActivity table
     cy.task('queryDatabase',getUserID).then((res)=>{
       const userID = res.rows[0].id;
@@ -88,8 +90,15 @@ beforeEach(() => {
     
     //teardown Contribution table
     cy.fixture('contributions.json').then((contributions) => {
-      const name = contributions[1].name 
+      const name = contributions[0].name 
       cy.task('delete_contribution', name);
+    });
+
+    //confirm contribution is deleted in db
+    cy.task('queryDatabase',getContributionID).then((res)=>{
+        console.log(res.rows[0])
+        expect(res.rows.length).to.equal(0);
+       
     });
   
     //teardown User table
@@ -110,11 +119,9 @@ beforeEach(() => {
       cy.get('[data-testid="deleteContributionConfirm-test"]')         
         .should('be.visible')
         .click()
-  
-      cy.contains(
-        'Please select at least one Contribution to attribute to a DAO or mint.',
-      );
       
-    
+      cy.contains('Contribution Successfully deleted')
+        .should('be.visible')
+      
     });
   });
