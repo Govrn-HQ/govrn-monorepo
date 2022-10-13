@@ -16,12 +16,14 @@ import { MintModalProps } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributions } from '../contexts/ContributionContext';
 import { useOverlay } from '../contexts/OverlayContext';
+import useContributionMint from '../hooks/useContributionMint';
 import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
-  const { mintContribution, bulkMintContributions } = useContributions();
+  const { mutateAsync: mintContribution } = useContributionMint();
+  const { bulkMintContributions } = useContributions();
 
   const [isChecked, setChecked] = useState(false);
   const [agreementChecked, setAgreementChecked] = useLocalStorage(
@@ -29,14 +31,6 @@ const MintModal = ({ contributions }: MintModalProps) => {
     { agreement: false },
   );
   const [minting, setMinting] = useState(false);
-  const [mintProgress, setMintProgress] = useState(0);
-  const [mintTotal, setMintTotal] = useState(contributions?.length);
-
-  useEffect(() => {
-    if (minting && mintProgress === mintTotal) {
-      setMinting(false);
-    }
-  }, [mintProgress]);
 
   const agreementCheckboxHandler = () => {
     setAgreementChecked({ agreement: true });
@@ -85,11 +79,11 @@ const MintModal = ({ contributions }: MintModalProps) => {
           date_of_submission: original.date_of_submission.toString(),
           engagementDate: original.engagementDate.toString(),
         };
-        mintContribution(originalClean, ipfsContentUri, setMintProgress);
+        await mintContribution({ ...originalClean, ipfsContentUri });
       }
     }
-
-    setModals({});
+    setModals({}); // Closes mint modal
+    setMinting(false);
   };
 
   return (

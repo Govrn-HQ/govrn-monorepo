@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { ethers } from 'ethers';
 import React, { createContext, useContext, useState } from 'react';
 import { useNetwork, useSigner } from 'wagmi';
@@ -90,53 +89,6 @@ export const ContributionsContextProvider: React.FC<
       return getUserContributionsCountResponse;
     } catch (error) {
       console.error(error);
-    }
-  };
-
-  const mintContribution = async (
-    contribution: MintContributionType['original'],
-    ipfsContentUri: string,
-    setMintProgress: Dispatch<SetStateAction<number>>,
-  ) => {
-    try {
-      if (signer && chain?.id && userData) {
-        await govrn.contribution.mint(
-          {
-            address: networks[chain?.id].govrnContract,
-            chainId: chain?.id,
-            name: networks[chain?.id].name,
-          },
-          signer,
-          userData.address,
-          contribution.id,
-          contribution.activityTypeId,
-          userData.id,
-          {
-            detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
-            dateOfSubmission: new Date(
-              contribution.date_of_submission,
-            ).getTime(),
-            dateOfEngagement: new Date(contribution.engagementDate).getTime(),
-          },
-          ethers.utils.toUtf8Bytes(contribution.name),
-          ethers.utils.toUtf8Bytes(contribution.details),
-          ethers.utils.toUtf8Bytes(contribution.proof),
-        );
-        queryClient.invalidateQueries(['contributionList']);
-        queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries(['contributionGet', contribution.id]);
-        setMintProgress((prevState: number) => prevState + 1);
-        toast.success({
-          title: 'Contribution Successfully Minted',
-          description: 'Your Contribution has been minted.',
-        });
-      }
-    } catch (error) {
-      console.log('error', error);
-      toast.error({
-        title: 'Unable to Mint Contribution',
-        description: `Something went wrong. Please try again: ${error}`,
-      });
     }
   };
 
@@ -303,7 +255,6 @@ export const ContributionsContextProvider: React.FC<
         getUserContributionsCount,
         mintAttestation,
         bulkMintContributions,
-        mintContribution,
         setContribution,
         setUserAttestations,
         setUserContributionsDateRangeCount,
@@ -327,12 +278,6 @@ type ContributionContextType = {
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   mintAttestation: (contribution: AttestationTableType) => Promise<void>;
   bulkMintContributions: (contributions: BulkMintOptions[]) => void;
-  mintContribution: (
-    contribution: MintContributionType['original'],
-    ipfsContentUri: string,
-    setMintProgress: Dispatch<SetStateAction<number>>,
-  ) => void;
-
   setContribution: (data: UIContribution) => void;
 
   setUserContributionsDateRangeCount: (
