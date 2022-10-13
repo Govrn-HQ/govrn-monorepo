@@ -107,13 +107,14 @@ beforeEach(() => {
         .should('be.visible')
         .click();
       
-      cy.contains('Confirm')
+      cy.get('[data-testid="deleteContributionConfirm-test"]')         
         .should('be.visible')
         .click()
   
       cy.contains(
         'Please select at least one Contribution to attribute to a DAO or mint.',
       );
+      
     
     });
   });

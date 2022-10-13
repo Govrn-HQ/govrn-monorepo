@@ -55,7 +55,9 @@ const DeleteContributionDialog = (props: {
               ml={3}
               onClick={() =>
                 onDelete(!dialog.onConfirm, dialog.contribution_id)
+              
               }
+              data-testid="deleteContributionConfirm-test"
             >
               Confirm
             </Button>
