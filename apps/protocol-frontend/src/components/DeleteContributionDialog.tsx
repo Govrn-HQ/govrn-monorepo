@@ -59,7 +59,7 @@ const DeleteContributionDialog = (props: {
               ml={3}
 
               onClick={() =>
-                onDelete(!dialog.onConfirm, dialog.contribution_id)
+                onDelete(!dialog.onConfirm, dialog.contributionId)
               
               }
               data-testid="deleteContributionConfirm-test"
