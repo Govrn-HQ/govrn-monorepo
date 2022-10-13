@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+type Status = 'minted' | 'staging' | string;
+
 export type ContributionTableType = {
   name: string;
   txHash?: string | null;
@@ -25,7 +27,7 @@ export type ContributionTableType = {
 
 export type AttestationTableType = {
   id: number;
-  status: string;
+  status: Status;
   contributor?: string | null;
   date_of_submission: string | Date;
   date_of_engagement: string | Date;
