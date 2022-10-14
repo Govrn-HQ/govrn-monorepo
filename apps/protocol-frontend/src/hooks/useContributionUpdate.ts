@@ -1,10 +1,10 @@
-import { ContributionTableType } from './../types/table';
 import { useUser } from '../contexts/UserContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useOverlay } from '../contexts/OverlayContext';
 import { ContributionFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
 import useGovrnToast from '../components/toast';
+import pluralize from 'pluralize';
 
 interface UpdateContributionProps {
   updatedValues: ContributionFormValues;
@@ -48,7 +48,6 @@ export const useContributionUpdate = () => {
     },
     {
       onSuccess: (data, { bulkItemCount }) => {
-        console.log('data', data);
         // destructure the bulkItemCount from the variables (args passed into the mutation)
         queryClient.invalidateQueries(['activityTypes']); // invalidate the activity types query -- covers all args
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
@@ -61,10 +60,9 @@ export const useContributionUpdate = () => {
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
-            title: `Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
-              } Updated`,
-            description: `Your Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
-              } been updated.`,
+            title: `Contribution  ${pluralize('Report', bulkItemCount)} Updated`,
+            description: `Your Contribution ${bulkItemCount && bulkItemCount !== 1 ? 'Reports have' : 'Report has'
+              } been updated.`, // not using pluralize here because we need to also include 'have' and 'has'
           });
         }
         setModals({ editContributionFormModal: false });

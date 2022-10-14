@@ -22,7 +22,7 @@ const ToastBase = ({
     title,
     description,
     status,
-    id,
+    id: id,
     duration: duration ?? 3000,
     isClosable: isClosable ?? true,
     position: 'top-right',
