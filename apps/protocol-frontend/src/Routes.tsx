@@ -18,6 +18,7 @@ import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import { useUser } from './contexts/UserContext';
+import * as _ from 'lodash';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
@@ -33,13 +34,17 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
   const { userData } = useUser();
   const { guildId } = useParams();
-  console.log('userData', userData);
-  console.log('guildId', guildId);
   if (userData) {
-    // if (userData?.guild_users.includes(guildId)) {
-    console.log('daos', userData.guild_users);
-    console.log('in dao');
-    // }
+    const userDaos = userData?.guild_users.map(guild => {
+      return guild.guild_id;
+    });
+    if (guildId) {
+      if (userDaos.includes(parseInt(guildId))) {
+        return children;
+      } else {
+        return <div>Not authorized</div>;
+      }
+    }
   }
   return children;
 };
