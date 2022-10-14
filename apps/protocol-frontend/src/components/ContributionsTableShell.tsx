@@ -24,7 +24,6 @@ import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
 import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
-import { UIContribution } from '@govrn/ui-types';
 import { Row } from 'react-table';
 import { ContributionTableType } from '../types/table';
 

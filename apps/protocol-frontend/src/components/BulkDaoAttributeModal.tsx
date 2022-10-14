@@ -10,8 +10,6 @@ import { useDaosList } from '../hooks/useDaosList';
 import pluralize from 'pluralize';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
 import { ContributionTableType } from '../types/table';
-import { Row } from 'react-table';
-import { UIContribution } from '@govrn/ui-types';
 
 interface BulkDaoAttributeModalProps {
   contributions: ContributionTableType[];

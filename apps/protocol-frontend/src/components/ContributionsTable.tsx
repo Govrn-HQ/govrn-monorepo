@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
-  Button,
   chakra,
   Link as ChakraLink,
   HStack,
@@ -75,9 +74,6 @@ const ContributionsTable = ({
   const handleEditContributionFormModal = (id: number) => {
     setSelectedContribution(id);
     setModals({ editContributionFormModal: true });
-  };
-  const bulkDaoAttributeHandler = () => {
-    setModals({ bulkDaoAttributeModal: true });
   };
 
   const [dialog, setDialog] = useState<DialogProps>({
@@ -376,7 +372,6 @@ const ContributionsTable = ({
           content={
             <BulkDaoAttributeModal
               contributions={selectedFlatRows.map(r => r.original)}
-              // contributions={selectedContributions.map(r => r.original)}
             />
           }
         />

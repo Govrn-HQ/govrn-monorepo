@@ -1,6 +1,4 @@
-import { UIContribution } from '@govrn/ui-types';
 import { ContributionTableType } from '../types/table';
-import { Row } from 'react-table';
 import {
   createWaitlistFormValidation,
   profileFormValidation,
