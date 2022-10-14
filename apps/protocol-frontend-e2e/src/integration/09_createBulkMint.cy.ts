@@ -36,13 +36,13 @@ beforeEach(() => {
       if (contribution.activityType === "Pull Request"){
           cy.task('queryDatabase',getUserID).then((res)=>{
               const userID = res.rows[0].id;
-              contributionData["userID"] = userID;
+              contribution["userID"] = userID;
             });
           cy.task('queryDatabase',getActivityTypeID).then((res)=>{
               const ActivityTypeID = res.rows[0].id;
-              contributionData["activityTypeID"] = ActivityTypeID;
+              contribution["activityTypeID"] = ActivityTypeID;
             });
-            cy.task('create_contribution', contributionData);
+            cy.task('create_contribution', contribution);
 
       }
     }
@@ -54,10 +54,6 @@ beforeEach(() => {
     this.accounts = accounts;
     cy.login(this.accounts[0].address, this.accounts[0].privateKey);
   });
-  
-  // cy.fixture('contributions.json').then(contributions => {
-  //   this.contributions = contributions;
-  // });
 
   cy.get('[data-cy="myDashboards-btn"]', { timeout: 60000 })
     .should('be.enabled')
@@ -73,6 +69,8 @@ beforeEach(() => {
 after(() => {
   const chainTypeName = 'Goerli-Test';
   const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  const contribution_names = ['e2eTesting2022-Govrn Protocol Pull Request', 
+  'e2eTesting2022-Test Automation'];
 
   //teardown UserActivity table
   cy.task('queryDatabase',getUserID).then((res)=>{
@@ -89,25 +87,23 @@ after(() => {
   });
   
   //teardown Contribution table
-  cy.fixture('contributions.json').then((contributions) => {
-    const name = contributions[0].name 
-    cy.task('delete_contribution', name);
-  });
-
+  for (const contribution_name of contribution_names){
+      cy.task('delete_contribution', contribution_name );
+    }
+  
   //teardown User table
   cy.fixture('users.json').then((users) => {
     const username = users[0].username
     cy.task('delete_user', username);
   });
   cy.task('delete_chainType',chainTypeName );
-   
-});
+  });
 
 describe('Edit first Contribution', () => {
   it('Update/Edit Contribution', () => {
 
     cy.get('input[title="Toggle Row Selected"]')
-      .click()
+      .click({ multiple: true })
 
     cy.get('[data-testid="mint-btn-test"]')
       .click()
