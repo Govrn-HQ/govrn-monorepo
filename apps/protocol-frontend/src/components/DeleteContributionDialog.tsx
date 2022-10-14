@@ -57,7 +57,12 @@ const DeleteContributionDialog = (props: {
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.200' }}
               ml={3}
-              onClick={() => onDelete(!dialog.onConfirm, dialog.contributionId)}
+
+              onClick={() =>
+                onDelete(!dialog.onConfirm, dialog.contributionId)
+              
+              }
+              data-testid="deleteContributionConfirm-test"
             >
               Confirm
             </Button>

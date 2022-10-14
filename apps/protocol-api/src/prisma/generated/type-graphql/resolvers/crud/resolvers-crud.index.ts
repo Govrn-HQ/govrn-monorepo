@@ -3,6 +3,7 @@ export { AttestationCrudResolver } from "./Attestation/AttestationCrudResolver";
 export { AttestationConfidenceCrudResolver } from "./AttestationConfidence/AttestationConfidenceCrudResolver";
 export { CategoryActivityCrudResolver } from "./CategoryActivity/CategoryActivityCrudResolver";
 export { CategoryActivityTypeCrudResolver } from "./CategoryActivityType/CategoryActivityTypeCrudResolver";
+export { ChainCrudResolver } from "./Chain/ChainCrudResolver";
 export { ChainTypeCrudResolver } from "./ChainType/ChainTypeCrudResolver";
 export { ContributionCrudResolver } from "./Contribution/ContributionCrudResolver";
 export { ContributionStatusCrudResolver } from "./ContributionStatus/ContributionStatusCrudResolver";

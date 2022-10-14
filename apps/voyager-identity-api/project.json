@@ -38,7 +38,8 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/voyager-identity-api/**/*.ts"]
+        "lintFilePatterns": ["apps/voyager-identity-api/**/*.ts"],
+        "maxWarnings": 15
       }
     },
     "test": {

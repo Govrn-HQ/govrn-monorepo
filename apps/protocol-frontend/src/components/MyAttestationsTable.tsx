@@ -14,6 +14,7 @@ import {
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   Column,
+  HeaderGroup,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -137,28 +138,33 @@ const MyAttestationsTable = ({
         >
           <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
             <Thead backgroundColor="gray.50">
-              {headerGroups.map((headerGroup: any) => (
-                <Tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column: any) => (
-                    <Th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      isNumeric={column.isNumeric}
-                      borderColor="gray.100"
-                    >
-                      {column.render('Header')}
-                      <chakra.span paddingLeft="4">
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <IoArrowDown aria-label="sorted-descending" />
-                          ) : (
-                            <IoArrowUp aria-label="sorted-ascending" />
-                          )
-                        ) : null}
-                      </chakra.span>
-                    </Th>
-                  ))}
-                </Tr>
-              ))}
+              {headerGroups.map(
+                (headerGroup: HeaderGroup<MyAttestationsTableType>) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(
+                      (column: HeaderGroup<MyAttestationsTableType>) => (
+                        <Th
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps(),
+                          )}
+                          borderColor="gray.100"
+                        >
+                          {column.render('Header')}
+                          <chakra.span paddingLeft="4">
+                            {column.isSorted ? (
+                              column.isSortedDesc ? (
+                                <IoArrowDown aria-label="sorted-descending" />
+                              ) : (
+                                <IoArrowUp aria-label="sorted-ascending" />
+                              )
+                            ) : null}
+                          </chakra.span>
+                        </Th>
+                      ),
+                    )}
+                  </Tr>
+                ),
+              )}
             </Thead>
             <Tbody {...getTableBodyProps()}>
               {rows.map(row => {

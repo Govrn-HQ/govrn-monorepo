@@ -21,6 +21,7 @@ import { useUser } from '../contexts/UserContext';
 import {
   Column,
   Row,
+  HeaderGroup,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -69,7 +70,7 @@ const ContributionsTable = ({
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
-  const [selectedContribution, setSelectedContribution] = useState<any>();
+  const [selectedContribution, setSelectedContribution] = useState<number>();
 
   const handleEditContributionFormModal = (id: number) => {
     setSelectedContribution(id);
@@ -85,10 +86,6 @@ const ContributionsTable = ({
     onConfirm: false,
     contributionId: 0,
   });
-
-  useEffect(() => {
-    setDialog(dialog);
-  }, [dialog]);
 
   const handleDeleteContribution = (contributionId: number) => {
     setDialog({
@@ -122,9 +119,8 @@ const ContributionsTable = ({
           status: contribution.status,
           action: '',
           guildName:
-            contribution.guilds.map(
-              (guildObj: any) => guildObj.guild.name,
-            )[0] ?? '---',
+            contribution.guilds.map(guildObj => guildObj.guild.name)[0] ??
+            '---',
         });
       }
     }
@@ -259,6 +255,7 @@ const ContributionsTable = ({
                     row.original.status.name === 'minted'
                   }
                   aria-label="Delete Contribution"
+                  data-testid="deleteContribution-test"
                   onClick={() => handleDeleteContribution(row.original.id)}
                 />
               </HStack>
@@ -309,29 +306,34 @@ const ContributionsTable = ({
         >
           <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
             <Thead backgroundColor="gray.50">
-              {headerGroups.map((headerGroup: any) => (
-                <Tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column: any) => (
-                    <Th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      isNumeric={column.isNumeric}
-                      borderColor="gray.100"
-                    >
-                      {column.render('Header')}
-                      <chakra.span paddingLeft="4">
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <IoArrowDown aria-label="sorted-descending" />
-                          ) : (
-                            <IoArrowUp aria-label="sorted-ascending" />
-                          )
-                        ) : null}
-                      </chakra.span>
-                    </Th>
-                  ))}
-                  <Th borderColor="gray.100" />
-                </Tr>
-              ))}
+              {headerGroups.map(
+                (headerGroup: HeaderGroup<ContributionTableType>) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(
+                      (column: HeaderGroup<ContributionTableType>) => (
+                        <Th
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps(),
+                          )}
+                          borderColor="gray.100"
+                        >
+                          {column.render('Header')}
+                          <chakra.span paddingLeft="4">
+                            {column.isSorted ? (
+                              column.isSortedDesc ? (
+                                <IoArrowDown aria-label="sorted-descending" />
+                              ) : (
+                                <IoArrowUp aria-label="sorted-ascending" />
+                              )
+                            ) : null}
+                          </chakra.span>
+                        </Th>
+                      ),
+                    )}
+                    <Th borderColor="gray.100" />
+                  </Tr>
+                ),
+              )}
             </Thead>
 
             <Tbody {...getTableBodyProps()}>
