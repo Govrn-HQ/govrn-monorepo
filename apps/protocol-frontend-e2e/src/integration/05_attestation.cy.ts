@@ -84,6 +84,11 @@ beforeEach(() => {
       const statusID = res.rows[0].id;
       contributionData["statusID"] = statusID;
     });
+    cy.task('queryDatabase', getChainTypeID).then(res => {
+      const onChainId = res.rows[0].id;
+      contributionData['onChainId'] = onChainId;
+    });
+
     cy.task('create_MintedContribution', contributionData);
   });
 
