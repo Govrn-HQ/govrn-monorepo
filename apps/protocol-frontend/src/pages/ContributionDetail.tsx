@@ -18,7 +18,6 @@ import SiteLayout from '../components/SiteLayout';
 import ContributionDetailShell from '../components/ContributionDetailShell';
 import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
-import { useContributions } from '../contexts/ContributionContext';
 import { useContributionGet } from '../hooks/useContributionGet';
 
 const UserView = () => {

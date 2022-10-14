@@ -4,6 +4,7 @@ import {
   Routes as RouteContainer,
   Navigate,
   useLocation,
+  useParams,
 } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import Home from './pages/Home';
@@ -16,6 +17,7 @@ import Report from './pages/Report';
 import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
+import { useUser } from './contexts/UserContext';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
@@ -25,6 +27,20 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
     return <Navigate to="/authenticate" state={{ from: location }} replace />;
   }
 
+  return children;
+};
+
+const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
+  const { userData } = useUser();
+  const { guildId } = useParams();
+  console.log('userData', userData);
+  console.log('guildId', guildId);
+  if (userData) {
+    // if (userData?.guild_users.includes(guildId)) {
+    console.log('daos', userData.guild_users);
+    console.log('in dao');
+    // }
+  }
   return children;
 };
 
@@ -79,7 +95,9 @@ const Routes = () => {
           path="/feature/dao/:guildId"
           element={
             <RequireActiveUser>
-              <DaoDashboard />
+              <RequireDaoUser>
+                <DaoDashboard />
+              </RequireDaoUser>
             </RequireActiveUser>
           }
         />
