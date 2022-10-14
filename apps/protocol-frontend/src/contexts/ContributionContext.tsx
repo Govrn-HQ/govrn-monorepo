@@ -35,10 +35,6 @@ export const ContributionsContextProvider: React.FC<
 
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
 
-  const [contribution, setContribution] = useState<UIContribution>(
-    {} as UIContribution,
-  );
-
   const [userAttestations, setUserAttestations] =
     useState<UIAttestations | null>(null);
 
@@ -110,10 +106,8 @@ export const ContributionsContextProvider: React.FC<
   return (
     <ContributionContext.Provider
       value={{
-        contribution,
         getUserContributionsCount,
         mintAttestation,
-        setContribution,
         setUserAttestations,
         setUserContributionsDateRangeCount,
         userAttestations,
@@ -126,7 +120,6 @@ export const ContributionsContextProvider: React.FC<
 };
 
 type ContributionContextType = {
-  contribution: UIContribution;
   getUserContributionsCount: (
     startDate: string | Date,
     endDate: string | Date,
@@ -134,7 +127,6 @@ type ContributionContextType = {
     excludeUnassigned?: boolean[] | undefined,
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   mintAttestation: (contribution: AttestationTableType) => Promise<void>;
-  setContribution: (data: UIContribution) => void;
   setUserContributionsDateRangeCount: (
     data: UserContributionsDateRangeCountType[],
   ) => void;
