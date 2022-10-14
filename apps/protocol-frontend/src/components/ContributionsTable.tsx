@@ -110,11 +110,15 @@ const ContributionsTable = ({
           id: contribution.id,
           details: contribution.details,
           proof: contribution.proof,
+          updatedAt: contribution.updatedAt,
           date_of_submission: contribution.date_of_submission,
           engagementDate: formatDate(contribution.date_of_engagement),
+          date_of_engagement: formatDate(contribution.date_of_engagement),
           attestations: contribution.attestations || null,
           user: contribution.user,
           activityTypeId: contribution.activity_type.id,
+          activity_type: contribution.activity_type,
+          guilds: contribution.guilds,
           status: contribution.status,
           action: '',
           guildName:
@@ -290,18 +294,6 @@ const ContributionsTable = ({
 
   return (
     <Stack>
-      <Button
-        size="md"
-        bgColor="brand.primary.50"
-        color="brand.primary.600"
-        transition="all 100ms ease-in-out"
-        _hover={{ bgColor: 'brand.primary.100' }}
-        colorScheme="brand.primary"
-        onClick={bulkDaoAttributeHandler}
-        disabled={selectedFlatRows?.length === 0}
-      >
-        Attribute to DAO
-      </Button>
       <GlobalFilter
         preGlobalFilteredRows={preGlobalFilteredRows}
         globalFilter={globalFilter}

@@ -24,10 +24,6 @@ export const useContributionUpdate = () => {
       contribution,
       bulkItemCount,
     }: UpdateContributionProps) => {
-      console.log('contribution in hook', contribution);
-      console.log('contribution name', contribution.name);
-      console.log('values', updatedValues);
-      console.log('bulkItemCount', bulkItemCount);
       if (userData !== null) {
         const data = await govrn.custom.updateUserContribution({
           address: userData.address,
@@ -65,12 +61,12 @@ export const useContributionUpdate = () => {
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
-            title: 'hooray',
-            description: `You have successfully updated`,
-            // title: `Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
-            //   } Updated`,
-            // description: `Your Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
-            //   } been updated.`,
+            // title: 'Contribution Updated',
+            // description: `Your Contribution has been  successfully updated.`,
+            title: `Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
+              } Updated`,
+            description: `Your Contribution ${bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
+              } been updated.`,
           });
         }
         setModals({ editContributionFormModal: false });

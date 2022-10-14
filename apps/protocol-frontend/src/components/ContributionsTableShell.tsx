@@ -43,7 +43,7 @@ const ContributionsTableShell = () => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<
-    UIContribution[] | Row<ContributionTableType>[]
+    Row<ContributionTableType>[]
   >([]);
 
   const mintModalHandler = () => {
@@ -53,10 +53,6 @@ const ContributionsTableShell = () => {
   const bulkDaoAttributeHandler = () => {
     setModals({ bulkDaoAttributeModal: true });
   };
-
-  const mapped = selectedContributions.map(c =>
-    console.log('contribution in map', c.original),
-  );
 
   return (
     <>
@@ -211,7 +207,9 @@ const ContributionsTableShell = () => {
         localOverlay={localOverlay}
         size="3xl"
         content={
-          <BulkDaoAttributeModal contributions={selectedContributions} />
+          <BulkDaoAttributeModal
+            contributions={selectedContributions.map(r => r.original)}
+          />
         }
       />
     </>

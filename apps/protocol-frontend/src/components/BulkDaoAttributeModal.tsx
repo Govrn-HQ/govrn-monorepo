@@ -14,7 +14,7 @@ import { Row } from 'react-table';
 import { UIContribution } from '@govrn/ui-types';
 
 interface BulkDaoAttributeModalProps {
-  contributions: UIContribution[];
+  contributions: ContributionTableType[];
 }
 
 const BulkDaoAttributeModal = ({
