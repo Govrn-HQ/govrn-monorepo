@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNetwork, useSigner } from 'wagmi';
-import { UIAttestations, UIContribution } from '@govrn/ui-types';
 import { useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
 import { GovrnProtocol } from '@govrn/protocol-client';
@@ -34,9 +33,6 @@ export const ContributionsContextProvider: React.FC<
   const queryClient = useQueryClient();
 
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
-
-  const [userAttestations, setUserAttestations] =
-    useState<UIAttestations | null>(null);
 
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
     useState<UserContributionsDateRangeCountType[]>([]);
@@ -108,9 +104,7 @@ export const ContributionsContextProvider: React.FC<
       value={{
         getUserContributionsCount,
         mintAttestation,
-        setUserAttestations,
         setUserContributionsDateRangeCount,
-        userAttestations,
         userContributionsDateRangeCount,
       }}
     >
@@ -130,8 +124,6 @@ type ContributionContextType = {
   setUserContributionsDateRangeCount: (
     data: UserContributionsDateRangeCountType[],
   ) => void;
-  setUserAttestations: (arg0: UIAttestations) => void;
-  userAttestations: UIAttestations | null;
   userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
 };
 
