@@ -36,6 +36,7 @@ const useAttestationMint = () => {
           contribution: data.onChainId,
           confidence: 0,
         },
+        chain.id,
       );
     },
     {
