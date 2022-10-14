@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Alert,
   AlertDescription,
@@ -45,9 +45,7 @@ const ContributionsTableShell = () => {
   const [selectedContributions, setSelectedContributions] = useState<
     UIContribution[] | Row<ContributionTableType>[]
   >([]);
-  const [selectedContributionsMap, setSelectedContributionsMap] = useState<
-    UIContribution[]
-  >([]);
+  const [selectedContributionsMap] = useState<UIContribution[]>([]);
 
   const mintModalHandler = () => {
     setModals({ mintModal: true });

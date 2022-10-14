@@ -7,7 +7,6 @@ import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { BulkDaoAttributeFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
-import { useContributions } from '../contexts/ContributionContext';
 import { useDaosList } from '../hooks/useDaosList';
 import pluralize from 'pluralize';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';

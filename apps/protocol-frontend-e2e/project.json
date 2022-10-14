@@ -19,7 +19,8 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/protocol-frontend-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/protocol-frontend-e2e/**/*.{js,ts}"],
+        "maxWarnings": 8
       }
     }
   },
