@@ -28,7 +28,7 @@ const useYupValidationResolver = (userValidationSchema: any) =>
           errors: (errors as ValidationError).inner.reduce(
             (allErrors, currentError) => ({
               ...allErrors,
-              [currentError.path!]: {
+              [currentError.path || '']: {
                 type: currentError.type ?? 'validation',
                 message: currentError.message,
               },

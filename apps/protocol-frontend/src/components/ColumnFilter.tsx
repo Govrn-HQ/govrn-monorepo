@@ -9,23 +9,23 @@ import {
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 
-interface GlobalFilterTypes {
-  preGlobalFilteredRows: any;
+interface GlobalFilterTypes<T> {
+  preGlobalFilteredRows: T[];
   globalFilter: string;
   setGlobalFilter: (globalFilter: string) => void;
 }
 
-const ColumnFilter = ({
+const ColumnFilter = <T,>({
   preGlobalFilteredRows,
   globalFilter,
   setGlobalFilter,
-}: GlobalFilterTypes) => {
+}: GlobalFilterTypes<T>) => {
   // this currently uses the Chakra UI input instead of the component library one since it is controlled
   // need to add controlled support to the one in the component library
 
   const rowCount = preGlobalFilteredRows.length;
   const [value, setValue] = useState(globalFilter);
-  const onChangeDebouncer = useAsyncDebounce((value) => {
+  const onChangeDebouncer = useAsyncDebounce(value => {
     setGlobalFilter(value || undefined);
   }, 200);
 
@@ -40,7 +40,7 @@ const ColumnFilter = ({
             rowCount > 1 ? 'Contributions' : 'Contribution'
           }`}
           value={value || ''}
-          onChange={(e) => {
+          onChange={e => {
             setValue(e.target.value);
             onChangeDebouncer(e.target.value);
           }}

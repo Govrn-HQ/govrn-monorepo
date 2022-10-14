@@ -17,6 +17,7 @@ import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   Column,
   Row,
+  HeaderGroup,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -52,9 +53,8 @@ const AttestationsTable = ({
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations,
-        guilds:
-          contribution.guilds.map((guildObj: any) => guildObj.guild.name)[0] ??
-          '---',
+        guildName:
+          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         status: contribution.status.name,
         action: '',
         name: contribution.name,
@@ -206,30 +206,33 @@ const AttestationsTable = ({
             >
               <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
                 <Thead backgroundColor="gray.50">
-                  {headerGroups.map((headerGroup: any) => (
-                    <Tr {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map((column: any) => (
-                        <Th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps(),
-                          )}
-                          isNumeric={column.isNumeric}
-                          borderColor="gray.100"
-                        >
-                          {column.render('Header')}
-                          <chakra.span paddingLeft="4">
-                            {column.isSorted ? (
-                              column.isSortedDesc ? (
-                                <IoArrowDown aria-label="sorted-descending" />
-                              ) : (
-                                <IoArrowUp aria-label="sorted-ascending" />
-                              )
-                            ) : null}
-                          </chakra.span>
-                        </Th>
-                      ))}
-                    </Tr>
-                  ))}
+                  {headerGroups.map(
+                    (headerGroup: HeaderGroup<AttestationTableType>) => (
+                      <Tr {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroup.headers.map(
+                          (column: HeaderGroup<AttestationTableType>) => (
+                            <Th
+                              {...column.getHeaderProps(
+                                column.getSortByToggleProps(),
+                              )}
+                              borderColor="gray.100"
+                            >
+                              {column.render('Header')}
+                              <chakra.span paddingLeft="4">
+                                {column.isSorted ? (
+                                  column.isSortedDesc ? (
+                                    <IoArrowDown aria-label="sorted-descending" />
+                                  ) : (
+                                    <IoArrowUp aria-label="sorted-ascending" />
+                                  )
+                                ) : null}
+                              </chakra.span>
+                            </Th>
+                          ),
+                        )}
+                      </Tr>
+                    ),
+                  )}
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
                   {rows.map(row => {

@@ -89,11 +89,7 @@ const ProfileForm = () => {
               tip="Enter your username for the Govrn protocol."
               placeholder="govrn-user"
               defaultValue={userData?.name ?? ''}
-              localForm={
-                localForm as unknown as InputLocalFormType<{
-                  [key: string]: any;
-                }>
-              }
+              localForm={localForm}
             />
             <Button
               type="submit"
@@ -106,31 +102,6 @@ const ProfileForm = () => {
               Save Username
             </Button>
           </Flex>
-          {/* <Divider bgColor="gray.300" />
-          <Flex justify="space-between" direction="column" wrap="wrap">
-            <Flex direction="column" align="flex-end" marginTop={4} width="50%">
-              <Input
-                name="userWalletAddress"
-                label="Wallet Address"
-                tip="Enter your wallet address (not ENS)."
-                placeholder="0x..."
-                defaultValue={formatAddress(userData?.address) || '0x...'}
-                isDisabled={userData?.address}
-                localForm={localForm} //TODO: resolve this type issue -- need to investigate this
-              />
-              <Button
-                type="submit"
-                width="100%"
-                color="brand.primary.600"
-                backgroundColor="brand.primary.50"
-                transition="all 100ms ease-in-out"
-                isDisabled={userData?.address}
-                _hover={{ bgColor: 'brand.primary.100' }}
-              >
-                Link Address
-              </Button>
-            </Flex>
-          </Flex> */}
         </Flex>
       </form>
       <form>
@@ -201,11 +172,7 @@ const ProfileForm = () => {
                 label="Twitter Handle (Coming Soon!)"
                 tip="Enter your Twitter handle for the upcoming Twitter integration."
                 placeholder="govrn"
-                localForm={
-                  localForm as unknown as InputLocalFormType<{
-                    [key: string]: any;
-                  }>
-                }
+                localForm={localForm}
                 isDisabled
               />
               <Button type="submit" width="100%" variant="disabled" isDisabled>

@@ -64,27 +64,24 @@ const HomeShell = () => {
             </Button>
           </>
         )}
-        {createProfileSteps === 2 && (
-          <>
-            {userDataByAddress?.active === true ? (
-              <Flex
-                justify="space-between"
-                direction="column"
-                wrap="wrap"
-                width="100%"
-                padding={8}
-                background="white"
-                boxShadow="sm"
-                borderRadius="lg"
-                marginBottom={4}
-              >
-                <CreateUserForm />
-              </Flex>
-            ) : (
-              <CreateWaitlistUserForm />
-            )}
-          </>
-        )}
+        {createProfileSteps === 2 &&
+          (userDataByAddress?.active === true ? (
+            <Flex
+              justify="space-between"
+              direction="column"
+              wrap="wrap"
+              width="100%"
+              padding={8}
+              background="white"
+              boxShadow="sm"
+              borderRadius="lg"
+              marginBottom={4}
+            >
+              <CreateUserForm />
+            </Flex>
+          ) : (
+            <CreateWaitlistUserForm />
+          ))}
         {createProfileSteps === 3 && (
           <Flex
             direction="column"

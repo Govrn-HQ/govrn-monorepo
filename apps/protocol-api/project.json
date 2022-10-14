@@ -36,7 +36,8 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/protocol-api/**/*.ts"]
+        "lintFilePatterns": ["apps/protocol-api/**/*.ts"],
+        "maxWarnings": 6
       }
     },
     "test": {
