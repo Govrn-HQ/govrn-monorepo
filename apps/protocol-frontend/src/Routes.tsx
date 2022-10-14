@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 import Contributions from './pages/Contributions';
 import Attestations from './pages/Attestations';
 import Dashboard from './pages/Dashboard';
+import DaoDashboard from './pages/DaoDashboard';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
@@ -71,6 +72,14 @@ const Routes = () => {
           element={
             <RequireActiveUser>
               <Dashboard />
+            </RequireActiveUser>
+          }
+        />
+        <Route
+          path="/feature/dao/:guildId"
+          element={
+            <RequireActiveUser>
+              <DaoDashboard />
             </RequireActiveUser>
           }
         />
