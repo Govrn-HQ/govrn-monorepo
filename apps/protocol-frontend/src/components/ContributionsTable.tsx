@@ -83,9 +83,9 @@ const ContributionsTable = ({
     contributionId: 0,
   });
 
-  useEffect(() => {
-    setDialog(dialog);
-  }, [dialog]);
+  // useEffect(() => {
+  //   setDialog(dialog);
+  // }, [dialog]);
 
   const handleDeleteContribution = (contributionId: number) => {
     setDialog({
@@ -226,6 +226,15 @@ const ContributionsTable = ({
                     </Box>
                   </Tooltip>
                 )}
+                <IconButton
+                  icon={<FiTrash2 fontSize="1rem" />}
+                  variant="ghost"
+                  color="gray.800"
+                  disabled={row.original.user.id !== userData?.id}
+                  aria-label="Delete Contribution"
+                  data-testid="deleteContribution-test"
+                  onClick={() => handleDeleteContribution(row.original.id)}
+                />
               </HStack>
             ) : (
               <HStack spacing="1">
@@ -247,10 +256,7 @@ const ContributionsTable = ({
                   icon={<FiTrash2 fontSize="1rem" />}
                   variant="ghost"
                   color="gray.800"
-                  disabled={
-                    row.original.user.id !== userData?.id ||
-                    row.original.status.name === 'minted'
-                  }
+                  disabled={row.original.user.id !== userData?.id}
                   aria-label="Delete Contribution"
                   data-testid="deleteContribution-test"
                   onClick={() => handleDeleteContribution(row.original.id)}
