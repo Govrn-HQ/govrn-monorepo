@@ -53,7 +53,7 @@ const AttestationsTable = ({
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
         attestations: contribution.attestations,
-        guilds:
+        guildName:
           contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         status: contribution.status.name,
         action: '',

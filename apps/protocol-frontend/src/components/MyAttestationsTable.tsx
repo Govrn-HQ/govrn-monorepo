@@ -147,7 +147,6 @@ const MyAttestationsTable = ({
                           {...column.getHeaderProps(
                             column.getSortByToggleProps(),
                           )}
-                          isNumeric={column.isNumeric}
                           borderColor="gray.100"
                         >
                           {column.render('Header')}

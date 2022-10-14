@@ -41,58 +41,59 @@ const ContributionDetails = () => {
   const { isAuthenticated } = useAuth();
 
   let DetailComponent = () => (
-    <ContributionDetailShell contribution={contribution} />
-  );
-  if (contribution !== undefined) {
-    DetailComponent = () => (
-      <Box
-        marginY={{ base: 10, md: 0 }}
-        paddingY={{ base: '8', md: '8' }}
-        paddingX={{ base: '4', md: '8' }}
-        color="gray.700"
-        maxWidth="1200px"
+    <Box
+      marginY={{ base: 10, md: 0 }}
+      paddingY={{ base: '8', md: '8' }}
+      paddingX={{ base: '4', md: '8' }}
+      color="gray.700"
+      maxWidth="1200px"
+      width="100%"
+    >
+      <Flex
+        justify="center"
+        direction="column"
+        wrap="wrap"
         width="100%"
+        paddingX={{ base: 4 }}
+        paddingY={{ base: 4 }}
+        background="white"
+        boxShadow="sm"
+        borderRadius={{ base: 'none', md: 'lg' }}
+        marginBottom={4}
+        gap={4}
       >
-        <Flex
-          justify="center"
-          direction="column"
-          wrap="wrap"
-          width="100%"
-          paddingX={{ base: 4 }}
-          paddingY={{ base: 4 }}
-          background="white"
-          boxShadow="sm"
-          borderRadius={{ base: 'none', md: 'lg' }}
-          marginBottom={4}
-          gap={4}
+        <Heading
+          fontSize={{ base: 'xl', lg: '3xl' }}
+          color="gray.800"
+          fontWeight="normal"
         >
-          <Heading
-            fontSize={{ base: 'xl', lg: '3xl' }}
-            color="gray.800"
-            fontWeight="normal"
+          <span
+            role="img"
+            aria-labelledby="eyes emoji showcasing that there are not any Contributions submitted yet"
           >
-            <span
-              role="img"
-              aria-labelledby="eyes emoji showcasing that there are not any Contributions submitted yet"
-            >
-              👀
-            </span>{' '}
-            Couldn't find this Contribution{' '}
-            <span
-              role="img"
-              aria-labelledby="eyes emoji showcasing that there are not any Contributions submitted yet"
-            >
-              👀
-            </span>
-          </Heading>
-          <Text>Let's try another one! </Text>
-          <Link to="/contributions">
-            <Button leftIcon={<FiArrowLeft />} variant="outline" paddingX={4}>
-              Contributions
-            </Button>
-          </Link>
-        </Flex>
-      </Box>
+            👀
+          </span>{' '}
+          Couldn't find this Contribution{' '}
+          <span
+            role="img"
+            aria-labelledby="eyes emoji showcasing that there are not any Contributions submitted yet"
+          >
+            👀
+          </span>
+        </Heading>
+        <Text>Let's try another one! </Text>
+        <Link to="/contributions">
+          <Button leftIcon={<FiArrowLeft />} variant="outline" paddingX={4}>
+            Contributions
+          </Button>
+        </Link>
+      </Flex>
+    </Box>
+  );
+
+  if (contribution !== undefined && contribution !== null) {
+    DetailComponent = () => (
+      <ContributionDetailShell contribution={contribution} />
     );
   }
 

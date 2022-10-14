@@ -52,16 +52,18 @@ const MintModal = ({ contributions }: MintModalProps) => {
             },
           })),
         );
+        const bulkResults = [];
+        for (const result of bulkStoreResult) {
+          if (result.status === 'fulfilled') {
+            bulkResults.push({
+              ...contributions[result.index].original,
+              ipfsContentUri: result.value,
+            });
+          }
+        }
 
         // Mint successfully stored contributions in IPFS.
-        await bulkMintContributions(
-          bulkStoreResult
-            .filter(promise => promise.status === 'fulfilled')
-            .map(result => ({
-              ...contributions[result.index].original,
-              ipfsContentUri: result.value as string,
-            })),
-        );
+        await bulkMintContributions(bulkResults);
       } else if (contributions.length === 1) {
         const contribution = contributions[0];
 
