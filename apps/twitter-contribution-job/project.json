@@ -39,7 +39,8 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/twitter-contribution-job/**/*.ts"]
+        "lintFilePatterns": ["apps/twitter-contribution-job/**/*.ts"],
+        "maxWarnings": 0
       }
     },
     "test": {
