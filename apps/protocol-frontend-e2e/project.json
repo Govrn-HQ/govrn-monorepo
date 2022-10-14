@@ -20,7 +20,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/protocol-frontend-e2e/**/*.{js,ts}"],
-        "maxWarnings": 7
+        "maxWarnings": 8
       }
     }
   },
