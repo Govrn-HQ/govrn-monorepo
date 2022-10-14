@@ -71,36 +71,6 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const deleteContribution = async (id: number) => {
-    try {
-      if (signer && chain?.id) {
-        await govrn.contribution.delete(
-          {
-            address: networks[chain?.id].govrnContract,
-            chainId: chain?.id,
-            name: networks[chain?.id].name,
-          },
-          signer,
-          id,
-        );
-        queryClient.invalidateQueries(['contributionList']);
-        queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries(['contributionGet', id]);
-
-        toast.success({
-          title: 'Contribution Successfully deleted',
-          description: 'Your Contribution has been deleted.',
-        });
-      }
-    } catch (e) {
-      console.log('error', e);
-      toast.error({
-        title: 'Unable to delete contribution',
-        description: `Something went wrong. Please try again: ${e}`,
-      });
-    }
-  };
-
   const mintAttestation = async (contribution: AttestationTableType) => {
     try {
       if (!contribution?.onChainId) {
@@ -141,7 +111,6 @@ export const ContributionsContextProvider: React.FC<
     <ContributionContext.Provider
       value={{
         contribution,
-        deleteContribution,
         getUserContributionsCount,
         mintAttestation,
         setContribution,
@@ -166,12 +135,10 @@ type ContributionContextType = {
   ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   mintAttestation: (contribution: AttestationTableType) => Promise<void>;
   setContribution: (data: UIContribution) => void;
-
   setUserContributionsDateRangeCount: (
     data: UserContributionsDateRangeCountType[],
   ) => void;
   setUserAttestations: (arg0: UIAttestations) => void;
-  deleteContribution: (id: number) => void;
   userAttestations: UIAttestations | null;
   userContributionsDateRangeCount: UserContributionsDateRangeCountType[];
 };
