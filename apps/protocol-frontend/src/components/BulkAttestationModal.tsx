@@ -27,7 +27,11 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
 
   const createAttestationsHandler = (contributions: AttestationTableType[]) => {
     contributions.forEach(async contribution => {
-      await mintAttestation(contribution);
+      try {
+        await mintAttestation(contribution);
+      } catch {
+        return;
+      }
     });
   };
 
