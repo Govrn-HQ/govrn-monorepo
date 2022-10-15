@@ -55,7 +55,6 @@ const BulkDaoAttributeModal = ({
     },
   ];
 
-  console.log('contributions', contributions);
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
@@ -64,7 +63,6 @@ const BulkDaoAttributeModal = ({
   > = async values => {
     setAttributing(true);
     contributions.map(contribution => {
-      console.log('contribution in map', contribution);
       updateNewContribution({
         updatedValues: values,
         contribution: contribution,
