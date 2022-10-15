@@ -6,14 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { BulkDaoAttributeFormValues } from '../types/forms';
-import { UIContribution } from '@govrn/ui-types';
 import { useDaosList } from '../hooks/useDaosList';
 import pluralize from 'pluralize';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
+import { ContributionTableType } from '../types/table';
 
 interface BulkDaoAttributeModalProps {
-  contributions: UIContribution[];
-  onClose?: () => void;
+  contributions: ContributionTableType[];
 }
 
 const BulkDaoAttributeModal = ({
@@ -56,13 +55,14 @@ const BulkDaoAttributeModal = ({
     },
   ];
 
+
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
   const bulkAttributeDaoHandler: SubmitHandler<
     BulkDaoAttributeFormValues
-  > = async (values: BulkDaoAttributeFormValues) => {
+  > = async values => {
     setAttributing(true);
-    contributions.map((contribution, idx) => {
+    contributions.map(contribution => {
       updateNewContribution({
         updatedValues: values,
         contribution: contribution,

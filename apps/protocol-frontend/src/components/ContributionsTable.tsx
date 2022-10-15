@@ -45,6 +45,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
+import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -60,9 +61,7 @@ const ContributionsTable = ({
   nextPage,
 }: {
   contributionsData: UIContribution[][];
-  setSelectedContributions: (
-    rows: UIContribution[] | Row<ContributionTableType>[],
-  ) => void;
+  setSelectedContributions: (rows: Row<ContributionTableType>[]) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
@@ -104,11 +103,15 @@ const ContributionsTable = ({
           id: contribution.id,
           details: contribution.details,
           proof: contribution.proof,
+          updatedAt: contribution.updatedAt,
           date_of_submission: contribution.date_of_submission,
           engagementDate: formatDate(contribution.date_of_engagement),
+          date_of_engagement: formatDate(contribution.date_of_engagement),
           attestations: contribution.attestations || null,
           user: contribution.user,
           activityTypeId: contribution.activity_type.id,
+          activity_type: contribution.activity_type,
+          guilds: contribution.guilds,
           status: contribution.status,
           action: '',
           guildName:
@@ -358,6 +361,17 @@ const ContributionsTable = ({
                     localContribution.id === selectedContribution,
                 )!
               }
+            />
+          }
+        />
+        <ModalWrapper
+          name="bulkDaoAttributeModal"
+          title="Attribute Contributions to a DAO"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <BulkDaoAttributeModal
+              contributions={selectedFlatRows.map(r => r.original)}
             />
           }
         />
