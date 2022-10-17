@@ -5,7 +5,6 @@ import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useContributionList } from '../hooks/useContributionList';
 import SiteLayout from '../components/SiteLayout';
-import DashboardShell from '../components/DashboardShell';
 import NewUserView from '../components/NewUserView';
 import ErrorView from '../components/ErrorView';
 import { GOVRN_MOTTO } from '../utils/constants';

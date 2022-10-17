@@ -1,5 +1,4 @@
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
-import { ErrorMessageProps } from '@govrn/protocol-ui';
 import SiteLayout from '../components/SiteLayout';
 import { GOVRN_MOTTO } from '../utils/constants';
 

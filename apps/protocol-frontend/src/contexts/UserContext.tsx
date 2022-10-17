@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 import { useAccount } from 'wagmi';
-import { UIUser, UIGuild } from '@govrn/ui-types';
+import { UIUser } from '@govrn/ui-types';
 import {
   ContributionFormValues,
   CreateUserFormValues,
@@ -95,12 +95,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [address]);
 
-  const getUserDaos = () => {
+  const getUserDaos = useCallback(() => {
     if (userData) {
       const userDaos = userData?.guild_users;
       setUserDaos(userDaos);
     }
-  };
+  }, [userData]);
 
   const isUserDaoMember = (daoId: string): boolean | undefined => {
     if (userDaos !== null && daoId !== undefined) {
@@ -224,7 +224,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     if (userData && isAuthenticated) {
       getUserDaos();
     }
-  }, [userData, isAuthenticated]);
+  }, [userData, getUserDaos, isAuthenticated]);
 
   return (
     <UserContext.Provider
