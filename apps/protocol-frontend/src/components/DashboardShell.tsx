@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
-import { UIUser } from '@govrn/ui-types';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
@@ -13,10 +12,6 @@ import useContributionCountInRange, {
   useContributionCountInYear,
 } from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
-
-interface DashboardShellProps {
-  user: UIUser | null;
-}
 
 const TODAY_DATE = new Date();
 
@@ -176,8 +171,7 @@ const DashboardShell = () => {
               >
                 Contribution Heat Map
               </Heading>
-              {fullContributionsCount &&
-              fullContributionsCount !== undefined ? (
+              {fullContributionsCount ? (
                 <>
                   <Text as="span" fontSize="sm">
                     Displaying{' '}
@@ -218,7 +212,7 @@ const DashboardShell = () => {
               >
                 {} Contribution Bar Chart
               </Heading>
-              {contributionsCount && contributionsCount !== undefined ? (
+              {contributionsCount ? (
                 <>
                   <Text as="span" fontSize="sm">
                     Displaying{' '}
