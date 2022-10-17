@@ -214,7 +214,7 @@ export class GetContributionCountForUser {
   @TypeGraphQL.Field(_type => [Number], { nullable: true })
   guildIds?: number[];
 
-  @TypeGraphQL.Field(_type => [Boolean], { nullable: true })
+  @TypeGraphQL.Field(_type => Boolean, { nullable: true })
   excludeUnassigned?: boolean;
 }
 
