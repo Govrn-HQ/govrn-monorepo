@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Alert,
   AlertDescription,
@@ -24,7 +24,6 @@ import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
 import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
-import { UIContribution } from '@govrn/ui-types';
 import { Row } from 'react-table';
 import { ContributionTableType } from '../types/table';
 
@@ -43,10 +42,7 @@ const ContributionsTableShell = () => {
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<
-    UIContribution[] | Row<ContributionTableType>[]
-  >([]);
-  const [selectedContributionsMap, setSelectedContributionsMap] = useState<
-    UIContribution[]
+    Row<ContributionTableType>[]
   >([]);
 
   const mintModalHandler = () => {
@@ -210,7 +206,9 @@ const ContributionsTableShell = () => {
         localOverlay={localOverlay}
         size="3xl"
         content={
-          <BulkDaoAttributeModal contributions={selectedContributionsMap} />
+          <BulkDaoAttributeModal
+            contributions={selectedContributions.map(r => r.original)}
+          />
         }
       />
     </>

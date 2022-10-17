@@ -24,7 +24,7 @@ export const isEIP55Address = (address: string) => {
 export const checkContractWalletSignature = async (
   message: SiweMessage,
   signature: string,
-  provider?: any,
+  provider?: ethers.providers.Provider | ethers.Signer,
 ): Promise<boolean> => {
   if (!provider) {
     return false;

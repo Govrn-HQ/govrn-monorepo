@@ -11,16 +11,18 @@ type ToastProps = {
 
 const ToastBase = ({
   toast,
-  description,
   title,
+  description,
+  status,
+  id,
   duration,
   isClosable,
-  status,
 }: ToastProps & { status: AlertStatus; toast: CreateToastFnReturn }) => {
   toast({
     title,
     description,
     status,
+    id: id,
     duration: duration ?? 3000,
     isClosable: isClosable ?? true,
     position: 'top-right',

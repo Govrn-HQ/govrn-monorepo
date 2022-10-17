@@ -20,6 +20,7 @@ import { useUser } from '../contexts/UserContext';
 import {
   Column,
   Row,
+  HeaderGroup,
   useFilters,
   useGlobalFilter,
   useRowSelect,
@@ -44,6 +45,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
+import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -59,9 +61,7 @@ const ContributionsTable = ({
   nextPage,
 }: {
   contributionsData: UIContribution[][];
-  setSelectedContributions: (
-    rows: UIContribution[] | Row<ContributionTableType>[],
-  ) => void;
+  setSelectedContributions: (rows: Row<ContributionTableType>[]) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
@@ -69,7 +69,7 @@ const ContributionsTable = ({
 
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
-  const [selectedContribution, setSelectedContribution] = useState<any>();
+  const [selectedContribution, setSelectedContribution] = useState<number>();
 
   const handleEditContributionFormModal = (id: number) => {
     setSelectedContribution(id);
@@ -82,10 +82,6 @@ const ContributionsTable = ({
     onConfirm: false,
     contributionId: 0,
   });
-
-  useEffect(() => {
-    setDialog(dialog);
-  }, [dialog]);
 
   const handleDeleteContribution = (contributionId: number) => {
     setDialog({
@@ -107,17 +103,20 @@ const ContributionsTable = ({
           id: contribution.id,
           details: contribution.details,
           proof: contribution.proof,
+          updatedAt: contribution.updatedAt,
           date_of_submission: contribution.date_of_submission,
           engagementDate: formatDate(contribution.date_of_engagement),
+          date_of_engagement: formatDate(contribution.date_of_engagement),
           attestations: contribution.attestations || null,
           user: contribution.user,
           activityTypeId: contribution.activity_type.id,
+          activity_type: contribution.activity_type,
+          guilds: contribution.guilds,
           status: contribution.status,
           action: '',
           guildName:
-            contribution.guilds.map(
-              (guildObj: any) => guildObj.guild.name,
-            )[0] ?? '---',
+            contribution.guilds.map(guildObj => guildObj.guild.name)[0] ??
+            '---',
         });
       }
     }
@@ -303,29 +302,34 @@ const ContributionsTable = ({
         >
           <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
             <Thead backgroundColor="gray.50">
-              {headerGroups.map((headerGroup: any) => (
-                <Tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column: any) => (
-                    <Th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      isNumeric={column.isNumeric}
-                      borderColor="gray.100"
-                    >
-                      {column.render('Header')}
-                      <chakra.span paddingLeft="4">
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <IoArrowDown aria-label="sorted-descending" />
-                          ) : (
-                            <IoArrowUp aria-label="sorted-ascending" />
-                          )
-                        ) : null}
-                      </chakra.span>
-                    </Th>
-                  ))}
-                  <Th borderColor="gray.100" />
-                </Tr>
-              ))}
+              {headerGroups.map(
+                (headerGroup: HeaderGroup<ContributionTableType>) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(
+                      (column: HeaderGroup<ContributionTableType>) => (
+                        <Th
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps(),
+                          )}
+                          borderColor="gray.100"
+                        >
+                          {column.render('Header')}
+                          <chakra.span paddingLeft="4">
+                            {column.isSorted ? (
+                              column.isSortedDesc ? (
+                                <IoArrowDown aria-label="sorted-descending" />
+                              ) : (
+                                <IoArrowUp aria-label="sorted-ascending" />
+                              )
+                            ) : null}
+                          </chakra.span>
+                        </Th>
+                      ),
+                    )}
+                    <Th borderColor="gray.100" />
+                  </Tr>
+                ),
+              )}
             </Thead>
 
             <Tbody {...getTableBodyProps()}>
@@ -357,6 +361,17 @@ const ContributionsTable = ({
                     localContribution.id === selectedContribution,
                 )!
               }
+            />
+          }
+        />
+        <ModalWrapper
+          name="bulkDaoAttributeModal"
+          title="Attribute Contributions to a DAO"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <BulkDaoAttributeModal
+              contributions={selectedFlatRows.map(r => r.original)}
             />
           }
         />
