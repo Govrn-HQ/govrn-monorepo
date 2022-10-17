@@ -140,11 +140,11 @@ const ContributionsTable = ({
          
           return (
      
-          <div className="text-wrap">
+   
             <Link to={`/contributions/${row.original.id}`}>
-              <Text>{value}</Text>
+              <Text noOfLines={1}>{value}</Text>
             </Link>
-           </div>
+       
         
           );
         },
