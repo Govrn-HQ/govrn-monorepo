@@ -34,7 +34,7 @@ const unassignedContributions = [
   },
 ];
 
-const DashboardShell = ({ user }: DashboardShellProps) => {
+const DashboardShell = () => {
   const { userData } = useUser();
   const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
     value: 52,
@@ -133,7 +133,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
               >
-                {user?.name}
+                {userData?.name}
               </Text>
             </Heading>
             <Flex
