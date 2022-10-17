@@ -38,7 +38,7 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
       if (isUserDaoMember(guildId)) {
         return children;
       } else {
-        // return <Navigate to="/dashboard" replace />;
+        // return <Navigate to="/dashboard" replace />; // if we want to only redirect the user
         return (
           <ErrorView
             errorMessage="You have to be a member of this DAO to view the DAO Dashboard."

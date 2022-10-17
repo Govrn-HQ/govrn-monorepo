@@ -5,7 +5,7 @@ import { GOVRN_MOTTO } from '../utils/constants';
 
 interface ErrorViewProps {
   errorMessage: string;
-  includeMotto: boolean;
+  includeMotto?: boolean;
 }
 
 const ErrorView = ({ errorMessage, includeMotto = true }: ErrorViewProps) => (

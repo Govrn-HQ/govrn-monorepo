@@ -102,7 +102,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   };
 
-  const isUserDaoMember = (daoId: string | undefined) => {
+  const isUserDaoMember = (daoId: string): boolean | undefined => {
     if (userDaos !== null && daoId !== undefined) {
       return userDaos.map(dao => dao.guild_id).includes(parseInt(daoId));
     }
@@ -264,7 +264,7 @@ type UserContextType = {
   }) => Promise<void>;
   govrnProtocol: GovrnProtocol;
   isUserLoading: boolean;
-  isUserDaoMember: (daoId: string) => boolean;
+  isUserDaoMember: (daoId: string) => boolean | undefined;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
