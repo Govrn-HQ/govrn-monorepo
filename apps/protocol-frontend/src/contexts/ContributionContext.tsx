@@ -45,32 +45,6 @@ export const ContributionsContextProvider: React.FC<
   const [userContributionsDateRangeCount, setUserContributionsDateRangeCount] =
     useState<UserContributionsDateRangeCountType[]>([]);
 
-  const getUserContributionsCount = async (
-    startDate: Date | string,
-    endDate: Date | string,
-    guildIds?: number[] | null | undefined,
-    excludeUnassigned?: boolean[] | undefined,
-  ) => {
-    try {
-      if (!userData?.id) {
-        throw new Error('getUserContributionsCount has no userData.id');
-      }
-      const getUserContributionsCountResponse =
-        await govrn.custom.getContributionCountByDateForUserInRange({
-          id: userData?.id,
-          startDate: startDate,
-          endDate: endDate,
-          guildIds: guildIds,
-          excludeUnassigned: excludeUnassigned,
-        });
-
-      setUserContributionsDateRangeCount(getUserContributionsCountResponse);
-      return getUserContributionsCountResponse;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const deleteContribution = async (id: number) => {
     try {
       if (signer && chain?.id) {
@@ -142,7 +116,6 @@ export const ContributionsContextProvider: React.FC<
       value={{
         contribution,
         deleteContribution,
-        getUserContributionsCount,
         mintAttestation,
         setContribution,
         setUserAttestations,
@@ -158,12 +131,6 @@ export const ContributionsContextProvider: React.FC<
 
 type ContributionContextType = {
   contribution: UIContribution;
-  getUserContributionsCount: (
-    startDate: string | Date,
-    endDate: string | Date,
-    guildIds?: number[] | null | undefined,
-    excludeUnassigned?: boolean[] | undefined,
-  ) => Promise<UserContributionsDateRangeCountType[] | undefined>;
   mintAttestation: (contribution: AttestationTableType) => Promise<void>;
   setContribution: (data: UIContribution) => void;
 
