@@ -5,9 +5,10 @@ import { GOVRN_MOTTO } from '../utils/constants';
 
 interface ErrorViewProps {
   errorMessage: string;
+  includeMotto: boolean;
 }
 
-const ErrorView = ({ errorMessage }: ErrorMessageProps) => (
+const ErrorView = ({ errorMessage, includeMotto = true }: ErrorViewProps) => (
   <SiteLayout>
     <Container
       paddingY={{ base: '4', md: '8' }}
@@ -21,7 +22,7 @@ const ErrorView = ({ errorMessage }: ErrorMessageProps) => (
         borderRadius={{ base: 'none', md: 'lg' }}
       >
         <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-          <Text>{GOVRN_MOTTO}</Text>
+          {includeMotto && <Text>{GOVRN_MOTTO}</Text>}
           <Text fontSize="lg" fontWeight="medium">
             {errorMessage}
           </Text>
