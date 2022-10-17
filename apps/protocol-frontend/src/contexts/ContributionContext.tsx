@@ -4,7 +4,6 @@ import { UIAttestations, UIContribution } from '@govrn/ui-types';
 import { useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
 import { GovrnProtocol } from '@govrn/protocol-client';
-import { AttestationTableType } from '../types/table';
 import { UserContext } from './UserContext';
 import { PROTOCOL_URL } from '../utils/constants';
 import useGovrnToast from '../components/toast';
@@ -75,48 +74,11 @@ export const ContributionsContextProvider: React.FC<
     }
   };
 
-  const mintAttestation = async (contribution: AttestationTableType) => {
-    try {
-      if (!contribution?.onChainId) {
-        throw new Error('No onChainId for contribution');
-      }
-      if (signer && chain?.id && userData) {
-        await govrn.contribution.attest(
-          {
-            address: networks[chain?.id].govrnContract,
-            chainId: chain?.id,
-            name: networks[chain?.id].name,
-          },
-          signer,
-          0,
-          userData.id,
-          {
-            contribution: contribution.onChainId,
-            confidence: 0,
-          },
-          chain.id,
-        );
-        queryClient.invalidateQueries(['useContributionInfiniteList']);
-        toast.success({
-          title: 'Attestation Successfully Minted',
-          description: 'Your Attestation has been minted.',
-        });
-      }
-    } catch (error) {
-      console.log('error', error);
-      toast.error({
-        title: 'Unable to Mint Attestation',
-        description: `Something went wrong. Please try again: ${error}`,
-      });
-    }
-  };
-
   return (
     <ContributionContext.Provider
       value={{
         contribution,
         deleteContribution,
-        mintAttestation,
         setContribution,
         setUserAttestations,
         setUserContributionsDateRangeCount,
@@ -131,7 +93,6 @@ export const ContributionsContextProvider: React.FC<
 
 type ContributionContextType = {
   contribution: UIContribution;
-  mintAttestation: (contribution: AttestationTableType) => Promise<void>;
   setContribution: (data: UIContribution) => void;
 
   setUserContributionsDateRangeCount: (
