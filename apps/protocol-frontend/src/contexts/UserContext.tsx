@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 import { useAccount } from 'wagmi';
-import { UIUser } from '@govrn/ui-types';
+import { UIUser, UIGuild } from '@govrn/ui-types';
 import {
   ContributionFormValues,
   CreateUserFormValues,
@@ -44,6 +44,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [isUserLoading, setUserLoading] = useState(false);
 
   const [userData, setUserData] = useState<UIUser | null>(null);
+  const [userDaos, setUserDaos] = useState<
+    | {
+        id: number;
+        user_id: number;
+        guild_id: number;
+      }[]
+    | null
+  >(null);
 
   useEffect(() => {
     if (address) {
@@ -86,6 +94,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserLoading(false);
     }
   }, [address]);
+
+  const getUserDaos = () => {
+    if (userData) {
+      const userDaos = userData?.guild_users;
+      setUserDaos(userDaos);
+    }
+  };
+
+  const isUserDaoMember = (daoId: string | undefined) => {
+    if (userDaos !== null && daoId !== undefined) {
+      return userDaos.map(dao => dao.guild_id).includes(parseInt(daoId));
+    }
+  };
 
   const createUser = async (
     values: CreateUserFormValues,
@@ -199,12 +220,19 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userDataByAddress, isAuthenticated]);
 
+  useEffect(() => {
+    if (userData && isAuthenticated) {
+      getUserDaos();
+    }
+  }, [userData, isAuthenticated]);
+
   return (
     <UserContext.Provider
       value={{
         createUser,
         createWaitlistUser,
         disconnectLinear,
+        isUserDaoMember,
         govrnProtocol: govrn,
         isUserLoading,
         setUserAddress,
@@ -212,6 +240,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserDataByAddress,
         updateProfile,
         userAddress,
+        userDaos,
         userData,
         userDataByAddress,
       }}
@@ -235,11 +264,13 @@ type UserContextType = {
   }) => Promise<void>;
   govrnProtocol: GovrnProtocol;
   isUserLoading: boolean;
+  isUserDaoMember: (daoId: string) => boolean;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
+  userDaos: { id: number; user_id: number; guild_id: number }[] | null;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };

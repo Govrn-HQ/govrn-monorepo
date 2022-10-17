@@ -30,18 +30,21 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 
   return children;
 };
-
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  const { userData } = useUser();
+  const { userDaos, isUserDaoMember } = useUser();
   const { guildId } = useParams();
-  if (userData) {
-    const userDaos = userData?.guild_users.map(guild => {
-      return guild.guild_id;
-    });
+  if (userDaos) {
     if (guildId) {
-      if (userDaos.includes(parseInt(guildId))) {
+      console.log('guild id inside logic', guildId);
+      console.log('userDaos', userDaos);
+      // console.log(userDaos?.map(dao => dao.guild_id));
+      // if (userDaos?.map(dao => dao.guild_id).includes(parseInt(guildId))) {
+      if (isUserDaoMember(guildId)) {
+        console.log('in the dao');
         return children;
       } else {
+        console.log('not in the dao');
+
         return <div>Not authorized</div>;
       }
     }
@@ -50,6 +53,11 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const Routes = () => {
+  const { userDaos } = useUser();
+  const { guildId } = useParams();
+  const params = useParams();
+
+  console.log('userDaos', userDaos);
   return (
     <HashRouter>
       <RouteContainer>
