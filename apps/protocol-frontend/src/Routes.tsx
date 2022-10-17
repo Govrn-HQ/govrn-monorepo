@@ -32,21 +32,19 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  const { userDaos, isUserDaoMember } = useUser();
+  const { isUserDaoMember } = useUser();
   const { guildId } = useParams();
-  if (userDaos) {
-    if (guildId) {
-      if (!isUserDaoMember(guildId)) {
-        return (
-          <ErrorView
-            errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
-            includeMotto={false}
-          />
-        );
-      }
-      return children;
+  if (guildId) {
+    if (!isUserDaoMember(guildId)) {
+      return (
+        <ErrorView
+          errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
+          includeMotto={false}
+        />
+      );
     }
   }
+  return children;
 };
 
 const Routes = () => {
