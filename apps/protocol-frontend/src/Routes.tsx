@@ -30,15 +30,13 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 
   return children;
 };
+
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
   const { userDaos, isUserDaoMember } = useUser();
   const { guildId } = useParams();
   if (userDaos) {
     if (guildId) {
-      if (isUserDaoMember(guildId)) {
-        return children;
-      } else {
-        // return <Navigate to="/dashboard" replace />; // if we want to only redirect the user
+      if (!isUserDaoMember(guildId)) {
         return (
           <ErrorView
             errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
@@ -46,9 +44,9 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
           />
         );
       }
+      return children;
     }
   }
-  return children;
 };
 
 const Routes = () => {
