@@ -6,9 +6,10 @@ import * as _ from 'lodash';
 type ContributionCount = {
   date: string;
   count: number;
-  guild_id?: number;
+  guild_id?: number | null;
   name?: string;
 };
+
 interface ContributionsBarChartProps {
   contributionsCount: ContributionCount[];
   dateRange: { label: string; value: number };
@@ -47,7 +48,7 @@ const ContributionsBarChart = ({
         guildName: cur.name,
       };
       return acc;
-    }, {} as { [key: string]: { day: string; value: number; guildId: number | undefined; guildName: string | undefined } });
+    }, {} as { [key: string]: { day: string; value: number; guildId?: number | null; guildName?: string } });
 
     contributionsCountMap = Object.values(counts);
   } else if (dateRange.value === 4) {

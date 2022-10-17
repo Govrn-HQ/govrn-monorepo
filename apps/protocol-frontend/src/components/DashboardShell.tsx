@@ -7,28 +7,33 @@ import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
-import { useContributions } from '../contexts/ContributionContext';
 import { UNASSIGNED } from '../utils/constants';
 import { useDaosList } from '../hooks/useDaosList';
-
-type UserContributionsDateRangeCountType = {
-  count: number;
-  date: string;
-};
+import useContributionCount from '../hooks/useContributionCount';
+import { endOfDay, startOfDay } from 'date-fns';
 
 interface DashboardShellProps {
   user: UIUser | null;
 }
 
+const TODAY_DATE = new Date();
+
+const dateRangeOptions = [
+  { value: 1, label: 'Last Week' },
+  { value: 4, label: 'Last Month' },
+  { value: 12, label: 'Last Quarter' },
+  { value: 52, label: 'Last Year' },
+];
+
+const unassignedContributions = [
+  {
+    value: Number(null),
+    label: UNASSIGNED,
+  },
+];
+
 const DashboardShell = ({ user }: DashboardShellProps) => {
   const { userData } = useUser();
-  const { getUserContributionsCount } = useContributions();
-  const [contributionsCount, setContributionsCount] = useState<
-    UserContributionsDateRangeCountType[] | null | undefined
-  >([]);
-  const [fullContributionsCount, setFullContributionsCount] = useState<
-    UserContributionsDateRangeCountType[] | null | undefined
-  >([]);
   const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
     value: 52,
     label: 'Last Year',
@@ -37,7 +42,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     { value: number; label: string }[]
   >([]);
 
-  // renaming these on destructuring incase we have parallel queries:
+  // renaming these on destructuring in case we have parallel queries:
   const {
     isLoading: userDaosListIsLoading,
     isError: userDaosListIsError,
@@ -46,75 +51,47 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
   });
 
-  const fetchHeatMapCount = async (
-    dateRangeValue: number,
-    setFunc: (
-      arg: UserContributionsDateRangeCountType[] | null | undefined,
-    ) => void,
-  ) => {
-    if (selectedDaos) {
-      const contributionsCountResponse = await getUserContributionsCount(
-        subWeeks(new Date(), dateRangeValue),
-        new Date(),
-        selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
-      );
-      setFunc(contributionsCountResponse);
-      if (selectedDaos.some(dao => dao.label === UNASSIGNED)) {
-        setFunc(contributionsCountResponse);
-      } else {
-        setFunc(
-          contributionsCountResponse?.filter(
-            contribution => contribution?.name !== UNASSIGNED,
-          ),
-        );
-      }
-      if (
-        selectedDaos.length === 0 &&
-        !selectedDaos.some(dao => dao.label === UNASSIGNED)
-      ) {
-        const contributionsCountResponse = await getUserContributionsCount(
-          subWeeks(new Date(), dateRangeValue),
-          new Date(),
-          combinedDaoListOptions
-            .map(dao => dao.value)
-            .filter(dao => dao !== null),
-        );
-        setFunc(contributionsCountResponse);
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchHeatMapCount(dateRange.value, setContributionsCount);
-  }, [user, dateRange, selectedDaos]);
-
-  useEffect(() => {
-    fetchHeatMapCount(52, setFullContributionsCount);
-  }, [user, selectedDaos]);
-
   const userDaoListOptions =
     userDaosListData?.map(dao => ({
       value: dao.id,
       label: dao.name ?? '',
     })) || [];
 
-  const unassignedContributions = [
-    {
-      value: Number(null),
-      label: UNASSIGNED,
-    },
-  ];
-
-  const dateRangeOptions = [
-    { value: 1, label: 'Last Week' },
-    { value: 4, label: 'Last Month' },
-    { value: 12, label: 'Last Quarter' },
-    { value: 52, label: 'Last Year' },
-  ];
-
   const combinedDaoListOptions = [
     ...new Set([...unassignedContributions, ...userDaoListOptions]),
   ];
+
+  const { data: fullContributionsCount } = useContributionCount({
+    startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value),
+    endDate: endOfDay(TODAY_DATE),
+    guildIds:
+      selectedDaos.length === 0 &&
+      !selectedDaos.some(dao => dao.label === UNASSIGNED)
+        ? combinedDaoListOptions
+            .map(dao => dao.value)
+            .filter(dao => dao !== null)
+        : selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
+    excludeUnassigned: !(
+      selectedDaos.length === 0 ||
+      selectedDaos.some(dao => dao.label === UNASSIGNED)
+    ),
+  });
+
+  const { data: contributionsCount } = useContributionCount({
+    startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value),
+    endDate: endOfDay(TODAY_DATE),
+    guildIds:
+      selectedDaos.length === 0 &&
+      !selectedDaos.some(dao => dao.label === UNASSIGNED)
+        ? combinedDaoListOptions
+            .map(dao => dao.value)
+            .filter(dao => dao !== null)
+        : selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
+    excludeUnassigned: !(
+      selectedDaos.length === 0 ||
+      selectedDaos.some(dao => dao.label === UNASSIGNED)
+    ),
+  });
 
   // the loading and fetching states from the query are true:
   if (userDaosListIsLoading) {
