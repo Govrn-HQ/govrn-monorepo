@@ -20,7 +20,10 @@ import { UserContextProvider } from './contexts/UserContext';
 import useGovrnToast from './components/toast';
 
 const container = document.getElementById('root');
-const root = createRoot(container!);
+if (!container) {
+  throw Error('Root cannot be found');
+}
+const root = createRoot(container);
 
 const App = () => {
   // we can refactor this to use a standalone toast
