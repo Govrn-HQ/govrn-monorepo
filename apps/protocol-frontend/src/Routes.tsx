@@ -35,9 +35,10 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
   // const { isUserDaoMember } = useUser();
   const { guildId } = useParams();
+  const isUserDaoMember = useUserDaoMember(guildId ? guildId : ''); // since guildId can be undefined at first -- avoiding conditional hook use
   if (guildId) {
     // if (!isUserDaoMember(guildId)) {
-    if (!useUserDaoMember(guildId)) {
+    if (!isUserDaoMember) {
       return (
         <ErrorView
           errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
