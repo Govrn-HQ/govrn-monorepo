@@ -20,7 +20,7 @@ const DeleteContributionDialog = (props: {
 
   const { onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const [deleteing, setDeleting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const {
     mutateAsync: deleteContribution,
@@ -62,7 +62,7 @@ const DeleteContributionDialog = (props: {
               ml={3}
               onClick={() => onDelete(!dialog.onConfirm, dialog.contributionId)}
               data-testid="deleteContributionConfirm-test"
-              isLoading={deleteing}
+              isLoading={deleting}
             >
               Confirm
             </Button>
