@@ -58,35 +58,28 @@ const DashboardShell = () => {
     ...new Set([...unassignedContributions, ...userDaoListOptions]),
   ];
 
+  const excludeUnassigned = !(
+    selectedDaos.length === 0 ||
+    selectedDaos.some(dao => dao.label === UNASSIGNED)
+  );
+
+  const guildIds =
+    selectedDaos.length === 0 &&
+    !selectedDaos.some(dao => dao.label === UNASSIGNED)
+      ? combinedDaoListOptions.map(dao => dao.value).filter(dao => dao !== null)
+      : selectedDaos.map(dao => dao.value).filter(dao => dao !== null);
+
   const { data: fullContributionsCount } = useContributionCountInYear({
     endDate: endOfDay(TODAY_DATE),
-    guildIds:
-      selectedDaos.length === 0 &&
-      !selectedDaos.some(dao => dao.label === UNASSIGNED)
-        ? combinedDaoListOptions
-            .map(dao => dao.value)
-            .filter(dao => dao !== null)
-        : selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
-    excludeUnassigned: !(
-      selectedDaos.length === 0 ||
-      selectedDaos.some(dao => dao.label === UNASSIGNED)
-    ),
+    guildIds,
+    excludeUnassigned,
   });
 
   const { data: contributionsCount } = useContributionCountInRange({
     startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value),
     endDate: endOfDay(TODAY_DATE),
-    guildIds:
-      selectedDaos.length === 0 &&
-      !selectedDaos.some(dao => dao.label === UNASSIGNED)
-        ? combinedDaoListOptions
-            .map(dao => dao.value)
-            .filter(dao => dao !== null)
-        : selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
-    excludeUnassigned: !(
-      selectedDaos.length === 0 ||
-      selectedDaos.some(dao => dao.label === UNASSIGNED)
-    ),
+    guildIds,
+    excludeUnassigned,
   });
 
   // the loading and fetching states from the query are true:
