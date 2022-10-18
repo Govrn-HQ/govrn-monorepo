@@ -7,7 +7,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
-import { useUser } from './contexts/UserContext';
+// import { useUser } from './contexts/UserContext';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Contributions from './pages/Contributions';
@@ -33,7 +33,7 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  const { isUserDaoMember } = useUser();
+  // const { isUserDaoMember } = useUser();
   const { guildId } = useParams();
   if (guildId) {
     // if (!isUserDaoMember(guildId)) {
