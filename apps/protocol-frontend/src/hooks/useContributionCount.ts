@@ -2,12 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useUser } from '../contexts/UserContext';
 import { subWeeks } from 'date-fns';
 
-const useContributionCountInRange = (args: {
-  startDate: Date | string;
-  endDate: Date | string;
-  guildIds?: number[] | null | undefined;
+type ContributionCountArgs = {
+  startDate: Date;
+  endDate: Date;
+  guildIds?: number[] | null;
   excludeUnassigned?: boolean;
-}) => {
+};
+
+const useContributionCountInRange = (args: ContributionCountArgs) => {
   const { userData, govrnProtocol: govrn } = useUser();
 
   const { isLoading, isFetching, isError, error, data } = useQuery(
@@ -20,10 +22,7 @@ const useContributionCountInRange = (args: {
 
       return await govrn.custom.getContributionCountByDateForUserInRange({
         id: userData?.id,
-        startDate: args.startDate,
-        endDate: args.endDate,
-        guildIds: args.guildIds,
-        excludeUnassigned: args.excludeUnassigned,
+        ...args,
       });
     },
   );
@@ -31,11 +30,9 @@ const useContributionCountInRange = (args: {
   return { isLoading, isError, isFetching, error, data };
 };
 
-export const useContributionCountInYear = (args: {
-  endDate: Date;
-  guildIds?: number[] | null | undefined;
-  excludeUnassigned?: boolean;
-}) => {
+export const useContributionCountInYear = (
+  args: Omit<ContributionCountArgs, 'startDate'>,
+) => {
   const { userData, govrnProtocol: govrn } = useUser();
 
   const { isLoading, isFetching, isError, error, data } = useQuery(
@@ -49,9 +46,7 @@ export const useContributionCountInYear = (args: {
       return await govrn.custom.getContributionCountByDateForUserInRange({
         id: userData?.id,
         startDate: subWeeks(args.endDate, 52),
-        endDate: args.endDate,
-        guildIds: args.guildIds,
-        excludeUnassigned: args.excludeUnassigned,
+        ...args,
       });
     },
   );
