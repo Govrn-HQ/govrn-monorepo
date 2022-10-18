@@ -32,8 +32,8 @@ export const useContributionCreate = () => {
         queryClient.invalidateQueries(['userDaos']); // invalidate and refetch
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries(['GetContributionFullCountYear']);
-        queryClient.invalidateQueries(['GetContributionCount']);
+        queryClient.invalidateQueries(['ContributionGetCountYear']);
+        queryClient.invalidateQueries(['ContributionGetCount']);
 
         toast.success({
           title: 'Contribution Report Added',

@@ -11,7 +11,7 @@ const useContributionCountInRange = (args: {
   const { userData, govrnProtocol: govrn } = useUser();
 
   const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['GetContributionCount', args],
+    ['ContributionGetCount', args],
     async () => {
       if (!userData?.id) {
         console.error('getUserContributionsCount has no userData.id');
@@ -39,7 +39,7 @@ export const useContributionCountInYear = (args: {
   const { userData, govrnProtocol: govrn } = useUser();
 
   const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['GetContributionFullCountYear', args],
+    ['ContributionGetCountYear', args],
     async () => {
       if (!userData?.id) {
         console.error('getUserContributionsCount has no userData.id');

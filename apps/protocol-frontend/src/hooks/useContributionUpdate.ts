@@ -54,8 +54,8 @@ export const useContributionUpdate = () => {
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries(['GetContributionFullCountYear']);
-        queryClient.invalidateQueries(['GetContributionCount']);
+        queryClient.invalidateQueries(['ContributionGetCountYear']);
+        queryClient.invalidateQueries(['ContributionGetCount']);
         queryClient.invalidateQueries(['contributionGet', data?.data.id]); // invalidate the Contribution Query with the ID of the updated Contribution
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({

@@ -31,8 +31,8 @@ export const useContributionDelete = () => {
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries(['GetContributionFullCountYear']);
-        queryClient.invalidateQueries(['GetContributionCount']);
+        queryClient.invalidateQueries(['ContributionGetCountYear']);
+        queryClient.invalidateQueries(['ContributionGetCount']);
         queryClient.invalidateQueries([
           'contributionGet',
           data?.deleteUserContribution.id,
