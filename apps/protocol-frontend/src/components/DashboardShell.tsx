@@ -8,9 +8,7 @@ import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
 import { UNASSIGNED } from '../utils/constants';
 import { useDaosList } from '../hooks/useDaosList';
-import useContributionCountInRange, {
-  useContributionCountInYear,
-} from '../hooks/useContributionCount';
+import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
 
 const TODAY_DATE = new Date();
@@ -69,7 +67,8 @@ const DashboardShell = () => {
       ? combinedDaoListOptions.map(dao => dao.value).filter(dao => dao !== null)
       : selectedDaos.map(dao => dao.value).filter(dao => dao !== null);
 
-  const { data: fullContributionsCount } = useContributionCountInYear({
+  const { data: fullContributionsCount } = useContributionCountInRange({
+    startDate: subWeeks(startOfDay(TODAY_DATE), 52),
     endDate: endOfDay(TODAY_DATE),
     guildIds,
     excludeUnassigned,
