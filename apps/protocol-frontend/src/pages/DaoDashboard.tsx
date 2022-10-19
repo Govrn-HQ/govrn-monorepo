@@ -9,17 +9,6 @@ import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
 import DaoDashboardShell from '../components/DaoDashboardShell';
 
-const UserView = () => {
-  return (
-    <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-      <Text>{GOVRN_MOTTO}</Text>
-      <Text fontSize="lg" fontWeight="medium">
-        Welcome back! Add a Contribution to view your Dashboard
-      </Text>
-    </Stack>
-  );
-};
-
 const DaoDashboard = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
@@ -32,30 +21,11 @@ const DaoDashboard = () => {
 
   return (
     <SiteLayout>
-      {isConnected && isAuthenticated ? (
+      {isConnected && isAuthenticated && (
         <DaoDashboardShell
           user={userData}
           daoName={currentDao?.guild.name ?? ''}
         />
-      ) : (
-        <Container
-          paddingY={{ base: '4', md: '8' }}
-          paddingX={{ base: '0', md: '8' }}
-          color="gray.700"
-          maxWidth="1200px"
-        >
-          <Box
-            background="white"
-            boxShadow="sm"
-            borderRadius={{ base: 'none', md: 'lg' }}
-          >
-            {isConnected && isAuthenticated && userData ? (
-              <UserView />
-            ) : (
-              <NewUserView />
-            )}
-          </Box>
-        </Container>
       )}
     </SiteLayout>
   );
