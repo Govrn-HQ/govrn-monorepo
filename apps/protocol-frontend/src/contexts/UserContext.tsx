@@ -49,6 +49,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         id: number;
         user_id: number;
         guild_id: number;
+        guild: {
+          id: number;
+          name: string;
+        };
       }[]
     | null
   >(null);
@@ -270,7 +274,14 @@ type UserContextType = {
   setUserDataByAddress: (arg0: UIUser) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
-  userDaos: { id: number; user_id: number; guild_id: number }[] | null;
+  userDaos:
+    | {
+        id: number;
+        user_id: number;
+        guild_id: number;
+        guild: { id: number; name: string };
+      }[]
+    | null;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };
