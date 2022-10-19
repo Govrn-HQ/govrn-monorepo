@@ -51,7 +51,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         guild_id: number;
         guild: {
           id: number;
-          name: string;
+          name?: string | null;
         };
       }[]
     | null
@@ -279,7 +279,7 @@ type UserContextType = {
         id: number;
         user_id: number;
         guild_id: number;
-        guild: { id: number; name: string };
+        guild: { id: number; name?: string | null };
       }[]
     | null;
   userData: UIUser | null;
