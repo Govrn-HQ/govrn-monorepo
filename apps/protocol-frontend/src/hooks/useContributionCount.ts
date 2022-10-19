@@ -11,7 +11,7 @@ const useContributionCountInRange = (args: {
   const { userData, govrnProtocol: govrn } = useUser();
 
   const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['ContributionGetCount', args],
+    ['contributionGetCount', args],
     async () => {
       if (!userData?.id) {
         console.error('getUserContributionsCount has no userData.id');
@@ -21,10 +21,12 @@ const useContributionCountInRange = (args: {
       return await govrn.custom.getContributionCountByDateForUserInRange({
         id: userData?.id,
         ...args,
-        startDate: args.startDate ?? subWeeks(args.endDate, 52),
+        startDate: args.startDate,
       });
     },
   );
+  console.log('Data');
+  console.log(data);
 
   return { isLoading, isError, isFetching, error, data };
 };

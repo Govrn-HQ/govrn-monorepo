@@ -56,16 +56,15 @@ const DashboardShell = () => {
     ...new Set([...unassignedContributions, ...userDaoListOptions]),
   ];
 
-  const excludeUnassigned = !(
-    selectedDaos.length === 0 ||
-    selectedDaos.some(dao => dao.label === UNASSIGNED)
-  );
+  const excludeUnassigned =
+    selectedDaos.length !== 0 &&
+    !selectedDaos.some(dao => dao.label === UNASSIGNED);
 
   const guildIds =
     selectedDaos.length === 0 &&
     !selectedDaos.some(dao => dao.label === UNASSIGNED)
-      ? combinedDaoListOptions.map(dao => dao.value).filter(dao => dao !== null)
-      : selectedDaos.map(dao => dao.value).filter(dao => dao !== null);
+      ? combinedDaoListOptions.map(dao => dao.value).filter(dao => dao !== 0)
+      : selectedDaos.map(dao => dao.value).filter(dao => dao !== 0);
 
   const { data: fullContributionsCount } = useContributionCountInRange({
     startDate: subWeeks(startOfDay(TODAY_DATE), 52),

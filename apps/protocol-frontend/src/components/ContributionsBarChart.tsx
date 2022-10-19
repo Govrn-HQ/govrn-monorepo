@@ -54,8 +54,9 @@ const ContributionsBarChart = ({
   } else if (dateRange.value === 4) {
     contributionsCountMap = contributionsCount.map(contribution => {
       const date = new Date(contribution.date);
+
       return {
-        day: `${date.getMonth()}-${date.getDate()}`,
+        day: `${date.getMonth() + 1}-${date.getDate() + 1}`,
         value: contribution.count,
         guildId: contribution.guild_id,
         guildName: contribution.name,
@@ -65,7 +66,7 @@ const ContributionsBarChart = ({
     contributionsCountMap = contributionsCount.map(contribution => {
       const date = new Date(contribution.date);
       return {
-        day: date.getDate(),
+        day: date.getDate() + 1,
         value: contribution.count,
         guildId: contribution.guild_id,
         guildName: contribution.name,
