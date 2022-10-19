@@ -12,7 +12,6 @@ import {
 } from '@tanstack/react-query';
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
-import { ContributionsContextProvider } from './contexts/ContributionContext';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 import '@rainbow-me/rainbowkit/styles.css';
@@ -44,9 +43,7 @@ const App = () => {
         <AuthContextProvider>
           <UserContextProvider>
             <QueryClientProvider client={queryClient}>
-              <ContributionsContextProvider>
-                <Routes />
-              </ContributionsContextProvider>
+              <Routes />
             </QueryClientProvider>
           </UserContextProvider>
         </AuthContextProvider>

@@ -1,34 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
-import { UIUser } from '@govrn/ui-types';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
-import { useContributions } from '../contexts/ContributionContext';
 import { UNASSIGNED } from '../utils/constants';
 import { useDaosList } from '../hooks/useDaosList';
+import useContributionCountInRange from '../hooks/useContributionCount';
+import { endOfDay, startOfDay } from 'date-fns';
 
-type UserContributionsDateRangeCountType = {
-  count: number;
-  date: string;
-};
+const TODAY_DATE = new Date();
 
-interface DashboardShellProps {
-  user: UIUser | null;
-}
+const dateRangeOptions = [
+  { value: 1, label: 'Last Week' },
+  { value: 4, label: 'Last Month' },
+  { value: 12, label: 'Last Quarter' },
+  { value: 52, label: 'Last Year' },
+];
 
-const DashboardShell = ({ user }: DashboardShellProps) => {
+const unassignedContributions = [
+  {
+    value: Number(null),
+    label: UNASSIGNED,
+  },
+];
+
+const DashboardShell = () => {
   const { userData } = useUser();
-  const { getUserContributionsCount } = useContributions();
-  const [contributionsCount, setContributionsCount] = useState<
-    UserContributionsDateRangeCountType[] | null | undefined
-  >([]);
-  const [fullContributionsCount, setFullContributionsCount] = useState<
-    UserContributionsDateRangeCountType[] | null | undefined
-  >([]);
   const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
     value: 52,
     label: 'Last Year',
@@ -37,7 +37,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     { value: number; label: string }[]
   >([]);
 
-  // renaming these on destructuring incase we have parallel queries:
+  // renaming these on destructuring in case we have parallel queries:
   const {
     isLoading: userDaosListIsLoading,
     isError: userDaosListIsError,
@@ -46,75 +46,39 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
   });
 
-  const fetchHeatMapCount = async (
-    dateRangeValue: number,
-    setFunc: (
-      arg: UserContributionsDateRangeCountType[] | null | undefined,
-    ) => void,
-  ) => {
-    if (selectedDaos) {
-      const contributionsCountResponse = await getUserContributionsCount(
-        subWeeks(new Date(), dateRangeValue),
-        new Date(),
-        selectedDaos.map(dao => dao.value).filter(dao => dao !== null),
-      );
-      setFunc(contributionsCountResponse);
-      if (selectedDaos.some(dao => dao.label === UNASSIGNED)) {
-        setFunc(contributionsCountResponse);
-      } else {
-        setFunc(
-          contributionsCountResponse?.filter(
-            contribution => contribution?.name !== UNASSIGNED,
-          ),
-        );
-      }
-      if (
-        selectedDaos.length === 0 &&
-        !selectedDaos.some(dao => dao.label === UNASSIGNED)
-      ) {
-        const contributionsCountResponse = await getUserContributionsCount(
-          subWeeks(new Date(), dateRangeValue),
-          new Date(),
-          combinedDaoListOptions
-            .map(dao => dao.value)
-            .filter(dao => dao !== null),
-        );
-        setFunc(contributionsCountResponse);
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchHeatMapCount(dateRange.value, setContributionsCount);
-  }, [user, dateRange, selectedDaos]);
-
-  useEffect(() => {
-    fetchHeatMapCount(52, setFullContributionsCount);
-  }, [user, selectedDaos]);
-
   const userDaoListOptions =
     userDaosListData?.map(dao => ({
       value: dao.id,
       label: dao.name ?? '',
     })) || [];
 
-  const unassignedContributions = [
-    {
-      value: Number(null),
-      label: UNASSIGNED,
-    },
-  ];
-
-  const dateRangeOptions = [
-    { value: 1, label: 'Last Week' },
-    { value: 4, label: 'Last Month' },
-    { value: 12, label: 'Last Quarter' },
-    { value: 52, label: 'Last Year' },
-  ];
-
   const combinedDaoListOptions = [
     ...new Set([...unassignedContributions, ...userDaoListOptions]),
   ];
+
+  const excludeUnassigned =
+    selectedDaos.length !== 0 &&
+    !selectedDaos.some(dao => dao.label === UNASSIGNED);
+
+  const guildIds =
+    selectedDaos.length === 0 &&
+    !selectedDaos.some(dao => dao.label === UNASSIGNED)
+      ? combinedDaoListOptions.map(dao => dao.value).filter(dao => dao !== 0)
+      : selectedDaos.map(dao => dao.value).filter(dao => dao !== 0);
+
+  const { data: fullContributionsCount } = useContributionCountInRange({
+    startDate: subWeeks(startOfDay(TODAY_DATE), 52),
+    endDate: endOfDay(TODAY_DATE),
+    guildIds,
+    excludeUnassigned,
+  });
+
+  const { data: contributionsCount } = useContributionCountInRange({
+    startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value),
+    endDate: endOfDay(TODAY_DATE),
+    guildIds,
+    excludeUnassigned,
+  });
 
   // the loading and fetching states from the query are true:
   if (userDaosListIsLoading) {
@@ -155,7 +119,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
               >
-                {user?.name}
+                {userData?.name}
               </Text>
             </Heading>
             <Flex
@@ -198,8 +162,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               >
                 Contribution Heat Map
               </Heading>
-              {fullContributionsCount &&
-              fullContributionsCount !== undefined ? (
+              {fullContributionsCount ? (
                 <>
                   <Text as="span" fontSize="sm">
                     Displaying{' '}
@@ -240,7 +203,7 @@ const DashboardShell = ({ user }: DashboardShellProps) => {
               >
                 {} Contribution Bar Chart
               </Heading>
-              {contributionsCount && contributionsCount !== undefined ? (
+              {contributionsCount ? (
                 <>
                   <Text as="span" fontSize="sm">
                     Displaying{' '}
