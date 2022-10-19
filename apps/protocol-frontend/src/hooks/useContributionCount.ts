@@ -25,8 +25,6 @@ const useContributionCountInRange = (args: {
       });
     },
   );
-  console.log('Data');
-  console.log(data);
 
   return { isLoading, isError, isFetching, error, data };
 };
