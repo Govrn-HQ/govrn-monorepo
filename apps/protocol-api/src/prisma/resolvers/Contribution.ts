@@ -642,17 +642,19 @@ export class ContributionCustomResolver {
     // N.B. the guild contribution created date is used for the range,
     // not the contribution created date
     return await prisma.$queryRaw<ContributionCountByActivityType>`
-      SELECT c.activity_id,
-             c.activity_name,
+      SELECT c.activity_type_id as activity_id,
+             a.name as activity_name,
              count(c.id) as count
       FROM
         "GuildContribution" gc 
         LEFT JOIN "Contribution" as c 
           ON gc."contribution_id" = c."id"
+        LEFT JOIN "ActivityType" as a
+          ON a."id" = c."activity_type_id"
       WHERE (
-        gc.createdAt::date BETWEEN ${start} AND ${end} 
+        gc."createdAt"::date BETWEEN ${start} AND ${end} 
         AND gc."guild_id" = ${daoId}
-      ) GROUP BY c.activity_name, c.activity_id
+      ) GROUP BY a.name, c.activity_type_id
       ORDER BY count;`;
   }
 }
