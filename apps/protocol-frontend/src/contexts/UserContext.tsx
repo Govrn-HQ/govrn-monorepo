@@ -44,14 +44,14 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [isUserLoading, setUserLoading] = useState(false);
 
   const [userData, setUserData] = useState<UIUser | null>(null);
-  const [userDaos, setUserDaos] = useState<
-    | {
-        id: number;
-        user_id: number;
-        guild_id: number;
-      }[]
-    | null
-  >(null);
+  // const [userDaos, setUserDaos] = useState<
+  //   | {
+  //       id: number;
+  //       user_id: number;
+  //       guild_id: number;
+  //     }[]
+  //   | null
+  // >(null);
 
   useEffect(() => {
     if (address) {
@@ -95,17 +95,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [address]);
 
-  const getUserDaos = useCallback(() => {
-    if (userData) {
-      const userDaos = userData?.guild_users;
-      setUserDaos(userDaos);
-    }
-  }, [userData]);
+  const userDaos = new Map();
+  if (userData?.guild_users) {
+    userData?.guild_users.forEach(guildUser => {
+      userDaos.set(guildUser.guild_id, guildUser);
+    });
+  }
 
-  const isUserDaoMember = (daoId: string): boolean | undefined => {
-    if (userDaos !== null && daoId !== undefined) {
-      return userDaos.map(dao => dao.guild_id).includes(parseInt(daoId));
-    }
+  const isUserDaoMember = (daoId: string): boolean => {
+    return userDaos.has(parseInt(daoId));
   };
 
   const createUser = async (
@@ -220,11 +218,11 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userDataByAddress, isAuthenticated]);
 
-  useEffect(() => {
-    if (userData && isAuthenticated) {
-      getUserDaos();
-    }
-  }, [userData, getUserDaos, isAuthenticated]);
+  // useEffect(() => {
+  //   if (userData && isAuthenticated) {
+  //     getUserDaos();
+  //   }
+  // }, [userData, getUserDaos, isAuthenticated]);
 
   return (
     <UserContext.Provider
@@ -264,13 +262,13 @@ type UserContextType = {
   }) => Promise<void>;
   govrnProtocol: GovrnProtocol;
   isUserLoading: boolean;
-  isUserDaoMember: (daoId: string) => boolean | undefined;
+  isUserDaoMember: (daoId: string) => boolean;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
-  userDaos: { id: number; user_id: number; guild_id: number }[] | null;
+  userDaos: any;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };
