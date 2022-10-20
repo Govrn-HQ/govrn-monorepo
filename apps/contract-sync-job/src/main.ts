@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import {
@@ -8,115 +7,35 @@ import {
 } from '@govrn/protocol-client';
 import { ethers } from 'ethers';
 import { GraphQLClient } from 'graphql-request';
+import { fetchIPFS } from './utils';
+import {
+  createJobRun,
+  getContribution,
+  getOrInsertActivityType,
+  getOrInsertUser,
+} from './db-helpers';
 
-const protcolUrl = process.env.PROTOCOL_URL;
+const PROTOCOL_URL = process.env.PROTOCOL_URL;
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
-const INFURA_SUBDOMAIN = process.env.INFURA_SUBDOMAIN;
-const jobName = 'contract-sync-job';
+const JOB_NAME = 'contract-sync-job';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
+
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
-  chainId: 2,
+  chainId: 5,
 };
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
 
-export const fetchIPFS = async (ipfsHash: string) => {
-  const resp = await fetch(
-    `${INFURA_SUBDOMAIN}/api/v0/cat?arg=${ipfsHash.split('/').slice(2)}`,
-    {
-      method: 'post',
-    },
-  );
-  return await resp?.blob();
-};
-
-const getOrInsertUser = async (
-  govrn: GovrnProtocol,
-  data: { address: string },
-): Promise<number> => {
-  // Query existing user.
-  const user = await govrn.user.list({
-    where: {
-      address: { equals: data.address },
-    },
-    first: 1,
-  });
-
-  // Returns the id, if user exists.
-  if (user.length === 1) {
-    return user[0]?.id;
-  }
-
-  // Insert new user into db, if user doesn't exist.
-  const newUser = await govrn.user.create({
-    address: data.address,
-    username: data.address,
-  });
-
-  return newUser.id;
-};
-
-const getOrInsertActivityType = async (
-  govrn: GovrnProtocol,
-  data: { name: string },
-): Promise<number> => {
-  // Check for an existing activity types.
-  const activityTypeId = await govrn.activity_type.list({
-    where: { name: { equals: data.name } },
-    first: 1,
-  });
-  if (activityTypeId.length > 0) return activityTypeId[0].id;
-
-  // if there are no activity type, create new one.
-  const activityTypeCreate = await govrn.activity_type.create({
-    data: { name: data.name },
-  });
-  return activityTypeCreate.id;
-};
-
-async function getContribution(
-  govrn: GovrnProtocol,
-  data: { tokenId: number },
-) {
-  try {
-    const contrs = (
-      await govrn.contribution.list({
-        where: { on_chain_id: { equals: data.tokenId } },
-        first: 1,
-      })
-    ).result;
-
-    if (contrs.length != 0) return contrs[0].id;
-    throw new Error('Contribution must exist for this attestation!');
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-const createJobRun = async (
-  govrn: GovrnProtocol,
-  job: { startDate: Date; completedDate: Date },
-) => {
-  const teamPromise = await govrn.jobRun.create({
-    data: {
-      startDate: job.startDate,
-      completedDate: job.completedDate,
-      name: jobName,
-    },
-  });
-  return teamPromise;
-};
-
 const main = async () => {
   console.log(':: Starting to Process Contribution(s)');
 
   const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
-  const govrn = new GovrnProtocol(protcolUrl, null, {
+  const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
     Authorization: CONTRACT_SYNC_TOKEN,
   });
   const client = new GovrnGraphClient(graphQLClient);
@@ -124,7 +43,7 @@ const main = async () => {
   const lastRun = await govrn.jobRun.list({
     first: 1,
     orderBy: { completedDate: SortOrder.Desc },
-    where: { name: { equals: jobName } },
+    where: { name: { equals: JOB_NAME } },
   });
   const startDate =
     lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
@@ -149,9 +68,11 @@ const main = async () => {
         });
 
         const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
-        const ipfsBlob = await fetchIPFS(detailsUri);
-        const ipfsText = await ipfsBlob.text();
-        const contributionDetails = JSON.parse(ipfsText);
+        const contributionDetails = await fetchIPFS<{
+          name: string;
+          details: string;
+          proof: string;
+        }>(detailsUri);
 
         return {
           name: contributionDetails.name,
@@ -216,8 +137,14 @@ const main = async () => {
     `:: Inserting ${attestationsCount.createManyAttestation.count} Attestations`,
   );
 
-  await createJobRun(govrn, { startDate, completedDate: new Date() });
+  await createJobRun(govrn, {
+    startDate,
+    completedDate: new Date(),
+    name: JOB_NAME,
+  });
   console.log(`:: Finished processing Contributions`);
 };
 
-main();
+main()
+  .then()
+  .catch(e => console.error(e));
