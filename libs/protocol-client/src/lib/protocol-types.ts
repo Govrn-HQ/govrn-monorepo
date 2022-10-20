@@ -4181,7 +4181,7 @@ export type GetOrCreateActivityTypeInput = {
 
 export type GetUserContributionCountInput = {
   endDate: Scalars['DateTime'];
-  excludeUnassigned?: InputMaybe<Array<Scalars['Boolean']>>;
+  excludeUnassigned?: InputMaybe<Scalars['Boolean']>;
   guildIds?: InputMaybe<Array<Scalars['Float']>>;
   id: Scalars['Float'];
   startDate: Scalars['DateTime'];
