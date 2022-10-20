@@ -43,7 +43,7 @@ const Dashboard = () => {
       isAuthenticated &&
       userContributions !== undefined &&
       userContributions?.length ? (
-        <DashboardShell user={userData} />
+        <DashboardShell />
       ) : (
         <Container
           paddingY={{ base: '4', md: '8' }}

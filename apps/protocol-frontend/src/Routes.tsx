@@ -7,7 +7,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
-// import { useUser } from './contexts/UserContext';
+import { useUser } from './contexts/UserContext';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Contributions from './pages/Contributions';
@@ -19,7 +19,6 @@ import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import ErrorView from './components/ErrorView';
-import { useUserDaoMember } from './hooks/useUserDaoMember';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
@@ -33,12 +32,10 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  // const { isUserDaoMember } = useUser();
+  const { isUserDaoMember } = useUser();
   const { guildId } = useParams();
-  const isUserDaoMember = useUserDaoMember(guildId ? guildId : ''); // since guildId can be undefined at first -- avoiding conditional hook use
   if (guildId) {
-    // if (!isUserDaoMember(guildId)) {
-    if (!isUserDaoMember) {
+    if (isUserDaoMember(guildId) === false) {
       return (
         <ErrorView
           errorMessage="You have to be a member of this DAO to view the DAO Dashboard."

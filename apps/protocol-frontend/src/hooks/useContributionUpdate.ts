@@ -35,7 +35,8 @@ export const useContributionUpdate = () => {
           activityTypeName:
             updatedValues.activityType ?? contribution.activity_type?.name,
           dateOfEngagement: new Date(
-            updatedValues.engagementDate ?? contribution.date_of_engagement).toISOString(),
+            updatedValues.engagementDate ?? contribution.date_of_engagement,
+          ).toISOString(),
           status: 'staging', // should always be staging since can only update staged Contributions
           guildId:
             updatedValues.daoId === null ? null : Number(updatedValues.daoId),
@@ -53,16 +54,21 @@ export const useContributionUpdate = () => {
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries([
-          'contributionGet',
-          data?.data.id,
-        ]); // invalidate the Contribution Query with the ID of the updated Contribution
+        queryClient.invalidateQueries(['ContributionGetCountYear']);
+        queryClient.invalidateQueries(['ContributionGetCount']);
+        queryClient.invalidateQueries(['contributionGet', data?.data.id]); // invalidate the Contribution Query with the ID of the updated Contribution
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
-            title: `Contribution  ${pluralize('Report', bulkItemCount)} Updated`,
-            description: `Your Contribution ${bulkItemCount && bulkItemCount !== 1 ? 'Reports have' : 'Report has'
-              } been updated.`, // not using pluralize here because we need to also include 'have' and 'has'
+            title: `Contribution  ${pluralize(
+              'Report',
+              bulkItemCount,
+            )} Updated`,
+            description: `Your Contribution ${
+              bulkItemCount && bulkItemCount !== 1
+                ? 'Reports have'
+                : 'Report has'
+            } been updated.`, // not using pluralize here because we need to also include 'have' and 'has'
           });
         }
         setModals({ editContributionFormModal: false });
