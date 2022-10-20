@@ -23,7 +23,10 @@ spec:
                 - name: SUBGRAPH_URL
                   value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
                 - name: INFURA_SUBDOMAIN
-                  value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job
+                      key: infura_subdomain
                 - name: DATABASE_URL
                   valueFrom:
                     secretKeyRef:
@@ -33,5 +36,5 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: contract-sync-job
-                      key: protocol_api_token
+                      key: contract_sync_job
           restartPolicy: OnFailure
