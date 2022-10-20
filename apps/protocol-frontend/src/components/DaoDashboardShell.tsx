@@ -2,12 +2,7 @@ import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import SiteLayout from '../components/SiteLayout';
 import { GOVRN_MOTTO } from '../utils/constants';
 
-interface ErrorViewProps {
-  errorMessage: string;
-  includeMotto?: boolean;
-}
-
-const ErrorView = ({ errorMessage, includeMotto = true }: ErrorViewProps) => (
+const DaoDashboardShell = () => (
   <SiteLayout>
     <Container
       paddingY={{ base: '4', md: '8' }}
@@ -21,9 +16,9 @@ const ErrorView = ({ errorMessage, includeMotto = true }: ErrorViewProps) => (
         borderRadius={{ base: 'none', md: 'lg' }}
       >
         <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-          {includeMotto && <Text>{GOVRN_MOTTO}</Text>}
+          <Text>{GOVRN_MOTTO}</Text>
           <Text fontSize="lg" fontWeight="medium">
-            {errorMessage}
+            DAO Dashboard
           </Text>
         </Stack>
       </Box>
@@ -31,4 +26,4 @@ const ErrorView = ({ errorMessage, includeMotto = true }: ErrorViewProps) => (
   </SiteLayout>
 );
 
-export default ErrorView;
+export default DaoDashboardShell;
