@@ -44,18 +44,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [isUserLoading, setUserLoading] = useState(false);
 
   const [userData, setUserData] = useState<UIUser | null>(null);
-  const [userDaos, setUserDaos] = useState<
-    | {
-        id: number;
-        user_id: number;
-        guild_id: number;
-        guild: {
-          id: number;
-          name?: string | null;
-        };
-      }[]
-    | null
-  >(null);
 
   useEffect(() => {
     if (address) {
@@ -225,12 +213,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userDataByAddress, isAuthenticated]);
 
-  useEffect(() => {
-    if (userData && isAuthenticated) {
-      getUserDaos();
-    }
-  }, [userData, getUserDaos, isAuthenticated]);
-
   return (
     <UserContext.Provider
       value={{
@@ -275,7 +257,18 @@ type UserContextType = {
   setUserDataByAddress: (arg0: UIUser) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
-  userDaos: Map<number, { id: number; user_id: number; guild_id: number }>;
+  userDaos: Map<
+    number,
+    {
+      id: number;
+      user_id: number;
+      guild_id: number;
+      guild: {
+        id: number;
+        name?: string | null;
+      };
+    }
+  >;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };
