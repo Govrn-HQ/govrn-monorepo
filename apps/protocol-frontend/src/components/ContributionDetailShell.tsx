@@ -77,20 +77,17 @@ const ContributionDetailShell = ({
               </Text>
             </Flex>
             <Flex>
-              {contribution?.guilds.length > 0 && (
-                <>
-                  {contribution?.guilds.map(guild => (
-                    <Badge
-                      colorScheme="cyan"
-                      variant="outline"
-                      padding={1}
-                      key={guild.guild.id}
-                    >
-                      {guild.guild.name}
-                    </Badge>
-                  ))}
-                </>
-              )}
+              {contribution?.guilds.length > 0 &&
+                contribution?.guilds.map(guild => (
+                  <Badge
+                    colorScheme="cyan"
+                    variant="outline"
+                    padding={1}
+                    key={guild.guild.id}
+                  >
+                    {guild.guild.name}
+                  </Badge>
+                ))}
             </Flex>
           </Flex>
           {contribution?.details && <Text>{contribution?.details}</Text>}

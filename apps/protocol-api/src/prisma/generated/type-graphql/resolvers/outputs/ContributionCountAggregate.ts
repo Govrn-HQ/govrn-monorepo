@@ -60,6 +60,11 @@ export class ContributionCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  chain_id!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   on_chain_id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

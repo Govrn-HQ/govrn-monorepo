@@ -12,7 +12,6 @@ import {
 } from '@tanstack/react-query';
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
-import { ContributionsContextProvider } from './contexts/ContributionContext';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 import '@rainbow-me/rainbowkit/styles.css';
@@ -20,7 +19,10 @@ import { UserContextProvider } from './contexts/UserContext';
 import useGovrnToast from './components/toast';
 
 const container = document.getElementById('root');
-const root = createRoot(container!);
+if (!container) {
+  throw Error('Root cannot be found');
+}
+const root = createRoot(container);
 
 const App = () => {
   // we can refactor this to use a standalone toast
@@ -41,9 +43,7 @@ const App = () => {
         <AuthContextProvider>
           <UserContextProvider>
             <QueryClientProvider client={queryClient}>
-              <ContributionsContextProvider>
-                <Routes />
-              </ContributionsContextProvider>
+              <Routes />
             </QueryClientProvider>
           </UserContextProvider>
         </AuthContextProvider>

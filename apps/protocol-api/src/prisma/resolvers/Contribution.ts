@@ -214,7 +214,7 @@ export class GetContributionCountForUser {
   @TypeGraphQL.Field(_type => [Number], { nullable: true })
   guildIds?: number[];
 
-  @TypeGraphQL.Field(_type => [Boolean], { nullable: true })
+  @TypeGraphQL.Field(_type => Boolean, { nullable: true })
   excludeUnassigned?: boolean;
 }
 
@@ -550,34 +550,48 @@ export class ContributionCustomResolver {
     const end = args.where.endDate;
 
     let guildWhere = Prisma.sql`gc."guild_id" is NULL`;
-    const guildIds = args.where?.guildIds;
+    const guildIds = [...args.where?.guildIds];
     if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
       guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
         guildIds,
-      )}) OR gc."guild_id" is NULL)`;
+      )})  OR gc."guild_id" is NULL)`;
     } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
-      guildWhere = Prisma.sql`gc."guild_id" in (${Prisma.join(guildIds)})`;
+      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(guildIds)}))`;
     }
 
     return await prisma.$queryRaw<ContributionCountByDate>`
+      WITH guild_contributions AS (
+          SELECT 
+      	    c.id,
+      	    c.date_of_engagement,
+      	    c.user_id,
+      	    g.name,
+      	    gc.guild_id
+          FROM
+              "Contribution" c
+      	  LEFT JOIN "GuildContribution" as gc
+      	    ON gc."contribution_id" = c."id"
+      	  LEFT JOIN "Guild" as g
+      	    ON g."id" = gc."guild_id"
+      	  WHERE ${guildWhere}
+      )
+
+
       SELECT gc.guild_id,
-             coalesce(g.name, 'Unassigned') as name,
-             d.dt as date,
-             count(c.date_of_engagement)      as count
+             coalesce(gc.name, 'Unassigned') as name,
+             d.dt                            as date,
+             count(gc.date_of_engagement)    as count
       FROM (
         SELECT dt::date
         FROM generate_series(${start}, ${end}, '1 day'::interval) dt
     ) d
-		         LEFT JOIN "Contribution" as c
-						           ON c.date_of_engagement::date = d.dt::date
-             LEFT JOIN "GuildContribution" as gc
-                       ON c."id" = gc."contribution_id"
-             LEFT JOIN "Guild" as g
-                       ON g."id" = gc."guild_id"
-      WHERE (d.dt BETWEEN ${start} AND ${end}
-        AND (c."user_id" = ${user_id} OR c."user_id" is null)
-        AND ${guildWhere})
-      GROUP BY gc.guild_id, g.name, d.dt
-      ORDER BY d.dt;`;
+		      LEFT JOIN guild_contributions as gc
+					  ON gc.date_of_engagement::date = d.dt::date
+      WHERE (d.dt BETWEEN ${start} AND ${end})
+        AND (gc."user_id" = ${user_id} OR gc."user_id" is null)
+      GROUP BY gc.guild_id, gc.name, d.dt
+      ORDER BY d.dt;
+
+`;
   }
 }

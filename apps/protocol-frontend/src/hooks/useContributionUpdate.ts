@@ -4,6 +4,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import { ContributionFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
 import useGovrnToast from '../components/toast';
+import pluralize from 'pluralize';
 
 interface UpdateContributionProps {
   updatedValues: ContributionFormValues;
@@ -32,7 +33,7 @@ export const useContributionUpdate = () => {
           details: updatedValues.details ?? contribution.details,
           proof: updatedValues.proof ?? contribution.proof,
           activityTypeName:
-            updatedValues.activityType ?? contribution.activity_type.name,
+            updatedValues.activityType ?? contribution.activity_type?.name,
           dateOfEngagement: new Date(
             updatedValues.engagementDate ?? contribution.date_of_engagement,
           ).toISOString(),
@@ -40,32 +41,34 @@ export const useContributionUpdate = () => {
           guildId:
             updatedValues.daoId === null ? null : Number(updatedValues.daoId),
           contributionId: contribution.id,
-          currentGuildId: contribution.guilds[0]?.guild?.id || undefined,
+          currentGuildId: contribution.guilds[0]?.guild?.id || 0,
           contributionUserAddress: contribution.user?.address,
         });
-        return data;
+        return { data, bulkItemCount };
       }
     },
     {
-      onSuccess: (_, { bulkItemCount }) => {
+      onSuccess: (data, { bulkItemCount }) => {
         // destructure the bulkItemCount from the variables (args passed into the mutation)
         queryClient.invalidateQueries(['activityTypes']); // invalidate the activity types query -- covers all args
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
-        queryClient.invalidateQueries([
-          'contributionGet',
-          toastUpdateContributionId,
-        ]);
+        queryClient.invalidateQueries(['ContributionGetCountYear']);
+        queryClient.invalidateQueries(['ContributionGetCount']);
+        queryClient.invalidateQueries(['contributionGet', data?.data.id]); // invalidate the Contribution Query with the ID of the updated Contribution
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
-            title: `Contribution ${
-              bulkItemCount && bulkItemCount > 0 ? 'Reports' : 'Report'
-            } Updated`,
+            title: `Contribution  ${pluralize(
+              'Report',
+              bulkItemCount,
+            )} Updated`,
             description: `Your Contribution ${
-              bulkItemCount && bulkItemCount > 0 ? 'Reports have' : 'Report has'
-            } been updated.`,
+              bulkItemCount && bulkItemCount !== 1
+                ? 'Reports have'
+                : 'Report has'
+            } been updated.`, // not using pluralize here because we need to also include 'have' and 'has'
           });
         }
         setModals({ editContributionFormModal: false });

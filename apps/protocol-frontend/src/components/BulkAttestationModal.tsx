@@ -11,30 +11,27 @@ import {
 } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { MdCheckCircle } from 'react-icons/all';
-import { MintContributionType } from '../types/mint';
-import { useContributions } from '../contexts/ContributionContext';
+import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
+import useAttestationMint from '../hooks/useAttestationMint';
 
 interface BulkAttestationModalProps {
-  contributions: MintContributionType[];
+  contributions: AttestationTableType[];
 }
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const { userData } = useUser();
-  const { createAttestation, mintAttestation } = useContributions();
-  const [attesting, setAttesting] = useState(false);
+  const { isLoading: attesting, mutateAsync: mintAttestation } =
+    useAttestationMint();
   const [currentAttestation] = useState(1);
 
-  const createAttestationsHandler = (contributions: MintContributionType[]) => {
-    setAttesting(true);
-    contributions.map((contribution, idx) => {
-      if (contribution.status.name === 'minted') {
-        mintAttestation(contribution.original);
-      } else {
-        createAttestation(contribution);
+  const createAttestationsHandler = (contributions: AttestationTableType[]) => {
+    contributions.forEach(async contribution => {
+      try {
+        await mintAttestation(contribution);
+      } catch {
+        return;
       }
-      setAttesting(false);
-      return true;
     });
   };
 

@@ -16,7 +16,8 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/govrn-subgraph-client/**/*.ts"]
+        "lintFilePatterns": ["libs/govrn-subgraph-client/**/*.ts"],
+        "maxWarnings": 2
       }
     },
     "test": {

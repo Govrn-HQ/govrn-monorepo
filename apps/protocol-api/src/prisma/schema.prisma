@@ -107,12 +107,24 @@ model GuildActivityType {
 
 
 
+
+// Type of chain Ethereum solana etc...
 model ChainType {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   name String @unique
   users User[]
+}
+
+// EthereumChain
+model Chain {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  name String @unique
+  chain_id String @unique
+  contributions Contribution[]
 }
 
 
@@ -135,8 +147,12 @@ model Contribution {
   guilds GuildContribution[]
   linear_issue LinearIssue?
   tweet TwitterTweet?
-  on_chain_id Int? @unique
+  chain_id Int?
+  chain Chain? @relation(fields: [chain_id], references: [id])
+  on_chain_id Int?
   tx_hash String? @db.Citext
+  
+  @@unique([chain_id, on_chain_id])
 }
 
 model Partner {

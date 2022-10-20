@@ -3,10 +3,6 @@ import { ErrorMessageProps } from '@govrn/protocol-ui';
 import SiteLayout from '../components/SiteLayout';
 import { GOVRN_MOTTO } from '../utils/constants';
 
-interface ErrorViewProps {
-  errorMessage: string;
-}
-
 const ErrorView = ({ errorMessage }: ErrorMessageProps) => (
   <SiteLayout>
     <Container
