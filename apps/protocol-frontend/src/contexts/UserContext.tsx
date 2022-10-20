@@ -87,6 +87,20 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [address]);
 
+  const userDaos = new Map<
+    number,
+    { id: number; user_id: number; guild_id: number }
+  >();
+  if (userData?.guild_users) {
+    userData?.guild_users.forEach(guildUser => {
+      userDaos.set(guildUser.guild_id, guildUser);
+    });
+  }
+
+  const isUserDaoMember = (daoId: string): boolean => {
+    return userDaos.has(parseInt(daoId));
+  };
+
   const createUser = async (
     values: CreateUserFormValues,
     address: string,
@@ -205,6 +219,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         createUser,
         createWaitlistUser,
         disconnectLinear,
+        isUserDaoMember,
         govrnProtocol: govrn,
         isUserLoading,
         setUserAddress,
@@ -212,6 +227,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         setUserDataByAddress,
         updateProfile,
         userAddress,
+        userDaos,
         userData,
         userDataByAddress,
       }}
@@ -235,11 +251,13 @@ type UserContextType = {
   }) => Promise<void>;
   govrnProtocol: GovrnProtocol;
   isUserLoading: boolean;
+  isUserDaoMember: (daoId: string) => boolean;
   setUserAddress: (arg0: string) => void;
   setUserData: (arg0: UIUser) => void;
   setUserDataByAddress: (arg0: UIUser) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
+  userDaos: Map<number, { id: number; user_id: number; guild_id: number }>;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };
