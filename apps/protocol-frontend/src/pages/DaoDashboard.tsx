@@ -1,12 +1,8 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
-import NewUserView from '../components/NewUserView';
-import { GOVRN_MOTTO } from '../utils/constants';
 import DaoDashboardShell from '../components/DaoDashboardShell';
 
 const DaoDashboard = () => {
