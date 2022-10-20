@@ -226,6 +226,26 @@ export class GetUserContributionCountArgs {
   where!: GetContributionCountForUser;
 }
 
+@TypeGraphQL.InputType('GetDaoContributionCountInput')
+export class GetDaoContributionCount {
+  @TypeGraphQL.Field(_type => Number)
+  daoId: number;
+
+  @TypeGraphQL.Field(_type => Date)
+  startDate: Date;
+
+  @TypeGraphQL.Field(_type => Date)
+  endDate: Date;
+}
+
+@TypeGraphQL.ArgsType()
+export class GetDaoContributionCountArgs {
+  @TypeGraphQL.Field(_type => GetDaoContributionCount, {
+    nullable: false
+  })
+  where!: GetDaoContributionCount
+}
+
 @TypeGraphQL.ObjectType('ContributionCountByDate', { isAbstract: true })
 export class ContributionCountByDate {
   @TypeGraphQL.Field(_type => Number)
@@ -241,6 +261,18 @@ export class ContributionCountByDate {
 
   @TypeGraphQL.Field(_type => String)
   name: string;
+}
+
+@TypeGraphQL.ObjectType('ContributionCountByActivityType', { isAbstract: true })
+export class ContributionCountByActivityType {
+  @TypeGraphQL.Field(_type => Number)
+  count: number;
+
+  @TypeGraphQL.Field(_type => String)
+  activity_name: string;
+
+  @TypeGraphQL.Field(_type => Number)
+  activity_id: number;
 }
 
 @TypeGraphQL.Resolver(_of => Contribution)
@@ -590,8 +622,37 @@ export class ContributionCustomResolver {
       WHERE (d.dt BETWEEN ${start} AND ${end})
         AND (gc."user_id" = ${user_id} OR gc."user_id" is null)
       GROUP BY gc.guild_id, gc.name, d.dt
-      ORDER BY d.dt;
+      ORDER BY d.dt;`;
+  }
 
-`;
+  @TypeGraphQL.Query(_returns => [ContributionCountByActivityType], {
+    nullable: false,
+  })
+  async getContributionCountForDaoByActivityTypeInRange(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetDaoContributionCountArgs,
+  ) {
+    const daoId = args.where.daoId;
+    const start = args.where.startDate;
+    const end = args.where.endDate;
+
+    // grouping on nested fields not yet supported in prisma 
+    // need to group on the activity id and name, which are 
+    // in a separate table than guild contributions
+    // N.B. the guild contribution created date is used for the range,
+    // not the contribution created date
+    return await prisma.$queryRaw<ContributionCountByActivityType>`
+      SELECT c.activity_id,
+             c.activity_name,
+             count(c.id) as count
+      FROM
+        "GuildContribution" gc 
+        LEFT JOIN "Contribution" as c 
+          ON gc."contribution_id" = c."id"
+      WHERE (
+        gc.createdAt::date BETWEEN ${start} AND ${end} 
+        AND gc."guild_id" = ${daoId}
+      ) GROUP BY c.activity_name, c.activity_id
+      ORDER BY count;`;
   }
 }

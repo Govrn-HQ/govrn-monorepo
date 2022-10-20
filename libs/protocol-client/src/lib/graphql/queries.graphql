@@ -441,6 +441,16 @@ query getContributionCountByDateForUserInRange(
   }
 }
 
+query getContributionCountForDaoByActivityTypeInRange(
+  $where: GetDaoContributionCountInput!
+) {
+  result: getContributionCountForDaoByActivityTypeInRange(where: $where) {
+    count
+    activity_name
+    activity_id
+  }
+}
+
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
     ...ContributionFragment

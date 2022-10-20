@@ -6,6 +6,7 @@ import {
   UserUpdateCustomInput,
   GetUserContributionCountInput,
   ListActivityTypesByUserInput,
+  GetDaoContributionCountInput,
 } from '../protocol-types';
 
 export class Custom extends BaseClient {
@@ -58,5 +59,11 @@ export class Custom extends BaseClient {
       where: args,
     });
     return activityTypes.result;
+  }
+
+  public async getContributionCountForDaoByActivityTypeInRange(args: GetDaoContributionCountInput) {
+    const contributionCountByActivity = 
+      await this.sdk.getContributionCountForDaoByActivityTypeInRange({ where: args });
+    return contributionCountByActivity.result;
   }
 }

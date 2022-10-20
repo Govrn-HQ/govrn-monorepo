@@ -2517,6 +2517,12 @@ export type ContributionCountAggregate = {
   user_id: Scalars['Int'];
 };
 
+export type ContributionCountByActivityType = {
+  activity_id: Scalars['Float'];
+  activity_name: Scalars['String'];
+  count: Scalars['Float'];
+};
+
 export type ContributionCountByDate = {
   count: Scalars['Float'];
   date: Scalars['String'];
@@ -4172,6 +4178,12 @@ export type FloatNullableWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['Float']>;
   not?: InputMaybe<NestedFloatNullableWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['Float']>>;
+};
+
+export type GetDaoContributionCountInput = {
+  daoId: Scalars['Float'];
+  endDate: Scalars['DateTime'];
+  startDate: Scalars['DateTime'];
 };
 
 export type GetOrCreateActivityTypeInput = {
@@ -10698,6 +10710,7 @@ export type Query = {
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
+  getContributionCountForDaoByActivityTypeInRange: Array<ContributionCountByActivityType>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
@@ -11408,6 +11421,11 @@ export type QueryFindFirstUserActivityArgs = {
 
 export type QueryGetContributionCountByDateForUserInRangeArgs = {
   where: GetUserContributionCountInput;
+};
+
+
+export type QueryGetContributionCountForDaoByActivityTypeInRangeArgs = {
+  where: GetDaoContributionCountInput;
 };
 
 
@@ -14616,6 +14634,13 @@ export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
 
 export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string, guild_id?: number | null, name: string }> };
 
+export type GetContributionCountForDaoByActivityTypeInRangeQueryVariables = Exact<{
+  where: GetDaoContributionCountInput;
+}>;
+
+
+export type GetContributionCountForDaoByActivityTypeInRangeQuery = { result: Array<{ count: number, activity_name: string, activity_id: number }> };
+
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;
 }>;
@@ -15278,6 +15303,15 @@ export const GetContributionCountByDateForUserInRangeDocument = gql`
   }
 }
     `;
+export const GetContributionCountForDaoByActivityTypeInRangeDocument = gql`
+    query getContributionCountForDaoByActivityTypeInRange($where: GetDaoContributionCountInput!) {
+  result: getContributionCountForDaoByActivityTypeInRange(where: $where) {
+    count
+    activity_name
+    activity_id
+  }
+}
+    `;
 export const CreateContributionDocument = gql`
     mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
@@ -15548,6 +15582,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getContributionCountByDateForUserInRange(variables: GetContributionCountByDateForUserInRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountByDateForUserInRangeQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountByDateForUserInRangeQuery>(GetContributionCountByDateForUserInRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByDateForUserInRange', 'query');
+    },
+    getContributionCountForDaoByActivityTypeInRange(variables: GetContributionCountForDaoByActivityTypeInRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountForDaoByActivityTypeInRangeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountForDaoByActivityTypeInRangeQuery>(GetContributionCountForDaoByActivityTypeInRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountForDaoByActivityTypeInRange', 'query');
     },
     createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');

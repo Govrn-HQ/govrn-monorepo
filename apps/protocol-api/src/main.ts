@@ -71,6 +71,7 @@ const permissions = shield(
       guilds: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
       getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
+      getContributionCountForDaoByActivityTypeInRange: or(isAuthenticated, hasToken),
       users: hasToken,
       jobRuns: hasToken,
       linearUsers: hasToken,
@@ -78,6 +79,7 @@ const permissions = shield(
       contributionStatuses: hasToken,
     },
     ContributionCountByDate: or(isAuthenticated, hasToken),
+    ContributionCountByActivityType: or(isAuthenticated, hasToken),
     Mutation: {
       '*': deny,
       createActivityType: hasToken,
@@ -475,4 +477,5 @@ app.get('/linear/oauth', async function (req, res) {
   }
 });
 
+console.log('listening');
 app.listen(4000);
