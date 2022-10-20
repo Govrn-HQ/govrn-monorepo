@@ -61,6 +61,11 @@ spec:
                 secretKeyRef:
                   name: protocol-api
                   key: linear_job_token
+            - name: CONTRACT_SYNC_JOB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: contract_sync_job_token
             - name: LINEAR_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:

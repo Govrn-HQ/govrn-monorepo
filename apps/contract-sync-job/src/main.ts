@@ -5,6 +5,7 @@ import {
   ContributionCreateManyInput,
   GovrnProtocol,
   SortOrder,
+  QueryMode,
 } from '@govrn/protocol-client';
 import { ethers } from 'ethers';
 import { GraphQLClient } from 'graphql-request';
@@ -42,7 +43,7 @@ const getOrInsertUser = async (
   // Query existing user.
   const user = await govrn.user.list({
     where: {
-      address: { equals: data.address },
+      address: { equals: data.address, mode: QueryMode.Insensitive },
     },
     first: 1,
   });

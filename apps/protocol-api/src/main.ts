@@ -20,11 +20,14 @@ const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
 const LINEAR_JOB_TOKEN = process.env.LINEAR_JOB_TOKEN;
+const CONTRACT_SYNC_JOB_TOKEN = process.env.CONTRACT_SYNC_JOB_TOKEN;
 const BACKEND_TOKENS = [
   AIRTABLE_API_TOKEN,
   KEVIN_MALONE_TOKEN,
   LINEAR_JOB_TOKEN,
+  CONTRACT_SYNC_JOB_TOKEN,
 ];
+console.log(BACKEND_TOKENS);
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
@@ -50,8 +53,12 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 
 const hasToken = rule()(async (parent, args, ctx, info) => {
   const auth = ctx.req.headers['authorization'];
+  console.log('Hellow');
+  console.log(auth);
   if (auth) {
     const found = BACKEND_TOKENS.find(token => token === auth);
+    console.log('Found');
+    console.log(found);
     return !!found;
   }
   return false;
