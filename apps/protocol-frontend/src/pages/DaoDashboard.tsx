@@ -15,9 +15,7 @@ const DaoDashboard = () => {
   const { userData, userDaos } = useUser();
   const { guildId } = useParams();
 
-  const currentDao = userDaos?.find(
-    dao => dao.guild_id === parseInt(guildId ? guildId : ''),
-  );
+  const currentDao = userDaos?.get(parseInt(guildId ? guildId : ''));
 
   return (
     <SiteLayout>

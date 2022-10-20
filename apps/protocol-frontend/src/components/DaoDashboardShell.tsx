@@ -1,3 +1,6 @@
+import { Box, Flex, Heading } from '@chakra-ui/react';
+import { UIUser } from '@govrn/ui-types';
+import PageHeading from '../components/PageHeading';
 interface DaoDashboardShellProps {
   user: UIUser | null;
   daoName: string;

@@ -258,7 +258,7 @@ type UserContextType = {
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
   userDaos: Map<
-    number,
+    number | string,
     {
       id: number;
       user_id: number;
