@@ -44,14 +44,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const [isUserLoading, setUserLoading] = useState(false);
 
   const [userData, setUserData] = useState<UIUser | null>(null);
-  // const [userDaos, setUserDaos] = useState<
-  //   | {
-  //       id: number;
-  //       user_id: number;
-  //       guild_id: number;
-  //     }[]
-  //   | null
-  // >(null);
 
   useEffect(() => {
     if (address) {
@@ -95,7 +87,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [address]);
 
-  const userDaos = new Map();
+  const userDaos = new Map<
+    number,
+    { id: number; user_id: number; guild_id: number }
+  >();
   if (userData?.guild_users) {
     userData?.guild_users.forEach(guildUser => {
       userDaos.set(guildUser.guild_id, guildUser);
@@ -218,12 +213,6 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userDataByAddress, isAuthenticated]);
 
-  // useEffect(() => {
-  //   if (userData && isAuthenticated) {
-  //     getUserDaos();
-  //   }
-  // }, [userData, getUserDaos, isAuthenticated]);
-
   return (
     <UserContext.Provider
       value={{
@@ -268,7 +257,7 @@ type UserContextType = {
   setUserDataByAddress: (arg0: UIUser) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
-  userDaos: any;
+  userDaos: Map<number, { id: number; user_id: number; guild_id: number }>;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };
