@@ -1,4 +1,4 @@
-import { useRef, Dispatch, SetStateAction } from 'react';
+import { useRef, Dispatch, SetStateAction, useState } from 'react';
 import { DialogProps } from './ContributionsTable';
 
 import {
@@ -20,6 +20,7 @@ const DeleteContributionDialog = (props: {
 
   const { onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const {
     mutateAsync: deleteContribution,
@@ -28,8 +29,10 @@ const DeleteContributionDialog = (props: {
 
   const onDelete = async (onConfirm: boolean, contributionId: number) => {
     if (onConfirm) {
-      setDialog({ ...dialog, isOpen: false });
+      setDeleting(true);
       await deleteContribution(contributionId);
+      setDialog({ ...dialog, isOpen: false });
+      setDeleting(false);
     }
   };
 
@@ -57,12 +60,9 @@ const DeleteContributionDialog = (props: {
               transition="all 100ms ease-in-out"
               _hover={{ bgColor: 'brand.primary.200' }}
               ml={3}
-
-              onClick={() =>
-                onDelete(!dialog.onConfirm, dialog.contributionId)
-              
-              }
+              onClick={() => onDelete(!dialog.onConfirm, dialog.contributionId)}
               data-testid="deleteContributionConfirm-test"
+              isLoading={deleting}
             >
               Confirm
             </Button>

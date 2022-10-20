@@ -1,3 +1,4 @@
+import { ContributionTableType } from '../types/table';
 import {
   createWaitlistFormValidation,
   profileFormValidation,
@@ -16,6 +17,10 @@ export type ContributionFormValues = {
 export type BulkDaoAttributeFormValues = {
   daoId?: string | number | null;
 };
+
+export interface BulkDaoAttributeModalProps {
+  contributions: ContributionTableType[];
+}
 
 export type CreateUserFormValues = Partial<
   InferType<typeof createWaitlistFormValidation>
