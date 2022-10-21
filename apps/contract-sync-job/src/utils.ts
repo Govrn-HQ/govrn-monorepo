@@ -6,16 +6,20 @@ const getIpfsFromHash = (hash: string) => {
   return `${INFURA_SUBDOMAIN}/api/v0/cat?arg=${hash.split('/').slice(2)}`;
 };
 
-export const fetchIPFS = async <T extends Record<string, any>>(
+export const fetchIPFS = async (
   ipfsHash: string,
-): Promise<T> => {
+): Promise<{
+  name: string;
+  details: string;
+  proof: string;
+}> => {
   const resp = await fetch(getIpfsFromHash(ipfsHash), {
     method: 'post',
   });
   const text = await (await resp?.blob())?.text();
 
   try {
-    return JSON.parse(text) as T;
+    return JSON.parse(text);
   } catch (error) {
     console.error(':: Failed to parse:', text);
     throw error;

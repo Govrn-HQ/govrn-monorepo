@@ -68,11 +68,7 @@ const main = async () => {
         });
 
         const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
-        const contributionDetails = await fetchIPFS<{
-          name: string;
-          details: string;
-          proof: string;
-        }>(detailsUri);
+        const contributionDetails = await fetchIPFS(detailsUri);
 
         return {
           name: contributionDetails.name,
