@@ -1,12 +1,10 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
-import { UIUser } from '@govrn/ui-types';
 import PageHeading from '../components/PageHeading';
 interface DaoDashboardShellProps {
-  user: UIUser | null;
   daoName: string;
 }
 
-const DaoDashboardShell = ({ user, daoName }: DaoDashboardShellProps) => {
+const DaoDashboardShell = ({ daoName }: DaoDashboardShellProps) => {
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}

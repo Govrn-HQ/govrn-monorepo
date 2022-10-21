@@ -8,7 +8,7 @@ import DaoDashboardShell from '../components/DaoDashboardShell';
 const DaoDashboard = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
-  const { userData, userDaos } = useUser();
+  const { userDaos } = useUser();
   const { guildId } = useParams();
 
   const currentDao = userDaos?.get(parseInt(guildId ? guildId : ''));
@@ -16,10 +16,7 @@ const DaoDashboard = () => {
   return (
     <SiteLayout>
       {isConnected && isAuthenticated && (
-        <DaoDashboardShell
-          user={userData}
-          daoName={currentDao?.guild.name ?? ''}
-        />
+        <DaoDashboardShell daoName={currentDao?.guild.name ?? ''} />
       )}
     </SiteLayout>
   );
