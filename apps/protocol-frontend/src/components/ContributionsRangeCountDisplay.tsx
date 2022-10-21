@@ -1,7 +1,7 @@
 import { Flex, Heading, Text, VisuallyHidden } from '@chakra-ui/react';
 import { subWeeks, endOfDay, startOfDay } from 'date-fns';
 import useContributionCountInRange from '../hooks/useContributionCount';
-import * as _ from 'lodash';
+import pluralize from 'pluralize';
 
 const TODAY_DATE = new Date();
 
@@ -15,9 +15,6 @@ const ContributionsRangeCountDisplay = ({ daoId }: { daoId: number }) => {
     excludeUnassigned: true,
   });
 
-  console.log('daoId', daoId);
-  console.log('fullContributionsCount', fullContributionsCount);
-
   const contributionsCountMap = fullContributionsCount?.map(contribution => {
     const date = new Date(contribution.date);
     return {
@@ -27,8 +24,6 @@ const ContributionsRangeCountDisplay = ({ daoId }: { daoId: number }) => {
       guildName: contribution.name,
     };
   });
-
-  console.log('contributionsCountMap', contributionsCountMap);
 
   const sum = contributionsCountMap?.reduce((acc, contribution) => {
     return acc + contribution.value;
@@ -48,12 +43,12 @@ const ContributionsRangeCountDisplay = ({ daoId }: { daoId: number }) => {
       borderRadius={{ base: 'none', md: 'lg' }}
     >
       <VisuallyHidden>
-        <Heading as="h3">Contributions this Month</Heading>
+        <Heading as="h3">{pluralize('Contribution', sum)} this Month</Heading>
       </VisuallyHidden>
       <Text fontSize="xl" fontWeight="bold">
         {sum}
       </Text>
-      <Text fontSize="sm">Contributions this Month</Text>
+      <Text fontSize="sm">{pluralize('Contribution', sum)} this Month</Text>
     </Flex>
   );
 };
