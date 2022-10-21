@@ -1,10 +1,12 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import PageHeading from '../components/PageHeading';
+import ContributionsRangeCountDisplay from '../components/ContributionsRangeCountDisplay';
 interface DaoDashboardShellProps {
   daoName: string;
+  daoId: number;
 }
 
-const DaoDashboardShell = ({ daoName }: DaoDashboardShellProps) => {
+const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -54,6 +56,7 @@ const DaoDashboardShell = ({ daoName }: DaoDashboardShellProps) => {
               >
                 Contributions By Member
               </Heading>
+              <ContributionsRangeCountDisplay daoId={daoId} />
             </Flex>
             <Flex direction="column" gap={2}>
               <Heading
