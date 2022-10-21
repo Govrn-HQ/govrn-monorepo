@@ -96,7 +96,7 @@ const RecentContributionsTable = ({
             fontSize="lg"
             color="gray.800"
             fontWeight="normal"
-            paddingBottom={2}
+            paddingBottom={4}
           >
             Recent Contributions
           </Heading>

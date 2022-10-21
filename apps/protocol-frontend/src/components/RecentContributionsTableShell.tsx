@@ -40,8 +40,8 @@ const RecentContributionsTableShell = ({
   console.log('recent contributions', recentContributions);
   return (
     <Box
-      paddingY={{ base: '4', md: '8' }}
-      paddingX={{ base: '0', md: '8' }}
+      paddingY={{ base: '4' }}
+      paddingX={{ base: '0', md: '4' }}
       color="gray.700"
       maxWidth="1200px"
       background="white"
