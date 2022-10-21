@@ -1,37 +1,19 @@
-import {
-  Box,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-} from '@chakra-ui/react';
-import PageHeading from './PageHeading';
-import AttestationsTable from './AttestationsTable';
-import EmptyContributions from './EmptyContributions';
-import MyAttestationsTable from './MyAttestationsTable';
+import { Box, Stack, Text } from '@chakra-ui/react';
 import { GovrnSpinner } from '@govrn/protocol-ui';
-import {
-  useContributionInfiniteList,
-  useContributionList,
-} from '../hooks/useContributionList';
-import { mergePages } from '../utils/arrays';
-import { useUser } from '../contexts/UserContext';
+import { useContributionList } from '../hooks/useContributionList';
 import { SortOrder } from '@govrn/protocol-client';
+import RecentContributionsTable from './RecentContributionsTable';
+import EmptyContributions from './EmptyContributions';
 
 interface RecentContributionTableShellProps {
   daoId: number;
-  displayNumber: number;
+  displayNumber?: number;
 }
 
 const RecentContributionsTableShell = ({
   daoId,
   displayNumber = 10,
 }: RecentContributionTableShellProps) => {
-  const { userData } = useUser();
-
   const {
     isFetching,
     data: recentContributions,
@@ -62,20 +44,17 @@ const RecentContributionsTableShell = ({
       paddingX={{ base: '0', md: '8' }}
       color="gray.700"
       maxWidth="1200px"
+      background="white"
+      boxShadow="sm"
+      borderRadius={{ base: 'none', md: 'md' }}
     >
-      {/* {contributions && contributions.pages.length > 0 ? (
+      {recentContributions && recentContributions.length > 0 ? (
         <Stack spacing="5">
-          <RecentContributionsTable
-            contributionsData={mergePages(contributions.pages)}
-            hasMoreItems={hasNextPage}
-            nextPage={fetchNextPage}
-          />
-          ) : (
-          <EmptyContributions />
+          <RecentContributionsTable contributionsData={recentContributions} />
         </Stack>
       ) : (
         <EmptyContributions />
-      )} */}
+      )}
     </Box>
   );
 };
