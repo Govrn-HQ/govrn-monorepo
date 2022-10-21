@@ -19,13 +19,16 @@ import {
 } from '../hooks/useContributionList';
 import { mergePages } from '../utils/arrays';
 import { useUser } from '../contexts/UserContext';
+import { SortOrder } from '@govrn/protocol-client';
 
 interface RecentContributionTableShellProps {
   daoId: number;
+  displayNumber: number;
 }
 
 const RecentContributionsTableShell = ({
   daoId,
+  displayNumber = 10,
 }: RecentContributionTableShellProps) => {
   const { userData } = useUser();
 
@@ -38,6 +41,8 @@ const RecentContributionsTableShell = ({
     where: {
       guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
     },
+    first: displayNumber,
+    orderBy: { date_of_engagement: SortOrder.Desc },
   });
 
   if (isError) {
