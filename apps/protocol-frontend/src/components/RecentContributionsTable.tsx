@@ -44,8 +44,6 @@ const RecentContributionsTable = ({
       })),
     [contributionsData],
   );
-  console.log('contributions data', contributionsData);
-  console.log('table data', data);
 
   const columns = useMemo<Column<RecentContributionTableType>[]>(
     () => [

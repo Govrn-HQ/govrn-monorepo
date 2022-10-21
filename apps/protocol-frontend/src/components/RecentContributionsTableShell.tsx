@@ -37,7 +37,6 @@ const RecentContributionsTableShell = ({
     return <GovrnSpinner />;
   }
 
-  console.log('recent contributions', recentContributions);
   return (
     <Box
       paddingY={{ base: '4' }}
