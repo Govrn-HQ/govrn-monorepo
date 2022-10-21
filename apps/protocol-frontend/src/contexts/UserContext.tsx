@@ -89,7 +89,15 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const userDaos = new Map<
     number,
-    { id: number; user_id: number; guild_id: number }
+    {
+      id: number;
+      user_id: number;
+      guild_id: number;
+      guild: {
+        id: number;
+        name?: string | null;
+      };
+    }
   >();
   if (userData?.guild_users) {
     userData?.guild_users.forEach(guildUser => {
@@ -257,7 +265,18 @@ type UserContextType = {
   setUserDataByAddress: (arg0: UIUser) => void;
   updateProfile: (arg0: ContributionFormValues) => void;
   userAddress: string | null;
-  userDaos: Map<number, { id: number; user_id: number; guild_id: number }>;
+  userDaos: Map<
+    number | string,
+    {
+      id: number;
+      user_id: number;
+      guild_id: number;
+      guild: {
+        id: number;
+        name?: string | null;
+      };
+    }
+  >;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
 };
