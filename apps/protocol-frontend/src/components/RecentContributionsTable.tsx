@@ -1,10 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   Box,
-  chakra,
-  Link as ChakraLink,
-  HStack,
-  IconButton,
+  Flex,
+  Heading,
   Stack,
   Table,
   Tbody,
@@ -12,21 +10,16 @@ import {
   Text,
   Th,
   Thead,
-  Tooltip,
   Tr,
 } from '@chakra-ui/react';
-import { HiOutlineLink } from 'react-icons/hi';
 import {
   Column,
-  Row,
   HeaderGroup,
   useFilters,
   useGlobalFilter,
   useRowSelect,
   useSortBy,
   useTable,
-  UseTableRowProps,
-  UseTableHooks,
 } from 'react-table';
 import { UIContribution } from '@govrn/ui-types';
 import { RecentContributionTableType } from '../types/table';
@@ -39,9 +32,6 @@ const RecentContributionsTable = ({
     UIContribution,
     'id' | 'name' | 'date_of_engagement' | 'user' | 'activity_type'
   >[];
-  setSelectedContributions: (rows: Row<RecentContributionTableType>[]) => void;
-  hasMoreItems: boolean;
-  nextPage: () => void;
 }) => {
   const data = useMemo<RecentContributionTableType[]>(
     () =>
@@ -100,44 +90,62 @@ const RecentContributionsTable = ({
   return (
     <Stack>
       <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-          <Thead backgroundColor="gray.50">
-            {headerGroups.map(
-              (headerGroup: HeaderGroup<ContributionTableType>) => (
-                <Tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map(
-                    (column: HeaderGroup<ContributionTableType>) => (
-                      <Th
-                        {...column.getHeaderProps(
-                          column.getSortByToggleProps(),
-                        )}
-                        borderColor="gray.100"
-                      >
-                        {column.render('Header')}
-                      </Th>
-                    ),
-                  )}
-                  <Th borderColor="gray.100" />
-                </Tr>
-              ),
-            )}
-          </Thead>
+        <Flex direction="column" alignItems="center" justifyContent="center">
+          <Heading
+            as="h3"
+            fontSize="lg"
+            color="gray.800"
+            fontWeight="normal"
+            paddingBottom={2}
+          >
+            Recent Contributions
+          </Heading>
+          <Table
+            {...getTableProps()}
+            maxWidth="100vw"
+            overflowX="auto"
+            borderWidth="1px"
+            borderColor="gray.100"
+            borderRadius={{ base: 'none', md: 'md' }}
+          >
+            <Thead backgroundColor="gray.50">
+              {headerGroups.map(
+                (headerGroup: HeaderGroup<RecentContributionTableType>) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(
+                      (column: HeaderGroup<RecentContributionTableType>) => (
+                        <Th
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps(),
+                          )}
+                          borderColor="gray.100"
+                        >
+                          {column.render('Header')}
+                        </Th>
+                      ),
+                    )}
+                    <Th borderColor="gray.100" />
+                  </Tr>
+                ),
+              )}
+            </Thead>
 
-          <Tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row);
-              return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <Td {...cell.getCellProps()} borderColor="gray.100">
-                      <>{cell.render('Cell')}</>
-                    </Td>
-                  ))}
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
+            <Tbody {...getTableBodyProps()}>
+              {rows.map(row => {
+                prepareRow(row);
+                return (
+                  <Tr {...row.getRowProps()}>
+                    {row.cells.map(cell => (
+                      <Td {...cell.getCellProps()} borderColor="gray.100">
+                        <>{cell.render('Cell')}</>
+                      </Td>
+                    ))}
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </Flex>
       </Box>
     </Stack>
   );
