@@ -15,7 +15,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       width="100%"
     >
       <PageHeading>{daoName}</PageHeading>
-      <Flex
+      {/* <Flex
         justify="space-between"
         direction="column"
         wrap="wrap"
@@ -25,82 +25,48 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
         background="white"
         boxShadow="sm"
         borderRadius={{ base: 'none', md: 'lg' }}
-      >
-        <Flex direction="column" gap={4}>
-          <Flex direction={{ base: 'column' }} gap={2}>
-            <Flex
-              direction={{ base: 'column', lg: 'row' }}
-              gap={8}
-              justifyContent="space-apart"
-            >
-              {/* <Flex flexBasis="50%"> */}
-              {/* DatePicker will go here */}
-              {/* </Flex> */}
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <Heading
-                as="h3"
-                fontSize="lg"
-                color="gray.800"
-                fontWeight="normal"
-              >
-                Contributions By Date
-              </Heading>
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <Heading
-                as="h3"
-                fontSize="lg"
-                color="gray.800"
-                fontWeight="normal"
-              >
-                Contributions By Member
-              </Heading>
-              <ContributionsRangeCountDisplay daoId={daoId} />
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <Heading
-                as="h3"
-                fontSize="lg"
-                color="gray.800"
-                fontWeight="normal"
-              >
-                Contributions By Type
-              </Heading>
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <Heading
-                as="h3"
-                fontSize="lg"
-                color="gray.800"
-                fontWeight="normal"
-              >
-                Recent Contributions
-              </Heading>
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <Heading
-                as="h3"
-                fontSize="lg"
-                color="gray.800"
-                fontWeight="normal"
-              >
-                Active Members
-              </Heading>
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <Heading
-                as="h3"
-                fontSize="lg"
-                color="gray.800"
-                fontWeight="normal"
-              >
-                Contributors This Month
-              </Heading>
-            </Flex>
+      > */}
+      <Flex direction="column" gap={4}>
+        <Flex direction={{ base: 'column' }} gap={2}>
+          <Flex
+            direction={{ base: 'column', lg: 'row' }}
+            gap={8}
+            justifyContent="space-apart"
+          ></Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" fontSize="lg" color="gray.800" fontWeight="normal">
+              Contributions By Date
+            </Heading>
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" fontSize="lg" color="gray.800" fontWeight="normal">
+              Contributions By Member
+            </Heading>
+            <ContributionsRangeCountDisplay daoId={daoId} />
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" fontSize="lg" color="gray.800" fontWeight="normal">
+              Contributions By Type
+            </Heading>
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" fontSize="lg" color="gray.800" fontWeight="normal">
+              Recent Contributions
+            </Heading>
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" fontSize="lg" color="gray.800" fontWeight="normal">
+              Active Members
+            </Heading>
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" fontSize="lg" color="gray.800" fontWeight="normal">
+              Contributors This Month
+            </Heading>
           </Flex>
         </Flex>
       </Flex>
+      {/* </Flex> */}
     </Box>
   );
 };
