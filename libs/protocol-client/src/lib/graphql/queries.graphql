@@ -299,6 +299,10 @@ fragment UserFragment on User {
     id
     user_id
     guild_id
+    guild {
+      id
+      name
+    }
   }
 }
 
@@ -532,9 +536,7 @@ query listActivityTypes(
   }
 }
 
-query listActivityTypesByUser(
-  $where: ListActivityTypesByUserInput!
-) {
+query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
     id
     name
