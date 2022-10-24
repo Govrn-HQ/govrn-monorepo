@@ -513,6 +513,16 @@ mutation updateContribution(
   }
 }
 
+mutation upsertContribution(
+  $where: ContributionWhereUniqueInput!
+  $create: ContributionCreateInput!
+  $update: ContributionUpdateInput!
+) {
+  upsertContribution(where: $where, create: $create, update: $update) {
+    ...ContributionFragment
+  }
+}
+
 # Contribution Status
 query getContributionStatus($name: String!) {
   contributionStatuses(where: { name: { equals: $name } }) {

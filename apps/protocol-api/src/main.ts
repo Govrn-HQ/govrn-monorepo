@@ -110,6 +110,7 @@ const permissions = shield(
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
       upsertActivityType: hasToken,
+      upsertContribution: hasToken,
       upsertLinearCycle: hasToken,
       upsertLinearIssue: hasToken,
       upsertLinearProject: hasToken,
