@@ -6,6 +6,7 @@ import {
   ListContributionsQuery,
   ListContributionsQueryVariables,
   UpdateContributionMutationVariables,
+  UpsertContributionMutationVariables,
 } from '../protocol-types';
 import {
   AttestArgs,
@@ -83,6 +84,10 @@ export class Contribution extends BaseClient {
   public async update(args: UpdateContributionMutationVariables) {
     const contributions = await this.sdk.updateContribution(args);
     return contributions.updateContribution;
+  }
+
+  public async upsert(args: UpsertContributionMutationVariables) {
+    return await this.sdk.upsertContribution(args);
   }
 
   public async bulkMint(
