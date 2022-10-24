@@ -25,7 +25,7 @@ const CHAIN_URL = process.env.CHAIN_URL;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
-  chainId: 5,
+  chainId: 2,
 };
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
