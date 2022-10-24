@@ -11,31 +11,38 @@ interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
 }
-
 const TODAY_DATE = new Date();
-const dateRangeOptions = [
-  { value: 'Custom', label: 'Custom' },
-  { value: 1, label: 'Last Week' },
-  { value: 4, label: 'Last Month' },
-  { value: 12, label: 'Last Quarter' },
-  { value: 52, label: 'Last Year' },
-];
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   // const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
   //   value: 52,
   //   label: 'Last Year',
   // });
-
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
-  const [startDate, setStartDate] = useState(new Date(TODAY_DATE));
-  const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  // const [startDate, setStartDate] = useState(new Date(TODAY_DATE));
+  // const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
+
+  const dateRangeOptions = [
+    {
+      value: 'Custom',
+      label: 'Custom',
+    },
+    { value: 1, label: 'Last Week' },
+    { value: 4, label: 'Last Month' },
+    { value: 12, label: 'Last Quarter' },
+    { value: 52, label: 'Last Year' },
+  ];
 
   const dateChangeHandler = (selectedDateOffset: number | string) => {
-    console.log('selectedDate', selectedDateOffset);
+    console.log('selectedDateOffset', selectedDateOffset);
     if (selectedDateOffset === 'Custom') {
       setShowCustomDatePicker(true);
     }
+    // setShowCustomDatePicker(false);
+    setEndDate(null);
+    setStartDate(null);
     setEndDate(TODAY_DATE);
     setStartDate(
       subWeeks(
@@ -44,9 +51,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       ),
     );
   };
-
-  console.log('startDate', startDate);
-  console.log('endDate', endDate);
 
   return (
     <Box
@@ -61,18 +65,23 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           // flexBasis="50%"
           direction="row"
           alignItems="center"
-          justifyContent="center"
+          justifyContent="flex-end"
+          bg="red"
           gap={2}
         >
           <ControlledSelect
-            defaultValue={dateRangeOptions.find(date => date.value === 0)}
-            label="Choose Date Range"
-            tip="Choose the date range for your Contributions."
+            defaultValue={dateRangeOptions.find(
+              date => date.value === 'Custom',
+            )}
             onChange={dateRangeOffset => {
+              setShowCustomDatePicker(false);
               dateChangeHandler(dateRangeOffset.value);
             }}
             options={dateRangeOptions}
           />
+          <Text>
+            custom: {showCustomDatePicker === true ? 'true' : 'false'}
+          </Text>
           {showCustomDatePicker && (
             <ControlledDatePicker
               selected={startDate}
