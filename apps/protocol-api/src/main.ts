@@ -20,10 +20,13 @@ const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
 const LINEAR_JOB_TOKEN = process.env.LINEAR_JOB_TOKEN;
+const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_JOB_TOKEN;
+
 const BACKEND_TOKENS = [
   AIRTABLE_API_TOKEN,
   KEVIN_MALONE_TOKEN,
   LINEAR_JOB_TOKEN,
+  CONTRACT_SYNC_TOKEN,
 ];
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
@@ -83,11 +86,11 @@ const permissions = shield(
     Mutation: {
       '*': deny,
       createActivityType: hasToken,
-      getOrCreateActivityType: isAuthenticated,
       createContribution: hasToken,
       createGuild: hasToken,
       createGuildUser: or(isAuthenticated, hasToken),
       createJobRun: hasToken,
+      createManyAttestation: hasToken,
       createManyContribution: hasToken,
       createManyLinearIssue: hasToken,
       createOnChainUserContribution: isAuthenticated,
@@ -99,18 +102,19 @@ const permissions = shield(
       createUserOnChainAttestation: isAuthenticated,
       deleteContribution: or(ownsData, isAuthenticated),
       deleteUserContribution: isAuthenticated,
+      getOrCreateActivityType: isAuthenticated,
       updateGuild: hasToken,
       updateUser: hasToken,
       updateUserContribution: and(ownsData, isAuthenticated),
       updateUserCustom: and(ownsData, isAuthenticated),
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
+      upsertActivityType: hasToken,
       upsertLinearCycle: hasToken,
       upsertLinearIssue: hasToken,
       upsertLinearProject: hasToken,
       upsertLinearTeam: hasToken,
       upsertLinearUser: hasToken,
-      upsertActivityType: hasToken,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
@@ -125,14 +129,14 @@ const permissions = shield(
       guilds: or(isAuthenticated, hasToken),
     },
     Attestation: {
-      id: isAuthenticated,
-      confidence: isAuthenticated,
-      contribution: isAuthenticated,
-      user: isAuthenticated,
-      createdAt: isAuthenticated,
-      updatedAt: isAuthenticated,
-      date_of_attestation: isAuthenticated,
-      user_id: isAuthenticated,
+      id: or(isAuthenticated, hasToken),
+      confidence: or(isAuthenticated, hasToken),
+      contribution: or(isAuthenticated, hasToken),
+      user: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      date_of_attestation: or(isAuthenticated, hasToken),
+      user_id: or(isAuthenticated, hasToken),
     },
     AttestationConfidence: {
       name: or(isAuthenticated, hasToken),
