@@ -5,17 +5,17 @@ import { ethers } from 'ethers';
 import { GraphQLClient } from 'graphql-request';
 import { fetchIPFS } from './ipfs';
 import {
+  bulkCreateAttestions,
   ContributionData,
   createJobRun,
   getContribution,
+  getJobRun,
   getOrInsertActivityType,
   getOrInsertUser,
   upsertContribution,
 } from './db';
 
-const PROTOCOL_URL = process.env.PROTOCOL_URL;
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
-const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
 const JOB_NAME = 'contract-sync-job';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
@@ -34,22 +34,16 @@ const main = async () => {
   console.log(':: Starting to Process Contribution(s)');
 
   const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
-  const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
-    Authorization: CONTRACT_SYNC_TOKEN,
-  });
   const client = new GovrnGraphClient(graphQLClient);
 
-  const lastRun = await govrn.jobRun.list({
-    first: 1,
-    orderBy: { completedDate: SortOrder.Desc },
-    where: { name: { equals: JOB_NAME } },
-  });
+  const lastRun = await getJobRun({ name: JOB_NAME });
+
   const startDate =
     lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
 
   const contributionsEvents = (await client.listContributions({}))
     .contributions;
-  const contributionActivityTypeId = await getOrInsertActivityType(govrn, {
+  const contributionActivityTypeId = await getOrInsertActivityType({
     name: 'Contribution',
   });
   console.log(
@@ -61,7 +55,7 @@ const main = async () => {
         tokenId: event.contributionId,
       });
 
-      const userId = await getOrInsertUser(govrn, {
+      const userId = await getOrInsertUser({
         address: event.address,
       });
 
@@ -92,7 +86,7 @@ const main = async () => {
   if (contributions.length > 0) {
     const promises = await Promise.allSettled(
       contributions.map(
-        async contribution => await upsertContribution(govrn, contribution),
+        async contribution => await upsertContribution(contribution),
       ),
     );
 
@@ -124,11 +118,11 @@ const main = async () => {
       console.log(
         `:: Processing Attestation of contribution: ${attestation.contribution.toNumber()}`,
       );
-      const contributionId = await getContribution(govrn, {
+      const contributionId = await getContribution({
         tokenId: attestation.contribution.toNumber(),
       });
 
-      const userId = await getOrInsertUser(govrn, {
+      const userId = await getOrInsertUser({
         address: event.attestor,
       });
 
@@ -141,16 +135,13 @@ const main = async () => {
     }),
   );
 
-  const attestationsCount = await govrn.attestation.bulkCreate({
-    data: attestations,
-    skipDuplicates: true,
-  });
+  const attestationsCount = await bulkCreateAttestions(attestations);
 
   console.log(
     `:: Inserting ${attestationsCount.createManyAttestation.count} Attestations`,
   );
 
-  await createJobRun(govrn, {
+  await createJobRun({
     startDate,
     completedDate: new Date(),
     name: JOB_NAME,

@@ -1,4 +1,4 @@
-import { GovrnProtocol } from '@govrn/protocol-client';
+import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
 
 export type ContributionData = {
   name: string;
@@ -14,10 +14,16 @@ export type ContributionData = {
   chain_id: number;
 };
 
-export const getOrInsertUser = async (
-  govrn: GovrnProtocol,
-  data: { address: string },
-): Promise<number> => {
+const PROTOCOL_URL = process.env.PROTOCOL_URL;
+const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
+
+export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
+  Authorization: CONTRACT_SYNC_TOKEN,
+});
+
+export const getOrInsertUser = async (data: {
+  address: string;
+}): Promise<number> => {
   // Query existing user.
   const user = await govrn.user.list({
     where: {
@@ -40,10 +46,9 @@ export const getOrInsertUser = async (
   return newUser.id;
 };
 
-export const getOrInsertActivityType = async (
-  govrn: GovrnProtocol,
-  data: { name: string },
-): Promise<number> => {
+export const getOrInsertActivityType = async (data: {
+  name: string;
+}): Promise<number> => {
   // Check for an existing activity types.
   const activityTypeId = await govrn.activity_type.list({
     where: { name: { equals: data.name } },
@@ -58,10 +63,7 @@ export const getOrInsertActivityType = async (
   return activityTypeCreate.id;
 };
 
-export async function getContribution(
-  govrn: GovrnProtocol,
-  data: { tokenId: number },
-) {
+export async function getContribution(data: { tokenId: number }) {
   try {
     const contrs = (
       await govrn.contribution.list({
@@ -77,19 +79,16 @@ export async function getContribution(
   }
 }
 
-const getIdOfChain = async (protocol: GovrnProtocol, chainId: number) => {
-  const chain = await protocol.chain.get({ where: { chain_id: `${chainId}` } });
+const getIdOfChain = async (chainId: number) => {
+  const chain = await govrn.chain.get({ where: { chain_id: `${chainId}` } });
   return chain.id;
 };
 
-export const upsertContribution = async (
-  protocol: GovrnProtocol,
-  contribution: ContributionData,
-) => {
-  return await protocol.contribution.upsert({
+export const upsertContribution = async (contribution: ContributionData) => {
+  return await govrn.contribution.upsert({
     where: {
       chain_id_on_chain_id: {
-        chain_id: await getIdOfChain(protocol, contribution.chain_id),
+        chain_id: await getIdOfChain(contribution.chain_id),
         on_chain_id: contribution.on_chain_id,
       },
     },
@@ -117,11 +116,34 @@ export const upsertContribution = async (
   });
 };
 
-export const createJobRun = async (
-  govrn: GovrnProtocol,
-  job: { startDate: Date; completedDate: Date; name: string },
+export const bulkCreateAttestions = async (
+  attestations: {
+    confidence_id: number;
+    user_id: number;
+    contribution_id: number;
+    date_of_attestation: Date;
+  }[],
 ) => {
+  return await govrn.attestation.bulkCreate({
+    data: attestations,
+    skipDuplicates: true,
+  });
+};
+
+export const createJobRun = async (job: {
+  startDate: Date;
+  completedDate: Date;
+  name: string;
+}) => {
   return await govrn.jobRun.create({
     data: job,
+  });
+};
+
+export const getJobRun = async (args: { name: string }) => {
+  return await govrn.jobRun.list({
+    first: 1,
+    orderBy: { completedDate: SortOrder.Desc },
+    where: { name: { equals: args.name } },
   });
 };
