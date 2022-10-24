@@ -6,14 +6,14 @@ import pluralize from 'pluralize';
 const TODAY_DATE = new Date();
 
 const ContributionsRangeCountDisplay = ({ daoId }: { daoId: number }) => {
-  console.log('dao id', daoId);
-  console.log('typeof dao id', typeof daoId);
   const { data: fullContributionsCount } = useContributionCountInRange({
     startDate: subWeeks(startOfDay(TODAY_DATE), 4),
     endDate: endOfDay(TODAY_DATE),
     guildIds: [daoId],
     excludeUnassigned: true,
   });
+
+  console.log('full', fullContributionsCount);
 
   const contributionsCountMap = fullContributionsCount?.map(contribution => {
     const date = new Date(contribution.date);
@@ -25,6 +25,7 @@ const ContributionsRangeCountDisplay = ({ daoId }: { daoId: number }) => {
     };
   });
 
+  console.log('contributionsCountMap', contributionsCountMap);
   const sum = contributionsCountMap?.reduce((acc, contribution) => {
     return acc + contribution.value;
   }, 0);

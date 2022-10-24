@@ -19,7 +19,8 @@ const useContributionCountInRange = (args: {
       }
 
       return await govrn.custom.getContributionCountByDateForUserInRange({
-        id: userData?.id,
+        // id: userData?.id,
+        id: null,
         ...args,
         startDate: args.startDate,
       });
