@@ -13,7 +13,7 @@ import {
   getContribution,
   getOrInsertActivityType,
   getOrInsertUser,
-} from './db-helpers';
+} from './db';
 
 const PROTOCOL_URL = process.env.PROTOCOL_URL;
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
