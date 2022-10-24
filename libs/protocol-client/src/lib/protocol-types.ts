@@ -14809,6 +14809,15 @@ export type CreateUserAttestationMutationVariables = Exact<{
 
 export type CreateUserAttestationMutation = { createUserAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
+export type ChainFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, name: string, chain_id: string };
+
+export type GetChainQueryVariables = Exact<{
+  where: ChainWhereUniqueInput;
+}>;
+
+
+export type GetChainQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string, chain_id: string } | null };
+
 export const JobFieldsFragmentFragmentDoc = gql`
     fragment JobFieldsFragment on JobRun {
   id
@@ -15054,6 +15063,15 @@ export const PartnerFragmentFragmentDoc = gql`
     address
     id
   }
+}
+    `;
+export const ChainFragmentFragmentDoc = gql`
+    fragment ChainFragment on Chain {
+  id
+  createdAt
+  updatedAt
+  name
+  chain_id
 }
     `;
 export const ListJobRunsDocument = gql`
@@ -15474,6 +15492,13 @@ export const CreateUserAttestationDocument = gql`
   }
 }
     ${AttestationFragmentFragmentDoc}`;
+export const GetChainDocument = gql`
+    query getChain($where: ChainWhereUniqueInput!) {
+  result: chain(where: $where) {
+    ...ChainFragment
+  }
+}
+    ${ChainFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -15640,6 +15665,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createUserAttestation(variables: CreateUserAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserAttestationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserAttestationMutation>(CreateUserAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserAttestation', 'mutation');
+    },
+    getChain(variables: GetChainQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetChainQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetChainQuery>(GetChainDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getChain', 'query');
     }
   };
 }
