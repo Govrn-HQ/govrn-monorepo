@@ -11,6 +11,7 @@ export type ControlledDatePickerButtonProps = ButtonProps & {
   value?: React.ReactNode;
   onClick?: () => void;
   ref?: HTMLInputElement;
+  buttonDisabled?: boolean;
 };
 
 export type CustomDatePickerButton = ComponentWithAs<
@@ -23,7 +24,8 @@ export type CustomDatePickerButton = ComponentWithAs<
 const ControlledDatePickerButton = forwardRef<
   ControlledDatePickerButtonProps,
   'button'
->(({ value, onClick }, ref) => {
+>(({ onClick, buttonDisabled }, ref) => {
+  console.log('disabled in button', buttonDisabled);
   return (
     <Button
       onClick={onClick}
@@ -35,9 +37,8 @@ const ControlledDatePickerButton = forwardRef<
       fontWeight="normal"
       variant="outline"
       rightIcon={<HiOutlineCalendar />}
-    >
-      {value}
-    </Button>
+      isDisabled={buttonDisabled}
+    />
   );
 });
 

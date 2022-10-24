@@ -14,21 +14,24 @@ export interface ControlledDatePickerProps extends ReactDatePickerProps {
     event: SyntheticEvent<Date, Event> | undefined,
   ) => void;
   maxDate?: Date | null | undefined;
+  disabled?: boolean;
 }
 
 const ControlledDatePicker: React.FC<ControlledDatePickerProps> = ({
   defaultValue,
   onChange,
   maxDate,
+  disabled,
   ...props
 }: ControlledDatePickerProps) => {
+  console.log('disabled in datepicker', disabled);
   return (
     <Box my={2}>
       <ReactDatePicker
         selected={defaultValue}
         selectsRange
         onChange={onChange}
-        customInput={<ControlledDatePickerButton />}
+        customInput={<ControlledDatePickerButton buttonDisabled={disabled} />}
         maxDate={maxDate}
         {...props}
       />

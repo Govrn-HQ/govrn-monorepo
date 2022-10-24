@@ -25,10 +25,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   // const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
 
   const dateRangeOptions = [
-    {
-      value: 'Custom',
-      label: 'Custom',
-    },
+    { value: 'Custom', label: 'Custom' },
     { value: 1, label: 'Last Week' },
     { value: 4, label: 'Last Month' },
     { value: 12, label: 'Last Quarter' },
@@ -66,7 +63,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           direction="row"
           alignItems="center"
           justifyContent="flex-end"
-          bg="red"
           gap={2}
         >
           <ControlledSelect
@@ -79,22 +75,18 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             }}
             options={dateRangeOptions}
           />
-          <Text>
-            custom: {showCustomDatePicker === true ? 'true' : 'false'}
-          </Text>
-          {showCustomDatePicker && (
-            <ControlledDatePicker
-              selected={startDate}
-              onChange={dates => {
-                const [start, end] = dates;
-                setStartDate(start);
-                setEndDate(end);
-              }}
-              startDate={startDate}
-              endDate={endDate}
-              maxDate={new Date(TODAY_DATE)}
-            />
-          )}
+          <ControlledDatePicker
+            selected={startDate}
+            onChange={dates => {
+              const [start, end] = dates;
+              setStartDate(start);
+              setEndDate(end);
+            }}
+            startDate={startDate}
+            endDate={endDate}
+            maxDate={new Date(TODAY_DATE)}
+            disabled={!showCustomDatePicker}
+          />
         </Flex>
       </Flex>
       <Flex direction="column" gap={4}>
