@@ -618,7 +618,7 @@ export class ContributionCustomResolver {
 `;
   }
 
-  @TypeGraphQL.Query(_returns => [Int], {
+  @TypeGraphQL.Query(_returns => Int, {
     nullable: false,
   })
   async getContributionCount(
