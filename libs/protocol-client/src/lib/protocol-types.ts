@@ -10710,7 +10710,7 @@ export type Query = {
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
-  getContributionCountForDaoByActivityTypeInRange: Array<ContributionCountByActivityType>;
+  getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
@@ -15304,8 +15304,8 @@ export const GetContributionCountByDateForUserInRangeDocument = gql`
 }
     `;
 export const GetContributionCountForDaoByActivityTypeInRangeDocument = gql`
-    query getContributionCountForDaoByActivityTypeInRange($where: GetDaoContributionCountInput!) {
-  result: getContributionCountForDaoByActivityTypeInRange(where: $where) {
+    query getContributionCountByActivityType($where: GetDaoContributionCountInput!) {
+  result: getContributionCountByActivityType(where: $where) {
     count
     activity_name
     activity_id
@@ -15583,8 +15583,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getContributionCountByDateForUserInRange(variables: GetContributionCountByDateForUserInRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountByDateForUserInRangeQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountByDateForUserInRangeQuery>(GetContributionCountByDateForUserInRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByDateForUserInRange', 'query');
     },
-    getContributionCountForDaoByActivityTypeInRange(variables: GetContributionCountForDaoByActivityTypeInRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountForDaoByActivityTypeInRangeQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountForDaoByActivityTypeInRangeQuery>(GetContributionCountForDaoByActivityTypeInRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountForDaoByActivityTypeInRange', 'query');
+    getContributionCountByActivityType(variables: GetContributionCountForDaoByActivityTypeInRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountForDaoByActivityTypeInRangeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountForDaoByActivityTypeInRangeQuery>(GetContributionCountForDaoByActivityTypeInRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByActivityType', 'query');
     },
     createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');

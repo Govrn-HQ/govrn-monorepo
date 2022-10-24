@@ -441,10 +441,10 @@ query getContributionCountByDateForUserInRange(
   }
 }
 
-query getContributionCountForDaoByActivityTypeInRange(
+query getContributionCountByActivityType(
   $where: GetDaoContributionCountInput!
 ) {
-  result: getContributionCountForDaoByActivityTypeInRange(where: $where) {
+  result: getContributionCountByActivityType(where: $where) {
     count
     activity_name
     activity_id

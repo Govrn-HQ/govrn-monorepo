@@ -61,9 +61,9 @@ export class Custom extends BaseClient {
     return activityTypes.result;
   }
 
-  public async getContributionCountForDaoByActivityTypeInRange(args: GetDaoContributionCountInput) {
+  public async getContributionCountByActivityType(args: GetDaoContributionCountInput) {
     const contributionCountByActivity = 
-      await this.sdk.getContributionCountForDaoByActivityTypeInRange({ where: args });
+      await this.sdk.getContributionCountByActivityType({ where: args });
     return contributionCountByActivity.result;
   }
 }

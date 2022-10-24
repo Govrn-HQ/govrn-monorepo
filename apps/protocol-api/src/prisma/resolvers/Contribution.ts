@@ -628,7 +628,7 @@ export class ContributionCustomResolver {
   @TypeGraphQL.Query(_returns => [ContributionCountByActivityType], {
     nullable: false,
   })
-  async getContributionCountForDaoByActivityTypeInRange(
+  async getContributionCountByActivityType(
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: GetDaoContributionCountArgs,
   ) {
