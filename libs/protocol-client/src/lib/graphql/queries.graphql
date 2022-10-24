@@ -769,3 +769,17 @@ mutation createUserAttestation($data: AttestationUserCreateInput!) {
     ...AttestationFragment
   }
 }
+
+fragment ChainFragment on Chain {
+  id
+  createdAt
+  updatedAt
+  name
+  chain_id
+}
+
+query getChain($where: ChainWhereUniqueInput!) {
+  result: chain(where: $where) {
+    ...ChainFragment
+  }
+}
