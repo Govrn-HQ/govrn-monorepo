@@ -550,19 +550,26 @@ export class ContributionCustomResolver {
     const end = args.where.endDate;
 
     let guildWhere = Prisma.sql`gc."guild_id" is NULL`;
-    const guildIds = [...args.where?.guildIds];
-    if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
-      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
-        guildIds,
-      )})  OR gc."guild_id" is NULL)`;
-    } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
-      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(guildIds)}))`;
+
+    if (args.where.guildIds){
+      const guildIds = [...args.where.guildIds];
+      if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
+        guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
+          guildIds,
+        )})  OR gc."guild_id" is NULL)`;
+      } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
+        guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(guildIds)}))`;
+      }
     }
 
-    let allUsers = userId == null;
     let userWhere = Prisma.sql`
-      (${allUsers} OR gc."user_id" = ${userId} OR gc."user_id" is null)
+      gc."user_id" = ${userId} OR gc."user_id" is null
     `; 
+    if (userId == null) {
+      userWhere = Prisma.sql`
+        ${userWhere} OR TRUE
+      `
+    }
 
     return await prisma.$queryRaw<ContributionCountByDate>`
       WITH guild_contributions AS (
@@ -592,7 +599,7 @@ export class ContributionCustomResolver {
 		      LEFT JOIN guild_contributions as gc
 					  ON gc.date_of_engagement::date = d.dt::date
       WHERE (d.dt BETWEEN ${start} AND ${end})
-        AND ${userWhere}
+        AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
   }
