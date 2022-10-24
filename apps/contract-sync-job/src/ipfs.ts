@@ -10,8 +10,8 @@ export const fetchIPFS = async (
   ipfsHash: string,
 ): Promise<{
   name: string;
-  details: string;
-  proof: string;
+  details?: string;
+  proof?: string;
 }> => {
   const resp = await fetch(getIpfsFromHash(ipfsHash), {
     method: 'post',
@@ -24,8 +24,6 @@ export const fetchIPFS = async (
     console.error(':: Failed to parse:', text);
     return {
       name: '',
-      details: '',
-      proof: '',
     };
   }
 };
