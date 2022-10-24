@@ -226,24 +226,26 @@ export class GetUserContributionCountArgs {
   where!: GetContributionCountForUser;
 }
 
-@TypeGraphQL.InputType('GetDaoContributionCountInput')
-export class GetDaoContributionCount {
+@TypeGraphQL.InputType('GetContributionInput')
+export class GetContributionInput {
   @TypeGraphQL.Field(_type => Number)
-  daoId: number;
+  guildId: number;
 
   @TypeGraphQL.Field(_type => Date)
   startDate: Date;
 
   @TypeGraphQL.Field(_type => Date)
   endDate: Date;
+
+  // TODO: add user_id; PRO-551
 }
 
 @TypeGraphQL.ArgsType()
-export class GetDaoContributionCountArgs {
-  @TypeGraphQL.Field(_type => GetDaoContributionCount, {
+export class GetContributionArgs {
+  @TypeGraphQL.Field(_type => GetContributionInput, {
     nullable: false
   })
-  where!: GetDaoContributionCount
+  where!: GetContributionInput
 }
 
 @TypeGraphQL.ObjectType('ContributionCountByDate', { isAbstract: true })
@@ -630,9 +632,9 @@ export class ContributionCustomResolver {
   })
   async getContributionCountByActivityType(
     @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: GetDaoContributionCountArgs,
+    @TypeGraphQL.Args() args: GetContributionArgs,
   ) {
-    const daoId = args.where.daoId;
+    const daoId = args.where.guildId;
     const start = args.where.startDate;
     const end = args.where.endDate;
 
