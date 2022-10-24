@@ -25,7 +25,7 @@ const CHAIN_URL = process.env.CHAIN_URL;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
-  chainId: 2,
+  chainId: 100,
 };
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
@@ -56,9 +56,9 @@ const main = async () => {
   console.log(
     `:: Processing ${contributionsEvents.length} Contribution Event(s)`,
   );
-  const contributions = await Promise.all(
+  const contributionResults = await Promise.all(
     contributionsEvents.map(
-      async (event): Promise<ContributionCreateManyInput> => {
+      async (event): Promise<ContributionCreateManyInput | null> => {
         const contr = await govrnContract.contributions({
           tokenId: event.contributionId,
         });
@@ -68,30 +68,37 @@ const main = async () => {
         });
 
         const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
-        const contributionDetails = await fetchIPFS(detailsUri);
-
-        return {
-          name: contributionDetails.name,
-          status_id: 2,
-          activity_type_id: contributionActivityTypeId,
-          user_id: userId,
-          date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
-          date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
-          details: contributionDetails.details,
-          proof: contributionDetails.proof,
-          on_chain_id: Number(event.id),
-        };
+        try {
+          const contributionDetails = await fetchIPFS(detailsUri);
+          return {
+            name: contributionDetails.name,
+            status_id: 2,
+            activity_type_id: contributionActivityTypeId,
+            user_id: userId,
+            date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
+            date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
+            details: contributionDetails.details,
+            proof: contributionDetails.proof,
+            on_chain_id: Number(event.id),
+          };
+        } catch {
+          return null;
+        }
       },
     ),
   );
+  const contributions = contributionResults.filter(
+    contribution => contribution !== null,
+  );
+  if (contributions.length > 0) {
+    const contributionsCount = await govrn.contribution.bulkCreate({
+      data: contributions,
+      skipDuplicates: true,
+    });
 
-  const contributionsCount = await govrn.contribution.bulkCreate({
-    data: contributions,
-    skipDuplicates: true,
-  });
-
-  console.log(`:: Inserting ${contributionsCount} Contribution(s)`);
-  console.log(`:: Finished Processing Contribution Events`);
+    console.log(`:: Inserting ${contributionsCount} Contribution(s)`);
+    console.log(`:: Finished Processing Contribution Events`);
+  }
   console.log(':: Starting to Process Attestations');
 
   const attestationEvents = (await client.listAttestations({})).attestations;
