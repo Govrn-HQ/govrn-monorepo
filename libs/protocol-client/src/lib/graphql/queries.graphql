@@ -445,6 +445,12 @@ query getContributionCountByDateForUserInRange(
   }
 }
 
+query getContributionCount(
+  $where: GetContributionInput!
+) {
+  result: getContributionCount(where: $where)
+}
+
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
     ...ContributionFragment

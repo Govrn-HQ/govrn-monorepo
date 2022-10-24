@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import * as TypeGraphQL from 'type-graphql';
 import { Context } from './types';
 import { Contribution } from '../generated/type-graphql/models/Contribution';
+import { Int } from 'type-graphql';
 
 @TypeGraphQL.InputType('UserContributionCreateInput', {
   isAbstract: true,
@@ -224,6 +225,28 @@ export class GetUserContributionCountArgs {
     nullable: false,
   })
   where!: GetContributionCountForUser;
+}
+
+@TypeGraphQL.InputType('GetContributionInput')
+export class GetContributionInput {
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  guildId: number;
+
+  @TypeGraphQL.Field(_type => Date, { nullable: true })
+  startDate: Date;
+
+  @TypeGraphQL.Field(_type => Date, { nullable: true })
+  endDate: Date;
+
+  // TODO: add user_id; PRO-551
+}
+
+@TypeGraphQL.ArgsType()
+export class GetContributionArgs {
+  @TypeGraphQL.Field(_type => GetContributionInput, {
+    nullable: false
+  })
+  where!: GetContributionInput
 }
 
 @TypeGraphQL.ObjectType('ContributionCountByDate', { isAbstract: true })
@@ -593,5 +616,31 @@ export class ContributionCustomResolver {
       ORDER BY d.dt;
 
 `;
+  }
+
+  @TypeGraphQL.Query(_returns => [Int], {
+    nullable: false,
+  })
+  async getContributionCount(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetContributionArgs,
+  ) {
+    const start = args.where.startDate;
+    const end = args.where.endDate;
+    const guildId = args.where.guildId;
+
+    return await prisma.contribution.count({
+      where: {
+        date_of_engagement: {
+          gte: start,
+          lte: end
+        },
+        guilds: {
+          some: {
+            guild_id: guildId
+          }
+        }
+      }
+    });
   }
 }
