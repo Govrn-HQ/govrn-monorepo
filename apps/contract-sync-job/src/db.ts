@@ -1,5 +1,19 @@
 import { GovrnProtocol } from '@govrn/protocol-client';
 
+export type ContributionData = {
+  name: string;
+  status_id: number;
+  activity_type_id: number;
+  user_id: number;
+  date_of_engagement: Date;
+  date_of_submission: Date;
+  details?: string;
+  proof?: string;
+  on_chain_id: number;
+  /* Chain ID itself, not the id of chain record in db. */
+  chain_id: number;
+};
+
 export const getOrInsertUser = async (
   govrn: GovrnProtocol,
   data: { address: string },
@@ -62,6 +76,46 @@ export async function getContribution(
     console.error(error);
   }
 }
+
+const getIdOfChain = async (protocol: GovrnProtocol, chainId: number) => {
+  const chain = await protocol.chain.get({ where: { chain_id: `${chainId}` } });
+  return chain.id;
+};
+
+export const upsertContribution = async (
+  protocol: GovrnProtocol,
+  contribution: ContributionData,
+) => {
+  return await protocol.contribution.upsert({
+    where: {
+      chain_id_on_chain_id: {
+        chain_id: await getIdOfChain(protocol, contribution.chain_id),
+        on_chain_id: contribution.on_chain_id,
+      },
+    },
+    create: {
+      name: contribution.name,
+      proof: contribution.proof,
+      details: contribution.details,
+      date_of_engagement: contribution.date_of_engagement,
+      user: { connect: { id: contribution.user_id } },
+      activity_type: { connect: { id: contribution.activity_type_id } },
+      status: {
+        connect: { name: 'minted' },
+      },
+      on_chain_id: contribution.on_chain_id,
+      chain: { connect: { chain_id: `${contribution.chain_id}` } },
+    },
+    update: {
+      name: { set: contribution.name },
+      on_chain_id: { set: contribution.on_chain_id },
+      // proof: { set: contribution.proof },
+      // details: { set: contribution.details },
+      chain: { connect: { chain_id: `${contribution.chain_id}` } },
+      status: { connect: { id: contribution.status_id } },
+    },
+  });
+};
 
 export const createJobRun = async (
   govrn: GovrnProtocol,
