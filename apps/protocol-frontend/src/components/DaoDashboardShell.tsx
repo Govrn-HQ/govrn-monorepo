@@ -14,6 +14,7 @@ interface DaoDashboardShellProps {
 
 const TODAY_DATE = new Date();
 const dateRangeOptions = [
+  { value: 'Custom', label: 'Custom' },
   { value: 1, label: 'Last Week' },
   { value: 4, label: 'Last Month' },
   { value: 12, label: 'Last Quarter' },
@@ -26,15 +27,22 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   //   label: 'Last Year',
   // });
 
+  const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
   const [startDate, setStartDate] = useState(new Date(TODAY_DATE));
   const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
 
-  const dateChangeHandler = (
-    selectedDateOffset: Date | [Date | null, Date | null] | null[],
-  ) => {
+  const dateChangeHandler = (selectedDateOffset: number | string) => {
     console.log('selectedDate', selectedDateOffset);
-    // setEndDate(TODAY_DATE);
-    // setStartDate(subWeeks(TODAY_DATE, selectedDateOffset));
+    if (selectedDateOffset === 'Custom') {
+      setShowCustomDatePicker(true);
+    }
+    setEndDate(TODAY_DATE);
+    setStartDate(
+      subWeeks(
+        TODAY_DATE,
+        typeof selectedDateOffset === 'number' ? selectedDateOffset : 0,
+      ),
+    );
   };
 
   console.log('startDate', startDate);
@@ -56,17 +64,28 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           justifyContent="center"
           gap={2}
         >
-          <ControlledDatePicker
-            selected={startDate}
-            onChange={dates => {
-              const [start, end] = dates;
-              setStartDate(start);
-              setEndDate(end);
+          <ControlledSelect
+            defaultValue={dateRangeOptions.find(date => date.value === 0)}
+            label="Choose Date Range"
+            tip="Choose the date range for your Contributions."
+            onChange={dateRangeOffset => {
+              dateChangeHandler(dateRangeOffset.value);
             }}
-            startDate={startDate}
-            endDate={endDate}
-            maxDate={new Date(TODAY_DATE)}
+            options={dateRangeOptions}
           />
+          {showCustomDatePicker && (
+            <ControlledDatePicker
+              selected={startDate}
+              onChange={dates => {
+                const [start, end] = dates;
+                setStartDate(start);
+                setEndDate(end);
+              }}
+              startDate={startDate}
+              endDate={endDate}
+              maxDate={new Date(TODAY_DATE)}
+            />
+          )}
         </Flex>
       </Flex>
       <Flex direction="column" gap={4}>

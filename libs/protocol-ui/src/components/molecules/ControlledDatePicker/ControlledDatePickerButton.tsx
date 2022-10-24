@@ -5,6 +5,7 @@ import {
   forwardRef,
   ComponentWithAs,
 } from '@chakra-ui/react';
+import { HiOutlineCalendar } from 'react-icons/hi';
 
 export type ControlledDatePickerButtonProps = ButtonProps & {
   value?: React.ReactNode;
@@ -33,6 +34,7 @@ const ControlledDatePickerButton = forwardRef<
       _hover={{ color: 'gray.700', bgColor: 'gray.300' }}
       fontWeight="normal"
       variant="outline"
+      rightIcon={<HiOutlineCalendar />}
     >
       {value}
     </Button>

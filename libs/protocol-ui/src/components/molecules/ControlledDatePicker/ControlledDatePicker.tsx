@@ -8,9 +8,9 @@ import HelperText from '../../atoms/HelperText';
 import ControlledDatePickerButton from './ControlledDatePickerButton';
 
 export interface ControlledDatePickerProps extends ReactDatePickerProps {
-  defaultValue?: Date | null | undefined;
+  defaultValue?: Date[] | Date | null | undefined;
   onChange: (
-    date: Date | [Date | null, Date | null] | null,
+    dates: Date[] | [Date | null, Date | null] | null,
     event: SyntheticEvent<Date, Event> | undefined,
   ) => void;
   maxDate?: Date | null | undefined;
