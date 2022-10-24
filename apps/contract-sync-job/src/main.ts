@@ -96,8 +96,9 @@ const main = async () => {
       skipDuplicates: true,
     });
 
-  console.log(`:: Inserting ${contributionsCount} Contribution(s)`);
-  console.log(`:: Finished Processing Contribution Events`);
+    console.log(`:: Inserting ${contributionsCount} Contribution(s)`);
+    console.log(`:: Finished Processing Contribution Events`);
+  }
   console.log(':: Starting to Process Attestations');
 
   const attestationEvents = (await client.listAttestations({})).attestations;
