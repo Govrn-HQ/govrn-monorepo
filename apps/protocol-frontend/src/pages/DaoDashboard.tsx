@@ -16,7 +16,10 @@ const DaoDashboard = () => {
   return (
     <SiteLayout>
       {isConnected && isAuthenticated && (
-        <DaoDashboardShell daoName={currentDao?.guild.name ?? ''} />
+        <DaoDashboardShell
+          daoName={currentDao?.guild.name ?? ''}
+          daoId={parseInt(guildId ? guildId : '')}
+        />
       )}
     </SiteLayout>
   );
