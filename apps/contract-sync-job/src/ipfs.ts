@@ -25,7 +25,3 @@ export const fetchIPFS = async (
     throw error;
   }
 };
-
-export const logger = (msg: string, ...optionalParams: unknown[]) => {
-  console.log(`:: `, msg, optionalParams);
-};

@@ -7,7 +7,7 @@ import {
 } from '@govrn/protocol-client';
 import { ethers } from 'ethers';
 import { GraphQLClient } from 'graphql-request';
-import { fetchIPFS } from './utils';
+import { fetchIPFS } from './ipfs';
 import {
   createJobRun,
   getContribution,
