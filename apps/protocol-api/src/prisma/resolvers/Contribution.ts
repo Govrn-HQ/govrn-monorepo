@@ -202,8 +202,8 @@ export class DeleteUserContributionArgs {
 
 @TypeGraphQL.InputType('GetUserContributionCountInput')
 export class GetContributionCountForUser {
-  @TypeGraphQL.Field(_type => Number)
-  id: number;
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  id?: number;
 
   @TypeGraphQL.Field(_type => Date)
   startDate: Date;
