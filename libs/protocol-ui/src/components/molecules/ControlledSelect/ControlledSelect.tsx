@@ -49,7 +49,6 @@ export interface ControlledSelectProps {
 
 const ControlledSelect: React.FC<ControlledSelectProps> = ({
   label,
-
   tip,
   placeholder,
   defaultValue,

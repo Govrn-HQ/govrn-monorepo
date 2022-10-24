@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
+import ReactDatePicker from 'react-datepicker';
 import PageHeading from '../components/PageHeading';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { formatDate } from '../utils/date';
@@ -28,6 +29,14 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const [startDate, setStartDate] = useState(new Date(TODAY_DATE));
   const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
 
+  const dateChangeHandler = (
+    selectedDateOffset: Date | [Date | null, Date | null] | null[],
+  ) => {
+    console.log('selectedDate', selectedDateOffset);
+    // setEndDate(TODAY_DATE);
+    // setStartDate(subWeeks(TODAY_DATE, selectedDateOffset));
+  };
+
   console.log('startDate', startDate);
   console.log('endDate', endDate);
 
@@ -38,44 +47,25 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       color="gray.700"
       width="100%"
     >
-      <Flex
-        bg="red"
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <Flex direction="row" justifyContent="space-between" alignItems="center">
         <PageHeading>{daoName}</PageHeading>
         <Flex
-          flexBasis="50%"
+          // flexBasis="50%"
           direction="row"
           alignItems="center"
           justifyContent="center"
           gap={2}
         >
-          <Text>
-            {formatDate(startDate)} - {formatDate(endDate)}
-          </Text>
-          <ControlledSelect
-            defaultValue={dateRangeOptions.find(date => date.value === 52)}
-            onChange={date => {
-              console.log('change');
-              // setDateRange(date);
-            }}
-            options={dateRangeOptions}
-          />
           <ControlledDatePicker
             selected={startDate}
-            onChange={date => setStartDate(date)}
-            selectsStart
+            onChange={dates => {
+              const [start, end] = dates;
+              setStartDate(start);
+              setEndDate(end);
+            }}
             startDate={startDate}
             endDate={endDate}
-          />
-          <ControlledDatePicker
-            selected={endDate}
-            onChange={date => setStartDate(date)}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
+            maxDate={new Date(TODAY_DATE)}
           />
         </Flex>
       </Flex>

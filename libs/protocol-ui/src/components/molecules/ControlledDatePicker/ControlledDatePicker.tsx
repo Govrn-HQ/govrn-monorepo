@@ -10,8 +10,7 @@ import ControlledDatePickerButton from './ControlledDatePickerButton';
 export interface ControlledDatePickerProps extends ReactDatePickerProps {
   defaultValue?: Date | null | undefined;
   onChange: (
-    date: Date,
-    // date: Date | [Date | null, Date | null] | null,
+    date: Date | [Date | null, Date | null] | null,
     event: SyntheticEvent<Date, Event> | undefined,
   ) => void;
   maxDate?: Date | null | undefined;
@@ -27,6 +26,7 @@ const ControlledDatePicker: React.FC<ControlledDatePickerProps> = ({
     <Box my={2}>
       <ReactDatePicker
         selected={defaultValue}
+        selectsRange
         onChange={onChange}
         customInput={<ControlledDatePickerButton />}
         maxDate={maxDate}
