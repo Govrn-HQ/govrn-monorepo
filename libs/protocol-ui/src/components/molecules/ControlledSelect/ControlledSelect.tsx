@@ -60,7 +60,7 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
   value,
 }: ControlledSelectProps) => {
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} width="100%">
       {label && (
         <Text fontSize="" color="gray.800">
           {label}

@@ -19,13 +19,18 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   //   label: 'Last Year',
   // });
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  // const [startDate, setStartDate] = useState(new Date(TODAY_DATE));
-  // const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
+  // const [startDate, setStartDate] = useState<Date | null>(null);
+  // const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState(new Date(TODAY_DATE));
+  const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
 
   const dateRangeOptions = [
-    { value: 'Custom', label: 'Custom' },
+    {
+      value: 'Custom',
+      label: showCustomDatePicker
+        ? `${formatDate(startDate)} to ${formatDate(endDate)}`
+        : 'Custom',
+    },
     { value: 1, label: 'Last Week' },
     { value: 4, label: 'Last Month' },
     { value: 12, label: 'Last Quarter' },
@@ -33,13 +38,9 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   ];
 
   const dateChangeHandler = (selectedDateOffset: number | string) => {
-    console.log('selectedDateOffset', selectedDateOffset);
     if (selectedDateOffset === 'Custom') {
       setShowCustomDatePicker(true);
     }
-    // setShowCustomDatePicker(false);
-    setEndDate(null);
-    setStartDate(null);
     setEndDate(TODAY_DATE);
     setStartDate(
       subWeeks(
@@ -59,7 +60,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       <Flex direction="row" justifyContent="space-between" alignItems="center">
         <PageHeading>{daoName}</PageHeading>
         <Flex
-          // flexBasis="50%"
+          flexBasis="50%"
           direction="row"
           alignItems="center"
           justifyContent="flex-end"
