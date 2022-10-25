@@ -32,7 +32,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
     {
       value: 'Custom',
       label:
-        dateRange !== null
+        showCustomDatePicker !== null
           ? `${formatDate(startDate)} to ${formatDate(endDate)}`
           : 'Custom',
     },
@@ -79,7 +79,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             flexBasis="60%"
             gap={2}
           >
-            {/* {showCustomDatePicker && ( */}
             <Box visibility={showCustomDatePicker ? 'inherit' : 'hidden'}>
               <ControlledDatePicker
                 selected={startDate}
@@ -93,12 +92,10 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                 maxDate={new Date(TODAY_DATE)}
               />
             </Box>
-            {/* )} */}
             <ControlledSelect
               controlShouldRenderValue
               isSearchable={false}
               defaultValue={dateRangeOptions.find(date => date.value === 4)}
-              getOptionLabel={option => option.label}
               value={dateRange}
               onChange={dateRangeOffset => {
                 setShowCustomDatePicker(false);
