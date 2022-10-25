@@ -48,6 +48,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
             name: c.original.name,
             details: c.original?.details || '',
             proof: c.original?.proof || '',
+            activityName: c.original.activity_type.name,
+            image: '',
+            govrn: {
+              id: c.original.id,
+              activityTypeId: c.original.activity_type.id,
+            },
           })),
         );
         const bulkResults = [];
@@ -69,6 +75,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
           name: contribution?.original?.name,
           details: contribution?.original?.details || '',
           proof: contribution?.original?.proof || '',
+          activityName: contribution.original.activity_type.name,
+          image: '',
+          govrn: {
+            id: contribution.original.id,
+            activityTypeId: contribution.original.activity_type.id,
+          },
         });
 
         if (contribution.original) {

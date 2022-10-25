@@ -2,11 +2,20 @@ import { create, CID } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 import patch from '@govrn/protocol-client';
 
+const VERSION = 2;
+
 type StoreIpfsParam =
   | {
       name: string;
       details: string;
       proof: string;
+      activityName: string;
+      image: string; // keep blank for now
+      govrn: {
+        /* Contribution ID */
+        id: number;
+        activityTypeId: number;
+      };
     }
   | ArrayBuffer;
 
@@ -43,7 +52,8 @@ export const uploadFileIpfs = async (file: File, onlyHash = true) => {
 
 export const storeIpfs = async (content: StoreIpfsParam) => {
   const ipfs = getIPFSClient();
-  const cid = await ipfs.add(JSON.stringify(content), {
+  const contentWithVersion = { ...content, version: VERSION };
+  const cid = await ipfs.add(JSON.stringify(contentWithVersion), {
     cidVersion: 1,
     hashAlg: 'sha2-256',
   });
