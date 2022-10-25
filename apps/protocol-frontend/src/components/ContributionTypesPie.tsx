@@ -68,6 +68,12 @@ const ContributionTypesPie = ({
             cornerRadius={3}
             activeOuterRadiusOffset={8}
             borderWidth={1}
+            arcLinkLabel={data => `${data.label}: ${data.value}`}
+            arcLinkLabelsSkipAngle={10}
+            arcLinkLabelsTextColor="#333333"
+            arcLinkLabelsThickness={2}
+            arcLinkLabelsColor={{ from: 'color' }}
+            arcLabelsSkipAngle={10}
           />
         )}
       </Flex>
