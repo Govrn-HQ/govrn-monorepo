@@ -1,6 +1,7 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import PageHeading from '../components/PageHeading';
 import ContributionsRangeCountDisplay from '../components/ContributionsRangeCountDisplay';
+
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
@@ -15,17 +16,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       width="100%"
     >
       <PageHeading>{daoName}</PageHeading>
-      {/* <Flex
-        justify="space-between"
-        direction="column"
-        wrap="wrap"
-        width="100%"
-        paddingX={4}
-        paddingY={4}
-        background="white"
-        boxShadow="sm"
-        borderRadius={{ base: 'none', md: 'lg' }}
-      > */}
       <Flex direction="column" gap={4}>
         <Flex direction={{ base: 'column' }} gap={2}>
           <Flex
@@ -66,7 +56,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           </Flex>
         </Flex>
       </Flex>
-      {/* </Flex> */}
     </Box>
   );
 };
