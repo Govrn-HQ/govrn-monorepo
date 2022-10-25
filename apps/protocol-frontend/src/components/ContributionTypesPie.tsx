@@ -78,7 +78,6 @@ const ContributionTypesPie = ({
             arcLinkLabelsTextColor="#333333"
             arcLinkLabelsThickness={1.5}
             arcLinkLabelsColor={{ from: 'color' }}
-            arcLabelsSkipAngle={10}
             layers={
               isMobile
                 ? ['arcs', 'arcLabels']
