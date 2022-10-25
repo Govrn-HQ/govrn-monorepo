@@ -238,6 +238,8 @@ export class GetContributionInput {
   @TypeGraphQL.Field(_type => Date, { nullable: true })
   endDate: Date;
 
+  @TypeGraphQL.Field(_type => Number, { nullable: true})
+  userId;
   // TODO: add user_id; PRO-551
 }
 
@@ -264,6 +266,15 @@ export class ContributionCountByDate {
 
   @TypeGraphQL.Field(_type => String)
   name: string;
+}
+
+@TypeGraphQL.ObjectType('TotalContributionCount', { isAbstract: true })
+export class TotalContributionCount {
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  userContributionCount: number;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  daoContributionCount: number;
 }
 
 @TypeGraphQL.Resolver(_of => Contribution)
@@ -628,7 +639,26 @@ export class ContributionCustomResolver {
     const start = args.where.startDate;
     const end = args.where.endDate;
     const guildId = args.where.guildId;
+    const userId = args.where.userId;
 
+    let userContributionCount = null;
+    if (userId) {
+      // retrieve the user's contributions to this guild
+      userContributionCount = await this._getContributionCount(prisma, start, end, userId, guildId);
+    }
+
+    let guildContributionCount = null;
+    if (guildId) {
+      // retrieve the total amount of the guild's contributions
+      guildContributionCount = await this._getContributionCount(prisma, start, end, null, guildId);
+    }
+
+    ContributionCount
+  }
+
+  async _getContributionCount(
+    prisma, start: Date, end: Date, guildId: number, userId: number) 
+  {
     return await prisma.contribution.count({
       where: {
         date_of_engagement: {
@@ -639,6 +669,9 @@ export class ContributionCustomResolver {
           some: {
             guild_id: guildId
           }
+        },
+        user_id: {
+          equals: userId
         }
       }
     });
