@@ -1,4 +1,6 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
+import { ResponsivePie } from '@nivo/pie';
+
 import PageHeading from '../components/PageHeading';
 import ContributionTypesPie from './ContributionTypesPie';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
@@ -21,7 +23,7 @@ const mockData = [
   {
     id: 3,
     type: 'Note Taking',
-    count: 10,
+    count: 15,
   },
   {
     id: 4,
@@ -46,13 +48,18 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               Contributions By Date
             </Heading>
           </Flex>
-          <Flex direction="column" gap={2}>
+          {/* <Flex direction="column" gap={2}>
             <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
               Contributions By Member
             </Heading>
-          </Flex>
-          <Flex direction="column" gap={2}>
-            <ContributionTypesPie contributionsData={mockData} />
+          </Flex> */}
+          <Flex direction="column" alignItems="center" justifyContent="center">
+            <Flex direction="column" gap={2}>
+              <ContributionTypesPie contributionsData={mockData} />
+            </Flex>
+            <Flex direction="column" gap={2}>
+              <ContributionTypesPie contributionsData={mockData} />
+            </Flex>
           </Flex>
           <Flex direction="column" gap={2} padding={2}>
             <RecentContributionsTableShell daoId={daoId} />

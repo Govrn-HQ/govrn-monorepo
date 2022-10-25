@@ -40,15 +40,17 @@ const ContributionTypesPie = ({
   });
 
   return (
-    <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
+    <Flex direction="column" paddingY={4} paddingX={{ base: 4, lg: 0 }}>
       <Flex
         direction="column"
         alignItems="center"
         justifyContent="center"
-        minHeight={{ base: '5rem', lg: '10rem' }}
-        height={{ base: '5rem', lg: '10rem' }}
-        paddingY={{ base: '4' }}
-        paddingX={{ base: '0', md: '4' }}
+        minHeight={{ base: '5rem', lg: '20rem' }}
+        height={{ base: '5rem', lg: '20rem' }}
+        width="100%"
+        minWidth="15rem"
+        paddingY={{ base: '8' }}
+        paddingX={{ base: '0', md: '8' }}
         color="gray.700"
         background="white"
         boxShadow="sm"
@@ -58,7 +60,15 @@ const ContributionTypesPie = ({
           Contributions By Type
         </Heading>
         {contributionsDataMap.length !== 0 && (
-          <ResponsivePie data={contributionsDataMap} />
+          <ResponsivePie
+            data={contributionsDataMap}
+            margin={{ top: 40, right: 40, bottom: 20, left: 40 }}
+            innerRadius={0.5}
+            padAngle={0.7}
+            cornerRadius={3}
+            activeOuterRadiusOffset={8}
+            borderWidth={1}
+          />
         )}
       </Flex>
     </Flex>
