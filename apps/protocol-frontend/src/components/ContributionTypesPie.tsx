@@ -45,10 +45,9 @@ const ContributionTypesPie = ({
         direction="column"
         alignItems="center"
         justifyContent="center"
-        // minHeight={{ base: '5rem', lg: '20rem' }}
-        // height={{ base: '5rem', lg: '20rem' }}
-        // width={{ base: '10rem', lg: '20rem' }}
-
+        // minHeight={{ base: '5rem', lg: '40rem' }}
+        height={{ base: '20rem', lg: '30rem' }}
+        width={{ base: '20rem', lg: '30rem' }}
         paddingY={{ base: '0', lg: '8' }}
         paddingX={{ base: '0', lg: '8' }}
         color="gray.700"
@@ -60,10 +59,10 @@ const ContributionTypesPie = ({
           Contributions By Type
         </Heading>
         {contributionsDataMap.length !== 0 && (
-          <Pie
+          <ResponsivePie
             data={contributionsDataMap}
-            width={isMobile ? 300 : 400}
-            height={isMobile ? 300 : 400}
+            // width={isMobile ? 300 : 400}
+            // height={isMobile ? 300 : 400}
             margin={{
               top: isMobile ? 10 : 40,
               right: isMobile ? 40 : 20,
@@ -83,6 +82,36 @@ const ContributionTypesPie = ({
             arcLinkLabelsThickness={2}
             arcLinkLabelsColor={{ from: 'color' }}
             arcLabelsSkipAngle={10}
+            layers={
+              isMobile
+                ? ['arcs', 'arcLabels']
+                : ['arcs', 'arcLabels', 'legends']
+            }
+            legends={[
+              {
+                anchor: 'bottom',
+                direction: 'row',
+                justify: false,
+                translateX: 0,
+                translateY: 40,
+                itemsSpacing: 0,
+                itemWidth: 100,
+                itemHeight: 20,
+                itemTextColor: '#999',
+                itemDirection: 'left-to-right',
+                itemOpacity: 1,
+                symbolSize: 18,
+                symbolShape: 'circle',
+                effects: [
+                  {
+                    on: 'hover',
+                    style: {
+                      itemTextColor: '#000',
+                    },
+                  },
+                ],
+              },
+            ]}
           />
         )}
       </Flex>
