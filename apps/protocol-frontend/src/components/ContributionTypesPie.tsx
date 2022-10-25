@@ -45,7 +45,6 @@ const ContributionTypesPie = ({
         direction="column"
         alignItems="center"
         justifyContent="center"
-        // minHeight={{ base: '5rem', lg: '40rem' }}
         height={{ base: '20rem', lg: '30rem' }}
         width={{ base: '20rem', lg: '40rem' }}
         paddingY={{ base: '0', lg: '4' }}
@@ -68,16 +67,16 @@ const ContributionTypesPie = ({
               left: isMobile ? 40 : 10,
             }}
             colors={brandColorMap}
-            isInteractive
             innerRadius={0.5}
-            padAngle={0.7}
-            borderWidth={1}
-            cornerRadius={3}
+            padAngle={0.8}
+            borderWidth={0.5}
+            cornerRadius={4}
             activeOuterRadiusOffset={8}
+            fit
             arcLinkLabel={data => `${data.label}: ${data.value}`}
             arcLinkLabelsSkipAngle={10}
             arcLinkLabelsTextColor="#333333"
-            arcLinkLabelsThickness={2}
+            arcLinkLabelsThickness={1.5}
             arcLinkLabelsColor={{ from: 'color' }}
             arcLabelsSkipAngle={10}
             layers={

@@ -13,21 +13,25 @@ const mockData = [
   {
     id: 1,
     type: 'Proposal',
+    label: 'Proposal',
     count: 10,
   },
   {
     id: 2,
     type: 'Pull Request',
+    label: 'Pull Request',
     count: 20,
   },
   {
     id: 3,
     type: 'Note Taking',
+    label: 'Note Taking',
     count: 15,
   },
   {
     id: 4,
     type: 'Testing',
+    label: 'Testing',
     count: 50,
   },
 ];
@@ -65,9 +69,9 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             <Flex direction="column" gap={2}>
               <ContributionTypesPie contributionsData={mockData} />
             </Flex>
-            <Flex direction="column" gap={2}>
+            {/* <Flex direction="column" gap={2}>
               <ContributionTypesPie contributionsData={mockData} />
-            </Flex>
+            </Flex> */}
           </Flex>
           <Flex direction="column" gap={2} padding={2}>
             <RecentContributionsTableShell daoId={daoId} />
