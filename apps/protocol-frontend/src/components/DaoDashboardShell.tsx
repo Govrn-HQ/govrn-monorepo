@@ -1,10 +1,34 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import PageHeading from '../components/PageHeading';
+import ContributionTypesPie from './ContributionTypesPie';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
 }
+
+const mockData = [
+  {
+    id: 1,
+    type: 'Proposal',
+    count: 10,
+  },
+  {
+    id: 2,
+    type: 'Pull Request',
+    count: 20,
+  },
+  {
+    id: 3,
+    type: 'Note Taking',
+    count: 10,
+  },
+  {
+    id: 4,
+    type: 'Testing',
+    count: 50,
+  },
+];
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   return (
@@ -28,9 +52,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             </Heading>
           </Flex>
           <Flex direction="column" gap={2}>
-            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
-              Contributions By Type
-            </Heading>
+            <ContributionTypesPie contributionsData={mockData} />
           </Flex>
           <Flex direction="column" gap={2} padding={2}>
             <RecentContributionsTableShell daoId={daoId} />
