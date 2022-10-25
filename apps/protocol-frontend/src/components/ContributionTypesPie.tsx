@@ -47,9 +47,9 @@ const ContributionTypesPie = ({
         justifyContent="center"
         // minHeight={{ base: '5rem', lg: '40rem' }}
         height={{ base: '20rem', lg: '30rem' }}
-        width={{ base: '20rem', lg: '30rem' }}
-        paddingY={{ base: '0', lg: '8' }}
-        paddingX={{ base: '0', lg: '8' }}
+        width={{ base: '20rem', lg: '40rem' }}
+        paddingY={{ base: '0', lg: '4' }}
+        paddingX={{ base: '0', lg: '4' }}
         color="gray.700"
         background="white"
         boxShadow="sm"
@@ -61,13 +61,11 @@ const ContributionTypesPie = ({
         {contributionsDataMap.length !== 0 && (
           <ResponsivePie
             data={contributionsDataMap}
-            // width={isMobile ? 300 : 400}
-            // height={isMobile ? 300 : 400}
             margin={{
               top: isMobile ? 10 : 40,
-              right: isMobile ? 40 : 20,
+              right: isMobile ? 40 : 40,
               bottom: isMobile ? 10 : 40,
-              left: isMobile ? 40 : 20,
+              left: isMobile ? 40 : 10,
             }}
             colors={brandColorMap}
             isInteractive
@@ -85,7 +83,7 @@ const ContributionTypesPie = ({
             layers={
               isMobile
                 ? ['arcs', 'arcLabels']
-                : ['arcs', 'arcLabels', 'legends']
+                : ['arcs', 'arcLinkLabels', 'arcLabels', 'legends']
             }
             legends={[
               {
