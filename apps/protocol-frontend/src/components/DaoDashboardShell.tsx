@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import ReactDatePicker from 'react-datepicker';
@@ -66,6 +66,19 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           justifyContent="flex-end"
           gap={2}
         >
+          {showCustomDatePicker && (
+            <ControlledDatePicker
+              selected={startDate}
+              onChange={dates => {
+                const [start, end] = dates;
+                setStartDate(start);
+                setEndDate(end);
+              }}
+              startDate={startDate}
+              endDate={endDate}
+              maxDate={new Date(TODAY_DATE)}
+            />
+          )}
           <ControlledSelect
             defaultValue={dateRangeOptions.find(
               date => date.value === 'Custom',
@@ -75,18 +88,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               dateChangeHandler(dateRangeOffset.value);
             }}
             options={dateRangeOptions}
-          />
-          <ControlledDatePicker
-            selected={startDate}
-            onChange={dates => {
-              const [start, end] = dates;
-              setStartDate(start);
-              setEndDate(end);
-            }}
-            startDate={startDate}
-            endDate={endDate}
-            maxDate={new Date(TODAY_DATE)}
-            disabled={!showCustomDatePicker}
           />
         </Flex>
       </Flex>

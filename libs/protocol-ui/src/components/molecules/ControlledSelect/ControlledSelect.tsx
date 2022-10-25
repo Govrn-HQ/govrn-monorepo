@@ -41,7 +41,6 @@ export interface ControlledSelectProps {
   isMulti?: boolean;
   isClearable?: boolean;
   onChange?: (option: { value: number; label: string }) => void;
-  isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
   [x: string]: any;
@@ -56,7 +55,6 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
   isMulti,
   isClearable,
   onChange,
-  isDisabled,
   value,
 }: ControlledSelectProps) => {
   return (
@@ -79,7 +77,6 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
           isClearable={isClearable}
           isMulti={isMulti}
           onChange={onChange}
-          isDisabled={isDisabled}
           value={value}
         />
       </Box>
