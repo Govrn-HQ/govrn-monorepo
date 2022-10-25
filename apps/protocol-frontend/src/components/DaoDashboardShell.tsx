@@ -23,13 +23,18 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   // const [endDate, setEndDate] = useState<Date | null>(null);
   const [startDate, setStartDate] = useState(new Date(TODAY_DATE));
   const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
+  const [dateRange, setDateRange] = useState<{
+    label: string;
+    value: number;
+  } | null>(null);
 
   const dateRangeOptions = [
     {
       value: 'Custom',
-      label: showCustomDatePicker
-        ? `${formatDate(startDate)} to ${formatDate(endDate)}`
-        : 'Custom',
+      label:
+        dateRange !== null
+          ? `${formatDate(startDate)} to ${formatDate(endDate)}`
+          : 'Custom',
     },
     { value: 1, label: 'Last Week' },
     { value: 4, label: 'Last Month' },
@@ -91,10 +96,14 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             {/* )} */}
             <ControlledSelect
               controlShouldRenderValue
+              isSearchable={false}
               defaultValue={dateRangeOptions.find(date => date.value === 4)}
+              getOptionLabel={option => option.label}
+              value={dateRange}
               onChange={dateRangeOffset => {
                 setShowCustomDatePicker(false);
                 dateChangeHandler(dateRangeOffset.value);
+                setDateRange(dateRangeOffset);
               }}
               options={dateRangeOptions}
               width="1000px"
