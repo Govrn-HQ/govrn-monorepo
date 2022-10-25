@@ -240,7 +240,6 @@ export class GetContributionInput {
 
   @TypeGraphQL.Field(_type => Number, { nullable: true})
   userId;
-  // TODO: add user_id; PRO-551
 }
 
 @TypeGraphQL.ArgsType()
@@ -275,6 +274,18 @@ export class TotalContributionCount {
 
   @TypeGraphQL.Field(_type => Number, { nullable: true })
   daoContributionCount: number;
+}
+
+@TypeGraphQL.ObjectType('ContributionCountByActivityType', { isAbstract: true })
+export class ContributionCountByActivityType {
+  @TypeGraphQL.Field(_type => Number)
+  count: number;
+
+  @TypeGraphQL.Field(_type => String)
+  activity_name: string;
+
+  @TypeGraphQL.Field(_type => Number)
+  activity_id: number;
 }
 
 @TypeGraphQL.Resolver(_of => Contribution)
@@ -624,12 +635,43 @@ export class ContributionCustomResolver {
       WHERE (d.dt BETWEEN ${start} AND ${end})
         AND (gc."user_id" = ${user_id} OR gc."user_id" is null)
       GROUP BY gc.guild_id, gc.name, d.dt
-      ORDER BY d.dt;
-
-`;
+      ORDER BY d.dt;`;
   }
 
-  @TypeGraphQL.Query(_returns => Int, {
+  @TypeGraphQL.Query(_returns => [ContributionCountByActivityType], {
+    nullable: false,
+  })
+  async getContributionCountByActivityType(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetContributionArgs,
+  ) {
+    const daoId = args.where.guildId;
+    const start = args.where.startDate;
+    const end = args.where.endDate;
+
+    // grouping on nested fields not yet supported in prisma 
+    // need to group on the activity id and name, which are 
+    // in a separate table than guild contributions
+    // N.B. the guild contribution created date is used for the range,
+    // not the contribution created date
+    return await prisma.$queryRaw<ContributionCountByActivityType>`
+      SELECT c.activity_type_id as activity_id,
+             a.name as activity_name,
+             count(c.id) as count
+      FROM
+        "GuildContribution" gc 
+        LEFT JOIN "Contribution" as c 
+          ON gc."contribution_id" = c."id"
+        LEFT JOIN "ActivityType" as a
+          ON a."id" = c."activity_type_id"
+      WHERE (
+        gc."createdAt"::date BETWEEN ${start} AND ${end} 
+        AND gc."guild_id" = ${daoId}
+      ) GROUP BY a.name, c.activity_type_id
+      ORDER BY count;`;
+  }
+
+  @TypeGraphQL.Query(_returns => TotalContributionCount, {
     nullable: false,
   })
   async getContributionCount(
@@ -653,7 +695,10 @@ export class ContributionCustomResolver {
       guildContributionCount = await this._getContributionCount(prisma, start, end, null, guildId);
     }
 
-    ContributionCount
+    return {
+      userContributionCount: userContributionCount,
+      guildContributionCount: guildContributionCount
+    };
   }
 
   async _getContributionCount(

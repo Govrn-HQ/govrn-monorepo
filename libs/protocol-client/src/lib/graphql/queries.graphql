@@ -451,6 +451,16 @@ query getContributionCount(
   result: getContributionCount(where: $where)
 }
 
+query getContributionCountByActivityType(
+  $where: GetDaoContributionCountInput!
+) {
+  result: getContributionCountByActivityType(where: $where) {
+    count
+    activity_name
+    activity_id
+  }
+}
+
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
     ...ContributionFragment
