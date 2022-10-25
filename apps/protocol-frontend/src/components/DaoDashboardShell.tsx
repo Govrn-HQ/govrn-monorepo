@@ -53,7 +53,14 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               Contributions By Member
             </Heading>
           </Flex> */}
-          <Flex direction="column" alignItems="center" justifyContent="center">
+          <Flex
+            direction={{ base: 'column', lg: 'column' }}
+            gap={2}
+            alignItems={{ base: 'center', lg: 'flex-start' }}
+            // justifyContent="center"
+            justifyContent={{ base: 'space-between', lg: 'space-between' }}
+            bg="red"
+          >
             <Flex direction="column" gap={2}>
               <ContributionTypesPie contributionsData={mockData} />
             </Flex>

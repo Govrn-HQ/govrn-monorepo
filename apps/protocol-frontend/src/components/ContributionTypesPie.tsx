@@ -1,5 +1,5 @@
 import { Flex, Box, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
-import { ResponsivePie } from '@nivo/pie';
+import { ResponsivePie, Pie } from '@nivo/pie';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 
@@ -45,12 +45,12 @@ const ContributionTypesPie = ({
         direction="column"
         alignItems="center"
         justifyContent="center"
-        minHeight={{ base: '5rem', lg: '20rem' }}
-        height={{ base: '5rem', lg: '20rem' }}
-        width="100%"
-        minWidth="15rem"
-        paddingY={{ base: '8' }}
-        paddingX={{ base: '0', md: '8' }}
+        // minHeight={{ base: '5rem', lg: '20rem' }}
+        // height={{ base: '5rem', lg: '20rem' }}
+        // width={{ base: '10rem', lg: '20rem' }}
+
+        paddingY={{ base: '0', lg: '8' }}
+        paddingX={{ base: '0', lg: '8' }}
         color="gray.700"
         background="white"
         boxShadow="sm"
@@ -60,14 +60,23 @@ const ContributionTypesPie = ({
           Contributions By Type
         </Heading>
         {contributionsDataMap.length !== 0 && (
-          <ResponsivePie
+          <Pie
             data={contributionsDataMap}
-            margin={{ top: 40, right: 40, bottom: 20, left: 40 }}
+            width={isMobile ? 300 : 500}
+            height={isMobile ? 300 : 300}
+            margin={{
+              top: isMobile ? 10 : 40,
+              right: isMobile ? 40 : 20,
+              bottom: isMobile ? 10 : 40,
+              left: isMobile ? 40 : 20,
+            }}
+            colors={brandColorMap}
             innerRadius={0.5}
             padAngle={0.7}
+            borderWidth={1}
             cornerRadius={3}
             activeOuterRadiusOffset={8}
-            borderWidth={1}
+            enableArcLabels={false}
             arcLinkLabel={data => `${data.label}: ${data.value}`}
             arcLinkLabelsSkipAngle={10}
             arcLinkLabelsTextColor="#333333"
