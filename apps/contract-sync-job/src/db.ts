@@ -116,7 +116,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
   });
 };
 
-export const bulkCreateAttestions = async (
+export const bulkCreateAttestations = async (
   attestations: {
     confidence_id: number;
     user_id: number;

@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { GraphQLClient } from 'graphql-request';
 import { fetchIPFS } from './ipfs';
 import {
-  bulkCreateAttestions,
+  bulkCreateAttestations,
   ContributionData,
   createJobRun,
   getContribution,
@@ -134,7 +134,7 @@ const main = async () => {
     }),
   );
 
-  const attestationsCount = await bulkCreateAttestions(attestations);
+  const attestationsCount = await bulkCreateAttestations(attestations);
 
   console.log(
     `:: Inserting ${attestationsCount.createManyAttestation.count} Attestations`,
