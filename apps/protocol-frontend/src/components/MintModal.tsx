@@ -45,11 +45,9 @@ const MintModal = ({ contributions }: MintModalProps) => {
       if (contributions.length > 1) {
         const bulkStoreResult = await bulkStoreIpfs(
           contributions.map(c => ({
-            content: {
-              name: c.original.name,
-              details: c.original?.details || '',
-              proof: c.original?.proof || '',
-            },
+            name: c.original.name,
+            details: c.original?.details || '',
+            proof: c.original?.proof || '',
           })),
         );
         const bulkResults = [];
