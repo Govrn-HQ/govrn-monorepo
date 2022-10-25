@@ -62,8 +62,8 @@ const ContributionTypesPie = ({
         {contributionsDataMap.length !== 0 && (
           <Pie
             data={contributionsDataMap}
-            width={isMobile ? 300 : 500}
-            height={isMobile ? 300 : 300}
+            width={isMobile ? 300 : 400}
+            height={isMobile ? 300 : 400}
             margin={{
               top: isMobile ? 10 : 40,
               right: isMobile ? 40 : 20,
@@ -71,12 +71,12 @@ const ContributionTypesPie = ({
               left: isMobile ? 40 : 20,
             }}
             colors={brandColorMap}
+            isInteractive
             innerRadius={0.5}
             padAngle={0.7}
             borderWidth={1}
             cornerRadius={3}
             activeOuterRadiusOffset={8}
-            enableArcLabels={false}
             arcLinkLabel={data => `${data.label}: ${data.value}`}
             arcLinkLabelsSkipAngle={10}
             arcLinkLabelsTextColor="#333333"
