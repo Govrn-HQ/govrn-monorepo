@@ -7,7 +7,7 @@ This library contains All GraphQL queries & mutation in addition to clients. Cli
 This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/node/generators/application). Check all targets at [`project.json`](./project.json) 
 
 ### Commands
-- `yarn nx run protocol-client:generate-gql`: runs `graphql-codegen`, generating code based on both the GraphQL schema ([`queries.graphql`](./src/lib/graphql/queries.graphql)) and on the (custom resolvers)[../../apps/protocol-api/src/prisma/resolvers].[^1]
+- `yarn nx run protocol-client:generate-gql`: runs `graphql-codegen`, generating code based on both the GraphQL schema ([`queries.graphql`](./src/lib/graphql/queries.graphql)) and on the [custom resolvers]()../../apps/protocol-api/src/prisma/resolvers).[^1]
 
 ### Add new GraphQL Query
 - first add new query to [`queries.graphql`](./src/lib/graphql/queries.graphql) file. 
