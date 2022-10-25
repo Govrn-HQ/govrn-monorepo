@@ -56,6 +56,7 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
   isClearable,
   onChange,
   value,
+  ...props
 }: ControlledSelectProps) => {
   return (
     <Stack spacing={2} width="100%">
@@ -74,10 +75,10 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
           options={options}
           defaultValue={defaultValue}
           placeholder={placeholder}
-          isClearable={isClearable}
           isMulti={isMulti}
           onChange={onChange}
           value={value}
+          {...props}
         />
       </Box>
     </Stack>

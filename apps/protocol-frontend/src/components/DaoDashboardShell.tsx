@@ -66,29 +66,40 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           justifyContent="flex-end"
           gap={2}
         >
-          {showCustomDatePicker && (
-            <ControlledDatePicker
-              selected={startDate}
-              onChange={dates => {
-                const [start, end] = dates;
-                setStartDate(start);
-                setEndDate(end);
+          <Flex
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-end"
+            width="100%"
+            flexBasis="60%"
+            gap={2}
+          >
+            {/* {showCustomDatePicker && ( */}
+            <Box visibility={showCustomDatePicker ? 'inherit' : 'hidden'}>
+              <ControlledDatePicker
+                selected={startDate}
+                onChange={dates => {
+                  const [start, end] = dates;
+                  setStartDate(start);
+                  setEndDate(end);
+                }}
+                startDate={startDate}
+                endDate={endDate}
+                maxDate={new Date(TODAY_DATE)}
+              />
+            </Box>
+            {/* )} */}
+            <ControlledSelect
+              controlShouldRenderValue
+              defaultValue={dateRangeOptions.find(date => date.value === 4)}
+              onChange={dateRangeOffset => {
+                setShowCustomDatePicker(false);
+                dateChangeHandler(dateRangeOffset.value);
               }}
-              startDate={startDate}
-              endDate={endDate}
-              maxDate={new Date(TODAY_DATE)}
+              options={dateRangeOptions}
+              width="1000px"
             />
-          )}
-          <ControlledSelect
-            defaultValue={dateRangeOptions.find(
-              date => date.value === 'Custom',
-            )}
-            onChange={dateRangeOffset => {
-              setShowCustomDatePicker(false);
-              dateChangeHandler(dateRangeOffset.value);
-            }}
-            options={dateRangeOptions}
-          />
+          </Flex>
         </Flex>
       </Flex>
       <Flex direction="column" gap={4}>
