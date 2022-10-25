@@ -65,15 +65,3 @@ export const bulkStoreIpfs = async (params: StoreIpfsParam[]) => {
     }),
   );
 };
-
-export const fetchIPFS = async (ipfsHash: string) => {
-  const resp = await fetch(
-    `${import.meta.env.VITE_INFURA_SUBDOMAIN}/api/v0/cat?arg=${ipfsHash
-      .split('/')
-      .slice(2)}`,
-    {
-      method: 'post',
-    },
-  );
-  return await resp?.blob();
-};
