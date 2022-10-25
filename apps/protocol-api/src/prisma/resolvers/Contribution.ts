@@ -273,7 +273,7 @@ export class TotalContributionCount {
   userContributionCount: number;
 
   @TypeGraphQL.Field(_type => Number, { nullable: true })
-  daoContributionCount: number;
+  guildContributionCount: number;
 }
 
 @TypeGraphQL.ObjectType('ContributionCountByActivityType', { isAbstract: true })

@@ -448,11 +448,14 @@ query getContributionCountByDateForUserInRange(
 query getContributionCount(
   $where: GetContributionInput!
 ) {
-  result: getContributionCount(where: $where)
+  result: getContributionCount(where: $where) {
+    userContributionCount
+    guildContributionCount
+  }
 }
 
 query getContributionCountByActivityType(
-  $where: GetDaoContributionCountInput!
+  $where: GetContributionInput!
 ) {
   result: getContributionCountByActivityType(where: $where) {
     count
