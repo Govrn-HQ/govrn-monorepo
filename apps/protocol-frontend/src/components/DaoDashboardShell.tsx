@@ -8,11 +8,7 @@ interface DaoDashboardShellProps {
   daoId: number;
 }
 
-const DaoDashboardShell = ({
-  daoName,
-  daoId,
-  daoId,
-}: DaoDashboardShellProps) => {
+const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
