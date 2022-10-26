@@ -1,7 +1,6 @@
 
 import { useUser } from '../contexts/UserContext';
 import { useQuery } from '@tanstack/react-query';
-import { UIActivityType } from '@govrn/ui-types';
 
 export const useContributionActivityType = (
   args?: {
@@ -17,5 +16,3 @@ export const useContributionActivityType = (
   })
   return { isLoading, isError, isFetching, error, data };
 }
-
-// startDate: "6/1/2022", endDate: "10/1/2022", guildId: 2

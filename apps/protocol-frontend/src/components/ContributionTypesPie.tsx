@@ -2,15 +2,13 @@ import { Flex, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsivePie } from '@nivo/pie';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 
-// type ContributionTypesCount = {
-//   type: string;
-//   id: number;
-//   count: number;
-//   // date: string;
-//   // count: number;
-// };
+type ContributionTypesCount = {
+  activity_id: number;
+  activity_name: string;
+  count: number;
+};
 interface ContributionTypesPieProps {
-  contributionActivityData: any;
+  contributionActivityData: ContributionTypesCount[] | undefined;
   isFetching: boolean;
   isLoading: boolean;
   isError: boolean;

@@ -1,39 +1,11 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import PageHeading from '../components/PageHeading';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
-import ContributionTypesPie from './ContributionTypesPie';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
 }
-
-const mockData = [
-  {
-    id: 1,
-    type: 'Proposal',
-    label: 'Proposal',
-    count: 10,
-  },
-  {
-    id: 2,
-    type: 'Pull Request',
-    label: 'Pull Request',
-    count: 20,
-  },
-  {
-    id: 3,
-    type: 'Note Taking',
-    label: 'Note Taking',
-    count: 15,
-  },
-  {
-    id: 4,
-    type: 'Testing',
-    label: 'Testing',
-    count: 50,
-  },
-];
 
 const startDate = new Date('7/1/2022');
 const endDate = new Date('8/1/2022');
@@ -54,19 +26,16 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               Contributions By Date
             </Heading>
           </Flex>
-          {/* <Flex direction="column" gap={2}>
+          <Flex direction="column" gap={2}>
             <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
               Contributions By Member
             </Heading>
-          </Flex> */}
+          </Flex>
           <Flex
             direction={{ base: 'column', lg: 'column' }}
             alignItems={{ base: 'center', lg: 'flex-start' }}
             gap={2}
             justifyContent="center"
-            // justifyContent={{ base: 'space-between', lg: 'space-between' }}
-
-            // bg="red"
           >
             <Flex direction="column" gap={2}>
               <ContributionTypesPieShell
@@ -75,9 +44,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                 endDate={endDate}
               />
             </Flex>
-            {/* <Flex direction="column" gap={2}>
-              <ContributionTypesPie contributionsData={mockData} />
-            </Flex> */}
           </Flex>
           <Flex direction="column" gap={2} padding={2}>
             <RecentContributionsTableShell daoId={daoId} />

@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { useContributionActivityType } from '../hooks/useContributionActivityType';
 import ContributionTypesPie from './ContributionTypesPie';
 
@@ -22,7 +23,6 @@ const ContributionTypesPieShell = ({
     endDate: endDate,
     guildId: daoId,
   });
-  console.log('daoId', daoId);
 
   return (
     <ContributionTypesPie
