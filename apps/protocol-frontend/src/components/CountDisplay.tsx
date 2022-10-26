@@ -1,34 +1,35 @@
 import { Flex, Heading, Text, VisuallyHidden } from '@chakra-ui/react';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 import { subWeeks, endOfDay, startOfDay } from 'date-fns';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import pluralize from 'pluralize';
 
 const TODAY_DATE = new Date();
 
-const CountDisplay = ({ daoId }: { daoId: number }) => {
-  const { data: fullContributionsCount } = useContributionCountInRange({
-    startDate: subWeeks(startOfDay(TODAY_DATE), 4),
-    endDate: endOfDay(TODAY_DATE),
-    guildIds: [daoId],
-    excludeUnassigned: true,
-  });
+interface CountDisplayProps {
+  countData: number | undefined;
+  isFetching: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  countText: string;
+}
 
-  console.log('full', fullContributionsCount);
+const CountDisplay = ({
+  countData,
+  isFetching,
+  isLoading,
+  isError,
+  countText,
+}: CountDisplayProps) => {
+  if (isError) {
+    return (
+      <Text>An error occurred fetching the DAO's recent Contributions.</Text>
+    );
+  }
 
-  const contributionsCountMap = fullContributionsCount?.map(contribution => {
-    const date = new Date(contribution.date);
-    return {
-      day: date.getDate() + 1,
-      value: contribution.count,
-      guildId: contribution.guild_id,
-      guildName: contribution.name,
-    };
-  });
-
-  console.log('contributionsCountMap', contributionsCountMap);
-  const sum = contributionsCountMap?.reduce((acc, contribution) => {
-    return acc + contribution.value;
-  }, 0);
+  if (isFetching || isLoading) {
+    return <GovrnSpinner />;
+  }
 
   return (
     <Flex
@@ -44,12 +45,14 @@ const CountDisplay = ({ daoId }: { daoId: number }) => {
       borderRadius={{ base: 'none', md: 'lg' }}
     >
       <VisuallyHidden>
-        <Heading as="h3">{pluralize('Contribution', sum)} this Month</Heading>
+        {/* <Heading as="h3">{pluralize('Contribution', countData)} this Month</Heading> */}
+        <Heading as="h3">{countText}</Heading>
       </VisuallyHidden>
       <Text fontSize="xl" fontWeight="bold">
-        {sum}
+        {countData}
       </Text>
-      <Text fontSize="sm">{pluralize('Contribution', sum)} this Month</Text>
+      {/* <Text fontSize="sm">{pluralize('Contribution', sum)} this Month</Text> */}
+      <Text fontSize="sm">{countText}</Text>
     </Flex>
   );
 };
