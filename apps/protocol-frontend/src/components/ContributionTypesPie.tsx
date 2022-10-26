@@ -1,7 +1,6 @@
 import { Flex, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsivePie } from '@nivo/pie';
-import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
-import { useContributionActivityType } from '../hooks/useContributionActivityType';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 
 // type ContributionTypesCount = {
 //   type: string;
@@ -11,12 +10,11 @@ import { useContributionActivityType } from '../hooks/useContributionActivityTyp
 //   // count: number;
 // };
 interface ContributionTypesPieProps {
-  daoId: number;
-  startDate: Date;
-  endDate: Date;
+  contributionActivityData: any;
+  isFetching: boolean;
+  isLoading: boolean;
+  isError: boolean;
 }
-
-const brandColors = GovrnTheme.colors.brand.primary;
 
 const brandColorMap = [
   '#ffb4e2',
@@ -28,19 +26,13 @@ const brandColorMap = [
   '#76024e',
 ];
 
-const ContributionTypesPie = ({ daoId }: ContributionTypesPieProps) => {
+const ContributionTypesPie = ({
+  contributionActivityData,
+  isFetching,
+  isLoading,
+  isError,
+}: ContributionTypesPieProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
-
-  const {
-    isFetching,
-    isLoading,
-    isError,
-    data: contributionActivityData,
-  } = useContributionActivityType({
-    startDate: new Date('8/1/2022'),
-    endDate: new Date('9/1/2022'),
-    guildId: daoId,
-  });
 
   const contributionsDataMap = contributionActivityData?.map(contribution => {
     return {

@@ -1,5 +1,6 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import PageHeading from '../components/PageHeading';
+import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionTypesPie from './ContributionTypesPie';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 interface DaoDashboardShellProps {
@@ -34,6 +35,9 @@ const mockData = [
   },
 ];
 
+const startDate = new Date('7/1/2022');
+const endDate = new Date('8/1/2022');
+
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   return (
     <Box
@@ -65,9 +69,10 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             // bg="red"
           >
             <Flex direction="column" gap={2}>
-              <ContributionTypesPie
-                // contributionsData={mockData}
+              <ContributionTypesPieShell
                 daoId={daoId}
+                startDate={startDate}
+                endDate={endDate}
               />
             </Flex>
             {/* <Flex direction="column" gap={2}>
