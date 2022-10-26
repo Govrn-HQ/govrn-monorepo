@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import {
   Input as ChakraInput,
   FormControl,
@@ -9,12 +9,6 @@ import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
-
-type Errors = {
-  [name: string]: {
-    message: string;
-  };
-};
 
 export type InputLocalFormType<T> = Pick<
   UseFormReturn<T>,

@@ -1,33 +1,21 @@
-import React,{Component} from 'react';
-import ReactSelect, {components} from 'react-select';
+import React from 'react';
+import ReactSelect, { components } from 'react-select';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { FormControl, Stack, Box } from '@chakra-ui/react';
-import customSelectStyles from './selectStyles';
-import customSelectThemeColors from './selectTheme';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 
 export function SelectContainer(props: any) {
   return (
-     <components.SelectContainer
-        {...props}
-        innerProps={Object.assign({}, props.innerProps, { 'data-cy': 'daoSelect-testing' })}
-     />
+    <components.SelectContainer
+      {...props}
+      innerProps={Object.assign({}, props.innerProps, {
+        'data-cy': 'daoSelect-testing',
+      })}
+    />
   );
 }
-type Errors = {
-  [name: string]: {
-    label?: {
-      message?: string;
-    };
-    value?: {
-      message?: string;
-    };
-    message: string;
-  };
-};
-
 type Option =
   | {
       label: string | number;
@@ -42,7 +30,7 @@ export interface SelectProps {
   label?: string;
   placeholder?: string;
   defaultValue?: Option | Option[];
-  id?: any;
+  id?: string;
   tip?: string;
   options: Option[];
   isRequired?: boolean;
@@ -53,9 +41,6 @@ export interface SelectProps {
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
-  innerProps?: any;
-  [x: string]: any;
-  components?: any;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -71,8 +56,6 @@ const Select: React.FC<SelectProps> = ({
   isDisabled,
   value,
   localForm,
-  innerProps,
-  components
 }: SelectProps) => {
   const {
     control,
