@@ -1,7 +1,6 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import PageHeading from '../components/PageHeading';
-import ContributionsRangeCountDisplay from './CountDisplay';
-
+import MonthlyContributionsShell from './MonthlyContributionsShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 interface DaoDashboardShellProps {
   daoName: string;
@@ -28,7 +27,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
               Contributions By Member
             </Heading>
-            <ContributionsRangeCountDisplay daoId={daoId} />
+            <MonthlyContributionsShell daoId={daoId} />
           </Flex>
           <Flex direction="column" gap={2}>
             <Heading as="h3" size="md" color="gray.800" fontWeight="normal">

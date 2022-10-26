@@ -1,5 +1,3 @@
-import { Box, Stack, Text } from '@chakra-ui/react';
-import { GovrnSpinner } from '@govrn/protocol-ui';
 import CountDisplay from './CountDisplay';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import { subWeeks, endOfDay, startOfDay } from 'date-fns';
@@ -9,7 +7,6 @@ const TODAY_DATE = new Date();
 
 interface MonthlyContributionsShellProps {
   daoId: number;
-  displayNumber?: number;
 }
 
 const MonthlyContributionsShell = ({
@@ -55,7 +52,10 @@ const MonthlyContributionsShell = ({
       isFetching={isFetching}
       isLoading={isLoading}
       isError={isError}
-      countText={pluralize('Contribution', monthlyContributionsSum)}
+      countText={`${pluralize(
+        'Contribution',
+        monthlyContributionsSum,
+      )} this Month`}
     />
   );
 };

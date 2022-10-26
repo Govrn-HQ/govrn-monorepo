@@ -1,8 +1,5 @@
 import { Flex, Heading, Text, VisuallyHidden } from '@chakra-ui/react';
 import { GovrnSpinner } from '@govrn/protocol-ui';
-import { subWeeks, endOfDay, startOfDay } from 'date-fns';
-import useContributionCountInRange from '../hooks/useContributionCount';
-import pluralize from 'pluralize';
 
 const TODAY_DATE = new Date();
 
