@@ -1,18 +1,19 @@
-import { Flex, Box, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
-import { ResponsivePie, Pie } from '@nivo/pie';
-import { GovrnTheme } from '@govrn/protocol-ui';
-import { subWeeks } from 'date-fns';
+import { Flex, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
+import { ResponsivePie } from '@nivo/pie';
+import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
+import { useContributionActivityType } from '../hooks/useContributionActivityType';
 
-type ContributionTypesCount = {
-  type: string;
-  id: number;
-  count: number;
-  // date: string;
-  // count: number;
-};
+// type ContributionTypesCount = {
+//   type: string;
+//   id: number;
+//   count: number;
+//   // date: string;
+//   // count: number;
+// };
 interface ContributionTypesPieProps {
-  contributionsData: ContributionTypesCount[];
-  startDateOffset?: number;
+  daoId: number;
+  startDate: Date;
+  endDate: Date;
 }
 
 const brandColors = GovrnTheme.colors.brand.primary;
@@ -27,17 +28,40 @@ const brandColorMap = [
   '#76024e',
 ];
 
-const ContributionTypesPie = ({
-  contributionsData,
-}: ContributionTypesPieProps) => {
+const ContributionTypesPie = ({ daoId }: ContributionTypesPieProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
-  const contributionsDataMap = contributionsData.map(contribution => {
+
+  const {
+    isFetching,
+    isLoading,
+    isError,
+    data: contributionActivityData,
+  } = useContributionActivityType({
+    startDate: new Date('8/1/2022'),
+    endDate: new Date('9/1/2022'),
+    guildId: daoId,
+  });
+
+  const contributionsDataMap = contributionActivityData?.map(contribution => {
     return {
-      ...contribution,
+      id: contribution.activity_id,
+      label: contribution.activity_name,
       value: contribution.count,
-      label: contribution.type,
     };
   });
+
+  console.log('contributionActivityData', contributionActivityData);
+  console.log('contributionsDataMap', contributionsDataMap);
+
+  if (isError) {
+    return (
+      <Text>An error occurred fetching the DAO's recent Contributions.</Text>
+    );
+  }
+
+  if (isFetching || isLoading) {
+    return <GovrnSpinner />;
+  }
 
   return (
     <Flex direction="column" paddingY={4} paddingX={{ base: 4, lg: 0 }}>
@@ -57,14 +81,14 @@ const ContributionTypesPie = ({
         <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
           Contributions By Type
         </Heading>
-        {contributionsDataMap.length !== 0 && (
+        {contributionsDataMap?.length !== 0 && (
           <ResponsivePie
-            data={contributionsDataMap}
+            data={contributionsDataMap ? contributionsDataMap : []}
             margin={{
               top: isMobile ? 10 : 40,
               right: isMobile ? 40 : 40,
               bottom: isMobile ? 10 : 40,
-              left: isMobile ? 40 : 10,
+              left: isMobile ? 40 : 40,
             }}
             colors={brandColorMap}
             innerRadius={0.5}

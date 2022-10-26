@@ -1,6 +1,4 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
-import { ResponsivePie } from '@nivo/pie';
-
 import PageHeading from '../components/PageHeading';
 import ContributionTypesPie from './ContributionTypesPie';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
@@ -67,7 +65,10 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             // bg="red"
           >
             <Flex direction="column" gap={2}>
-              <ContributionTypesPie contributionsData={mockData} />
+              <ContributionTypesPie
+                // contributionsData={mockData}
+                daoId={daoId}
+              />
             </Flex>
             {/* <Flex direction="column" gap={2}>
               <ContributionTypesPie contributionsData={mockData} />
