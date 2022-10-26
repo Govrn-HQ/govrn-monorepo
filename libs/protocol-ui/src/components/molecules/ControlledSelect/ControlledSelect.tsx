@@ -26,7 +26,7 @@ export interface ControlledSelectProps {
   onChange?: (option: { value: number; label: string }) => void;
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
-  value?: { value: number; label: string };
+  value?: any;
 }
 
 const ControlledSelect: React.FC<ControlledSelectProps> = ({
