@@ -34,14 +34,11 @@ const ContributionTypesPie = ({
 
   const contributionsDataMap = contributionActivityData?.map(contribution => {
     return {
-      id: contribution.activity_id,
+      id: contribution.activity_name,
       label: contribution.activity_name,
       value: contribution.count,
     };
   });
-
-  console.log('contributionActivityData', contributionActivityData);
-  console.log('contributionsDataMap', contributionsDataMap);
 
   if (isError) {
     return (
@@ -87,7 +84,7 @@ const ContributionTypesPie = ({
             cornerRadius={4}
             activeOuterRadiusOffset={8}
             fit
-            arcLinkLabel={data => `${data.label}: ${data.value}`}
+            arcLinkLabel={data => `${data.label}`}
             arcLinkLabelsSkipAngle={10}
             arcLinkLabelsTextColor="#333333"
             arcLinkLabelsThickness={1.5}
