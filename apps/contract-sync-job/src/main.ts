@@ -4,6 +4,7 @@ import {
   ContributionCreateManyInput,
   GovrnProtocol,
   SortOrder,
+  QueryMode,
 } from '@govrn/protocol-client';
 import { ethers } from 'ethers';
 import { GraphQLClient } from 'graphql-request';
