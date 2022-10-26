@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import * as TypeGraphQL from 'type-graphql';
 import { Context } from './types';
 import { Contribution } from '../generated/type-graphql/models/Contribution';
+import { Int } from 'type-graphql';
 
 @TypeGraphQL.InputType('UserContributionCreateInput', {
   isAbstract: true,
@@ -228,16 +229,17 @@ export class GetUserContributionCountArgs {
 
 @TypeGraphQL.InputType('GetContributionInput')
 export class GetContributionInput {
-  @TypeGraphQL.Field(_type => Number)
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
   guildId: number;
 
-  @TypeGraphQL.Field(_type => Date)
+  @TypeGraphQL.Field(_type => Date, { nullable: true })
   startDate: Date;
 
-  @TypeGraphQL.Field(_type => Date)
+  @TypeGraphQL.Field(_type => Date, { nullable: true })
   endDate: Date;
 
-  // TODO: add user_id; PRO-551
+  @TypeGraphQL.Field(_type => Number, { nullable: true})
+  userId;
 }
 
 @TypeGraphQL.ArgsType()
@@ -263,6 +265,15 @@ export class ContributionCountByDate {
 
   @TypeGraphQL.Field(_type => String)
   name: string;
+}
+
+@TypeGraphQL.ObjectType('TotalContributionCount', { isAbstract: true })
+export class TotalContributionCount {
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  userContributionCount: number;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  guildContributionCount: number;
 }
 
 @TypeGraphQL.ObjectType('ContributionCountByActivityType', { isAbstract: true })
@@ -658,5 +669,56 @@ export class ContributionCustomResolver {
         AND gc."guild_id" = ${daoId}
       ) GROUP BY a.name, c.activity_type_id
       ORDER BY count;`;
+  }
+
+  @TypeGraphQL.Query(_returns => TotalContributionCount, {
+    nullable: false,
+  })
+  async getContributionCount(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetContributionArgs,
+  ) {
+    const start = args.where.startDate;
+    const end = args.where.endDate;
+    const guildId = args.where.guildId;
+    const userId = args.where.userId;
+
+    let userContributionCount = null;
+    if (userId) {
+      // retrieve the user's contributions to this guild
+      userContributionCount = await this._getContributionCount(prisma, start, end, userId, guildId);
+    }
+
+    let guildContributionCount = null;
+    if (guildId) {
+      // retrieve the total amount of the guild's contributions
+      guildContributionCount = await this._getContributionCount(prisma, start, end, null, guildId);
+    }
+
+    return {
+      userContributionCount: userContributionCount,
+      guildContributionCount: guildContributionCount
+    };
+  }
+
+  async _getContributionCount(
+    prisma, start: Date, end: Date, guildId: number, userId: number) 
+  {
+    return await prisma.contribution.count({
+      where: {
+        date_of_engagement: {
+          gte: start,
+          lte: end
+        },
+        guilds: {
+          some: {
+            guild_id: guildId
+          }
+        },
+        user_id: {
+          equals: userId
+        }
+      }
+    });
   }
 }
