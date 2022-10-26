@@ -71,13 +71,37 @@
       }
     },
     "deployStaging": {
-      "executor": "@alexkeating/nx-skynet:deploy",
+      "executor": "@alexkeating/nx-ipfs:deploy",
+      "inputs": [
+        {
+          "env": "PINATA_API_KEY"
+        },
+        {
+          "env": "PINATA_SECRET_API_KEY"
+        },
+        {
+          "env": "CLOUDFLARE_ZONE_ID"
+        },
+        {
+          "env": "CLOUDFLARE_TOKEN"
+        },
+        {
+          "env": "GITHUB_WORKSPACE"
+        }
+      ],
       "options": {
-        "uploadDir": "dist/apps/contribution-report",
-        "registrySeedVarName": "CONTRIBUTION_REPORT_STAGING_SKYNET_SEED",
-        "registryDataKey": "skylink.txt",
-        "portalUrl": "https://skynetfree.net",
-        "skynetJwtVarName": "SKYNET_JWT"
+        "verbose": false,
+        "removeOldDeploy": true,
+        "pinName": "contribution-report-staging",
+        "uploadPath": "/home/alex/programming/open-source/alexkeating/govrn-monorepo/dist/apps/contribution-report",
+        "pinataApiKey": "PINATA_API_KEY",
+        "pinataSecretApiKey": "PINATA_SECRET_API_KEY",
+        "cloudflare": {
+          "cloudflareZoneID": "CLOUDFLARE_ZONE_ID",
+          "cloudflareToken": "CLOUDFLARE_TOKEN",
+          "recordName": "_dnslink.contribution",
+          "recordDomain": "govrn.app"
+        }
       }
     }
   },
