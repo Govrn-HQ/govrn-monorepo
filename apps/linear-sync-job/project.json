@@ -39,7 +39,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/linear-sync-job/**/*.ts"],
-        "maxWarnings": 3
+        "maxWarnings": 0
       }
     },
     "test": {

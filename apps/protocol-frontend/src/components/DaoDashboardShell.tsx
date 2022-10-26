@@ -1,29 +1,54 @@
-import { Container, Box, Stack, Text } from '@chakra-ui/react';
-import SiteLayout from '../components/SiteLayout';
-import { GOVRN_MOTTO } from '../utils/constants';
+import { Box, Flex, Heading } from '@chakra-ui/react';
+import PageHeading from '../components/PageHeading';
+import RecentContributionsTableShell from './RecentContributionsTableShell';
+interface DaoDashboardShellProps {
+  daoName: string;
+  daoId: number;
+}
 
-const DaoDashboardShell = () => (
-  <SiteLayout>
-    <Container
+const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
+  return (
+    <Box
       paddingY={{ base: '4', md: '8' }}
-      paddingX={{ base: '0', md: '8' }}
+      paddingX={{ base: '4', md: '8' }}
       color="gray.700"
-      maxWidth="1200px"
+      width="100%"
     >
-      <Box
-        background="white"
-        boxShadow="sm"
-        borderRadius={{ base: 'none', md: 'lg' }}
-      >
-        <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-          <Text>{GOVRN_MOTTO}</Text>
-          <Text fontSize="lg" fontWeight="medium">
-            DAO Dashboard
-          </Text>
-        </Stack>
-      </Box>
-    </Container>
-  </SiteLayout>
-);
+      <PageHeading>{daoName}</PageHeading>
+      <Flex direction="column" gap={4}>
+        <Flex direction={{ base: 'column' }} gap={2}>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
+              Contributions By Date
+            </Heading>
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
+              Contributions By Member
+            </Heading>
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
+              Contributions By Type
+            </Heading>
+          </Flex>
+          <Flex direction="column" gap={2} padding={2}>
+            <RecentContributionsTableShell daoId={daoId} />
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
+              Active Members
+            </Heading>
+          </Flex>
+          <Flex direction="column" gap={2}>
+            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
+              Contributors This Month
+            </Heading>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Box>
+  );
+};
 
 export default DaoDashboardShell;
