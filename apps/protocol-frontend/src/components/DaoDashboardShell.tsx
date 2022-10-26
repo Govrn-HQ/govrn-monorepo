@@ -1,6 +1,6 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import PageHeading from '../components/PageHeading';
-import ContributionsRangeCountDisplay from '../components/ContributionsRangeCountDisplay';
+import ContributionsRangeCountDisplay from './CountDisplay';
 
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 interface DaoDashboardShellProps {

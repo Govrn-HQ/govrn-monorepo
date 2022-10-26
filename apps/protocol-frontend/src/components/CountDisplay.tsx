@@ -5,7 +5,7 @@ import pluralize from 'pluralize';
 
 const TODAY_DATE = new Date();
 
-const ContributionsRangeCountDisplay = ({ daoId }: { daoId: number }) => {
+const CountDisplay = ({ daoId }: { daoId: number }) => {
   const { data: fullContributionsCount } = useContributionCountInRange({
     startDate: subWeeks(startOfDay(TODAY_DATE), 4),
     endDate: endOfDay(TODAY_DATE),
@@ -54,4 +54,4 @@ const ContributionsRangeCountDisplay = ({ daoId }: { daoId: number }) => {
   );
 };
 
-export default ContributionsRangeCountDisplay;
+export default CountDisplay;
