@@ -34,7 +34,7 @@ const ContributionTypesPie = ({
 
   const contributionsDataMap = contributionActivityData?.map(contribution => {
     return {
-      id: contribution.activity_name,
+      id: contribution.activity_name, // we will use this until we create a custom tooltip
       label: contribution.activity_name,
       value: contribution.count,
     };
@@ -101,7 +101,7 @@ const ContributionTypesPie = ({
                 justify: false,
                 translateX: 0,
                 translateY: 40,
-                itemsSpacing: 0,
+                itemsSpacing: 20,
                 itemWidth: 100,
                 itemHeight: 20,
                 itemTextColor: '#999',

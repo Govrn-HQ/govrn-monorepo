@@ -7,8 +7,8 @@ interface DaoDashboardShellProps {
   daoId: number;
 }
 
-const startDate = new Date('7/1/2022');
-const endDate = new Date('8/1/2022');
+const startDate = new Date('7/1/2022'); // temporary hardcoded value while working on the datepicker component
+const endDate = new Date('8/1/2022'); // temporary hardcoded value while working on the datepicker component
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   return (
