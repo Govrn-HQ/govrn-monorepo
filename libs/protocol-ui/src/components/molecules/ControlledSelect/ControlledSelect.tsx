@@ -1,23 +1,6 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import { Stack, Box, Text } from '@chakra-ui/react';
-import customSelectStyles from './selectStyles';
-import customSelectThemeColors from './selectTheme';
-import FormLabel from '../../atoms/FormLabel';
-import HelperText from '../../atoms/HelperText';
-import ErrorMessage from '../../atoms/ErrorMessage';
-
-type Errors = {
-  [name: string]: {
-    label?: {
-      message?: string;
-    };
-    value?: {
-      message?: string;
-    };
-    message: string;
-  };
-};
 
 export type Option =
   | {
@@ -34,7 +17,7 @@ export interface ControlledSelectProps {
   label?: string;
   placeholder?: string;
   defaultValue?: Option | Option[];
-  id?: any;
+  id?: string;
   tip?: string;
   options: Option[];
   isRequired?: boolean;
@@ -43,13 +26,11 @@ export interface ControlledSelectProps {
   onChange?: (option: { value: number; label: string }) => void;
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
-  value?: any;
-  [x: string]: any;
+  value?: { value: number; label: string };
 }
 
 const ControlledSelect: React.FC<ControlledSelectProps> = ({
   label,
-
   tip,
   placeholder,
   defaultValue,
