@@ -5,7 +5,6 @@ import { GraphQLClient } from 'graphql-request';
 import { fetchIPFS } from './ipfs';
 import {
   bulkCreateAttestations,
-  ContributionData,
   createJobRun,
   getContribution,
   getJobRun,
