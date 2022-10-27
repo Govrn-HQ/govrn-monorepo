@@ -66,4 +66,9 @@ export class Custom extends BaseClient {
       await this.sdk.getContributionCountByActivityType({ where: args });
     return contributionCountByActivity.result;
   }
+
+  public async getContributionCount(args: GetContributionInput) {
+    const contributionCount = await this.sdk.getContributionCount({ where: args });
+    return contributionCount.result;
+  }
 }
