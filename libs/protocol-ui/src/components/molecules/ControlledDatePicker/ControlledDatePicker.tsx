@@ -2,8 +2,6 @@ import React, { SyntheticEvent } from 'react';
 import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Box } from '@chakra-ui/react';
-import FormLabel from '../../atoms/FormLabel';
-import HelperText from '../../atoms/HelperText';
 import ControlledDatePickerButton from './ControlledDatePickerButton';
 
 export interface ControlledDatePickerProps extends ReactDatePickerProps {
