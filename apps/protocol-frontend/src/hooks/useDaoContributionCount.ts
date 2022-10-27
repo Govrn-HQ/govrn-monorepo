@@ -12,12 +12,7 @@ const useDaoContributionCount = (args: {
   const { isLoading, isFetching, isError, error, data } = useQuery(
     ['contributionGetCount', args],
     async () => {
-      if (!userData?.id) {
-        console.error('getUserContributionsCount has no userData.id');
-        return [];
-      }
-
-      return await govrn.custom.getContributionCount({
+      return await govrn.custom.getDaoContributionCount({
         userId: userData?.id,
         ...args,
         startDate:  args.startDate,
