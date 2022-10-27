@@ -12,12 +12,6 @@ import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
-type Errors = {
-  [name: string]: {
-    message: string;
-  };
-};
-
 export interface TextareaProps extends ChakraTextareaProps {
   name: string; // this is required for validation
   label?: string;
