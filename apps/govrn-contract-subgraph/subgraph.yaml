@@ -4,10 +4,10 @@ schema:
 dataSources:
   - kind: ethereum
     name: Govrn
-    network: rinkeby
+    network: xdai
     source:
       abi: Govrn
-      address: "0xEAd3f8f7Ff86ad09939c39421F374A4b7Ba14204"
+      address: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

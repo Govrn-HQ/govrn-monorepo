@@ -445,6 +445,25 @@ query getContributionCountByDateForUserInRange(
   }
 }
 
+query getContributionCount(
+  $where: GetContributionInput!
+) {
+  result: getContributionCount(where: $where) {
+    userContributionCount
+    guildContributionCount
+  }
+}
+
+query getContributionCountByActivityType(
+  $where: GetContributionInput!
+) {
+  result: getContributionCountByActivityType(where: $where) {
+    count
+    activity_name
+    activity_id
+  }
+}
+
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
     ...ContributionFragment

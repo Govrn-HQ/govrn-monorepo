@@ -3,6 +3,7 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import ReactDatePicker from 'react-datepicker';
 import PageHeading from '../components/PageHeading';
+import ContributionTypesPieShell from './ContributionTypesPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { formatDate } from '../utils/date';
 
@@ -12,6 +13,9 @@ interface DaoDashboardShellProps {
   daoId: number;
 }
 const TODAY_DATE = new Date();
+
+const startDate = new Date('7/1/2022'); // temporary hardcoded value while working on the datepicker component
+const endDate = new Date('8/1/2022'); // temporary hardcoded value while working on the datepicker component
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   // const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
@@ -120,10 +124,19 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               Contributions By Member
             </Heading>
           </Flex>
-          <Flex direction="column" gap={2}>
-            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
-              Contributions By Type
-            </Heading>
+          <Flex
+            direction={{ base: 'column', lg: 'column' }}
+            alignItems={{ base: 'center', lg: 'flex-start' }}
+            gap={2}
+            justifyContent="center"
+          >
+            <Flex direction="column" gap={2}>
+              <ContributionTypesPieShell
+                daoId={daoId}
+                startDate={startDate}
+                endDate={endDate}
+              />
+            </Flex>
           </Flex>
           <Flex direction="column" gap={2} padding={2}>
             <RecentContributionsTableShell daoId={daoId} />

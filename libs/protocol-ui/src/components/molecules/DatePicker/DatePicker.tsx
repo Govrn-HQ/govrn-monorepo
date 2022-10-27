@@ -9,12 +9,6 @@ import ErrorMessage from '../../atoms/ErrorMessage';
 import CustomDatePickerButton from './CustomDatePickerButton';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
-type Errors = {
-  [name: string]: {
-    message: string;
-  };
-};
-
 export interface DatePickerProps {
   name: string;
   label?: string;
@@ -23,7 +17,7 @@ export interface DatePickerProps {
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   onChange: (
     date: Date | [Date | null, Date | null] | null,
-    event: SyntheticEvent<Date, Event> | undefined
+    event: SyntheticEvent<Date, Event> | undefined,
   ) => void;
   maxDate?: Date | null | undefined;
 }
