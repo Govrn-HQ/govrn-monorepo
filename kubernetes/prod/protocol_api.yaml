@@ -46,6 +46,11 @@ spec:
                 secretKeyRef:
                   name: protocol-api
                   key: kevin_malone_token
+            - name: CONTRACT_SYNC_JOB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: contract_sync_job_token
             - name: CORS_ORIGIN
               valueFrom:
                 secretKeyRef:

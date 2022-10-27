@@ -1,6 +1,6 @@
-import { Story } from '@storybook/react';
 import React from 'react';
-import { FormControl, InputGroup } from '@chakra-ui/react';
+import { Story } from '@storybook/react';
+import { FormControl } from '@chakra-ui/react';
 import { HelperText, HelperTextProps } from '../..';
 
 export default {
@@ -14,7 +14,7 @@ export default {
   },
 };
 
-const Template: Story<HelperTextProps> = (args) => (
+const Template: Story<HelperTextProps> = args => (
   <FormControl>
     <HelperText {...args} />
   </FormControl>
