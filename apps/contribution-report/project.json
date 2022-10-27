@@ -77,7 +77,7 @@
         }
       ],
       "options": {
-        "command": "wrangler pages publish ./dist/apps/contributiuon-report --project-name=contribution-report",
+        "command": "wrangler pages publish ./dist/apps/contribution-report --project-name=contribution-report",
         "color": true
       }
     }
