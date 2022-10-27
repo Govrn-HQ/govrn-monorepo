@@ -50,6 +50,8 @@ jobs:
           echo VITE_LINEAR_REDIRECT_URI=https://api-staging.govrn.app/linear/oauth  >> .env
           echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
           echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
+          echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
+          echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
       - name: Build
         run: yarn nx affected:build --configuration production --base $BASE
       - uses: actions/cache@v3

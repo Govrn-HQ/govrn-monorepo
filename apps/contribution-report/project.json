@@ -61,24 +61,46 @@
       }
     },
     "deploy": {
-      "executor": "@alexkeating/nx-skynet:deploy",
+      "executor": "@nrwl/workspace:run-commands",
+      "inputs": [
+        {
+          "env": "CLOUDFLARE_ACCOUNT_ID"
+        },
+        {
+          "env": "CLOUDFLARE_API_TOKEN"
+        }
+      ],
+      "dependsOn": [
+        {
+          "target": "build:production",
+          "projects": "self"
+        }
+      ],
       "options": {
-        "uploadDir": "dist/apps/contribution-report",
-        "registrySeedVarName": "CONTRIBUTION_REPORT_SKYNET_SEED",
-        "registryDataKey": "skylink.txt",
-        "portalUrl": "https://skynetfree.net",
-        "skynetJwtVarName": "SKYNET_JWT"
+        "command": "wrangler pages publish ./dist/apps/protocol-frontend --project-name=contribution-report",
+        "color": true
       }
-    },
-    "deployStaging": {
-      "executor": "@alexkeating/nx-skynet:deploy",
-      "options": {
-        "uploadDir": "dist/apps/contribution-report",
-        "registrySeedVarName": "CONTRIBUTION_REPORT_STAGING_SKYNET_SEED",
-        "registryDataKey": "skylink.txt",
-        "portalUrl": "https://skynetfree.net",
-        "skynetJwtVarName": "SKYNET_JWT"
+    }
+  },
+  "deployStaging": {
+    "executor": "@nrwl/workspace:run-commands",
+    "inputs": [
+      {
+        "env": "CLOUDFLARE_ACCOUNT_ID"
+      },
+      {
+        "env": "CLOUDFLARE_API_TOKEN"
       }
+    ],
+    "dependsOn": [
+      {
+        "target": "build:production",
+        "projects": "self"
+      }
+    ],
+    "options": {
+      "command": "wrangler pages publish ./dist/apps/contribution-report --project-name=contribution-report-staging",
+      "color": true
     }
   },
   "tags": []
