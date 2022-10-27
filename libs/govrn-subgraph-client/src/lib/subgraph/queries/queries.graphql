@@ -4,7 +4,9 @@ fragment attestationFields on Attestation {
   confidence
   contribution {
     id
+    txHash
   }
+  txHash
 }
 
 query listAttestations(
@@ -30,8 +32,10 @@ fragment contributionFields on Contribution {
   address
   attestations {
     id
+    txHash
   }
   contributionId
+  txHash
 }
 
 query listContributions(
@@ -49,28 +53,5 @@ query listContributions(
     orderDirection: $orderDirection
   ) {
     ...contributionFields
-  }
-}
-
-fragment guildFields on Guild {
-  id
-  name
-  discord_id
-}
-
-query listGuilds(
-  $skip: Int! = 0
-  $first: Int! = 100
-  $orderBy: Contribution_orderBy! = id
-  $orderDirection: OrderDirection! = asc
-) {
-  guilds: guilds(
-    where: $where
-    skip: $skip
-    first: $first
-    orderBy: $orderBy
-    orderDirection: $orderDirection
-  ) {
-    ...guildFields
   }
 }

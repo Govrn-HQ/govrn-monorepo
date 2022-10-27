@@ -61,7 +61,7 @@
           "cwd": "apps/govrn-contract-subgraph"
         },
         "gnosis": {
-          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs alexkeating/govrn-protocol",
+          "command": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs govrn-hq/govrn-protocol-gnosis",
           "cwd": "apps/govrn-contract-subgraph"
         }
       }

@@ -12,6 +12,7 @@ export type ContributionData = {
   on_chain_id: number;
   /* Chain ID itself, not the id of chain record in db. */
   chain_id: number;
+  txHash: string;
 };
 
 const PROTOCOL_URL = process.env.PROTOCOL_URL;
@@ -104,6 +105,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
       },
       on_chain_id: contribution.on_chain_id,
       chain: { connect: { chain_id: `${contribution.chain_id}` } },
+      tx_hash: contribution.txHash,
     },
     update: {
       name: { set: contribution.name },
@@ -112,6 +114,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
       details: { set: contribution.details ?? null },
       chain: { connect: { chain_id: `${contribution.chain_id}` } },
       status: { connect: { id: contribution.status_id } },
+      tx_hash: { set: contribution.txHash },
     },
   });
 };
