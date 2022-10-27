@@ -75,24 +75,46 @@
       }
     },
     "deploy": {
-      "executor": "@alexkeating/nx-skynet:deploy",
+      "executor": "@nrwl/workspace:run-commands",
+      "inputs": [
+        {
+          "env": "CLOUDFLARE_ACCOUNT_ID"
+        },
+        {
+          "env": "CLOUDFLARE_API_TOKEN"
+        }
+      ],
+      "dependsOn": [
+        {
+          "target": "build:production",
+          "projects": "self"
+        }
+      ],
       "options": {
-        "uploadDir": "dist/apps/protocol-frontend",
-        "registrySeedVarName": "PROTOCOL_FRONTEND_SEED",
-        "registryDataKey": "skylink.txt",
-        "portalUrl": "https://skynetfree.net",
-        "skynetApiKeyVarName": "SKYNET_API_KEY"
+        "command": "wrangler pages publish ./dist/apps/protocol-frontend --project-name=govrn",
+        "color": true
       }
-    },
-    "deployStaging": {
-      "executor": "@alexkeating/nx-skynet:deploy",
-      "options": {
-        "uploadDir": "dist/apps/protocol-frontend",
-        "registrySeedVarName": "PROTOCOL_FRONTEND_STAGING_SEED",
-        "registryDataKey": "skylink.txt",
-        "portalUrl": "https://skynetfree.net",
-        "skynetApiKeyVarName": "SKYNET_API_KEY"
+    }
+  },
+  "deployStaging": {
+    "executor": "@nrwl/workspace:run-commands",
+    "inputs": [
+      {
+        "env": "CLOUDFLARE_ACCOUNT_ID"
+      },
+      {
+        "env": "CLOUDFLARE_API_TOKEN"
       }
+    ],
+    "dependsOn": [
+      {
+        "target": "build:production",
+        "projects": "self"
+      }
+    ],
+    "options": {
+      "command": "wrangler pages publish ./dist/apps/protocol-frontend --project-name=govrn-staging",
+      "color": true
     }
   },
   "tags": []
