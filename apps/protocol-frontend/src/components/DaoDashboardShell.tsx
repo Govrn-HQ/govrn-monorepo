@@ -77,13 +77,10 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               <ControlledDatePicker
                 selected={startDate}
                 onChange={dates => {
-                  setStartDate(
-                    (Array.isArray(dates) && dates[0]) || new Date(TODAY_DATE),
-                  );
-                  setEndDate(
-                    (Array.isArray(dates) && dates[1]) ||
-                      new Date(subWeeks(TODAY_DATE, 4)),
-                  );
+                  const datesArray = dates as Date[];
+                  const [start, end] = datesArray;
+                  setStartDate(start);
+                  setEndDate(end);
                 }}
                 startDate={startDate}
                 endDate={endDate}
