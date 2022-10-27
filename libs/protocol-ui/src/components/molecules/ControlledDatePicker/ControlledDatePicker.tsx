@@ -7,27 +7,30 @@ import HelperText from '../../atoms/HelperText';
 import ControlledDatePickerButton from './ControlledDatePickerButton';
 
 export interface ControlledDatePickerProps extends ReactDatePickerProps {
-  defaultValue?: Date[] | Date | null | undefined;
   onChange: (
-    dates: Date[] | [Date | null, Date | null] | null,
+    date: Date[] | Date | [Date | null, Date | null] | null,
     event: SyntheticEvent<Date, Event> | undefined,
   ) => void;
+  startDate: Date | null | undefined;
+  endDate: Date | null | undefined;
   maxDate?: Date | null | undefined;
 }
 
 const ControlledDatePicker: React.FC<ControlledDatePickerProps> = ({
-  defaultValue,
   onChange,
+  startDate,
+  endDate,
   maxDate,
   ...props
 }: ControlledDatePickerProps) => {
   return (
     <Box my={2}>
       <ReactDatePicker
-        selected={defaultValue}
         selectsRange
         onChange={onChange}
         customInput={<ControlledDatePickerButton />}
+        startDate={startDate}
+        endDate={endDate}
         maxDate={maxDate}
         {...props}
       />

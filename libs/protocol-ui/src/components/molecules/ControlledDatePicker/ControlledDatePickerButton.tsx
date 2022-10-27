@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  IconButton,
-  IconButtonProps,
+  Button,
+  ButtonProps,
   forwardRef,
   ComponentWithAs,
 } from '@chakra-ui/react';
 import { HiOutlineCalendar } from 'react-icons/hi';
 
-export type ControlledDatePickerButtonProps = IconButtonProps & {
+export type ControlledDatePickerButtonProps = ButtonProps & {
   value?: React.ReactNode;
   onClick?: () => void;
   ref?: HTMLInputElement;
@@ -18,15 +18,15 @@ export type CustomDatePickerButton = ComponentWithAs<
   'button',
   ControlledDatePickerButtonProps
 > & {
-  IconButton: typeof IconButton;
+  Button: typeof Button;
 };
 
 const ControlledDatePickerButton = forwardRef<
   ControlledDatePickerButtonProps,
   'button'
->(({ onClick, buttonDisabled }, ref) => {
+>(({ value, onClick, buttonDisabled }, ref) => {
   return (
-    <IconButton
+    <Button
       onClick={onClick}
       ref={ref}
       bgColor="white"
@@ -35,10 +35,12 @@ const ControlledDatePickerButton = forwardRef<
       _hover={{ color: 'gray.700', bgColor: 'gray.100' }}
       fontWeight="normal"
       variant="outline"
-      aria-label="Open the DatePicker calendar"
-      icon={<HiOutlineCalendar />}
+      rightIcon={<HiOutlineCalendar />}
       disabled={buttonDisabled}
-    />
+      width="100%"
+    >
+      {value}
+    </Button>
   );
 });
 

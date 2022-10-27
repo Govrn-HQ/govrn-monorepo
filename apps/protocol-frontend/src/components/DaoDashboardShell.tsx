@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
-import ReactDatePicker from 'react-datepicker';
 import PageHeading from '../components/PageHeading';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
-import { formatDate } from '../utils/date';
 
 import { subWeeks } from 'date-fns';
 interface DaoDashboardShellProps {
@@ -14,19 +12,13 @@ interface DaoDashboardShellProps {
 }
 const TODAY_DATE = new Date();
 
-const startDate = new Date('7/1/2022'); // temporary hardcoded value while working on the datepicker component
-const endDate = new Date('8/1/2022'); // temporary hardcoded value while working on the datepicker component
-
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
-  // const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
-  //   value: 52,
-  //   label: 'Last Year',
-  // });
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
-  // const [startDate, setStartDate] = useState<Date | null>(null);
-  // const [endDate, setEndDate] = useState<Date | null>(null);
-  const [startDate, setStartDate] = useState(new Date(TODAY_DATE));
-  const [endDate, setEndDate] = useState(new Date(subWeeks(TODAY_DATE, -1)));
+
+  const [startDate, setStartDate] = useState<Date>(new Date(TODAY_DATE));
+  const [endDate, setEndDate] = useState<Date>(
+    new Date(subWeeks(TODAY_DATE, 4)),
+  );
   const [dateRange, setDateRange] = useState<{
     label: string;
     value: number;
@@ -35,10 +27,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const dateRangeOptions = [
     {
       value: 'Custom',
-      label:
-        showCustomDatePicker !== null
-          ? `${formatDate(startDate)} to ${formatDate(endDate)}`
-          : 'Custom',
+      label: 'Custom',
     },
     { value: 1, label: 'Last Week' },
     { value: 4, label: 'Last Month' },
@@ -81,15 +70,20 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             justifyContent="flex-end"
             width="100%"
             flexBasis="60%"
+            flexGrow="1"
             gap={2}
           >
             <Box visibility={showCustomDatePicker ? 'inherit' : 'hidden'}>
               <ControlledDatePicker
                 selected={startDate}
                 onChange={dates => {
-                  const [start, end] = dates;
-                  setStartDate(start);
-                  setEndDate(end);
+                  setStartDate(
+                    (Array.isArray(dates) && dates[0]) || new Date(TODAY_DATE),
+                  );
+                  setEndDate(
+                    (Array.isArray(dates) && dates[1]) ||
+                      new Date(subWeeks(TODAY_DATE, 4)),
+                  );
                 }}
                 startDate={startDate}
                 endDate={endDate}
@@ -97,7 +91,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               />
             </Box>
             <ControlledSelect
-              controlShouldRenderValue
               isSearchable={false}
               defaultValue={dateRangeOptions.find(date => date.value === 4)}
               value={dateRange}
@@ -107,7 +100,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                 setDateRange(dateRangeOffset);
               }}
               options={dateRangeOptions}
-              width="1000px"
             />
           </Flex>
         </Flex>

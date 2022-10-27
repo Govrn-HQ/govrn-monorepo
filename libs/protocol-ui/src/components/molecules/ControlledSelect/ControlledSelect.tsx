@@ -26,6 +26,7 @@ export interface ControlledSelectProps {
   onChange?: (option: { value: number; label: string }) => void;
   variant?: 'outline' | 'filled';
   value?: any;
+  isSearchable?: boolean;
 }
 
 const ControlledSelect: React.FC<ControlledSelectProps> = ({
@@ -38,6 +39,7 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
   isClearable,
   onChange,
   value,
+  isSearchable,
   ...props
 }: ControlledSelectProps) => {
   return (
@@ -60,6 +62,7 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
           isMulti={isMulti}
           onChange={onChange}
           value={value}
+          isSearchable={isSearchable}
           {...props}
         />
       </Box>
