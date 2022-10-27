@@ -55,23 +55,27 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       color="gray.700"
       width="100%"
     >
-      <Flex direction="row" justifyContent="space-between" alignItems="center">
+      <Flex
+        direction={{ base: 'column', lg: 'row' }}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <PageHeading>{daoName}</PageHeading>
         <Flex
-          flexBasis="50%"
-          direction="row"
+          flexBasis={{ base: '100%', lg: '60%' }}
+          direction={{ base: 'column', lg: 'row' }}
           alignItems="center"
-          justifyContent="flex-end"
+          justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
           gap={2}
         >
           <Flex
-            direction="row"
+            direction={{ base: 'column', lg: 'row' }}
             alignItems="center"
-            justifyContent="flex-end"
+            justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
             width="100%"
-            flexBasis="60%"
+            flexBasis={{ base: '100%', lg: '60%' }}
             flexGrow="1"
-            gap={2}
+            gap={{ base: 0, lg: 2 }}
           >
             <Box visibility={showCustomDatePicker ? 'inherit' : 'hidden'}>
               <ControlledDatePicker
