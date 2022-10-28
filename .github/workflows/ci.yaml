@@ -92,6 +92,7 @@ jobs:
         run: npx nx affected --target docker-push --base $BASE --parallel --max-parallel=3
         env:
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm install -g wrangler
       - name: Deploy
         run: npx nx affected --target deploy --base $BASE --parallel --max-parallel=3
       - name: Verify
