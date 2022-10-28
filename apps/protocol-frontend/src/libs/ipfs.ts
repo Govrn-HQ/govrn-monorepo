@@ -2,9 +2,22 @@ import { create, CID } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 import patch from '@govrn/protocol-client';
 
-type StoreIpfsParam = {
-  content: { name: string; details: string; proof: string } | ArrayBuffer;
-};
+const VERSION = 2;
+
+type StoreIpfsParam =
+  | {
+      name: string;
+      details: string;
+      proof: string;
+      activityName: string;
+      image: string; // keep blank for now
+      govrn: {
+        /* Contribution ID */
+        id: number;
+        activityTypeId: number;
+      };
+    }
+  | ArrayBuffer;
 
 export const getIPFSClient = () => {
   const auth =
@@ -37,17 +50,10 @@ export const uploadFileIpfs = async (file: File, onlyHash = true) => {
   }
 };
 
-export const storeIpfs = async (
-  content:
-    | {
-        name: string;
-        details: string;
-        proof: string;
-      }
-    | ArrayBuffer,
-) => {
+export const storeIpfs = async (content: StoreIpfsParam) => {
   const ipfs = getIPFSClient();
-  const cid = await ipfs.add(JSON.stringify(content), {
+  const contentWithVersion = { ...content, version: VERSION };
+  const cid = await ipfs.add(JSON.stringify(contentWithVersion), {
     cidVersion: 1,
     hashAlg: 'sha2-256',
   });
@@ -58,10 +64,7 @@ export const storeIpfs = async (
 };
 
 export const bulkStoreIpfs = async (params: StoreIpfsParam[]) => {
-  return (await patch(params.map(async i => await storeIpfs(i.content)))).map(
-    (result, index) => ({
-      index,
-      ...result,
-    }),
-  );
+  return (
+    await patch(params.map(async content => await storeIpfs(content)))
+  ).map((result, index) => ({ index, ...result }));
 };
