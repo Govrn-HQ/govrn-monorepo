@@ -16,7 +16,7 @@
     "@chakra-ui/react": "^2.3.4",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
-    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+    "@esbuild-plugins/node-globals-polyfill": "0.1.1",
     "@fontsource/inter": "^4.5.10",
     "@graphprotocol/graph-ts": "^0.27.0",
     "@graphql-codegen/cli": "^2.6.2",
