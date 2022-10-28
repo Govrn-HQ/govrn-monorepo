@@ -1,22 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { useUser } from '../contexts/UserContext';
 
-const useDaoContributionCount = (args: {
+const useDaoContributionCountInRange = (args: {
   startDate: Date;
   endDate: Date;
-  guildIds?: number[] | null;
-  excludeUnassigned?: boolean;
+  guildId: number;
 }) => {
-  const { userData, govrnProtocol: govrn } = useUser();
+  const { govrnProtocol: govrn } = useUser();
 
   const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['contributionGetCount', args],
+    ['daoContributionGetCount', args],
     async () => {
       return await govrn.custom.getDaoContributionCount({
-        userId: userData?.id,
-        ...args,
-        startDate:  args.startDate,
-        endDate:    args.endDate
+        startDate: args.startDate,
+        endDate: args.endDate,
+        guildId: args.guildId
       });
     },
   );
@@ -24,4 +22,4 @@ const useDaoContributionCount = (args: {
   return { isLoading, isError, isFetching, error, data };
 };
 
-export default useDaoContributionCount;
+export default useDaoContributionCountInRange;
