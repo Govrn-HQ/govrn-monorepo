@@ -1,9 +1,8 @@
 import CountDisplay from './CountDisplay';
-import useContributionCountInRange from '../hooks/useContributionCount';
+import useDaoContributionCountInRange from '../hooks/useDaoContributionCount';
 import { subWeeks, endOfDay, startOfDay } from 'date-fns';
 import pluralize from 'pluralize';
-
-const TODAY_DATE = new Date();
+import { TODAY_DATE, MONTH } from '../utils/constants';
 
 interface MonthlyContributionsShellProps {
   daoId: number;
@@ -13,48 +12,25 @@ const MonthlyContributionsShell = ({
   daoId,
 }: MonthlyContributionsShellProps) => {
   const {
-    data: fullContributionsCount,
+    data: contributionsInRangeCount,
     isLoading,
     isFetching,
     isError,
-  } = useContributionCountInRange({
-    startDate: subWeeks(startOfDay(TODAY_DATE), 4),
+  } = useDaoContributionCountInRange({
+    startDate: subWeeks(startOfDay(TODAY_DATE), MONTH),
     endDate: endOfDay(TODAY_DATE),
-    guildIds: [daoId],
-    excludeUnassigned: true,
+    guildId: daoId,
   });
-
-  console.log('full', fullContributionsCount);
-
-  const contributionsCountMap = fullContributionsCount?.map(contribution => {
-    const date = new Date(contribution.date);
-    return {
-      day: date.getDate() + 1,
-      value: contribution.count,
-      guildId: contribution.guild_id,
-      guildName: contribution.name,
-    };
-  });
-
-  console.log('contributionsCountMap', contributionsCountMap);
-  const monthlyContributionsSum = contributionsCountMap?.reduce(
-    (acc, contribution) => {
-      return acc + contribution.value;
-    },
-    0,
-  );
-
-  console.log('monthlyContributionsSum', monthlyContributionsSum);
 
   return (
     <CountDisplay
-      countData={monthlyContributionsSum}
+      countData={contributionsInRangeCount}
       isFetching={isFetching}
       isLoading={isLoading}
       isError={isError}
       countText={`${pluralize(
         'Contribution',
-        monthlyContributionsSum,
+        contributionsInRangeCount,
       )} this Month`}
     />
   );

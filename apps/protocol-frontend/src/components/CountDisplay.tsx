@@ -1,8 +1,6 @@
 import { Flex, Heading, Text, VisuallyHidden } from '@chakra-ui/react';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 
-const TODAY_DATE = new Date();
-
 interface CountDisplayProps {
   countData: number | undefined;
   isFetching: boolean;
@@ -42,13 +40,11 @@ const CountDisplay = ({
       borderRadius={{ base: 'none', md: 'lg' }}
     >
       <VisuallyHidden>
-        {/* <Heading as="h3">{pluralize('Contribution', countData)} this Month</Heading> */}
         <Heading as="h3">{countText}</Heading>
       </VisuallyHidden>
       <Text fontSize="xl" fontWeight="bold">
         {countData}
       </Text>
-      {/* <Text fontSize="sm">{pluralize('Contribution', sum)} this Month</Text> */}
       <Text fontSize="sm">{countText}</Text>
     </Flex>
   );
