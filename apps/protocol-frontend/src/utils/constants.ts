@@ -21,6 +21,19 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Other',
 ];
 
+/* Time Values For Date Ranges */
+
+export const WEEK = 1;
+export const MONTH = 4;
+export const QUARTER = 12;
+export const YEAR = 52;
+export const DEFAULT_DATE_RANGES = [
+  { value: WEEK, label: 'Last Week' },
+  { value: MONTH, label: 'Last Month' },
+  { value: QUARTER, label: 'Last Quarter' },
+  { value: YEAR, label: 'Last Year' },
+];
+
 /* Social Media Links */
 
 export const TWITTER_LINK = 'https://twitter.com/govrnHQ';
