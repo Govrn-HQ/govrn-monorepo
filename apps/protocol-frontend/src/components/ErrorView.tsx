@@ -1,9 +1,13 @@
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
-import { ErrorMessageProps } from '@govrn/protocol-ui';
 import SiteLayout from '../components/SiteLayout';
 import { GOVRN_MOTTO } from '../utils/constants';
 
-const ErrorView = ({ errorMessage }: ErrorMessageProps) => (
+interface ErrorViewProps {
+  errorMessage: string;
+  includeMotto?: boolean;
+}
+
+const ErrorView = ({ errorMessage, includeMotto = true }: ErrorViewProps) => (
   <SiteLayout>
     <Container
       paddingY={{ base: '4', md: '8' }}
@@ -17,7 +21,7 @@ const ErrorView = ({ errorMessage }: ErrorMessageProps) => (
         borderRadius={{ base: 'none', md: 'lg' }}
       >
         <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-          <Text>{GOVRN_MOTTO}</Text>
+          {includeMotto && <Text>{GOVRN_MOTTO}</Text>}
           <Text fontSize="lg" fontWeight="medium">
             {errorMessage}
           </Text>

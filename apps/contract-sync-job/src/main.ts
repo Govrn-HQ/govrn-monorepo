@@ -1,158 +1,65 @@
-import fetch from 'node-fetch';
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
-import {
-  ContributionCreateManyInput,
-  GovrnProtocol,
-  SortOrder,
-} from '@govrn/protocol-client';
 import { ethers } from 'ethers';
 import { GraphQLClient } from 'graphql-request';
+import { fetchIPFS } from './ipfs';
+import {
+  bulkCreateAttestations,
+  createJobRun,
+  getContribution,
+  getJobRun,
+  getOrInsertActivityType,
+  getOrInsertUser,
+  upsertContribution,
+} from './db';
 
-const protcolUrl = process.env.PROTOCOL_URL;
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
-const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
-const INFURA_SUBDOMAIN = process.env.INFURA_SUBDOMAIN;
-const jobName = 'contract-sync-job';
+const JOB_NAME = 'contract-sync-job';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
+const CHAIN_ID = 100;
+
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
-  chainId: 2,
+  chainId: CHAIN_ID,
 };
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
 
-export const fetchIPFS = async (ipfsHash: string) => {
-  const resp = await fetch(
-    `${INFURA_SUBDOMAIN}/api/v0/cat?arg=${ipfsHash.split('/').slice(2)}`,
-    {
-      method: 'post',
-    },
-  );
-  return await resp?.blob();
-};
-
-const getOrInsertUser = async (
-  govrn: GovrnProtocol,
-  data: { address: string },
-): Promise<number> => {
-  // Query existing user.
-  const user = await govrn.user.list({
-    where: {
-      address: { equals: data.address },
-    },
-    first: 1,
-  });
-
-  // Returns the id, if user exists.
-  if (user.length === 1) {
-    return user[0]?.id;
-  }
-
-  // Insert new user into db, if user doesn't exist.
-  const newUser = await govrn.user.create({
-    address: data.address,
-    username: data.address,
-  });
-
-  return newUser.id;
-};
-
-const getOrInsertActivityType = async (
-  govrn: GovrnProtocol,
-  data: { name: string },
-): Promise<number> => {
-  // Check for an existing activity types.
-  const activityTypeId = await govrn.activity_type.list({
-    where: { name: { equals: data.name } },
-    first: 1,
-  });
-  if (activityTypeId.length > 0) return activityTypeId[0].id;
-
-  // if there are no activity type, create new one.
-  const activityTypeCreate = await govrn.activity_type.create({
-    data: { name: data.name },
-  });
-  return activityTypeCreate.id;
-};
-
-async function getContribution(
-  govrn: GovrnProtocol,
-  data: { tokenId: number },
-) {
-  try {
-    const contrs = (
-      await govrn.contribution.list({
-        where: { on_chain_id: { equals: data.tokenId } },
-        first: 1,
-      })
-    ).result;
-
-    if (contrs.length != 0) return contrs[0].id;
-    throw new Error('Contribution must exist for this attestation!');
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-const createJobRun = async (
-  govrn: GovrnProtocol,
-  job: { startDate: Date; completedDate: Date },
-) => {
-  const teamPromise = await govrn.jobRun.create({
-    data: {
-      startDate: job.startDate,
-      completedDate: job.completedDate,
-      name: jobName,
-    },
-  });
-  return teamPromise;
-};
-
 const main = async () => {
   console.log(':: Starting to Process Contribution(s)');
 
   const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
-  const govrn = new GovrnProtocol(protcolUrl, null, {
-    Authorization: CONTRACT_SYNC_TOKEN,
-  });
   const client = new GovrnGraphClient(graphQLClient);
 
-  const lastRun = await govrn.jobRun.list({
-    first: 1,
-    orderBy: { completedDate: SortOrder.Desc },
-    where: { name: { equals: jobName } },
-  });
+  const lastRun = await getJobRun({ name: JOB_NAME });
+
   const startDate =
     lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
 
   const contributionsEvents = (await client.listContributions({}))
     .contributions;
-  const contributionActivityTypeId = await getOrInsertActivityType(govrn, {
+  const contributionActivityTypeId = await getOrInsertActivityType({
     name: 'Contribution',
   });
   console.log(
     `:: Processing ${contributionsEvents.length} Contribution Event(s)`,
   );
-  const contributions = await Promise.all(
-    contributionsEvents.map(
-      async (event): Promise<ContributionCreateManyInput> => {
-        const contr = await govrnContract.contributions({
-          tokenId: event.contributionId,
-        });
+  const contributionResults = await Promise.all(
+    contributionsEvents.map(async event => {
+      const contr = await govrnContract.contributions({
+        tokenId: event.contributionId,
+      });
 
-        const userId = await getOrInsertUser(govrn, {
-          address: event.address,
-        });
+      const userId = await getOrInsertUser({
+        address: event.address,
+      });
 
-        const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
-        const ipfsBlob = await fetchIPFS(detailsUri);
-        const ipfsText = await ipfsBlob.text();
-        const contributionDetails = JSON.parse(ipfsText);
-
+      const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
+      try {
+        const contributionDetails = await fetchIPFS(detailsUri);
         return {
           name: contributionDetails.name,
           status_id: 2,
@@ -163,18 +70,38 @@ const main = async () => {
           details: contributionDetails.details,
           proof: contributionDetails.proof,
           on_chain_id: Number(event.id),
+          chain_id: CHAIN_ID,
+          txHash: event.txHash,
         };
-      },
-    ),
+      } catch {
+        return null;
+      }
+    }),
+  );
+  const contributions = contributionResults.filter(
+    contribution => contribution !== null,
   );
 
-  const contributionsCount = await govrn.contribution.bulkCreate({
-    data: contributions,
-    skipDuplicates: true,
-  });
+  if (contributions.length > 0) {
+    const promises = await Promise.allSettled(
+      contributions.map(
+        async contribution => await upsertContribution(contribution),
+      ),
+    );
 
-  console.log(`:: Inserting ${contributionsCount} Contribution(s)`);
-  console.log(`:: Finished Processing Contribution Events`);
+    const upsertedCount = promises.filter(p => p.status === 'fulfilled').length;
+    if (upsertedCount > 0) {
+      console.log(`:: Inserted ${upsertedCount} Contribution(s)`);
+    }
+
+    const failedCount = promises.length - upsertedCount;
+    if (failedCount > 0) {
+      console.log(`:: Failed to Insert ${failedCount} Contribution(s)`);
+    }
+
+    console.log(`:: Finished Processing Contribution Events`);
+  }
+
   console.log(':: Starting to Process Attestations');
 
   const attestationEvents = (await client.listAttestations({})).attestations;
@@ -190,11 +117,11 @@ const main = async () => {
       console.log(
         `:: Processing Attestation of contribution: ${attestation.contribution.toNumber()}`,
       );
-      const contributionId = await getContribution(govrn, {
+      const contributionId = await getContribution({
         tokenId: attestation.contribution.toNumber(),
       });
 
-      const userId = await getOrInsertUser(govrn, {
+      const userId = await getOrInsertUser({
         address: event.attestor,
       });
 
@@ -207,17 +134,20 @@ const main = async () => {
     }),
   );
 
-  const attestationsCount = await govrn.attestation.bulkCreate({
-    data: attestations,
-    skipDuplicates: true,
-  });
+  const attestationsCount = await bulkCreateAttestations(attestations);
 
   console.log(
     `:: Inserting ${attestationsCount.createManyAttestation.count} Attestations`,
   );
 
-  await createJobRun(govrn, { startDate, completedDate: new Date() });
+  await createJobRun({
+    startDate,
+    completedDate: new Date(),
+    name: JOB_NAME,
+  });
   console.log(`:: Finished processing Contributions`);
 };
 
-main();
+main()
+  .then()
+  .catch(e => console.error(e));

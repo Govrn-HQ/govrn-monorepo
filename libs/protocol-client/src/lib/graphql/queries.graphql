@@ -299,6 +299,10 @@ fragment UserFragment on User {
     id
     user_id
     guild_id
+    guild {
+      id
+      name
+    }
   }
 }
 
@@ -441,6 +445,25 @@ query getContributionCountByDateForUserInRange(
   }
 }
 
+query getContributionCount(
+  $where: GetContributionInput!
+) {
+  result: getContributionCount(where: $where) {
+    userContributionCount
+    guildContributionCount
+  }
+}
+
+query getContributionCountByActivityType(
+  $where: GetContributionInput!
+) {
+  result: getContributionCountByActivityType(where: $where) {
+    count
+    activity_name
+    activity_id
+  }
+}
+
 mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
     ...ContributionFragment
@@ -499,6 +522,16 @@ mutation updateContribution(
   }
 }
 
+mutation upsertContribution(
+  $where: ContributionWhereUniqueInput!
+  $create: ContributionCreateInput!
+  $update: ContributionUpdateInput!
+) {
+  upsertContribution(where: $where, create: $create, update: $update) {
+    ...ContributionFragment
+  }
+}
+
 # Contribution Status
 query getContributionStatus($name: String!) {
   contributionStatuses(where: { name: { equals: $name } }) {
@@ -532,9 +565,7 @@ query listActivityTypes(
   }
 }
 
-query listActivityTypesByUser(
-  $where: ListActivityTypesByUserInput!
-) {
+query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
     id
     name
@@ -745,5 +776,19 @@ fragment AttestationFragment on Attestation {
 mutation createUserAttestation($data: AttestationUserCreateInput!) {
   createUserAttestation(data: $data) {
     ...AttestationFragment
+  }
+}
+
+fragment ChainFragment on Chain {
+  id
+  createdAt
+  updatedAt
+  name
+  chain_id
+}
+
+query getChain($where: ChainWhereUniqueInput!) {
+  result: chain(where: $where) {
+    ...ChainFragment
   }
 }
