@@ -4,12 +4,12 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Autocomplete from '@mui/material/Autocomplete';
-import DatePicker from '@mui/lab/DatePicker';
+import { DatePicker } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import AdapterDayjs from '@mui/lab/AdapterDayjs';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import styled from '@emotion/styled';
 
 type Option = {
@@ -34,7 +34,7 @@ const Form = ({ users }: { users: Option[] }) => {
   const [activityValue, setActivityValue] = React.useState(null);
   const [guildImg, setGuildImg] = useState('');
   const [activities, setActivities] = useState<{ label: string; id: string }[]>(
-    []
+    [],
   );
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const Form = ({ users }: { users: Option[] }) => {
     reset,
   } = useForm();
   const onSubmit = useCallback(
-    async (data) => {
+    async data => {
       try {
         const resp = await axios.post(
           `/contribution`,
@@ -77,7 +77,7 @@ const Form = ({ users }: { users: Option[] }) => {
           {
             baseURL: (VITE_URL || '') as string,
             headers,
-          }
+          },
         );
         setValue(null);
         reset();
@@ -86,7 +86,7 @@ const Form = ({ users }: { users: Option[] }) => {
         enqueueSnackbar('Failed to submit', { variant: 'error' });
       }
     },
-    [activityValue, userValue, value, guild_id]
+    [activityValue, userValue, value, guild_id],
   );
   useEffect(() => {
     if (!guild_id) {
@@ -98,7 +98,7 @@ const Form = ({ users }: { users: Option[] }) => {
         {
           baseURL: (VITE_URL || '') as string,
           headers,
-        }
+        },
       );
       console.log('Activity Types');
       console.log(resp);
@@ -111,8 +111,8 @@ const Form = ({ users }: { users: Option[] }) => {
             };
           }),
         ].sort((a, b) =>
-          a.label.localeCompare(b.label, undefined, { sensitivity: 'base' })
-        )
+          a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }),
+        ),
       );
     };
     fetchActivityTypes();
@@ -126,7 +126,7 @@ const Form = ({ users }: { users: Option[] }) => {
         options={users}
         sx={{ width: 300 }}
         onChange={(e, v) => setUserValue(v.id)}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField
             {...params}
             {...(register('user'), { required: true })}
@@ -141,12 +141,12 @@ const Form = ({ users }: { users: Option[] }) => {
         freeSolo={true}
         sx={{ width: 300 }}
         onChange={(e, v) => setActivityValue(v)}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField
             {...params}
             {...(register('activity'), { required: true })}
             label="Activity"
-            onChange={(e) => setActivityValue(e.target.value)}
+            onChange={e => setActivityValue(e.target.value)}
           />
         )}
       />
@@ -164,10 +164,10 @@ const Form = ({ users }: { users: Option[] }) => {
         openTo="year"
         views={['year', 'month', 'day']}
         value={value}
-        onChange={(newValue) => {
+        onChange={newValue => {
           setValue(newValue);
         }}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField {...params} {...(register('date'), { required: true })} />
         )}
       />
@@ -221,11 +221,11 @@ export const App = () => {
                 label: user?.display_name || 'Missing',
                 id: user?.id,
               };
-            }
+            },
           ),
         ].sort((a, b) =>
-          a.label.localeCompare(b.label, undefined, { sensitivity: 'base' })
-        )
+          a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }),
+        ),
       );
     };
     fetchUsers();
