@@ -7,7 +7,8 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "protocol": "nx serve protocol-api"
+    "protocol": "nx serve protocol-api",
+    "reset": "ps aux | grep node | grep govrn-monorepo | awk '{print $2}' | xargs kill -9"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +30,7 @@
     "@material-ui/core": "^4.12.3",
     "@mui/lab": "^5.0.0-alpha.71",
     "@mui/material": "^5.4.4",
+    "@mui/x-date-pickers": "^5.0.6",
     "@nivo/bar": "^0.80.0",
     "@nivo/calendar": "^0.80.0",
     "@nivo/core": "^0.80.0",
