@@ -8,6 +8,7 @@ import { Linear } from './client/linear';
 import { Twitter } from './client/twitter';
 import { User } from './client/user';
 import { GraphQLClient } from 'graphql-request';
+import { Chain } from './client/chain';
 
 export { cursorPagination } from './client/pagination';
 
@@ -16,6 +17,7 @@ export class GovrnProtocol {
   attestation: Attestation;
   client: GraphQLClient;
   custom: Custom;
+  chain: Chain;
   contribution: Contribution;
   jobRun: JobRun;
   guild: Guild;
@@ -39,6 +41,7 @@ export class GovrnProtocol {
     this.linear = new Linear(this.client);
     this.user = new User(this.client);
     this.contribution = new Contribution(this.client);
+    this.chain = new Chain(this.client);
     this.activity_type = new ActivityType(this.client);
     this.attestation = new Attestation(this.client);
     this.twitter = new Twitter(this.client);
