@@ -18,6 +18,7 @@ export class Contribution extends Entity {
 
     this.set("address", Value.fromBytes(Bytes.empty()));
     this.set("contributionId", Value.fromBigInt(BigInt.zero()));
+    this.set("txHash", Value.fromBytes(Bytes.empty()));
   }
 
   save(): void {
@@ -79,6 +80,15 @@ export class Contribution extends Entity {
   set contributionId(value: BigInt) {
     this.set("contributionId", Value.fromBigInt(value));
   }
+
+  get txHash(): Bytes {
+    let value = this.get("txHash");
+    return value!.toBytes();
+  }
+
+  set txHash(value: Bytes) {
+    this.set("txHash", Value.fromBytes(value));
+  }
 }
 
 export class Attestation extends Entity {
@@ -88,6 +98,7 @@ export class Attestation extends Entity {
 
     this.set("attestor", Value.fromBytes(Bytes.empty()));
     this.set("confidence", Value.fromI32(0));
+    this.set("txHash", Value.fromBytes(Bytes.empty()));
   }
 
   save(): void {
@@ -148,5 +159,14 @@ export class Attestation extends Entity {
     } else {
       this.set("contribution", Value.fromString(<string>value));
     }
+  }
+
+  get txHash(): Bytes {
+    let value = this.get("txHash");
+    return value!.toBytes();
+  }
+
+  set txHash(value: Bytes) {
+    this.set("txHash", Value.fromBytes(value));
   }
 }
