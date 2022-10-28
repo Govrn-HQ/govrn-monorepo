@@ -18,6 +18,9 @@ type _Block_ {
 
   """The block number"""
   number: Int!
+
+  """Integer representation of the timestamp stored in blocks for the chain"""
+  timestamp: Int
 }
 
 """The type for the top-level _meta field"""
@@ -53,6 +56,7 @@ type Attestation {
   attestor: Bytes!
   confidence: Int!
   contribution: Contribution
+  txHash: Bytes!
 }
 
 input Attestation_filter {
@@ -98,6 +102,13 @@ input Attestation_filter {
   contribution_ends_with_nocase: String
   contribution_not_ends_with: String
   contribution_not_ends_with_nocase: String
+  contribution_: Contribution_filter
+  txHash: Bytes
+  txHash_not: Bytes
+  txHash_in: [Bytes!]
+  txHash_not_in: [Bytes!]
+  txHash_contains: Bytes
+  txHash_not_contains: Bytes
 
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
@@ -108,6 +119,7 @@ enum Attestation_orderBy {
   attestor
   confidence
   contribution
+  txHash
 }
 
 scalar BigDecimal
@@ -131,6 +143,7 @@ type Contribution {
   address: Bytes!
   attestations(skip: Int = 0, first: Int = 100, orderBy: Attestation_orderBy, orderDirection: OrderDirection, where: Attestation_filter): [Attestation!]
   contributionId: BigInt!
+  txHash: Bytes!
 }
 
 input Contribution_filter {
@@ -148,6 +161,7 @@ input Contribution_filter {
   address_not_in: [Bytes!]
   address_contains: Bytes
   address_not_contains: Bytes
+  attestations_: Attestation_filter
   contributionId: BigInt
   contributionId_not: BigInt
   contributionId_gt: BigInt
@@ -156,6 +170,12 @@ input Contribution_filter {
   contributionId_lte: BigInt
   contributionId_in: [BigInt!]
   contributionId_not_in: [BigInt!]
+  txHash: Bytes
+  txHash_not: Bytes
+  txHash_in: [Bytes!]
+  txHash_not_in: [Bytes!]
+  txHash_contains: Bytes
+  txHash_not_contains: Bytes
 
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
@@ -166,6 +186,7 @@ enum Contribution_orderBy {
   address
   attestations
   contributionId
+  txHash
 }
 
 """Defines the order direction, either ascending or descending"""

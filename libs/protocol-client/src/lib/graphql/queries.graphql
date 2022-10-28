@@ -445,13 +445,10 @@ query getContributionCountByDateForUserInRange(
   }
 }
 
-query getContributionCount(
+query getDaoContributionCount(
   $where: GetContributionInput!
 ) {
-  result: getContributionCount(where: $where) {
-    userContributionCount
-    guildContributionCount
-  }
+  result: getDaoContributionCount(where: $where) 
 }
 
 query getContributionCountByActivityType(
@@ -518,6 +515,16 @@ mutation updateContribution(
   $where: ContributionWhereUniqueInput!
 ) {
   updateContribution(data: $data, where: $where) {
+    ...ContributionFragment
+  }
+}
+
+mutation upsertContribution(
+  $where: ContributionWhereUniqueInput!
+  $create: ContributionCreateInput!
+  $update: ContributionUpdateInput!
+) {
+  upsertContribution(where: $where, create: $create, update: $update) {
     ...ContributionFragment
   }
 }
@@ -766,5 +773,19 @@ fragment AttestationFragment on Attestation {
 mutation createUserAttestation($data: AttestationUserCreateInput!) {
   createUserAttestation(data: $data) {
     ...AttestationFragment
+  }
+}
+
+fragment ChainFragment on Chain {
+  id
+  createdAt
+  updatedAt
+  name
+  chain_id
+}
+
+query getChain($where: ChainWhereUniqueInput!) {
+  result: chain(where: $where) {
+    ...ChainFragment
   }
 }

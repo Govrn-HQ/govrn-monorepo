@@ -49,6 +49,48 @@
         "jestConfig": "apps/contract-sync-job/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/contract_sync_job"
+          ],
+          "load": true,
+          "tags": ["type=sha"]
+        }
+      }
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/contract_sync_job"
+          ],
+          "tags": ["type=sha"]
+        }
+      }
+    },
+    "docker-login": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["doctl registry login --expiry-seconds 1200"],
+        "parallel": false
+      }
+    },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job.yaml"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": []

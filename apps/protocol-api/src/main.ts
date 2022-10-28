@@ -20,14 +20,15 @@ const prisma = new PrismaClient();
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
 const LINEAR_JOB_TOKEN = process.env.LINEAR_JOB_TOKEN;
-const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_JOB_TOKEN;
+const CONTRACT_SYNC_JOB_TOKEN = process.env.CONTRACT_SYNC_JOB_TOKEN;
 
 const BACKEND_TOKENS = [
   AIRTABLE_API_TOKEN,
   KEVIN_MALONE_TOKEN,
   LINEAR_JOB_TOKEN,
-  CONTRACT_SYNC_TOKEN,
+  CONTRACT_SYNC_JOB_TOKEN,
 ];
+console.log(BACKEND_TOKENS);
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
@@ -64,6 +65,7 @@ const permissions = shield(
   {
     Query: {
       '*': deny,
+      chain: hasToken,
       contribution: or(isAuthenticated, hasToken),
       contributions: or(isAuthenticated, hasToken),
       activityTypes: or(isAuthenticated, hasToken),
@@ -74,7 +76,7 @@ const permissions = shield(
       guilds: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
       getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
-      getContributionCount: or(isAuthenticated, hasToken),
+      getDaoContributionCount: or(isAuthenticated, hasToken),
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       users: hasToken,
       jobRuns: hasToken,
@@ -111,6 +113,7 @@ const permissions = shield(
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
       upsertActivityType: hasToken,
+      upsertContribution: hasToken,
       upsertLinearCycle: hasToken,
       upsertLinearIssue: hasToken,
       upsertLinearProject: hasToken,
@@ -151,6 +154,13 @@ const permissions = shield(
       updatedAt: or(isAuthenticated, hasToken),
       name: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
+    },
+    Chain: {
+      id: hasToken,
+      createdAt: hasToken,
+      updatedAt: hasToken,
+      name: hasToken,
+      chain_id: hasToken,
     },
     Contribution: {
       id: or(isAuthenticated, hasToken),
