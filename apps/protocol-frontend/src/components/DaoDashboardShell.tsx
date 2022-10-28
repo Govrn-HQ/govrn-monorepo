@@ -4,6 +4,7 @@ import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
+import { MONTH, DEFAULT_DATE_RANGES } from '../utils/constants';
 
 import { subWeeks } from 'date-fns';
 interface DaoDashboardShellProps {
@@ -15,7 +16,7 @@ const TODAY_DATE = new Date();
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
 
-  const [startDate, setStartDate] = useState<Date>(new Date(TODAY_DATE));
+  const [startDate, setStartDate] = useState<Date>(TODAY_DATE);
   const [endDate, setEndDate] = useState<Date>(
     new Date(subWeeks(TODAY_DATE, 4)),
   );
@@ -29,10 +30,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       value: 'Custom',
       label: 'Custom',
     },
-    { value: 1, label: 'Last Week' },
-    { value: 4, label: 'Last Month' },
-    { value: 12, label: 'Last Quarter' },
-    { value: 52, label: 'Last Year' },
+    ...DEFAULT_DATE_RANGES,
   ];
 
   const dateChangeHandler = (selectedDateOffset: number | string) => {
@@ -88,12 +86,12 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                 }}
                 startDate={startDate}
                 endDate={endDate}
-                maxDate={new Date(TODAY_DATE)}
+                maxDate={TODAY_DATE}
               />
             </Box>
             <ControlledSelect
               isSearchable={false}
-              defaultValue={dateRangeOptions.find(date => date.value === 4)}
+              defaultValue={dateRangeOptions.find(date => date.value === MONTH)}
               value={dateRange}
               onChange={dateRangeOffset => {
                 setShowCustomDatePicker(false);

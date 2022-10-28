@@ -9,16 +9,10 @@ export interface ControlledDatePickerProps extends ReactDatePickerProps {
     date: Date[] | Date | [Date | null, Date | null] | null,
     event: SyntheticEvent<Date, Event> | undefined,
   ) => void;
-  startDate: Date | null | undefined;
-  endDate: Date | null | undefined;
-  maxDate?: Date | null | undefined;
 }
 
 const ControlledDatePicker: React.FC<ControlledDatePickerProps> = ({
   onChange,
-  startDate,
-  endDate,
-  maxDate,
   ...props
 }: ControlledDatePickerProps) => {
   return (
@@ -27,9 +21,6 @@ const ControlledDatePicker: React.FC<ControlledDatePickerProps> = ({
         selectsRange
         onChange={onChange}
         customInput={<ControlledDatePickerButton />}
-        startDate={startDate}
-        endDate={endDate}
-        maxDate={maxDate}
         {...props}
       />
     </Box>

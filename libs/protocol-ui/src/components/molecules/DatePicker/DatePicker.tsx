@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from 'react';
-import ReactDatePicker from 'react-datepicker';
+import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller } from 'react-hook-form';
 import { FormControl, Box, Stack } from '@chakra-ui/react';
@@ -9,7 +9,7 @@ import ErrorMessage from '../../atoms/ErrorMessage';
 import CustomDatePickerButton from './CustomDatePickerButton';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
-export interface DatePickerProps {
+export interface DatePickerProps extends ReactDatePickerProps {
   name: string;
   label?: string;
   tip?: string;
@@ -19,7 +19,6 @@ export interface DatePickerProps {
     date: Date | [Date | null, Date | null] | null,
     event: SyntheticEvent<Date, Event> | undefined,
   ) => void;
-  maxDate?: Date | null | undefined;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -29,7 +28,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   defaultValue,
   localForm,
   onChange,
-  maxDate,
+  ...props
 }: DatePickerProps) => {
   const {
     control,
@@ -53,7 +52,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                 selected={defaultValue}
                 onChange={onChange}
                 customInput={<CustomDatePickerButton />}
-                maxDate={maxDate}
+                {...props}
               />
             )}
           />

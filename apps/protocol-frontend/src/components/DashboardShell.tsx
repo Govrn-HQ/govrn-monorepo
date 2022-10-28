@@ -10,15 +10,9 @@ import { UNASSIGNED } from '../utils/constants';
 import { useDaosList } from '../hooks/useDaosList';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
+import { DEFAULT_DATE_RANGES } from '../utils/constants';
 
 const TODAY_DATE = new Date();
-
-const dateRangeOptions = [
-  { value: 1, label: 'Last Week' },
-  { value: 4, label: 'Last Month' },
-  { value: 12, label: 'Last Quarter' },
-  { value: 52, label: 'Last Year' },
-];
 
 const unassignedContributions = [
   {
@@ -141,7 +135,7 @@ const DashboardShell = () => {
               )}
               <Flex flexBasis="50%">
                 <ControlledSelect
-                  defaultValue={dateRangeOptions.find(
+                  defaultValue={DEFAULT_DATE_RANGES.find(
                     date => date.value === 52,
                   )}
                   label="Choose Date Range"
@@ -149,7 +143,7 @@ const DashboardShell = () => {
                   onChange={date => {
                     setDateRange(date);
                   }}
-                  options={dateRangeOptions}
+                  options={DEFAULT_DATE_RANGES}
                 />
               </Flex>
             </Flex>
