@@ -29,7 +29,7 @@ export const fetchIPFS = async (
   try {
     return JSON.parse(text);
   } catch (e) {
-    console.error(':: Failed to parse:', text);
+    console.error(':: Failed to parse:', text, ipfsHash);
     throw e;
   }
 };

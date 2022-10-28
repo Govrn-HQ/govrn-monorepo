@@ -78,6 +78,8 @@ jobs:
           echo VITE_LINEAR_REDIRECT_URI=https://api.govrn.app/linear/oauth  >> .env
           echo VITE_LINEAR_CLIENT_ID=9131c342273502268438468f08337b29 >> .env
           echo VITE_INFURA_SUBDOMAIN=https://govrn.infura-ipfs.io >> .env
+          echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
+          echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
       - name: Build
         run: npx nx affected:build --configuration production --base $BASE
       - name: Docker Build
