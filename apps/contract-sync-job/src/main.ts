@@ -5,7 +5,6 @@ import { GraphQLClient } from 'graphql-request';
 import { fetchIPFS } from './ipfs';
 import {
   bulkCreateAttestations,
-  ContributionData,
   createJobRun,
   getContribution,
   getJobRun,
@@ -49,7 +48,7 @@ const main = async () => {
     `:: Processing ${contributionsEvents.length} Contribution Event(s)`,
   );
   const contributionResults = await Promise.all(
-    contributionsEvents.map(async (event): Promise<ContributionData | null> => {
+    contributionsEvents.map(async event => {
       const contr = await govrnContract.contributions({
         tokenId: event.contributionId,
       });
@@ -72,6 +71,7 @@ const main = async () => {
           proof: contributionDetails.proof,
           on_chain_id: Number(event.id),
           chain_id: CHAIN_ID,
+          txHash: event.txHash,
         };
       } catch {
         return null;

@@ -16,6 +16,7 @@ export function handleAttest(event: Attest): void {
   entity.attestor = event.params.attestor;
   entity.confidence = event.params.confidence;
   entity.contribution = event.params.contribution.toHex();
+  entity.txHash = event.transaction.hash;
 
   // Entities can be written to the store with `.save()`
   entity.save();
@@ -30,6 +31,7 @@ export function handleMint(event: Mint): void {
 
   entity.address = event.params.owner;
   entity.contributionId = event.params.id;
+  entity.txHash = event.transaction.hash;
 
   // Entities can be written to the store with `.save()`
   entity.save();
