@@ -16,7 +16,7 @@ import {
 } from '@govrn/govrn-contract-client';
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
-import patch from '../utils/patch';
+import batch from '../utils/batch';
 // noinspection ES6PreferShortImport
 import { ChainIdError } from '../utils/errors';
 
@@ -127,7 +127,7 @@ export class Contribution extends BaseClient {
         };
       }, {});
 
-    return await patch(
+    return await batch(
       contributions.map(async (c, idx) => {
         const onChainId = onChainIds[idx];
 

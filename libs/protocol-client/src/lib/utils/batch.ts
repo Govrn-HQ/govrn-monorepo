@@ -12,7 +12,7 @@ async function* doPatching<T>(tasks: PromiseLike<T>[], chunk: number) {
  * @param tasks promises to be executed.
  * @param chunk the size of single patch.
  */
-const patch = async <T>(
+const batch = async <T>(
   tasks: PromiseLike<T>[],
   chunk = DEFAULT_CHUNK_SIZE,
 ) => {
@@ -25,4 +25,4 @@ const patch = async <T>(
   return result;
 };
 
-export default patch;
+export default batch;
