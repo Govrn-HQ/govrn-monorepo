@@ -127,29 +127,27 @@ export class Contribution extends BaseClient {
         };
       }, {});
 
-    return await batch(
-      contributions.map(async (c, idx) => {
-        const onChainId = onChainIds[idx];
+    return await batch(contributions, async (c, idx) => {
+      const onChainId = onChainIds[idx];
 
-        // TODO: Should we store it anyway as `staged` contribution?
-        if (!onChainId) {
-          throw new ChainIdError();
-        }
-        if (c.id) {
-          return await this._updateUserOnChainContribution({
-            ...c,
-            onChainId: onChainId?.toNumber(),
-            txHash: transaction.hash,
-          });
-        }
-
-        return await this._createOnChainUserContribution({
+      // TODO: Should we store it anyway as `staged` contribution?
+      if (!onChainId) {
+        throw new ChainIdError();
+      }
+      if (c.id) {
+        return await this._updateUserOnChainContribution({
           ...c,
           onChainId: onChainId?.toNumber(),
           txHash: transaction.hash,
         });
-      }),
-    );
+      }
+
+      return await this._createOnChainUserContribution({
+        ...c,
+        onChainId: onChainId?.toNumber(),
+        txHash: transaction.hash,
+      });
+    });
   }
 
   public async mint(

@@ -1,28 +1,20 @@
-const DEFAULT_CHUNK_SIZE = 50;
+import { PromisePool } from '@supercharge/promise-pool';
+import { ProcessHandler } from '@supercharge/promise-pool/dist/contracts';
 
-async function* doPatching<T>(tasks: PromiseLike<T>[], chunk: number) {
-  for (let i = 0; i < tasks.length; i += chunk) {
-    yield await Promise.allSettled(tasks.slice(i, i + chunk));
-  }
-}
+const DEFAULT_CHUNK_SIZE = 50;
 
 /**
  * Executes tasks into smaller chunks instead of executing all at once.
- *
- * @param tasks promises to be executed.
- * @param chunk the size of single patch.
  */
-const batch = async <T>(
-  tasks: PromiseLike<T>[],
+const batch = async <T, R>(
+  items: T[],
+  process: ProcessHandler<T, R>,
   chunk = DEFAULT_CHUNK_SIZE,
 ) => {
-  if (chunk <= 0) throw new Error(`Select suitable chunk size: ${chunk}`);
-
-  const result: PromiseSettledResult<Awaited<T>>[] = [];
-  for await (const patch of doPatching(tasks, chunk)) {
-    result.push(...patch);
-  }
-  return result;
+  return await new PromisePool()
+    .withConcurrency(chunk)
+    .for(items)
+    .process(process);
 };
 
 export default batch;
