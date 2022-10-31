@@ -68,7 +68,7 @@ const ContributionTypesPie = ({
         <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
           Contributions By Type
         </Heading>
-        {contributionsDataMap?.length !== 0 && (
+        {contributionsDataMap?.length !== 0 ? (
           <ResponsivePie
             data={contributionsDataMap ? contributionsDataMap : []}
             margin={{
@@ -92,7 +92,7 @@ const ContributionTypesPie = ({
             layers={
               isMobile
                 ? ['arcs', 'arcLabels']
-                : ['arcs', 'arcLinkLabels', 'arcLabels', 'legends']
+                : ['arcs', 'arcLinkLabels', 'arcLabels']
             }
             legends={[
               {
@@ -101,8 +101,8 @@ const ContributionTypesPie = ({
                 justify: false,
                 translateX: 0,
                 translateY: 40,
-                itemsSpacing: 20,
-                itemWidth: 100,
+                itemsSpacing: 10,
+                itemWidth: 60,
                 itemHeight: 20,
                 itemTextColor: '#999',
                 itemDirection: 'left-to-right',
@@ -120,6 +120,12 @@ const ContributionTypesPie = ({
               },
             ]}
           />
+        ) : (
+          <Flex padding={8}>
+            <Text>
+              No Contributions found for that date range. Please try another.
+            </Text>
+          </Flex>
         )}
       </Flex>
     </Flex>
