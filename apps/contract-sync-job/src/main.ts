@@ -21,6 +21,7 @@ const JOB_NAME = 'contract-sync-job';
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 const CHAIN_ID = 100;
+const BATCH_SIZE = 100;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
@@ -79,6 +80,7 @@ const main = async () => {
         return null;
       }
     }),
+    BATCH_SIZE,
   );
 
   const contributions = getFulfilled(contributionResults);
@@ -88,6 +90,7 @@ const main = async () => {
       contributions.map(
         async contribution => await upsertContribution(contribution),
       ),
+      BATCH_SIZE,
     );
 
     const upsertedCount = promises.filter(p => p.status === 'fulfilled').length;
@@ -133,6 +136,7 @@ const main = async () => {
         date_of_attestation: new Date(attestation.dateOfSubmission.toNumber()),
       };
     }),
+    BATCH_SIZE,
   );
 
   const attestations = getFulfilled(attestationResults);
