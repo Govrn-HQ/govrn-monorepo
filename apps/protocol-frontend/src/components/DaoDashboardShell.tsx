@@ -4,6 +4,7 @@ import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
 import MonthlyContributionsShell from './MonthlyContributionsShell';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
+import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { MONTH, DEFAULT_DATE_RANGES } from '../utils/constants';
 
@@ -118,11 +119,18 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             <MonthlyContributionsShell daoId={daoId} />
           </Flex>
           <Flex
-            direction={{ base: 'column', lg: 'column' }}
+            direction={{ base: 'column', lg: 'row' }}
             alignItems={{ base: 'center', lg: 'flex-start' }}
             gap={2}
             justifyContent="center"
           >
+            <Flex direction="column" gap={2}>
+              <ContributionMembersPieShell
+                daoId={daoId}
+                startDate={startDate}
+                endDate={endDate}
+              />
+            </Flex>
             <Flex direction="column" gap={2}>
               <ContributionTypesPieShell
                 daoId={daoId}
