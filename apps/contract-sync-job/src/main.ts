@@ -12,6 +12,8 @@ import {
   getOrInsertUser,
   upsertContribution,
 } from './db';
+import batch from '@govrn/protocol-client';
+import { getFulfilled } from './helpers';
 
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const JOB_NAME = 'contract-sync-job';
@@ -47,7 +49,7 @@ const main = async () => {
   console.log(
     `:: Processing ${contributionsEvents.length} Contribution Event(s)`,
   );
-  const contributionResults = await Promise.all(
+  const contributionResults = await batch(
     contributionsEvents.map(async event => {
       const contr = await govrnContract.contributions({
         tokenId: event.contributionId,
@@ -78,12 +80,11 @@ const main = async () => {
       }
     }),
   );
-  const contributions = contributionResults.filter(
-    contribution => contribution !== null,
-  );
+
+  const contributions = getFulfilled(contributionResults);
 
   if (contributions.length > 0) {
-    const promises = await Promise.allSettled(
+    const promises = await batch(
       contributions.map(
         async contribution => await upsertContribution(contribution),
       ),
@@ -107,7 +108,7 @@ const main = async () => {
   const attestationEvents = (await client.listAttestations({})).attestations;
   console.log(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
 
-  const attestations = await Promise.all(
+  const attestationResults = await batch(
     attestationEvents.map(async event => {
       const attestation = await govrnContract.attestations({
         tokenId: event.contribution.id,
@@ -134,6 +135,7 @@ const main = async () => {
     }),
   );
 
+  const attestations = getFulfilled(attestationResults);
   const attestationsCount = await bulkCreateAttestations(attestations);
 
   console.log(
