@@ -451,6 +451,16 @@ query getDaoContributionCount(
   result: getDaoContributionCount(where: $where) 
 }
 
+query getDaoContributionCountByUser(
+  $where: GetContributionInput!
+) {
+  result: getDaoContributionCountByUser(where: $where) {
+    count
+    user_name 
+    user_id
+  }
+}
+
 query getContributionCountByActivityType(
   $where: GetContributionInput!
 ) {
