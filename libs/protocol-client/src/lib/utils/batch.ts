@@ -18,7 +18,7 @@ const batch = async <T>(
 ) => {
   if (chunk <= 0) throw new Error(`Select suitable chunk size: ${chunk}`);
 
-  const result = [];
+  const result: PromiseSettledResult<Awaited<T>>[] = [];
   for await (const patch of doPatching(tasks, chunk)) {
     result.push(...patch);
   }
