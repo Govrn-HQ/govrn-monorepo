@@ -23,6 +23,7 @@ export const DEFAULT_ACTIVITY_TYPES = [
 
 /* Time Values For Date Ranges */
 
+export const TODAY_DATE = new Date();
 export const WEEK = 1;
 export const MONTH = 4;
 export const QUARTER = 12;
