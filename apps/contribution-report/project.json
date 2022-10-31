@@ -77,30 +77,30 @@
         }
       ],
       "options": {
-        "command": "npx -y wrangler pages publish ./dist/apps/contribution-report --project-name=contribution-report",
+        "command": "npx -y wrangler pages publish ./dist/apps/contribution-report --project-name=contribution-report --branch=main",
         "color": true
       }
-    }
-  },
-  "deployStaging": {
-    "executor": "@nrwl/workspace:run-commands",
-    "inputs": [
-      {
-        "env": "CLOUDFLARE_ACCOUNT_ID"
-      },
-      {
-        "env": "CLOUDFLARE_API_TOKEN"
+    },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "inputs": [
+        {
+          "env": "CLOUDFLARE_ACCOUNT_ID"
+        },
+        {
+          "env": "CLOUDFLARE_API_TOKEN"
+        }
+      ],
+      "dependsOn": [
+        {
+          "target": "build:production",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "npx -y wrangler pages publish ./dist/apps/contribution-report --project-name=contribution-report-staging --branch=main",
+        "color": true
       }
-    ],
-    "dependsOn": [
-      {
-        "target": "build:production",
-        "projects": "self"
-      }
-    ],
-    "options": {
-      "command": "npx -y wrangler pages publish ./dist/apps/contribution-report --project-name=contribution-report-staging",
-      "color": true
     }
   },
   "tags": []
