@@ -95,7 +95,7 @@ const main = async () => {
       console.log(`:: Inserted ${upsertedCount} Contribution(s)`);
     }
 
-    const failedCount = promises.length - upsertedCount;
+    const failedCount = contributionResults.length - upsertedCount;
     if (failedCount > 0) {
       console.log(`:: Failed to Insert ${failedCount} Contribution(s)`);
     }
