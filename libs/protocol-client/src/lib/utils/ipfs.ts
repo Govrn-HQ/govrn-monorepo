@@ -1,12 +1,12 @@
 import { create, IPFSHTTPClient, CID } from 'ipfs-http-client';
 
 export type MintedContributionSchemaV1 = {
-  schema: 'example';
+  schema: `ipfs://Qmc3fKseQ1JyiJiPsmazx23A6twy6YCkTfqDfHUKZDL5xq`;
   name: string;
   details: string;
   proof: string;
   activityName: string;
-  image: string; // keep blank for now
+  image?: string; // keep blank for now
   govrn: {
     /* Contribution ID */
     id: number;
