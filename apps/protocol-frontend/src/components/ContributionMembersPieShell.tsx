@@ -16,7 +16,7 @@ const ContributionMembersPieShell = ({
     isFetching,
     isLoading,
     isError,
-    data: contributionActivityData,
+    data: contributionMembersData,
   } = useContributionActivityType({
     startDate: startDate,
     endDate: endDate,
@@ -25,18 +25,18 @@ const ContributionMembersPieShell = ({
 
   const mockData = [
     {
-      id: 1,
-      name: 'JP',
+      user_id: 1,
+      user_name: 'JP',
       count: 10,
     },
     {
-      id: 2,
-      name: 'Kevin Malone',
+      user_id: 2,
+      user_name: 'Kevin Malone',
       count: 20,
     },
     {
-      id: 3,
-      name: 'PJ',
+      user_id: 3,
+      user_name: 'PJ',
       count: 5,
     },
   ];

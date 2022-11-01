@@ -3,8 +3,8 @@ import { ResponsivePie } from '@nivo/pie';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 
 type ContributionMembersCount = {
-  id: number;
-  name: string;
+  user_id: number;
+  user_name: string;
   count: number;
 };
 interface ContributionTypesPieProps {
@@ -34,8 +34,8 @@ const ContributionMembersPie = ({
 
   const contributionsDataMap = contributionMembersData?.map(contribution => {
     return {
-      id: contribution.id, // we will use this until we create a custom tooltip
-      label: contribution.name,
+      id: contribution.user_id, // we will use this until we create a custom tooltip
+      label: contribution.user_name,
       value: contribution.count,
     };
   });
