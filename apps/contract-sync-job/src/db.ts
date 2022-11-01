@@ -74,7 +74,7 @@ export async function getContribution(data: { tokenId: number }) {
     ).result;
 
     if (contrs.length != 0) return contrs[0].id;
-    throw new Error('Contribution is missing.');
+    throw new Error('Contribution must exist for this attestation!');
   } catch (error) {
     console.error(error);
     throw error;
