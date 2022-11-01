@@ -2530,6 +2530,12 @@ export type ContributionCountByDate = {
   name: Scalars['String'];
 };
 
+export type ContributionCountByUser = {
+  count: Scalars['Float'];
+  display_name?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
 export type ContributionCountOrderByAggregateInput = {
   activity_type_id?: InputMaybe<SortOrder>;
   chain_id?: InputMaybe<SortOrder>;
@@ -10713,6 +10719,7 @@ export type Query = {
   getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
   getDaoContributionCount: Scalars['Int'];
+  getDaoContributionCountByUser: Array<ContributionCountByUser>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
@@ -11432,6 +11439,11 @@ export type QueryGetContributionCountByDateForUserInRangeArgs = {
 
 
 export type QueryGetDaoContributionCountArgs = {
+  where: GetContributionInput;
+};
+
+
+export type QueryGetDaoContributionCountByUserArgs = {
   where: GetContributionInput;
 };
 
@@ -14648,6 +14660,13 @@ export type GetDaoContributionCountQueryVariables = Exact<{
 
 export type GetDaoContributionCountQuery = { result: number };
 
+export type GetDaoContributionCountByUserQueryVariables = Exact<{
+  where: GetContributionInput;
+}>;
+
+
+export type GetDaoContributionCountByUserQuery = { result: Array<{ count: number, display_name?: string | null, user_id?: number | null }> };
+
 export type GetContributionCountByActivityTypeQueryVariables = Exact<{
   where: GetContributionInput;
 }>;
@@ -15353,6 +15372,15 @@ export const GetDaoContributionCountDocument = gql`
   result: getDaoContributionCount(where: $where)
 }
     `;
+export const GetDaoContributionCountByUserDocument = gql`
+    query getDaoContributionCountByUser($where: GetContributionInput!) {
+  result: getDaoContributionCountByUser(where: $where) {
+    count
+    display_name
+    user_id
+  }
+}
+    `;
 export const GetContributionCountByActivityTypeDocument = gql`
     query getContributionCountByActivityType($where: GetContributionInput!) {
   result: getContributionCountByActivityType(where: $where) {
@@ -15649,6 +15677,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getDaoContributionCount(variables: GetDaoContributionCountQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDaoContributionCountQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDaoContributionCountQuery>(GetDaoContributionCountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDaoContributionCount', 'query');
+    },
+    getDaoContributionCountByUser(variables: GetDaoContributionCountByUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDaoContributionCountByUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetDaoContributionCountByUserQuery>(GetDaoContributionCountByUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDaoContributionCountByUser', 'query');
     },
     getContributionCountByActivityType(variables: GetContributionCountByActivityTypeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountByActivityTypeQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountByActivityTypeQuery>(GetContributionCountByActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByActivityType', 'query');
