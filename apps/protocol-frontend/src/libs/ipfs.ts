@@ -1,70 +1,22 @@
-import { create, CID } from 'ipfs-http-client';
-import { Buffer } from 'buffer';
-import patch from '@govrn/protocol-client';
-
-const VERSION = 2;
-
-type StoreIpfsParam =
-  | {
-      name: string;
-      details: string;
-      proof: string;
-      activityName: string;
-      image: string; // keep blank for now
-      govrn: {
-        /* Contribution ID */
-        id: number;
-        activityTypeId: number;
-      };
-    }
-  | ArrayBuffer;
-
-export const getIPFSClient = () => {
-  const auth =
-    'Basic ' +
-    Buffer.from(
-      import.meta.env.VITE_INFURA_PROJECT_ID +
-        ':' +
-        import.meta.env.VITE_INFURA_PROJECT_SECRET,
-    ).toString('base64');
-  return create({
-    host: 'ipfs.infura.io',
-    port: 5001,
-    protocol: 'https',
-    headers: {
-      authorization: auth,
-    },
-  });
-};
+import { patch, IPFS } from '@govrn/protocol-client';
 
 export const uploadFileIpfs = async (file: File, onlyHash = true) => {
-  const ipfs = getIPFSClient();
-  if (onlyHash) {
-    const onlyHashOutput = await ipfs.add(file, { onlyHash: true });
-    return `ipfs://${onlyHashOutput.path}`;
-  }
-  if (!onlyHash) {
-    const cid = await ipfs.add(file, { onlyHash });
-    await ipfs.pin.add(cid.path);
-    return `ipfs://${cid.path}`;
-  }
+  const ipfs = IPFS(
+    import.meta.env.VITE_INFURA_PROJECT_ID,
+    import.meta.env.VITE_INFURA_PROJECT_SECRET,
+  );
+  return await ipfs.uploadFileIPFS(file, onlyHash);
 };
-
-export const storeIpfs = async (content: StoreIpfsParam) => {
-  const ipfs = getIPFSClient();
-  const contentWithVersion = { ...content, version: VERSION };
-  const cid = await ipfs.add(JSON.stringify(contentWithVersion), {
-    cidVersion: 1,
-    hashAlg: 'sha2-256',
-  });
-  console.log('cid', cid);
-  const resp = await ipfs.pin.add(CID.parse(cid.path));
-  console.log('ipfs resp', resp);
-  return `ipfs://${cid.path}`;
-};
-
 export const bulkStoreIpfs = async (params: StoreIpfsParam[]) => {
+  const ipfs = IPFS(
+    import.meta.env.VITE_INFURA_PROJECT_ID,
+    import.meta.env.VITE_INFURA_PROJECT_SECRET,
+  );
   return (
-    await patch(params.map(async content => await storeIpfs(content)))
+    await patch(
+      params.map(
+        async content => await ipfs.storeContributionMetadata(content),
+      ),
+    )
   ).map((result, index) => ({ index, ...result }));
 };

@@ -9,7 +9,7 @@ import {
   Tooltip,
   Icon,
 } from '@chakra-ui/react';
-import { bulkStoreIpfs, storeIpfs } from '../libs/ipfs';
+import { bulkStoreIpfs } from '../libs/ipfs';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps } from '../types/mint';
@@ -68,32 +68,18 @@ const MintModal = ({ contributions }: MintModalProps) => {
 
         // Mint successfully stored contributions in IPFS.
         await bulkMintContributions(bulkResults);
-      } else if (contributions.length === 1) {
+      } else if (contributions.length === 1 && contributions[0].original) {
         const contribution = contributions[0];
-
-        const ipfsContentUri = await storeIpfs({
-          name: contribution?.original?.name,
-          details: contribution?.original?.details || '',
-          proof: contribution?.original?.proof || '',
-          activityName: contribution.original.activity_type.name,
-          image: '',
-          govrn: {
-            id: contribution.original.id,
-            activityTypeId: contribution.original.activity_type.id,
-          },
-        });
-
-        if (contribution.original) {
-          const original = contribution.original;
-          const originalClean = {
-            ...contribution.original,
-            details: original.details || '',
-            proof: original.proof || '',
-            date_of_submission: original.date_of_submission.toString(),
-            engagementDate: original.engagementDate.toString(),
-          };
-          await mintContribution({ ...originalClean, ipfsContentUri });
-        }
+        const original = contribution.original;
+        const originalClean = {
+          ...contribution.original,
+          details: original.details || '',
+          proof: original.proof || '',
+          date_of_submission: original.date_of_submission.toString(),
+          engagementDate: original.engagementDate.toString(),
+          activityTypeName: contribution.original.activity_type.name,
+        };
+        await mintContribution({ ...originalClean });
       }
       setModals({}); // Closes mint modal
       setMinting(false);
