@@ -4,6 +4,12 @@ import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
 import { TODAY_DATE, YEAR } from '../utils/constants';
 import { subWeeks } from 'date-fns';
+import { useContributionList } from '../hooks/useContributionList';
+
+interface CustomTooltipDailyContributionsProps extends CalendarTooltipProps {
+  daoId: number;
+  date: Date;
+}
 
 type ContributionCount = {
   date: string;
@@ -14,7 +20,9 @@ interface ContributionsByDateChartProps {
   isFetching: boolean;
   isLoading: boolean;
   isError: boolean;
-  customTooltip?: React.FC<CalendarTooltipProps> | undefined;
+  daoId: number;
+  // customTooltip?: React.FC<CalendarTooltipProps> | undefined;
+  customTooltip?: any;
 }
 
 const brandColors = GovrnTheme.colors.brand.primary;
@@ -30,6 +38,7 @@ const brandColorMap = [
 ];
 
 const ContributionsByDateChart = ({
+  daoId,
   contributionsCount,
   isFetching,
   isLoading,
@@ -54,6 +63,47 @@ const ContributionsByDateChart = ({
   if (isFetching || isLoading) {
     return <GovrnSpinner />;
   }
+
+  const CustomTooltipDailyContributions = data => {
+    console.log('data', data);
+    console.log('data day', data.day);
+    const {
+      isFetching,
+      data: dailyContributions,
+      isLoading,
+      isError,
+    } = useContributionList({
+      where: {
+        guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+        date_of_engagement: { equals: data.date },
+      },
+    });
+
+    console.log('daily contributions', dailyContributions);
+
+    if (isError) {
+      return (
+        <Text>An error occurred fetching the DAO's recent Contributions.</Text>
+      );
+    }
+
+    if (isFetching || isLoading) {
+      return <GovrnSpinner />;
+    }
+    return (
+      <Flex
+        direction="column"
+        justifyContent="center"
+        alignItems="flex-start"
+        bg="white"
+        padding={2}
+        boxShadow="md"
+      >
+        <Text>Day: {data.day}</Text>
+        <Text>Total: {dailyContributions?.length}</Text>
+      </Flex>
+    );
+  };
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
@@ -94,7 +144,8 @@ const ContributionsByDateChart = ({
             }
             dayBorderWidth={2}
             dayBorderColor="#ffffff"
-            tooltip={customTooltip}
+            // tooltip={customTooltip}
+            tooltip={CustomTooltipDailyContributions}
           />
         )}
       </Flex>
