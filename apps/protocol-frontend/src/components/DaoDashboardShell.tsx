@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
+import ContributionsByDateShell from './ContributionsByDateShell';
 import MonthlyContributionsShell from './MonthlyContributionsShell';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
@@ -110,6 +111,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
               Contributions By Date
             </Heading>
+            <ContributionsByDateShell guildIds={[daoId]} />
           </Flex>
           <Flex direction="column" gap={2}>
             <Heading as="h3" size="md" color="gray.800" fontWeight="normal">

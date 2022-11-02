@@ -51,11 +51,7 @@ const ContributionsHeatMap = ({
             data={contributionsCountMap.filter(
               contribution => contribution.value !== 0,
             )}
-            from={
-              startDateOffset
-                ? subWeeks(new Date(), startDateOffset)
-                : subWeeks(new Date(), 52)
-            }
+            from={subWeeks(new Date(), 52)}
             to={new Date()}
             weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
