@@ -12,7 +12,7 @@ import {
   getOrInsertUser,
   upsertContribution,
 } from './db';
-import batch from '@govrn/protocol-client';
+import { batch } from '@govrn/protocol-client';
 
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const JOB_NAME = 'contract-sync-job';
