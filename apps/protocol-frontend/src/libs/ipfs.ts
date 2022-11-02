@@ -15,18 +15,20 @@ export const storeIpfs = async (content: MintedContributionSchemaV1) => {
   return await ipfs.storeContributionMetadata(content);
 };
 
-export const bulkStoreIpfs = async (params: MintedContributionSchemaV1[]) => {
+export const bulkStoreIpfs = async (
+  params: Omit<MintedContributionSchemaV1, 'schema'>[],
+) => {
   const ipfs = new IPFS(INFURA_PROJECT_ID, INFURA_PROJECT_SECRET);
 
-  return await batch<MintedContributionSchemaV1, number>(
-    params,
-    async (item, index) => {
-      return {
-        index,
-        value: await ipfs.storeContributionMetadata(item.content),
-      };
-    },
-  );
+  return await batch<
+    Omit<MintedContributionSchemaV1, 'schema'>,
+    { index: number; value: string }
+  >(params, async (item, index) => {
+    return {
+      index,
+      value: await ipfs.storeContributionMetadata(item),
+    };
+  });
 };
 
 // 1. some clean up
