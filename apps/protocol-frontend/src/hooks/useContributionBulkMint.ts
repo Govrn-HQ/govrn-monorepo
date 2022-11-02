@@ -64,8 +64,7 @@ const useContributionBulkMint = () => {
     {
       onSuccess: async result => {
         /* Failed writes/updates to db are included in result. */
-
-        const minted = result.filter(promise => promise.status === 'fulfilled');
+        const { results: minted, errors: failedToMint } = result;
 
         if (minted.length > 0) {
           queryClient.invalidateQueries(['contributionList']);
@@ -80,13 +79,6 @@ const useContributionBulkMint = () => {
             )} has been minted.`,
           });
         }
-
-        const failedToMint = result
-          .filter(
-            (promise): promise is PromiseRejectedResult =>
-              promise.status === 'rejected',
-          )
-          .filter(rejected => rejected.reason instanceof ChainIdError);
 
         if (failedToMint.length > 0) {
           toast.error({

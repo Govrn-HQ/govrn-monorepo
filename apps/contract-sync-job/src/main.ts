@@ -12,6 +12,7 @@ import {
   getOrInsertUser,
   upsertContribution,
 } from './db';
+import batch from '@govrn/protocol-client';
 
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const JOB_NAME = 'contract-sync-job';
@@ -19,6 +20,7 @@ const JOB_NAME = 'contract-sync-job';
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 const CHAIN_ID = 100;
+const BATCH_SIZE = 100;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
@@ -47,8 +49,10 @@ const main = async () => {
   console.log(
     `:: Processing ${contributionsEvents.length} Contribution Event(s)`,
   );
-  const contributionResults = await Promise.all(
-    contributionsEvents.map(async event => {
+
+  const { results: contributions } = await batch(
+    contributionsEvents,
+    async event => {
       const contr = await govrnContract.contributions({
         tokenId: event.contributionId,
       });
@@ -76,25 +80,23 @@ const main = async () => {
       } catch {
         return null;
       }
-    }),
-  );
-  const contributions = contributionResults.filter(
-    contribution => contribution !== null,
+    },
+    BATCH_SIZE,
   );
 
   if (contributions.length > 0) {
-    const promises = await Promise.allSettled(
-      contributions.map(
-        async contribution => await upsertContribution(contribution),
-      ),
+    const { results: inserted } = await batch(
+      contributions,
+      async contribution => await upsertContribution(contribution),
+      BATCH_SIZE,
     );
 
-    const upsertedCount = promises.filter(p => p.status === 'fulfilled').length;
+    const upsertedCount = inserted.length;
     if (upsertedCount > 0) {
       console.log(`:: Inserted ${upsertedCount} Contribution(s)`);
     }
 
-    const failedCount = promises.length - upsertedCount;
+    const failedCount = contributionsEvents.length - upsertedCount;
     if (failedCount > 0) {
       console.log(`:: Failed to Insert ${failedCount} Contribution(s)`);
     }
@@ -107,8 +109,9 @@ const main = async () => {
   const attestationEvents = (await client.listAttestations({})).attestations;
   console.log(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
 
-  const attestations = await Promise.all(
-    attestationEvents.map(async event => {
+  const { results: attestations } = await batch(
+    attestationEvents,
+    async event => {
       const attestation = await govrnContract.attestations({
         tokenId: event.contribution.id,
         address: event.attestor,
@@ -131,7 +134,8 @@ const main = async () => {
         contribution_id: contributionId,
         date_of_attestation: new Date(attestation.dateOfSubmission.toNumber()),
       };
-    }),
+    },
+    BATCH_SIZE,
   );
 
   const attestationsCount = await bulkCreateAttestations(attestations);
