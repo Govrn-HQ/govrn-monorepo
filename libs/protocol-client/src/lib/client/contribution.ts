@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { BaseClient } from './base';
 import {
   BulkCreateContributionMutationVariables,
@@ -238,6 +238,58 @@ export class Contribution extends BaseClient {
         chainId: chainId,
         userId: userId,
       },
+    });
+  }
+
+  public async bulkAttest(
+    networkConfig: NetworkConfig,
+    signer: ethers.Signer,
+    chainId: number,
+    userId: number,
+    data: {
+      contribution: number;
+      confidenceId: number;
+      confidenceName: string;
+      dateOfSubmission: number;
+    }[],
+  ) {
+    const args = {
+      attestations: data.map(c => {
+        return {
+          contribution: c.contribution,
+          confidence: c.confidenceId,
+          dateOfSubmission: c.dateOfSubmission,
+        };
+      }),
+    };
+
+    const contract = new GovrnContract(networkConfig, signer);
+    const transaction = await contract.bulkAttest(args);
+    const transactionReceipt = await transaction.wait();
+
+    const logs = transactionReceipt.logs.map((l, idx) => {
+      const log = contract.govrn.interface.parseLog(l);
+      return log.name === 'Attest'
+        ? {
+            index: idx,
+            contributionId: (log.args['contribution'] as BigNumber).toNumber(),
+            confidence: log.args['confidence'],
+          }
+        : /* Technically, this will never happen.
+            Attestations will either be all successful or all failed. */
+          null;
+    });
+
+    return await batch(logs, async l => {
+      if (l === null) throw new Error('Failed to attest.');
+      return await this.sdk.createUserOnChainAttestation({
+        data: {
+          contributionOnChainId: l.contributionId,
+          confidence: data[l.index].confidenceName,
+          chainId: chainId,
+          userId: userId,
+        },
+      });
     });
   }
 
