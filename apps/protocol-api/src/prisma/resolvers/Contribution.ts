@@ -663,8 +663,6 @@ export class ContributionCustomResolver {
         AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
-<<<<<<< HEAD
-=======
   }
 
   @TypeGraphQL.Query(_returns => [ContributionCountByActivityType], {
@@ -753,6 +751,5 @@ export class ContributionCustomResolver {
       ) GROUP BY u.display_name, u.id
       ORDER BY count;`;
     return result;
->>>>>>> f36acca2ff4c49f468b22b70e8e9807d0f7a07d4
   }
 }
