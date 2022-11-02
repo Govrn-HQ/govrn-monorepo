@@ -1,4 +1,5 @@
 import { create, IPFSHTTPClient, CID } from 'ipfs-http-client';
+import { ContributionV1SchemaCid } from './constants';
 
 export type MintedContributionSchemaV1 = {
   schema: `ipfs://Qmc3fKseQ1JyiJiPsmazx23A6twy6YCkTfqDfHUKZDL5xq`;
@@ -22,8 +23,14 @@ export class IPFS {
     this.client = getIPFSClient({ projectId, projectSecret });
   }
 
-  public async storeContributionMetadata(content: MintedContributionSchemaV1) {
-    const contentWithVersion = { ...content, version: this.VERSION };
+  public async storeContributionMetadata(
+    content: Omit<MintedContributionSchemaV1, 'schema'>,
+  ) {
+    const contentWithVersion = {
+      ...content,
+      schema: ContributionV1SchemaCid,
+      version: this.VERSION,
+    };
     const cid = await this.client.add(JSON.stringify(contentWithVersion), {
       cidVersion: 1,
       hashAlg: 'sha2-256',
