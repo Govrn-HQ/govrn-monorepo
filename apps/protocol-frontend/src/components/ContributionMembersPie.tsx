@@ -3,30 +3,34 @@ import { ResponsivePie } from '@nivo/pie';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { brandColorMap } from '../utils/constants';
 
-type ContributionTypesCount = {
-  activity_id: number;
-  activity_name: string;
+type ContributionMembersCount = {
   count: number;
+  display_name?: string | null;
+  user_id?: number | null;
 };
-interface ContributionTypesPieProps {
-  contributionActivityData: ContributionTypesCount[] | undefined;
+interface ContributionMembersPieProps {
+  contributionMembersData?: ContributionMembersCount[];
   isFetching: boolean;
   isLoading: boolean;
   isError: boolean;
 }
 
-const ContributionTypesPie = ({
-  contributionActivityData,
+const ContributionMembersPie = ({
+  contributionMembersData,
   isFetching,
   isLoading,
   isError,
-}: ContributionTypesPieProps) => {
+}: ContributionMembersPieProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
 
-  const contributionsDataMap = contributionActivityData?.map(contribution => {
+  const contributionsDataMap = contributionMembersData?.map(contribution => {
     return {
-      id: contribution.activity_name, // we will use this until we create a custom tooltip
-      label: contribution.activity_name,
+      id:
+        contribution.display_name !== null ||
+        contribution.display_name !== undefined
+          ? contribution.display_name
+          : contribution.user_id, // we will use this until we create a custom tooltip
+      label: contribution.display_name,
       value: contribution.count,
     };
   });
@@ -57,11 +61,11 @@ const ContributionTypesPie = ({
         borderRadius={{ base: 'none', md: 'md' }}
       >
         <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
-          Contributions By Type
+          Contributions By Member
         </Heading>
         {contributionsDataMap?.length !== 0 ? (
           <ResponsivePie
-            data={contributionsDataMap ? contributionsDataMap : []}
+            data={contributionsDataMap || []}
             margin={{
               top: isMobile ? 10 : 40,
               right: isMobile ? 40 : 40,
@@ -123,4 +127,4 @@ const ContributionTypesPie = ({
   );
 };
 
-export default ContributionTypesPie;
+export default ContributionMembersPie;
