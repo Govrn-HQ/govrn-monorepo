@@ -20,6 +20,15 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Design',
   'Other',
 ];
+export const brandColorMap = [
+  '#ffb4e2',
+  '#fb84ce',
+  '#f854ba',
+  '#f526a6',
+  '#db0f8d',
+  '#ab076d',
+  '#76024e',
+];
 
 /* Time Values For Date Ranges */
 
