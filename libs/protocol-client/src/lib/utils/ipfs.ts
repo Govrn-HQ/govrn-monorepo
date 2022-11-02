@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { create, IPFSHTTPClient, CID } from 'ipfs-http-client';
 import { ContributionV1SchemaCid } from './constants';
 
@@ -17,7 +18,7 @@ export type MintedContributionSchemaV1 = {
 
 export class IPFS {
   client: IPFSHTTPClient;
-  VERSION = 2;
+  VERSION = 1;
 
   constructor(projectId: string, projectSecret: string) {
     this.client = getIPFSClient({ projectId, projectSecret });
