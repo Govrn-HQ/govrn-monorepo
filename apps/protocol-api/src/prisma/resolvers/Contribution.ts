@@ -650,7 +650,7 @@ export class ContributionCustomResolver {
       )
 
       SELECT gc.guild_id,
-             coalesce(g.name, 'Unassigned') as name,
+             coalesce(gc.name, 'Unassigned') as name,
              d.dt                            as date,
              count(gc.date_of_engagement)    as count
       FROM (
