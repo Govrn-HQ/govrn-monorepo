@@ -26,7 +26,8 @@ const ContributionMembersPie = ({
   const contributionsDataMap = contributionMembersData?.map(contribution => {
     return {
       id:
-        contribution.display_name !== null
+        contribution.display_name !== null ||
+        contribution.display_name !== undefined
           ? contribution.display_name
           : contribution.user_id, // we will use this until we create a custom tooltip
       label: contribution.display_name,
