@@ -134,9 +134,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               />
             </Flex>
             <Flex direction="column" gap={2}>
-              {/* <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
-              Contributions By Member
-            </Heading> */}
               <MonthlyContributionsShell daoId={daoId} />
             </Flex>
           </Flex>
