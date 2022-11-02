@@ -1,6 +1,7 @@
 import { Flex, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsivePie } from '@nivo/pie';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import { brandColorMap } from '../utils/constants';
 
 type ContributionTypesCount = {
   activity_id: number;
@@ -13,16 +14,6 @@ interface ContributionTypesPieProps {
   isLoading: boolean;
   isError: boolean;
 }
-
-const brandColorMap = [
-  '#ffb4e2',
-  '#fb84ce',
-  '#f854ba',
-  '#f526a6',
-  '#db0f8d',
-  '#ab076d',
-  '#76024e',
-];
 
 const ContributionTypesPie = ({
   contributionActivityData,

@@ -1,35 +1,26 @@
 import { Flex, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsivePie } from '@nivo/pie';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import { brandColorMap } from '../utils/constants';
 
 type ContributionMembersCount = {
   count: number;
-  display_name?: string | null | undefined;
-  user_id?: number | null | undefined;
+  display_name?: string | null;
+  user_id?: number | null;
 };
-interface ContributionTypesPieProps {
-  contributionMembersData: ContributionMembersCount[] | undefined;
+interface ContributionMembersPieProps {
+  contributionMembersData?: ContributionMembersCount[];
   isFetching: boolean;
   isLoading: boolean;
   isError: boolean;
 }
-
-const brandColorMap = [
-  '#ffb4e2',
-  '#fb84ce',
-  '#f854ba',
-  '#f526a6',
-  '#db0f8d',
-  '#ab076d',
-  '#76024e',
-];
 
 const ContributionMembersPie = ({
   contributionMembersData,
   isFetching,
   isLoading,
   isError,
-}: ContributionTypesPieProps) => {
+}: ContributionMembersPieProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
 
   const contributionsDataMap = contributionMembersData?.map(contribution => {
@@ -73,7 +64,7 @@ const ContributionMembersPie = ({
         </Heading>
         {contributionsDataMap?.length !== 0 ? (
           <ResponsivePie
-            data={contributionsDataMap ? contributionsDataMap : []}
+            data={contributionsDataMap || []}
             margin={{
               top: isMobile ? 10 : 40,
               right: isMobile ? 40 : 40,
