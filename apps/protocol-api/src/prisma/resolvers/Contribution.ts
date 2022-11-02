@@ -267,6 +267,22 @@ export class ContributionCountByDate {
   name: string;
 }
 
+@TypeGraphQL.ObjectType('ContributionCountByUser', { isAbstract: true })
+export class ContributionCountByUser {
+  @TypeGraphQL.Field(_type => Number)
+  count: number;
+
+  @TypeGraphQL.Field(_type => Number, {
+    nullable: true
+  })
+  user_id?: number;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  display_name?: string;
+}
+
 @TypeGraphQL.ObjectType('TotalContributionCount', { isAbstract: true })
 export class TotalContributionCount {
   @TypeGraphQL.Field(_type => Number, { nullable: true })
@@ -671,39 +687,17 @@ export class ContributionCustomResolver {
       ORDER BY count;`;
   }
 
-  @TypeGraphQL.Query(_returns => TotalContributionCount, {
+  @TypeGraphQL.Query(_returns => Int, {
     nullable: false,
   })
-  async getContributionCount(
+  async getDaoContributionCount(
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: GetContributionArgs,
   ) {
     const start = args.where.startDate;
     const end = args.where.endDate;
     const guildId = args.where.guildId;
-    const userId = args.where.userId;
 
-    let userContributionCount = null;
-    if (userId) {
-      // retrieve the user's contributions to this guild
-      userContributionCount = await this._getContributionCount(prisma, start, end, userId, guildId);
-    }
-
-    let guildContributionCount = null;
-    if (guildId) {
-      // retrieve the total amount of the guild's contributions
-      guildContributionCount = await this._getContributionCount(prisma, start, end, null, guildId);
-    }
-
-    return {
-      userContributionCount: userContributionCount,
-      guildContributionCount: guildContributionCount
-    };
-  }
-
-  async _getContributionCount(
-    prisma, start: Date, end: Date, guildId: number, userId: number) 
-  {
     return await prisma.contribution.count({
       where: {
         date_of_engagement: {
@@ -714,11 +708,37 @@ export class ContributionCustomResolver {
           some: {
             guild_id: guildId
           }
-        },
-        user_id: {
-          equals: userId
         }
       }
     });
+  }
+
+  @TypeGraphQL.Query(_returns => [ContributionCountByUser], {
+    nullable: false,
+  })
+  async getDaoContributionCountByUser(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetContributionArgs,
+  ) {
+    const start = args.where.startDate;
+    const end = args.where.endDate;
+    const guildId = args.where.guildId;
+
+    const result = await prisma.$queryRaw<ContributionCountByUser>`
+      SELECT  count(gc.id) as count,
+              u.id as "user_id",
+              u.display_name as "display_name"
+      FROM
+          "GuildContribution" as gc 
+          LEFT JOIN "Contribution" as c
+            ON gc."contribution_id" = c."id"
+          LEFT JOIN "User" as u 
+            ON u."id" = c."user_id"
+      WHERE (
+        gc."createdAt"::date BETWEEN ${start} AND ${end} 
+        AND gc."guild_id" = ${guildId}
+      ) GROUP BY u.display_name, u.id
+      ORDER BY count;`;
+    return result;
   }
 }

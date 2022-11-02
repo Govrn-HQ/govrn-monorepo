@@ -76,7 +76,8 @@ const permissions = shield(
       guilds: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
       getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
-      getContributionCount: or(isAuthenticated, hasToken),
+      getDaoContributionCountByUser: or(isAuthenticated, hasToken),
+      getDaoContributionCount: or(isAuthenticated, hasToken),
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       users: hasToken,
       jobRuns: hasToken,
@@ -84,6 +85,7 @@ const permissions = shield(
       linearIssues: hasToken,
       contributionStatuses: hasToken,
     },
+    ContributionCountByUser: or(isAuthenticated, hasToken),
     ContributionCountByDate: or(isAuthenticated, hasToken),
     ContributionCountByActivityType: or(isAuthenticated, hasToken),
     Mutation: {

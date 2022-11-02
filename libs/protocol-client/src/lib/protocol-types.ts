@@ -2530,6 +2530,12 @@ export type ContributionCountByDate = {
   name: Scalars['String'];
 };
 
+export type ContributionCountByUser = {
+  count: Scalars['Float'];
+  display_name?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
 export type ContributionCountOrderByAggregateInput = {
   activity_type_id?: InputMaybe<SortOrder>;
   chain_id?: InputMaybe<SortOrder>;
@@ -10710,9 +10716,10 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
-  getContributionCount: TotalContributionCount;
   getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
+  getDaoContributionCount: Scalars['Int'];
+  getDaoContributionCountByUser: Array<ContributionCountByUser>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
@@ -11421,11 +11428,6 @@ export type QueryFindFirstUserActivityArgs = {
 };
 
 
-export type QueryGetContributionCountArgs = {
-  where: GetContributionInput;
-};
-
-
 export type QueryGetContributionCountByActivityTypeArgs = {
   where: GetContributionInput;
 };
@@ -11433,6 +11435,16 @@ export type QueryGetContributionCountByActivityTypeArgs = {
 
 export type QueryGetContributionCountByDateForUserInRangeArgs = {
   where: GetUserContributionCountInput;
+};
+
+
+export type QueryGetDaoContributionCountArgs = {
+  where: GetContributionInput;
+};
+
+
+export type QueryGetDaoContributionCountByUserArgs = {
+  where: GetContributionInput;
 };
 
 
@@ -12028,11 +12040,6 @@ export type StringWithAggregatesFilter = {
   not?: InputMaybe<NestedStringWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
-};
-
-export type TotalContributionCount = {
-  guildContributionCount?: Maybe<Scalars['Float']>;
-  userContributionCount?: Maybe<Scalars['Float']>;
 };
 
 export type TwitterAccount = {
@@ -14646,12 +14653,19 @@ export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
 
 export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string, guild_id?: number | null, name: string }> };
 
-export type GetContributionCountQueryVariables = Exact<{
+export type GetDaoContributionCountQueryVariables = Exact<{
   where: GetContributionInput;
 }>;
 
 
-export type GetContributionCountQuery = { result: { userContributionCount?: number | null, guildContributionCount?: number | null } };
+export type GetDaoContributionCountQuery = { result: number };
+
+export type GetDaoContributionCountByUserQueryVariables = Exact<{
+  where: GetContributionInput;
+}>;
+
+
+export type GetDaoContributionCountByUserQuery = { result: Array<{ count: number, display_name?: string | null, user_id?: number | null }> };
 
 export type GetContributionCountByActivityTypeQueryVariables = Exact<{
   where: GetContributionInput;
@@ -15353,11 +15367,17 @@ export const GetContributionCountByDateForUserInRangeDocument = gql`
   }
 }
     `;
-export const GetContributionCountDocument = gql`
-    query getContributionCount($where: GetContributionInput!) {
-  result: getContributionCount(where: $where) {
-    userContributionCount
-    guildContributionCount
+export const GetDaoContributionCountDocument = gql`
+    query getDaoContributionCount($where: GetContributionInput!) {
+  result: getDaoContributionCount(where: $where)
+}
+    `;
+export const GetDaoContributionCountByUserDocument = gql`
+    query getDaoContributionCountByUser($where: GetContributionInput!) {
+  result: getDaoContributionCountByUser(where: $where) {
+    count
+    display_name
+    user_id
   }
 }
     `;
@@ -15655,8 +15675,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getContributionCountByDateForUserInRange(variables: GetContributionCountByDateForUserInRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountByDateForUserInRangeQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountByDateForUserInRangeQuery>(GetContributionCountByDateForUserInRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByDateForUserInRange', 'query');
     },
-    getContributionCount(variables: GetContributionCountQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountQuery>(GetContributionCountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCount', 'query');
+    getDaoContributionCount(variables: GetDaoContributionCountQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDaoContributionCountQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetDaoContributionCountQuery>(GetDaoContributionCountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDaoContributionCount', 'query');
+    },
+    getDaoContributionCountByUser(variables: GetDaoContributionCountByUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDaoContributionCountByUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetDaoContributionCountByUserQuery>(GetDaoContributionCountByUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDaoContributionCountByUser', 'query');
     },
     getContributionCountByActivityType(variables: GetContributionCountByActivityTypeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountByActivityTypeQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountByActivityTypeQuery>(GetContributionCountByActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByActivityType', 'query');

@@ -1,24 +1,32 @@
-import { patch, IPFS } from '@govrn/protocol-client';
+import {
+  batch,
+  IPFS,
+  MintedContributionSchemaV1,
+} from '@govrn/protocol-client';
+import { INFURA_PROJECT_ID, INFURA_PROJECT_SECRET } from '../utils/constants';
 
 export const uploadFileIpfs = async (file: File, onlyHash = true) => {
-  const ipfs = IPFS(
-    import.meta.env.VITE_INFURA_PROJECT_ID,
-    import.meta.env.VITE_INFURA_PROJECT_SECRET,
-  );
+  const ipfs = new IPFS(INFURA_PROJECT_ID, INFURA_PROJECT_SECRET);
   return await ipfs.uploadFileIPFS(file, onlyHash);
 };
-export const bulkStoreIpfs = async (params: StoreIpfsParam[]) => {
-  const ipfs = IPFS(
-    import.meta.env.VITE_INFURA_PROJECT_ID,
-    import.meta.env.VITE_INFURA_PROJECT_SECRET,
+
+export const storeIpfs = async (content: MintedContributionSchemaV1) => {
+  const ipfs = new IPFS(INFURA_PROJECT_ID, INFURA_PROJECT_SECRET);
+  return await ipfs.storeContributionMetadata(content);
+};
+
+export const bulkStoreIpfs = async (params: MintedContributionSchemaV1[]) => {
+  const ipfs = new IPFS(INFURA_PROJECT_ID, INFURA_PROJECT_SECRET);
+
+  return await batch<MintedContributionSchemaV1, number>(
+    params,
+    async (item, index) => {
+      return {
+        index,
+        value: await ipfs.storeContributionMetadata(item.content),
+      };
+    },
   );
-  return (
-    await patch(
-      params.map(
-        async content => await ipfs.storeContributionMetadata(content),
-      ),
-    )
-  ).map((result, index) => ({ index, ...result }));
 };
 
 // 1. some clean up
