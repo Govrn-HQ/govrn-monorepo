@@ -43,7 +43,6 @@ const ContributionMembersPieShell = ({
 
   return (
     <ContributionMembersPie
-      // contributionMembersData={mockData}
       contributionMembersData={contributionMembersData}
       isFetching={isFetching}
       isLoading={isLoading}

@@ -8,7 +8,7 @@ type ContributionMembersCount = {
   user_id?: number | null | undefined;
 };
 interface ContributionTypesPieProps {
-  contributionMembersData: ContributionMembersCount[];
+  contributionMembersData: ContributionMembersCount[] | undefined;
   isFetching: boolean;
   isLoading: boolean;
   isError: boolean;
