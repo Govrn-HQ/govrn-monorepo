@@ -3,13 +3,9 @@ import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
 import { TODAY_DATE, YEAR } from '../utils/constants';
+import { formatDate } from '../utils/date';
 import { subWeeks } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
-
-interface CustomTooltipDailyContributionsProps extends CalendarTooltipProps {
-  daoId: number;
-  date: Date;
-}
 
 type ContributionCount = {
   date: string;
@@ -21,8 +17,10 @@ interface ContributionsByDateChartProps {
   isLoading: boolean;
   isError: boolean;
   daoId: number;
-  // customTooltip?: React.FC<CalendarTooltipProps> | undefined;
-  customTooltip?: any;
+}
+
+interface CustomTooltipDailyContributionsProps extends CalendarTooltipProps {
+  date: Date;
 }
 
 const brandColors = GovrnTheme.colors.brand.primary;
@@ -43,7 +41,6 @@ const ContributionsByDateChart = ({
   isFetching,
   isLoading,
   isError,
-  customTooltip,
 }: ContributionsByDateChartProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount?.map(contribution => {
@@ -64,32 +61,17 @@ const ContributionsByDateChart = ({
     return <GovrnSpinner />;
   }
 
-  const CustomTooltipDailyContributions = data => {
-    console.log('data', data);
-    console.log('data day', data.day);
-    const {
-      isFetching,
-      data: dailyContributions,
-      isLoading,
-      isError,
-    } = useContributionList({
+  const CustomTooltipDailyContributions = ({
+    date,
+    day,
+  }: CustomTooltipDailyContributionsProps) => {
+    const { data: dailyContributions } = useContributionList({
       where: {
         guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
-        date_of_engagement: { equals: data.date },
+        date_of_engagement: { equals: date },
       },
     });
 
-    console.log('daily contributions', dailyContributions);
-
-    if (isError) {
-      return (
-        <Text>An error occurred fetching the DAO's recent Contributions.</Text>
-      );
-    }
-
-    if (isFetching || isLoading) {
-      return <GovrnSpinner />;
-    }
     return (
       <Flex
         direction="column"
@@ -98,9 +80,17 @@ const ContributionsByDateChart = ({
         bg="white"
         padding={2}
         boxShadow="md"
+        flexGrow={1}
+        width="fit-content"
       >
-        <Text>Day: {data.day}</Text>
-        <Text>Total: {dailyContributions?.length}</Text>
+        <Text>{formatDate(day)}</Text>
+        {dailyContributions?.map(contribution => (
+          <Flex>
+            <Text>
+              {contribution.name} - {contribution.user.name}
+            </Text>
+          </Flex>
+        ))}
       </Flex>
     );
   };
@@ -144,7 +134,6 @@ const ContributionsByDateChart = ({
             }
             dayBorderWidth={2}
             dayBorderColor="#ffffff"
-            // tooltip={customTooltip}
             tooltip={CustomTooltipDailyContributions}
           />
         )}
