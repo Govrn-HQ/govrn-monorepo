@@ -9,7 +9,6 @@ const useContributionMetadataStore = () => {
       const ipfs = new IPFS(INFURA_PROJECT_ID, INFURA_PROJECT_SECRET);
       return await ipfs.storeContributionMetadata({
         ...data,
-        schema: 'example',
       });
     },
     {
