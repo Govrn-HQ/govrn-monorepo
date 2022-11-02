@@ -77,6 +77,7 @@ export async function getContribution(data: { tokenId: number }) {
     throw new Error('Contribution must exist for this attestation!');
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
 
