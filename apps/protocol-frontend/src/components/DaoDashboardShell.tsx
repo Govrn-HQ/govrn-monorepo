@@ -113,7 +113,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             </Heading>
           </Flex>
           <Flex
-            direction={{ base: 'row', lg: 'column' }}
+            direction={{ base: 'column' }}
             justifyContent="center"
             alignItems="flex-start"
             width="100%"
