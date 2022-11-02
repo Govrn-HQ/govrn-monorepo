@@ -11,14 +11,8 @@ export type ListAttestationsQueryVariables = Types.Exact<{
   orderDirection?: Types.OrderDirection;
 }>;
 
-export type ListAttestationsQuery = {
-  attestations: Array<{
-    id: string;
-    attestor: string;
-    confidence: number;
-    contribution?: { id: string } | undefined;
-  }>;
-};
+
+export type ListAttestationsQuery = { attestations: Array<{ id: string, attestor: string, confidence: number, txHash: string, contribution?: { id: string, txHash: string } | undefined }> };
 
 export type ListContributionsQueryVariables = Types.Exact<{
   where?: Types.Contribution_Filter;
@@ -28,123 +22,73 @@ export type ListContributionsQueryVariables = Types.Exact<{
   orderDirection?: Types.OrderDirection;
 }>;
 
-export type ListContributionsQuery = {
-  contributions: Array<{
-    id: string;
-    address: string;
-    contributionId: string;
-    attestations?: Array<{ id: string }> | undefined;
-  }>;
-};
+
+export type ListContributionsQuery = { contributions: Array<{ id: string, address: string, contributionId: string, txHash: string, attestations?: Array<{ id: string, txHash: string }> | undefined }> };
 
 export const AttestationFieldsFragmentDoc = gql`
-  fragment attestationFields on Attestation {
+    fragment attestationFields on Attestation {
+  id
+  attestor
+  confidence
+  contribution {
     id
-    attestor
-    confidence
-    contribution {
-      id
-    }
+    txHash
   }
-`;
+  txHash
+}
+    `;
 export const ContributionFieldsFragmentDoc = gql`
-  fragment contributionFields on Contribution {
+    fragment contributionFields on Contribution {
+  id
+  address
+  attestations {
     id
-    address
-    attestations {
-      id
-    }
-    contributionId
+    txHash
   }
-`;
+  contributionId
+  txHash
+}
+    `;
 export const ListAttestationsDocument = gql`
-  query listAttestations(
-    $where: Attestation_filter! = {}
-    $skip: Int! = 0
-    $first: Int! = 100
-    $orderBy: Attestation_orderBy! = id
-    $orderDirection: OrderDirection! = asc
+    query listAttestations($where: Attestation_filter! = {}, $skip: Int! = 0, $first: Int! = 100, $orderBy: Attestation_orderBy! = id, $orderDirection: OrderDirection! = asc) {
+  attestations: attestations(
+    where: $where
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
   ) {
-    attestations: attestations(
-      where: $where
-      skip: $skip
-      first: $first
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      ...attestationFields
-    }
+    ...attestationFields
   }
-  ${AttestationFieldsFragmentDoc}
-`;
+}
+    ${AttestationFieldsFragmentDoc}`;
 export const ListContributionsDocument = gql`
-  query listContributions(
-    $where: Contribution_filter! = {}
-    $skip: Int! = 0
-    $first: Int! = 100
-    $orderBy: Contribution_orderBy! = id
-    $orderDirection: OrderDirection! = asc
+    query listContributions($where: Contribution_filter! = {}, $skip: Int! = 0, $first: Int! = 100, $orderBy: Contribution_orderBy! = id, $orderDirection: OrderDirection! = asc) {
+  contributions: contributions(
+    where: $where
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
   ) {
-    contributions: contributions(
-      where: $where
-      skip: $skip
-      first: $first
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      ...contributionFields
-    }
+    ...contributionFields
   }
-  ${ContributionFieldsFragmentDoc}
-`;
+}
+    ${ContributionFieldsFragmentDoc}`;
 
-export type SdkFunctionWrapper = <T>(
-  action: (requestHeaders?: Record<string, string>) => Promise<T>,
-  operationName: string,
-  operationType?: string,
-) => Promise<T>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
-const defaultWrapper: SdkFunctionWrapper = (
-  action,
-  _operationName,
-  _operationType,
-) => action();
 
-export function getSdk(
-  client: GraphQLClient,
-  withWrapper: SdkFunctionWrapper = defaultWrapper,
-) {
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    listAttestations(
-      variables?: ListAttestationsQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers'],
-    ): Promise<ListAttestationsQuery> {
-      return withWrapper(
-        wrappedRequestHeaders =>
-          client.request<ListAttestationsQuery>(
-            ListAttestationsDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'listAttestations',
-        'query',
-      );
+    listAttestations(variables?: ListAttestationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListAttestationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListAttestationsQuery>(ListAttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listAttestations', 'query');
     },
-    listContributions(
-      variables?: ListContributionsQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers'],
-    ): Promise<ListContributionsQuery> {
-      return withWrapper(
-        wrappedRequestHeaders =>
-          client.request<ListContributionsQuery>(
-            ListContributionsDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'listContributions',
-        'query',
-      );
-    },
+    listContributions(variables?: ListContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListContributionsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListContributionsQuery>(ListContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listContributions', 'query');
+    }
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;

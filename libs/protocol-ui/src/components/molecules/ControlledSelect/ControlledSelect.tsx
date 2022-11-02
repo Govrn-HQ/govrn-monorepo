@@ -1,23 +1,6 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import { Stack, Box, Text } from '@chakra-ui/react';
-import customSelectStyles from './selectStyles';
-import customSelectThemeColors from './selectTheme';
-import FormLabel from '../../atoms/FormLabel';
-import HelperText from '../../atoms/HelperText';
-import ErrorMessage from '../../atoms/ErrorMessage';
-
-type Errors = {
-  [name: string]: {
-    label?: {
-      message?: string;
-    };
-    value?: {
-      message?: string;
-    };
-    message: string;
-  };
-};
 
 export type Option =
   | {
@@ -34,22 +17,20 @@ export interface ControlledSelectProps {
   label?: string;
   placeholder?: string;
   defaultValue?: Option | Option[];
-  id?: any;
+  id?: string;
   tip?: string;
   options: Option[];
   isRequired?: boolean;
   isMulti?: boolean;
   isClearable?: boolean;
   onChange?: (option: { value: number; label: string }) => void;
-  isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
-  [x: string]: any;
+  isSearchable?: boolean;
 }
 
 const ControlledSelect: React.FC<ControlledSelectProps> = ({
   label,
-
   tip,
   placeholder,
   defaultValue,
@@ -57,11 +38,12 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
   isMulti,
   isClearable,
   onChange,
-  isDisabled,
   value,
+  isSearchable,
+  ...props
 }: ControlledSelectProps) => {
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} width="100%">
       {label && (
         <Text fontSize="" color="gray.800">
           {label}
@@ -77,11 +59,11 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
           options={options}
           defaultValue={defaultValue}
           placeholder={placeholder}
-          isClearable={isClearable}
           isMulti={isMulti}
           onChange={onChange}
-          isDisabled={isDisabled}
           value={value}
+          isSearchable={isSearchable}
+          {...props}
         />
       </Box>
     </Stack>

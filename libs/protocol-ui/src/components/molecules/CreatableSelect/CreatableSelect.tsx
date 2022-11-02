@@ -1,33 +1,24 @@
 import React from 'react';
 import Creatable from 'react-select/creatable';
+import SelectComponents from 'react-select';
 import { Controller } from 'react-hook-form';
 import { Box, FormControl, Stack } from '@chakra-ui/react';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
-import {components} from 'react-select';
+import { components } from 'react-select';
 
 export function SelectContainer(props: any) {
   return (
-     <components.SelectContainer
-        {...props}
-        innerProps={Object.assign({}, props.innerProps, { 'data-cy': 'daoCreatableSelect-testing' })}
-     />
+    <components.SelectContainer
+      {...props}
+      innerProps={Object.assign({}, props.innerProps, {
+        'data-cy': 'daoCreatableSelect-testing',
+      })}
+    />
   );
 }
-
-type Errors = {
-  [name: string]: {
-    label?: {
-      message?: string;
-    };
-    value?: {
-      message?: string;
-    };
-    message: string;
-  };
-};
 
 type Option = {
   label: string;
@@ -39,7 +30,7 @@ export interface CreatableSelectProps {
   label?: string;
   placeholder?: string;
   defaultValue?: Option | Option[];
-  id?: any;
+  id?: string;
   tip?: string;
   options: Option[];
   isRequired?: boolean;
@@ -50,9 +41,7 @@ export interface CreatableSelectProps {
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
   value?: any;
-  components?: any;
-
-  [x: string]: any;
+  components?: SelectComponents;
 }
 
 const CreatableSelect: React.FC<CreatableSelectProps> = ({
@@ -68,7 +57,7 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
   isDisabled,
   value,
   localForm,
-  components
+  components,
 }: CreatableSelectProps) => {
   const {
     control,

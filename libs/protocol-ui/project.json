@@ -25,7 +25,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/protocol-ui/**/*.{ts,tsx,js,jsx}"],
-        "maxWarnings": 34
+        "maxWarnings": 5
       }
     },
     "tsc": {

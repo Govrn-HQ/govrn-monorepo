@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { useUser } from '../contexts/UserContext';
-import { subWeeks } from 'date-fns';
 
 const useContributionCountInRange = (args: {
   startDate: Date;
@@ -21,7 +20,6 @@ const useContributionCountInRange = (args: {
       return await govrn.custom.getContributionCountByDateForUserInRange({
         id: userData?.id,
         ...args,
-        startDate: args.startDate,
       });
     },
   );

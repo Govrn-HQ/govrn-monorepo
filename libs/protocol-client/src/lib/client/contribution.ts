@@ -6,6 +6,7 @@ import {
   ListContributionsQuery,
   ListContributionsQueryVariables,
   UpdateContributionMutationVariables,
+  UpsertContributionMutationVariables,
 } from '../protocol-types';
 import {
   AttestArgs,
@@ -15,7 +16,7 @@ import {
 } from '@govrn/govrn-contract-client';
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
-import patch from '../utils/patch';
+import batch from '../utils/batch';
 // noinspection ES6PreferShortImport
 import { ChainIdError } from '../utils/errors';
 
@@ -85,6 +86,10 @@ export class Contribution extends BaseClient {
     return contributions.updateContribution;
   }
 
+  public async upsert(args: UpsertContributionMutationVariables) {
+    return await this.sdk.upsertContribution(args);
+  }
+
   public async bulkMint(
     networkConfig: NetworkConfig,
     signer: ethers.Signer,
@@ -122,29 +127,27 @@ export class Contribution extends BaseClient {
         };
       }, {});
 
-    return await patch(
-      contributions.map(async (c, idx) => {
-        const onChainId = onChainIds[idx];
+    return await batch(contributions, async (c, idx) => {
+      const onChainId = onChainIds[idx];
 
-        // TODO: Should we store it anyway as `staged` contribution?
-        if (!onChainId) {
-          throw new ChainIdError();
-        }
-        if (c.id) {
-          return await this._updateUserOnChainContribution({
-            ...c,
-            onChainId: onChainId?.toNumber(),
-            txHash: transaction.hash,
-          });
-        }
-
-        return await this._createOnChainUserContribution({
+      // TODO: Should we store it anyway as `staged` contribution?
+      if (!onChainId) {
+        throw new ChainIdError();
+      }
+      if (c.id) {
+        return await this._updateUserOnChainContribution({
           ...c,
           onChainId: onChainId?.toNumber(),
           txHash: transaction.hash,
         });
-      }),
-    );
+      }
+
+      return await this._createOnChainUserContribution({
+        ...c,
+        onChainId: onChainId?.toNumber(),
+        txHash: transaction.hash,
+      });
+    });
   }
 
   public async mint(

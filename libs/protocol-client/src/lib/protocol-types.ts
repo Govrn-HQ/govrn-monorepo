@@ -2517,11 +2517,23 @@ export type ContributionCountAggregate = {
   user_id: Scalars['Int'];
 };
 
+export type ContributionCountByActivityType = {
+  activity_id: Scalars['Float'];
+  activity_name: Scalars['String'];
+  count: Scalars['Float'];
+};
+
 export type ContributionCountByDate = {
   count: Scalars['Float'];
   date: Scalars['String'];
   guild_id?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
+};
+
+export type ContributionCountByUser = {
+  count: Scalars['Float'];
+  display_name?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['Float']>;
 };
 
 export type ContributionCountOrderByAggregateInput = {
@@ -4172,6 +4184,13 @@ export type FloatNullableWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['Float']>;
   not?: InputMaybe<NestedFloatNullableWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['Float']>>;
+};
+
+export type GetContributionInput = {
+  endDate?: InputMaybe<Scalars['DateTime']>;
+  guildId?: InputMaybe<Scalars['Float']>;
+  startDate?: InputMaybe<Scalars['DateTime']>;
+  userId?: InputMaybe<Scalars['Float']>;
 };
 
 export type GetOrCreateActivityTypeInput = {
@@ -10697,7 +10716,10 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
+  getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
+  getDaoContributionCount: Scalars['Int'];
+  getDaoContributionCountByUser: Array<ContributionCountByUser>;
   getUser: User;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
@@ -11406,8 +11428,23 @@ export type QueryFindFirstUserActivityArgs = {
 };
 
 
+export type QueryGetContributionCountByActivityTypeArgs = {
+  where: GetContributionInput;
+};
+
+
 export type QueryGetContributionCountByDateForUserInRangeArgs = {
   where: GetUserContributionCountInput;
+};
+
+
+export type QueryGetDaoContributionCountArgs = {
+  where: GetContributionInput;
+};
+
+
+export type QueryGetDaoContributionCountByUserArgs = {
+  where: GetContributionInput;
 };
 
 
@@ -14616,6 +14653,27 @@ export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
 
 export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string, guild_id?: number | null, name: string }> };
 
+export type GetDaoContributionCountQueryVariables = Exact<{
+  where: GetContributionInput;
+}>;
+
+
+export type GetDaoContributionCountQuery = { result: number };
+
+export type GetDaoContributionCountByUserQueryVariables = Exact<{
+  where: GetContributionInput;
+}>;
+
+
+export type GetDaoContributionCountByUserQuery = { result: Array<{ count: number, display_name?: string | null, user_id?: number | null }> };
+
+export type GetContributionCountByActivityTypeQueryVariables = Exact<{
+  where: GetContributionInput;
+}>;
+
+
+export type GetContributionCountByActivityTypeQuery = { result: Array<{ count: number, activity_name: string, activity_id: number }> };
+
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;
 }>;
@@ -14673,6 +14731,15 @@ export type UpdateContributionMutationVariables = Exact<{
 
 
 export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+
+export type UpsertContributionMutationVariables = Exact<{
+  where: ContributionWhereUniqueInput;
+  create: ContributionCreateInput;
+  update: ContributionUpdateInput;
+}>;
+
+
+export type UpsertContributionMutation = { upsertContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type GetContributionStatusQueryVariables = Exact<{
   name: Scalars['String'];
@@ -14799,6 +14866,15 @@ export type CreateUserAttestationMutationVariables = Exact<{
 
 
 export type CreateUserAttestationMutation = { createUserAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+
+export type ChainFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, name: string, chain_id: string };
+
+export type GetChainQueryVariables = Exact<{
+  where: ChainWhereUniqueInput;
+}>;
+
+
+export type GetChainQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string, chain_id: string } | null };
 
 export const JobFieldsFragmentFragmentDoc = gql`
     fragment JobFieldsFragment on JobRun {
@@ -15047,6 +15123,15 @@ export const PartnerFragmentFragmentDoc = gql`
   }
 }
     `;
+export const ChainFragmentFragmentDoc = gql`
+    fragment ChainFragment on Chain {
+  id
+  createdAt
+  updatedAt
+  name
+  chain_id
+}
+    `;
 export const ListJobRunsDocument = gql`
     query listJobRuns($where: JobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [JobRunOrderByWithRelationInput!]) {
   result: jobRuns(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
@@ -15282,6 +15367,29 @@ export const GetContributionCountByDateForUserInRangeDocument = gql`
   }
 }
     `;
+export const GetDaoContributionCountDocument = gql`
+    query getDaoContributionCount($where: GetContributionInput!) {
+  result: getDaoContributionCount(where: $where)
+}
+    `;
+export const GetDaoContributionCountByUserDocument = gql`
+    query getDaoContributionCountByUser($where: GetContributionInput!) {
+  result: getDaoContributionCountByUser(where: $where) {
+    count
+    display_name
+    user_id
+  }
+}
+    `;
+export const GetContributionCountByActivityTypeDocument = gql`
+    query getContributionCountByActivityType($where: GetContributionInput!) {
+  result: getContributionCountByActivityType(where: $where) {
+    count
+    activity_name
+    activity_id
+  }
+}
+    `;
 export const CreateContributionDocument = gql`
     mutation createContribution($data: ContributionCreateInput!) {
   createContribution(data: $data) {
@@ -15334,6 +15442,13 @@ export const BulkCreateContributionDocument = gql`
 export const UpdateContributionDocument = gql`
     mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
   updateContribution(data: $data, where: $where) {
+    ...ContributionFragment
+  }
+}
+    ${ContributionFragmentFragmentDoc}`;
+export const UpsertContributionDocument = gql`
+    mutation upsertContribution($where: ContributionWhereUniqueInput!, $create: ContributionCreateInput!, $update: ContributionUpdateInput!) {
+  upsertContribution(where: $where, create: $create, update: $update) {
     ...ContributionFragment
   }
 }
@@ -15458,6 +15573,13 @@ export const CreateUserAttestationDocument = gql`
   }
 }
     ${AttestationFragmentFragmentDoc}`;
+export const GetChainDocument = gql`
+    query getChain($where: ChainWhereUniqueInput!) {
+  result: chain(where: $where) {
+    ...ChainFragment
+  }
+}
+    ${ChainFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -15553,6 +15675,15 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getContributionCountByDateForUserInRange(variables: GetContributionCountByDateForUserInRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountByDateForUserInRangeQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountByDateForUserInRangeQuery>(GetContributionCountByDateForUserInRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByDateForUserInRange', 'query');
     },
+    getDaoContributionCount(variables: GetDaoContributionCountQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDaoContributionCountQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetDaoContributionCountQuery>(GetDaoContributionCountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDaoContributionCount', 'query');
+    },
+    getDaoContributionCountByUser(variables: GetDaoContributionCountByUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDaoContributionCountByUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetDaoContributionCountByUserQuery>(GetDaoContributionCountByUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDaoContributionCountByUser', 'query');
+    },
+    getContributionCountByActivityType(variables: GetContributionCountByActivityTypeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionCountByActivityTypeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetContributionCountByActivityTypeQuery>(GetContributionCountByActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionCountByActivityType', 'query');
+    },
     createContribution(variables: CreateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateContributionMutation>(CreateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createContribution', 'mutation');
     },
@@ -15576,6 +15707,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateContribution(variables: UpdateContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateContributionMutation>(UpdateContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateContribution', 'mutation');
+    },
+    upsertContribution(variables: UpsertContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertContributionMutation>(UpsertContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertContribution', 'mutation');
     },
     getContributionStatus(variables: GetContributionStatusQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetContributionStatusQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetContributionStatusQuery>(GetContributionStatusDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContributionStatus', 'query');
@@ -15621,6 +15755,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createUserAttestation(variables: CreateUserAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserAttestationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserAttestationMutation>(CreateUserAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserAttestation', 'mutation');
+    },
+    getChain(variables: GetChainQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetChainQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetChainQuery>(GetChainDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getChain', 'query');
     }
   };
 }

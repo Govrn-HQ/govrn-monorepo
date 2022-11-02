@@ -43,7 +43,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
       agreementCheckboxHandler();
       setMinting(true);
       if (contributions.length > 1) {
-        const bulkStoreResult = await bulkStoreIpfs(
+        const { results: bulkStoreResult } = await bulkStoreIpfs(
           contributions.map(c => ({
             content: {
               name: c.original.name,
@@ -52,15 +52,10 @@ const MintModal = ({ contributions }: MintModalProps) => {
             },
           })),
         );
-        const bulkResults = [];
-        for (const result of bulkStoreResult) {
-          if (result.status === 'fulfilled') {
-            bulkResults.push({
-              ...contributions[result.index].original,
-              ipfsContentUri: result.value,
-            });
-          }
-        }
+        const bulkResults = bulkStoreResult.map(({ index, value }) => ({
+          ...contributions[index].original,
+          ipfsContentUri: value,
+        }));
 
         // Mint successfully stored contributions in IPFS.
         await bulkMintContributions(bulkResults);
