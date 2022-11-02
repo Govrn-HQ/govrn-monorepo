@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
+import WeeklyActiveMembersShell from './WeeklyActiveMembersShell';
 import MonthlyContributionsShell from './MonthlyContributionsShell';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
-import { MONTH, DEFAULT_DATE_RANGES } from '../utils/constants';
-
 import { subWeeks } from 'date-fns';
+import { MONTH, DEFAULT_DATE_RANGES } from '../utils/constants';
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
@@ -137,18 +137,11 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               <MonthlyContributionsShell daoId={daoId} />
             </Flex>
           </Flex>
+          <Flex direction="column" gap={2}>
+            <WeeklyActiveMembersShell daoId={daoId} />
+          </Flex>
           <Flex direction="column" gap={2} padding={2}>
             <RecentContributionsTableShell daoId={daoId} />
-          </Flex>
-          <Flex direction="column" gap={2}>
-            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
-              Active Members
-            </Heading>
-          </Flex>
-          <Flex direction="column" gap={2}>
-            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
-              Contributors This Month
-            </Heading>
           </Flex>
         </Flex>
       </Flex>
