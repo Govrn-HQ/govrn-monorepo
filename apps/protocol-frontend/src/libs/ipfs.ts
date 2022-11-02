@@ -1,6 +1,6 @@
 import { create, CID } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
-import patch from '@govrn/protocol-client';
+import batch from '@govrn/protocol-client';
 
 type StoreIpfsParam = {
   content: { name: string; details: string; proof: string } | ArrayBuffer;
@@ -58,10 +58,7 @@ export const storeIpfs = async (
 };
 
 export const bulkStoreIpfs = async (params: StoreIpfsParam[]) => {
-  return (await patch(params.map(async i => await storeIpfs(i.content)))).map(
-    (result, index) => ({
-      index,
-      ...result,
-    }),
-  );
+  return await batch(params, async (item, index) => {
+    return { index, value: await storeIpfs(item.content) };
+  });
 };

@@ -5,6 +5,7 @@ import PageHeading from '../components/PageHeading';
 import ContributionsByDateShell from './ContributionsByDateShell';
 import MonthlyContributionsShell from './MonthlyContributionsShell';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
+import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { MONTH, DEFAULT_DATE_RANGES } from '../utils/constants';
 
@@ -113,24 +114,29 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             </Heading>
             <ContributionsByDateShell guildIds={[daoId]} />
           </Flex>
-          <Flex direction="column" gap={2}>
-            <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
-              Contributions By Member
-            </Heading>
-            <MonthlyContributionsShell daoId={daoId} />
-          </Flex>
           <Flex
-            direction={{ base: 'column', lg: 'column' }}
-            alignItems={{ base: 'center', lg: 'flex-start' }}
-            gap={2}
+            direction={{ base: 'column' }}
             justifyContent="center"
+            alignItems="flex-start"
+            width="100%"
+            gap={{ base: 0, lg: 2 }}
           >
+            <Flex direction="column" gap={2}>
+              <ContributionMembersPieShell
+                daoId={daoId}
+                startDate={startDate}
+                endDate={endDate}
+              />
+            </Flex>
             <Flex direction="column" gap={2}>
               <ContributionTypesPieShell
                 daoId={daoId}
                 startDate={startDate}
                 endDate={endDate}
               />
+            </Flex>
+            <Flex direction="column" gap={2}>
+              <MonthlyContributionsShell daoId={daoId} />
             </Flex>
           </Flex>
           <Flex direction="column" gap={2} padding={2}>

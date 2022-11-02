@@ -23,4 +23,3 @@ const useDaoContributionCountByUserInRange = (args: {
 };
 
 export default useDaoContributionCountByUserInRange;
-
