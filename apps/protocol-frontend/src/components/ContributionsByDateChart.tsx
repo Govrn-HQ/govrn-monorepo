@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
-import { ResponsiveTimeRange } from '@nivo/calendar';
-import { GovrnTheme } from '@govrn/protocol-ui';
+import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
+import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
 import { TODAY_DATE, YEAR } from '../utils/constants';
 import { subWeeks } from 'date-fns';
 
@@ -14,6 +14,7 @@ interface ContributionsByDateChartProps {
   isFetching: boolean;
   isLoading: boolean;
   isError: boolean;
+  customTooltip?: React.FC<CalendarTooltipProps> | undefined;
 }
 
 const brandColors = GovrnTheme.colors.brand.primary;
@@ -33,14 +34,26 @@ const ContributionsByDateChart = ({
   isFetching,
   isLoading,
   isError,
+  customTooltip,
 }: ContributionsByDateChartProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount?.map(contribution => {
     return {
       day: contribution.date,
       value: contribution.count,
+      member: 'Kevin Malone',
     };
   });
+
+  if (isError) {
+    return (
+      <Text>An error occurred fetching the DAO's recent Contributions.</Text>
+    );
+  }
+
+  if (isFetching || isLoading) {
+    return <GovrnSpinner />;
+  }
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
@@ -81,6 +94,7 @@ const ContributionsByDateChart = ({
             }
             dayBorderWidth={2}
             dayBorderColor="#ffffff"
+            tooltip={customTooltip}
           />
         )}
       </Flex>
