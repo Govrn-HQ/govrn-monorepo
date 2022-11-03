@@ -1,13 +1,10 @@
 import React from 'react';
 import { Flex, Box, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
-import {
-  TimeRange,
-  ResponsiveTimeRange,
-  CalendarTooltipProps,
-} from '@nivo/calendar';
+import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
+import { formatDate } from '../utils/date';
 import { TODAY_DATE, YEAR, BRAND_COLOR_MAP } from '../utils/constants';
-import { endOfDay, subWeeks } from 'date-fns';
+import { endOfDay, subWeeks, parse } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
 
 type ContributionCount = {
@@ -22,9 +19,9 @@ interface ContributionsByDateChartProps {
   daoId: number;
 }
 
-interface CustomTooltipDailyContributionsProps extends CalendarTooltipProps {
-  date: Date;
-}
+// interface CustomTooltipDailyContributionsProps extends CalendarTooltipProps {
+//   day:
+// }
 
 const brandColors = GovrnTheme.colors.brand.primary;
 
@@ -54,17 +51,16 @@ const ContributionsByDateChart = ({
   }
 
   const CustomTooltipDailyContributions = ({
-    date,
     day,
-  }: CustomTooltipDailyContributionsProps) => {
+    value,
+  }: CalendarTooltipProps) => {
     const { data: dailyContributions } = useContributionList({
       where: {
         guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
-        date_of_engagement: { equals: date },
+        date_of_engagement: { gte: day },
       },
     });
 
-    console.log('dailyContributions', dailyContributions);
     return (
       <Flex
         direction="column"
@@ -76,7 +72,9 @@ const ContributionsByDateChart = ({
         flexGrow={1}
         width="fit-content"
       >
-        <Text>{day}</Text>
+        <Text>
+          {day}: {value}
+        </Text>
         {dailyContributions?.map(contribution => (
           <Flex>
             <Text>

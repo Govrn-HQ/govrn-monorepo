@@ -5,6 +5,7 @@ import { ListContributionsQueryVariables } from '@govrn/protocol-client';
 import { formatDate } from '../utils/date';
 
 export const useContributionList = (args?: ListContributionsQueryVariables) => {
+  console.log('args', args);
   const { govrnProtocol: govrn } = useUser();
   const { isLoading, isFetching, isError, error, data } = useQuery(
     ['contributionList', args],
