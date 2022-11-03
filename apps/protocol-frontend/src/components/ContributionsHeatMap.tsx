@@ -3,7 +3,7 @@ import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange } from '@nivo/calendar';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
-import { brandColorMap } from '../utils/constants';
+import { BRAND_COLOR_MAP } from '../utils/constants';
 
 type ContributionCount = {
   date: string;
@@ -74,7 +74,7 @@ const ContributionsHeatMap = ({
         <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
           Less
         </Text>
-        {brandColorMap.map(color => (
+        {BRAND_COLOR_MAP.map(color => (
           <Box
             key={color}
             backgroundColor={color}

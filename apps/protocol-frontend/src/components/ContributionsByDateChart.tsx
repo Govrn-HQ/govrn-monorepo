@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
-import { TODAY_DATE, YEAR } from '../utils/constants';
+import { TODAY_DATE, YEAR, BRAND_COLOR_MAP } from '../utils/constants';
 import { formatDate } from '../utils/date';
 import { subWeeks } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
@@ -24,16 +24,6 @@ interface CustomTooltipDailyContributionsProps extends CalendarTooltipProps {
 }
 
 const brandColors = GovrnTheme.colors.brand.primary;
-
-const brandColorMap = [
-  '#ffb4e2',
-  '#fb84ce',
-  '#f854ba',
-  '#f526a6',
-  '#db0f8d',
-  '#ab076d',
-  '#76024e',
-];
 
 const ContributionsByDateChart = ({
   daoId,
@@ -146,7 +136,7 @@ const ContributionsByDateChart = ({
         <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
           Less
         </Text>
-        {brandColorMap.map(color => (
+        {BRAND_COLOR_MAP.map(color => (
           <Box
             key={color}
             backgroundColor={color}
