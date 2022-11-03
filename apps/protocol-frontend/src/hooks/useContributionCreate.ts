@@ -33,7 +33,7 @@ export const useContributionCreate = () => {
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
         queryClient.invalidateQueries(['ContributionGetCountYear']);
-        queryClient.invalidateQueries(['ContributionGetCount']);
+        queryClient.invalidateQueries(['contributionGetCount']);
 
         toast.success({
           title: 'Contribution Report Added',

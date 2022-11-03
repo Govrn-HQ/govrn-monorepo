@@ -10,8 +10,6 @@ const useContributionCountInRange = (args: {
 }) => {
   const { govrnProtocol: govrn } = useUser();
 
-  console.log('firing with args', args);
-
   const { isLoading, isFetching, isError, error, data } = useQuery(
     ['contributionGetCount', args],
     async () => {

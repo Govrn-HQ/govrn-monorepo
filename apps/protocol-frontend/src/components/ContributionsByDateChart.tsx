@@ -64,6 +64,7 @@ const ContributionsByDateChart = ({
       },
     });
 
+    console.log('dailyContributions', dailyContributions);
     return (
       <Flex
         direction="column"
@@ -156,7 +157,12 @@ const ContributionsByDateChart = ({
           justifyContent={{ base: 'center', lg: 'center' }}
           paddingX={{ base: 2, lg: 0 }}
         >
-          <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
+          <Text
+            as="span"
+            fontSize={{ base: 'xs', lg: 'sm' }}
+            fontWeight="normal"
+            paddingRight={1}
+          >
             Less
           </Text>
           {BRAND_COLOR_MAP.map(color => (
