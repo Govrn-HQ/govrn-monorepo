@@ -18,6 +18,7 @@ ContributionByDateShellProps) => {
     isError,
     data: contributionsByDate,
   } = useContributionCountInRange({
+    id: null,
     startDate: subWeeks(startOfDay(TODAY_DATE), YEAR),
     endDate: endOfDay(TODAY_DATE),
     guildIds,

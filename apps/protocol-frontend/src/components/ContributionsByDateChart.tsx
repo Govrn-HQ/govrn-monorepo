@@ -1,10 +1,9 @@
 import React from 'react';
-import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Box, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
 import { TODAY_DATE, YEAR, BRAND_COLOR_MAP } from '../utils/constants';
-import { formatDate } from '../utils/date';
-import { subWeeks } from 'date-fns';
+import { endOfDay, subWeeks } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
 
 type ContributionCount = {
@@ -37,7 +36,6 @@ const ContributionsByDateChart = ({
     return {
       day: contribution.date,
       value: contribution.count,
-      member: 'Kevin Malone',
     };
   });
 
@@ -73,7 +71,7 @@ const ContributionsByDateChart = ({
         flexGrow={1}
         width="fit-content"
       >
-        <Text>{formatDate(day)}</Text>
+        <Text>{day}</Text>
         {dailyContributions?.map(contribution => (
           <Flex>
             <Text>
@@ -89,11 +87,27 @@ const ContributionsByDateChart = ({
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
       <Flex
         direction="column"
-        minHeight={{ base: '5rem', lg: '10rem' }}
-        height={{ base: '5rem', lg: '10rem' }}
+        minHeight={{ base: '5rem', lg: '15rem' }}
+        height={{ base: '5rem', lg: '15rem' }}
         width="100%"
         maxWidth="100vw"
+        paddingY={{ base: '0', lg: '4' }}
+        paddingX={{ base: '0', lg: '4' }}
+        color="gray.700"
+        background="white"
+        boxShadow="sm"
+        borderRadius={{ base: 'none', md: 'md' }}
       >
+        <Heading
+          as="h3"
+          size="md"
+          color="gray.800"
+          fontWeight="normal"
+          paddingBottom={4}
+          textAlign="center"
+        >
+          Contributions By Date
+        </Heading>
         {contributionsCountMap?.length !== 0 && (
           <ResponsiveTimeRange
             data={
@@ -104,7 +118,7 @@ const ContributionsByDateChart = ({
                 : []
             }
             from={subWeeks(new Date(), YEAR)}
-            to={TODAY_DATE}
+            to={endOfDay(TODAY_DATE)}
             weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
             colors={[
@@ -127,26 +141,27 @@ const ContributionsByDateChart = ({
             tooltip={CustomTooltipDailyContributions}
           />
         )}
-      </Flex>
-      <Flex
-        direction="row"
-        alignItems="center"
-        justifyContent={{ base: 'flex-start', lg: 'center' }}
-      >
-        <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
-          Less
-        </Text>
-        {BRAND_COLOR_MAP.map(color => (
-          <Box
-            key={color}
-            backgroundColor={color}
-            width="15.36px"
-            height="15.36px"
-          />
-        ))}
-        <Text as="span" fontSize="sm" fontWeight="normal" paddingLeft={1}>
-          More
-        </Text>
+
+        <Flex
+          direction="row"
+          alignItems="center"
+          justifyContent={{ base: 'flex-start', lg: 'center' }}
+        >
+          <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
+            Less
+          </Text>
+          {BRAND_COLOR_MAP.map(color => (
+            <Box
+              key={color}
+              backgroundColor={color}
+              width="15.36px"
+              height="15.36px"
+            />
+          ))}
+          <Text as="span" fontSize="sm" fontWeight="normal" paddingLeft={1}>
+            More
+          </Text>
+        </Flex>
       </Flex>
     </Flex>
   );
