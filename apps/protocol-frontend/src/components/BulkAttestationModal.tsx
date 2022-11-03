@@ -28,17 +28,21 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const createAttestationsHandler = async (
     contributions: AttestationTableType[],
   ) => {
-    await bulkMintAttestation(
-      contributions.map(c => {
-        return {
-          name: c.name,
-          onChainId: c.onChainId,
-          confidence: 1,
-          confidenceName: 'Verified',
-          dateOfSubmission: 0,
-        };
-      }),
-    );
+    try {
+      await bulkMintAttestation(
+        contributions.map(c => {
+          return {
+            name: c.name,
+            onChainId: c.onChainId,
+            confidence: 1,
+            confidenceName: 'Verified',
+            dateOfSubmission: 0,
+          };
+        }),
+      );
+    } catch (e) {
+      return;
+    }
   };
 
   return (
