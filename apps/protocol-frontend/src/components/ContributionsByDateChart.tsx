@@ -1,7 +1,8 @@
-import React from 'react';
 import { Flex, Box, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
+import { TooltipWrapper } from '@nivo/tooltip';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
+import { formatDate } from '../utils/date';
 import { TODAY_DATE, YEAR, BRAND_COLOR_MAP } from '../utils/constants';
 import { endOfDay, subWeeks } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
@@ -58,30 +59,27 @@ const ContributionsByDateChart = ({
       },
     });
 
-    console.log('day', new Date(day));
-
     return (
-      <Flex
-        direction="column"
-        justifyContent="center"
-        alignItems="flex-start"
-        bg="white"
-        padding={2}
-        boxShadow="md"
-        flexGrow={1}
-        width="fit-content"
-      >
-        <Text>
-          {day}: {value}
-        </Text>
-        {dailyContributions?.map(contribution => (
-          <Flex>
+      <TooltipWrapper anchor="left" position={[0, 0]}>
+        <Flex
+          direction="column"
+          justifyContent="center"
+          alignItems="flex-start"
+          width={{ base: '10vw', lg: '25vw' }}
+          backgroundColor="white"
+          boxShadow="md"
+          padding={2}
+        >
+          <Text>
+            {formatDate(day)}: {value}
+          </Text>
+          {dailyContributions?.map(contribution => (
             <Text>
               {contribution.name} - {contribution.user.name}
             </Text>
-          </Flex>
-        ))}
-      </Flex>
+          ))}
+        </Flex>
+      </TooltipWrapper>
     );
   };
 
@@ -139,7 +137,7 @@ const ContributionsByDateChart = ({
               margin={
                 isMobile
                   ? { top: 20, right: 10, bottom: 0, left: 10 }
-                  : { top: 20, right: 20, bottom: 20, left: 20 }
+                  : { top: 20, right: 10, bottom: 20, left: 10 }
               }
               dayBorderWidth={2}
               dayBorderColor="#ffffff"
