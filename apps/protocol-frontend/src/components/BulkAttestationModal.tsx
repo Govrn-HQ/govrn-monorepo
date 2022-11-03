@@ -13,7 +13,7 @@ import { useUser } from '../contexts/UserContext';
 import { MdCheckCircle } from 'react-icons/all';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
-import useAttestationMint from '../hooks/useAttestationMint';
+import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
 
 interface BulkAttestationModalProps {
   contributions: AttestationTableType[];
@@ -21,18 +21,24 @@ interface BulkAttestationModalProps {
 
 const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
   const { userData } = useUser();
-  const { isLoading: attesting, mutateAsync: mintAttestation } =
-    useAttestationMint();
+  const { isLoading: attesting, mutateAsync: bulkMintAttestation } =
+    useAttestationBulkMint();
   const [currentAttestation] = useState(1);
 
-  const createAttestationsHandler = (contributions: AttestationTableType[]) => {
-    contributions.forEach(async contribution => {
-      try {
-        await mintAttestation(contribution);
-      } catch {
-        return;
-      }
-    });
+  const createAttestationsHandler = async (
+    contributions: AttestationTableType[],
+  ) => {
+    await bulkMintAttestation(
+      contributions.map(c => {
+        return {
+          name: c.name,
+          onChainId: c.onChainId,
+          confidence: 1,
+          confidenceName: 'Verified',
+          dateOfSubmission: 0,
+        };
+      }),
+    );
   };
 
   return (
