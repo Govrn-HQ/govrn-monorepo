@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
 import ContributionsByDateShell from './ContributionsByDateShell';
