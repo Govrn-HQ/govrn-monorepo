@@ -203,8 +203,8 @@ export class DeleteUserContributionArgs {
 
 @TypeGraphQL.InputType('GetUserContributionCountInput')
 export class GetContributionCountForUser {
-  @TypeGraphQL.Field(_type => Number)
-  id: number;
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  id?: number;
 
   @TypeGraphQL.Field(_type => Date)
   startDate: Date;
@@ -606,18 +606,30 @@ export class ContributionCustomResolver {
     // grouping by a derived field not yet supported in prisma
     // would need to group by date, not the datetime as is stored in postg*/
     // YYY-MM-DD hh:mm:ss.sss
-    const user_id = args.where.id;
+    const userId = args.where.id;
     const start = args.where.startDate;
     const end = args.where.endDate;
 
     let guildWhere = Prisma.sql`gc."guild_id" is NULL`;
-    const guildIds = [...args.where?.guildIds];
-    if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
-      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
-        guildIds,
-      )})  OR gc."guild_id" is NULL)`;
-    } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
-      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(guildIds)}))`;
+
+    if (args.where.guildIds){
+      const guildIds = [...args.where.guildIds];
+      if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
+        guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
+          guildIds,
+        )})  OR gc."guild_id" is NULL)`;
+      } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
+        guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(guildIds)}))`;
+      }
+    }
+
+    let userWhere = Prisma.sql`
+      gc."user_id" = ${userId} OR gc."user_id" is null
+    `; 
+    if (userId == null) {
+      userWhere = Prisma.sql`
+        ${userWhere} OR TRUE
+      `
     }
 
     return await prisma.$queryRaw<ContributionCountByDate>`
@@ -637,7 +649,6 @@ export class ContributionCustomResolver {
       	  WHERE ${guildWhere}
       )
 
-
       SELECT gc.guild_id,
              coalesce(gc.name, 'Unassigned') as name,
              d.dt                            as date,
@@ -649,7 +660,7 @@ export class ContributionCustomResolver {
 		      LEFT JOIN guild_contributions as gc
 					  ON gc.date_of_engagement::date = d.dt::date
       WHERE (d.dt BETWEEN ${start} AND ${end})
-        AND (gc."user_id" = ${user_id} OR gc."user_id" is null)
+        AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
   }
