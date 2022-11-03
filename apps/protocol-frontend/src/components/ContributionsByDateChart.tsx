@@ -140,7 +140,7 @@ const ContributionsByDateChart = ({
                   : []
               }
               from={subWeeks(new Date(), YEAR)}
-              to={endOfDay(TODAY_DATE)}
+              to={endOfDay(TODAY_DATE)} // inclusive of current day
               emptyColor="#eeeeee"
               weekdayTicks={isMobile ? [] : [1, 3, 5]}
               weekdayLegendOffset={isMobile ? -5 : 75} // forcing this to hide the days -- it renders as part of the dom in the svg even with an empty array

@@ -9,9 +9,7 @@ interface ContributionByDateShellProps {
 
 const ContributionByDateShell = ({
   guildIds,
-}: // startDate,
-// endDate,
-ContributionByDateShellProps) => {
+}: ContributionByDateShellProps) => {
   const {
     isFetching,
     isLoading,
