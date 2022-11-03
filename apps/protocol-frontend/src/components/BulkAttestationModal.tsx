@@ -41,7 +41,7 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
         }),
       );
     } catch (e) {
-      return;
+      console.error(e);
     }
   };
 
