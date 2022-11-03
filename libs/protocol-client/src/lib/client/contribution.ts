@@ -267,25 +267,27 @@ export class Contribution extends BaseClient {
     const transaction = await contract.bulkAttest(args);
     const transactionReceipt = await transaction.wait();
 
-    const logs = transactionReceipt.logs.map((l, idx) => {
+    const logs: {
+      index: number;
+      contributionId: number;
+      confidence: number;
+    }[] = [];
+    for (const [index, l] of transactionReceipt.logs.entries()) {
       const log = contract.govrn.interface.parseLog(l);
-      return log.name === 'Attest'
-        ? {
-            index: idx,
-            contributionId: (log.args['contribution'] as BigNumber).toNumber(),
-            confidence: log.args['confidence'],
-          }
-        : /* Technically, this will never happen.
-            Attestations will either be all successful or all failed. */
-          null;
-    });
+      if (log.name === 'Attest') {
+        logs.push({
+          index,
+          contributionId: (log.args['contribution'] as BigNumber).toNumber(),
+          confidence: log.args['confidence'],
+        });
+      }
+    }
 
-    return await batch(logs, async l => {
-      if (l === null) throw new Error('Failed to attest.');
+    return await batch(logs, async log => {
       return await this.sdk.createUserOnChainAttestation({
         data: {
-          contributionOnChainId: l.contributionId,
-          confidence: data[l.index].confidenceName,
+          contributionOnChainId: log.contributionId,
+          confidence: data[log.index].confidenceName,
           chainId: chainId,
           userId: userId,
         },
