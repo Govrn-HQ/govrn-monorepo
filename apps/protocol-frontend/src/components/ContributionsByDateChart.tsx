@@ -1,8 +1,16 @@
-import { Flex, Box, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  Divider,
+  Heading,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { TooltipWrapper } from '@nivo/tooltip';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
 import { formatDate } from '../utils/date';
+import pluralize from 'pluralize';
 import { TODAY_DATE, YEAR, BRAND_COLOR_MAP } from '../utils/constants';
 import { endOfDay, subWeeks } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
@@ -65,17 +73,29 @@ const ContributionsByDateChart = ({
           direction="column"
           justifyContent="center"
           alignItems="flex-start"
-          width={{ base: '10vw', lg: '25vw' }}
+          width={{ base: '75vw', lg: '25vw' }}
           backgroundColor="white"
           boxShadow="md"
           padding={2}
         >
-          <Text>
-            {formatDate(day)}: {value}
+          <Text fontWeight="normal" fontSize="sm">
+            {value} {pluralize('Contributions', parseInt(value))} on{' '}
+            {formatDate(day)}
           </Text>
+          <Divider marginY={1} />
           {dailyContributions?.map(contribution => (
-            <Text>
-              {contribution.name} - {contribution.user.name}
+            <Text as="span" fontWeight="normal" fontSize="xs">
+              {contribution.name} -
+              <Text
+                as="span"
+                fontWeight="normal"
+                fontSize="xs"
+                bgGradient="linear(to-l, #7928CA, #FF0080)"
+                bgClip="text"
+              >
+                {' '}
+                {contribution.user.name}
+              </Text>
             </Text>
           ))}
         </Flex>
