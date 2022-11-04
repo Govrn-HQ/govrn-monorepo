@@ -6,7 +6,6 @@ import { subWeeks, startOfDay, endOfDay } from 'date-fns';
 interface ContributionByDateShellProps {
   guildIds: number[];
 }
-
 const ContributionByDateShell = ({
   guildIds,
 }: ContributionByDateShellProps) => {

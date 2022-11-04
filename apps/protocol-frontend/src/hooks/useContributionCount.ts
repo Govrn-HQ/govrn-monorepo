@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useUser } from '../contexts/UserContext';
 
 const useContributionCountInRange = (args: {
-  id?: number | null | undefined;
+  id?: number | null;
   startDate: Date;
   endDate: Date;
   guildIds?: number[] | null;
@@ -14,10 +14,6 @@ const useContributionCountInRange = (args: {
     ['contributionGetCount', args],
     async () => {
       return await govrn.custom.getContributionCountByDateForUserInRange(args);
-      // return await govrn.custom.getContributionCountByDateForUserInRange({
-      //   id: userData?.id,
-      //   ...args,
-      // });
     },
   );
 

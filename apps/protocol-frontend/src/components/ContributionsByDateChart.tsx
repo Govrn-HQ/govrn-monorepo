@@ -6,6 +6,7 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import { SortOrder } from '@govrn/protocol-client';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { TooltipWrapper } from '@nivo/tooltip';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
@@ -58,7 +59,8 @@ const ContributionsByDateChart = ({
     value,
   }: CalendarTooltipProps) => {
     const { data: dailyContributions } = useContributionList({
-      first: 1000, // TODO: better way to do this -- do we want to have to use infinite list for this? we can also cap it at 10 or something
+      orderBy: { date_of_engagement: SortOrder.Desc },
+      first: 5,
       where: {
         guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
         date_of_engagement: {
@@ -80,24 +82,48 @@ const ContributionsByDateChart = ({
           padding={2}
         >
           <Text fontWeight="normal" fontSize="sm">
-            {value} {pluralize('Contributions', parseInt(value))} on {day}
+            Recent {dailyContributions?.length}{' '}
+            {pluralize('Contributions', dailyContributions?.length)} on {day}
           </Text>
-          <Divider marginY={1} />
+          {dailyContributions !== undefined &&
+            dailyContributions?.length > 0 && <Divider marginY={1} />}
           {dailyContributions?.map(contribution => (
-            <Text as="span" fontWeight="normal" fontSize="xs">
-              {contribution.name} -
-              <Text
-                as="span"
-                fontWeight="normal"
-                fontSize="xs"
-                bgGradient="linear(to-l, #7928CA, #FF0080)"
-                bgClip="text"
-              >
-                {' '}
-                {contribution.user.name}
+            <Flex direction="row" key={contribution.id}>
+              <Text as="span" fontWeight="normal" fontSize="xs">
+                {contribution.name} -
+                <Text
+                  as="span"
+                  fontWeight="normal"
+                  fontSize="xs"
+                  bgGradient="linear(to-l, #7928CA, #FF0080)"
+                  bgClip="text"
+                >
+                  {' '}
+                  {contribution.user.name}
+                </Text>
               </Text>
-            </Text>
+            </Flex>
           ))}
+          {dailyContributions !== undefined &&
+            dailyContributions?.length > 0 &&
+            parseInt(value) > 5 && (
+              <Text as="span" fontWeight="normal" fontSize="xs">
+                ...and{' '}
+                <Text
+                  as="span"
+                  fontWeight="normal"
+                  fontSize="xs"
+                  bgGradient="linear(to-l, #7928CA, #FF0080)"
+                  bgClip="text"
+                >
+                  {parseInt(value) - 5}
+                </Text>
+                <Text as="span" fontWeight="normal" fontSize="xs">
+                  {' '}
+                  more!
+                </Text>
+              </Text>
+            )}
         </Flex>
       </TooltipWrapper>
     );
