@@ -27,8 +27,6 @@ const RecentContributionsTableShell = ({
     orderBy: { date_of_engagement: SortOrder.Desc },
   });
 
-  console.log('recentContributions', recentContributions);
-
   if (isError) {
     return (
       <Text>An error occurred fetching the DAO's recent Contributions.</Text>
