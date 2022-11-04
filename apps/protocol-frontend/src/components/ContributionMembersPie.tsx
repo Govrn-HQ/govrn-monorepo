@@ -46,13 +46,13 @@ const ContributionMembersPie = ({
   }
 
   return (
-    <Flex direction="column" paddingY={4} paddingX={{ base: 4, lg: 0 }}>
+    <Flex direction="column" paddingY={4} paddingX={{ base: 0 }}>
       <Flex
         direction="column"
         alignItems="center"
         justifyContent="center"
         height={{ base: '20rem', lg: '30rem' }}
-        width={{ base: '20rem', lg: '40rem' }}
+        width={{ base: '20rem', lg: '25rem' }}
         paddingY={{ base: '0', lg: '4' }}
         paddingX={{ base: '0', lg: '4' }}
         color="gray.700"
