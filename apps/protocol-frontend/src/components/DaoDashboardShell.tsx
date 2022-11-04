@@ -118,7 +118,6 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               alignItems={{ base: 'center', lg: 'flex-start' }}
               width="100%"
               gap={{ base: 0, lg: 2 }}
-              bg="red.100"
             >
               <Flex direction="column" gap={2}>
                 <ContributionMembersPieShell
