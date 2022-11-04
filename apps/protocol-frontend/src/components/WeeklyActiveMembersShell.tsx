@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import CountDisplay from './CountDisplay';
 import { useContributionList } from '../hooks/useContributionList';
 import { subWeeks, endOfDay, startOfDay } from 'date-fns';
 import { formatDate } from '../utils/date';
 import pluralize from 'pluralize';
 import { TODAY_DATE } from '../utils/constants';
+import CountDisplay from './CountDisplay';
 
 interface WeeklyActiveMembersShellProps {
   daoId: number;
@@ -17,7 +16,7 @@ const WeeklyActiveMembersShell = ({ daoId }: WeeklyActiveMembersShellProps) => {
     isFetching,
     isError,
   } = useContributionList({
-    first: 1000,
+    first: 1000, // how can we do this without a specific number? want all contributions in range regardless of count
     where: {
       guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
     },
