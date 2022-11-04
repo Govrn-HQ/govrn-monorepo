@@ -9,10 +9,9 @@ import {
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { TooltipWrapper } from '@nivo/tooltip';
 import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
-import { formatDate } from '../utils/date';
 import pluralize from 'pluralize';
 import { TODAY_DATE, YEAR, BRAND_COLOR_MAP } from '../utils/constants';
-import { endOfDay, subWeeks } from 'date-fns';
+import { endOfDay, subWeeks, addDays } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
 
 type ContributionCount = {
@@ -59,10 +58,12 @@ const ContributionsByDateChart = ({
     value,
   }: CalendarTooltipProps) => {
     const { data: dailyContributions } = useContributionList({
+      first: 1000, // TODO: better way to do this -- do we want to have to use infinite list for this? we can also cap it at 10 or something
       where: {
         guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
         date_of_engagement: {
-          equals: new Date(day).toISOString().replace('Z', ''), // query needs this format without the Z in ISO
+          gte: new Date(day),
+          lt: addDays(new Date(day), 1),
         },
       },
     });
@@ -79,8 +80,7 @@ const ContributionsByDateChart = ({
           padding={2}
         >
           <Text fontWeight="normal" fontSize="sm">
-            {value} {pluralize('Contributions', parseInt(value))} on{' '}
-            {formatDate(day)}
+            {value} {pluralize('Contributions', parseInt(value))} on {day}
           </Text>
           <Divider marginY={1} />
           {dailyContributions?.map(contribution => (
