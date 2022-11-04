@@ -21,7 +21,7 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Design',
   'Other',
 ];
-export const brandColorMap = [
+export const BRAND_COLOR_MAP = [
   '#ffb4e2',
   '#fb84ce',
   '#f854ba',

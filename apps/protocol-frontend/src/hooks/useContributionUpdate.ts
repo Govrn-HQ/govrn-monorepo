@@ -55,7 +55,7 @@ export const useContributionUpdate = () => {
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
         queryClient.invalidateQueries(['ContributionGetCountYear']);
-        queryClient.invalidateQueries(['ContributionGetCount']);
+        queryClient.invalidateQueries(['contributionGetCount']);
         queryClient.invalidateQueries(['contributionGet', data?.data.id]); // invalidate the Contribution Query with the ID of the updated Contribution
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
