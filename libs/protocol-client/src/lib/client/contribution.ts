@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { BaseClient } from './base';
 import {
   BulkCreateContributionMutationVariables,
@@ -238,6 +238,60 @@ export class Contribution extends BaseClient {
         chainId: chainId,
         userId: userId,
       },
+    });
+  }
+
+  public async bulkAttest(
+    networkConfig: NetworkConfig,
+    signer: ethers.Signer,
+    chainId: number,
+    userId: number,
+    data: {
+      contribution: number;
+      confidenceId: number;
+      confidenceName: string;
+      dateOfSubmission: number;
+    }[],
+  ) {
+    const args = {
+      attestations: data.map(c => {
+        return {
+          contribution: c.contribution,
+          confidence: c.confidenceId,
+          dateOfSubmission: c.dateOfSubmission,
+        };
+      }),
+    };
+
+    const contract = new GovrnContract(networkConfig, signer);
+    const transaction = await contract.bulkAttest(args);
+    const transactionReceipt = await transaction.wait();
+
+    const logs: {
+      index: number;
+      contributionId: number;
+      confidence: number;
+    }[] = [];
+    for (const [index, l] of transactionReceipt.logs.entries()) {
+      const log = contract.govrn.interface.parseLog(l);
+      if (log.name === 'Attest') {
+        logs.push({
+          index,
+          contributionId: (log.args['contribution'] as BigNumber).toNumber(),
+          confidence: log.args['confidence'],
+        });
+      }
+    }
+
+    return await batch(logs, async log => {
+      return await this.sdk.createUserOnChainAttestation({
+        data: {
+          contributionOnChainId: log.contributionId,
+          confidence: data[log.index].confidenceName,
+          chainId: chainId,
+          userId: userId,
+        },
+      });
     });
   }
 
