@@ -4,7 +4,6 @@ import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { networks } from '../utils/networks';
 import { ethers } from 'ethers';
-import { ChainIdError } from '@govrn/protocol-client';
 import pluralize from 'pluralize';
 
 type BulkMintOptions = {

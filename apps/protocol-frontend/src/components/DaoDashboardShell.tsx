@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Center, Flex } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
+import WeeklyActiveMembersShell from './WeeklyActiveMembersShell';
 import ContributionsByDateShell from './ContributionsByDateShell';
 import MonthlyContributionsShell from './MonthlyContributionsShell';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
-import { MONTH, DEFAULT_DATE_RANGES } from '../utils/constants';
-
 import { subWeeks } from 'date-fns';
+import { MONTH, DEFAULT_DATE_RANGES } from '../utils/constants';
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
@@ -108,35 +108,57 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       </Flex>
       <Flex direction="column" gap={4}>
         <Flex direction={{ base: 'column' }} gap={2}>
-          <Flex direction="column" gap={2}>
-            <ContributionsByDateShell guildIds={[daoId]} />
+          <Flex
+            direction={{ base: 'column', lg: 'row' }}
+            gap={4}
+            justifyContent="space-between"
+          >
+            <Flex direction="column" gap={2} flexBasis="80%">
+              <ContributionsByDateShell guildIds={[daoId]} />
+            </Flex>
+            <Flex
+              direction={{ base: 'row', lg: 'column' }}
+              gap={2}
+              flexBasis="20%"
+              justifyContent="space-around"
+            >
+              <Flex direction="column" gap={2}>
+                <WeeklyActiveMembersShell daoId={daoId} />
+              </Flex>
+              <Flex direction="column" gap={2}>
+                <MonthlyContributionsShell daoId={daoId} />
+              </Flex>
+            </Flex>
           </Flex>
           <Flex
-            direction={{ base: 'column' }}
-            justifyContent="center"
-            alignItems="flex-start"
+            direction={{ base: 'column', lg: 'row' }}
+            justifyContent="space-between"
             width="100%"
-            gap={{ base: 0, lg: 2 }}
           >
-            <Flex direction="column" gap={2}>
-              <ContributionMembersPieShell
-                daoId={daoId}
-                startDate={startDate}
-                endDate={endDate}
-              />
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <ContributionTypesPieShell
-                daoId={daoId}
-                startDate={startDate}
-                endDate={endDate}
-              />
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <MonthlyContributionsShell daoId={daoId} />
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              justifyContent={{ base: 'center', lg: 'flex-start' }}
+              alignItems={{ base: 'center', lg: 'flex-start' }}
+              width="100%"
+              gap={{ base: 0, lg: 2 }}
+            >
+              <Flex direction="column" gap={2} flexBasis="50%">
+                <ContributionMembersPieShell
+                  daoId={daoId}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </Flex>
+              <Flex direction="column" gap={2} flexBasis="50%">
+                <ContributionTypesPieShell
+                  daoId={daoId}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </Flex>
             </Flex>
           </Flex>
-          <Flex direction="column" gap={2} padding={2}>
+          <Flex direction="column" gap={2}>
             <RecentContributionsTableShell daoId={daoId} />
           </Flex>
         </Flex>
