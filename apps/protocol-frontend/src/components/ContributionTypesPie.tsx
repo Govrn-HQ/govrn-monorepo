@@ -42,12 +42,7 @@ const ContributionTypesPie = ({
   }
 
   return (
-    <Flex
-      direction="column"
-      paddingY={4}
-      paddingX={{ base: 0, lg: 0 }}
-      flexBasis="50%"
-    >
+    <Flex direction="column" paddingY={4} paddingX={{ base: 0 }}>
       <Flex
         direction="column"
         alignItems="center"
