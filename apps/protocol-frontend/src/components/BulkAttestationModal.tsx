@@ -36,7 +36,6 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
             onChainId: c.onChainId,
             confidence: 1,
             confidenceName: 'Verified',
-            dateOfSubmission: 0,
           };
         }),
       );

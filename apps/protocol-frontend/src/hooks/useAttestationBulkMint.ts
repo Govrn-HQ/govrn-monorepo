@@ -10,7 +10,6 @@ type AttestationInput = {
   onChainId?: number | null;
   confidence: number;
   confidenceName: string;
-  dateOfSubmission: number;
 };
 
 const useAttestationBulkMint = () => {
@@ -46,6 +45,7 @@ const useAttestationBulkMint = () => {
           contribution: att?.onChainId ?? 0,
           confidenceId: 1,
           confidenceName: 'Verified',
+          // It's handled by the contract: block's timestamp.
           dateOfSubmission: 0,
         })),
       );
