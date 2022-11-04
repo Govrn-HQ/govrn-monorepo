@@ -55,7 +55,7 @@ const WeeklyActiveMembersShell = ({ daoId }: WeeklyActiveMembersShellProps) => {
       isFetching={isFetching}
       isLoading={isLoading}
       isError={isError}
-      countText={`Weekly Active ${pluralize('Members', weeklyAverage)}`}
+      countText={`Average Weekly Active ${pluralize('Members', weeklyAverage)}`}
     />
   );
 };

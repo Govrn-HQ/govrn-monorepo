@@ -38,6 +38,7 @@ const CountDisplay = ({
       background="white"
       boxShadow="sm"
       borderRadius={{ base: 'none', md: 'lg' }}
+      minWidth="15rem"
     >
       <VisuallyHidden>
         <Heading as="h3">{countText}</Heading>

@@ -112,36 +112,40 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               Contributions By Date
             </Heading>
           </Flex>
-          <Flex
-            direction={{ base: 'column' }}
-            justifyContent="center"
-            alignItems="flex-start"
-            width="100%"
-            gap={{ base: 0, lg: 2 }}
-          >
-            <Flex direction="column" gap={2}>
-              <ContributionMembersPieShell
-                daoId={daoId}
-                startDate={startDate}
-                endDate={endDate}
-              />
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <ContributionTypesPieShell
-                daoId={daoId}
-                startDate={startDate}
-                endDate={endDate}
-              />
-            </Flex>
-            <Flex direction="column" gap={2}>
-              <MonthlyContributionsShell daoId={daoId} />
+          <Flex bg="red.100" direction={{ base: 'column', lg: 'row' }}>
+            <Flex
+              direction={{ base: 'column' }}
+              justifyContent="center"
+              alignItems="flex-start"
+              width="100%"
+              gap={{ base: 0, lg: 2 }}
+            >
+              <Flex direction="column" gap={2}>
+                <ContributionMembersPieShell
+                  daoId={daoId}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </Flex>
+              <Flex direction="column" gap={2}>
+                <ContributionTypesPieShell
+                  daoId={daoId}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </Flex>
+              <Flex direction="column" gap={2}>
+                <MonthlyContributionsShell daoId={daoId} />
+              </Flex>
             </Flex>
           </Flex>
-          <Flex direction="column" gap={2}>
-            <WeeklyActiveMembersShell daoId={daoId} />
-          </Flex>
-          <Flex direction="column" gap={2} padding={2}>
-            <RecentContributionsTableShell daoId={daoId} />
+          <Flex direction="column" bg="red">
+            <Flex direction="column" gap={2}>
+              <WeeklyActiveMembersShell daoId={daoId} />
+            </Flex>
+            <Flex direction="column" gap={2} padding={2}>
+              <RecentContributionsTableShell daoId={daoId} />
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
