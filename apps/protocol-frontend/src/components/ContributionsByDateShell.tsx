@@ -28,7 +28,7 @@ const ContributionByDateShell = ({
       isFetching={isFetching}
       isLoading={isLoading}
       isError={isError}
-      daoId={guildIds[0]}
+      daoId={guildIds && guildIds.length > 0 ? guildIds[0] : null}
     />
   );
 };
