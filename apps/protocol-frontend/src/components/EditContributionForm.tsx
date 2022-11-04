@@ -188,7 +188,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
         updatedValues: values,
         contribution: contribution,
       });
-      console.log('updateRes', updateRes);
       reset();
     }
   };
