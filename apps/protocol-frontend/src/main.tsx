@@ -10,6 +10,7 @@ import {
   QueryClientProvider,
   QueryCache,
 } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Routes from './Routes';
 import { OverlayContextProvider } from './contexts/OverlayContext';
 import { AuthContextProvider } from './contexts/AuthContext';
@@ -43,6 +44,7 @@ const App = () => {
         <AuthContextProvider>
           <UserContextProvider>
             <QueryClientProvider client={queryClient}>
+              <ReactQueryDevtools initialIsOpen={false} />
               <Routes />
             </QueryClientProvider>
           </UserContextProvider>

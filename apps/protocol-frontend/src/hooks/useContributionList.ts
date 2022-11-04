@@ -6,7 +6,6 @@ import { formatDate } from '../utils/date';
 
 export const useContributionList = (args?: ListContributionsQueryVariables) => {
   const { govrnProtocol: govrn } = useUser();
-  console.log('args', args);
   const { isLoading, isFetching, isError, error, data } = useQuery(
     ['contributionList', args],
     async (): Promise<UIContribution[]> => {
