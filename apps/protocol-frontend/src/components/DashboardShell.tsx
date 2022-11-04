@@ -61,6 +61,7 @@ const DashboardShell = () => {
       : selectedDaos.map(dao => dao.value).filter(dao => dao !== 0);
 
   const { data: fullContributionsCount } = useContributionCountInRange({
+    id: userData?.id,
     startDate: subWeeks(startOfDay(TODAY_DATE), 52),
     endDate: endOfDay(TODAY_DATE),
     guildIds,
@@ -68,6 +69,7 @@ const DashboardShell = () => {
   });
 
   const { data: contributionsCount } = useContributionCountInRange({
+    id: userData?.id,
     startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value),
     endDate: endOfDay(TODAY_DATE),
     guildIds,

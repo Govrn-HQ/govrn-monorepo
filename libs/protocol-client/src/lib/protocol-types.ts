@@ -4202,7 +4202,7 @@ export type GetUserContributionCountInput = {
   endDate: Scalars['DateTime'];
   excludeUnassigned?: InputMaybe<Scalars['Boolean']>;
   guildIds?: InputMaybe<Array<Scalars['Float']>>;
-  id: Scalars['Float'];
+  id?: InputMaybe<Scalars['Float']>;
   startDate: Scalars['DateTime'];
 };
 
