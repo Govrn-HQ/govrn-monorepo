@@ -41,7 +41,7 @@ const useAttestationMint = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useContributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
 
         toast.success({
           title: 'Attestation Successfully Minted',
