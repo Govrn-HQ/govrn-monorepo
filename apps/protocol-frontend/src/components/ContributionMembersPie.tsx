@@ -1,7 +1,7 @@
 import { Flex, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsivePie } from '@nivo/pie';
 import { GovrnSpinner } from '@govrn/protocol-ui';
-import { brandColorMap } from '../utils/constants';
+import { BRAND_COLOR_MAP } from '../utils/constants';
 
 type ContributionMembersCount = {
   count: number;
@@ -72,7 +72,7 @@ const ContributionMembersPie = ({
               bottom: isMobile ? 10 : 40,
               left: isMobile ? 40 : 40,
             }}
-            colors={brandColorMap}
+            colors={BRAND_COLOR_MAP}
             innerRadius={0.5}
             padAngle={0.8}
             borderWidth={0.5}
