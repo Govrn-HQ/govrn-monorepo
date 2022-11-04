@@ -183,7 +183,7 @@ const AttestationsTable = ({
               onClick={attestationsModalHandler}
               data-testId="attest-testId"
             >
-              Attest
+              {selectedFlatRows.length > 1 ? 'Bulk ' : ''}Attest
             </Button>
           </Stack>
         </Box>
