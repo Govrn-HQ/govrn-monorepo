@@ -52,11 +52,11 @@ const useAttestationBulkMint = () => {
     },
     {
       onSuccess: ({ results, errors }) => {
-        queryClient.invalidateQueries(['useContributionInfiniteList']);
+        queryClient.invalidateQueries(['contributionInfiniteList']);
 
         if (results.length > 0) {
           toast.success({
-            title: 'Attestation Successfully Minted',
+            title: 'Attestation successfully minted',
             description: `${pluralize(
               'Attestation',
               results.length,
