@@ -20,7 +20,7 @@ const useAttestationBulkMint = () => {
   const { userData, govrnProtocol: govrn } = useUser();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    ['BulkMintAttestation'],
+    ['attestationBulkMint'],
     async (data: AttestationInput[]) => {
       for (const contr of data) {
         if (contr?.onChainId === undefined || contr?.onChainId === null) {
