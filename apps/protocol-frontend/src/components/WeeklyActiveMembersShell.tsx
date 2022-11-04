@@ -23,12 +23,12 @@ const WeeklyActiveMembersShell = ({ daoId }: WeeklyActiveMembersShellProps) => {
     },
   });
 
-  const setWeeks = () => {
+  const setWeekRange = (weekRange: number) => {
     const weeks = [];
-    for (let i = 0; i <= 8; i++) {
+    for (let i = 0; i <= weekRange - 1; i++) {
       weeks.push(
         contributionsInRangeCount?.filter(
-          (contribution, idx) =>
+          contribution =>
             formatDate(contribution.date_of_engagement) >=
               formatDate(startOfDay(subWeeks(TODAY_DATE, i + 1))) &&
             formatDate(contribution.date_of_engagement) <=
@@ -39,9 +39,8 @@ const WeeklyActiveMembersShell = ({ daoId }: WeeklyActiveMembersShellProps) => {
     return weeks;
   };
 
-  const weeks = setWeeks();
-
-  const activeOverNineWeeks = weeks.map(week => ({
+  const lastNineWeeks = setWeekRange(9);
+  const activeOverNineWeeks = lastNineWeeks.map(week => ({
     active: [...new Set(week?.map(contribution => contribution.user.name))]
       .length,
   }));
