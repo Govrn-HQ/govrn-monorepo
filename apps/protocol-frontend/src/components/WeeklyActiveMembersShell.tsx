@@ -16,9 +16,10 @@ const WeeklyActiveMembersShell = ({ daoId }: WeeklyActiveMembersShellProps) => {
     isFetching,
     isError,
   } = useContributionList({
-    first: 1000, // how can we do this without a specific number? want all contributions in range regardless of count
+    first: 500, //  TODO: want all contributions in range regardless of count -- better way to do this?
     where: {
       guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+      date_of_engagement: { gte: subWeeks(TODAY_DATE, 9) },
     },
   });
 
