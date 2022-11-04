@@ -30,11 +30,3 @@ export const bulkStoreIpfs = async (
     };
   });
 };
-
-// 1. some clean up
-// 2. Add comand to generate schema uri
-// 3. Test schema matches type
-// 4. test store contribution metadata
-// 5. test mint hook to make sure proper uri is passed in
-// 6. Test uploadFileIPFS as well
-// 7. Move schema to protocol-client

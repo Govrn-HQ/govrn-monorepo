@@ -36,9 +36,7 @@ export class IPFS {
       cidVersion: 1,
       hashAlg: 'sha2-256',
     });
-    console.log('cid', cid);
     const resp = await this.client.pin.add(CID.parse(cid.path));
-    console.log('ipfs resp', resp);
     return `ipfs://${cid.path}`;
   }
 
