@@ -7,7 +7,7 @@ const useContributionMetadataStore = () => {
   const toast = useGovrnToast();
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async (
-      data: Omit<MintedContributionSchemaV1, 'schema'> & {
+      data: Omit<MintedContributionSchemaV1, 'schema' | 'version'> & {
         successToast?: boolean;
       },
     ) => {

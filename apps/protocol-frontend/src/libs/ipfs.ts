@@ -16,12 +16,12 @@ export const storeIpfs = async (content: MintedContributionSchemaV1) => {
 };
 
 export const bulkStoreIpfs = async (
-  params: Omit<MintedContributionSchemaV1, 'schema'>[],
+  params: Omit<MintedContributionSchemaV1, 'schema' | 'version'>[],
 ) => {
   const ipfs = new IPFS(INFURA_PROJECT_ID, INFURA_PROJECT_SECRET);
 
   return await batch<
-    Omit<MintedContributionSchemaV1, 'schema'>,
+    Omit<MintedContributionSchemaV1, 'schema' | 'version'>,
     { index: number; value: string }
   >(params, async (item, index) => {
     return {
