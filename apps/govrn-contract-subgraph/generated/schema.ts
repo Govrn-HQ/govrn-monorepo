@@ -15,10 +15,6 @@ export class Contribution extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("address", Value.fromBytes(Bytes.empty()));
-    this.set("contributionId", Value.fromBigInt(BigInt.zero()));
-    this.set("txHash", Value.fromBytes(Bytes.empty()));
   }
 
   save(): void {
@@ -44,6 +40,15 @@ export class Contribution extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get createdAt(): BigInt {
+    let value = this.get("createdAt");
+    return value!.toBigInt();
+  }
+
+  set createdAt(value: BigInt) {
+    this.set("createdAt", Value.fromBigInt(value));
   }
 
   get address(): Bytes {
@@ -95,10 +100,6 @@ export class Attestation extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("attestor", Value.fromBytes(Bytes.empty()));
-    this.set("confidence", Value.fromI32(0));
-    this.set("txHash", Value.fromBytes(Bytes.empty()));
   }
 
   save(): void {
@@ -124,6 +125,15 @@ export class Attestation extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get createdAt(): BigInt {
+    let value = this.get("createdAt");
+    return value!.toBigInt();
+  }
+
+  set createdAt(value: BigInt) {
+    this.set("createdAt", Value.fromBigInt(value));
   }
 
   get attestor(): Bytes {

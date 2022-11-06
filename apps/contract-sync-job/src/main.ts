@@ -12,10 +12,11 @@ import {
   getOrInsertUser,
   upsertContribution,
 } from './db';
-import batch from '@govrn/protocol-client';
+import { batch, MintedContributionSchemaV1 } from '@govrn/protocol-client';
 
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
-const JOB_NAME = 'contract-sync-job';
+const CHAIN_NAME = process.env.CHAIN_NAME;
+const JOB_NAME = `contract-sync-job-${CHAIN_NAME}`;
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
@@ -39,10 +40,13 @@ const main = async () => {
   const lastRun = await getJobRun({ name: JOB_NAME });
 
   const startDate =
-    lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
+    lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date(26728502000);
 
-  const contributionsEvents = (await client.listContributions({}))
-    .contributions;
+  const contributionsEvents = (
+    await client.listContributions({
+      where: { createdAt_gte: Math.ceil(startDate.getTime() / 1000) },
+    })
+  ).contributions;
   const contributionActivityTypeId = await getOrInsertActivityType({
     name: 'Contribution',
   });
@@ -63,10 +67,31 @@ const main = async () => {
 
       const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
       try {
-        const contributionDetails = await fetchIPFS(detailsUri);
+        const contributionDetails = await fetchIPFS<MintedContributionSchemaV1>(
+          detailsUri,
+        );
+        if (
+          contributionDetails?.version === 1 &&
+          contributionDetails?.govrn?.id
+        ) {
+          return {
+            contribution_id: contributionDetails.govrn.id,
+            name: contributionDetails.name,
+            status_id: 2, // staging
+            activity_type_id: contributionDetails.govrn?.activityTypeId,
+            user_id: userId,
+            date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
+            date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
+            details: contributionDetails.details,
+            proof: contributionDetails.proof,
+            on_chain_id: Number(event.id),
+            chain_id: CHAIN_ID,
+            txHash: event.txHash,
+          };
+        }
         return {
           name: contributionDetails.name,
-          status_id: 2,
+          status_id: 2, // staging
           activity_type_id: contributionActivityTypeId,
           user_id: userId,
           date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
@@ -106,7 +131,11 @@ const main = async () => {
 
   console.log(':: Starting to Process Attestations');
 
-  const attestationEvents = (await client.listAttestations({})).attestations;
+  const attestationEvents = (
+    await client.listAttestations({
+      where: { createdAt_gte: Math.ceil(startDate.getTime() / 1000) },
+    })
+  ).attestations;
   console.log(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
 
   const { results: attestations } = await batch(

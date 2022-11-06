@@ -6,7 +6,7 @@ const DEFAULT_CHUNK_SIZE = 50;
 /**
  * Executes tasks into smaller chunks instead of executing all at once.
  */
-const batch = async <T, R>(
+export const batch = async <T, R>(
   items: T[],
   process: ProcessHandler<T, R>,
   chunk = DEFAULT_CHUNK_SIZE,
@@ -16,5 +16,3 @@ const batch = async <T, R>(
     .for(items)
     .process(process);
 };
-
-export default batch;

@@ -6,13 +6,7 @@ const getIpfsFromHash = (hash: string) => {
   return `${INFURA_SUBDOMAIN}/ipfs/${hash.split('/').slice(2)}`;
 };
 
-export const fetchIPFS = async (
-  ipfsHash: string,
-): Promise<{
-  name: string;
-  details?: string;
-  proof?: string;
-}> => {
+export const fetchIPFS = async <T>(ipfsHash: string): Promise<T> => {
   const auth =
     'Basic ' +
     Buffer.from(
