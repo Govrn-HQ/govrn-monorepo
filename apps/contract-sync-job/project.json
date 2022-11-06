@@ -85,8 +85,8 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job-gnosis.yaml",
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job-goerli.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job_gnosis.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job_goerli.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
           "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job.yaml"
         ],
