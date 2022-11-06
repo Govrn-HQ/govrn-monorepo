@@ -5,7 +5,7 @@ ENV NODE_ENV production
 WORKDIR /usr/src/app
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S express -u 1001
-COPY --chown=express:nodejs dist/apps/linear-sync-job .
+COPY --chown=express:nodejs dist/apps/contract-sync-job .
 RUN npm install
 USER express
 EXPOSE 80
