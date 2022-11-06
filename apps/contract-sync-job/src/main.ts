@@ -67,7 +67,6 @@ const main = async () => {
 
       const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
       try {
-        // Add extra metadata fields
         const contributionDetails = await fetchIPFS<MintedContributionSchemaV1>(
           detailsUri,
         );
@@ -113,7 +112,6 @@ const main = async () => {
   if (contributions.length > 0) {
     const { results: inserted } = await batch(
       contributions,
-      // TODO: Add handling for id if id exists
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
@@ -147,7 +145,6 @@ const main = async () => {
         tokenId: event.contribution.id,
         address: event.attestor,
       });
-      console.log(attestation);
 
       console.log(
         `:: Processing Attestation of contribution: ${attestation.contribution.toNumber()}`,
