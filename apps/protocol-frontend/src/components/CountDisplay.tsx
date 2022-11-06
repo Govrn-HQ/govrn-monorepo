@@ -38,11 +38,13 @@ const CountDisplay = ({
       background="white"
       boxShadow="sm"
       borderRadius={{ base: 'none', md: 'lg' }}
+      minWidth={{ base: 0, lg: '5rem' }}
+      maxWidth={{ base: '100%', lg: '10rem' }}
     >
       <VisuallyHidden>
         <Heading as="h3">{countText}</Heading>
       </VisuallyHidden>
-      <Text fontSize="xl" fontWeight="bold">
+      <Text fontSize={{ base: 'lg', lg: 'xl' }} fontWeight="bold">
         {countData}
       </Text>
       <Text fontSize="sm">{countText}</Text>
