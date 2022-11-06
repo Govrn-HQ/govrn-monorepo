@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: contract-sync-job
+  name: contract-sync-job-gnosis
 spec:
   schedule: '0 0 * * *'
   jobTemplate:
@@ -14,6 +14,8 @@ spec:
               image: <IMAGE>
               imagePullPolicy: IfNotPresent
               env:
+                - name: CHAIN_NAME
+                  value: 'gnosis'
                 - name: CONTRACT_ADDRESS
                   value: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
                 - name: CHAIN_URL
@@ -25,16 +27,22 @@ spec:
                 - name: INFURA_SUBDOMAIN
                   valueFrom:
                     secretKeyRef:
-                      name: contract-sync-job
+                      name: contract-sync-job-gnosis
                       key: infura_subdomain
-                - name: DATABASE_URL
-                  valueFrom:
-                    secretKeyRef:
-                      name: contract-sync-job
-                      key: database_url
                 - name: CONTRACT_SYNC_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      name: contract-sync-job
-                      key: contract_sync_job
+                      name: contract-sync-job-gnosis
+                      key: contract_sync_token
+                - name: INFURA_PROJECT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: infura_project_id
+                - name: INFURA_PROJECT_SECCRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: infura_project_secret
+
           restartPolicy: OnFailure
