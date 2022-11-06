@@ -24,6 +24,10 @@
     }
   },
   "properties": {
+    "version": {
+      "type": "integer",
+      "title": "version"
+    },
     "schema": {
       "$ref": "#/definitions/IPFSUrl"
     },

@@ -53,6 +53,7 @@ enum _SubgraphErrorPolicy_ {
 
 type Attestation {
   id: ID!
+  createdAt: BigInt!
   attestor: Bytes!
   confidence: Int!
   contribution: Contribution
@@ -68,6 +69,14 @@ input Attestation_filter {
   id_lte: ID
   id_in: [ID!]
   id_not_in: [ID!]
+  createdAt: BigInt
+  createdAt_not: BigInt
+  createdAt_gt: BigInt
+  createdAt_lt: BigInt
+  createdAt_gte: BigInt
+  createdAt_lte: BigInt
+  createdAt_in: [BigInt!]
+  createdAt_not_in: [BigInt!]
   attestor: Bytes
   attestor_not: Bytes
   attestor_in: [Bytes!]
@@ -116,6 +125,7 @@ input Attestation_filter {
 
 enum Attestation_orderBy {
   id
+  createdAt
   attestor
   confidence
   contribution
@@ -140,6 +150,7 @@ scalar Bytes
 
 type Contribution {
   id: ID!
+  createdAt: BigInt!
   address: Bytes!
   attestations(skip: Int = 0, first: Int = 100, orderBy: Attestation_orderBy, orderDirection: OrderDirection, where: Attestation_filter): [Attestation!]
   contributionId: BigInt!
@@ -155,6 +166,14 @@ input Contribution_filter {
   id_lte: ID
   id_in: [ID!]
   id_not_in: [ID!]
+  createdAt: BigInt
+  createdAt_not: BigInt
+  createdAt_gt: BigInt
+  createdAt_lt: BigInt
+  createdAt_gte: BigInt
+  createdAt_lte: BigInt
+  createdAt_in: [BigInt!]
+  createdAt_not_in: [BigInt!]
   address: Bytes
   address_not: Bytes
   address_in: [Bytes!]
@@ -183,6 +202,7 @@ input Contribution_filter {
 
 enum Contribution_orderBy {
   id
+  createdAt
   address
   attestations
   contributionId

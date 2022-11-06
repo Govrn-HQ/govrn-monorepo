@@ -12,7 +12,7 @@ import {
   getOrInsertUser,
   upsertContribution,
 } from './db';
-import { batch } from '@govrn/protocol-client';
+import { batch, MintedContributionSchemaV1 } from '@govrn/protocol-client';
 
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const JOB_NAME = 'contract-sync-job';
@@ -41,8 +41,11 @@ const main = async () => {
   const startDate =
     lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
 
-  const contributionsEvents = (await client.listContributions({}))
-    .contributions;
+  const contributionsEvents = (
+    await client.listContributions({
+      where: { createdAt_gte: `${startDate.getTime() / 1000}` },
+    })
+  ).contributions;
   const contributionActivityTypeId = await getOrInsertActivityType({
     name: 'Contribution',
   });
@@ -63,10 +66,32 @@ const main = async () => {
 
       const detailsUri = ethers.utils.toUtf8String(contr.detailsUri);
       try {
-        const contributionDetails = await fetchIPFS(detailsUri);
+        // Add extra metadata fields
+        const contributionDetails = await fetchIPFS<MintedContributionSchemaV1>(
+          detailsUri,
+        );
+        if (
+          contributionDetails?.version === 1 &&
+          contributionDetails?.govrn?.id
+        ) {
+          return {
+            contribution_id: contributionDetails.govrn.id,
+            name: contributionDetails.name,
+            status_id: 2, // staging
+            activity_type_id: contributionDetails.govrn?.activityTypeId,
+            user_id: userId,
+            date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
+            date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
+            details: contributionDetails.details,
+            proof: contributionDetails.proof,
+            on_chain_id: Number(event.id),
+            chain_id: CHAIN_ID,
+            txHash: event.txHash,
+          };
+        }
         return {
           name: contributionDetails.name,
-          status_id: 2,
+          status_id: 2, // staging
           activity_type_id: contributionActivityTypeId,
           user_id: userId,
           date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
@@ -87,6 +112,7 @@ const main = async () => {
   if (contributions.length > 0) {
     const { results: inserted } = await batch(
       contributions,
+      // TODO: Add handling for id if id exists
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );

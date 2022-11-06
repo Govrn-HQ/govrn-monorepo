@@ -9,6 +9,7 @@ describe('IPFS test', () => {
     const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
     const validate = ajv.compile(v1Schema);
     const data: MintedContributionSchemaV1 = {
+      version: 1,
       schema: `ipfs://${ContributionV1SchemaCid}`,
       name: 'Made a test',
       details: 'Testing the schema matches the type',

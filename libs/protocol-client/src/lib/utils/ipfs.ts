@@ -3,7 +3,8 @@ import { create, IPFSHTTPClient, CID } from 'ipfs-http-client';
 import { ContributionV1SchemaCid } from './constants';
 
 export type MintedContributionSchemaV1 = {
-  schema: `ipfs://Qmc3fKseQ1JyiJiPsmazx23A6twy6YCkTfqDfHUKZDL5xq`;
+  version: number;
+  schema: `ipfs://QmcmzPR94Vq6U6KxmhK4bNwjekLkZpxeEm2jiMLoYBQ3Xg`;
   name: string;
   details: string;
   proof: string;
@@ -25,7 +26,7 @@ export class IPFS {
   }
 
   public async storeContributionMetadata(
-    content: Omit<MintedContributionSchemaV1, 'schema'>,
+    content: Omit<MintedContributionSchemaV1, 'schema' | 'version'>,
   ) {
     const contentWithVersion = {
       ...content,

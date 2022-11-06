@@ -1,5 +1,6 @@
 type Contribution @entity {
   id: ID!
+  createdAt: BigInt!
   address: Bytes!
   attestations: [Attestation!] @derivedFrom(field: "contribution")
   contributionId: BigInt!
@@ -8,6 +9,7 @@ type Contribution @entity {
 
 type Attestation @entity {
   id: ID!
+  createdAt: BigInt!
   attestor: Bytes!
   confidence: Int!
   contribution: Contribution

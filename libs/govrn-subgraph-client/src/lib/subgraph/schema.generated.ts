@@ -20,6 +20,7 @@ export interface Attestation {
   attestor: Scalars['Bytes'];
   confidence: Scalars['Int'];
   contribution?: Maybe<Contribution>;
+  createdAt: Scalars['BigInt'];
   id: Scalars['ID'];
   txHash: Scalars['Bytes'];
 }
@@ -62,6 +63,14 @@ export interface Attestation_Filter {
   contribution_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   contribution_starts_with?: InputMaybe<Scalars['String']>;
   contribution_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['BigInt']>;
+  createdAt_gt?: InputMaybe<Scalars['BigInt']>;
+  createdAt_gte?: InputMaybe<Scalars['BigInt']>;
+  createdAt_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdAt_lt?: InputMaybe<Scalars['BigInt']>;
+  createdAt_lte?: InputMaybe<Scalars['BigInt']>;
+  createdAt_not?: InputMaybe<Scalars['BigInt']>;
+  createdAt_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   id?: InputMaybe<Scalars['ID']>;
   id_gt?: InputMaybe<Scalars['ID']>;
   id_gte?: InputMaybe<Scalars['ID']>;
@@ -82,6 +91,7 @@ export type Attestation_OrderBy =
   | 'attestor'
   | 'confidence'
   | 'contribution'
+  | 'createdAt'
   | 'id'
   | 'txHash';
 
@@ -100,6 +110,7 @@ export interface Contribution {
   address: Scalars['Bytes'];
   attestations?: Maybe<Array<Attestation>>;
   contributionId: Scalars['BigInt'];
+  createdAt: Scalars['BigInt'];
   id: Scalars['ID'];
   txHash: Scalars['Bytes'];
 }
@@ -131,6 +142,14 @@ export interface Contribution_Filter {
   contributionId_lte?: InputMaybe<Scalars['BigInt']>;
   contributionId_not?: InputMaybe<Scalars['BigInt']>;
   contributionId_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdAt?: InputMaybe<Scalars['BigInt']>;
+  createdAt_gt?: InputMaybe<Scalars['BigInt']>;
+  createdAt_gte?: InputMaybe<Scalars['BigInt']>;
+  createdAt_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdAt_lt?: InputMaybe<Scalars['BigInt']>;
+  createdAt_lte?: InputMaybe<Scalars['BigInt']>;
+  createdAt_not?: InputMaybe<Scalars['BigInt']>;
+  createdAt_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   id?: InputMaybe<Scalars['ID']>;
   id_gt?: InputMaybe<Scalars['ID']>;
   id_gte?: InputMaybe<Scalars['ID']>;
@@ -151,6 +170,7 @@ export type Contribution_OrderBy =
   | 'address'
   | 'attestations'
   | 'contributionId'
+  | 'createdAt'
   | 'id'
   | 'txHash';
 
