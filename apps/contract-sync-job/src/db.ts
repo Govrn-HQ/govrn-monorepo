@@ -89,18 +89,19 @@ const getIdOfChain = async (chainId: number) => {
 
 export const upsertContribution = async (contribution: ContributionData) => {
   if (contribution.id) {
- return await govrn.contribution.update({
-    where: {
-      id:  contribution.id   },
-    data: {
-      name: { set: contribution.name },
-      on_chain_id: { set: contribution.on_chain_id },
-      proof: { set: contribution.proof ?? null },
-      details: { set: contribution.details ?? null },
-      chain: { connect: { chain_id: `${contribution.chain_id}` } },
-
+    return await govrn.contribution.update({
+      where: {
+        id: contribution.id,
+      },
+      data: {
+        name: { set: contribution.name },
+        on_chain_id: { set: contribution.on_chain_id },
+        proof: { set: contribution.proof ?? null },
+        details: { set: contribution.details ?? null },
+        chain: { connect: { chain_id: `${contribution.chain_id}` } },
+      },
+    });
   }
- })
   return await govrn.contribution.upsert({
     where: {
       chain_id_on_chain_id: {

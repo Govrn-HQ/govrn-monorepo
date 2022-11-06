@@ -15,7 +15,8 @@ import {
 import { batch, MintedContributionSchemaV1 } from '@govrn/protocol-client';
 
 const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
-const JOB_NAME = 'contract-sync-job';
+const CHAIN_NAME = process.env.CHAIN_NAME;
+const JOB_NAME = `contract-sync-job-${CHAIN_NAME}`;
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
@@ -39,11 +40,11 @@ const main = async () => {
   const lastRun = await getJobRun({ name: JOB_NAME });
 
   const startDate =
-    lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date();
+    lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date(26728502000);
 
   const contributionsEvents = (
     await client.listContributions({
-      where: { createdAt_gte: `${startDate.getTime() / 1000}` },
+      where: { createdAt_gte: Math.ceil(startDate.getTime() / 1000) },
     })
   ).contributions;
   const contributionActivityTypeId = await getOrInsertActivityType({
@@ -132,7 +133,11 @@ const main = async () => {
 
   console.log(':: Starting to Process Attestations');
 
-  const attestationEvents = (await client.listAttestations({})).attestations;
+  const attestationEvents = (
+    await client.listAttestations({
+      where: { createdAt_gte: Math.ceil(startDate.getTime() / 1000) },
+    })
+  ).attestations;
   console.log(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
 
   const { results: attestations } = await batch(
@@ -142,6 +147,7 @@ const main = async () => {
         tokenId: event.contribution.id,
         address: event.attestor,
       });
+      console.log(attestation);
 
       console.log(
         `:: Processing Attestation of contribution: ${attestation.contribution.toNumber()}`,

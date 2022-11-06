@@ -23,7 +23,7 @@ export type ListContributionsQueryVariables = Types.Exact<{
 }>;
 
 
-export type ListContributionsQuery = { contributions: Array<{ id: string, address: string, contributionId: string, txHash: string, attestations?: Array<{ id: string, txHash: string }> | undefined }> };
+export type ListContributionsQuery = { contributions: Array<{ id: string, address: string, contributionId: number, txHash: string, attestations?: Array<{ id: string, txHash: string }> | undefined }> };
 
 export const AttestationFieldsFragmentDoc = gql`
     fragment attestationFields on Attestation {

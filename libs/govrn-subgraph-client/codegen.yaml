@@ -5,7 +5,7 @@ config:
   skipDocumentsValidation: true
   scalars:
     Bytes: string
-    BigInt: string
+    BigInt: number
     BigDecimal: string
   enumsAsTypes: true
   avoidOptionals: false

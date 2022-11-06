@@ -11,7 +11,7 @@ export interface Scalars {
   Int: number;
   Float: number;
   BigDecimal: string;
-  BigInt: string;
+  BigInt: number;
   Bytes: string;
 }
 
