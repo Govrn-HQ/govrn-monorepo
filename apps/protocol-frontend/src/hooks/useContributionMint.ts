@@ -5,9 +5,10 @@ import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import useGovrnToast from '../components/toast';
 import { MintContributionType } from '../types/mint';
+import useContributionMetadataStore from './useContributionMetadataStore';
 
 type ContributionData = MintContributionType['original'] & {
-  ipfsContentUri: string;
+  activityTypeName: string;
 };
 
 const useContributionMint = () => {
@@ -16,6 +17,8 @@ const useContributionMint = () => {
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
   const { userData, govrnProtocol: govrn } = useUser();
+  const { mutateAsync: storeContributionMetadata } =
+    useContributionMetadataStore();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     ['MintContribution'],
@@ -30,10 +33,25 @@ const useContributionMint = () => {
         details,
         engagementDate,
         id,
-        ipfsContentUri,
         name,
         proof,
+        activityTypeName,
       } = data;
+
+      const ipfsUri = await storeContributionMetadata({
+        name,
+        details,
+        proof,
+        image: '',
+        activityName: activityTypeName,
+        govrn: {
+          id,
+          activityTypeId,
+        },
+      });
+      if (!ipfsUri) {
+        throw Error('Failed to store contribution metadata in IPFS');
+      }
 
       return await govrn.contribution.mint(
         {
@@ -47,7 +65,7 @@ const useContributionMint = () => {
         activityTypeId,
         userData.id,
         {
-          detailsUri: ethers.utils.toUtf8Bytes(ipfsContentUri),
+          detailsUri: ethers.utils.toUtf8Bytes(ipfsUri),
           dateOfSubmission: new Date(date_of_submission).getTime(),
           dateOfEngagement: new Date(engagementDate).getTime(),
         },

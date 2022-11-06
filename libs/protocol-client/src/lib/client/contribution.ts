@@ -16,7 +16,7 @@ import {
 } from '@govrn/govrn-contract-client';
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
-import batch from '../utils/batch';
+import { batch } from '../utils/batch';
 // noinspection ES6PreferShortImport
 import { ChainIdError } from '../utils/errors';
 
