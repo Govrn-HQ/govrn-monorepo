@@ -92,10 +92,10 @@ const MintModal = ({ contributions }: MintModalProps) => {
           {contributions.length === 1 ? 'Contribution' : 'Contributions'}
         </Text>
         <Tooltip
+          hasArrow
           label={`Why Mint?
         Minting a Contribution makes it immutable and creates a historical record of what's been done that can't be changed.`}
           fontSize="md"
-          bgColor="brand.primary.50"
           placement="right"
         >
           <HStack width="fit-content">
