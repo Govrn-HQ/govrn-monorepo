@@ -8,6 +8,8 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/contract-sync-job",
+
+        "generatePackageJson": true,
         "main": "apps/contract-sync-job/src/main.ts",
         "tsConfig": "apps/contract-sync-job/tsconfig.app.json",
         "assets": [],
