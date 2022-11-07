@@ -77,7 +77,7 @@ const main = async () => {
           return {
             contribution_id: contributionDetails.govrn.id,
             name: contributionDetails.name,
-            status_id: 2, // staging
+            status_id: 'minted',
             activity_type_id: contributionDetails.govrn?.activityTypeId,
             user_id: userId,
             date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
@@ -91,7 +91,7 @@ const main = async () => {
         }
         return {
           name: contributionDetails.name,
-          status_id: 2, // staging
+          status_name: 'minted',
           activity_type_id: contributionActivityTypeId,
           user_id: userId,
           date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
@@ -147,10 +147,12 @@ const main = async () => {
       });
 
       console.log(
-        `:: Processing Attestation of contribution: ${attestation.contribution.toNumber()}`,
+        `:: Processing Attestation of contribution: ${Number(
+          event.contribution.id,
+        )}`,
       );
       const contributionId = await getContribution({
-        tokenId: attestation.contribution.toNumber(),
+        tokenId: Number(event.contribution.id),
       });
 
       const userId = await getOrInsertUser({
@@ -171,6 +173,11 @@ const main = async () => {
 
   console.log(
     `:: Inserting ${attestationsCount.createManyAttestation.count} Attestations`,
+  );
+  console.log(
+    `:: ${
+      attestations.length - attestationsCount.createManyAttestation.count
+    } of attestations already existing`,
   );
 
   await createJobRun({

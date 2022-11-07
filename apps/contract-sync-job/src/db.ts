@@ -3,7 +3,7 @@ import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
 export type ContributionData = {
   id?: number;
   name: string;
-  status_id: number;
+  status_name: string;
   activity_type_id: number;
   user_id: number;
   date_of_engagement: Date;
@@ -129,7 +129,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
       proof: { set: contribution.proof ?? null },
       details: { set: contribution.details ?? null },
       chain: { connect: { chain_id: `${contribution.chain_id}` } },
-      status: { connect: { id: contribution.status_id } },
+      status: { connect: { name: contribution.status_name } },
       tx_hash: { set: contribution.txHash },
     },
   });
