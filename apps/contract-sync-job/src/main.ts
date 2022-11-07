@@ -77,7 +77,7 @@ const main = async () => {
           return {
             contribution_id: contributionDetails.govrn.id,
             name: contributionDetails.name,
-            status_id: 'minted',
+            status_name: 'minted',
             activity_type_id: contributionDetails.govrn?.activityTypeId,
             user_id: userId,
             date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
