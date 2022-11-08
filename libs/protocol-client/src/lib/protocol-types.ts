@@ -14436,7 +14436,7 @@ export type BulkCreateIssuesMutationVariables = Exact<{
 
 export type BulkCreateIssuesMutation = { createManyLinearIssue: { count: number } };
 
-export type LinearUserFragmentFragment = { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null };
+export type LinearUserFragmentFragment = { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null, user_id?: number | null };
 
 export type ListLinearUsersQueryVariables = Exact<{
   where?: LinearUserWhereInput;
@@ -14446,7 +14446,7 @@ export type ListLinearUsersQueryVariables = Exact<{
 }>;
 
 
-export type ListLinearUsersQuery = { result: Array<{ id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null }> };
+export type ListLinearUsersQuery = { result: Array<{ id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null, user_id?: number | null }> };
 
 export type UpsertLinearUserMutationVariables = Exact<{
   create: LinearUserCreateInput;
@@ -14455,7 +14455,7 @@ export type UpsertLinearUserMutationVariables = Exact<{
 }>;
 
 
-export type UpsertLinearUserMutation = { upsertLinearUser: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null } };
+export type UpsertLinearUserMutation = { upsertLinearUser: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null, user_id?: number | null } };
 
 export type UpdateLinearUserMutationVariables = Exact<{
   data: LinearUserUpdateInput;
@@ -14463,7 +14463,7 @@ export type UpdateLinearUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateLinearUserMutation = { updateLinearUser?: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null } | null };
+export type UpdateLinearUserMutation = { updateLinearUser?: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null, user_id?: number | null } | null };
 
 export type UpsertLinearCycleMutationVariables = Exact<{
   create: LinearCycleCreateInput;
@@ -14904,6 +14904,7 @@ export const LinearUserFragmentFragmentDoc = gql`
   createdAt
   access_token
   active_token
+  user_id
 }
     `;
 export const GuildFragmentFragmentDoc = gql`

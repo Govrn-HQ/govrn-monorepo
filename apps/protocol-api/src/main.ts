@@ -331,6 +331,7 @@ const permissions = shield(
       createdAt: hasToken,
       access_token: hasToken,
       active_token: or(isAuthenticated, hasToken),
+      user_id: hasToken,
     },
   },
   {
