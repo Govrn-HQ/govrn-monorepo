@@ -48,7 +48,7 @@ const processIssue = async (
 ) => {
   let page = 1;
   let storePromises = [];
-  console.log(`Processing first issues for user ${user.id}`);
+  console.log(`Processing first issues for user ${user.user_id}`);
   storePromises.push(
     storeContributions(issues, govrn, activity, contributionStatus, user),
   );
@@ -87,6 +87,9 @@ const storeContributions = async (
 ) => {
   const linearIssues = [] as LinearIssueCreateManyInput[];
   for (const issue of issues) {
+    if (!user.user_id) {
+      continue;
+    }
     const contribution = await govrn.contribution.create({
       data: {
         // activity type should be linear
@@ -96,7 +99,7 @@ const storeContributions = async (
         name: issue.title,
         status: { connect: { id: contributionStatus?.id } },
         proof: issue.url,
-        user: { connect: { id: user.id } },
+        user: { connect: { id: user.user_id } },
       },
     });
 
@@ -152,7 +155,7 @@ const main = async () => {
   for await (const result of users) {
     let wp = [];
     for (const user of result.result) {
-      console.log(`Proccessing linear for user ${user.id}`);
+      console.log(`Proccessing linear for user ${user.user_id}`);
       const linearClient = new LinearClient({ apiKey: user.access_token });
       const lastIssue = await govrn.linear.issue.list({
         first: 1,

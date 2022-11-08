@@ -68,6 +68,7 @@ fragment LinearUserFragment on LinearUser {
   createdAt
   access_token
   active_token
+  user_id
 }
 
 query listLinearUsers(
