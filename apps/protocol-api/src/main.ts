@@ -451,12 +451,13 @@ app.get('/linear/oauth', async function (req, res) {
   try {
     const query = req.query;
     const code = query.code;
+    const state = query.state.toString();
     const params = new URLSearchParams();
     params.append('code', code.toString());
     params.append('redirect_uri', LINEAR_REDIRECT_URI);
     params.append('client_id', LINEAR_CLIENT_ID);
     params.append('client_secret', LINEAR_CLIENT_SECRET);
-    params.append('state', req.session.linearNonce);
+    params.append('state', state);
     params.append('grant_type', 'authorization_code');
     const resp = await fetch(LINEAR_TOKEN_URL, {
       method: 'POST',
@@ -466,6 +467,7 @@ app.get('/linear/oauth', async function (req, res) {
     const respJSON = await resp.json();
     const client = new LinearClient({ accessToken: respJSON.access_token });
     const me = await client.viewer;
+    const [, address] = state.split('/');
 
     await prisma.linearUser.upsert({
       create: {
@@ -477,13 +479,13 @@ app.get('/linear/oauth', async function (req, res) {
         url: me.url,
         access_token: respJSON.access_token,
         active_token: true,
-        user: { connect: { address: req.session.siwe.data.address } },
+        user: { connect: { address: address } },
       },
       where: { linear_id: me.id },
       update: {
         access_token: respJSON.access_token,
         active_token: true,
-        user: { connect: { address: req.session.siwe.data.address } },
+        user: { connect: { address: address } },
       },
     });
 
