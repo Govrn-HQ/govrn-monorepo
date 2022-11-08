@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -186,9 +186,28 @@ const ContributionsTable = ({
     hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
-        Header: ({ getToggleAllRowsSelectedProps }) => (
-          <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-        ),
+        Header: ({
+          getToggleAllRowsSelectedProps,
+          toggleRowSelected,
+          rows,
+        }) => {
+          const { onChange, ...propsWithoutOnChange } =
+            getToggleAllRowsSelectedProps();
+          const overrideOnChange = (event: ChangeEvent) => {
+            rows.forEach(row => {
+              toggleRowSelected(
+                row.id,
+                (event as ChangeEvent<HTMLInputElement>).currentTarget
+                  .checked && row.original.status.name !== 'minted',
+              );
+            });
+          };
+          const newProps = {
+            onChange: overrideOnChange,
+            ...propsWithoutOnChange,
+          };
+          return <IndeterminateCheckbox {...newProps} />;
+        },
         Cell: ({ row }: { row: Row<ContributionTableType> }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
