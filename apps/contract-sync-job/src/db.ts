@@ -1,7 +1,7 @@
 import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
 
 export type ContributionData = {
-  id?: number;
+  contribution_id?: number;
   name: string;
   status_name: string;
   activity_type_id: number;
@@ -88,10 +88,13 @@ const getIdOfChain = async (chainId: number) => {
 };
 
 export const upsertContribution = async (contribution: ContributionData) => {
-  if (contribution.id) {
+  console.log(
+    `:: Upsert Contribution with on chain id ${contribution.on_chain_id} and/or id ${contribution.contribution_id}`,
+  );
+  if (contribution.contribution_id) {
     return await govrn.contribution.update({
       where: {
-        id: contribution.id,
+        id: contribution.contribution_id,
       },
       data: {
         name: { set: contribution.name },
