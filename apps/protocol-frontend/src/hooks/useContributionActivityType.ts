@@ -6,12 +6,19 @@ export const useContributionActivityType = (
     startDate: Date;
     endDate: Date;
     guildId: number;
-
-  }) => {
-  const { govrnProtocol: govrn } = useUser()
-  const { isLoading, isFetching, isError, error, data } = useQuery(['contributionActivityTypes', args], async () => {
-    const data = await govrn.custom.getContributionCountByActivityType(args ? args : {})
-    return data
-  })
+  },
+  refetchOnWindowFocus?: boolean,
+) => {
+  const { govrnProtocol: govrn } = useUser();
+  const { isLoading, isFetching, isError, error, data } = useQuery({
+    queryKey: ['contributionActivityTypes', args],
+    queryFn: async () => {
+      const data = await govrn.custom.getContributionCountByActivityType(
+        args ? args : {},
+      );
+      return data;
+    },
+    refetchOnWindowFocus,
+  });
   return { isLoading, isError, isFetching, error, data };
-}
+};
