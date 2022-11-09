@@ -121,7 +121,8 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               direction={{ base: 'row', lg: 'column' }}
               gap={2}
               flexBasis="20%"
-              justifyContent="space-around"
+              justifyContent="space-between"
+              marginY={{ base: 4, lg: 0 }}
             >
               <Flex direction="column" gap={2}>
                 <WeeklyActiveMembersShell daoId={daoId} />
