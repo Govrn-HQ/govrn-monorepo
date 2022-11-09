@@ -4,15 +4,19 @@ import { UIContribution } from '@govrn/ui-types';
 import { ListContributionsQueryVariables } from '@govrn/protocol-client';
 import { formatDate } from '../utils/date';
 
-export const useContributionList = (args?: ListContributionsQueryVariables) => {
+export const useContributionList = (
+  args?: ListContributionsQueryVariables,
+  refetchOnWindowFocus?: boolean,
+) => {
   const { govrnProtocol: govrn } = useUser();
-  const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['contributionList', args],
-    async (): Promise<UIContribution[]> => {
+  const { isLoading, isFetching, isError, error, data } = useQuery({
+    queryKey: ['contributionList', args],
+    queryFn: async (): Promise<UIContribution[]> => {
       const data = await govrn.contribution.list(args || {});
       return data.result;
     },
-  );
+    refetchOnWindowFocus,
+  });
   return { isLoading, isError, isFetching, error, data };
 };
 
