@@ -51,7 +51,11 @@ const RecentContributionsTable = ({
         Header: 'Name',
         accessor: 'name',
         Cell: ({ value }: { value: string }) => {
-          return <Text>{value}</Text>;
+          return (
+            <Flex direction="column" wrap="wrap">
+              <Text whiteSpace="normal">{value}</Text>
+            </Flex>
+          );
         },
       },
       {
