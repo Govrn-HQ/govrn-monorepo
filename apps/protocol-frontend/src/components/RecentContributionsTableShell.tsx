@@ -19,13 +19,16 @@ const RecentContributionsTableShell = ({
     data: recentContributions,
     isLoading,
     isError,
-  } = useContributionList({
-    where: {
-      guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+  } = useContributionList(
+    {
+      where: {
+        guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+      },
+      first: displayNumber,
+      orderBy: { date_of_engagement: SortOrder.Desc },
     },
-    first: displayNumber,
-    orderBy: { date_of_engagement: SortOrder.Desc },
-  });
+    false,
+  );
 
   if (isError) {
     return (

@@ -16,11 +16,14 @@ const MonthlyContributionsShell = ({
     isLoading,
     isFetching,
     isError,
-  } = useDaoContributionCountInRange({
-    startDate: subWeeks(startOfDay(TODAY_DATE), MONTH),
-    endDate: endOfDay(TODAY_DATE),
-    guildId: daoId,
-  });
+  } = useDaoContributionCountInRange(
+    {
+      startDate: subWeeks(startOfDay(TODAY_DATE), MONTH),
+      endDate: endOfDay(TODAY_DATE),
+      guildId: daoId,
+    },
+    false,
+  );
 
   return (
     <CountDisplay

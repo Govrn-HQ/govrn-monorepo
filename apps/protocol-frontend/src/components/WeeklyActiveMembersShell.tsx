@@ -15,13 +15,16 @@ const WeeklyActiveMembersShell = ({ daoId }: WeeklyActiveMembersShellProps) => {
     isLoading,
     isFetching,
     isError,
-  } = useContributionList({
-    first: 500, //  TODO: want all contributions in range regardless of count -- better way to do this?
-    where: {
-      guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
-      date_of_engagement: { gte: subWeeks(TODAY_DATE, 9) },
+  } = useContributionList(
+    {
+      first: 500, //  TODO: want all contributions in range regardless of count -- better way to do this?
+      where: {
+        guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+        date_of_engagement: { gte: subWeeks(TODAY_DATE, 9) },
+      },
     },
-  });
+    false,
+  );
 
   const setWeekRange = (weekRange: number) => {
     const weeks = [];
