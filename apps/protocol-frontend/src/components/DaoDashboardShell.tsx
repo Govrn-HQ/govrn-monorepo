@@ -113,7 +113,12 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             gap={4}
             justifyContent="space-between"
           >
-            <Flex direction="column" gap={2} flexBasis="80%">
+            <Flex
+              direction="column"
+              gap={2}
+              flexBasis="80%"
+              display={{ base: 'none', lg: 'block' }}
+            >
               <ContributionsByDateShell guildIds={[daoId]} />
             </Flex>
             <Flex
