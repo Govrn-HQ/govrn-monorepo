@@ -68,6 +68,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           alignItems="center"
           justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
           gap={2}
+          width={{ base: '100%', lg: 'auto' }}
         >
           <Flex
             direction={{ base: 'column', lg: 'row' }}
@@ -78,7 +79,10 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             flexGrow="1"
             gap={{ base: 0, lg: 2 }}
           >
-            <Box visibility={showCustomDatePicker ? 'inherit' : 'hidden'}>
+            <Box
+              visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
+              width="100%"
+            >
               <ControlledDatePicker
                 selected={startDate}
                 onChange={dates => {
