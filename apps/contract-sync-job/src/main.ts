@@ -75,7 +75,6 @@ const main = async () => {
           contributionDetails?.govrn?.id
         ) {
           return {
-            contribution_id: contributionDetails.govrn.id,
             name: contributionDetails.name,
             status_name: 'minted',
             activity_type_id: contributionDetails.govrn?.activityTypeId,

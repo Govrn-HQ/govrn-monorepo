@@ -164,6 +164,16 @@ export class Contribution extends BaseClient {
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
+    this.update({
+      data: {
+        tx_hash: { set: transaction.hash },
+        status: { connect: { name: 'pending_mint' } },
+      },
+      where: {
+        id: id,
+      },
+    });
+
     const transactionReceipt = await transaction.wait();
 
     let onChainId = null as null | ethers.BigNumber;
