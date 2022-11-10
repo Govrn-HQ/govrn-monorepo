@@ -23,7 +23,10 @@ const DaoLandingPage = () => {
           >
             <Stack spacing="4" justify="center" align="center" minHeight="50vh">
               <Text fontSize="lg" fontWeight="medium">
-                <span aria-labelledby="Sun emoji for callout indicating user is not in any DAOs yet.">
+                <span
+                  role="img"
+                  aria-labelledby="Sun emoji for callout indicating user is not in any DAOs yet."
+                >
                   🌞
                 </span>{' '}
                 You're not in any DAOs yet!{' '}

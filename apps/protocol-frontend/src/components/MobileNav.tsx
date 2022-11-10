@@ -157,7 +157,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                           </MenuList>
                         </Menu>
                       ) : (
-                        <Link to="feature/dao">
+                        <Link to="/feature/dao">
                           <NavButton
                             label="DAOs"
                             icon={FiGitBranch}
