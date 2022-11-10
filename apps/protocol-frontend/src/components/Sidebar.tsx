@@ -35,7 +35,7 @@ const Sidebar = () => {
   const location = useLocation();
   const { userData } = useUser();
 
-  const { data: daosListData } = useDaosList({
+  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
   });
 
@@ -109,7 +109,7 @@ const Sidebar = () => {
                 active={location.pathname.includes('/profile')}
               />
             </Link>
-            {daosListData && daosListData.length > 0 ? (
+            {daosListData && !daosListIsLoading && daosListData?.length > 0 ? (
               <Menu>
                 <MenuButton
                   as={Button}
@@ -136,7 +136,7 @@ const Sidebar = () => {
                 </MenuList>
               </Menu>
             ) : (
-              <Link to="feature/dao">
+              <Link to="/feature/dao">
                 <NavButton
                   label="DAOs"
                   icon={FiGitBranch}

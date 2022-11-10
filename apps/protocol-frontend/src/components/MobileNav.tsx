@@ -47,7 +47,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
   const location = useLocation();
   const { userData } = useUser();
 
-  const { data: daosListData } = useDaosList({
+  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
   });
   return (
@@ -126,7 +126,9 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                           active={location.pathname.includes('/profile')}
                         />
                       </Link>
-                      {daosListData && daosListData.length > 0 ? (
+                      {daosListData &&
+                      !daosListIsLoading &&
+                      daosListData.length > 0 ? (
                         <Menu>
                           <MenuButton
                             as={Button}
