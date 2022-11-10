@@ -111,30 +111,39 @@ const Sidebar = () => {
                 active={location.pathname.includes('/profile')}
               />
             </Link>
-            <Menu>
-              <MenuButton
-                as={Button}
-                // leftIcon={<Icon as={FiGitBranch} boxSize="6" />}
-                rightIcon={<FiChevronDown />}
-                variant="ghost"
-                justifyContent="start"
-                color="gray.800"
-                transition="all 100ms ease-in-out"
-                backgroundColor="transparent"
-                _hover={{ bgColor: 'gray.100' }}
-                width="100%"
-              >
-                <HStack spacing="3">
-                  <Icon as={FiGitBranch} boxSize="6" color="subtle" />
-                  <Text>DAOs</Text>
-                </HStack>
-              </MenuButton>
-              <MenuList>
-                {daosListData?.map(dao => (
-                  <MenuItem>{dao.name}</MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
+            {daosListData && daosListData.length > 0 ? (
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rightIcon={<FiChevronDown />}
+                  variant="ghost"
+                  justifyContent="start"
+                  color="gray.800"
+                  transition="all 100ms ease-in-out"
+                  backgroundColor="transparent"
+                  _hover={{ bgColor: 'gray.100' }}
+                  width="100%"
+                >
+                  <HStack spacing="3">
+                    <Icon as={FiGitBranch} boxSize="6" color="subtle" />
+                    <Text>DAOs</Text>
+                  </HStack>
+                </MenuButton>
+                <MenuList>
+                  {daosListData?.map(dao => (
+                    <MenuItem>{dao.name}</MenuItem>
+                  ))}
+                </MenuList>
+              </Menu>
+            ) : (
+              <Link to="/daos">
+                <NavButton
+                  label="DAOs"
+                  icon={FiGitBranch}
+                  active={location.pathname.includes('/daos')}
+                />
+              </Link>
+            )}
             <HStack>
               <ConnectWallet showNetwork />
             </HStack>
