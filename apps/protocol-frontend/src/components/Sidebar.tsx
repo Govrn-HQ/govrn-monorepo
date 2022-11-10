@@ -39,8 +39,6 @@ const Sidebar = () => {
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
   });
 
-  console.log('daos list data: ', daosListData);
-
   return (
     <Flex
       alignItems="flex-start"
@@ -138,12 +136,13 @@ const Sidebar = () => {
                 </MenuList>
               </Menu>
             ) : (
-              <Link to="/daos">
+              <Link to="feature/dao">
                 <NavButton
                   label="DAOs"
                   icon={FiGitBranch}
-                  active={location.pathname.includes('/daos')}
-                />
+                  active={location.pathname.includes('/dao/')}
+                  marginBottom={4}
+                />{' '}
               </Link>
             )}
             <HStack>
