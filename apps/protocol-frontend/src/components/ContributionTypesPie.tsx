@@ -21,7 +21,7 @@ const ContributionTypesPie = ({
   isLoading,
   isError,
 }: ContributionTypesPieProps) => {
-  const isMobile = useBreakpointValue({ base: true, lg: false });
+  const isTablet = useBreakpointValue({ base: true, md: true, lg: false });
 
   const contributionsDataMap = contributionActivityData?.map(contribution => {
     return {
@@ -68,10 +68,10 @@ const ContributionTypesPie = ({
           <ResponsivePie
             data={contributionsDataMap ? contributionsDataMap : []}
             margin={{
-              top: isMobile ? 10 : 40,
-              right: isMobile ? 40 : 40,
-              bottom: isMobile ? 10 : 40,
-              left: isMobile ? 40 : 40,
+              top: isTablet ? 10 : 40,
+              right: isTablet ? 40 : 40,
+              bottom: isTablet ? 10 : 40,
+              left: isTablet ? 40 : 40,
             }}
             colors={BRAND_COLOR_MAP}
             innerRadius={0.5}
@@ -86,7 +86,7 @@ const ContributionTypesPie = ({
             arcLinkLabelsThickness={1.5}
             arcLinkLabelsColor={{ from: 'color' }}
             layers={
-              isMobile
+              isTablet
                 ? ['arcs', 'arcLabels']
                 : ['arcs', 'arcLinkLabels', 'arcLabels']
             }
