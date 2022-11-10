@@ -131,7 +131,9 @@ const Sidebar = () => {
                 </MenuButton>
                 <MenuList>
                   {daosListData?.map(dao => (
-                    <MenuItem>{dao.name}</MenuItem>
+                    <Link to={`/feature/dao/${dao.id}`}>
+                      <MenuItem>{dao.name}</MenuItem>
+                    </Link>
                   ))}
                 </MenuList>
               </Menu>
