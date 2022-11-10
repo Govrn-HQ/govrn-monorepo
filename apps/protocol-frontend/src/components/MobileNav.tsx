@@ -129,7 +129,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                       {daosListData &&
                       !daosListIsLoading &&
                       daosListData.length > 0 ? (
-                        <Menu>
+                        <Menu isLazy>
                           <MenuButton
                             as={Button}
                             rightIcon={<FiChevronDown />}

@@ -1,21 +1,39 @@
 import { useAccount } from 'wagmi';
 import { useAuth } from '../contexts/AuthContext';
+import { useUser } from '../contexts/UserContext';
 import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import SiteLayout from '../components/SiteLayout';
+import NewUserView from '../components/NewUserView';
+import { GOVRN_MOTTO } from '../utils/constants';
+
+const UserView = () => {
+  return (
+    <Stack spacing="4" justify="center" align="center" minHeight="50vh">
+      <Text>{GOVRN_MOTTO}</Text>
+      <Text fontSize="lg" fontWeight="medium">
+        Welcome back! Connect your wallet to report a Contribution{' '}
+        <span role="img" aria-labelledby="eye emoji looking at Contributions">
+          👀
+        </span>
+      </Text>
+    </Stack>
+  );
+};
 
 const DaoLandingPage = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
+  const { userData } = useUser();
 
   return (
     <SiteLayout>
-      {isConnected && isAuthenticated && (
-        <Container
-          paddingY={{ base: '4', md: '8' }}
-          paddingX={{ base: '0', md: '8' }}
-          color="gray.700"
-          maxWidth="1200px"
-        >
+      <Container
+        paddingY={{ base: '4', md: '8' }}
+        paddingX={{ base: '0', md: '8' }}
+        color="gray.700"
+        maxWidth="1200px"
+      >
+        {isConnected && isAuthenticated ? (
           <Box
             background="white"
             boxShadow="sm"
@@ -39,8 +57,16 @@ const DaoLandingPage = () => {
               </Text>
             </Stack>
           </Box>
-        </Container>
-      )}
+        ) : (
+          <Box>
+            {isConnected && isAuthenticated && userData ? (
+              <UserView />
+            ) : (
+              <NewUserView />
+            )}
+          </Box>
+        )}
+      </Container>
     </SiteLayout>
   );
 };

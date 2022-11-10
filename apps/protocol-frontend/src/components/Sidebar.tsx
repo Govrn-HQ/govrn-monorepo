@@ -25,15 +25,19 @@ import {
   FiGitBranch,
 } from 'react-icons/fi';
 import { FaDiscord } from 'react-icons/fa';
+import { useAccount } from 'wagmi';
+import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useDaosList } from '../hooks/useDaosList';
+import ConnectWallet from './ConnectWallet';
 import Logo from './Logo';
 import NavButton from './NavButton';
-import ConnectWallet from './ConnectWallet';
-import { useUser } from '../contexts/UserContext';
-import { useDaosList } from '../hooks/useDaosList';
 
 const Sidebar = () => {
   const location = useLocation();
   const { userData } = useUser();
+  const { isConnected } = useAccount();
+  const { isAuthenticated } = useAuth();
 
   const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
@@ -109,8 +113,11 @@ const Sidebar = () => {
                 active={location.pathname.includes('/profile')}
               />
             </Link>
-            {daosListData && !daosListIsLoading && daosListData?.length > 0 ? (
-              <Menu>
+            {isConnected &&
+            isAuthenticated &&
+            daosListData &&
+            daosListData?.length > 0 ? (
+              <Menu isLazy>
                 <MenuButton
                   as={Button}
                   rightIcon={<FiChevronDown />}
