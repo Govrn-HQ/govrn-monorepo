@@ -14,6 +14,7 @@ import { MdCheckCircle } from 'react-icons/all';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
 import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
+import { TextList } from './TextList';
 
 interface BulkAttestationModalProps {
   contributions: AttestationTableType[];
@@ -53,17 +54,12 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
         Attesting to <strong>{contributions.length} </strong>
         {pluralize('Contribution', contributions.length)}:
       </Text>
-      <List variant="primary" paddingBottom={3} spacing={2}>
-        {contributions.map(value => {
-          return (
-            <ListItem>
-              {' '}
-              <ListIcon as={MdCheckCircle} color="green.500" />
-              {value.name}
-            </ListItem>
-          );
-        })}
-      </List>
+      <TextList
+        items={contributions.map(c => ({
+          id: String(c.id),
+          text: c.name,
+        }))}
+      />
       {attesting ? (
         <Progress
           color="brand.primary"

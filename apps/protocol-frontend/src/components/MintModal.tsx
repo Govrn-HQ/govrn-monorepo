@@ -23,6 +23,7 @@ import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 import useContributionBulkMint from '../hooks/useContributionBulkMint';
 import { MdCheckCircle } from 'react-icons/all';
+import { TextList } from './TextList';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
@@ -108,17 +109,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
           </HStack>
         </Tooltip>
       </HStack>
-      <List variant="primary" paddingBottom={3} spacing={2}>
-        {contributions.map(contr => {
-          return (
-            <ListItem>
-              {' '}
-              <ListIcon as={MdCheckCircle} color="green.500" />
-              {'original' in contr ? contr.original.name : contr.name}
-            </ListItem>
-          );
-        })}
-      </List>
+      <TextList
+        items={contributions.map(c => ({
+          id: String(c.id),
+          text: 'original' in c ? c.original.name : c.name,
+        }))}
+      />
       {!minting ? (
         <>
           <Text>
