@@ -11,6 +11,7 @@ import { useDaosList } from '../hooks/useDaosList';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
 import { DEFAULT_DATE_RANGES } from '../utils/constants';
+import pluralize from 'pluralize';
 
 const TODAY_DATE = new Date();
 
@@ -177,9 +178,7 @@ const DashboardShell = () => {
                         0,
                       )}{' '}
                     </Text>
-                    {fullContributionsCount.length === 1
-                      ? 'Contribution'
-                      : 'Contributions'}
+                    {pluralize('Contribution', fullContributionsCount.length)}
                     <Text as="span" fontSize="sm">
                       {' '}
                       in the {dateRange?.label.toLowerCase()}
@@ -218,9 +217,7 @@ const DashboardShell = () => {
                         0,
                       )}{' '}
                     </Text>
-                    {contributionsCount.length === 1
-                      ? 'Contribution'
-                      : 'Contributions'}
+                    {pluralize('Contribution', contributionsCount.length)}
                     <Text as="span" fontSize="sm">
                       {' '}
                       in the {dateRange?.label.toLowerCase()}
