@@ -20,6 +20,7 @@ import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 import useContributionBulkMint from '../hooks/useContributionBulkMint';
 import { TextList } from './TextList';
+import pluralize from 'pluralize';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
@@ -89,8 +90,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
     <Stack spacing="3" width="100%" color="gray.800">
       <HStack width="100%" justifyContent="space-between">
         <Text fontSize="md">
-          Minting {contributions.length}{' '}
-          {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+          Minting {pluralize('Contribution', contributions.length, true)}
         </Text>
         <Tooltip
           hasArrow
@@ -166,7 +166,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           data-testid="mintContribution-test"
         >
           {contributions.length > 1 ? 'Bulk ' : ''}
-          Mint {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+          Mint {pluralize('Contribution', contributions.length)}
         </Button>
       </Flex>
     </Stack>
