@@ -4,7 +4,7 @@ export type ContributionData = {
   contribution_id?: number;
   name: string;
   status_name: string;
-  activity_type_id: number;
+  activity_type_name?: string;
   user_id: number;
   date_of_engagement: Date;
   date_of_submission: Date;
@@ -91,10 +91,6 @@ export const upsertContribution = async (contribution: ContributionData) => {
   console.log(
     `:: Upsert Contribution with on chain id ${contribution.on_chain_id} and/or id ${contribution.contribution_id}`,
   );
-  // Check if pending mint
-  // if pending mint and not on_chain_id then compare
-  // name, proof and details, and chain id
-  // something somehting
   const existingContribution = await govrn.contribution.list({
     where: {
       details: { equals: contribution.details },
@@ -121,7 +117,6 @@ export const upsertContribution = async (contribution: ContributionData) => {
         },
       });
       if (existingContributionInDB.result.length > 0) {
-        console.log(existingContributionInDB.result[0].id);
         await govrn.contribution.deleteStaging(
           existingContributionInDB.result[0].id,
         );
@@ -131,8 +126,12 @@ export const upsertContribution = async (contribution: ContributionData) => {
       await govrn.contribution.update({
         data: {
           date_of_engagement: { set: contribution.date_of_engagement },
-          // Change this
-          activity_type: { connect: { id: contribution.activity_type_id } },
+          activity_type: {
+            connectOrCreate: {
+              create: { name: contribution.activity_type_name },
+              where: { name: contribution.activity_type_name },
+            },
+          },
           status: {
             connect: { name: 'minted' },
           },
@@ -161,7 +160,13 @@ export const upsertContribution = async (contribution: ContributionData) => {
       details: contribution.details,
       date_of_engagement: contribution.date_of_engagement,
       user: { connect: { id: contribution.user_id } },
-      activity_type: { connect: { id: contribution.activity_type_id } },
+      activity_type: {
+        connectOrCreate: {
+          create: { name: contribution.activity_type_name },
+          where: { name: contribution.activity_type_name },
+        },
+      },
+
       status: {
         connect: { name: 'minted' },
       },

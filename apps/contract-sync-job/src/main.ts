@@ -76,14 +76,11 @@ const main = async () => {
         const contributionDetails = await fetchIPFS<MintedContributionSchemaV1>(
           detailsUri,
         );
-        if (
-          contributionDetails?.version === 1 &&
-          contributionDetails?.govrn?.id
-        ) {
+        if (contributionDetails?.version === 1) {
           return {
             name: contributionDetails.name,
             status_name: 'minted',
-            activity_type_id: contributionDetails.govrn?.activityTypeId,
+            activity_type_name: contributionDetails.activityName,
             user_id: userId,
             date_of_engagement: new Date(contr.dateOfEngagement.toNumber()),
             date_of_submission: new Date(contr.dateOfSubmission.toNumber()),
@@ -120,7 +117,7 @@ const main = async () => {
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
-    console.log(errors);
+    console.log('batch errors', errors);
 
     const upsertedCount = inserted.length;
     if (upsertedCount > 0) {
