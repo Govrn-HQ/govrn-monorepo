@@ -10,7 +10,6 @@ const CHAIN_URL = process.env.CHAIN_URL;
 const CHAIN_ID = Number(process.env.CHAIN_ID);
 
 const LIMIT = 100;
-const SKIP_LIMIT = 4999;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
@@ -35,10 +34,6 @@ export const loadContributions = async ({
   after,
 }: InferType<typeof requestSchema>): Promise<LDContribution[]> => {
   const skip = (page - 1) * limit;
-
-  if (skip > SKIP_LIMIT) {
-    throw new Error('Maximum Limit exceeded.');
-  }
 
   const contrsEvents = (
     await client.listContributions({
