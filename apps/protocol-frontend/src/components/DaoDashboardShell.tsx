@@ -62,6 +62,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           alignItems="center"
           justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
           gap={2}
+          width={{ base: '100%', lg: 'auto' }}
         >
           <Flex
             direction={{ base: 'column', lg: 'row' }}
@@ -72,7 +73,10 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             flexGrow="1"
             gap={{ base: 0, lg: 2 }}
           >
-            <Box visibility={showCustomDatePicker ? 'inherit' : 'hidden'}>
+            <Box
+              visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
+              width="100%"
+            >
               <ControlledDatePicker
                 selected={startDate}
                 onChange={dates => {
@@ -105,14 +109,20 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             gap={4}
             justifyContent="space-between"
           >
-            <Flex direction="column" gap={2} flexBasis="80%">
+            <Flex
+              direction="column"
+              gap={2}
+              flexBasis="80%"
+              display={{ base: 'none', lg: 'block' }}
+            >
               <ContributionsByDateShell guildIds={[daoId]} />
             </Flex>
             <Flex
               direction={{ base: 'row', lg: 'column' }}
               gap={2}
               flexBasis="20%"
-              justifyContent="space-around"
+              justifyContent="space-between"
+              marginY={{ base: 4, lg: 0 }}
             >
               <Flex direction="column" gap={2}>
                 <WeeklyActiveMembersShell daoId={daoId} />
