@@ -150,7 +150,7 @@ const ContributionsByDateChart = ({
   }
 
   return (
-    <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
+    <Flex direction="column" paddingX={{ base: 4, lg: 0 }} paddingBottom="0">
       <Flex
         direction="column"
         paddingY={{ base: '4', lg: '4' }}

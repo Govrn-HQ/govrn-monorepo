@@ -149,7 +149,11 @@ const DashboardShell = () => {
                 />
               </Flex>
             </Flex>
-            <Flex direction="column" gap={2}>
+            <Flex
+              direction="column"
+              gap={2}
+              display={{ base: 'none', lg: 'block' }}
+            >
               <Heading
                 as="h4"
                 fontSize="lg"

@@ -51,7 +51,11 @@ const RecentContributionsTable = ({
         Header: 'Name',
         accessor: 'name',
         Cell: ({ value }: { value: string }) => {
-          return <Text>{value}</Text>;
+          return (
+            <Flex direction="column" wrap="wrap">
+              <Text whiteSpace="normal">{value}</Text>
+            </Flex>
+          );
         },
       },
       {
@@ -98,51 +102,53 @@ const RecentContributionsTable = ({
           >
             Recent Contributions
           </Heading>
-          <Table
-            {...getTableProps()}
-            maxWidth="100vw"
-            overflowX="auto"
-            borderWidth="1px"
-            borderColor="gray.100"
-            borderRadius={{ base: 'none', md: 'md' }}
-          >
-            <Thead backgroundColor="gray.50">
-              {headerGroups.map(
-                (headerGroup: HeaderGroup<RecentContributionTableType>) => (
-                  <Tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(
-                      (column: HeaderGroup<RecentContributionTableType>) => (
-                        <Th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps(),
-                          )}
-                          borderColor="gray.100"
-                        >
-                          {column.render('Header')}
-                        </Th>
-                      ),
-                    )}
-                    <Th borderColor="gray.100" />
-                  </Tr>
-                ),
-              )}
-            </Thead>
+          <Box width="100%" maxWidth="100vw" overflowX="auto">
+            <Table
+              {...getTableProps()}
+              maxWidth="100vw"
+              overflowX="auto"
+              borderWidth="1px"
+              borderColor="gray.100"
+              borderRadius={{ base: 'none', md: 'md' }}
+            >
+              <Thead backgroundColor="gray.50">
+                {headerGroups.map(
+                  (headerGroup: HeaderGroup<RecentContributionTableType>) => (
+                    <Tr {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map(
+                        (column: HeaderGroup<RecentContributionTableType>) => (
+                          <Th
+                            {...column.getHeaderProps(
+                              column.getSortByToggleProps(),
+                            )}
+                            borderColor="gray.100"
+                          >
+                            {column.render('Header')}
+                          </Th>
+                        ),
+                      )}
+                      <Th borderColor="gray.100" />
+                    </Tr>
+                  ),
+                )}
+              </Thead>
 
-            <Tbody {...getTableBodyProps()}>
-              {rows.map(row => {
-                prepareRow(row);
-                return (
-                  <Tr {...row.getRowProps()}>
-                    {row.cells.map(cell => (
-                      <Td {...cell.getCellProps()} borderColor="gray.100">
-                        <>{cell.render('Cell')}</>
-                      </Td>
-                    ))}
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
+              <Tbody {...getTableBodyProps()}>
+                {rows.map(row => {
+                  prepareRow(row);
+                  return (
+                    <Tr {...row.getRowProps()}>
+                      {row.cells.map(cell => (
+                        <Td {...cell.getCellProps()} borderColor="gray.100">
+                          <>{cell.render('Cell')}</>
+                        </Td>
+                      ))}
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </Box>
         </Flex>
       </Box>
     </Stack>
