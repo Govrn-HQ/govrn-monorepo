@@ -21,6 +21,7 @@ export const requestSchema = object({
   address: string().required(),
   page: number().optional().default(1),
   limit: number().optional().default(LIMIT),
+  after: number().optional().default(0),
 });
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
@@ -31,6 +32,7 @@ export const loadContributions = async ({
   address,
   limit,
   page,
+  after,
 }: InferType<typeof requestSchema>): Promise<LDContribution[]> => {
   const skip = (page - 1) * limit;
 
@@ -40,7 +42,10 @@ export const loadContributions = async ({
 
   const contrsEvents = (
     await client.listContributions({
-      where: { address },
+      first: limit,
+      skip,
+      where: { address, id_gt: String(after) },
+      orderBy: 'id',
     })
   ).contributions;
 
