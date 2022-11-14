@@ -20,7 +20,7 @@ const JOB_NAME = `contract-sync-job-${CHAIN_NAME}`;
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
-const OFFSET_DATE = 24;
+const OFFSET_DATE = Number(process.env.OFFSET_DATE) | 24;
 const CHAIN_ID = 100;
 const BATCH_SIZE = 100;
 
