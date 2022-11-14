@@ -8,6 +8,9 @@ import {
   Checkbox,
   Tooltip,
   Icon,
+  ListItem,
+  ListIcon,
+  List,
 } from '@chakra-ui/react';
 import { bulkStoreIpfs } from '../libs/ipfs';
 import { useLocalStorage } from '../utils/hooks';
@@ -19,6 +22,7 @@ import useContributionMint from '../hooks/useContributionMint';
 import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 import useContributionBulkMint from '../hooks/useContributionBulkMint';
+import { MdCheckCircle } from 'react-icons/all';
 
 const MintModal = ({ contributions }: MintModalProps) => {
   const { setModals } = useOverlay();
@@ -104,6 +108,17 @@ const MintModal = ({ contributions }: MintModalProps) => {
           </HStack>
         </Tooltip>
       </HStack>
+      <List variant="primary" paddingBottom={3} spacing={2}>
+        {contributions.map(contr => {
+          return (
+            <ListItem>
+              {' '}
+              <ListIcon as={MdCheckCircle} color="green.500" />
+              {'original' in contr ? contr.original.name : contr.name}
+            </ListItem>
+          );
+        })}
+      </List>
       {!minting ? (
         <>
           <Text>
