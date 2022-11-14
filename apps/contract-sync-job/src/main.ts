@@ -20,6 +20,7 @@ const JOB_NAME = `contract-sync-job-${CHAIN_NAME}`;
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
+const OFFSET_DATE = 24;
 const CHAIN_ID = 100;
 const BATCH_SIZE = 100;
 
@@ -40,11 +41,16 @@ const main = async () => {
   const lastRun = await getJobRun({ name: JOB_NAME });
 
   const startDate =
-    lastRun.length > 0 ? new Date(lastRun[0].startDate) : new Date(26728502000);
+    lastRun.length > 0
+      ? new Date(lastRun[0].completedDate)
+      : new Date(267285020000);
+  const lastRunTime = Math.ceil(
+    startDate.getTime() / 1000 - OFFSET_DATE * 60 * 60,
+  );
 
   const contributionsEvents = (
     await client.listContributions({
-      where: { createdAt_gte: Math.ceil(startDate.getTime() / 1000) },
+      where: { createdAt_gte: lastRunTime },
     })
   ).contributions;
   const contributionActivityTypeId = await getOrInsertActivityType({
@@ -109,11 +115,12 @@ const main = async () => {
   );
 
   if (contributions.length > 0) {
-    const { results: inserted } = await batch(
+    const { results: inserted, errors } = await batch(
       contributions,
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
+    console.log(errors);
 
     const upsertedCount = inserted.length;
     if (upsertedCount > 0) {
@@ -132,7 +139,7 @@ const main = async () => {
 
   const attestationEvents = (
     await client.listAttestations({
-      where: { createdAt_gte: Math.ceil(startDate.getTime() / 1000) },
+      where: { createdAt_gte: lastRunTime },
     })
   ).attestations;
   console.log(`:: Processing ${attestationEvents.length} Attestation Event(s)`);

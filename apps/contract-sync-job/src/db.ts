@@ -94,54 +94,43 @@ export const upsertContribution = async (contribution: ContributionData) => {
   // Check if pending mint
   // if pending mint and not on_chain_id then compare
   // name, proof and details, and chain id
-  if (contribution.on_chain_id) {
-    return await govrn.contribution.upsert({
-      where: {
-        chain_id_on_chain_id: {
-          chain_id: await getIdOfChain(contribution.chain_id),
-          on_chain_id: contribution.on_chain_id,
-        },
-      },
-      create: {
-        name: contribution.name,
-        proof: contribution.proof,
-        details: contribution.details,
-        date_of_engagement: contribution.date_of_engagement,
-        user: { connect: { id: contribution.user_id } },
-        activity_type: { connect: { id: contribution.activity_type_id } },
-        status: {
-          connect: { name: 'minted' },
-        },
-        on_chain_id: contribution.on_chain_id,
-        chain: { connect: { chain_id: `${contribution.chain_id}` } },
-        tx_hash: contribution.txHash,
-      },
-      update: {
-        name: { set: contribution.name },
-        on_chain_id: { set: contribution.on_chain_id },
-        proof: { set: contribution.proof ?? null },
-        details: { set: contribution.details ?? null },
-        chain: { connect: { chain_id: `${contribution.chain_id}` } },
-        status: { connect: { name: contribution.status_name } },
-        tx_hash: { set: contribution.txHash },
-      },
-    });
+  // something somehting
+  const existingContribution = await govrn.contribution.list({
+    where: {
+      details: { equals: contribution.details },
+      name: { equals: contribution.name },
+      proof: { equals: contribution.proof },
+      status: { is: { name: { equals: 'pending' } } },
+      user_id: { equals: contribution.user_id },
+      on_chain_id: { equals: null },
+    },
+  });
 
-    // something somehting
-    const existingContribution = await govrn.contribution.list({
-      where: {
-        details: { equals: contribution.details },
-        name: { equals: contribution.name },
-        proof: { equals: contribution.proof },
-        status: { is: { name: { equals: 'pending_mint' } } },
-        user_id: { equals: contribution.user_id },
-      },
-    });
-    if (existingContribution.result.length > 0) {
-      return await govrn.contribution.update({
+  if (existingContribution.result.length > 0) {
+    for (const result of existingContribution.result) {
+      const existingContributionInDB = await govrn.contribution.list({
+        where: {
+          AND: [
+            {
+              on_chain_id: { equals: contribution.on_chain_id },
+              chain: {
+                is: { chain_id: { equals: `${contribution.chain_id}` } },
+              },
+            },
+          ],
+        },
+      });
+      if (existingContributionInDB.result.length > 0) {
+        console.log(existingContributionInDB.result[0].id);
+        await govrn.contribution.deleteStaging(
+          existingContributionInDB.result[0].id,
+        );
+        continue;
+      }
+
+      await govrn.contribution.update({
         data: {
           date_of_engagement: { set: contribution.date_of_engagement },
-          user: { connect: { id: contribution.user_id } },
           // Change this
           activity_type: { connect: { id: contribution.activity_type_id } },
           status: {
@@ -152,28 +141,44 @@ export const upsertContribution = async (contribution: ContributionData) => {
           tx_hash: { set: contribution.txHash },
         },
         where: {
-          id: existingContribution.result[0].id,
+          id: result.id,
         },
       });
     }
-    return;
-
-    // fetch by xyz
-    //
-
-    // return await govrn.contribution.update({
-    //   where: {
-    //     id: contribution.contribution_id,
-    //   },
-    //   data: {
-    //     name: { set: contribution.name },
-    //     on_chain_id: { set: contribution.on_chain_id },
-    //     proof: { set: contribution.proof ?? null },
-    //     details: { set: contribution.details ?? null },
-    //     chain: { connect: { chain_id: `${contribution.chain_id}` } },
-    //   },
-    // });
+    return existingContribution.result.length;
   }
+
+  return await govrn.contribution.upsert({
+    where: {
+      chain_id_on_chain_id: {
+        chain_id: await getIdOfChain(contribution.chain_id),
+        on_chain_id: contribution.on_chain_id,
+      },
+    },
+    create: {
+      name: contribution.name,
+      proof: contribution.proof,
+      details: contribution.details,
+      date_of_engagement: contribution.date_of_engagement,
+      user: { connect: { id: contribution.user_id } },
+      activity_type: { connect: { id: contribution.activity_type_id } },
+      status: {
+        connect: { name: 'minted' },
+      },
+      on_chain_id: contribution.on_chain_id,
+      chain: { connect: { chain_id: `${contribution.chain_id}` } },
+      tx_hash: contribution.txHash,
+    },
+    update: {
+      name: { set: contribution.name },
+      on_chain_id: { set: contribution.on_chain_id },
+      proof: { set: contribution.proof ?? null },
+      details: { set: contribution.details ?? null },
+      chain: { connect: { chain_id: `${contribution.chain_id}` } },
+      status: { connect: { name: contribution.status_name } },
+      tx_hash: { set: contribution.txHash },
+    },
+  });
 };
 
 export const bulkCreateAttestations = async (

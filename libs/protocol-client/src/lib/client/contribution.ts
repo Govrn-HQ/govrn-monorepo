@@ -73,7 +73,13 @@ export class Contribution extends BaseClient {
       await transaction.wait();
     }
 
-    return await this.sdk.deleteContribution({ where: { contributionId: id } });
+    return await this.sdk.deleteUserContribution({
+      where: { contributionId: id },
+    });
+  }
+
+  public async deleteStaging(id: number) {
+    return await this.sdk.deleteContribution({ where: { id: id } });
   }
 
   public async bulkCreate(args: BulkCreateContributionMutationVariables) {
@@ -164,13 +170,11 @@ export class Contribution extends BaseClient {
   ) {
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
-    this.update({
+    await this.sdk.updateUserOnChainContribution({
+      id: id,
+      status: 'pending',
       data: {
         tx_hash: { set: transaction.hash },
-        status: { connect: { name: 'pending_mint' } },
-      },
-      where: {
-        id: id,
       },
     });
 
@@ -319,17 +323,16 @@ export class Contribution extends BaseClient {
     const { args, name, details, proof, onChainId, userId, id, txHash } =
       contribution;
     return await this.sdk.updateUserOnChainContribution({
+      id: id,
+      status: 'minted',
       data: {
-        name: ethers.utils.toUtf8String(name),
-        details: ethers.utils.toUtf8String(details),
-        dateOfSubmission: new Date(args.dateOfSubmission).toString(),
-        dateOfEngagement: new Date(args.dateOfSubmission).toString(),
-        proof: ethers.utils.toUtf8String(proof),
-        status: 'minted',
-        onChainId: onChainId,
-        userId: userId,
-        id: id,
-        txHash: txHash,
+        name: { set: ethers.utils.toUtf8String(name) },
+        details: { set: ethers.utils.toUtf8String(details) },
+        date_of_submission: { set: new Date(args.dateOfSubmission).toString() },
+        date_of_engagement: { set: new Date(args.dateOfSubmission).toString() },
+        proof: { set: ethers.utils.toUtf8String(proof) },
+        on_chain_id: { set: onChainId },
+        tx_hash: { set: txHash },
       },
     });
   }
