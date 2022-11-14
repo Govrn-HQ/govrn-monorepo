@@ -24,12 +24,14 @@ const gnosisChain: Chain = {
   testnet: false,
 };
 
+const ALCHEMY_KEY = process.env.NEXT_PUBLIC_ALCHEMY_KEY;
+
 const dev = false;
 const defaultChains = dev
   ? [gnosisChain, chain.goerli, chain.rinkeby, chain.localhost]
   : [gnosisChain, chain.goerli, chain.rinkeby];
 export const { chains, provider } = configureChains(defaultChains, [
-  alchemyProvider({ apiKey: 'n0NXRSZ9olpkJUPDLBC00Es75jaqysyT' }),
+  alchemyProvider({ apiKey: ALCHEMY_KEY }),
   publicProvider(),
 ]);
 
