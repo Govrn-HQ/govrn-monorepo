@@ -320,8 +320,7 @@ export class Contribution extends BaseClient {
     txHash: string;
     onChainId: number;
   }) {
-    const { args, name, details, proof, onChainId, userId, id, txHash } =
-      contribution;
+    const { args, name, details, proof, onChainId, id, txHash } = contribution;
     return await this.sdk.updateUserOnChainContribution({
       id: id,
       status: 'minted',
