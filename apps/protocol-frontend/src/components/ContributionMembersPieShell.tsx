@@ -17,11 +17,14 @@ const ContributionMembersPieShell = ({
     isLoading,
     isError,
     data: contributionMembersData,
-  } = useDaoContributionCountByUserInRange({
-    startDate: startDate,
-    endDate: endDate,
-    guildId: daoId,
-  });
+  } = useDaoContributionCountByUserInRange(
+    {
+      startDate: startDate,
+      endDate: endDate,
+      guildId: daoId,
+    },
+    false,
+  );
 
   return (
     <ContributionMembersPie

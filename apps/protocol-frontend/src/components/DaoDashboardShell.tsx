@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Center, Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
 import WeeklyActiveMembersShell from './WeeklyActiveMembersShell';
@@ -9,7 +9,7 @@ import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { subWeeks } from 'date-fns';
-import { MONTH, DEFAULT_DATE_RANGES } from '../utils/constants';
+import { YEAR, DEFAULT_DATE_RANGES } from '../utils/constants';
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
@@ -19,14 +19,8 @@ const TODAY_DATE = new Date();
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
 
-  const [startDate, setStartDate] = useState<Date>(TODAY_DATE);
-  const [endDate, setEndDate] = useState<Date>(
-    new Date(subWeeks(TODAY_DATE, 4)),
-  );
-  const [dateRange, setDateRange] = useState<{
-    label: string;
-    value: number;
-  } | null>(null);
+  const [startDate, setStartDate] = useState<Date>(subWeeks(TODAY_DATE, YEAR));
+  const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
 
   const dateRangeOptions = [
     {
@@ -94,12 +88,10 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             </Box>
             <ControlledSelect
               isSearchable={false}
-              defaultValue={dateRangeOptions.find(date => date.value === MONTH)}
-              value={dateRange}
+              defaultValue={dateRangeOptions.find(date => date.value === YEAR)}
               onChange={dateRangeOffset => {
                 setShowCustomDatePicker(false);
                 dateChangeHandler(dateRangeOffset.value);
-                setDateRange(dateRangeOffset);
               }}
               options={dateRangeOptions}
             />

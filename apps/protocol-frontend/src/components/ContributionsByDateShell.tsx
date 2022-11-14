@@ -14,13 +14,16 @@ const ContributionByDateShell = ({
     isLoading,
     isError,
     data: contributionsByDate,
-  } = useContributionCountInRange({
-    id: null,
-    startDate: subWeeks(startOfDay(TODAY_DATE), YEAR),
-    endDate: endOfDay(TODAY_DATE),
-    guildIds,
-    excludeUnassigned: true,
-  });
+  } = useContributionCountInRange(
+    {
+      id: null,
+      startDate: subWeeks(startOfDay(TODAY_DATE), YEAR),
+      endDate: endOfDay(TODAY_DATE),
+      guildIds,
+      excludeUnassigned: true,
+    },
+    false,
+  );
 
   return (
     <ContributionsByDateChart

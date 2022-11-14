@@ -17,11 +17,14 @@ const ContributionTypesPieShell = ({
     isLoading,
     isError,
     data: contributionActivityData,
-  } = useContributionActivityType({
-    startDate: startDate,
-    endDate: endDate,
-    guildId: daoId,
-  });
+  } = useContributionActivityType(
+    {
+      startDate: startDate,
+      endDate: endDate,
+      guildId: daoId,
+    },
+    false,
+  );
 
   return (
     <ContributionTypesPie
