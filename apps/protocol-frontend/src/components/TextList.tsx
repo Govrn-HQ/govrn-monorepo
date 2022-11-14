@@ -1,23 +1,27 @@
-import { List, ListIcon, ListItem } from '@chakra-ui/react';
+import { HStack, List, ListIcon, ListItem } from '@chakra-ui/react';
 import { MdCheckCircle } from 'react-icons/all';
 import { IconType } from 'react-icons';
+import React from 'react';
 
 interface TextListItemProps {
   id: string;
-  text: string;
+  text: string | React.ReactNode;
   icon?: IconType;
+  iconColor?: string;
 }
 
 const TextListItem = ({
   id,
   text,
   icon = MdCheckCircle,
+  iconColor = 'green.500',
 }: TextListItemProps) => {
   return (
     <ListItem id={id}>
-      {' '}
-      <ListIcon as={icon} color="green.500" />
-      {text}
+      <HStack>
+        <ListIcon as={icon} color={iconColor} />
+        {text}
+      </HStack>
     </ListItem>
   );
 };
