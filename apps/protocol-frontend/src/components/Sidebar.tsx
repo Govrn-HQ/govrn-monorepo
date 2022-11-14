@@ -39,7 +39,7 @@ const Sidebar = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
 
-  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
+  const { data: daosListData } = useDaosList({
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
   });
 
@@ -113,44 +113,49 @@ const Sidebar = () => {
                 active={location.pathname.includes('/profile')}
               />
             </Link>
-            {isConnected &&
-            isAuthenticated &&
-            daosListData &&
-            daosListData?.length > 0 ? (
-              <Menu isLazy>
-                <MenuButton
-                  as={Button}
-                  rightIcon={<FiChevronDown />}
-                  variant="ghost"
-                  justifyContent="start"
-                  color="gray.800"
-                  transition="all 100ms ease-in-out"
-                  backgroundColor="transparent"
-                  _hover={{ bgColor: 'gray.100' }}
-                  width="100%"
-                >
-                  <HStack spacing="3">
-                    <Icon as={FiGitBranch} boxSize="6" color="subtle" />
-                    <Text>DAOs</Text>
-                  </HStack>
-                </MenuButton>
-                <MenuList>
-                  {daosListData?.map(dao => (
-                    <Link to={`/feature/dao/${dao.id}`}>
-                      <MenuItem>{dao.name}</MenuItem>
-                    </Link>
-                  ))}
-                </MenuList>
-              </Menu>
-            ) : (
-              <Link to="/feature/dao">
-                <NavButton
-                  label="DAOs"
-                  icon={FiGitBranch}
-                  active={location.pathname.includes('/dao/')}
-                  marginBottom={4}
-                />{' '}
-              </Link>
+            {isConnected && isAuthenticated && (
+              <Stack>
+                {daosListData && daosListData?.length > 0 ? (
+                  <Menu placement="bottom-end" autoSelect={false} isLazy>
+                    <MenuButton
+                      as={Button}
+                      rightIcon={<FiChevronDown />}
+                      variant="ghost"
+                      justifyContent="start"
+                      color="gray.800"
+                      transition="all 100ms ease-in-out"
+                      backgroundColor="transparent"
+                      _hover={{ bgColor: 'gray.100' }}
+                      width="100%"
+                    >
+                      <HStack spacing="3">
+                        <Icon as={FiGitBranch} boxSize="6" color="subtle" />
+                        <Text>DAOs</Text>
+                      </HStack>
+                    </MenuButton>
+                    <MenuList backgroundColor="gray.800" minWidth="none">
+                      {daosListData?.map(dao => (
+                        <Link to={`/feature/dao/${dao.id}`}>
+                          <MenuItem
+                            color="white"
+                            _hover={{ backgroundColor: 'gray.600' }}
+                          >
+                            {dao.name}
+                          </MenuItem>
+                        </Link>
+                      ))}
+                    </MenuList>
+                  </Menu>
+                ) : (
+                  <Link to="/feature/dao">
+                    <NavButton
+                      label="DAOs"
+                      icon={FiGitBranch}
+                      active={location.pathname.includes('/dao/')}
+                    />
+                  </Link>
+                )}
+              </Stack>
             )}
             <HStack>
               <ConnectWallet showNetwork />
