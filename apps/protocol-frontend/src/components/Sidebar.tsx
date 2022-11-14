@@ -39,7 +39,7 @@ const Sidebar = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
 
-  const { data: daosListData } = useDaosList({
+  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
   });
 
@@ -115,7 +115,9 @@ const Sidebar = () => {
             </Link>
             {isConnected && isAuthenticated && (
               <Stack>
-                {daosListData && daosListData?.length > 0 ? (
+                {!daosListIsLoading &&
+                daosListData &&
+                daosListData.length > 0 ? (
                   <Menu placement="bottom-end" autoSelect={false} isLazy>
                     <MenuButton
                       as={Button}

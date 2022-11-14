@@ -34,7 +34,9 @@ import {
 import { FaDiscord } from 'react-icons/fa';
 import NavButton from './NavButton';
 import ConnectWallet from './ConnectWallet';
+import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
 import { useDaosList } from '../hooks/useDaosList';
 
 interface MobileNavProps {
@@ -46,6 +48,8 @@ interface MobileNavProps {
 const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
   const location = useLocation();
   const { userData } = useUser();
+  const { isConnected } = useAccount();
+  const { isAuthenticated } = useAuth();
 
   const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
     where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
@@ -70,9 +74,6 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                       position="inherit"
                       marginTop={4}
                       marginRight={3}
-                      // position="fixed"
-                      // top={4}
-                      // right={4}
                       size="4"
                       _focus={{ outline: 'none', bg: 'none' }}
                       _active={{ outline: 'none', bg: 'none' }}
@@ -126,47 +127,63 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                           active={location.pathname.includes('/profile')}
                         />
                       </Link>
-                      {daosListData &&
-                      !daosListIsLoading &&
-                      daosListData.length > 0 ? (
-                        <Menu isLazy>
-                          <MenuButton
-                            as={Button}
-                            rightIcon={<FiChevronDown />}
-                            variant="ghost"
-                            justifyContent="start"
-                            color="gray.800"
-                            transition="all 100ms ease-in-out"
-                            backgroundColor="transparent"
-                            _hover={{ bgColor: 'gray.100' }}
-                            width="100%"
-                          >
-                            <HStack spacing="3">
-                              <Icon
-                                as={FiGitBranch}
-                                boxSize="6"
-                                color="subtle"
+                      {isConnected && isAuthenticated && (
+                        <Stack>
+                          {!daosListIsLoading &&
+                          daosListData &&
+                          daosListData.length > 0 ? (
+                            <Menu
+                              placement="bottom-end"
+                              autoSelect={false}
+                              isLazy
+                            >
+                              <MenuButton
+                                as={Button}
+                                rightIcon={<FiChevronDown />}
+                                variant="ghost"
+                                justifyContent="start"
+                                color="gray.800"
+                                transition="all 100ms ease-in-out"
+                                backgroundColor="transparent"
+                                _hover={{ bgColor: 'gray.100' }}
+                                width="100%"
+                              >
+                                <HStack spacing="3">
+                                  <Icon
+                                    as={FiGitBranch}
+                                    boxSize="6"
+                                    color="subtle"
+                                  />
+                                  <Text>DAOs</Text>
+                                </HStack>
+                              </MenuButton>
+                              <MenuList
+                                backgroundColor="gray.800"
+                                minWidth="none"
+                              >
+                                {daosListData?.map(dao => (
+                                  <Link to={`/feature/dao/${dao.id}`}>
+                                    <MenuItem
+                                      color="white"
+                                      _hover={{ backgroundColor: 'gray.600' }}
+                                    >
+                                      {dao.name}
+                                    </MenuItem>
+                                  </Link>
+                                ))}
+                              </MenuList>
+                            </Menu>
+                          ) : (
+                            <Link to="/feature/dao">
+                              <NavButton
+                                label="DAOs"
+                                icon={FiGitBranch}
+                                active={location.pathname.includes('/dao/')}
+                                marginBottom={4}
                               />
-                              <Text>DAOs</Text>
-                            </HStack>
-                          </MenuButton>
-                          <MenuList>
-                            {daosListData?.map(dao => (
-                              <Link to={`/feature/dao/${dao.id}`}>
-                                <MenuItem>{dao.name}</MenuItem>
-                              </Link>
-                            ))}
-                          </MenuList>
-                        </Menu>
-                      ) : (
-                        <Link to="/feature/dao">
-                          <NavButton
-                            label="DAOs"
-                            icon={FiGitBranch}
-                            active={location.pathname.includes('/dao/')}
-                            marginBottom={4}
-                          />{' '}
-                        </Link>
+                            </Link>
+                          )}
+                        </Stack>
                       )}
                       <HStack>
                         <ConnectWallet />
