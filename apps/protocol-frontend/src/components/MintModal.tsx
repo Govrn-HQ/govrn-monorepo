@@ -8,9 +8,6 @@ import {
   Checkbox,
   Tooltip,
   Icon,
-  ListItem,
-  ListIcon,
-  List,
 } from '@chakra-ui/react';
 import { bulkStoreIpfs } from '../libs/ipfs';
 import { useLocalStorage } from '../utils/hooks';
@@ -22,7 +19,6 @@ import useContributionMint from '../hooks/useContributionMint';
 import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 import useContributionBulkMint from '../hooks/useContributionBulkMint';
-import { MdCheckCircle } from 'react-icons/all';
 import { TextList } from './TextList';
 
 const MintModal = ({ contributions }: MintModalProps) => {

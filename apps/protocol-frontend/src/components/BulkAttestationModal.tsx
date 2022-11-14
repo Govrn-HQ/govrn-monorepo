@@ -1,16 +1,6 @@
 import { useState } from 'react';
-import {
-  Button,
-  Flex,
-  List,
-  ListIcon,
-  ListItem,
-  Progress,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Button, Flex, Progress, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
-import { MdCheckCircle } from 'react-icons/all';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
 import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
