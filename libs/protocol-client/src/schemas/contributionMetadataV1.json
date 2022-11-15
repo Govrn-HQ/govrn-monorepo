@@ -4,19 +4,6 @@
   "description": "The metadata for an on chain Govrn contribution",
   "type": "object",
   "definitions": {
-    "GovrnMeta": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "activityTypeId": {
-          "type": "integer",
-          "minimum": 0
-        }
-      }
-    },
     "IPFSUrl": {
       "type": "string",
       "pattern": "^ipfs://.+",
@@ -49,10 +36,7 @@
     },
     "image": {
       "$ref": "#/definitions/IPFSUrl"
-    },
-    "govrn": {
-      "$ref": "#/definitions/GovrnMeta"
     }
   },
-  "required": ["name", "details", "schema", "proof", "activityName", "govrn"]
+  "required": ["name", "details", "schema", "proof", "activityName"]
 }

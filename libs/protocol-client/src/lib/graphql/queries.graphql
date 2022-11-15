@@ -492,11 +492,19 @@ mutation createOnChainUserContribution(
   }
 }
 
-mutation deleteContribution($where: UserContributionDeleteInput!) {
+mutation deleteUserContribution($where: UserContributionDeleteInput!) {
   deleteUserContribution(where: $where) {
     id
   }
 }
+
+mutation deleteContribution($where: ContributionWhereUniqueInput!) {
+  deleteContribution(where: $where) {
+    id
+  }
+}
+
+
 
 mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
@@ -505,9 +513,11 @@ mutation updateUserContribution($data: UserContributionUpdateInput!) {
 }
 
 mutation updateUserOnChainContribution(
-  $data: UserOnChainContributionUpdateInput!
+  $id: Float!
+  $status: String!
+  $data: ContributionUpdateManyMutationInput!
 ) {
-  updateUserOnChainContribution(data: $data) {
+  updateUserOnChainContribution(id: $id, status: $status, data: $data) {
     ...ContributionFragment
   }
 }
