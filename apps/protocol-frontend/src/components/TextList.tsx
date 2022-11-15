@@ -16,11 +16,12 @@ const TextListItem = ({
   icon = MdCheckCircle,
   iconColor = 'green.500',
 }: TextListItemProps) => {
+  console.log(text);
   return (
     <ListItem id={id}>
       <HStack>
         <ListIcon as={icon} color={iconColor} />
-        <div>{text}</div>
+        <p>{text}</p>
       </HStack>
     </ListItem>
   );
