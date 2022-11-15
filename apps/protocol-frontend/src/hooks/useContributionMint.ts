@@ -44,10 +44,6 @@ const useContributionMint = () => {
         proof,
         image: '',
         activityName: activityTypeName,
-        govrn: {
-          id,
-          activityTypeId,
-        },
       });
       if (!ipfsUri) {
         throw Error('Failed to store contribution metadata in IPFS');

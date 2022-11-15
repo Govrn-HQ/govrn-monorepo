@@ -16,10 +16,6 @@ describe('IPFS test', () => {
       proof: 'ipfs://hello',
       activityName: 'Added unit test',
       image: 'ipfs://hello',
-      govrn: {
-        id: 1,
-        activityTypeId: 2,
-      },
     };
     const valid = validate(data);
     expect(valid).toBe(true);

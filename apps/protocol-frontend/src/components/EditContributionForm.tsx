@@ -296,6 +296,19 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             name="daoId"
             label="DAO"
             placeholder="Select a DAO to associate this Contribution with."
+            tip={
+              <>
+                Dont see your DAO? Request to add it{' '}
+                <a
+                  href="https://airtable.com/shrOedOjQpH9xlg7l"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'underline' }}
+                >
+                  here
+                </a>
+              </>
+            }
             defaultValue={{
               value: contribution?.guilds[0]?.guild.id
                 ? contribution?.guilds[0]?.guild.id
