@@ -1,13 +1,12 @@
 import React from 'react';
 import { Container, Box, Stack, Text } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
+import { useUser } from '../contexts/UserContext';
 import SiteLayout from '../components/SiteLayout';
 import ReportShell from '../components/ReportShell';
 import { useAuth } from '../contexts/AuthContext';
 import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
-
-const isUser = true;
 
 const UserView = () => {
   return (
@@ -25,7 +24,9 @@ const UserView = () => {
 
 const Report = () => {
   const { isConnected } = useAccount();
+  const { userData } = useUser();
   const { isAuthenticated } = useAuth();
+
   return (
     <SiteLayout>
       {isConnected && isAuthenticated ? (
@@ -42,7 +43,11 @@ const Report = () => {
             boxShadow="sm"
             borderRadius={{ base: 'none', md: 'lg' }}
           >
-            {isUser ? <UserView /> : <NewUserView />}
+            {isConnected && isAuthenticated && userData ? (
+              <UserView />
+            ) : (
+              <NewUserView />
+            )}
           </Box>
         </Container>
       )}

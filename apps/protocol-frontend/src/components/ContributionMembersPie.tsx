@@ -48,6 +48,8 @@ const ContributionMembersPie = ({
   return (
     <Flex
       direction="column"
+      alignItems="center"
+      justifyContent="center"
       paddingY={4}
       paddingX={{ base: 0 }}
       flexBasis="50%"
@@ -57,7 +59,7 @@ const ContributionMembersPie = ({
         alignItems="center"
         justifyContent="center"
         height={{ base: '30rem', lg: '25rem' }}
-        width={{ base: '20rem', lg: '100%' }}
+        width={{ base: '22.5rem', lg: '100%' }}
         paddingY={{ base: '0', lg: '4' }}
         paddingX={{ base: '0', lg: '4' }}
         color="gray.700"
@@ -65,7 +67,13 @@ const ContributionMembersPie = ({
         boxShadow="sm"
         borderRadius={{ base: 'none', md: 'md' }}
       >
-        <Heading as="h3" size="md" color="gray.800" fontWeight="normal">
+        <Heading
+          as="h3"
+          size="md"
+          color="gray.800"
+          fontWeight="normal"
+          paddingTop={{ base: 4, lg: 0 }}
+        >
           Contributions By Member
         </Heading>
         {contributionsDataMap?.length !== 0 ? (
