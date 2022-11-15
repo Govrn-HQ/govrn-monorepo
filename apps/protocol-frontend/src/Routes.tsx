@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import Contributions from './pages/Contributions';
 import Attestations from './pages/Attestations';
 import Dashboard from './pages/Dashboard';
+import DaoLandingPage from './pages/DaoLandingPage';
 import DaoDashboard from './pages/DaoDashboard';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
@@ -91,6 +92,14 @@ const Routes = () => {
           element={
             <RequireActiveUser>
               <Dashboard />
+            </RequireActiveUser>
+          }
+        />
+        <Route
+          path="/feature/dao/"
+          element={
+            <RequireActiveUser>
+              <DaoLandingPage />
             </RequireActiveUser>
           }
         />

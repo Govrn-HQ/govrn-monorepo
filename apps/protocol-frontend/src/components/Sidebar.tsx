@@ -1,6 +1,18 @@
 import { TWITTER_LINK, DISCORD_LINK, FEEDBACK_LINK } from '../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
-import { Divider, Flex, HStack, Stack } from '@chakra-ui/react';
+import {
+  Button,
+  Divider,
+  Flex,
+  HStack,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import {
   FiBarChart2,
   FiCheckSquare,
@@ -9,14 +21,27 @@ import {
   FiTwitter,
   FiUsers,
   FiMessageSquare,
+  FiChevronDown,
+  FiGitBranch,
 } from 'react-icons/fi';
 import { FaDiscord } from 'react-icons/fa';
+import { useAccount } from 'wagmi';
+import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useDaosList } from '../hooks/useDaosList';
+import ConnectWallet from './ConnectWallet';
 import Logo from './Logo';
 import NavButton from './NavButton';
-import ConnectWallet from './ConnectWallet';
 
 const Sidebar = () => {
   const location = useLocation();
+  const { userData } = useUser();
+  const { isConnected } = useAccount();
+  const { isAuthenticated } = useAuth();
+
+  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
 
   return (
     <Flex
@@ -81,7 +106,6 @@ const Sidebar = () => {
                 active={location.pathname.includes('/attestations')}
               />
             </Link>
-
             <Link to="/profile">
               <NavButton
                 label="Profile"
@@ -89,6 +113,52 @@ const Sidebar = () => {
                 active={location.pathname.includes('/profile')}
               />
             </Link>
+            {isConnected && isAuthenticated && (
+              <Stack>
+                {!daosListIsLoading &&
+                daosListData &&
+                daosListData.length > 0 ? (
+                  <Menu placement="bottom-end" autoSelect={false} isLazy>
+                    <MenuButton
+                      as={Button}
+                      rightIcon={<FiChevronDown />}
+                      variant="ghost"
+                      justifyContent="start"
+                      color="gray.800"
+                      transition="all 100ms ease-in-out"
+                      backgroundColor="transparent"
+                      _hover={{ bgColor: 'gray.100' }}
+                      width="100%"
+                    >
+                      <HStack spacing="3">
+                        <Icon as={FiGitBranch} boxSize="6" color="subtle" />
+                        <Text>DAOs</Text>
+                      </HStack>
+                    </MenuButton>
+                    <MenuList backgroundColor="gray.800" minWidth="none">
+                      {daosListData?.map(dao => (
+                        <Link to={`/feature/dao/${dao.id}`}>
+                          <MenuItem
+                            color="white"
+                            _hover={{ backgroundColor: 'gray.600' }}
+                          >
+                            {dao.name}
+                          </MenuItem>
+                        </Link>
+                      ))}
+                    </MenuList>
+                  </Menu>
+                ) : (
+                  <Link to="/feature/dao">
+                    <NavButton
+                      label="DAOs"
+                      icon={FiGitBranch}
+                      active={location.pathname.includes('/dao/')}
+                    />
+                  </Link>
+                )}
+              </Stack>
+            )}
             <HStack>
               <ConnectWallet showNetwork />
             </HStack>
