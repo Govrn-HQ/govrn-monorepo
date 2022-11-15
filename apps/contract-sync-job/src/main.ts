@@ -1,7 +1,6 @@
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import { ethers } from 'ethers';
-import { GraphQLClient } from 'graphql-request';
 import { fetchIPFS } from './ipfs';
 import {
   bulkCreateAttestations,
