@@ -7,7 +7,6 @@ import {
 import { GraphQLClient } from 'graphql-request';
 
 const chains: { [id: number]: string } = {
-  4: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-rinkeby',
   5: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-goerli',
   100: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis',
 };
