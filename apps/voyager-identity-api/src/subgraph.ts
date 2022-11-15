@@ -1,4 +1,3 @@
-import { GraphQLClient } from 'graphql-request';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { BigNumber, ethers } from 'ethers';
@@ -6,16 +5,16 @@ import { InferType, number, object, string } from 'yup';
 import { LDContribution } from './types';
 
 // Environment Variables.
-const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
+const CHAIN_ID = Number(process.env.CHAIN_ID);
 
 const LIMIT = 100;
 const SKIP_LIMIT = 4999;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
-  chainId: 100,
+  chainId: CHAIN_ID,
 };
 
 export const requestSchema = object({
@@ -26,8 +25,7 @@ export const requestSchema = object({
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
-const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
-const client = new GovrnGraphClient(graphQLClient);
+const client = new GovrnGraphClient(CHAIN_ID);
 
 export const loadContributions = async ({
   address,
