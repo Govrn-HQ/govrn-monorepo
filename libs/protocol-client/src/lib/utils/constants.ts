@@ -1,2 +1,2 @@
 export const ContributionV1SchemaCid =
-  'QmcmzPR94Vq6U6KxmhK4bNwjekLkZpxeEm2jiMLoYBQ3Xg';
+  'QmSFG2e9RmG9sUTzLzMuamodn4DcNu51RdDzY8cyon8oEx';
