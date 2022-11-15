@@ -35,16 +35,14 @@ const RecentContributionsTable = ({
   contributionsData: Pick<
     UIContribution,
     'id' | 'name' | 'date_of_engagement' | 'user' | 'activity_type'
-  >[];
+  >[][];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
   const data = useMemo<RecentContributionTableType[]>(() => {
     const tableData = [] as RecentContributionTableType[];
     for (const page of contributionsData) {
-      console.log('page', page);
       for (const contribution of page) {
-        console.log('contribution', contribution);
         tableData.push({
           id: contribution.id,
           name: contribution.name,
@@ -56,15 +54,6 @@ const RecentContributionsTable = ({
     }
     return tableData;
   }, [contributionsData]);
-
-  console.log('contributionsData', contributionsData);
-
-  // contributionsData.map(contribution => ({
-  //   id: contribution.id,
-  //   name: contribution.name,
-  //   engagementDate: formatDate(contribution.date_of_engagement),
-  //   user: contribution.user,
-  //   activity_type: contribution.activity_type,
 
   const columns = useMemo<Column<RecentContributionTableType>[]>(
     () => [

@@ -1,10 +1,9 @@
-import { Box, Stack, Text } from '@chakra-ui/react';
+import { Box, Stack } from '@chakra-ui/react';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { SortOrder } from '@govrn/protocol-client';
 import RecentContributionsTable from './RecentContributionsTable';
 import EmptyContributions from './EmptyContributions';
-import fetch from 'node-fetch';
 
 interface RecentContributionTableShellProps {
   daoId: number;
@@ -14,7 +13,6 @@ const RecentContributionsTableShell = ({
   daoId,
 }: RecentContributionTableShellProps) => {
   const {
-    isFetching,
     data: recentContributions,
     hasNextPage,
     fetchNextPage,
@@ -24,12 +22,6 @@ const RecentContributionsTableShell = ({
     },
     orderBy: { date_of_engagement: SortOrder.Desc },
   });
-
-  console.log('recentContributions', recentContributions?.pages);
-
-  if (isFetching) {
-    return <GovrnSpinner />;
-  }
 
   return (
     <Box
