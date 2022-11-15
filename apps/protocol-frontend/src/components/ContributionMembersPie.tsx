@@ -21,11 +21,16 @@ const ContributionMembersPie = ({
   isLoading,
   isError,
 }: ContributionMembersPieProps) => {
+  const isMobile = useBreakpointValue({
+    base: true,
+    lg: false,
+  });
+
   const isSmallerScreen = useBreakpointValue({
     base: true,
     md: true,
     lg: true,
-    xl: false,
+    xl: true,
     '2xl': false,
   });
 
@@ -86,10 +91,10 @@ const ContributionMembersPie = ({
           <ResponsivePie
             data={contributionsDataMap || []}
             margin={{
-              top: isSmallerScreen ? 10 : 40,
-              right: isSmallerScreen ? 40 : 40,
-              bottom: isSmallerScreen ? 10 : 40,
-              left: isSmallerScreen ? 40 : 40,
+              top: isMobile ? 10 : 40,
+              right: isMobile ? 40 : 40,
+              bottom: isMobile ? 10 : 40,
+              left: isMobile ? 40 : 40,
             }}
             colors={BRAND_COLOR_MAP}
             innerRadius={0.5}

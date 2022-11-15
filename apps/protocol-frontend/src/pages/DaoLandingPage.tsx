@@ -5,6 +5,7 @@ import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import SiteLayout from '../components/SiteLayout';
 import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
+import { useDaosList } from '../hooks/useDaosList';
 
 const UserView = () => {
   return (
