@@ -4,7 +4,7 @@ export type ContributionData = {
   contribution_id?: number;
   name: string;
   status_name: string;
-  activity_type_id: number;
+  activity_type_name?: string;
   user_id: number;
   date_of_engagement: Date;
   date_of_submission: Date;
@@ -91,20 +91,62 @@ export const upsertContribution = async (contribution: ContributionData) => {
   console.log(
     `:: Upsert Contribution with on chain id ${contribution.on_chain_id} and/or id ${contribution.contribution_id}`,
   );
-  if (contribution.contribution_id) {
-    return await govrn.contribution.update({
-      where: {
-        id: contribution.contribution_id,
-      },
-      data: {
-        name: { set: contribution.name },
-        on_chain_id: { set: contribution.on_chain_id },
-        proof: { set: contribution.proof ?? null },
-        details: { set: contribution.details ?? null },
-        chain: { connect: { chain_id: `${contribution.chain_id}` } },
-      },
-    });
+  const existingContribution = await govrn.contribution.list({
+    where: {
+      details: { equals: contribution.details },
+      name: { equals: contribution.name },
+      proof: { equals: contribution.proof },
+      status: { is: { name: { equals: 'pending' } } },
+      user_id: { equals: contribution.user_id },
+      on_chain_id: { equals: null },
+    },
+  });
+
+  if (existingContribution.result.length > 0) {
+    for (const result of existingContribution.result) {
+      const existingContributionInDB = await govrn.contribution.list({
+        where: {
+          AND: [
+            {
+              on_chain_id: { equals: contribution.on_chain_id },
+              chain: {
+                is: { chain_id: { equals: `${contribution.chain_id}` } },
+              },
+            },
+          ],
+        },
+      });
+      if (existingContributionInDB.result.length > 0) {
+        await govrn.contribution.deleteStaging(
+          existingContributionInDB.result[0].id,
+        );
+        continue;
+      }
+
+      await govrn.contribution.update({
+        data: {
+          date_of_engagement: { set: contribution.date_of_engagement },
+          activity_type: {
+            connectOrCreate: {
+              create: { name: contribution.activity_type_name },
+              where: { name: contribution.activity_type_name },
+            },
+          },
+          status: {
+            connect: { name: 'minted' },
+          },
+          on_chain_id: { set: contribution.on_chain_id },
+          chain: { connect: { chain_id: `${contribution.chain_id}` } },
+          tx_hash: { set: contribution.txHash },
+        },
+        where: {
+          id: result.id,
+        },
+      });
+    }
+    return existingContribution.result.length;
   }
+
   return await govrn.contribution.upsert({
     where: {
       chain_id_on_chain_id: {
@@ -118,7 +160,13 @@ export const upsertContribution = async (contribution: ContributionData) => {
       details: contribution.details,
       date_of_engagement: contribution.date_of_engagement,
       user: { connect: { id: contribution.user_id } },
-      activity_type: { connect: { id: contribution.activity_type_id } },
+      activity_type: {
+        connectOrCreate: {
+          create: { name: contribution.activity_type_name },
+          where: { name: contribution.activity_type_name },
+        },
+      },
+
       status: {
         connect: { name: 'minted' },
       },
