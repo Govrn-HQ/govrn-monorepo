@@ -137,7 +137,7 @@ const Sidebar = () => {
                     </MenuButton>
                     <MenuList backgroundColor="gray.800" minWidth="none">
                       {daosListData?.map(dao => (
-                        <Link to={`/feature/dao/${dao.id}`}>
+                        <Link to={`/dao/${dao.id}`}>
                           <MenuItem
                             color="white"
                             _hover={{ backgroundColor: 'gray.600' }}
@@ -149,7 +149,7 @@ const Sidebar = () => {
                     </MenuList>
                   </Menu>
                 ) : (
-                  <Link to="/feature/dao">
+                  <Link to="/dao">
                     <NavButton
                       label="DAOs"
                       icon={FiGitBranch}

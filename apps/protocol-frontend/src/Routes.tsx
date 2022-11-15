@@ -96,7 +96,7 @@ const Routes = () => {
           }
         />
         <Route
-          path="/feature/dao/"
+          path="/dao/"
           element={
             <RequireActiveUser>
               <DaoLandingPage />
@@ -104,7 +104,7 @@ const Routes = () => {
           }
         />
         <Route
-          path="/feature/dao/:guildId"
+          path="/dao/:guildId"
           element={
             <RequireActiveUser>
               <RequireDaoUser>

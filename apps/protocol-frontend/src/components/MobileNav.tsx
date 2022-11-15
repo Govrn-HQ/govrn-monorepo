@@ -162,7 +162,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                                 minWidth="none"
                               >
                                 {daosListData?.map(dao => (
-                                  <Link to={`/feature/dao/${dao.id}`}>
+                                  <Link to={`/dao/${dao.id}`}>
                                     <MenuItem
                                       color="white"
                                       _hover={{ backgroundColor: 'gray.600' }}
@@ -174,7 +174,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                               </MenuList>
                             </Menu>
                           ) : (
-                            <Link to="/feature/dao">
+                            <Link to="/dao">
                               <NavButton
                                 label="DAOs"
                                 icon={FiGitBranch}
