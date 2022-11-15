@@ -1,42 +1,33 @@
 import { Box, Stack, Text } from '@chakra-ui/react';
 import { GovrnSpinner } from '@govrn/protocol-ui';
-import { useContributionList } from '../hooks/useContributionList';
+import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { SortOrder } from '@govrn/protocol-client';
 import RecentContributionsTable from './RecentContributionsTable';
 import EmptyContributions from './EmptyContributions';
+import fetch from 'node-fetch';
 
 interface RecentContributionTableShellProps {
   daoId: number;
-  displayNumber?: number;
 }
 
 const RecentContributionsTableShell = ({
   daoId,
-  displayNumber = 10,
 }: RecentContributionTableShellProps) => {
   const {
     isFetching,
     data: recentContributions,
-    isLoading,
-    isError,
-  } = useContributionList(
-    {
-      where: {
-        guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
-      },
-      first: displayNumber,
-      orderBy: { date_of_engagement: SortOrder.Desc },
+    hasNextPage,
+    fetchNextPage,
+  } = useContributionInfiniteList({
+    where: {
+      guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
     },
-    false,
-  );
+    orderBy: { date_of_engagement: SortOrder.Desc },
+  });
 
-  if (isError) {
-    return (
-      <Text>An error occurred fetching the DAO's recent Contributions.</Text>
-    );
-  }
+  console.log('recentContributions', recentContributions?.pages);
 
-  if (isFetching || isLoading) {
+  if (isFetching) {
     return <GovrnSpinner />;
   }
 
@@ -52,9 +43,13 @@ const RecentContributionsTableShell = ({
       boxShadow="sm"
       borderRadius={{ base: 'none', md: 'md' }}
     >
-      {recentContributions && recentContributions.length > 0 ? (
+      {recentContributions && recentContributions.pages.length > 0 ? (
         <Stack spacing="5">
-          <RecentContributionsTable contributionsData={recentContributions} />
+          <RecentContributionsTable
+            contributionsData={recentContributions.pages}
+            nextPage={fetchNextPage}
+            hasMoreItems={hasNextPage || false}
+          />
         </Stack>
       ) : (
         <EmptyContributions />
