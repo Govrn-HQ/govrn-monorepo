@@ -1,6 +1,7 @@
 import { useAccount } from 'wagmi';
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import SiteLayout from '../components/SiteLayout';
 import NewUserView from '../components/NewUserView';
@@ -23,7 +24,17 @@ const UserView = () => {
 const DaoLandingPage = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
-  const { userData } = useUser();
+  const { userData, userDaos } = useUser();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // if (userDaos && userDaos?.size > 0) {
+  //   console.log('firing');
+  //   navigate(`/dao/${userDaos?.get(1)?.guild_id}`, {
+  //     state: location.state,
+  //     replace: true,
+  //   });
+  // }
 
   return (
     <SiteLayout>
