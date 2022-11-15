@@ -20,7 +20,7 @@ const TextListItem = ({
     <ListItem id={id}>
       <HStack>
         <ListIcon as={icon} color={iconColor} />
-        {text}
+        <p>{text}</p>
       </HStack>
     </ListItem>
   );
