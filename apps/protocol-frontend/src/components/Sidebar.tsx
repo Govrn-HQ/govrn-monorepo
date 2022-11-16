@@ -6,16 +6,11 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
-  Box,
   Button,
   Divider,
   Flex,
   HStack,
   Icon,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Stack,
   Text,
 } from '@chakra-ui/react';
@@ -27,7 +22,6 @@ import {
   FiTwitter,
   FiUsers,
   FiMessageSquare,
-  FiChevronDown,
   FiGitBranch,
 } from 'react-icons/fi';
 import { FaDiscord } from 'react-icons/fa';
