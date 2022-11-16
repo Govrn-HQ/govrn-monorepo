@@ -2,7 +2,7 @@ import React from 'react';
 import { FormHelperText as ChakraFormHelperText } from '@chakra-ui/react';
 
 export interface HelperTextProps {
-  tipText: string;
+  tipText: string | React.ReactNode;
   color?: string;
   fontSize?:
     | 'xs'

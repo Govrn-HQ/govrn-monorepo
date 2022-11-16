@@ -21,7 +21,18 @@ const ContributionMembersPie = ({
   isLoading,
   isError,
 }: ContributionMembersPieProps) => {
-  const isMobile = useBreakpointValue({ base: true, lg: false });
+  const isMobile = useBreakpointValue({
+    base: true,
+    lg: false,
+  });
+
+  const isSmallerScreen = useBreakpointValue({
+    base: true,
+    md: true,
+    lg: true,
+    xl: true,
+    '2xl': false,
+  });
 
   const contributionsDataMap = contributionMembersData?.map(contribution => {
     return {
@@ -98,7 +109,7 @@ const ContributionMembersPie = ({
             arcLinkLabelsThickness={1.5}
             arcLinkLabelsColor={{ from: 'color' }}
             layers={
-              isMobile
+              isSmallerScreen
                 ? ['arcs', 'arcLabels']
                 : ['arcs', 'arcLinkLabels', 'arcLabels']
             }
