@@ -110,6 +110,7 @@ export class Contribution extends BaseClient {
       proof: Uint8Array;
     }[],
   ) {
+    const chainId = await signer.getChainId();
     const contract = new GovrnContract(networkConfig, signer);
     const args = {
       contributions: contributions.map(c => ({
@@ -145,6 +146,7 @@ export class Contribution extends BaseClient {
           ...c,
           onChainId: onChainId?.toNumber(),
           txHash: transaction.hash,
+          chainId,
         });
       }
 
@@ -152,6 +154,7 @@ export class Contribution extends BaseClient {
         ...c,
         onChainId: onChainId?.toNumber(),
         txHash: transaction.hash,
+        chainId,
       });
     });
   }
@@ -168,11 +171,13 @@ export class Contribution extends BaseClient {
     details: Uint8Array,
     proof: Uint8Array,
   ) {
+    const chainId = await signer.getChainId();
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
     await this.sdk.updateUserOnChainContribution({
       id: id,
       status: 'pending',
+      chainId,
       data: {
         tx_hash: { set: transaction.hash },
       },
@@ -204,6 +209,7 @@ export class Contribution extends BaseClient {
         details,
         proof,
         userId,
+        chainId,
         onChainId: onChainId?.toNumber(),
         txHash: transaction.hash,
       });
@@ -215,6 +221,7 @@ export class Contribution extends BaseClient {
       activityTypeId,
       args,
       proof,
+      chainId,
       userId,
       onChainId: onChainId?.toNumber(),
       txHash: transaction.hash,
@@ -229,6 +236,15 @@ export class Contribution extends BaseClient {
     args: AttestArgs,
     chainId: number,
   ) {
+    console.log(id);
+    const contr = await this.get(id);
+    console.log('Here');
+    console.log(contr);
+    if (!contr || !contr.chain || chainId !== Number(contr.chain.chain_id)) {
+      throw new Error(
+        `Contribution was minted on chain ${contr?.chain?.chain_id || null}`,
+      );
+    }
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
     await transaction.wait();
@@ -267,14 +283,30 @@ export class Contribution extends BaseClient {
       dateOfSubmission: number;
     }[],
   ) {
+    const contributionIds = [];
+    const simpleContributions = [];
+    for (const c of data) {
+      contributionIds.push(c.contribution);
+      simpleContributions.push({
+        contribution: c.contribution,
+        confidence: c.confidenceId,
+        dateOfSubmission: c.dateOfSubmission,
+      });
+    }
+    const signerChainId = await signer.getChainId();
+    const dbContributions = await this.list({
+      where: {
+        chain_id: { equals: chainId },
+        id: { in: contributionIds },
+      },
+    });
+    if (dbContributions.result.length !== contributionIds.length) {
+      throw new Error(
+        `Some/all contributions are not on chain id ${signerChainId}`,
+      );
+    }
     const args = {
-      attestations: data.map(c => {
-        return {
-          contribution: c.contribution,
-          confidence: c.confidenceId,
-          dateOfSubmission: c.dateOfSubmission,
-        };
-      }),
+      attestations: simpleContributions,
     };
 
     const contract = new GovrnContract(networkConfig, signer);
@@ -317,13 +349,16 @@ export class Contribution extends BaseClient {
     name: Uint8Array;
     details: Uint8Array;
     proof: Uint8Array;
+    chainId: number;
     txHash: string;
     onChainId: number;
   }) {
-    const { args, name, details, proof, onChainId, id, txHash } = contribution;
+    const { args, name, details, proof, onChainId, id, txHash, chainId } =
+      contribution;
     return await this.sdk.updateUserOnChainContribution({
       id: id,
       status: 'minted',
+      chainId: chainId,
       data: {
         name: { set: ethers.utils.toUtf8String(name) },
         details: { set: ethers.utils.toUtf8String(details) },
@@ -343,6 +378,7 @@ export class Contribution extends BaseClient {
     name: Uint8Array;
     details: Uint8Array;
     proof: Uint8Array;
+    chainId: number;
     onChainId: number;
     txHash: string;
   }) {
@@ -360,6 +396,7 @@ export class Contribution extends BaseClient {
         proof: ethers.utils.toUtf8String(contribution.proof),
         status: 'minted',
         userId: contribution.userId,
+        chainId: contribution.chainId,
         onChainId: contribution.onChainId,
         txHash: contribution.txHash,
       },

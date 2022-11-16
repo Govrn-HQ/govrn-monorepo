@@ -163,7 +163,7 @@ const permissions = shield(
       createdAt: hasToken,
       updatedAt: hasToken,
       name: hasToken,
-      chain_id: hasToken,
+      chain_id: or(isAuthenticated, hasToken),
     },
     Contribution: {
       id: or(isAuthenticated, hasToken),
@@ -186,6 +186,7 @@ const permissions = shield(
       tweet: or(isAuthenticated, hasToken),
       on_chain_id: or(isAuthenticated, hasToken),
       tx_hash: or(isAuthenticated, hasToken),
+      chain: or(isAuthenticated, hasToken),
     },
     ContributionStatus: {
       id: or(isAuthenticated, hasToken),

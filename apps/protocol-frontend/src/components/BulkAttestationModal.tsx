@@ -29,6 +29,7 @@ export const AttestationModal = ({
     try {
       await mintAttestation({
         onChainId: contribution.onChainId,
+        contributionId: contribution.id,
       });
     } catch (e) {
       console.error(e);

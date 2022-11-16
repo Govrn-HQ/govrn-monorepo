@@ -21,7 +21,7 @@ const useAttestationBulkMint = () => {
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     ['attestationBulkMint'],
-    async (data: AttestationInput[]) => {
+    async (data: { onChainId: number; name: string }[]) => {
       for (const contr of data) {
         if (contr?.onChainId === undefined || contr?.onChainId === null) {
           throw new Error(`No onChainId for contribution: ${contr.name}`);

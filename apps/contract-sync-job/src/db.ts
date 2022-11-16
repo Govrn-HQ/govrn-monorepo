@@ -16,6 +16,7 @@ export type ContributionData = {
   txHash: string;
 };
 
+const CHAIN_ID = process.env.CHAIN_ID;
 const PROTOCOL_URL = process.env.PROTOCOL_URL;
 const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
 
@@ -136,7 +137,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
             connect: { name: 'minted' },
           },
           on_chain_id: { set: contribution.on_chain_id },
-          chain: { connect: { chain_id: `${contribution.chain_id}` } },
+          chain: { connect: { chain_id: `${CHAIN_ID}` } },
           tx_hash: { set: contribution.txHash },
         },
         where: {
@@ -147,6 +148,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
     return existingContribution.result.length;
   }
 
+  console.log(contribution);
   return await govrn.contribution.upsert({
     where: {
       chain_id_on_chain_id: {
@@ -171,7 +173,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
         connect: { name: 'minted' },
       },
       on_chain_id: contribution.on_chain_id,
-      chain: { connect: { chain_id: `${contribution.chain_id}` } },
+      chain: { connect: { chain_id: `${CHAIN_ID}` } },
       tx_hash: contribution.txHash,
     },
     update: {
@@ -179,7 +181,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
       on_chain_id: { set: contribution.on_chain_id },
       proof: { set: contribution.proof ?? null },
       details: { set: contribution.details ?? null },
-      chain: { connect: { chain_id: `${contribution.chain_id}` } },
+      chain: { connect: { chain_id: `${CHAIN_ID}` } },
       status: { connect: { name: contribution.status_name } },
       tx_hash: { set: contribution.txHash },
     },

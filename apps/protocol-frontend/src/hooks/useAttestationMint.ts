@@ -14,7 +14,7 @@ const useAttestationMint = () => {
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     ['MintAttestation'],
-    async (data: AttestationTableType) => {
+    async (data: { contributionId: number; onChainId: number }) => {
       if (!data?.onChainId) {
         throw new Error('No onChainId for contribution');
       }
@@ -30,7 +30,7 @@ const useAttestationMint = () => {
           name: networks[chain?.id].name,
         },
         signer,
-        0,
+        data.contributionId,
         userData.id,
         {
           contribution: data.onChainId,

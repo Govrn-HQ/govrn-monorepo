@@ -369,6 +369,9 @@ fragment ContributionFragment on Contribution {
     name
     updatedAt
   }
+  chain {
+    chain_id
+  }
   date_of_engagement
   date_of_submission
   details
@@ -515,9 +518,10 @@ mutation updateUserContribution($data: UserContributionUpdateInput!) {
 mutation updateUserOnChainContribution(
   $id: Float!
   $status: String!
+  $chainId: Float!
   $data: ContributionUpdateManyMutationInput!
 ) {
-  updateUserOnChainContribution(id: $id, status: $status, data: $data) {
+  updateUserOnChainContribution(id: $id, status: $status, chainId: $chainId, data: $data) {
     ...ContributionFragment
   }
 }
