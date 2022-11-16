@@ -26,7 +26,7 @@ export const NavButton = ({
   ...buttonProps
 }: NavButtonProps) => {
   return linkTo ? (
-    <ChakraLink href={linkTo} isExternal>
+    <ChakraLink href={linkTo} isExternal _hover={{ textDecoration: 'none' }}>
       <Button
         variant="ghost"
         justifyContent="start"
@@ -39,7 +39,7 @@ export const NavButton = ({
         {...buttonProps}
       >
         <HStack spacing="3">
-          <Icon as={icon} boxSize="6" color="gray.50" />
+          <Icon as={icon} boxSize="6" color="gray.800" />
           <Text>{label}</Text>
         </HStack>
       </Button>
@@ -57,7 +57,7 @@ export const NavButton = ({
       {...buttonProps}
     >
       <HStack spacing="3">
-        <Icon as={icon} boxSize="6" color="subtle" />
+        <Icon as={icon} boxSize="6" color="gray.800" />
         <Text>{label}</Text>
       </HStack>
     </Button>

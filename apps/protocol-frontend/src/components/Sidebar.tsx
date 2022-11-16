@@ -136,40 +136,49 @@ const Sidebar = () => {
                         variant="ghost"
                         justifyContent="start"
                       >
-                        {/* <Button
-                          variant="ghost"
-                          justifyContent="start"
-                          // color="gray.800"
-                          // transition="all 100ms ease-in-out"
-                          // backgroundColor="transparent"
-                          // _hover={{ bgColor: 'gray.100' }}
-                          width="100%"
-                        > */}
                         <HStack spacing="3" paddingX={4} width="100%">
                           <Icon as={FiGitBranch} boxSize="6" color="subtle" />
                           <Text>DAOs</Text>
                         </HStack>
-                        {/* </Button> */}
                         <AccordionIcon
                           padding="0"
+                          marginRight={2}
                           color="gray.800"
                           backgroundColor="none"
                         />
                       </AccordionButton>
-
-                      <AccordionPanel>
+                      <AccordionPanel paddingTop={0}>
                         <Flex direction="column">
-                          {daosListData?.slice(0, 4).map(dao => (
-                            <Link to={`/feature/dao/${dao.id}`}>
-                              <Text as="span" color="gray.800">
-                                {dao.name}
-                              </Text>
-                            </Link>
+                          {daosListData?.slice(0, 5).map(dao => (
+                            <Stack paddingLeft={8} key={dao.id}>
+                              <Link to={`/feature/dao/${dao.id}`}>
+                                <Text
+                                  as="span"
+                                  color="gray.800"
+                                  transition="all 100ms ease-in-out"
+                                  _hover={{
+                                    fontWeight: 'medium',
+                                    color: 'gray.900',
+                                  }}
+                                >
+                                  {dao.name}
+                                </Text>
+                              </Link>
+                            </Stack>
                           ))}
                           {daosListData?.length > 5 && (
-                            <Link to={`/feature/dao`}>
-                              <Text>...and more</Text>
-                            </Link>
+                            <Stack
+                              paddingLeft={8}
+                              transition="all 100ms ease-in-out"
+                              _hover={{
+                                fontWeight: 'medium',
+                                color: 'gray.900',
+                              }}
+                            >
+                              <Link to={`/feature/dao`}>
+                                <Text>...and more</Text>
+                              </Link>
+                            </Stack>
                           )}
                         </Flex>
                       </AccordionPanel>
