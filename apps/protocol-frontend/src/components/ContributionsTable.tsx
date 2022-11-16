@@ -212,12 +212,12 @@ const ContributionsTable = ({
               return;
             }
 
-            // Toggle all rows selected, filter minted contributions out.
+            // Toggle all rows selected, only select staging contributions.
             rows.forEach(row => {
               toggleRowSelected(
                 row.id,
                 (event as ChangeEvent<HTMLInputElement>).currentTarget
-                  .checked && row.original.status.name !== 'minted',
+                  .checked && row.original.status.name === 'staging',
               );
             });
           };
