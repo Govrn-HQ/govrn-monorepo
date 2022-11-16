@@ -4,13 +4,76 @@ import { useUser } from '../contexts/UserContext';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
 import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
+import useAttestationMint from '../hooks/useAttestationMint';
 import { TextList } from './TextList';
 
 interface BulkAttestationModalProps {
   contributions: AttestationTableType[];
 }
 
-const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
+export const AttestationModal = ({
+  contribution,
+}: {
+  contribution: AttestationTableType;
+}) => {
+  const { userData } = useUser();
+  const { isLoading: attesting, mutateAsync: mintAttestation } =
+    useAttestationMint();
+
+  const createAttestationsHandler = async (
+    contributions: AttestationTableType,
+  ) => {
+    if (!contribution.onChainId) {
+      throw new Error('No on chain id for contribution!');
+    }
+    try {
+      await mintAttestation({
+        onChainId: contribution.onChainId,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return (
+    <Stack spacing="4" width="100%" color="gray.800">
+      <Text paddingBottom={2}>
+        Attesting as: <strong>{userData?.name}</strong>
+      </Text>
+      <Text>
+        Attesting to <strong>1 </strong>
+        {pluralize('Contribution', 1)}:
+      </Text>
+      <TextList
+        items={[
+          {
+            id: String(contribution.id),
+            text: contribution.name,
+          },
+        ]}
+      />
+      <Flex align="flex-end" marginTop={4}>
+        <Button
+          type="submit"
+          width="100%"
+          color="brand.primary.600"
+          backgroundColor="brand.primary.50"
+          transition="all 100ms ease-in-out"
+          _hover={{ bgColor: 'brand.primary.100' }}
+          onClick={() => createAttestationsHandler(contribution)}
+          isLoading={attesting}
+          data-testId="addAttestations-btn"
+        >
+          Add {pluralize('Attestation', 1)}
+        </Button>
+      </Flex>
+    </Stack>
+  );
+};
+
+export const BulkAttestationModal = ({
+  contributions,
+}: BulkAttestationModalProps) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: bulkMintAttestation } =
     useAttestationBulkMint();
@@ -20,16 +83,17 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
     contributions: AttestationTableType[],
   ) => {
     try {
-      await bulkMintAttestation(
-        contributions.map(c => {
-          return {
-            name: c.name,
-            onChainId: c.onChainId,
-            confidence: 1,
-            confidenceName: 'Verified',
-          };
-        }),
-      );
+      const attestationInput = [];
+      for (const c of contributions) {
+        if (!c.onChainId) {
+          continue;
+        }
+        attestationInput.push({
+          name: c.name,
+          onChainId: c.onChainId,
+        });
+      }
+      await bulkMintAttestation(attestationInput);
     } catch (e) {
       console.error(e);
     }
@@ -74,5 +138,3 @@ const BulkAttestationModal = ({ contributions }: BulkAttestationModalProps) => {
     </Stack>
   );
 };
-
-export default BulkAttestationModal;
