@@ -54,6 +54,16 @@ export type DialogProps = {
   contributionId: number;
 };
 
+const emojiSelect = (status: string) => {
+  if (status === 'minted') {
+    return '🌞';
+  } else if (status === 'pending') {
+    return '🕒';
+  } else {
+    return '👀';
+  }
+};
+
 const ContributionsTable = ({
   contributionsData,
   setSelectedContributions,
@@ -153,7 +163,7 @@ const ContributionsTable = ({
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value.name === 'minted' ? '🌞' : '👀'}
+                {emojiSelect(value.name)}
               </span>{' '}
             </Text>
           );
@@ -211,7 +221,10 @@ const ContributionsTable = ({
         Cell: ({ row }: { row: Row<ContributionTableType> }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status.name === 'minted'}
+            disabled={
+              row.original.status.name === 'minted' ||
+              row.original.status.name === 'pending'
+            }
           />
         ),
       },
@@ -221,11 +234,12 @@ const ContributionsTable = ({
         Header: 'Actions',
         Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
           <HStack spacing={1}>
-            {row.original.status.name === 'minted' ? (
+            {row.original.status.name === 'minted' ||
+            row.original.status.name === 'pending' ? (
               <HStack spacing="1">
                 {row.original.txHash !== null && (
                   <Tooltip
-                    label="Minted Contributions cannot be edited or deleted. View on Block Explorer."
+                    label="Minted and Pending contributions cannot be edited or deleted. View on Block Explorer."
                     aria-label="A tooltip"
                   >
                     <Box>
@@ -244,15 +258,17 @@ const ContributionsTable = ({
                     </Box>
                   </Tooltip>
                 )}
-                <IconButton
-                  icon={<FiTrash2 fontSize="1rem" />}
-                  variant="ghost"
-                  color="gray.800"
-                  disabled={row.original.user.id !== userData?.id}
-                  aria-label="Delete Contribution"
-                  data-testid="deleteContribution-test"
-                  onClick={() => handleDeleteContribution(row.original.id)}
-                />
+                {row.original.status.name !== 'pending' && (
+                  <IconButton
+                    icon={<FiTrash2 fontSize="1rem" />}
+                    variant="ghost"
+                    color="gray.800"
+                    disabled={row.original.user.id !== userData?.id}
+                    aria-label="Delete Contribution"
+                    data-testid="deleteContribution-test"
+                    onClick={() => handleDeleteContribution(row.original.id)}
+                  />
+                )}
               </HStack>
             ) : (
               <HStack spacing="1">
@@ -263,7 +279,8 @@ const ContributionsTable = ({
                   aria-label="Edit Contribution"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status.name === 'minted'
+                    row.original.status.name === 'minted' ||
+                    row.original.status.name === 'pending'
                   }
                   data-testid="editContribution-test"
                   onClick={() =>

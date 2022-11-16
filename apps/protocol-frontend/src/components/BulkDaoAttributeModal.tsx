@@ -55,7 +55,6 @@ const BulkDaoAttributeModal = ({
     },
   ];
 
-
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
   const bulkAttributeDaoHandler: SubmitHandler<
@@ -98,7 +97,20 @@ const BulkDaoAttributeModal = ({
         <Select
           name="daoId"
           label="DAO"
-          tip="Please select a DAO to attribute to. This is optional."
+          tip={
+            <>
+              Please select a DAO to attribute to. This is optional. Dont see
+              your DAO? Request to add it{' '}
+              <a
+                href="https://airtable.com/shrOedOjQpH9xlg7l"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'underline' }}
+              >
+                here
+              </a>
+            </>
+          }
           placeholder="Select a DAO to attribute to."
           onChange={dao => {
             setValue('daoId', dao.value);

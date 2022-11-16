@@ -304,7 +304,20 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Select
             name="daoId"
             label="DAO"
-            tip="Please select a DAO to associate this Contribution with. This is optional."
+            tip={
+              <>
+                Please select a DAO to associate this Contribution with. This is
+                optional. Dont see your DAO? Request to add it{' '}
+                <a
+                  href="https://airtable.com/shrOedOjQpH9xlg7l"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'underline' }}
+                >
+                  here
+                </a>
+              </>
+            }
             placeholder="Select a DAO to associate this Contribution with."
             onChange={dao => {
               setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);

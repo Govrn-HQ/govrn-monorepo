@@ -4,17 +4,12 @@ import { ContributionV1SchemaCid } from './constants';
 
 export type MintedContributionSchemaV1 = {
   version: number;
-  schema: `ipfs://QmcmzPR94Vq6U6KxmhK4bNwjekLkZpxeEm2jiMLoYBQ3Xg`;
+  schema: `ipfs://QmSFG2e9RmG9sUTzLzMuamodn4DcNu51RdDzY8cyon8oEx`;
   name: string;
   details: string;
   proof: string;
   activityName: string;
   image?: string; // keep blank for now
-  govrn: {
-    /* Contribution ID */
-    id: number;
-    activityTypeId: number;
-  };
 };
 
 export class IPFS {

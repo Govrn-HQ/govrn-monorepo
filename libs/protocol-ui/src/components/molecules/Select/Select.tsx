@@ -31,7 +31,7 @@ export interface SelectProps {
   placeholder?: string;
   defaultValue?: Option | Option[];
   id?: string;
-  tip?: string;
+  tip?: string | React.ReactNode;
   options: Option[];
   isRequired?: boolean;
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
