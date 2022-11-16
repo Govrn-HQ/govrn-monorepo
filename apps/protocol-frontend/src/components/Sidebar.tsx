@@ -1,6 +1,12 @@
 import { TWITTER_LINK, DISCORD_LINK, FEEDBACK_LINK } from '../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
 import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+  Box,
   Button,
   Divider,
   Flex,
@@ -115,47 +121,51 @@ const Sidebar = () => {
             </Link>
             {isConnected && isAuthenticated && (
               <Stack>
-                {!daosListIsLoading &&
-                daosListData &&
-                daosListData.length > 0 ? (
-                  <Menu placement="bottom-end" autoSelect={false} isLazy>
-                    <MenuButton
-                      as={Button}
-                      rightIcon={<FiChevronDown />}
-                      variant="ghost"
-                      justifyContent="start"
-                      color="gray.800"
-                      transition="all 100ms ease-in-out"
-                      backgroundColor="transparent"
-                      _hover={{ bgColor: 'gray.100' }}
-                      width="100%"
-                    >
-                      <HStack spacing="3">
-                        <Icon as={FiGitBranch} boxSize="6" color="subtle" />
-                        <Text>DAOs</Text>
-                      </HStack>
-                    </MenuButton>
-                    <MenuList backgroundColor="gray.800" minWidth="none">
-                      {daosListData?.map(dao => (
-                        <Link to={`/feature/dao/${dao.id}`}>
-                          <MenuItem
-                            color="white"
-                            _hover={{ backgroundColor: 'gray.600' }}
+                {!daosListIsLoading && daosListData && (
+                  <Accordion allowToggle width="100%" paddingRight={4}>
+                    <AccordionItem border="none">
+                      <h2>
+                        <AccordionButton margin="0" padding="0">
+                          <Button
+                            as={Button}
+                            variant="ghost"
+                            justifyContent="start"
+                            color="gray.800"
+                            transition="all 100ms ease-in-out"
+                            backgroundColor="transparent"
+                            _hover={{ bgColor: 'gray.100' }}
+                            width="100%"
                           >
-                            {dao.name}
-                          </MenuItem>
-                        </Link>
-                      ))}
-                    </MenuList>
-                  </Menu>
-                ) : (
-                  <Link to="/feature/dao">
-                    <NavButton
-                      label="DAOs"
-                      icon={FiGitBranch}
-                      active={location.pathname.includes('/dao/')}
-                    />
-                  </Link>
+                            <HStack spacing="3">
+                              <Icon
+                                as={FiGitBranch}
+                                boxSize="6"
+                                color="subtle"
+                              />
+                              <Text>DAOs</Text>
+                            </HStack>
+                          </Button>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel>
+                        <Flex direction="column">
+                          {daosListData?.slice(0, 4).map(dao => (
+                            <Link to={`/feature/dao/${dao.id}`}>
+                              <Text as="span" color="gray.800">
+                                {dao.name}
+                              </Text>
+                            </Link>
+                          ))}
+                          {daosListData?.length > 5 && (
+                            <Link to={`/feature/dao`}>
+                              <Text>...and more</Text>
+                            </Link>
+                          )}
+                        </Flex>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
                 )}
               </Stack>
             )}
