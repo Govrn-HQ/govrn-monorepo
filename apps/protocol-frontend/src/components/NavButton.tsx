@@ -39,7 +39,7 @@ export const NavButton = ({
         {...buttonProps}
       >
         <HStack spacing="3">
-          <Icon as={icon} boxSize="6" color="subtle" />
+          <Icon as={icon} boxSize="6" color="gray.50" />
           <Text>{label}</Text>
         </HStack>
       </Button>

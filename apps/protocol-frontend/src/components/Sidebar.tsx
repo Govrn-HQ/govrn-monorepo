@@ -122,32 +122,41 @@ const Sidebar = () => {
             {isConnected && isAuthenticated && (
               <Stack>
                 {!daosListIsLoading && daosListData && (
-                  <Accordion allowToggle width="100%" paddingRight={4}>
+                  <Accordion allowToggle width="100%">
                     <AccordionItem border="none">
-                      <h2>
-                        <AccordionButton margin="0" padding="0">
-                          <Button
-                            as={Button}
-                            variant="ghost"
-                            justifyContent="start"
-                            color="gray.800"
-                            transition="all 100ms ease-in-out"
-                            backgroundColor="transparent"
-                            _hover={{ bgColor: 'gray.100' }}
-                            width="100%"
-                          >
-                            <HStack spacing="3">
-                              <Icon
-                                as={FiGitBranch}
-                                boxSize="6"
-                                color="subtle"
-                              />
-                              <Text>DAOs</Text>
-                            </HStack>
-                          </Button>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </h2>
+                      <AccordionButton
+                        margin="0"
+                        padding="0"
+                        as={Button}
+                        color="gray.800"
+                        transition="all 100ms ease-in-out"
+                        backgroundColor="transparent"
+                        _hover={{ bgColor: 'gray.100' }}
+                        width="100%"
+                        variant="ghost"
+                        justifyContent="start"
+                      >
+                        {/* <Button
+                          variant="ghost"
+                          justifyContent="start"
+                          // color="gray.800"
+                          // transition="all 100ms ease-in-out"
+                          // backgroundColor="transparent"
+                          // _hover={{ bgColor: 'gray.100' }}
+                          width="100%"
+                        > */}
+                        <HStack spacing="3" paddingX={4} width="100%">
+                          <Icon as={FiGitBranch} boxSize="6" color="subtle" />
+                          <Text>DAOs</Text>
+                        </HStack>
+                        {/* </Button> */}
+                        <AccordionIcon
+                          padding="0"
+                          color="gray.800"
+                          backgroundColor="none"
+                        />
+                      </AccordionButton>
+
                       <AccordionPanel>
                         <Flex direction="column">
                           {daosListData?.slice(0, 4).map(dao => (
