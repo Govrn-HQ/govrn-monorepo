@@ -199,11 +199,20 @@ const ContributionsTable = ({
         Header: ({
           getToggleAllRowsSelectedProps,
           toggleRowSelected,
+          toggleAllRowsSelected,
           rows,
+          selectedFlatRows,
         }) => {
           const { onChange, ...propsWithoutOnChange } =
             getToggleAllRowsSelectedProps();
           const overrideOnChange = (event: ChangeEvent) => {
+            // Deselect all selected rows.
+            if (selectedFlatRows.length > 0) {
+              toggleAllRowsSelected(false);
+              return;
+            }
+
+            // Toggle all rows selected, filter minted contributions out.
             rows.forEach(row => {
               toggleRowSelected(
                 row.id,
