@@ -13,7 +13,7 @@ export default {
   },
 };
 
-const Template: Story<FormLabelProps> = (args) => <FormLabel {...args} />;
+const Template: Story<FormLabelProps> = args => <FormLabel {...args} />;
 
 const Default = Template.bind({});
 Default.args = {

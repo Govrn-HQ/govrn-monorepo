@@ -1,4 +1,15 @@
 # Add files here to ignore them from prettier formatting
 
 /dist
-/coverage
+/.husky
+
+apps/govrn-contract/out
+apps/govrn-contract/cache
+apps/govrn-contract/lib
+apps/govrn-contract-subgraph/build
+
+apps/protocol-api/src/prisma/generated
+apps/govrn-contract-subgraph/generated
+libs/govrn-subgraph-client/src/lib/subgraph
+
+libs/protocol-client/src/lib/protocol-types.ts
