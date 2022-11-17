@@ -1,6 +1,7 @@
 # Add files here to ignore them from prettier formatting
 
 /dist
+/.husky
 
 apps/govrn-contract/out
 apps/govrn-contract/cache
