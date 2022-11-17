@@ -129,7 +129,9 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                       </Link>
                       {isConnected && isAuthenticated && (
                         <Stack>
-                          {!daosListIsLoading && daosListData && (
+                          {!daosListIsLoading &&
+                          daosListData &&
+                          daosListData.length > 0 ? (
                             <Accordion allowToggle width="100%">
                               <AccordionItem border="none">
                                 <AccordionButton
@@ -161,7 +163,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                                 </AccordionButton>
                                 <AccordionPanel paddingTop={0}>
                                   <Flex direction="column">
-                                    {daosListData?.slice(0, 5).map(dao => (
+                                    {daosListData?.map(dao => (
                                       <Stack paddingLeft={8} key={dao.id}>
                                         <Link to={`/feature/dao/${dao.id}`}>
                                           <Text
@@ -178,24 +180,19 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                                         </Link>
                                       </Stack>
                                     ))}
-                                    {daosListData?.length > 5 && (
-                                      <Stack
-                                        paddingLeft={8}
-                                        transition="all 100ms ease-in-out"
-                                        _hover={{
-                                          fontWeight: 'medium',
-                                          color: 'gray.900',
-                                        }}
-                                      >
-                                        <Link to={`/feature/dao`}>
-                                          <Text>...and more</Text>
-                                        </Link>
-                                      </Stack>
-                                    )}
                                   </Flex>
                                 </AccordionPanel>
                               </AccordionItem>
                             </Accordion>
+                          ) : (
+                            <Link to="/feature/dao">
+                              <NavButton
+                                label="DAOs"
+                                icon={FiGitBranch}
+                                active={location.pathname.includes('/dao/')}
+                                marginBottom={4}
+                              />
+                            </Link>
                           )}
                         </Stack>
                       )}
