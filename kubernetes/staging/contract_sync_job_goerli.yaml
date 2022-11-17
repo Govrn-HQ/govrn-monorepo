@@ -16,6 +16,8 @@ spec:
               env:
                 - name: CHAIN_NAME
                   value: 'goerli'
+                - name: CHAIN_ID
+                  value: '5'
                 - name: CONTRACT_ADDRESS
                   value: '0x44fa8E6588e7a9ad869837d09621Cc663539D753'
                 - name: CHAIN_URL
