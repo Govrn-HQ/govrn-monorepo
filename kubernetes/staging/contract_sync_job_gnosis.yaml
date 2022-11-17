@@ -16,6 +16,8 @@ spec:
               env:
                 - name: CHAIN_NAME
                   value: 'gnosis'
+                - name: CHAIN_ID
+                  value: '100'
                 - name: CONTRACT_ADDRESS
                   value: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
                 - name: CHAIN_URL

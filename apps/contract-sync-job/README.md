@@ -18,9 +18,9 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 
 - `CONTRACT_ADDRESS`: Govrn Contract address.
 - `CHAIN_URL`: chain that Govrn Contract is deployed.
+- `CHAIN_ID`: chain id that Govrn Contract is deployed.
 - `PROTOCOL_URL`: link to gql [endpoint](../protocol-api/README.md#express): `http://localhost:4000/graphql`
 - `DATABASE_URL`: URL references that Database cluster, `govrn`.[^1]
-- `SUBGRAPH_URL`: Link to [subgraph](https://thegraph.com/docs/en/developer/quick-start/) that is used to fetch Contract's events.
 - `CONTRACT_SYNC_TOKEN`: Authorization token for GraphQL requests.[^2]
 - `INFURA_SUBDOMAIN`: The subdomain of the dedicated infura gateway.[^2]
 
