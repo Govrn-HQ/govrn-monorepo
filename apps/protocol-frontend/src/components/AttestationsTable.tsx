@@ -132,7 +132,7 @@ const AttestationsTable = ({
     selectedFlatRows,
     prepareRow,
   } = useTable(
-    { columns, data },
+    { columns, data, autoResetSelectedRows: false },
     useFilters,
     useGlobalFilter,
     useSortBy,

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -196,16 +196,41 @@ const ContributionsTable = ({
     hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
-        Header: ({ getToggleAllRowsSelectedProps }) => (
-          <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-        ),
+        Header: ({
+          getToggleAllRowsSelectedProps,
+          toggleRowSelected,
+          toggleAllRowsSelected,
+          rows,
+          selectedFlatRows,
+        }) => {
+          const { onChange, ...propsWithoutOnChange } =
+            getToggleAllRowsSelectedProps();
+          const overrideOnChange = (event: ChangeEvent) => {
+            // Deselect all selected rows.
+            if (selectedFlatRows.length > 0) {
+              toggleAllRowsSelected(false);
+              return;
+            }
+
+            // Toggle all rows selected, only select staging contributions.
+            rows.forEach(row => {
+              toggleRowSelected(
+                row.id,
+                (event as ChangeEvent<HTMLInputElement>).currentTarget
+                  .checked && row.original.status.name === 'staging',
+              );
+            });
+          };
+          const newProps = {
+            onChange: overrideOnChange,
+            ...propsWithoutOnChange,
+          };
+          return <IndeterminateCheckbox {...newProps} />;
+        },
         Cell: ({ row }: { row: Row<ContributionTableType> }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            disabled={
-              row.original.status.name === 'minted' ||
-              row.original.status.name === 'pending'
-            }
+            disabled={row.original.status.name !== 'staging'}
           />
         ),
       },
@@ -296,7 +321,7 @@ const ContributionsTable = ({
     selectedFlatRows,
     prepareRow,
   } = useTable(
-    { columns, data },
+    { columns, data, autoResetSelectedRows: false },
     useFilters,
     useGlobalFilter,
     useSortBy,
