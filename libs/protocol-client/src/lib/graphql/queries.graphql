@@ -449,25 +449,19 @@ query getContributionCountByDateForUserInRange(
   }
 }
 
-query getDaoContributionCount(
-  $where: GetContributionInput!
-) {
-  result: getDaoContributionCount(where: $where) 
+query getDaoContributionCount($where: GetContributionInput!) {
+  result: getDaoContributionCount(where: $where)
 }
 
-query getDaoContributionCountByUser(
-  $where: GetContributionInput!
-) {
+query getDaoContributionCountByUser($where: GetContributionInput!) {
   result: getDaoContributionCountByUser(where: $where) {
     count
-    display_name 
+    display_name
     user_id
   }
 }
 
-query getContributionCountByActivityType(
-  $where: GetContributionInput!
-) {
+query getContributionCountByActivityType($where: GetContributionInput!) {
   result: getContributionCountByActivityType(where: $where) {
     count
     activity_name
@@ -506,8 +500,6 @@ mutation deleteContribution($where: ContributionWhereUniqueInput!) {
     id
   }
 }
-
-
 
 mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {

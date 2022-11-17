@@ -95,5 +95,4 @@ export type RecentContributionTableType = {
     name: string;
     updatedAt: string | Date;
   };
-
 };
