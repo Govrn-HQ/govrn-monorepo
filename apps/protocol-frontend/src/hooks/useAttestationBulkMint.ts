@@ -5,13 +5,6 @@ import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import pluralize from 'pluralize';
 
-type AttestationInput = {
-  name: string;
-  onChainId?: number | null;
-  confidence: number;
-  confidenceName: string;
-};
-
 const useAttestationBulkMint = () => {
   const toast = useGovrnToast();
   const queryClient = useQueryClient();

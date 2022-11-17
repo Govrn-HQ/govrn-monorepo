@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
-import { AttestationTableType } from '../types/table';
 import useGovrnToast from '../components/toast';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';

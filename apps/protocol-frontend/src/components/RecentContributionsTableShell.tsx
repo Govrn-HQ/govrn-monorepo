@@ -1,5 +1,4 @@
 import { Box, Stack } from '@chakra-ui/react';
-import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { SortOrder } from '@govrn/protocol-client';
 import RecentContributionsTable from './RecentContributionsTable';
