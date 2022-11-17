@@ -13,7 +13,7 @@ export default {
   },
 };
 
-const Template: Story<ErrorMessageProps> = (args) => (
+const Template: Story<ErrorMessageProps> = args => (
   <FormControl isInvalid>
     <ErrorMessage {...args} />
   </FormControl>
