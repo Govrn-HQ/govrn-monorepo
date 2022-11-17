@@ -3,6 +3,7 @@ export const INFURA_PROJECT_SECRET = import.meta.env.VITE_INFURA_PROJECT_SECRET;
 export const INFURA_PROJECT_ID = import.meta.env.VITE_INFURA_PROJECT_ID;
 export const PROTOCOL_URL = import.meta.env.VITE_PROTOCOL_URL;
 export const BASE_URL = import.meta.env.VITE_PROTOCOL_BASE_URL;
+export const ALCHEMY_KEY = import.meta.env.VITE_PUBLIC_ALCHEMY_KEY;
 export const VERIFY_URL = `${BASE_URL}/verify`;
 export const SIWE_ACTIVE_URL = `${BASE_URL}/siwe/active`;
 export const BLOCK_EXPLORER_URLS = {

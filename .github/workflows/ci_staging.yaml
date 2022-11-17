@@ -36,6 +36,8 @@ jobs:
       - name: Frozen lock
         run: yarn install --frozen-lockfile # optional, --immutable
       - run: npm install -g @graphprotocol/graph-cli
+      - name: Check Prettier
+        run: yarn check-prettier
       - run: yarn nx affected:lint --base $BASE
       - name: Test
         run: yarn nx affected:test --base $BASE
@@ -50,6 +52,7 @@ jobs:
           echo VITE_LINEAR_REDIRECT_URI=https://api-staging.govrn.app/linear/oauth  >> .env
           echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
           echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
+          echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
           echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
           echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
       - name: Build
@@ -160,6 +163,7 @@ jobs:
           echo VITE_LINEAR_REDIRECT_URI=http://lochost:4000/linear/oauth  >> .env
           echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
           echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
+          echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
       - name: Create Database
         run: yarn nx run protocol-api:migrate
       - name: Cypress run
