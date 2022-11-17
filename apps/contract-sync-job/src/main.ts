@@ -1,7 +1,6 @@
 import { GovrnContract, NetworkConfig } from '@govrn/govrn-contract-client';
 import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import { ethers } from 'ethers';
-import { GraphQLClient } from 'graphql-request';
 import { fetchIPFS } from './ipfs';
 import {
   bulkCreateAttestations,
@@ -14,14 +13,14 @@ import {
 } from './db';
 import { batch, MintedContributionSchemaV1 } from '@govrn/protocol-client';
 
-const SUBGRAPH_ENDPOINT = process.env.SUBGRAPH_URL;
 const CHAIN_NAME = process.env.CHAIN_NAME;
 const JOB_NAME = `contract-sync-job-${CHAIN_NAME}`;
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
-const OFFSET_DATE = Number(process.env.OFFSET_DATE) | 24;
 const CHAIN_ID = Number(process.env.CHAIN_ID);
+const OFFSET_DATE = Number(process.env.OFFSET_DATE) | 24;
+
 const BATCH_SIZE = 100;
 
 const networkConfig: NetworkConfig = {
@@ -35,8 +34,7 @@ const govrnContract = new GovrnContract(networkConfig, provider);
 const main = async () => {
   console.log(':: Starting to Process Contribution(s)');
 
-  const graphQLClient = new GraphQLClient(SUBGRAPH_ENDPOINT);
-  const client = new GovrnGraphClient(graphQLClient);
+  const client = new GovrnGraphClient(CHAIN_ID);
 
   const lastRun = await getJobRun({ name: JOB_NAME });
 
