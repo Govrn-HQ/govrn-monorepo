@@ -1776,7 +1776,7 @@ const inputsInfo = {
   AttestationConfidenceCreateNestedOneWithoutAttestationsInput: ["create", "connectOrCreate", "connect"],
   UserCreateNestedOneWithoutAttestationsInput: ["create", "connectOrCreate", "connect"],
   ContributionCreateNestedOneWithoutAttestationsInput: ["create", "connectOrCreate", "connect"],
-  AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput: ["create", "connectOrCreate", "upsert", "connect", "update"],
+  AttestationConfidenceUpdateOneWithoutAttestationsInput: ["create", "connectOrCreate", "upsert", "disconnect", "delete", "connect", "update"],
   UserUpdateOneRequiredWithoutAttestationsInput: ["create", "connectOrCreate", "upsert", "connect", "update"],
   ContributionUpdateOneRequiredWithoutAttestationsInput: ["create", "connectOrCreate", "upsert", "connect", "update"],
   AttestationCreateNestedManyWithoutConfidenceInput: ["create", "connectOrCreate", "createMany", "connect"],

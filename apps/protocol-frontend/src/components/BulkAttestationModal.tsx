@@ -63,7 +63,7 @@ export const AttestationModal = ({
           _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => createAttestationsHandler(contribution)}
           isLoading={attesting}
-          data-testId="addAttestations-btn"
+          data-testid="addAttestations-btn"
         >
           Add {pluralize('Attestation', 1)}
         </Button>

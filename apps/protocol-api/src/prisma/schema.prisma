@@ -171,8 +171,8 @@ model Attestation {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  confidence_id Int
-  confidence AttestationConfidence @relation(fields: [confidence_id], references: [id])
+  confidence_id Int?
+  confidence AttestationConfidence? @relation(fields: [confidence_id], references: [id])
   user_id Int
   user User @relation(fields: [user_id], references: [id])
   contribution_id Int

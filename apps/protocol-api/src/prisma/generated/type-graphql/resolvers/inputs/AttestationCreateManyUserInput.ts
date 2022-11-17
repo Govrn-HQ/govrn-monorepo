@@ -23,9 +23,9 @@ export class AttestationCreateManyUserInput {
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  confidence_id!: number;
+  confidence_id?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

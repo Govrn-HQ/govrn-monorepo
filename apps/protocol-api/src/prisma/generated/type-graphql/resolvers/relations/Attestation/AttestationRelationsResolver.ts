@@ -8,9 +8,9 @@ import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRel
 @TypeGraphQL.Resolver(_of => Attestation)
 export class AttestationRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => AttestationConfidence, {
-    nullable: false
+    nullable: true
   })
-  async confidence(@TypeGraphQL.Root() attestation: Attestation, @TypeGraphQL.Ctx() ctx: any): Promise<AttestationConfidence> {
+  async confidence(@TypeGraphQL.Root() attestation: Attestation, @TypeGraphQL.Ctx() ctx: any): Promise<AttestationConfidence | null> {
     return getPrismaFromContext(ctx).attestation.findUnique({
       where: {
         id: attestation.id,

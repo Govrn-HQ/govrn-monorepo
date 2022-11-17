@@ -430,7 +430,9 @@ export class ContributionCustomResolver {
   ) {
     const address = req.session.siwe.data.address;
 
-    if (args.data.contributionUserAddress !== address) {
+    if (
+      args.data.contributionUserAddress.toLowerCase() !== address.toLowerCase()
+    ) {
       throw new Error('You can only edit your own Contributions.');
     }
 

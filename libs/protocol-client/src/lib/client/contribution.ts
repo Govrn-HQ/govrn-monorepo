@@ -249,18 +249,9 @@ export class Contribution extends BaseClient {
     const transaction = await contract.attest(args);
     await transaction.wait();
 
-    if (id) {
-      // TODO: figure out this flow a little bit
-      return;
-      // return await this.sdk.updateUserOnChainAttestation({
-      //   data: {
-      //     confidence: args.confidence.toString(),
-      //     contributionOnChainId: parseInt(args.contribution.toString()),
-      //     userId: userId,
-      //     id: id,
-      //   },
-      // });
-    }
+    console.log(chainId);
+    console.log(args.contribution);
+    console.log(parseInt(args.contribution.toString()));
     return await this.sdk.createUserOnChainAttestation({
       data: {
         confidence: args.confidence.toString(),

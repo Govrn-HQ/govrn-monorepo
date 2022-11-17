@@ -9,7 +9,7 @@ import { LinearClient } from '@linear/sdk';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { and, deny, or, rule, shield } from 'graphql-shield';
+import { and, deny, or, rule, shield, allow } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 import fetch from 'cross-fetch';
 
@@ -104,7 +104,7 @@ const permissions = shield(
       createUserAttestation: and(ownsData, isAuthenticated),
       createUserContribution: and(ownsData, isAuthenticated),
       createUserCustom: or(hasToken, and(ownsData, isAuthenticated)),
-      createUserOnChainAttestation: isAuthenticated,
+      createUserOnChainAttestation: allow,
       deleteContribution: or(hasToken, isAuthenticated),
       deleteUserContribution: or(isAuthenticated, hasToken),
       getOrCreateActivityType: isAuthenticated,
@@ -338,7 +338,7 @@ const permissions = shield(
   },
   {
     fallbackRule: deny,
-    debug: process.env.NODE_ENV === 'development' ? true : false,
+    debug: true,
   },
 );
 

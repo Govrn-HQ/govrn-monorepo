@@ -26,11 +26,11 @@ export class Attestation {
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  confidence_id!: number;
+  confidence_id?: number | null;
 
-  confidence?: AttestationConfidence;
+  confidence?: AttestationConfidence | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
