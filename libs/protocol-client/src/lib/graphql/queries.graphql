@@ -513,7 +513,12 @@ mutation updateUserOnChainContribution(
   $chainId: Float!
   $data: ContributionUpdateManyMutationInput!
 ) {
-  updateUserOnChainContribution(id: $id, status: $status, chainId: $chainId, data: $data) {
+  updateUserOnChainContribution(
+    id: $id
+    status: $status
+    chainId: $chainId
+    data: $data
+  ) {
     ...ContributionFragment
   }
 }
