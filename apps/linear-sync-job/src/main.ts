@@ -25,7 +25,8 @@ const fetchLinearIssues = async (
   completedAtFilter: { gt: Date },
 ) => {
   try {
-    return await linearClient.issues({
+    const me = await linearClient.viewer;
+    return await me.assignedIssues({
       filter: {
         and: [{ completedAt: completedAtFilter }],
       },
