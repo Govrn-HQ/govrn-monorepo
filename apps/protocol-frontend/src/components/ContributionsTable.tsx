@@ -230,10 +230,7 @@ const ContributionsTable = ({
         Cell: ({ row }: { row: Row<ContributionTableType> }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            disabled={
-              row.original.status.name === 'minted' ||
-              row.original.status.name === 'pending'
-            }
+            disabled={row.original.status.name !== 'staging'}
           />
         ),
       },
