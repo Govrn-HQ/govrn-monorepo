@@ -281,8 +281,8 @@ export class Contribution extends BaseClient {
     const signerChainId = await signer.getChainId();
     const dbContributions = await this.list({
       where: {
-        chain_id: { equals: chainId },
-        id: { in: contributionIds },
+        chain: { is: { chain_id: { equals: `${chainId}` } } },
+        on_chain_id: { in: contributionIds },
       },
     });
     if (dbContributions.result.length !== contributionIds.length) {
