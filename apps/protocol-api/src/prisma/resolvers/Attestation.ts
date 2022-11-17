@@ -129,11 +129,9 @@ export class AttestationResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserOnChainAttestationArgs,
   ) {
-    console.log(args);
     const chainId = await prisma.chain.findUnique({
       where: { chain_id: `${args.data.chainId}` },
     });
-    console.log(chainId);
     return await prisma.attestation.create({
       data: {
         contribution: {

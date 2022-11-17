@@ -148,7 +148,6 @@ export const upsertContribution = async (contribution: ContributionData) => {
     return existingContribution.result.length;
   }
 
-  console.log(contribution);
   return await govrn.contribution.upsert({
     where: {
       chain_id_on_chain_id: {

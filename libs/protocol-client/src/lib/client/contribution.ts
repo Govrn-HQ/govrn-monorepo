@@ -236,10 +236,7 @@ export class Contribution extends BaseClient {
     args: AttestArgs,
     chainId: number,
   ) {
-    console.log(id);
     const contr = await this.get(id);
-    console.log('Here');
-    console.log(contr);
     if (!contr || !contr.chain || chainId !== Number(contr.chain.chain_id)) {
       throw new Error(
         `Contribution was minted on chain ${contr?.chain?.chain_id || null}`,
@@ -249,9 +246,6 @@ export class Contribution extends BaseClient {
     const transaction = await contract.attest(args);
     await transaction.wait();
 
-    console.log(chainId);
-    console.log(args.contribution);
-    console.log(parseInt(args.contribution.toString()));
     return await this.sdk.createUserOnChainAttestation({
       data: {
         confidence: args.confidence.toString(),
