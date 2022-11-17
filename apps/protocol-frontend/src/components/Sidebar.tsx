@@ -146,7 +146,7 @@ const Sidebar = () => {
                       <AccordionPanel paddingTop={0}>
                         <Flex direction="column">
                           {daosListData?.map(dao => (
-                            <Stack paddingLeft={8} key={dao.id}>
+                            <Stack paddingLeft={8} paddingY={1} key={dao.id}>
                               <Link to={`/feature/dao/${dao.id}`}>
                                 <Text
                                   as="span"
