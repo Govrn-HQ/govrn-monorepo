@@ -1,6 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { TWITTER_LINK, DISCORD_LINK, FEEDBACK_LINK } from '../utils/constants';
 import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
   Button,
   Divider,
   Drawer,
@@ -12,10 +17,6 @@ import {
   Flex,
   Icon,
   HStack,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Stack,
   Text,
 } from '@chakra-ui/react';
@@ -28,7 +29,6 @@ import {
   FiPlusSquare,
   FiTwitter,
   FiUsers,
-  FiChevronDown,
   FiGitBranch,
 } from 'react-icons/fi';
 import { FaDiscord } from 'react-icons/fa';
@@ -132,47 +132,58 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                           {!daosListIsLoading &&
                           daosListData &&
                           daosListData.length > 0 ? (
-                            <Menu
-                              placement="bottom-end"
-                              autoSelect={false}
-                              isLazy
-                            >
-                              <MenuButton
-                                as={Button}
-                                rightIcon={<FiChevronDown />}
-                                variant="ghost"
-                                justifyContent="start"
-                                color="gray.800"
-                                transition="all 100ms ease-in-out"
-                                backgroundColor="transparent"
-                                _hover={{ bgColor: 'gray.100' }}
-                                width="100%"
-                              >
-                                <HStack spacing="3">
-                                  <Icon
-                                    as={FiGitBranch}
-                                    boxSize="6"
-                                    color="subtle"
+                            <Accordion allowToggle width="100%">
+                              <AccordionItem border="none">
+                                <AccordionButton
+                                  margin="0"
+                                  padding="0"
+                                  as={Button}
+                                  color="gray.800"
+                                  transition="all 100ms ease-in-out"
+                                  backgroundColor="transparent"
+                                  _hover={{ bgColor: 'gray.100' }}
+                                  width="100%"
+                                  variant="ghost"
+                                  justifyContent="start"
+                                >
+                                  <HStack spacing="3" paddingX={4} width="100%">
+                                    <Icon
+                                      as={FiGitBranch}
+                                      boxSize="6"
+                                      color="subtle"
+                                    />
+                                    <Text>DAOs</Text>
+                                  </HStack>
+                                  <AccordionIcon
+                                    padding="0"
+                                    marginRight={2}
+                                    color="gray.800"
+                                    backgroundColor="none"
                                   />
-                                  <Text>DAOs</Text>
-                                </HStack>
-                              </MenuButton>
-                              <MenuList
-                                backgroundColor="gray.800"
-                                minWidth="none"
-                              >
-                                {daosListData?.map(dao => (
-                                  <Link to={`/feature/dao/${dao.id}`}>
-                                    <MenuItem
-                                      color="white"
-                                      _hover={{ backgroundColor: 'gray.600' }}
-                                    >
-                                      {dao.name}
-                                    </MenuItem>
-                                  </Link>
-                                ))}
-                              </MenuList>
-                            </Menu>
+                                </AccordionButton>
+                                <AccordionPanel paddingTop={0}>
+                                  <Flex direction="column">
+                                    {daosListData?.map(dao => (
+                                      <Stack paddingLeft={8} key={dao.id}>
+                                        <Link to={`/feature/dao/${dao.id}`}>
+                                          <Text
+                                            as="span"
+                                            color="gray.800"
+                                            transition="all 100ms ease-in-out"
+                                            _hover={{
+                                              fontWeight: 'medium',
+                                              color: 'gray.900',
+                                            }}
+                                          >
+                                            {dao.name}
+                                          </Text>
+                                        </Link>
+                                      </Stack>
+                                    ))}
+                                  </Flex>
+                                </AccordionPanel>
+                              </AccordionItem>
+                            </Accordion>
                           ) : (
                             <Link to="/feature/dao">
                               <NavButton
@@ -197,7 +208,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                     width="100%"
                     flex="1 1 auto"
                   >
-                    <Divider />
+                    <Divider marginTop={2} />
                     <Stack shouldWrapChildren>
                       <NavButton
                         label="Discord"
