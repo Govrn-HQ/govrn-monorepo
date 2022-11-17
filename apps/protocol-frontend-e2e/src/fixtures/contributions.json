@@ -8,12 +8,11 @@
   },
   {
     "name": "e2eTesting2022-Govrn Protocol Note Taking",
-    "activityType": "Note Taking", 
+    "activityType": "Note Taking",
     "details": "I added some notes on the documentation that summarizes cypress test automation in Govrn products.",
     "proof": "httpsLinkTo/://govrn/e2eTesting2022",
     "dao": "Govrn-e2eTesting2022"
   },
-
   {
     "name": "e2eTesting2022-Test Automation",
     "activityType": "Pull Request",
@@ -21,7 +20,6 @@
     "proof": "https://govrn/e2eTesting2022",
     "dao": "Govrn-e2eTesting2022"
   },
-
   {
     "name": "e2eTesting2022-Test Automation",
     "activityType": "Pull Request",
@@ -29,5 +27,4 @@
     "proof": "https://govrn/e2eTesting2022",
     "dao": "Govrn-e2eTesting2022"
   }
-
 ]

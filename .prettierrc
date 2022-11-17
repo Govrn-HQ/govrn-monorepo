@@ -3,5 +3,13 @@
   "useTabs": false,
   "semi": true,
   "trailingComma": "all",
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": "**/*.{hbs}",
+      "options": {
+        "parser": "glimmer"
+      }
+    }
+  ]
 }
