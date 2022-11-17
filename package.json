@@ -2,6 +2,7 @@
   "name": "govrn-monorepo",
   "version": "0.0.0",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "clean": "rm -rf node_modules dist",
     "check-prettier": "prettier --check .",
@@ -11,7 +12,12 @@
     "protocol": "nx serve protocol-api",
     "reset": "ps aux | grep node | grep govrn-monorepo | awk '{print $2}' | xargs kill -9"
   },
-  "private": true,
+  "lint-staged": {
+    "**/*.{js, ts, tsx, md, graphql}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "dependencies": {
     "@alexkeating/nx-foundry": "^0.0.2",
     "@alexkeating/nx-skynet": "0.0.7",
@@ -168,8 +174,10 @@
     "hardhat": "^2.9.7",
     "hardhat-preprocessor": "^0.1.4",
     "http-browserify": "^1.7.0",
+    "husky": "^8.0.2",
     "jest": "28.1.3",
     "jest-environment-jsdom": "^29.0.3",
+    "lint-staged": "^13.0.3",
     "nx": "14.7.13",
     "path": "^0.12.7",
     "path-browserify": "^1.0.1",
