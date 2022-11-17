@@ -5,13 +5,6 @@ import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import pluralize from 'pluralize';
 
-type AttestationInput = {
-  name: string;
-  onChainId?: number | null;
-  confidence: number;
-  confidenceName: string;
-};
-
 const useAttestationBulkMint = () => {
   const toast = useGovrnToast();
   const queryClient = useQueryClient();
@@ -21,7 +14,7 @@ const useAttestationBulkMint = () => {
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     ['attestationBulkMint'],
-    async (data: AttestationInput[]) => {
+    async (data: { onChainId: number; name: string }[]) => {
       for (const contr of data) {
         if (contr?.onChainId === undefined || contr?.onChainId === null) {
           throw new Error(`No onChainId for contribution: ${contr.name}`);

@@ -674,8 +674,8 @@ export type AggregateUserActivity = {
 };
 
 export type Attestation = {
-  confidence: AttestationConfidence;
-  confidence_id: Scalars['Int'];
+  confidence?: Maybe<AttestationConfidence>;
+  confidence_id?: Maybe<Scalars['Int']>;
   contribution: Contribution;
   contribution_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
@@ -880,10 +880,12 @@ export type AttestationConfidenceUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput = {
+export type AttestationConfidenceUpdateOneWithoutAttestationsInput = {
   connect?: InputMaybe<AttestationConfidenceWhereUniqueInput>;
   connectOrCreate?: InputMaybe<AttestationConfidenceCreateOrConnectWithoutAttestationsInput>;
   create?: InputMaybe<AttestationConfidenceCreateWithoutAttestationsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
   update?: InputMaybe<AttestationConfidenceUpdateWithoutAttestationsInput>;
   upsert?: InputMaybe<AttestationConfidenceUpsertWithoutAttestationsInput>;
 };
@@ -937,7 +939,7 @@ export type AttestationCountOrderByAggregateInput = {
 };
 
 export type AttestationCreateInput = {
-  confidence: AttestationConfidenceCreateNestedOneWithoutAttestationsInput;
+  confidence?: InputMaybe<AttestationConfidenceCreateNestedOneWithoutAttestationsInput>;
   contribution: ContributionCreateNestedOneWithoutAttestationsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   date_of_attestation?: InputMaybe<Scalars['DateTime']>;
@@ -960,7 +962,7 @@ export type AttestationCreateManyConfidenceInputEnvelope = {
 };
 
 export type AttestationCreateManyContributionInput = {
-  confidence_id: Scalars['Int'];
+  confidence_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
@@ -974,7 +976,7 @@ export type AttestationCreateManyContributionInputEnvelope = {
 };
 
 export type AttestationCreateManyInput = {
-  confidence_id: Scalars['Int'];
+  confidence_id?: InputMaybe<Scalars['Int']>;
   contribution_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   date_of_attestation?: InputMaybe<Scalars['DateTime']>;
@@ -984,7 +986,7 @@ export type AttestationCreateManyInput = {
 };
 
 export type AttestationCreateManyUserInput = {
-  confidence_id: Scalars['Int'];
+  confidence_id?: InputMaybe<Scalars['Int']>;
   contribution_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   date_of_attestation?: InputMaybe<Scalars['DateTime']>;
@@ -1042,7 +1044,7 @@ export type AttestationCreateWithoutConfidenceInput = {
 };
 
 export type AttestationCreateWithoutContributionInput = {
-  confidence: AttestationConfidenceCreateNestedOneWithoutAttestationsInput;
+  confidence?: InputMaybe<AttestationConfidenceCreateNestedOneWithoutAttestationsInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -1050,7 +1052,7 @@ export type AttestationCreateWithoutContributionInput = {
 };
 
 export type AttestationCreateWithoutUserInput = {
-  confidence: AttestationConfidenceCreateNestedOneWithoutAttestationsInput;
+  confidence?: InputMaybe<AttestationConfidenceCreateNestedOneWithoutAttestationsInput>;
   contribution: ContributionCreateNestedOneWithoutAttestationsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   date_of_attestation?: InputMaybe<Scalars['DateTime']>;
@@ -1063,7 +1065,7 @@ export type AttestationGroupBy = {
   _max?: Maybe<AttestationMaxAggregate>;
   _min?: Maybe<AttestationMinAggregate>;
   _sum?: Maybe<AttestationSumAggregate>;
-  confidence_id: Scalars['Int'];
+  confidence_id?: Maybe<Scalars['Int']>;
   contribution_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   date_of_attestation: Scalars['DateTime'];
@@ -1164,7 +1166,7 @@ export type AttestationScalarWhereInput = {
   AND?: InputMaybe<Array<AttestationScalarWhereInput>>;
   NOT?: InputMaybe<Array<AttestationScalarWhereInput>>;
   OR?: InputMaybe<Array<AttestationScalarWhereInput>>;
-  confidence_id?: InputMaybe<IntFilter>;
+  confidence_id?: InputMaybe<IntNullableFilter>;
   contribution_id?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   date_of_attestation?: InputMaybe<DateTimeFilter>;
@@ -1177,7 +1179,7 @@ export type AttestationScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<AttestationScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<AttestationScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<AttestationScalarWhereWithAggregatesInput>>;
-  confidence_id?: InputMaybe<IntWithAggregatesFilter>;
+  confidence_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   contribution_id?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   date_of_attestation?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -1201,7 +1203,7 @@ export type AttestationSumOrderByAggregateInput = {
 };
 
 export type AttestationUpdateInput = {
-  confidence?: InputMaybe<AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput>;
+  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsInput>;
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -1296,7 +1298,7 @@ export type AttestationUpdateWithoutConfidenceInput = {
 };
 
 export type AttestationUpdateWithoutContributionInput = {
-  confidence?: InputMaybe<AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput>;
+  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -1304,7 +1306,7 @@ export type AttestationUpdateWithoutContributionInput = {
 };
 
 export type AttestationUpdateWithoutUserInput = {
-  confidence?: InputMaybe<AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput>;
+  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsInput>;
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -1361,7 +1363,7 @@ export type AttestationWhereInput = {
   NOT?: InputMaybe<Array<AttestationWhereInput>>;
   OR?: InputMaybe<Array<AttestationWhereInput>>;
   confidence?: InputMaybe<AttestationConfidenceRelationFilter>;
-  confidence_id?: InputMaybe<IntFilter>;
+  confidence_id?: InputMaybe<IntNullableFilter>;
   contribution?: InputMaybe<ContributionRelationFilter>;
   contribution_id?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -9842,6 +9844,7 @@ export type MutationUpdateUserOnChainAttestationArgs = {
 
 
 export type MutationUpdateUserOnChainContributionArgs = {
+  chainId?: InputMaybe<Scalars['Float']>;
   data: ContributionUpdateManyMutationInput;
   id: Scalars['Float'];
   status?: InputMaybe<Scalars['String']>;
@@ -13423,6 +13426,7 @@ export type UserAvgOrderByAggregateInput = {
 export type UserContributionCreateInput = {
   activityTypeName: Scalars['String'];
   address: Scalars['String'];
+  chainId?: InputMaybe<Scalars['Float']>;
   chainName: Scalars['String'];
   dateOfEngagement: Scalars['DateTime'];
   details: Scalars['String'];
@@ -13895,6 +13899,7 @@ export type UserMinOrderByAggregateInput = {
 
 export type UserOnChainContributionCreateInput = {
   activityTypeId: Scalars['Float'];
+  chainId?: InputMaybe<Scalars['Float']>;
   dateOfEngagement: Scalars['DateTime'];
   dateOfSubmission: Scalars['DateTime'];
   details: Scalars['String'];
@@ -14521,7 +14526,7 @@ export type ListGuildsQueryVariables = Exact<{
 
 export type ListGuildsQuery = { result: Array<{ congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus }> };
 
-export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, contribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, contribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
 
 export type BulkCreateTwitterTweetMutationVariables = Exact<{
   data: Array<TwitterTweetCreateManyInput> | TwitterTweetCreateManyInput;
@@ -14616,14 +14621,14 @@ export type CreateUserCustomMutationVariables = Exact<{
 
 export type CreateUserCustomMutation = { createUserCustom: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
-export type ContributionFragmentFragment = { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> };
+export type ContributionFragmentFragment = { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> };
 
 export type GetContributionQueryVariables = Exact<{
   where: ContributionWhereUniqueInput;
 }>;
 
 
-export type GetContributionQuery = { result?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+export type GetContributionQuery = { result?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
 
 export type ListContributionsQueryVariables = Exact<{
   where?: ContributionWhereInput;
@@ -14633,7 +14638,7 @@ export type ListContributionsQueryVariables = Exact<{
 }>;
 
 
-export type ListContributionsQuery = { result: Array<{ date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> }> };
+export type ListContributionsQuery = { result: Array<{ date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> }> };
 
 export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
   where: GetUserContributionCountInput;
@@ -14668,21 +14673,21 @@ export type CreateContributionMutationVariables = Exact<{
 }>;
 
 
-export type CreateContributionMutation = { createContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type CreateContributionMutation = { createContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type CreateUserContributionMutationVariables = Exact<{
   data: UserContributionCreateInput;
 }>;
 
 
-export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type CreateOnChainUserContributionMutationVariables = Exact<{
   data: UserOnChainContributionCreateInput;
 }>;
 
 
-export type CreateOnChainUserContributionMutation = { createOnChainUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type CreateOnChainUserContributionMutation = { createOnChainUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type DeleteUserContributionMutationVariables = Exact<{
   where: UserContributionDeleteInput;
@@ -14703,16 +14708,17 @@ export type UpdateUserContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserContributionMutation = { updateUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type UpdateUserContributionMutation = { updateUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type UpdateUserOnChainContributionMutationVariables = Exact<{
   id: Scalars['Float'];
   status: Scalars['String'];
+  chainId: Scalars['Float'];
   data: ContributionUpdateManyMutationInput;
 }>;
 
 
-export type UpdateUserOnChainContributionMutation = { updateUserOnChainContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type UpdateUserOnChainContributionMutation = { updateUserOnChainContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type BulkCreateContributionMutationVariables = Exact<{
   data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
@@ -14728,7 +14734,7 @@ export type UpdateContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
 
 export type UpsertContributionMutationVariables = Exact<{
   where: ContributionWhereUniqueInput;
@@ -14737,7 +14743,7 @@ export type UpsertContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpsertContributionMutation = { upsertContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type UpsertContributionMutation = { upsertContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type GetContributionStatusQueryVariables = Exact<{
   name: Scalars['String'];
@@ -14797,7 +14803,7 @@ export type CreateUserActivityMutationVariables = Exact<{
 
 export type CreateUserActivityMutation = { createUserActivity: { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } } };
 
-export type AttestationFragmentFragment = { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } };
+export type AttestationFragmentFragment = { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } };
 
 export type ListAttestationsQueryVariables = Exact<{
   where?: AttestationWhereInput;
@@ -14807,28 +14813,28 @@ export type ListAttestationsQueryVariables = Exact<{
 }>;
 
 
-export type ListAttestationsQuery = { result: Array<{ date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } }> };
+export type ListAttestationsQuery = { result: Array<{ date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } }> };
 
 export type CreateAttestationMutationVariables = Exact<{
   data: AttestationCreateInput;
 }>;
 
 
-export type CreateAttestationMutation = { createAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type CreateAttestationMutation = { createAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type CreateUserOnChainAttestationMutationVariables = Exact<{
   data: AttestationUserOnChainCreateInput;
 }>;
 
 
-export type CreateUserOnChainAttestationMutation = { createUserOnChainAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type CreateUserOnChainAttestationMutation = { createUserOnChainAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type UpdateUserOnChainAttestationMutationVariables = Exact<{
   data: AttestationUserOnChainUpdateInput;
 }>;
 
 
-export type UpdateUserOnChainAttestationMutation = { updateUserOnChainAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type UpdateUserOnChainAttestationMutation = { updateUserOnChainAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type BulkCreateAttestationMutationVariables = Exact<{
   data: Array<AttestationCreateManyInput> | AttestationCreateManyInput;
@@ -14844,7 +14850,7 @@ export type UpdateAttestationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateAttestationMutation = { updateAttestation?: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } | null };
+export type UpdateAttestationMutation = { updateAttestation?: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } | null };
 
 export type PartnerFragmentFragment = { createdAt: string | Date, updatedAt: string | Date, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number }, user: { name?: string | null, address: string, id: number } };
 
@@ -14863,7 +14869,7 @@ export type CreateUserAttestationMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserAttestationMutation = { createUserAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type CreateUserAttestationMutation = { createUserAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type ChainFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, name: string, chain_id: string };
 
@@ -14926,6 +14932,9 @@ export const ContributionFragmentFragmentDoc = gql`
     id
     name
     updatedAt
+  }
+  chain {
+    chain_id
   }
   date_of_engagement
   date_of_submission
@@ -15432,8 +15441,13 @@ export const UpdateUserContributionDocument = gql`
 }
     ${ContributionFragmentFragmentDoc}`;
 export const UpdateUserOnChainContributionDocument = gql`
-    mutation updateUserOnChainContribution($id: Float!, $status: String!, $data: ContributionUpdateManyMutationInput!) {
-  updateUserOnChainContribution(id: $id, status: $status, data: $data) {
+    mutation updateUserOnChainContribution($id: Float!, $status: String!, $chainId: Float!, $data: ContributionUpdateManyMutationInput!) {
+  updateUserOnChainContribution(
+    id: $id
+    status: $status
+    chainId: $chainId
+    data: $data
+  ) {
     ...ContributionFragment
   }
 }

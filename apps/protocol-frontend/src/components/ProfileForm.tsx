@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
-import { Input, type InputLocalFormType } from '@govrn/protocol-ui';
+import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';

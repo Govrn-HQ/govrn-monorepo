@@ -6,6 +6,7 @@ import { AttestationConfidenceRelationFilter } from "../inputs/AttestationConfid
 import { ContributionRelationFilter } from "../inputs/ContributionRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
 @TypeGraphQL.InputType("AttestationWhereInput", {
@@ -42,10 +43,10 @@ export class AttestationWhereInput {
   })
   updatedAt?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  confidence_id?: IntFilter | undefined;
+  confidence_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => AttestationConfidenceRelationFilter, {
     nullable: true

@@ -8,10 +8,10 @@ import { AttestationConfidenceUpdateWithoutAttestationsInput } from "../inputs/A
 import { AttestationConfidenceUpsertWithoutAttestationsInput } from "../inputs/AttestationConfidenceUpsertWithoutAttestationsInput";
 import { AttestationConfidenceWhereUniqueInput } from "../inputs/AttestationConfidenceWhereUniqueInput";
 
-@TypeGraphQL.InputType("AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput", {
+@TypeGraphQL.InputType("AttestationConfidenceUpdateOneWithoutAttestationsInput", {
   isAbstract: true
 })
-export class AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput {
+export class AttestationConfidenceUpdateOneWithoutAttestationsInput {
   @TypeGraphQL.Field(_type => AttestationConfidenceCreateWithoutAttestationsInput, {
     nullable: true
   })
@@ -26,6 +26,16 @@ export class AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput {
     nullable: true
   })
   upsert?: AttestationConfidenceUpsertWithoutAttestationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  disconnect?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => AttestationConfidenceWhereUniqueInput, {
     nullable: true

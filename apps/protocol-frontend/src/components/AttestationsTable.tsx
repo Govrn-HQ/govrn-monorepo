@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   Box,
   chakra,
@@ -33,7 +33,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationTableType } from '../types/table';
 import ModalWrapper from './ModalWrapper';
-import BulkAttestationModal from './BulkAttestationModal';
+import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 
 const AttestationsTable = ({
   contributionsData,
@@ -140,9 +140,13 @@ const AttestationsTable = ({
     tableHooks,
   );
 
-  const attestationsModalHandler = () => {
-    setModals({ bulkAttestationModal: true });
-  };
+  const attestationsModalHandler = useCallback(() => {
+    if (selectedFlatRows.length > 1) {
+      setModals({ bulkAttestationModal: true });
+    } else {
+      setModals({ attestationModal: true });
+    }
+  }, [selectedFlatRows, setModals]);
 
   let component = (
     <Box
@@ -270,6 +274,17 @@ const AttestationsTable = ({
           />
         }
       />
+      {selectedFlatRows.length > 0 && (
+        <ModalWrapper
+          name="attestationModal"
+          title="Attest to DAO Contributions"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <AttestationModal contribution={selectedFlatRows[0].original} />
+          }
+        />
+      )}
     </>
   );
 };

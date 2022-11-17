@@ -54,7 +54,7 @@ export { AttestationConfidenceScalarWhereWithAggregatesInput } from "./Attestati
 export { AttestationConfidenceSumOrderByAggregateInput } from "./AttestationConfidenceSumOrderByAggregateInput";
 export { AttestationConfidenceUpdateInput } from "./AttestationConfidenceUpdateInput";
 export { AttestationConfidenceUpdateManyMutationInput } from "./AttestationConfidenceUpdateManyMutationInput";
-export { AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput } from "./AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput";
+export { AttestationConfidenceUpdateOneWithoutAttestationsInput } from "./AttestationConfidenceUpdateOneWithoutAttestationsInput";
 export { AttestationConfidenceUpdateWithoutAttestationsInput } from "./AttestationConfidenceUpdateWithoutAttestationsInput";
 export { AttestationConfidenceUpsertWithoutAttestationsInput } from "./AttestationConfidenceUpsertWithoutAttestationsInput";
 export { AttestationConfidenceWhereInput } from "./AttestationConfidenceWhereInput";

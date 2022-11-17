@@ -20,6 +20,7 @@ const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 const CHAIN_ID = Number(process.env.CHAIN_ID);
 const OFFSET_DATE = Number(process.env.OFFSET_DATE) | 24;
+
 const BATCH_SIZE = 100;
 
 const networkConfig: NetworkConfig = {
