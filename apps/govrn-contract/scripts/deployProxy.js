@@ -10,7 +10,7 @@ async function main() {
   console.log(
     'Govrn deployed to:',
     govrn.address,
-    govrn.deployTransaction.chainId
+    govrn.deployTransaction.chainId,
   );
 }
 
@@ -18,7 +18,7 @@ async function main() {
 // and properly handle errors.
 main()
   .then(() => process.exit(0))
-  .catch((error) => {
+  .catch(error => {
     console.error(error);
     process.exit(1);
   });

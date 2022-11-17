@@ -7,7 +7,7 @@ dataSources:
     network: xdai
     source:
       abi: Govrn
-      address: "0x8a33e6288d155aDB1d368838CB91E01d30C66eC1"
+      address: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
