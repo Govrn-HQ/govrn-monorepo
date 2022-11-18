@@ -105,10 +105,20 @@ export class UserCustomResolver {
     const address = req.session.siwe.data.address;
     let extraData = {};
     if (args.data.disconnectLinearId) {
+      // also remove active and token
       extraData = {
         ...extraData,
         linear_users: { disconnect: { id: args.data.disconnectLinearId } },
       };
+      await prisma.linearUser.update({
+        data: {
+          active_token: { set: false },
+          access_token: { set: null },
+        },
+        where: {
+          id: args.data.disconnectLinearId,
+        },
+      });
     }
     // conditionally add linear disconnect
     return await prisma.user.update({
