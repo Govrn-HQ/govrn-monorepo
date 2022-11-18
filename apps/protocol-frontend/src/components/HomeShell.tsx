@@ -1,23 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAccount } from 'wagmi';
-import {
-  Flex,
-  Link as ChakraLink,
-  Button,
-  Text,
-  VisuallyHidden,
-  Heading,
-} from '@chakra-ui/react';
+import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
 
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
-import CreateWaitlistUserForm from './CreateWaitlistUserForm';
 import { GOVRN_MOTTO } from '../utils/constants';
-import { FaDiscord } from 'react-icons/all';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 
 const HomeShell = () => {
