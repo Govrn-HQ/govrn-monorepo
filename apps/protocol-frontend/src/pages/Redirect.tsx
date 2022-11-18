@@ -14,9 +14,7 @@ const RedirectHome = () => {
   const { authenticateAddress } = useAuth();
   setTimeout(() => setRedirectNow(true), TIMEOUT);
 
-  console.log(redirectNow);
   if (redirectNow) authenticateAddress();
-  console.log('Navigate');
   navigate('/', { state: location.state, replace: true });
 
   return (
