@@ -74,7 +74,7 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       const message = await createSiweMessage(
         address,
         'Sign in with Ethereum to the app.',
-        chain?.id.toString(16),
+        chain?.id.toString(),
       );
 
       const signature = await signMessageAsync({
