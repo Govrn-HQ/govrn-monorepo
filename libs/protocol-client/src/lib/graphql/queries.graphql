@@ -29,6 +29,7 @@ query getJobRun($where: JobRunWhereUniqueInput!) {
 fragment LinearIssueFragment on LinearIssue {
   id
   completedAt
+  createdAt
 }
 
 query listLinearIssues(

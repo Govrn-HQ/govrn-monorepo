@@ -25,9 +25,10 @@ const fetchLinearIssues = async (
   completedAtFilter: { gt: Date },
 ) => {
   try {
-    return await linearClient.issues({
+    const me = await linearClient.viewer;
+    return await me.assignedIssues({
       filter: {
-        and: [{ completedAt: completedAtFilter }],
+        and: [{ createdAt: completedAtFilter, completedAt: { null: false } }],
       },
       orderBy: LinearDocument.PaginationOrderBy.CreatedAt,
       first: 100,
@@ -165,7 +166,7 @@ const main = async () => {
 
       const completedAtFilter =
         lastIssue.result.length > 0
-          ? { gt: new Date(lastIssue.result[0].completedAt) }
+          ? { gt: new Date(lastIssue.result[0].createdAt) }
           : { gt: new Date('1990-01-01T10:20:30Z') };
 
       const resp = await fetchLinearIssues(linearClient, completedAtFilter);
