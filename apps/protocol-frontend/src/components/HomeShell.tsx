@@ -64,24 +64,21 @@ const HomeShell = () => {
             </Button>
           </>
         )}
-        {createProfileSteps === 2 &&
-          (userDataByAddress?.active === true ? (
-            <Flex
-              justify="space-between"
-              direction="column"
-              wrap="wrap"
-              width="100%"
-              padding={8}
-              background="white"
-              boxShadow="sm"
-              borderRadius="lg"
-              marginBottom={4}
-            >
-              <CreateUserForm />
-            </Flex>
-          ) : (
-            <CreateWaitlistUserForm />
-          ))}
+        {createProfileSteps === 2 && (
+          <Flex
+            justify="space-between"
+            direction="column"
+            wrap="wrap"
+            width="100%"
+            padding={8}
+            background="white"
+            boxShadow="sm"
+            borderRadius="lg"
+            marginBottom={4}
+          >
+            <CreateUserForm />
+          </Flex>
+        )}
         {createProfileSteps === 3 && (
           <Flex
             direction="column"
@@ -89,68 +86,34 @@ const HomeShell = () => {
             justifyContent="center"
             textAlign="center"
           >
-            {userDataByAddress?.active === true ? (
-              <>
-                <Text color="gray.800" paddingBottom={8}>
-                  Welcome back{' '}
-                  <Text
-                    as="span"
-                    fontWeight="bolder"
-                    bgGradient="linear(to-l, #7928CA, #FF0080)"
-                    bgClip="text"
-                  >
-                    {userData?.name || userDataByAddress?.name}
-                  </Text>
-                  . Click below to view your dashboard.
+            <>
+              <Text color="gray.800" paddingBottom={8}>
+                Welcome back{' '}
+                <Text
+                  as="span"
+                  fontWeight="bolder"
+                  bgGradient="linear(to-l, #7928CA, #FF0080)"
+                  bgClip="text"
+                >
+                  {userData?.name || userDataByAddress?.name}
                 </Text>
-                <Link to="/dashboard">
-                  <Button
-                    color="brand.primary.600"
-                    backgroundColor="brand.primary.50"
-                    transition="all 100ms ease-in-out"
-                    _hover={{ bgColor: 'white' }}
-                    marginTop={4}
-                    width="100%"
-                    data-cy="myDashboards-btn"
-                  >
-                    My Dashboard
-                  </Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Text color="gray.800" paddingBottom={8}>
-                  Welcome back{' '}
-                  <Text
-                    as="span"
-                    fontWeight="bolder"
-                    bgGradient="linear(to-l, #7928CA, #FF0080)"
-                    bgClip="text"
-                  >
-                    {userDataByAddress?.name}
-                  </Text>
-                  .{' '}
-                  <strong>
-                    We'll reach out as soon as we open up more spots!
-                  </strong>
-                </Text>
-
-                <ChakraLink href="https://discord.gg/3e36ZHU5aG" isExternal>
-                  <Button
-                    leftIcon={<FaDiscord />}
-                    color="brand.primary.600"
-                    backgroundColor="brand.primary.50"
-                    transition="all 100ms ease-in-out"
-                    _hover={{ bgColor: 'white' }}
-                    marginTop={4}
-                    width="100%"
-                    data-cy="joinOurDiscord-testBtn"
-                  >
-                    Join Our Discord
-                  </Button>
-                </ChakraLink>
-              </>
-            )}
+                . Click below to view your dashboard.
+              </Text>
+              <Link to="/dashboard">
+                <Button
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'white' }}
+                  marginTop={4}
+                  width="100%"
+                  data-cy="myDashboards-btn"
+                >
+                  My Dashboard
+                </Button>
+              </Link>
+            </>
+            )
           </Flex>
         )}
       </Flex>
