@@ -14410,7 +14410,7 @@ export type GetJobRunQueryVariables = Exact<{
 
 export type GetJobRunQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, completedDate: string | Date, name: string, startDate: string | Date } | null };
 
-export type LinearIssueFragmentFragment = { id: number, completedAt?: string | Date | null };
+export type LinearIssueFragmentFragment = { id: number, completedAt?: string | Date | null, createdAt?: string | Date | null };
 
 export type ListLinearIssuesQueryVariables = Exact<{
   where?: LinearIssueWhereInput;
@@ -14420,7 +14420,7 @@ export type ListLinearIssuesQueryVariables = Exact<{
 }>;
 
 
-export type ListLinearIssuesQuery = { result: Array<{ id: number, completedAt?: string | Date | null }> };
+export type ListLinearIssuesQuery = { result: Array<{ id: number, completedAt?: string | Date | null, createdAt?: string | Date | null }> };
 
 export type BulkCreateIssuesMutationVariables = Exact<{
   data: Array<LinearIssueCreateManyInput> | LinearIssueCreateManyInput;
@@ -14894,6 +14894,7 @@ export const LinearIssueFragmentFragmentDoc = gql`
     fragment LinearIssueFragment on LinearIssue {
   id
   completedAt
+  createdAt
 }
     `;
 export const LinearUserFragmentFragmentDoc = gql`
