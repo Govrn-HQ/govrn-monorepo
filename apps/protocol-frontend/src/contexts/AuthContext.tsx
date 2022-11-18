@@ -110,11 +110,7 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
   }, [authenticateAddress]);
 
   useEffect(() => {
-    const unauthenticatedRoutes = ['#/linear'];
-    const publicRoute = unauthenticatedRoutes.find(
-      el => el === window.location.hash,
-    );
-    if (isConnected && !isAuthenticated && !publicRoute) {
+    if (isConnected && !isAuthenticated) {
       authFlow();
     }
   }, [isConnected, isAuthenticated, authFlow]);
