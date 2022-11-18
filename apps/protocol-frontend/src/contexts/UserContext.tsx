@@ -190,6 +190,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     username: string;
   }) => {
     try {
+      // deactivate linear id
       await govrn.custom.updateUser({
         name: args.username,
         id: args.userId,
