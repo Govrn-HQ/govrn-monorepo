@@ -56,7 +56,7 @@ const processIssue = async (
   while (issues.length > 0) {
     try {
       const next = await resp.fetchNext();
-      console.log(`Processing ${page * 100 + 1} for user ${user.id}`);
+      console.log(`Processing ${page * 100 + 1} for user ${user.user_id}`);
       issues = next.nodes.slice(page * 100 + 1);
       const p = storeContributions(
         issues,
@@ -105,6 +105,7 @@ const storeContributions = async (
     });
 
     linearIssues.push({
+      assignee_id: user.id,
       archivedAt: issue.archivedAt,
       autoArchivedAt: issue.autoArchivedAt,
       autoClosedAt: issue.autoClosedAt,
@@ -161,6 +162,7 @@ const main = async () => {
       const lastIssue = await govrn.linear.issue.list({
         first: 1,
         orderBy: [{ completedAt: SortOrder.Desc }],
+        where: { assignee: { is: { user_id: { equals: user.user_id } } } },
       });
       const contributionStatus = await govrn.contribution.status.get('staging');
 
