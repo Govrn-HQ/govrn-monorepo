@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { createUserFormValidation } from '../utils/validations';
 import { CreateUserFormValues } from '../types/forms';
 import { useAccount } from 'wagmi';
+import { useNavigate } from 'react-router-dom';
 
 const CreateUserForm = () => {
   const localForm = useForm({
@@ -18,12 +19,14 @@ const CreateUserForm = () => {
   } = localForm;
   const { address } = useAccount();
   const { createUser } = useUser();
+  const navigate = useNavigate();
 
   const createUserHandler: SubmitHandler<
     CreateUserFormValues
   > = async values => {
     if (address) {
-      createUser(values, address);
+      await createUser(values, address);
+      navigate('/dashboard');
     }
   };
 
