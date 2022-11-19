@@ -41,4 +41,9 @@ export class AttestationMaxAggregate {
     nullable: true
   })
   date_of_attestation!: Date | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  attestation_status_id!: number | null;
 }

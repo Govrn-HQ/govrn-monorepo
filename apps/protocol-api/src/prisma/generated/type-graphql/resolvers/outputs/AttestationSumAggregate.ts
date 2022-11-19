@@ -26,4 +26,9 @@ export class AttestationSumAggregate {
     nullable: true
   })
   contribution_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  attestation_status_id!: number | null;
 }

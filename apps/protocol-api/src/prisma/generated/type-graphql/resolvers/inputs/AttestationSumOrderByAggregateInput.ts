@@ -27,4 +27,9 @@ export class AttestationSumOrderByAggregateInput {
     nullable: true
   })
   contribution_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  attestation_status_id?: "asc" | "desc" | undefined;
 }

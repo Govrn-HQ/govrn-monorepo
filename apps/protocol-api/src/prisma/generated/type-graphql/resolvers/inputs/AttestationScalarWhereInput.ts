@@ -59,4 +59,9 @@ export class AttestationScalarWhereInput {
     nullable: true
   })
   date_of_attestation?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  attestation_status_id?: IntNullableFilter | undefined;
 }

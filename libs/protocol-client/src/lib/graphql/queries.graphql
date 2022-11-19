@@ -399,6 +399,10 @@ fragment ContributionFragment on Contribution {
     id
     user_id
     date_of_attestation
+    attestation_status {
+      id
+      name
+    }
     user {
       name
       address
