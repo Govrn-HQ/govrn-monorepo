@@ -56,6 +56,7 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
 
 const Routes = () => {
   const url = new URL(window.location.href);
+  console.log('url', url);
 
   return (
     <HashRouter>
@@ -64,7 +65,7 @@ const Routes = () => {
         <Route
           path="/"
           element={
-            url.host === 'contribution.new' ||
+            url.host === 'dde8-69-143-72-89.ngrok.io' ||
             url.host === 'staging.contribution.new' ? (
               <Navigate replace to="/report" />
             ) : (
@@ -100,9 +101,9 @@ const Routes = () => {
         <Route
           path="/report"
           element={
-            <RequireActiveUser>
-              <Report />
-            </RequireActiveUser>
+            // <RequireActiveUser>
+            <Report />
+            // </RequireActiveUser>
           }
         />
         <Route
