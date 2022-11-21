@@ -86,7 +86,6 @@ const AttestationsTable = ({
         accessor: 'attestations',
         Cell: ({ value }) => {
           let status = 'Unattested';
-          console.log(value);
           if (value && value.length > 0) {
             status = value[0].attestation_status?.name || 'Unattested';
           }
