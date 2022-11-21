@@ -147,44 +147,46 @@ export const upsertContribution = async (contribution: ContributionData) => {
     }
     return existingContribution.result.length;
   }
+  console.log(await getIdOfChain(contribution.chain_id));
+  console.log(contribution.on_chain_id);
 
-  return await govrn.contribution.upsert({
-    where: {
-      chain_id_on_chain_id: {
-        chain_id: await getIdOfChain(contribution.chain_id),
-        on_chain_id: contribution.on_chain_id,
-      },
-    },
-    create: {
-      name: contribution.name,
-      proof: contribution.proof,
-      details: contribution.details,
-      date_of_engagement: contribution.date_of_engagement,
-      user: { connect: { id: contribution.user_id } },
-      activity_type: {
-        connectOrCreate: {
-          create: { name: contribution.activity_type_name },
-          where: { name: contribution.activity_type_name },
-        },
-      },
+  // return await govrn.contribution.upsert({
+  //   where: {
+  //     chain_id_on_chain_id: {
+  //       chain_id: await getIdOfChain(contribution.chain_id),
+  //       on_chain_id: contribution.on_chain_id,
+  //     },
+  //   },
+  //   create: {
+  //     name: contribution.name,
+  //     proof: contribution.proof,
+  //     details: contribution.details,
+  //     date_of_engagement: contribution.date_of_engagement,
+  //     user: { connect: { id: contribution.user_id } },
+  //     activity_type: {
+  //       connectOrCreate: {
+  //         create: { name: contribution.activity_type_name },
+  //         where: { name: contribution.activity_type_name },
+  //       },
+  //     },
 
-      status: {
-        connect: { name: 'minted' },
-      },
-      on_chain_id: contribution.on_chain_id,
-      chain: { connect: { chain_id: `${CHAIN_ID}` } },
-      tx_hash: contribution.txHash,
-    },
-    update: {
-      name: { set: contribution.name },
-      on_chain_id: { set: contribution.on_chain_id },
-      proof: { set: contribution.proof ?? null },
-      details: { set: contribution.details ?? null },
-      chain: { connect: { chain_id: `${CHAIN_ID}` } },
-      status: { connect: { name: contribution.status_name } },
-      tx_hash: { set: contribution.txHash },
-    },
-  });
+  //     status: {
+  //       connect: { name: 'minted' },
+  //     },
+  //     on_chain_id: contribution.on_chain_id,
+  //     chain: { connect: { chain_id: `${CHAIN_ID}` } },
+  //     tx_hash: contribution.txHash,
+  //   },
+  //   update: {
+  //     name: { set: contribution.name },
+  //     on_chain_id: { set: contribution.on_chain_id },
+  //     proof: { set: contribution.proof ?? null },
+  //     details: { set: contribution.details ?? null },
+  //     chain: { connect: { chain_id: `${CHAIN_ID}` } },
+  //     status: { connect: { name: contribution.status_name } },
+  //     tx_hash: { set: contribution.txHash },
+  //   },
+  // });
 };
 
 export const upsertAttestation = async (attestation: {

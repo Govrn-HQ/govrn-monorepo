@@ -28,7 +28,6 @@ const BACKEND_TOKENS = [
   LINEAR_JOB_TOKEN,
   CONTRACT_SYNC_JOB_TOKEN,
 ];
-console.log(BACKEND_TOKENS);
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
