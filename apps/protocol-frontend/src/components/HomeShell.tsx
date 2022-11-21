@@ -104,7 +104,6 @@ const HomeShell = () => {
                 </Button>
               </Link>
             </>
-            )
           </Flex>
         )}
       </Flex>

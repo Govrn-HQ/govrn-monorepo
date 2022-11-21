@@ -147,7 +147,7 @@ const Sidebar = () => {
                         <Flex direction="column">
                           {daosListData?.map(dao => (
                             <Stack paddingLeft={8} paddingY={1} key={dao.id}>
-                              <Link to={`/feature/dao/${dao.id}`}>
+                              <Link to={`/dao/${dao.id}`}>
                                 <Text
                                   as="span"
                                   color="gray.800"
@@ -167,7 +167,7 @@ const Sidebar = () => {
                     </AccordionItem>
                   </Accordion>
                 ) : (
-                  <Link to="/feature/dao">
+                  <Link to="/dao">
                     <NavButton
                       label="DAOs"
                       icon={FiGitBranch}
