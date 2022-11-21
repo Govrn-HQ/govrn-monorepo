@@ -26,6 +26,7 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
   const { isAuthenticated, checkExistingCreds } = useAuth();
   const { isConnected } = useAccount();
+  console.log('location', location);
 
   if (!isAuthenticated && checkExistingCreds) {
     return <Navigate to="/authenticate" state={{ from: location }} replace />;
@@ -54,11 +55,23 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const Routes = () => {
+  const url = new URL(window.location.href);
+
   return (
     <HashRouter>
       <RouteContainer>
         <Route path="/authenticate" element={<RedirectHome />} />
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            url.host === 'contribution.new' ||
+            url.host === 'staging.contribution.new' ? (
+              <Navigate replace to="/report" />
+            ) : (
+              <Home />
+            )
+          }
+        />
         <Route
           path="/profile"
           element={
