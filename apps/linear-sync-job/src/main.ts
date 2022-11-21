@@ -25,9 +25,10 @@ const fetchLinearIssues = async (
   completedAtFilter: { gt: Date },
 ) => {
   try {
-    return await linearClient.issues({
+    const me = await linearClient.viewer;
+    return await me.assignedIssues({
       filter: {
-        and: [{ completedAt: completedAtFilter }],
+        and: [{ createdAt: completedAtFilter, completedAt: { null: false } }],
       },
       orderBy: LinearDocument.PaginationOrderBy.CreatedAt,
       first: 100,
@@ -55,7 +56,7 @@ const processIssue = async (
   while (issues.length > 0) {
     try {
       const next = await resp.fetchNext();
-      console.log(`Processing ${page * 100 + 1} for user ${user.id}`);
+      console.log(`Processing ${page * 100 + 1} for user ${user.user_id}`);
       issues = next.nodes.slice(page * 100 + 1);
       const p = storeContributions(
         issues,
@@ -104,6 +105,7 @@ const storeContributions = async (
     });
 
     linearIssues.push({
+      assignee_id: user.id,
       archivedAt: issue.archivedAt,
       autoArchivedAt: issue.autoArchivedAt,
       autoClosedAt: issue.autoClosedAt,
@@ -160,12 +162,13 @@ const main = async () => {
       const lastIssue = await govrn.linear.issue.list({
         first: 1,
         orderBy: [{ completedAt: SortOrder.Desc }],
+        where: { assignee: { is: { user_id: { equals: user.user_id } } } },
       });
       const contributionStatus = await govrn.contribution.status.get('staging');
 
       const completedAtFilter =
         lastIssue.result.length > 0
-          ? { gt: new Date(lastIssue.result[0].completedAt) }
+          ? { gt: new Date(lastIssue.result[0].createdAt) }
           : { gt: new Date('1990-01-01T10:20:30Z') };
 
       const resp = await fetchLinearIssues(linearClient, completedAtFilter);

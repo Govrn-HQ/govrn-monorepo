@@ -20,13 +20,18 @@ import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import ErrorView from './components/ErrorView';
+import { useAccount } from 'wagmi';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
   const { isAuthenticated, checkExistingCreds } = useAuth();
+  const { isConnected } = useAccount();
 
   if (!isAuthenticated && checkExistingCreds) {
     return <Navigate to="/authenticate" state={{ from: location }} replace />;
+  }
+  if (!isConnected) {
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;

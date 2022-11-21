@@ -21,9 +21,9 @@ export class AttestationCreateInput {
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => AttestationConfidenceCreateNestedOneWithoutAttestationsInput, {
-    nullable: false
+    nullable: true
   })
-  confidence!: AttestationConfidenceCreateNestedOneWithoutAttestationsInput;
+  confidence?: AttestationConfidenceCreateNestedOneWithoutAttestationsInput | undefined;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutAttestationsInput, {
     nullable: false

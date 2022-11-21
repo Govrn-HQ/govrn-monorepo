@@ -14,6 +14,7 @@ export const useContributionCreate = () => {
         address: userData?.address ?? '',
         chainName: 'ethereum',
         userId: userData?.id ?? -1,
+        chainId: null,
         name: newContribution.name || '',
         details: newContribution.details || '',
         proof: newContribution.proof || '',

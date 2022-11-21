@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 export type GovrnModals = {
   bulkAttestationModal: boolean;
+  attestationModal: boolean;
   bulkDaoAttributeModal: boolean;
   mintModal: boolean;
   editContributionFormModal: boolean;
@@ -11,6 +12,7 @@ export type GovrnModals = {
 };
 const defaults: GovrnModals = {
   addAttestationFormModal: false,
+  attestationModal: false,
   bulkAttestationModal: false,
   bulkDaoAttributeModal: false,
   editContributionFormModal: false,

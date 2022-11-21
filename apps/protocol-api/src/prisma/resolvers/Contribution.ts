@@ -38,6 +38,9 @@ export class UserContributionCreateInput {
 
   @TypeGraphQL.Field(_type => Number, { nullable: true })
   guildId?: number;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  chainId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -81,6 +84,9 @@ export class UserOnChainContributionCreateInput {
 
   @TypeGraphQL.Field(_type => String)
   txHash: string;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  chainId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -185,6 +191,9 @@ export class UpdateUserOnChainContributionArgs {
 
   @TypeGraphQL.Field(_type => String, { nullable: true })
   status?: string;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  chainId?: number;
 
   @TypeGraphQL.Field(_type => ContributionUpdateManyMutationInput, {
     nullable: false,
@@ -318,6 +327,10 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserContributionArgs,
   ) {
+    let chainQuery = {};
+    if (args.data.chainId) {
+      chainQuery = { chain: { connect: { chain_id: `${args.data.chainId}` } } };
+    }
     return await prisma.contribution.create({
       data: {
         user: {
@@ -335,6 +348,7 @@ export class ContributionCustomResolver {
             },
           },
         },
+        ...chainQuery,
         name: args.data.name,
         details: args.data.details,
         proof: args.data.proof,
@@ -381,6 +395,12 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserOnChainContributionArgs,
   ) {
+    let chainConnect = {};
+    if (args.data.chainId) {
+      chainConnect = {
+        chain: { connect: { chain_id: args.data.chainId } },
+      };
+    }
     return await prisma.contribution.create({
       data: {
         activity_type: {
@@ -398,6 +418,7 @@ export class ContributionCustomResolver {
           connect: { id: args.data.userId },
         },
         on_chain_id: args.data.onChainId,
+        ...chainConnect,
       },
     });
   }
@@ -409,14 +430,15 @@ export class ContributionCustomResolver {
   ) {
     const address = req.session.siwe.data.address;
 
-    if (args.data.contributionUserAddress !== address) {
+    if (
+      args.data.contributionUserAddress.toLowerCase() !== address.toLowerCase()
+    ) {
       throw new Error('You can only edit your own Contributions.');
     }
 
     if (args.data.status !== 'staging') {
       throw new Error('You can only edit Contributions with a Staging status.');
     }
-
     const res = await prisma.contribution.updateMany({
       data: {
         name: {
@@ -539,13 +561,17 @@ export class ContributionCustomResolver {
     if (update.count !== 1) {
       throw `Wrong number of rows updated ${update.count} updateUserOnChainContribution`;
     }
-    if (args.status) {
-      console.log(args.status);
+    if (args.status && args.chainId) {
       return await prisma.contribution.update({
         data: {
           status: {
             connect: {
               name: args.status,
+            },
+          },
+          chain: {
+            connect: {
+              chain_id: `${args.chainId}`,
             },
           },
         },

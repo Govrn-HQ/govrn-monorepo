@@ -184,7 +184,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       }
     }
     if (ipfsError === false) {
-      const updateRes = await updateNewContribution({
+      await updateNewContribution({
         updatedValues: values,
         contribution: contribution,
       });

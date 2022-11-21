@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput } from "../inputs/AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput";
+import { AttestationConfidenceUpdateOneWithoutAttestationsInput } from "../inputs/AttestationConfidenceUpdateOneWithoutAttestationsInput";
 import { ContributionUpdateOneRequiredWithoutAttestationsInput } from "../inputs/ContributionUpdateOneRequiredWithoutAttestationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { UserUpdateOneRequiredWithoutAttestationsInput } from "../inputs/UserUpdateOneRequiredWithoutAttestationsInput";
@@ -21,10 +21,10 @@ export class AttestationUpdateInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput, {
+  @TypeGraphQL.Field(_type => AttestationConfidenceUpdateOneWithoutAttestationsInput, {
     nullable: true
   })
-  confidence?: AttestationConfidenceUpdateOneRequiredWithoutAttestationsInput | undefined;
+  confidence?: AttestationConfidenceUpdateOneWithoutAttestationsInput | undefined;
 
   @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutAttestationsInput, {
     nullable: true
