@@ -178,6 +178,9 @@ model Attestation {
   contribution_id Int
   contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
   date_of_attestation DateTime @default(now())
+  // Make required
+  attestation_status_id Int?
+  attestation_status AttestationStatus? @relation(fields: [attestation_status_id], references: [id])
 
   @@unique([user_id, contribution_id])
 }
@@ -188,6 +191,14 @@ model AttestationConfidence {
   updatedAt DateTime @updatedAt @default(now())
   name String @unique
   attestations Attestation[]
+}
+
+model AttestationStatus {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  name String @unique
+  attestation Attestation[]
 }
 
 model ContributionStatus {

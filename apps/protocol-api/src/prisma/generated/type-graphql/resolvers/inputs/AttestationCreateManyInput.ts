@@ -41,4 +41,9 @@ export class AttestationCreateManyInput {
     nullable: true
   })
   date_of_attestation?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  attestation_status_id?: number | undefined;
 }

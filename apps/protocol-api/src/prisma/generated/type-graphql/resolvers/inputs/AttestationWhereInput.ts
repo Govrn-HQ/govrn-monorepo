@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AttestationConfidenceRelationFilter } from "../inputs/AttestationConfidenceRelationFilter";
+import { AttestationStatusRelationFilter } from "../inputs/AttestationStatusRelationFilter";
 import { ContributionRelationFilter } from "../inputs/ContributionRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -77,4 +78,14 @@ export class AttestationWhereInput {
     nullable: true
   })
   date_of_attestation?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  attestation_status_id?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => AttestationStatusRelationFilter, {
+    nullable: true
+  })
+  attestation_status?: AttestationStatusRelationFilter | undefined;
 }
