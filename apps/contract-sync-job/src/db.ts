@@ -187,7 +187,6 @@ export const upsertContribution = async (contribution: ContributionData) => {
   });
 };
 
-// Change to bulkupsert
 export const upsertAttestation = async (attestation: {
   confidence_id: number;
   user_id: number;

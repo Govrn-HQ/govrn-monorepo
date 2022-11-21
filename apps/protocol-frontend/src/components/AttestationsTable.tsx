@@ -54,7 +54,6 @@ const AttestationsTable = ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
-        // attestations: contribution.attestations,
         guildName:
           contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         status: contribution.status.name,
@@ -63,10 +62,10 @@ const AttestationsTable = ({
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
         attestations: contribution.attestations.filter(attestation => {
-          return attestation.user.id === userData.id;
+          return attestation.user.id === userData?.id;
         }),
       })),
-    [contributionsData],
+    [contributionsData, userData?.id],
   );
 
   const columns = useMemo<Column<AttestationTableType>[]>(
@@ -82,7 +81,7 @@ const AttestationsTable = ({
           let status = 'Unattested';
           console.log(value);
           if (value && value.length > 0) {
-            status = value[0].attestation_status?.name;
+            status = value[0].attestation_status?.name || 'Unattested';
           }
           return (
             <Text textTransform="capitalize">
