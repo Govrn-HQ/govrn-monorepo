@@ -65,7 +65,7 @@ const Routes = () => {
         <Route
           path="/"
           element={
-            url.host === 'dde8-69-143-72-89.ngrok.io' ||
+            url.host === 'contribution.new' ||
             url.host === 'staging.contribution.new' ? (
               <Navigate replace to="/report" />
             ) : (
