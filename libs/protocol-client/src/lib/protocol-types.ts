@@ -1677,13 +1677,6 @@ export type AttestationUserOnChainCreateInput = {
   userId: Scalars['Float'];
 };
 
-export type AttestationUserOnChainUpdateInput = {
-  confidence: Scalars['String'];
-  contributionOnChainId: Scalars['Float'];
-  id: Scalars['Float'];
-  userId: Scalars['Float'];
-};
-
 export type AttestationUser_IdContribution_IdCompoundUniqueInput = {
   contribution_id: Scalars['Int'];
   user_id: Scalars['Int'];
@@ -10212,7 +10205,9 @@ export type MutationUpdateUserCustomArgs = {
 
 
 export type MutationUpdateUserOnChainAttestationArgs = {
-  data: AttestationUserOnChainUpdateInput;
+  data: AttestationUpdateManyMutationInput;
+  id: Scalars['Float'];
+  status?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -15232,8 +15227,6 @@ export type CreateUserActivityMutationVariables = Exact<{
 
 export type CreateUserActivityMutation = { createUserActivity: { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } } };
 
-export type AttestationFragmentFragment = { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } };
-
 export type ListAttestationsQueryVariables = Exact<{
   where?: AttestationWhereInput;
   skip?: Scalars['Int'];
@@ -15259,7 +15252,9 @@ export type CreateUserOnChainAttestationMutationVariables = Exact<{
 export type CreateUserOnChainAttestationMutation = { createUserOnChainAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type UpdateUserOnChainAttestationMutationVariables = Exact<{
-  data: AttestationUserOnChainUpdateInput;
+  id: Scalars['Float'];
+  status: Scalars['String'];
+  data: AttestationUpdateManyMutationInput;
 }>;
 
 
@@ -15281,6 +15276,15 @@ export type UpdateAttestationMutationVariables = Exact<{
 
 export type UpdateAttestationMutation = { updateAttestation?: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } | null };
 
+export type UpsertAttestationMutationVariables = Exact<{
+  where: AttestationWhereUniqueInput;
+  create: AttestationCreateInput;
+  update: AttestationUpdateInput;
+}>;
+
+
+export type UpsertAttestationMutation = { upsertAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+
 export type PartnerFragmentFragment = { createdAt: string | Date, updatedAt: string | Date, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number }, user: { name?: string | null, address: string, id: number } };
 
 export type ListPartnersQueryVariables = Exact<{
@@ -15292,6 +15296,8 @@ export type ListPartnersQueryVariables = Exact<{
 
 
 export type ListPartnersQuery = { result: Array<{ createdAt: string | Date, updatedAt: string | Date, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
+
+export type AttestationFragmentFragment = { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } };
 
 export type CreateUserAttestationMutationVariables = Exact<{
   data: AttestationUserCreateInput;
@@ -15511,6 +15517,29 @@ export const UserActivityFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
+export const PartnerFragmentFragmentDoc = gql`
+    fragment PartnerFragment on Partner {
+  contribution {
+    activity_type_id
+    date_of_engagement
+    date_of_submission
+    details
+    id
+    name
+    proof
+    status_id
+    updatedAt
+    user_id
+  }
+  createdAt
+  updatedAt
+  user {
+    name
+    address
+    id
+  }
+}
+    `;
 export const AttestationFragmentFragmentDoc = gql`
     fragment AttestationFragment on Attestation {
   confidence {
@@ -15534,29 +15563,6 @@ export const AttestationFragmentFragmentDoc = gql`
   }
   date_of_attestation
   id
-  updatedAt
-  user {
-    name
-    address
-    id
-  }
-}
-    `;
-export const PartnerFragmentFragmentDoc = gql`
-    fragment PartnerFragment on Partner {
-  contribution {
-    activity_type_id
-    date_of_engagement
-    date_of_submission
-    details
-    id
-    name
-    proof
-    status_id
-    updatedAt
-    user_id
-  }
-  createdAt
   updatedAt
   user {
     name
@@ -15993,8 +15999,8 @@ export const CreateUserOnChainAttestationDocument = gql`
 }
     ${AttestationFragmentFragmentDoc}`;
 export const UpdateUserOnChainAttestationDocument = gql`
-    mutation updateUserOnChainAttestation($data: AttestationUserOnChainUpdateInput!) {
-  updateUserOnChainAttestation(data: $data) {
+    mutation updateUserOnChainAttestation($id: Float!, $status: String!, $data: AttestationUpdateManyMutationInput!) {
+  updateUserOnChainAttestation(id: $id, status: $status, data: $data) {
     ...AttestationFragment
   }
 }
@@ -16009,6 +16015,13 @@ export const BulkCreateAttestationDocument = gql`
 export const UpdateAttestationDocument = gql`
     mutation updateAttestation($data: AttestationUpdateInput!, $where: AttestationWhereUniqueInput!) {
   updateAttestation(data: $data, where: $where) {
+    ...AttestationFragment
+  }
+}
+    ${AttestationFragmentFragmentDoc}`;
+export const UpsertAttestationDocument = gql`
+    mutation upsertAttestation($where: AttestationWhereUniqueInput!, $create: AttestationCreateInput!, $update: AttestationUpdateInput!) {
+  upsertAttestation(where: $where, create: $create, update: $update) {
     ...AttestationFragment
   }
 }
@@ -16206,6 +16219,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateAttestation(variables: UpdateAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateAttestationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateAttestationMutation>(UpdateAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateAttestation', 'mutation');
+    },
+    upsertAttestation(variables: UpsertAttestationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertAttestationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertAttestationMutation>(UpsertAttestationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertAttestation', 'mutation');
     },
     listPartners(variables?: ListPartnersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListPartnersQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListPartnersQuery>(ListPartnersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listPartners', 'query');

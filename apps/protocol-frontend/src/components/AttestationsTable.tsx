@@ -34,6 +34,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationTableType } from '../types/table';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
+import { useUser } from '../contexts/UserContext';
 
 const AttestationsTable = ({
   contributionsData,
@@ -44,6 +45,7 @@ const AttestationsTable = ({
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
+  const { userData } = useUser();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
   const data = useMemo<AttestationTableType[]>(
@@ -52,7 +54,7 @@ const AttestationsTable = ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
-        attestations: contribution.attestations,
+        // attestations: contribution.attestations,
         guildName:
           contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         status: contribution.status.name,
@@ -60,6 +62,9 @@ const AttestationsTable = ({
         name: contribution.name,
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
+        attestations: contribution.attestations.filter(attestation => {
+          return attestation.user.id === userData.id;
+        }),
       })),
     [contributionsData],
   );
@@ -72,16 +77,21 @@ const AttestationsTable = ({
       },
       {
         Header: 'Status',
-        accessor: 'status',
-        Cell: ({ value }: { value: string }) => {
+        accessor: 'attestations',
+        Cell: ({ value }) => {
+          let status = 'Unattested';
+          console.log(value);
+          if (value && value.length > 0) {
+            status = value[0].attestation_status?.name;
+          }
           return (
             <Text textTransform="capitalize">
-              {value}{' '}
+              {status}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value === 'minted' ? '🌞' : '👀'}
+                {status === 'pending' ? '🕒' : '👀'}
               </span>{' '}
             </Text>
           );

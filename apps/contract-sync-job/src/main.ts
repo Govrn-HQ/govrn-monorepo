@@ -3,13 +3,13 @@ import { GovrnGraphClient } from '@govrn/govrn-subgraph-client';
 import { ethers } from 'ethers';
 import { fetchIPFS } from './ipfs';
 import {
-  bulkCreateAttestations,
   createJobRun,
   getContribution,
   getJobRun,
   getOrInsertActivityType,
   getOrInsertUser,
   upsertContribution,
+  upsertAttestation,
 } from './db';
 import { batch, MintedContributionSchemaV1 } from '@govrn/protocol-client';
 
@@ -115,7 +115,7 @@ const main = async () => {
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
-    console.log('batch errors', errors);
+    console.error('batch Contribution errors', errors);
 
     const upsertedCount = inserted.length;
     if (upsertedCount > 0) {
@@ -170,14 +170,17 @@ const main = async () => {
     BATCH_SIZE,
   );
 
-  const attestationsCount = await bulkCreateAttestations(attestations);
-
-  console.log(
-    `:: Inserting ${attestationsCount.createManyAttestation.count} Attestations`,
+  const { results: insertedAttestations, errors: insertedErrors } = await batch(
+    attestations,
+    async attestation => await upsertAttestation(attestation),
+    BATCH_SIZE,
   );
+  console.error('Batch attest errors', insertedErrors);
+
+  console.log(`:: Inserting ${insertedAttestations.length} Attestations`);
   console.log(
     `:: ${
-      attestations.length - attestationsCount.createManyAttestation.count
+      attestations.length - insertedAttestations.length
     } of attestations already existing`,
   );
 
