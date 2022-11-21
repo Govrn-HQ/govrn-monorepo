@@ -244,9 +244,8 @@ export class Contribution extends BaseClient {
     }
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
-    await transaction.wait();
 
-    return await this.sdk.createUserOnChainAttestation({
+    const createdAttestation = await this.sdk.createUserOnChainAttestation({
       data: {
         confidence: args.confidence.toString(),
         contributionOnChainId: parseInt(args.contribution.toString()),
@@ -254,6 +253,20 @@ export class Contribution extends BaseClient {
         userId: userId,
       },
     });
+
+    await this.sdk.updateUserOnChainAttestation({
+      id: createdAttestation.createUserOnChainAttestation.id,
+      status: 'pending',
+      data: {},
+    });
+
+    await transaction.wait();
+    await this.sdk.updateUserOnChainAttestation({
+      id: createdAttestation.createUserOnChainAttestation.id,
+      status: 'attested',
+      data: {},
+    });
+    return createdAttestation;
   }
 
   public async bulkAttest(

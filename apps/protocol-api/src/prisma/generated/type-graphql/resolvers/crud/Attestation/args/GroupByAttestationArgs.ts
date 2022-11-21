@@ -20,7 +20,7 @@ export class GroupByAttestationArgs {
   @TypeGraphQL.Field(_type => [AttestationScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "confidence_id" | "user_id" | "contribution_id" | "date_of_attestation">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "confidence_id" | "user_id" | "contribution_id" | "date_of_attestation" | "attestation_status_id">;
 
   @TypeGraphQL.Field(_type => AttestationScalarWhereWithAggregatesInput, {
     nullable: true

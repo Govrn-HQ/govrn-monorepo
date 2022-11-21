@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import { Attestation } from "../../../models/Attestation";
 import { AttestationConfidence } from "../../../models/AttestationConfidence";
+import { AttestationStatus } from "../../../models/AttestationStatus";
 import { Contribution } from "../../../models/Contribution";
 import { User } from "../../../models/User";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
@@ -38,5 +39,16 @@ export class AttestationRelationsResolver {
         id: attestation.id,
       },
     }).contribution({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => AttestationStatus, {
+    nullable: true
+  })
+  async attestation_status(@TypeGraphQL.Root() attestation: Attestation, @TypeGraphQL.Ctx() ctx: any): Promise<AttestationStatus | null> {
+    return getPrismaFromContext(ctx).attestation.findUnique({
+      where: {
+        id: attestation.id,
+      },
+    }).attestation_status({});
   }
 }

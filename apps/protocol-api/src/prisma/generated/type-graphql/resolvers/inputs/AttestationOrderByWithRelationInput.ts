@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AttestationConfidenceOrderByWithRelationInput } from "../inputs/AttestationConfidenceOrderByWithRelationInput";
+import { AttestationStatusOrderByWithRelationInput } from "../inputs/AttestationStatusOrderByWithRelationInput";
 import { ContributionOrderByWithRelationInput } from "../inputs/ContributionOrderByWithRelationInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -60,4 +61,14 @@ export class AttestationOrderByWithRelationInput {
     nullable: true
   })
   date_of_attestation?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  attestation_status_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => AttestationStatusOrderByWithRelationInput, {
+    nullable: true
+  })
+  attestation_status?: AttestationStatusOrderByWithRelationInput | undefined;
 }

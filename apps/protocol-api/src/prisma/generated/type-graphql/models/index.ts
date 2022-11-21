@@ -1,6 +1,7 @@
 export { ActivityType } from "./ActivityType";
 export { Attestation } from "./Attestation";
 export { AttestationConfidence } from "./AttestationConfidence";
+export { AttestationStatus } from "./AttestationStatus";
 export { CategoryActivity } from "./CategoryActivity";
 export { CategoryActivityType } from "./CategoryActivityType";
 export { Chain } from "./Chain";

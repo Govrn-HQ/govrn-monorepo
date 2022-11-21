@@ -399,6 +399,10 @@ fragment ContributionFragment on Contribution {
     id
     user_id
     date_of_attestation
+    attestation_status {
+      id
+      name
+    }
     user {
       name
       address
@@ -637,36 +641,6 @@ mutation createUserActivity($data: UserActivityCreateInput!) {
 }
 
 # Attestations
-fragment AttestationFragment on Attestation {
-  confidence {
-    createdAt
-    id
-    name
-    updatedAt
-  }
-  contribution {
-    activity_type_id
-    date_of_engagement
-    date_of_submission
-    details
-    id
-    name
-    proof
-    status_id
-    updatedAt
-    user_id
-    on_chain_id
-  }
-  date_of_attestation
-  id
-  updatedAt
-  user {
-    name
-    address
-    id
-  }
-}
-
 query listAttestations(
   $where: AttestationWhereInput! = {}
   $skip: Int! = 0
@@ -698,9 +672,11 @@ mutation createUserOnChainAttestation(
 }
 
 mutation updateUserOnChainAttestation(
-  $data: AttestationUserOnChainUpdateInput!
+  $id: Float!
+  $status: String!
+  $data: AttestationUpdateManyMutationInput!
 ) {
-  updateUserOnChainAttestation(data: $data) {
+  updateUserOnChainAttestation(id: $id, status: $status, data: $data) {
     ...AttestationFragment
   }
 }
@@ -719,6 +695,16 @@ mutation updateAttestation(
   $where: AttestationWhereUniqueInput!
 ) {
   updateAttestation(data: $data, where: $where) {
+    ...AttestationFragment
+  }
+}
+
+mutation upsertAttestation(
+  $where: AttestationWhereUniqueInput!
+  $create: AttestationCreateInput!
+  $update: AttestationUpdateInput!
+) {
+  upsertAttestation(where: $where, create: $create, update: $update) {
     ...AttestationFragment
   }
 }

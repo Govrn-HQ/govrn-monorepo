@@ -63,6 +63,10 @@ export type AttestationTableType = {
   date_of_engagement: string | Date;
   attestations?: {
     id: number;
+    attestation_status?: {
+      id: number;
+      name: string;
+    } | null;
   }[];
   guilds?: {
     guild: {
