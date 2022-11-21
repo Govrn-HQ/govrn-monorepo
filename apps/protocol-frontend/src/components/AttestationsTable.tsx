@@ -69,6 +69,13 @@ const AttestationsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
+        Cell: ({ value }: { value: string }) => {
+          return (
+            <Flex direction="column" wrap="wrap">
+              <Text whiteSpace="normal">{value}</Text>
+            </Flex>
+          );
+        },
       },
       {
         Header: 'Status',

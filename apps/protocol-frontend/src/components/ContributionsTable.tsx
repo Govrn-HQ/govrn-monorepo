@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
+  Flex,
   Link as ChakraLink,
   HStack,
   IconButton,
@@ -146,9 +147,11 @@ const ContributionsTable = ({
           row: Row<ContributionTableType>;
         }) => {
           return (
-            <Link to={`/contributions/${row.original.id}`}>
-              <Text>{value}</Text>
-            </Link>
+            <Flex direction="column" wrap="wrap">
+              <Link to={`/contributions/${row.original.id}`}>
+                <Text whiteSpace="normal">{value}</Text>
+              </Link>
+            </Flex>
           );
         },
       },
