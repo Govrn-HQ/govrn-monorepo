@@ -88,14 +88,6 @@ const ContributionsTable = ({
     setModals({ editContributionFormModal: true });
   };
 
-  const mintModalHandler = () => {
-    setModals({ mintModal: true });
-  };
-
-  const bulkDaoAttributeHandler = () => {
-    setModals({ bulkDaoAttributeModal: true });
-  };
-
   const [dialog, setDialog] = useState<DialogProps>({
     isOpen: false,
     title: '',
@@ -437,6 +429,7 @@ const ContributionsTable = ({
           content={
             <BulkDaoAttributeModal
               contributions={selectedFlatRows.map(r => r.original)}
+              onFinish={toggleSelected}
             />
           }
         />

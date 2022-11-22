@@ -36,7 +36,6 @@ const ContributionsTableShell = () => {
       user_id: { equals: userData?.id },
     },
   });
-  const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<
     Row<ContributionTableType>[]
