@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
-import { TwitterAccountCreateNestedOneWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedOneWithoutGuildInput";
+import { TwitterAccountCreateNestedManyWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedManyWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.InputType("GuildCreateWithoutContributionsInput", {
@@ -46,10 +46,10 @@ export class GuildCreateWithoutContributionsInput {
   })
   users?: GuildUserCreateNestedManyWithoutGuildInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterAccountCreateNestedOneWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => TwitterAccountCreateNestedManyWithoutGuildInput, {
     nullable: true
   })
-  twitter_account?: TwitterAccountCreateNestedOneWithoutGuildInput | undefined;
+  twitter_accounts?: TwitterAccountCreateNestedManyWithoutGuildInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeCreateNestedManyWithoutGuildInput, {
     nullable: true

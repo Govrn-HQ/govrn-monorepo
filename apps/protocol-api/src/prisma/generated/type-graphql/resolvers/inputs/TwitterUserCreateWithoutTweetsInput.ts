@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { UserCreateNestedOneWithoutTwitter_userInput } from "../inputs/UserCreateNestedOneWithoutTwitter_userInput";
+import { UserCreateNestedOneWithoutTwitter_usersInput } from "../inputs/UserCreateNestedOneWithoutTwitter_usersInput";
 
 @TypeGraphQL.InputType("TwitterUserCreateWithoutTweetsInput", {
   isAbstract: true
@@ -38,8 +38,8 @@ export class TwitterUserCreateWithoutTweetsInput {
   })
   description?: string | undefined;
 
-  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutTwitter_userInput, {
+  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutTwitter_usersInput, {
     nullable: true
   })
-  user?: UserCreateNestedOneWithoutTwitter_userInput | undefined;
+  user?: UserCreateNestedOneWithoutTwitter_usersInput | undefined;
 }

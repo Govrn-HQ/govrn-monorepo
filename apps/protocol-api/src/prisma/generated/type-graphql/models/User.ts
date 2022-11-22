@@ -81,7 +81,7 @@ export class User {
 
   guild_users?: GuildUser[];
 
-  twitter_user?: TwitterUser | null;
+  twitter_users?: TwitterUser[];
 
   discord_users?: DiscordUser[];
 

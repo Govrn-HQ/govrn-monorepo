@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { TwitterTweetCreateNestedManyWithoutTwitter_userInput } from "../inputs/TwitterTweetCreateNestedManyWithoutTwitter_userInput";
-import { UserCreateNestedOneWithoutTwitter_userInput } from "../inputs/UserCreateNestedOneWithoutTwitter_userInput";
+import { UserCreateNestedOneWithoutTwitter_usersInput } from "../inputs/UserCreateNestedOneWithoutTwitter_usersInput";
 
 @TypeGraphQL.InputType("TwitterUserCreateInput", {
   isAbstract: true
@@ -39,10 +39,10 @@ export class TwitterUserCreateInput {
   })
   description?: string | undefined;
 
-  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutTwitter_userInput, {
+  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutTwitter_usersInput, {
     nullable: true
   })
-  user?: UserCreateNestedOneWithoutTwitter_userInput | undefined;
+  user?: UserCreateNestedOneWithoutTwitter_usersInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterTweetCreateNestedManyWithoutTwitter_userInput, {
     nullable: true

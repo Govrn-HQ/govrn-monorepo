@@ -2,10 +2,11 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionUpdateOneWithoutTweetInput } from "../inputs/ContributionUpdateOneWithoutTweetInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { TwitterTweetContributionUpdateManyWithoutTwitter_tweetInput } from "../inputs/TwitterTweetContributionUpdateManyWithoutTwitter_tweetInput";
+import { TwitterTweetUpdatetwitter_tweet_contribution_idsInput } from "../inputs/TwitterTweetUpdatetwitter_tweet_contribution_idsInput";
 import { TwitterUserUpdateOneWithoutTweetsInput } from "../inputs/TwitterUserUpdateOneWithoutTweetsInput";
 
 @TypeGraphQL.InputType("TwitterTweetUpdateInput", {
@@ -37,8 +38,13 @@ export class TwitterTweetUpdateInput {
   })
   twitter_user?: TwitterUserUpdateOneWithoutTweetsInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionUpdateOneWithoutTweetInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetUpdatetwitter_tweet_contribution_idsInput, {
     nullable: true
   })
-  contribution?: ContributionUpdateOneWithoutTweetInput | undefined;
+  twitter_tweet_contribution_ids?: TwitterTweetUpdatetwitter_tweet_contribution_idsInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterTweetContributionUpdateManyWithoutTwitter_tweetInput, {
+    nullable: true
+  })
+  twitter_tweet_contributions?: TwitterTweetContributionUpdateManyWithoutTwitter_tweetInput | undefined;
 }

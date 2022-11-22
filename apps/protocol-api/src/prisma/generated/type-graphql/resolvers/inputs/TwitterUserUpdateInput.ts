@@ -6,7 +6,7 @@ import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdat
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TwitterTweetUpdateManyWithoutTwitter_userInput } from "../inputs/TwitterTweetUpdateManyWithoutTwitter_userInput";
-import { UserUpdateOneWithoutTwitter_userInput } from "../inputs/UserUpdateOneWithoutTwitter_userInput";
+import { UserUpdateOneWithoutTwitter_usersInput } from "../inputs/UserUpdateOneWithoutTwitter_usersInput";
 
 @TypeGraphQL.InputType("TwitterUserUpdateInput", {
   isAbstract: true
@@ -42,10 +42,10 @@ export class TwitterUserUpdateInput {
   })
   description?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateOneWithoutTwitter_userInput, {
+  @TypeGraphQL.Field(_type => UserUpdateOneWithoutTwitter_usersInput, {
     nullable: true
   })
-  user?: UserUpdateOneWithoutTwitter_userInput | undefined;
+  user?: UserUpdateOneWithoutTwitter_usersInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterTweetUpdateManyWithoutTwitter_userInput, {
     nullable: true

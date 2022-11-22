@@ -16,6 +16,7 @@ import { UserContributionsArgs } from "./args/UserContributionsArgs";
 import { UserDiscord_usersArgs } from "./args/UserDiscord_usersArgs";
 import { UserGuild_usersArgs } from "./args/UserGuild_usersArgs";
 import { UserLinear_usersArgs } from "./args/UserLinear_usersArgs";
+import { UserTwitter_usersArgs } from "./args/UserTwitter_usersArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => User)
@@ -97,15 +98,15 @@ export class UserRelationsResolver {
     }).guild_users(args);
   }
 
-  @TypeGraphQL.FieldResolver(_type => TwitterUser, {
-    nullable: true
+  @TypeGraphQL.FieldResolver(_type => [TwitterUser], {
+    nullable: false
   })
-  async twitter_user(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any): Promise<TwitterUser | null> {
+  async twitter_users(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserTwitter_usersArgs): Promise<TwitterUser[]> {
     return getPrismaFromContext(ctx).user.findUnique({
       where: {
         id: user.id,
       },
-    }).twitter_user({});
+    }).twitter_users(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [DiscordUser], {

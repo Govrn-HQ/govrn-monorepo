@@ -9,7 +9,7 @@ import { ContributionStatusOrderByWithRelationInput } from "../inputs/Contributi
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
 import { LinearIssueOrderByWithRelationInput } from "../inputs/LinearIssueOrderByWithRelationInput";
 import { PartnerOrderByRelationAggregateInput } from "../inputs/PartnerOrderByRelationAggregateInput";
-import { TwitterTweetOrderByWithRelationInput } from "../inputs/TwitterTweetOrderByWithRelationInput";
+import { TwitterTweetContributionOrderByRelationAggregateInput } from "../inputs/TwitterTweetContributionOrderByRelationAggregateInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -102,10 +102,10 @@ export class ContributionOrderByWithRelationInput {
   })
   linear_issue?: LinearIssueOrderByWithRelationInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetOrderByWithRelationInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetContributionOrderByRelationAggregateInput, {
     nullable: true
   })
-  tweet?: TwitterTweetOrderByWithRelationInput | undefined;
+  twitter_tweet_contributions?: TwitterTweetContributionOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

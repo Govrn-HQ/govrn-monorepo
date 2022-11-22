@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { IntNullableListFilter } from "../inputs/IntNullableListFilter";
 import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
@@ -56,8 +57,8 @@ export class TwitterTweetScalarWhereWithAggregatesInput {
   })
   twitter_user_id?: IntNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntNullableListFilter, {
     nullable: true
   })
-  contribution_id?: IntNullableWithAggregatesFilter | undefined;
+  twitter_tweet_contribution_ids?: IntNullableListFilter | undefined;
 }

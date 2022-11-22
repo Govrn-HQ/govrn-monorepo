@@ -9,7 +9,7 @@ import { GuildContributionListRelationFilter } from "../inputs/GuildContribution
 import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
-import { TwitterAccountRelationFilter } from "../inputs/TwitterAccountRelationFilter";
+import { TwitterAccountListRelationFilter } from "../inputs/TwitterAccountListRelationFilter";
 
 @TypeGraphQL.InputType("GuildWhereInput", {
   isAbstract: true
@@ -75,10 +75,10 @@ export class GuildWhereInput {
   })
   users?: GuildUserListRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterAccountRelationFilter, {
+  @TypeGraphQL.Field(_type => TwitterAccountListRelationFilter, {
     nullable: true
   })
-  twitter_account?: TwitterAccountRelationFilter | undefined;
+  twitter_accounts?: TwitterAccountListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeListRelationFilter, {
     nullable: true
