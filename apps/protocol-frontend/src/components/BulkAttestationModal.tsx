@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Button, Flex, Progress, Stack, Text } from '@chakra-ui/react';
+import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationTableType } from '../types/table';
@@ -86,7 +85,6 @@ export const BulkAttestationModal = ({
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: bulkMintAttestation } =
     useAttestationBulkMint();
-  const [currentAttestation] = useState(1);
   const { setModals } = useOverlay();
 
   const createAttestationsHandler = async (
@@ -126,12 +124,6 @@ export const BulkAttestationModal = ({
           text: c.name,
         }))}
       />
-      {attesting ? (
-        <Progress
-          color="brand.primary"
-          value={currentAttestation % contributions.length}
-        />
-      ) : null}
       <Flex align="flex-end" marginTop={4}>
         <Button
           type="submit"
