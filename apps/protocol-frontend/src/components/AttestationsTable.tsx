@@ -146,6 +146,7 @@ const AttestationsTable = ({
     setGlobalFilter,
     selectedFlatRows,
     prepareRow,
+    toggleAllRowsSelected,
   } = useTable(
     { columns, data, autoResetSelectedRows: false },
     useFilters,
@@ -154,6 +155,10 @@ const AttestationsTable = ({
     useRowSelect,
     tableHooks,
   );
+
+  const toggleSelected = () => {
+    toggleAllRowsSelected(false);
+  };
 
   const attestationsModalHandler = useCallback(() => {
     if (selectedFlatRows.length > 1) {
@@ -286,6 +291,7 @@ const AttestationsTable = ({
         content={
           <BulkAttestationModal
             contributions={selectedFlatRows.map(r => r.original)}
+            onFinish={toggleSelected}
           />
         }
       />
@@ -296,7 +302,10 @@ const AttestationsTable = ({
           localOverlay={localOverlay}
           size="3xl"
           content={
-            <AttestationModal contribution={selectedFlatRows[0].original} />
+            <AttestationModal
+              contribution={selectedFlatRows[0].original}
+              onFinish={toggleSelected}
+            />
           }
         />
       )}

@@ -17,6 +17,7 @@ export type MintContributionType = UIContribution & {
 
 export interface MintModalProps {
   contributions: UIContribution[] | Row<ContributionTableType>[];
+  onFinish?: (() => void) | undefined;
 }
 
 export type MintAttestationType = UIAttestations[1] & {

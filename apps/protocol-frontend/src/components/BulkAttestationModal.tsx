@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Button, Flex, Progress, Stack, Text } from '@chakra-ui/react';
+import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
+import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
 import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
@@ -9,16 +9,20 @@ import { TextList } from './TextList';
 
 interface BulkAttestationModalProps {
   contributions: AttestationTableType[];
+  onFinish?: (() => void) | undefined;
 }
 
 export const AttestationModal = ({
   contribution,
+  onFinish,
 }: {
   contribution: AttestationTableType;
+  onFinish?: (() => void) | undefined;
 }) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
     useAttestationMint();
+  const { setModals } = useOverlay();
 
   const createAttestationsHandler = async (
     contributions: AttestationTableType,
@@ -31,6 +35,8 @@ export const AttestationModal = ({
         onChainId: contribution.onChainId,
         contributionId: contribution.id,
       });
+      setModals({ attestationModal: false });
+      if (onFinish) onFinish();
     } catch (e) {
       console.error(e);
     }
@@ -74,11 +80,12 @@ export const AttestationModal = ({
 
 export const BulkAttestationModal = ({
   contributions,
+  onFinish,
 }: BulkAttestationModalProps) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: bulkMintAttestation } =
     useAttestationBulkMint();
-  const [currentAttestation] = useState(1);
+  const { setModals } = useOverlay();
 
   const createAttestationsHandler = async (
     contributions: AttestationTableType[],
@@ -95,6 +102,8 @@ export const BulkAttestationModal = ({
         });
       }
       await bulkMintAttestation(attestationInput);
+      setModals({ bulkAttestationModal: false });
+      if (onFinish) onFinish();
     } catch (e) {
       console.error(e);
     }
@@ -115,12 +124,6 @@ export const BulkAttestationModal = ({
           text: c.name,
         }))}
       />
-      {attesting ? (
-        <Progress
-          color="brand.primary"
-          value={currentAttestation % contributions.length}
-        />
-      ) : null}
       <Flex align="flex-end" marginTop={4}>
         <Button
           type="submit"
