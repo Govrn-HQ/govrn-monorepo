@@ -463,6 +463,7 @@ query getDaoContributionCountByUser($where: GetContributionInput!) {
     count
     display_name
     user_id
+    address
   }
 }
 

@@ -2859,6 +2859,7 @@ export type ContributionCountByDate = {
 };
 
 export type ContributionCountByUser = {
+  address: Scalars['String'];
   count: Scalars['Float'];
   display_name?: Maybe<Scalars['String']>;
   user_id?: Maybe<Scalars['Float']>;
@@ -15083,7 +15084,7 @@ export type GetDaoContributionCountByUserQueryVariables = Exact<{
 }>;
 
 
-export type GetDaoContributionCountByUserQuery = { result: Array<{ count: number, display_name?: string | null, user_id?: number | null }> };
+export type GetDaoContributionCountByUserQuery = { result: Array<{ count: number, display_name?: string | null, user_id?: number | null, address: string }> };
 
 export type GetContributionCountByActivityTypeQueryVariables = Exact<{
   where: GetContributionInput;
@@ -15826,6 +15827,7 @@ export const GetDaoContributionCountByUserDocument = gql`
     count
     display_name
     user_id
+    address
   }
 }
     `;
