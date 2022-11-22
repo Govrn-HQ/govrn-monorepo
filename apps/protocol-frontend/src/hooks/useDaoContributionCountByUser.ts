@@ -14,10 +14,18 @@ const useDaoContributionCountByUserInRange = (
   const { isLoading, isFetching, isError, error, data } = useQuery({
     queryKey: ['daoContributionGetCountByUser', args],
     queryFn: async () => {
-      return await govrn.custom.getDaoContributionCountByUser({
+      const resp = await govrn.custom.getDaoContributionCountByUser({
         startDate: args.startDate,
         endDate: args.endDate,
         guildId: args.guildId,
+      });
+      return resp.map(row => {
+        return {
+          ...row,
+          display_name:
+            row?.display_name ||
+            `${row.address.slice(0, 5)}...${row.address.slice(-4)}`,
+        };
       });
     },
     refetchOnWindowFocus,
