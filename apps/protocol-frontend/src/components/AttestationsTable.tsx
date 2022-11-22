@@ -68,6 +68,10 @@ const AttestationsTable = ({
     [contributionsData, userData?.id],
   );
 
+  const toggleSelected = () => {
+    toggleAllRowsSelected(false);
+  };
+
   const columns = useMemo<Column<AttestationTableType>[]>(
     () => [
       {
@@ -147,6 +151,7 @@ const AttestationsTable = ({
     setGlobalFilter,
     selectedFlatRows,
     prepareRow,
+    toggleAllRowsSelected,
   } = useTable(
     { columns, data, autoResetSelectedRows: false },
     useFilters,
@@ -297,7 +302,10 @@ const AttestationsTable = ({
           localOverlay={localOverlay}
           size="3xl"
           content={
-            <AttestationModal contribution={selectedFlatRows[0].original} />
+            <AttestationModal
+              contribution={selectedFlatRows[0].original}
+              onFinish={toggleSelected}
+            />
           }
         />
       )}

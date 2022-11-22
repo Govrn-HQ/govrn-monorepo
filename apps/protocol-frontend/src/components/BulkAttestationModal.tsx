@@ -9,15 +9,19 @@ import { TextList } from './TextList';
 
 interface BulkAttestationModalProps {
   contributions: AttestationTableType[];
+  onFinish?: (() => void) | undefined;
 }
 
 export const AttestationModal = ({
   contribution,
+  onFinish,
 }: {
   contribution: AttestationTableType;
+  onFinish?: (() => void) | undefined;
 }) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
+    // useAttestationMint(onFinish);
     useAttestationMint();
 
   const createAttestationsHandler = async (
@@ -74,10 +78,11 @@ export const AttestationModal = ({
 
 export const BulkAttestationModal = ({
   contributions,
+  onFinish,
 }: BulkAttestationModalProps) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: bulkMintAttestation } =
-    useAttestationBulkMint();
+    useAttestationBulkMint(onFinish);
   const [currentAttestation] = useState(1);
 
   const createAttestationsHandler = async (
