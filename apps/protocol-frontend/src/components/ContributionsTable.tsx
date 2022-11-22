@@ -429,7 +429,6 @@ const ContributionsTable = ({
           content={
             <BulkDaoAttributeModal
               contributions={selectedFlatRows.map(r => r.original)}
-              onFinish={toggleSelected}
             />
           }
         />
