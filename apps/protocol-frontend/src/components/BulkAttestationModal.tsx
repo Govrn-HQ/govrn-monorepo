@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Flex, Progress, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
+import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
 import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
@@ -21,8 +22,8 @@ export const AttestationModal = ({
 }) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
-    // useAttestationMint(onFinish);
     useAttestationMint();
+  const { setModals } = useOverlay();
 
   const createAttestationsHandler = async (
     contributions: AttestationTableType,
@@ -35,6 +36,8 @@ export const AttestationModal = ({
         onChainId: contribution.onChainId,
         contributionId: contribution.id,
       });
+      setModals({ attestationModal: false });
+      if (onFinish) onFinish();
     } catch (e) {
       console.error(e);
     }
@@ -82,8 +85,9 @@ export const BulkAttestationModal = ({
 }: BulkAttestationModalProps) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: bulkMintAttestation } =
-    useAttestationBulkMint(onFinish);
+    useAttestationBulkMint();
   const [currentAttestation] = useState(1);
+  const { setModals } = useOverlay();
 
   const createAttestationsHandler = async (
     contributions: AttestationTableType[],
@@ -100,6 +104,8 @@ export const BulkAttestationModal = ({
         });
       }
       await bulkMintAttestation(attestationInput);
+      setModals({ bulkAttestationModal: false });
+      if (onFinish) onFinish();
     } catch (e) {
       console.error(e);
     }

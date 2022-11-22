@@ -4,10 +4,8 @@ import useGovrnToast from '../components/toast';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import pluralize from 'pluralize';
-import { useOverlay } from '../contexts/OverlayContext';
 
-const useAttestationBulkMint = (onFinish?: (() => void) | undefined) => {
-  const { setModals } = useOverlay();
+const useAttestationBulkMint = () => {
   const toast = useGovrnToast();
   const queryClient = useQueryClient();
   const { data: signer } = useSigner();
@@ -58,8 +56,6 @@ const useAttestationBulkMint = (onFinish?: (() => void) | undefined) => {
               true,
             )} has been minted.`,
           });
-          setModals({ bulkAttestationModal: false });
-          if (onFinish) onFinish();
         }
 
         if (errors.length > 0) {

@@ -1,13 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
-
 import useGovrnToast from '../components/toast';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
-import { useOverlay } from '../contexts/OverlayContext';
 
-const useAttestationMint = (onFinish?: (() => void) | undefined) => {
-  const { setModals } = useOverlay();
+const useAttestationMint = () => {
   const toast = useGovrnToast();
   const queryClient = useQueryClient();
   const { data: signer } = useSigner();
@@ -48,8 +45,6 @@ const useAttestationMint = (onFinish?: (() => void) | undefined) => {
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
         });
-        setModals({ bulkAttestationModal: false });
-        if (onFinish) onFinish();
       },
       onError: error => {
         console.error(error);

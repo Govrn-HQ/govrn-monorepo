@@ -68,10 +68,6 @@ const AttestationsTable = ({
     [contributionsData, userData?.id],
   );
 
-  const toggleSelected = () => {
-    toggleAllRowsSelected(false);
-  };
-
   const columns = useMemo<Column<AttestationTableType>[]>(
     () => [
       {
@@ -90,7 +86,6 @@ const AttestationsTable = ({
         accessor: 'attestations',
         Cell: ({ value }) => {
           let status = 'Unattested';
-          console.log(value);
           if (value && value.length > 0) {
             status = value[0].attestation_status?.name || 'Unattested';
           }
@@ -160,6 +155,10 @@ const AttestationsTable = ({
     useRowSelect,
     tableHooks,
   );
+
+  const toggleSelected = () => {
+    toggleAllRowsSelected(false);
+  };
 
   const attestationsModalHandler = useCallback(() => {
     if (selectedFlatRows.length > 1) {
@@ -292,6 +291,7 @@ const AttestationsTable = ({
         content={
           <BulkAttestationModal
             contributions={selectedFlatRows.map(r => r.original)}
+            onFinish={toggleSelected}
           />
         }
       />
