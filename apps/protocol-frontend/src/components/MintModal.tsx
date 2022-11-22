@@ -22,7 +22,7 @@ import useContributionBulkMint from '../hooks/useContributionBulkMint';
 import { TextList } from './TextList';
 import pluralize from 'pluralize';
 
-const MintModal = ({ contributions }: MintModalProps) => {
+const MintModal = ({ contributions, onFinish }: MintModalProps) => {
   const { setModals } = useOverlay();
   const { mutateAsync: bulkMintContributions } = useContributionBulkMint();
   const { mutateAsync: mintContribution } = useContributionMint();
@@ -79,6 +79,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
         await mintContribution({ ...originalClean });
       }
       setModals({}); // Closes mint modal
+      if (onFinish) onFinish();
       setMinting(false);
     } catch {
       setModals({}); // Closes mint modal
