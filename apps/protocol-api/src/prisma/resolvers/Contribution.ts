@@ -297,6 +297,9 @@ export class ContributionCountByUser {
     nullable: true,
   })
   display_name?: string;
+
+  @TypeGraphQL.Field(_type => String)
+  address: string;
 }
 
 @TypeGraphQL.ObjectType('TotalContributionCount', { isAbstract: true })
@@ -752,7 +755,8 @@ export class ContributionCustomResolver {
     const result = await prisma.$queryRaw<ContributionCountByUser>`
       SELECT  count(gc.id) as count,
               u.id as "user_id",
-              u.display_name as "display_name"
+              u.display_name as "display_name",
+              u.address as "address"
       FROM
           "GuildContribution" as gc 
           LEFT JOIN "Contribution" as c
