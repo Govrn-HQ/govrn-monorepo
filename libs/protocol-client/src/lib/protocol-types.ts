@@ -657,6 +657,14 @@ export type AggregateTwitterTweet = {
   _sum?: Maybe<TwitterTweetSumAggregate>;
 };
 
+export type AggregateTwitterTweetContribution = {
+  _avg?: Maybe<TwitterTweetContributionAvgAggregate>;
+  _count?: Maybe<TwitterTweetContributionCountAggregate>;
+  _max?: Maybe<TwitterTweetContributionMaxAggregate>;
+  _min?: Maybe<TwitterTweetContributionMinAggregate>;
+  _sum?: Maybe<TwitterTweetContributionSumAggregate>;
+};
+
 export type AggregateTwitterUser = {
   _avg?: Maybe<TwitterUserAvgAggregate>;
   _count?: Maybe<TwitterUserCountAggregate>;
@@ -2762,7 +2770,7 @@ export type Contribution = {
   proof?: Maybe<Scalars['String']>;
   status: ContributionStatus;
   status_id: Scalars['Int'];
-  tweet?: Maybe<TwitterTweet>;
+  twitter_tweet_contributions: Array<TwitterTweetContribution>;
   tx_hash?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
@@ -2799,6 +2807,16 @@ export type ContributionPartnersArgs = {
   where?: InputMaybe<PartnerWhereInput>;
 };
 
+
+export type ContributionTwitter_Tweet_ContributionsArgs = {
+  cursor?: InputMaybe<TwitterTweetContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterTweetContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterTweetContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
 export type ContributionAvgAggregate = {
   activity_type_id?: Maybe<Scalars['Float']>;
   chain_id?: Maybe<Scalars['Float']>;
@@ -2826,6 +2844,7 @@ export type ContributionCount = {
   attestations: Scalars['Int'];
   guilds: Scalars['Int'];
   partners: Scalars['Int'];
+  twitter_tweet_contributions: Scalars['Int'];
 };
 
 export type ContributionCountAggregate = {
@@ -2894,7 +2913,7 @@ export type ContributionCreateInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
@@ -3048,10 +3067,10 @@ export type ContributionCreateNestedOneWithoutPartnersInput = {
   create?: InputMaybe<ContributionCreateWithoutPartnersInput>;
 };
 
-export type ContributionCreateNestedOneWithoutTweetInput = {
+export type ContributionCreateNestedOneWithoutTwitter_Tweet_ContributionsInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutTweetInput>;
-  create?: InputMaybe<ContributionCreateWithoutTweetInput>;
+  connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutTwitter_Tweet_ContributionsInput>;
+  create?: InputMaybe<ContributionCreateWithoutTwitter_Tweet_ContributionsInput>;
 };
 
 export type ContributionCreateOrConnectWithoutActivity_TypeInput = {
@@ -3089,8 +3108,8 @@ export type ContributionCreateOrConnectWithoutStatusInput = {
   where: ContributionWhereUniqueInput;
 };
 
-export type ContributionCreateOrConnectWithoutTweetInput = {
-  create: ContributionCreateWithoutTweetInput;
+export type ContributionCreateOrConnectWithoutTwitter_Tweet_ContributionsInput = {
+  create: ContributionCreateWithoutTwitter_Tweet_ContributionsInput;
   where: ContributionWhereUniqueInput;
 };
 
@@ -3112,7 +3131,7 @@ export type ContributionCreateWithoutActivity_TypeInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
@@ -3131,7 +3150,7 @@ export type ContributionCreateWithoutAttestationsInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
@@ -3150,7 +3169,7 @@ export type ContributionCreateWithoutChainInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
@@ -3169,7 +3188,7 @@ export type ContributionCreateWithoutGuildsInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
@@ -3188,7 +3207,7 @@ export type ContributionCreateWithoutLinear_IssueInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
@@ -3207,7 +3226,7 @@ export type ContributionCreateWithoutPartnersInput = {
   on_chain_id?: InputMaybe<Scalars['Int']>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
@@ -3226,13 +3245,13 @@ export type ContributionCreateWithoutStatusInput = {
   on_chain_id?: InputMaybe<Scalars['Int']>;
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutContributionsInput;
 };
 
-export type ContributionCreateWithoutTweetInput = {
+export type ContributionCreateWithoutTwitter_Tweet_ContributionsInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
@@ -3265,7 +3284,7 @@ export type ContributionCreateWithoutUserInput = {
   partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
   proof?: InputMaybe<Scalars['String']>;
   status: ContributionStatusCreateNestedOneWithoutContributionsInput;
-  tweet?: InputMaybe<TwitterTweetCreateNestedOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
   tx_hash?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -3404,7 +3423,7 @@ export type ContributionOrderByWithRelationInput = {
   proof?: InputMaybe<SortOrder>;
   status?: InputMaybe<ContributionStatusOrderByWithRelationInput>;
   status_id?: InputMaybe<SortOrder>;
-  tweet?: InputMaybe<TwitterTweetOrderByWithRelationInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionOrderByRelationAggregateInput>;
   tx_hash?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user?: InputMaybe<UserOrderByWithRelationInput>;
@@ -3717,7 +3736,7 @@ export type ContributionUpdateInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
@@ -3834,6 +3853,14 @@ export type ContributionUpdateOneRequiredWithoutPartnersInput = {
   upsert?: InputMaybe<ContributionUpsertWithoutPartnersInput>;
 };
 
+export type ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput = {
+  connect?: InputMaybe<ContributionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutTwitter_Tweet_ContributionsInput>;
+  create?: InputMaybe<ContributionCreateWithoutTwitter_Tweet_ContributionsInput>;
+  update?: InputMaybe<ContributionUpdateWithoutTwitter_Tweet_ContributionsInput>;
+  upsert?: InputMaybe<ContributionUpsertWithoutTwitter_Tweet_ContributionsInput>;
+};
+
 export type ContributionUpdateOneWithoutLinear_IssueInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutLinear_IssueInput>;
@@ -3842,16 +3869,6 @@ export type ContributionUpdateOneWithoutLinear_IssueInput = {
   disconnect?: InputMaybe<Scalars['Boolean']>;
   update?: InputMaybe<ContributionUpdateWithoutLinear_IssueInput>;
   upsert?: InputMaybe<ContributionUpsertWithoutLinear_IssueInput>;
-};
-
-export type ContributionUpdateOneWithoutTweetInput = {
-  connect?: InputMaybe<ContributionWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutTweetInput>;
-  create?: InputMaybe<ContributionCreateWithoutTweetInput>;
-  delete?: InputMaybe<Scalars['Boolean']>;
-  disconnect?: InputMaybe<Scalars['Boolean']>;
-  update?: InputMaybe<ContributionUpdateWithoutTweetInput>;
-  upsert?: InputMaybe<ContributionUpsertWithoutTweetInput>;
 };
 
 export type ContributionUpdateWithWhereUniqueWithoutActivity_TypeInput = {
@@ -3887,7 +3904,7 @@ export type ContributionUpdateWithoutActivity_TypeInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
@@ -3906,7 +3923,7 @@ export type ContributionUpdateWithoutAttestationsInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
@@ -3925,7 +3942,7 @@ export type ContributionUpdateWithoutChainInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
@@ -3944,7 +3961,7 @@ export type ContributionUpdateWithoutGuildsInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
@@ -3963,7 +3980,7 @@ export type ContributionUpdateWithoutLinear_IssueInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
@@ -3982,7 +3999,7 @@ export type ContributionUpdateWithoutPartnersInput = {
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
@@ -4001,13 +4018,13 @@ export type ContributionUpdateWithoutStatusInput = {
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
 };
 
-export type ContributionUpdateWithoutTweetInput = {
+export type ContributionUpdateWithoutTwitter_Tweet_ContributionsInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
@@ -4040,7 +4057,7 @@ export type ContributionUpdateWithoutUserInput = {
   partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  tweet?: InputMaybe<TwitterTweetUpdateOneWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -4089,9 +4106,9 @@ export type ContributionUpsertWithoutPartnersInput = {
   update: ContributionUpdateWithoutPartnersInput;
 };
 
-export type ContributionUpsertWithoutTweetInput = {
-  create: ContributionCreateWithoutTweetInput;
-  update: ContributionUpdateWithoutTweetInput;
+export type ContributionUpsertWithoutTwitter_Tweet_ContributionsInput = {
+  create: ContributionCreateWithoutTwitter_Tweet_ContributionsInput;
+  update: ContributionUpdateWithoutTwitter_Tweet_ContributionsInput;
 };
 
 export type ContributionWhereInput = {
@@ -4115,7 +4132,7 @@ export type ContributionWhereInput = {
   proof?: InputMaybe<StringNullableFilter>;
   status?: InputMaybe<ContributionStatusRelationFilter>;
   status_id?: InputMaybe<IntFilter>;
-  tweet?: InputMaybe<TwitterTweetRelationFilter>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionListRelationFilter>;
   tx_hash?: InputMaybe<StringNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -4546,7 +4563,7 @@ export type Guild = {
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   status: GuildStatus;
-  twitter_account?: Maybe<TwitterAccount>;
+  twitter_accounts: Array<TwitterAccount>;
   updatedAt: Scalars['DateTime'];
   users: Array<GuildUser>;
 };
@@ -4569,6 +4586,16 @@ export type GuildContributionsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type GuildTwitter_AccountsArgs = {
+  cursor?: InputMaybe<TwitterAccountWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterAccountScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterAccountOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterAccountWhereInput>;
 };
 
 
@@ -5274,6 +5301,7 @@ export type GuildContributionWhereUniqueInput = {
 export type GuildCount = {
   activity_type: Scalars['Int'];
   contributions: Scalars['Int'];
+  twitter_accounts: Scalars['Int'];
   users: Scalars['Int'];
 };
 
@@ -5312,7 +5340,7 @@ export type GuildCreateInput = {
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<GuildStatus>;
-  twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
 };
@@ -5341,10 +5369,10 @@ export type GuildCreateNestedOneWithoutContributionsInput = {
   create?: InputMaybe<GuildCreateWithoutContributionsInput>;
 };
 
-export type GuildCreateNestedOneWithoutTwitter_AccountInput = {
+export type GuildCreateNestedOneWithoutTwitter_AccountsInput = {
   connect?: InputMaybe<GuildWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutTwitter_AccountInput>;
-  create?: InputMaybe<GuildCreateWithoutTwitter_AccountInput>;
+  connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutTwitter_AccountsInput>;
+  create?: InputMaybe<GuildCreateWithoutTwitter_AccountsInput>;
 };
 
 export type GuildCreateNestedOneWithoutUsersInput = {
@@ -5363,8 +5391,8 @@ export type GuildCreateOrConnectWithoutContributionsInput = {
   where: GuildWhereUniqueInput;
 };
 
-export type GuildCreateOrConnectWithoutTwitter_AccountInput = {
-  create: GuildCreateWithoutTwitter_AccountInput;
+export type GuildCreateOrConnectWithoutTwitter_AccountsInput = {
+  create: GuildCreateWithoutTwitter_AccountsInput;
   where: GuildWhereUniqueInput;
 };
 
@@ -5382,7 +5410,7 @@ export type GuildCreateWithoutActivity_TypeInput = {
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<GuildStatus>;
-  twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
 };
@@ -5396,12 +5424,12 @@ export type GuildCreateWithoutContributionsInput = {
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<GuildStatus>;
-  twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
 };
 
-export type GuildCreateWithoutTwitter_AccountInput = {
+export type GuildCreateWithoutTwitter_AccountsInput = {
   activity_type?: InputMaybe<GuildActivityTypeCreateNestedManyWithoutGuildInput>;
   congrats_channel?: InputMaybe<Scalars['String']>;
   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
@@ -5425,7 +5453,7 @@ export type GuildCreateWithoutUsersInput = {
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<GuildStatus>;
-  twitter_account?: InputMaybe<TwitterAccountCreateNestedOneWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -5522,7 +5550,7 @@ export type GuildOrderByWithRelationInput = {
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
-  twitter_account?: InputMaybe<TwitterAccountOrderByWithRelationInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountOrderByRelationAggregateInput>;
   updatedAt?: InputMaybe<SortOrder>;
   users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
 };
@@ -5583,7 +5611,7 @@ export type GuildUpdateInput = {
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
 };
@@ -5623,14 +5651,14 @@ export type GuildUpdateOneRequiredWithoutUsersInput = {
   upsert?: InputMaybe<GuildUpsertWithoutUsersInput>;
 };
 
-export type GuildUpdateOneWithoutTwitter_AccountInput = {
+export type GuildUpdateOneWithoutTwitter_AccountsInput = {
   connect?: InputMaybe<GuildWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutTwitter_AccountInput>;
-  create?: InputMaybe<GuildCreateWithoutTwitter_AccountInput>;
+  connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutTwitter_AccountsInput>;
+  create?: InputMaybe<GuildCreateWithoutTwitter_AccountsInput>;
   delete?: InputMaybe<Scalars['Boolean']>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
-  update?: InputMaybe<GuildUpdateWithoutTwitter_AccountInput>;
-  upsert?: InputMaybe<GuildUpsertWithoutTwitter_AccountInput>;
+  update?: InputMaybe<GuildUpdateWithoutTwitter_AccountsInput>;
+  upsert?: InputMaybe<GuildUpsertWithoutTwitter_AccountsInput>;
 };
 
 export type GuildUpdateWithoutActivity_TypeInput = {
@@ -5642,7 +5670,7 @@ export type GuildUpdateWithoutActivity_TypeInput = {
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
 };
@@ -5656,12 +5684,12 @@ export type GuildUpdateWithoutContributionsInput = {
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
 };
 
-export type GuildUpdateWithoutTwitter_AccountInput = {
+export type GuildUpdateWithoutTwitter_AccountsInput = {
   activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -5685,7 +5713,7 @@ export type GuildUpdateWithoutUsersInput = {
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_account?: InputMaybe<TwitterAccountUpdateOneWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -5699,9 +5727,9 @@ export type GuildUpsertWithoutContributionsInput = {
   update: GuildUpdateWithoutContributionsInput;
 };
 
-export type GuildUpsertWithoutTwitter_AccountInput = {
-  create: GuildCreateWithoutTwitter_AccountInput;
-  update: GuildUpdateWithoutTwitter_AccountInput;
+export type GuildUpsertWithoutTwitter_AccountsInput = {
+  create: GuildCreateWithoutTwitter_AccountsInput;
+  update: GuildUpdateWithoutTwitter_AccountsInput;
 };
 
 export type GuildUpsertWithoutUsersInput = {
@@ -6064,7 +6092,7 @@ export type GuildWhereInput = {
   logo?: InputMaybe<StringNullableFilter>;
   name?: InputMaybe<StringNullableFilter>;
   status?: InputMaybe<EnumGuildStatusFilter>;
-  twitter_account?: InputMaybe<TwitterAccountRelationFilter>;
+  twitter_accounts?: InputMaybe<TwitterAccountListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   users?: InputMaybe<GuildUserListRelationFilter>;
 };
@@ -6102,6 +6130,14 @@ export type IntNullableFilter = {
   lte?: InputMaybe<Scalars['Int']>;
   not?: InputMaybe<NestedIntNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type IntNullableListFilter = {
+  equals?: InputMaybe<Array<Scalars['Int']>>;
+  has?: InputMaybe<Scalars['Int']>;
+  hasEvery?: InputMaybe<Array<Scalars['Int']>>;
+  hasSome?: InputMaybe<Array<Scalars['Int']>>;
+  isEmpty?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type IntNullableWithAggregatesFilter = {
@@ -9110,6 +9146,7 @@ export type Mutation = {
   createManyPartner: AffectedRowsOutput;
   createManyTwitterAccount: AffectedRowsOutput;
   createManyTwitterTweet: AffectedRowsOutput;
+  createManyTwitterTweetContribution: AffectedRowsOutput;
   createManyTwitterUser: AffectedRowsOutput;
   createManyUser: AffectedRowsOutput;
   createManyUserActivity: AffectedRowsOutput;
@@ -9117,6 +9154,7 @@ export type Mutation = {
   createPartner: Partner;
   createTwitterAccount: TwitterAccount;
   createTwitterTweet: TwitterTweet;
+  createTwitterTweetContribution: TwitterTweetContribution;
   createTwitterUser: TwitterUser;
   createUser: User;
   createUserActivity: UserActivity;
@@ -9169,12 +9207,14 @@ export type Mutation = {
   deleteManyPartner: AffectedRowsOutput;
   deleteManyTwitterAccount: AffectedRowsOutput;
   deleteManyTwitterTweet: AffectedRowsOutput;
+  deleteManyTwitterTweetContribution: AffectedRowsOutput;
   deleteManyTwitterUser: AffectedRowsOutput;
   deleteManyUser: AffectedRowsOutput;
   deleteManyUserActivity: AffectedRowsOutput;
   deletePartner?: Maybe<Partner>;
   deleteTwitterAccount?: Maybe<TwitterAccount>;
   deleteTwitterTweet?: Maybe<TwitterTweet>;
+  deleteTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
   deleteTwitterUser?: Maybe<TwitterUser>;
   deleteUser?: Maybe<User>;
   deleteUserActivity?: Maybe<UserActivity>;
@@ -9225,12 +9265,14 @@ export type Mutation = {
   updateManyPartner: AffectedRowsOutput;
   updateManyTwitterAccount: AffectedRowsOutput;
   updateManyTwitterTweet: AffectedRowsOutput;
+  updateManyTwitterTweetContribution: AffectedRowsOutput;
   updateManyTwitterUser: AffectedRowsOutput;
   updateManyUser: AffectedRowsOutput;
   updateManyUserActivity: AffectedRowsOutput;
   updatePartner?: Maybe<Partner>;
   updateTwitterAccount?: Maybe<TwitterAccount>;
   updateTwitterTweet?: Maybe<TwitterTweet>;
+  updateTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
   updateTwitterUser?: Maybe<TwitterUser>;
   updateUser?: Maybe<User>;
   updateUserActivity?: Maybe<UserActivity>;
@@ -9262,6 +9304,7 @@ export type Mutation = {
   upsertPartner: Partner;
   upsertTwitterAccount: TwitterAccount;
   upsertTwitterTweet: TwitterTweet;
+  upsertTwitterTweetContribution: TwitterTweetContribution;
   upsertTwitterUser: TwitterUser;
   upsertUser: User;
   upsertUserActivity: UserActivity;
@@ -9517,6 +9560,12 @@ export type MutationCreateManyTwitterTweetArgs = {
 };
 
 
+export type MutationCreateManyTwitterTweetContributionArgs = {
+  data: Array<TwitterTweetContributionCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
 export type MutationCreateManyTwitterUserArgs = {
   data: Array<TwitterUserCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
@@ -9552,6 +9601,11 @@ export type MutationCreateTwitterAccountArgs = {
 
 export type MutationCreateTwitterTweetArgs = {
   data: TwitterTweetCreateInput;
+};
+
+
+export type MutationCreateTwitterTweetContributionArgs = {
+  data: TwitterTweetContributionCreateInput;
 };
 
 
@@ -9815,6 +9869,11 @@ export type MutationDeleteManyTwitterTweetArgs = {
 };
 
 
+export type MutationDeleteManyTwitterTweetContributionArgs = {
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
+
 export type MutationDeleteManyTwitterUserArgs = {
   where?: InputMaybe<TwitterUserWhereInput>;
 };
@@ -9842,6 +9901,11 @@ export type MutationDeleteTwitterAccountArgs = {
 
 export type MutationDeleteTwitterTweetArgs = {
   where: TwitterTweetWhereUniqueInput;
+};
+
+
+export type MutationDeleteTwitterTweetContributionArgs = {
+  where: TwitterTweetContributionWhereUniqueInput;
 };
 
 
@@ -10140,6 +10204,12 @@ export type MutationUpdateManyTwitterTweetArgs = {
 };
 
 
+export type MutationUpdateManyTwitterTweetContributionArgs = {
+  data: TwitterTweetContributionUpdateManyMutationInput;
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
+
 export type MutationUpdateManyTwitterUserArgs = {
   data: TwitterUserUpdateManyMutationInput;
   where?: InputMaybe<TwitterUserWhereInput>;
@@ -10173,6 +10243,12 @@ export type MutationUpdateTwitterAccountArgs = {
 export type MutationUpdateTwitterTweetArgs = {
   data: TwitterTweetUpdateInput;
   where: TwitterTweetWhereUniqueInput;
+};
+
+
+export type MutationUpdateTwitterTweetContributionArgs = {
+  data: TwitterTweetContributionUpdateInput;
+  where: TwitterTweetContributionWhereUniqueInput;
 };
 
 
@@ -10384,6 +10460,13 @@ export type MutationUpsertTwitterTweetArgs = {
   create: TwitterTweetCreateInput;
   update: TwitterTweetUpdateInput;
   where: TwitterTweetWhereUniqueInput;
+};
+
+
+export type MutationUpsertTwitterTweetContributionArgs = {
+  create: TwitterTweetContributionCreateInput;
+  update: TwitterTweetContributionUpdateInput;
+  where: TwitterTweetContributionWhereUniqueInput;
 };
 
 
@@ -11050,6 +11133,7 @@ export type Query = {
   aggregatePartner: AggregatePartner;
   aggregateTwitterAccount: AggregateTwitterAccount;
   aggregateTwitterTweet: AggregateTwitterTweet;
+  aggregateTwitterTweetContribution: AggregateTwitterTweetContribution;
   aggregateTwitterUser: AggregateTwitterUser;
   aggregateUser: AggregateUser;
   aggregateUserActivity: AggregateUserActivity;
@@ -11097,6 +11181,7 @@ export type Query = {
   findFirstPartner?: Maybe<Partner>;
   findFirstTwitterAccount?: Maybe<TwitterAccount>;
   findFirstTwitterTweet?: Maybe<TwitterTweet>;
+  findFirstTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
@@ -11129,6 +11214,7 @@ export type Query = {
   groupByPartner: Array<PartnerGroupBy>;
   groupByTwitterAccount: Array<TwitterAccountGroupBy>;
   groupByTwitterTweet: Array<TwitterTweetGroupBy>;
+  groupByTwitterTweetContribution: Array<TwitterTweetContributionGroupBy>;
   groupByTwitterUser: Array<TwitterUserGroupBy>;
   groupByUser: Array<UserGroupBy>;
   groupByUserActivity: Array<UserActivityGroupBy>;
@@ -11159,6 +11245,8 @@ export type Query = {
   twitterAccount?: Maybe<TwitterAccount>;
   twitterAccounts: Array<TwitterAccount>;
   twitterTweet?: Maybe<TwitterTweet>;
+  twitterTweetContribution?: Maybe<TwitterTweetContribution>;
+  twitterTweetContributions: Array<TwitterTweetContribution>;
   twitterTweets: Array<TwitterTweet>;
   twitterUser?: Maybe<TwitterUser>;
   twitterUsers: Array<TwitterUser>;
@@ -11397,6 +11485,15 @@ export type QueryAggregateTwitterTweetArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TwitterTweetWhereInput>;
+};
+
+
+export type QueryAggregateTwitterTweetContributionArgs = {
+  cursor?: InputMaybe<TwitterTweetContributionWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<TwitterTweetContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
 };
 
 
@@ -11817,6 +11914,16 @@ export type QueryFindFirstTwitterTweetArgs = {
 };
 
 
+export type QueryFindFirstTwitterTweetContributionArgs = {
+  cursor?: InputMaybe<TwitterTweetContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterTweetContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterTweetContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
+
 export type QueryFindFirstTwitterUserArgs = {
   cursor?: InputMaybe<TwitterUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<TwitterUserScalarFieldEnum>>;
@@ -12112,6 +12219,16 @@ export type QueryGroupByTwitterTweetArgs = {
 };
 
 
+export type QueryGroupByTwitterTweetContributionArgs = {
+  by: Array<TwitterTweetContributionScalarFieldEnum>;
+  having?: InputMaybe<TwitterTweetContributionScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<TwitterTweetContributionOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
+
 export type QueryGroupByTwitterUserArgs = {
   by: Array<TwitterUserScalarFieldEnum>;
   having?: InputMaybe<TwitterUserScalarWhereWithAggregatesInput>;
@@ -12337,6 +12454,21 @@ export type QueryTwitterTweetArgs = {
 };
 
 
+export type QueryTwitterTweetContributionArgs = {
+  where: TwitterTweetContributionWhereUniqueInput;
+};
+
+
+export type QueryTwitterTweetContributionsArgs = {
+  cursor?: InputMaybe<TwitterTweetContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterTweetContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterTweetContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
+
 export type QueryTwitterTweetsArgs = {
   cursor?: InputMaybe<TwitterTweetWhereUniqueInput>;
   distinct?: InputMaybe<Array<TwitterTweetScalarFieldEnum>>;
@@ -12510,8 +12642,20 @@ export type TwitterAccountCountOrderByAggregateInput = {
 export type TwitterAccountCreateInput = {
   account_name: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  guild?: InputMaybe<GuildCreateNestedOneWithoutTwitter_AccountInput>;
+  guild?: InputMaybe<GuildCreateNestedOneWithoutTwitter_AccountsInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterAccountCreateManyGuildInput = {
+  account_name: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterAccountCreateManyGuildInputEnvelope = {
+  data: Array<TwitterAccountCreateManyGuildInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type TwitterAccountCreateManyInput = {
@@ -12522,10 +12666,11 @@ export type TwitterAccountCreateManyInput = {
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type TwitterAccountCreateNestedOneWithoutGuildInput = {
-  connect?: InputMaybe<TwitterAccountWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<TwitterAccountCreateOrConnectWithoutGuildInput>;
-  create?: InputMaybe<TwitterAccountCreateWithoutGuildInput>;
+export type TwitterAccountCreateNestedManyWithoutGuildInput = {
+  connect?: InputMaybe<Array<TwitterAccountWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TwitterAccountCreateOrConnectWithoutGuildInput>>;
+  create?: InputMaybe<Array<TwitterAccountCreateWithoutGuildInput>>;
+  createMany?: InputMaybe<TwitterAccountCreateManyGuildInputEnvelope>;
 };
 
 export type TwitterAccountCreateOrConnectWithoutGuildInput = {
@@ -12550,6 +12695,12 @@ export type TwitterAccountGroupBy = {
   guild_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type TwitterAccountListRelationFilter = {
+  every?: InputMaybe<TwitterAccountWhereInput>;
+  none?: InputMaybe<TwitterAccountWhereInput>;
+  some?: InputMaybe<TwitterAccountWhereInput>;
 };
 
 export type TwitterAccountMaxAggregate = {
@@ -12584,6 +12735,10 @@ export type TwitterAccountMinOrderByAggregateInput = {
   updatedAt?: InputMaybe<SortOrder>;
 };
 
+export type TwitterAccountOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
 export type TwitterAccountOrderByWithAggregationInput = {
   _avg?: InputMaybe<TwitterAccountAvgOrderByAggregateInput>;
   _count?: InputMaybe<TwitterAccountCountOrderByAggregateInput>;
@@ -12606,11 +12761,6 @@ export type TwitterAccountOrderByWithRelationInput = {
   updatedAt?: InputMaybe<SortOrder>;
 };
 
-export type TwitterAccountRelationFilter = {
-  is?: InputMaybe<TwitterAccountWhereInput>;
-  isNot?: InputMaybe<TwitterAccountWhereInput>;
-};
-
 export enum TwitterAccountScalarFieldEnum {
   AccountName = 'account_name',
   CreatedAt = 'createdAt',
@@ -12618,6 +12768,17 @@ export enum TwitterAccountScalarFieldEnum {
   Id = 'id',
   UpdatedAt = 'updatedAt'
 }
+
+export type TwitterAccountScalarWhereInput = {
+  AND?: InputMaybe<Array<TwitterAccountScalarWhereInput>>;
+  NOT?: InputMaybe<Array<TwitterAccountScalarWhereInput>>;
+  OR?: InputMaybe<Array<TwitterAccountScalarWhereInput>>;
+  account_name?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  guild_id?: InputMaybe<IntNullableFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
 
 export type TwitterAccountScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<TwitterAccountScalarWhereWithAggregatesInput>>;
@@ -12643,7 +12804,7 @@ export type TwitterAccountSumOrderByAggregateInput = {
 export type TwitterAccountUpdateInput = {
   account_name?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  guild?: InputMaybe<GuildUpdateOneWithoutTwitter_AccountInput>;
+  guild?: InputMaybe<GuildUpdateOneWithoutTwitter_AccountsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -12653,14 +12814,28 @@ export type TwitterAccountUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type TwitterAccountUpdateOneWithoutGuildInput = {
-  connect?: InputMaybe<TwitterAccountWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<TwitterAccountCreateOrConnectWithoutGuildInput>;
-  create?: InputMaybe<TwitterAccountCreateWithoutGuildInput>;
-  delete?: InputMaybe<Scalars['Boolean']>;
-  disconnect?: InputMaybe<Scalars['Boolean']>;
-  update?: InputMaybe<TwitterAccountUpdateWithoutGuildInput>;
-  upsert?: InputMaybe<TwitterAccountUpsertWithoutGuildInput>;
+export type TwitterAccountUpdateManyWithWhereWithoutGuildInput = {
+  data: TwitterAccountUpdateManyMutationInput;
+  where: TwitterAccountScalarWhereInput;
+};
+
+export type TwitterAccountUpdateManyWithoutGuildInput = {
+  connect?: InputMaybe<Array<TwitterAccountWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TwitterAccountCreateOrConnectWithoutGuildInput>>;
+  create?: InputMaybe<Array<TwitterAccountCreateWithoutGuildInput>>;
+  createMany?: InputMaybe<TwitterAccountCreateManyGuildInputEnvelope>;
+  delete?: InputMaybe<Array<TwitterAccountWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<TwitterAccountScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<TwitterAccountWhereUniqueInput>>;
+  set?: InputMaybe<Array<TwitterAccountWhereUniqueInput>>;
+  update?: InputMaybe<Array<TwitterAccountUpdateWithWhereUniqueWithoutGuildInput>>;
+  updateMany?: InputMaybe<Array<TwitterAccountUpdateManyWithWhereWithoutGuildInput>>;
+  upsert?: InputMaybe<Array<TwitterAccountUpsertWithWhereUniqueWithoutGuildInput>>;
+};
+
+export type TwitterAccountUpdateWithWhereUniqueWithoutGuildInput = {
+  data: TwitterAccountUpdateWithoutGuildInput;
+  where: TwitterAccountWhereUniqueInput;
 };
 
 export type TwitterAccountUpdateWithoutGuildInput = {
@@ -12669,9 +12844,10 @@ export type TwitterAccountUpdateWithoutGuildInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type TwitterAccountUpsertWithoutGuildInput = {
+export type TwitterAccountUpsertWithWhereUniqueWithoutGuildInput = {
   create: TwitterAccountCreateWithoutGuildInput;
   update: TwitterAccountUpdateWithoutGuildInput;
+  where: TwitterAccountWhereUniqueInput;
 };
 
 export type TwitterAccountWhereInput = {
@@ -12688,81 +12864,431 @@ export type TwitterAccountWhereInput = {
 
 export type TwitterAccountWhereUniqueInput = {
   account_name?: InputMaybe<Scalars['String']>;
-  guild_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
 };
 
 export type TwitterTweet = {
-  contribution?: Maybe<Contribution>;
-  contribution_id?: Maybe<Scalars['Int']>;
+  _count?: Maybe<TwitterTweetCount>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   text: Scalars['String'];
+  twitter_tweet_contribution_ids: Array<Scalars['Int']>;
+  twitter_tweet_contributions: Array<TwitterTweetContribution>;
   twitter_tweet_id: Scalars['Int'];
   twitter_user?: Maybe<TwitterUser>;
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
 };
 
+
+export type TwitterTweetTwitter_Tweet_ContributionsArgs = {
+  cursor?: InputMaybe<TwitterTweetContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterTweetContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterTweetContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
 export type TwitterTweetAvgAggregate = {
-  contribution_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  twitter_tweet_contribution_ids?: Maybe<Scalars['Float']>;
   twitter_tweet_id?: Maybe<Scalars['Float']>;
   twitter_user_id?: Maybe<Scalars['Float']>;
 };
 
 export type TwitterTweetAvgOrderByAggregateInput = {
-  contribution_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
   twitter_tweet_id?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
 };
 
-export type TwitterTweetCountAggregate = {
+export type TwitterTweetContribution = {
+  contribution: Contribution;
+  contribution_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  twitter_tweet: TwitterTweet;
+  twitter_tweet_id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type TwitterTweetContributionAvgAggregate = {
+  contribution_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  twitter_tweet_id?: Maybe<Scalars['Float']>;
+};
+
+export type TwitterTweetContributionAvgOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  twitter_tweet_id?: InputMaybe<SortOrder>;
+};
+
+export type TwitterTweetContributionCountAggregate = {
   _all: Scalars['Int'];
   contribution_id: Scalars['Int'];
   createdAt: Scalars['Int'];
   id: Scalars['Int'];
+  twitter_tweet_id: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type TwitterTweetContributionCountOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  twitter_tweet_id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type TwitterTweetContributionCreateInput = {
+  contribution: ContributionCreateNestedOneWithoutTwitter_Tweet_ContributionsInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  twitter_tweet: TwitterTweetCreateNestedOneWithoutTwitter_Tweet_ContributionsInput;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetContributionCreateManyContributionInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  twitter_tweet_id: Scalars['Int'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetContributionCreateManyContributionInputEnvelope = {
+  data: Array<TwitterTweetContributionCreateManyContributionInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type TwitterTweetContributionCreateManyInput = {
+  contribution_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  twitter_tweet_id: Scalars['Int'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetContributionCreateManyTwitter_TweetInput = {
+  contribution_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetContributionCreateManyTwitter_TweetInputEnvelope = {
+  data: Array<TwitterTweetContributionCreateManyTwitter_TweetInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type TwitterTweetContributionCreateNestedManyWithoutContributionInput = {
+  connect?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TwitterTweetContributionCreateOrConnectWithoutContributionInput>>;
+  create?: InputMaybe<Array<TwitterTweetContributionCreateWithoutContributionInput>>;
+  createMany?: InputMaybe<TwitterTweetContributionCreateManyContributionInputEnvelope>;
+};
+
+export type TwitterTweetContributionCreateNestedManyWithoutTwitter_TweetInput = {
+  connect?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TwitterTweetContributionCreateOrConnectWithoutTwitter_TweetInput>>;
+  create?: InputMaybe<Array<TwitterTweetContributionCreateWithoutTwitter_TweetInput>>;
+  createMany?: InputMaybe<TwitterTweetContributionCreateManyTwitter_TweetInputEnvelope>;
+};
+
+export type TwitterTweetContributionCreateOrConnectWithoutContributionInput = {
+  create: TwitterTweetContributionCreateWithoutContributionInput;
+  where: TwitterTweetContributionWhereUniqueInput;
+};
+
+export type TwitterTweetContributionCreateOrConnectWithoutTwitter_TweetInput = {
+  create: TwitterTweetContributionCreateWithoutTwitter_TweetInput;
+  where: TwitterTweetContributionWhereUniqueInput;
+};
+
+export type TwitterTweetContributionCreateWithoutContributionInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  twitter_tweet: TwitterTweetCreateNestedOneWithoutTwitter_Tweet_ContributionsInput;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetContributionCreateWithoutTwitter_TweetInput = {
+  contribution: ContributionCreateNestedOneWithoutTwitter_Tweet_ContributionsInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetContributionGroupBy = {
+  _avg?: Maybe<TwitterTweetContributionAvgAggregate>;
+  _count?: Maybe<TwitterTweetContributionCountAggregate>;
+  _max?: Maybe<TwitterTweetContributionMaxAggregate>;
+  _min?: Maybe<TwitterTweetContributionMinAggregate>;
+  _sum?: Maybe<TwitterTweetContributionSumAggregate>;
+  contribution_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  twitter_tweet_id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type TwitterTweetContributionListRelationFilter = {
+  every?: InputMaybe<TwitterTweetContributionWhereInput>;
+  none?: InputMaybe<TwitterTweetContributionWhereInput>;
+  some?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
+export type TwitterTweetContributionMaxAggregate = {
+  contribution_id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  twitter_tweet_id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetContributionMaxOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  twitter_tweet_id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type TwitterTweetContributionMinAggregate = {
+  contribution_id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  twitter_tweet_id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetContributionMinOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  twitter_tweet_id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type TwitterTweetContributionOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type TwitterTweetContributionOrderByWithAggregationInput = {
+  _avg?: InputMaybe<TwitterTweetContributionAvgOrderByAggregateInput>;
+  _count?: InputMaybe<TwitterTweetContributionCountOrderByAggregateInput>;
+  _max?: InputMaybe<TwitterTweetContributionMaxOrderByAggregateInput>;
+  _min?: InputMaybe<TwitterTweetContributionMinOrderByAggregateInput>;
+  _sum?: InputMaybe<TwitterTweetContributionSumOrderByAggregateInput>;
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  twitter_tweet_id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type TwitterTweetContributionOrderByWithRelationInput = {
+  contribution?: InputMaybe<ContributionOrderByWithRelationInput>;
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  twitter_tweet?: InputMaybe<TwitterTweetOrderByWithRelationInput>;
+  twitter_tweet_id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export enum TwitterTweetContributionScalarFieldEnum {
+  ContributionId = 'contribution_id',
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  TwitterTweetId = 'twitter_tweet_id',
+  UpdatedAt = 'updatedAt'
+}
+
+export type TwitterTweetContributionScalarWhereInput = {
+  AND?: InputMaybe<Array<TwitterTweetContributionScalarWhereInput>>;
+  NOT?: InputMaybe<Array<TwitterTweetContributionScalarWhereInput>>;
+  OR?: InputMaybe<Array<TwitterTweetContributionScalarWhereInput>>;
+  contribution_id?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  twitter_tweet_id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type TwitterTweetContributionScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<TwitterTweetContributionScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<TwitterTweetContributionScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<TwitterTweetContributionScalarWhereWithAggregatesInput>>;
+  contribution_id?: InputMaybe<IntWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  twitter_tweet_id?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type TwitterTweetContributionSumAggregate = {
+  contribution_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  twitter_tweet_id?: Maybe<Scalars['Int']>;
+};
+
+export type TwitterTweetContributionSumOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  twitter_tweet_id?: InputMaybe<SortOrder>;
+};
+
+export type TwitterTweetContributionUpdateInput = {
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  twitter_tweet?: InputMaybe<TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type TwitterTweetContributionUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type TwitterTweetContributionUpdateManyWithWhereWithoutContributionInput = {
+  data: TwitterTweetContributionUpdateManyMutationInput;
+  where: TwitterTweetContributionScalarWhereInput;
+};
+
+export type TwitterTweetContributionUpdateManyWithWhereWithoutTwitter_TweetInput = {
+  data: TwitterTweetContributionUpdateManyMutationInput;
+  where: TwitterTweetContributionScalarWhereInput;
+};
+
+export type TwitterTweetContributionUpdateManyWithoutContributionInput = {
+  connect?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TwitterTweetContributionCreateOrConnectWithoutContributionInput>>;
+  create?: InputMaybe<Array<TwitterTweetContributionCreateWithoutContributionInput>>;
+  createMany?: InputMaybe<TwitterTweetContributionCreateManyContributionInputEnvelope>;
+  delete?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<TwitterTweetContributionScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  set?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  update?: InputMaybe<Array<TwitterTweetContributionUpdateWithWhereUniqueWithoutContributionInput>>;
+  updateMany?: InputMaybe<Array<TwitterTweetContributionUpdateManyWithWhereWithoutContributionInput>>;
+  upsert?: InputMaybe<Array<TwitterTweetContributionUpsertWithWhereUniqueWithoutContributionInput>>;
+};
+
+export type TwitterTweetContributionUpdateManyWithoutTwitter_TweetInput = {
+  connect?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TwitterTweetContributionCreateOrConnectWithoutTwitter_TweetInput>>;
+  create?: InputMaybe<Array<TwitterTweetContributionCreateWithoutTwitter_TweetInput>>;
+  createMany?: InputMaybe<TwitterTweetContributionCreateManyTwitter_TweetInputEnvelope>;
+  delete?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<TwitterTweetContributionScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  set?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
+  update?: InputMaybe<Array<TwitterTweetContributionUpdateWithWhereUniqueWithoutTwitter_TweetInput>>;
+  updateMany?: InputMaybe<Array<TwitterTweetContributionUpdateManyWithWhereWithoutTwitter_TweetInput>>;
+  upsert?: InputMaybe<Array<TwitterTweetContributionUpsertWithWhereUniqueWithoutTwitter_TweetInput>>;
+};
+
+export type TwitterTweetContributionUpdateWithWhereUniqueWithoutContributionInput = {
+  data: TwitterTweetContributionUpdateWithoutContributionInput;
+  where: TwitterTweetContributionWhereUniqueInput;
+};
+
+export type TwitterTweetContributionUpdateWithWhereUniqueWithoutTwitter_TweetInput = {
+  data: TwitterTweetContributionUpdateWithoutTwitter_TweetInput;
+  where: TwitterTweetContributionWhereUniqueInput;
+};
+
+export type TwitterTweetContributionUpdateWithoutContributionInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  twitter_tweet?: InputMaybe<TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type TwitterTweetContributionUpdateWithoutTwitter_TweetInput = {
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type TwitterTweetContributionUpsertWithWhereUniqueWithoutContributionInput = {
+  create: TwitterTweetContributionCreateWithoutContributionInput;
+  update: TwitterTweetContributionUpdateWithoutContributionInput;
+  where: TwitterTweetContributionWhereUniqueInput;
+};
+
+export type TwitterTweetContributionUpsertWithWhereUniqueWithoutTwitter_TweetInput = {
+  create: TwitterTweetContributionCreateWithoutTwitter_TweetInput;
+  update: TwitterTweetContributionUpdateWithoutTwitter_TweetInput;
+  where: TwitterTweetContributionWhereUniqueInput;
+};
+
+export type TwitterTweetContributionWhereInput = {
+  AND?: InputMaybe<Array<TwitterTweetContributionWhereInput>>;
+  NOT?: InputMaybe<Array<TwitterTweetContributionWhereInput>>;
+  OR?: InputMaybe<Array<TwitterTweetContributionWhereInput>>;
+  contribution?: InputMaybe<ContributionRelationFilter>;
+  contribution_id?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  twitter_tweet?: InputMaybe<TwitterTweetRelationFilter>;
+  twitter_tweet_id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type TwitterTweetContributionWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+export type TwitterTweetCount = {
+  twitter_tweet_contributions: Scalars['Int'];
+};
+
+export type TwitterTweetCountAggregate = {
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
   text: Scalars['Int'];
+  twitter_tweet_contribution_ids: Scalars['Int'];
   twitter_tweet_id: Scalars['Int'];
   twitter_user_id: Scalars['Int'];
   updatedAt: Scalars['Int'];
 };
 
 export type TwitterTweetCountOrderByAggregateInput = {
-  contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
+  twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
   twitter_tweet_id?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type TwitterTweetCreateInput = {
-  contribution?: InputMaybe<ContributionCreateNestedOneWithoutTweetInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   text: Scalars['String'];
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutTwitter_TweetInput>;
   twitter_tweet_id: Scalars['Int'];
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutTweetsInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type TwitterTweetCreateManyInput = {
-  contribution_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   text: Scalars['String'];
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_id: Scalars['Int'];
   twitter_user_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type TwitterTweetCreateManyTwitter_UserInput = {
-  contribution_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   text: Scalars['String'];
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -12779,14 +13305,14 @@ export type TwitterTweetCreateNestedManyWithoutTwitter_UserInput = {
   createMany?: InputMaybe<TwitterTweetCreateManyTwitter_UserInputEnvelope>;
 };
 
-export type TwitterTweetCreateNestedOneWithoutContributionInput = {
+export type TwitterTweetCreateNestedOneWithoutTwitter_Tweet_ContributionsInput = {
   connect?: InputMaybe<TwitterTweetWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<TwitterTweetCreateOrConnectWithoutContributionInput>;
-  create?: InputMaybe<TwitterTweetCreateWithoutContributionInput>;
+  connectOrCreate?: InputMaybe<TwitterTweetCreateOrConnectWithoutTwitter_Tweet_ContributionsInput>;
+  create?: InputMaybe<TwitterTweetCreateWithoutTwitter_Tweet_ContributionsInput>;
 };
 
-export type TwitterTweetCreateOrConnectWithoutContributionInput = {
-  create: TwitterTweetCreateWithoutContributionInput;
+export type TwitterTweetCreateOrConnectWithoutTwitter_Tweet_ContributionsInput = {
+  create: TwitterTweetCreateWithoutTwitter_Tweet_ContributionsInput;
   where: TwitterTweetWhereUniqueInput;
 };
 
@@ -12795,20 +13321,26 @@ export type TwitterTweetCreateOrConnectWithoutTwitter_UserInput = {
   where: TwitterTweetWhereUniqueInput;
 };
 
-export type TwitterTweetCreateWithoutContributionInput = {
+export type TwitterTweetCreateWithoutTwitter_Tweet_ContributionsInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   text: Scalars['String'];
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_id: Scalars['Int'];
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutTweetsInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type TwitterTweetCreateWithoutTwitter_UserInput = {
-  contribution?: InputMaybe<ContributionCreateNestedOneWithoutTweetInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   text: Scalars['String'];
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutTwitter_TweetInput>;
   twitter_tweet_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput = {
+  set: Array<Scalars['Int']>;
 };
 
 export type TwitterTweetGroupBy = {
@@ -12817,10 +13349,10 @@ export type TwitterTweetGroupBy = {
   _max?: Maybe<TwitterTweetMaxAggregate>;
   _min?: Maybe<TwitterTweetMinAggregate>;
   _sum?: Maybe<TwitterTweetSumAggregate>;
-  contribution_id?: Maybe<Scalars['Int']>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   text: Scalars['String'];
+  twitter_tweet_contribution_ids?: Maybe<Array<Scalars['Int']>>;
   twitter_tweet_id: Scalars['Int'];
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
@@ -12833,7 +13365,6 @@ export type TwitterTweetListRelationFilter = {
 };
 
 export type TwitterTweetMaxAggregate = {
-  contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   text?: Maybe<Scalars['String']>;
@@ -12843,7 +13374,6 @@ export type TwitterTweetMaxAggregate = {
 };
 
 export type TwitterTweetMaxOrderByAggregateInput = {
-  contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
@@ -12853,7 +13383,6 @@ export type TwitterTweetMaxOrderByAggregateInput = {
 };
 
 export type TwitterTweetMinAggregate = {
-  contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   text?: Maybe<Scalars['String']>;
@@ -12863,7 +13392,6 @@ export type TwitterTweetMinAggregate = {
 };
 
 export type TwitterTweetMinOrderByAggregateInput = {
-  contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
@@ -12882,21 +13410,21 @@ export type TwitterTweetOrderByWithAggregationInput = {
   _max?: InputMaybe<TwitterTweetMaxOrderByAggregateInput>;
   _min?: InputMaybe<TwitterTweetMinOrderByAggregateInput>;
   _sum?: InputMaybe<TwitterTweetSumOrderByAggregateInput>;
-  contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
+  twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
   twitter_tweet_id?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type TwitterTweetOrderByWithRelationInput = {
-  contribution?: InputMaybe<ContributionOrderByWithRelationInput>;
-  contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
+  twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionOrderByRelationAggregateInput>;
   twitter_tweet_id?: InputMaybe<SortOrder>;
   twitter_user?: InputMaybe<TwitterUserOrderByWithRelationInput>;
   twitter_user_id?: InputMaybe<SortOrder>;
@@ -12909,10 +13437,10 @@ export type TwitterTweetRelationFilter = {
 };
 
 export enum TwitterTweetScalarFieldEnum {
-  ContributionId = 'contribution_id',
   CreatedAt = 'createdAt',
   Id = 'id',
   Text = 'text',
+  TwitterTweetContributionIds = 'twitter_tweet_contribution_ids',
   TwitterTweetId = 'twitter_tweet_id',
   TwitterUserId = 'twitter_user_id',
   UpdatedAt = 'updatedAt'
@@ -12922,10 +13450,10 @@ export type TwitterTweetScalarWhereInput = {
   AND?: InputMaybe<Array<TwitterTweetScalarWhereInput>>;
   NOT?: InputMaybe<Array<TwitterTweetScalarWhereInput>>;
   OR?: InputMaybe<Array<TwitterTweetScalarWhereInput>>;
-  contribution_id?: InputMaybe<IntNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
   text?: InputMaybe<StringFilter>;
+  twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
   twitter_tweet_id?: InputMaybe<IntFilter>;
   twitter_user_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -12935,33 +13463,34 @@ export type TwitterTweetScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<TwitterTweetScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<TwitterTweetScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<TwitterTweetScalarWhereWithAggregatesInput>>;
-  contribution_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   text?: InputMaybe<StringWithAggregatesFilter>;
+  twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
   twitter_tweet_id?: InputMaybe<IntWithAggregatesFilter>;
   twitter_user_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
 };
 
 export type TwitterTweetSumAggregate = {
-  contribution_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  twitter_tweet_contribution_ids?: Maybe<Array<Scalars['Int']>>;
   twitter_tweet_id?: Maybe<Scalars['Int']>;
   twitter_user_id?: Maybe<Scalars['Int']>;
 };
 
 export type TwitterTweetSumOrderByAggregateInput = {
-  contribution_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
   twitter_tweet_id?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
 };
 
 export type TwitterTweetUpdateInput = {
-  contribution?: InputMaybe<ContributionUpdateOneWithoutTweetInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetInput>;
   twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -12970,6 +13499,7 @@ export type TwitterTweetUpdateInput = {
 export type TwitterTweetUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -12993,14 +13523,12 @@ export type TwitterTweetUpdateManyWithoutTwitter_UserInput = {
   upsert?: InputMaybe<Array<TwitterTweetUpsertWithWhereUniqueWithoutTwitter_UserInput>>;
 };
 
-export type TwitterTweetUpdateOneWithoutContributionInput = {
+export type TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput = {
   connect?: InputMaybe<TwitterTweetWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<TwitterTweetCreateOrConnectWithoutContributionInput>;
-  create?: InputMaybe<TwitterTweetCreateWithoutContributionInput>;
-  delete?: InputMaybe<Scalars['Boolean']>;
-  disconnect?: InputMaybe<Scalars['Boolean']>;
-  update?: InputMaybe<TwitterTweetUpdateWithoutContributionInput>;
-  upsert?: InputMaybe<TwitterTweetUpsertWithoutContributionInput>;
+  connectOrCreate?: InputMaybe<TwitterTweetCreateOrConnectWithoutTwitter_Tweet_ContributionsInput>;
+  create?: InputMaybe<TwitterTweetCreateWithoutTwitter_Tweet_ContributionsInput>;
+  update?: InputMaybe<TwitterTweetUpdateWithoutTwitter_Tweet_ContributionsInput>;
+  upsert?: InputMaybe<TwitterTweetUpsertWithoutTwitter_Tweet_ContributionsInput>;
 };
 
 export type TwitterTweetUpdateWithWhereUniqueWithoutTwitter_UserInput = {
@@ -13008,20 +13536,27 @@ export type TwitterTweetUpdateWithWhereUniqueWithoutTwitter_UserInput = {
   where: TwitterTweetWhereUniqueInput;
 };
 
-export type TwitterTweetUpdateWithoutContributionInput = {
+export type TwitterTweetUpdateWithoutTwitter_Tweet_ContributionsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type TwitterTweetUpdateWithoutTwitter_UserInput = {
-  contribution?: InputMaybe<ContributionUpdateOneWithoutTweetInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
+  twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetInput>;
   twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput = {
+  push?: InputMaybe<Array<Scalars['Int']>>;
+  set?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type TwitterTweetUpsertWithWhereUniqueWithoutTwitter_UserInput = {
@@ -13030,20 +13565,20 @@ export type TwitterTweetUpsertWithWhereUniqueWithoutTwitter_UserInput = {
   where: TwitterTweetWhereUniqueInput;
 };
 
-export type TwitterTweetUpsertWithoutContributionInput = {
-  create: TwitterTweetCreateWithoutContributionInput;
-  update: TwitterTweetUpdateWithoutContributionInput;
+export type TwitterTweetUpsertWithoutTwitter_Tweet_ContributionsInput = {
+  create: TwitterTweetCreateWithoutTwitter_Tweet_ContributionsInput;
+  update: TwitterTweetUpdateWithoutTwitter_Tweet_ContributionsInput;
 };
 
 export type TwitterTweetWhereInput = {
   AND?: InputMaybe<Array<TwitterTweetWhereInput>>;
   NOT?: InputMaybe<Array<TwitterTweetWhereInput>>;
   OR?: InputMaybe<Array<TwitterTweetWhereInput>>;
-  contribution?: InputMaybe<ContributionRelationFilter>;
-  contribution_id?: InputMaybe<IntNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
   text?: InputMaybe<StringFilter>;
+  twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionListRelationFilter>;
   twitter_tweet_id?: InputMaybe<IntFilter>;
   twitter_user?: InputMaybe<TwitterUserRelationFilter>;
   twitter_user_id?: InputMaybe<IntNullableFilter>;
@@ -13051,7 +13586,6 @@ export type TwitterTweetWhereInput = {
 };
 
 export type TwitterTweetWhereUniqueInput = {
-  contribution_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   twitter_tweet_id?: InputMaybe<Scalars['Int']>;
 };
@@ -13124,7 +13658,7 @@ export type TwitterUserCreateInput = {
   tweets?: InputMaybe<TwitterTweetCreateNestedManyWithoutTwitter_UserInput>;
   twitter_user_id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  user?: InputMaybe<UserCreateNestedOneWithoutTwitter_UserInput>;
+  user?: InputMaybe<UserCreateNestedOneWithoutTwitter_UsersInput>;
   username: Scalars['String'];
 };
 
@@ -13139,16 +13673,32 @@ export type TwitterUserCreateManyInput = {
   username: Scalars['String'];
 };
 
+export type TwitterUserCreateManyUserInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  twitter_user_id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  username: Scalars['String'];
+};
+
+export type TwitterUserCreateManyUserInputEnvelope = {
+  data: Array<TwitterUserCreateManyUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type TwitterUserCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<TwitterUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TwitterUserCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<TwitterUserCreateWithoutUserInput>>;
+  createMany?: InputMaybe<TwitterUserCreateManyUserInputEnvelope>;
+};
+
 export type TwitterUserCreateNestedOneWithoutTweetsInput = {
   connect?: InputMaybe<TwitterUserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<TwitterUserCreateOrConnectWithoutTweetsInput>;
   create?: InputMaybe<TwitterUserCreateWithoutTweetsInput>;
-};
-
-export type TwitterUserCreateNestedOneWithoutUserInput = {
-  connect?: InputMaybe<TwitterUserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<TwitterUserCreateOrConnectWithoutUserInput>;
-  create?: InputMaybe<TwitterUserCreateWithoutUserInput>;
 };
 
 export type TwitterUserCreateOrConnectWithoutTweetsInput = {
@@ -13167,7 +13717,7 @@ export type TwitterUserCreateWithoutTweetsInput = {
   name?: InputMaybe<Scalars['String']>;
   twitter_user_id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  user?: InputMaybe<UserCreateNestedOneWithoutTwitter_UserInput>;
+  user?: InputMaybe<UserCreateNestedOneWithoutTwitter_UsersInput>;
   username: Scalars['String'];
 };
 
@@ -13195,6 +13745,12 @@ export type TwitterUserGroupBy = {
   updatedAt: Scalars['DateTime'];
   user_id?: Maybe<Scalars['Int']>;
   username: Scalars['String'];
+};
+
+export type TwitterUserListRelationFilter = {
+  every?: InputMaybe<TwitterUserWhereInput>;
+  none?: InputMaybe<TwitterUserWhereInput>;
+  some?: InputMaybe<TwitterUserWhereInput>;
 };
 
 export type TwitterUserMaxAggregate = {
@@ -13239,6 +13795,10 @@ export type TwitterUserMinOrderByAggregateInput = {
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
   username?: InputMaybe<SortOrder>;
+};
+
+export type TwitterUserOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type TwitterUserOrderByWithAggregationInput = {
@@ -13286,6 +13846,20 @@ export enum TwitterUserScalarFieldEnum {
   Username = 'username'
 }
 
+export type TwitterUserScalarWhereInput = {
+  AND?: InputMaybe<Array<TwitterUserScalarWhereInput>>;
+  NOT?: InputMaybe<Array<TwitterUserScalarWhereInput>>;
+  OR?: InputMaybe<Array<TwitterUserScalarWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringNullableFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringNullableFilter>;
+  twitter_user_id?: InputMaybe<StringNullableFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user_id?: InputMaybe<IntNullableFilter>;
+  username?: InputMaybe<StringFilter>;
+};
+
 export type TwitterUserScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<TwitterUserScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<TwitterUserScalarWhereWithAggregatesInput>>;
@@ -13317,7 +13891,7 @@ export type TwitterUserUpdateInput = {
   tweets?: InputMaybe<TwitterTweetUpdateManyWithoutTwitter_UserInput>;
   twitter_user_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneWithoutTwitter_UserInput>;
+  user?: InputMaybe<UserUpdateOneWithoutTwitter_UsersInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -13330,6 +13904,25 @@ export type TwitterUserUpdateManyMutationInput = {
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
+export type TwitterUserUpdateManyWithWhereWithoutUserInput = {
+  data: TwitterUserUpdateManyMutationInput;
+  where: TwitterUserScalarWhereInput;
+};
+
+export type TwitterUserUpdateManyWithoutUserInput = {
+  connect?: InputMaybe<Array<TwitterUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TwitterUserCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<TwitterUserCreateWithoutUserInput>>;
+  createMany?: InputMaybe<TwitterUserCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<TwitterUserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<TwitterUserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<TwitterUserWhereUniqueInput>>;
+  set?: InputMaybe<Array<TwitterUserWhereUniqueInput>>;
+  update?: InputMaybe<Array<TwitterUserUpdateWithWhereUniqueWithoutUserInput>>;
+  updateMany?: InputMaybe<Array<TwitterUserUpdateManyWithWhereWithoutUserInput>>;
+  upsert?: InputMaybe<Array<TwitterUserUpsertWithWhereUniqueWithoutUserInput>>;
+};
+
 export type TwitterUserUpdateOneWithoutTweetsInput = {
   connect?: InputMaybe<TwitterUserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<TwitterUserCreateOrConnectWithoutTweetsInput>;
@@ -13340,14 +13933,9 @@ export type TwitterUserUpdateOneWithoutTweetsInput = {
   upsert?: InputMaybe<TwitterUserUpsertWithoutTweetsInput>;
 };
 
-export type TwitterUserUpdateOneWithoutUserInput = {
-  connect?: InputMaybe<TwitterUserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<TwitterUserCreateOrConnectWithoutUserInput>;
-  create?: InputMaybe<TwitterUserCreateWithoutUserInput>;
-  delete?: InputMaybe<Scalars['Boolean']>;
-  disconnect?: InputMaybe<Scalars['Boolean']>;
-  update?: InputMaybe<TwitterUserUpdateWithoutUserInput>;
-  upsert?: InputMaybe<TwitterUserUpsertWithoutUserInput>;
+export type TwitterUserUpdateWithWhereUniqueWithoutUserInput = {
+  data: TwitterUserUpdateWithoutUserInput;
+  where: TwitterUserWhereUniqueInput;
 };
 
 export type TwitterUserUpdateWithoutTweetsInput = {
@@ -13356,7 +13944,7 @@ export type TwitterUserUpdateWithoutTweetsInput = {
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   twitter_user_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneWithoutTwitter_UserInput>;
+  user?: InputMaybe<UserUpdateOneWithoutTwitter_UsersInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -13370,14 +13958,15 @@ export type TwitterUserUpdateWithoutUserInput = {
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
+export type TwitterUserUpsertWithWhereUniqueWithoutUserInput = {
+  create: TwitterUserCreateWithoutUserInput;
+  update: TwitterUserUpdateWithoutUserInput;
+  where: TwitterUserWhereUniqueInput;
+};
+
 export type TwitterUserUpsertWithoutTweetsInput = {
   create: TwitterUserCreateWithoutTweetsInput;
   update: TwitterUserUpdateWithoutTweetsInput;
-};
-
-export type TwitterUserUpsertWithoutUserInput = {
-  create: TwitterUserCreateWithoutUserInput;
-  update: TwitterUserUpdateWithoutUserInput;
 };
 
 export type TwitterUserWhereInput = {
@@ -13399,7 +13988,6 @@ export type TwitterUserWhereInput = {
 export type TwitterUserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
   twitter_user_id?: InputMaybe<Scalars['String']>;
-  user_id?: InputMaybe<Scalars['Int']>;
   username?: InputMaybe<Scalars['String']>;
 };
 
@@ -13422,7 +14010,7 @@ export type User = {
   id: Scalars['Int'];
   linear_users: Array<LinearUser>;
   name?: Maybe<Scalars['String']>;
-  twitter_user?: Maybe<TwitterUser>;
+  twitter_users: Array<TwitterUser>;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -13494,6 +14082,16 @@ export type UserLinear_UsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearUserWhereInput>;
+};
+
+
+export type UserTwitter_UsersArgs = {
+  cursor?: InputMaybe<TwitterUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterUserWhereInput>;
 };
 
 export type UserActivity = {
@@ -13889,6 +14487,7 @@ export type UserCount = {
   discord_users: Scalars['Int'];
   guild_users: Scalars['Int'];
   linear_users: Scalars['Int'];
+  twitter_users: Scalars['Int'];
 };
 
 export type UserCountAggregate = {
@@ -13940,7 +14539,7 @@ export type UserCreateInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -14023,10 +14622,10 @@ export type UserCreateNestedOneWithoutLinear_UsersInput = {
   create?: InputMaybe<UserCreateWithoutLinear_UsersInput>;
 };
 
-export type UserCreateNestedOneWithoutTwitter_UserInput = {
+export type UserCreateNestedOneWithoutTwitter_UsersInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutTwitter_UserInput>;
-  create?: InputMaybe<UserCreateWithoutTwitter_UserInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutTwitter_UsersInput>;
+  create?: InputMaybe<UserCreateWithoutTwitter_UsersInput>;
 };
 
 export type UserCreateOrConnectWithoutActivitiesInput = {
@@ -14069,8 +14668,8 @@ export type UserCreateOrConnectWithoutLinear_UsersInput = {
   where: UserWhereUniqueInput;
 };
 
-export type UserCreateOrConnectWithoutTwitter_UserInput = {
-  create: UserCreateWithoutTwitter_UserInput;
+export type UserCreateOrConnectWithoutTwitter_UsersInput = {
+  create: UserCreateWithoutTwitter_UsersInput;
   where: UserWhereUniqueInput;
 };
 
@@ -14089,7 +14688,7 @@ export type UserCreateWithoutActivitiesInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -14108,7 +14707,7 @@ export type UserCreateWithoutAttestationsInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -14127,7 +14726,7 @@ export type UserCreateWithoutChain_TypeInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -14146,7 +14745,7 @@ export type UserCreateWithoutContributionPartnersInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -14165,7 +14764,7 @@ export type UserCreateWithoutContributionsInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -14184,7 +14783,7 @@ export type UserCreateWithoutDiscord_UsersInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -14203,7 +14802,7 @@ export type UserCreateWithoutGuild_UsersInput = {
   full_name?: InputMaybe<Scalars['String']>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -14222,11 +14821,11 @@ export type UserCreateWithoutLinear_UsersInput = {
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
-  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type UserCreateWithoutTwitter_UserInput = {
+export type UserCreateWithoutTwitter_UsersInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
   address: Scalars['String'];
@@ -14375,7 +14974,7 @@ export type UserOrderByWithRelationInput = {
   id?: InputMaybe<SortOrder>;
   linear_users?: InputMaybe<LinearUserOrderByRelationAggregateInput>;
   name?: InputMaybe<SortOrder>;
-  twitter_user?: InputMaybe<TwitterUserOrderByWithRelationInput>;
+  twitter_users?: InputMaybe<TwitterUserOrderByRelationAggregateInput>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -14461,7 +15060,7 @@ export type UserUpdateInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -14553,14 +15152,14 @@ export type UserUpdateOneWithoutLinear_UsersInput = {
   upsert?: InputMaybe<UserUpsertWithoutLinear_UsersInput>;
 };
 
-export type UserUpdateOneWithoutTwitter_UserInput = {
+export type UserUpdateOneWithoutTwitter_UsersInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutTwitter_UserInput>;
-  create?: InputMaybe<UserCreateWithoutTwitter_UserInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutTwitter_UsersInput>;
+  create?: InputMaybe<UserCreateWithoutTwitter_UsersInput>;
   delete?: InputMaybe<Scalars['Boolean']>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
-  update?: InputMaybe<UserUpdateWithoutTwitter_UserInput>;
-  upsert?: InputMaybe<UserUpsertWithoutTwitter_UserInput>;
+  update?: InputMaybe<UserUpdateWithoutTwitter_UsersInput>;
+  upsert?: InputMaybe<UserUpsertWithoutTwitter_UsersInput>;
 };
 
 export type UserUpdateWithWhereUniqueWithoutChain_TypeInput = {
@@ -14583,7 +15182,7 @@ export type UserUpdateWithoutActivitiesInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -14602,7 +15201,7 @@ export type UserUpdateWithoutAttestationsInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -14621,7 +15220,7 @@ export type UserUpdateWithoutChain_TypeInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -14640,7 +15239,7 @@ export type UserUpdateWithoutContributionPartnersInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -14659,7 +15258,7 @@ export type UserUpdateWithoutContributionsInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -14678,7 +15277,7 @@ export type UserUpdateWithoutDiscord_UsersInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -14697,7 +15296,7 @@ export type UserUpdateWithoutGuild_UsersInput = {
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -14716,11 +15315,11 @@ export type UserUpdateWithoutLinear_UsersInput = {
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_users?: InputMaybe<TwitterUserUpdateManyWithoutUserInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type UserUpdateWithoutTwitter_UserInput = {
+export type UserUpdateWithoutTwitter_UsersInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -14780,9 +15379,9 @@ export type UserUpsertWithoutLinear_UsersInput = {
   update: UserUpdateWithoutLinear_UsersInput;
 };
 
-export type UserUpsertWithoutTwitter_UserInput = {
-  create: UserCreateWithoutTwitter_UserInput;
-  update: UserUpdateWithoutTwitter_UserInput;
+export type UserUpsertWithoutTwitter_UsersInput = {
+  create: UserCreateWithoutTwitter_UsersInput;
+  update: UserUpdateWithoutTwitter_UsersInput;
 };
 
 export type UserWhereInput = {
@@ -14806,7 +15405,7 @@ export type UserWhereInput = {
   id?: InputMaybe<IntFilter>;
   linear_users?: InputMaybe<LinearUserListRelationFilter>;
   name?: InputMaybe<StringNullableFilter>;
-  twitter_user?: InputMaybe<TwitterUserRelationFilter>;
+  twitter_users?: InputMaybe<TwitterUserListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -14950,7 +15549,9 @@ export type ListGuildsQueryVariables = Exact<{
 
 export type ListGuildsQuery = { result: Array<{ congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus }> };
 
-export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, contribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } }> };
+
+export type TwitterTweetContributionFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type BulkCreateTwitterTweetMutationVariables = Exact<{
   data: Array<TwitterTweetCreateManyInput> | TwitterTweetCreateManyInput;
@@ -15420,6 +16021,16 @@ export const ContributionFragmentFragmentDoc = gql`
   tx_hash
 }
     `;
+export const TwitterTweetContributionFragmentFragmentDoc = gql`
+    fragment TwitterTweetContributionFragment on TwitterTweetContribution {
+  id
+  updatedAt
+  createdAt
+  contribution {
+    ...ContributionFragment
+  }
+}
+    `;
 export const TwitterTweetFragmentFragmentDoc = gql`
     fragment TwitterTweetFragment on TwitterTweet {
   id
@@ -15434,8 +16045,8 @@ export const TwitterTweetFragmentFragmentDoc = gql`
     updatedAt
     username
   }
-  contribution {
-    ...ContributionFragment
+  twitter_tweet_contributions {
+    ...TwitterTweetContributionFragment
   }
 }
     `;
