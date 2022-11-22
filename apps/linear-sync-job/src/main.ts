@@ -91,18 +91,24 @@ const storeContributions = async (
     if (!user.user_id) {
       continue;
     }
-    const contribution = await govrn.contribution.create({
-      data: {
-        // activity type should be linear
-        activity_type: { connect: { id: activity.id } },
-        date_of_engagement: issue.completedAt,
-        details: issue.description,
-        name: issue.title,
-        status: { connect: { id: contributionStatus?.id } },
-        proof: issue.url,
-        user: { connect: { id: user.user_id } },
-      },
+    const existingIssues = await govrn.linear.issue.list({
+      where: { linear_id: { equals: issue.id } },
     });
+    let contribution = { id: undefined };
+    if (existingIssues.result.length > 0) {
+      contribution = await govrn.contribution.create({
+        data: {
+          // activity type should be linear
+          activity_type: { connect: { id: activity.id } },
+          date_of_engagement: issue.completedAt,
+          details: issue.description,
+          name: issue.title,
+          status: { connect: { id: contributionStatus?.id } },
+          proof: issue.url,
+          user: { connect: { id: user.user_id } },
+        },
+      });
+    }
 
     linearIssues.push({
       assignee_id: user.id,
