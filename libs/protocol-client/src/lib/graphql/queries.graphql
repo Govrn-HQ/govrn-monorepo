@@ -220,7 +220,7 @@ fragment TwitterTweetFragment on TwitterTweet {
 }
 
 fragment TwitterTweetContributionFragment on TwitterTweetContribution {
-  id 
+  id
   updatedAt
   createdAt
   contribution {
