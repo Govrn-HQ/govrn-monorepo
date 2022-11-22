@@ -54,6 +54,7 @@ const AttestationsTable = ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
+        guilds: contribution.guilds,
         guildName:
           contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         status: contribution.status.name,
@@ -111,8 +112,15 @@ const AttestationsTable = ({
         accessor: 'contributor',
       },
       {
-        Header: 'DAOs',
+        Header: 'DAO',
         accessor: 'guilds',
+        Cell: ({ value }) => {
+          let guildName;
+          if (value && value.length > 0) {
+            guildName = value[0].guild.name ?? '---';
+          }
+          return <Text>{guildName}</Text>;
+        },
       },
     ],
     [],
