@@ -50,11 +50,9 @@ const useAttestationBulkMint = () => {
         if (results.length > 0) {
           toast.success({
             title: 'Attestation successfully minted',
-            description: `${pluralize(
-              'Attestation',
-              results.length,
-              true,
-            )} has been minted.`,
+            description: `${pluralize('Attestation', results.length, true)} ${
+              results.length === 1 ? 'has' : 'have'
+            } been minted.`,
           });
         }
 

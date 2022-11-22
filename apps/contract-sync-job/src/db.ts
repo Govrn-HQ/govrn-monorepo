@@ -187,17 +187,29 @@ export const upsertContribution = async (contribution: ContributionData) => {
   });
 };
 
-export const bulkCreateAttestations = async (
-  attestations: {
-    confidence_id: number;
-    user_id: number;
-    contribution_id: number;
-    date_of_attestation: Date;
-  }[],
-) => {
-  return await govrn.attestation.bulkCreate({
-    data: attestations,
-    skipDuplicates: true,
+export const upsertAttestation = async (attestation: {
+  confidence_id: number;
+  user_id: number;
+  contribution_id: number;
+  date_of_attestation: Date;
+}) => {
+  return await govrn.attestation.upsert({
+    where: {
+      user_id_contribution_id: {
+        user_id: attestation.user_id,
+        contribution_id: attestation.contribution_id,
+      },
+    },
+    create: {
+      attestation_status: { connect: { name: 'attested' } },
+      user: { connect: { id: attestation.user_id } },
+      contribution: { connect: { id: attestation.contribution_id } },
+      date_of_attestation: attestation.date_of_attestation,
+    },
+    update: {
+      attestation_status: { connect: { name: 'attested' } },
+      date_of_attestation: { set: attestation.date_of_attestation },
+    },
   });
 };
 

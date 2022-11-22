@@ -28,7 +28,6 @@ const BACKEND_TOKENS = [
   LINEAR_JOB_TOKEN,
   CONTRACT_SYNC_JOB_TOKEN,
 ];
-console.log(BACKEND_TOKENS);
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
@@ -115,6 +114,7 @@ const permissions = shield(
       updateUserCustom: and(ownsData, isAuthenticated),
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
+      upsertAttestation: hasToken,
       upsertActivityType: hasToken,
       upsertContribution: hasToken,
       upsertLinearCycle: hasToken,
@@ -144,12 +144,17 @@ const permissions = shield(
       updatedAt: or(isAuthenticated, hasToken),
       date_of_attestation: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
+      attestation_status: or(isAuthenticated, hasToken),
     },
     AttestationConfidence: {
       name: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       id: or(isAuthenticated, hasToken),
+    },
+    AttestationStatus: {
+      id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
     },
     ChainType: {
       id: or(isAuthenticated, hasToken),

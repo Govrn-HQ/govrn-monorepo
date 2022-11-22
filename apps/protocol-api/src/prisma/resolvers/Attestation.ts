@@ -2,6 +2,7 @@ import * as TypeGraphQL from 'type-graphql';
 
 import { Context } from './types';
 import { Attestation } from '../generated/type-graphql/models/Attestation';
+import { AttestationUpdateManyMutationInput } from '../generated/type-graphql/resolvers/inputs/AttestationUpdateManyMutationInput';
 
 @TypeGraphQL.InputType('AttestationUserCreateInput', {
   isAbstract: true,
@@ -75,10 +76,16 @@ export class AttestationUserOnChainUpdateInput {
 
 @TypeGraphQL.ArgsType()
 export class UpdateUserOnChainAttestationArgs {
-  @TypeGraphQL.Field(_type => AttestationUserOnChainUpdateInput, {
+  @TypeGraphQL.Field(_type => Number)
+  id: number;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  status?: string;
+
+  @TypeGraphQL.Field(_type => AttestationUpdateManyMutationInput, {
     nullable: false,
   })
-  data!: AttestationUserOnChainUpdateInput;
+  data!: AttestationUpdateManyMutationInput;
 }
 
 @TypeGraphQL.Resolver(_of => Attestation)
@@ -160,26 +167,32 @@ export class AttestationResolver {
       where: {
         AND: [
           { user: { is: { address: { equals: address } } } },
-          { id: { equals: args.data.id } },
+          { id: { equals: args.id } },
         ],
       },
     });
-    const confidence = await prisma.attestationConfidence.findFirst({
-      where: { name: { equals: args.data.confidence } },
-    });
-    const contribution = await prisma.contribution.findFirst({
-      where: { on_chain_id: { equals: args.data.contributionOnChainId } },
-    });
-
-    return await prisma.attestation.updateMany({
-      data: {
-        confidence_id: confidence.id,
-        contribution_id: contribution.id,
-        user_id: args.data.userId,
-      },
+    const update = await prisma.attestation.updateMany({
+      data: args.data,
       where: {
         id: a.id,
       },
     });
+    if (update.count !== 1) {
+      throw `Wrong number of rows updated ${update.count} updateUserOnChainAttestation`;
+    }
+    if (args.status) {
+      return await prisma.attestation.update({
+        data: {
+          attestation_status: {
+            connect: {
+              name: args.status,
+            },
+          },
+        },
+        where: {
+          id: args.id,
+        },
+      });
+    }
   }
 }

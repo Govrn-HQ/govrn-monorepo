@@ -55,8 +55,9 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const Routes = () => {
+  const { userDaos } = useUser();
+  const [firstDao] = userDaos.values();
   const url = new URL(window.location.href);
-  console.log('url', url);
 
   return (
     <HashRouter>
@@ -115,15 +116,19 @@ const Routes = () => {
           }
         />
         <Route
-          path="/feature/dao/"
+          path="/dao"
           element={
-            <RequireActiveUser>
-              <DaoLandingPage />
-            </RequireActiveUser>
+            userDaos && userDaos?.size > 0 ? (
+              <Navigate replace to={`/dao/${firstDao.guild_id}`} />
+            ) : (
+              <RequireActiveUser>
+                <DaoLandingPage />
+              </RequireActiveUser>
+            )
           }
         />
         <Route
-          path="/feature/dao/:guildId"
+          path="/dao/:guildId"
           element={
             <RequireActiveUser>
               <RequireDaoUser>

@@ -26,4 +26,9 @@ export class AttestationAvgAggregate {
     nullable: true
   })
   contribution_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  attestation_status_id!: number | null;
 }
