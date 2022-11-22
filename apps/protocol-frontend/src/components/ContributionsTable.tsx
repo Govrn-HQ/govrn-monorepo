@@ -34,6 +34,8 @@ import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import ModalWrapper from './ModalWrapper';
+import MintModal from './MintModal';
+import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
@@ -46,7 +48,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
-import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -323,6 +324,7 @@ const ContributionsTable = ({
     setGlobalFilter,
     selectedFlatRows,
     prepareRow,
+    toggleAllRowsSelected,
   } = useTable(
     { columns, data, autoResetSelectedRows: false },
     useFilters,
@@ -335,6 +337,10 @@ const ContributionsTable = ({
   useEffect(() => {
     setSelectedContributions(selectedFlatRows);
   }, [selectedFlatRows, selectedRowIds]);
+
+  const toggleSelected = () => {
+    toggleAllRowsSelected(false);
+  };
 
   return (
     <Stack>
@@ -427,6 +433,29 @@ const ContributionsTable = ({
           }
         />
         <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
+        <ModalWrapper
+          name="mintModal"
+          title="Mint Your DAO Contributions"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <MintModal
+              contributions={selectedFlatRows}
+              onFinish={toggleSelected}
+            />
+          }
+        />
+        <ModalWrapper
+          name="bulkDaoAttributeModal"
+          title="Attribute Contributions to a DAO"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <BulkDaoAttributeModal
+              contributions={selectedFlatRows.map(r => r.original)}
+            />
+          }
+        />
       </Box>
     </Stack>
   );

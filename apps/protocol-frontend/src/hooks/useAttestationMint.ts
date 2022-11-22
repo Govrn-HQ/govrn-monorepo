@@ -41,7 +41,6 @@ const useAttestationMint = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['contributionInfiniteList']);
-
         toast.success({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
@@ -49,7 +48,6 @@ const useAttestationMint = () => {
       },
       onError: error => {
         console.error(error);
-
         toast.error({
           title: 'Unable to Mint Attestation',
           description: `Something went wrong. Please try again: ${error}`,
