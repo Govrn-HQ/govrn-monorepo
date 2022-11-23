@@ -4,12 +4,12 @@ import { Attestation, Contribution } from '../generated/schema';
 
 export function handleAttest(event: Attest): void {
   let entity = Attestation.load(
-    `${event.params.attestor}-${event.params.contribution}`,
+    `${event.params.attestor.toHex()}-${event.params.contribution.toHex()}`,
   );
 
   if (!entity) {
     entity = new Attestation(
-      `${event.params.attestor}-${event.params.contribution}`,
+      `${event.params.attestor.toHex()}-${event.params.contribution.toHex()}`,
     );
   }
 

@@ -30,11 +30,10 @@ spec:
               value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
             - name: CONTRACT_ADDRESS
               value: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
+            - name: CHAIN_ID
+              value: 100
             - name: CHAIN_URL
-              valueFrom:
-                secretKeyRef:
-                  name: voyager-identity-api
-                  key: chain_url
+              value: 'https://rpc.gnosischain.com/'
           resources:
             requests:
               memory: 300Mi
