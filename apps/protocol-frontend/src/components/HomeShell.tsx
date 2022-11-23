@@ -5,11 +5,11 @@ import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
-
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
 import { GOVRN_MOTTO } from '../utils/constants';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import { displayAddress } from '../utils/web3';
 
 const HomeShell = () => {
   const { isConnected } = useAccount();
@@ -86,7 +86,9 @@ const HomeShell = () => {
                   bgGradient="linear(to-l, #7928CA, #FF0080)"
                   bgClip="text"
                 >
-                  {userData?.name || userDataByAddress?.name}
+                  {userData?.name ||
+                    userDataByAddress?.name ||
+                    displayAddress(userData?.address)}
                 </Text>
                 . Click below to view your dashboard.
               </Text>

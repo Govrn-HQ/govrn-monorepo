@@ -45,5 +45,5 @@ export const wagmiClient = createClient({
   provider,
 });
 
-export const displayAddress = (address: string) =>
+export const displayAddress = (address: string | undefined) =>
   address ? `${address.slice(0, 4)}...${address.slice(-4)}` : '0x';

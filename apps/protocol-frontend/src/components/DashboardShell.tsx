@@ -12,6 +12,7 @@ import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
 import { DEFAULT_DATE_RANGES } from '../utils/constants';
 import pluralize from 'pluralize';
+import { displayAddress } from '../utils/web3';
 
 const TODAY_DATE = new Date();
 
@@ -116,7 +117,7 @@ const DashboardShell = () => {
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
               >
-                {userData?.name}
+                {userData?.name || displayAddress(userData?.address)}
               </Text>
             </Heading>
             <Flex
