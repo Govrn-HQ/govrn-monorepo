@@ -31,6 +31,9 @@ export const BRAND_COLOR_MAP = [
   '#ab076d',
   '#76024e',
 ];
+export const CONTRIBUTION_NEW_DOMAIN = '2da5-69-143-72-89.ngrok.io';
+export const CONTRIBUTION_NEW_STAGING_DOMAIN =
+  'staging.2da5-69-143-72-89.ngrok.io';
 
 /* Time Values For Date Ranges */
 

@@ -21,12 +21,15 @@ import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import ErrorView from './components/ErrorView';
 import { useAccount } from 'wagmi';
+import {
+  CONTRIBUTION_NEW_DOMAIN,
+  CONTRIBUTION_NEW_STAGING_DOMAIN,
+} from './utils/constants';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
   const { isAuthenticated, checkExistingCreds } = useAuth();
   const { isConnected } = useAccount();
-  console.log('location', location);
 
   if (!isAuthenticated && checkExistingCreds) {
     return <Navigate to="/authenticate" state={{ from: location }} replace />;
@@ -66,8 +69,8 @@ const Routes = () => {
         <Route
           path="/"
           element={
-            url.host === 'contribution.new' ||
-            url.host === 'staging.contribution.new' ? (
+            url.host === CONTRIBUTION_NEW_DOMAIN ||
+            url.host === CONTRIBUTION_NEW_STAGING_DOMAIN ? (
               <Navigate replace to="/report" />
             ) : (
               <Home />
@@ -99,14 +102,7 @@ const Routes = () => {
             </RequireActiveUser>
           }
         />
-        <Route
-          path="/report"
-          element={
-            // <RequireActiveUser>
-            <Report />
-            // </RequireActiveUser>
-          }
-        />
+        <Route path="/report" element={<Report />} />
         <Route
           path="/dashboard"
           element={
