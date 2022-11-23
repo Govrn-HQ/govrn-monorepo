@@ -31,7 +31,7 @@ spec:
             - name: CONTRACT_ADDRESS
               value: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
             - name: CHAIN_ID
-              value: 100
+              value: '100'
             - name: CHAIN_URL
               value: 'https://rpc.gnosischain.com/'
           resources:
