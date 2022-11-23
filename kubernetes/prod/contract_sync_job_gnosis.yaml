@@ -23,7 +23,7 @@ spec:
                 - name: CHAIN_URL
                   value: 'https://rpc.gnosischain.com/'
                 - name: PROTOCOL_URL
-                  value: 'https://api-staging.govrn.app/graphql'
+                  value: 'https://api.govrn.app/graphql'
                 - name: SUBGRAPH_URL
                   value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
                 - name: INFURA_SUBDOMAIN
