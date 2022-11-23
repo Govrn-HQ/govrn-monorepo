@@ -54,8 +54,7 @@ const AttestationsTable = ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
-        guildName:
-          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
+        guilds: contribution.guilds,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
@@ -111,8 +110,15 @@ const AttestationsTable = ({
         accessor: 'contributor',
       },
       {
-        Header: 'DAOs',
+        Header: 'DAO',
         accessor: 'guilds',
+        Cell: ({ value }) => {
+          let guildName;
+          if (value && value.length > 0) {
+            guildName = value[0].guild.name ?? '---';
+          }
+          return <Text>{guildName}</Text>;
+        },
       },
     ],
     [],
@@ -146,6 +152,7 @@ const AttestationsTable = ({
     setGlobalFilter,
     selectedFlatRows,
     prepareRow,
+    toggleAllRowsSelected,
   } = useTable(
     { columns, data, autoResetSelectedRows: false },
     useFilters,
@@ -154,6 +161,10 @@ const AttestationsTable = ({
     useRowSelect,
     tableHooks,
   );
+
+  const toggleSelected = () => {
+    toggleAllRowsSelected(false);
+  };
 
   const attestationsModalHandler = useCallback(() => {
     if (selectedFlatRows.length > 1) {
@@ -286,6 +297,7 @@ const AttestationsTable = ({
         content={
           <BulkAttestationModal
             contributions={selectedFlatRows.map(r => r.original)}
+            onFinish={toggleSelected}
           />
         }
       />
@@ -296,7 +308,10 @@ const AttestationsTable = ({
           localOverlay={localOverlay}
           size="3xl"
           content={
-            <AttestationModal contribution={selectedFlatRows[0].original} />
+            <AttestationModal
+              contribution={selectedFlatRows[0].original}
+              onFinish={toggleSelected}
+            />
           }
         />
       )}

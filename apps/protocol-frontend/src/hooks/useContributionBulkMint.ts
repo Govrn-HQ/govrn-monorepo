@@ -71,11 +71,9 @@ const useContributionBulkMint = () => {
 
           toast.success({
             title: 'Contribution Successfully Minted',
-            description: `${pluralize(
-              'Contribution',
-              minted.length,
-              true,
-            )} has been minted.`,
+            description: `${pluralize('Contribution', minted.length, true)} ${
+              minted.length === 1 ? 'has' : 'have'
+            } been minted.`,
           });
         }
 
