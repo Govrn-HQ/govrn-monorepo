@@ -1,6 +1,7 @@
 export { ActivityTypeRelationsResolver } from "./ActivityType/ActivityTypeRelationsResolver";
 export { AttestationRelationsResolver } from "./Attestation/AttestationRelationsResolver";
 export { AttestationConfidenceRelationsResolver } from "./AttestationConfidence/AttestationConfidenceRelationsResolver";
+export { AttestationStatusRelationsResolver } from "./AttestationStatus/AttestationStatusRelationsResolver";
 export { CategoryActivityRelationsResolver } from "./CategoryActivity/CategoryActivityRelationsResolver";
 export { CategoryActivityTypeRelationsResolver } from "./CategoryActivityType/CategoryActivityTypeRelationsResolver";
 export { ChainRelationsResolver } from "./Chain/ChainRelationsResolver";

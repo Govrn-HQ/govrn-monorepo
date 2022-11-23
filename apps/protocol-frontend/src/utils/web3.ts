@@ -2,6 +2,7 @@ import { Chain, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { chain, configureChains, createClient } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import { ALCHEMY_KEY } from './constants';
 
 const gnosisChain: Chain = {
   id: 100,
@@ -24,12 +25,12 @@ const gnosisChain: Chain = {
   testnet: false,
 };
 
-const dev = false;
+const dev = import.meta.env.VITE_STAGING_MODE || false;
 const defaultChains = dev
   ? [gnosisChain, chain.goerli, chain.rinkeby, chain.localhost]
-  : [gnosisChain, chain.goerli, chain.rinkeby];
+  : [gnosisChain];
 export const { chains, provider } = configureChains(defaultChains, [
-  alchemyProvider({ apiKey: 'n0NXRSZ9olpkJUPDLBC00Es75jaqysyT' }),
+  alchemyProvider({ apiKey: ALCHEMY_KEY }),
   publicProvider(),
 ]);
 

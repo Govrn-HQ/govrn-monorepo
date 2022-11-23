@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 
 @TypeGraphQL.InputType("AttestationScalarWhereWithAggregatesInput", {
@@ -39,10 +40,10 @@ export class AttestationScalarWhereWithAggregatesInput {
   })
   updatedAt?: DateTimeWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })
-  confidence_id?: IntWithAggregatesFilter | undefined;
+  confidence_id?: IntNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true
@@ -58,4 +59,9 @@ export class AttestationScalarWhereWithAggregatesInput {
     nullable: true
   })
   date_of_attestation?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  attestation_status_id?: IntNullableWithAggregatesFilter | undefined;
 }

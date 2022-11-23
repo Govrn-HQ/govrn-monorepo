@@ -42,4 +42,9 @@ export class AttestationMaxOrderByAggregateInput {
     nullable: true
   })
   date_of_attestation?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  attestation_status_id?: "asc" | "desc" | undefined;
 }

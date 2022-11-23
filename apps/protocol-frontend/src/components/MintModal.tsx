@@ -9,7 +9,7 @@ import {
   Tooltip,
   Icon,
 } from '@chakra-ui/react';
-import { bulkStoreIpfs, storeIpfs } from '../libs/ipfs';
+import { bulkStoreIpfs } from '../libs/ipfs';
 import { useLocalStorage } from '../utils/hooks';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { MintModalProps } from '../types/mint';
@@ -19,8 +19,10 @@ import useContributionMint from '../hooks/useContributionMint';
 import { ContributionTableType } from '../types/table';
 import { Row } from 'react-table';
 import useContributionBulkMint from '../hooks/useContributionBulkMint';
+import { TextList } from './TextList';
+import pluralize from 'pluralize';
 
-const MintModal = ({ contributions }: MintModalProps) => {
+const MintModal = ({ contributions, onFinish }: MintModalProps) => {
   const { setModals } = useOverlay();
   const { mutateAsync: bulkMintContributions } = useContributionBulkMint();
   const { mutateAsync: mintContribution } = useContributionMint();
@@ -43,49 +45,41 @@ const MintModal = ({ contributions }: MintModalProps) => {
       agreementCheckboxHandler();
       setMinting(true);
       if (contributions.length > 1) {
-        const bulkStoreResult = await bulkStoreIpfs(
+        const { results: bulkStoreResult } = await bulkStoreIpfs(
           contributions.map(c => ({
-            content: {
-              name: c.original.name,
-              details: c.original?.details || '',
-              proof: c.original?.proof || '',
+            name: c.original.name,
+            details: c.original?.details || '',
+            proof: c.original?.proof || '',
+            activityName: c.original.activity_type.name,
+            image: '',
+            govrn: {
+              id: c.original.id,
+              activityTypeId: c.original.activity_type.id,
             },
           })),
         );
-        const bulkResults = [];
-        for (const result of bulkStoreResult) {
-          if (result.status === 'fulfilled') {
-            bulkResults.push({
-              ...contributions[result.index].original,
-              ipfsContentUri: result.value,
-            });
-          }
-        }
+        const bulkResults = bulkStoreResult.map(({ index, value }) => ({
+          ...contributions[index].original,
+          ipfsContentUri: value,
+        }));
 
         // Mint successfully stored contributions in IPFS.
         await bulkMintContributions(bulkResults);
-      } else if (contributions.length === 1) {
+      } else if (contributions.length === 1 && contributions[0].original) {
         const contribution = contributions[0];
-
-        const ipfsContentUri = await storeIpfs({
-          name: contribution?.original?.name,
-          details: contribution?.original?.details || '',
-          proof: contribution?.original?.proof || '',
-        });
-
-        if (contribution.original) {
-          const original = contribution.original;
-          const originalClean = {
-            ...contribution.original,
-            details: original.details || '',
-            proof: original.proof || '',
-            date_of_submission: original.date_of_submission.toString(),
-            engagementDate: original.engagementDate.toString(),
-          };
-          await mintContribution({ ...originalClean, ipfsContentUri });
-        }
+        const original = contribution.original;
+        const originalClean = {
+          ...contribution.original,
+          details: original.details || '',
+          proof: original.proof || '',
+          date_of_submission: original.date_of_submission.toString(),
+          engagementDate: original.engagementDate.toString(),
+          activityTypeName: contribution.original.activity_type.name,
+        };
+        await mintContribution({ ...originalClean });
       }
       setModals({}); // Closes mint modal
+      if (onFinish) onFinish();
       setMinting(false);
     } catch {
       setModals({}); // Closes mint modal
@@ -97,14 +91,13 @@ const MintModal = ({ contributions }: MintModalProps) => {
     <Stack spacing="3" width="100%" color="gray.800">
       <HStack width="100%" justifyContent="space-between">
         <Text fontSize="md">
-          Minting {contributions.length}{' '}
-          {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+          Minting {pluralize('Contribution', contributions.length, true)}
         </Text>
         <Tooltip
+          hasArrow
           label={`Why Mint?
         Minting a Contribution makes it immutable and creates a historical record of what's been done that can't be changed.`}
           fontSize="md"
-          bgColor="brand.primary.50"
           placement="right"
         >
           <HStack width="fit-content">
@@ -113,6 +106,12 @@ const MintModal = ({ contributions }: MintModalProps) => {
           </HStack>
         </Tooltip>
       </HStack>
+      <TextList
+        items={contributions.map(c => ({
+          id: String(c.id),
+          text: 'original' in c ? c.original.name : c.name,
+        }))}
+      />
       {!minting ? (
         <>
           <Text>
@@ -168,7 +167,7 @@ const MintModal = ({ contributions }: MintModalProps) => {
           data-testid="mintContribution-test"
         >
           {contributions.length > 1 ? 'Bulk ' : ''}
-          Mint {contributions.length === 1 ? 'Contribution' : 'Contributions'}
+          Mint {pluralize('Contribution', contributions.length)}
         </Button>
       </Flex>
     </Stack>

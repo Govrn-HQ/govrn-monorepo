@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { AttestationConfidence } from "../models/AttestationConfidence";
+import { AttestationStatus } from "../models/AttestationStatus";
 import { Contribution } from "../models/Contribution";
 import { User } from "../models/User";
 
@@ -26,11 +27,11 @@ export class Attestation {
   updatedAt!: Date;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  confidence_id!: number;
+  confidence_id?: number | null;
 
-  confidence?: AttestationConfidence;
+  confidence?: AttestationConfidence | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -50,4 +51,11 @@ export class Attestation {
     nullable: false
   })
   date_of_attestation!: Date;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  attestation_status_id?: number | null;
+
+  attestation_status?: AttestationStatus | null;
 }

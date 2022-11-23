@@ -1,6 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { TWITTER_LINK, DISCORD_LINK, FEEDBACK_LINK } from '../utils/constants';
 import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+  Button,
   Divider,
   Drawer,
   DrawerBody,
@@ -9,8 +15,10 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  Icon,
   HStack,
   Stack,
+  Text,
 } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -21,10 +29,15 @@ import {
   FiPlusSquare,
   FiTwitter,
   FiUsers,
+  FiGitBranch,
 } from 'react-icons/fi';
 import { FaDiscord } from 'react-icons/fa';
 import NavButton from './NavButton';
 import ConnectWallet from './ConnectWallet';
+import { useAccount } from 'wagmi';
+import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useDaosList } from '../hooks/useDaosList';
 
 interface MobileNavProps {
   children?: React.ReactNode;
@@ -34,6 +47,13 @@ interface MobileNavProps {
 
 const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
   const location = useLocation();
+  const { userData } = useUser();
+  const { isConnected } = useAccount();
+  const { isAuthenticated } = useAuth();
+
+  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
   return (
     <AnimatePresence>
       {isOpen && (
@@ -54,9 +74,6 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                       position="inherit"
                       marginTop={4}
                       marginRight={3}
-                      // position="fixed"
-                      // top={4}
-                      // right={4}
                       size="4"
                       _focus={{ outline: 'none', bg: 'none' }}
                       _active={{ outline: 'none', bg: 'none' }}
@@ -110,6 +127,75 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                           active={location.pathname.includes('/profile')}
                         />
                       </Link>
+                      {isConnected && isAuthenticated && (
+                        <Stack>
+                          {!daosListIsLoading &&
+                          daosListData &&
+                          daosListData.length > 0 ? (
+                            <Accordion allowToggle width="100%">
+                              <AccordionItem border="none">
+                                <AccordionButton
+                                  margin="0"
+                                  padding="0"
+                                  as={Button}
+                                  color="gray.800"
+                                  transition="all 100ms ease-in-out"
+                                  backgroundColor="transparent"
+                                  _hover={{ bgColor: 'gray.100' }}
+                                  width="100%"
+                                  variant="ghost"
+                                  justifyContent="start"
+                                >
+                                  <HStack spacing="3" paddingX={4} width="100%">
+                                    <Icon
+                                      as={FiGitBranch}
+                                      boxSize="6"
+                                      color="subtle"
+                                    />
+                                    <Text>DAOs</Text>
+                                  </HStack>
+                                  <AccordionIcon
+                                    padding="0"
+                                    marginRight={2}
+                                    color="gray.800"
+                                    backgroundColor="none"
+                                  />
+                                </AccordionButton>
+                                <AccordionPanel paddingTop={0}>
+                                  <Flex direction="column">
+                                    {daosListData?.map(dao => (
+                                      <Stack paddingLeft={8} key={dao.id}>
+                                        <Link to={`/dao/${dao.id}`}>
+                                          <Text
+                                            as="span"
+                                            color="gray.800"
+                                            transition="all 100ms ease-in-out"
+                                            _hover={{
+                                              fontWeight: 'medium',
+                                              color: 'gray.900',
+                                            }}
+                                          >
+                                            {dao.name}
+                                          </Text>
+                                        </Link>
+                                      </Stack>
+                                    ))}
+                                  </Flex>
+                                </AccordionPanel>
+                              </AccordionItem>
+                            </Accordion>
+                          ) : (
+                            <Link to="/dao">
+                              <NavButton
+                                label="DAOs"
+                                icon={FiGitBranch}
+                                active={location.pathname.includes('/dao/')}
+                                marginBottom={4}
+                              />
+                            </Link>
+                          )}
+                        </Stack>
+                      )}
                       <HStack>
                         <ConnectWallet />
                       </HStack>
@@ -122,7 +208,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
                     width="100%"
                     flex="1 1 auto"
                   >
-                    <Divider />
+                    <Divider marginTop={2} />
                     <Stack shouldWrapChildren>
                       <NavButton
                         label="Discord"

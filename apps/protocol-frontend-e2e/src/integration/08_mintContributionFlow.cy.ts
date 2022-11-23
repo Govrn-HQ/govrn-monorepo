@@ -2,9 +2,15 @@
 
 beforeEach(() => {
   const chainTypeName = 'Goerli-Test';
-  const getChaintTypeID = `SELECT id FROM "ChainType" WHERE name='Goerli-Test'`;
-  const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
-  const getActivityTypeID = `SELECT id FROM "ActivityType" WHERE name='Pull Request'`;
+  const getChaintTypeID = `SELECT id
+                           FROM "ChainType"
+                           WHERE name = 'Goerli-Test'`;
+  const getUserID = `SELECT id
+                     FROM "User"
+                     WHERE name = 'testusernamegovrne2etesting2022'`;
+  const getActivityTypeID = `SELECT id
+                             FROM "ActivityType"
+                             WHERE name = 'Pull Request'`;
 
   //seed ChainType table
   cy.task('create_chainType', chainTypeName);
@@ -63,7 +69,9 @@ beforeEach(() => {
 });
 after(() => {
   const chainTypeName = 'Goerli-Test';
-  const getUserID = `SELECT id FROM "User" WHERE name='testusernamegovrne2etesting2022'`;
+  const getUserID = `SELECT id
+                     FROM "User"
+                     WHERE name = 'testusernamegovrne2etesting2022'`;
 
   //teardown UserActivity table
   cy.task('queryDatabase', getUserID).then(res => {

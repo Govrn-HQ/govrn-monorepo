@@ -1,6 +1,7 @@
 export * from "./ActivityType/args";
 export * from "./Attestation/args";
 export * from "./AttestationConfidence/args";
+export * from "./AttestationStatus/args";
 export * from "./CategoryActivity/args";
 export * from "./CategoryActivityType/args";
 export * from "./Chain/args";

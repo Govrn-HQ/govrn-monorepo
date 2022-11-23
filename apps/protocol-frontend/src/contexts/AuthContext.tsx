@@ -74,7 +74,7 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       const message = await createSiweMessage(
         address,
         'Sign in with Ethereum to the app.',
-        chain?.id.toString(16),
+        chain?.id.toString(),
       );
 
       const signature = await signMessageAsync({
@@ -110,11 +110,7 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
   }, [authenticateAddress]);
 
   useEffect(() => {
-    const unauthenticatedRoutes = ['#/linear'];
-    const publicRoute = unauthenticatedRoutes.find(
-      el => el === window.location.hash,
-    );
-    if (isConnected && !isAuthenticated && !publicRoute) {
+    if (isConnected && !isAuthenticated) {
       authFlow();
     }
   }, [isConnected, isAuthenticated, authFlow]);

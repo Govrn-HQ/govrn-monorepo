@@ -1,7 +1,9 @@
 /* Environment Variables */
-
+export const INFURA_PROJECT_SECRET = import.meta.env.VITE_INFURA_PROJECT_SECRET;
+export const INFURA_PROJECT_ID = import.meta.env.VITE_INFURA_PROJECT_ID;
 export const PROTOCOL_URL = import.meta.env.VITE_PROTOCOL_URL;
 export const BASE_URL = import.meta.env.VITE_PROTOCOL_BASE_URL;
+export const ALCHEMY_KEY = import.meta.env.VITE_PUBLIC_ALCHEMY_KEY;
 export const VERIFY_URL = `${BASE_URL}/verify`;
 export const SIWE_ACTIVE_URL = `${BASE_URL}/siwe/active`;
 export const BLOCK_EXPLORER_URLS = {
@@ -19,6 +21,29 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Note Taking',
   'Design',
   'Other',
+];
+export const BRAND_COLOR_MAP = [
+  '#ffb4e2',
+  '#fb84ce',
+  '#f854ba',
+  '#f526a6',
+  '#db0f8d',
+  '#ab076d',
+  '#76024e',
+];
+
+/* Time Values For Date Ranges */
+
+export const TODAY_DATE = new Date();
+export const WEEK = 1;
+export const MONTH = 4;
+export const QUARTER = 12;
+export const YEAR = 52;
+export const DEFAULT_DATE_RANGES = [
+  { value: WEEK, label: 'Last Week' },
+  { value: MONTH, label: 'Last Month' },
+  { value: QUARTER, label: 'Last Quarter' },
+  { value: YEAR, label: 'Last Year' },
 ];
 
 /* Social Media Links */

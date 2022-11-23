@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Govrn metadata v1",
+  "description": "The metadata for an on chain Govrn contribution",
+  "type": "object",
+  "definitions": {
+    "IPFSUrl": {
+      "type": "string",
+      "pattern": "^ipfs://.+",
+      "maxLength": 150
+    }
+  },
+  "properties": {
+    "version": {
+      "type": "integer",
+      "title": "version"
+    },
+    "schema": {
+      "$ref": "#/definitions/IPFSUrl"
+    },
+    "name": {
+      "type": "string",
+      "title": "name"
+    },
+    "details": {
+      "type": "string",
+      "title": "details"
+    },
+    "proof": {
+      "type": "string",
+      "title": "proof"
+    },
+    "activityName": {
+      "type": "string",
+      "title": "activityName"
+    },
+    "image": {
+      "$ref": "#/definitions/IPFSUrl"
+    }
+  },
+  "required": ["name", "details", "schema", "proof", "activityName"]
+}

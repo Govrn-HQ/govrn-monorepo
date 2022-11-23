@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { BaseClient } from './base';
 import {
   BulkCreateContributionMutationVariables,
@@ -16,7 +16,7 @@ import {
 } from '@govrn/govrn-contract-client';
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
-import patch from '../utils/patch';
+import { batch } from '../utils/batch';
 // noinspection ES6PreferShortImport
 import { ChainIdError } from '../utils/errors';
 
@@ -73,7 +73,13 @@ export class Contribution extends BaseClient {
       await transaction.wait();
     }
 
-    return await this.sdk.deleteContribution({ where: { contributionId: id } });
+    return await this.sdk.deleteUserContribution({
+      where: { contributionId: id },
+    });
+  }
+
+  public async deleteStaging(id: number) {
+    return await this.sdk.deleteContribution({ where: { id: id } });
   }
 
   public async bulkCreate(args: BulkCreateContributionMutationVariables) {
@@ -104,6 +110,7 @@ export class Contribution extends BaseClient {
       proof: Uint8Array;
     }[],
   ) {
+    const chainId = await signer.getChainId();
     const contract = new GovrnContract(networkConfig, signer);
     const args = {
       contributions: contributions.map(c => ({
@@ -127,29 +134,29 @@ export class Contribution extends BaseClient {
         };
       }, {});
 
-    return await patch(
-      contributions.map(async (c, idx) => {
-        const onChainId = onChainIds[idx];
+    return await batch(contributions, async (c, idx) => {
+      const onChainId = onChainIds[idx];
 
-        // TODO: Should we store it anyway as `staged` contribution?
-        if (!onChainId) {
-          throw new ChainIdError();
-        }
-        if (c.id) {
-          return await this._updateUserOnChainContribution({
-            ...c,
-            onChainId: onChainId?.toNumber(),
-            txHash: transaction.hash,
-          });
-        }
-
-        return await this._createOnChainUserContribution({
+      // TODO: Should we store it anyway as `staged` contribution?
+      if (!onChainId) {
+        throw new ChainIdError();
+      }
+      if (c.id) {
+        return await this._updateUserOnChainContribution({
           ...c,
           onChainId: onChainId?.toNumber(),
           txHash: transaction.hash,
+          chainId,
         });
-      }),
-    );
+      }
+
+      return await this._createOnChainUserContribution({
+        ...c,
+        onChainId: onChainId?.toNumber(),
+        txHash: transaction.hash,
+        chainId,
+      });
+    });
   }
 
   public async mint(
@@ -164,8 +171,18 @@ export class Contribution extends BaseClient {
     details: Uint8Array,
     proof: Uint8Array,
   ) {
+    const chainId = await signer.getChainId();
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.mint(args);
+    await this.sdk.updateUserOnChainContribution({
+      id: id,
+      status: 'pending',
+      chainId,
+      data: {
+        tx_hash: { set: transaction.hash },
+      },
+    });
+
     const transactionReceipt = await transaction.wait();
 
     let onChainId = null as null | ethers.BigNumber;
@@ -192,6 +209,7 @@ export class Contribution extends BaseClient {
         details,
         proof,
         userId,
+        chainId,
         onChainId: onChainId?.toNumber(),
         txHash: transaction.hash,
       });
@@ -203,6 +221,7 @@ export class Contribution extends BaseClient {
       activityTypeId,
       args,
       proof,
+      chainId,
       userId,
       onChainId: onChainId?.toNumber(),
       txHash: transaction.hash,
@@ -217,29 +236,106 @@ export class Contribution extends BaseClient {
     args: AttestArgs,
     chainId: number,
   ) {
+    const contr = await this.get(id);
+    if (!contr || !contr.chain || chainId !== Number(contr.chain.chain_id)) {
+      throw new Error(
+        `Contribution was minted on chain ${contr?.chain?.chain_id || null}`,
+      );
+    }
     const contract = new GovrnContract(networkConfig, signer);
     const transaction = await contract.attest(args);
-    await transaction.wait();
 
-    if (id) {
-      // TODO: figure out this flow a little bit
-      return;
-      // return await this.sdk.updateUserOnChainAttestation({
-      //   data: {
-      //     confidence: args.confidence.toString(),
-      //     contributionOnChainId: parseInt(args.contribution.toString()),
-      //     userId: userId,
-      //     id: id,
-      //   },
-      // });
-    }
-    return await this.sdk.createUserOnChainAttestation({
+    const createdAttestation = await this.sdk.createUserOnChainAttestation({
       data: {
         confidence: args.confidence.toString(),
         contributionOnChainId: parseInt(args.contribution.toString()),
         chainId: chainId,
         userId: userId,
       },
+    });
+
+    await this.sdk.updateUserOnChainAttestation({
+      id: createdAttestation.createUserOnChainAttestation.id,
+      status: 'pending',
+      data: {},
+    });
+
+    await transaction.wait();
+    await this.sdk.updateUserOnChainAttestation({
+      id: createdAttestation.createUserOnChainAttestation.id,
+      status: 'attested',
+      data: {},
+    });
+    return createdAttestation;
+  }
+
+  public async bulkAttest(
+    networkConfig: NetworkConfig,
+    signer: ethers.Signer,
+    chainId: number,
+    userId: number,
+    data: {
+      contribution: number;
+      confidenceId: number;
+      confidenceName: string;
+      dateOfSubmission: number;
+    }[],
+  ) {
+    const contributionIds = [];
+    const simpleContributions = [];
+    for (const c of data) {
+      contributionIds.push(c.contribution);
+      simpleContributions.push({
+        contribution: c.contribution,
+        confidence: c.confidenceId,
+        dateOfSubmission: c.dateOfSubmission,
+      });
+    }
+    const signerChainId = await signer.getChainId();
+    const dbContributions = await this.list({
+      where: {
+        chain: { is: { chain_id: { equals: `${chainId}` } } },
+        on_chain_id: { in: contributionIds },
+      },
+    });
+    if (dbContributions.result.length !== contributionIds.length) {
+      throw new Error(
+        `Some/all contributions are not on chain id ${signerChainId}`,
+      );
+    }
+    const args = {
+      attestations: simpleContributions,
+    };
+
+    const contract = new GovrnContract(networkConfig, signer);
+    const transaction = await contract.bulkAttest(args);
+    const transactionReceipt = await transaction.wait();
+
+    const logs: {
+      index: number;
+      contributionId: number;
+      confidence: number;
+    }[] = [];
+    for (const [index, l] of transactionReceipt.logs.entries()) {
+      const log = contract.govrn.interface.parseLog(l);
+      if (log.name === 'Attest') {
+        logs.push({
+          index,
+          contributionId: (log.args['contribution'] as BigNumber).toNumber(),
+          confidence: log.args['confidence'],
+        });
+      }
+    }
+
+    return await batch(logs, async log => {
+      return await this.sdk.createUserOnChainAttestation({
+        data: {
+          contributionOnChainId: log.contributionId,
+          confidence: data[log.index].confidenceName,
+          chainId: chainId,
+          userId: userId,
+        },
+      });
     });
   }
 
@@ -251,23 +347,24 @@ export class Contribution extends BaseClient {
     name: Uint8Array;
     details: Uint8Array;
     proof: Uint8Array;
+    chainId: number;
     txHash: string;
     onChainId: number;
   }) {
-    const { args, name, details, proof, onChainId, userId, id, txHash } =
+    const { args, name, details, proof, onChainId, id, txHash, chainId } =
       contribution;
     return await this.sdk.updateUserOnChainContribution({
+      id: id,
+      status: 'minted',
+      chainId: chainId,
       data: {
-        name: ethers.utils.toUtf8String(name),
-        details: ethers.utils.toUtf8String(details),
-        dateOfSubmission: new Date(args.dateOfSubmission).toString(),
-        dateOfEngagement: new Date(args.dateOfSubmission).toString(),
-        proof: ethers.utils.toUtf8String(proof),
-        status: 'minted',
-        onChainId: onChainId,
-        userId: userId,
-        id: id,
-        txHash: txHash,
+        name: { set: ethers.utils.toUtf8String(name) },
+        details: { set: ethers.utils.toUtf8String(details) },
+        date_of_submission: { set: new Date(args.dateOfSubmission).toString() },
+        date_of_engagement: { set: new Date(args.dateOfSubmission).toString() },
+        proof: { set: ethers.utils.toUtf8String(proof) },
+        on_chain_id: { set: onChainId },
+        tx_hash: { set: txHash },
       },
     });
   }
@@ -279,6 +376,7 @@ export class Contribution extends BaseClient {
     name: Uint8Array;
     details: Uint8Array;
     proof: Uint8Array;
+    chainId: number;
     onChainId: number;
     txHash: string;
   }) {
@@ -296,6 +394,7 @@ export class Contribution extends BaseClient {
         proof: ethers.utils.toUtf8String(contribution.proof),
         status: 'minted',
         userId: contribution.userId,
+        chainId: contribution.chainId,
         onChainId: contribution.onChainId,
         txHash: contribution.txHash,
       },

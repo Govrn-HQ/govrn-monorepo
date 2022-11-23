@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
-import { Input, type InputLocalFormType } from '@govrn/protocol-ui';
+import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
@@ -41,9 +41,10 @@ const ProfileForm = () => {
 
     params.append('client_id', LINEAR_CLIENT_ID);
     params.append('redirect_uri', LINEAR_REDIRECT_URI);
+
     params.append('response_type', 'code');
     params.append('scope', 'read');
-    params.append('state', state); // generate string to prevent crsf attack
+    params.append('state', `${state}/${userData?.address}`); // generate string to prevent crsf attack
     params.append('prompt', 'consent');
     window.location.href = `https://linear.app/oauth/authorize?${params.toString()}`;
   };

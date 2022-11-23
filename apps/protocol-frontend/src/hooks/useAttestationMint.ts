@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
-import { AttestationTableType } from '../types/table';
 import useGovrnToast from '../components/toast';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
@@ -14,7 +13,7 @@ const useAttestationMint = () => {
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     ['MintAttestation'],
-    async (data: AttestationTableType) => {
+    async (data: { contributionId: number; onChainId: number }) => {
       if (!data?.onChainId) {
         throw new Error('No onChainId for contribution');
       }
@@ -30,7 +29,7 @@ const useAttestationMint = () => {
           name: networks[chain?.id].name,
         },
         signer,
-        0,
+        data.contributionId,
         userData.id,
         {
           contribution: data.onChainId,
@@ -41,8 +40,7 @@ const useAttestationMint = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useContributionInfiniteList']);
-
+        queryClient.invalidateQueries(['contributionInfiniteList']);
         toast.success({
           title: 'Attestation Successfully Minted',
           description: 'Your Attestation has been minted.',
@@ -50,7 +48,6 @@ const useAttestationMint = () => {
       },
       onError: error => {
         console.error(error);
-
         toast.error({
           title: 'Unable to Mint Attestation',
           description: `Something went wrong. Please try again: ${error}`,

@@ -35,5 +35,5 @@ export class FindManyAttestationArgs {
   @TypeGraphQL.Field(_type => [AttestationScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "confidence_id" | "user_id" | "contribution_id" | "date_of_attestation"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "confidence_id" | "user_id" | "contribution_id" | "date_of_attestation" | "attestation_status_id"> | undefined;
 }

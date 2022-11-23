@@ -79,6 +79,18 @@ export class Govrn__attestationsResult {
     map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
     return map;
   }
+
+  getContribution(): BigInt {
+    return this.value0;
+  }
+
+  getConfidence(): i32 {
+    return this.value1;
+  }
+
+  getDateOfSubmission(): BigInt {
+    return this.value2;
+  }
 }
 
 export class Govrn__contributionsResult {
@@ -114,6 +126,30 @@ export class Govrn__contributionsResult {
     map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
     map.set("value5", ethereum.Value.fromBytes(this.value5));
     return map;
+  }
+
+  getOwner(): Address {
+    return this.value0;
+  }
+
+  getName(): Bytes {
+    return this.value1;
+  }
+
+  getDetails(): Bytes {
+    return this.value2;
+  }
+
+  getDateOfSubmission(): BigInt {
+    return this.value3;
+  }
+
+  getDateOfEngagement(): BigInt {
+    return this.value4;
+  }
+
+  getProof(): Bytes {
+    return this.value5;
   }
 }
 

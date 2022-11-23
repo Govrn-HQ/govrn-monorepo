@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import * as TypeGraphQL from 'type-graphql';
 import { Context } from './types';
 import { Contribution } from '../generated/type-graphql/models/Contribution';
+import { ContributionUpdateManyMutationInput } from '../generated/type-graphql/resolvers/inputs/ContributionUpdateManyMutationInput';
 import { Int } from 'type-graphql';
 
 @TypeGraphQL.InputType('UserContributionCreateInput', {
@@ -37,6 +38,9 @@ export class UserContributionCreateInput {
 
   @TypeGraphQL.Field(_type => Number, { nullable: true })
   guildId?: number;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  chainId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -80,6 +84,9 @@ export class UserOnChainContributionCreateInput {
 
   @TypeGraphQL.Field(_type => String)
   txHash: string;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  chainId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -165,10 +172,10 @@ export class UserOnChainContributionUpdateInput {
   status: string;
 
   @TypeGraphQL.Field(_type => Number)
-  onChainId: number;
+  onChainId?: number;
 
   @TypeGraphQL.Field(_type => String)
-  txHash: string;
+  txHash?: string;
 
   @TypeGraphQL.Field(_type => Number)
   userId: number;
@@ -179,10 +186,19 @@ export class UserOnChainContributionUpdateInput {
 
 @TypeGraphQL.ArgsType()
 export class UpdateUserOnChainContributionArgs {
-  @TypeGraphQL.Field(_type => UserOnChainContributionUpdateInput, {
+  @TypeGraphQL.Field(_type => Number)
+  id: number;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  status?: string;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  chainId?: number;
+
+  @TypeGraphQL.Field(_type => ContributionUpdateManyMutationInput, {
     nullable: false,
   })
-  data!: UserOnChainContributionUpdateInput;
+  data: ContributionUpdateManyMutationInput;
 }
 
 @TypeGraphQL.InputType('UserContributionDeleteInput', {
@@ -203,8 +219,8 @@ export class DeleteUserContributionArgs {
 
 @TypeGraphQL.InputType('GetUserContributionCountInput')
 export class GetContributionCountForUser {
-  @TypeGraphQL.Field(_type => Number)
-  id: number;
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  id?: number;
 
   @TypeGraphQL.Field(_type => Date)
   startDate: Date;
@@ -238,16 +254,16 @@ export class GetContributionInput {
   @TypeGraphQL.Field(_type => Date, { nullable: true })
   endDate: Date;
 
-  @TypeGraphQL.Field(_type => Number, { nullable: true})
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
   userId;
 }
 
 @TypeGraphQL.ArgsType()
 export class GetContributionArgs {
   @TypeGraphQL.Field(_type => GetContributionInput, {
-    nullable: false
+    nullable: false,
   })
-  where!: GetContributionInput
+  where!: GetContributionInput;
 }
 
 @TypeGraphQL.ObjectType('ContributionCountByDate', { isAbstract: true })
@@ -265,6 +281,25 @@ export class ContributionCountByDate {
 
   @TypeGraphQL.Field(_type => String)
   name: string;
+}
+
+@TypeGraphQL.ObjectType('ContributionCountByUser', { isAbstract: true })
+export class ContributionCountByUser {
+  @TypeGraphQL.Field(_type => Number)
+  count: number;
+
+  @TypeGraphQL.Field(_type => Number, {
+    nullable: true,
+  })
+  user_id?: number;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+  })
+  display_name?: string;
+
+  @TypeGraphQL.Field(_type => String)
+  address: string;
 }
 
 @TypeGraphQL.ObjectType('TotalContributionCount', { isAbstract: true })
@@ -295,6 +330,10 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserContributionArgs,
   ) {
+    let chainQuery = {};
+    if (args.data.chainId) {
+      chainQuery = { chain: { connect: { chain_id: `${args.data.chainId}` } } };
+    }
     return await prisma.contribution.create({
       data: {
         user: {
@@ -312,6 +351,7 @@ export class ContributionCustomResolver {
             },
           },
         },
+        ...chainQuery,
         name: args.data.name,
         details: args.data.details,
         proof: args.data.proof,
@@ -358,6 +398,12 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: CreateUserOnChainContributionArgs,
   ) {
+    let chainConnect = {};
+    if (args.data.chainId) {
+      chainConnect = {
+        chain: { connect: { chain_id: args.data.chainId } },
+      };
+    }
     return await prisma.contribution.create({
       data: {
         activity_type: {
@@ -375,6 +421,7 @@ export class ContributionCustomResolver {
           connect: { id: args.data.userId },
         },
         on_chain_id: args.data.onChainId,
+        ...chainConnect,
       },
     });
   }
@@ -386,14 +433,15 @@ export class ContributionCustomResolver {
   ) {
     const address = req.session.siwe.data.address;
 
-    if (args.data.contributionUserAddress !== address) {
+    if (
+      args.data.contributionUserAddress.toLowerCase() !== address.toLowerCase()
+    ) {
       throw new Error('You can only edit your own Contributions.');
     }
 
     if (args.data.status !== 'staging') {
       throw new Error('You can only edit Contributions with a Staging status.');
     }
-
     const res = await prisma.contribution.updateMany({
       data: {
         name: {
@@ -503,33 +551,11 @@ export class ContributionCustomResolver {
   ) {
     const address = req.session.siwe.data.address;
     const update = await prisma.contribution.updateMany({
-      data: {
-        name: {
-          set: args.data.name,
-        },
-        details: {
-          set: args.data.details,
-        },
-        proof: {
-          set: args.data.proof,
-        },
-        date_of_engagement: {
-          set: args.data.dateOfEngagement,
-        },
-        date_of_submission: {
-          set: args.data.dateOfSubmission,
-        },
-        on_chain_id: {
-          set: args.data.onChainId,
-        },
-        tx_hash: {
-          set: args.data.txHash,
-        },
-      },
+      data: args.data,
       where: {
         AND: [
           {
-            id: { equals: args.data.id },
+            id: { equals: args.id },
           },
           { user: { is: { address: { equals: address } } } },
         ],
@@ -538,18 +564,25 @@ export class ContributionCustomResolver {
     if (update.count !== 1) {
       throw `Wrong number of rows updated ${update.count} updateUserOnChainContribution`;
     }
-    return await prisma.contribution.update({
-      data: {
-        status: {
-          connect: {
-            name: args.data.status,
+    if (args.status && args.chainId) {
+      return await prisma.contribution.update({
+        data: {
+          status: {
+            connect: {
+              name: args.status,
+            },
+          },
+          chain: {
+            connect: {
+              chain_id: `${args.chainId}`,
+            },
           },
         },
-      },
-      where: {
-        id: args.data.id,
-      },
-    });
+        where: {
+          id: args.id,
+        },
+      });
+    }
   }
 
   @TypeGraphQL.Mutation(_returns => Contribution, { nullable: false })
@@ -558,7 +591,7 @@ export class ContributionCustomResolver {
     @TypeGraphQL.Args() args: DeleteUserContributionArgs,
   ) {
     const contributionId = args.where.contributionId;
-    const address = req.session.siwe.data.address;
+    const address = req.session?.siwe?.data?.address;
     const query = await prisma.contribution.findMany({
       include: { user: true },
       where: {
@@ -590,18 +623,30 @@ export class ContributionCustomResolver {
     // grouping by a derived field not yet supported in prisma
     // would need to group by date, not the datetime as is stored in postg*/
     // YYY-MM-DD hh:mm:ss.sss
-    const user_id = args.where.id;
+    const userId = args.where.id;
     const start = args.where.startDate;
     const end = args.where.endDate;
 
     let guildWhere = Prisma.sql`gc."guild_id" is NULL`;
-    const guildIds = [...args.where?.guildIds];
-    if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
-      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
-        guildIds,
-      )})  OR gc."guild_id" is NULL)`;
-    } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
-      guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(guildIds)}))`;
+
+    if (args.where.guildIds) {
+      const guildIds = [...args.where.guildIds];
+      if (guildIds.length > 0 && !args.where?.excludeUnassigned) {
+        guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(
+          guildIds,
+        )})  OR gc."guild_id" is NULL)`;
+      } else if (guildIds.length > 0 && args.where?.excludeUnassigned) {
+        guildWhere = Prisma.sql`(gc."guild_id" in (${Prisma.join(guildIds)}))`;
+      }
+    }
+
+    let userWhere = Prisma.sql`
+      gc."user_id" = ${userId} OR gc."user_id" is null
+    `;
+    if (userId == null) {
+      userWhere = Prisma.sql`
+        ${userWhere} OR TRUE
+      `;
     }
 
     return await prisma.$queryRaw<ContributionCountByDate>`
@@ -621,7 +666,6 @@ export class ContributionCustomResolver {
       	  WHERE ${guildWhere}
       )
 
-
       SELECT gc.guild_id,
              coalesce(gc.name, 'Unassigned') as name,
              d.dt                            as date,
@@ -633,7 +677,7 @@ export class ContributionCustomResolver {
 		      LEFT JOIN guild_contributions as gc
 					  ON gc.date_of_engagement::date = d.dt::date
       WHERE (d.dt BETWEEN ${start} AND ${end})
-        AND (gc."user_id" = ${user_id} OR gc."user_id" is null)
+        AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
   }
@@ -649,8 +693,8 @@ export class ContributionCustomResolver {
     const start = args.where.startDate;
     const end = args.where.endDate;
 
-    // grouping on nested fields not yet supported in prisma 
-    // need to group on the activity id and name, which are 
+    // grouping on nested fields not yet supported in prisma
+    // need to group on the activity id and name, which are
     // in a separate table than guild contributions
     // N.B. the guild contribution created date is used for the range,
     // not the contribution created date
@@ -671,54 +715,59 @@ export class ContributionCustomResolver {
       ORDER BY count;`;
   }
 
-  @TypeGraphQL.Query(_returns => TotalContributionCount, {
+  @TypeGraphQL.Query(_returns => Int, {
     nullable: false,
   })
-  async getContributionCount(
+  async getDaoContributionCount(
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: GetContributionArgs,
   ) {
     const start = args.where.startDate;
     const end = args.where.endDate;
     const guildId = args.where.guildId;
-    const userId = args.where.userId;
 
-    let userContributionCount = null;
-    if (userId) {
-      // retrieve the user's contributions to this guild
-      userContributionCount = await this._getContributionCount(prisma, start, end, userId, guildId);
-    }
-
-    let guildContributionCount = null;
-    if (guildId) {
-      // retrieve the total amount of the guild's contributions
-      guildContributionCount = await this._getContributionCount(prisma, start, end, null, guildId);
-    }
-
-    return {
-      userContributionCount: userContributionCount,
-      guildContributionCount: guildContributionCount
-    };
-  }
-
-  async _getContributionCount(
-    prisma, start: Date, end: Date, guildId: number, userId: number) 
-  {
     return await prisma.contribution.count({
       where: {
         date_of_engagement: {
           gte: start,
-          lte: end
+          lte: end,
         },
         guilds: {
           some: {
-            guild_id: guildId
-          }
+            guild_id: guildId,
+          },
         },
-        user_id: {
-          equals: userId
-        }
-      }
+      },
     });
+  }
+
+  @TypeGraphQL.Query(_returns => [ContributionCountByUser], {
+    nullable: false,
+  })
+  async getDaoContributionCountByUser(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetContributionArgs,
+  ) {
+    const start = args.where.startDate;
+    const end = args.where.endDate;
+    const guildId = args.where.guildId;
+
+    const result = await prisma.$queryRaw<ContributionCountByUser>`
+      SELECT  count(gc.id) as count,
+              u.id as "user_id",
+              u.display_name as "display_name",
+              u.address as "address"
+      FROM
+          "GuildContribution" as gc 
+          LEFT JOIN "Contribution" as c
+            ON gc."contribution_id" = c."id"
+          LEFT JOIN "User" as u 
+            ON u."id" = c."user_id"
+      WHERE (
+        gc."createdAt"::date BETWEEN ${start} AND ${end} 
+        AND gc."guild_id" = ${guildId}
+      ) GROUP BY u.display_name, u.id
+      ORDER BY count;`;
+    return result;
   }
 }

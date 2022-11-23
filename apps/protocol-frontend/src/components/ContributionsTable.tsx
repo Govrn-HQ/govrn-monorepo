@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
+  Flex,
   Link as ChakraLink,
   HStack,
   IconButton,
@@ -33,6 +34,8 @@ import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import ModalWrapper from './ModalWrapper';
+import MintModal from './MintModal';
+import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 import { useOverlay } from '../contexts/OverlayContext';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
@@ -45,13 +48,22 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
-import BulkDaoAttributeModal from './BulkDaoAttributeModal';
 
 export type DialogProps = {
   isOpen: boolean;
   title: string;
   onConfirm: boolean;
   contributionId: number;
+};
+
+const emojiSelect = (status: string) => {
+  if (status === 'minted') {
+    return '🌞';
+  } else if (status === 'pending') {
+    return '🕒';
+  } else {
+    return '👀';
+  }
 };
 
 const ContributionsTable = ({
@@ -136,9 +148,11 @@ const ContributionsTable = ({
           row: Row<ContributionTableType>;
         }) => {
           return (
-            <Link to={`/contributions/${row.original.id}`}>
-              <Text>{value}</Text>
-            </Link>
+            <Flex direction="column" wrap="wrap">
+              <Link to={`/contributions/${row.original.id}`}>
+                <Text whiteSpace="normal">{value}</Text>
+              </Link>
+            </Flex>
           );
         },
       },
@@ -153,7 +167,7 @@ const ContributionsTable = ({
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value.name === 'minted' ? '🌞' : '👀'}
+                {emojiSelect(value.name)}
               </span>{' '}
             </Text>
           );
@@ -186,13 +200,41 @@ const ContributionsTable = ({
     hooks.visibleColumns.push(columns => [
       {
         id: 'selection',
-        Header: ({ getToggleAllRowsSelectedProps }) => (
-          <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-        ),
+        Header: ({
+          getToggleAllRowsSelectedProps,
+          toggleRowSelected,
+          toggleAllRowsSelected,
+          rows,
+          selectedFlatRows,
+        }) => {
+          const { onChange, ...propsWithoutOnChange } =
+            getToggleAllRowsSelectedProps();
+          const overrideOnChange = (event: ChangeEvent) => {
+            // Deselect all selected rows.
+            if (selectedFlatRows.length > 0) {
+              toggleAllRowsSelected(false);
+              return;
+            }
+
+            // Toggle all rows selected, only select staging contributions.
+            rows.forEach(row => {
+              toggleRowSelected(
+                row.id,
+                (event as ChangeEvent<HTMLInputElement>).currentTarget
+                  .checked && row.original.status.name === 'staging',
+              );
+            });
+          };
+          const newProps = {
+            onChange: overrideOnChange,
+            ...propsWithoutOnChange,
+          };
+          return <IndeterminateCheckbox {...newProps} />;
+        },
         Cell: ({ row }: { row: Row<ContributionTableType> }) => (
           <IndeterminateCheckbox
             {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status.name === 'minted'}
+            disabled={row.original.status.name !== 'staging'}
           />
         ),
       },
@@ -202,11 +244,12 @@ const ContributionsTable = ({
         Header: 'Actions',
         Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
           <HStack spacing={1}>
-            {row.original.status.name === 'minted' ? (
+            {row.original.status.name === 'minted' ||
+            row.original.status.name === 'pending' ? (
               <HStack spacing="1">
                 {row.original.txHash !== null && (
                   <Tooltip
-                    label="Minted Contributions cannot be edited or deleted. View on Block Explorer."
+                    label="Minted and Pending contributions cannot be edited or deleted. View on Block Explorer."
                     aria-label="A tooltip"
                   >
                     <Box>
@@ -225,15 +268,17 @@ const ContributionsTable = ({
                     </Box>
                   </Tooltip>
                 )}
-                <IconButton
-                  icon={<FiTrash2 fontSize="1rem" />}
-                  variant="ghost"
-                  color="gray.800"
-                  disabled={row.original.user.id !== userData?.id}
-                  aria-label="Delete Contribution"
-                  data-testid="deleteContribution-test"
-                  onClick={() => handleDeleteContribution(row.original.id)}
-                />
+                {row.original.status.name !== 'pending' && (
+                  <IconButton
+                    icon={<FiTrash2 fontSize="1rem" />}
+                    variant="ghost"
+                    color="gray.800"
+                    disabled={row.original.user.id !== userData?.id}
+                    aria-label="Delete Contribution"
+                    data-testid="deleteContribution-test"
+                    onClick={() => handleDeleteContribution(row.original.id)}
+                  />
+                )}
               </HStack>
             ) : (
               <HStack spacing="1">
@@ -244,7 +289,8 @@ const ContributionsTable = ({
                   aria-label="Edit Contribution"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status.name === 'minted'
+                    row.original.status.name === 'minted' ||
+                    row.original.status.name === 'pending'
                   }
                   data-testid="editContribution-test"
                   onClick={() =>
@@ -278,8 +324,9 @@ const ContributionsTable = ({
     setGlobalFilter,
     selectedFlatRows,
     prepareRow,
+    toggleAllRowsSelected,
   } = useTable(
-    { columns, data },
+    { columns, data, autoResetSelectedRows: false },
     useFilters,
     useGlobalFilter,
     useSortBy,
@@ -290,6 +337,10 @@ const ContributionsTable = ({
   useEffect(() => {
     setSelectedContributions(selectedFlatRows);
   }, [selectedFlatRows, selectedRowIds]);
+
+  const toggleSelected = () => {
+    toggleAllRowsSelected(false);
+  };
 
   return (
     <Stack>
@@ -382,6 +433,29 @@ const ContributionsTable = ({
           }
         />
         <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
+        <ModalWrapper
+          name="mintModal"
+          title="Mint Your DAO Contributions"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <MintModal
+              contributions={selectedFlatRows}
+              onFinish={toggleSelected}
+            />
+          }
+        />
+        <ModalWrapper
+          name="bulkDaoAttributeModal"
+          title="Attribute Contributions to a DAO"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <BulkDaoAttributeModal
+              contributions={selectedFlatRows.map(r => r.original)}
+            />
+          }
+        />
       </Box>
     </Stack>
   );

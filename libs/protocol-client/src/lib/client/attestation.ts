@@ -4,6 +4,7 @@ import {
   CreateAttestationMutationVariables,
   ListAttestationsQueryVariables,
   UpdateAttestationMutationVariables,
+  UpsertAttestationMutationVariables,
 } from '../protocol-types';
 
 export class Attestation extends BaseClient {
@@ -19,6 +20,10 @@ export class Attestation extends BaseClient {
   public async update(args: UpdateAttestationMutationVariables) {
     const contributions = await this.sdk.updateAttestation(args);
     return contributions.updateAttestation;
+  }
+
+  public async upsert(args: UpsertAttestationMutationVariables) {
+    return await this.sdk.upsertAttestation(args);
   }
 
   public async list(args: ListAttestationsQueryVariables) {

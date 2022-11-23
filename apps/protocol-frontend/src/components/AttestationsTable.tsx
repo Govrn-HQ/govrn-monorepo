@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   Box,
   chakra,
@@ -33,7 +33,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationTableType } from '../types/table';
 import ModalWrapper from './ModalWrapper';
-import BulkAttestationModal from './BulkAttestationModal';
+import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
+import { useUser } from '../contexts/UserContext';
 
 const AttestationsTable = ({
   contributionsData,
@@ -44,6 +45,7 @@ const AttestationsTable = ({
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
+  const { userData } = useUser();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
   const data = useMemo<AttestationTableType[]>(
@@ -52,16 +54,17 @@ const AttestationsTable = ({
         id: contribution.id,
         date_of_submission: contribution.date_of_submission,
         date_of_engagement: contribution.date_of_submission,
-        attestations: contribution.attestations,
-        guildName:
-          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
+        guilds: contribution.guilds,
         status: contribution.status.name,
         action: '',
         name: contribution.name,
         onChainId: contribution.on_chain_id,
         contributor: contribution.user.name,
+        attestations: contribution.attestations.filter(attestation => {
+          return attestation.user.id === userData?.id;
+        }),
       })),
-    [contributionsData],
+    [contributionsData, userData?.id],
   );
 
   const columns = useMemo<Column<AttestationTableType>[]>(
@@ -69,19 +72,30 @@ const AttestationsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
+        Cell: ({ value }: { value: string }) => {
+          return (
+            <Flex direction="column" wrap="wrap">
+              <Text whiteSpace="normal">{value}</Text>
+            </Flex>
+          );
+        },
       },
       {
         Header: 'Status',
-        accessor: 'status',
-        Cell: ({ value }: { value: string }) => {
+        accessor: 'attestations',
+        Cell: ({ value }) => {
+          let status = 'Unattested';
+          if (value && value.length > 0) {
+            status = value[0].attestation_status?.name || 'Unattested';
+          }
           return (
             <Text textTransform="capitalize">
-              {value}{' '}
+              {status}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value === 'minted' ? '🌞' : '👀'}
+                {status === 'pending' ? '🕒' : '👀'}
               </span>{' '}
             </Text>
           );
@@ -96,8 +110,15 @@ const AttestationsTable = ({
         accessor: 'contributor',
       },
       {
-        Header: 'DAOs',
+        Header: 'DAO',
         accessor: 'guilds',
+        Cell: ({ value }) => {
+          let guildName;
+          if (value && value.length > 0) {
+            guildName = value[0].guild.name ?? '---';
+          }
+          return <Text>{guildName}</Text>;
+        },
       },
     ],
     [],
@@ -131,8 +152,9 @@ const AttestationsTable = ({
     setGlobalFilter,
     selectedFlatRows,
     prepareRow,
+    toggleAllRowsSelected,
   } = useTable(
-    { columns, data },
+    { columns, data, autoResetSelectedRows: false },
     useFilters,
     useGlobalFilter,
     useSortBy,
@@ -140,9 +162,17 @@ const AttestationsTable = ({
     tableHooks,
   );
 
-  const attestationsModalHandler = () => {
-    setModals({ bulkAttestationModal: true });
+  const toggleSelected = () => {
+    toggleAllRowsSelected(false);
   };
+
+  const attestationsModalHandler = useCallback(() => {
+    if (selectedFlatRows.length > 1) {
+      setModals({ bulkAttestationModal: true });
+    } else {
+      setModals({ attestationModal: true });
+    }
+  }, [selectedFlatRows, setModals]);
 
   let component = (
     <Box
@@ -183,7 +213,7 @@ const AttestationsTable = ({
               onClick={attestationsModalHandler}
               data-testId="attest-testId"
             >
-              Attest
+              {selectedFlatRows.length > 1 ? 'Bulk ' : ''}Attest
             </Button>
           </Stack>
         </Box>
@@ -267,9 +297,24 @@ const AttestationsTable = ({
         content={
           <BulkAttestationModal
             contributions={selectedFlatRows.map(r => r.original)}
+            onFinish={toggleSelected}
           />
         }
       />
+      {selectedFlatRows.length > 0 && (
+        <ModalWrapper
+          name="attestationModal"
+          title="Attest to DAO Contributions"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <AttestationModal
+              contribution={selectedFlatRows[0].original}
+              onFinish={toggleSelected}
+            />
+          }
+        />
+      )}
     </>
   );
 };

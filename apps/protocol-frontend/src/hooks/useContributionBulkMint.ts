@@ -4,7 +4,6 @@ import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { networks } from '../utils/networks';
 import { ethers } from 'ethers';
-import { ChainIdError } from '@govrn/protocol-client';
 import pluralize from 'pluralize';
 
 type BulkMintOptions = {
@@ -64,8 +63,7 @@ const useContributionBulkMint = () => {
     {
       onSuccess: async result => {
         /* Failed writes/updates to db are included in result. */
-
-        const minted = result.filter(promise => promise.status === 'fulfilled');
+        const { results: minted, errors: failedToMint } = result;
 
         if (minted.length > 0) {
           queryClient.invalidateQueries(['contributionList']);
@@ -73,20 +71,11 @@ const useContributionBulkMint = () => {
 
           toast.success({
             title: 'Contribution Successfully Minted',
-            description: `${pluralize(
-              'Contribution',
-              minted.length,
-              true,
-            )} has been minted.`,
+            description: `${pluralize('Contribution', minted.length, true)} ${
+              minted.length === 1 ? 'has' : 'have'
+            } been minted.`,
           });
         }
-
-        const failedToMint = result
-          .filter(
-            (promise): promise is PromiseRejectedResult =>
-              promise.status === 'rejected',
-          )
-          .filter(rejected => rejected.reason instanceof ChainIdError);
 
         if (failedToMint.length > 0) {
           toast.error({

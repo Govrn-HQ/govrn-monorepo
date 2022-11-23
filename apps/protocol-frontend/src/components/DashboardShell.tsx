@@ -10,15 +10,10 @@ import { UNASSIGNED } from '../utils/constants';
 import { useDaosList } from '../hooks/useDaosList';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
+import { DEFAULT_DATE_RANGES } from '../utils/constants';
+import pluralize from 'pluralize';
 
 const TODAY_DATE = new Date();
-
-const dateRangeOptions = [
-  { value: 1, label: 'Last Week' },
-  { value: 4, label: 'Last Month' },
-  { value: 12, label: 'Last Quarter' },
-  { value: 52, label: 'Last Year' },
-];
 
 const unassignedContributions = [
   {
@@ -67,6 +62,7 @@ const DashboardShell = () => {
       : selectedDaos.map(dao => dao.value).filter(dao => dao !== 0);
 
   const { data: fullContributionsCount } = useContributionCountInRange({
+    id: userData?.id,
     startDate: subWeeks(startOfDay(TODAY_DATE), 52),
     endDate: endOfDay(TODAY_DATE),
     guildIds,
@@ -74,6 +70,7 @@ const DashboardShell = () => {
   });
 
   const { data: contributionsCount } = useContributionCountInRange({
+    id: userData?.id,
     startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value),
     endDate: endOfDay(TODAY_DATE),
     guildIds,
@@ -141,7 +138,7 @@ const DashboardShell = () => {
               )}
               <Flex flexBasis="50%">
                 <ControlledSelect
-                  defaultValue={dateRangeOptions.find(
+                  defaultValue={DEFAULT_DATE_RANGES.find(
                     date => date.value === 52,
                   )}
                   label="Choose Date Range"
@@ -149,11 +146,15 @@ const DashboardShell = () => {
                   onChange={date => {
                     setDateRange(date);
                   }}
-                  options={dateRangeOptions}
+                  options={DEFAULT_DATE_RANGES}
                 />
               </Flex>
             </Flex>
-            <Flex direction="column" gap={2}>
+            <Flex
+              direction="column"
+              gap={2}
+              display={{ base: 'none', lg: 'block' }}
+            >
               <Heading
                 as="h4"
                 fontSize="lg"
@@ -177,9 +178,7 @@ const DashboardShell = () => {
                         0,
                       )}{' '}
                     </Text>
-                    {fullContributionsCount.length === 1
-                      ? 'Contribution'
-                      : 'Contributions'}
+                    {pluralize('Contribution', fullContributionsCount.length)}
                     <Text as="span" fontSize="sm">
                       {' '}
                       in the {dateRange?.label.toLowerCase()}
@@ -218,9 +217,7 @@ const DashboardShell = () => {
                         0,
                       )}{' '}
                     </Text>
-                    {contributionsCount.length === 1
-                      ? 'Contribution'
-                      : 'Contributions'}
+                    {pluralize('Contribution', contributionsCount.length)}
                     <Text as="span" fontSize="sm">
                       {' '}
                       in the {dateRange?.label.toLowerCase()}

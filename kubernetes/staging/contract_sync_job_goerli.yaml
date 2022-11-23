@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: contract-sync-job-goerli
+spec:
+  schedule: '0 0 * * *'
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        spec:
+          containers:
+            - name: job
+              image: <IMAGE>
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: CHAIN_NAME
+                  value: 'goerli'
+                - name: CHAIN_ID
+                  value: '5'
+                - name: CONTRACT_ADDRESS
+                  value: '0x44fa8E6588e7a9ad869837d09621Cc663539D753'
+                - name: CHAIN_URL
+                  value: 'https://goerli.infura.io/v3/a8e70ebbf06e4ab8b7f020e3abe204ec'
+                - name: PROTOCOL_URL
+                  value: 'https://api-staging.govrn.app/graphql'
+                - name: SUBGRAPH_URL
+                  value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-goerli'
+                - name: INFURA_SUBDOMAIN
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: infura_subdomain
+                - name: CONTRACT_SYNC_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: contract_sync_token
+                - name: INFURA_PROJECT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: infura_project_id
+                - name: INFURA_PROJECT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: infura_project_secret
+
+          restartPolicy: OnFailure

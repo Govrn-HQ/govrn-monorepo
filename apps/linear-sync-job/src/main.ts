@@ -25,9 +25,10 @@ const fetchLinearIssues = async (
   completedAtFilter: { gt: Date },
 ) => {
   try {
-    return await linearClient.issues({
+    const me = await linearClient.viewer;
+    return await me.assignedIssues({
       filter: {
-        and: [{ completedAt: completedAtFilter }],
+        and: [{ createdAt: completedAtFilter, completedAt: { null: false } }],
       },
       orderBy: LinearDocument.PaginationOrderBy.CreatedAt,
       first: 100,
@@ -48,14 +49,14 @@ const processIssue = async (
 ) => {
   let page = 1;
   let storePromises = [];
-  console.log(`Processing first issues for user ${user.id}`);
+  console.log(`Processing first issues for user ${user.user_id}`);
   storePromises.push(
     storeContributions(issues, govrn, activity, contributionStatus, user),
   );
   while (issues.length > 0) {
     try {
       const next = await resp.fetchNext();
-      console.log(`Processing ${page * 100 + 1} for user ${user.id}`);
+      console.log(`Processing ${page * 100 + 1} for user ${user.user_id}`);
       issues = next.nodes.slice(page * 100 + 1);
       const p = storeContributions(
         issues,
@@ -87,20 +88,30 @@ const storeContributions = async (
 ) => {
   const linearIssues = [] as LinearIssueCreateManyInput[];
   for (const issue of issues) {
-    const contribution = await govrn.contribution.create({
-      data: {
-        // activity type should be linear
-        activity_type: { connect: { id: activity.id } },
-        date_of_engagement: issue.completedAt,
-        details: issue.description,
-        name: issue.title,
-        status: { connect: { id: contributionStatus?.id } },
-        proof: issue.url,
-        user: { connect: { id: user.id } },
-      },
+    if (!user.user_id) {
+      continue;
+    }
+    const existingIssues = await govrn.linear.issue.list({
+      where: { linear_id: { equals: issue.id } },
     });
+    let contribution = { id: undefined };
+    if (existingIssues.result.length > 0) {
+      contribution = await govrn.contribution.create({
+        data: {
+          // activity type should be linear
+          activity_type: { connect: { id: activity.id } },
+          date_of_engagement: issue.completedAt,
+          details: issue.description,
+          name: issue.title,
+          status: { connect: { id: contributionStatus?.id } },
+          proof: issue.url,
+          user: { connect: { id: user.user_id } },
+        },
+      });
+    }
 
     linearIssues.push({
+      assignee_id: user.id,
       archivedAt: issue.archivedAt,
       autoArchivedAt: issue.autoArchivedAt,
       autoClosedAt: issue.autoClosedAt,
@@ -152,17 +163,18 @@ const main = async () => {
   for await (const result of users) {
     let wp = [];
     for (const user of result.result) {
-      console.log(`Proccessing linear for user ${user.id}`);
+      console.log(`Proccessing linear for user ${user.user_id}`);
       const linearClient = new LinearClient({ apiKey: user.access_token });
       const lastIssue = await govrn.linear.issue.list({
         first: 1,
         orderBy: [{ completedAt: SortOrder.Desc }],
+        where: { assignee: { is: { user_id: { equals: user.user_id } } } },
       });
       const contributionStatus = await govrn.contribution.status.get('staging');
 
       const completedAtFilter =
         lastIssue.result.length > 0
-          ? { gt: new Date(lastIssue.result[0].completedAt) }
+          ? { gt: new Date(lastIssue.result[0].createdAt) }
           : { gt: new Date('1990-01-01T10:20:30Z') };
 
       const resp = await fetchLinearIssues(linearClient, completedAtFilter);

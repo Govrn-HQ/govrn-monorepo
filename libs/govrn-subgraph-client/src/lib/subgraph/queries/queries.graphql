@@ -32,6 +32,10 @@ fragment contributionFields on Contribution {
   address
   attestations {
     id
+    attestation_status {
+      id
+      name
+    }
     txHash
   }
   contributionId

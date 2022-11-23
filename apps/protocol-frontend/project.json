@@ -63,7 +63,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/protocol-frontend/**/*.{ts,tsx,js,jsx}"],
-        "maxWarnings": 15
+        "maxWarnings": 11
       }
     },
     "test": {
@@ -91,30 +91,30 @@
         }
       ],
       "options": {
-        "command": "npx -y wrangler pages publish ./dist/apps/protocol-frontend --project-name=govrn",
+        "command": "npx -y wrangler pages publish ./dist/apps/protocol-frontend --project-name=govrn --branch=main",
         "color": true
       }
-    }
-  },
-  "deployStaging": {
-    "executor": "@nrwl/workspace:run-commands",
-    "inputs": [
-      {
-        "env": "CLOUDFLARE_ACCOUNT_ID"
-      },
-      {
-        "env": "CLOUDFLARE_API_TOKEN"
+    },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "inputs": [
+        {
+          "env": "CLOUDFLARE_ACCOUNT_ID"
+        },
+        {
+          "env": "CLOUDFLARE_API_TOKEN"
+        }
+      ],
+      "dependsOn": [
+        {
+          "target": "build:production",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "npx -y wrangler pages publish ./dist/apps/protocol-frontend --project-name=govrn-staging --branch=main",
+        "color": true
       }
-    ],
-    "dependsOn": [
-      {
-        "target": "build:production",
-        "projects": "self"
-      }
-    ],
-    "options": {
-      "command": "npx -y wrangler pages publish ./dist/apps/protocol-frontend --project-name=govrn-staging",
-      "color": true
     }
   },
   "tags": []

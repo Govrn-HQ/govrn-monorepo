@@ -39,7 +39,12 @@ const AttestationsTableShell = () => {
       },
       attestations: {
         none: {
-          user_id: { equals: userData?.id || 0 },
+          OR: [
+            {
+              user_id: { equals: userData?.id || 0 },
+              attestation_status: { isNot: { name: { equals: 'pending' } } },
+            },
+          ],
         },
       },
     },
@@ -57,7 +62,13 @@ const AttestationsTableShell = () => {
       },
       attestations: {
         some: {
-          user_id: { equals: userData?.id || 0 },
+          AND: [
+            {
+              user_id: { equals: userData?.id || 0 },
+
+              attestation_status: { isNot: { name: { equals: 'pending' } } },
+            },
+          ],
         },
       },
     },

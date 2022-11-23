@@ -1,0 +1,1 @@
+export { AttestationStatusAttestationArgs } from "./AttestationStatusAttestationArgs";

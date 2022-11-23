@@ -8,6 +8,8 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/contract-sync-job",
+
+        "generatePackageJson": true,
         "main": "apps/contract-sync-job/src/main.ts",
         "tsConfig": "apps/contract-sync-job/tsconfig.app.json",
         "assets": [],
@@ -85,9 +87,22 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job_gnosis.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job_goerli.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
-          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job.yaml"
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job_gnosis.yaml",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/contract_sync_job_goerli.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/contract_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/contract_sync_job_gnosis.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/contract_sync_job_gnosis.yaml"
         ],
         "parallel": false
       }

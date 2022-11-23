@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AttestationConfidenceCreateNestedOneWithoutAttestationsInput } from "../inputs/AttestationConfidenceCreateNestedOneWithoutAttestationsInput";
+import { AttestationStatusCreateNestedOneWithoutAttestationInput } from "../inputs/AttestationStatusCreateNestedOneWithoutAttestationInput";
 import { UserCreateNestedOneWithoutAttestationsInput } from "../inputs/UserCreateNestedOneWithoutAttestationsInput";
 
 @TypeGraphQL.InputType("AttestationCreateWithoutContributionInput", {
@@ -20,9 +21,9 @@ export class AttestationCreateWithoutContributionInput {
   updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => AttestationConfidenceCreateNestedOneWithoutAttestationsInput, {
-    nullable: false
+    nullable: true
   })
-  confidence!: AttestationConfidenceCreateNestedOneWithoutAttestationsInput;
+  confidence?: AttestationConfidenceCreateNestedOneWithoutAttestationsInput | undefined;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutAttestationsInput, {
     nullable: false
@@ -33,4 +34,9 @@ export class AttestationCreateWithoutContributionInput {
     nullable: true
   })
   date_of_attestation?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => AttestationStatusCreateNestedOneWithoutAttestationInput, {
+    nullable: true
+  })
+  attestation_status?: AttestationStatusCreateNestedOneWithoutAttestationInput | undefined;
 }

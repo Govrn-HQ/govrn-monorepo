@@ -2,6 +2,7 @@ import React from 'react';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveBar } from '@nivo/bar';
 import * as _ from 'lodash';
+import { BRAND_COLOR_MAP } from '../utils/constants';
 
 type ContributionCount = {
   date: string;
@@ -14,18 +15,6 @@ interface ContributionsBarChartProps {
   contributionsCount: ContributionCount[];
   dateRange: { label: string; value: number };
 }
-
-const brandColorMap = [
-  '#ffb4e2',
-  '#fb84ce',
-  '#f854ba',
-  '#f526a6',
-  '#db0f8d',
-  '#ab076d',
-  '#76024e',
-];
-
-//
 
 const ContributionsBarChart = ({
   contributionsCount,
@@ -111,10 +100,10 @@ const ContributionsBarChart = ({
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}
             colors={[
-              brandColorMap[0],
-              brandColorMap[1],
-              brandColorMap[2],
-              brandColorMap[3],
+              BRAND_COLOR_MAP[0],
+              BRAND_COLOR_MAP[1],
+              BRAND_COLOR_MAP[2],
+              BRAND_COLOR_MAP[3],
             ]}
             borderColor={{
               from: 'color',

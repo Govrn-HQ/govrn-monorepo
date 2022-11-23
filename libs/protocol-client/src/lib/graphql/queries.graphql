@@ -29,6 +29,7 @@ query getJobRun($where: JobRunWhereUniqueInput!) {
 fragment LinearIssueFragment on LinearIssue {
   id
   completedAt
+  createdAt
 }
 
 query listLinearIssues(
@@ -68,6 +69,7 @@ fragment LinearUserFragment on LinearUser {
   createdAt
   access_token
   active_token
+  user_id
 }
 
 query listLinearUsers(
@@ -368,6 +370,9 @@ fragment ContributionFragment on Contribution {
     name
     updatedAt
   }
+  chain {
+    chain_id
+  }
   date_of_engagement
   date_of_submission
   details
@@ -394,6 +399,10 @@ fragment ContributionFragment on Contribution {
     id
     user_id
     date_of_attestation
+    attestation_status {
+      id
+      name
+    }
     user {
       name
       address
@@ -445,18 +454,20 @@ query getContributionCountByDateForUserInRange(
   }
 }
 
-query getContributionCount(
-  $where: GetContributionInput!
-) {
-  result: getContributionCount(where: $where) {
-    userContributionCount
-    guildContributionCount
+query getDaoContributionCount($where: GetContributionInput!) {
+  result: getDaoContributionCount(where: $where)
+}
+
+query getDaoContributionCountByUser($where: GetContributionInput!) {
+  result: getDaoContributionCountByUser(where: $where) {
+    count
+    display_name
+    user_id
+    address
   }
 }
 
-query getContributionCountByActivityType(
-  $where: GetContributionInput!
-) {
+query getContributionCountByActivityType($where: GetContributionInput!) {
   result: getContributionCountByActivityType(where: $where) {
     count
     activity_name
@@ -484,8 +495,14 @@ mutation createOnChainUserContribution(
   }
 }
 
-mutation deleteContribution($where: UserContributionDeleteInput!) {
+mutation deleteUserContribution($where: UserContributionDeleteInput!) {
   deleteUserContribution(where: $where) {
+    id
+  }
+}
+
+mutation deleteContribution($where: ContributionWhereUniqueInput!) {
+  deleteContribution(where: $where) {
     id
   }
 }
@@ -497,9 +514,17 @@ mutation updateUserContribution($data: UserContributionUpdateInput!) {
 }
 
 mutation updateUserOnChainContribution(
-  $data: UserOnChainContributionUpdateInput!
+  $id: Float!
+  $status: String!
+  $chainId: Float!
+  $data: ContributionUpdateManyMutationInput!
 ) {
-  updateUserOnChainContribution(data: $data) {
+  updateUserOnChainContribution(
+    id: $id
+    status: $status
+    chainId: $chainId
+    data: $data
+  ) {
     ...ContributionFragment
   }
 }
@@ -617,36 +642,6 @@ mutation createUserActivity($data: UserActivityCreateInput!) {
 }
 
 # Attestations
-fragment AttestationFragment on Attestation {
-  confidence {
-    createdAt
-    id
-    name
-    updatedAt
-  }
-  contribution {
-    activity_type_id
-    date_of_engagement
-    date_of_submission
-    details
-    id
-    name
-    proof
-    status_id
-    updatedAt
-    user_id
-    on_chain_id
-  }
-  date_of_attestation
-  id
-  updatedAt
-  user {
-    name
-    address
-    id
-  }
-}
-
 query listAttestations(
   $where: AttestationWhereInput! = {}
   $skip: Int! = 0
@@ -678,9 +673,11 @@ mutation createUserOnChainAttestation(
 }
 
 mutation updateUserOnChainAttestation(
-  $data: AttestationUserOnChainUpdateInput!
+  $id: Float!
+  $status: String!
+  $data: AttestationUpdateManyMutationInput!
 ) {
-  updateUserOnChainAttestation(data: $data) {
+  updateUserOnChainAttestation(id: $id, status: $status, data: $data) {
     ...AttestationFragment
   }
 }
@@ -699,6 +696,16 @@ mutation updateAttestation(
   $where: AttestationWhereUniqueInput!
 ) {
   updateAttestation(data: $data, where: $where) {
+    ...AttestationFragment
+  }
+}
+
+mutation upsertAttestation(
+  $where: AttestationWhereUniqueInput!
+  $create: AttestationCreateInput!
+  $update: AttestationUpdateInput!
+) {
+  upsertAttestation(where: $where, create: $create, update: $update) {
     ...AttestationFragment
   }
 }

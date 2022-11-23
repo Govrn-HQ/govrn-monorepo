@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 
 @TypeGraphQL.InputType("AttestationScalarWhereInput", {
   isAbstract: true
@@ -39,10 +40,10 @@ export class AttestationScalarWhereInput {
   })
   updatedAt?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  confidence_id?: IntFilter | undefined;
+  confidence_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
@@ -58,4 +59,9 @@ export class AttestationScalarWhereInput {
     nullable: true
   })
   date_of_attestation?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  attestation_status_id?: IntNullableFilter | undefined;
 }

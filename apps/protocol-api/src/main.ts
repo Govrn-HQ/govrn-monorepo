@@ -28,7 +28,6 @@ const BACKEND_TOKENS = [
   LINEAR_JOB_TOKEN,
   CONTRACT_SYNC_JOB_TOKEN,
 ];
-console.log(BACKEND_TOKENS);
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
@@ -76,7 +75,8 @@ const permissions = shield(
       guilds: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
       getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
-      getContributionCount: or(isAuthenticated, hasToken),
+      getDaoContributionCountByUser: or(isAuthenticated, hasToken),
+      getDaoContributionCount: or(isAuthenticated, hasToken),
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       users: hasToken,
       jobRuns: hasToken,
@@ -84,6 +84,7 @@ const permissions = shield(
       linearIssues: hasToken,
       contributionStatuses: hasToken,
     },
+    ContributionCountByUser: or(isAuthenticated, hasToken),
     ContributionCountByDate: or(isAuthenticated, hasToken),
     ContributionCountByActivityType: or(isAuthenticated, hasToken),
     Mutation: {
@@ -103,15 +104,17 @@ const permissions = shield(
       createUserContribution: and(ownsData, isAuthenticated),
       createUserCustom: or(hasToken, and(ownsData, isAuthenticated)),
       createUserOnChainAttestation: isAuthenticated,
-      deleteContribution: or(ownsData, isAuthenticated),
-      deleteUserContribution: isAuthenticated,
+      deleteContribution: or(hasToken, isAuthenticated),
+      deleteUserContribution: or(isAuthenticated, hasToken),
       getOrCreateActivityType: isAuthenticated,
+      updateContribution: hasToken,
       updateGuild: hasToken,
       updateUser: hasToken,
       updateUserContribution: and(ownsData, isAuthenticated),
       updateUserCustom: and(ownsData, isAuthenticated),
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
+      upsertAttestation: hasToken,
       upsertActivityType: hasToken,
       upsertContribution: hasToken,
       upsertLinearCycle: hasToken,
@@ -141,12 +144,17 @@ const permissions = shield(
       updatedAt: or(isAuthenticated, hasToken),
       date_of_attestation: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
+      attestation_status: or(isAuthenticated, hasToken),
     },
     AttestationConfidence: {
       name: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       id: or(isAuthenticated, hasToken),
+    },
+    AttestationStatus: {
+      id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
     },
     ChainType: {
       id: or(isAuthenticated, hasToken),
@@ -160,7 +168,7 @@ const permissions = shield(
       createdAt: hasToken,
       updatedAt: hasToken,
       name: hasToken,
-      chain_id: hasToken,
+      chain_id: or(isAuthenticated, hasToken),
     },
     Contribution: {
       id: or(isAuthenticated, hasToken),
@@ -183,6 +191,7 @@ const permissions = shield(
       tweet: or(isAuthenticated, hasToken),
       on_chain_id: or(isAuthenticated, hasToken),
       tx_hash: or(isAuthenticated, hasToken),
+      chain: or(isAuthenticated, hasToken),
     },
     ContributionStatus: {
       id: or(isAuthenticated, hasToken),
@@ -329,6 +338,7 @@ const permissions = shield(
       createdAt: hasToken,
       access_token: hasToken,
       active_token: or(isAuthenticated, hasToken),
+      user_id: hasToken,
     },
   },
   {
@@ -449,12 +459,13 @@ app.get('/linear/oauth', async function (req, res) {
   try {
     const query = req.query;
     const code = query.code;
+    const state = query.state.toString();
     const params = new URLSearchParams();
     params.append('code', code.toString());
     params.append('redirect_uri', LINEAR_REDIRECT_URI);
     params.append('client_id', LINEAR_CLIENT_ID);
     params.append('client_secret', LINEAR_CLIENT_SECRET);
-    params.append('state', req.session.linearNonce);
+    params.append('state', state);
     params.append('grant_type', 'authorization_code');
     const resp = await fetch(LINEAR_TOKEN_URL, {
       method: 'POST',
@@ -464,6 +475,7 @@ app.get('/linear/oauth', async function (req, res) {
     const respJSON = await resp.json();
     const client = new LinearClient({ accessToken: respJSON.access_token });
     const me = await client.viewer;
+    const [, address] = state.split('/');
 
     await prisma.linearUser.upsert({
       create: {
@@ -475,13 +487,13 @@ app.get('/linear/oauth', async function (req, res) {
         url: me.url,
         access_token: respJSON.access_token,
         active_token: true,
-        user: { connect: { address: req.session.siwe.data.address } },
+        user: { connect: { address: address } },
       },
       where: { linear_id: me.id },
       update: {
         access_token: respJSON.access_token,
         active_token: true,
-        user: { connect: { address: req.session.siwe.data.address } },
+        user: { connect: { address: address } },
       },
     });
 
