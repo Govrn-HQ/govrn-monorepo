@@ -8,6 +8,7 @@ import { LDContribution } from './types';
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 const CHAIN_ID = Number(process.env.CHAIN_ID);
+const SKIP_LIMIT = 4999;
 
 const LIMIT = 100;
 
@@ -35,14 +36,34 @@ export const loadContributions = async ({
 }: InferType<typeof requestSchema>): Promise<LDContribution[]> => {
   const skip = (page - 1) * limit;
 
-  const contrsEvents = (
-    await client.listContributions({
-      first: limit,
-      skip,
-      where: { address, id_gt: String(after) },
-      orderBy: 'id',
-    })
-  ).contributions;
+  if (skip > SKIP_LIMIT) {
+    throw new Error(
+      'Maximum Limit exceeded. Please use the last id param vs skip',
+    );
+  }
+  if (skip && after) {
+    throw new Error('Both skip and after cannot be provided');
+  }
+
+  let contrsEvents = [];
+  if (after) {
+    contrsEvents = (
+      await client.listContributions({
+        first: limit,
+        where: { address, id_gt: String(after) },
+        orderBy: 'id',
+      })
+    ).contributions;
+  } else {
+    contrsEvents = (
+      await client.listContributions({
+        first: limit,
+        skip,
+        where: { address },
+        orderBy: 'id',
+      })
+    ).contributions;
+  }
 
   const x = await Promise.all(
     contrsEvents.map(async e => {
