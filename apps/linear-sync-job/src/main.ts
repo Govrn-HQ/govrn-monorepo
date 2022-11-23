@@ -95,7 +95,7 @@ const storeContributions = async (
       where: { linear_id: { equals: issue.id } },
     });
     let contribution = { id: undefined };
-    if (existingIssues.result.length > 0) {
+    if (existingIssues.result.length === 0) {
       contribution = await govrn.contribution.create({
         data: {
           // activity type should be linear
