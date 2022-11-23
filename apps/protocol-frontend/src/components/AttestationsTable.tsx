@@ -35,6 +35,7 @@ import { AttestationTableType } from '../types/table';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
+import { displayAddress } from '../utils/web3';
 
 const AttestationsTable = ({
   contributionsData,
@@ -59,7 +60,8 @@ const AttestationsTable = ({
         action: '',
         name: contribution.name,
         onChainId: contribution.on_chain_id,
-        contributor: contribution.user.name,
+        contributor:
+          contribution.user.name || displayAddress(contribution.user.address),
         attestations: contribution.attestations.filter(attestation => {
           return attestation.user.id === userData?.id;
         }),

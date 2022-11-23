@@ -3,6 +3,7 @@ import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
+import { displayAddress } from '../utils/web3';
 import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
 import useAttestationMint from '../hooks/useAttestationMint';
 import { TextList } from './TextList';
@@ -45,7 +46,8 @@ export const AttestationModal = ({
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       <Text paddingBottom={2}>
-        Attesting as: <strong>{userData?.name}</strong>
+        Attesting as:{' '}
+        <strong>{userData?.name || displayAddress(userData?.address)}</strong>
       </Text>
       <Text>
         Attesting to <strong>1 </strong>
