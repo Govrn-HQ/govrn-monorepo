@@ -16,9 +16,4 @@ export class TwitterTweetWhereUniqueInput {
     nullable: true
   })
   twitter_tweet_id?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  contribution_id?: number | undefined;
 }

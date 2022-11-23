@@ -41,5 +41,5 @@ export class TwitterTweetCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  contribution_id?: "asc" | "desc" | undefined;
+  twitter_tweet_contribution_ids?: "asc" | "desc" | undefined;
 }

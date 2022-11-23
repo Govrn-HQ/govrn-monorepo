@@ -36,9 +36,4 @@ export class TwitterTweetMaxAggregate {
     nullable: true
   })
   twitter_user_id!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  contribution_id!: number | null;
 }

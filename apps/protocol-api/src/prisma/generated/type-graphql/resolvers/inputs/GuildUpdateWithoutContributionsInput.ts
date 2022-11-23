@@ -7,7 +7,7 @@ import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildSt
 import { GuildActivityTypeUpdateManyWithoutGuildInput } from "../inputs/GuildActivityTypeUpdateManyWithoutGuildInput";
 import { GuildUserUpdateManyWithoutGuildInput } from "../inputs/GuildUserUpdateManyWithoutGuildInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { TwitterAccountUpdateOneWithoutGuildInput } from "../inputs/TwitterAccountUpdateOneWithoutGuildInput";
+import { TwitterAccountUpdateManyWithoutGuildInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildInput";
 
 @TypeGraphQL.InputType("GuildUpdateWithoutContributionsInput", {
   isAbstract: true
@@ -48,10 +48,10 @@ export class GuildUpdateWithoutContributionsInput {
   })
   users?: GuildUserUpdateManyWithoutGuildInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterAccountUpdateOneWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => TwitterAccountUpdateManyWithoutGuildInput, {
     nullable: true
   })
-  twitter_account?: TwitterAccountUpdateOneWithoutGuildInput | undefined;
+  twitter_accounts?: TwitterAccountUpdateManyWithoutGuildInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyWithoutGuildInput, {
     nullable: true
