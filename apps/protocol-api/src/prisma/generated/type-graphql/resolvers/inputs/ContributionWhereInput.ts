@@ -14,7 +14,7 @@ import { LinearIssueRelationFilter } from "../inputs/LinearIssueRelationFilter";
 import { PartnerListRelationFilter } from "../inputs/PartnerListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
-import { TwitterTweetRelationFilter } from "../inputs/TwitterTweetRelationFilter";
+import { TwitterTweetContributionListRelationFilter } from "../inputs/TwitterTweetContributionListRelationFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
 @TypeGraphQL.InputType("ContributionWhereInput", {
@@ -121,10 +121,10 @@ export class ContributionWhereInput {
   })
   linear_issue?: LinearIssueRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetRelationFilter, {
+  @TypeGraphQL.Field(_type => TwitterTweetContributionListRelationFilter, {
     nullable: true
   })
-  tweet?: TwitterTweetRelationFilter | undefined;
+  twitter_tweet_contributions?: TwitterTweetContributionListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

@@ -2,11 +2,12 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionRelationFilter } from "../inputs/ContributionRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { IntNullableListFilter } from "../inputs/IntNullableListFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { TwitterTweetContributionListRelationFilter } from "../inputs/TwitterTweetContributionListRelationFilter";
 import { TwitterUserRelationFilter } from "../inputs/TwitterUserRelationFilter";
 
 @TypeGraphQL.InputType("TwitterTweetWhereInput", {
@@ -63,13 +64,13 @@ export class TwitterTweetWhereInput {
   })
   twitter_user?: TwitterUserRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => IntNullableListFilter, {
     nullable: true
   })
-  contribution_id?: IntNullableFilter | undefined;
+  twitter_tweet_contribution_ids?: IntNullableListFilter | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionRelationFilter, {
+  @TypeGraphQL.Field(_type => TwitterTweetContributionListRelationFilter, {
     nullable: true
   })
-  contribution?: ContributionRelationFilter | undefined;
+  twitter_tweet_contributions?: TwitterTweetContributionListRelationFilter | undefined;
 }

@@ -7,11 +7,12 @@ import { ContributionStatus } from "../../../models/ContributionStatus";
 import { GuildContribution } from "../../../models/GuildContribution";
 import { LinearIssue } from "../../../models/LinearIssue";
 import { Partner } from "../../../models/Partner";
-import { TwitterTweet } from "../../../models/TwitterTweet";
+import { TwitterTweetContribution } from "../../../models/TwitterTweetContribution";
 import { User } from "../../../models/User";
 import { ContributionAttestationsArgs } from "./args/ContributionAttestationsArgs";
 import { ContributionGuildsArgs } from "./args/ContributionGuildsArgs";
 import { ContributionPartnersArgs } from "./args/ContributionPartnersArgs";
+import { ContributionTwitter_tweet_contributionsArgs } from "./args/ContributionTwitter_tweet_contributionsArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => Contribution)
@@ -93,15 +94,15 @@ export class ContributionRelationsResolver {
     }).linear_issue({});
   }
 
-  @TypeGraphQL.FieldResolver(_type => TwitterTweet, {
-    nullable: true
+  @TypeGraphQL.FieldResolver(_type => [TwitterTweetContribution], {
+    nullable: false
   })
-  async tweet(@TypeGraphQL.Root() contribution: Contribution, @TypeGraphQL.Ctx() ctx: any): Promise<TwitterTweet | null> {
+  async twitter_tweet_contributions(@TypeGraphQL.Root() contribution: Contribution, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: ContributionTwitter_tweet_contributionsArgs): Promise<TwitterTweetContribution[]> {
     return getPrismaFromContext(ctx).contribution.findUnique({
       where: {
         id: contribution.id,
       },
-    }).tweet({});
+    }).twitter_tweet_contributions(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => Chain, {

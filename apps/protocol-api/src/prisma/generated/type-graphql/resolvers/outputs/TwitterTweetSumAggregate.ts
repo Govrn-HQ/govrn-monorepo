@@ -22,8 +22,8 @@ export class TwitterTweetSumAggregate {
   })
   twitter_user_id!: number | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => [TypeGraphQL.Int], {
     nullable: true
   })
-  contribution_id!: number | null;
+  twitter_tweet_contribution_ids!: number[] | null;
 }

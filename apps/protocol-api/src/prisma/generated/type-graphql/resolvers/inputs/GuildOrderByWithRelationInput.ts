@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeOrderByRelationAggregateInput } from "../inputs/GuildActivityTypeOrderByRelationAggregateInput";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
-import { TwitterAccountOrderByWithRelationInput } from "../inputs/TwitterAccountOrderByWithRelationInput";
+import { TwitterAccountOrderByRelationAggregateInput } from "../inputs/TwitterAccountOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("GuildOrderByWithRelationInput", {
@@ -57,10 +57,10 @@ export class GuildOrderByWithRelationInput {
   })
   users?: GuildUserOrderByRelationAggregateInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterAccountOrderByWithRelationInput, {
+  @TypeGraphQL.Field(_type => TwitterAccountOrderByRelationAggregateInput, {
     nullable: true
   })
-  twitter_account?: TwitterAccountOrderByWithRelationInput | undefined;
+  twitter_accounts?: TwitterAccountOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeOrderByRelationAggregateInput, {
     nullable: true

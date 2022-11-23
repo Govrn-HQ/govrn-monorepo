@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionOrderByWithRelationInput } from "../inputs/ContributionOrderByWithRelationInput";
+import { TwitterTweetContributionOrderByRelationAggregateInput } from "../inputs/TwitterTweetContributionOrderByRelationAggregateInput";
 import { TwitterUserOrderByWithRelationInput } from "../inputs/TwitterUserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -48,10 +48,10 @@ export class TwitterTweetOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  contribution_id?: "asc" | "desc" | undefined;
+  twitter_tweet_contribution_ids?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionOrderByWithRelationInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetContributionOrderByRelationAggregateInput, {
     nullable: true
   })
-  contribution?: ContributionOrderByWithRelationInput | undefined;
+  twitter_tweet_contributions?: TwitterTweetContributionOrderByRelationAggregateInput | undefined;
 }
