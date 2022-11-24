@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: contract-sync-job-gnosis
+spec:
+  schedule: '0 0 * * *'
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        spec:
+          containers:
+            - name: job
+              image: <IMAGE>
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: CHAIN_NAME
+                  value: 'gnosis'
+                - name: CHAIN_ID
+                  value: '100'
+                - name: CONTRACT_ADDRESS
+                  value: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
+                - name: CHAIN_URL
+                  value: 'https://rpc.gnosischain.com/'
+                - name: PROTOCOL_URL
+                  value: 'https://api.govrn.app/graphql'
+                - name: SUBGRAPH_URL
+                  value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
+                - name: INFURA_SUBDOMAIN
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: infura_subdomain
+                - name: CONTRACT_SYNC_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: contract_sync_token
+                - name: INFURA_PROJECT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: infura_project_id
+                - name: INFURA_PROJECT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: contract-sync-job-gnosis
+                      key: infura_project_secret
+
+          restartPolicy: OnFailure

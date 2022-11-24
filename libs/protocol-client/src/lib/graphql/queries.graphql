@@ -214,6 +214,15 @@ fragment TwitterTweetFragment on TwitterTweet {
     updatedAt
     username
   }
+  twitter_tweet_contributions {
+    ...TwitterTweetContributionFragment
+  }
+}
+
+fragment TwitterTweetContributionFragment on TwitterTweetContribution {
+  id
+  updatedAt
+  createdAt
   contribution {
     ...ContributionFragment
   }

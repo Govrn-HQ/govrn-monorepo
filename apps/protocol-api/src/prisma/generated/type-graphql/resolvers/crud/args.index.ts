@@ -22,6 +22,7 @@ export * from "./LinearUser/args";
 export * from "./Partner/args";
 export * from "./TwitterAccount/args";
 export * from "./TwitterTweet/args";
+export * from "./TwitterTweetContribution/args";
 export * from "./TwitterUser/args";
 export * from "./User/args";
 export * from "./UserActivity/args";

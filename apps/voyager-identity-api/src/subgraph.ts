@@ -8,9 +8,9 @@ import { LDContribution } from './types';
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 const CHAIN_ID = Number(process.env.CHAIN_ID);
+const SKIP_LIMIT = 4999;
 
 const LIMIT = 100;
-const SKIP_LIMIT = 4999;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
@@ -21,6 +21,7 @@ export const requestSchema = object({
   address: string().required(),
   page: number().optional().default(1),
   limit: number().optional().default(LIMIT),
+  after: number().optional().default(0),
 });
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
@@ -31,18 +32,38 @@ export const loadContributions = async ({
   address,
   limit,
   page,
+  after,
 }: InferType<typeof requestSchema>): Promise<LDContribution[]> => {
   const skip = (page - 1) * limit;
 
   if (skip > SKIP_LIMIT) {
-    throw new Error('Maximum Limit exceeded.');
+    throw new Error(
+      'Maximum Limit exceeded. Please use the last id param vs skip',
+    );
+  }
+  if (skip && after) {
+    throw new Error('Both skip and after cannot be provided');
   }
 
-  const contrsEvents = (
-    await client.listContributions({
-      where: { address },
-    })
-  ).contributions;
+  let contrsEvents = [];
+  if (after) {
+    contrsEvents = (
+      await client.listContributions({
+        first: limit,
+        where: { address, id_gt: String(after) },
+        orderBy: 'id',
+      })
+    ).contributions;
+  } else {
+    contrsEvents = (
+      await client.listContributions({
+        first: limit,
+        skip,
+        where: { address },
+        orderBy: 'id',
+      })
+    ).contributions;
+  }
 
   const x = await Promise.all(
     contrsEvents.map(async e => {

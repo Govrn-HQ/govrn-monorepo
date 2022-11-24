@@ -37,7 +37,7 @@ model User {
   contributions Contribution[]
   linear_users LinearUser[]
   guild_users GuildUser[]
-  twitter_user TwitterUser?
+  twitter_user TwitterUser? 
   discord_users DiscordUser[]
 }
 
@@ -62,7 +62,7 @@ model Guild {
   logo String?
   contributions GuildContribution[]
   users GuildUser[]
-  twitter_account TwitterAccount?
+  twitter_accounts TwitterAccount[]
   activity_type GuildActivityType[]
   contribution_reporting_channel String?
   status GuildStatus @default(INPUTTED)
@@ -146,7 +146,7 @@ model Contribution {
   partners Partner[]
   guilds GuildContribution[]
   linear_issue LinearIssue?
-  tweet TwitterTweet?
+  twitter_tweet_contributions TwitterTweetContribution[]
   chain_id Int?
   chain Chain? @relation(fields: [chain_id], references: [id])
   on_chain_id Int?
@@ -301,7 +301,7 @@ model LinearIssue {
   project LinearProject? @relation(fields: [project_id], references: [id])
   team_id Int?
   team LinearTeam? @relation(fields: [team_id], references: [id])
-  contribution_id Int?
+  contribution_id Int? @unique
   contribution Contribution? @relation(fields: [contribution_id], references: [id])
 }
 
@@ -373,8 +373,9 @@ model TwitterUser {
   username String @unique
   description String?
 
-  user_id Int?
+  user_id Int? @unique
   user User? @relation(fields: [user_id], references: [id])
+
   tweets TwitterTweet[]
 
   @@unique([twitter_user_id])
@@ -388,8 +389,8 @@ model TwitterTweet {
   text String
   twitter_user_id Int?
   twitter_user TwitterUser? @relation(fields: [twitter_user_id], references: [id])
-  contribution_id Int?
-  contribution Contribution? @relation(fields: [contribution_id], references: [id])
+  twitter_tweet_contribution_ids Int[]
+  twitter_tweet_contributions TwitterTweetContribution[]
 
   @@unique([twitter_tweet_id])
 }
@@ -406,4 +407,12 @@ model TwitterAccount {
   @@unique([account_name])
 }
 
-
+model TwitterTweetContribution {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  twitter_tweet_id Int 
+  twitter_tweet TwitterTweet @relation(fields: [twitter_tweet_id], references: [id])
+  contribution_id Int
+  contribution Contribution @relation(fields: [contribution_id], references: [id])
+}

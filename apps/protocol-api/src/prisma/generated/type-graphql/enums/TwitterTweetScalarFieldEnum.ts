@@ -7,7 +7,7 @@ export enum TwitterTweetScalarFieldEnum {
   twitter_tweet_id = "twitter_tweet_id",
   text = "text",
   twitter_user_id = "twitter_user_id",
-  contribution_id = "contribution_id"
+  twitter_tweet_contribution_ids = "twitter_tweet_contribution_ids"
 }
 TypeGraphQL.registerEnumType(TwitterTweetScalarFieldEnum, {
   name: "TwitterTweetScalarFieldEnum",

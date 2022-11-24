@@ -2,7 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionCreateNestedOneWithoutTweetInput } from "../inputs/ContributionCreateNestedOneWithoutTweetInput";
+import { TwitterTweetContributionCreateNestedManyWithoutTwitter_tweetInput } from "../inputs/TwitterTweetContributionCreateNestedManyWithoutTwitter_tweetInput";
+import { TwitterTweetCreatetwitter_tweet_contribution_idsInput } from "../inputs/TwitterTweetCreatetwitter_tweet_contribution_idsInput";
 
 @TypeGraphQL.InputType("TwitterTweetCreateWithoutTwitter_userInput", {
   isAbstract: true
@@ -28,8 +29,13 @@ export class TwitterTweetCreateWithoutTwitter_userInput {
   })
   text!: string;
 
-  @TypeGraphQL.Field(_type => ContributionCreateNestedOneWithoutTweetInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetCreatetwitter_tweet_contribution_idsInput, {
     nullable: true
   })
-  contribution?: ContributionCreateNestedOneWithoutTweetInput | undefined;
+  twitter_tweet_contribution_ids?: TwitterTweetCreatetwitter_tweet_contribution_idsInput | undefined;
+
+  @TypeGraphQL.Field(_type => TwitterTweetContributionCreateNestedManyWithoutTwitter_tweetInput, {
+    nullable: true
+  })
+  twitter_tweet_contributions?: TwitterTweetContributionCreateNestedManyWithoutTwitter_tweetInput | undefined;
 }

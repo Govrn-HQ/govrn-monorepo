@@ -8,7 +8,7 @@ import { ChainCreateNestedOneWithoutContributionsInput } from "../inputs/ChainCr
 import { ContributionStatusCreateNestedOneWithoutContributionsInput } from "../inputs/ContributionStatusCreateNestedOneWithoutContributionsInput";
 import { LinearIssueCreateNestedOneWithoutContributionInput } from "../inputs/LinearIssueCreateNestedOneWithoutContributionInput";
 import { PartnerCreateNestedManyWithoutContributionInput } from "../inputs/PartnerCreateNestedManyWithoutContributionInput";
-import { TwitterTweetCreateNestedOneWithoutContributionInput } from "../inputs/TwitterTweetCreateNestedOneWithoutContributionInput";
+import { TwitterTweetContributionCreateNestedManyWithoutContributionInput } from "../inputs/TwitterTweetContributionCreateNestedManyWithoutContributionInput";
 import { UserCreateNestedOneWithoutContributionsInput } from "../inputs/UserCreateNestedOneWithoutContributionsInput";
 
 @TypeGraphQL.InputType("ContributionCreateWithoutGuildsInput", {
@@ -75,10 +75,10 @@ export class ContributionCreateWithoutGuildsInput {
   })
   linear_issue?: LinearIssueCreateNestedOneWithoutContributionInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetCreateNestedOneWithoutContributionInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetContributionCreateNestedManyWithoutContributionInput, {
     nullable: true
   })
-  tweet?: TwitterTweetCreateNestedOneWithoutContributionInput | undefined;
+  twitter_tweet_contributions?: TwitterTweetContributionCreateNestedManyWithoutContributionInput | undefined;
 
   @TypeGraphQL.Field(_type => ChainCreateNestedOneWithoutContributionsInput, {
     nullable: true

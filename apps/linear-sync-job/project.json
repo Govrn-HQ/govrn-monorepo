@@ -98,6 +98,17 @@
         ],
         "parallel": false
       }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/linear_sync_job:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/linear_sync_job.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/linear_sync_job.yaml"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": []

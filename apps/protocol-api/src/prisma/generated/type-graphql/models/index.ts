@@ -22,6 +22,7 @@ export { LinearUser } from "./LinearUser";
 export { Partner } from "./Partner";
 export { TwitterAccount } from "./TwitterAccount";
 export { TwitterTweet } from "./TwitterTweet";
+export { TwitterTweetContribution } from "./TwitterTweetContribution";
 export { TwitterUser } from "./TwitterUser";
 export { User } from "./User";
 export { UserActivity } from "./UserActivity";

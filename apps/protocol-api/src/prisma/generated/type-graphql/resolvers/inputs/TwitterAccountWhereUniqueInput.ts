@@ -16,9 +16,4 @@ export class TwitterAccountWhereUniqueInput {
     nullable: true
   })
   account_name?: string | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  guild_id?: number | undefined;
 }

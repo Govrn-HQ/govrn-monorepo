@@ -24,6 +24,7 @@ export { PartnerScalarFieldEnum } from "./PartnerScalarFieldEnum";
 export { QueryMode } from "./QueryMode";
 export { SortOrder } from "./SortOrder";
 export { TwitterAccountScalarFieldEnum } from "./TwitterAccountScalarFieldEnum";
+export { TwitterTweetContributionScalarFieldEnum } from "./TwitterTweetContributionScalarFieldEnum";
 export { TwitterTweetScalarFieldEnum } from "./TwitterTweetScalarFieldEnum";
 export { TwitterUserScalarFieldEnum } from "./TwitterUserScalarFieldEnum";
 export { UserActivityScalarFieldEnum } from "./UserActivityScalarFieldEnum";

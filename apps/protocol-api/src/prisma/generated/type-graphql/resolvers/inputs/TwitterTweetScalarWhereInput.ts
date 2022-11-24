@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { IntNullableListFilter } from "../inputs/IntNullableListFilter";
 import { StringFilter } from "../inputs/StringFilter";
 
 @TypeGraphQL.InputType("TwitterTweetScalarWhereInput", {
@@ -56,8 +57,8 @@ export class TwitterTweetScalarWhereInput {
   })
   twitter_user_id?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => IntNullableListFilter, {
     nullable: true
   })
-  contribution_id?: IntNullableFilter | undefined;
+  twitter_tweet_contribution_ids?: IntNullableListFilter | undefined;
 }

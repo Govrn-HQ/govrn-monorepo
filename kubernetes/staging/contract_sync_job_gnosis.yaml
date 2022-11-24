@@ -41,7 +41,7 @@ spec:
                     secretKeyRef:
                       name: contract-sync-job-gnosis
                       key: infura_project_id
-                - name: INFURA_PROJECT_SECCRET
+                - name: INFURA_PROJECT_SECRET
                   valueFrom:
                     secretKeyRef:
                       name: contract-sync-job-gnosis
