@@ -96,7 +96,7 @@
         "parallel": false
       }
     },
-    "deployStaging": {
+    "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
