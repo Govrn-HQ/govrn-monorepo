@@ -118,11 +118,12 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       if (!values.username) {
         throw new Error('User has no username');
       }
-      await govrn.user.create({
+      const resp = await govrn.user.create({
         // active: false,
         address: address,
         username: values.username,
       });
+      setUserData(resp);
       toast.success({
         title: 'User Created',
         description: `Your username has been created with your address: ${address}. Let's report your first Contribution!`,
