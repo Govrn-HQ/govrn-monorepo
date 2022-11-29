@@ -10,6 +10,7 @@ import {
   Button,
   Text,
   Switch,
+  Box,
 } from '@chakra-ui/react';
 import {
   CreatableSelect,
@@ -306,16 +307,18 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             label="DAO"
             tip={
               <>
-                Please select a DAO to associate this Contribution with. This is
-                optional. Dont see your DAO? Request to add it{' '}
-                <a
-                  href="https://airtable.com/shrOedOjQpH9xlg7l"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: 'underline' }}
-                >
-                  here
-                </a>
+                Please select a DAO to associate this Contribution with. 
+                <Box fontWeight={700}>
+                  This is optional. Don't see your DAO? Request to add it{' '}
+                  <a
+                    href="https://airtable.com/shrOedOjQpH9xlg7l"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: 'underline' }}
+                  >
+                    here
+                  </a>
+                </Box>
               </>
             }
             placeholder="Select a DAO to associate this Contribution with."
