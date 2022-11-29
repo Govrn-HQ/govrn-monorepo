@@ -201,7 +201,7 @@ query listGuilds(
 }
 
 query getAverageActiveGuildUsers(
-  $where: GetActiveUserInput!
+  $where: GetActiveUsersInput!
 ) {
   result: getAverageActiveGuildUsers(where: $where)
 }
