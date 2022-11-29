@@ -7,6 +7,7 @@ import {
   GetUserContributionCountInput,
   ListActivityTypesByUserInput,
   GetContributionInput,
+  GetActiveUserInput
 } from '../protocol-types';
 
 export class Custom extends BaseClient {
@@ -79,5 +80,9 @@ export class Custom extends BaseClient {
       where: args,
     });
     return contributionCount.result;
+  }
+
+  public async getAverageActiveGuildUsers(args: GetActiveUserInput) {
+
   }
 }
