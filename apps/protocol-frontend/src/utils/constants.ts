@@ -31,6 +31,8 @@ export const BRAND_COLOR_MAP = [
   '#ab076d',
   '#76024e',
 ];
+export const CONTRIBUTION_NEW_DOMAIN = 'contribution.new';
+export const CONTRIBUTION_NEW_STAGING_DOMAIN = 'staging.contribution.new';
 
 /* Time Values For Date Ranges */
 

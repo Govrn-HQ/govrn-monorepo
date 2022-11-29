@@ -9,7 +9,7 @@ import { ContributionStatus } from "../models/ContributionStatus";
 import { GuildContribution } from "../models/GuildContribution";
 import { LinearIssue } from "../models/LinearIssue";
 import { Partner } from "../models/Partner";
-import { TwitterTweet } from "../models/TwitterTweet";
+import { TwitterTweetContribution } from "../models/TwitterTweetContribution";
 import { User } from "../models/User";
 import { ContributionCount } from "../resolvers/outputs/ContributionCount";
 
@@ -81,7 +81,7 @@ export class Contribution {
 
   linear_issue?: LinearIssue | null;
 
-  tweet?: TwitterTweet | null;
+  twitter_tweet_contributions?: TwitterTweetContribution[];
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

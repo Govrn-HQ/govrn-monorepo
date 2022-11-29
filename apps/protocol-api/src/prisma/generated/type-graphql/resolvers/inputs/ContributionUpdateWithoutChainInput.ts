@@ -12,7 +12,7 @@ import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFiel
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PartnerUpdateManyWithoutContributionInput } from "../inputs/PartnerUpdateManyWithoutContributionInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { TwitterTweetUpdateOneWithoutContributionInput } from "../inputs/TwitterTweetUpdateOneWithoutContributionInput";
+import { TwitterTweetContributionUpdateManyWithoutContributionInput } from "../inputs/TwitterTweetContributionUpdateManyWithoutContributionInput";
 import { UserUpdateOneRequiredWithoutContributionsInput } from "../inputs/UserUpdateOneRequiredWithoutContributionsInput";
 
 @TypeGraphQL.InputType("ContributionUpdateWithoutChainInput", {
@@ -84,10 +84,10 @@ export class ContributionUpdateWithoutChainInput {
   })
   linear_issue?: LinearIssueUpdateOneWithoutContributionInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetUpdateOneWithoutContributionInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetContributionUpdateManyWithoutContributionInput, {
     nullable: true
   })
-  tweet?: TwitterTweetUpdateOneWithoutContributionInput | undefined;
+  twitter_tweet_contributions?: TwitterTweetContributionUpdateManyWithoutContributionInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
     nullable: true

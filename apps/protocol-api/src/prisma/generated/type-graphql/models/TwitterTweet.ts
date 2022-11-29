@@ -2,8 +2,9 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
-import { Contribution } from "../models/Contribution";
+import { TwitterTweetContribution } from "../models/TwitterTweetContribution";
 import { TwitterUser } from "../models/TwitterUser";
+import { TwitterTweetCount } from "../resolvers/outputs/TwitterTweetCount";
 
 @TypeGraphQL.ObjectType("TwitterTweet", {
   isAbstract: true
@@ -41,10 +42,15 @@ export class TwitterTweet {
 
   twitter_user?: TwitterUser | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => [TypeGraphQL.Int], {
+    nullable: false
+  })
+  twitter_tweet_contribution_ids!: number[];
+
+  twitter_tweet_contributions?: TwitterTweetContribution[];
+
+  @TypeGraphQL.Field(_type => TwitterTweetCount, {
     nullable: true
   })
-  contribution_id?: number | null;
-
-  contribution?: Contribution | null;
+  _count?: TwitterTweetCount | null;
 }

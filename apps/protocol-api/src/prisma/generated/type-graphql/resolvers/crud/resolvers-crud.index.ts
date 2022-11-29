@@ -22,6 +22,7 @@ export { LinearUserCrudResolver } from "./LinearUser/LinearUserCrudResolver";
 export { PartnerCrudResolver } from "./Partner/PartnerCrudResolver";
 export { TwitterAccountCrudResolver } from "./TwitterAccount/TwitterAccountCrudResolver";
 export { TwitterTweetCrudResolver } from "./TwitterTweet/TwitterTweetCrudResolver";
+export { TwitterTweetContributionCrudResolver } from "./TwitterTweetContribution/TwitterTweetContributionCrudResolver";
 export { TwitterUserCrudResolver } from "./TwitterUser/TwitterUserCrudResolver";
 export { UserCrudResolver } from "./User/UserCrudResolver";
 export { UserActivityCrudResolver } from "./UserActivity/UserActivityCrudResolver";

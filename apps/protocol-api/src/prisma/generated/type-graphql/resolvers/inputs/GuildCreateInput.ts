@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutGuildInput";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
-import { TwitterAccountCreateNestedOneWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedOneWithoutGuildInput";
+import { TwitterAccountCreateNestedManyWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedManyWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.InputType("GuildCreateInput", {
@@ -52,10 +52,10 @@ export class GuildCreateInput {
   })
   users?: GuildUserCreateNestedManyWithoutGuildInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterAccountCreateNestedOneWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => TwitterAccountCreateNestedManyWithoutGuildInput, {
     nullable: true
   })
-  twitter_account?: TwitterAccountCreateNestedOneWithoutGuildInput | undefined;
+  twitter_accounts?: TwitterAccountCreateNestedManyWithoutGuildInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildActivityTypeCreateNestedManyWithoutGuildInput, {
     nullable: true

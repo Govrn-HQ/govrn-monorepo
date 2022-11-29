@@ -52,7 +52,7 @@ export class Guild {
 
   users?: GuildUser[];
 
-  twitter_account?: TwitterAccount | null;
+  twitter_accounts?: TwitterAccount[];
 
   activity_type?: GuildActivityType[];
 
