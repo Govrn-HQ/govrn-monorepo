@@ -62,21 +62,6 @@ export class ListUserArgs {
   address: string;
 }
 
-@TypeGraphQL.ArgsType()
-export class GetActiveUsersArgs {
-  @TypeGraphQL.Field(_type => Int)
-  guildId: number;
-
-  @TypeGraphQL.Field(_type => Date)
-  startDate: Date;
-
-  @TypeGraphQL.Field(_type => Int)
-  windowsToLookback: number;
-
-  @TypeGraphQL.Field(_type => Int)
-  windowSizeDays: number;
-}
-
 @TypeGraphQL.Resolver(_of => User)
 export class UserCustomResolver {
   @TypeGraphQL.Query(_returns => User, { nullable: false })
@@ -155,48 +140,5 @@ export class UserCustomResolver {
     return await prisma.user.findMany({
       where: { address: { equals: address } },
     });
-  }
-
-  @TypeGraphQL.Query(_returns => Int)
-  async getAverageActiveMembers(
-    @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: GetActiveUsersArgs,
-  ) {
-    // e.g. 9w rolling avg weekly active would have windowsToLookback
-    // == 9, and windowSizeDays == 7
-    // 1w rolling avg daily active would have windowsToLookback == 7
-    // and windowSizeDays == 1
-    const guildId = args.guildId;
-    const startDate = args.startDate;
-    const windowsToLookback = args.windowsToLookback;
-    const windowSizeDays = args.windowSizeDays;
-
-    const totalLookbackDays = windowsToLookback * windowSizeDays;
-    const lookbackDate = new Date(startDate.getDate() - totalLookbackDays);
-
-    const result = await prisma.$queryRaw<number>`
-      WITH unique_guild_contributor_daily_count as (
-        SELECT
-          count(distinct c.user_id) as distinct_contributors,
-          EXTRACT(year from gc.createdAt) as year,
-          EXTRACT(month from gc.createdAt) as month,
-          trunc(EXTRACT(day from TIMESTAMP) / ${windowSizeDays}) as day_bucket
-        FROM 
-          "GuildContribution" gc 
-        LEFT JOIN "Contribution" as c
-          ON gc."contribution_id" = c.id
-        WHERE (
-          gc."createdAt"::date BETWEEN ${lookbackDate} AND ${startDate} 
-          AND gc."guild_id" = ${guildId}
-        )
-        GROUP BY 
-          year, month, day_bucket
-      )
-
-      SELECT
-        avg(distinct_contributors)
-      FROM
-        unique_guild_contributor_daily_count
-      `;
-  }
+  } 
 }
