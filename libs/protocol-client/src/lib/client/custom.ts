@@ -7,7 +7,7 @@ import {
   GetUserContributionCountInput,
   ListActivityTypesByUserInput,
   GetContributionInput,
-  GetActiveUsersInput
+  GetActiveUsersInput,
 } from '../protocol-types';
 
 export class Custom extends BaseClient {
@@ -85,7 +85,7 @@ export class Custom extends BaseClient {
   public async getAverageActiveGuildUsers(args: GetActiveUsersInput) {
     const averageActiveUserCount = await this.sdk.getAverageActiveGuildUsers({
       where: args,
-    })
+    });
     return averageActiveUserCount.result;
   }
 }

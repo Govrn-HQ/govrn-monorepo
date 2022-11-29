@@ -140,5 +140,5 @@ export class UserCustomResolver {
     return await prisma.user.findMany({
       where: { address: { equals: address } },
     });
-  } 
+  }
 }

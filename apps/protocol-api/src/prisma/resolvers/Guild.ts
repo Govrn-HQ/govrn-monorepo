@@ -22,13 +22,13 @@ export class GetActiveUsersInput {
 @TypeGraphQL.ArgsType()
 export class GetActiveUsersArgs {
   @TypeGraphQL.Field(_type => GetActiveUsersInput, {
-    nullable: false
+    nullable: false,
   })
-  where!: GetActiveUsersInput
+  where!: GetActiveUsersInput;
 }
 
 @TypeGraphQL.Resolver(_of => Guild)
-export class GuildCustomResolver { 
+export class GuildCustomResolver {
   @TypeGraphQL.Query(_returns => Int)
   async getAverageActiveGuildUsers(
     @TypeGraphQL.Ctx() { prisma }: Context,
