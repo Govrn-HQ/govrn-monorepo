@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CategoryActivityUpdateOneRequiredWithoutActivityTypesInput } from "../inputs/CategoryActivityUpdateOneRequiredWithoutActivityTypesInput";
+import { CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput } from "../inputs/CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("CategoryActivityTypeUpdateWithoutActivity_typeInput", {
@@ -19,8 +19,8 @@ export class CategoryActivityTypeUpdateWithoutActivity_typeInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => CategoryActivityUpdateOneRequiredWithoutActivityTypesInput, {
+  @TypeGraphQL.Field(_type => CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput, {
     nullable: true
   })
-  category_activity?: CategoryActivityUpdateOneRequiredWithoutActivityTypesInput | undefined;
+  category_activity?: CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput | undefined;
 }

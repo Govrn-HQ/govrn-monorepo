@@ -16,7 +16,7 @@ import { UserContributionsArgs } from "./args/UserContributionsArgs";
 import { UserDiscord_usersArgs } from "./args/UserDiscord_usersArgs";
 import { UserGuild_usersArgs } from "./args/UserGuild_usersArgs";
 import { UserLinear_usersArgs } from "./args/UserLinear_usersArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => User)
 export class UserRelationsResolver {

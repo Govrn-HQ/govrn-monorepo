@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { AttestationUpdateManyWithoutAttestation_statusInput } from "../inputs/AttestationUpdateManyWithoutAttestation_statusInput";
+import { AttestationUpdateManyWithoutAttestation_statusNestedInput } from "../inputs/AttestationUpdateManyWithoutAttestation_statusNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -25,8 +25,8 @@ export class AttestationStatusUpdateInput {
   })
   name?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => AttestationUpdateManyWithoutAttestation_statusInput, {
+  @TypeGraphQL.Field(_type => AttestationUpdateManyWithoutAttestation_statusNestedInput, {
     nullable: true
   })
-  attestation?: AttestationUpdateManyWithoutAttestation_statusInput | undefined;
+  attestation?: AttestationUpdateManyWithoutAttestation_statusNestedInput | undefined;
 }

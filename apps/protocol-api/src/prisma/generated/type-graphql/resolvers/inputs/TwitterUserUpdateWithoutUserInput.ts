@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { TwitterTweetUpdateManyWithoutTwitter_userInput } from "../inputs/TwitterTweetUpdateManyWithoutTwitter_userInput";
+import { TwitterTweetUpdateManyWithoutTwitter_userNestedInput } from "../inputs/TwitterTweetUpdateManyWithoutTwitter_userNestedInput";
 
 @TypeGraphQL.InputType("TwitterUserUpdateWithoutUserInput", {
   isAbstract: true
@@ -41,8 +41,8 @@ export class TwitterUserUpdateWithoutUserInput {
   })
   description?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetUpdateManyWithoutTwitter_userInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetUpdateManyWithoutTwitter_userNestedInput, {
     nullable: true
   })
-  tweets?: TwitterTweetUpdateManyWithoutTwitter_userInput | undefined;
+  tweets?: TwitterTweetUpdateManyWithoutTwitter_userNestedInput | undefined;
 }

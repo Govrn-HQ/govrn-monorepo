@@ -1,10 +1,9 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { GroupByContributionArgs } from "./args/GroupByContributionArgs";
 import { Contribution } from "../../../models/Contribution";
 import { ContributionGroupBy } from "../../outputs/ContributionGroupBy";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => Contribution)
 export class GroupByContributionResolver {
@@ -12,9 +11,7 @@ export class GroupByContributionResolver {
     nullable: false
   })
   async groupByContribution(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: GroupByContributionArgs): Promise<ContributionGroupBy[]> {
-    const { _count, _avg, _sum, _min, _max } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count, _avg, _sum, _min, _max } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).contribution.groupBy({
       ...args,
       ...Object.fromEntries(

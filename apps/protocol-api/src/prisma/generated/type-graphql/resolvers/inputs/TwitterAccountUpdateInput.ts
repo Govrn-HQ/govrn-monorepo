@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { GuildUpdateOneWithoutTwitter_accountsInput } from "../inputs/GuildUpdateOneWithoutTwitter_accountsInput";
+import { GuildUpdateOneWithoutTwitter_accountsNestedInput } from "../inputs/GuildUpdateOneWithoutTwitter_accountsNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("TwitterAccountUpdateInput", {
@@ -25,8 +25,8 @@ export class TwitterAccountUpdateInput {
   })
   account_name?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildUpdateOneWithoutTwitter_accountsInput, {
+  @TypeGraphQL.Field(_type => GuildUpdateOneWithoutTwitter_accountsNestedInput, {
     nullable: true
   })
-  guild?: GuildUpdateOneWithoutTwitter_accountsInput | undefined;
+  guild?: GuildUpdateOneWithoutTwitter_accountsNestedInput | undefined;
 }

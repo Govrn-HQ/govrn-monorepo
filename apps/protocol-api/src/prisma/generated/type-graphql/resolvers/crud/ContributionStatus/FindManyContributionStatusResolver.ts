@@ -1,9 +1,8 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { FindManyContributionStatusArgs } from "./args/FindManyContributionStatusArgs";
 import { ContributionStatus } from "../../../models/ContributionStatus";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => ContributionStatus)
 export class FindManyContributionStatusResolver {
@@ -11,9 +10,7 @@ export class FindManyContributionStatusResolver {
     nullable: false
   })
   async contributionStatuses(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindManyContributionStatusArgs): Promise<ContributionStatus[]> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).contributionStatus.findMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),

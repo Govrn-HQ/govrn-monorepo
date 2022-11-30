@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionUpdateManyWithoutStatusInput } from "../inputs/ContributionUpdateManyWithoutStatusInput";
+import { ContributionUpdateManyWithoutStatusNestedInput } from "../inputs/ContributionUpdateManyWithoutStatusNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -25,8 +25,8 @@ export class ContributionStatusUpdateInput {
   })
   name?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutStatusInput, {
+  @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutStatusNestedInput, {
     nullable: true
   })
-  contributions?: ContributionUpdateManyWithoutStatusInput | undefined;
+  contributions?: ContributionUpdateManyWithoutStatusNestedInput | undefined;
 }

@@ -2,9 +2,9 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionUpdateOneRequiredWithoutTwitter_tweet_contributionsInput } from "../inputs/ContributionUpdateOneRequiredWithoutTwitter_tweet_contributionsInput";
+import { ContributionUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput } from "../inputs/ContributionUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsInput } from "../inputs/TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsInput";
+import { TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput } from "../inputs/TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput";
 
 @TypeGraphQL.InputType("TwitterTweetContributionUpdateInput", {
   isAbstract: true
@@ -20,13 +20,13 @@ export class TwitterTweetContributionUpdateInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput, {
     nullable: true
   })
-  twitter_tweet?: TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsInput | undefined;
+  twitter_tweet?: TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionUpdateOneRequiredWithoutTwitter_tweet_contributionsInput, {
+  @TypeGraphQL.Field(_type => ContributionUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput, {
     nullable: true
   })
-  contribution?: ContributionUpdateOneRequiredWithoutTwitter_tweet_contributionsInput | undefined;
+  contribution?: ContributionUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput | undefined;
 }

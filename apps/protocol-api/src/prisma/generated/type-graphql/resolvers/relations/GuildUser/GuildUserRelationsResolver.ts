@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { Guild } from "../../../models/Guild";
 import { GuildUser } from "../../../models/GuildUser";
 import { User } from "../../../models/User";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => GuildUser)
 export class GuildUserRelationsResolver {

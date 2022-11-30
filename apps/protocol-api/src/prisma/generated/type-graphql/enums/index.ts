@@ -23,6 +23,7 @@ export { LinearUserScalarFieldEnum } from "./LinearUserScalarFieldEnum";
 export { PartnerScalarFieldEnum } from "./PartnerScalarFieldEnum";
 export { QueryMode } from "./QueryMode";
 export { SortOrder } from "./SortOrder";
+export { TransactionIsolationLevel } from "./TransactionIsolationLevel";
 export { TwitterAccountScalarFieldEnum } from "./TwitterAccountScalarFieldEnum";
 export { TwitterTweetContributionScalarFieldEnum } from "./TwitterTweetContributionScalarFieldEnum";
 export { TwitterTweetScalarFieldEnum } from "./TwitterTweetScalarFieldEnum";

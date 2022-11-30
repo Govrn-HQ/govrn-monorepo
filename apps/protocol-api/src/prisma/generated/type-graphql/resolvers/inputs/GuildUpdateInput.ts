@@ -4,11 +4,11 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildStatusFieldUpdateOperationsInput";
-import { GuildActivityTypeUpdateManyWithoutGuildInput } from "../inputs/GuildActivityTypeUpdateManyWithoutGuildInput";
-import { GuildContributionUpdateManyWithoutGuildInput } from "../inputs/GuildContributionUpdateManyWithoutGuildInput";
-import { GuildUserUpdateManyWithoutGuildInput } from "../inputs/GuildUserUpdateManyWithoutGuildInput";
+import { GuildActivityTypeUpdateManyWithoutGuildNestedInput } from "../inputs/GuildActivityTypeUpdateManyWithoutGuildNestedInput";
+import { GuildContributionUpdateManyWithoutGuildNestedInput } from "../inputs/GuildContributionUpdateManyWithoutGuildNestedInput";
+import { GuildUserUpdateManyWithoutGuildNestedInput } from "../inputs/GuildUserUpdateManyWithoutGuildNestedInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { TwitterAccountUpdateManyWithoutGuildInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildInput";
+import { TwitterAccountUpdateManyWithoutGuildNestedInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildNestedInput";
 
 @TypeGraphQL.InputType("GuildUpdateInput", {
   isAbstract: true
@@ -44,25 +44,25 @@ export class GuildUpdateInput {
   })
   logo?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildContributionUpdateManyWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => GuildContributionUpdateManyWithoutGuildNestedInput, {
     nullable: true
   })
-  contributions?: GuildContributionUpdateManyWithoutGuildInput | undefined;
+  contributions?: GuildContributionUpdateManyWithoutGuildNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildUserUpdateManyWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => GuildUserUpdateManyWithoutGuildNestedInput, {
     nullable: true
   })
-  users?: GuildUserUpdateManyWithoutGuildInput | undefined;
+  users?: GuildUserUpdateManyWithoutGuildNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterAccountUpdateManyWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => TwitterAccountUpdateManyWithoutGuildNestedInput, {
     nullable: true
   })
-  twitter_accounts?: TwitterAccountUpdateManyWithoutGuildInput | undefined;
+  twitter_accounts?: TwitterAccountUpdateManyWithoutGuildNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyWithoutGuildNestedInput, {
     nullable: true
   })
-  activity_type?: GuildActivityTypeUpdateManyWithoutGuildInput | undefined;
+  activity_type?: GuildActivityTypeUpdateManyWithoutGuildNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true
