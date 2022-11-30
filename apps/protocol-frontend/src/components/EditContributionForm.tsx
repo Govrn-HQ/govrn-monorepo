@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
-import { Button, Flex, IconButton, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton, Stack, Text } from '@chakra-ui/react';
 import {
   CreatableSelect,
   DatePicker,
@@ -298,15 +298,18 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             placeholder="Select a DAO to associate this Contribution with."
             tip={
               <>
-                Dont see your DAO? Request to add it{' '}
-                <a
-                  href="https://airtable.com/shrOedOjQpH9xlg7l"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: 'underline' }}
-                >
-                  here
-                </a>
+                Please select a DAO to associate this Contribution with. 
+                <Box fontWeight={700} lineHeight={2}>
+                  This is optional. Don't see your DAO? Request to add it{' '}
+                  <a
+                    href="https://airtable.com/shrOedOjQpH9xlg7l"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: 'underline' }}
+                  >
+                    here
+                  </a>
+                </Box>
               </>
             }
             defaultValue={{

@@ -308,7 +308,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             tip={
               <>
                 Please select a DAO to associate this Contribution with. 
-                <Box fontWeight={700}>
+                <Box fontWeight={700} lineHeight={2}>
                   This is optional. Don't see your DAO? Request to add it{' '}
                   <a
                     href="https://airtable.com/shrOedOjQpH9xlg7l"
