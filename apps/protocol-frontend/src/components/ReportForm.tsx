@@ -314,6 +314,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
                   <ChakraLink
                     href="https://airtable.com/shrOedOjQpH9xlg7l"
                     isExternal
+                    textDecoration="underline"
                   >
                     here
                   </ChakraLink>
