@@ -7,6 +7,7 @@ import {
   Flex,
   FormLabel,
   IconButton,
+  Link as ChakraLink,
   Button,
   Text,
   Switch,
@@ -307,17 +308,15 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             label="DAO"
             tip={
               <>
-                Please select a DAO to associate this Contribution with. 
+                Please select a DAO to associate this Contribution with.
                 <Box fontWeight={700} lineHeight={2}>
                   This is optional. Don't see your DAO? Request to add it{' '}
-                  <a
+                  <ChakraLink
                     href="https://airtable.com/shrOedOjQpH9xlg7l"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: 'underline' }}
+                    isExternal
                   >
                     here
-                  </a>
+                  </ChakraLink>
                 </Box>
               </>
             }
