@@ -1,3 +1,5 @@
+import { color } from '@chakra-ui/react';
+import { GovrnTheme } from '@govrn/protocol-ui';
 /* Environment Variables */
 export const INFURA_PROJECT_SECRET = import.meta.env.VITE_INFURA_PROJECT_SECRET;
 export const INFURA_PROJECT_ID = import.meta.env.VITE_INFURA_PROJECT_ID;
@@ -10,8 +12,6 @@ export const BLOCK_EXPLORER_URLS = {
   gnosisChain: `https://blockscout.com/xdai/mainnet/tx/`,
 };
 
-/* Project Related Constants */
-
 export const MAX_FILE_UPLOAD_SIZE = 5000000; // 5MB
 export const UNASSIGNED = 'Unassigned';
 export const GOVRN_MOTTO = 'Track and record your DAO Contributions.';
@@ -22,15 +22,11 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Design',
   'Other',
 ];
-export const BRAND_COLOR_MAP = [
-  '#ffb4e2',
-  '#fb84ce',
-  '#f854ba',
-  '#f526a6',
-  '#db0f8d',
-  '#ab076d',
-  '#76024e',
-];
+
+const primaryBrandColorsFromTheme = Object.values(
+  GovrnTheme.colors.brand.primary,
+); // can change this to be primary or secondary, or use to map any color specrum in theme
+export const BRAND_COLOR_MAP = primaryBrandColorsFromTheme;
 export const CONTRIBUTION_NEW_DOMAIN = 'contribution.new';
 export const CONTRIBUTION_NEW_STAGING_DOMAIN = 'staging.contribution.new';
 

@@ -5,6 +5,7 @@ import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import { BRAND_COLOR_MAP } from '../utils/constants';
 
+console.log('BRAND_COLOR_MAP', BRAND_COLOR_MAP);
 type ContributionCount = {
   date: string;
   count: number;
