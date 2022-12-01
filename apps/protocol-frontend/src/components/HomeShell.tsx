@@ -10,6 +10,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
 import { GOVRN_MOTTO } from '../utils/constants';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import GovrnTextLogo from './GovrnTextLogo';
 
 const HomeShell = () => {
   const { isConnected } = useAccount();
@@ -80,7 +81,7 @@ const HomeShell = () => {
           >
             <>
               <Text paddingBottom={8}>
-                Welcome back{' '}
+                Welcome back,{' '}
                 <Text as="span" fontWeight="bolder">
                   {userData?.name || userDataByAddress?.name}
                 </Text>
@@ -118,9 +119,6 @@ const HomeShell = () => {
       minWidth="100vw"
       bgGradient="linear(to-r, #DF1F97 0%, #5100E4 100%)"
     >
-      <VisuallyHidden>
-        <Heading as="h1">Govrn</Heading>
-      </VisuallyHidden>
       <Flex
         direction="column"
         alignItems={{ base: 'flex-start', lg: 'center' }}
@@ -128,16 +126,26 @@ const HomeShell = () => {
         paddingY={{ base: '8', lg: '0' }}
         flex="1"
         minHeight={['100vh', '100vh', '0', '0']}
+        gap={{ base: 4, lg: 16 }}
       >
-        <PageHeading>
-          Welcome to Govrn{' '}
-          <span role="img" aria-labelledby="welcome">
-            👋
+        <VisuallyHidden>
+          <Heading as="h1">Govrn</Heading>
+        </VisuallyHidden>
+        <GovrnTextLogo />
+        <Flex
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          color="white"
+          fontSize={{ base: 'md', lg: '2xl' }}
+          fontWeight="400"
+        >
+          <Text>Track and record your DAO</Text>
+          <Text>Contributions</Text>
+          <span role="img" aria-labelledby="Govrn motto handshake emoji">
+            🤝
           </span>
-        </PageHeading>
-        <Text color="gray.800" paddingBottom={4}>
-          {GOVRN_MOTTO}
-        </Text>
+        </Flex>
         {isConnected && isAuthenticated ? (
           <NewUserFlow />
         ) : (
