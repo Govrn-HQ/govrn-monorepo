@@ -23,7 +23,7 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Other',
 ];
 
-const primaryBrandColorsFromTheme = Object.values(
+const primaryBrandColorsFromTheme: string[] = Object.values(
   GovrnTheme.colors.brand.primary,
 ); // can change this to be primary or secondary, or use to map any color specrum in theme
 export const BRAND_COLOR_MAP = primaryBrandColorsFromTheme;
