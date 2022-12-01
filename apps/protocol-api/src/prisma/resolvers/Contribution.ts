@@ -649,7 +649,7 @@ export class ContributionCustomResolver {
       `;
     }
 
-    return await prisma.$queryRaw<ContributionCountByDate>`
+    const result = await prisma.$queryRaw<ContributionCountByDate>`
       WITH guild_contributions AS (
           SELECT 
       	    c.id,
@@ -680,6 +680,7 @@ export class ContributionCustomResolver {
         AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
+    return result;
   }
 
   @TypeGraphQL.Query(_returns => [ContributionCountByActivityType], {
