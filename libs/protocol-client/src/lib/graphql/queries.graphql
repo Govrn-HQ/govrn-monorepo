@@ -93,7 +93,7 @@ mutation upsertLinearUser(
   $update: LinearUserUpdateInput!
   $where: LinearUserWhereUniqueInput!
 ) {
-  upsertLinearUser(create: $create, update: $update, where: $where) {
+  upsertOneLinearUser(create: $create, update: $update, where: $where) {
     ...LinearUserFragment
   }
 }
@@ -102,7 +102,7 @@ mutation updateLinearUser(
   $data: LinearUserUpdateInput!
   $where: LinearUserWhereUniqueInput!
 ) {
-  updateLinearUser(data: $data, where: $where) {
+  updateOneLinearUser(data: $data, where: $where) {
     ...LinearUserFragment
   }
 }
@@ -112,7 +112,7 @@ mutation upsertLinearCycle(
   $update: LinearCycleUpdateInput!
   $where: LinearCycleWhereUniqueInput!
 ) {
-  upsertLinearCycle(create: $create, update: $update, where: $where) {
+  upsertOneLinearCycle(create: $create, update: $update, where: $where) {
     id
     endsAt
     linear_id
@@ -126,7 +126,7 @@ mutation upsertLinearProject(
   $update: LinearProjectUpdateInput!
   $where: LinearProjectWhereUniqueInput!
 ) {
-  upsertLinearProject(create: $create, update: $update, where: $where) {
+  upsertOneLinearProject(create: $create, update: $update, where: $where) {
     id
     linear_id
     name
@@ -138,7 +138,7 @@ mutation upsertLinearTeam(
   $update: LinearTeamUpdateInput!
   $where: LinearTeamWhereUniqueInput!
 ) {
-  upsertLinearTeam(create: $create, update: $update, where: $where) {
+  upsertOneLinearTeam(create: $create, update: $update, where: $where) {
     id
     key
     name
@@ -148,7 +148,7 @@ mutation upsertLinearTeam(
 
 # Job Run
 mutation createJobRun($data: JobRunCreateInput!) {
-  createJobRun(data: $data) {
+  createOneJobRun(data: $data) {
     completedDate
     startDate
     name
@@ -169,7 +169,7 @@ fragment GuildFragment on Guild {
 }
 
 mutation createGuild($data: GuildCreateInput!) {
-  createGuild(data: $data) {
+  createOneGuild(data: $data) {
     congrats_channel
     discord_id
     logo
@@ -178,7 +178,7 @@ mutation createGuild($data: GuildCreateInput!) {
 }
 
 mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
-  deleteGuildUser(where: $where) {
+  deleteOneGuildUser(where: $where) {
     id
   }
 }
@@ -281,7 +281,7 @@ mutation upsertTwitterUser(
   $update: TwitterUserUpdateInput!
   $where: TwitterUserWhereUniqueInput!
 ) {
-  upsertTwitterUser(create: $create, update: $update, where: $where) {
+  upsertOneTwitterUser(create: $create, update: $update, where: $where) {
     ...TwitterUserFragment
   }
 }
@@ -347,7 +347,7 @@ query listUserByAddress($address: String!) {
 }
 
 mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
-  updateUser(data: $data, where: $where) {
+  updateOneUser(data: $data, where: $where) {
     ...UserFragment
   }
 }
@@ -359,7 +359,7 @@ mutation updateUserCustom($data: UserUpdateCustomInput!) {
 }
 
 mutation createUser($data: UserCreateInput!) {
-  createUser(data: $data) {
+  createOneUser(data: $data) {
     ...UserFragment
   }
 }
@@ -485,7 +485,7 @@ query getContributionCountByActivityType($where: GetContributionInput!) {
 }
 
 mutation createContribution($data: ContributionCreateInput!) {
-  createContribution(data: $data) {
+  createOneContribution(data: $data) {
     ...ContributionFragment
   }
 }
@@ -511,7 +511,7 @@ mutation deleteUserContribution($where: UserContributionDeleteInput!) {
 }
 
 mutation deleteContribution($where: ContributionWhereUniqueInput!) {
-  deleteContribution(where: $where) {
+  deleteOneContribution(where: $where) {
     id
   }
 }
@@ -551,7 +551,7 @@ mutation updateContribution(
   $data: ContributionUpdateInput!
   $where: ContributionWhereUniqueInput!
 ) {
-  updateContribution(data: $data, where: $where) {
+  updateOneContribution(data: $data, where: $where) {
     ...ContributionFragment
   }
 }
@@ -561,7 +561,7 @@ mutation upsertContribution(
   $create: ContributionCreateInput!
   $update: ContributionUpdateInput!
 ) {
-  upsertContribution(where: $where, create: $create, update: $update) {
+  upsertOneContribution(where: $where, create: $create, update: $update) {
     ...ContributionFragment
   }
 }
@@ -610,7 +610,7 @@ query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
 }
 
 mutation createActivityType($data: ActivityTypeCreateInput!) {
-  createActivityType(data: $data) {
+  createOneActivityType(data: $data) {
     ...ActivityTypeFragment
   }
 }
@@ -626,7 +626,7 @@ mutation upsertActivityType(
   $update: ActivityTypeUpdateInput!
   $where: ActivityTypeWhereUniqueInput!
 ) {
-  upsertActivityType(create: $create, update: $update, where: $where) {
+  upsertOneActivityType(create: $create, update: $update, where: $where) {
     ...ActivityTypeFragment
   }
 }
@@ -645,7 +645,7 @@ fragment UserActivityFragment on UserActivity {
 }
 
 mutation createUserActivity($data: UserActivityCreateInput!) {
-  createUserActivity(data: $data) {
+  createOneUserActivity(data: $data) {
     ...UserActivityFragment
   }
 }
@@ -668,7 +668,7 @@ query listAttestations(
 }
 
 mutation createAttestation($data: AttestationCreateInput!) {
-  createAttestation(data: $data) {
+  createOneAttestation(data: $data) {
     ...AttestationFragment
   }
 }
@@ -704,7 +704,7 @@ mutation updateAttestation(
   $data: AttestationUpdateInput!
   $where: AttestationWhereUniqueInput!
 ) {
-  updateAttestation(data: $data, where: $where) {
+  updateOneAttestation(data: $data, where: $where) {
     ...AttestationFragment
   }
 }
@@ -714,7 +714,7 @@ mutation upsertAttestation(
   $create: AttestationCreateInput!
   $update: AttestationUpdateInput!
 ) {
-  upsertAttestation(where: $where, create: $create, update: $update) {
+  upsertOneAttestation(where: $where, create: $create, update: $update) {
     ...AttestationFragment
   }
 }
