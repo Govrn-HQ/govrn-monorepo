@@ -119,8 +119,8 @@ const HomeShell = () => {
     >
       <Flex
         direction="column"
-        alignItems={{ base: 'flex-start', lg: 'center' }}
-        justifyContent={{ base: 'flex-start', lg: 'center' }}
+        alignItems={{ base: 'center' }}
+        justifyContent={{ base: 'center' }}
         paddingY={{ base: '8', lg: '0' }}
         flex="1"
         minHeight={['100vh', '100vh', '0', '0']}
@@ -135,8 +135,9 @@ const HomeShell = () => {
           alignItems="center"
           justifyContent="center"
           color="white"
-          fontSize={{ base: 'md', lg: '2xl' }}
+          fontSize={{ base: 'lg', lg: '2xl' }}
           fontWeight="400"
+          marginBottom={{ base: 40, lg: 0 }}
         >
           <Text>Track and record your DAO</Text>
           <Text>Contributions</Text>
@@ -152,11 +153,13 @@ const HomeShell = () => {
             alignItems="center"
             justifyContent="center"
             color="white"
-            fontSize={{ base: 'md', lg: 'xl' }}
+            fontSize={{ base: 'lg', lg: 'xl' }}
             fontWeight="400"
           >
-            <Text>To get started, connect your wallet</Text>
-            <Text marginBottom={{ base: 4, lg: 16 }}>to Gnosis Chain.</Text>
+            <Text>To get started, connect</Text>
+            <Text marginBottom={{ base: 10, lg: 16 }}>
+              your wallet to Gnosis Chain.
+            </Text>
             <ConnectWallet />
           </Flex>
         )}
