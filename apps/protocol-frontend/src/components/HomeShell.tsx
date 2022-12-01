@@ -6,7 +6,6 @@ import ConnectWallet from '../components/ConnectWallet';
 import CreateUserForm from './CreateUserForm';
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
-import { GOVRN_MOTTO } from '../utils/constants';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import GovrnTextLogo from './GovrnTextLogo';
 

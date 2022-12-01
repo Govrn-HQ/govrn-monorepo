@@ -1,19 +1,19 @@
 export default {
   brand: {
     primary: {
-      50: '#ffe4f9',
-      100: '#ffb4e2',
-      200: '#fb84ce',
-      300: '#f854ba',
-      400: '#f526a6',
-      500: '#db0f8d', // this is the primary value
-      600: '#ab076d',
-      700: '#7b024e',
-      800: '#4b0030',
-      900: '#1d0013',
+      50: '#FFF6FC',
+      100: '#FCE9F5',
+      200: '#F9D2EA',
+      300: '#F2A5D5',
+      400: '#EC79C1',
+      500: '#DF1597', // this is the primary value
+      600: '#B21979',
+      700: '#86135B',
+      800: '#590C3C',
+      900: '#2D061E',
     },
     secondary: {
-      50: '#ffe4f9',
+      50: '#F8F4FF',
       100: '#EEE6FC',
       200: '#DCCCFA',
       300: '#B999F4',
@@ -24,7 +24,7 @@ export default {
       800: '#20005B',
       900: '#10002E',
     },
-    magenta: '#db0f8d',
+    magenta: '#DF1F97',
     purple: '#5100E4',
   },
 };
