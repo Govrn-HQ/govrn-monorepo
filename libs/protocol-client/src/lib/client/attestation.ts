@@ -9,8 +9,8 @@ import {
 
 export class Attestation extends BaseClient {
   public async create(args: CreateAttestationMutationVariables) {
-    const contributions = await this.sdk.createOneAttestation(args);
-    return contributions.createAttestation;
+    const contributions = await this.sdk.createAttestation(args);
+    return contributions.createOneAttestation;
   }
 
   public async bulkCreate(args: BulkCreateAttestationMutationVariables) {
@@ -18,12 +18,12 @@ export class Attestation extends BaseClient {
   }
 
   public async update(args: UpdateAttestationMutationVariables) {
-    const contributions = await this.sdk.updateOneAttestation(args);
-    return contributions.updateAttestation;
+    const contributions = await this.sdk.updateAttestation(args);
+    return contributions.updateOneAttestation;
   }
 
   public async upsert(args: UpsertAttestationMutationVariables) {
-    return await this.sdk.upsertOneAttestation(args);
+    return await this.sdk.upsertAttestation(args);
   }
 
   public async list(args: ListAttestationsQueryVariables) {

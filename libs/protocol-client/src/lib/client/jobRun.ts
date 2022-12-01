@@ -16,7 +16,7 @@ export class JobRun extends BaseClient {
   }
 
   public async create(args: MutationCreateOneJobRunArgs) {
-    const jobRuns = await this.sdk.createOneJobRun(args);
-    return jobRuns.createJobRun;
+    const jobRuns = await this.sdk.createJobRun(args);
+    return jobRuns.createOneJobRun;
   }
 }

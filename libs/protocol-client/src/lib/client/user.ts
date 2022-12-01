@@ -23,7 +23,7 @@ export class User extends BaseClient {
 
   public async update(data: UserUpdateInput, where: UserWhereUniqueInput) {
     const user = await this.sdk.updateUser({ where, data });
-    return user.updateUser;
+    return user.updateOneUser;
   }
 
   public async list(args: ListUsersQueryVariables) {
@@ -39,7 +39,7 @@ export class User extends BaseClient {
 
 class GuildUser extends BaseClient {
   public async delete(args: MutationDeleteOneGuildUserArgs) {
-    const guildUser = await this.sdk.deleteOneGuildUser(args);
+    const guildUser = await this.sdk.deleteGuildUser(args);
     return guildUser;
   }
 }
