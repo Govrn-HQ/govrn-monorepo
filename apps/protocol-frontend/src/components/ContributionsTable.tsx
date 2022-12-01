@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -19,7 +19,6 @@ import {
 import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
 import {
-  Row,
   ColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
@@ -113,6 +112,7 @@ const ContributionsTable = ({
     return contributionsData.flat();
   }, [contributionsData]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const columnsDefs = useMemo<ColumnDef<UIContribution, any>[]>(() => {
     return [
       {
