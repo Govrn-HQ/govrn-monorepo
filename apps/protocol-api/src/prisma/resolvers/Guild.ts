@@ -50,8 +50,8 @@ export class GuildCustomResolver {
       WITH unique_guild_contributor_daily_count as (
         SELECT
           count(distinct c.user_id) as distinct_contributors,
-          EXTRACT(year from gc.createdAt) as year,
-          EXTRACT(month from gc.createdAt) as month,
+          EXTRACT(year from gc."createdAt") as year,
+          EXTRACT(month from gc."createdAt") as month,
           trunc(EXTRACT(day from TIMESTAMP) / ${windowSizeDays}) as day_bucket
         FROM 
           "GuildContribution" gc 
