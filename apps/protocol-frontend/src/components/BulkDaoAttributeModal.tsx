@@ -9,10 +9,10 @@ import { BulkDaoAttributeFormValues } from '../types/forms';
 import { useDaosList } from '../hooks/useDaosList';
 import pluralize from 'pluralize';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
-import { ContributionTableType } from '../types/table';
+import { UIContribution } from '@govrn/ui-types';
 
 interface BulkDaoAttributeModalProps {
-  contributions: ContributionTableType[];
+  contributions: UIContribution[];
 }
 
 const BulkDaoAttributeModal = ({

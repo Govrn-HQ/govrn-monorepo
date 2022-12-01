@@ -44,7 +44,6 @@ import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
 import { RowSelectionState } from '@tanstack/table-core/src/features/RowSelection';
@@ -73,7 +72,7 @@ const ContributionsTable = ({
   nextPage,
 }: {
   contributionsData: UIContribution[][];
-  setSelectedContributions: (rows: Row<ContributionTableType>[]) => void;
+  setSelectedContributions: (rows: UIContribution[]) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
@@ -106,43 +105,15 @@ const ContributionsTable = ({
   };
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-  const [selectedRows, setSelectedRows] = useState<
-    Row<ContributionTableType>[]
-  >([]);
+  const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const data = useMemo<ContributionTableType[]>(() => {
-    const tableData = [] as ContributionTableType[];
-    for (const page of contributionsData) {
-      for (const contribution of page) {
-        tableData.push({
-          name: contribution.name,
-          txHash: contribution.tx_hash,
-          id: contribution.id,
-          details: contribution.details,
-          proof: contribution.proof,
-          updatedAt: contribution.updatedAt,
-          date_of_submission: contribution.date_of_submission,
-          engagementDate: formatDate(contribution.date_of_engagement),
-          date_of_engagement: formatDate(contribution.date_of_engagement),
-          attestations: contribution.attestations || null,
-          user: contribution.user,
-          activityTypeId: contribution.activity_type.id,
-          activity_type: contribution.activity_type,
-          guilds: contribution.guilds,
-          status: contribution.status,
-          action: '',
-          guildName:
-            contribution.guilds.map(guildObj => guildObj.guild.name)[0] ??
-            '---',
-        });
-      }
-    }
-    return tableData;
+  const data = useMemo<UIContribution[]>(() => {
+    return contributionsData.flat();
   }, [contributionsData]);
 
-  const columnsDefs = useMemo<ColumnDef<ContributionTableType, any>[]>(() => {
+  const columnsDefs = useMemo<ColumnDef<UIContribution, any>[]>(() => {
     return [
       {
         id: 'selection',
@@ -199,18 +170,20 @@ const ContributionsTable = ({
       },
       {
         header: 'Engagement Date',
-        accessorKey: 'engagementDate',
+        accessorFn: contribution => formatDate(contribution.date_of_engagement),
       },
       {
         header: 'Attestations',
-        accessorKey: 'attestations',
+        // TODO: Can this be replaced with accessorKey?
+        accessorFn: contribution => String(contribution.attestations.length),
         cell: ({ getValue }) => {
-          return <Text textTransform="capitalize">{getValue().length} </Text>;
+          return <Text textTransform="capitalize">{getValue()} </Text>;
         },
       },
       {
         header: 'DAO',
-        accessorKey: 'guildName',
+        accessorFn: contribution =>
+          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         cell: ({ getValue }) => {
           return <Text>{getValue()}</Text>;
         },
@@ -223,14 +196,14 @@ const ContributionsTable = ({
             {row.original.status.name === 'minted' ||
             row.original.status.name === 'pending' ? (
               <HStack spacing="1">
-                {row.original.txHash !== null && (
+                {row.original.tx_hash !== null && (
                   <Tooltip
                     label="Minted and Pending contributions cannot be edited or deleted. View on Block Explorer."
                     aria-label="A tooltip"
                   >
                     <Box>
                       <ChakraLink
-                        href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
+                        href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.tx_hash}`}
                         isExternal
                       >
                         <IconButton
@@ -298,11 +271,10 @@ const ContributionsTable = ({
       rowSelection: rowSelection,
       globalFilter,
     },
+    enableRowSelection: row => row.original.status.name === 'staging',
     onSortingChange: setSorting,
     onRowSelectionChange: setRowSelection,
-    enableRowSelection: row => {
-      return row.original.status.name === 'staging';
-    },
+    onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -312,19 +284,19 @@ const ContributionsTable = ({
 
   useEffect(() => {
     setSelectedContributions(selectedRows);
-  }, [selectedRows]);
+  }, [selectedRows, setSelectedContributions]);
 
   useEffect(() => {
-    const selectedContributions: Row<ContributionTableType>[] = [];
+    const selectedContributions: UIContribution[] = [];
     for (const key in rowSelection) {
       if (rowSelection[key]) {
-        selectedContributions.push(table.getRow(key));
+        selectedContributions.push(table.getRow(key).original);
       }
     }
     setSelectedRows(selectedContributions);
-  }, [rowSelection]);
+  }, [rowSelection, table]);
 
-  const toggleSelected = () => {
+  const deselectAll = () => {
     setRowSelection({});
   };
 
@@ -419,11 +391,7 @@ const ContributionsTable = ({
           title="Attribute Contributions to a DAO"
           localOverlay={localOverlay}
           size="3xl"
-          content={
-            <BulkDaoAttributeModal
-              contributions={selectedRows.map(r => r.original)}
-            />
-          }
+          content={<BulkDaoAttributeModal contributions={selectedRows} />}
         />
         <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
         <ModalWrapper
@@ -432,7 +400,7 @@ const ContributionsTable = ({
           localOverlay={localOverlay}
           size="3xl"
           content={
-            <MintModal contributions={selectedRows} onFinish={toggleSelected} />
+            <MintModal contributions={selectedRows} onFinish={deselectAll} />
           }
         />
         <ModalWrapper
@@ -440,11 +408,7 @@ const ContributionsTable = ({
           title="Attribute Contributions to a DAO"
           localOverlay={localOverlay}
           size="3xl"
-          content={
-            <BulkDaoAttributeModal
-              contributions={selectedRows.map(r => r.original)}
-            />
-          }
+          content={<BulkDaoAttributeModal contributions={selectedRows} />}
         />
       </Box>
     </Stack>
