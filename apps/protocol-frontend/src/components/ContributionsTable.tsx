@@ -19,17 +19,16 @@ import {
 import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
 import {
-  Column,
   Row,
-  HeaderGroup,
-  useFilters,
-  useGlobalFilter,
-  useRowSelect,
-  useSortBy,
-  useTable,
-  UseTableRowProps,
-  UseTableHooks,
-} from 'react-table';
+  ColumnDef,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  useReactTable,
+  flexRender,
+  SortingState,
+  getSortedRowModel,
+} from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
@@ -48,6 +47,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
+import { RowSelectionState } from '@tanstack/table-core/src/features/RowSelection';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -105,6 +105,13 @@ const ContributionsTable = ({
     });
   };
 
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [selectedRows, setSelectedRows] = useState<
+    Row<ContributionTableType>[]
+  >([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+
   const data = useMemo<ContributionTableType[]>(() => {
     const tableData = [] as ContributionTableType[];
     for (const page of contributionsData) {
@@ -135,114 +142,83 @@ const ContributionsTable = ({
     return tableData;
   }, [contributionsData]);
 
-  const columns = useMemo<Column<ContributionTableType>[]>(
-    () => [
+  const columnsDefs = useMemo<ColumnDef<ContributionTableType, any>[]>(() => {
+    return [
       {
-        Header: 'Name',
-        accessor: 'name',
-        Cell: ({
-          value,
-          row,
-        }: {
-          value: string;
-          row: Row<ContributionTableType>;
-        }) => {
+        id: 'selection',
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: row.getIsSelected(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+              disabled: row.original.status.name !== 'staging',
+            }}
+          />
+        ),
+      },
+
+      {
+        header: 'Name',
+        accessorKey: 'name',
+        cell: ({ row, getValue }) => {
           return (
             <Flex direction="column" wrap="wrap">
               <Link to={`/contributions/${row.original.id}`}>
-                <Text whiteSpace="normal">{value}</Text>
+                <Text whiteSpace="normal">{getValue()}</Text>
               </Link>
             </Flex>
           );
         },
       },
       {
-        Header: 'Status',
-        accessor: 'status',
-        Cell: ({ value }: { value: { name: string } }) => {
+        header: 'Status',
+        accessorKey: 'status',
+        cell: ({ getValue }) => {
           return (
             <Text textTransform="capitalize">
-              {value.name}{' '}
+              {getValue().name}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {emojiSelect(value.name)}
+                {emojiSelect(getValue().name)}
               </span>{' '}
             </Text>
           );
         },
       },
       {
-        Header: 'Engagement Date',
-        accessor: 'engagementDate',
+        header: 'Engagement Date',
+        accessorKey: 'engagementDate',
       },
       {
-        Header: 'Attestations',
-        accessor: 'attestations',
-        Cell: ({ value }: { value: { length: number } }) => {
-          return <Text textTransform="capitalize">{value.length} </Text>;
+        header: 'Attestations',
+        accessorKey: 'attestations',
+        cell: ({ getValue }) => {
+          return <Text textTransform="capitalize">{getValue().length} </Text>;
         },
       },
-
       {
-        Header: 'DAO',
-        accessor: 'guildName',
-        Cell: ({ value }: { value: string }) => {
-          return <Text>{value}</Text>;
+        header: 'DAO',
+        accessorKey: 'guildName',
+        cell: ({ getValue }) => {
+          return <Text>{getValue()}</Text>;
         },
       },
-    ],
-    [],
-  );
-
-  const tableHooks = (hooks: UseTableHooks<ContributionTableType>) => {
-    hooks.visibleColumns.push(columns => [
-      {
-        id: 'selection',
-        Header: ({
-          getToggleAllRowsSelectedProps,
-          toggleRowSelected,
-          toggleAllRowsSelected,
-          rows,
-          selectedFlatRows,
-        }) => {
-          const { onChange, ...propsWithoutOnChange } =
-            getToggleAllRowsSelectedProps();
-          const overrideOnChange = (event: ChangeEvent) => {
-            // Deselect all selected rows.
-            if (selectedFlatRows.length > 0) {
-              toggleAllRowsSelected(false);
-              return;
-            }
-
-            // Toggle all rows selected, only select staging contributions.
-            rows.forEach(row => {
-              toggleRowSelected(
-                row.id,
-                (event as ChangeEvent<HTMLInputElement>).currentTarget
-                  .checked && row.original.status.name === 'staging',
-              );
-            });
-          };
-          const newProps = {
-            onChange: overrideOnChange,
-            ...propsWithoutOnChange,
-          };
-          return <IndeterminateCheckbox {...newProps} />;
-        },
-        Cell: ({ row }: { row: Row<ContributionTableType> }) => (
-          <IndeterminateCheckbox
-            {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status.name !== 'staging'}
-          />
-        ),
-      },
-      ...columns,
       {
         id: 'actions',
-        Header: 'Actions',
-        Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
+        header: 'Actions',
+        cell: ({ row }) => (
           <HStack spacing={1}>
             {row.original.status.name === 'minted' ||
             row.original.status.name === 'pending' ? (
@@ -311,94 +287,111 @@ const ContributionsTable = ({
           </HStack>
         ),
       },
-    ]);
-  };
+    ];
+  }, []);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    state: { globalFilter, selectedRowIds },
-    preGlobalFilteredRows,
-    setGlobalFilter,
-    selectedFlatRows,
-    prepareRow,
-    toggleAllRowsSelected,
-  } = useTable(
-    { columns, data, autoResetSelectedRows: false },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    useRowSelect,
-    tableHooks,
-  );
+  const table = useReactTable({
+    data,
+    columns: columnsDefs,
+    state: {
+      sorting,
+      rowSelection: rowSelection,
+      globalFilter,
+    },
+    onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
+    enableRowSelection: row => {
+      return row.original.status.name === 'staging';
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    debugAll: true,
+  });
 
   useEffect(() => {
-    setSelectedContributions(selectedFlatRows);
-  }, [selectedFlatRows, selectedRowIds]);
+    setSelectedContributions(selectedRows);
+  }, [selectedRows]);
+
+  useEffect(() => {
+    const selectedContributions: Row<ContributionTableType>[] = [];
+    for (const key in rowSelection) {
+      if (rowSelection[key]) {
+        selectedContributions.push(table.getRow(key));
+      }
+    }
+    setSelectedRows(selectedContributions);
+  }, [rowSelection]);
 
   const toggleSelected = () => {
-    toggleAllRowsSelected(false);
+    setRowSelection({});
   };
 
   return (
     <Stack>
       <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
+        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
       <Box width="100%" maxWidth="100vw" overflowX="auto">
         <InfiniteScroll
-          dataLength={rows.length}
+          dataLength={table.getRowModel().rows.length}
           next={nextPage}
           scrollThreshold={0.8}
           hasMore={hasMoreItems}
           loader={<GovrnSpinner />}
         >
-          <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+          <Table maxWidth="100vw" overflowX="auto">
             <Thead backgroundColor="gray.50">
-              {headerGroups.map(
-                (headerGroup: HeaderGroup<ContributionTableType>) => (
-                  <Tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(
-                      (column: HeaderGroup<ContributionTableType>) => (
-                        <Th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps(),
-                          )}
-                          borderColor="gray.100"
+              {table.getHeaderGroups().map(headerGroup => (
+                <Tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => (
+                    <Th borderColor="gray.100">
+                      {header.isPlaceholder ? null : (
+                        <Box
+                          {...{
+                            onClick: header.column.getToggleSortingHandler(),
+                            cursor: 'pointer',
+                          }}
                         >
-                          {column.render('Header')}
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+
                           <chakra.span paddingLeft="4">
-                            {column.isSorted ? (
-                              column.isSortedDesc ? (
+                            {{
+                              asc: <IoArrowUp aria-label="sorted-ascending" />,
+                              desc: (
                                 <IoArrowDown aria-label="sorted-descending" />
-                              ) : (
-                                <IoArrowUp aria-label="sorted-ascending" />
-                              )
-                            ) : null}
+                              ),
+                            }[header.column.getIsSorted() as string] ?? null}
                           </chakra.span>
-                        </Th>
-                      ),
-                    )}
-                    <Th borderColor="gray.100" />
-                  </Tr>
-                ),
-              )}
+                        </Box>
+                      )}
+                    </Th>
+                  ))}
+                  <Th borderColor="gray.100" />
+                </Tr>
+              ))}
             </Thead>
 
-            <Tbody {...getTableBodyProps()}>
-              {rows.map(row => {
-                prepareRow(row);
+            <Tbody>
+              {table.getRowModel().rows.map(row => {
                 return (
-                  <Tr {...row.getRowProps()}>
-                    {row.cells.map(cell => (
-                      <Td {...cell.getCellProps()} borderColor="gray.100">
-                        <>{cell.render('Cell')}</>
-                      </Td>
-                    ))}
+                  <Tr key={row.id}>
+                    {row.getVisibleCells().map(cell => {
+                      return (
+                        <Td borderColor="gray.100" key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </Td>
+                      );
+                    })}
                   </Tr>
                 );
               })}
@@ -428,7 +421,7 @@ const ContributionsTable = ({
           size="3xl"
           content={
             <BulkDaoAttributeModal
-              contributions={selectedFlatRows.map(r => r.original)}
+              contributions={selectedRows.map(r => r.original)}
             />
           }
         />
@@ -439,10 +432,7 @@ const ContributionsTable = ({
           localOverlay={localOverlay}
           size="3xl"
           content={
-            <MintModal
-              contributions={selectedFlatRows}
-              onFinish={toggleSelected}
-            />
+            <MintModal contributions={selectedRows} onFinish={toggleSelected} />
           }
         />
         <ModalWrapper
@@ -452,7 +442,7 @@ const ContributionsTable = ({
           size="3xl"
           content={
             <BulkDaoAttributeModal
-              contributions={selectedFlatRows.map(r => r.original)}
+              contributions={selectedRows.map(r => r.original)}
             />
           }
         />
