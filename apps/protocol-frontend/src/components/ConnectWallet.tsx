@@ -50,16 +50,10 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
               if (!mounted || !account || !chain) {
                 return (
                   <Button
-                    color="brand.primary.600"
-                    backgroundColor="brand.primary.50"
+                    color="brand.purple"
+                    backgroundColor="gray.300"
                     transition="all 100ms ease-in-out"
-                    border="2px"
-                    borderColor="white"
-                    _hover={{
-                      bgColor: 'brand.primary.100',
-                      borderWidth: '2px',
-                      borderColor: 'brand.primary.600',
-                    }}
+                    _hover={{ backgroundColor: 'white' }}
                     leftIcon={<FiKey />}
                     disabled={isConnecting}
                     onClick={openConnectModal}

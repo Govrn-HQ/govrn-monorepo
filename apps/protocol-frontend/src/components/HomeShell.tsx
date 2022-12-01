@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
-import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
-
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
 import { GOVRN_MOTTO } from '../utils/constants';
@@ -90,9 +88,9 @@ const HomeShell = () => {
               <Link to="/dashboard">
                 <Button
                   color="brand.purple"
-                  backgroundColor="brand.primary.50"
+                  backgroundColor="gray.300"
                   transition="all 100ms ease-in-out"
-                  _hover={{ bgColor: 'white' }}
+                  _hover={{ backgroundColor: 'white' }}
                   marginTop={4}
                   width="100%"
                   data-cy="myDashboards-btn"
@@ -149,12 +147,18 @@ const HomeShell = () => {
         {isConnected && isAuthenticated ? (
           <NewUserFlow />
         ) : (
-          <>
-            <Text color="gray.800" paddingBottom={8}>
-              To get started, connect your wallet to Gnosis Chain.
-            </Text>
+          <Flex
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            color="white"
+            fontSize={{ base: 'md', lg: 'xl' }}
+            fontWeight="400"
+          >
+            <Text>To get started, connect your wallet</Text>
+            <Text marginBottom={{ base: 4, lg: 16 }}>to Gnosis Chain.</Text>
             <ConnectWallet />
-          </>
+          </Flex>
         )}
       </Flex>
     </Flex>
