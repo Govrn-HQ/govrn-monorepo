@@ -29,7 +29,7 @@ export class GetActiveUsersArgs {
 
 @TypeGraphQL.Resolver(_of => Guild)
 export class GuildCustomResolver {
-  @TypeGraphQL.Query(_returns => Int)
+  @TypeGraphQL.Query(_returns => Number)
   async getAverageActiveGuildUsers(
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: GetActiveUsersArgs,
@@ -52,7 +52,7 @@ export class GuildCustomResolver {
           count(distinct c.user_id) as distinct_contributors,
           EXTRACT(year from gc."createdAt") as year,
           EXTRACT(month from gc."createdAt") as month,
-          trunc(EXTRACT(day from TIMESTAMP) / ${windowSizeDays}) as day_bucket
+          trunc(EXTRACT(day from gc."createdAt") / ${windowSizeDays}) as day_bucket
         FROM 
           "GuildContribution" gc 
         LEFT JOIN "Contribution" as c
@@ -70,6 +70,6 @@ export class GuildCustomResolver {
       FROM
         unique_guild_contributor_daily_count
       `;
-    return result;
+    return result[0].avg;
   }
 }
