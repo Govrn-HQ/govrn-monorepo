@@ -89,7 +89,7 @@ const HomeShell = () => {
               </Text>
               <Link to="/dashboard">
                 <Button
-                  color="brand.primary.600"
+                  color="brand.purple"
                   backgroundColor="brand.primary.50"
                   transition="all 100ms ease-in-out"
                   _hover={{ bgColor: 'white' }}
