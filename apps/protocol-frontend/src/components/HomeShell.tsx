@@ -76,19 +76,15 @@ const HomeShell = () => {
             alignItems="center"
             justifyContent="center"
             textAlign="center"
+            color="white"
           >
             <>
-              <Text color="gray.800" paddingBottom={8}>
+              <Text paddingBottom={8}>
                 Welcome back{' '}
-                <Text
-                  as="span"
-                  fontWeight="bolder"
-                  bgGradient="linear(to-l, #7928CA, #FF0080)"
-                  bgClip="text"
-                >
+                <Text as="span" fontWeight="bolder">
                   {userData?.name || userDataByAddress?.name}
                 </Text>
-                . Click below to view your dashboard.
+                .
               </Text>
               <Link to="/dashboard">
                 <Button
@@ -120,7 +116,7 @@ const HomeShell = () => {
       paddingX={{ base: 8, lg: 0 }}
       minHeight="100vh"
       minWidth="100vw"
-      bgGradient="linear(to-r, white 0%, brand.primary.100 50%, brand.primary.200 100%)"
+      bgGradient="linear(to-r, #DF1F97 0%, #5100E4 100%)"
     >
       <VisuallyHidden>
         <Heading as="h1">Govrn</Heading>
