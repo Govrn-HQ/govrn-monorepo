@@ -138,6 +138,7 @@ const HomeShell = () => {
           fontSize={{ base: 'lg', lg: '2xl' }}
           fontWeight="400"
           marginBottom={{ base: 40, lg: 0 }}
+          gap={1}
         >
           <Text>Track and record your DAO</Text>
           <Text>Contributions</Text>
