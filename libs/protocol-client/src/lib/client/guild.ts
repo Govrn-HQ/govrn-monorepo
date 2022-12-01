@@ -9,7 +9,7 @@ import {
 // TODO: Add get guild
 export class Guild extends BaseClient {
   public async create(args: CreateGuildMutationVariables) {
-    const guild = await this.sdk.createGuild(args);
+    const guild = await this.sdk.createOneGuild(args);
     return guild.createGuild;
   }
 

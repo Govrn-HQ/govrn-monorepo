@@ -43,12 +43,12 @@ class Issue extends BaseClient {
 
 class User extends BaseClient {
   public async upsert(args: UpsertLinearUserMutationVariables) {
-    const user = await this.sdk.upsertLinearUser(args);
+    const user = await this.sdk.upsertOneLinearUser(args);
     return user.upsertLinearUser;
   }
 
   public async update(args: UpdateLinearUserMutationVariables) {
-    const user = await this.sdk.updateLinearUser(args);
+    const user = await this.sdk.updateOneLinearUser(args);
     return user.updateLinearUser;
   }
 
@@ -62,21 +62,21 @@ class User extends BaseClient {
 
 class Cycle extends BaseClient {
   public async upsert(args: UpsertLinearCycleMutationVariables) {
-    const user = await this.sdk.upsertLinearCycle(args);
+    const user = await this.sdk.upsertOneLinearCycle(args);
     return user.upsertLinearCycle;
   }
 }
 
 class Project extends BaseClient {
   public async upsert(args: UpsertLinearProjectMutationVariables) {
-    const user = await this.sdk.upsertLinearProject(args);
+    const user = await this.sdk.upsertOneLinearProject(args);
     return user.upsertLinearProject;
   }
 }
 
 class Team extends BaseClient {
   public async upsert(args: UpsertLinearTeamMutationVariables) {
-    const user = await this.sdk.upsertLinearTeam(args);
+    const user = await this.sdk.upsertOneLinearTeam(args);
     return user.upsertLinearTeam;
   }
 }

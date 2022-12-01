@@ -9,7 +9,7 @@ import {
 
 export class Attestation extends BaseClient {
   public async create(args: CreateAttestationMutationVariables) {
-    const contributions = await this.sdk.createAttestation(args);
+    const contributions = await this.sdk.createOneAttestation(args);
     return contributions.createAttestation;
   }
 
@@ -18,12 +18,12 @@ export class Attestation extends BaseClient {
   }
 
   public async update(args: UpdateAttestationMutationVariables) {
-    const contributions = await this.sdk.updateAttestation(args);
+    const contributions = await this.sdk.updateOneAttestation(args);
     return contributions.updateAttestation;
   }
 
   public async upsert(args: UpsertAttestationMutationVariables) {
-    return await this.sdk.upsertAttestation(args);
+    return await this.sdk.upsertOneAttestation(args);
   }
 
   public async list(args: ListAttestationsQueryVariables) {

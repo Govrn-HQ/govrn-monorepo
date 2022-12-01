@@ -13,18 +13,18 @@ export class ActivityType extends BaseClient {
   }
 
   public async create(args: CreateActivityTypeMutationVariables) {
-    const activity = await this.sdk.createActivityType(args);
+    const activity = await this.sdk.createOneActivityType(args);
     return activity.createActivityType;
   }
 
   public async upsert(args: UpsertActivityTypeMutationVariables) {
-    const activity = await this.sdk.upsertActivityType(args);
+    const activity = await this.sdk.upsertOneActivityType(args);
     return activity.upsertActivityType;
   }
 
   // TODO: Rename
   public async userCreate(args: CreateUserActivityMutationVariables) {
-    const activity = await this.sdk.createUserActivity(args);
+    const activity = await this.sdk.createOneUserActivity(args);
     return activity.createUserActivity;
   }
 }
