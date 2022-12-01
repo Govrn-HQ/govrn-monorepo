@@ -1,5 +1,5 @@
-import { color } from '@chakra-ui/react';
 import { GovrnTheme } from '@govrn/protocol-ui';
+
 /* Environment Variables */
 export const INFURA_PROJECT_SECRET = import.meta.env.VITE_INFURA_PROJECT_SECRET;
 export const INFURA_PROJECT_ID = import.meta.env.VITE_INFURA_PROJECT_ID;
