@@ -112,7 +112,6 @@ const ContributionsTable = ({
     return contributionsData.flat();
   }, [contributionsData]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const columnsDefs = useMemo<ColumnDef<UIContribution, any>[]>(() => {
     return [
       {

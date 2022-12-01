@@ -63,7 +63,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/protocol-frontend/**/*.{ts,tsx,js,jsx}"],
-        "maxWarnings": 11
+        "maxWarnings": 12
       }
     },
     "test": {
