@@ -669,7 +669,7 @@ export class ContributionCustomResolver {
       SELECT gc.guild_id,
              coalesce(gc.name, 'Unassigned') as name,
              d.dt                            as date,
-             count(gc.date_of_engagement)    as count
+             count(gc.date_of_engagement)::text    as count
       FROM (
         SELECT dt::date
         FROM generate_series(${start}, ${end}, '1 day'::interval) dt
@@ -680,17 +680,7 @@ export class ContributionCustomResolver {
         AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
-    // ugly attempt to massage bigint return type from query into something
-    // more easily handled by graphql
-    const massagedResult = result.map(x => {
-      return {
-        guild_id: x.guild_id,
-        count: x.count.toString(),
-        date: x.date,
-        name: x.name,
-      };
-    });
-    return massagedResult;
+    return result;
   }
 
   @TypeGraphQL.Query(_returns => [ContributionCountByActivityType], {
@@ -712,7 +702,7 @@ export class ContributionCustomResolver {
     const result = await prisma.$queryRaw<[ContributionCountByActivityType]>`
       SELECT c.activity_type_id as activity_id,
              a.name as activity_name,
-             count(c.id) as count
+             count(c.id)::text as count
       FROM
         "GuildContribution" gc 
         LEFT JOIN "Contribution" as c 
@@ -724,15 +714,7 @@ export class ContributionCustomResolver {
         AND gc."guild_id" = ${daoId}
       ) GROUP BY a.name, c.activity_type_id
       ORDER BY count;`;
-    // TODO: How to avoid this?
-    const massagedResult = result.map(x => {
-      return {
-        activity_id: x.activity_id,
-        activity_name: x.activity_name,
-        count: x.count.toString(),
-      };
-    });
-    return massagedResult;
+    return result;
   }
 
   @TypeGraphQL.Query(_returns => Int, {
@@ -773,7 +755,7 @@ export class ContributionCustomResolver {
     const guildId = args.where.guildId;
 
     const result = await prisma.$queryRaw<[ContributionCountByUser]>`
-      SELECT  count(gc.id) as count,
+      SELECT  count(gc.id)::text as count,
               u.id as "user_id",
               u.display_name as "display_name",
               u.address as "address"
@@ -788,14 +770,6 @@ export class ContributionCustomResolver {
         AND gc."guild_id" = ${guildId}
       ) GROUP BY u.display_name, u.id
       ORDER BY count;`;
-    const massagedResult = result.map(x => {
-      return {
-        count: x.count.toString(),
-        user_id: x.user_id,
-        display_name: x.display_name,
-        address: x.address,
-      };
-    });
-    return massagedResult;
+    return result;
   }
 }
