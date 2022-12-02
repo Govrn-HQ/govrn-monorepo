@@ -122,6 +122,7 @@ const ContributionsTable = ({
               checked: table.getIsAllRowsSelected(),
               indeterminate: table.getIsSomeRowsSelected(),
               onChange: table.getToggleAllRowsSelectedHandler(),
+              testid: 'toggle-row-selected',
             }}
           />
         ),
