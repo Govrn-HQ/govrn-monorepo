@@ -100,10 +100,10 @@ const ContributionsBarChart = ({
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}
             colors={[
-              BRAND_COLOR_MAP[0],
-              BRAND_COLOR_MAP[1],
-              BRAND_COLOR_MAP[2],
               BRAND_COLOR_MAP[3],
+              BRAND_COLOR_MAP[4],
+              BRAND_COLOR_MAP[5],
+              BRAND_COLOR_MAP[6],
             ]}
             borderColor={{
               from: 'color',

@@ -47,7 +47,6 @@ const ContributionsHeatMap = ({
             weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
             colors={[
-              brandColors[100],
               brandColors[200],
               brandColors[300],
               brandColors[400],
