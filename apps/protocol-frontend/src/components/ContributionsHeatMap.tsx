@@ -3,7 +3,7 @@ import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange } from '@nivo/calendar';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
-import { BRAND_COLOR_MAP } from '../utils/constants';
+import { BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
 
 type ContributionCount = {
   date: string;
@@ -47,7 +47,6 @@ const ContributionsHeatMap = ({
             weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
             colors={[
-              brandColors[200],
               brandColors[300],
               brandColors[400],
               brandColors[500],
@@ -73,7 +72,7 @@ const ContributionsHeatMap = ({
         <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
           Less
         </Text>
-        {BRAND_COLOR_MAP.map(color => (
+        {BRAND_COLOR_MAP_SUBSET.map(color => (
           <Box
             key={color}
             backgroundColor={color}
