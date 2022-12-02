@@ -11193,7 +11193,7 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
-  getAverageActiveGuildUsers: Scalars['Int'];
+  getAverageActiveGuildUsers: Scalars['Float'];
   getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
   getDaoContributionCount: Scalars['Int'];
