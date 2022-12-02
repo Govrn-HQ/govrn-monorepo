@@ -45,7 +45,7 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
-import { RowSelectionState } from '@tanstack/table-core/src/features/RowSelection';
+import { RowSelectionState } from '@tanstack/table-core';
 
 export type DialogProps = {
   isOpen: boolean;
