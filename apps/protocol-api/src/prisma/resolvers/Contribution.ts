@@ -680,15 +680,15 @@ export class ContributionCustomResolver {
         AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
-    // ugly attempt to massage bigint return type from query into something 
+    // ugly attempt to massage bigint return type from query into something
     // more easily handled by graphql
-    const massagedResult = result.map((x) => {
+    const massagedResult = result.map(x => {
       return {
         guild_id: x.guild_id,
         count: x.count.toString(),
         date: x.date,
-        name: x.name
-      }
+        name: x.name,
+      };
     });
     return massagedResult;
   }
@@ -725,12 +725,12 @@ export class ContributionCustomResolver {
       ) GROUP BY a.name, c.activity_type_id
       ORDER BY count;`;
     // TODO: How to avoid this?
-    const massagedResult = result.map((x) => {
+    const massagedResult = result.map(x => {
       return {
         activity_id: x.activity_id,
         activity_name: x.activity_name,
-        count: x.count.toString()
-      }
+        count: x.count.toString(),
+      };
     });
     return massagedResult;
   }
@@ -788,13 +788,13 @@ export class ContributionCustomResolver {
         AND gc."guild_id" = ${guildId}
       ) GROUP BY u.display_name, u.id
       ORDER BY count;`;
-    const massagedResult = result.map((x) => {
+    const massagedResult = result.map(x => {
       return {
         count: x.count.toString(),
         user_id: x.user_id,
         display_name: x.display_name,
-        address: x.address
-      }
+        address: x.address,
+      };
     });
     return massagedResult;
   }
