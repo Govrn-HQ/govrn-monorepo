@@ -2867,11 +2867,11 @@ export type ContributionCountAggregate = {
 export type ContributionCountByActivityType = {
   activity_id: Scalars['Float'];
   activity_name: Scalars['String'];
-  count: Scalars['String'];
+  count: Scalars['Float'];
 };
 
 export type ContributionCountByDate = {
-  count: Scalars['String'];
+  count: Scalars['Float'];
   date: Scalars['DateTime'];
   guild_id?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
@@ -2879,7 +2879,7 @@ export type ContributionCountByDate = {
 
 export type ContributionCountByUser = {
   address: Scalars['String'];
-  count: Scalars['String'];
+  count: Scalars['Float'];
   display_name?: Maybe<Scalars['String']>;
   user_id?: Maybe<Scalars['Float']>;
 };
@@ -16076,7 +16076,7 @@ export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
 }>;
 
 
-export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: string, date: string | Date, guild_id?: number | null, name: string }> };
+export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string | Date, guild_id?: number | null, name: string }> };
 
 export type GetDaoContributionCountQueryVariables = Exact<{
   where: GetContributionInput;
@@ -16090,14 +16090,14 @@ export type GetDaoContributionCountByUserQueryVariables = Exact<{
 }>;
 
 
-export type GetDaoContributionCountByUserQuery = { result: Array<{ count: string, display_name?: string | null, user_id?: number | null, address: string }> };
+export type GetDaoContributionCountByUserQuery = { result: Array<{ count: number, display_name?: string | null, user_id?: number | null, address: string }> };
 
 export type GetContributionCountByActivityTypeQueryVariables = Exact<{
   where: GetContributionInput;
 }>;
 
 
-export type GetContributionCountByActivityTypeQuery = { result: Array<{ count: string, activity_name: string, activity_id: number }> };
+export type GetContributionCountByActivityTypeQuery = { result: Array<{ count: number, activity_name: string, activity_id: number }> };
 
 export type CreateContributionMutationVariables = Exact<{
   data: ContributionCreateInput;

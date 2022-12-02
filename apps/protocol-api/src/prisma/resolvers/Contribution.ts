@@ -268,8 +268,8 @@ export class GetContributionArgs {
 
 @TypeGraphQL.ObjectType('ContributionCountByDate', { isAbstract: true })
 export class ContributionCountByDate {
-  @TypeGraphQL.Field(_type => String)
-  count: string;
+  @TypeGraphQL.Field(_type => Number)
+  count: number;
 
   @TypeGraphQL.Field(_type => Date)
   date: Date;
@@ -285,8 +285,8 @@ export class ContributionCountByDate {
 
 @TypeGraphQL.ObjectType('ContributionCountByUser', { isAbstract: true })
 export class ContributionCountByUser {
-  @TypeGraphQL.Field(_type => String)
-  count: string;
+  @TypeGraphQL.Field(_type => Number)
+  count: number;
 
   @TypeGraphQL.Field(_type => Number, {
     nullable: true,
@@ -313,8 +313,8 @@ export class TotalContributionCount {
 
 @TypeGraphQL.ObjectType('ContributionCountByActivityType', { isAbstract: true })
 export class ContributionCountByActivityType {
-  @TypeGraphQL.Field(_type => String)
-  count: string;
+  @TypeGraphQL.Field(_type => Number)
+  count: number;
 
   @TypeGraphQL.Field(_type => String)
   activity_name: string;
@@ -669,7 +669,7 @@ export class ContributionCustomResolver {
       SELECT gc.guild_id,
              coalesce(gc.name, 'Unassigned') as name,
              d.dt                            as date,
-             count(gc.date_of_engagement)::text    as count
+             count(gc.date_of_engagement)::integer    as count
       FROM (
         SELECT dt::date
         FROM generate_series(${start}, ${end}, '1 day'::interval) dt
@@ -702,7 +702,7 @@ export class ContributionCustomResolver {
     const result = await prisma.$queryRaw<[ContributionCountByActivityType]>`
       SELECT c.activity_type_id as activity_id,
              a.name as activity_name,
-             count(c.id)::text as count
+             count(c.id)::integer as count
       FROM
         "GuildContribution" gc 
         LEFT JOIN "Contribution" as c 
@@ -755,7 +755,7 @@ export class ContributionCustomResolver {
     const guildId = args.where.guildId;
 
     const result = await prisma.$queryRaw<[ContributionCountByUser]>`
-      SELECT  count(gc.id)::text as count,
+      SELECT  count(gc.id)::integer as count,
               u.id as "user_id",
               u.display_name as "display_name",
               u.address as "address"
