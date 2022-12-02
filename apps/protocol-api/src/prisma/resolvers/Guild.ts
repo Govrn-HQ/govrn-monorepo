@@ -44,31 +44,35 @@ export class GuildCustomResolver {
     const windowSizeDays = args.where.windowSizeDays;
 
     const totalLookbackDays = windowsToLookback * windowSizeDays;
-    const lookbackDate = new Date(startDate.getDate() - totalLookbackDays);
+    const lookbackDate = new Date(startDate);
+    lookbackDate.setDate(lookbackDate.getDate() - totalLookbackDays);
 
     const result = await prisma.$queryRaw<number>`
-      WITH unique_guild_contributor_daily_count as (
+      WITH unique_contributor_buckets as (
         SELECT
-          count(distinct c.user_id) as distinct_contributors,
-          EXTRACT(year from gc."createdAt") as year,
-          EXTRACT(month from gc."createdAt") as month,
-          trunc(EXTRACT(day from gc."createdAt") / ${windowSizeDays}) as day_bucket
-        FROM 
-          "GuildContribution" gc 
+          coalesce(count(distinct c.user_id), 0) as distinct_contributor_count,
+          extract(year from d.dt) as year,
+          extract(month from d.dt) as month,
+          trunc(EXTRACT(day from d.dt) / ${windowSizeDays}) as day_bucket
+        FROM (
+          SELECT dt::date
+          FROM generate_series(${lookbackDate}, ${startDate}, '1 day'::interval) dt
+        ) d 
         LEFT JOIN "Contribution" as c
+          ON c.date_of_engagement::date = d.dt::date
+        LEFT JOIN "GuildContribution" as gc 
           ON gc."contribution_id" = c.id
         WHERE (
-          gc."createdAt"::date BETWEEN ${lookbackDate} AND ${startDate} 
-          AND gc."guild_id" = ${guildId}
+          gc."guild_id" IS NULL OR gc."guild_id" = ${guildId}
         )
         GROUP BY 
           year, month, day_bucket
       )
 
       SELECT
-        avg(distinct_contributors)
+        avg(distinct_contributor_count)
       FROM
-        unique_guild_contributor_daily_count
+        unique_contributor_buckets
       `;
     return result[0].avg;
   }
