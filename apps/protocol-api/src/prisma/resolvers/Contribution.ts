@@ -268,11 +268,11 @@ export class GetContributionArgs {
 
 @TypeGraphQL.ObjectType('ContributionCountByDate', { isAbstract: true })
 export class ContributionCountByDate {
-  @TypeGraphQL.Field(_type => Number)
-  count: number;
-
   @TypeGraphQL.Field(_type => String)
-  date: string;
+  count: string;
+
+  @TypeGraphQL.Field(_type => Date)
+  date: Date;
 
   @TypeGraphQL.Field(_type => Number, {
     nullable: true,
@@ -285,8 +285,8 @@ export class ContributionCountByDate {
 
 @TypeGraphQL.ObjectType('ContributionCountByUser', { isAbstract: true })
 export class ContributionCountByUser {
-  @TypeGraphQL.Field(_type => Number)
-  count: number;
+  @TypeGraphQL.Field(_type => String)
+  count: string;
 
   @TypeGraphQL.Field(_type => Number, {
     nullable: true,
@@ -313,8 +313,8 @@ export class TotalContributionCount {
 
 @TypeGraphQL.ObjectType('ContributionCountByActivityType', { isAbstract: true })
 export class ContributionCountByActivityType {
-  @TypeGraphQL.Field(_type => Number)
-  count: number;
+  @TypeGraphQL.Field(_type => String)
+  count: string;
 
   @TypeGraphQL.Field(_type => String)
   activity_name: string;
@@ -649,7 +649,7 @@ export class ContributionCustomResolver {
       `;
     }
 
-    const result = await prisma.$queryRaw<ContributionCountByDate>`
+    const result = await prisma.$queryRaw<[ContributionCountByDate]>`
       WITH guild_contributions AS (
           SELECT 
       	    c.id,
@@ -680,7 +680,17 @@ export class ContributionCustomResolver {
         AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
-    return result;
+    // ugly attempt to massage bigint return type from query into something 
+    // more easily handled by graphql
+    const massagedResult = result.map((x) => {
+      return {
+        guild_id: x.guild_id,
+        count: x.count.toString(),
+        date: x.date,
+        name: x.name
+      }
+    });
+    return massagedResult;
   }
 
   @TypeGraphQL.Query(_returns => [ContributionCountByActivityType], {
@@ -699,7 +709,7 @@ export class ContributionCustomResolver {
     // in a separate table than guild contributions
     // N.B. the guild contribution created date is used for the range,
     // not the contribution created date
-    return await prisma.$queryRaw<ContributionCountByActivityType>`
+    const result = await prisma.$queryRaw<[ContributionCountByActivityType]>`
       SELECT c.activity_type_id as activity_id,
              a.name as activity_name,
              count(c.id) as count
@@ -714,6 +724,15 @@ export class ContributionCustomResolver {
         AND gc."guild_id" = ${daoId}
       ) GROUP BY a.name, c.activity_type_id
       ORDER BY count;`;
+    // TODO: How to avoid this?
+    const massagedResult = result.map((x) => {
+      return {
+        activity_id: x.activity_id,
+        activity_name: x.activity_name,
+        count: x.count.toString()
+      }
+    });
+    return massagedResult;
   }
 
   @TypeGraphQL.Query(_returns => Int, {
@@ -753,7 +772,7 @@ export class ContributionCustomResolver {
     const end = args.where.endDate;
     const guildId = args.where.guildId;
 
-    const result = await prisma.$queryRaw<ContributionCountByUser>`
+    const result = await prisma.$queryRaw<[ContributionCountByUser]>`
       SELECT  count(gc.id) as count,
               u.id as "user_id",
               u.display_name as "display_name",
@@ -769,6 +788,14 @@ export class ContributionCustomResolver {
         AND gc."guild_id" = ${guildId}
       ) GROUP BY u.display_name, u.id
       ORDER BY count;`;
-    return result;
+    const massagedResult = result.map((x) => {
+      return {
+        count: x.count.toString(),
+        user_id: x.user_id,
+        display_name: x.display_name,
+        address: x.address
+      }
+    });
+    return massagedResult;
   }
 }
