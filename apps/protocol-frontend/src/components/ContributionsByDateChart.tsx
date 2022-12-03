@@ -14,9 +14,10 @@ import pluralize from 'pluralize';
 import { TODAY_DATE, YEAR, BRAND_COLOR_MAP } from '../utils/constants';
 import { endOfDay, subWeeks, addDays } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
+import { formatDate } from '../utils/date';
 
 type ContributionCount = {
-  date: string;
+  date: string | Date;
   count: number;
 };
 interface ContributionsByDateChartProps {
@@ -39,7 +40,7 @@ const ContributionsByDateChart = ({
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount?.map(contribution => {
     return {
-      day: contribution.date,
+      day: formatDate(contribution.date, 'yyyy-MM-dd'),
       value: contribution.count,
     };
   });

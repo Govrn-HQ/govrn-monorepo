@@ -4,9 +4,10 @@ import { ResponsiveTimeRange } from '@nivo/calendar';
 import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import { BRAND_COLOR_MAP } from '../utils/constants';
+import { formatDate } from '../utils/date';
 
 type ContributionCount = {
-  date: string;
+  date: string | Date;
   count: number;
 };
 interface ContributionsHeatMapProps {
@@ -23,7 +24,7 @@ const ContributionsHeatMap = ({
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount.map(contribution => {
     return {
-      day: contribution.date,
+      day: formatDate(contribution.date, 'yyyy-MM-dd'),
       value: contribution.count,
     };
   });
