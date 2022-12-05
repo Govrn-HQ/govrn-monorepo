@@ -109,26 +109,16 @@ const ContributionsTableShell = () => {
                       ) : (
                         <Stack direction="row" spacing={5}>
                           <Button
+                            variant="primary"
                             size="md"
-                            bgColor="brand.primary.50"
-                            color="brand.primary.600"
-                            transition="all 100ms ease-in-out"
-                            _hover={{ bgColor: 'brand.primary.100' }}
-                            colorScheme="brand.primary"
                             onClick={bulkDaoAttributeHandler}
                             disabled={selectedContributions?.length === 0}
                           >
                             Attribute to DAO
                           </Button>
                           <Button
+                            variant="primary"
                             size="md"
-                            bgColor="white"
-                            color="brand.primary.600"
-                            border="1px solid"
-                            borderColor="brand.primary.500"
-                            transition="all 100ms ease-in-out"
-                            _hover={{ bgColor: 'brand.primary.50' }}
-                            colorScheme="brand.primary"
                             onClick={mintModalHandler}
                             disabled={selectedContributions?.length === 0}
                             data-testid="mint-btn-test"
