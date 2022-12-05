@@ -1,4 +1,5 @@
 import { useEffect, forwardRef, useRef } from 'react';
+import { Checkbox } from '@chakra-ui/react';
 import { TableToggleRowsSelectedProps } from 'react-table';
 
 // TODO: Move into component library after validating that this works
@@ -25,7 +26,7 @@ const IndeterminateCheckbox = forwardRef<
     }
   }, [resolvedRef, indeterminate]);
 
-  return <input type="checkbox" ref={resolvedRef} {...rest} />;
+  return <Checkbox ref={resolvedRef} {...rest} />;
 });
 
 export default IndeterminateCheckbox;
