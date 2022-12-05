@@ -40,7 +40,7 @@ const FloatingReportButton = () => {
             background: 'linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
           }}
           _focus={{
-            background: 'linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
+            background: 'linear-gradient(100deg, #9766EF 0%,#9766EF 100%)', // uses actual hex, not the token
           }}
           data-testid="floatingreportbtn-testid"
           icon={<FiPlus />}
