@@ -61,6 +61,8 @@ const ContributionsTableShell = () => {
         <GovrnSpinner />
       ) : contributions && contributions.pages.length > 0 ? (
         <Tabs
+          // variant="soft-rounded"
+          // variant="unstyled"
           variant="soft-rounded"
           colorScheme="gray"
           width="100%"
