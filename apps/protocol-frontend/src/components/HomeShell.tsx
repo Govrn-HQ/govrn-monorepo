@@ -36,7 +36,7 @@ const HomeShell = () => {
       <Flex direction="column" alignItems="center" justifyContent="center">
         {createProfileSteps === 1 && (
           <>
-            <Text color="gray.800" paddingBottom={8}>
+            <Text color="white" paddingBottom={8}>
               Welcome to Govrn! Let's start by creating your profile. You can
               change these details at any time on your Profile.
             </Text>

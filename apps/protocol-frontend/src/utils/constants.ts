@@ -27,7 +27,7 @@ const primaryBrandColorsFromTheme: string[] = Object.values(
   GovrnTheme.colors.brand.primary,
 ); // can change this to be primary or secondary, or use to map any color specrum in theme
 export const BRAND_COLOR_MAP = primaryBrandColorsFromTheme;
-export const BRAND_COLOR_MAP_SUBSET = BRAND_COLOR_MAP.slice(3, 7); // omits the extreme light and dark colors for our graphs
+export const BRAND_COLOR_MAP_SUBSET = BRAND_COLOR_MAP.slice(3, 8); // omits the extreme light and dark colors for our graphs
 export const CONTRIBUTION_NEW_DOMAIN = 'contribution.new';
 export const CONTRIBUTION_NEW_STAGING_DOMAIN = 'staging.contribution.new';
 
