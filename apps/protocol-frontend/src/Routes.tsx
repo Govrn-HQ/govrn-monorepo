@@ -59,7 +59,7 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
 
 const Routes = () => {
   const { userDaos } = useUser();
-  const [firstDao] = userDaos?.values();
+  const [firstDao] = userDaos.values();
   const url = new URL(window.location.href);
 
   return (
