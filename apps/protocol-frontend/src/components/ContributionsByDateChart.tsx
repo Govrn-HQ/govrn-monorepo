@@ -9,7 +9,7 @@ import {
 import { SortOrder } from '@govrn/protocol-client';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { TooltipWrapper } from '@nivo/tooltip';
-import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 import pluralize from 'pluralize';
 import { TODAY_DATE, YEAR, BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
 import { endOfDay, subWeeks, addDays } from 'date-fns';
@@ -26,8 +26,6 @@ interface ContributionsByDateChartProps {
   isError: boolean;
   daoId: number | null;
 }
-
-const brandColors = GovrnTheme.colors.brand.primary;
 
 const ContributionsByDateChart = ({
   daoId,

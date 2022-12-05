@@ -1,7 +1,6 @@
 import React from 'react';
 import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange } from '@nivo/calendar';
-import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import { BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
 
@@ -13,8 +12,6 @@ interface ContributionsHeatMapProps {
   contributionsCount: ContributionCount[];
   startDateOffset?: number;
 }
-
-const brandColors = GovrnTheme.colors.brand.primary;
 
 const ContributionsHeatMap = ({
   contributionsCount,
