@@ -36,11 +36,10 @@ const FloatingReportButton = () => {
           boxShadow="xl"
           transition="background 100ms ease-in-out transform 250ms ease-in-out"
           _hover={{
-            transform: 'translateY(-4px)',
-            background: 'linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
+            background: 'brand.gradientHover',
           }}
           _focus={{
-            background: 'linear-gradient(100deg, #9766EF 0%,#9766EF 100%)', // uses actual hex, not the token
+            background: 'brand.gradientFocused',
           }}
           data-testid="floatingreportbtn-testid"
           icon={<FiPlus />}

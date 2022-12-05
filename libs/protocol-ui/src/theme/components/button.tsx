@@ -9,13 +9,13 @@ export default {
       fontWeight: 'semibold',
       background: 'brand.gradient',
       _hover: {
-        background: 'linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
+        background: 'brand.gradientHover',
         _disabled: {
           background: 'brand.gradientDisabled',
         },
       },
       _focus: {
-        background: 'brand.secondary.400',
+        background: 'brand.gradientFocused',
       },
       _disabled: {
         background: 'brand.gradientDisabled',
@@ -29,7 +29,7 @@ export default {
       },
       _focus: {
         color: 'brand.purple',
-        background: 'brand.purple.100',
+        background: 'brand.secondary.100',
       },
     },
     disabled: {

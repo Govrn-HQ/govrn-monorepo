@@ -24,10 +24,14 @@ export default {
       800: '#20005B',
       900: '#10002E',
     },
+    // these are shortcuts -- same as the token.500 value
     magenta: '#DF1F97',
     purple: '#5100E4',
+    // the gradients need to use the actual hex value instead of the tokens
     gradient: 'linear-gradient(100deg, #5100E4 0%, #DF1F97 100%)',
     gradientDisabled:
       'linear-gradient(100deg, rgba(81, 0, 228, 0.7) 0%, rgba(223, 31, 151, 0.7) 100%)',
+    gradientHover: 'linear-gradient(100deg, #5100E4 0%, #5100E4 100%)', // purple
+    gradientFocused: 'linear-gradient(100deg, #9766EF 0%,#9766EF 100%)', // purple.400
   },
 };
