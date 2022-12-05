@@ -27,5 +27,6 @@ export default {
     },
     magenta: '#DF1F97',
     purple: '#5100E4',
+    gradient: 'linear-gradient(100deg, #5100E4 0%, #DF1F97 100%)',
   },
 };

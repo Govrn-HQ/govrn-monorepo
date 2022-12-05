@@ -17,7 +17,7 @@ const variants = {
       _selected: {
         fontWeight: 'semibold',
         color: 'white',
-        background: 'linear-gradient(100deg, #5100E4 0%, #DF1F97 100%)',
+        background: 'brand.gradient',
       },
       _active: {
         bg: 'transparent',
