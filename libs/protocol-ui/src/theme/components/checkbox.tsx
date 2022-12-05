@@ -1,11 +1,7 @@
 export default {
-  // defaultProps: {
-  //   colorScheme: 'brand.primary',
-  // },
   baseStyle: {
     label: {
       color: 'gray.50',
-      // fontWeight: 'medium',
     },
     control: {
       borderRadius: 'base',
