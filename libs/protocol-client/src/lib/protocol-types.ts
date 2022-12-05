@@ -4536,7 +4536,7 @@ export type GetActiveUsersInput = {
   guildId: Scalars['Int'];
   startDate: Scalars['DateTime'];
   windowSizeDays: Scalars['Int'];
-  windowsToLookback: Scalars['Int'];
+  numWindows: Scalars['Int'];
 };
 
 export type GetContributionInput = {

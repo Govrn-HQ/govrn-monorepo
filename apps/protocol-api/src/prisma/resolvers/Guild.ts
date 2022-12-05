@@ -13,7 +13,7 @@ export class GetActiveUsersInput {
   startDate: Date;
 
   @TypeGraphQL.Field(_type => Int)
-  windowsToLookback: number;
+  numWindows: number;
 
   @TypeGraphQL.Field(_type => Int)
   windowSizeDays: number;
@@ -34,16 +34,16 @@ export class GuildCustomResolver {
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: GetActiveUsersArgs,
   ) {
-    // e.g. 9w rolling avg weekly active would have windowsToLookback
+    // e.g. 9w rolling avg weekly active would have numWindows
     // == 9, and windowSizeDays == 7
-    // 1w rolling avg daily active would have windowsToLookback == 7
+    // 1w rolling avg daily active would have numWindows == 7
     // and windowSizeDays == 1
     const guildId = args.where.guildId;
     const startDate = args.where.startDate;
-    const windowsToLookback = args.where.windowsToLookback;
+    const numWindows = args.where.numWindows;
     const windowSizeDays = args.where.windowSizeDays;
 
-    const totalLookbackDays = windowsToLookback * windowSizeDays;
+    const totalLookbackDays = numWindows * windowSizeDays;
     const lookbackDate = new Date(startDate);
     lookbackDate.setDate(lookbackDate.getDate() - totalLookbackDays);
 
