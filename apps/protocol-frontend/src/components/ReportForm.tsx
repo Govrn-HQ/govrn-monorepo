@@ -351,10 +351,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               </Text>
             )}
           </Flex>
-          <Flex direction="row" justifyContent="flex-end" marginTop={4} gap={4}>
+          <Flex
+            direction="row"
+            justifyContent="flex-start"
+            marginTop={4}
+            gap={4}
+          >
             <Button
               variant="primary"
-              width="100%"
               isLoading={createNewContributionIsLoading}
               data-cy="addContribution-btn"
               disabled={ipfsError}
