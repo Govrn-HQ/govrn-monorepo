@@ -9,9 +9,9 @@ import {
 import { SortOrder } from '@govrn/protocol-client';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { TooltipWrapper } from '@nivo/tooltip';
-import { GovrnTheme, GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 import pluralize from 'pluralize';
-import { TODAY_DATE, YEAR, BRAND_COLOR_MAP } from '../utils/constants';
+import { TODAY_DATE, YEAR, BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
 import { endOfDay, subWeeks, addDays } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
 import { formatDate } from '../utils/date';
@@ -27,8 +27,6 @@ interface ContributionsByDateChartProps {
   isError: boolean;
   daoId: number | null;
 }
-
-const brandColors = GovrnTheme.colors.brand.primary;
 
 const ContributionsByDateChart = ({
   daoId,
@@ -188,15 +186,7 @@ const ContributionsByDateChart = ({
                 emptyColor="#eeeeee"
                 weekdayTicks={isMobile ? [] : [1, 3, 5]}
                 weekdayLegendOffset={isMobile ? -5 : 75} // forcing this to hide the days -- it renders as part of the dom in the svg even with an empty array
-                colors={[
-                  brandColors[100],
-                  brandColors[200],
-                  brandColors[300],
-                  brandColors[400],
-                  brandColors[500],
-                  brandColors[600],
-                  brandColors[700],
-                ]}
+                colors={BRAND_COLOR_MAP_SUBSET}
                 dayRadius={1}
                 margin={
                   isMobile
@@ -224,7 +214,7 @@ const ContributionsByDateChart = ({
           >
             Less
           </Text>
-          {BRAND_COLOR_MAP.map(color => (
+          {BRAND_COLOR_MAP_SUBSET.map(color => (
             <Box
               key={color}
               backgroundColor={color}

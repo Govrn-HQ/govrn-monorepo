@@ -1,9 +1,8 @@
 import React from 'react';
 import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange } from '@nivo/calendar';
-import { GovrnTheme } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
-import { BRAND_COLOR_MAP } from '../utils/constants';
+import { BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
 import { formatDate } from '../utils/date';
 
 type ContributionCount = {
@@ -14,8 +13,6 @@ interface ContributionsHeatMapProps {
   contributionsCount: ContributionCount[];
   startDateOffset?: number;
 }
-
-const brandColors = GovrnTheme.colors.brand.primary;
 
 const ContributionsHeatMap = ({
   contributionsCount,
@@ -47,15 +44,7 @@ const ContributionsHeatMap = ({
             to={new Date()}
             weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
-            colors={[
-              brandColors[100],
-              brandColors[200],
-              brandColors[300],
-              brandColors[400],
-              brandColors[500],
-              brandColors[600],
-              brandColors[700],
-            ]}
+            colors={BRAND_COLOR_MAP_SUBSET}
             dayRadius={1}
             margin={
               isMobile
@@ -75,7 +64,7 @@ const ContributionsHeatMap = ({
         <Text as="span" fontSize="sm" fontWeight="normal" paddingRight={1}>
           Less
         </Text>
-        {BRAND_COLOR_MAP.map(color => (
+        {BRAND_COLOR_MAP_SUBSET.map(color => (
           <Box
             key={color}
             backgroundColor={color}
