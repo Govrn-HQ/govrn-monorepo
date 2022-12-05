@@ -17,7 +17,6 @@ const IndeterminateCheckbox = forwardRef<
   IndeterminateCheckboxCustomProps
 >(({ indeterminate, ...rest }: any, ref) => {
   const defaultRef = useRef<HTMLInputElement>(null);
-  // const resolvedRef = ref || defaultRef;
   const resolvedRef = defaultRef;
 
   useEffect(() => {

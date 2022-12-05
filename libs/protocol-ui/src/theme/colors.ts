@@ -28,5 +28,7 @@ export default {
     magenta: '#DF1F97',
     purple: '#5100E4',
     gradient: 'linear-gradient(100deg, #5100E4 0%, #DF1F97 100%)',
+    gradientDisabled:
+      'linear-gradient(100deg, rgba(81, 0, 228, 0.7) 0%, rgba(223, 31, 151, 0.7) 100%)',
   },
 };
