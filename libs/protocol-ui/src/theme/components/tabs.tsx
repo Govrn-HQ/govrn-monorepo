@@ -12,13 +12,12 @@ const baseStyle = {
 };
 
 const variants = {
-  softRounded: {
+  'soft-rounded': {
     tab: {
       _selected: {
-        color: 'red.600',
-        borderColor: 'gray.600',
-        bgColor: 'red.200',
-        // bgColor: 'linear(to-r, #5100E4 0%, #DF1F97 @ 100%)',
+        fontWeight: 'semibold',
+        color: 'white',
+        background: 'linear-gradient(100deg, #5100E4 0%, #DF1F97 100%)',
       },
       _active: {
         bg: 'transparent',
