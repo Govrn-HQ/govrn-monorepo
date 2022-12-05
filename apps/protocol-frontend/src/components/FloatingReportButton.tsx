@@ -39,6 +39,9 @@ const FloatingReportButton = () => {
             transform: 'translateY(-4px)',
             background: 'linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
           }}
+          _focus={{
+            background: 'linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
+          }}
           data-testid="floatingreportbtn-testid"
           icon={<FiPlus />}
           onClick={handleReportingFormModal}

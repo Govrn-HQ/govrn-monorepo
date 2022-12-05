@@ -50,10 +50,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
               if (!mounted || !account || !chain) {
                 return (
                   <Button
-                    color="brand.purple"
-                    backgroundColor="gray.300"
-                    transition="all 100ms ease-in-out"
-                    _hover={{ backgroundColor: 'white' }}
+                    variant="tertiary"
                     leftIcon={<FiKey />}
                     disabled={isConnecting}
                     onClick={openConnectModal}

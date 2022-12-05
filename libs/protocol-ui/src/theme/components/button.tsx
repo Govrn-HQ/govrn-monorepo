@@ -14,8 +14,22 @@ export default {
           background: 'brand.gradientDisabled',
         },
       },
+      _focus: {
+        background: 'brand.secondary.400',
+      },
       _disabled: {
         background: 'brand.gradientDisabled',
+      },
+    },
+    tertiary: {
+      color: 'brand.purple',
+      background: 'gray.50',
+      _hover: {
+        opacity: 0.7,
+      },
+      _focus: {
+        color: 'brand.purple',
+        background: 'brand.purple.100',
       },
     },
     disabled: {
