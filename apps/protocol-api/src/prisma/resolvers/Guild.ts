@@ -30,7 +30,7 @@ export class GetActiveUsersArgs {
 @TypeGraphQL.Resolver(_of => Guild)
 export class GuildCustomResolver {
   @TypeGraphQL.Query(_returns => Number)
-  async getAverageActiveGuildUsers(
+  async getActiveGuildUsersAverage(
     @TypeGraphQL.Ctx() { prisma }: Context,
     @TypeGraphQL.Args() args: GetActiveUsersArgs,
   ) {

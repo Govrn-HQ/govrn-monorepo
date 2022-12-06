@@ -4534,9 +4534,9 @@ export type FloatNullableWithAggregatesFilter = {
 
 export type GetActiveUsersInput = {
   guildId: Scalars['Int'];
+  numWindows: Scalars['Int'];
   startDate: Scalars['DateTime'];
   windowSizeDays: Scalars['Int'];
-  numWindows: Scalars['Int'];
 };
 
 export type GetContributionInput = {
@@ -11193,7 +11193,7 @@ export type Query = {
   findFirstTwitterUser?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
-  getAverageActiveGuildUsers: Scalars['Float'];
+  getActiveGuildUsersAverage: Scalars['Float'];
   getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
   getDaoContributionCount: Scalars['Int'];
@@ -11963,7 +11963,7 @@ export type QueryFindFirstUserActivityArgs = {
 };
 
 
-export type QueryGetAverageActiveGuildUsersArgs = {
+export type QueryGetActiveGuildUsersAverageArgs = {
   where: GetActiveUsersInput;
 };
 
@@ -15498,12 +15498,12 @@ export type ListGuildsQueryVariables = Exact<{
 
 export type ListGuildsQuery = { result: Array<{ congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus }> };
 
-export type GetAverageActiveGuildUsersQueryVariables = Exact<{
+export type GetActiveGuildUsersAverageQueryVariables = Exact<{
   where: GetActiveUsersInput;
 }>;
 
 
-export type GetAverageActiveGuildUsersQuery = { result: number };
+export type GetActiveGuildUsersAverageQuery = { result: number };
 
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } }> };
 
@@ -16271,9 +16271,9 @@ export const ListGuildsDocument = gql`
   }
 }
     ${GuildFragmentFragmentDoc}`;
-export const GetAverageActiveGuildUsersDocument = gql`
-    query getAverageActiveGuildUsers($where: GetActiveUsersInput!) {
-  result: getAverageActiveGuildUsers(where: $where)
+export const GetActiveGuildUsersAverageDocument = gql`
+    query getActiveGuildUsersAverage($where: GetActiveUsersInput!) {
+  result: getActiveGuildUsersAverage(where: $where)
 }
     `;
 export const BulkCreateTwitterTweetDocument = gql`
@@ -16673,8 +16673,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     listGuilds(variables?: ListGuildsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListGuildsQuery>(ListGuildsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuilds', 'query');
     },
-    getAverageActiveGuildUsers(variables: GetAverageActiveGuildUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAverageActiveGuildUsersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetAverageActiveGuildUsersQuery>(GetAverageActiveGuildUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAverageActiveGuildUsers', 'query');
+    getActiveGuildUsersAverage(variables: GetActiveGuildUsersAverageQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetActiveGuildUsersAverageQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetActiveGuildUsersAverageQuery>(GetActiveGuildUsersAverageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getActiveGuildUsersAverage', 'query');
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');

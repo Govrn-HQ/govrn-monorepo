@@ -200,8 +200,8 @@ query listGuilds(
   }
 }
 
-query getAverageActiveGuildUsers($where: GetActiveUsersInput!) {
-  result: getAverageActiveGuildUsers(where: $where)
+query getActiveGuildUsersAverage($where: GetActiveUsersInput!) {
+  result: getActiveGuildUsersAverage(where: $where)
 }
 
 # Twitter

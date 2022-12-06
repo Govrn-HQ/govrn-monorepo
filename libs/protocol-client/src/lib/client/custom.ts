@@ -82,8 +82,8 @@ export class Custom extends BaseClient {
     return contributionCount.result;
   }
 
-  public async getAverageActiveGuildUsers(args: GetActiveUsersInput) {
-    const averageActiveUserCount = await this.sdk.getAverageActiveGuildUsers({
+  public async getActiveGuildUsersAverage(args: GetActiveUsersInput) {
+    const averageActiveUserCount = await this.sdk.getActiveGuildUsersAverage({
       where: args,
     });
     return averageActiveUserCount.result;
