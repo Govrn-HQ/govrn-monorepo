@@ -109,7 +109,7 @@ const ContributionsTable = ({
   const [globalFilter, setGlobalFilter] = useState('');
 
   const data = useMemo<UIContribution[]>(() => {
-    return contributionsData.flat();
+    return mergePages(contributionsData);
   }, [contributionsData]);
 
   const columnsDefs = useMemo<ColumnDef<UIContribution, any>[]>(() => {
@@ -278,7 +278,6 @@ const ContributionsTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     debugAll: true,
   });
 
