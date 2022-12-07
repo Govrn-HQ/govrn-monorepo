@@ -577,6 +577,14 @@ export type AggregateGuildContribution = {
   _sum?: Maybe<GuildContributionSumAggregate>;
 };
 
+export type AggregateGuildMembershipStatus = {
+  _avg?: Maybe<GuildMembershipStatusAvgAggregate>;
+  _count?: Maybe<GuildMembershipStatusCountAggregate>;
+  _max?: Maybe<GuildMembershipStatusMaxAggregate>;
+  _min?: Maybe<GuildMembershipStatusMinAggregate>;
+  _sum?: Maybe<GuildMembershipStatusSumAggregate>;
+};
+
 export type AggregateGuildUser = {
   _avg?: Maybe<GuildUserAvgAggregate>;
   _count?: Maybe<GuildUserCountAggregate>;
@@ -5499,6 +5507,160 @@ export type GuildMaxOrderByAggregateInput = {
   updatedAt?: InputMaybe<SortOrder>;
 };
 
+export type GuildMembershipStatus = {
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type GuildMembershipStatusAvgAggregate = {
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type GuildMembershipStatusAvgOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildMembershipStatusCountAggregate = {
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type GuildMembershipStatusCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildMembershipStatusCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildMembershipStatusCreateManyInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildMembershipStatusGroupBy = {
+  _avg?: Maybe<GuildMembershipStatusAvgAggregate>;
+  _count?: Maybe<GuildMembershipStatusCountAggregate>;
+  _max?: Maybe<GuildMembershipStatusMaxAggregate>;
+  _min?: Maybe<GuildMembershipStatusMinAggregate>;
+  _sum?: Maybe<GuildMembershipStatusSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type GuildMembershipStatusMaxAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type GuildMembershipStatusMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildMembershipStatusMinAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type GuildMembershipStatusMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildMembershipStatusOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GuildMembershipStatusAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GuildMembershipStatusCountOrderByAggregateInput>;
+  _max?: InputMaybe<GuildMembershipStatusMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GuildMembershipStatusMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GuildMembershipStatusSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildMembershipStatusOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export enum GuildMembershipStatusScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Name = 'name',
+  UpdatedAt = 'updatedAt'
+}
+
+export type GuildMembershipStatusScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GuildMembershipStatusScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GuildMembershipStatusScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GuildMembershipStatusScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type GuildMembershipStatusSumAggregate = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type GuildMembershipStatusSumOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildMembershipStatusUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildMembershipStatusUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildMembershipStatusWhereInput = {
+  AND?: InputMaybe<Array<GuildMembershipStatusWhereInput>>;
+  NOT?: InputMaybe<Array<GuildMembershipStatusWhereInput>>;
+  OR?: InputMaybe<Array<GuildMembershipStatusWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type GuildMembershipStatusWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type GuildMinAggregate = {
   congrats_channel?: Maybe<Scalars['String']>;
   contribution_reporting_channel?: Maybe<Scalars['String']>;
@@ -9116,6 +9278,7 @@ export type Mutation = {
   createGuild: Guild;
   createGuildActivityType: GuildActivityType;
   createGuildContribution: GuildContribution;
+  createGuildMembershipStatus: GuildMembershipStatus;
   createGuildUser: GuildUser;
   createJobRun: JobRun;
   createLinearCycle: LinearCycle;
@@ -9137,6 +9300,7 @@ export type Mutation = {
   createManyGuild: AffectedRowsOutput;
   createManyGuildActivityType: AffectedRowsOutput;
   createManyGuildContribution: AffectedRowsOutput;
+  createManyGuildMembershipStatus: AffectedRowsOutput;
   createManyGuildUser: AffectedRowsOutput;
   createManyJobRun: AffectedRowsOutput;
   createManyLinearCycle: AffectedRowsOutput;
@@ -9177,6 +9341,7 @@ export type Mutation = {
   deleteGuild?: Maybe<Guild>;
   deleteGuildActivityType?: Maybe<GuildActivityType>;
   deleteGuildContribution?: Maybe<GuildContribution>;
+  deleteGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   deleteGuildUser?: Maybe<GuildUser>;
   deleteJobRun?: Maybe<JobRun>;
   deleteLinearCycle?: Maybe<LinearCycle>;
@@ -9198,6 +9363,7 @@ export type Mutation = {
   deleteManyGuild: AffectedRowsOutput;
   deleteManyGuildActivityType: AffectedRowsOutput;
   deleteManyGuildContribution: AffectedRowsOutput;
+  deleteManyGuildMembershipStatus: AffectedRowsOutput;
   deleteManyGuildUser: AffectedRowsOutput;
   deleteManyJobRun: AffectedRowsOutput;
   deleteManyLinearCycle: AffectedRowsOutput;
@@ -9235,6 +9401,7 @@ export type Mutation = {
   updateGuild?: Maybe<Guild>;
   updateGuildActivityType?: Maybe<GuildActivityType>;
   updateGuildContribution?: Maybe<GuildContribution>;
+  updateGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   updateGuildUser?: Maybe<GuildUser>;
   updateJobRun?: Maybe<JobRun>;
   updateLinearCycle?: Maybe<LinearCycle>;
@@ -9256,6 +9423,7 @@ export type Mutation = {
   updateManyGuild: AffectedRowsOutput;
   updateManyGuildActivityType: AffectedRowsOutput;
   updateManyGuildContribution: AffectedRowsOutput;
+  updateManyGuildMembershipStatus: AffectedRowsOutput;
   updateManyGuildUser: AffectedRowsOutput;
   updateManyJobRun: AffectedRowsOutput;
   updateManyLinearCycle: AffectedRowsOutput;
@@ -9295,6 +9463,7 @@ export type Mutation = {
   upsertGuild: Guild;
   upsertGuildActivityType: GuildActivityType;
   upsertGuildContribution: GuildContribution;
+  upsertGuildMembershipStatus: GuildMembershipStatus;
   upsertGuildUser: GuildUser;
   upsertJobRun: JobRun;
   upsertLinearCycle: LinearCycle;
@@ -9379,6 +9548,11 @@ export type MutationCreateGuildActivityTypeArgs = {
 
 export type MutationCreateGuildContributionArgs = {
   data: GuildContributionCreateInput;
+};
+
+
+export type MutationCreateGuildMembershipStatusArgs = {
+  data: GuildMembershipStatusCreateInput;
 };
 
 
@@ -9497,6 +9671,12 @@ export type MutationCreateManyGuildActivityTypeArgs = {
 
 export type MutationCreateManyGuildContributionArgs = {
   data: Array<GuildContributionCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyGuildMembershipStatusArgs = {
+  data: Array<GuildMembershipStatusCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -9715,6 +9895,11 @@ export type MutationDeleteGuildContributionArgs = {
 };
 
 
+export type MutationDeleteGuildMembershipStatusArgs = {
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+
 export type MutationDeleteGuildUserArgs = {
   where: GuildUserWhereUniqueInput;
 };
@@ -9817,6 +10002,11 @@ export type MutationDeleteManyGuildActivityTypeArgs = {
 
 export type MutationDeleteManyGuildContributionArgs = {
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type MutationDeleteManyGuildMembershipStatusArgs = {
+  where?: InputMaybe<GuildMembershipStatusWhereInput>;
 };
 
 
@@ -10019,6 +10209,12 @@ export type MutationUpdateGuildContributionArgs = {
 };
 
 
+export type MutationUpdateGuildMembershipStatusArgs = {
+  data: GuildMembershipStatusUpdateInput;
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+
 export type MutationUpdateGuildUserArgs = {
   data: GuildUserUpdateInput;
   where: GuildUserWhereUniqueInput;
@@ -10142,6 +10338,12 @@ export type MutationUpdateManyGuildActivityTypeArgs = {
 export type MutationUpdateManyGuildContributionArgs = {
   data: GuildContributionUpdateManyMutationInput;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type MutationUpdateManyGuildMembershipStatusArgs = {
+  data: GuildMembershipStatusUpdateManyMutationInput;
+  where?: InputMaybe<GuildMembershipStatusWhereInput>;
 };
 
 
@@ -10391,6 +10593,13 @@ export type MutationUpsertGuildContributionArgs = {
   create: GuildContributionCreateInput;
   update: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationUpsertGuildMembershipStatusArgs = {
+  create: GuildMembershipStatusCreateInput;
+  update: GuildMembershipStatusUpdateInput;
+  where: GuildMembershipStatusWhereUniqueInput;
 };
 
 
@@ -11124,6 +11333,7 @@ export type Query = {
   aggregateGuild: AggregateGuild;
   aggregateGuildActivityType: AggregateGuildActivityType;
   aggregateGuildContribution: AggregateGuildContribution;
+  aggregateGuildMembershipStatus: AggregateGuildMembershipStatus;
   aggregateGuildUser: AggregateGuildUser;
   aggregateJobRun: AggregateJobRun;
   aggregateLinearCycle: AggregateLinearCycle;
@@ -11172,6 +11382,7 @@ export type Query = {
   findFirstGuild?: Maybe<Guild>;
   findFirstGuildActivityType?: Maybe<GuildActivityType>;
   findFirstGuildContribution?: Maybe<GuildContribution>;
+  findFirstGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   findFirstGuildUser?: Maybe<GuildUser>;
   findFirstJobRun?: Maybe<JobRun>;
   findFirstLinearCycle?: Maybe<LinearCycle>;
@@ -11205,6 +11416,7 @@ export type Query = {
   groupByGuild: Array<GuildGroupBy>;
   groupByGuildActivityType: Array<GuildActivityTypeGroupBy>;
   groupByGuildContribution: Array<GuildContributionGroupBy>;
+  groupByGuildMembershipStatus: Array<GuildMembershipStatusGroupBy>;
   groupByGuildUser: Array<GuildUserGroupBy>;
   groupByJobRun: Array<JobRunGroupBy>;
   groupByLinearCycle: Array<LinearCycleGroupBy>;
@@ -11224,6 +11436,8 @@ export type Query = {
   guildActivityTypes: Array<GuildActivityType>;
   guildContribution?: Maybe<GuildContribution>;
   guildContributions: Array<GuildContribution>;
+  guildMembershipStatus?: Maybe<GuildMembershipStatus>;
+  guildMembershipStatuses: Array<GuildMembershipStatus>;
   guildUser?: Maybe<GuildUser>;
   guildUsers: Array<GuildUser>;
   guilds: Array<Guild>;
@@ -11396,6 +11610,15 @@ export type QueryAggregateGuildContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryAggregateGuildMembershipStatusArgs = {
+  cursor?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GuildMembershipStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildMembershipStatusWhereInput>;
 };
 
 
@@ -11815,6 +12038,16 @@ export type QueryFindFirstGuildContributionArgs = {
 };
 
 
+export type QueryFindFirstGuildMembershipStatusArgs = {
+  cursor?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildMembershipStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildMembershipStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildMembershipStatusWhereInput>;
+};
+
+
 export type QueryFindFirstGuildUserArgs = {
   cursor?: InputMaybe<GuildUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
@@ -12120,6 +12353,16 @@ export type QueryGroupByGuildContributionArgs = {
 };
 
 
+export type QueryGroupByGuildMembershipStatusArgs = {
+  by: Array<GuildMembershipStatusScalarFieldEnum>;
+  having?: InputMaybe<GuildMembershipStatusScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GuildMembershipStatusOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildMembershipStatusWhereInput>;
+};
+
+
 export type QueryGroupByGuildUserArgs = {
   by: Array<GuildUserScalarFieldEnum>;
   having?: InputMaybe<GuildUserScalarWhereWithAggregatesInput>;
@@ -12292,6 +12535,21 @@ export type QueryGuildContributionsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryGuildMembershipStatusArgs = {
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+
+export type QueryGuildMembershipStatusesArgs = {
+  cursor?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildMembershipStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildMembershipStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildMembershipStatusWhereInput>;
 };
 
 
