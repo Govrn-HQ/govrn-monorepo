@@ -109,6 +109,10 @@ const ContributionsTable = ({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
+  const deselectAll = () => {
+    setRowSelection({});
+  };
+
   const data = useMemo<UIContribution[]>(() => {
     return mergePages(contributionsData);
   }, [contributionsData]);
@@ -185,7 +189,6 @@ const ContributionsTable = ({
       },
       {
         header: 'Attestations',
-        // TODO: Can this be replaced with accessorKey?
         accessorFn: contribution => String(contribution.attestations.length),
         cell: ({ getValue }: { getValue: Getter<string> }) => {
           return <Text textTransform="capitalize">{getValue()} </Text>;
@@ -305,10 +308,6 @@ const ContributionsTable = ({
     }
     setSelectedRows(selectedContributions);
   }, [rowSelection, table]);
-
-  const deselectAll = () => {
-    setRowSelection({});
-  };
 
   return (
     <Stack>
