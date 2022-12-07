@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { NavigateFunction } from 'react-router-dom';
-import { useAccount } from 'wagmi';
+import { chain, useAccount, useEnsName } from 'wagmi';
 import { UIUser } from '@govrn/ui-types';
 import {
   ContributionFormValues,
@@ -86,6 +86,16 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserLoading(false);
     }
   }, [address]);
+
+  const { data: userEnsName } = useEnsName({
+    // address: '0x68d36DcBDD7Bbf206e27134F28103abE7cf972df',
+    address: '0x0b5f5a722ac5e8ecedf4da39a656fe5f1e76b34c',
+    chainId: chain.mainnet.id,
+    enabled: !!address,
+    onSuccess(data) {
+      console.log('Success', data);
+    },
+  });
 
   const userDaos = new Map<
     number,
@@ -240,6 +250,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userDaos,
         userData,
         userDataByAddress,
+        userEnsName,
       }}
     >
       {children}
@@ -281,6 +292,7 @@ type UserContextType = {
   >;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
+  userEnsName: any;
 };
 
 export const useUser = (): UserContextType => useContext(UserContext);

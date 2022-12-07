@@ -25,9 +25,9 @@ const gnosisChain: Chain = {
   testnet: false,
 };
 
-const dev = import.meta.env.VITE_STAGING_MODE || false;
+const dev = import.meta.env.MODE || false;
 const defaultChains = dev
-  ? [gnosisChain, chain.goerli, chain.rinkeby, chain.localhost]
+  ? [gnosisChain, chain.mainnet, chain.goerli, chain.rinkeby, chain.localhost]
   : [gnosisChain];
 export const { chains, provider } = configureChains(defaultChains, [
   alchemyProvider({ apiKey: ALCHEMY_KEY }),
@@ -45,5 +45,5 @@ export const wagmiClient = createClient({
   provider,
 });
 
-export const displayAddress = (address: string | undefined) =>
+export const displayAddress = (address: string | undefined | null) =>
   address ? `${address.slice(0, 5)}...${address.slice(-4)}` : '0x';
