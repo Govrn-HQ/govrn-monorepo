@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -14,10 +14,10 @@ import {
   Th,
   Thead,
   Tooltip,
-  Tr
-} from "@chakra-ui/react";
-import { HiOutlineLink } from "react-icons/hi";
-import { useUser } from "../contexts/UserContext";
+  Tr,
+} from '@chakra-ui/react';
+import { HiOutlineLink } from 'react-icons/hi';
+import { useUser } from '../contexts/UserContext';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -27,26 +27,26 @@ import {
   SortingState,
   getSortedRowModel,
   Getter,
-  Row
-} from "@tanstack/react-table";
-import { Link } from "react-router-dom";
-import { IoArrowDown, IoArrowUp } from "react-icons/io5";
-import { FiEdit2, FiTrash2 } from "react-icons/fi";
-import ModalWrapper from "./ModalWrapper";
-import MintModal from "./MintModal";
-import BulkDaoAttributeModal from "./BulkDaoAttributeModal";
-import { useOverlay } from "../contexts/OverlayContext";
-import IndeterminateCheckbox from "./IndeterminateCheckbox";
-import GlobalFilter from "./GlobalFilter";
-import EditContributionForm from "./EditContributionForm";
-import { UIContribution } from "@govrn/ui-types";
-import DeleteContributionDialog from "./DeleteContributionDialog";
-import { BLOCK_EXPLORER_URLS } from "../utils/constants";
-import { GovrnSpinner } from "@govrn/protocol-ui";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { mergePages } from "../utils/arrays";
-import { formatDate } from "../utils/date";
-import { RowSelectionState } from "@tanstack/table-core";
+  Row,
+} from '@tanstack/react-table';
+import { Link } from 'react-router-dom';
+import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import ModalWrapper from './ModalWrapper';
+import MintModal from './MintModal';
+import BulkDaoAttributeModal from './BulkDaoAttributeModal';
+import { useOverlay } from '../contexts/OverlayContext';
+import IndeterminateCheckbox from './IndeterminateCheckbox';
+import GlobalFilter from './GlobalFilter';
+import EditContributionForm from './EditContributionForm';
+import { UIContribution } from '@govrn/ui-types';
+import DeleteContributionDialog from './DeleteContributionDialog';
+import { BLOCK_EXPLORER_URLS } from '../utils/constants';
+import { GovrnSpinner } from '@govrn/protocol-ui';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { mergePages } from '../utils/arrays';
+import { formatDate } from '../utils/date';
+import { RowSelectionState } from '@tanstack/table-core';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -56,21 +56,21 @@ export type DialogProps = {
 };
 
 const emojiSelect = (status: string) => {
-  if (status === "minted") {
-    return "🌞";
-  } else if (status === "pending") {
-    return "🕒";
+  if (status === 'minted') {
+    return '🌞';
+  } else if (status === 'pending') {
+    return '🕒';
   } else {
-    return "👀";
+    return '👀';
   }
 };
 
 const ContributionsTable = ({
-                              contributionsData,
-                              setSelectedContributions,
-                              hasMoreItems,
-                              nextPage
-                            }: {
+  contributionsData,
+  setSelectedContributions,
+  hasMoreItems,
+  nextPage,
+}: {
   contributionsData: UIContribution[][];
   setSelectedContributions: (rows: UIContribution[]) => void;
   hasMoreItems: boolean;
@@ -89,9 +89,9 @@ const ContributionsTable = ({
 
   const [dialog, setDialog] = useState<DialogProps>({
     isOpen: false,
-    title: "",
+    title: '',
     onConfirm: false,
-    contributionId: 0
+    contributionId: 0,
   });
 
   const handleDeleteContribution = (contributionId: number) => {
@@ -100,14 +100,14 @@ const ContributionsTable = ({
       isOpen: true, //this opens AlertDialog
       title:
         "Are you sure you want to delete this Contribution? You can't undo this action.",
-      contributionId: contributionId
+      contributionId: contributionId,
     });
   };
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const data = useMemo<UIContribution[]>(() => {
     return mergePages(contributionsData);
@@ -116,14 +116,14 @@ const ContributionsTable = ({
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
       {
-        id: "selection",
+        id: 'selection',
         header: ({ table }) => (
           <IndeterminateCheckbox
             {...{
               checked: table.getIsAllRowsSelected(),
               indeterminate: table.getIsSomeRowsSelected(),
               onChange: table.getToggleAllRowsSelectedHandler(),
-              testid: "toggle-row-selected"
+              testid: 'toggle-row-selected',
             }}
           />
         ),
@@ -133,19 +133,19 @@ const ContributionsTable = ({
               checked: row.getIsSelected(),
               indeterminate: row.getIsSomeSelected(),
               onChange: row.getToggleSelectedHandler(),
-              disabled: row.original.status.name !== "staging"
+              disabled: row.original.status.name !== 'staging',
             }}
           />
-        )
+        ),
       },
 
       {
-        header: "Name",
-        accessorKey: "name",
+        header: 'Name',
+        accessorKey: 'name',
         cell: ({
-                 row,
-                 getValue
-               }: {
+          row,
+          getValue,
+        }: {
           row: Row<UIContribution>;
           getValue: Getter<string>;
         }) => {
@@ -156,56 +156,56 @@ const ContributionsTable = ({
               </Link>
             </Flex>
           );
-        }
+        },
       },
       {
-        header: "Status",
-        accessorKey: "status",
+        header: 'Status',
+        accessorKey: 'status',
         cell: ({
-                 getValue
-               }: {
-          getValue: Getter<UIContribution["status"]>;
+          getValue,
+        }: {
+          getValue: Getter<UIContribution['status']>;
         }) => {
           return (
             <Text textTransform="capitalize">
-              {getValue().name}{" "}
+              {getValue().name}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
                 {emojiSelect(getValue().name)}
-              </span>{" "}
+              </span>{' '}
             </Text>
           );
-        }
+        },
       },
       {
-        header: "Engagement Date",
-        accessorFn: contribution => formatDate(contribution.date_of_engagement)
+        header: 'Engagement Date',
+        accessorFn: contribution => formatDate(contribution.date_of_engagement),
       },
       {
-        header: "Attestations",
+        header: 'Attestations',
         // TODO: Can this be replaced with accessorKey?
         accessorFn: contribution => String(contribution.attestations.length),
         cell: ({ getValue }: { getValue: Getter<string> }) => {
           return <Text textTransform="capitalize">{getValue()} </Text>;
-        }
+        },
       },
       {
-        header: "DAO",
+        header: 'DAO',
         accessorFn: contribution =>
-          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? "---",
+          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         cell: ({ getValue }: { getValue: Getter<string> }) => {
           return <Text>{getValue()}</Text>;
-        }
+        },
       },
       {
-        id: "actions",
-        header: "Actions",
+        id: 'actions',
+        header: 'Actions',
         cell: ({ row }) => (
           <HStack spacing={1}>
-            {row.original.status.name === "minted" ||
-            row.original.status.name === "pending" ? (
+            {row.original.status.name === 'minted' ||
+            row.original.status.name === 'pending' ? (
               <HStack spacing="1">
                 {row.original.tx_hash !== null && (
                   <Tooltip
@@ -214,7 +214,7 @@ const ContributionsTable = ({
                   >
                     <Box>
                       <ChakraLink
-                        href={`${BLOCK_EXPLORER_URLS["gnosisChain"]}/${row.original.tx_hash}`}
+                        href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.tx_hash}`}
                         isExternal
                       >
                         <IconButton
@@ -228,7 +228,7 @@ const ContributionsTable = ({
                     </Box>
                   </Tooltip>
                 )}
-                {row.original.status.name !== "pending" && (
+                {row.original.status.name !== 'pending' && (
                   <IconButton
                     icon={<FiTrash2 fontSize="1rem" />}
                     variant="ghost"
@@ -249,8 +249,8 @@ const ContributionsTable = ({
                   aria-label="Edit Contribution"
                   disabled={
                     row.original.user.id !== userData?.id ||
-                    row.original.status.name === "minted" ||
-                    row.original.status.name === "pending"
+                    row.original.status.name === 'minted' ||
+                    row.original.status.name === 'pending'
                   }
                   data-testid="editContribution-test"
                   onClick={() =>
@@ -269,8 +269,8 @@ const ContributionsTable = ({
               </HStack>
             )}
           </HStack>
-        )
-      }
+        ),
+      },
     ];
   }, []);
 
@@ -280,16 +280,16 @@ const ContributionsTable = ({
     state: {
       sorting,
       rowSelection: rowSelection,
-      globalFilter
+      globalFilter,
     },
-    enableRowSelection: row => row.original.status.name === "staging",
+    enableRowSelection: row => row.original.status.name === 'staging',
     onSortingChange: setSorting,
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: true
+    debugAll: true,
   });
 
   useEffect(() => {
@@ -335,12 +335,12 @@ const ContributionsTable = ({
                         <Box
                           {...{
                             onClick: header.column.getToggleSortingHandler(),
-                            cursor: "pointer"
+                            cursor: 'pointer',
                           }}
                         >
                           {flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
 
                           <chakra.span paddingLeft="4">
@@ -348,7 +348,7 @@ const ContributionsTable = ({
                               asc: <IoArrowUp aria-label="sorted-ascending" />,
                               desc: (
                                 <IoArrowDown aria-label="sorted-descending" />
-                              )
+                              ),
                             }[header.column.getIsSorted() as string] ?? null}
                           </chakra.span>
                         </Box>
@@ -369,7 +369,7 @@ const ContributionsTable = ({
                         <Td borderColor="gray.100" key={cell.id}>
                           {flexRender(
                             cell.column.columnDef.cell,
-                            cell.getContext()
+                            cell.getContext(),
                           )}
                         </Td>
                       );
@@ -390,7 +390,7 @@ const ContributionsTable = ({
               contribution={
                 mergePages(contributionsData).find(
                   localContribution =>
-                    localContribution.id === selectedContribution
+                    localContribution.id === selectedContribution,
                 )!
               }
             />
