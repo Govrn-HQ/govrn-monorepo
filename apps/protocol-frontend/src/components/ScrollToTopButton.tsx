@@ -30,11 +30,10 @@ const ScrollToTopButton = () => {
       display={visible ? 'block' : 'none'}
     >
       <IconButton
-        aria-label="Scroll to Top of Page Button"
+        aria-label="Add Contribution Activity Report"
         bgColor="gray.200"
         color="gray.600"
         size="lg"
-        fontSize={{ base: 'xl', lg: '2xl' }}
         borderRadius="9999px"
         boxShadow="xl"
         transition="all 100ms ease-in-out transform 250ms ease-in-out"

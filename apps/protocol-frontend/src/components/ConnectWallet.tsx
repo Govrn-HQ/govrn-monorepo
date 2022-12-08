@@ -50,7 +50,10 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
               if (!mounted || !account || !chain) {
                 return (
                   <Button
-                    variant="tertiary"
+                    color="brand.purple"
+                    backgroundColor="gray.300"
+                    transition="all 100ms ease-in-out"
+                    _hover={{ backgroundColor: 'white' }}
                     leftIcon={<FiKey />}
                     disabled={isConnecting}
                     onClick={openConnectModal}
@@ -64,9 +67,17 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
               if (chain.unsupported) {
                 return (
                   <Button
-                    variant="tertiary"
-                    leftIcon={<FiKey />}
                     onClick={openChainModal}
+                    color="brand.primary.600"
+                    backgroundColor="brand.primary.50"
+                    transition="all 100ms ease-in-out"
+                    border="2px"
+                    borderColor="white"
+                    _hover={{
+                      bgColor: 'brand.primary.100',
+                      borderWidth: '2px',
+                      borderColor: 'brand.primary.600',
+                    }}
                   >
                     Wrong network
                   </Button>
@@ -74,7 +85,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
               }
 
               return (
-                <Flex gap={2}>
+                <Flex gap={3}>
                   {showNetwork && chain.hasIcon && chain.iconUrl && (
                     <Button
                       onClick={openChainModal}
@@ -82,8 +93,6 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                       alignItems="center"
                       bg={chain.iconBackground}
                       p={0}
-                      backgroundColor="gray.100"
-                      marginLeft={4}
                     >
                       <Image
                         alt={chain.name ?? 'Chain icon'}
@@ -102,14 +111,13 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                     <MenuButton
                       as={Button}
                       rightIcon={
-                        <Icon as={FiChevronDown} color="brand.purple" />
+                        <Icon as={FiChevronDown} color="brand.primary.600" />
                       }
-                      color="gray.900"
-                      backgroundColor="brand.secondary.100"
+                      color="brand.primary.600"
+                      backgroundColor="brand.primary.50"
                       transition="all 100ms ease-in-out"
-                      _hover={{ bgColor: 'brand.secondary.200' }}
+                      _hover={{ bgColor: 'brand.primary.100' }}
                       width="100%"
-                      paddingRight={2}
                     >
                       <Text color="gray.800" fontSize="sm">
                         {name || displayAddress(address || '')}

@@ -27,19 +27,16 @@ const FloatingReportButton = () => {
     <Box position="fixed" bottom="40px" right={['16px', '84px']} zIndex={1}>
       <Tooltip label="Report Contribution" fontSize="md">
         <IconButton
-          aria-label="Add Contribution Activity Report Button"
-          background="brand.gradient"
-          color="white"
+          aria-label="Add Contribution Activity Report"
+          bgColor="brand.primary.100"
+          color="brand.primary.600"
           size="lg"
-          fontSize={{ base: 'xl', lg: '2xl' }}
           borderRadius="9999px"
           boxShadow="xl"
-          transition="background 100ms ease-in-out transform 250ms ease-in-out"
+          transition="bgColor 100ms ease-in-out transform 250ms ease-in-out"
           _hover={{
-            background: 'brand.gradientHover',
-          }}
-          _focus={{
-            background: 'brand.gradientFocused',
+            bgColor: 'brand.primary.200',
+            transform: 'translateY(-4px)',
           }}
           data-testid="floatingreportbtn-testid"
           icon={<FiPlus />}

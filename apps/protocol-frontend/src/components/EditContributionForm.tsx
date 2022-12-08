@@ -349,7 +349,11 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
           />
           <Flex align="flex-end" marginTop={4}>
             <Button
-              variant="primary"
+              width="100%"
+              color="brand.primary.600"
+              backgroundColor="brand.primary.50"
+              transition="all 100ms ease-in-out"
+              _hover={{ bgColor: 'brand.primary.100' }}
               data-cy="updateContribution-test-btn"
               disabled={ipfsError}
               isLoading={updateNewContributionIsLoading}

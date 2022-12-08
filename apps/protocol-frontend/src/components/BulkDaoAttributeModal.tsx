@@ -119,8 +119,12 @@ const BulkDaoAttributeModal = ({
           localForm={localForm}
         />
         <Button
-          variant="primary"
           type="submit"
+          width="100%"
+          color="brand.primary.600"
+          backgroundColor="brand.primary.50"
+          transition="all 100ms ease-in-out"
+          _hover={{ bgColor: 'brand.primary.100' }}
           isLoading={attributing || updateNewContributionIsLoading}
         >
           Attribute {pluralize('Contribution', contributions.length)}

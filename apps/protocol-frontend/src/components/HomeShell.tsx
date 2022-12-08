@@ -86,7 +86,10 @@ const HomeShell = () => {
               </Text>
               <Link to="/dashboard">
                 <Button
-                  variant="tertiary"
+                  color="brand.purple"
+                  backgroundColor="gray.300"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ backgroundColor: 'white' }}
                   marginTop={4}
                   width="100%"
                   data-cy="myDashboards-btn"

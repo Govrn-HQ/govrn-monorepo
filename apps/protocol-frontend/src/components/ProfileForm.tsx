@@ -80,7 +80,7 @@ const ProfileForm = () => {
           </Heading>
           <Flex
             direction="column"
-            alignItems="flex-start"
+            align="flex-end"
             marginY={8}
             width={{ base: '100%', lg: '50%' }}
           >
@@ -92,7 +92,14 @@ const ProfileForm = () => {
               defaultValue={userData?.name ?? ''}
               localForm={localForm}
             />
-            <Button variant="primary" type="submit">
+            <Button
+              type="submit"
+              width="100%"
+              color="brand.primary.600"
+              backgroundColor="brand.primary.50"
+              transition="all 100ms ease-in-out"
+              _hover={{ bgColor: 'brand.primary.100' }}
+            >
               Save Username
             </Button>
           </Flex>
@@ -122,21 +129,29 @@ const ProfileForm = () => {
               gap="20px"
               width={{ base: '100%', lg: '50%' }}
             >
-              <Heading as="h4" size="sm" fontWeight="medium" color="gray.700">
-                Connect Linear
+              <Heading as="h5" size="sm" fontWeight="medium" color="gray.700">
+                Linear
               </Heading>
               {userData?.linear_users && userData.linear_users.length > 0 ? (
                 <Button
-                  variant="primary"
                   type="submit"
+                  width="100%"
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'brand.primary.100' }}
                   onClick={disconnectLinearOnClick}
                 >
                   Disconnect Linear
                 </Button>
               ) : (
                 <Button
-                  variant="primary"
                   type="submit"
+                  width="100%"
+                  color="brand.primary.600"
+                  backgroundColor="brand.primary.50"
+                  transition="all 100ms ease-in-out"
+                  _hover={{ bgColor: 'brand.primary.100' }}
                   onClick={handleLinearOauth}
                 >
                   Connect Linear
@@ -148,7 +163,7 @@ const ProfileForm = () => {
           <Flex justify="space-between" direction="column" wrap="wrap">
             <Flex
               direction="column"
-              align="flex-start"
+              align="flex-end"
               marginTop={4}
               marginBottom={{ base: 8, lg: 0 }}
               width={{ base: '100%', lg: '50%' }}
@@ -161,7 +176,7 @@ const ProfileForm = () => {
                 localForm={localForm}
                 isDisabled
               />
-              <Button variant="primary" type="submit" isDisabled>
+              <Button type="submit" width="100%" variant="disabled" isDisabled>
                 Link Twitter
               </Button>
             </Flex>
