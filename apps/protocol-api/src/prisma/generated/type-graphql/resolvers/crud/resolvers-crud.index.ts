@@ -12,6 +12,7 @@ export { DiscordUserCrudResolver } from "./DiscordUser/DiscordUserCrudResolver";
 export { GuildCrudResolver } from "./Guild/GuildCrudResolver";
 export { GuildActivityTypeCrudResolver } from "./GuildActivityType/GuildActivityTypeCrudResolver";
 export { GuildContributionCrudResolver } from "./GuildContribution/GuildContributionCrudResolver";
+export { GuildMembershipStatusCrudResolver } from "./GuildMembershipStatus/GuildMembershipStatusCrudResolver";
 export { GuildUserCrudResolver } from "./GuildUser/GuildUserCrudResolver";
 export { JobRunCrudResolver } from "./JobRun/JobRunCrudResolver";
 export { LinearCycleCrudResolver } from "./LinearCycle/LinearCycleCrudResolver";
