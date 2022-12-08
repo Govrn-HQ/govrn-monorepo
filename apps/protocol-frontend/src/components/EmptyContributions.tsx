@@ -41,12 +41,8 @@ const EmptyContributions = () => {
             </Text>
             <Link to="/report">
               <Button
+                variant="primary"
                 size="md"
-                bgColor="brand.primary.50"
-                color="brand.primary.600"
-                transition="all 100ms ease-in-out"
-                _hover={{ bgColor: 'brand.primary.100' }}
-                colorScheme="brand.primary"
                 data-cy="reportFirstContribution-btn"
               >
                 Report a Contribution

@@ -1,8 +1,6 @@
 import { useEffect, forwardRef, useRef } from 'react';
-import { TableToggleRowsSelectedProps } from 'react-table';
 
-// TODO: Move into component library after validating that this works
-// uses the raw HTML input -- needs to be styled
+import { TableToggleRowsSelectedProps } from 'react-table';
 
 type IndeterminateCheckboxProps = Partial<TableToggleRowsSelectedProps> & {
   disabled?: boolean;
@@ -16,7 +14,6 @@ const IndeterminateCheckbox = forwardRef<
   IndeterminateCheckboxCustomProps
 >(({ indeterminate, ...rest }: any, ref) => {
   const defaultRef = useRef<HTMLInputElement>(null);
-  // const resolvedRef = ref || defaultRef;
   const resolvedRef = defaultRef;
 
   useEffect(() => {
@@ -25,7 +22,14 @@ const IndeterminateCheckbox = forwardRef<
     }
   }, [resolvedRef, indeterminate]);
 
-  return <input type="checkbox" ref={resolvedRef} {...rest} />;
+  return (
+    <input
+      type="checkbox"
+      ref={resolvedRef}
+      {...rest}
+      className="input-indeterminateCheckbox"
+    />
+  );
 });
 
 export default IndeterminateCheckbox;
