@@ -17,7 +17,7 @@ const HomeShell = () => {
     null,
   );
 
-  const { userDataByAddress, userData, isUserLoading } = useUser();
+  const { userDataByAddress, isUserLoading } = useUser();
   const { displayName } = useDisplayName();
 
   console.log('display name', displayName);

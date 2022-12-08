@@ -1,5 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useDisconnect } from 'wagmi';
+import { chain, useAccount, useDisconnect, useEnsName } from 'wagmi';
 import {
   Button,
   Text,
@@ -23,6 +23,12 @@ interface ConnectWalletProps {
 const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
   const { address, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
+
+  const { data: userEnsName } = useEnsName({
+    address: address,
+    chainId: chain.mainnet.id,
+    enabled: !!address,
+  });
 
   return (
     <ConnectButton.Custom>
@@ -119,7 +125,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                       width="100%"
                     >
                       <Text color="gray.800" fontSize="sm">
-                        {displayAddress(address || '')}
+                        {userEnsName ?? displayAddress(address)}
                       </Text>
                     </MenuButton>
                     <MenuList backgroundColor="gray.800" minWidth="none">

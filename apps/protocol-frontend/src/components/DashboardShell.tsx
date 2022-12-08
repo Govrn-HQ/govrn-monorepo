@@ -12,7 +12,7 @@ import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
 import { DEFAULT_DATE_RANGES } from '../utils/constants';
 import pluralize from 'pluralize';
-import { displayAddress } from '../utils/web3';
+import useDisplayName from '../hooks/useDisplayName';
 
 const TODAY_DATE = new Date();
 
@@ -25,6 +25,8 @@ const unassignedContributions = [
 
 const DashboardShell = () => {
   const { userData } = useUser();
+  const { displayName } = useDisplayName();
+
   const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
     value: 52,
     label: 'Last Year',
@@ -117,7 +119,7 @@ const DashboardShell = () => {
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
               >
-                {userData?.name || displayAddress(userData?.address)}
+                {displayName}
               </Text>
             </Heading>
             <Flex

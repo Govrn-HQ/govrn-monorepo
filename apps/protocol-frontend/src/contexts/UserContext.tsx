@@ -87,14 +87,10 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [address]);
 
-  const { data: userEnsName } = useEnsName({
-    // address: '0x68d36DcBDD7Bbf206e27134F28103abE7cf972df',
-    address: '0x0b5f5a722ac5e8ecedf4da39a656fe5f1e76b34c',
+  const userEnsName = useEnsName({
+    address: address,
     chainId: chain.mainnet.id,
     enabled: !!address,
-    onSuccess(data) {
-      console.log('Success', data);
-    },
   });
 
   const userDaos = new Map<
@@ -250,7 +246,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         userDaos,
         userData,
         userDataByAddress,
-        userEnsName,
+        // userEnsName,
       }}
     >
       {children}
@@ -292,7 +288,7 @@ type UserContextType = {
   >;
   userData: UIUser | null;
   userDataByAddress: UIUser | null;
-  userEnsName: any;
+  // userEnsName: string | null;
 };
 
 export const useUser = (): UserContextType => useContext(UserContext);
