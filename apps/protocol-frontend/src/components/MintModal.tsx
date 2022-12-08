@@ -149,12 +149,8 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
       )}
       <Flex align="flex-end" marginTop={8}>
         <Button
+          variant="primary"
           type="submit"
-          width="100%"
-          color="brand.primary.600"
-          backgroundColor="brand.primary.50"
-          transition="all 100ms ease-in-out"
-          _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => {
             const c = contributions[0];
             if (contributions && 'original' in c) {

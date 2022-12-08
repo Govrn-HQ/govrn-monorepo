@@ -351,13 +351,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               </Text>
             )}
           </Flex>
-          <Flex align="flex-end" marginTop={4} gap={4}>
+          <Flex
+            direction="row"
+            justifyContent="flex-start"
+            marginTop={4}
+            gap={4}
+          >
             <Button
-              width="100%"
-              color="brand.primary.600"
-              backgroundColor="brand.primary.50"
-              transition="all 100ms ease-in-out"
-              _hover={{ bgColor: 'brand.primary.100' }}
+              variant="primary"
               isLoading={createNewContributionIsLoading}
               data-cy="addContribution-btn"
               disabled={ipfsError}
