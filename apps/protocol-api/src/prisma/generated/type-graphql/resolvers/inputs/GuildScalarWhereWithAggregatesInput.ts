@@ -70,4 +70,9 @@ export class GuildScalarWhereWithAggregatesInput {
     nullable: true
   })
   status?: EnumGuildStatusWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+    nullable: true
+  })
+  verification_status_id?: IntWithAggregatesFilter | undefined;
 }

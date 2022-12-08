@@ -15,6 +15,7 @@ export { GuildMembershipStatusScalarFieldEnum } from "./GuildMembershipStatusSca
 export { GuildScalarFieldEnum } from "./GuildScalarFieldEnum";
 export { GuildStatus } from "./GuildStatus";
 export { GuildUserScalarFieldEnum } from "./GuildUserScalarFieldEnum";
+export { GuildVerificationStatusScalarFieldEnum } from "./GuildVerificationStatusScalarFieldEnum";
 export { JobRunScalarFieldEnum } from "./JobRunScalarFieldEnum";
 export { LinearCycleScalarFieldEnum } from "./LinearCycleScalarFieldEnum";
 export { LinearIssueScalarFieldEnum } from "./LinearIssueScalarFieldEnum";

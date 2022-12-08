@@ -52,4 +52,9 @@ export class GuildCountOrderByAggregateInput {
     nullable: true
   })
   status?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  verification_status_id?: "asc" | "desc" | undefined;
 }

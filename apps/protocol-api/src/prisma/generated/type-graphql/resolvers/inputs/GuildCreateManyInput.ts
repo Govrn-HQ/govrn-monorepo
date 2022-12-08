@@ -52,4 +52,9 @@ export class GuildCreateManyInput {
     nullable: true
   })
   status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  verification_status_id!: number;
 }

@@ -14,6 +14,7 @@ export { GuildActivityTypeCrudResolver } from "./GuildActivityType/GuildActivity
 export { GuildContributionCrudResolver } from "./GuildContribution/GuildContributionCrudResolver";
 export { GuildMembershipStatusCrudResolver } from "./GuildMembershipStatus/GuildMembershipStatusCrudResolver";
 export { GuildUserCrudResolver } from "./GuildUser/GuildUserCrudResolver";
+export { GuildVerificationStatusCrudResolver } from "./GuildVerificationStatus/GuildVerificationStatusCrudResolver";
 export { JobRunCrudResolver } from "./JobRun/JobRunCrudResolver";
 export { LinearCycleCrudResolver } from "./LinearCycle/LinearCycleCrudResolver";
 export { LinearIssueCrudResolver } from "./LinearIssue/LinearIssueCrudResolver";

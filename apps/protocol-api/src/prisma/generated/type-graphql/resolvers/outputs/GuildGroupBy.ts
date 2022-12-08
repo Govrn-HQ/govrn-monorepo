@@ -58,6 +58,11 @@ export class GuildGroupBy {
   })
   status!: "INPUTTED" | "VALIDATED" | "ONBOARDED";
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  verification_status_id!: number;
+
   @TypeGraphQL.Field(_type => GuildCountAggregate, {
     nullable: true
   })

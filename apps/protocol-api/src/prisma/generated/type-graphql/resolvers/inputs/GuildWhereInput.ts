@@ -7,6 +7,7 @@ import { EnumGuildStatusFilter } from "../inputs/EnumGuildStatusFilter";
 import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
 import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
+import { GuildVerificationStatusRelationFilter } from "../inputs/GuildVerificationStatusRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TwitterAccountListRelationFilter } from "../inputs/TwitterAccountListRelationFilter";
@@ -94,4 +95,14 @@ export class GuildWhereInput {
     nullable: true
   })
   status?: EnumGuildStatusFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntFilter, {
+    nullable: true
+  })
+  verification_status_id?: IntFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildVerificationStatusRelationFilter, {
+    nullable: true
+  })
+  verificationStatus?: GuildVerificationStatusRelationFilter | undefined;
 }

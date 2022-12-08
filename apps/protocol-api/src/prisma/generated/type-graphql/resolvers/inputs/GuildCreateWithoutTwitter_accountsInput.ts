@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutGuildInput";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
+import { GuildVerificationStatusCreateNestedOneWithoutGuildInput } from "../inputs/GuildVerificationStatusCreateNestedOneWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.InputType("GuildCreateWithoutTwitter_accountsInput", {
@@ -65,4 +66,9 @@ export class GuildCreateWithoutTwitter_accountsInput {
     nullable: true
   })
   status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
+
+  @TypeGraphQL.Field(_type => GuildVerificationStatusCreateNestedOneWithoutGuildInput, {
+    nullable: false
+  })
+  verificationStatus!: GuildVerificationStatusCreateNestedOneWithoutGuildInput;
 }

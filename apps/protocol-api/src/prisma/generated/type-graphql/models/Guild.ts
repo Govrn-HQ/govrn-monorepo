@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../scalars";
 import { GuildActivityType } from "../models/GuildActivityType";
 import { GuildContribution } from "../models/GuildContribution";
 import { GuildUser } from "../models/GuildUser";
+import { GuildVerificationStatus } from "../models/GuildVerificationStatus";
 import { TwitterAccount } from "../models/TwitterAccount";
 import { GuildStatus } from "../enums/GuildStatus";
 import { GuildCount } from "../resolvers/outputs/GuildCount";
@@ -65,6 +66,13 @@ export class Guild {
     nullable: false
   })
   status!: "INPUTTED" | "VALIDATED" | "ONBOARDED";
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  verification_status_id!: number;
+
+  verificationStatus?: GuildVerificationStatus;
 
   @TypeGraphQL.Field(_type => GuildCount, {
     nullable: true

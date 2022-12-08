@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeOrderByRelationAggregateInput } from "../inputs/GuildActivityTypeOrderByRelationAggregateInput";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
+import { GuildVerificationStatusOrderByWithRelationInput } from "../inputs/GuildVerificationStatusOrderByWithRelationInput";
 import { TwitterAccountOrderByRelationAggregateInput } from "../inputs/TwitterAccountOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -76,4 +77,14 @@ export class GuildOrderByWithRelationInput {
     nullable: true
   })
   status?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  verification_status_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => GuildVerificationStatusOrderByWithRelationInput, {
+    nullable: true
+  })
+  verificationStatus?: GuildVerificationStatusOrderByWithRelationInput | undefined;
 }

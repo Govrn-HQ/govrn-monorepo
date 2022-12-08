@@ -593,6 +593,14 @@ export type AggregateGuildUser = {
   _sum?: Maybe<GuildUserSumAggregate>;
 };
 
+export type AggregateGuildVerificationStatus = {
+  _avg?: Maybe<GuildVerificationStatusAvgAggregate>;
+  _count?: Maybe<GuildVerificationStatusCountAggregate>;
+  _max?: Maybe<GuildVerificationStatusMaxAggregate>;
+  _min?: Maybe<GuildVerificationStatusMinAggregate>;
+  _sum?: Maybe<GuildVerificationStatusSumAggregate>;
+};
+
 export type AggregateJobRun = {
   _avg?: Maybe<JobRunAvgAggregate>;
   _count?: Maybe<JobRunCountAggregate>;
@@ -6248,6 +6256,160 @@ export type GuildUserWhereUniqueInput = {
   user_id_guild_id?: InputMaybe<GuildUserUser_IdGuild_IdCompoundUniqueInput>;
 };
 
+export type GuildVerificationStatus = {
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type GuildVerificationStatusAvgAggregate = {
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type GuildVerificationStatusAvgOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildVerificationStatusCountAggregate = {
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type GuildVerificationStatusCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildVerificationStatusCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildVerificationStatusCreateManyInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildVerificationStatusGroupBy = {
+  _avg?: Maybe<GuildVerificationStatusAvgAggregate>;
+  _count?: Maybe<GuildVerificationStatusCountAggregate>;
+  _max?: Maybe<GuildVerificationStatusMaxAggregate>;
+  _min?: Maybe<GuildVerificationStatusMinAggregate>;
+  _sum?: Maybe<GuildVerificationStatusSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type GuildVerificationStatusMaxAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type GuildVerificationStatusMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildVerificationStatusMinAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type GuildVerificationStatusMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildVerificationStatusOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GuildVerificationStatusAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GuildVerificationStatusCountOrderByAggregateInput>;
+  _max?: InputMaybe<GuildVerificationStatusMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GuildVerificationStatusMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GuildVerificationStatusSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildVerificationStatusOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export enum GuildVerificationStatusScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Name = 'name',
+  UpdatedAt = 'updatedAt'
+}
+
+export type GuildVerificationStatusScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GuildVerificationStatusScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GuildVerificationStatusScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GuildVerificationStatusScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type GuildVerificationStatusSumAggregate = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type GuildVerificationStatusSumOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildVerificationStatusUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildVerificationStatusUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildVerificationStatusWhereInput = {
+  AND?: InputMaybe<Array<GuildVerificationStatusWhereInput>>;
+  NOT?: InputMaybe<Array<GuildVerificationStatusWhereInput>>;
+  OR?: InputMaybe<Array<GuildVerificationStatusWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type GuildVerificationStatusWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type GuildWhereInput = {
   AND?: InputMaybe<Array<GuildWhereInput>>;
   NOT?: InputMaybe<Array<GuildWhereInput>>;
@@ -9287,6 +9449,7 @@ export type Mutation = {
   createGuildContribution: GuildContribution;
   createGuildMembershipStatus: GuildMembershipStatus;
   createGuildUser: GuildUser;
+  createGuildVerificationStatus: GuildVerificationStatus;
   createJobRun: JobRun;
   createLinearCycle: LinearCycle;
   createLinearIssue: LinearIssue;
@@ -9309,6 +9472,7 @@ export type Mutation = {
   createManyGuildContribution: AffectedRowsOutput;
   createManyGuildMembershipStatus: AffectedRowsOutput;
   createManyGuildUser: AffectedRowsOutput;
+  createManyGuildVerificationStatus: AffectedRowsOutput;
   createManyJobRun: AffectedRowsOutput;
   createManyLinearCycle: AffectedRowsOutput;
   createManyLinearIssue: AffectedRowsOutput;
@@ -9350,6 +9514,7 @@ export type Mutation = {
   deleteGuildContribution?: Maybe<GuildContribution>;
   deleteGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   deleteGuildUser?: Maybe<GuildUser>;
+  deleteGuildVerificationStatus?: Maybe<GuildVerificationStatus>;
   deleteJobRun?: Maybe<JobRun>;
   deleteLinearCycle?: Maybe<LinearCycle>;
   deleteLinearIssue?: Maybe<LinearIssue>;
@@ -9372,6 +9537,7 @@ export type Mutation = {
   deleteManyGuildContribution: AffectedRowsOutput;
   deleteManyGuildMembershipStatus: AffectedRowsOutput;
   deleteManyGuildUser: AffectedRowsOutput;
+  deleteManyGuildVerificationStatus: AffectedRowsOutput;
   deleteManyJobRun: AffectedRowsOutput;
   deleteManyLinearCycle: AffectedRowsOutput;
   deleteManyLinearIssue: AffectedRowsOutput;
@@ -9410,6 +9576,7 @@ export type Mutation = {
   updateGuildContribution?: Maybe<GuildContribution>;
   updateGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   updateGuildUser?: Maybe<GuildUser>;
+  updateGuildVerificationStatus?: Maybe<GuildVerificationStatus>;
   updateJobRun?: Maybe<JobRun>;
   updateLinearCycle?: Maybe<LinearCycle>;
   updateLinearIssue?: Maybe<LinearIssue>;
@@ -9432,6 +9599,7 @@ export type Mutation = {
   updateManyGuildContribution: AffectedRowsOutput;
   updateManyGuildMembershipStatus: AffectedRowsOutput;
   updateManyGuildUser: AffectedRowsOutput;
+  updateManyGuildVerificationStatus: AffectedRowsOutput;
   updateManyJobRun: AffectedRowsOutput;
   updateManyLinearCycle: AffectedRowsOutput;
   updateManyLinearIssue: AffectedRowsOutput;
@@ -9472,6 +9640,7 @@ export type Mutation = {
   upsertGuildContribution: GuildContribution;
   upsertGuildMembershipStatus: GuildMembershipStatus;
   upsertGuildUser: GuildUser;
+  upsertGuildVerificationStatus: GuildVerificationStatus;
   upsertJobRun: JobRun;
   upsertLinearCycle: LinearCycle;
   upsertLinearIssue: LinearIssue;
@@ -9565,6 +9734,11 @@ export type MutationCreateGuildMembershipStatusArgs = {
 
 export type MutationCreateGuildUserArgs = {
   data: GuildUserCreateInput;
+};
+
+
+export type MutationCreateGuildVerificationStatusArgs = {
+  data: GuildVerificationStatusCreateInput;
 };
 
 
@@ -9690,6 +9864,12 @@ export type MutationCreateManyGuildMembershipStatusArgs = {
 
 export type MutationCreateManyGuildUserArgs = {
   data: Array<GuildUserCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyGuildVerificationStatusArgs = {
+  data: Array<GuildVerificationStatusCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -9912,6 +10092,11 @@ export type MutationDeleteGuildUserArgs = {
 };
 
 
+export type MutationDeleteGuildVerificationStatusArgs = {
+  where: GuildVerificationStatusWhereUniqueInput;
+};
+
+
 export type MutationDeleteJobRunArgs = {
   where: JobRunWhereUniqueInput;
 };
@@ -10019,6 +10204,11 @@ export type MutationDeleteManyGuildMembershipStatusArgs = {
 
 export type MutationDeleteManyGuildUserArgs = {
   where?: InputMaybe<GuildUserWhereInput>;
+};
+
+
+export type MutationDeleteManyGuildVerificationStatusArgs = {
+  where?: InputMaybe<GuildVerificationStatusWhereInput>;
 };
 
 
@@ -10228,6 +10418,12 @@ export type MutationUpdateGuildUserArgs = {
 };
 
 
+export type MutationUpdateGuildVerificationStatusArgs = {
+  data: GuildVerificationStatusUpdateInput;
+  where: GuildVerificationStatusWhereUniqueInput;
+};
+
+
 export type MutationUpdateJobRunArgs = {
   data: JobRunUpdateInput;
   where: JobRunWhereUniqueInput;
@@ -10357,6 +10553,12 @@ export type MutationUpdateManyGuildMembershipStatusArgs = {
 export type MutationUpdateManyGuildUserArgs = {
   data: GuildUserUpdateManyMutationInput;
   where?: InputMaybe<GuildUserWhereInput>;
+};
+
+
+export type MutationUpdateManyGuildVerificationStatusArgs = {
+  data: GuildVerificationStatusUpdateManyMutationInput;
+  where?: InputMaybe<GuildVerificationStatusWhereInput>;
 };
 
 
@@ -10614,6 +10816,13 @@ export type MutationUpsertGuildUserArgs = {
   create: GuildUserCreateInput;
   update: GuildUserUpdateInput;
   where: GuildUserWhereUniqueInput;
+};
+
+
+export type MutationUpsertGuildVerificationStatusArgs = {
+  create: GuildVerificationStatusCreateInput;
+  update: GuildVerificationStatusUpdateInput;
+  where: GuildVerificationStatusWhereUniqueInput;
 };
 
 
@@ -11342,6 +11551,7 @@ export type Query = {
   aggregateGuildContribution: AggregateGuildContribution;
   aggregateGuildMembershipStatus: AggregateGuildMembershipStatus;
   aggregateGuildUser: AggregateGuildUser;
+  aggregateGuildVerificationStatus: AggregateGuildVerificationStatus;
   aggregateJobRun: AggregateJobRun;
   aggregateLinearCycle: AggregateLinearCycle;
   aggregateLinearIssue: AggregateLinearIssue;
@@ -11391,6 +11601,7 @@ export type Query = {
   findFirstGuildContribution?: Maybe<GuildContribution>;
   findFirstGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   findFirstGuildUser?: Maybe<GuildUser>;
+  findFirstGuildVerificationStatus?: Maybe<GuildVerificationStatus>;
   findFirstJobRun?: Maybe<JobRun>;
   findFirstLinearCycle?: Maybe<LinearCycle>;
   findFirstLinearIssue?: Maybe<LinearIssue>;
@@ -11426,6 +11637,7 @@ export type Query = {
   groupByGuildContribution: Array<GuildContributionGroupBy>;
   groupByGuildMembershipStatus: Array<GuildMembershipStatusGroupBy>;
   groupByGuildUser: Array<GuildUserGroupBy>;
+  groupByGuildVerificationStatus: Array<GuildVerificationStatusGroupBy>;
   groupByJobRun: Array<JobRunGroupBy>;
   groupByLinearCycle: Array<LinearCycleGroupBy>;
   groupByLinearIssue: Array<LinearIssueGroupBy>;
@@ -11448,6 +11660,8 @@ export type Query = {
   guildMembershipStatuses: Array<GuildMembershipStatus>;
   guildUser?: Maybe<GuildUser>;
   guildUsers: Array<GuildUser>;
+  guildVerificationStatus?: Maybe<GuildVerificationStatus>;
+  guildVerificationStatuses: Array<GuildVerificationStatus>;
   guilds: Array<Guild>;
   jobRun?: Maybe<JobRun>;
   jobRuns: Array<JobRun>;
@@ -11636,6 +11850,15 @@ export type QueryAggregateGuildUserArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildUserWhereInput>;
+};
+
+
+export type QueryAggregateGuildVerificationStatusArgs = {
+  cursor?: InputMaybe<GuildVerificationStatusWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GuildVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildVerificationStatusWhereInput>;
 };
 
 
@@ -12066,6 +12289,16 @@ export type QueryFindFirstGuildUserArgs = {
 };
 
 
+export type QueryFindFirstGuildVerificationStatusArgs = {
+  cursor?: InputMaybe<GuildVerificationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildVerificationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildVerificationStatusWhereInput>;
+};
+
+
 export type QueryFindFirstJobRunArgs = {
   cursor?: InputMaybe<JobRunWhereUniqueInput>;
   distinct?: InputMaybe<Array<JobRunScalarFieldEnum>>;
@@ -12386,6 +12619,16 @@ export type QueryGroupByGuildUserArgs = {
 };
 
 
+export type QueryGroupByGuildVerificationStatusArgs = {
+  by: Array<GuildVerificationStatusScalarFieldEnum>;
+  having?: InputMaybe<GuildVerificationStatusScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GuildVerificationStatusOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildVerificationStatusWhereInput>;
+};
+
+
 export type QueryGroupByJobRunArgs = {
   by: Array<JobRunScalarFieldEnum>;
   having?: InputMaybe<JobRunScalarWhereWithAggregatesInput>;
@@ -12578,6 +12821,21 @@ export type QueryGuildUsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildUserWhereInput>;
+};
+
+
+export type QueryGuildVerificationStatusArgs = {
+  where: GuildVerificationStatusWhereUniqueInput;
+};
+
+
+export type QueryGuildVerificationStatusesArgs = {
+  cursor?: InputMaybe<GuildVerificationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildVerificationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildVerificationStatusWhereInput>;
 };
 
 

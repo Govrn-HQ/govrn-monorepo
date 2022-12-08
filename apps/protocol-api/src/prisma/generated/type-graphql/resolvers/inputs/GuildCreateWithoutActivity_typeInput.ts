@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
+import { GuildVerificationStatusCreateNestedOneWithoutGuildInput } from "../inputs/GuildVerificationStatusCreateNestedOneWithoutGuildInput";
 import { TwitterAccountCreateNestedManyWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedManyWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
 
@@ -65,4 +66,9 @@ export class GuildCreateWithoutActivity_typeInput {
     nullable: true
   })
   status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
+
+  @TypeGraphQL.Field(_type => GuildVerificationStatusCreateNestedOneWithoutGuildInput, {
+    nullable: false
+  })
+  verificationStatus!: GuildVerificationStatusCreateNestedOneWithoutGuildInput;
 }

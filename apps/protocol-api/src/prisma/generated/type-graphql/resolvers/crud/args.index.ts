@@ -14,6 +14,7 @@ export * from "./GuildActivityType/args";
 export * from "./GuildContribution/args";
 export * from "./GuildMembershipStatus/args";
 export * from "./GuildUser/args";
+export * from "./GuildVerificationStatus/args";
 export * from "./JobRun/args";
 export * from "./LinearCycle/args";
 export * from "./LinearIssue/args";

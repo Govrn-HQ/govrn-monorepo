@@ -66,6 +66,8 @@ model Guild {
   activity_type GuildActivityType[]
   contribution_reporting_channel String?
   status GuildStatus @default(INPUTTED)
+  verification_status_id Int
+  verificationStatus GuildVerificationStatus @relation(fields: [verification_status_id], references: [id])
 }
 
 model GuildMembershipStatus {
@@ -111,9 +113,13 @@ model GuildActivityType {
   @@unique([guild_id, activity_type_id])
 }
 
-
-
-
+model GuildVerificationStatus {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  name String @unique
+  Guild Guild[]
+}
 
 // Type of chain Ethereum solana etc...
 model ChainType {

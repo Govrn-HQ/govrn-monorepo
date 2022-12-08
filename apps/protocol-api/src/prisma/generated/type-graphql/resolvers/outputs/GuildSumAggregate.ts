@@ -11,4 +11,9 @@ export class GuildSumAggregate {
     nullable: true
   })
   id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  verification_status_id!: number | null;
 }

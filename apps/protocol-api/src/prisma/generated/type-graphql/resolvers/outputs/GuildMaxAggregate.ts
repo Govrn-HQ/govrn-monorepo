@@ -52,4 +52,9 @@ export class GuildMaxAggregate {
     nullable: true
   })
   status!: "INPUTTED" | "VALIDATED" | "ONBOARDED" | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  verification_status_id!: number | null;
 }

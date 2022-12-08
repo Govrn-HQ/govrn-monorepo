@@ -9,7 +9,8 @@ export enum GuildScalarFieldEnum {
   congrats_channel = "congrats_channel",
   logo = "logo",
   contribution_reporting_channel = "contribution_reporting_channel",
-  status = "status"
+  status = "status",
+  verification_status_id = "verification_status_id"
 }
 TypeGraphQL.registerEnumType(GuildScalarFieldEnum, {
   name: "GuildScalarFieldEnum",

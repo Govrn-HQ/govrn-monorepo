@@ -3,6 +3,7 @@ import { Guild } from "../../../models/Guild";
 import { GuildActivityType } from "../../../models/GuildActivityType";
 import { GuildContribution } from "../../../models/GuildContribution";
 import { GuildUser } from "../../../models/GuildUser";
+import { GuildVerificationStatus } from "../../../models/GuildVerificationStatus";
 import { TwitterAccount } from "../../../models/TwitterAccount";
 import { GuildActivity_typeArgs } from "./args/GuildActivity_typeArgs";
 import { GuildContributionsArgs } from "./args/GuildContributionsArgs";
@@ -54,5 +55,16 @@ export class GuildRelationsResolver {
         id: guild.id,
       },
     }).activity_type(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => GuildVerificationStatus, {
+    nullable: false
+  })
+  async verificationStatus(@TypeGraphQL.Root() guild: Guild, @TypeGraphQL.Ctx() ctx: any): Promise<GuildVerificationStatus> {
+    return getPrismaFromContext(ctx).guild.findUnique({
+      where: {
+        id: guild.id,
+      },
+    }).verificationStatus({});
   }
 }

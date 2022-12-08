@@ -7,6 +7,7 @@ import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildSt
 import { GuildActivityTypeUpdateManyWithoutGuildInput } from "../inputs/GuildActivityTypeUpdateManyWithoutGuildInput";
 import { GuildContributionUpdateManyWithoutGuildInput } from "../inputs/GuildContributionUpdateManyWithoutGuildInput";
 import { GuildUserUpdateManyWithoutGuildInput } from "../inputs/GuildUserUpdateManyWithoutGuildInput";
+import { GuildVerificationStatusUpdateOneRequiredWithoutGuildInput } from "../inputs/GuildVerificationStatusUpdateOneRequiredWithoutGuildInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { TwitterAccountUpdateManyWithoutGuildInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildInput";
 
@@ -73,4 +74,9 @@ export class GuildUpdateInput {
     nullable: true
   })
   status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildVerificationStatusUpdateOneRequiredWithoutGuildInput, {
+    nullable: true
+  })
+  verificationStatus?: GuildVerificationStatusUpdateOneRequiredWithoutGuildInput | undefined;
 }

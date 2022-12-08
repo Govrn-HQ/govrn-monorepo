@@ -14,6 +14,7 @@ export { GuildActivityType } from "./GuildActivityType";
 export { GuildContribution } from "./GuildContribution";
 export { GuildMembershipStatus } from "./GuildMembershipStatus";
 export { GuildUser } from "./GuildUser";
+export { GuildVerificationStatus } from "./GuildVerificationStatus";
 export { JobRun } from "./JobRun";
 export { LinearCycle } from "./LinearCycle";
 export { LinearIssue } from "./LinearIssue";
