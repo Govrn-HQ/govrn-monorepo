@@ -20,7 +20,6 @@ export const AttestationModal = ({
   contribution: AttestationTableType;
   onFinish?: (() => void) | undefined;
 }) => {
-  const { userData } = useUser();
   const { displayName } = useDisplayName();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
     useAttestationMint();
