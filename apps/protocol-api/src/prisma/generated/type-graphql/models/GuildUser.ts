@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Guild } from "../models/Guild";
+import { GuildMembershipStatus } from "../models/GuildMembershipStatus";
 import { User } from "../models/User";
 
 @TypeGraphQL.ObjectType("GuildUser", {
@@ -37,4 +38,16 @@ export class GuildUser {
   guild_id!: number;
 
   guild?: Guild;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  membership_status_id!: number;
+
+  membershipStatus?: GuildMembershipStatus;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  favorite!: boolean;
 }

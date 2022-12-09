@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import { Guild } from "../../../models/Guild";
+import { GuildMembershipStatus } from "../../../models/GuildMembershipStatus";
 import { GuildUser } from "../../../models/GuildUser";
 import { User } from "../../../models/User";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
@@ -26,5 +27,16 @@ export class GuildUserRelationsResolver {
         id: guildUser.id,
       },
     }).guild({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => GuildMembershipStatus, {
+    nullable: false
+  })
+  async membershipStatus(@TypeGraphQL.Root() guildUser: GuildUser, @TypeGraphQL.Ctx() ctx: any): Promise<GuildMembershipStatus> {
+    return getPrismaFromContext(ctx).guildUser.findUnique({
+      where: {
+        id: guildUser.id,
+      },
+    }).membershipStatus({});
   }
 }

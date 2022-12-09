@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 
@@ -48,4 +49,14 @@ export class GuildUserScalarWhereWithAggregatesInput {
     nullable: true
   })
   guild_id?: IntWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+    nullable: true
+  })
+  membership_status_id?: IntWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
+    nullable: true
+  })
+  favorite?: BoolWithAggregatesFilter | undefined;
 }

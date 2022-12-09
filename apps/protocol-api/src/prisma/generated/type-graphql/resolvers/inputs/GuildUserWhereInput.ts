@@ -2,7 +2,9 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { GuildMembershipStatusRelationFilter } from "../inputs/GuildMembershipStatusRelationFilter";
 import { GuildRelationFilter } from "../inputs/GuildRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
@@ -60,4 +62,19 @@ export class GuildUserWhereInput {
     nullable: true
   })
   guild?: GuildRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntFilter, {
+    nullable: true
+  })
+  membership_status_id?: IntFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildMembershipStatusRelationFilter, {
+    nullable: true
+  })
+  membershipStatus?: GuildMembershipStatusRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  favorite?: BoolFilter | undefined;
 }
