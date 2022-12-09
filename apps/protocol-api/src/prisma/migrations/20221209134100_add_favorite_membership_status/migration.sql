@@ -9,7 +9,11 @@
 DROP INDEX "GuildUser_user_id_guild_id_key";
 
 INSERT INTO "GuildMembershipStatus" (name)
-VALUES ('Supporter')
+VALUES ('Member'),
+       ('Contributor'),
+       ('Recruit'),
+       ('Supporter'),
+       ('Lurker')
 ON CONFLICT DO NOTHING;
 
 CREATE OR REPLACE FUNCTION supporter_id() RETURNS int
@@ -22,14 +26,16 @@ $$;
 
 
 -- AlterTable
-ALTER TABLE "GuildUser" ADD COLUMN     "favorite" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "membership_status_id" INTEGER NOT NULL default supporter_id();
+ALTER TABLE "GuildUser"
+  ADD COLUMN "favorite"             BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN "membership_status_id" INTEGER NOT NULL default supporter_id();
 
 -- CreateIndex
-CREATE UNIQUE INDEX "GuildUser_user_id_guild_id_membership_status_id_key" ON "GuildUser"("user_id", "guild_id", "membership_status_id");
+CREATE UNIQUE INDEX "GuildUser_user_id_guild_id_membership_status_id_key" ON "GuildUser" ("user_id", "guild_id", "membership_status_id");
 
 -- AddForeignKey
-ALTER TABLE "GuildUser" ADD CONSTRAINT "GuildUser_membership_status_id_fkey" FOREIGN KEY ("membership_status_id") REFERENCES "GuildMembershipStatus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GuildUser"
+  ADD CONSTRAINT "GuildUser_membership_status_id_fkey" FOREIGN KEY ("membership_status_id") REFERENCES "GuildMembershipStatus" ("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AlterTable
 ALTER TABLE "GuildUser"
