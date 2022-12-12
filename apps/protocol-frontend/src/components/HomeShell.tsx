@@ -111,7 +111,7 @@ const HomeShell = () => {
       paddingX={{ base: 8, lg: 0 }}
       minHeight="100vh"
       minWidth="100vw"
-      bgGradient="linear(to-r, #DF1F97 0%, #5100E4 100%)"
+      bgGradient="linear-gradient(49deg, rgba(223,31,151,1) 0%, rgba(81,0,228,1) 100%)"
     >
       <Flex
         direction="column"
