@@ -33,5 +33,7 @@ export default {
       'linear-gradient(100deg, rgba(81, 0, 228, 0.7) 0%, rgba(223, 31, 151, 0.7) 100%)',
     gradientHover: 'linear-gradient(100deg, #5100E4 0%, #5100E4 100%)', // purple
     gradientFocused: 'linear-gradient(100deg, #9766EF 0%,#9766EF 100%)', // purple.400
+    gradientBackground:
+      'linear-gradient(49deg, rgba(223,31,151,1) 0%, rgba(81,0,228,1) 100%)',
   },
 };
