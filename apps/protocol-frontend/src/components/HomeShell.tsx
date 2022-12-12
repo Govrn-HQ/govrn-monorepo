@@ -135,7 +135,7 @@ const HomeShell = () => {
           fontWeight="400"
           marginBottom={{ base: 40, lg: 0 }}
           gap={1}
-          maxW="60%"
+          maxW={{ base: '70%', lg: '60%' }}
         >
           <Text textAlign="center">
             Track and record your DAO Contributions
@@ -154,7 +154,7 @@ const HomeShell = () => {
             color="white"
             fontSize={{ base: 'lg', lg: 'xl' }}
             fontWeight="400"
-            maxW={{ base: '80%', lg: '70%' }}
+            maxW={{ base: '60%', lg: '70%' }}
           >
             <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
               To get started, connect your wallet to Gnosis Chain.
