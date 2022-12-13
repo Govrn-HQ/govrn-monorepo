@@ -12,11 +12,12 @@ const baseStyle = {
 };
 
 const variants = {
-  line: {
+  'soft-rounded': {
     tab: {
       _selected: {
-        color: 'gray.600',
-        borderColor: 'gray.600',
+        fontWeight: 'semibold',
+        color: 'white',
+        background: 'brand.gradient',
       },
       _active: {
         bg: 'transparent',
