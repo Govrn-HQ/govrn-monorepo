@@ -167,14 +167,14 @@ jobs:
           echo VITE_STAGING_MODE=true >> .env
           echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
       - name: Create Database
-        run: yarn nx run protocol-api:migrate --verbose
+        run: yarn nx run protocol-api:migrate
       - name: Cypress run
         uses: cypress-io/github-action@v4
         env:
           DEBUG: 'cypress:server'
         with:
           start: yarn nx run protocol-api:serve
-          command: yarn nx run protocol-frontend-e2e:e2eTest
+          command: yarn nx run protocol-frontend-e2e:e2eTest --verbose
           install: false
       - uses: actions/upload-artifact@v2
         if: failure()
