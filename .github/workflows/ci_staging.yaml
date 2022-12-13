@@ -164,19 +164,17 @@ jobs:
           echo VITE_LINEAR_REDIRECT_URI=http://lochost:4000/linear/oauth  >> .env
           echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
           echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
-          echo VITE_STAGING_MODE=true >> .env/Govrn-HQ/govrn-monorepo/actions
+          echo VITE_STAGING_MODE=true >> .env
           echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
       - name: Create Database
-        run: yarn nx run protocol-api:migrate
-      - name: Generate Types
-        run: yarn nx run protocol-client:generate-gql
+        run: yarn nx run protocol-api:migrate --verbose
       - name: Cypress run
         uses: cypress-io/github-action@v4
         env:
           DEBUG: 'cypress:server'
         with:
           start: yarn nx run protocol-api:serve
-          command: yarn nx run protocol-frontend-e2e:e2eTest --verbose
+          command: yarn nx run protocol-frontend-e2e:e2eTest
           install: false
       - uses: actions/upload-artifact@v2
         if: failure()
