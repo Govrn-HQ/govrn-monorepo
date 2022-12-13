@@ -181,7 +181,7 @@ const DashboardShell = () => {
                     {pluralize('Contribution', fullContributionsCount.length)}
                     <Text as="span" fontSize="sm">
                       {' '}
-                      in the last Year
+                      in the last year
                     </Text>
                   </Text>
                   <ContributionsHeatMap
