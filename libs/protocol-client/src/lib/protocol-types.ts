@@ -9271,31 +9271,6 @@ export type ListActivityTypesByUserInput = {
 };
 
 export type Mutation = {
-<<<<<<< HEAD
-=======
-  createActivityType: ActivityType;
-  createAttestation: Attestation;
-  createAttestationConfidence: AttestationConfidence;
-  createAttestationStatus: AttestationStatus;
-  createCategoryActivity: CategoryActivity;
-  createCategoryActivityType: CategoryActivityType;
-  createChain: Chain;
-  createChainType: ChainType;
-  createContribution: Contribution;
-  createContributionStatus: ContributionStatus;
-  createDiscordUser: DiscordUser;
-  createGuild: Guild;
-  createGuildActivityType: GuildActivityType;
-  createGuildContribution: GuildContribution;
-  createGuildMembershipStatus: GuildMembershipStatus;
-  createGuildUser: GuildUser;
-  createJobRun: JobRun;
-  createLinearCycle: LinearCycle;
-  createLinearIssue: LinearIssue;
-  createLinearProject: LinearProject;
-  createLinearTeam: LinearTeam;
-  createLinearUser: LinearUser;
->>>>>>> origin/staging
   createManyActivityType: AffectedRowsOutput;
   createManyAttestation: AffectedRowsOutput;
   createManyAttestationConfidence: AffectedRowsOutput;
@@ -9340,6 +9315,7 @@ export type Mutation = {
   createOneGuild: Guild;
   createOneGuildActivityType: GuildActivityType;
   createOneGuildContribution: GuildContribution;
+  createOneGuildMembershipStatus: GuildMembershipStatus;
   createOneGuildUser: GuildUser;
   createOneJobRun: JobRun;
   createOneLinearCycle: LinearCycle;
@@ -9358,31 +9334,6 @@ export type Mutation = {
   createUserContribution: Contribution;
   createUserCustom: User;
   createUserOnChainAttestation: Attestation;
-<<<<<<< HEAD
-=======
-  deleteActivityType?: Maybe<ActivityType>;
-  deleteAttestation?: Maybe<Attestation>;
-  deleteAttestationConfidence?: Maybe<AttestationConfidence>;
-  deleteAttestationStatus?: Maybe<AttestationStatus>;
-  deleteCategoryActivity?: Maybe<CategoryActivity>;
-  deleteCategoryActivityType?: Maybe<CategoryActivityType>;
-  deleteChain?: Maybe<Chain>;
-  deleteChainType?: Maybe<ChainType>;
-  deleteContribution?: Maybe<Contribution>;
-  deleteContributionStatus?: Maybe<ContributionStatus>;
-  deleteDiscordUser?: Maybe<DiscordUser>;
-  deleteGuild?: Maybe<Guild>;
-  deleteGuildActivityType?: Maybe<GuildActivityType>;
-  deleteGuildContribution?: Maybe<GuildContribution>;
-  deleteGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
-  deleteGuildUser?: Maybe<GuildUser>;
-  deleteJobRun?: Maybe<JobRun>;
-  deleteLinearCycle?: Maybe<LinearCycle>;
-  deleteLinearIssue?: Maybe<LinearIssue>;
-  deleteLinearProject?: Maybe<LinearProject>;
-  deleteLinearTeam?: Maybe<LinearTeam>;
-  deleteLinearUser?: Maybe<LinearUser>;
->>>>>>> origin/staging
   deleteManyActivityType: AffectedRowsOutput;
   deleteManyAttestation: AffectedRowsOutput;
   deleteManyAttestationConfidence: AffectedRowsOutput;
@@ -9426,6 +9377,7 @@ export type Mutation = {
   deleteOneGuild?: Maybe<Guild>;
   deleteOneGuildActivityType?: Maybe<GuildActivityType>;
   deleteOneGuildContribution?: Maybe<GuildContribution>;
+  deleteOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   deleteOneGuildUser?: Maybe<GuildUser>;
   deleteOneJobRun?: Maybe<JobRun>;
   deleteOneLinearCycle?: Maybe<LinearCycle>;
@@ -9442,31 +9394,6 @@ export type Mutation = {
   deleteOneUserActivity?: Maybe<UserActivity>;
   deleteUserContribution: Contribution;
   getOrCreateActivityType: ActivityType;
-<<<<<<< HEAD
-=======
-  updateActivityType?: Maybe<ActivityType>;
-  updateAttestation?: Maybe<Attestation>;
-  updateAttestationConfidence?: Maybe<AttestationConfidence>;
-  updateAttestationStatus?: Maybe<AttestationStatus>;
-  updateCategoryActivity?: Maybe<CategoryActivity>;
-  updateCategoryActivityType?: Maybe<CategoryActivityType>;
-  updateChain?: Maybe<Chain>;
-  updateChainType?: Maybe<ChainType>;
-  updateContribution?: Maybe<Contribution>;
-  updateContributionStatus?: Maybe<ContributionStatus>;
-  updateDiscordUser?: Maybe<DiscordUser>;
-  updateGuild?: Maybe<Guild>;
-  updateGuildActivityType?: Maybe<GuildActivityType>;
-  updateGuildContribution?: Maybe<GuildContribution>;
-  updateGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
-  updateGuildUser?: Maybe<GuildUser>;
-  updateJobRun?: Maybe<JobRun>;
-  updateLinearCycle?: Maybe<LinearCycle>;
-  updateLinearIssue?: Maybe<LinearIssue>;
-  updateLinearProject?: Maybe<LinearProject>;
-  updateLinearTeam?: Maybe<LinearTeam>;
-  updateLinearUser?: Maybe<LinearUser>;
->>>>>>> origin/staging
   updateManyActivityType: AffectedRowsOutput;
   updateManyAttestation: AffectedRowsOutput;
   updateManyAttestationConfidence: AffectedRowsOutput;
@@ -9510,6 +9437,7 @@ export type Mutation = {
   updateOneGuild?: Maybe<Guild>;
   updateOneGuildActivityType?: Maybe<GuildActivityType>;
   updateOneGuildContribution?: Maybe<GuildContribution>;
+  updateOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   updateOneGuildUser?: Maybe<GuildUser>;
   updateOneJobRun?: Maybe<JobRun>;
   updateOneLinearCycle?: Maybe<LinearCycle>;
@@ -9528,7 +9456,6 @@ export type Mutation = {
   updateUserCustom: User;
   updateUserOnChainAttestation: Attestation;
   updateUserOnChainContribution: Contribution;
-<<<<<<< HEAD
   upsertOneActivityType: ActivityType;
   upsertOneAttestation: Attestation;
   upsertOneAttestationConfidence: AttestationConfidence;
@@ -9543,6 +9470,7 @@ export type Mutation = {
   upsertOneGuild: Guild;
   upsertOneGuildActivityType: GuildActivityType;
   upsertOneGuildContribution: GuildContribution;
+  upsertOneGuildMembershipStatus: GuildMembershipStatus;
   upsertOneGuildUser: GuildUser;
   upsertOneJobRun: JobRun;
   upsertOneLinearCycle: LinearCycle;
@@ -9557,147 +9485,6 @@ export type Mutation = {
   upsertOneTwitterUser: TwitterUser;
   upsertOneUser: User;
   upsertOneUserActivity: UserActivity;
-=======
-  upsertActivityType: ActivityType;
-  upsertAttestation: Attestation;
-  upsertAttestationConfidence: AttestationConfidence;
-  upsertAttestationStatus: AttestationStatus;
-  upsertCategoryActivity: CategoryActivity;
-  upsertCategoryActivityType: CategoryActivityType;
-  upsertChain: Chain;
-  upsertChainType: ChainType;
-  upsertContribution: Contribution;
-  upsertContributionStatus: ContributionStatus;
-  upsertDiscordUser: DiscordUser;
-  upsertGuild: Guild;
-  upsertGuildActivityType: GuildActivityType;
-  upsertGuildContribution: GuildContribution;
-  upsertGuildMembershipStatus: GuildMembershipStatus;
-  upsertGuildUser: GuildUser;
-  upsertJobRun: JobRun;
-  upsertLinearCycle: LinearCycle;
-  upsertLinearIssue: LinearIssue;
-  upsertLinearProject: LinearProject;
-  upsertLinearTeam: LinearTeam;
-  upsertLinearUser: LinearUser;
-  upsertPartner: Partner;
-  upsertTwitterAccount: TwitterAccount;
-  upsertTwitterTweet: TwitterTweet;
-  upsertTwitterTweetContribution: TwitterTweetContribution;
-  upsertTwitterUser: TwitterUser;
-  upsertUser: User;
-  upsertUserActivity: UserActivity;
-};
-
-
-export type MutationCreateActivityTypeArgs = {
-  data: ActivityTypeCreateInput;
-};
-
-
-export type MutationCreateAttestationArgs = {
-  data: AttestationCreateInput;
-};
-
-
-export type MutationCreateAttestationConfidenceArgs = {
-  data: AttestationConfidenceCreateInput;
-};
-
-
-export type MutationCreateAttestationStatusArgs = {
-  data: AttestationStatusCreateInput;
-};
-
-
-export type MutationCreateCategoryActivityArgs = {
-  data: CategoryActivityCreateInput;
-};
-
-
-export type MutationCreateCategoryActivityTypeArgs = {
-  data: CategoryActivityTypeCreateInput;
-};
-
-
-export type MutationCreateChainArgs = {
-  data: ChainCreateInput;
-};
-
-
-export type MutationCreateChainTypeArgs = {
-  data: ChainTypeCreateInput;
-};
-
-
-export type MutationCreateContributionArgs = {
-  data: ContributionCreateInput;
-};
-
-
-export type MutationCreateContributionStatusArgs = {
-  data: ContributionStatusCreateInput;
-};
-
-
-export type MutationCreateDiscordUserArgs = {
-  data: DiscordUserCreateInput;
-};
-
-
-export type MutationCreateGuildArgs = {
-  data: GuildCreateInput;
-};
-
-
-export type MutationCreateGuildActivityTypeArgs = {
-  data: GuildActivityTypeCreateInput;
-};
-
-
-export type MutationCreateGuildContributionArgs = {
-  data: GuildContributionCreateInput;
-};
-
-
-export type MutationCreateGuildMembershipStatusArgs = {
-  data: GuildMembershipStatusCreateInput;
-};
-
-
-export type MutationCreateGuildUserArgs = {
-  data: GuildUserCreateInput;
-};
-
-
-export type MutationCreateJobRunArgs = {
-  data: JobRunCreateInput;
-};
-
-
-export type MutationCreateLinearCycleArgs = {
-  data: LinearCycleCreateInput;
-};
-
-
-export type MutationCreateLinearIssueArgs = {
-  data: LinearIssueCreateInput;
-};
-
-
-export type MutationCreateLinearProjectArgs = {
-  data: LinearProjectCreateInput;
-};
-
-
-export type MutationCreateLinearTeamArgs = {
-  data: LinearTeamCreateInput;
-};
-
-
-export type MutationCreateLinearUserArgs = {
-  data: LinearUserCreateInput;
->>>>>>> origin/staging
 };
 
 
@@ -9950,6 +9737,11 @@ export type MutationCreateOneGuildContributionArgs = {
 };
 
 
+export type MutationCreateOneGuildMembershipStatusArgs = {
+  data: GuildMembershipStatusCreateInput;
+};
+
+
 export type MutationCreateOneGuildUserArgs = {
   data: GuildUserCreateInput;
 };
@@ -10040,119 +9832,6 @@ export type MutationCreateUserOnChainAttestationArgs = {
 };
 
 
-<<<<<<< HEAD
-=======
-export type MutationDeleteActivityTypeArgs = {
-  where: ActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationDeleteAttestationArgs = {
-  where: AttestationWhereUniqueInput;
-};
-
-
-export type MutationDeleteAttestationConfidenceArgs = {
-  where: AttestationConfidenceWhereUniqueInput;
-};
-
-
-export type MutationDeleteAttestationStatusArgs = {
-  where: AttestationStatusWhereUniqueInput;
-};
-
-
-export type MutationDeleteCategoryActivityArgs = {
-  where: CategoryActivityWhereUniqueInput;
-};
-
-
-export type MutationDeleteCategoryActivityTypeArgs = {
-  where: CategoryActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationDeleteChainArgs = {
-  where: ChainWhereUniqueInput;
-};
-
-
-export type MutationDeleteChainTypeArgs = {
-  where: ChainTypeWhereUniqueInput;
-};
-
-
-export type MutationDeleteContributionArgs = {
-  where: ContributionWhereUniqueInput;
-};
-
-
-export type MutationDeleteContributionStatusArgs = {
-  where: ContributionStatusWhereUniqueInput;
-};
-
-
-export type MutationDeleteDiscordUserArgs = {
-  where: DiscordUserWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildArgs = {
-  where: GuildWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildActivityTypeArgs = {
-  where: GuildActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildContributionArgs = {
-  where: GuildContributionWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildMembershipStatusArgs = {
-  where: GuildMembershipStatusWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildUserArgs = {
-  where: GuildUserWhereUniqueInput;
-};
-
-
-export type MutationDeleteJobRunArgs = {
-  where: JobRunWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearCycleArgs = {
-  where: LinearCycleWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearIssueArgs = {
-  where: LinearIssueWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearProjectArgs = {
-  where: LinearProjectWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearTeamArgs = {
-  where: LinearTeamWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearUserArgs = {
-  where: LinearUserWhereUniqueInput;
-};
-
-
->>>>>>> origin/staging
 export type MutationDeleteManyActivityTypeArgs = {
   where?: InputMaybe<ActivityTypeWhereInput>;
 };
@@ -10368,6 +10047,11 @@ export type MutationDeleteOneGuildContributionArgs = {
 };
 
 
+export type MutationDeleteOneGuildMembershipStatusArgs = {
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+
 export type MutationDeleteOneGuildUserArgs = {
   where: GuildUserWhereUniqueInput;
 };
@@ -10448,141 +10132,6 @@ export type MutationGetOrCreateActivityTypeArgs = {
 };
 
 
-<<<<<<< HEAD
-=======
-export type MutationUpdateActivityTypeArgs = {
-  data: ActivityTypeUpdateInput;
-  where: ActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationUpdateAttestationArgs = {
-  data: AttestationUpdateInput;
-  where: AttestationWhereUniqueInput;
-};
-
-
-export type MutationUpdateAttestationConfidenceArgs = {
-  data: AttestationConfidenceUpdateInput;
-  where: AttestationConfidenceWhereUniqueInput;
-};
-
-
-export type MutationUpdateAttestationStatusArgs = {
-  data: AttestationStatusUpdateInput;
-  where: AttestationStatusWhereUniqueInput;
-};
-
-
-export type MutationUpdateCategoryActivityArgs = {
-  data: CategoryActivityUpdateInput;
-  where: CategoryActivityWhereUniqueInput;
-};
-
-
-export type MutationUpdateCategoryActivityTypeArgs = {
-  data: CategoryActivityTypeUpdateInput;
-  where: CategoryActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationUpdateChainArgs = {
-  data: ChainUpdateInput;
-  where: ChainWhereUniqueInput;
-};
-
-
-export type MutationUpdateChainTypeArgs = {
-  data: ChainTypeUpdateInput;
-  where: ChainTypeWhereUniqueInput;
-};
-
-
-export type MutationUpdateContributionArgs = {
-  data: ContributionUpdateInput;
-  where: ContributionWhereUniqueInput;
-};
-
-
-export type MutationUpdateContributionStatusArgs = {
-  data: ContributionStatusUpdateInput;
-  where: ContributionStatusWhereUniqueInput;
-};
-
-
-export type MutationUpdateDiscordUserArgs = {
-  data: DiscordUserUpdateInput;
-  where: DiscordUserWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildArgs = {
-  data: GuildUpdateInput;
-  where: GuildWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildActivityTypeArgs = {
-  data: GuildActivityTypeUpdateInput;
-  where: GuildActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildContributionArgs = {
-  data: GuildContributionUpdateInput;
-  where: GuildContributionWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildMembershipStatusArgs = {
-  data: GuildMembershipStatusUpdateInput;
-  where: GuildMembershipStatusWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildUserArgs = {
-  data: GuildUserUpdateInput;
-  where: GuildUserWhereUniqueInput;
-};
-
-
-export type MutationUpdateJobRunArgs = {
-  data: JobRunUpdateInput;
-  where: JobRunWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearCycleArgs = {
-  data: LinearCycleUpdateInput;
-  where: LinearCycleWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearIssueArgs = {
-  data: LinearIssueUpdateInput;
-  where: LinearIssueWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearProjectArgs = {
-  data: LinearProjectUpdateInput;
-  where: LinearProjectWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearTeamArgs = {
-  data: LinearTeamUpdateInput;
-  where: LinearTeamWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearUserArgs = {
-  data: LinearUserUpdateInput;
-  where: LinearUserWhereUniqueInput;
-};
-
-
->>>>>>> origin/staging
 export type MutationUpdateManyActivityTypeArgs = {
   data: ActivityTypeUpdateManyMutationInput;
   where?: InputMaybe<ActivityTypeWhereInput>;
@@ -10841,6 +10390,12 @@ export type MutationUpdateOneGuildContributionArgs = {
 };
 
 
+export type MutationUpdateOneGuildMembershipStatusArgs = {
+  data: GuildMembershipStatusUpdateInput;
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+
 export type MutationUpdateOneGuildUserArgs = {
   data: GuildUserUpdateInput;
   where: GuildUserWhereUniqueInput;
@@ -11048,18 +10603,14 @@ export type MutationUpsertOneGuildContributionArgs = {
 };
 
 
-<<<<<<< HEAD
-export type MutationUpsertOneGuildUserArgs = {
-=======
-export type MutationUpsertGuildMembershipStatusArgs = {
+export type MutationUpsertOneGuildMembershipStatusArgs = {
   create: GuildMembershipStatusCreateInput;
   update: GuildMembershipStatusUpdateInput;
   where: GuildMembershipStatusWhereUniqueInput;
 };
 
 
-export type MutationUpsertGuildUserArgs = {
->>>>>>> origin/staging
+export type MutationUpsertOneGuildUserArgs = {
   create: GuildUserCreateInput;
   update: GuildUserUpdateInput;
   where: GuildUserWhereUniqueInput;
@@ -11850,12 +11401,10 @@ export type Query = {
   findFirstGuildActivityType?: Maybe<GuildActivityType>;
   findFirstGuildActivityTypeOrThrow?: Maybe<GuildActivityType>;
   findFirstGuildContribution?: Maybe<GuildContribution>;
-<<<<<<< HEAD
   findFirstGuildContributionOrThrow?: Maybe<GuildContribution>;
-  findFirstGuildOrThrow?: Maybe<Guild>;
-=======
   findFirstGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
->>>>>>> origin/staging
+  findFirstGuildMembershipStatusOrThrow?: Maybe<GuildMembershipStatus>;
+  findFirstGuildOrThrow?: Maybe<Guild>;
   findFirstGuildUser?: Maybe<GuildUser>;
   findFirstGuildUserOrThrow?: Maybe<GuildUser>;
   findFirstJobRun?: Maybe<JobRun>;
@@ -11882,9 +11431,9 @@ export type Query = {
   findFirstTwitterUserOrThrow?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
-<<<<<<< HEAD
   findFirstUserActivityOrThrow?: Maybe<UserActivity>;
   findFirstUserOrThrow?: Maybe<User>;
+  getActiveGuildUsersAverage: Scalars['Float'];
   getActivityType?: Maybe<ActivityType>;
   getAttestation?: Maybe<Attestation>;
   getAttestationConfidence?: Maybe<AttestationConfidence>;
@@ -11894,9 +11443,6 @@ export type Query = {
   getChain?: Maybe<Chain>;
   getChainType?: Maybe<ChainType>;
   getContribution?: Maybe<Contribution>;
-=======
-  getActiveGuildUsersAverage: Scalars['Float'];
->>>>>>> origin/staging
   getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
   getContributionStatus?: Maybe<ContributionStatus>;
@@ -11906,6 +11452,7 @@ export type Query = {
   getGuild?: Maybe<Guild>;
   getGuildActivityType?: Maybe<GuildActivityType>;
   getGuildContribution?: Maybe<GuildContribution>;
+  getGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   getGuildUser?: Maybe<GuildUser>;
   getJobRun?: Maybe<JobRun>;
   getLinearCycle?: Maybe<LinearCycle>;
@@ -12676,7 +12223,6 @@ export type QueryFindFirstGuildContributionArgs = {
 };
 
 
-<<<<<<< HEAD
 export type QueryFindFirstGuildContributionOrThrowArgs = {
   cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildContributionScalarFieldEnum>>;
@@ -12687,14 +12233,6 @@ export type QueryFindFirstGuildContributionOrThrowArgs = {
 };
 
 
-export type QueryFindFirstGuildOrThrowArgs = {
-  cursor?: InputMaybe<GuildWhereUniqueInput>;
-  distinct?: InputMaybe<Array<GuildScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<GuildOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<GuildWhereInput>;
-=======
 export type QueryFindFirstGuildMembershipStatusArgs = {
   cursor?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildMembershipStatusScalarFieldEnum>>;
@@ -12702,7 +12240,26 @@ export type QueryFindFirstGuildMembershipStatusArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildMembershipStatusWhereInput>;
->>>>>>> origin/staging
+};
+
+
+export type QueryFindFirstGuildMembershipStatusOrThrowArgs = {
+  cursor?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildMembershipStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildMembershipStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildMembershipStatusWhereInput>;
+};
+
+
+export type QueryFindFirstGuildOrThrowArgs = {
+  cursor?: InputMaybe<GuildWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildWhereInput>;
 };
 
 
@@ -12966,7 +12523,6 @@ export type QueryFindFirstUserActivityArgs = {
 };
 
 
-<<<<<<< HEAD
 export type QueryFindFirstUserActivityOrThrowArgs = {
   cursor?: InputMaybe<UserActivityWhereUniqueInput>;
   distinct?: InputMaybe<Array<UserActivityScalarFieldEnum>>;
@@ -12984,6 +12540,11 @@ export type QueryFindFirstUserOrThrowArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserWhereInput>;
+};
+
+
+export type QueryGetActiveGuildUsersAverageArgs = {
+  where: GetActiveUsersInput;
 };
 
 
@@ -13029,10 +12590,6 @@ export type QueryGetChainTypeArgs = {
 
 export type QueryGetContributionArgs = {
   where: ContributionWhereUniqueInput;
-=======
-export type QueryGetActiveGuildUsersAverageArgs = {
-  where: GetActiveUsersInput;
->>>>>>> origin/staging
 };
 
 
@@ -13078,6 +12635,11 @@ export type QueryGetGuildActivityTypeArgs = {
 
 export type QueryGetGuildContributionArgs = {
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type QueryGetGuildMembershipStatusArgs = {
+  where: GuildMembershipStatusWhereUniqueInput;
 };
 
 
