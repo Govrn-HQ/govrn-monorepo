@@ -84,6 +84,7 @@ const permissions = shield(
       linearUsers: hasToken,
       linearIssues: hasToken,
       contributionStatuses: hasToken,
+      getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
     },
     ContributionCountByUser: or(isAuthenticated, hasToken),
     ContributionCountByDate: or(isAuthenticated, hasToken),

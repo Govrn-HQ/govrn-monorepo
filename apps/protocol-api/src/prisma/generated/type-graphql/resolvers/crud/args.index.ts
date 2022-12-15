@@ -12,6 +12,7 @@ export * from "./DiscordUser/args";
 export * from "./Guild/args";
 export * from "./GuildActivityType/args";
 export * from "./GuildContribution/args";
+export * from "./GuildMembershipStatus/args";
 export * from "./GuildUser/args";
 export * from "./JobRun/args";
 export * from "./LinearCycle/args";

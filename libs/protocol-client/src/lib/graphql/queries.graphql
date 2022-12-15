@@ -200,6 +200,10 @@ query listGuilds(
   }
 }
 
+query getActiveGuildUsersAverage($where: GetActiveUsersInput!) {
+  result: getActiveGuildUsersAverage(where: $where)
+}
+
 # Twitter
 fragment TwitterTweetFragment on TwitterTweet {
   id

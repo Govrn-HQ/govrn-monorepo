@@ -86,10 +86,7 @@ const HomeShell = () => {
               </Text>
               <Link to="/dashboard">
                 <Button
-                  color="brand.purple"
-                  backgroundColor="gray.300"
-                  transition="all 100ms ease-in-out"
-                  _hover={{ backgroundColor: 'white' }}
+                  variant="tertiary"
                   marginTop={4}
                   width="100%"
                   data-cy="myDashboards-btn"
@@ -114,7 +111,7 @@ const HomeShell = () => {
       paddingX={{ base: 8, lg: 0 }}
       minHeight="100vh"
       minWidth="100vw"
-      bgGradient="linear(to-r, #DF1F97 0%, #5100E4 100%)"
+      bgGradient="linear-gradient(49deg, rgba(223,31,151,1) 0%, rgba(81,0,228,1) 100%)"
     >
       <Flex
         direction="column"
@@ -138,9 +135,11 @@ const HomeShell = () => {
           fontWeight="400"
           marginBottom={{ base: 40, lg: 0 }}
           gap={1}
+          maxW={{ base: '70%', lg: '60%' }}
         >
-          <Text>Track and record your DAO</Text>
-          <Text>Contributions</Text>
+          <Text textAlign="center">
+            Track and record your DAO Contributions
+          </Text>
           <span role="img" aria-labelledby="Govrn motto handshake emoji">
             🤝
           </span>
@@ -155,10 +154,10 @@ const HomeShell = () => {
             color="white"
             fontSize={{ base: 'lg', lg: 'xl' }}
             fontWeight="400"
+            maxW={{ base: '60%', lg: '70%' }}
           >
-            <Text>To get started, connect</Text>
-            <Text marginBottom={{ base: 10, lg: 16 }}>
-              your wallet to Gnosis Chain.
+            <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
+              To get started, connect your wallet to Gnosis Chain.
             </Text>
             <ConnectWallet />
           </Flex>
