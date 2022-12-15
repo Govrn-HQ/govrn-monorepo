@@ -25,7 +25,7 @@ const gnosisChain: Chain = {
   testnet: false,
 };
 
-const dev = import.meta.env.VITE_STAGING_MODE || false;
+const dev = import.meta.env.MODE || false;
 const defaultChains = dev
   ? [gnosisChain, chain.goerli, chain.rinkeby, chain.localhost]
   : [gnosisChain];
