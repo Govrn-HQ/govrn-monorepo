@@ -6,6 +6,7 @@ import Switch from './components/switch';
 import Table from './components/table';
 import Tabs from './components/tabs';
 import Textarea from './components/textarea';
+import Tooltip from './components/tooltip';
 import { extendTheme } from '@chakra-ui/react';
 import '@fontsource/inter/variable-full.css';
 
@@ -22,7 +23,16 @@ export const GovrnTheme = extendTheme({
     heading: 'InterVariable, -apple-system, system-ui, sans-serif',
     body: 'InterVariable, -apple-system, system-ui, sans-serif',
   },
-  components: { Button, Input, Checkbox, Switch, Table, Tabs, Textarea },
+  components: {
+    Button,
+    Input,
+    Checkbox,
+    Switch,
+    Table,
+    Tabs,
+    Textarea,
+    Tooltip,
+  },
   config: {
     initialColorMode: 'light',
     useSystemColorMode: false,
