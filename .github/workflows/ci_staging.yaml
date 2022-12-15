@@ -167,6 +167,8 @@ jobs:
           echo VITE_STAGING_MODE=true >> .env
           echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
       - name: Create Database
+        run: yarn nx run protocol-api:generate
+      - name: Create Database
         run: yarn nx run protocol-api:migrate
       - name: Cypress run
         uses: cypress-io/github-action@v4
