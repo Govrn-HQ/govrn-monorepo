@@ -5,23 +5,11 @@ import { useUser } from '../contexts/UserContext';
 import { networks } from '../utils/networks';
 import { ethers } from 'ethers';
 import pluralize from 'pluralize';
+import { UIContribution } from '@govrn/ui-types';
 
 type BulkMintOptions = {
   ipfsContentUri: string;
-  engagementDate: Date | string;
-  attestations: { id: number }[];
-  guildName: string;
-  name: string;
-  action: string;
-  details?: string | null;
-  id: number;
-  proof?: string | null;
-  txHash?: string | null;
-  user: { id: number };
-  date_of_submission: Date | string;
-  activityTypeId: number;
-  status: { id: number; name: string };
-};
+} & UIContribution;
 
 const useContributionBulkMint = () => {
   const toast = useGovrnToast();
@@ -47,12 +35,12 @@ const useContributionBulkMint = () => {
         userData.address,
         contributions.map(c => ({
           id: c.id,
-          activityTypeId: c.activityTypeId,
+          activityTypeId: c.activity_type.id,
           userId: userData.id,
           args: {
             detailsUri: ethers.utils.toUtf8Bytes(c.ipfsContentUri),
             dateOfSubmission: new Date(c.date_of_submission).getTime(),
-            dateOfEngagement: new Date(c.engagementDate).getTime(),
+            dateOfEngagement: new Date(c.date_of_engagement).getTime(),
           },
           name: ethers.utils.toUtf8Bytes(c.name),
           details: ethers.utils.toUtf8Bytes(c.details || ''),
