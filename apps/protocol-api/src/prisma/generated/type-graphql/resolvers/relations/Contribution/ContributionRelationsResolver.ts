@@ -13,7 +13,7 @@ import { ContributionAttestationsArgs } from "./args/ContributionAttestationsArg
 import { ContributionGuildsArgs } from "./args/ContributionGuildsArgs";
 import { ContributionPartnersArgs } from "./args/ContributionPartnersArgs";
 import { ContributionTwitter_tweet_contributionsArgs } from "./args/ContributionTwitter_tweet_contributionsArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => Contribution)
 export class ContributionRelationsResolver {

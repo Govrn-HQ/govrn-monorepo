@@ -32,4 +32,14 @@ export class GuildUserMinOrderByAggregateInput {
     nullable: true
   })
   guild_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  membership_status_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  favorite?: "asc" | "desc" | undefined;
 }

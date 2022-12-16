@@ -326,14 +326,14 @@ export type ActivityTypeSumOrderByAggregateInput = {
 
 export type ActivityTypeUpdateInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   default?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildActivityTypeUpdateManyWithoutActivity_TypeInput>;
+  guilds?: InputMaybe<GuildActivityTypeUpdateManyWithoutActivity_TypeNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeInput>;
+  users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeNestedInput>;
 };
 
 export type ActivityTypeUpdateManyMutationInput = {
@@ -344,7 +344,7 @@ export type ActivityTypeUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput = {
+export type ActivityTypeUpdateOneRequiredWithoutCategoryActivityNestedInput = {
   connect?: InputMaybe<ActivityTypeWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ActivityTypeCreateOrConnectWithoutCategoryActivityInput>;
   create?: InputMaybe<ActivityTypeCreateWithoutCategoryActivityInput>;
@@ -352,7 +352,7 @@ export type ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput = {
   upsert?: InputMaybe<ActivityTypeUpsertWithoutCategoryActivityInput>;
 };
 
-export type ActivityTypeUpdateOneRequiredWithoutContributionsInput = {
+export type ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput = {
   connect?: InputMaybe<ActivityTypeWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ActivityTypeCreateOrConnectWithoutContributionsInput>;
   create?: InputMaybe<ActivityTypeCreateWithoutContributionsInput>;
@@ -360,7 +360,7 @@ export type ActivityTypeUpdateOneRequiredWithoutContributionsInput = {
   upsert?: InputMaybe<ActivityTypeUpsertWithoutContributionsInput>;
 };
 
-export type ActivityTypeUpdateOneRequiredWithoutGuildsInput = {
+export type ActivityTypeUpdateOneRequiredWithoutGuildsNestedInput = {
   connect?: InputMaybe<ActivityTypeWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ActivityTypeCreateOrConnectWithoutGuildsInput>;
   create?: InputMaybe<ActivityTypeCreateWithoutGuildsInput>;
@@ -368,7 +368,7 @@ export type ActivityTypeUpdateOneRequiredWithoutGuildsInput = {
   upsert?: InputMaybe<ActivityTypeUpsertWithoutGuildsInput>;
 };
 
-export type ActivityTypeUpdateOneRequiredWithoutUsersInput = {
+export type ActivityTypeUpdateOneRequiredWithoutUsersNestedInput = {
   connect?: InputMaybe<ActivityTypeWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ActivityTypeCreateOrConnectWithoutUsersInput>;
   create?: InputMaybe<ActivityTypeCreateWithoutUsersInput>;
@@ -378,44 +378,44 @@ export type ActivityTypeUpdateOneRequiredWithoutUsersInput = {
 
 export type ActivityTypeUpdateWithoutCategoryActivityInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   default?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildActivityTypeUpdateManyWithoutActivity_TypeInput>;
+  guilds?: InputMaybe<GuildActivityTypeUpdateManyWithoutActivity_TypeNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeInput>;
+  users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeNestedInput>;
 };
 
 export type ActivityTypeUpdateWithoutContributionsInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   default?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildActivityTypeUpdateManyWithoutActivity_TypeInput>;
+  guilds?: InputMaybe<GuildActivityTypeUpdateManyWithoutActivity_TypeNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeInput>;
+  users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeNestedInput>;
 };
 
 export type ActivityTypeUpdateWithoutGuildsInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   default?: InputMaybe<BoolFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeInput>;
+  users?: InputMaybe<UserActivityUpdateManyWithoutActivity_TypeNestedInput>;
 };
 
 export type ActivityTypeUpdateWithoutUsersInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeInput>;
+  categoryActivity?: InputMaybe<CategoryActivityTypeUpdateManyWithoutActivity_TypeNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutActivity_TypeNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   default?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildActivityTypeUpdateManyWithoutActivity_TypeInput>;
+  guilds?: InputMaybe<GuildActivityTypeUpdateManyWithoutActivity_TypeNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -896,7 +896,7 @@ export type AttestationConfidenceSumOrderByAggregateInput = {
 };
 
 export type AttestationConfidenceUpdateInput = {
-  attestations?: InputMaybe<AttestationUpdateManyWithoutConfidenceInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutConfidenceNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -908,7 +908,7 @@ export type AttestationConfidenceUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type AttestationConfidenceUpdateOneWithoutAttestationsInput = {
+export type AttestationConfidenceUpdateOneWithoutAttestationsNestedInput = {
   connect?: InputMaybe<AttestationConfidenceWhereUniqueInput>;
   connectOrCreate?: InputMaybe<AttestationConfidenceCreateOrConnectWithoutAttestationsInput>;
   create?: InputMaybe<AttestationConfidenceCreateWithoutAttestationsInput>;
@@ -1441,7 +1441,7 @@ export type AttestationStatusSumOrderByAggregateInput = {
 };
 
 export type AttestationStatusUpdateInput = {
-  attestation?: InputMaybe<AttestationUpdateManyWithoutAttestation_StatusInput>;
+  attestation?: InputMaybe<AttestationUpdateManyWithoutAttestation_StatusNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -1453,7 +1453,7 @@ export type AttestationStatusUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type AttestationStatusUpdateOneWithoutAttestationInput = {
+export type AttestationStatusUpdateOneWithoutAttestationNestedInput = {
   connect?: InputMaybe<AttestationStatusWhereUniqueInput>;
   connectOrCreate?: InputMaybe<AttestationStatusCreateOrConnectWithoutAttestationInput>;
   create?: InputMaybe<AttestationStatusCreateWithoutAttestationInput>;
@@ -1507,13 +1507,13 @@ export type AttestationSumOrderByAggregateInput = {
 };
 
 export type AttestationUpdateInput = {
-  attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationInput>;
-  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsInput>;
+  attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationNestedInput>;
+  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsNestedInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsNestedInput>;
 };
 
 export type AttestationUpdateManyMutationInput = {
@@ -1542,7 +1542,7 @@ export type AttestationUpdateManyWithWhereWithoutUserInput = {
   where: AttestationScalarWhereInput;
 };
 
-export type AttestationUpdateManyWithoutAttestation_StatusInput = {
+export type AttestationUpdateManyWithoutAttestation_StatusNestedInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutAttestation_StatusInput>>;
   create?: InputMaybe<Array<AttestationCreateWithoutAttestation_StatusInput>>;
@@ -1556,7 +1556,7 @@ export type AttestationUpdateManyWithoutAttestation_StatusInput = {
   upsert?: InputMaybe<Array<AttestationUpsertWithWhereUniqueWithoutAttestation_StatusInput>>;
 };
 
-export type AttestationUpdateManyWithoutConfidenceInput = {
+export type AttestationUpdateManyWithoutConfidenceNestedInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutConfidenceInput>>;
   create?: InputMaybe<Array<AttestationCreateWithoutConfidenceInput>>;
@@ -1570,7 +1570,7 @@ export type AttestationUpdateManyWithoutConfidenceInput = {
   upsert?: InputMaybe<Array<AttestationUpsertWithWhereUniqueWithoutConfidenceInput>>;
 };
 
-export type AttestationUpdateManyWithoutContributionInput = {
+export type AttestationUpdateManyWithoutContributionNestedInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutContributionInput>>;
   create?: InputMaybe<Array<AttestationCreateWithoutContributionInput>>;
@@ -1584,7 +1584,7 @@ export type AttestationUpdateManyWithoutContributionInput = {
   upsert?: InputMaybe<Array<AttestationUpsertWithWhereUniqueWithoutContributionInput>>;
 };
 
-export type AttestationUpdateManyWithoutUserInput = {
+export type AttestationUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<AttestationWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<AttestationCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<AttestationCreateWithoutUserInput>>;
@@ -1619,36 +1619,36 @@ export type AttestationUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type AttestationUpdateWithoutAttestation_StatusInput = {
-  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsInput>;
+  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsNestedInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsNestedInput>;
 };
 
 export type AttestationUpdateWithoutConfidenceInput = {
-  attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsInput>;
+  attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationNestedInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsNestedInput>;
 };
 
 export type AttestationUpdateWithoutContributionInput = {
-  attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationInput>;
-  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsInput>;
+  attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationNestedInput>;
+  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsNestedInput>;
 };
 
 export type AttestationUpdateWithoutUserInput = {
-  attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationInput>;
-  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsInput>;
+  attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationNestedInput>;
+  confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsNestedInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -2158,8 +2158,8 @@ export type CategoryActivityTypeSumOrderByAggregateInput = {
 };
 
 export type CategoryActivityTypeUpdateInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput>;
-  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutCategoryActivityNestedInput>;
+  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -2179,7 +2179,7 @@ export type CategoryActivityTypeUpdateManyWithWhereWithoutCategory_ActivityInput
   where: CategoryActivityTypeScalarWhereInput;
 };
 
-export type CategoryActivityTypeUpdateManyWithoutActivity_TypeInput = {
+export type CategoryActivityTypeUpdateManyWithoutActivity_TypeNestedInput = {
   connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutActivity_TypeInput>>;
   create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutActivity_TypeInput>>;
@@ -2193,7 +2193,7 @@ export type CategoryActivityTypeUpdateManyWithoutActivity_TypeInput = {
   upsert?: InputMaybe<Array<CategoryActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
 };
 
-export type CategoryActivityTypeUpdateManyWithoutCategory_ActivityInput = {
+export type CategoryActivityTypeUpdateManyWithoutCategory_ActivityNestedInput = {
   connect?: InputMaybe<Array<CategoryActivityTypeWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<CategoryActivityTypeCreateOrConnectWithoutCategory_ActivityInput>>;
   create?: InputMaybe<Array<CategoryActivityTypeCreateWithoutCategory_ActivityInput>>;
@@ -2218,13 +2218,13 @@ export type CategoryActivityTypeUpdateWithWhereUniqueWithoutCategory_ActivityInp
 };
 
 export type CategoryActivityTypeUpdateWithoutActivity_TypeInput = {
-  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesInput>;
+  category_activity?: InputMaybe<CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type CategoryActivityTypeUpdateWithoutCategory_ActivityInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutCategoryActivityNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -2260,7 +2260,7 @@ export type CategoryActivityTypeWhereUniqueInput = {
 };
 
 export type CategoryActivityUpdateInput = {
-  activityTypes?: InputMaybe<CategoryActivityTypeUpdateManyWithoutCategory_ActivityInput>;
+  activityTypes?: InputMaybe<CategoryActivityTypeUpdateManyWithoutCategory_ActivityNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -2272,7 +2272,7 @@ export type CategoryActivityUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type CategoryActivityUpdateOneRequiredWithoutActivityTypesInput = {
+export type CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput = {
   connect?: InputMaybe<CategoryActivityWhereUniqueInput>;
   connectOrCreate?: InputMaybe<CategoryActivityCreateOrConnectWithoutActivityTypesInput>;
   create?: InputMaybe<CategoryActivityCreateWithoutActivityTypesInput>;
@@ -2660,7 +2660,7 @@ export type ChainTypeUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<UserUpdateManyWithoutChain_TypeInput>;
+  users?: InputMaybe<UserUpdateManyWithoutChain_TypeNestedInput>;
 };
 
 export type ChainTypeUpdateManyMutationInput = {
@@ -2669,7 +2669,7 @@ export type ChainTypeUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ChainTypeUpdateOneRequiredWithoutUsersInput = {
+export type ChainTypeUpdateOneRequiredWithoutUsersNestedInput = {
   connect?: InputMaybe<ChainTypeWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ChainTypeCreateOrConnectWithoutUsersInput>;
   create?: InputMaybe<ChainTypeCreateWithoutUsersInput>;
@@ -2706,7 +2706,7 @@ export type ChainTypeWhereUniqueInput = {
 
 export type ChainUpdateInput = {
   chain_id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutChainInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutChainNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -2719,7 +2719,7 @@ export type ChainUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ChainUpdateOneWithoutContributionsInput = {
+export type ChainUpdateOneWithoutContributionsNestedInput = {
   connect?: InputMaybe<ChainWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ChainCreateOrConnectWithoutContributionsInput>;
   create?: InputMaybe<ChainCreateWithoutContributionsInput>;
@@ -2880,7 +2880,7 @@ export type ContributionCountByActivityType = {
 
 export type ContributionCountByDate = {
   count: Scalars['Float'];
-  date: Scalars['String'];
+  date: Scalars['DateTime'];
   guild_id?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
 };
@@ -3666,7 +3666,7 @@ export type ContributionStatusSumOrderByAggregateInput = {
 };
 
 export type ContributionStatusUpdateInput = {
-  contributions?: InputMaybe<ContributionUpdateManyWithoutStatusInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutStatusNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -3678,7 +3678,7 @@ export type ContributionStatusUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ContributionStatusUpdateOneRequiredWithoutContributionsInput = {
+export type ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput = {
   connect?: InputMaybe<ContributionStatusWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionStatusCreateOrConnectWithoutContributionsInput>;
   create?: InputMaybe<ContributionStatusCreateWithoutContributionsInput>;
@@ -3732,23 +3732,23 @@ export type ContributionSumOrderByAggregateInput = {
 };
 
 export type ContributionUpdateInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateManyMutationInput = {
@@ -3782,7 +3782,7 @@ export type ContributionUpdateManyWithWhereWithoutUserInput = {
   where: ContributionScalarWhereInput;
 };
 
-export type ContributionUpdateManyWithoutActivity_TypeInput = {
+export type ContributionUpdateManyWithoutActivity_TypeNestedInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutActivity_TypeInput>>;
   create?: InputMaybe<Array<ContributionCreateWithoutActivity_TypeInput>>;
@@ -3796,7 +3796,7 @@ export type ContributionUpdateManyWithoutActivity_TypeInput = {
   upsert?: InputMaybe<Array<ContributionUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
 };
 
-export type ContributionUpdateManyWithoutChainInput = {
+export type ContributionUpdateManyWithoutChainNestedInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutChainInput>>;
   create?: InputMaybe<Array<ContributionCreateWithoutChainInput>>;
@@ -3810,7 +3810,7 @@ export type ContributionUpdateManyWithoutChainInput = {
   upsert?: InputMaybe<Array<ContributionUpsertWithWhereUniqueWithoutChainInput>>;
 };
 
-export type ContributionUpdateManyWithoutStatusInput = {
+export type ContributionUpdateManyWithoutStatusNestedInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutStatusInput>>;
   create?: InputMaybe<Array<ContributionCreateWithoutStatusInput>>;
@@ -3824,7 +3824,7 @@ export type ContributionUpdateManyWithoutStatusInput = {
   upsert?: InputMaybe<Array<ContributionUpsertWithWhereUniqueWithoutStatusInput>>;
 };
 
-export type ContributionUpdateManyWithoutUserInput = {
+export type ContributionUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<ContributionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<ContributionCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<ContributionCreateWithoutUserInput>>;
@@ -3838,7 +3838,7 @@ export type ContributionUpdateManyWithoutUserInput = {
   upsert?: InputMaybe<Array<ContributionUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
-export type ContributionUpdateOneRequiredWithoutAttestationsInput = {
+export type ContributionUpdateOneRequiredWithoutAttestationsNestedInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutAttestationsInput>;
   create?: InputMaybe<ContributionCreateWithoutAttestationsInput>;
@@ -3846,7 +3846,7 @@ export type ContributionUpdateOneRequiredWithoutAttestationsInput = {
   upsert?: InputMaybe<ContributionUpsertWithoutAttestationsInput>;
 };
 
-export type ContributionUpdateOneRequiredWithoutGuildsInput = {
+export type ContributionUpdateOneRequiredWithoutGuildsNestedInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutGuildsInput>;
   create?: InputMaybe<ContributionCreateWithoutGuildsInput>;
@@ -3854,7 +3854,7 @@ export type ContributionUpdateOneRequiredWithoutGuildsInput = {
   upsert?: InputMaybe<ContributionUpsertWithoutGuildsInput>;
 };
 
-export type ContributionUpdateOneRequiredWithoutPartnersInput = {
+export type ContributionUpdateOneRequiredWithoutPartnersNestedInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutPartnersInput>;
   create?: InputMaybe<ContributionCreateWithoutPartnersInput>;
@@ -3862,7 +3862,7 @@ export type ContributionUpdateOneRequiredWithoutPartnersInput = {
   upsert?: InputMaybe<ContributionUpsertWithoutPartnersInput>;
 };
 
-export type ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput = {
+export type ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsNestedInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutTwitter_Tweet_ContributionsInput>;
   create?: InputMaybe<ContributionCreateWithoutTwitter_Tweet_ContributionsInput>;
@@ -3870,7 +3870,7 @@ export type ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput
   upsert?: InputMaybe<ContributionUpsertWithoutTwitter_Tweet_ContributionsInput>;
 };
 
-export type ContributionUpdateOneWithoutLinear_IssueInput = {
+export type ContributionUpdateOneWithoutLinear_IssueNestedInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutLinear_IssueInput>;
   create?: InputMaybe<ContributionCreateWithoutLinear_IssueInput>;
@@ -3901,172 +3901,172 @@ export type ContributionUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type ContributionUpdateWithoutActivity_TypeInput = {
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateWithoutAttestationsInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateWithoutChainInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateWithoutGuildsInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateWithoutLinear_IssueInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateWithoutPartnersInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateWithoutStatusInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateWithoutTwitter_Tweet_ContributionsInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
 };
 
 export type ContributionUpdateWithoutUserInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionInput>;
-  chain?: InputMaybe<ChainUpdateOneWithoutContributionsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionInput>;
-  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  partners?: InputMaybe<PartnerUpdateManyWithoutContributionInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
   proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
   tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -4427,7 +4427,7 @@ export type DiscordUserUpdateInput = {
   discord_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutDiscord_UsersInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutDiscord_UsersNestedInput>;
 };
 
 export type DiscordUserUpdateManyMutationInput = {
@@ -4442,7 +4442,7 @@ export type DiscordUserUpdateManyWithWhereWithoutUserInput = {
   where: DiscordUserScalarWhereInput;
 };
 
-export type DiscordUserUpdateManyWithoutUserInput = {
+export type DiscordUserUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<DiscordUserWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<DiscordUserCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<DiscordUserCreateWithoutUserInput>>;
@@ -4864,9 +4864,9 @@ export type GuildActivityTypeSumOrderByAggregateInput = {
 };
 
 export type GuildActivityTypeUpdateInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutGuildsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutGuildsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  guild?: InputMaybe<GuildUpdateOneRequiredWithoutActivity_TypeInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutActivity_TypeNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -4885,7 +4885,7 @@ export type GuildActivityTypeUpdateManyWithWhereWithoutGuildInput = {
   where: GuildActivityTypeScalarWhereInput;
 };
 
-export type GuildActivityTypeUpdateManyWithoutActivity_TypeInput = {
+export type GuildActivityTypeUpdateManyWithoutActivity_TypeNestedInput = {
   connect?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildActivityTypeCreateOrConnectWithoutActivity_TypeInput>>;
   create?: InputMaybe<Array<GuildActivityTypeCreateWithoutActivity_TypeInput>>;
@@ -4899,7 +4899,7 @@ export type GuildActivityTypeUpdateManyWithoutActivity_TypeInput = {
   upsert?: InputMaybe<Array<GuildActivityTypeUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
 };
 
-export type GuildActivityTypeUpdateManyWithoutGuildInput = {
+export type GuildActivityTypeUpdateManyWithoutGuildNestedInput = {
   connect?: InputMaybe<Array<GuildActivityTypeWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildActivityTypeCreateOrConnectWithoutGuildInput>>;
   create?: InputMaybe<Array<GuildActivityTypeCreateWithoutGuildInput>>;
@@ -4925,12 +4925,12 @@ export type GuildActivityTypeUpdateWithWhereUniqueWithoutGuildInput = {
 
 export type GuildActivityTypeUpdateWithoutActivity_TypeInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  guild?: InputMaybe<GuildUpdateOneRequiredWithoutActivity_TypeInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutActivity_TypeNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type GuildActivityTypeUpdateWithoutGuildInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutGuildsInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutGuildsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -5213,9 +5213,9 @@ export type GuildContributionSumOrderByAggregateInput = {
 };
 
 export type GuildContributionUpdateInput = {
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -5234,7 +5234,7 @@ export type GuildContributionUpdateManyWithWhereWithoutGuildInput = {
   where: GuildContributionScalarWhereInput;
 };
 
-export type GuildContributionUpdateManyWithoutContributionInput = {
+export type GuildContributionUpdateManyWithoutContributionNestedInput = {
   connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutContributionInput>>;
   create?: InputMaybe<Array<GuildContributionCreateWithoutContributionInput>>;
@@ -5248,7 +5248,7 @@ export type GuildContributionUpdateManyWithoutContributionInput = {
   upsert?: InputMaybe<Array<GuildContributionUpsertWithWhereUniqueWithoutContributionInput>>;
 };
 
-export type GuildContributionUpdateManyWithoutGuildInput = {
+export type GuildContributionUpdateManyWithoutGuildNestedInput = {
   connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutGuildInput>>;
   create?: InputMaybe<Array<GuildContributionCreateWithoutGuildInput>>;
@@ -5274,12 +5274,12 @@ export type GuildContributionUpdateWithWhereUniqueWithoutGuildInput = {
 
 export type GuildContributionUpdateWithoutContributionInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type GuildContributionUpdateWithoutGuildInput = {
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -5515,10 +5515,22 @@ export type GuildMaxOrderByAggregateInput = {
 };
 
 export type GuildMembershipStatus = {
+  _count?: Maybe<GuildMembershipStatusCount>;
   createdAt: Scalars['DateTime'];
+  guildUsers: Array<GuildUser>;
   id: Scalars['Int'];
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+};
+
+
+export type GuildMembershipStatusGuildUsersArgs = {
+  cursor?: InputMaybe<GuildUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 export type GuildMembershipStatusAvgAggregate = {
@@ -5527,6 +5539,10 @@ export type GuildMembershipStatusAvgAggregate = {
 
 export type GuildMembershipStatusAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
+};
+
+export type GuildMembershipStatusCount = {
+  guildUsers: Scalars['Int'];
 };
 
 export type GuildMembershipStatusCountAggregate = {
@@ -5546,6 +5562,7 @@ export type GuildMembershipStatusCountOrderByAggregateInput = {
 
 export type GuildMembershipStatusCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  guildUsers?: InputMaybe<GuildUserCreateNestedManyWithoutMembershipStatusInput>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -5553,6 +5570,23 @@ export type GuildMembershipStatusCreateInput = {
 export type GuildMembershipStatusCreateManyInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput = {
+  connect?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildMembershipStatusCreateOrConnectWithoutGuildUsersInput>;
+  create?: InputMaybe<GuildMembershipStatusCreateWithoutGuildUsersInput>;
+};
+
+export type GuildMembershipStatusCreateOrConnectWithoutGuildUsersInput = {
+  create: GuildMembershipStatusCreateWithoutGuildUsersInput;
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+export type GuildMembershipStatusCreateWithoutGuildUsersInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -5611,9 +5645,15 @@ export type GuildMembershipStatusOrderByWithAggregationInput = {
 
 export type GuildMembershipStatusOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
+  guildUsers?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildMembershipStatusRelationFilter = {
+  is?: InputMaybe<GuildMembershipStatusWhereInput>;
+  isNot?: InputMaybe<GuildMembershipStatusWhereInput>;
 };
 
 export enum GuildMembershipStatusScalarFieldEnum {
@@ -5643,6 +5683,7 @@ export type GuildMembershipStatusSumOrderByAggregateInput = {
 
 export type GuildMembershipStatusUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guildUsers?: InputMaybe<GuildUserUpdateManyWithoutMembershipStatusNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -5653,11 +5694,33 @@ export type GuildMembershipStatusUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
+export type GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput = {
+  connect?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildMembershipStatusCreateOrConnectWithoutGuildUsersInput>;
+  create?: InputMaybe<GuildMembershipStatusCreateWithoutGuildUsersInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<GuildMembershipStatusUpdateWithoutGuildUsersInput>;
+  upsert?: InputMaybe<GuildMembershipStatusUpsertWithoutGuildUsersInput>;
+};
+
+export type GuildMembershipStatusUpdateWithoutGuildUsersInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildMembershipStatusUpsertWithoutGuildUsersInput = {
+  create: GuildMembershipStatusCreateWithoutGuildUsersInput;
+  update: GuildMembershipStatusUpdateWithoutGuildUsersInput;
+};
+
 export type GuildMembershipStatusWhereInput = {
   AND?: InputMaybe<Array<GuildMembershipStatusWhereInput>>;
   NOT?: InputMaybe<Array<GuildMembershipStatusWhereInput>>;
   OR?: InputMaybe<Array<GuildMembershipStatusWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  guildUsers?: InputMaybe<GuildUserListRelationFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -5772,18 +5835,18 @@ export type GuildSumOrderByAggregateInput = {
 };
 
 export type GuildUpdateInput = {
-  activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildInput>;
+  activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildInput>;
+  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateManyMutationInput = {
@@ -5797,7 +5860,7 @@ export type GuildUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type GuildUpdateOneRequiredWithoutActivity_TypeInput = {
+export type GuildUpdateOneRequiredWithoutActivity_TypeNestedInput = {
   connect?: InputMaybe<GuildWhereUniqueInput>;
   connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutActivity_TypeInput>;
   create?: InputMaybe<GuildCreateWithoutActivity_TypeInput>;
@@ -5805,7 +5868,7 @@ export type GuildUpdateOneRequiredWithoutActivity_TypeInput = {
   upsert?: InputMaybe<GuildUpsertWithoutActivity_TypeInput>;
 };
 
-export type GuildUpdateOneRequiredWithoutContributionsInput = {
+export type GuildUpdateOneRequiredWithoutContributionsNestedInput = {
   connect?: InputMaybe<GuildWhereUniqueInput>;
   connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutContributionsInput>;
   create?: InputMaybe<GuildCreateWithoutContributionsInput>;
@@ -5813,7 +5876,7 @@ export type GuildUpdateOneRequiredWithoutContributionsInput = {
   upsert?: InputMaybe<GuildUpsertWithoutContributionsInput>;
 };
 
-export type GuildUpdateOneRequiredWithoutUsersInput = {
+export type GuildUpdateOneRequiredWithoutUsersNestedInput = {
   connect?: InputMaybe<GuildWhereUniqueInput>;
   connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutUsersInput>;
   create?: InputMaybe<GuildCreateWithoutUsersInput>;
@@ -5821,7 +5884,7 @@ export type GuildUpdateOneRequiredWithoutUsersInput = {
   upsert?: InputMaybe<GuildUpsertWithoutUsersInput>;
 };
 
-export type GuildUpdateOneWithoutTwitter_AccountsInput = {
+export type GuildUpdateOneWithoutTwitter_AccountsNestedInput = {
   connect?: InputMaybe<GuildWhereUniqueInput>;
   connectOrCreate?: InputMaybe<GuildCreateOrConnectWithoutTwitter_AccountsInput>;
   create?: InputMaybe<GuildCreateWithoutTwitter_AccountsInput>;
@@ -5834,19 +5897,19 @@ export type GuildUpdateOneWithoutTwitter_AccountsInput = {
 export type GuildUpdateWithoutActivity_TypeInput = {
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildInput>;
+  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateWithoutContributionsInput = {
-  activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildInput>;
+  activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -5854,36 +5917,36 @@ export type GuildUpdateWithoutContributionsInput = {
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateWithoutTwitter_AccountsInput = {
-  activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildInput>;
+  activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildInput>;
+  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  users?: InputMaybe<GuildUserUpdateManyWithoutGuildInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateWithoutUsersInput = {
-  activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildInput>;
+  activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildInput>;
+  contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildInput>;
+  twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -5909,9 +5972,12 @@ export type GuildUpsertWithoutUsersInput = {
 
 export type GuildUser = {
   createdAt: Scalars['DateTime'];
+  favorite: Scalars['Boolean'];
   guild: Guild;
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
+  membershipStatus?: Maybe<GuildMembershipStatus>;
+  membership_status_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
   user: User;
   user_id: Scalars['Int'];
@@ -5920,42 +5986,52 @@ export type GuildUser = {
 export type GuildUserAvgAggregate = {
   guild_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  membership_status_id?: Maybe<Scalars['Float']>;
   user_id?: Maybe<Scalars['Float']>;
 };
 
 export type GuildUserAvgOrderByAggregateInput = {
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  membership_status_id?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildUserCountAggregate = {
   _all: Scalars['Int'];
   createdAt: Scalars['Int'];
+  favorite: Scalars['Int'];
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
+  membership_status_id: Scalars['Int'];
   updatedAt: Scalars['Int'];
   user_id: Scalars['Int'];
 };
 
 export type GuildUserCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  favorite?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildUserCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
   guild: GuildCreateNestedOneWithoutUsersInput;
+  membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutGuild_UsersInput;
 };
 
 export type GuildUserCreateManyGuildInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['Int']>;
+  membership_status_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
@@ -5967,16 +6043,34 @@ export type GuildUserCreateManyGuildInputEnvelope = {
 
 export type GuildUserCreateManyInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
+  guild_id: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  membership_status_id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_id: Scalars['Int'];
+};
+
+export type GuildUserCreateManyMembershipStatusInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
 
+export type GuildUserCreateManyMembershipStatusInputEnvelope = {
+  data: Array<GuildUserCreateManyMembershipStatusInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type GuildUserCreateManyUserInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
+  membership_status_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -5992,6 +6086,13 @@ export type GuildUserCreateNestedManyWithoutGuildInput = {
   createMany?: InputMaybe<GuildUserCreateManyGuildInputEnvelope>;
 };
 
+export type GuildUserCreateNestedManyWithoutMembershipStatusInput = {
+  connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutMembershipStatusInput>>;
+  create?: InputMaybe<Array<GuildUserCreateWithoutMembershipStatusInput>>;
+  createMany?: InputMaybe<GuildUserCreateManyMembershipStatusInputEnvelope>;
+};
+
 export type GuildUserCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutUserInput>>;
@@ -6004,6 +6105,11 @@ export type GuildUserCreateOrConnectWithoutGuildInput = {
   where: GuildUserWhereUniqueInput;
 };
 
+export type GuildUserCreateOrConnectWithoutMembershipStatusInput = {
+  create: GuildUserCreateWithoutMembershipStatusInput;
+  where: GuildUserWhereUniqueInput;
+};
+
 export type GuildUserCreateOrConnectWithoutUserInput = {
   create: GuildUserCreateWithoutUserInput;
   where: GuildUserWhereUniqueInput;
@@ -6011,13 +6117,25 @@ export type GuildUserCreateOrConnectWithoutUserInput = {
 
 export type GuildUserCreateWithoutGuildInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutGuild_UsersInput;
+};
+
+export type GuildUserCreateWithoutMembershipStatusInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
+  guild: GuildCreateNestedOneWithoutUsersInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutGuild_UsersInput;
 };
 
 export type GuildUserCreateWithoutUserInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
   guild: GuildCreateNestedOneWithoutUsersInput;
+  membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -6028,8 +6146,10 @@ export type GuildUserGroupBy = {
   _min?: Maybe<GuildUserMinAggregate>;
   _sum?: Maybe<GuildUserSumAggregate>;
   createdAt: Scalars['DateTime'];
+  favorite: Scalars['Boolean'];
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
+  membership_status_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
   user_id: Scalars['Int'];
 };
@@ -6042,32 +6162,40 @@ export type GuildUserListRelationFilter = {
 
 export type GuildUserMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
+  favorite?: Maybe<Scalars['Boolean']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  membership_status_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildUserMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  favorite?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildUserMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
+  favorite?: Maybe<Scalars['Boolean']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  membership_status_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildUserMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
+  favorite?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
@@ -6083,17 +6211,22 @@ export type GuildUserOrderByWithAggregationInput = {
   _min?: InputMaybe<GuildUserMinOrderByAggregateInput>;
   _sum?: InputMaybe<GuildUserSumOrderByAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
+  favorite?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildUserOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
+  favorite?: InputMaybe<SortOrder>;
   guild?: InputMaybe<GuildOrderByWithRelationInput>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusOrderByWithRelationInput>;
+  membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user?: InputMaybe<UserOrderByWithRelationInput>;
   user_id?: InputMaybe<SortOrder>;
@@ -6101,8 +6234,10 @@ export type GuildUserOrderByWithRelationInput = {
 
 export enum GuildUserScalarFieldEnum {
   CreatedAt = 'createdAt',
+  Favorite = 'favorite',
   GuildId = 'guild_id',
   Id = 'id',
+  MembershipStatusId = 'membership_status_id',
   UpdatedAt = 'updatedAt',
   UserId = 'user_id'
 }
@@ -6112,8 +6247,10 @@ export type GuildUserScalarWhereInput = {
   NOT?: InputMaybe<Array<GuildUserScalarWhereInput>>;
   OR?: InputMaybe<Array<GuildUserScalarWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  favorite?: InputMaybe<BoolFilter>;
   guild_id?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
+  membership_status_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user_id?: InputMaybe<IntFilter>;
 };
@@ -6123,8 +6260,10 @@ export type GuildUserScalarWhereWithAggregatesInput = {
   NOT?: InputMaybe<Array<GuildUserScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<GuildUserScalarWhereWithAggregatesInput>>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  favorite?: InputMaybe<BoolWithAggregatesFilter>;
   guild_id?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
+  membership_status_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   user_id?: InputMaybe<IntWithAggregatesFilter>;
 };
@@ -6132,28 +6271,38 @@ export type GuildUserScalarWhereWithAggregatesInput = {
 export type GuildUserSumAggregate = {
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  membership_status_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildUserSumOrderByAggregateInput = {
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  membership_status_id?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildUserUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersInput>;
+  favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
 };
 
 export type GuildUserUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type GuildUserUpdateManyWithWhereWithoutGuildInput = {
+  data: GuildUserUpdateManyMutationInput;
+  where: GuildUserScalarWhereInput;
+};
+
+export type GuildUserUpdateManyWithWhereWithoutMembershipStatusInput = {
   data: GuildUserUpdateManyMutationInput;
   where: GuildUserScalarWhereInput;
 };
@@ -6163,7 +6312,7 @@ export type GuildUserUpdateManyWithWhereWithoutUserInput = {
   where: GuildUserScalarWhereInput;
 };
 
-export type GuildUserUpdateManyWithoutGuildInput = {
+export type GuildUserUpdateManyWithoutGuildNestedInput = {
   connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutGuildInput>>;
   create?: InputMaybe<Array<GuildUserCreateWithoutGuildInput>>;
@@ -6177,7 +6326,21 @@ export type GuildUserUpdateManyWithoutGuildInput = {
   upsert?: InputMaybe<Array<GuildUserUpsertWithWhereUniqueWithoutGuildInput>>;
 };
 
-export type GuildUserUpdateManyWithoutUserInput = {
+export type GuildUserUpdateManyWithoutMembershipStatusNestedInput = {
+  connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutMembershipStatusInput>>;
+  create?: InputMaybe<Array<GuildUserCreateWithoutMembershipStatusInput>>;
+  createMany?: InputMaybe<GuildUserCreateManyMembershipStatusInputEnvelope>;
+  delete?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<GuildUserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  set?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  update?: InputMaybe<Array<GuildUserUpdateWithWhereUniqueWithoutMembershipStatusInput>>;
+  updateMany?: InputMaybe<Array<GuildUserUpdateManyWithWhereWithoutMembershipStatusInput>>;
+  upsert?: InputMaybe<Array<GuildUserUpsertWithWhereUniqueWithoutMembershipStatusInput>>;
+};
+
+export type GuildUserUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<GuildUserCreateWithoutUserInput>>;
@@ -6196,6 +6359,11 @@ export type GuildUserUpdateWithWhereUniqueWithoutGuildInput = {
   where: GuildUserWhereUniqueInput;
 };
 
+export type GuildUserUpdateWithWhereUniqueWithoutMembershipStatusInput = {
+  data: GuildUserUpdateWithoutMembershipStatusInput;
+  where: GuildUserWhereUniqueInput;
+};
+
 export type GuildUserUpdateWithWhereUniqueWithoutUserInput = {
   data: GuildUserUpdateWithoutUserInput;
   where: GuildUserWhereUniqueInput;
@@ -6203,19 +6371,37 @@ export type GuildUserUpdateWithWhereUniqueWithoutUserInput = {
 
 export type GuildUserUpdateWithoutGuildInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
+};
+
+export type GuildUserUpdateWithoutMembershipStatusInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
 };
 
 export type GuildUserUpdateWithoutUserInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersInput>;
+  favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type GuildUserUpsertWithWhereUniqueWithoutGuildInput = {
   create: GuildUserCreateWithoutGuildInput;
   update: GuildUserUpdateWithoutGuildInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+export type GuildUserUpsertWithWhereUniqueWithoutMembershipStatusInput = {
+  create: GuildUserCreateWithoutMembershipStatusInput;
+  update: GuildUserUpdateWithoutMembershipStatusInput;
   where: GuildUserWhereUniqueInput;
 };
 
@@ -6235,9 +6421,12 @@ export type GuildUserWhereInput = {
   NOT?: InputMaybe<Array<GuildUserWhereInput>>;
   OR?: InputMaybe<Array<GuildUserWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  favorite?: InputMaybe<BoolFilter>;
   guild?: InputMaybe<GuildRelationFilter>;
   guild_id?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusRelationFilter>;
+  membership_status_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   user_id?: InputMaybe<IntFilter>;
@@ -6717,7 +6906,7 @@ export type LinearCycleSumOrderByAggregateInput = {
 
 export type LinearCycleUpdateInput = {
   endsAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  issues?: InputMaybe<LinearIssueUpdateManyWithoutCycleInput>;
+  issues?: InputMaybe<LinearIssueUpdateManyWithoutCycleNestedInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   number?: InputMaybe<IntFieldUpdateOperationsInput>;
   startsAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -6730,7 +6919,7 @@ export type LinearCycleUpdateManyMutationInput = {
   startsAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type LinearCycleUpdateOneWithoutIssuesInput = {
+export type LinearCycleUpdateOneWithoutIssuesNestedInput = {
   connect?: InputMaybe<LinearCycleWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearCycleCreateOrConnectWithoutIssuesInput>;
   create?: InputMaybe<LinearCycleCreateWithoutIssuesInput>;
@@ -7841,18 +8030,18 @@ export type LinearIssueSumOrderByAggregateInput = {
 
 export type LinearIssueUpdateInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesNestedInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesNestedInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesNestedInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -7860,12 +8049,12 @@ export type LinearIssueUpdateInput = {
   linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesNestedInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesNestedInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -7924,7 +8113,7 @@ export type LinearIssueUpdateManyWithWhereWithoutTeamInput = {
   where: LinearIssueScalarWhereInput;
 };
 
-export type LinearIssueUpdateManyWithoutAssigneeInput = {
+export type LinearIssueUpdateManyWithoutAssigneeNestedInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutAssigneeInput>>;
   create?: InputMaybe<Array<LinearIssueCreateWithoutAssigneeInput>>;
@@ -7938,7 +8127,7 @@ export type LinearIssueUpdateManyWithoutAssigneeInput = {
   upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutAssigneeInput>>;
 };
 
-export type LinearIssueUpdateManyWithoutCreatorInput = {
+export type LinearIssueUpdateManyWithoutCreatorNestedInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutCreatorInput>>;
   create?: InputMaybe<Array<LinearIssueCreateWithoutCreatorInput>>;
@@ -7952,7 +8141,7 @@ export type LinearIssueUpdateManyWithoutCreatorInput = {
   upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutCreatorInput>>;
 };
 
-export type LinearIssueUpdateManyWithoutCycleInput = {
+export type LinearIssueUpdateManyWithoutCycleNestedInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutCycleInput>>;
   create?: InputMaybe<Array<LinearIssueCreateWithoutCycleInput>>;
@@ -7966,7 +8155,7 @@ export type LinearIssueUpdateManyWithoutCycleInput = {
   upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutCycleInput>>;
 };
 
-export type LinearIssueUpdateManyWithoutProjectInput = {
+export type LinearIssueUpdateManyWithoutProjectNestedInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutProjectInput>>;
   create?: InputMaybe<Array<LinearIssueCreateWithoutProjectInput>>;
@@ -7980,7 +8169,7 @@ export type LinearIssueUpdateManyWithoutProjectInput = {
   upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutProjectInput>>;
 };
 
-export type LinearIssueUpdateManyWithoutTeamInput = {
+export type LinearIssueUpdateManyWithoutTeamNestedInput = {
   connect?: InputMaybe<Array<LinearIssueWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<LinearIssueCreateOrConnectWithoutTeamInput>>;
   create?: InputMaybe<Array<LinearIssueCreateWithoutTeamInput>>;
@@ -7994,7 +8183,7 @@ export type LinearIssueUpdateManyWithoutTeamInput = {
   upsert?: InputMaybe<Array<LinearIssueUpsertWithWhereUniqueWithoutTeamInput>>;
 };
 
-export type LinearIssueUpdateOneWithoutContributionInput = {
+export type LinearIssueUpdateOneWithoutContributionNestedInput = {
   connect?: InputMaybe<LinearIssueWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearIssueCreateOrConnectWithoutContributionInput>;
   create?: InputMaybe<LinearIssueCreateWithoutContributionInput>;
@@ -8037,11 +8226,11 @@ export type LinearIssueUpdateWithoutAssigneeInput = {
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesNestedInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesNestedInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -8049,12 +8238,12 @@ export type LinearIssueUpdateWithoutAssigneeInput = {
   linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesNestedInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesNestedInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -8063,7 +8252,7 @@ export type LinearIssueUpdateWithoutAssigneeInput = {
 
 export type LinearIssueUpdateWithoutContributionInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesNestedInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
@@ -8071,9 +8260,9 @@ export type LinearIssueUpdateWithoutContributionInput = {
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesNestedInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesNestedInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -8081,12 +8270,12 @@ export type LinearIssueUpdateWithoutContributionInput = {
   linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesNestedInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesNestedInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -8095,17 +8284,17 @@ export type LinearIssueUpdateWithoutContributionInput = {
 
 export type LinearIssueUpdateWithoutCreatorInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesNestedInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesNestedInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -8113,12 +8302,12 @@ export type LinearIssueUpdateWithoutCreatorInput = {
   linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesNestedInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesNestedInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -8127,16 +8316,16 @@ export type LinearIssueUpdateWithoutCreatorInput = {
 
 export type LinearIssueUpdateWithoutCycleInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesNestedInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesNestedInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -8145,12 +8334,12 @@ export type LinearIssueUpdateWithoutCycleInput = {
   linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesNestedInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesNestedInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -8159,18 +8348,18 @@ export type LinearIssueUpdateWithoutCycleInput = {
 
 export type LinearIssueUpdateWithoutProjectInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesNestedInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesNestedInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesNestedInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -8182,7 +8371,7 @@ export type LinearIssueUpdateWithoutProjectInput = {
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   subIssueSortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
-  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesInput>;
+  team?: InputMaybe<LinearTeamUpdateOneWithoutIssuesNestedInput>;
   title?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   trashed?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -8191,18 +8380,18 @@ export type LinearIssueUpdateWithoutProjectInput = {
 
 export type LinearIssueUpdateWithoutTeamInput = {
   archivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesInput>;
+  assignee?: InputMaybe<LinearUserUpdateOneWithoutAssigned_IssuesNestedInput>;
   autoArchivedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   autoClosedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   boardOrder?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   branchName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   canceledAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   completedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueInput>;
+  contribution?: InputMaybe<ContributionUpdateOneWithoutLinear_IssueNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesInput>;
+  creator?: InputMaybe<LinearUserUpdateOneWithoutCreated_IssuesNestedInput>;
   customerTickerCount?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesInput>;
+  cycle?: InputMaybe<LinearCycleUpdateOneWithoutIssuesNestedInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   dueDate?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   estimate?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
@@ -8210,7 +8399,7 @@ export type LinearIssueUpdateWithoutTeamInput = {
   linear_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   priority?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   priorityLabel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesInput>;
+  project?: InputMaybe<LinearProjectUpdateOneWithoutIssuesNestedInput>;
   snoozedUntilAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   sortOrder?: InputMaybe<NullableFloatFieldUpdateOperationsInput>;
   startedAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
@@ -8458,7 +8647,7 @@ export type LinearProjectSumOrderByAggregateInput = {
 };
 
 export type LinearProjectUpdateInput = {
-  issues?: InputMaybe<LinearIssueUpdateManyWithoutProjectInput>;
+  issues?: InputMaybe<LinearIssueUpdateManyWithoutProjectNestedInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
@@ -8468,7 +8657,7 @@ export type LinearProjectUpdateManyMutationInput = {
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type LinearProjectUpdateOneWithoutIssuesInput = {
+export type LinearProjectUpdateOneWithoutIssuesNestedInput = {
   connect?: InputMaybe<LinearProjectWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearProjectCreateOrConnectWithoutIssuesInput>;
   create?: InputMaybe<LinearProjectCreateWithoutIssuesInput>;
@@ -8671,7 +8860,7 @@ export type LinearTeamSumOrderByAggregateInput = {
 };
 
 export type LinearTeamUpdateInput = {
-  issues?: InputMaybe<LinearIssueUpdateManyWithoutTeamInput>;
+  issues?: InputMaybe<LinearIssueUpdateManyWithoutTeamNestedInput>;
   key?: InputMaybe<StringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -8683,7 +8872,7 @@ export type LinearTeamUpdateManyMutationInput = {
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type LinearTeamUpdateOneWithoutIssuesInput = {
+export type LinearTeamUpdateOneWithoutIssuesNestedInput = {
   connect?: InputMaybe<LinearTeamWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearTeamCreateOrConnectWithoutIssuesInput>;
   create?: InputMaybe<LinearTeamCreateWithoutIssuesInput>;
@@ -9113,15 +9302,15 @@ export type LinearUserUpdateInput = {
   access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
-  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
+  created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorNestedInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   url?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneWithoutLinear_UsersInput>;
+  user?: InputMaybe<UserUpdateOneWithoutLinear_UsersNestedInput>;
 };
 
 export type LinearUserUpdateManyMutationInput = {
@@ -9141,7 +9330,7 @@ export type LinearUserUpdateManyWithWhereWithoutUserInput = {
   where: LinearUserScalarWhereInput;
 };
 
-export type LinearUserUpdateManyWithoutUserInput = {
+export type LinearUserUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<LinearUserWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<LinearUserCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<LinearUserCreateWithoutUserInput>>;
@@ -9155,7 +9344,7 @@ export type LinearUserUpdateManyWithoutUserInput = {
   upsert?: InputMaybe<Array<LinearUserUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
-export type LinearUserUpdateOneWithoutAssigned_IssuesInput = {
+export type LinearUserUpdateOneWithoutAssigned_IssuesNestedInput = {
   connect?: InputMaybe<LinearUserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutAssigned_IssuesInput>;
   create?: InputMaybe<LinearUserCreateWithoutAssigned_IssuesInput>;
@@ -9165,7 +9354,7 @@ export type LinearUserUpdateOneWithoutAssigned_IssuesInput = {
   upsert?: InputMaybe<LinearUserUpsertWithoutAssigned_IssuesInput>;
 };
 
-export type LinearUserUpdateOneWithoutCreated_IssuesInput = {
+export type LinearUserUpdateOneWithoutCreated_IssuesNestedInput = {
   connect?: InputMaybe<LinearUserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<LinearUserCreateOrConnectWithoutCreated_IssuesInput>;
   create?: InputMaybe<LinearUserCreateWithoutCreated_IssuesInput>;
@@ -9185,36 +9374,36 @@ export type LinearUserUpdateWithoutAssigned_IssuesInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
+  created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorNestedInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   url?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneWithoutLinear_UsersInput>;
+  user?: InputMaybe<UserUpdateOneWithoutLinear_UsersNestedInput>;
 };
 
 export type LinearUserUpdateWithoutCreated_IssuesInput = {
   access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
-  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   url?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneWithoutLinear_UsersInput>;
+  user?: InputMaybe<UserUpdateOneWithoutLinear_UsersNestedInput>;
 };
 
 export type LinearUserUpdateWithoutUserInput = {
   access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   active_token?: InputMaybe<NullableBoolFieldUpdateOperationsInput>;
-  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeInput>;
+  assigned_issues?: InputMaybe<LinearIssueUpdateManyWithoutAssigneeNestedInput>;
   createdAt?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorInput>;
+  created_issues?: InputMaybe<LinearIssueUpdateManyWithoutCreatorNestedInput>;
   displayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_id?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -9271,28 +9460,6 @@ export type ListActivityTypesByUserInput = {
 };
 
 export type Mutation = {
-  createActivityType: ActivityType;
-  createAttestation: Attestation;
-  createAttestationConfidence: AttestationConfidence;
-  createAttestationStatus: AttestationStatus;
-  createCategoryActivity: CategoryActivity;
-  createCategoryActivityType: CategoryActivityType;
-  createChain: Chain;
-  createChainType: ChainType;
-  createContribution: Contribution;
-  createContributionStatus: ContributionStatus;
-  createDiscordUser: DiscordUser;
-  createGuild: Guild;
-  createGuildActivityType: GuildActivityType;
-  createGuildContribution: GuildContribution;
-  createGuildMembershipStatus: GuildMembershipStatus;
-  createGuildUser: GuildUser;
-  createJobRun: JobRun;
-  createLinearCycle: LinearCycle;
-  createLinearIssue: LinearIssue;
-  createLinearProject: LinearProject;
-  createLinearTeam: LinearTeam;
-  createLinearUser: LinearUser;
   createManyActivityType: AffectedRowsOutput;
   createManyAttestation: AffectedRowsOutput;
   createManyAttestationConfidence: AffectedRowsOutput;
@@ -9323,39 +9490,39 @@ export type Mutation = {
   createManyUser: AffectedRowsOutput;
   createManyUserActivity: AffectedRowsOutput;
   createOnChainUserContribution: Contribution;
-  createPartner: Partner;
-  createTwitterAccount: TwitterAccount;
-  createTwitterTweet: TwitterTweet;
-  createTwitterTweetContribution: TwitterTweetContribution;
-  createTwitterUser: TwitterUser;
-  createUser: User;
-  createUserActivity: UserActivity;
+  createOneActivityType: ActivityType;
+  createOneAttestation: Attestation;
+  createOneAttestationConfidence: AttestationConfidence;
+  createOneAttestationStatus: AttestationStatus;
+  createOneCategoryActivity: CategoryActivity;
+  createOneCategoryActivityType: CategoryActivityType;
+  createOneChain: Chain;
+  createOneChainType: ChainType;
+  createOneContribution: Contribution;
+  createOneContributionStatus: ContributionStatus;
+  createOneDiscordUser: DiscordUser;
+  createOneGuild: Guild;
+  createOneGuildActivityType: GuildActivityType;
+  createOneGuildContribution: GuildContribution;
+  createOneGuildMembershipStatus: GuildMembershipStatus;
+  createOneGuildUser: GuildUser;
+  createOneJobRun: JobRun;
+  createOneLinearCycle: LinearCycle;
+  createOneLinearIssue: LinearIssue;
+  createOneLinearProject: LinearProject;
+  createOneLinearTeam: LinearTeam;
+  createOneLinearUser: LinearUser;
+  createOnePartner: Partner;
+  createOneTwitterAccount: TwitterAccount;
+  createOneTwitterTweet: TwitterTweet;
+  createOneTwitterTweetContribution: TwitterTweetContribution;
+  createOneTwitterUser: TwitterUser;
+  createOneUser: User;
+  createOneUserActivity: UserActivity;
   createUserAttestation: Attestation;
   createUserContribution: Contribution;
   createUserCustom: User;
   createUserOnChainAttestation: Attestation;
-  deleteActivityType?: Maybe<ActivityType>;
-  deleteAttestation?: Maybe<Attestation>;
-  deleteAttestationConfidence?: Maybe<AttestationConfidence>;
-  deleteAttestationStatus?: Maybe<AttestationStatus>;
-  deleteCategoryActivity?: Maybe<CategoryActivity>;
-  deleteCategoryActivityType?: Maybe<CategoryActivityType>;
-  deleteChain?: Maybe<Chain>;
-  deleteChainType?: Maybe<ChainType>;
-  deleteContribution?: Maybe<Contribution>;
-  deleteContributionStatus?: Maybe<ContributionStatus>;
-  deleteDiscordUser?: Maybe<DiscordUser>;
-  deleteGuild?: Maybe<Guild>;
-  deleteGuildActivityType?: Maybe<GuildActivityType>;
-  deleteGuildContribution?: Maybe<GuildContribution>;
-  deleteGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
-  deleteGuildUser?: Maybe<GuildUser>;
-  deleteJobRun?: Maybe<JobRun>;
-  deleteLinearCycle?: Maybe<LinearCycle>;
-  deleteLinearIssue?: Maybe<LinearIssue>;
-  deleteLinearProject?: Maybe<LinearProject>;
-  deleteLinearTeam?: Maybe<LinearTeam>;
-  deleteLinearUser?: Maybe<LinearUser>;
   deleteManyActivityType: AffectedRowsOutput;
   deleteManyAttestation: AffectedRowsOutput;
   deleteManyAttestationConfidence: AffectedRowsOutput;
@@ -9385,37 +9552,37 @@ export type Mutation = {
   deleteManyTwitterUser: AffectedRowsOutput;
   deleteManyUser: AffectedRowsOutput;
   deleteManyUserActivity: AffectedRowsOutput;
-  deletePartner?: Maybe<Partner>;
-  deleteTwitterAccount?: Maybe<TwitterAccount>;
-  deleteTwitterTweet?: Maybe<TwitterTweet>;
-  deleteTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
-  deleteTwitterUser?: Maybe<TwitterUser>;
-  deleteUser?: Maybe<User>;
-  deleteUserActivity?: Maybe<UserActivity>;
+  deleteOneActivityType?: Maybe<ActivityType>;
+  deleteOneAttestation?: Maybe<Attestation>;
+  deleteOneAttestationConfidence?: Maybe<AttestationConfidence>;
+  deleteOneAttestationStatus?: Maybe<AttestationStatus>;
+  deleteOneCategoryActivity?: Maybe<CategoryActivity>;
+  deleteOneCategoryActivityType?: Maybe<CategoryActivityType>;
+  deleteOneChain?: Maybe<Chain>;
+  deleteOneChainType?: Maybe<ChainType>;
+  deleteOneContribution?: Maybe<Contribution>;
+  deleteOneContributionStatus?: Maybe<ContributionStatus>;
+  deleteOneDiscordUser?: Maybe<DiscordUser>;
+  deleteOneGuild?: Maybe<Guild>;
+  deleteOneGuildActivityType?: Maybe<GuildActivityType>;
+  deleteOneGuildContribution?: Maybe<GuildContribution>;
+  deleteOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
+  deleteOneGuildUser?: Maybe<GuildUser>;
+  deleteOneJobRun?: Maybe<JobRun>;
+  deleteOneLinearCycle?: Maybe<LinearCycle>;
+  deleteOneLinearIssue?: Maybe<LinearIssue>;
+  deleteOneLinearProject?: Maybe<LinearProject>;
+  deleteOneLinearTeam?: Maybe<LinearTeam>;
+  deleteOneLinearUser?: Maybe<LinearUser>;
+  deleteOnePartner?: Maybe<Partner>;
+  deleteOneTwitterAccount?: Maybe<TwitterAccount>;
+  deleteOneTwitterTweet?: Maybe<TwitterTweet>;
+  deleteOneTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
+  deleteOneTwitterUser?: Maybe<TwitterUser>;
+  deleteOneUser?: Maybe<User>;
+  deleteOneUserActivity?: Maybe<UserActivity>;
   deleteUserContribution: Contribution;
   getOrCreateActivityType: ActivityType;
-  updateActivityType?: Maybe<ActivityType>;
-  updateAttestation?: Maybe<Attestation>;
-  updateAttestationConfidence?: Maybe<AttestationConfidence>;
-  updateAttestationStatus?: Maybe<AttestationStatus>;
-  updateCategoryActivity?: Maybe<CategoryActivity>;
-  updateCategoryActivityType?: Maybe<CategoryActivityType>;
-  updateChain?: Maybe<Chain>;
-  updateChainType?: Maybe<ChainType>;
-  updateContribution?: Maybe<Contribution>;
-  updateContributionStatus?: Maybe<ContributionStatus>;
-  updateDiscordUser?: Maybe<DiscordUser>;
-  updateGuild?: Maybe<Guild>;
-  updateGuildActivityType?: Maybe<GuildActivityType>;
-  updateGuildContribution?: Maybe<GuildContribution>;
-  updateGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
-  updateGuildUser?: Maybe<GuildUser>;
-  updateJobRun?: Maybe<JobRun>;
-  updateLinearCycle?: Maybe<LinearCycle>;
-  updateLinearIssue?: Maybe<LinearIssue>;
-  updateLinearProject?: Maybe<LinearProject>;
-  updateLinearTeam?: Maybe<LinearTeam>;
-  updateLinearUser?: Maybe<LinearUser>;
   updateManyActivityType: AffectedRowsOutput;
   updateManyAttestation: AffectedRowsOutput;
   updateManyAttestationConfidence: AffectedRowsOutput;
@@ -9445,156 +9612,68 @@ export type Mutation = {
   updateManyTwitterUser: AffectedRowsOutput;
   updateManyUser: AffectedRowsOutput;
   updateManyUserActivity: AffectedRowsOutput;
-  updatePartner?: Maybe<Partner>;
-  updateTwitterAccount?: Maybe<TwitterAccount>;
-  updateTwitterTweet?: Maybe<TwitterTweet>;
-  updateTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
-  updateTwitterUser?: Maybe<TwitterUser>;
-  updateUser?: Maybe<User>;
-  updateUserActivity?: Maybe<UserActivity>;
+  updateOneActivityType?: Maybe<ActivityType>;
+  updateOneAttestation?: Maybe<Attestation>;
+  updateOneAttestationConfidence?: Maybe<AttestationConfidence>;
+  updateOneAttestationStatus?: Maybe<AttestationStatus>;
+  updateOneCategoryActivity?: Maybe<CategoryActivity>;
+  updateOneCategoryActivityType?: Maybe<CategoryActivityType>;
+  updateOneChain?: Maybe<Chain>;
+  updateOneChainType?: Maybe<ChainType>;
+  updateOneContribution?: Maybe<Contribution>;
+  updateOneContributionStatus?: Maybe<ContributionStatus>;
+  updateOneDiscordUser?: Maybe<DiscordUser>;
+  updateOneGuild?: Maybe<Guild>;
+  updateOneGuildActivityType?: Maybe<GuildActivityType>;
+  updateOneGuildContribution?: Maybe<GuildContribution>;
+  updateOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
+  updateOneGuildUser?: Maybe<GuildUser>;
+  updateOneJobRun?: Maybe<JobRun>;
+  updateOneLinearCycle?: Maybe<LinearCycle>;
+  updateOneLinearIssue?: Maybe<LinearIssue>;
+  updateOneLinearProject?: Maybe<LinearProject>;
+  updateOneLinearTeam?: Maybe<LinearTeam>;
+  updateOneLinearUser?: Maybe<LinearUser>;
+  updateOnePartner?: Maybe<Partner>;
+  updateOneTwitterAccount?: Maybe<TwitterAccount>;
+  updateOneTwitterTweet?: Maybe<TwitterTweet>;
+  updateOneTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
+  updateOneTwitterUser?: Maybe<TwitterUser>;
+  updateOneUser?: Maybe<User>;
+  updateOneUserActivity?: Maybe<UserActivity>;
   updateUserContribution: Contribution;
   updateUserCustom: User;
   updateUserOnChainAttestation: Attestation;
   updateUserOnChainContribution: Contribution;
-  upsertActivityType: ActivityType;
-  upsertAttestation: Attestation;
-  upsertAttestationConfidence: AttestationConfidence;
-  upsertAttestationStatus: AttestationStatus;
-  upsertCategoryActivity: CategoryActivity;
-  upsertCategoryActivityType: CategoryActivityType;
-  upsertChain: Chain;
-  upsertChainType: ChainType;
-  upsertContribution: Contribution;
-  upsertContributionStatus: ContributionStatus;
-  upsertDiscordUser: DiscordUser;
-  upsertGuild: Guild;
-  upsertGuildActivityType: GuildActivityType;
-  upsertGuildContribution: GuildContribution;
-  upsertGuildMembershipStatus: GuildMembershipStatus;
-  upsertGuildUser: GuildUser;
-  upsertJobRun: JobRun;
-  upsertLinearCycle: LinearCycle;
-  upsertLinearIssue: LinearIssue;
-  upsertLinearProject: LinearProject;
-  upsertLinearTeam: LinearTeam;
-  upsertLinearUser: LinearUser;
-  upsertPartner: Partner;
-  upsertTwitterAccount: TwitterAccount;
-  upsertTwitterTweet: TwitterTweet;
-  upsertTwitterTweetContribution: TwitterTweetContribution;
-  upsertTwitterUser: TwitterUser;
-  upsertUser: User;
-  upsertUserActivity: UserActivity;
-};
-
-
-export type MutationCreateActivityTypeArgs = {
-  data: ActivityTypeCreateInput;
-};
-
-
-export type MutationCreateAttestationArgs = {
-  data: AttestationCreateInput;
-};
-
-
-export type MutationCreateAttestationConfidenceArgs = {
-  data: AttestationConfidenceCreateInput;
-};
-
-
-export type MutationCreateAttestationStatusArgs = {
-  data: AttestationStatusCreateInput;
-};
-
-
-export type MutationCreateCategoryActivityArgs = {
-  data: CategoryActivityCreateInput;
-};
-
-
-export type MutationCreateCategoryActivityTypeArgs = {
-  data: CategoryActivityTypeCreateInput;
-};
-
-
-export type MutationCreateChainArgs = {
-  data: ChainCreateInput;
-};
-
-
-export type MutationCreateChainTypeArgs = {
-  data: ChainTypeCreateInput;
-};
-
-
-export type MutationCreateContributionArgs = {
-  data: ContributionCreateInput;
-};
-
-
-export type MutationCreateContributionStatusArgs = {
-  data: ContributionStatusCreateInput;
-};
-
-
-export type MutationCreateDiscordUserArgs = {
-  data: DiscordUserCreateInput;
-};
-
-
-export type MutationCreateGuildArgs = {
-  data: GuildCreateInput;
-};
-
-
-export type MutationCreateGuildActivityTypeArgs = {
-  data: GuildActivityTypeCreateInput;
-};
-
-
-export type MutationCreateGuildContributionArgs = {
-  data: GuildContributionCreateInput;
-};
-
-
-export type MutationCreateGuildMembershipStatusArgs = {
-  data: GuildMembershipStatusCreateInput;
-};
-
-
-export type MutationCreateGuildUserArgs = {
-  data: GuildUserCreateInput;
-};
-
-
-export type MutationCreateJobRunArgs = {
-  data: JobRunCreateInput;
-};
-
-
-export type MutationCreateLinearCycleArgs = {
-  data: LinearCycleCreateInput;
-};
-
-
-export type MutationCreateLinearIssueArgs = {
-  data: LinearIssueCreateInput;
-};
-
-
-export type MutationCreateLinearProjectArgs = {
-  data: LinearProjectCreateInput;
-};
-
-
-export type MutationCreateLinearTeamArgs = {
-  data: LinearTeamCreateInput;
-};
-
-
-export type MutationCreateLinearUserArgs = {
-  data: LinearUserCreateInput;
+  upsertOneActivityType: ActivityType;
+  upsertOneAttestation: Attestation;
+  upsertOneAttestationConfidence: AttestationConfidence;
+  upsertOneAttestationStatus: AttestationStatus;
+  upsertOneCategoryActivity: CategoryActivity;
+  upsertOneCategoryActivityType: CategoryActivityType;
+  upsertOneChain: Chain;
+  upsertOneChainType: ChainType;
+  upsertOneContribution: Contribution;
+  upsertOneContributionStatus: ContributionStatus;
+  upsertOneDiscordUser: DiscordUser;
+  upsertOneGuild: Guild;
+  upsertOneGuildActivityType: GuildActivityType;
+  upsertOneGuildContribution: GuildContribution;
+  upsertOneGuildMembershipStatus: GuildMembershipStatus;
+  upsertOneGuildUser: GuildUser;
+  upsertOneJobRun: JobRun;
+  upsertOneLinearCycle: LinearCycle;
+  upsertOneLinearIssue: LinearIssue;
+  upsertOneLinearProject: LinearProject;
+  upsertOneLinearTeam: LinearTeam;
+  upsertOneLinearUser: LinearUser;
+  upsertOnePartner: Partner;
+  upsertOneTwitterAccount: TwitterAccount;
+  upsertOneTwitterTweet: TwitterTweet;
+  upsertOneTwitterTweetContribution: TwitterTweetContribution;
+  upsertOneTwitterUser: TwitterUser;
+  upsertOneUser: User;
+  upsertOneUserActivity: UserActivity;
 };
 
 
@@ -9777,37 +9856,147 @@ export type MutationCreateOnChainUserContributionArgs = {
 };
 
 
-export type MutationCreatePartnerArgs = {
+export type MutationCreateOneActivityTypeArgs = {
+  data: ActivityTypeCreateInput;
+};
+
+
+export type MutationCreateOneAttestationArgs = {
+  data: AttestationCreateInput;
+};
+
+
+export type MutationCreateOneAttestationConfidenceArgs = {
+  data: AttestationConfidenceCreateInput;
+};
+
+
+export type MutationCreateOneAttestationStatusArgs = {
+  data: AttestationStatusCreateInput;
+};
+
+
+export type MutationCreateOneCategoryActivityArgs = {
+  data: CategoryActivityCreateInput;
+};
+
+
+export type MutationCreateOneCategoryActivityTypeArgs = {
+  data: CategoryActivityTypeCreateInput;
+};
+
+
+export type MutationCreateOneChainArgs = {
+  data: ChainCreateInput;
+};
+
+
+export type MutationCreateOneChainTypeArgs = {
+  data: ChainTypeCreateInput;
+};
+
+
+export type MutationCreateOneContributionArgs = {
+  data: ContributionCreateInput;
+};
+
+
+export type MutationCreateOneContributionStatusArgs = {
+  data: ContributionStatusCreateInput;
+};
+
+
+export type MutationCreateOneDiscordUserArgs = {
+  data: DiscordUserCreateInput;
+};
+
+
+export type MutationCreateOneGuildArgs = {
+  data: GuildCreateInput;
+};
+
+
+export type MutationCreateOneGuildActivityTypeArgs = {
+  data: GuildActivityTypeCreateInput;
+};
+
+
+export type MutationCreateOneGuildContributionArgs = {
+  data: GuildContributionCreateInput;
+};
+
+
+export type MutationCreateOneGuildMembershipStatusArgs = {
+  data: GuildMembershipStatusCreateInput;
+};
+
+
+export type MutationCreateOneGuildUserArgs = {
+  data: GuildUserCreateInput;
+};
+
+
+export type MutationCreateOneJobRunArgs = {
+  data: JobRunCreateInput;
+};
+
+
+export type MutationCreateOneLinearCycleArgs = {
+  data: LinearCycleCreateInput;
+};
+
+
+export type MutationCreateOneLinearIssueArgs = {
+  data: LinearIssueCreateInput;
+};
+
+
+export type MutationCreateOneLinearProjectArgs = {
+  data: LinearProjectCreateInput;
+};
+
+
+export type MutationCreateOneLinearTeamArgs = {
+  data: LinearTeamCreateInput;
+};
+
+
+export type MutationCreateOneLinearUserArgs = {
+  data: LinearUserCreateInput;
+};
+
+
+export type MutationCreateOnePartnerArgs = {
   data: PartnerCreateInput;
 };
 
 
-export type MutationCreateTwitterAccountArgs = {
+export type MutationCreateOneTwitterAccountArgs = {
   data: TwitterAccountCreateInput;
 };
 
 
-export type MutationCreateTwitterTweetArgs = {
+export type MutationCreateOneTwitterTweetArgs = {
   data: TwitterTweetCreateInput;
 };
 
 
-export type MutationCreateTwitterTweetContributionArgs = {
+export type MutationCreateOneTwitterTweetContributionArgs = {
   data: TwitterTweetContributionCreateInput;
 };
 
 
-export type MutationCreateTwitterUserArgs = {
+export type MutationCreateOneTwitterUserArgs = {
   data: TwitterUserCreateInput;
 };
 
 
-export type MutationCreateUserArgs = {
+export type MutationCreateOneUserArgs = {
   data: UserCreateInput;
 };
 
 
-export type MutationCreateUserActivityArgs = {
+export type MutationCreateOneUserActivityArgs = {
   data: UserActivityCreateInput;
 };
 
@@ -9829,116 +10018,6 @@ export type MutationCreateUserCustomArgs = {
 
 export type MutationCreateUserOnChainAttestationArgs = {
   data: AttestationUserOnChainCreateInput;
-};
-
-
-export type MutationDeleteActivityTypeArgs = {
-  where: ActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationDeleteAttestationArgs = {
-  where: AttestationWhereUniqueInput;
-};
-
-
-export type MutationDeleteAttestationConfidenceArgs = {
-  where: AttestationConfidenceWhereUniqueInput;
-};
-
-
-export type MutationDeleteAttestationStatusArgs = {
-  where: AttestationStatusWhereUniqueInput;
-};
-
-
-export type MutationDeleteCategoryActivityArgs = {
-  where: CategoryActivityWhereUniqueInput;
-};
-
-
-export type MutationDeleteCategoryActivityTypeArgs = {
-  where: CategoryActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationDeleteChainArgs = {
-  where: ChainWhereUniqueInput;
-};
-
-
-export type MutationDeleteChainTypeArgs = {
-  where: ChainTypeWhereUniqueInput;
-};
-
-
-export type MutationDeleteContributionArgs = {
-  where: ContributionWhereUniqueInput;
-};
-
-
-export type MutationDeleteContributionStatusArgs = {
-  where: ContributionStatusWhereUniqueInput;
-};
-
-
-export type MutationDeleteDiscordUserArgs = {
-  where: DiscordUserWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildArgs = {
-  where: GuildWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildActivityTypeArgs = {
-  where: GuildActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildContributionArgs = {
-  where: GuildContributionWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildMembershipStatusArgs = {
-  where: GuildMembershipStatusWhereUniqueInput;
-};
-
-
-export type MutationDeleteGuildUserArgs = {
-  where: GuildUserWhereUniqueInput;
-};
-
-
-export type MutationDeleteJobRunArgs = {
-  where: JobRunWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearCycleArgs = {
-  where: LinearCycleWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearIssueArgs = {
-  where: LinearIssueWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearProjectArgs = {
-  where: LinearProjectWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearTeamArgs = {
-  where: LinearTeamWhereUniqueInput;
-};
-
-
-export type MutationDeleteLinearUserArgs = {
-  where: LinearUserWhereUniqueInput;
 };
 
 
@@ -10087,37 +10166,147 @@ export type MutationDeleteManyUserActivityArgs = {
 };
 
 
-export type MutationDeletePartnerArgs = {
+export type MutationDeleteOneActivityTypeArgs = {
+  where: ActivityTypeWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneAttestationArgs = {
+  where: AttestationWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneAttestationConfidenceArgs = {
+  where: AttestationConfidenceWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneAttestationStatusArgs = {
+  where: AttestationStatusWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneCategoryActivityArgs = {
+  where: CategoryActivityWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneCategoryActivityTypeArgs = {
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneChainArgs = {
+  where: ChainWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneChainTypeArgs = {
+  where: ChainTypeWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneContributionArgs = {
+  where: ContributionWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneContributionStatusArgs = {
+  where: ContributionStatusWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneDiscordUserArgs = {
+  where: DiscordUserWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneGuildArgs = {
+  where: GuildWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneGuildActivityTypeArgs = {
+  where: GuildActivityTypeWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneGuildContributionArgs = {
+  where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneGuildMembershipStatusArgs = {
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneGuildUserArgs = {
+  where: GuildUserWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneJobRunArgs = {
+  where: JobRunWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneLinearCycleArgs = {
+  where: LinearCycleWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneLinearIssueArgs = {
+  where: LinearIssueWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneLinearProjectArgs = {
+  where: LinearProjectWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneLinearTeamArgs = {
+  where: LinearTeamWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneLinearUserArgs = {
+  where: LinearUserWhereUniqueInput;
+};
+
+
+export type MutationDeleteOnePartnerArgs = {
   where: PartnerWhereUniqueInput;
 };
 
 
-export type MutationDeleteTwitterAccountArgs = {
+export type MutationDeleteOneTwitterAccountArgs = {
   where: TwitterAccountWhereUniqueInput;
 };
 
 
-export type MutationDeleteTwitterTweetArgs = {
+export type MutationDeleteOneTwitterTweetArgs = {
   where: TwitterTweetWhereUniqueInput;
 };
 
 
-export type MutationDeleteTwitterTweetContributionArgs = {
+export type MutationDeleteOneTwitterTweetContributionArgs = {
   where: TwitterTweetContributionWhereUniqueInput;
 };
 
 
-export type MutationDeleteTwitterUserArgs = {
+export type MutationDeleteOneTwitterUserArgs = {
   where: TwitterUserWhereUniqueInput;
 };
 
 
-export type MutationDeleteUserArgs = {
+export type MutationDeleteOneUserArgs = {
   where: UserWhereUniqueInput;
 };
 
 
-export type MutationDeleteUserActivityArgs = {
+export type MutationDeleteOneUserActivityArgs = {
   where: UserActivityWhereUniqueInput;
 };
 
@@ -10129,138 +10318,6 @@ export type MutationDeleteUserContributionArgs = {
 
 export type MutationGetOrCreateActivityTypeArgs = {
   data: GetOrCreateActivityTypeInput;
-};
-
-
-export type MutationUpdateActivityTypeArgs = {
-  data: ActivityTypeUpdateInput;
-  where: ActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationUpdateAttestationArgs = {
-  data: AttestationUpdateInput;
-  where: AttestationWhereUniqueInput;
-};
-
-
-export type MutationUpdateAttestationConfidenceArgs = {
-  data: AttestationConfidenceUpdateInput;
-  where: AttestationConfidenceWhereUniqueInput;
-};
-
-
-export type MutationUpdateAttestationStatusArgs = {
-  data: AttestationStatusUpdateInput;
-  where: AttestationStatusWhereUniqueInput;
-};
-
-
-export type MutationUpdateCategoryActivityArgs = {
-  data: CategoryActivityUpdateInput;
-  where: CategoryActivityWhereUniqueInput;
-};
-
-
-export type MutationUpdateCategoryActivityTypeArgs = {
-  data: CategoryActivityTypeUpdateInput;
-  where: CategoryActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationUpdateChainArgs = {
-  data: ChainUpdateInput;
-  where: ChainWhereUniqueInput;
-};
-
-
-export type MutationUpdateChainTypeArgs = {
-  data: ChainTypeUpdateInput;
-  where: ChainTypeWhereUniqueInput;
-};
-
-
-export type MutationUpdateContributionArgs = {
-  data: ContributionUpdateInput;
-  where: ContributionWhereUniqueInput;
-};
-
-
-export type MutationUpdateContributionStatusArgs = {
-  data: ContributionStatusUpdateInput;
-  where: ContributionStatusWhereUniqueInput;
-};
-
-
-export type MutationUpdateDiscordUserArgs = {
-  data: DiscordUserUpdateInput;
-  where: DiscordUserWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildArgs = {
-  data: GuildUpdateInput;
-  where: GuildWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildActivityTypeArgs = {
-  data: GuildActivityTypeUpdateInput;
-  where: GuildActivityTypeWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildContributionArgs = {
-  data: GuildContributionUpdateInput;
-  where: GuildContributionWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildMembershipStatusArgs = {
-  data: GuildMembershipStatusUpdateInput;
-  where: GuildMembershipStatusWhereUniqueInput;
-};
-
-
-export type MutationUpdateGuildUserArgs = {
-  data: GuildUserUpdateInput;
-  where: GuildUserWhereUniqueInput;
-};
-
-
-export type MutationUpdateJobRunArgs = {
-  data: JobRunUpdateInput;
-  where: JobRunWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearCycleArgs = {
-  data: LinearCycleUpdateInput;
-  where: LinearCycleWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearIssueArgs = {
-  data: LinearIssueUpdateInput;
-  where: LinearIssueWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearProjectArgs = {
-  data: LinearProjectUpdateInput;
-  where: LinearProjectWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearTeamArgs = {
-  data: LinearTeamUpdateInput;
-  where: LinearTeamWhereUniqueInput;
-};
-
-
-export type MutationUpdateLinearUserArgs = {
-  data: LinearUserUpdateInput;
-  where: LinearUserWhereUniqueInput;
 };
 
 
@@ -10438,43 +10495,175 @@ export type MutationUpdateManyUserActivityArgs = {
 };
 
 
-export type MutationUpdatePartnerArgs = {
+export type MutationUpdateOneActivityTypeArgs = {
+  data: ActivityTypeUpdateInput;
+  where: ActivityTypeWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneAttestationArgs = {
+  data: AttestationUpdateInput;
+  where: AttestationWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneAttestationConfidenceArgs = {
+  data: AttestationConfidenceUpdateInput;
+  where: AttestationConfidenceWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneAttestationStatusArgs = {
+  data: AttestationStatusUpdateInput;
+  where: AttestationStatusWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneCategoryActivityArgs = {
+  data: CategoryActivityUpdateInput;
+  where: CategoryActivityWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneCategoryActivityTypeArgs = {
+  data: CategoryActivityTypeUpdateInput;
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneChainArgs = {
+  data: ChainUpdateInput;
+  where: ChainWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneChainTypeArgs = {
+  data: ChainTypeUpdateInput;
+  where: ChainTypeWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneContributionArgs = {
+  data: ContributionUpdateInput;
+  where: ContributionWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneContributionStatusArgs = {
+  data: ContributionStatusUpdateInput;
+  where: ContributionStatusWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneDiscordUserArgs = {
+  data: DiscordUserUpdateInput;
+  where: DiscordUserWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneGuildArgs = {
+  data: GuildUpdateInput;
+  where: GuildWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneGuildActivityTypeArgs = {
+  data: GuildActivityTypeUpdateInput;
+  where: GuildActivityTypeWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneGuildContributionArgs = {
+  data: GuildContributionUpdateInput;
+  where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneGuildMembershipStatusArgs = {
+  data: GuildMembershipStatusUpdateInput;
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneGuildUserArgs = {
+  data: GuildUserUpdateInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneJobRunArgs = {
+  data: JobRunUpdateInput;
+  where: JobRunWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneLinearCycleArgs = {
+  data: LinearCycleUpdateInput;
+  where: LinearCycleWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneLinearIssueArgs = {
+  data: LinearIssueUpdateInput;
+  where: LinearIssueWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneLinearProjectArgs = {
+  data: LinearProjectUpdateInput;
+  where: LinearProjectWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneLinearTeamArgs = {
+  data: LinearTeamUpdateInput;
+  where: LinearTeamWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneLinearUserArgs = {
+  data: LinearUserUpdateInput;
+  where: LinearUserWhereUniqueInput;
+};
+
+
+export type MutationUpdateOnePartnerArgs = {
   data: PartnerUpdateInput;
   where: PartnerWhereUniqueInput;
 };
 
 
-export type MutationUpdateTwitterAccountArgs = {
+export type MutationUpdateOneTwitterAccountArgs = {
   data: TwitterAccountUpdateInput;
   where: TwitterAccountWhereUniqueInput;
 };
 
 
-export type MutationUpdateTwitterTweetArgs = {
+export type MutationUpdateOneTwitterTweetArgs = {
   data: TwitterTweetUpdateInput;
   where: TwitterTweetWhereUniqueInput;
 };
 
 
-export type MutationUpdateTwitterTweetContributionArgs = {
+export type MutationUpdateOneTwitterTweetContributionArgs = {
   data: TwitterTweetContributionUpdateInput;
   where: TwitterTweetContributionWhereUniqueInput;
 };
 
 
-export type MutationUpdateTwitterUserArgs = {
+export type MutationUpdateOneTwitterUserArgs = {
   data: TwitterUserUpdateInput;
   where: TwitterUserWhereUniqueInput;
 };
 
 
-export type MutationUpdateUserArgs = {
+export type MutationUpdateOneUserArgs = {
   data: UserUpdateInput;
   where: UserWhereUniqueInput;
 };
 
 
-export type MutationUpdateUserActivityArgs = {
+export type MutationUpdateOneUserActivityArgs = {
   data: UserActivityUpdateInput;
   where: UserActivityWhereUniqueInput;
 };
@@ -10505,203 +10694,203 @@ export type MutationUpdateUserOnChainContributionArgs = {
 };
 
 
-export type MutationUpsertActivityTypeArgs = {
+export type MutationUpsertOneActivityTypeArgs = {
   create: ActivityTypeCreateInput;
   update: ActivityTypeUpdateInput;
   where: ActivityTypeWhereUniqueInput;
 };
 
 
-export type MutationUpsertAttestationArgs = {
+export type MutationUpsertOneAttestationArgs = {
   create: AttestationCreateInput;
   update: AttestationUpdateInput;
   where: AttestationWhereUniqueInput;
 };
 
 
-export type MutationUpsertAttestationConfidenceArgs = {
+export type MutationUpsertOneAttestationConfidenceArgs = {
   create: AttestationConfidenceCreateInput;
   update: AttestationConfidenceUpdateInput;
   where: AttestationConfidenceWhereUniqueInput;
 };
 
 
-export type MutationUpsertAttestationStatusArgs = {
+export type MutationUpsertOneAttestationStatusArgs = {
   create: AttestationStatusCreateInput;
   update: AttestationStatusUpdateInput;
   where: AttestationStatusWhereUniqueInput;
 };
 
 
-export type MutationUpsertCategoryActivityArgs = {
+export type MutationUpsertOneCategoryActivityArgs = {
   create: CategoryActivityCreateInput;
   update: CategoryActivityUpdateInput;
   where: CategoryActivityWhereUniqueInput;
 };
 
 
-export type MutationUpsertCategoryActivityTypeArgs = {
+export type MutationUpsertOneCategoryActivityTypeArgs = {
   create: CategoryActivityTypeCreateInput;
   update: CategoryActivityTypeUpdateInput;
   where: CategoryActivityTypeWhereUniqueInput;
 };
 
 
-export type MutationUpsertChainArgs = {
+export type MutationUpsertOneChainArgs = {
   create: ChainCreateInput;
   update: ChainUpdateInput;
   where: ChainWhereUniqueInput;
 };
 
 
-export type MutationUpsertChainTypeArgs = {
+export type MutationUpsertOneChainTypeArgs = {
   create: ChainTypeCreateInput;
   update: ChainTypeUpdateInput;
   where: ChainTypeWhereUniqueInput;
 };
 
 
-export type MutationUpsertContributionArgs = {
+export type MutationUpsertOneContributionArgs = {
   create: ContributionCreateInput;
   update: ContributionUpdateInput;
   where: ContributionWhereUniqueInput;
 };
 
 
-export type MutationUpsertContributionStatusArgs = {
+export type MutationUpsertOneContributionStatusArgs = {
   create: ContributionStatusCreateInput;
   update: ContributionStatusUpdateInput;
   where: ContributionStatusWhereUniqueInput;
 };
 
 
-export type MutationUpsertDiscordUserArgs = {
+export type MutationUpsertOneDiscordUserArgs = {
   create: DiscordUserCreateInput;
   update: DiscordUserUpdateInput;
   where: DiscordUserWhereUniqueInput;
 };
 
 
-export type MutationUpsertGuildArgs = {
+export type MutationUpsertOneGuildArgs = {
   create: GuildCreateInput;
   update: GuildUpdateInput;
   where: GuildWhereUniqueInput;
 };
 
 
-export type MutationUpsertGuildActivityTypeArgs = {
+export type MutationUpsertOneGuildActivityTypeArgs = {
   create: GuildActivityTypeCreateInput;
   update: GuildActivityTypeUpdateInput;
   where: GuildActivityTypeWhereUniqueInput;
 };
 
 
-export type MutationUpsertGuildContributionArgs = {
+export type MutationUpsertOneGuildContributionArgs = {
   create: GuildContributionCreateInput;
   update: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
 };
 
 
-export type MutationUpsertGuildMembershipStatusArgs = {
+export type MutationUpsertOneGuildMembershipStatusArgs = {
   create: GuildMembershipStatusCreateInput;
   update: GuildMembershipStatusUpdateInput;
   where: GuildMembershipStatusWhereUniqueInput;
 };
 
 
-export type MutationUpsertGuildUserArgs = {
+export type MutationUpsertOneGuildUserArgs = {
   create: GuildUserCreateInput;
   update: GuildUserUpdateInput;
   where: GuildUserWhereUniqueInput;
 };
 
 
-export type MutationUpsertJobRunArgs = {
+export type MutationUpsertOneJobRunArgs = {
   create: JobRunCreateInput;
   update: JobRunUpdateInput;
   where: JobRunWhereUniqueInput;
 };
 
 
-export type MutationUpsertLinearCycleArgs = {
+export type MutationUpsertOneLinearCycleArgs = {
   create: LinearCycleCreateInput;
   update: LinearCycleUpdateInput;
   where: LinearCycleWhereUniqueInput;
 };
 
 
-export type MutationUpsertLinearIssueArgs = {
+export type MutationUpsertOneLinearIssueArgs = {
   create: LinearIssueCreateInput;
   update: LinearIssueUpdateInput;
   where: LinearIssueWhereUniqueInput;
 };
 
 
-export type MutationUpsertLinearProjectArgs = {
+export type MutationUpsertOneLinearProjectArgs = {
   create: LinearProjectCreateInput;
   update: LinearProjectUpdateInput;
   where: LinearProjectWhereUniqueInput;
 };
 
 
-export type MutationUpsertLinearTeamArgs = {
+export type MutationUpsertOneLinearTeamArgs = {
   create: LinearTeamCreateInput;
   update: LinearTeamUpdateInput;
   where: LinearTeamWhereUniqueInput;
 };
 
 
-export type MutationUpsertLinearUserArgs = {
+export type MutationUpsertOneLinearUserArgs = {
   create: LinearUserCreateInput;
   update: LinearUserUpdateInput;
   where: LinearUserWhereUniqueInput;
 };
 
 
-export type MutationUpsertPartnerArgs = {
+export type MutationUpsertOnePartnerArgs = {
   create: PartnerCreateInput;
   update: PartnerUpdateInput;
   where: PartnerWhereUniqueInput;
 };
 
 
-export type MutationUpsertTwitterAccountArgs = {
+export type MutationUpsertOneTwitterAccountArgs = {
   create: TwitterAccountCreateInput;
   update: TwitterAccountUpdateInput;
   where: TwitterAccountWhereUniqueInput;
 };
 
 
-export type MutationUpsertTwitterTweetArgs = {
+export type MutationUpsertOneTwitterTweetArgs = {
   create: TwitterTweetCreateInput;
   update: TwitterTweetUpdateInput;
   where: TwitterTweetWhereUniqueInput;
 };
 
 
-export type MutationUpsertTwitterTweetContributionArgs = {
+export type MutationUpsertOneTwitterTweetContributionArgs = {
   create: TwitterTweetContributionCreateInput;
   update: TwitterTweetContributionUpdateInput;
   where: TwitterTweetContributionWhereUniqueInput;
 };
 
 
-export type MutationUpsertTwitterUserArgs = {
+export type MutationUpsertOneTwitterUserArgs = {
   create: TwitterUserCreateInput;
   update: TwitterUserUpdateInput;
   where: TwitterUserWhereUniqueInput;
 };
 
 
-export type MutationUpsertUserArgs = {
+export type MutationUpsertOneUserArgs = {
   create: UserCreateInput;
   update: UserUpdateInput;
   where: UserWhereUniqueInput;
 };
 
 
-export type MutationUpsertUserActivityArgs = {
+export type MutationUpsertOneUserActivityArgs = {
   create: UserActivityCreateInput;
   update: UserActivityUpdateInput;
   where: UserActivityWhereUniqueInput;
@@ -11217,10 +11406,10 @@ export type PartnerSumOrderByAggregateInput = {
 };
 
 export type PartnerUpdateInput = {
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutPartnersInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutPartnersNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionPartnersInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionPartnersNestedInput>;
 };
 
 export type PartnerUpdateManyMutationInput = {
@@ -11238,7 +11427,7 @@ export type PartnerUpdateManyWithWhereWithoutUserInput = {
   where: PartnerScalarWhereInput;
 };
 
-export type PartnerUpdateManyWithoutContributionInput = {
+export type PartnerUpdateManyWithoutContributionNestedInput = {
   connect?: InputMaybe<Array<PartnerWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<PartnerCreateOrConnectWithoutContributionInput>>;
   create?: InputMaybe<Array<PartnerCreateWithoutContributionInput>>;
@@ -11252,7 +11441,7 @@ export type PartnerUpdateManyWithoutContributionInput = {
   upsert?: InputMaybe<Array<PartnerUpsertWithWhereUniqueWithoutContributionInput>>;
 };
 
-export type PartnerUpdateManyWithoutUserInput = {
+export type PartnerUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<PartnerWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<PartnerCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<PartnerCreateWithoutUserInput>>;
@@ -11279,11 +11468,11 @@ export type PartnerUpdateWithWhereUniqueWithoutUserInput = {
 export type PartnerUpdateWithoutContributionInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionPartnersInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionPartnersNestedInput>;
 };
 
 export type PartnerUpdateWithoutUserInput = {
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutPartnersInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutPartnersNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -11376,40 +11565,97 @@ export type Query = {
   discordUser?: Maybe<DiscordUser>;
   discordUsers: Array<DiscordUser>;
   findFirstActivityType?: Maybe<ActivityType>;
+  findFirstActivityTypeOrThrow?: Maybe<ActivityType>;
   findFirstAttestation?: Maybe<Attestation>;
   findFirstAttestationConfidence?: Maybe<AttestationConfidence>;
+  findFirstAttestationConfidenceOrThrow?: Maybe<AttestationConfidence>;
+  findFirstAttestationOrThrow?: Maybe<Attestation>;
   findFirstAttestationStatus?: Maybe<AttestationStatus>;
+  findFirstAttestationStatusOrThrow?: Maybe<AttestationStatus>;
   findFirstCategoryActivity?: Maybe<CategoryActivity>;
+  findFirstCategoryActivityOrThrow?: Maybe<CategoryActivity>;
   findFirstCategoryActivityType?: Maybe<CategoryActivityType>;
+  findFirstCategoryActivityTypeOrThrow?: Maybe<CategoryActivityType>;
   findFirstChain?: Maybe<Chain>;
+  findFirstChainOrThrow?: Maybe<Chain>;
   findFirstChainType?: Maybe<ChainType>;
+  findFirstChainTypeOrThrow?: Maybe<ChainType>;
   findFirstContribution?: Maybe<Contribution>;
+  findFirstContributionOrThrow?: Maybe<Contribution>;
   findFirstContributionStatus?: Maybe<ContributionStatus>;
+  findFirstContributionStatusOrThrow?: Maybe<ContributionStatus>;
   findFirstDiscordUser?: Maybe<DiscordUser>;
+  findFirstDiscordUserOrThrow?: Maybe<DiscordUser>;
   findFirstGuild?: Maybe<Guild>;
   findFirstGuildActivityType?: Maybe<GuildActivityType>;
+  findFirstGuildActivityTypeOrThrow?: Maybe<GuildActivityType>;
   findFirstGuildContribution?: Maybe<GuildContribution>;
+  findFirstGuildContributionOrThrow?: Maybe<GuildContribution>;
   findFirstGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
+  findFirstGuildMembershipStatusOrThrow?: Maybe<GuildMembershipStatus>;
+  findFirstGuildOrThrow?: Maybe<Guild>;
   findFirstGuildUser?: Maybe<GuildUser>;
+  findFirstGuildUserOrThrow?: Maybe<GuildUser>;
   findFirstJobRun?: Maybe<JobRun>;
+  findFirstJobRunOrThrow?: Maybe<JobRun>;
   findFirstLinearCycle?: Maybe<LinearCycle>;
+  findFirstLinearCycleOrThrow?: Maybe<LinearCycle>;
   findFirstLinearIssue?: Maybe<LinearIssue>;
+  findFirstLinearIssueOrThrow?: Maybe<LinearIssue>;
   findFirstLinearProject?: Maybe<LinearProject>;
+  findFirstLinearProjectOrThrow?: Maybe<LinearProject>;
   findFirstLinearTeam?: Maybe<LinearTeam>;
+  findFirstLinearTeamOrThrow?: Maybe<LinearTeam>;
   findFirstLinearUser?: Maybe<LinearUser>;
+  findFirstLinearUserOrThrow?: Maybe<LinearUser>;
   findFirstPartner?: Maybe<Partner>;
+  findFirstPartnerOrThrow?: Maybe<Partner>;
   findFirstTwitterAccount?: Maybe<TwitterAccount>;
+  findFirstTwitterAccountOrThrow?: Maybe<TwitterAccount>;
   findFirstTwitterTweet?: Maybe<TwitterTweet>;
   findFirstTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
+  findFirstTwitterTweetContributionOrThrow?: Maybe<TwitterTweetContribution>;
+  findFirstTwitterTweetOrThrow?: Maybe<TwitterTweet>;
   findFirstTwitterUser?: Maybe<TwitterUser>;
+  findFirstTwitterUserOrThrow?: Maybe<TwitterUser>;
   findFirstUser?: Maybe<User>;
   findFirstUserActivity?: Maybe<UserActivity>;
+  findFirstUserActivityOrThrow?: Maybe<UserActivity>;
+  findFirstUserOrThrow?: Maybe<User>;
   getActiveGuildUsersAverage: Scalars['Float'];
+  getActivityType?: Maybe<ActivityType>;
+  getAttestation?: Maybe<Attestation>;
+  getAttestationConfidence?: Maybe<AttestationConfidence>;
+  getAttestationStatus?: Maybe<AttestationStatus>;
+  getCategoryActivity?: Maybe<CategoryActivity>;
+  getCategoryActivityType?: Maybe<CategoryActivityType>;
+  getChain?: Maybe<Chain>;
+  getChainType?: Maybe<ChainType>;
+  getContribution?: Maybe<Contribution>;
   getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
+  getContributionStatus?: Maybe<ContributionStatus>;
   getDaoContributionCount: Scalars['Int'];
   getDaoContributionCountByUser: Array<ContributionCountByUser>;
+  getDiscordUser?: Maybe<DiscordUser>;
+  getGuild?: Maybe<Guild>;
+  getGuildActivityType?: Maybe<GuildActivityType>;
+  getGuildContribution?: Maybe<GuildContribution>;
+  getGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
+  getGuildUser?: Maybe<GuildUser>;
+  getJobRun?: Maybe<JobRun>;
+  getLinearCycle?: Maybe<LinearCycle>;
+  getLinearIssue?: Maybe<LinearIssue>;
+  getLinearProject?: Maybe<LinearProject>;
+  getLinearTeam?: Maybe<LinearTeam>;
+  getLinearUser?: Maybe<LinearUser>;
+  getPartner?: Maybe<Partner>;
+  getTwitterAccount?: Maybe<TwitterAccount>;
+  getTwitterTweet?: Maybe<TwitterTweet>;
+  getTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
+  getTwitterUser?: Maybe<TwitterUser>;
   getUser: User;
+  getUserActivity?: Maybe<UserActivity>;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
   groupByAttestationConfidence: Array<AttestationConfidenceGroupBy>;
@@ -11916,6 +12162,16 @@ export type QueryFindFirstActivityTypeArgs = {
 };
 
 
+export type QueryFindFirstActivityTypeOrThrowArgs = {
+  cursor?: InputMaybe<ActivityTypeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ActivityTypeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ActivityTypeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ActivityTypeWhereInput>;
+};
+
+
 export type QueryFindFirstAttestationArgs = {
   cursor?: InputMaybe<AttestationWhereUniqueInput>;
   distinct?: InputMaybe<Array<AttestationScalarFieldEnum>>;
@@ -11936,7 +12192,37 @@ export type QueryFindFirstAttestationConfidenceArgs = {
 };
 
 
+export type QueryFindFirstAttestationConfidenceOrThrowArgs = {
+  cursor?: InputMaybe<AttestationConfidenceWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AttestationConfidenceScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AttestationConfidenceOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AttestationConfidenceWhereInput>;
+};
+
+
+export type QueryFindFirstAttestationOrThrowArgs = {
+  cursor?: InputMaybe<AttestationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AttestationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AttestationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AttestationWhereInput>;
+};
+
+
 export type QueryFindFirstAttestationStatusArgs = {
+  cursor?: InputMaybe<AttestationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AttestationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AttestationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AttestationStatusWhereInput>;
+};
+
+
+export type QueryFindFirstAttestationStatusOrThrowArgs = {
   cursor?: InputMaybe<AttestationStatusWhereUniqueInput>;
   distinct?: InputMaybe<Array<AttestationStatusScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<AttestationStatusOrderByWithRelationInput>>;
@@ -11956,7 +12242,27 @@ export type QueryFindFirstCategoryActivityArgs = {
 };
 
 
+export type QueryFindFirstCategoryActivityOrThrowArgs = {
+  cursor?: InputMaybe<CategoryActivityWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CategoryActivityScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CategoryActivityOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryActivityWhereInput>;
+};
+
+
 export type QueryFindFirstCategoryActivityTypeArgs = {
+  cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CategoryActivityTypeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryActivityTypeWhereInput>;
+};
+
+
+export type QueryFindFirstCategoryActivityTypeOrThrowArgs = {
   cursor?: InputMaybe<CategoryActivityTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<CategoryActivityTypeScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<CategoryActivityTypeOrderByWithRelationInput>>;
@@ -11976,7 +12282,27 @@ export type QueryFindFirstChainArgs = {
 };
 
 
+export type QueryFindFirstChainOrThrowArgs = {
+  cursor?: InputMaybe<ChainWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ChainScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ChainOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ChainWhereInput>;
+};
+
+
 export type QueryFindFirstChainTypeArgs = {
+  cursor?: InputMaybe<ChainTypeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ChainTypeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ChainTypeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ChainTypeWhereInput>;
+};
+
+
+export type QueryFindFirstChainTypeOrThrowArgs = {
   cursor?: InputMaybe<ChainTypeWhereUniqueInput>;
   distinct?: InputMaybe<Array<ChainTypeScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<ChainTypeOrderByWithRelationInput>>;
@@ -11996,6 +12322,16 @@ export type QueryFindFirstContributionArgs = {
 };
 
 
+export type QueryFindFirstContributionOrThrowArgs = {
+  cursor?: InputMaybe<ContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionWhereInput>;
+};
+
+
 export type QueryFindFirstContributionStatusArgs = {
   cursor?: InputMaybe<ContributionStatusWhereUniqueInput>;
   distinct?: InputMaybe<Array<ContributionStatusScalarFieldEnum>>;
@@ -12006,7 +12342,27 @@ export type QueryFindFirstContributionStatusArgs = {
 };
 
 
+export type QueryFindFirstContributionStatusOrThrowArgs = {
+  cursor?: InputMaybe<ContributionStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ContributionStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ContributionStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionStatusWhereInput>;
+};
+
+
 export type QueryFindFirstDiscordUserArgs = {
+  cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DiscordUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DiscordUserWhereInput>;
+};
+
+
+export type QueryFindFirstDiscordUserOrThrowArgs = {
   cursor?: InputMaybe<DiscordUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<DiscordUserScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<DiscordUserOrderByWithRelationInput>>;
@@ -12036,7 +12392,27 @@ export type QueryFindFirstGuildActivityTypeArgs = {
 };
 
 
+export type QueryFindFirstGuildActivityTypeOrThrowArgs = {
+  cursor?: InputMaybe<GuildActivityTypeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildActivityTypeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildActivityTypeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildActivityTypeWhereInput>;
+};
+
+
 export type QueryFindFirstGuildContributionArgs = {
+  cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryFindFirstGuildContributionOrThrowArgs = {
   cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildContributionScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<GuildContributionOrderByWithRelationInput>>;
@@ -12056,7 +12432,37 @@ export type QueryFindFirstGuildMembershipStatusArgs = {
 };
 
 
+export type QueryFindFirstGuildMembershipStatusOrThrowArgs = {
+  cursor?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildMembershipStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildMembershipStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildMembershipStatusWhereInput>;
+};
+
+
+export type QueryFindFirstGuildOrThrowArgs = {
+  cursor?: InputMaybe<GuildWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildWhereInput>;
+};
+
+
 export type QueryFindFirstGuildUserArgs = {
+  cursor?: InputMaybe<GuildUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
+};
+
+
+export type QueryFindFirstGuildUserOrThrowArgs = {
   cursor?: InputMaybe<GuildUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
@@ -12076,7 +12482,27 @@ export type QueryFindFirstJobRunArgs = {
 };
 
 
+export type QueryFindFirstJobRunOrThrowArgs = {
+  cursor?: InputMaybe<JobRunWhereUniqueInput>;
+  distinct?: InputMaybe<Array<JobRunScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<JobRunOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<JobRunWhereInput>;
+};
+
+
 export type QueryFindFirstLinearCycleArgs = {
+  cursor?: InputMaybe<LinearCycleWhereUniqueInput>;
+  distinct?: InputMaybe<Array<LinearCycleScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<LinearCycleOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LinearCycleWhereInput>;
+};
+
+
+export type QueryFindFirstLinearCycleOrThrowArgs = {
   cursor?: InputMaybe<LinearCycleWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearCycleScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<LinearCycleOrderByWithRelationInput>>;
@@ -12096,7 +12522,27 @@ export type QueryFindFirstLinearIssueArgs = {
 };
 
 
+export type QueryFindFirstLinearIssueOrThrowArgs = {
+  cursor?: InputMaybe<LinearIssueWhereUniqueInput>;
+  distinct?: InputMaybe<Array<LinearIssueScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<LinearIssueOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LinearIssueWhereInput>;
+};
+
+
 export type QueryFindFirstLinearProjectArgs = {
+  cursor?: InputMaybe<LinearProjectWhereUniqueInput>;
+  distinct?: InputMaybe<Array<LinearProjectScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<LinearProjectOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LinearProjectWhereInput>;
+};
+
+
+export type QueryFindFirstLinearProjectOrThrowArgs = {
   cursor?: InputMaybe<LinearProjectWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearProjectScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<LinearProjectOrderByWithRelationInput>>;
@@ -12116,7 +12562,27 @@ export type QueryFindFirstLinearTeamArgs = {
 };
 
 
+export type QueryFindFirstLinearTeamOrThrowArgs = {
+  cursor?: InputMaybe<LinearTeamWhereUniqueInput>;
+  distinct?: InputMaybe<Array<LinearTeamScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<LinearTeamOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LinearTeamWhereInput>;
+};
+
+
 export type QueryFindFirstLinearUserArgs = {
+  cursor?: InputMaybe<LinearUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<LinearUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<LinearUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LinearUserWhereInput>;
+};
+
+
+export type QueryFindFirstLinearUserOrThrowArgs = {
   cursor?: InputMaybe<LinearUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<LinearUserScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<LinearUserOrderByWithRelationInput>>;
@@ -12136,7 +12602,27 @@ export type QueryFindFirstPartnerArgs = {
 };
 
 
+export type QueryFindFirstPartnerOrThrowArgs = {
+  cursor?: InputMaybe<PartnerWhereUniqueInput>;
+  distinct?: InputMaybe<Array<PartnerScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<PartnerOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PartnerWhereInput>;
+};
+
+
 export type QueryFindFirstTwitterAccountArgs = {
+  cursor?: InputMaybe<TwitterAccountWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterAccountScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterAccountOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterAccountWhereInput>;
+};
+
+
+export type QueryFindFirstTwitterAccountOrThrowArgs = {
   cursor?: InputMaybe<TwitterAccountWhereUniqueInput>;
   distinct?: InputMaybe<Array<TwitterAccountScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<TwitterAccountOrderByWithRelationInput>>;
@@ -12166,7 +12652,37 @@ export type QueryFindFirstTwitterTweetContributionArgs = {
 };
 
 
+export type QueryFindFirstTwitterTweetContributionOrThrowArgs = {
+  cursor?: InputMaybe<TwitterTweetContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterTweetContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterTweetContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterTweetContributionWhereInput>;
+};
+
+
+export type QueryFindFirstTwitterTweetOrThrowArgs = {
+  cursor?: InputMaybe<TwitterTweetWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterTweetScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterTweetOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterTweetWhereInput>;
+};
+
+
 export type QueryFindFirstTwitterUserArgs = {
+  cursor?: InputMaybe<TwitterUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TwitterUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TwitterUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TwitterUserWhereInput>;
+};
+
+
+export type QueryFindFirstTwitterUserOrThrowArgs = {
   cursor?: InputMaybe<TwitterUserWhereUniqueInput>;
   distinct?: InputMaybe<Array<TwitterUserScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<TwitterUserOrderByWithRelationInput>>;
@@ -12196,8 +12712,73 @@ export type QueryFindFirstUserActivityArgs = {
 };
 
 
+export type QueryFindFirstUserActivityOrThrowArgs = {
+  cursor?: InputMaybe<UserActivityWhereUniqueInput>;
+  distinct?: InputMaybe<Array<UserActivityScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<UserActivityOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserActivityWhereInput>;
+};
+
+
+export type QueryFindFirstUserOrThrowArgs = {
+  cursor?: InputMaybe<UserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<UserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<UserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserWhereInput>;
+};
+
+
 export type QueryGetActiveGuildUsersAverageArgs = {
   where: GetActiveUsersInput;
+};
+
+
+export type QueryGetActivityTypeArgs = {
+  where: ActivityTypeWhereUniqueInput;
+};
+
+
+export type QueryGetAttestationArgs = {
+  where: AttestationWhereUniqueInput;
+};
+
+
+export type QueryGetAttestationConfidenceArgs = {
+  where: AttestationConfidenceWhereUniqueInput;
+};
+
+
+export type QueryGetAttestationStatusArgs = {
+  where: AttestationStatusWhereUniqueInput;
+};
+
+
+export type QueryGetCategoryActivityArgs = {
+  where: CategoryActivityWhereUniqueInput;
+};
+
+
+export type QueryGetCategoryActivityTypeArgs = {
+  where: CategoryActivityTypeWhereUniqueInput;
+};
+
+
+export type QueryGetChainArgs = {
+  where: ChainWhereUniqueInput;
+};
+
+
+export type QueryGetChainTypeArgs = {
+  where: ChainTypeWhereUniqueInput;
+};
+
+
+export type QueryGetContributionArgs = {
+  where: ContributionWhereUniqueInput;
 };
 
 
@@ -12211,6 +12792,11 @@ export type QueryGetContributionCountByDateForUserInRangeArgs = {
 };
 
 
+export type QueryGetContributionStatusArgs = {
+  where: ContributionStatusWhereUniqueInput;
+};
+
+
 export type QueryGetDaoContributionCountArgs = {
   where: GetContributionInput;
 };
@@ -12221,8 +12807,98 @@ export type QueryGetDaoContributionCountByUserArgs = {
 };
 
 
+export type QueryGetDiscordUserArgs = {
+  where: DiscordUserWhereUniqueInput;
+};
+
+
+export type QueryGetGuildArgs = {
+  where: GuildWhereUniqueInput;
+};
+
+
+export type QueryGetGuildActivityTypeArgs = {
+  where: GuildActivityTypeWhereUniqueInput;
+};
+
+
+export type QueryGetGuildContributionArgs = {
+  where: GuildContributionWhereUniqueInput;
+};
+
+
+export type QueryGetGuildMembershipStatusArgs = {
+  where: GuildMembershipStatusWhereUniqueInput;
+};
+
+
+export type QueryGetGuildUserArgs = {
+  where: GuildUserWhereUniqueInput;
+};
+
+
+export type QueryGetJobRunArgs = {
+  where: JobRunWhereUniqueInput;
+};
+
+
+export type QueryGetLinearCycleArgs = {
+  where: LinearCycleWhereUniqueInput;
+};
+
+
+export type QueryGetLinearIssueArgs = {
+  where: LinearIssueWhereUniqueInput;
+};
+
+
+export type QueryGetLinearProjectArgs = {
+  where: LinearProjectWhereUniqueInput;
+};
+
+
+export type QueryGetLinearTeamArgs = {
+  where: LinearTeamWhereUniqueInput;
+};
+
+
+export type QueryGetLinearUserArgs = {
+  where: LinearUserWhereUniqueInput;
+};
+
+
+export type QueryGetPartnerArgs = {
+  where: PartnerWhereUniqueInput;
+};
+
+
+export type QueryGetTwitterAccountArgs = {
+  where: TwitterAccountWhereUniqueInput;
+};
+
+
+export type QueryGetTwitterTweetArgs = {
+  where: TwitterTweetWhereUniqueInput;
+};
+
+
+export type QueryGetTwitterTweetContributionArgs = {
+  where: TwitterTweetContributionWhereUniqueInput;
+};
+
+
+export type QueryGetTwitterUserArgs = {
+  where: TwitterUserWhereUniqueInput;
+};
+
+
 export type QueryGetUserArgs = {
   id: Scalars['Float'];
+};
+
+
+export type QueryGetUserActivityArgs = {
+  where: UserActivityWhereUniqueInput;
 };
 
 
@@ -13076,7 +13752,7 @@ export type TwitterAccountSumOrderByAggregateInput = {
 export type TwitterAccountUpdateInput = {
   account_name?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  guild?: InputMaybe<GuildUpdateOneWithoutTwitter_AccountsInput>;
+  guild?: InputMaybe<GuildUpdateOneWithoutTwitter_AccountsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -13091,7 +13767,7 @@ export type TwitterAccountUpdateManyWithWhereWithoutGuildInput = {
   where: TwitterAccountScalarWhereInput;
 };
 
-export type TwitterAccountUpdateManyWithoutGuildInput = {
+export type TwitterAccountUpdateManyWithoutGuildNestedInput = {
   connect?: InputMaybe<Array<TwitterAccountWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<TwitterAccountCreateOrConnectWithoutGuildInput>>;
   create?: InputMaybe<Array<TwitterAccountCreateWithoutGuildInput>>;
@@ -13411,9 +14087,9 @@ export type TwitterTweetContributionSumOrderByAggregateInput = {
 };
 
 export type TwitterTweetContributionUpdateInput = {
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  twitter_tweet?: InputMaybe<TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput>;
+  twitter_tweet?: InputMaybe<TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -13432,7 +14108,7 @@ export type TwitterTweetContributionUpdateManyWithWhereWithoutTwitter_TweetInput
   where: TwitterTweetContributionScalarWhereInput;
 };
 
-export type TwitterTweetContributionUpdateManyWithoutContributionInput = {
+export type TwitterTweetContributionUpdateManyWithoutContributionNestedInput = {
   connect?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<TwitterTweetContributionCreateOrConnectWithoutContributionInput>>;
   create?: InputMaybe<Array<TwitterTweetContributionCreateWithoutContributionInput>>;
@@ -13446,7 +14122,7 @@ export type TwitterTweetContributionUpdateManyWithoutContributionInput = {
   upsert?: InputMaybe<Array<TwitterTweetContributionUpsertWithWhereUniqueWithoutContributionInput>>;
 };
 
-export type TwitterTweetContributionUpdateManyWithoutTwitter_TweetInput = {
+export type TwitterTweetContributionUpdateManyWithoutTwitter_TweetNestedInput = {
   connect?: InputMaybe<Array<TwitterTweetContributionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<TwitterTweetContributionCreateOrConnectWithoutTwitter_TweetInput>>;
   create?: InputMaybe<Array<TwitterTweetContributionCreateWithoutTwitter_TweetInput>>;
@@ -13472,12 +14148,12 @@ export type TwitterTweetContributionUpdateWithWhereUniqueWithoutTwitter_TweetInp
 
 export type TwitterTweetContributionUpdateWithoutContributionInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  twitter_tweet?: InputMaybe<TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput>;
+  twitter_tweet?: InputMaybe<TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type TwitterTweetContributionUpdateWithoutTwitter_TweetInput = {
-  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput>;
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutTwitter_Tweet_ContributionsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -13762,9 +14438,9 @@ export type TwitterTweetUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetNestedInput>;
   twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -13781,7 +14457,7 @@ export type TwitterTweetUpdateManyWithWhereWithoutTwitter_UserInput = {
   where: TwitterTweetScalarWhereInput;
 };
 
-export type TwitterTweetUpdateManyWithoutTwitter_UserInput = {
+export type TwitterTweetUpdateManyWithoutTwitter_UserNestedInput = {
   connect?: InputMaybe<Array<TwitterTweetWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<TwitterTweetCreateOrConnectWithoutTwitter_UserInput>>;
   create?: InputMaybe<Array<TwitterTweetCreateWithoutTwitter_UserInput>>;
@@ -13795,7 +14471,7 @@ export type TwitterTweetUpdateManyWithoutTwitter_UserInput = {
   upsert?: InputMaybe<Array<TwitterTweetUpsertWithWhereUniqueWithoutTwitter_UserInput>>;
 };
 
-export type TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsInput = {
+export type TwitterTweetUpdateOneRequiredWithoutTwitter_Tweet_ContributionsNestedInput = {
   connect?: InputMaybe<TwitterTweetWhereUniqueInput>;
   connectOrCreate?: InputMaybe<TwitterTweetCreateOrConnectWithoutTwitter_Tweet_ContributionsInput>;
   create?: InputMaybe<TwitterTweetCreateWithoutTwitter_Tweet_ContributionsInput>;
@@ -13813,7 +14489,7 @@ export type TwitterTweetUpdateWithoutTwitter_Tweet_ContributionsInput = {
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -13821,7 +14497,7 @@ export type TwitterTweetUpdateWithoutTwitter_UserInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetNestedInput>;
   twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -14120,10 +14796,10 @@ export type TwitterUserUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  tweets?: InputMaybe<TwitterTweetUpdateManyWithoutTwitter_UserInput>;
+  tweets?: InputMaybe<TwitterTweetUpdateManyWithoutTwitter_UserNestedInput>;
   twitter_user_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneWithoutTwitter_UserInput>;
+  user?: InputMaybe<UserUpdateOneWithoutTwitter_UserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -14136,7 +14812,7 @@ export type TwitterUserUpdateManyMutationInput = {
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type TwitterUserUpdateOneWithoutTweetsInput = {
+export type TwitterUserUpdateOneWithoutTweetsNestedInput = {
   connect?: InputMaybe<TwitterUserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<TwitterUserCreateOrConnectWithoutTweetsInput>;
   create?: InputMaybe<TwitterUserCreateWithoutTweetsInput>;
@@ -14146,7 +14822,7 @@ export type TwitterUserUpdateOneWithoutTweetsInput = {
   upsert?: InputMaybe<TwitterUserUpsertWithoutTweetsInput>;
 };
 
-export type TwitterUserUpdateOneWithoutUserInput = {
+export type TwitterUserUpdateOneWithoutUserNestedInput = {
   connect?: InputMaybe<TwitterUserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<TwitterUserCreateOrConnectWithoutUserInput>;
   create?: InputMaybe<TwitterUserCreateWithoutUserInput>;
@@ -14162,7 +14838,7 @@ export type TwitterUserUpdateWithoutTweetsInput = {
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   twitter_user_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneWithoutTwitter_UserInput>;
+  user?: InputMaybe<UserUpdateOneWithoutTwitter_UserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -14170,7 +14846,7 @@ export type TwitterUserUpdateWithoutUserInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  tweets?: InputMaybe<TwitterTweetUpdateManyWithoutTwitter_UserInput>;
+  tweets?: InputMaybe<TwitterTweetUpdateManyWithoutTwitter_UserNestedInput>;
   twitter_user_id?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -14537,10 +15213,10 @@ export type UserActivitySumOrderByAggregateInput = {
 };
 
 export type UserActivityUpdateInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutUsersInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutUsersNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutActivitiesInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutActivitiesNestedInput>;
 };
 
 export type UserActivityUpdateManyMutationInput = {
@@ -14558,7 +15234,7 @@ export type UserActivityUpdateManyWithWhereWithoutUserInput = {
   where: UserActivityScalarWhereInput;
 };
 
-export type UserActivityUpdateManyWithoutActivity_TypeInput = {
+export type UserActivityUpdateManyWithoutActivity_TypeNestedInput = {
   connect?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserActivityCreateOrConnectWithoutActivity_TypeInput>>;
   create?: InputMaybe<Array<UserActivityCreateWithoutActivity_TypeInput>>;
@@ -14572,7 +15248,7 @@ export type UserActivityUpdateManyWithoutActivity_TypeInput = {
   upsert?: InputMaybe<Array<UserActivityUpsertWithWhereUniqueWithoutActivity_TypeInput>>;
 };
 
-export type UserActivityUpdateManyWithoutUserInput = {
+export type UserActivityUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<UserActivityWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserActivityCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<UserActivityCreateWithoutUserInput>>;
@@ -14599,11 +15275,11 @@ export type UserActivityUpdateWithWhereUniqueWithoutUserInput = {
 export type UserActivityUpdateWithoutActivity_TypeInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutActivitiesInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutActivitiesNestedInput>;
 };
 
 export type UserActivityUpdateWithoutUserInput = {
-  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutUsersInput>;
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutUsersNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -15253,21 +15929,21 @@ export type UserUpdateCustomInput = {
 
 export type UserUpdateInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -15287,7 +15963,7 @@ export type UserUpdateManyWithWhereWithoutChain_TypeInput = {
   where: UserScalarWhereInput;
 };
 
-export type UserUpdateManyWithoutChain_TypeInput = {
+export type UserUpdateManyWithoutChain_TypeNestedInput = {
   connect?: InputMaybe<Array<UserWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutChain_TypeInput>>;
   create?: InputMaybe<Array<UserCreateWithoutChain_TypeInput>>;
@@ -15301,7 +15977,7 @@ export type UserUpdateManyWithoutChain_TypeInput = {
   upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutChain_TypeInput>>;
 };
 
-export type UserUpdateOneRequiredWithoutActivitiesInput = {
+export type UserUpdateOneRequiredWithoutActivitiesNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutActivitiesInput>;
   create?: InputMaybe<UserCreateWithoutActivitiesInput>;
@@ -15309,7 +15985,7 @@ export type UserUpdateOneRequiredWithoutActivitiesInput = {
   upsert?: InputMaybe<UserUpsertWithoutActivitiesInput>;
 };
 
-export type UserUpdateOneRequiredWithoutAttestationsInput = {
+export type UserUpdateOneRequiredWithoutAttestationsNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutAttestationsInput>;
   create?: InputMaybe<UserCreateWithoutAttestationsInput>;
@@ -15317,7 +15993,7 @@ export type UserUpdateOneRequiredWithoutAttestationsInput = {
   upsert?: InputMaybe<UserUpsertWithoutAttestationsInput>;
 };
 
-export type UserUpdateOneRequiredWithoutContributionPartnersInput = {
+export type UserUpdateOneRequiredWithoutContributionPartnersNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutContributionPartnersInput>;
   create?: InputMaybe<UserCreateWithoutContributionPartnersInput>;
@@ -15325,7 +16001,7 @@ export type UserUpdateOneRequiredWithoutContributionPartnersInput = {
   upsert?: InputMaybe<UserUpsertWithoutContributionPartnersInput>;
 };
 
-export type UserUpdateOneRequiredWithoutContributionsInput = {
+export type UserUpdateOneRequiredWithoutContributionsNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutContributionsInput>;
   create?: InputMaybe<UserCreateWithoutContributionsInput>;
@@ -15333,7 +16009,7 @@ export type UserUpdateOneRequiredWithoutContributionsInput = {
   upsert?: InputMaybe<UserUpsertWithoutContributionsInput>;
 };
 
-export type UserUpdateOneRequiredWithoutDiscord_UsersInput = {
+export type UserUpdateOneRequiredWithoutDiscord_UsersNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutDiscord_UsersInput>;
   create?: InputMaybe<UserCreateWithoutDiscord_UsersInput>;
@@ -15341,7 +16017,7 @@ export type UserUpdateOneRequiredWithoutDiscord_UsersInput = {
   upsert?: InputMaybe<UserUpsertWithoutDiscord_UsersInput>;
 };
 
-export type UserUpdateOneRequiredWithoutGuild_UsersInput = {
+export type UserUpdateOneRequiredWithoutGuild_UsersNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutGuild_UsersInput>;
   create?: InputMaybe<UserCreateWithoutGuild_UsersInput>;
@@ -15349,7 +16025,7 @@ export type UserUpdateOneRequiredWithoutGuild_UsersInput = {
   upsert?: InputMaybe<UserUpsertWithoutGuild_UsersInput>;
 };
 
-export type UserUpdateOneWithoutLinear_UsersInput = {
+export type UserUpdateOneWithoutLinear_UsersNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutLinear_UsersInput>;
   create?: InputMaybe<UserCreateWithoutLinear_UsersInput>;
@@ -15359,7 +16035,7 @@ export type UserUpdateOneWithoutLinear_UsersInput = {
   upsert?: InputMaybe<UserUpsertWithoutLinear_UsersInput>;
 };
 
-export type UserUpdateOneWithoutTwitter_UserInput = {
+export type UserUpdateOneWithoutTwitter_UserNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutTwitter_UserInput>;
   create?: InputMaybe<UserCreateWithoutTwitter_UserInput>;
@@ -15377,170 +16053,170 @@ export type UserUpdateWithWhereUniqueWithoutChain_TypeInput = {
 export type UserUpdateWithoutActivitiesInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutAttestationsInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutChain_TypeInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutContributionPartnersInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutContributionsInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutDiscord_UsersInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutGuild_UsersInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutLinear_UsersInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutTwitter_UserInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  activities?: InputMaybe<UserActivityUpdateManyWithoutUserInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
   address?: InputMaybe<StringFieldUpdateOperationsInput>;
-  attestations?: InputMaybe<AttestationUpdateManyWithoutUserInput>;
-  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersInput>;
-  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserInput>;
-  contributions?: InputMaybe<ContributionUpdateManyWithoutUserInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserInput>;
-  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -15679,7 +16355,7 @@ export type UpsertLinearUserMutationVariables = Exact<{
 }>;
 
 
-export type UpsertLinearUserMutation = { upsertLinearUser: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null, user_id?: number | null } };
+export type UpsertLinearUserMutation = { upsertOneLinearUser: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null, user_id?: number | null } };
 
 export type UpdateLinearUserMutationVariables = Exact<{
   data: LinearUserUpdateInput;
@@ -15687,7 +16363,7 @@ export type UpdateLinearUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateLinearUserMutation = { updateLinearUser?: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null, user_id?: number | null } | null };
+export type UpdateLinearUserMutation = { updateOneLinearUser?: { id: number, active: boolean, displayName?: string | null, email?: string | null, linear_id: string, name?: string | null, url?: string | null, createdAt?: string | Date | null, access_token?: string | null, active_token?: boolean | null, user_id?: number | null } | null };
 
 export type UpsertLinearCycleMutationVariables = Exact<{
   create: LinearCycleCreateInput;
@@ -15696,7 +16372,7 @@ export type UpsertLinearCycleMutationVariables = Exact<{
 }>;
 
 
-export type UpsertLinearCycleMutation = { upsertLinearCycle: { id: number, endsAt: string | Date, linear_id: string, number: number, startsAt: string | Date } };
+export type UpsertLinearCycleMutation = { upsertOneLinearCycle: { id: number, endsAt: string | Date, linear_id: string, number: number, startsAt: string | Date } };
 
 export type UpsertLinearProjectMutationVariables = Exact<{
   create: LinearProjectCreateInput;
@@ -15705,7 +16381,7 @@ export type UpsertLinearProjectMutationVariables = Exact<{
 }>;
 
 
-export type UpsertLinearProjectMutation = { upsertLinearProject: { id: number, linear_id: string, name: string } };
+export type UpsertLinearProjectMutation = { upsertOneLinearProject: { id: number, linear_id: string, name: string } };
 
 export type UpsertLinearTeamMutationVariables = Exact<{
   create: LinearTeamCreateInput;
@@ -15714,14 +16390,14 @@ export type UpsertLinearTeamMutationVariables = Exact<{
 }>;
 
 
-export type UpsertLinearTeamMutation = { upsertLinearTeam: { id: number, key: string, name: string, linear_id: string } };
+export type UpsertLinearTeamMutation = { upsertOneLinearTeam: { id: number, key: string, name: string, linear_id: string } };
 
 export type CreateJobRunMutationVariables = Exact<{
   data: JobRunCreateInput;
 }>;
 
 
-export type CreateJobRunMutation = { createJobRun: { completedDate: string | Date, startDate: string | Date, name: string } };
+export type CreateJobRunMutation = { createOneJobRun: { completedDate: string | Date, startDate: string | Date, name: string } };
 
 export type GuildFragmentFragment = { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus };
 
@@ -15730,14 +16406,14 @@ export type CreateGuildMutationVariables = Exact<{
 }>;
 
 
-export type CreateGuildMutation = { createGuild: { congrats_channel?: string | null, discord_id?: string | null, logo?: string | null, name?: string | null } };
+export type CreateGuildMutation = { createOneGuild: { congrats_channel?: string | null, discord_id?: string | null, logo?: string | null, name?: string | null } };
 
 export type DeleteGuildUserMutationVariables = Exact<{
   where: GuildUserWhereUniqueInput;
 }>;
 
 
-export type DeleteGuildUserMutation = { deleteGuildUser?: { id: number } | null };
+export type DeleteGuildUserMutation = { deleteOneGuildUser?: { id: number } | null };
 
 export type GetGuildQueryVariables = Exact<{
   where: GuildWhereUniqueInput;
@@ -15796,7 +16472,7 @@ export type UpsertTwitterUserMutationVariables = Exact<{
 }>;
 
 
-export type UpsertTwitterUserMutation = { upsertTwitterUser: { createdAt: string | Date, updatedAt: string | Date, description?: string | null, id: number, twitter_user_id?: string | null, username: string, user?: { id: number } | null } };
+export type UpsertTwitterUserMutation = { upsertOneTwitterUser: { createdAt: string | Date, updatedAt: string | Date, description?: string | null, id: number, twitter_user_id?: string | null, username: string, user?: { id: number } | null } };
 
 export type UserFragmentFragment = { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, guild: { id: number, name?: string | null } }> };
 
@@ -15837,7 +16513,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { updateUser?: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+export type UpdateUserMutation = { updateOneUser?: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
 
 export type UpdateUserCustomMutationVariables = Exact<{
   data: UserUpdateCustomInput;
@@ -15851,7 +16527,7 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = { createUser: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type CreateUserMutation = { createOneUser: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type CreateUserCustomMutationVariables = Exact<{
   data: UserCreateCustomInput;
@@ -15884,7 +16560,7 @@ export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
 }>;
 
 
-export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string, guild_id?: number | null, name: string }> };
+export type GetContributionCountByDateForUserInRangeQuery = { result: Array<{ count: number, date: string | Date, guild_id?: number | null, name: string }> };
 
 export type GetDaoContributionCountQueryVariables = Exact<{
   where: GetContributionInput;
@@ -15912,7 +16588,7 @@ export type CreateContributionMutationVariables = Exact<{
 }>;
 
 
-export type CreateContributionMutation = { createContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type CreateContributionMutation = { createOneContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type CreateUserContributionMutationVariables = Exact<{
   data: UserContributionCreateInput;
@@ -15940,7 +16616,7 @@ export type DeleteContributionMutationVariables = Exact<{
 }>;
 
 
-export type DeleteContributionMutation = { deleteContribution?: { id: number } | null };
+export type DeleteContributionMutation = { deleteOneContribution?: { id: number } | null };
 
 export type UpdateUserContributionMutationVariables = Exact<{
   data: UserContributionUpdateInput;
@@ -15973,7 +16649,7 @@ export type UpdateContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContributionMutation = { updateContribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+export type UpdateContributionMutation = { updateOneContribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
 
 export type UpsertContributionMutationVariables = Exact<{
   where: ContributionWhereUniqueInput;
@@ -15982,7 +16658,7 @@ export type UpsertContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpsertContributionMutation = { upsertContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type UpsertContributionMutation = { upsertOneContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type GetContributionStatusQueryVariables = Exact<{
   name: Scalars['String'];
@@ -16015,7 +16691,7 @@ export type CreateActivityTypeMutationVariables = Exact<{
 }>;
 
 
-export type CreateActivityTypeMutation = { createActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
 
 export type GetOrCreateActivityTypeMutationVariables = Exact<{
   data: GetOrCreateActivityTypeInput;
@@ -16031,7 +16707,7 @@ export type UpsertActivityTypeMutationVariables = Exact<{
 }>;
 
 
-export type UpsertActivityTypeMutation = { upsertActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
 
 export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } };
 
@@ -16040,7 +16716,7 @@ export type CreateUserActivityMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserActivityMutation = { createUserActivity: { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } } };
+export type CreateUserActivityMutation = { createOneUserActivity: { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } } };
 
 export type ListAttestationsQueryVariables = Exact<{
   where?: AttestationWhereInput;
@@ -16057,7 +16733,7 @@ export type CreateAttestationMutationVariables = Exact<{
 }>;
 
 
-export type CreateAttestationMutation = { createAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type CreateAttestationMutation = { createOneAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type CreateUserOnChainAttestationMutationVariables = Exact<{
   data: AttestationUserOnChainCreateInput;
@@ -16089,7 +16765,7 @@ export type UpdateAttestationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateAttestationMutation = { updateAttestation?: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } | null };
+export type UpdateAttestationMutation = { updateOneAttestation?: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } | null };
 
 export type UpsertAttestationMutationVariables = Exact<{
   where: AttestationWhereUniqueInput;
@@ -16098,7 +16774,7 @@ export type UpsertAttestationMutationVariables = Exact<{
 }>;
 
 
-export type UpsertAttestationMutation = { upsertAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type UpsertAttestationMutation = { upsertOneAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type PartnerFragmentFragment = { createdAt: string | Date, updatedAt: string | Date, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number }, user: { name?: string | null, address: string, id: number } };
 
@@ -16447,21 +17123,21 @@ export const ListLinearUsersDocument = gql`
     ${LinearUserFragmentFragmentDoc}`;
 export const UpsertLinearUserDocument = gql`
     mutation upsertLinearUser($create: LinearUserCreateInput!, $update: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
-  upsertLinearUser(create: $create, update: $update, where: $where) {
+  upsertOneLinearUser(create: $create, update: $update, where: $where) {
     ...LinearUserFragment
   }
 }
     ${LinearUserFragmentFragmentDoc}`;
 export const UpdateLinearUserDocument = gql`
     mutation updateLinearUser($data: LinearUserUpdateInput!, $where: LinearUserWhereUniqueInput!) {
-  updateLinearUser(data: $data, where: $where) {
+  updateOneLinearUser(data: $data, where: $where) {
     ...LinearUserFragment
   }
 }
     ${LinearUserFragmentFragmentDoc}`;
 export const UpsertLinearCycleDocument = gql`
     mutation upsertLinearCycle($create: LinearCycleCreateInput!, $update: LinearCycleUpdateInput!, $where: LinearCycleWhereUniqueInput!) {
-  upsertLinearCycle(create: $create, update: $update, where: $where) {
+  upsertOneLinearCycle(create: $create, update: $update, where: $where) {
     id
     endsAt
     linear_id
@@ -16472,7 +17148,7 @@ export const UpsertLinearCycleDocument = gql`
     `;
 export const UpsertLinearProjectDocument = gql`
     mutation upsertLinearProject($create: LinearProjectCreateInput!, $update: LinearProjectUpdateInput!, $where: LinearProjectWhereUniqueInput!) {
-  upsertLinearProject(create: $create, update: $update, where: $where) {
+  upsertOneLinearProject(create: $create, update: $update, where: $where) {
     id
     linear_id
     name
@@ -16481,7 +17157,7 @@ export const UpsertLinearProjectDocument = gql`
     `;
 export const UpsertLinearTeamDocument = gql`
     mutation upsertLinearTeam($create: LinearTeamCreateInput!, $update: LinearTeamUpdateInput!, $where: LinearTeamWhereUniqueInput!) {
-  upsertLinearTeam(create: $create, update: $update, where: $where) {
+  upsertOneLinearTeam(create: $create, update: $update, where: $where) {
     id
     key
     name
@@ -16491,7 +17167,7 @@ export const UpsertLinearTeamDocument = gql`
     `;
 export const CreateJobRunDocument = gql`
     mutation createJobRun($data: JobRunCreateInput!) {
-  createJobRun(data: $data) {
+  createOneJobRun(data: $data) {
     completedDate
     startDate
     name
@@ -16500,7 +17176,7 @@ export const CreateJobRunDocument = gql`
     `;
 export const CreateGuildDocument = gql`
     mutation createGuild($data: GuildCreateInput!) {
-  createGuild(data: $data) {
+  createOneGuild(data: $data) {
     congrats_channel
     discord_id
     logo
@@ -16510,7 +17186,7 @@ export const CreateGuildDocument = gql`
     `;
 export const DeleteGuildUserDocument = gql`
     mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
-  deleteGuildUser(where: $where) {
+  deleteOneGuildUser(where: $where) {
     id
   }
 }
@@ -16555,7 +17231,7 @@ export const ListTwitterAccountsDocument = gql`
     ${TwitterAccountFragmentFragmentDoc}`;
 export const UpsertTwitterUserDocument = gql`
     mutation upsertTwitterUser($create: TwitterUserCreateInput!, $update: TwitterUserUpdateInput!, $where: TwitterUserWhereUniqueInput!) {
-  upsertTwitterUser(create: $create, update: $update, where: $where) {
+  upsertOneTwitterUser(create: $create, update: $update, where: $where) {
     ...TwitterUserFragment
   }
 }
@@ -16590,7 +17266,7 @@ export const ListUserByAddressDocument = gql`
     ${UserFragmentFragmentDoc}`;
 export const UpdateUserDocument = gql`
     mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
-  updateUser(data: $data, where: $where) {
+  updateOneUser(data: $data, where: $where) {
     ...UserFragment
   }
 }
@@ -16604,7 +17280,7 @@ export const UpdateUserCustomDocument = gql`
     ${UserFragmentFragmentDoc}`;
 export const CreateUserDocument = gql`
     mutation createUser($data: UserCreateInput!) {
-  createUser(data: $data) {
+  createOneUser(data: $data) {
     ...UserFragment
   }
 }
@@ -16671,7 +17347,7 @@ export const GetContributionCountByActivityTypeDocument = gql`
     `;
 export const CreateContributionDocument = gql`
     mutation createContribution($data: ContributionCreateInput!) {
-  createContribution(data: $data) {
+  createOneContribution(data: $data) {
     ...ContributionFragment
   }
 }
@@ -16699,7 +17375,7 @@ export const DeleteUserContributionDocument = gql`
     `;
 export const DeleteContributionDocument = gql`
     mutation deleteContribution($where: ContributionWhereUniqueInput!) {
-  deleteContribution(where: $where) {
+  deleteOneContribution(where: $where) {
     id
   }
 }
@@ -16732,14 +17408,14 @@ export const BulkCreateContributionDocument = gql`
     `;
 export const UpdateContributionDocument = gql`
     mutation updateContribution($data: ContributionUpdateInput!, $where: ContributionWhereUniqueInput!) {
-  updateContribution(data: $data, where: $where) {
+  updateOneContribution(data: $data, where: $where) {
     ...ContributionFragment
   }
 }
     ${ContributionFragmentFragmentDoc}`;
 export const UpsertContributionDocument = gql`
     mutation upsertContribution($where: ContributionWhereUniqueInput!, $create: ContributionCreateInput!, $update: ContributionUpdateInput!) {
-  upsertContribution(where: $where, create: $create, update: $update) {
+  upsertOneContribution(where: $where, create: $create, update: $update) {
     ...ContributionFragment
   }
 }
@@ -16777,7 +17453,7 @@ export const ListActivityTypesByUserDocument = gql`
     `;
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
-  createActivityType(data: $data) {
+  createOneActivityType(data: $data) {
     ...ActivityTypeFragment
   }
 }
@@ -16791,14 +17467,14 @@ export const GetOrCreateActivityTypeDocument = gql`
     ${ActivityTypeFragmentFragmentDoc}`;
 export const UpsertActivityTypeDocument = gql`
     mutation upsertActivityType($create: ActivityTypeCreateInput!, $update: ActivityTypeUpdateInput!, $where: ActivityTypeWhereUniqueInput!) {
-  upsertActivityType(create: $create, update: $update, where: $where) {
+  upsertOneActivityType(create: $create, update: $update, where: $where) {
     ...ActivityTypeFragment
   }
 }
     ${ActivityTypeFragmentFragmentDoc}`;
 export const CreateUserActivityDocument = gql`
     mutation createUserActivity($data: UserActivityCreateInput!) {
-  createUserActivity(data: $data) {
+  createOneUserActivity(data: $data) {
     ...UserActivityFragment
   }
 }
@@ -16817,7 +17493,7 @@ export const ListAttestationsDocument = gql`
     ${AttestationFragmentFragmentDoc}`;
 export const CreateAttestationDocument = gql`
     mutation createAttestation($data: AttestationCreateInput!) {
-  createAttestation(data: $data) {
+  createOneAttestation(data: $data) {
     ...AttestationFragment
   }
 }
@@ -16845,14 +17521,14 @@ export const BulkCreateAttestationDocument = gql`
     `;
 export const UpdateAttestationDocument = gql`
     mutation updateAttestation($data: AttestationUpdateInput!, $where: AttestationWhereUniqueInput!) {
-  updateAttestation(data: $data, where: $where) {
+  updateOneAttestation(data: $data, where: $where) {
     ...AttestationFragment
   }
 }
     ${AttestationFragmentFragmentDoc}`;
 export const UpsertAttestationDocument = gql`
     mutation upsertAttestation($where: AttestationWhereUniqueInput!, $create: AttestationCreateInput!, $update: AttestationUpdateInput!) {
-  upsertAttestation(where: $where, create: $create, update: $update) {
+  upsertOneAttestation(where: $where, create: $create, update: $update) {
     ...AttestationFragment
   }
 }

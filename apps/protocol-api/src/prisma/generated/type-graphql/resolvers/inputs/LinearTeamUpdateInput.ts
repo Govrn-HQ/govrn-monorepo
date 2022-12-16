@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { LinearIssueUpdateManyWithoutTeamInput } from "../inputs/LinearIssueUpdateManyWithoutTeamInput";
+import { LinearIssueUpdateManyWithoutTeamNestedInput } from "../inputs/LinearIssueUpdateManyWithoutTeamNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("LinearTeamUpdateInput", {
@@ -24,8 +24,8 @@ export class LinearTeamUpdateInput {
   })
   key?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutTeamInput, {
+  @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutTeamNestedInput, {
     nullable: true
   })
-  issues?: LinearIssueUpdateManyWithoutTeamInput | undefined;
+  issues?: LinearIssueUpdateManyWithoutTeamNestedInput | undefined;
 }

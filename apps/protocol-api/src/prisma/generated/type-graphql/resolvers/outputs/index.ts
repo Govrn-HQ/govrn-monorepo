@@ -120,6 +120,7 @@ export { GuildCountAggregate } from "./GuildCountAggregate";
 export { GuildGroupBy } from "./GuildGroupBy";
 export { GuildMaxAggregate } from "./GuildMaxAggregate";
 export { GuildMembershipStatusAvgAggregate } from "./GuildMembershipStatusAvgAggregate";
+export { GuildMembershipStatusCount } from "./GuildMembershipStatusCount";
 export { GuildMembershipStatusCountAggregate } from "./GuildMembershipStatusCountAggregate";
 export { GuildMembershipStatusGroupBy } from "./GuildMembershipStatusGroupBy";
 export { GuildMembershipStatusMaxAggregate } from "./GuildMembershipStatusMaxAggregate";

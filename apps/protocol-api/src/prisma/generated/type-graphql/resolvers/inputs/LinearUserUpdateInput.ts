@@ -3,13 +3,13 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
-import { LinearIssueUpdateManyWithoutAssigneeInput } from "../inputs/LinearIssueUpdateManyWithoutAssigneeInput";
-import { LinearIssueUpdateManyWithoutCreatorInput } from "../inputs/LinearIssueUpdateManyWithoutCreatorInput";
+import { LinearIssueUpdateManyWithoutAssigneeNestedInput } from "../inputs/LinearIssueUpdateManyWithoutAssigneeNestedInput";
+import { LinearIssueUpdateManyWithoutCreatorNestedInput } from "../inputs/LinearIssueUpdateManyWithoutCreatorNestedInput";
 import { NullableBoolFieldUpdateOperationsInput } from "../inputs/NullableBoolFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { UserUpdateOneWithoutLinear_usersInput } from "../inputs/UserUpdateOneWithoutLinear_usersInput";
+import { UserUpdateOneWithoutLinear_usersNestedInput } from "../inputs/UserUpdateOneWithoutLinear_usersNestedInput";
 
 @TypeGraphQL.InputType("LinearUserUpdateInput", {
   isAbstract: true
@@ -60,18 +60,18 @@ export class LinearUserUpdateInput {
   })
   active_token?: NullableBoolFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateOneWithoutLinear_usersInput, {
+  @TypeGraphQL.Field(_type => UserUpdateOneWithoutLinear_usersNestedInput, {
     nullable: true
   })
-  user?: UserUpdateOneWithoutLinear_usersInput | undefined;
+  user?: UserUpdateOneWithoutLinear_usersNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutAssigneeInput, {
+  @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutAssigneeNestedInput, {
     nullable: true
   })
-  assigned_issues?: LinearIssueUpdateManyWithoutAssigneeInput | undefined;
+  assigned_issues?: LinearIssueUpdateManyWithoutAssigneeNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutCreatorInput, {
+  @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutCreatorNestedInput, {
     nullable: true
   })
-  created_issues?: LinearIssueUpdateManyWithoutCreatorInput | undefined;
+  created_issues?: LinearIssueUpdateManyWithoutCreatorNestedInput | undefined;
 }

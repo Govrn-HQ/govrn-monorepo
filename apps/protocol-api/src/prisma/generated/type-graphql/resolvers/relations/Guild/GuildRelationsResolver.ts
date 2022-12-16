@@ -8,7 +8,7 @@ import { GuildActivity_typeArgs } from "./args/GuildActivity_typeArgs";
 import { GuildContributionsArgs } from "./args/GuildContributionsArgs";
 import { GuildTwitter_accountsArgs } from "./args/GuildTwitter_accountsArgs";
 import { GuildUsersArgs } from "./args/GuildUsersArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => Guild)
 export class GuildRelationsResolver {

@@ -4,7 +4,7 @@ import { AttestationConfidence } from "../../../models/AttestationConfidence";
 import { AttestationStatus } from "../../../models/AttestationStatus";
 import { Contribution } from "../../../models/Contribution";
 import { User } from "../../../models/User";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => Attestation)
 export class AttestationRelationsResolver {

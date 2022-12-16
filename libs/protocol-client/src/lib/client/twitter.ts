@@ -20,6 +20,6 @@ export class Twitter extends BaseClient {
 
   public async upsertUser(args: UpsertTwitterUserMutationVariables) {
     const user = await this.sdk.upsertTwitterUser(args);
-    return user.upsertTwitterUser;
+    return user.upsertOneTwitterUser;
   }
 }

@@ -11,6 +11,7 @@ import {
   create_guild,
   create_GuildUser,
   create_GuildContribution,
+  create_MembershipStatus,
   contribution_status,
   delete_guild,
   delete_user,
@@ -21,6 +22,7 @@ import {
   delete_GuildUser,
   delete_attestation,
   delete_GuildContribution,
+  delete_MembershipStatus,
 } from './src/support/dbQueries';
 
 module.exports = defineConfig({
@@ -62,6 +64,9 @@ module.exports = defineConfig({
         create_GuildContribution: (ObjectData: GuildContributionObjectType) => {
           return create_GuildContribution(ObjectData);
         },
+        create_MembershipStatus: () => {
+          return create_MembershipStatus();
+        },
         delete_contribution: proofData => {
           return delete_contribution(proofData);
         },
@@ -85,6 +90,9 @@ module.exports = defineConfig({
         },
         delete_GuildContribution: guildID => {
           return delete_GuildContribution(guildID);
+        },
+        delete_MembershipStatus: () => {
+          return delete_MembershipStatus();
         },
       });
     },

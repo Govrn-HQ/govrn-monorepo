@@ -8,7 +8,7 @@ import { ActivityTypeCategoryActivityArgs } from "./args/ActivityTypeCategoryAct
 import { ActivityTypeContributionsArgs } from "./args/ActivityTypeContributionsArgs";
 import { ActivityTypeGuildsArgs } from "./args/ActivityTypeGuildsArgs";
 import { ActivityTypeUsersArgs } from "./args/ActivityTypeUsersArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => ActivityType)
 export class ActivityTypeRelationsResolver {

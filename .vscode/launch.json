@@ -9,6 +9,12 @@
       "type": "node",
       "request": "attach",
       "port": 55362
+    },
+    {
+      "name": "Protocol server",
+      "type": "node",
+      "request": "attach",
+      "port": 9229
     }
   ]
 }

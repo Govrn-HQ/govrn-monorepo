@@ -103,7 +103,7 @@ after(() => {
 
 describe('Edit first Contribution', () => {
   it('Update/Edit Contribution', () => {
-    cy.get('input[title="Toggle Row Selected"]').click();
+    cy.get('[testid="toggle-row-selected"]').click();
 
     cy.get('[data-testid="mint-btn-test"]').click();
 
