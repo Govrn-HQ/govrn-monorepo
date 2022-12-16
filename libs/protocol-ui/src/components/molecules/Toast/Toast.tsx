@@ -35,30 +35,30 @@ const icons: {
   alert: { icon: AiFillAlert, color: 'whiteAlpha.800' },
 };
 
-const bgValues = {
+const colorValues = {
   success: {
     bg: 'brand.secondary.100',
     color: 'brand.purple',
     displayBorder: 'block',
   },
   error: {
-    bg: 'red.500',
-    bgImage: '',
-    displayBorder: 'none',
+    bg: 'red.100',
+    color: 'red.500',
+    displayBorder: 'block',
   },
   info: {
-    bg: 'blue.500',
-    bgImage: 'whiteAlpha.700',
+    bg: 'blue.100',
+    color: 'blue.500',
     displayBorder: 'block',
   },
   warning: {
-    bg: 'blue.500',
-    bgImage: 'whiteAlpha.700',
+    bg: 'yellow.100',
+    color: 'yellow.500',
     displayBorder: 'block',
   },
   loading: {
-    bg: 'blue.500',
-    bgImage: 'whiteAlpha.700',
+    bg: 'brand.primary.100',
+    color: 'brand.magenta',
     displayBorder: 'block',
   },
 };
@@ -73,12 +73,12 @@ const Toast: React.FC<ToastProps> = ({
 }: ToastProps) => {
   return (
     <Box
-      bg={bgValues[status].bg}
+      bg={colorValues[status].bg}
       position="relative"
       padding={4}
       borderRadius="8px"
       borderLeftWidth="8px"
-      borderLeftColor="purple"
+      borderLeftColor={colorValues[status].color}
     >
       <HStack spacing={3}>
         {iconName ? (
@@ -91,7 +91,7 @@ const Toast: React.FC<ToastProps> = ({
         ) : (
           icon && <Icon as={icon} width="35px" height="35px" />
         )}
-        <Box color="brand.purple">
+        <Box color={colorValues[status].color}>
           {title && <Heading size="md">{title}</Heading>}
           {description && <Text size="sm">{description}</Text>}
         </Box>
@@ -104,7 +104,7 @@ const Toast: React.FC<ToastProps> = ({
       )} */}
 
       <Box
-        // display={bgValues[status].displayBorder}
+        display={colorValues[status].displayBorder}
         top="-2px"
         left="-2px"
         width="104%"

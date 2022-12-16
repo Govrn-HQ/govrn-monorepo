@@ -48,15 +48,15 @@ const useGovrnToast = () => {
     error(props: ToastProps) {
       ToastBase({ ...props, status: 'error', toast });
     },
-    warning(props: ToastProps) {
-      ToastBase({ ...props, status: 'warning', toast });
-    },
-    info(props: ToastProps) {
-      ToastBase({ ...props, status: 'info', toast });
-    },
-    loading(props: ToastProps) {
-      ToastBase({ ...props, status: 'loading', toast });
-    },
+    // warning(props: ToastProps) {
+    //   ToastBase({ ...props, status: 'warning', toast });
+    // },
+    // info(props: ToastProps) {
+    //   ToastBase({ ...props, status: 'info', toast });
+    // },
+    // loading(props: ToastProps) {
+    //   ToastBase({ ...props, status: 'loading', toast });
+    // },
     isActive(id: ToastId) {
       return toast.isActive(id);
     },
