@@ -11,10 +11,10 @@ import { GuildUserUpdateWithWhereUniqueWithoutMembershipStatusInput } from "../i
 import { GuildUserUpsertWithWhereUniqueWithoutMembershipStatusInput } from "../inputs/GuildUserUpsertWithWhereUniqueWithoutMembershipStatusInput";
 import { GuildUserWhereUniqueInput } from "../inputs/GuildUserWhereUniqueInput";
 
-@TypeGraphQL.InputType("GuildUserUpdateManyWithoutMembershipStatusInput", {
+@TypeGraphQL.InputType("GuildUserUpdateManyWithoutMembershipStatusNestedInput", {
   isAbstract: true
 })
-export class GuildUserUpdateManyWithoutMembershipStatusInput {
+export class GuildUserUpdateManyWithoutMembershipStatusNestedInput {
   @TypeGraphQL.Field(_type => [GuildUserCreateWithoutMembershipStatusInput], {
     nullable: true
   })

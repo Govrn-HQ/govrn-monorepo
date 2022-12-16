@@ -7,6 +7,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildMembershipStatusRelationFilter } from "../inputs/GuildMembershipStatusRelationFilter";
 import { GuildRelationFilter } from "../inputs/GuildRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
 @TypeGraphQL.InputType("GuildUserWhereInput", {
@@ -63,10 +64,10 @@ export class GuildUserWhereInput {
   })
   guild?: GuildRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  membership_status_id?: IntFilter | undefined;
+  membership_status_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildMembershipStatusRelationFilter, {
     nullable: true

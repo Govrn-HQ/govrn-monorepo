@@ -40,11 +40,11 @@ export class GuildUser {
   guild?: Guild;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  membership_status_id!: number;
+  membership_status_id?: number | null;
 
-  membershipStatus?: GuildMembershipStatus;
+  membershipStatus?: GuildMembershipStatus | null;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
