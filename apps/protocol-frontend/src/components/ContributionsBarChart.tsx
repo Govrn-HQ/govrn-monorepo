@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import { BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
 
 type ContributionCount = {
-  date: string;
+  date: string | Date;
   count: number;
   guild_id?: number | null;
   name?: string;

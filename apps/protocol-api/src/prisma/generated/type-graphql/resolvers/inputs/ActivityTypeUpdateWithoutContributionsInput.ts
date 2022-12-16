@@ -3,11 +3,11 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
-import { CategoryActivityTypeUpdateManyWithoutActivity_typeInput } from "../inputs/CategoryActivityTypeUpdateManyWithoutActivity_typeInput";
+import { CategoryActivityTypeUpdateManyWithoutActivity_typeNestedInput } from "../inputs/CategoryActivityTypeUpdateManyWithoutActivity_typeNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { GuildActivityTypeUpdateManyWithoutActivity_typeInput } from "../inputs/GuildActivityTypeUpdateManyWithoutActivity_typeInput";
+import { GuildActivityTypeUpdateManyWithoutActivity_typeNestedInput } from "../inputs/GuildActivityTypeUpdateManyWithoutActivity_typeNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { UserActivityUpdateManyWithoutActivity_typeInput } from "../inputs/UserActivityUpdateManyWithoutActivity_typeInput";
+import { UserActivityUpdateManyWithoutActivity_typeNestedInput } from "../inputs/UserActivityUpdateManyWithoutActivity_typeNestedInput";
 
 @TypeGraphQL.InputType("ActivityTypeUpdateWithoutContributionsInput", {
   isAbstract: true
@@ -38,18 +38,18 @@ export class ActivityTypeUpdateWithoutContributionsInput {
   })
   default?: BoolFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserActivityUpdateManyWithoutActivity_typeInput, {
+  @TypeGraphQL.Field(_type => UserActivityUpdateManyWithoutActivity_typeNestedInput, {
     nullable: true
   })
-  users?: UserActivityUpdateManyWithoutActivity_typeInput | undefined;
+  users?: UserActivityUpdateManyWithoutActivity_typeNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => CategoryActivityTypeUpdateManyWithoutActivity_typeInput, {
+  @TypeGraphQL.Field(_type => CategoryActivityTypeUpdateManyWithoutActivity_typeNestedInput, {
     nullable: true
   })
-  categoryActivity?: CategoryActivityTypeUpdateManyWithoutActivity_typeInput | undefined;
+  categoryActivity?: CategoryActivityTypeUpdateManyWithoutActivity_typeNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyWithoutActivity_typeInput, {
+  @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyWithoutActivity_typeNestedInput, {
     nullable: true
   })
-  guilds?: GuildActivityTypeUpdateManyWithoutActivity_typeInput | undefined;
+  guilds?: GuildActivityTypeUpdateManyWithoutActivity_typeNestedInput | undefined;
 }

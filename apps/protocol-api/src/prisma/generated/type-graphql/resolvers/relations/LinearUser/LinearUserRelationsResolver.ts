@@ -4,7 +4,7 @@ import { LinearUser } from "../../../models/LinearUser";
 import { User } from "../../../models/User";
 import { LinearUserAssigned_issuesArgs } from "./args/LinearUserAssigned_issuesArgs";
 import { LinearUserCreated_issuesArgs } from "./args/LinearUserCreated_issuesArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => LinearUser)
 export class LinearUserRelationsResolver {

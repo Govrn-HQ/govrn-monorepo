@@ -2,8 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput";
-import { CategoryActivityUpdateOneRequiredWithoutActivityTypesInput } from "../inputs/CategoryActivityUpdateOneRequiredWithoutActivityTypesInput";
+import { ActivityTypeUpdateOneRequiredWithoutCategoryActivityNestedInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutCategoryActivityNestedInput";
+import { CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput } from "../inputs/CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("CategoryActivityTypeUpdateInput", {
@@ -20,13 +20,13 @@ export class CategoryActivityTypeUpdateInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => CategoryActivityUpdateOneRequiredWithoutActivityTypesInput, {
+  @TypeGraphQL.Field(_type => CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput, {
     nullable: true
   })
-  category_activity?: CategoryActivityUpdateOneRequiredWithoutActivityTypesInput | undefined;
+  category_activity?: CategoryActivityUpdateOneRequiredWithoutActivityTypesNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput, {
+  @TypeGraphQL.Field(_type => ActivityTypeUpdateOneRequiredWithoutCategoryActivityNestedInput, {
     nullable: true
   })
-  activity_type?: ActivityTypeUpdateOneRequiredWithoutCategoryActivityInput | undefined;
+  activity_type?: ActivityTypeUpdateOneRequiredWithoutCategoryActivityNestedInput | undefined;
 }

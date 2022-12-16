@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionUpdateManyWithoutChainInput } from "../inputs/ContributionUpdateManyWithoutChainInput";
+import { ContributionUpdateManyWithoutChainNestedInput } from "../inputs/ContributionUpdateManyWithoutChainNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -30,8 +30,8 @@ export class ChainUpdateInput {
   })
   chain_id?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutChainInput, {
+  @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutChainNestedInput, {
     nullable: true
   })
-  contributions?: ContributionUpdateManyWithoutChainInput | undefined;
+  contributions?: ContributionUpdateManyWithoutChainNestedInput | undefined;
 }

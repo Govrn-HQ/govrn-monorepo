@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { UserUpdateOneRequiredWithoutGuild_usersInput } from "../inputs/UserUpdateOneRequiredWithoutGuild_usersInput";
+import { UserUpdateOneRequiredWithoutGuild_usersNestedInput } from "../inputs/UserUpdateOneRequiredWithoutGuild_usersNestedInput";
 
 @TypeGraphQL.InputType("GuildUserUpdateWithoutGuildInput", {
   isAbstract: true
@@ -19,8 +19,8 @@ export class GuildUserUpdateWithoutGuildInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutGuild_usersInput, {
+  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutGuild_usersNestedInput, {
     nullable: true
   })
-  user?: UserUpdateOneRequiredWithoutGuild_usersInput | undefined;
+  user?: UserUpdateOneRequiredWithoutGuild_usersNestedInput | undefined;
 }

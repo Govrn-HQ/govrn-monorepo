@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { Attestation } from "../../../models/Attestation";
 import { AttestationConfidence } from "../../../models/AttestationConfidence";
 import { AttestationConfidenceAttestationsArgs } from "./args/AttestationConfidenceAttestationsArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => AttestationConfidence)
 export class AttestationConfidenceRelationsResolver {

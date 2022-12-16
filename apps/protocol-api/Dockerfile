@@ -1,6 +1,6 @@
 # Production image, copy all the files and run nest
 FROM node:16-alpine as runner
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache dumb-init libressl-dev
 ENV NODE_ENV production
 WORKDIR /usr/src/app
 RUN addgroup -g 1001 -S nodejs

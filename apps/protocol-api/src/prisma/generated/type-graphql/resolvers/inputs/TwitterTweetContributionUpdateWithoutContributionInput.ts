@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsInput } from "../inputs/TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsInput";
+import { TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput } from "../inputs/TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput";
 
 @TypeGraphQL.InputType("TwitterTweetContributionUpdateWithoutContributionInput", {
   isAbstract: true
@@ -19,8 +19,8 @@ export class TwitterTweetContributionUpdateWithoutContributionInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput, {
     nullable: true
   })
-  twitter_tweet?: TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsInput | undefined;
+  twitter_tweet?: TwitterTweetUpdateOneRequiredWithoutTwitter_tweet_contributionsNestedInput | undefined;
 }

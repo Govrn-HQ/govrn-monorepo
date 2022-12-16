@@ -1,9 +1,8 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { FindFirstGuildMembershipStatusArgs } from "./args/FindFirstGuildMembershipStatusArgs";
 import { GuildMembershipStatus } from "../../../models/GuildMembershipStatus";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => GuildMembershipStatus)
 export class FindFirstGuildMembershipStatusResolver {
@@ -11,9 +10,7 @@ export class FindFirstGuildMembershipStatusResolver {
     nullable: true
   })
   async findFirstGuildMembershipStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstGuildMembershipStatusArgs): Promise<GuildMembershipStatus | null> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).guildMembershipStatus.findFirst({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),

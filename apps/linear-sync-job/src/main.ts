@@ -43,7 +43,7 @@ const processIssue = async (
   issues: Issue[],
   resp: IssueConnection,
   govrn: GovrnProtocol,
-  activity: UpsertActivityTypeMutation['upsertActivityType'],
+  activity: UpsertActivityTypeMutation['upsertOneActivityType'],
   contributionStatus: GetContributionStatusQuery['contributionStatuses'][0],
   user: ListLinearUsersQuery['result'][0],
 ) => {
@@ -82,7 +82,7 @@ const processIssue = async (
 const storeContributions = async (
   issues: Issue[],
   govrn: GovrnProtocol,
-  activity: UpsertActivityTypeMutation['upsertActivityType'],
+  activity: UpsertActivityTypeMutation['upsertOneActivityType'],
   contributionStatus: GetContributionStatusQuery['contributionStatuses'][0],
   user: ListLinearUsersQuery['result'][0],
 ) => {

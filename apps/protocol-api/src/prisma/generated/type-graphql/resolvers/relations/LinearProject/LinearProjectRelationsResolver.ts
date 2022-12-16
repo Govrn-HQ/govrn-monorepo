@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { LinearIssue } from "../../../models/LinearIssue";
 import { LinearProject } from "../../../models/LinearProject";
 import { LinearProjectIssuesArgs } from "./args/LinearProjectIssuesArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => LinearProject)
 export class LinearProjectRelationsResolver {
