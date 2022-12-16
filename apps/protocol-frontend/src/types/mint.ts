@@ -1,22 +1,7 @@
 import { UIContribution, UIAttestations, UIGuilds } from '@govrn/ui-types';
-import { ContributionTableType } from '../types/table';
-import { Row } from 'react-table';
-
-export type MintContributionType = UIContribution & {
-  original: {
-    name: string;
-    details: string;
-    proof: string;
-    id: number;
-    activityTypeId: number;
-    date_of_submission: string;
-    engagementDate: string;
-    onChainId?: number;
-  };
-};
 
 export interface MintModalProps {
-  contributions: UIContribution[] | Row<ContributionTableType>[];
+  contributions: UIContribution[];
   onFinish?: (() => void) | undefined;
 }
 
