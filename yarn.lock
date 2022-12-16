@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@actions/exec@^1.1.0":
+"@actions/exec@^1.1.0", "@actions/exec@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.1.1.tgz#2e43f28c54022537172819a7cf886c844221a611"
   integrity sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==
@@ -5181,6 +5181,14 @@
     "@nx-tools/core" "^2.2.0"
     ci-info "^3.2.0"
 
+"@nx-tools/core@4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@nx-tools/core/-/core-4.0.2.tgz#eca8930c2b45dbfcc063d7b2507627c698c8b658"
+  integrity sha512-YHuHu2cV5swb93fucVR3HdawL5Yte/we1VkZD5+d5etO5Sa8gCNy/SzKR2ouHDtubtcY4BwBnaD+qoxJR8vfLw==
+  dependencies:
+    "@actions/exec" "^1.1.1"
+    colorette "^2.0.19"
+
 "@nx-tools/core@^2.2.0", "@nx-tools/core@^2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@nx-tools/core/-/core-2.3.1.tgz#f87036c7f7b8b4666591e7a000de9922fc6f7a1b"
@@ -5214,12 +5222,13 @@
   optionalDependencies:
     "@nx-tools/docker-metadata" "^2.2.1"
 
-"@nx-tools/nx-prisma@^2.0.0-alpha.4":
-  version "2.0.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/@nx-tools/nx-prisma/-/nx-prisma-2.0.0-alpha.4.tgz#764404f6314c7c459807c430fc43504b665285d7"
-  integrity sha512-ttis0MOnv9I4+05AfEraIQQgMLwH0nYPOZUOE/lkVeCoLyvmH0bW5vOiZl3KFgznPzGlGHKBM2q6nHZJVrA7LA==
+"@nx-tools/nx-prisma@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@nx-tools/nx-prisma/-/nx-prisma-4.0.2.tgz#6e17f8224184aa4c46205630b7e3b3146535cbf8"
+  integrity sha512-071yOC4nikC6qFdHzs/72Sk4FX9w6/iZMH/j3JIql4zatk23VCbDkjz/lhI+cfS8OX4SPuhVqOl9T+RHmsjEVQ==
   dependencies:
-    "@nx-tools/core" "^2.2.0"
+    "@nx-tools/core" "4.0.2"
+    "@swc/helpers" "^0.4.12"
 
 "@nxext/react@14.0.4":
   version "14.0.4"
@@ -7179,6 +7188,13 @@
     "@svgr/core" "^6.5.1"
     "@svgr/plugin-jsx" "^6.5.1"
     "@svgr/plugin-svgo" "^6.5.1"
+
+"@swc/helpers@^0.4.12":
+  version "0.4.14"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.14.tgz#1352ac6d95e3617ccb7c1498ff019654f1e12a74"
+  integrity sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==
+  dependencies:
+    tslib "^2.4.0"
 
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
