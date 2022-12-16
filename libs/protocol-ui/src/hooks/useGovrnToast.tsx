@@ -1,14 +1,7 @@
+import _ from 'lodash';
 import { AlertStatus, ToastId, useToast } from '@chakra-ui/react';
 import { CreateToastFnReturn } from '@chakra-ui/toast';
-
-type ToastProps = {
-  title: string;
-  description: string;
-  id?: ToastId;
-  duration?: number;
-  isClosable?: boolean;
-  variant?: 'success';
-};
+import { Toast, ToastProps } from '../components/molecules';
 
 const ToastBase = ({
   toast,
@@ -18,6 +11,8 @@ const ToastBase = ({
   id,
   duration,
   isClosable,
+  iconName,
+  close,
   variant,
 }: ToastProps & { status: AlertStatus; toast: CreateToastFnReturn }) => {
   toast({
@@ -28,8 +23,18 @@ const ToastBase = ({
     duration: duration ?? 3000,
     isClosable: isClosable ?? true,
     position: 'top-right',
-    // variant: 'left-accent',
-    variant: variant,
+    variant: 'left-accent',
+    // render custom component
+    render: () => (
+      <Toast
+        title={_.toString(title) || ''}
+        description={description}
+        iconName={iconName}
+        status={status}
+        isCloseable={isClosable}
+        close={close}
+      />
+    ),
   });
 };
 
@@ -38,7 +43,7 @@ const useGovrnToast = () => {
 
   return {
     success(props: ToastProps) {
-      ToastBase({ ...props, status: 'success', variant: 'success', toast });
+      ToastBase({ ...props, status: 'success', toast });
     },
     error(props: ToastProps) {
       ToastBase({ ...props, status: 'error', toast });
