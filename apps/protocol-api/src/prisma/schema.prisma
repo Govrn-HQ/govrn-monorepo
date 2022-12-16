@@ -73,6 +73,7 @@ model GuildMembershipStatus {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   name String @unique
+  guildUsers GuildUser[]
 }
 
 model GuildUser {
@@ -83,6 +84,9 @@ model GuildUser {
   user User @relation(fields: [user_id], references: [id])
   guild_id Int
   guild Guild @relation(fields: [guild_id], references: [id])
+  membership_status_id Int?
+  membershipStatus GuildMembershipStatus? @relation(fields: [membership_status_id], references: [id])
+  favorite Boolean @default(false)
 
   @@unique([user_id, guild_id])
 }

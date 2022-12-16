@@ -3,5 +3,6 @@ VALUES ('Member'),
        ('Contributor'),
        ('Recruit'),
        ('Supporter'),
-       ('Lurker');
+       ('Lurker')
+ON CONFLICT DO NOTHING;
 
