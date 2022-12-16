@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { UserUpdateManyWithoutChain_typeInput } from "../inputs/UserUpdateManyWithoutChain_typeInput";
+import { UserUpdateManyWithoutChain_typeNestedInput } from "../inputs/UserUpdateManyWithoutChain_typeNestedInput";
 
 @TypeGraphQL.InputType("ChainTypeUpdateInput", {
   isAbstract: true
@@ -25,8 +25,8 @@ export class ChainTypeUpdateInput {
   })
   name?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateManyWithoutChain_typeInput, {
+  @TypeGraphQL.Field(_type => UserUpdateManyWithoutChain_typeNestedInput, {
     nullable: true
   })
-  users?: UserUpdateManyWithoutChain_typeInput | undefined;
+  users?: UserUpdateManyWithoutChain_typeNestedInput | undefined;
 }

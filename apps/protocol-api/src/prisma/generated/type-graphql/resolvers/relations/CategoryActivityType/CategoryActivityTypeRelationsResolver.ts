@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { ActivityType } from "../../../models/ActivityType";
 import { CategoryActivity } from "../../../models/CategoryActivity";
 import { CategoryActivityType } from "../../../models/CategoryActivityType";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => CategoryActivityType)
 export class CategoryActivityTypeRelationsResolver {

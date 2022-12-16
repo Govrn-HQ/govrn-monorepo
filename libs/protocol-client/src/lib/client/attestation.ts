@@ -10,7 +10,7 @@ import {
 export class Attestation extends BaseClient {
   public async create(args: CreateAttestationMutationVariables) {
     const contributions = await this.sdk.createAttestation(args);
-    return contributions.createAttestation;
+    return contributions.createOneAttestation;
   }
 
   public async bulkCreate(args: BulkCreateAttestationMutationVariables) {
@@ -19,7 +19,7 @@ export class Attestation extends BaseClient {
 
   public async update(args: UpdateAttestationMutationVariables) {
     const contributions = await this.sdk.updateAttestation(args);
-    return contributions.updateAttestation;
+    return contributions.updateOneAttestation;
   }
 
   public async upsert(args: UpsertAttestationMutationVariables) {

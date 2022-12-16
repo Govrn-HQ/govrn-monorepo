@@ -42,7 +42,7 @@ export class Contribution extends BaseClient {
 
   public async create(args: CreateContributionMutationVariables) {
     const contributions = await this.sdk.createContribution(args);
-    return contributions.createContribution;
+    return contributions.createOneContribution;
   }
 
   /**
@@ -89,7 +89,7 @@ export class Contribution extends BaseClient {
 
   public async update(args: UpdateContributionMutationVariables) {
     const contributions = await this.sdk.updateContribution(args);
-    return contributions.updateContribution;
+    return contributions.updateOneContribution;
   }
 
   public async upsert(args: UpsertContributionMutationVariables) {

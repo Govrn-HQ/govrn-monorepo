@@ -1,6 +1,6 @@
 import {
   ListJobRunsQueryVariables,
-  MutationCreateJobRunArgs,
+  MutationCreateOneJobRunArgs,
 } from '../protocol-types';
 import { BaseClient } from './base';
 
@@ -15,8 +15,8 @@ export class JobRun extends BaseClient {
     return jobRuns.result;
   }
 
-  public async create(args: MutationCreateJobRunArgs) {
+  public async create(args: MutationCreateOneJobRunArgs) {
     const jobRuns = await this.sdk.createJobRun(args);
-    return jobRuns.createJobRun;
+    return jobRuns.createOneJobRun;
   }
 }

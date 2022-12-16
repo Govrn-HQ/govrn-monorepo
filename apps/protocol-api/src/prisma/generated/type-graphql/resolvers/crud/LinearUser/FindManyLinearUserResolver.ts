@@ -1,9 +1,8 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { FindManyLinearUserArgs } from "./args/FindManyLinearUserArgs";
 import { LinearUser } from "../../../models/LinearUser";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => LinearUser)
 export class FindManyLinearUserResolver {
@@ -11,9 +10,7 @@ export class FindManyLinearUserResolver {
     nullable: false
   })
   async linearUsers(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindManyLinearUserArgs): Promise<LinearUser[]> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).linearUser.findMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),

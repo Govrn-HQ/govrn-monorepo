@@ -271,8 +271,8 @@ export class ContributionCountByDate {
   @TypeGraphQL.Field(_type => Number)
   count: number;
 
-  @TypeGraphQL.Field(_type => String)
-  date: string;
+  @TypeGraphQL.Field(_type => Date)
+  date: Date;
 
   @TypeGraphQL.Field(_type => Number, {
     nullable: true,
@@ -649,7 +649,7 @@ export class ContributionCustomResolver {
       `;
     }
 
-    return await prisma.$queryRaw<ContributionCountByDate>`
+    const result = await prisma.$queryRaw<[ContributionCountByDate]>`
       WITH guild_contributions AS (
           SELECT 
       	    c.id,
@@ -669,7 +669,7 @@ export class ContributionCustomResolver {
       SELECT gc.guild_id,
              coalesce(gc.name, 'Unassigned') as name,
              d.dt                            as date,
-             count(gc.date_of_engagement)    as count
+             count(gc.date_of_engagement)::integer    as count
       FROM (
         SELECT dt::date
         FROM generate_series(${start}, ${end}, '1 day'::interval) dt
@@ -680,6 +680,7 @@ export class ContributionCustomResolver {
         AND (${userWhere})
       GROUP BY gc.guild_id, gc.name, d.dt
       ORDER BY d.dt;`;
+    return result;
   }
 
   @TypeGraphQL.Query(_returns => [ContributionCountByActivityType], {
@@ -698,10 +699,10 @@ export class ContributionCustomResolver {
     // in a separate table than guild contributions
     // N.B. the guild contribution created date is used for the range,
     // not the contribution created date
-    return await prisma.$queryRaw<ContributionCountByActivityType>`
+    const result = await prisma.$queryRaw<[ContributionCountByActivityType]>`
       SELECT c.activity_type_id as activity_id,
              a.name as activity_name,
-             count(c.id) as count
+             count(c.id)::integer as count
       FROM
         "GuildContribution" gc 
         LEFT JOIN "Contribution" as c 
@@ -713,6 +714,7 @@ export class ContributionCustomResolver {
         AND gc."guild_id" = ${daoId}
       ) GROUP BY a.name, c.activity_type_id
       ORDER BY count;`;
+    return result;
   }
 
   @TypeGraphQL.Query(_returns => Int, {
@@ -752,8 +754,8 @@ export class ContributionCustomResolver {
     const end = args.where.endDate;
     const guildId = args.where.guildId;
 
-    const result = await prisma.$queryRaw<ContributionCountByUser>`
-      SELECT  count(gc.id) as count,
+    const result = await prisma.$queryRaw<[ContributionCountByUser]>`
+      SELECT  count(gc.id)::integer as count,
               u.id as "user_id",
               u.display_name as "display_name",
               u.address as "address"
