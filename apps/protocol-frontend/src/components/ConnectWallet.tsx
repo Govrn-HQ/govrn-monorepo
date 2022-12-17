@@ -128,13 +128,13 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
 
                     <MenuList
                       minWidth="none"
-                      backgroundColor="brand.secondary.100"
+                      backgroundColor="brand.secondary.200"
                     >
                       <MenuItem
-                        backgroundColor="brand.secondary.100"
+                        backgroundColor="brand.secondary.200"
                         color="brand.purple"
                         onClick={() => openAccountModal()}
-                        _hover={{ backgroundColor: 'brand.secondary.200' }}
+                        _hover={{ backgroundColor: 'brand.secondary.100' }}
                       >
                         <HStack>
                           <Icon as={FiKey} color="brand.secondary.500" />
@@ -142,10 +142,10 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                         </HStack>
                       </MenuItem>
                       <MenuItem
-                        backgroundColor="brand.secondary.100"
+                        backgroundColor="brand.secondary.200"
                         color="brand.purple"
                         onClick={() => disconnect()}
-                        _hover={{ backgroundColor: 'brand.secondary.200' }}
+                        _hover={{ backgroundColor: 'brand.secondary.100' }}
                       >
                         <HStack spacing={2}>
                           <Icon as={FiXCircle} color="brand.secondary.600" />
