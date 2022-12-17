@@ -107,7 +107,11 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                     <MenuButton
                       as={Button}
                       rightIcon={
-                        <Icon as={FiChevronDown} color="brand.purple" />
+                        <Icon
+                          as={FiChevronDown}
+                          color="brand.purple"
+                          size="md"
+                        />
                       }
                       color="gray.900"
                       backgroundColor="brand.secondary.100"
