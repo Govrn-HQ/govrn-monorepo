@@ -38,7 +38,7 @@ const ContributionsByDateChart = ({
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount?.map(contribution => {
     return {
-      day: formatDate(contribution.date, 'yyyy-MM-dd'),
+      day: formatDate(contribution.date, 'yyyy-MM-dd', true),
       value: contribution.count,
     };
   });
