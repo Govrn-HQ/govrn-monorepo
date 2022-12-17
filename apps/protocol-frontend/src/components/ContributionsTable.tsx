@@ -99,7 +99,7 @@ const ContributionsTable = ({
       ...dialog,
       isOpen: true, //this opens AlertDialog
       title:
-        "Are you sure you want to delete this Contribution? You can't undo this action.",
+        "Are you sure you want to delete this contribution? You can't undo this action.",
       contributionId: contributionId,
     });
   };
@@ -292,7 +292,7 @@ const ContributionsTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: true,
+    debugAll: false,
   });
 
   useEffect(() => {
@@ -329,7 +329,7 @@ const ContributionsTable = ({
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <Th borderColor="gray.100">
+                    <Th key={header.id} borderColor="gray.100">
                       {header.isPlaceholder ? null : (
                         <Box
                           {...{
