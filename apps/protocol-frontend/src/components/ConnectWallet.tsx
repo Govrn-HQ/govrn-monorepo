@@ -129,27 +129,28 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                     <MenuList
                       minWidth="none"
                       backgroundColor="brand.secondary.200"
+                      paddingX={1}
                     >
                       <MenuItem
-                        backgroundColor="brand.secondary.200"
-                        color="brand.purple"
+                        backgroundColor="transparent"
+                        borderRadius="md"
                         onClick={() => openAccountModal()}
-                        _hover={{ backgroundColor: 'brand.secondary.100' }}
+                        _hover={{ backgroundColor: 'brand.secondary.50' }}
                       >
                         <HStack>
-                          <Icon as={FiKey} color="brand.secondary.500" />
-                          <Box color="brand.secondary.500">Wallet</Box>
+                          <Icon as={FiKey} color="brand.purple" />
+                          <Box color="brand.purple">Wallet</Box>
                         </HStack>
                       </MenuItem>
                       <MenuItem
-                        backgroundColor="brand.secondary.200"
-                        color="brand.purple"
+                        backgroundColor="transparent"
+                        borderRadius="md"
                         onClick={() => disconnect()}
-                        _hover={{ backgroundColor: 'brand.secondary.100' }}
+                        _hover={{ backgroundColor: 'brand.secondary.50' }}
                       >
                         <HStack spacing={2}>
-                          <Icon as={FiXCircle} color="brand.secondary.600" />
-                          <Box color="brand.secondary.600">Sign Out</Box>
+                          <Icon as={FiXCircle} color="brand.purple" />
+                          <Box color="brand.purple">Sign Out</Box>
                         </HStack>
                       </MenuItem>
                     </MenuList>
