@@ -1,8 +1,8 @@
-import { ColorProps } from '@chakra-ui/react';
 import React, { ReactNode } from 'react';
+import { ColorProps } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 import { AiFillCheckCircle, AiFillWarning, AiFillAlert } from 'react-icons/ai';
-import { HiCheckCircle } from 'react-icons/hi';
+import { RiCloseFill } from 'react-icons/ri';
 import {
   Box,
   HStack,
@@ -21,7 +21,7 @@ type CustomToastProps = {
   iconName?: string;
   iconColor?: string;
   toast?: any;
-  close?: any;
+  closeToast?: any;
   isCloseable?: boolean;
 };
 
@@ -70,6 +70,8 @@ const Toast: React.FC<ToastProps> = ({
   icon,
   iconName,
   iconColor,
+  isClosable = true,
+  closeToast,
 }: ToastProps) => {
   return (
     <Box
@@ -96,12 +98,23 @@ const Toast: React.FC<ToastProps> = ({
           {description && <Text size="sm">{description}</Text>}
         </Box>
       </HStack>
-
-      {/* {isCloseable && (
-        <Box position='absolute' top='10px' right='10px' onClick={close}>
-          <Icon as={RiCloseFill} onClick={close} w='25px' h='25px' />
+      {isClosable && (
+        <Box
+          marginLeft={8}
+          // position="absolute"
+          // top="10px"
+          // right="10px"
+          onClick={closeToast}
+        >
+          <Icon
+            as={RiCloseFill}
+            onClick={closeToast}
+            // onClick={() => console.log('toast clicked')}
+            w="25px"
+            h="25px"
+          />
         </Box>
-      )} */}
+      )}
 
       <Box
         display={colorValues[status].displayBorder}

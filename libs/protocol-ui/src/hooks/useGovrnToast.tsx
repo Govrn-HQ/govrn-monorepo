@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import _ from 'lodash';
 import { AlertStatus, ToastId, useToast } from '@chakra-ui/react';
 import { CreateToastFnReturn } from '@chakra-ui/toast';
@@ -12,10 +13,9 @@ const ToastBase = ({
   duration,
   isClosable,
   iconName,
-  close,
   variant,
 }: ToastProps & { status: AlertStatus; toast: CreateToastFnReturn }) => {
-  toast({
+  return toast({
     title,
     description,
     status,
@@ -32,7 +32,6 @@ const ToastBase = ({
         iconName={iconName}
         status={status}
         isCloseable={isClosable}
-        close={close}
       />
     ),
   });
@@ -40,23 +39,30 @@ const ToastBase = ({
 
 const useGovrnToast = () => {
   const toast = useToast();
+  const toastIdRef = useRef();
+
+  function closeToast() {
+    if (toastIdRef.current) {
+      toast.close(toastIdRef.current);
+    }
+  }
 
   return {
     success(props: ToastProps) {
-      ToastBase({ ...props, status: 'success', toast });
+      ToastBase({ ...props, status: 'success', closeToast: closeToast, toast });
     },
     error(props: ToastProps) {
       ToastBase({ ...props, status: 'error', toast });
     },
-    // warning(props: ToastProps) {
-    //   ToastBase({ ...props, status: 'warning', toast });
-    // },
-    // info(props: ToastProps) {
-    //   ToastBase({ ...props, status: 'info', toast });
-    // },
-    // loading(props: ToastProps) {
-    //   ToastBase({ ...props, status: 'loading', toast });
-    // },
+    warning(props: ToastProps) {
+      ToastBase({ ...props, status: 'warning', toast });
+    },
+    info(props: ToastProps) {
+      ToastBase({ ...props, status: 'info', toast });
+    },
+    loading(props: ToastProps) {
+      ToastBase({ ...props, status: 'loading', toast });
+    },
     isActive(id: ToastId) {
       return toast.isActive(id);
     },
