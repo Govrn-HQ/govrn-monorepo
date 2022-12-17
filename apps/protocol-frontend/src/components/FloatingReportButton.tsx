@@ -25,7 +25,7 @@ const FloatingReportButton = () => {
 
   return (
     <Box position="fixed" bottom="40px" right={['16px', '84px']} zIndex={1}>
-      <Tooltip label="Report Contribution" fontSize="md">
+      <Tooltip variant="primary" label="Report Contribution" fontSize="md">
         <IconButton
           aria-label="Add Contribution Activity Report Button"
           background="brand.gradient"

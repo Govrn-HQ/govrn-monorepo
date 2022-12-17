@@ -93,7 +93,7 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
           Minting {pluralize('Contribution', contributions.length, true)}
         </Text>
         <Tooltip
-          variant="mint"
+          variant="primary"
           label={`Minting a contribution makes it immutable and creates a historical record of what's been done that can't be changed.`}
           fontSize="sm"
           placement="right"

@@ -212,6 +212,7 @@ const ContributionsTable = ({
               <HStack spacing="1">
                 {row.original.tx_hash !== null && (
                   <Tooltip
+                    variant="primary"
                     label="Minted and Pending contributions cannot be edited or deleted. View on Block Explorer."
                     aria-label="A tooltip"
                   >
