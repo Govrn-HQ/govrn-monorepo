@@ -122,6 +122,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               gap={2}
               flexBasis="20%"
               justifyContent="space-between"
+              alignItems="flex-end"
               marginY={{ base: 4, lg: 0 }}
             >
               <Flex direction="column" gap={2}>
