@@ -151,10 +151,7 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
           variant="primary"
           type="submit"
           onClick={() => {
-            const c = contributions[0];
-            if (contributions && 'original' in c) {
-              mintHandler(contributions);
-            }
+            mintHandler(contributions);
           }}
           isLoading={minting}
           disabled={!(isChecked || agreementChecked.agreement)}
