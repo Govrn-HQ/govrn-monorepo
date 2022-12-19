@@ -11,11 +11,10 @@ const ToastBase = ({
   status,
   id,
   duration,
-  isClosable,
   iconName,
   closeToast,
+  ...props // gets the rest of the original Chakra Toast props such as isClosable
 }: ToastProps & { status: AlertStatus; toast: CreateToastFnReturn }) => {
-  console.log('in toast, closeable', isClosable);
   return toast({
     title,
     description,
@@ -23,9 +22,10 @@ const ToastBase = ({
     closeToast,
     id: id,
     duration: duration ?? 3000,
-    isClosable: isClosable ?? true,
+    isClosable: props.isClosable ?? true,
     position: 'top-right',
     variant: 'left-accent',
+    ...props,
     // render custom component
     render: () => (
       <Toast
@@ -33,7 +33,7 @@ const ToastBase = ({
         description={description}
         iconName={iconName}
         status={status}
-        isClosable={isClosable}
+        isClosable={props.isClosable}
         closeToast={closeToast}
       />
     ),
@@ -50,13 +50,15 @@ const useGovrnToast = () => {
     }
   }
 
+  // omitting status because we're setting that in the .success, .error, .warning
   return {
-    success(props: ToastProps) {
+    success(props: Omit<ToastProps, 'status'>) {
       toastIdRef.current = ToastBase({
-        closeToast: closeToast,
+        ...props,
         status: 'success',
         iconName: 'success',
-        ...props,
+        closeToast: closeToast,
+        isClosable: props.isClosable ?? true, // passing this in to the custom component
         toast,
       });
     },
