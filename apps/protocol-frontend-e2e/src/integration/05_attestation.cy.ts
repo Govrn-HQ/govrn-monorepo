@@ -211,7 +211,7 @@ describe('Attestation flow', () => {
       .should('be.visible')
       .click({ force: true });
 
-    cy.contains(`These are contributions that you have already Attested to.`, {
+    cy.contains(`These are contributions that you have already attested to.`, {
       timeout: 10000,
     }).should('be.visible');
   });
