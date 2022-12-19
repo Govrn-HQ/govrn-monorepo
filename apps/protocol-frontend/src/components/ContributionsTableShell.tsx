@@ -97,11 +97,11 @@ const ContributionsTableShell = () => {
                           <AlertDescription>
                             <span
                               role="img"
-                              aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
+                              aria-labelledby="Sun emoji for alert to select at least one contribution to attribute to a DAO or mint."
                             >
                               🌞
                             </span>{' '}
-                            Please select at least one Contribution to attribute
+                            Please select at least one contribution to attribute
                             to a DAO or mint.
                           </AlertDescription>
                         </Alert>
