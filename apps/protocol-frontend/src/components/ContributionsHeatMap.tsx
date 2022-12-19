@@ -21,10 +21,13 @@ const ContributionsHeatMap = ({
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount.map(contribution => {
     return {
-      day: formatDate(contribution.date, 'yyyy-MM-dd'),
+      day: formatDate(contribution.date, 'yyyy-MM-dd', true),
       value: contribution.count,
     };
   });
+
+  console.log('contributions count', contributionsCount);
+  console.log('contributionsCountMap', contributionsCountMap);
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
