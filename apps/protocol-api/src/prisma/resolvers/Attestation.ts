@@ -177,7 +177,7 @@ export class AttestationResolver {
         id: a.id,
       },
     });
-    if (update.count !== 1) {
+    if (update.count >= 1) {
       throw `Wrong number of rows updated ${update.count} updateUserOnChainAttestation`;
     }
     if (args.status) {

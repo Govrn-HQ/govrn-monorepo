@@ -82,8 +82,13 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                       alignItems="center"
                       bg={chain.iconBackground}
                       p={0}
-                      backgroundColor="gray.100"
-                      marginLeft={4}
+                      backgroundColor="brand.secondary.100"
+                      _hover={{
+                        backgroundColor: 'brand.secondary.200',
+                      }}
+                      _active={{
+                        backgroundColor: 'brand.secondary.200',
+                      }}
                     >
                       <Image
                         alt={chain.name ?? 'Chain icon'}
@@ -102,12 +107,21 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                     <MenuButton
                       as={Button}
                       rightIcon={
-                        <Icon as={FiChevronDown} color="brand.purple" />
+                        <Icon
+                          as={FiChevronDown}
+                          color="brand.purple"
+                          size="md"
+                        />
                       }
                       color="gray.900"
                       backgroundColor="brand.secondary.100"
                       transition="all 100ms ease-in-out"
-                      _hover={{ bgColor: 'brand.secondary.200' }}
+                      _hover={{
+                        bgColor: 'brand.secondary.200',
+                      }}
+                      _active={{
+                        bgColor: 'brand.secondary.200',
+                      }}
                       width="100%"
                       paddingRight={2}
                     >
@@ -115,23 +129,32 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                         {name || displayAddress(address || '')}
                       </Text>
                     </MenuButton>
-                    <MenuList backgroundColor="gray.800" minWidth="none">
+
+                    <MenuList
+                      minWidth="none"
+                      backgroundColor="brand.secondary.200"
+                      paddingX={1}
+                    >
                       <MenuItem
+                        backgroundColor="transparent"
+                        borderRadius="md"
                         onClick={() => openAccountModal()}
-                        _hover={{ backgroundColor: 'gray.600' }}
+                        _hover={{ backgroundColor: 'brand.secondary.50' }}
                       >
                         <HStack>
-                          <Icon as={FiKey} color="white" />
-                          <Box color="white">Wallet</Box>
+                          <Icon as={FiKey} color="brand.purple" />
+                          <Box color="brand.purple">Wallet</Box>
                         </HStack>
                       </MenuItem>
                       <MenuItem
+                        backgroundColor="transparent"
+                        borderRadius="md"
                         onClick={() => disconnect()}
-                        _hover={{ backgroundColor: 'gray.600' }}
+                        _hover={{ backgroundColor: 'brand.secondary.50' }}
                       >
                         <HStack spacing={2}>
-                          <Icon as={FiXCircle} color="red.300" />
-                          <Box color="red.300">Sign Out</Box>
+                          <Icon as={FiXCircle} color="brand.purple" />
+                          <Box color="brand.purple">Sign Out</Box>
                         </HStack>
                       </MenuItem>
                     </MenuList>
