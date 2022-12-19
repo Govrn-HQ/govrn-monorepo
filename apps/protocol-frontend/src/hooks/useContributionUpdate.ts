@@ -60,6 +60,7 @@ export const useContributionUpdate = () => {
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
+
             // title: `Contribution  ${pluralize(
             //   'Report',
             //   bulkItemCount,
@@ -69,8 +70,6 @@ export const useContributionUpdate = () => {
                 ? 'Reports have'
                 : 'Report has'
             } been updated.`, // not using pluralize here because we need to also include 'have' and 'has'
-            status: 'success',
-            iconName: 'success',
           });
         }
         setModals({ editContributionFormModal: false });

@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 type CustomToastProps = {
-  status: AlertStatus;
+  // status: AlertStatus;
   title?: string | ReactNode;
   description?: string | ReactNode;
   icon?: IconType;
@@ -22,7 +22,7 @@ type CustomToastProps = {
   iconColor?: string;
   toast?: any;
   closeToast?: any;
-  isCloseable?: boolean;
+  isClosable?: boolean;
 };
 
 export type ToastProps = ChakraToastProps & CustomToastProps;
@@ -73,6 +73,7 @@ const Toast: React.FC<ToastProps> = ({
   isClosable = true,
   closeToast,
 }: ToastProps) => {
+  console.log('is closeable', isClosable);
   return (
     <Box
       bg={colorValues[status].bg}
@@ -98,7 +99,7 @@ const Toast: React.FC<ToastProps> = ({
           {description && <Text size="sm">{description}</Text>}
         </Box>
       </HStack>
-      {isClosable && (
+      {isClosable === true && (
         <Box
           marginLeft={8}
           // position="absolute"

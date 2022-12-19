@@ -13,12 +13,14 @@ const ToastBase = ({
   duration,
   isClosable,
   iconName,
-  variant,
+  closeToast,
 }: ToastProps & { status: AlertStatus; toast: CreateToastFnReturn }) => {
+  console.log('in toast, closeable', isClosable);
   return toast({
     title,
     description,
     status,
+    closeToast,
     id: id,
     duration: duration ?? 3000,
     isClosable: isClosable ?? true,
@@ -31,7 +33,8 @@ const ToastBase = ({
         description={description}
         iconName={iconName}
         status={status}
-        isCloseable={isClosable}
+        isClosable={isClosable}
+        closeToast={closeToast}
       />
     ),
   });
@@ -49,7 +52,13 @@ const useGovrnToast = () => {
 
   return {
     success(props: ToastProps) {
-      ToastBase({ ...props, status: 'success', closeToast: closeToast, toast });
+      toastIdRef.current = ToastBase({
+        closeToast: closeToast,
+        status: 'success',
+        iconName: 'success',
+        ...props,
+        toast,
+      });
     },
     error(props: ToastProps) {
       ToastBase({ ...props, status: 'error', toast });
