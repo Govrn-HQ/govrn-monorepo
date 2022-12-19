@@ -16408,6 +16408,13 @@ export type CreateGuildMutationVariables = Exact<{
 
 export type CreateGuildMutation = { createOneGuild: { congrats_channel?: string | null, discord_id?: string | null, logo?: string | null, name?: string | null } };
 
+export type CreateGuildUserMutationVariables = Exact<{
+  data: GuildUserCreateInput;
+}>;
+
+
+export type CreateGuildUserMutation = { createOneGuildUser: { id: number } };
+
 export type DeleteGuildUserMutationVariables = Exact<{
   where: GuildUserWhereUniqueInput;
 }>;
@@ -17184,6 +17191,13 @@ export const CreateGuildDocument = gql`
   }
 }
     `;
+export const CreateGuildUserDocument = gql`
+    mutation createGuildUser($data: GuildUserCreateInput!) {
+  createOneGuildUser(data: $data) {
+    id
+  }
+}
+    `;
 export const DeleteGuildUserDocument = gql`
     mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
   deleteOneGuildUser(where: $where) {
@@ -17597,6 +17611,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createGuild(variables: CreateGuildMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildMutation>(CreateGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuild', 'mutation');
+    },
+    createGuildUser(variables: CreateGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserMutation>(CreateGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUser', 'mutation');
     },
     deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');

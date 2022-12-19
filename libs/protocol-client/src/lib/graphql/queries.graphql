@@ -177,6 +177,12 @@ mutation createGuild($data: GuildCreateInput!) {
   }
 }
 
+mutation createGuildUser($data: GuildUserCreateInput!) {
+  createOneGuildUser(data: $data) {
+    id
+  }
+}
+
 mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
   deleteOneGuildUser(where: $where) {
     id
