@@ -11,6 +11,8 @@ import {
   Icon,
   AlertStatus,
   ToastProps as ChakraToastProps,
+  ToastId,
+  CreateToastFnReturn,
 } from '@chakra-ui/react';
 
 type CustomToastProps = {
@@ -20,8 +22,8 @@ type CustomToastProps = {
   icon?: IconType;
   iconName?: string;
   iconColor?: string;
-  toast?: any;
-  closeToast?: any;
+  toast?: CreateToastFnReturn;
+  closeToast?: (id: ToastId) => void;
   isClosable?: boolean;
 };
 
@@ -72,9 +74,7 @@ const Toast: React.FC<ToastProps> = ({
   iconColor,
   closeToast,
   ...props
-}: // isClosable,
-ToastProps) => {
-  console.log('in toast, closeable', props.isClosable);
+}: ToastProps) => {
   return (
     <Box
       bg={colorValues[status].bg}

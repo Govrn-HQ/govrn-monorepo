@@ -14,15 +14,18 @@ const ToastBase = ({
   iconName,
   closeToast,
   ...props // gets the rest of the original Chakra Toast props such as isClosable
-}: ToastProps & { status: AlertStatus; toast: CreateToastFnReturn }) => {
+}: ToastProps & {
+  status: AlertStatus;
+  toast: Partial<CreateToastFnReturn>;
+}) => {
   return toast({
     title,
     description,
     status,
-    closeToast,
     id: id,
     duration: duration ?? 3000,
     isClosable: props.isClosable ?? true,
+
     position: 'top-right',
     variant: 'left-accent',
     ...props,
@@ -42,7 +45,7 @@ const ToastBase = ({
 
 const useGovrnToast = () => {
   const toast = useToast();
-  const toastIdRef = useRef();
+  const toastIdRef = useRef<ToastId | null>(null);
 
   function closeToast() {
     if (toastIdRef.current) {
