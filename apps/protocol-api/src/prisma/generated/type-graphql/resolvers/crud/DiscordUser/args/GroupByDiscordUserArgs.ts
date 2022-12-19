@@ -20,7 +20,7 @@ export class GroupByDiscordUserArgs {
   @TypeGraphQL.Field(_type => [DiscordUserScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "display_name" | "discord_id" | "user_id">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "display_name" | "discord_id" | "user_id" | "enable_notifications" | "enable_submit_reminder_period" | "submit_reminder_period_min" | "enable_mint_notification_period" | "mint_notification_period_min" | "enable_new_guild_notification_period" | "new_guild_notification_period_min" | "enable_attribution_notification_period" | "attribution_notification_period_min">;
 
   @TypeGraphQL.Field(_type => DiscordUserScalarWhereWithAggregatesInput, {
     nullable: true

@@ -39,4 +39,49 @@ export class DiscordUser {
   user_id!: number;
 
   user?: User;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  enable_notifications!: boolean;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  enable_submit_reminder_period!: boolean;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  submit_reminder_period_min!: number;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  enable_mint_notification_period!: boolean;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  mint_notification_period_min!: number;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  enable_new_guild_notification_period!: boolean;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  new_guild_notification_period_min!: number;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  enable_attribution_notification_period!: boolean;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  attribution_notification_period_min!: number;
 }
