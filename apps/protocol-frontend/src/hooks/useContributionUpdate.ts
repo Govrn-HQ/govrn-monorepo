@@ -4,7 +4,6 @@ import { useOverlay } from '../contexts/OverlayContext';
 import { ContributionFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
 import { useGovrnToast } from '@govrn/protocol-ui';
-import pluralize from 'pluralize';
 
 interface UpdateContributionProps {
   updatedValues: ContributionFormValues;
@@ -60,11 +59,6 @@ export const useContributionUpdate = () => {
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
-
-            // title: `Contribution  ${pluralize(
-            //   'Report',
-            //   bulkItemCount,
-            // )} Updated`,
             description: `Your Contribution ${
               bulkItemCount && bulkItemCount !== 1
                 ? 'Reports have'

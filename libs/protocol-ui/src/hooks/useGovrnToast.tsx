@@ -65,17 +65,45 @@ const useGovrnToast = () => {
         toast,
       });
     },
-    error(props: ToastProps) {
-      ToastBase({ ...props, status: 'error', toast });
+    error(props: Omit<ToastProps, 'status'>) {
+      toastIdRef.current = ToastBase({
+        ...props,
+        status: 'error',
+        iconName: 'error',
+        closeToast: closeToast,
+        isClosable: props.isClosable ?? true,
+        toast,
+      });
     },
-    warning(props: ToastProps) {
-      ToastBase({ ...props, status: 'warning', toast });
+    warning(props: Omit<ToastProps, 'status'>) {
+      toastIdRef.current = ToastBase({
+        ...props,
+        status: 'warning',
+        iconName: 'warning',
+        closeToast: closeToast,
+        isClosable: props.isClosable ?? true,
+        toast,
+      });
     },
-    info(props: ToastProps) {
-      ToastBase({ ...props, status: 'info', toast });
+    info(props: Omit<ToastProps, 'status'>) {
+      toastIdRef.current = ToastBase({
+        ...props,
+        status: 'info',
+        iconName: 'info',
+        closeToast: closeToast,
+        isClosable: props.isClosable ?? true,
+        toast,
+      });
     },
-    loading(props: ToastProps) {
-      ToastBase({ ...props, status: 'loading', toast });
+    loading(props: Omit<ToastProps, 'status'>) {
+      toastIdRef.current = ToastBase({
+        ...props,
+        status: 'loading',
+        iconName: 'loading',
+        closeToast: closeToast,
+        isClosable: props.isClosable ?? true,
+        toast,
+      });
     },
     isActive(id: ToastId) {
       return toast.isActive(id);

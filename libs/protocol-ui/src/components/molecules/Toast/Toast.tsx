@@ -23,7 +23,7 @@ type CustomToastProps = {
   iconName?: string;
   iconColor?: string;
   toast?: CreateToastFnReturn;
-  closeToast?: (id: ToastId) => void;
+  closeToast?: () => void;
   isClosable?: boolean;
 };
 
