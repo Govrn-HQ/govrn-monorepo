@@ -118,7 +118,7 @@ describe('Create First Contribution', () => {
     cy.get('[data-cy="addContribution-btn"]').click();
 
     cy.contains(
-      'Please select at least one Contribution to attribute to a DAO or mint.',
+      'Please select at least one contribution to attribute to a DAO or mint.',
       { timeout: 20000 },
     );
   });
