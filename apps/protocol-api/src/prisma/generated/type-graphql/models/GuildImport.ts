@@ -24,10 +24,10 @@ export class GuildImport {
   })
   updatedAt!: Date;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  authentication_token!: number;
+  authentication_token!: string;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

@@ -13,7 +13,7 @@ CREATE TABLE "GuildImport" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "authentication_token" INTEGER NOT NULL,
+    "authentication_token" TEXT NOT NULL,
     "guild_id" INTEGER NOT NULL,
     "integration_type_id" INTEGER NOT NULL,
 

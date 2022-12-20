@@ -22,10 +22,10 @@ export class GuildImportMaxAggregate {
   })
   updatedAt!: Date | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  authentication_token!: number | null;
+  authentication_token!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

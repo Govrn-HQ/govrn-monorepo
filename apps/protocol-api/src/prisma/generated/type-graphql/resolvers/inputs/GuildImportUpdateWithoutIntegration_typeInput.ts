@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { GuildUpdateOneRequiredWithoutGuild_importsNestedInput } from "../inputs/GuildUpdateOneRequiredWithoutGuild_importsNestedInput";
-import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("GuildImportUpdateWithoutIntegration_typeInput", {
   isAbstract: true
@@ -20,10 +20,10 @@ export class GuildImportUpdateWithoutIntegration_typeInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  authentication_token?: IntFieldUpdateOperationsInput | undefined;
+  authentication_token?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildUpdateOneRequiredWithoutGuild_importsNestedInput, {
     nullable: true

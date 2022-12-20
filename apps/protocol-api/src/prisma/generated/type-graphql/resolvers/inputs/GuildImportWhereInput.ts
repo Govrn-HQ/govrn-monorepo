@@ -6,6 +6,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildRelationFilter } from "../inputs/GuildRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntegrationTypeRelationFilter } from "../inputs/IntegrationTypeRelationFilter";
+import { StringFilter } from "../inputs/StringFilter";
 
 @TypeGraphQL.InputType("GuildImportWhereInput", {
   isAbstract: true
@@ -41,10 +42,10 @@ export class GuildImportWhereInput {
   })
   updatedAt?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  authentication_token?: IntFilter | undefined;
+  authentication_token?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true

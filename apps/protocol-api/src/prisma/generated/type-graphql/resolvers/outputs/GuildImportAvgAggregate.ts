@@ -15,11 +15,6 @@ export class GuildImportAvgAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
-  authentication_token!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
-  })
   guild_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {

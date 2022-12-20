@@ -18,10 +18,10 @@ export class GuildImportCreateWithoutIntegration_typeInput {
   })
   updatedAt?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  authentication_token!: number;
+  authentication_token!: string;
 
   @TypeGraphQL.Field(_type => GuildCreateNestedOneWithoutGuild_importsInput, {
     nullable: false

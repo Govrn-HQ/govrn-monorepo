@@ -128,7 +128,7 @@ model GuildImport {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  authentication_token Int
+  authentication_token String
   guild_id Int
   guild Guild @relation(fields: [guild_id], references: [id])
   integration_type_id Int

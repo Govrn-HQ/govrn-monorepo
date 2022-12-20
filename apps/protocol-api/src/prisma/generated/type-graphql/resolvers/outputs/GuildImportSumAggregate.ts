@@ -15,11 +15,6 @@ export class GuildImportSumAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  authentication_token!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
   guild_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
