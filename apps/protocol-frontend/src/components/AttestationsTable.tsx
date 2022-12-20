@@ -203,12 +203,8 @@ const AttestationsTable = ({
               </Text>
             </Stack>
             <Button
-              bgColor="brand.primary.50"
-              color="brand.primary.600"
-              transition="all 100ms ease-in-out"
-              _hover={{ bgColor: 'brand.primary.100' }}
+              variant="primary"
               flexBasis="10%"
-              colorScheme="brand.primary"
               disabled={selectedFlatRows?.length === 0}
               onClick={attestationsModalHandler}
               data-testId="attest-testId"

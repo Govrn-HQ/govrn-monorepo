@@ -1,19 +1,20 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { AggregateAttestationStatusArgs } from "./args/AggregateAttestationStatusArgs";
-import { CreateAttestationStatusArgs } from "./args/CreateAttestationStatusArgs";
 import { CreateManyAttestationStatusArgs } from "./args/CreateManyAttestationStatusArgs";
-import { DeleteAttestationStatusArgs } from "./args/DeleteAttestationStatusArgs";
+import { CreateOneAttestationStatusArgs } from "./args/CreateOneAttestationStatusArgs";
 import { DeleteManyAttestationStatusArgs } from "./args/DeleteManyAttestationStatusArgs";
+import { DeleteOneAttestationStatusArgs } from "./args/DeleteOneAttestationStatusArgs";
 import { FindFirstAttestationStatusArgs } from "./args/FindFirstAttestationStatusArgs";
+import { FindFirstAttestationStatusOrThrowArgs } from "./args/FindFirstAttestationStatusOrThrowArgs";
 import { FindManyAttestationStatusArgs } from "./args/FindManyAttestationStatusArgs";
 import { FindUniqueAttestationStatusArgs } from "./args/FindUniqueAttestationStatusArgs";
+import { FindUniqueAttestationStatusOrThrowArgs } from "./args/FindUniqueAttestationStatusOrThrowArgs";
 import { GroupByAttestationStatusArgs } from "./args/GroupByAttestationStatusArgs";
-import { UpdateAttestationStatusArgs } from "./args/UpdateAttestationStatusArgs";
 import { UpdateManyAttestationStatusArgs } from "./args/UpdateManyAttestationStatusArgs";
-import { UpsertAttestationStatusArgs } from "./args/UpsertAttestationStatusArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { UpdateOneAttestationStatusArgs } from "./args/UpdateOneAttestationStatusArgs";
+import { UpsertOneAttestationStatusArgs } from "./args/UpsertOneAttestationStatusArgs";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 import { AttestationStatus } from "../../../models/AttestationStatus";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";
 import { AggregateAttestationStatus } from "../../outputs/AggregateAttestationStatus";
@@ -21,40 +22,22 @@ import { AttestationStatusGroupBy } from "../../outputs/AttestationStatusGroupBy
 
 @TypeGraphQL.Resolver(_of => AttestationStatus)
 export class AttestationStatusCrudResolver {
-  @TypeGraphQL.Query(_returns => AttestationStatus, {
-    nullable: true
-  })
-  async attestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindUniqueAttestationStatusArgs): Promise<AttestationStatus | null> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
-    return getPrismaFromContext(ctx).attestationStatus.findUnique({
-      ...args,
-      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
-    });
-  }
-
-  @TypeGraphQL.Query(_returns => AttestationStatus, {
-    nullable: true
-  })
-  async findFirstAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstAttestationStatusArgs): Promise<AttestationStatus | null> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
-    return getPrismaFromContext(ctx).attestationStatus.findFirst({
-      ...args,
-      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
-    });
-  }
-
-  @TypeGraphQL.Query(_returns => [AttestationStatus], {
+  @TypeGraphQL.Query(_returns => AggregateAttestationStatus, {
     nullable: false
   })
-  async attestationStatuses(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindManyAttestationStatusArgs): Promise<AttestationStatus[]> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
-    return getPrismaFromContext(ctx).attestationStatus.findMany({
+  async aggregateAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateAttestationStatusArgs): Promise<AggregateAttestationStatus> {
+    return getPrismaFromContext(ctx).attestationStatus.aggregate({
+      ...args,
+      ...transformInfoIntoPrismaArgs(info),
+    });
+  }
+
+  @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
+    nullable: false
+  })
+  async createManyAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateManyAttestationStatusArgs): Promise<AffectedRowsOutput> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.createMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
@@ -63,10 +46,8 @@ export class AttestationStatusCrudResolver {
   @TypeGraphQL.Mutation(_returns => AttestationStatus, {
     nullable: false
   })
-  async createAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateAttestationStatusArgs): Promise<AttestationStatus> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
+  async createOneAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateOneAttestationStatusArgs): Promise<AttestationStatus> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).attestationStatus.create({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
@@ -76,88 +57,77 @@ export class AttestationStatusCrudResolver {
   @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
     nullable: false
   })
-  async createManyAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateManyAttestationStatusArgs): Promise<AffectedRowsOutput> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
-    return getPrismaFromContext(ctx).attestationStatus.createMany({
-      ...args,
-      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
-    });
-  }
-
-  @TypeGraphQL.Mutation(_returns => AttestationStatus, {
-    nullable: true
-  })
-  async deleteAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteAttestationStatusArgs): Promise<AttestationStatus | null> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
-    return getPrismaFromContext(ctx).attestationStatus.delete({
-      ...args,
-      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
-    });
-  }
-
-  @TypeGraphQL.Mutation(_returns => AttestationStatus, {
-    nullable: true
-  })
-  async updateAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateAttestationStatusArgs): Promise<AttestationStatus | null> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
-    return getPrismaFromContext(ctx).attestationStatus.update({
-      ...args,
-      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
-    });
-  }
-
-  @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
-    nullable: false
-  })
   async deleteManyAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteManyAttestationStatusArgs): Promise<AffectedRowsOutput> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).attestationStatus.deleteMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
-    nullable: false
-  })
-  async updateManyAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateManyAttestationStatusArgs): Promise<AffectedRowsOutput> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
-    return getPrismaFromContext(ctx).attestationStatus.updateMany({
-      ...args,
-      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
-    });
-  }
-
   @TypeGraphQL.Mutation(_returns => AttestationStatus, {
-    nullable: false
+    nullable: true
   })
-  async upsertAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpsertAttestationStatusArgs): Promise<AttestationStatus> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
-    return getPrismaFromContext(ctx).attestationStatus.upsert({
+  async deleteOneAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteOneAttestationStatusArgs): Promise<AttestationStatus | null> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.delete({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Query(_returns => AggregateAttestationStatus, {
+  @TypeGraphQL.Query(_returns => AttestationStatus, {
+    nullable: true
+  })
+  async findFirstAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstAttestationStatusArgs): Promise<AttestationStatus | null> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.findFirst({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.Query(_returns => AttestationStatus, {
+    nullable: true
+  })
+  async findFirstAttestationStatusOrThrow(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstAttestationStatusOrThrowArgs): Promise<AttestationStatus | null> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.findFirstOrThrow({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.Query(_returns => [AttestationStatus], {
     nullable: false
   })
-  async aggregateAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateAttestationStatusArgs): Promise<AggregateAttestationStatus> {
-    return getPrismaFromContext(ctx).attestationStatus.aggregate({
+  async attestationStatuses(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindManyAttestationStatusArgs): Promise<AttestationStatus[]> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.findMany({
       ...args,
-      ...transformFields(graphqlFields(info as any)),
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.Query(_returns => AttestationStatus, {
+    nullable: true
+  })
+  async attestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindUniqueAttestationStatusArgs): Promise<AttestationStatus | null> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.findUnique({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.Query(_returns => AttestationStatus, {
+    nullable: true
+  })
+  async getAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindUniqueAttestationStatusOrThrowArgs): Promise<AttestationStatus | null> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.findUniqueOrThrow({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
@@ -165,14 +135,45 @@ export class AttestationStatusCrudResolver {
     nullable: false
   })
   async groupByAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: GroupByAttestationStatusArgs): Promise<AttestationStatusGroupBy[]> {
-    const { _count, _avg, _sum, _min, _max } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count, _avg, _sum, _min, _max } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).attestationStatus.groupBy({
       ...args,
       ...Object.fromEntries(
         Object.entries({ _count, _avg, _sum, _min, _max }).filter(([_, v]) => v != null)
       ),
+    });
+  }
+
+  @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
+    nullable: false
+  })
+  async updateManyAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateManyAttestationStatusArgs): Promise<AffectedRowsOutput> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.updateMany({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.Mutation(_returns => AttestationStatus, {
+    nullable: true
+  })
+  async updateOneAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateOneAttestationStatusArgs): Promise<AttestationStatus | null> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.update({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.Mutation(_returns => AttestationStatus, {
+    nullable: false
+  })
+  async upsertOneAttestationStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpsertOneAttestationStatusArgs): Promise<AttestationStatus> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).attestationStatus.upsert({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 }

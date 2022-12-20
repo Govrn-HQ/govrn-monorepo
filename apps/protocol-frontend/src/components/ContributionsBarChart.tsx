@@ -2,10 +2,10 @@ import React from 'react';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveBar } from '@nivo/bar';
 import * as _ from 'lodash';
-import { BRAND_COLOR_MAP } from '../utils/constants';
+import { BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
 
 type ContributionCount = {
-  date: string;
+  date: string | Date;
   count: number;
   guild_id?: number | null;
   name?: string;
@@ -99,12 +99,7 @@ const ContributionsBarChart = ({
             padding={0.3}
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}
-            colors={[
-              BRAND_COLOR_MAP[0],
-              BRAND_COLOR_MAP[1],
-              BRAND_COLOR_MAP[2],
-              BRAND_COLOR_MAP[3],
-            ]}
+            colors={BRAND_COLOR_MAP_SUBSET}
             borderColor={{
               from: 'color',
               modifiers: [['darker', 1.6]],

@@ -37,7 +37,7 @@ model User {
   contributions Contribution[]
   linear_users LinearUser[]
   guild_users GuildUser[]
-  twitter_user TwitterUser? 
+  twitter_user TwitterUser?
   discord_users DiscordUser[]
 }
 
@@ -68,6 +68,14 @@ model Guild {
   status GuildStatus @default(INPUTTED)
 }
 
+model GuildMembershipStatus {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  name String @unique
+  guildUsers GuildUser[]
+}
+
 model GuildUser {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -76,6 +84,9 @@ model GuildUser {
   user User @relation(fields: [user_id], references: [id])
   guild_id Int
   guild Guild @relation(fields: [guild_id], references: [id])
+  membership_status_id Int?
+  membershipStatus GuildMembershipStatus? @relation(fields: [membership_status_id], references: [id])
+  favorite Boolean @default(false)
 
   @@unique([user_id, guild_id])
 }
@@ -151,7 +162,7 @@ model Contribution {
   chain Chain? @relation(fields: [chain_id], references: [id])
   on_chain_id Int?
   tx_hash String? @db.Citext
-  
+
   @@unique([chain_id, on_chain_id])
 }
 
@@ -411,7 +422,7 @@ model TwitterTweetContribution {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  twitter_tweet_id Int 
+  twitter_tweet_id Int
   twitter_tweet TwitterTweet @relation(fields: [twitter_tweet_id], references: [id])
   contribution_id Int
   contribution Contribution @relation(fields: [contribution_id], references: [id])

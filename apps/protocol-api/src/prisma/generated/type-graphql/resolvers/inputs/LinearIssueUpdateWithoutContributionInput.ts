@@ -2,11 +2,11 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { LinearCycleUpdateOneWithoutIssuesInput } from "../inputs/LinearCycleUpdateOneWithoutIssuesInput";
-import { LinearProjectUpdateOneWithoutIssuesInput } from "../inputs/LinearProjectUpdateOneWithoutIssuesInput";
-import { LinearTeamUpdateOneWithoutIssuesInput } from "../inputs/LinearTeamUpdateOneWithoutIssuesInput";
-import { LinearUserUpdateOneWithoutAssigned_issuesInput } from "../inputs/LinearUserUpdateOneWithoutAssigned_issuesInput";
-import { LinearUserUpdateOneWithoutCreated_issuesInput } from "../inputs/LinearUserUpdateOneWithoutCreated_issuesInput";
+import { LinearCycleUpdateOneWithoutIssuesNestedInput } from "../inputs/LinearCycleUpdateOneWithoutIssuesNestedInput";
+import { LinearProjectUpdateOneWithoutIssuesNestedInput } from "../inputs/LinearProjectUpdateOneWithoutIssuesNestedInput";
+import { LinearTeamUpdateOneWithoutIssuesNestedInput } from "../inputs/LinearTeamUpdateOneWithoutIssuesNestedInput";
+import { LinearUserUpdateOneWithoutAssigned_issuesNestedInput } from "../inputs/LinearUserUpdateOneWithoutAssigned_issuesNestedInput";
+import { LinearUserUpdateOneWithoutCreated_issuesNestedInput } from "../inputs/LinearUserUpdateOneWithoutCreated_issuesNestedInput";
 import { NullableBoolFieldUpdateOperationsInput } from "../inputs/NullableBoolFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
 import { NullableFloatFieldUpdateOperationsInput } from "../inputs/NullableFloatFieldUpdateOperationsInput";
@@ -137,28 +137,28 @@ export class LinearIssueUpdateWithoutContributionInput {
   })
   url?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearUserUpdateOneWithoutAssigned_issuesInput, {
+  @TypeGraphQL.Field(_type => LinearUserUpdateOneWithoutAssigned_issuesNestedInput, {
     nullable: true
   })
-  assignee?: LinearUserUpdateOneWithoutAssigned_issuesInput | undefined;
+  assignee?: LinearUserUpdateOneWithoutAssigned_issuesNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearUserUpdateOneWithoutCreated_issuesInput, {
+  @TypeGraphQL.Field(_type => LinearUserUpdateOneWithoutCreated_issuesNestedInput, {
     nullable: true
   })
-  creator?: LinearUserUpdateOneWithoutCreated_issuesInput | undefined;
+  creator?: LinearUserUpdateOneWithoutCreated_issuesNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearCycleUpdateOneWithoutIssuesInput, {
+  @TypeGraphQL.Field(_type => LinearCycleUpdateOneWithoutIssuesNestedInput, {
     nullable: true
   })
-  cycle?: LinearCycleUpdateOneWithoutIssuesInput | undefined;
+  cycle?: LinearCycleUpdateOneWithoutIssuesNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearProjectUpdateOneWithoutIssuesInput, {
+  @TypeGraphQL.Field(_type => LinearProjectUpdateOneWithoutIssuesNestedInput, {
     nullable: true
   })
-  project?: LinearProjectUpdateOneWithoutIssuesInput | undefined;
+  project?: LinearProjectUpdateOneWithoutIssuesNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearTeamUpdateOneWithoutIssuesInput, {
+  @TypeGraphQL.Field(_type => LinearTeamUpdateOneWithoutIssuesNestedInput, {
     nullable: true
   })
-  team?: LinearTeamUpdateOneWithoutIssuesInput | undefined;
+  team?: LinearTeamUpdateOneWithoutIssuesNestedInput | undefined;
 }

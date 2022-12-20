@@ -2,6 +2,7 @@ import * as TypeGraphQL from 'type-graphql';
 
 import { Context } from './types';
 import { User } from '../generated/type-graphql/models/User';
+import { Int } from 'type-graphql';
 
 @TypeGraphQL.InputType('UserCreateCustomInput', {
   isAbstract: true,

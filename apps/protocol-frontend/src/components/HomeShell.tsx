@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
-import PageHeading from './PageHeading';
 import CreateUserForm from './CreateUserForm';
-
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
-import { GOVRN_MOTTO } from '../utils/constants';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import GovrnTextLogo from './GovrnTextLogo';
 
 const HomeShell = () => {
   const { isConnected } = useAccount();
@@ -38,7 +36,7 @@ const HomeShell = () => {
       <Flex direction="column" alignItems="center" justifyContent="center">
         {createProfileSteps === 1 && (
           <>
-            <Text color="gray.800" paddingBottom={8}>
+            <Text color="white" paddingBottom={8}>
               Welcome to Govrn! Let's start by creating your profile. You can
               change these details at any time on your Profile.
             </Text>
@@ -76,26 +74,19 @@ const HomeShell = () => {
             alignItems="center"
             justifyContent="center"
             textAlign="center"
+            color="white"
           >
             <>
-              <Text color="gray.800" paddingBottom={8}>
-                Welcome back{' '}
-                <Text
-                  as="span"
-                  fontWeight="bolder"
-                  bgGradient="linear(to-l, #7928CA, #FF0080)"
-                  bgClip="text"
-                >
+              <Text paddingBottom={8}>
+                Welcome back,{' '}
+                <Text as="span" fontWeight="bolder">
                   {userData?.name || userDataByAddress?.name}
                 </Text>
-                . Click below to view your dashboard.
+                .
               </Text>
               <Link to="/dashboard">
                 <Button
-                  color="brand.primary.600"
-                  backgroundColor="brand.primary.50"
-                  transition="all 100ms ease-in-out"
-                  _hover={{ bgColor: 'white' }}
+                  variant="tertiary"
                   marginTop={4}
                   width="100%"
                   data-cy="myDashboards-btn"
@@ -120,37 +111,56 @@ const HomeShell = () => {
       paddingX={{ base: 8, lg: 0 }}
       minHeight="100vh"
       minWidth="100vw"
-      bgGradient="linear(to-r, white 0%, brand.primary.100 50%, brand.primary.200 100%)"
+      bgGradient="linear-gradient(49deg, rgba(223,31,151,1) 0%, rgba(81,0,228,1) 100%)"
     >
-      <VisuallyHidden>
-        <Heading as="h1">Govrn</Heading>
-      </VisuallyHidden>
       <Flex
         direction="column"
-        alignItems={{ base: 'flex-start', lg: 'center' }}
-        justifyContent={{ base: 'flex-start', lg: 'center' }}
+        alignItems={{ base: 'center' }}
+        justifyContent={{ base: 'center' }}
         paddingY={{ base: '8', lg: '0' }}
         flex="1"
         minHeight={['100vh', '100vh', '0', '0']}
+        gap={{ base: 4, lg: 16 }}
       >
-        <PageHeading>
-          Welcome to Govrn{' '}
-          <span role="img" aria-labelledby="welcome">
-            👋
+        <VisuallyHidden>
+          <Heading as="h1">Govrn</Heading>
+        </VisuallyHidden>
+        <GovrnTextLogo />
+        <Flex
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          color="white"
+          fontSize={{ base: 'lg', lg: '2xl' }}
+          fontWeight="400"
+          marginBottom={{ base: 40, lg: 0 }}
+          gap={1}
+          maxW={{ base: '70%', lg: '60%' }}
+        >
+          <Text textAlign="center">
+            Track and record your DAO Contributions
+          </Text>
+          <span role="img" aria-labelledby="Govrn motto handshake emoji">
+            🤝
           </span>
-        </PageHeading>
-        <Text color="gray.800" paddingBottom={4}>
-          {GOVRN_MOTTO}
-        </Text>
+        </Flex>
         {isConnected && isAuthenticated ? (
           <NewUserFlow />
         ) : (
-          <>
-            <Text color="gray.800" paddingBottom={8}>
+          <Flex
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            color="white"
+            fontSize={{ base: 'lg', lg: 'xl' }}
+            fontWeight="400"
+            maxW={{ base: '60%', lg: '70%' }}
+          >
+            <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
               To get started, connect your wallet to Gnosis Chain.
             </Text>
             <ConnectWallet />
-          </>
+          </Flex>
         )}
       </Flex>
     </Flex>

@@ -1,9 +1,8 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { FindManyTwitterUserArgs } from "./args/FindManyTwitterUserArgs";
 import { TwitterUser } from "../../../models/TwitterUser";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => TwitterUser)
 export class FindManyTwitterUserResolver {
@@ -11,9 +10,7 @@ export class FindManyTwitterUserResolver {
     nullable: false
   })
   async twitterUsers(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindManyTwitterUserArgs): Promise<TwitterUser[]> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).twitterUser.findMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),

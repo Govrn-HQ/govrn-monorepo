@@ -1,9 +1,8 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { FindFirstAttestationConfidenceArgs } from "./args/FindFirstAttestationConfidenceArgs";
 import { AttestationConfidence } from "../../../models/AttestationConfidence";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => AttestationConfidence)
 export class FindFirstAttestationConfidenceResolver {
@@ -11,9 +10,7 @@ export class FindFirstAttestationConfidenceResolver {
     nullable: true
   })
   async findFirstAttestationConfidence(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstAttestationConfidenceArgs): Promise<AttestationConfidence | null> {
-    const { _count } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).attestationConfidence.findFirst({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),

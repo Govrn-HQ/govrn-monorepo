@@ -3,7 +3,7 @@ import { TwitterTweet } from "../../../models/TwitterTweet";
 import { TwitterUser } from "../../../models/TwitterUser";
 import { User } from "../../../models/User";
 import { TwitterUserTweetsArgs } from "./args/TwitterUserTweetsArgs";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => TwitterUser)
 export class TwitterUserRelationsResolver {

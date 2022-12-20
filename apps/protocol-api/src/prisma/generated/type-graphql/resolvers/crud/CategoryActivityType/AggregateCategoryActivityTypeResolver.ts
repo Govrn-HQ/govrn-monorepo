@@ -1,10 +1,9 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { AggregateCategoryActivityTypeArgs } from "./args/AggregateCategoryActivityTypeArgs";
 import { CategoryActivityType } from "../../../models/CategoryActivityType";
 import { AggregateCategoryActivityType } from "../../outputs/AggregateCategoryActivityType";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => CategoryActivityType)
 export class AggregateCategoryActivityTypeResolver {
@@ -14,7 +13,7 @@ export class AggregateCategoryActivityTypeResolver {
   async aggregateCategoryActivityType(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateCategoryActivityTypeArgs): Promise<AggregateCategoryActivityType> {
     return getPrismaFromContext(ctx).categoryActivityType.aggregate({
       ...args,
-      ...transformFields(graphqlFields(info as any)),
+      ...transformInfoIntoPrismaArgs(info),
     });
   }
 }

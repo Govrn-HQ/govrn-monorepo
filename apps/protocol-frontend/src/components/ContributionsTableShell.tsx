@@ -21,8 +21,7 @@ import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
 import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
-import { Row } from 'react-table';
-import { ContributionTableType } from '../types/table';
+import { UIContribution } from '@govrn/ui-types';
 
 const ContributionsTableShell = () => {
   const { userData } = useUser();
@@ -38,7 +37,7 @@ const ContributionsTableShell = () => {
   });
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<
-    Row<ContributionTableType>[]
+    UIContribution[]
   >([]);
 
   const mintModalHandler = () => {
@@ -62,7 +61,6 @@ const ContributionsTableShell = () => {
       ) : contributions && contributions.pages.length > 0 ? (
         <Tabs
           variant="soft-rounded"
-          colorScheme="gray"
           width="100%"
           maxWidth="100vw"
           paddingX={{ base: 4, lg: 0 }}
@@ -99,37 +97,27 @@ const ContributionsTableShell = () => {
                           <AlertDescription>
                             <span
                               role="img"
-                              aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
+                              aria-labelledby="Sun emoji for alert to select at least one contribution to attribute to a DAO or mint."
                             >
                               🌞
                             </span>{' '}
-                            Please select at least one Contribution to attribute
+                            Please select at least one contribution to attribute
                             to a DAO or mint.
                           </AlertDescription>
                         </Alert>
                       ) : (
                         <Stack direction="row" spacing={5}>
                           <Button
+                            variant="primary"
                             size="md"
-                            bgColor="brand.primary.50"
-                            color="brand.primary.600"
-                            transition="all 100ms ease-in-out"
-                            _hover={{ bgColor: 'brand.primary.100' }}
-                            colorScheme="brand.primary"
                             onClick={bulkDaoAttributeHandler}
                             disabled={selectedContributions?.length === 0}
                           >
                             Attribute to DAO
                           </Button>
                           <Button
+                            variant="primary"
                             size="md"
-                            bgColor="white"
-                            color="brand.primary.600"
-                            border="1px solid"
-                            borderColor="brand.primary.500"
-                            transition="all 100ms ease-in-out"
-                            _hover={{ bgColor: 'brand.primary.50' }}
-                            colorScheme="brand.primary"
                             onClick={mintModalHandler}
                             disabled={selectedContributions?.length === 0}
                             data-testid="mint-btn-test"

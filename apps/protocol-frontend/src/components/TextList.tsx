@@ -17,7 +17,7 @@ const TextListItem = ({
   iconColor = 'green.500',
 }: TextListItemProps) => {
   return (
-    <ListItem id={id}>
+    <ListItem key={id}>
       <HStack>
         <ListIcon as={icon} color={iconColor} />
         <p>{text}</p>

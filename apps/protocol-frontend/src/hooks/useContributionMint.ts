@@ -4,10 +4,10 @@ import { ethers } from 'ethers';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import useGovrnToast from '../components/toast';
-import { MintContributionType } from '../types/mint';
 import useContributionMetadataStore from './useContributionMetadataStore';
+import { UIContribution } from '@govrn/ui-types';
 
-type ContributionData = MintContributionType['original'] & {
+type MintContributionOptions = UIContribution & {
   activityTypeName: string;
 };
 
@@ -22,16 +22,16 @@ const useContributionMint = () => {
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     ['MintContribution'],
-    async (data: ContributionData) => {
+    async (data: MintContributionOptions) => {
       if (!(signer && chain?.id && userData)) {
         throw new Error('Not signed in, unable to mint');
       }
 
       const {
-        activityTypeId,
+        activity_type,
         date_of_submission,
         details,
-        engagementDate,
+        date_of_engagement,
         id,
         name,
         proof,
@@ -40,8 +40,8 @@ const useContributionMint = () => {
 
       const ipfsUri = await storeContributionMetadata({
         name,
-        details,
-        proof,
+        details: details ?? '',
+        proof: proof ?? '',
         image: '',
         activityName: activityTypeName,
       });
@@ -58,16 +58,16 @@ const useContributionMint = () => {
         signer,
         userData.address,
         id,
-        activityTypeId,
+        activity_type.id,
         userData.id,
         {
           detailsUri: ethers.utils.toUtf8Bytes(ipfsUri),
           dateOfSubmission: new Date(date_of_submission).getTime(),
-          dateOfEngagement: new Date(engagementDate).getTime(),
+          dateOfEngagement: new Date(date_of_engagement).getTime(),
         },
         ethers.utils.toUtf8Bytes(name),
-        ethers.utils.toUtf8Bytes(details),
-        ethers.utils.toUtf8Bytes(proof),
+        ethers.utils.toUtf8Bytes(details ?? ''),
+        ethers.utils.toUtf8Bytes(proof ?? ''),
       );
     },
     {

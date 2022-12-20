@@ -7,9 +7,11 @@ import {
   Flex,
   FormLabel,
   IconButton,
+  Link as ChakraLink,
   Button,
   Text,
   Switch,
+  Box,
 } from '@chakra-ui/react';
 import {
   CreatableSelect,
@@ -228,7 +230,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Input
             name="name"
             label="Name of Contribution"
-            tip="Please add the name of your Contribution."
+            tip="Please add the name of your contribution."
             placeholder="Govrn Protocol Pull Request"
             localForm={localForm}
             dataTestId="reportForm-name"
@@ -246,7 +248,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Textarea
             name="details"
             label="Details"
-            tip="Briefly describe your Contribution"
+            tip="Briefly describe your contribution"
             placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
             variant="outline"
             localForm={localForm}
@@ -254,7 +256,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Input
             name="proof"
             label="Proof of Contribution"
-            tip="Please add a URL to a proof of your Contribution or upload a file to IPFS (smaller than 5 MB)."
+            tip="Please add a URL to a proof of your contribution or upload a file to IPFS (smaller than 5 MB)."
             placeholder="https://github.com/DAO-Contributor/DAO-Contributor/pull/1"
             localForm={localForm}
             dataTestId="reportForm-proof"
@@ -275,7 +277,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             <label htmlFor="fileUpload">
               <IconButton
                 size="sm"
-                aria-label="Upload a file for your Contribution proof"
+                aria-label="Upload a file for your contribution proof"
                 icon={<HiOutlinePaperClip />}
                 onClick={handleFileUploadButtonClick}
                 variant="outline"
@@ -306,19 +308,20 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             label="DAO"
             tip={
               <>
-                Please select a DAO to associate this Contribution with. This is
-                optional. Dont see your DAO? Request to add it{' '}
-                <a
-                  href="https://airtable.com/shrOedOjQpH9xlg7l"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: 'underline' }}
-                >
-                  here
-                </a>
+                Please select a DAO to associate this contribution with.
+                <Box fontWeight={700} lineHeight={2}>
+                  This is optional. Don't see your DAO? Request to add it{' '}
+                  <ChakraLink
+                    href="https://airtable.com/shrOedOjQpH9xlg7l"
+                    isExternal
+                    textDecoration="underline"
+                  >
+                    here
+                  </ChakraLink>
+                </Box>
               </>
             }
-            placeholder="Select a DAO to associate this Contribution with."
+            placeholder="Select a DAO to associate this contribution with."
             onChange={dao => {
               setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
             }}
@@ -329,7 +332,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             name="engagementDate"
             localForm={localForm}
             label="Date of Contribution Engagement (UTC)"
-            tip="Please select the date when you did this Contribution."
+            tip="Please select the date when you did this contribution."
             defaultValue={engagementDateValue}
             maxDate={new Date()}
             onChange={date => {
@@ -348,13 +351,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               </Text>
             )}
           </Flex>
-          <Flex align="flex-end" marginTop={4} gap={4}>
+          <Flex
+            direction="row"
+            justifyContent="flex-start"
+            marginTop={4}
+            gap={4}
+          >
             <Button
-              width="100%"
-              color="brand.primary.600"
-              backgroundColor="brand.primary.50"
-              transition="all 100ms ease-in-out"
-              _hover={{ bgColor: 'brand.primary.100' }}
+              variant="primary"
               isLoading={createNewContributionIsLoading}
               data-cy="addContribution-btn"
               disabled={ipfsError}

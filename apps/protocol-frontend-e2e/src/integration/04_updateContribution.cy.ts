@@ -146,7 +146,7 @@ describe('Edit first Contribution', () => {
       .click();
 
     cy.contains(
-      'Please select at least one Contribution to attribute to a DAO or mint.',
+      'Please select at least one contribution to attribute to a DAO or mint.',
     );
   });
 });

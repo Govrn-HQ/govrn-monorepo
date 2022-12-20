@@ -1,7 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import { DiscordUser } from "../../../models/DiscordUser";
 import { User } from "../../../models/User";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => DiscordUser)
 export class DiscordUserRelationsResolver {

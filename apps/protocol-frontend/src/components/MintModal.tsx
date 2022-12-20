@@ -16,11 +16,10 @@ import { MintModalProps } from '../types/mint';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useOverlay } from '../contexts/OverlayContext';
 import useContributionMint from '../hooks/useContributionMint';
-import { ContributionTableType } from '../types/table';
-import { Row } from 'react-table';
 import useContributionBulkMint from '../hooks/useContributionBulkMint';
 import { TextList } from './TextList';
 import pluralize from 'pluralize';
+import { UIContribution } from '@govrn/ui-types';
 
 const MintModal = ({ contributions, onFinish }: MintModalProps) => {
   const { setModals } = useOverlay();
@@ -38,7 +37,7 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
     setAgreementChecked({ agreement: true });
   };
 
-  const mintHandler = async (contributions: Row<ContributionTableType>[]) => {
+  const mintHandler = async (contributions: UIContribution[]) => {
     // Mint button is disabled unless user accepts terms.
     // Consequently, calling this means `isChecked` is already `true`.
     try {
@@ -47,34 +46,34 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
       if (contributions.length > 1) {
         const { results: bulkStoreResult } = await bulkStoreIpfs(
           contributions.map(c => ({
-            name: c.original.name,
-            details: c.original?.details || '',
-            proof: c.original?.proof || '',
-            activityName: c.original.activity_type.name,
+            name: c.name,
+            details: c.details || '',
+            proof: c.proof || '',
+            activityName: c.activity_type.name,
             image: '',
             govrn: {
-              id: c.original.id,
-              activityTypeId: c.original.activity_type.id,
+              id: c.id,
+              activityTypeId: c.activity_type.id,
             },
           })),
         );
         const bulkResults = bulkStoreResult.map(({ index, value }) => ({
-          ...contributions[index].original,
+          ...contributions[index],
           ipfsContentUri: value,
         }));
 
         // Mint successfully stored contributions in IPFS.
         await bulkMintContributions(bulkResults);
-      } else if (contributions.length === 1 && contributions[0].original) {
+      } else if (contributions.length === 1 && contributions[0]) {
         const contribution = contributions[0];
-        const original = contribution.original;
+        const original = contribution;
         const originalClean = {
-          ...contribution.original,
+          ...contribution,
           details: original.details || '',
           proof: original.proof || '',
           date_of_submission: original.date_of_submission.toString(),
-          engagementDate: original.engagementDate.toString(),
-          activityTypeName: contribution.original.activity_type.name,
+          engagementDate: original.date_of_engagement.toString(),
+          activityTypeName: contribution.activity_type.name,
         };
         await mintContribution({ ...originalClean });
       }
@@ -94,10 +93,9 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
           Minting {pluralize('Contribution', contributions.length, true)}
         </Text>
         <Tooltip
-          hasArrow
-          label={`Why Mint?
-        Minting a Contribution makes it immutable and creates a historical record of what's been done that can't be changed.`}
-          fontSize="md"
+          variant="primary"
+          label={`Minting a contribution makes it immutable and creates a historical record of what's been done that can't be changed.`}
+          fontSize="sm"
           placement="right"
         >
           <HStack width="fit-content">
@@ -109,7 +107,7 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
       <TextList
         items={contributions.map(c => ({
           id: String(c.id),
-          text: 'original' in c ? c.original.name : c.name,
+          text: c.name,
         }))}
       />
       {!minting ? (
@@ -150,17 +148,10 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
       )}
       <Flex align="flex-end" marginTop={8}>
         <Button
+          variant="primary"
           type="submit"
-          width="100%"
-          color="brand.primary.600"
-          backgroundColor="brand.primary.50"
-          transition="all 100ms ease-in-out"
-          _hover={{ bgColor: 'brand.primary.100' }}
           onClick={() => {
-            const c = contributions[0];
-            if (contributions && 'original' in c) {
-              mintHandler(contributions as Row<ContributionTableType>[]);
-            }
+            mintHandler(contributions);
           }}
           isLoading={minting}
           disabled={!(isChecked || agreementChecked.agreement)}
