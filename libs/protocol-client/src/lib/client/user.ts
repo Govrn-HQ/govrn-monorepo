@@ -1,5 +1,5 @@
 import {
-  CreateGuildUserMutationVariables,
+  CreateGuildUserCustomMutationVariables,
   ListUsersQueryVariables,
   MutationDeleteOneGuildUserArgs,
   UserCreateCustomInput,
@@ -39,8 +39,8 @@ export class User extends BaseClient {
 }
 
 class GuildUser extends BaseClient {
-  public async create(args: CreateGuildUserMutationVariables) {
-    return await this.sdk.createGuildUser(args);
+  public async create(args: CreateGuildUserCustomMutationVariables) {
+    return await this.sdk.createGuildUserCustom(args);
   }
 
   public async delete(args: MutationDeleteOneGuildUserArgs) {

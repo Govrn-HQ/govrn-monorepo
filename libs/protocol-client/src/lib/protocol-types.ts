@@ -6018,6 +6018,11 @@ export type GuildUserCountOrderByAggregateInput = {
   user_id?: InputMaybe<SortOrder>;
 };
 
+export type GuildUserCreateCustomInput = {
+  guildId: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
 export type GuildUserCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
@@ -9460,6 +9465,7 @@ export type ListActivityTypesByUserInput = {
 };
 
 export type Mutation = {
+  createGuildUserCustom: GuildUser;
   createManyActivityType: AffectedRowsOutput;
   createManyAttestation: AffectedRowsOutput;
   createManyAttestationConfidence: AffectedRowsOutput;
@@ -9674,6 +9680,11 @@ export type Mutation = {
   upsertOneTwitterUser: TwitterUser;
   upsertOneUser: User;
   upsertOneUserActivity: UserActivity;
+};
+
+
+export type MutationCreateGuildUserCustomArgs = {
+  data: GuildUserCreateCustomInput;
 };
 
 
@@ -16408,12 +16419,12 @@ export type CreateGuildMutationVariables = Exact<{
 
 export type CreateGuildMutation = { createOneGuild: { congrats_channel?: string | null, discord_id?: string | null, logo?: string | null, name?: string | null } };
 
-export type CreateGuildUserMutationVariables = Exact<{
-  data: GuildUserCreateInput;
+export type CreateGuildUserCustomMutationVariables = Exact<{
+  data: GuildUserCreateCustomInput;
 }>;
 
 
-export type CreateGuildUserMutation = { createOneGuildUser: { id: number } };
+export type CreateGuildUserCustomMutation = { createGuildUserCustom: { id: number } };
 
 export type DeleteGuildUserMutationVariables = Exact<{
   where: GuildUserWhereUniqueInput;
@@ -17191,9 +17202,9 @@ export const CreateGuildDocument = gql`
   }
 }
     `;
-export const CreateGuildUserDocument = gql`
-    mutation createGuildUser($data: GuildUserCreateInput!) {
-  createOneGuildUser(data: $data) {
+export const CreateGuildUserCustomDocument = gql`
+    mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
+  createGuildUserCustom(data: $data) {
     id
   }
 }
@@ -17612,8 +17623,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createGuild(variables: CreateGuildMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildMutation>(CreateGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuild', 'mutation');
     },
-    createGuildUser(variables: CreateGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserMutation>(CreateGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUser', 'mutation');
+    createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');
     },
     deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');

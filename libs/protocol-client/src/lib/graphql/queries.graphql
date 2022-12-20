@@ -177,8 +177,8 @@ mutation createGuild($data: GuildCreateInput!) {
   }
 }
 
-mutation createGuildUser($data: GuildUserCreateInput!) {
-  createOneGuildUser(data: $data) {
+mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
+  createGuildUserCustom(data: $data) {
     id
   }
 }
