@@ -1,3 +1,9 @@
+-- DropForeignKey
+ALTER TABLE "GuildUser" DROP CONSTRAINT "GuildUser_membership_status_id_fkey";
+
+-- AddForeignKey
+ALTER TABLE "GuildUser" ADD CONSTRAINT "GuildUser_membership_status_id_fkey" FOREIGN KEY ("membership_status_id") REFERENCES "GuildMembershipStatus"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
 -- CreateTable
 CREATE TABLE "IntegrationType" (
     "id" SERIAL NOT NULL,
