@@ -6,6 +6,10 @@ export default {
   },
   variants: {
     primary: {
+      backgroundColor: 'gray.900',
+      color: 'gray.50',
+    },
+    primaryPurple: {
       backgroundColor: 'brand.secondary.100',
       color: 'brand.purple',
     },
@@ -16,10 +20,6 @@ export default {
     tertiary: {
       backgroundColor: 'gray.100',
       color: 'gray.600',
-    },
-    mint: {
-      backgroundColor: 'gray.900',
-      color: 'gray.50',
     },
   },
 };

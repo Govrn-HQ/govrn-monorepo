@@ -230,7 +230,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Input
             name="name"
             label="Name of Contribution"
-            tip="Please add the name of your Contribution."
+            tip="Please add the name of your contribution."
             placeholder="Govrn Protocol Pull Request"
             localForm={localForm}
             dataTestId="reportForm-name"
