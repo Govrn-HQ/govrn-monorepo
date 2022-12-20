@@ -38,10 +38,13 @@ const ContributionsByDateChart = ({
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount?.map(contribution => {
     return {
-      day: formatDate(contribution.date, 'yyyy-MM-dd'),
+      day: formatDate(contribution.date, 'yyyy-MM-dd', true),
       value: contribution.count,
     };
   });
+
+  console.log('original data', contributionsCount);
+  console.log('mapped data', contributionsCountMap);
 
   if (isError) {
     return (
@@ -149,7 +152,12 @@ const ContributionsByDateChart = ({
   }
 
   return (
-    <Flex direction="column" paddingX={{ base: 4, lg: 0 }} paddingBottom="0">
+    <Flex
+      direction="column"
+      paddingX={{ base: 4, lg: 0 }}
+      paddingBottom="0"
+      width="100%"
+    >
       <Flex
         direction="column"
         paddingY={{ base: '4', lg: '4' }}
@@ -173,7 +181,7 @@ const ContributionsByDateChart = ({
           contributionsCountMap?.length !== 0 && (
             <Box
               alignSelf="flex-start"
-              height={{ base: '5rem', lg: '10rem' }}
+              height={{ base: '5rem', lg: '8.5rem' }}
               width="100%"
               paddingX={{ base: 2, lg: 0 }}
             >

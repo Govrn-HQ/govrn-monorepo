@@ -127,7 +127,7 @@ const AttestationsTableShell = () => {
                         My Attestations
                       </Text>
                       <Text fontSize="md" fontWeight="normal">
-                        These are Contributions that you have already Attested
+                        These are contributions that you have already attested
                         to.
                       </Text>
                     </Stack>
