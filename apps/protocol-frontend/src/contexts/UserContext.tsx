@@ -16,7 +16,7 @@ import {
 import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { PROTOCOL_URL } from '../utils/constants';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 export const UserContext = createContext<UserContextType>(
   {} as UserContextType,
@@ -173,13 +173,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       });
       await getUser();
       toast.success({
-        title: 'User Profile Updated',
+        // title: 'User Profile Updated',
         description: 'Your Profile has been updated',
       });
     } catch (error) {
       console.error(error);
       toast.error({
-        title: 'Unable to Update Profile',
+        // title: 'Unable to Update Profile',
         description: `Something went wrong. Please try again: ${error}`,
       });
     }

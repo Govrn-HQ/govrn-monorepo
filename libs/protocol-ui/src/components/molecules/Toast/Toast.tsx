@@ -11,7 +11,7 @@ import {
   Icon,
   AlertStatus,
   ToastProps as ChakraToastProps,
-  ToastId,
+  Flex,
   CreateToastFnReturn,
 } from '@chakra-ui/react';
 
@@ -76,7 +76,7 @@ const Toast: React.FC<ToastProps> = ({
   ...props
 }: ToastProps) => {
   return (
-    <Box
+    <Flex
       bg={colorValues[status].bg}
       position="relative"
       padding={4}
@@ -101,21 +101,23 @@ const Toast: React.FC<ToastProps> = ({
         </Box>
       </HStack>
       {props.isClosable === true && (
-        <Box
+        <Flex
           marginLeft={8}
           // position="absolute"
           // top="10px"
           // right="10px"
           onClick={closeToast}
+          justifyContent="baseline"
+          _hover={{ cursor: 'pointer' }}
         >
           <Icon
             as={RiCloseFill}
             onClick={closeToast}
-            // onClick={() => console.log('toast clicked')}
             w="25px"
             h="25px"
+            _hover={{ cursor: 'pointer' }}
           />
-        </Box>
+        </Flex>
       )}
 
       <Box
@@ -127,7 +129,7 @@ const Toast: React.FC<ToastProps> = ({
         position="absolute"
         zIndex={-1}
       />
-    </Box>
+    </Flex>
   );
 };
 export default Toast;

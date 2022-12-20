@@ -25,7 +25,6 @@ const ToastBase = ({
     id: id,
     duration: duration ?? 3000,
     isClosable: props.isClosable ?? true,
-
     position: 'top-right',
     variant: 'left-accent',
     ...props,

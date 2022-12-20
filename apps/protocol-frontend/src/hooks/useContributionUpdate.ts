@@ -71,9 +71,8 @@ export const useContributionUpdate = () => {
       onError: error => {
         console.log('error', error);
         toast.error({
-          title: 'Unable to Update Contribution',
+          // title: 'Unable to Update Contribution',
           description: `Something went wrong. Please try again.`,
-          status: 'error',
         });
       },
     },
