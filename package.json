@@ -133,7 +133,7 @@
     "@nrwl/storybook": "14.7.13",
     "@nrwl/web": "14.7.13",
     "@nrwl/workspace": "14.7.13",
-    "@nx-tools/nx-prisma": "^2.0.0-alpha.4",
+    "@nx-tools/nx-prisma": "^4.0.2",
     "@nxext/react": "14.0.4",
     "@nxext/vite": "^14.0.3",
     "@openzeppelin/hardhat-upgrades": "^1.18.1",

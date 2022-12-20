@@ -66,6 +66,12 @@
         "schema": "apps/protocol-api/src/prisma/schema.prisma"
       }
     },
+    "migrateDeploy": {
+      "executor": "@nx-tools/nx-prisma:deploy",
+      "options": {
+        "schema": "apps/protocol-api/src/prisma/schema.prisma"
+      }
+    },
     "prismaDeploy": {
       "executor": "@nx-tools/nx-prisma:deploy",
       "options": {
