@@ -170,7 +170,7 @@ export class GuildCustomResolver {
       include: { membershipStatus: true },
     });
 
-    if (guildUserWithMembershipStatus.membershipStatus.name !== 'Member') {
+    if (guildUserWithMembershipStatus.membershipStatus.name !== 'Admin') {
       throw new Error("You don't have permission for this");
     }
 
