@@ -49,6 +49,11 @@ export class Guild {
   })
   logo?: string | null;
 
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: false
+  })
+  status!: "INPUTTED" | "VALIDATED" | "ONBOARDED";
+
   contributions?: GuildContribution[];
 
   users?: GuildUser[];
@@ -61,11 +66,6 @@ export class Guild {
     nullable: true
   })
   contribution_reporting_channel?: string | null;
-
-  @TypeGraphQL.Field(_type => GuildStatus, {
-    nullable: false
-  })
-  status!: "INPUTTED" | "VALIDATED" | "ONBOARDED";
 
   guild_imports?: GuildImport[];
 

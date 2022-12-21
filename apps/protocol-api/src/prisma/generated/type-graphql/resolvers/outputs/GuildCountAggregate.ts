@@ -45,12 +45,12 @@ export class GuildCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  contribution_reporting_channel!: number;
+  status!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  status!: number;
+  contribution_reporting_channel!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

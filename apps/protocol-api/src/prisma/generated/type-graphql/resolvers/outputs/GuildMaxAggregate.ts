@@ -43,13 +43,13 @@ export class GuildMaxAggregate {
   })
   logo!: string | null;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  contribution_reporting_channel!: string | null;
-
   @TypeGraphQL.Field(_type => GuildStatus, {
     nullable: true
   })
   status!: "INPUTTED" | "VALIDATED" | "ONBOARDED" | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  contribution_reporting_channel!: string | null;
 }
