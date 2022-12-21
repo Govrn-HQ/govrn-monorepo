@@ -1,7 +1,12 @@
 import React, { ReactNode } from 'react';
 import { ColorProps } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
-import { AiFillCheckCircle, AiFillWarning, AiFillAlert } from 'react-icons/ai';
+import {
+  AiFillCheckCircle,
+  AiFillExclamationCircle,
+  AiFillWarning,
+  AiFillAlert,
+} from 'react-icons/ai';
 import { RiCloseFill } from 'react-icons/ri';
 import {
   Box,
@@ -18,7 +23,7 @@ import {
 type CustomToastProps = {
   status: AlertStatus;
   title?: string | ReactNode;
-  description?: string | ReactNode;
+  description?: string | ReactNode | JSX.Element;
   icon?: IconType;
   iconName?: string;
   iconColor?: string;
@@ -28,14 +33,6 @@ type CustomToastProps = {
 };
 
 export type ToastProps = ChakraToastProps & CustomToastProps;
-
-const icons: {
-  [name: string]: { icon: IconType; color: ColorProps['color'] };
-} = {
-  success: { icon: AiFillCheckCircle, color: 'brand.purple' },
-  warning: { icon: AiFillWarning, color: 'whiteAlpha.700' },
-  alert: { icon: AiFillAlert, color: 'whiteAlpha.800' },
-};
 
 const colorValues = {
   success: {
@@ -63,6 +60,16 @@ const colorValues = {
     color: 'brand.magenta',
     displayBorder: 'block',
   },
+};
+
+const icons: {
+  [name: string]: { icon: IconType; color: ColorProps['color'] };
+} = {
+  success: { icon: AiFillCheckCircle, color: 'brand.purple' },
+  error: { icon: AiFillExclamationCircle, color: 'red.500' },
+  warning: { icon: AiFillWarning, color: 'whiteAlpha.700' },
+  alert: { icon: AiFillAlert, color: 'whiteAlpha.800' },
+  loading: { icon: AiFillExclamationCircle, color: 'whiteAlpha.700' },
 };
 
 const Toast: React.FC<ToastProps> = ({
