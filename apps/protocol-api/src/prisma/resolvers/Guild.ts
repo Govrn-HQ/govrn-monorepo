@@ -1,7 +1,7 @@
 import * as TypeGraphQL from 'type-graphql';
 
 import { Context } from './types';
-import { Guild } from '../generated/type-graphql/models/Guild';
+import { Guild } from "../generated/type-graphql";
 import { Int } from 'type-graphql';
 
 @TypeGraphQL.InputType('GetActiveUsersInput')
@@ -57,15 +57,15 @@ export class GuildCustomResolver {
         FROM (
           SELECT dt::date
           FROM generate_series(${lookbackDate}, ${startDate}, '1 day'::interval) dt
-        ) d 
+        ) d
         LEFT JOIN "Contribution" as c
           ON c.date_of_engagement::date = d.dt::date
-        LEFT JOIN "GuildContribution" as gc 
+        LEFT JOIN "GuildContribution" as gc
           ON gc."contribution_id" = c.id
         WHERE (
           gc."guild_id" IS NULL OR gc."guild_id" = ${guildId}
         )
-        GROUP BY 
+        GROUP BY
           year, month, day_bucket
       )
 
