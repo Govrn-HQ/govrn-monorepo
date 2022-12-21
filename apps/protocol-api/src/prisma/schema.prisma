@@ -66,6 +66,7 @@ model Guild {
   activity_type GuildActivityType[]
   contribution_reporting_channel String?
   status GuildStatus @default(INPUTTED)
+  guild_imports GuildImport[]
 }
 
 model GuildMembershipStatus {
@@ -115,7 +116,24 @@ model GuildActivityType {
   @@unique([guild_id, activity_type_id])
 }
 
+model IntegrationType {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  name String @unique
+  guild_imports GuildImport[]
+}
 
+model GuildImport {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  authentication_token String
+  guild_id Int
+  guild Guild @relation(fields: [guild_id], references: [id])
+  integration_type_id Int
+  integration_type IntegrationType @relation(fields: [integration_type_id], references: [id])
+}
 
 
 

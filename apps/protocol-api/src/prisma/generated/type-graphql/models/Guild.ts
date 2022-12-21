@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { GuildActivityType } from "../models/GuildActivityType";
 import { GuildContribution } from "../models/GuildContribution";
+import { GuildImport } from "../models/GuildImport";
 import { GuildUser } from "../models/GuildUser";
 import { TwitterAccount } from "../models/TwitterAccount";
 import { GuildStatus } from "../enums/GuildStatus";
@@ -65,6 +66,8 @@ export class Guild {
     nullable: false
   })
   status!: "INPUTTED" | "VALIDATED" | "ONBOARDED";
+
+  guild_imports?: GuildImport[];
 
   @TypeGraphQL.Field(_type => GuildCount, {
     nullable: true

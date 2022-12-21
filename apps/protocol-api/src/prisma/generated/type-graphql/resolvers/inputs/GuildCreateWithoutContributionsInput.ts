@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutGuildInput";
+import { GuildImportCreateNestedManyWithoutGuildInput } from "../inputs/GuildImportCreateNestedManyWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
 import { TwitterAccountCreateNestedManyWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedManyWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
@@ -65,4 +66,9 @@ export class GuildCreateWithoutContributionsInput {
     nullable: true
   })
   status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
+
+  @TypeGraphQL.Field(_type => GuildImportCreateNestedManyWithoutGuildInput, {
+    nullable: true
+  })
+  guild_imports?: GuildImportCreateNestedManyWithoutGuildInput | undefined;
 }
