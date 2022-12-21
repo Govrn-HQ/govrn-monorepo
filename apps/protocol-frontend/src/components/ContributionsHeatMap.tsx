@@ -3,9 +3,10 @@ import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { ResponsiveTimeRange } from '@nivo/calendar';
 import { subWeeks } from 'date-fns';
 import { BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
+import { formatDate } from '../utils/date';
 
 type ContributionCount = {
-  date: string;
+  date: string | Date;
   count: number;
 };
 interface ContributionsHeatMapProps {
@@ -20,10 +21,13 @@ const ContributionsHeatMap = ({
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const contributionsCountMap = contributionsCount.map(contribution => {
     return {
-      day: contribution.date,
+      day: formatDate(contribution.date, 'yyyy-MM-dd', true),
       value: contribution.count,
     };
   });
+
+  console.log('contributions count', contributionsCount);
+  console.log('contributionsCountMap', contributionsCountMap);
 
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>

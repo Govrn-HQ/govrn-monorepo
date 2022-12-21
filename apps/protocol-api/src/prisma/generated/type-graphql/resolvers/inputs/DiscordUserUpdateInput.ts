@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { UserUpdateOneRequiredWithoutDiscord_usersInput } from "../inputs/UserUpdateOneRequiredWithoutDiscord_usersInput";
+import { UserUpdateOneRequiredWithoutDiscord_usersNestedInput } from "../inputs/UserUpdateOneRequiredWithoutDiscord_usersNestedInput";
 
 @TypeGraphQL.InputType("DiscordUserUpdateInput", {
   isAbstract: true
@@ -31,8 +31,8 @@ export class DiscordUserUpdateInput {
   })
   discord_id?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutDiscord_usersInput, {
+  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutDiscord_usersNestedInput, {
     nullable: true
   })
-  user?: UserUpdateOneRequiredWithoutDiscord_usersInput | undefined;
+  user?: UserUpdateOneRequiredWithoutDiscord_usersNestedInput | undefined;
 }

@@ -2,9 +2,9 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ActivityTypeUpdateOneRequiredWithoutUsersInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutUsersInput";
+import { ActivityTypeUpdateOneRequiredWithoutUsersNestedInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutUsersNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { UserUpdateOneRequiredWithoutActivitiesInput } from "../inputs/UserUpdateOneRequiredWithoutActivitiesInput";
+import { UserUpdateOneRequiredWithoutActivitiesNestedInput } from "../inputs/UserUpdateOneRequiredWithoutActivitiesNestedInput";
 
 @TypeGraphQL.InputType("UserActivityUpdateInput", {
   isAbstract: true
@@ -20,13 +20,13 @@ export class UserActivityUpdateInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutActivitiesInput, {
+  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutActivitiesNestedInput, {
     nullable: true
   })
-  user?: UserUpdateOneRequiredWithoutActivitiesInput | undefined;
+  user?: UserUpdateOneRequiredWithoutActivitiesNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => ActivityTypeUpdateOneRequiredWithoutUsersInput, {
+  @TypeGraphQL.Field(_type => ActivityTypeUpdateOneRequiredWithoutUsersNestedInput, {
     nullable: true
   })
-  activity_type?: ActivityTypeUpdateOneRequiredWithoutUsersInput | undefined;
+  activity_type?: ActivityTypeUpdateOneRequiredWithoutUsersNestedInput | undefined;
 }

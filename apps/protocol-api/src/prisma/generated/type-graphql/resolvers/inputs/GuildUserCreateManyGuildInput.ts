@@ -26,4 +26,14 @@ export class GuildUserCreateManyGuildInput {
     nullable: false
   })
   user_id!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  membership_status_id?: number | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  favorite?: boolean | undefined;
 }

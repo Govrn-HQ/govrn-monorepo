@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -19,17 +19,16 @@ import {
 import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
 import {
-  Column,
+  ColumnDef,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+  flexRender,
+  SortingState,
+  getSortedRowModel,
+  Getter,
   Row,
-  HeaderGroup,
-  useFilters,
-  useGlobalFilter,
-  useRowSelect,
-  useSortBy,
-  useTable,
-  UseTableRowProps,
-  UseTableHooks,
-} from 'react-table';
+} from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
@@ -45,9 +44,9 @@ import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ContributionTableType } from '../types/table';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
+import { RowSelectionState } from '@tanstack/table-core';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -73,7 +72,7 @@ const ContributionsTable = ({
   nextPage,
 }: {
   contributionsData: UIContribution[][];
-  setSelectedContributions: (rows: Row<ContributionTableType>[]) => void;
+  setSelectedContributions: (rows: UIContribution[]) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
@@ -100,161 +99,126 @@ const ContributionsTable = ({
       ...dialog,
       isOpen: true, //this opens AlertDialog
       title:
-        "Are you sure you want to delete this Contribution? You can't undo this action.",
+        "Are you sure you want to delete this contribution? You can't undo this action.",
       contributionId: contributionId,
     });
   };
 
-  const data = useMemo<ContributionTableType[]>(() => {
-    const tableData = [] as ContributionTableType[];
-    for (const page of contributionsData) {
-      for (const contribution of page) {
-        tableData.push({
-          name: contribution.name,
-          txHash: contribution.tx_hash,
-          id: contribution.id,
-          details: contribution.details,
-          proof: contribution.proof,
-          updatedAt: contribution.updatedAt,
-          date_of_submission: contribution.date_of_submission,
-          engagementDate: formatDate(contribution.date_of_engagement),
-          date_of_engagement: formatDate(contribution.date_of_engagement),
-          attestations: contribution.attestations || null,
-          user: contribution.user,
-          activityTypeId: contribution.activity_type.id,
-          activity_type: contribution.activity_type,
-          guilds: contribution.guilds,
-          status: contribution.status,
-          action: '',
-          guildName:
-            contribution.guilds.map(guildObj => guildObj.guild.name)[0] ??
-            '---',
-        });
-      }
-    }
-    return tableData;
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+
+  const deselectAll = () => {
+    setRowSelection({});
+  };
+
+  const data = useMemo<UIContribution[]>(() => {
+    return mergePages(contributionsData);
   }, [contributionsData]);
 
-  const columns = useMemo<Column<ContributionTableType>[]>(
-    () => [
+  const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
+    return [
       {
-        Header: 'Name',
-        accessor: 'name',
-        Cell: ({
-          value,
+        id: 'selection',
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+              testid: 'toggle-row-selected',
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: row.getIsSelected(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+              disabled: row.original.status.name !== 'staging',
+            }}
+          />
+        ),
+      },
+
+      {
+        header: 'Name',
+        accessorKey: 'name',
+        cell: ({
           row,
+          getValue,
         }: {
-          value: string;
-          row: Row<ContributionTableType>;
+          row: Row<UIContribution>;
+          getValue: Getter<string>;
         }) => {
           return (
             <Flex direction="column" wrap="wrap">
               <Link to={`/contributions/${row.original.id}`}>
-                <Text whiteSpace="normal">{value}</Text>
+                <Text whiteSpace="normal">{getValue()}</Text>
               </Link>
             </Flex>
           );
         },
       },
       {
-        Header: 'Status',
-        accessor: 'status',
-        Cell: ({ value }: { value: { name: string } }) => {
+        header: 'Status',
+        accessorKey: 'status',
+        cell: ({
+          getValue,
+        }: {
+          getValue: Getter<UIContribution['status']>;
+        }) => {
           return (
             <Text textTransform="capitalize">
-              {value.name}{' '}
+              {getValue().name}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {emojiSelect(value.name)}
+                {emojiSelect(getValue().name)}
               </span>{' '}
             </Text>
           );
         },
       },
       {
-        Header: 'Engagement Date',
-        accessor: 'engagementDate',
+        header: 'Engagement Date',
+        accessorFn: contribution => formatDate(contribution.date_of_engagement),
       },
       {
-        Header: 'Attestations',
-        accessor: 'attestations',
-        Cell: ({ value }: { value: { length: number } }) => {
-          return <Text textTransform="capitalize">{value.length} </Text>;
+        header: 'Attestations',
+        accessorFn: contribution => String(contribution.attestations.length),
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return <Text textTransform="capitalize">{getValue()} </Text>;
         },
       },
-
       {
-        Header: 'DAO',
-        accessor: 'guildName',
-        Cell: ({ value }: { value: string }) => {
-          return <Text>{value}</Text>;
+        header: 'DAO',
+        accessorFn: contribution =>
+          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return <Text>{getValue()}</Text>;
         },
       },
-    ],
-    [],
-  );
-
-  const tableHooks = (hooks: UseTableHooks<ContributionTableType>) => {
-    hooks.visibleColumns.push(columns => [
-      {
-        id: 'selection',
-        Header: ({
-          getToggleAllRowsSelectedProps,
-          toggleRowSelected,
-          toggleAllRowsSelected,
-          rows,
-          selectedFlatRows,
-        }) => {
-          const { onChange, ...propsWithoutOnChange } =
-            getToggleAllRowsSelectedProps();
-          const overrideOnChange = (event: ChangeEvent) => {
-            // Deselect all selected rows.
-            if (selectedFlatRows.length > 0) {
-              toggleAllRowsSelected(false);
-              return;
-            }
-
-            // Toggle all rows selected, only select staging contributions.
-            rows.forEach(row => {
-              toggleRowSelected(
-                row.id,
-                (event as ChangeEvent<HTMLInputElement>).currentTarget
-                  .checked && row.original.status.name === 'staging',
-              );
-            });
-          };
-          const newProps = {
-            onChange: overrideOnChange,
-            ...propsWithoutOnChange,
-          };
-          return <IndeterminateCheckbox {...newProps} />;
-        },
-        Cell: ({ row }: { row: Row<ContributionTableType> }) => (
-          <IndeterminateCheckbox
-            {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status.name !== 'staging'}
-          />
-        ),
-      },
-      ...columns,
       {
         id: 'actions',
-        Header: 'Actions',
-        Cell: ({ row }: { row: UseTableRowProps<ContributionTableType> }) => (
+        header: 'Actions',
+        cell: ({ row }) => (
           <HStack spacing={1}>
             {row.original.status.name === 'minted' ||
             row.original.status.name === 'pending' ? (
               <HStack spacing="1">
-                {row.original.txHash !== null && (
+                {row.original.tx_hash !== null && (
                   <Tooltip
+                    variant="primary"
                     label="Minted and Pending contributions cannot be edited or deleted. View on Block Explorer."
                     aria-label="A tooltip"
                   >
                     <Box>
                       <ChakraLink
-                        href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.txHash}`}
+                        href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.tx_hash}`}
                         isExternal
                       >
                         <IconButton
@@ -311,94 +275,105 @@ const ContributionsTable = ({
           </HStack>
         ),
       },
-    ]);
-  };
+    ];
+  }, []);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    state: { globalFilter, selectedRowIds },
-    preGlobalFilteredRows,
-    setGlobalFilter,
-    selectedFlatRows,
-    prepareRow,
-    toggleAllRowsSelected,
-  } = useTable(
-    { columns, data, autoResetSelectedRows: false },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    useRowSelect,
-    tableHooks,
-  );
+  const table = useReactTable({
+    data,
+    columns: columnsDefs,
+    state: {
+      sorting,
+      rowSelection: rowSelection,
+      globalFilter,
+    },
+    enableRowSelection: row => row.original.status.name === 'staging',
+    onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    debugAll: false,
+  });
 
   useEffect(() => {
-    setSelectedContributions(selectedFlatRows);
-  }, [selectedFlatRows, selectedRowIds]);
+    setSelectedContributions(selectedRows);
+  }, [selectedRows, setSelectedContributions]);
 
-  const toggleSelected = () => {
-    toggleAllRowsSelected(false);
-  };
+  useEffect(() => {
+    const selectedContributions: UIContribution[] = [];
+    for (const key in rowSelection) {
+      if (rowSelection[key]) {
+        selectedContributions.push(table.getRow(key).original);
+      }
+    }
+    setSelectedRows(selectedContributions);
+  }, [rowSelection, table]);
 
   return (
     <Stack>
       <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
+        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
       <Box width="100%" maxWidth="100vw" overflowX="auto">
         <InfiniteScroll
-          dataLength={rows.length}
+          dataLength={table.getRowModel().rows.length}
           next={nextPage}
           scrollThreshold={0.8}
           hasMore={hasMoreItems}
           loader={<GovrnSpinner />}
         >
-          <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+          <Table maxWidth="100vw" overflowX="auto">
             <Thead backgroundColor="gray.50">
-              {headerGroups.map(
-                (headerGroup: HeaderGroup<ContributionTableType>) => (
-                  <Tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(
-                      (column: HeaderGroup<ContributionTableType>) => (
-                        <Th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps(),
-                          )}
-                          borderColor="gray.100"
+              {table.getHeaderGroups().map(headerGroup => (
+                <Tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => (
+                    <Th key={header.id} borderColor="gray.100">
+                      {header.isPlaceholder ? null : (
+                        <Box
+                          {...{
+                            onClick: header.column.getToggleSortingHandler(),
+                            cursor: 'pointer',
+                          }}
                         >
-                          {column.render('Header')}
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+
                           <chakra.span paddingLeft="4">
-                            {column.isSorted ? (
-                              column.isSortedDesc ? (
+                            {{
+                              asc: <IoArrowUp aria-label="sorted-ascending" />,
+                              desc: (
                                 <IoArrowDown aria-label="sorted-descending" />
-                              ) : (
-                                <IoArrowUp aria-label="sorted-ascending" />
-                              )
-                            ) : null}
+                              ),
+                            }[header.column.getIsSorted() as string] ?? null}
                           </chakra.span>
-                        </Th>
-                      ),
-                    )}
-                    <Th borderColor="gray.100" />
-                  </Tr>
-                ),
-              )}
+                        </Box>
+                      )}
+                    </Th>
+                  ))}
+                  <Th borderColor="gray.100" />
+                </Tr>
+              ))}
             </Thead>
 
-            <Tbody {...getTableBodyProps()}>
-              {rows.map(row => {
-                prepareRow(row);
+            <Tbody>
+              {table.getRowModel().rows.map(row => {
                 return (
-                  <Tr {...row.getRowProps()}>
-                    {row.cells.map(cell => (
-                      <Td {...cell.getCellProps()} borderColor="gray.100">
-                        <>{cell.render('Cell')}</>
-                      </Td>
-                    ))}
+                  <Tr key={row.id}>
+                    {row.getVisibleCells().map(cell => {
+                      return (
+                        <Td borderColor="gray.100" key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </Td>
+                      );
+                    })}
                   </Tr>
                 );
               })}
@@ -426,11 +401,7 @@ const ContributionsTable = ({
           title="Attribute Contributions to a DAO"
           localOverlay={localOverlay}
           size="3xl"
-          content={
-            <BulkDaoAttributeModal
-              contributions={selectedFlatRows.map(r => r.original)}
-            />
-          }
+          content={<BulkDaoAttributeModal contributions={selectedRows} />}
         />
         <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
         <ModalWrapper
@@ -439,10 +410,7 @@ const ContributionsTable = ({
           localOverlay={localOverlay}
           size="3xl"
           content={
-            <MintModal
-              contributions={selectedFlatRows}
-              onFinish={toggleSelected}
-            />
+            <MintModal contributions={selectedRows} onFinish={deselectAll} />
           }
         />
         <ModalWrapper
@@ -450,11 +418,7 @@ const ContributionsTable = ({
           title="Attribute Contributions to a DAO"
           localOverlay={localOverlay}
           size="3xl"
-          content={
-            <BulkDaoAttributeModal
-              contributions={selectedFlatRows.map(r => r.original)}
-            />
-          }
+          content={<BulkDaoAttributeModal contributions={selectedRows} />}
         />
       </Box>
     </Stack>

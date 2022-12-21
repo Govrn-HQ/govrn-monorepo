@@ -1,10 +1,9 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { GroupByGuildMembershipStatusArgs } from "./args/GroupByGuildMembershipStatusArgs";
 import { GuildMembershipStatus } from "../../../models/GuildMembershipStatus";
 import { GuildMembershipStatusGroupBy } from "../../outputs/GuildMembershipStatusGroupBy";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => GuildMembershipStatus)
 export class GroupByGuildMembershipStatusResolver {
@@ -12,9 +11,7 @@ export class GroupByGuildMembershipStatusResolver {
     nullable: false
   })
   async groupByGuildMembershipStatus(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: GroupByGuildMembershipStatusArgs): Promise<GuildMembershipStatusGroupBy[]> {
-    const { _count, _avg, _sum, _min, _max } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count, _avg, _sum, _min, _max } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).guildMembershipStatus.groupBy({
       ...args,
       ...Object.fromEntries(

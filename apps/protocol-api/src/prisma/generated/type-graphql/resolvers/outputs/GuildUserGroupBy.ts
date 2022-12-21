@@ -37,6 +37,16 @@ export class GuildUserGroupBy {
   })
   guild_id!: number;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  membership_status_id!: number | null;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  favorite!: boolean;
+
   @TypeGraphQL.Field(_type => GuildUserCountAggregate, {
     nullable: true
   })

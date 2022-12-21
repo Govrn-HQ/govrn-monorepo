@@ -1,7 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import { Guild } from "../../../models/Guild";
 import { TwitterAccount } from "../../../models/TwitterAccount";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => TwitterAccount)
 export class TwitterAccountRelationsResolver {

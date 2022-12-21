@@ -21,8 +21,7 @@ import ContributionTypesTable from './ContributionTypesTable';
 import EmptyContributions from './EmptyContributions';
 import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
-import { Row } from 'react-table';
-import { ContributionTableType } from '../types/table';
+import { UIContribution } from '@govrn/ui-types';
 
 const ContributionsTableShell = () => {
   const { userData } = useUser();
@@ -38,7 +37,7 @@ const ContributionsTableShell = () => {
   });
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<
-    Row<ContributionTableType>[]
+    UIContribution[]
   >([]);
 
   const mintModalHandler = () => {
@@ -98,11 +97,11 @@ const ContributionsTableShell = () => {
                           <AlertDescription>
                             <span
                               role="img"
-                              aria-labelledby="Sun emoji for alert to select at least one Contribution to mint."
+                              aria-labelledby="Sun emoji for alert to select at least one contribution to attribute to a DAO or mint."
                             >
                               🌞
                             </span>{' '}
-                            Please select at least one Contribution to attribute
+                            Please select at least one contribution to attribute
                             to a DAO or mint.
                           </AlertDescription>
                         </Alert>

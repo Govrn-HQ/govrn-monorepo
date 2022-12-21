@@ -5,9 +5,9 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { TwitterTweetContributionUpdateManyWithoutTwitter_tweetInput } from "../inputs/TwitterTweetContributionUpdateManyWithoutTwitter_tweetInput";
+import { TwitterTweetContributionUpdateManyWithoutTwitter_tweetNestedInput } from "../inputs/TwitterTweetContributionUpdateManyWithoutTwitter_tweetNestedInput";
 import { TwitterTweetUpdatetwitter_tweet_contribution_idsInput } from "../inputs/TwitterTweetUpdatetwitter_tweet_contribution_idsInput";
-import { TwitterUserUpdateOneWithoutTweetsInput } from "../inputs/TwitterUserUpdateOneWithoutTweetsInput";
+import { TwitterUserUpdateOneWithoutTweetsNestedInput } from "../inputs/TwitterUserUpdateOneWithoutTweetsNestedInput";
 
 @TypeGraphQL.InputType("TwitterTweetUpdateInput", {
   isAbstract: true
@@ -33,18 +33,18 @@ export class TwitterTweetUpdateInput {
   })
   text?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterUserUpdateOneWithoutTweetsInput, {
+  @TypeGraphQL.Field(_type => TwitterUserUpdateOneWithoutTweetsNestedInput, {
     nullable: true
   })
-  twitter_user?: TwitterUserUpdateOneWithoutTweetsInput | undefined;
+  twitter_user?: TwitterUserUpdateOneWithoutTweetsNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => TwitterTweetUpdatetwitter_tweet_contribution_idsInput, {
     nullable: true
   })
   twitter_tweet_contribution_ids?: TwitterTweetUpdatetwitter_tweet_contribution_idsInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetContributionUpdateManyWithoutTwitter_tweetInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetContributionUpdateManyWithoutTwitter_tweetNestedInput, {
     nullable: true
   })
-  twitter_tweet_contributions?: TwitterTweetContributionUpdateManyWithoutTwitter_tweetInput | undefined;
+  twitter_tweet_contributions?: TwitterTweetContributionUpdateManyWithoutTwitter_tweetNestedInput | undefined;
 }

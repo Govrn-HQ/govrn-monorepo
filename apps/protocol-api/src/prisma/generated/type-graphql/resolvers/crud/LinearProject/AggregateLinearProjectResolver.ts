@@ -1,10 +1,9 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { AggregateLinearProjectArgs } from "./args/AggregateLinearProjectArgs";
 import { LinearProject } from "../../../models/LinearProject";
 import { AggregateLinearProject } from "../../outputs/AggregateLinearProject";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => LinearProject)
 export class AggregateLinearProjectResolver {
@@ -14,7 +13,7 @@ export class AggregateLinearProjectResolver {
   async aggregateLinearProject(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateLinearProjectArgs): Promise<AggregateLinearProject> {
     return getPrismaFromContext(ctx).linearProject.aggregate({
       ...args,
-      ...transformFields(graphqlFields(info as any)),
+      ...transformInfoIntoPrismaArgs(info),
     });
   }
 }

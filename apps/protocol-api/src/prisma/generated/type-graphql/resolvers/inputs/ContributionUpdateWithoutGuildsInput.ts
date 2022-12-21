@@ -2,18 +2,18 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ActivityTypeUpdateOneRequiredWithoutContributionsInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutContributionsInput";
-import { AttestationUpdateManyWithoutContributionInput } from "../inputs/AttestationUpdateManyWithoutContributionInput";
-import { ChainUpdateOneWithoutContributionsInput } from "../inputs/ChainUpdateOneWithoutContributionsInput";
-import { ContributionStatusUpdateOneRequiredWithoutContributionsInput } from "../inputs/ContributionStatusUpdateOneRequiredWithoutContributionsInput";
+import { ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput";
+import { AttestationUpdateManyWithoutContributionNestedInput } from "../inputs/AttestationUpdateManyWithoutContributionNestedInput";
+import { ChainUpdateOneWithoutContributionsNestedInput } from "../inputs/ChainUpdateOneWithoutContributionsNestedInput";
+import { ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput } from "../inputs/ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { LinearIssueUpdateOneWithoutContributionInput } from "../inputs/LinearIssueUpdateOneWithoutContributionInput";
+import { LinearIssueUpdateOneWithoutContributionNestedInput } from "../inputs/LinearIssueUpdateOneWithoutContributionNestedInput";
 import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { PartnerUpdateManyWithoutContributionInput } from "../inputs/PartnerUpdateManyWithoutContributionInput";
+import { PartnerUpdateManyWithoutContributionNestedInput } from "../inputs/PartnerUpdateManyWithoutContributionNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { TwitterTweetContributionUpdateManyWithoutContributionInput } from "../inputs/TwitterTweetContributionUpdateManyWithoutContributionInput";
-import { UserUpdateOneRequiredWithoutContributionsInput } from "../inputs/UserUpdateOneRequiredWithoutContributionsInput";
+import { TwitterTweetContributionUpdateManyWithoutContributionNestedInput } from "../inputs/TwitterTweetContributionUpdateManyWithoutContributionNestedInput";
+import { UserUpdateOneRequiredWithoutContributionsNestedInput } from "../inputs/UserUpdateOneRequiredWithoutContributionsNestedInput";
 
 @TypeGraphQL.InputType("ContributionUpdateWithoutGuildsInput", {
   isAbstract: true
@@ -29,20 +29,20 @@ export class ContributionUpdateWithoutGuildsInput {
   })
   name?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionStatusUpdateOneRequiredWithoutContributionsInput, {
+  @TypeGraphQL.Field(_type => ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput, {
     nullable: true
   })
-  status?: ContributionStatusUpdateOneRequiredWithoutContributionsInput | undefined;
+  status?: ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => ActivityTypeUpdateOneRequiredWithoutContributionsInput, {
+  @TypeGraphQL.Field(_type => ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput, {
     nullable: true
   })
-  activity_type?: ActivityTypeUpdateOneRequiredWithoutContributionsInput | undefined;
+  activity_type?: ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutContributionsInput, {
+  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutContributionsNestedInput, {
     nullable: true
   })
-  user?: UserUpdateOneRequiredWithoutContributionsInput | undefined;
+  user?: UserUpdateOneRequiredWithoutContributionsNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
@@ -64,30 +64,30 @@ export class ContributionUpdateWithoutGuildsInput {
   })
   proof?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => AttestationUpdateManyWithoutContributionInput, {
+  @TypeGraphQL.Field(_type => AttestationUpdateManyWithoutContributionNestedInput, {
     nullable: true
   })
-  attestations?: AttestationUpdateManyWithoutContributionInput | undefined;
+  attestations?: AttestationUpdateManyWithoutContributionNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => PartnerUpdateManyWithoutContributionInput, {
+  @TypeGraphQL.Field(_type => PartnerUpdateManyWithoutContributionNestedInput, {
     nullable: true
   })
-  partners?: PartnerUpdateManyWithoutContributionInput | undefined;
+  partners?: PartnerUpdateManyWithoutContributionNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearIssueUpdateOneWithoutContributionInput, {
+  @TypeGraphQL.Field(_type => LinearIssueUpdateOneWithoutContributionNestedInput, {
     nullable: true
   })
-  linear_issue?: LinearIssueUpdateOneWithoutContributionInput | undefined;
+  linear_issue?: LinearIssueUpdateOneWithoutContributionNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterTweetContributionUpdateManyWithoutContributionInput, {
+  @TypeGraphQL.Field(_type => TwitterTweetContributionUpdateManyWithoutContributionNestedInput, {
     nullable: true
   })
-  twitter_tweet_contributions?: TwitterTweetContributionUpdateManyWithoutContributionInput | undefined;
+  twitter_tweet_contributions?: TwitterTweetContributionUpdateManyWithoutContributionNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => ChainUpdateOneWithoutContributionsInput, {
+  @TypeGraphQL.Field(_type => ChainUpdateOneWithoutContributionsNestedInput, {
     nullable: true
   })
-  chain?: ChainUpdateOneWithoutContributionsInput | undefined;
+  chain?: ChainUpdateOneWithoutContributionsNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
     nullable: true

@@ -5,7 +5,7 @@ import { LinearIssue } from "../../../models/LinearIssue";
 import { LinearProject } from "../../../models/LinearProject";
 import { LinearTeam } from "../../../models/LinearTeam";
 import { LinearUser } from "../../../models/LinearUser";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => LinearIssue)
 export class LinearIssueRelationsResolver {

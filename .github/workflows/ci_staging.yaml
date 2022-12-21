@@ -174,7 +174,7 @@ jobs:
           DEBUG: 'cypress:server'
         with:
           start: yarn nx run protocol-api:serve
-          command: yarn nx run protocol-frontend-e2e:e2eTest
+          command: yarn nx run protocol-frontend-e2e:e2eTest --verbose
           install: false
       - uses: actions/upload-artifact@v2
         if: failure()
