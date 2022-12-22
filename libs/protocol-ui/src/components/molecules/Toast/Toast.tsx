@@ -28,8 +28,8 @@ type CustomToastProps = {
   iconName?: string;
   iconColor?: string;
   toast?: CreateToastFnReturn;
-  closeToast?: () => void;
   isClosable?: boolean;
+  closeToast?: () => void;
 };
 
 export type ToastProps = ChakraToastProps & CustomToastProps;
