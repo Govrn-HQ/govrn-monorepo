@@ -114,6 +114,7 @@ const permissions = shield(
       updateOneGuild: hasToken,
       updateOneUser: hasToken,
       updateUserContribution: and(ownsData, isAuthenticated),
+      updateGuildCustom: isAuthenticated,
       updateUserCustom: and(ownsData, isAuthenticated),
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,

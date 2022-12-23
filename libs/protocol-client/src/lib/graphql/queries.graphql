@@ -195,6 +195,15 @@ query getGuild($where: GuildWhereUniqueInput!) {
   }
 }
 
+mutation updateGuildCustom(
+  $data: GuildUpdateCustomInput!
+  $where: GuildUpdateCustomWhereInput!
+) {
+  updateGuildCustom(data: $data, where: $where) {
+    ...GuildFragment
+  }
+}
+
 query listGuilds(
   $where: GuildWhereInput! = {}
   $skip: Int! = 0
@@ -296,7 +305,7 @@ mutation upsertTwitterUser(
   }
 }
 
-# User quries
+# User queries
 fragment UserFragment on User {
   address
   active
@@ -380,7 +389,7 @@ mutation createUserCustom($data: UserCreateCustomInput!) {
   }
 }
 
-# Contribution quries
+# Contribution queries
 fragment ContributionFragment on Contribution {
   activity_type {
     active

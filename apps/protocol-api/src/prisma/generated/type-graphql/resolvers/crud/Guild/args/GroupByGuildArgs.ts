@@ -20,7 +20,7 @@ export class GroupByGuildArgs {
   @TypeGraphQL.Field(_type => [GuildScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "discord_id" | "name" | "congrats_channel" | "logo" | "contribution_reporting_channel" | "status">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "discord_id" | "name" | "congrats_channel" | "logo" | "status" | "contribution_reporting_channel">;
 
   @TypeGraphQL.Field(_type => GuildScalarWhereWithAggregatesInput, {
     nullable: true

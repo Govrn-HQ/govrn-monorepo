@@ -44,6 +44,11 @@ export class GuildUpdateWithoutContributionsInput {
   })
   logo?: NullableStringFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => EnumGuildStatusFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => GuildUserUpdateManyWithoutGuildNestedInput, {
     nullable: true
   })
@@ -63,11 +68,6 @@ export class GuildUpdateWithoutContributionsInput {
     nullable: true
   })
   contribution_reporting_channel?: NullableStringFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => EnumGuildStatusFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildImportUpdateManyWithoutGuildNestedInput, {
     nullable: true

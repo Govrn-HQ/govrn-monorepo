@@ -66,6 +66,11 @@ export class GuildWhereInput {
   })
   logo?: StringNullableFilter | undefined;
 
+  @TypeGraphQL.Field(_type => EnumGuildStatusFilter, {
+    nullable: true
+  })
+  status?: EnumGuildStatusFilter | undefined;
+
   @TypeGraphQL.Field(_type => GuildContributionListRelationFilter, {
     nullable: true
   })
@@ -90,11 +95,6 @@ export class GuildWhereInput {
     nullable: true
   })
   contribution_reporting_channel?: StringNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => EnumGuildStatusFilter, {
-    nullable: true
-  })
-  status?: EnumGuildStatusFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildImportListRelationFilter, {
     nullable: true

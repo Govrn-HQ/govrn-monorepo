@@ -42,6 +42,11 @@ export class GuildCreateWithoutTwitter_accountsInput {
   })
   logo?: string | undefined;
 
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: true
+  })
+  status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
+
   @TypeGraphQL.Field(_type => GuildContributionCreateNestedManyWithoutGuildInput, {
     nullable: true
   })
@@ -61,11 +66,6 @@ export class GuildCreateWithoutTwitter_accountsInput {
     nullable: true
   })
   contribution_reporting_channel?: string | undefined;
-
-  @TypeGraphQL.Field(_type => GuildStatus, {
-    nullable: true
-  })
-  status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
 
   @TypeGraphQL.Field(_type => GuildImportCreateNestedManyWithoutGuildInput, {
     nullable: true
