@@ -45,6 +45,7 @@ jobs:
         run: yarn nx affected --target install --base $BASE
       - name: Check Prettier
         run: yarn check-prettier
+      - run: yarn nx affected --target format --base $BASE
       - run: yarn nx affected:lint --base $BASE
       - name: Test
         run: yarn nx affected:test --base $BASE
