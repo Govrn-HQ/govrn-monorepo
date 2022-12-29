@@ -34,6 +34,8 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: npm install -g @graphprotocol/graph-cli
+      - name: Install deps
+        run: yarn nx affected:install --base $BASE
       - name: Check Prettier
         run: yarn check-prettier
       - run: npx nx affected:lint --base $BASE

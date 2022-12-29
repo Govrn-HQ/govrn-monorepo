@@ -36,6 +36,8 @@ jobs:
       - name: Frozen lock
         run: yarn install --frozen-lockfile # optional, --immutable
       - run: npm install -g @graphprotocol/graph-cli
+      - name: Install deps
+        run: yarn nx affected:install --base $BASE
       - name: Check Prettier
         run: yarn check-prettier
       - run: yarn nx affected:lint --base $BASE
