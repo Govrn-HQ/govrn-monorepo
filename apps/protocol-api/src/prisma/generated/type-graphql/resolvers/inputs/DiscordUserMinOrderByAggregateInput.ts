@@ -46,7 +46,7 @@ export class DiscordUserMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  enable_submit_reminder_period?: "asc" | "desc" | undefined;
+  enable_submit_reminder?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -56,7 +56,7 @@ export class DiscordUserMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  enable_mint_notification_period?: "asc" | "desc" | undefined;
+  enable_mint_notification?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -66,7 +66,7 @@ export class DiscordUserMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  enable_new_guild_notification_period?: "asc" | "desc" | undefined;
+  enable_new_guild_notification?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -76,7 +76,7 @@ export class DiscordUserMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  enable_attribution_notification_period?: "asc" | "desc" | undefined;
+  enable_attribution_notification?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

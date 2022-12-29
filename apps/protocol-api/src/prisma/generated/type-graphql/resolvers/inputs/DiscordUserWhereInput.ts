@@ -71,7 +71,7 @@ export class DiscordUserWhereInput {
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })
-  enable_submit_reminder_period?: BoolFilter | undefined;
+  enable_submit_reminder?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
@@ -81,7 +81,7 @@ export class DiscordUserWhereInput {
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })
-  enable_mint_notification_period?: BoolFilter | undefined;
+  enable_mint_notification?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
@@ -91,7 +91,7 @@ export class DiscordUserWhereInput {
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })
-  enable_new_guild_notification_period?: BoolFilter | undefined;
+  enable_new_guild_notification?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
@@ -101,7 +101,7 @@ export class DiscordUserWhereInput {
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })
-  enable_attribution_notification_period?: BoolFilter | undefined;
+  enable_attribution_notification?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true

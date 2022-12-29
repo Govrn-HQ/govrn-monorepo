@@ -45,7 +45,7 @@ export class DiscordUserCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  enable_submit_reminder_period!: number;
+  enable_submit_reminder!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -55,7 +55,7 @@ export class DiscordUserCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  enable_mint_notification_period!: number;
+  enable_mint_notification!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -65,7 +65,7 @@ export class DiscordUserCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  enable_new_guild_notification_period!: number;
+  enable_new_guild_notification!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -75,7 +75,7 @@ export class DiscordUserCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  enable_attribution_notification_period!: number;
+  enable_attribution_notification!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

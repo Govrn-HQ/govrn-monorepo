@@ -45,7 +45,7 @@ export class DiscordUserMinAggregate {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  enable_submit_reminder_period!: boolean | null;
+  enable_submit_reminder!: boolean | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -55,7 +55,7 @@ export class DiscordUserMinAggregate {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  enable_mint_notification_period!: boolean | null;
+  enable_mint_notification!: boolean | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -65,7 +65,7 @@ export class DiscordUserMinAggregate {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  enable_new_guild_notification_period!: boolean | null;
+  enable_new_guild_notification!: boolean | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -75,7 +75,7 @@ export class DiscordUserMinAggregate {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  enable_attribution_notification_period!: boolean | null;
+  enable_attribution_notification!: boolean | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

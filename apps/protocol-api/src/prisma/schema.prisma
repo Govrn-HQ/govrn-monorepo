@@ -56,19 +56,19 @@ model DiscordUser {
   enable_notifications Boolean @default(false)
 
   // submit contributions
-  enable_submit_reminder_period Boolean @default(false)
+  enable_submit_reminder Boolean @default(false)
   submit_reminder_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
 
   // contributions available to mint
-  enable_mint_notification_period Boolean @default(false)
+  enable_mint_notification Boolean @default(false)
   mint_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
 
   // user has been added to a guild
-  enable_new_guild_notification_period Boolean @default(false)
+  enable_new_guild_notification Boolean @default(false)
   new_guild_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
 
   // DAO attribution reminder
-  enable_attribution_notification_period Boolean @default(false)
+  enable_attribution_notification Boolean @default(false)
   attribution_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
 }
 

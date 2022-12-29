@@ -35,7 +35,7 @@ export class DiscordUserCreateWithoutUserInput {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  enable_submit_reminder_period?: boolean | undefined;
+  enable_submit_reminder?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -45,7 +45,7 @@ export class DiscordUserCreateWithoutUserInput {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  enable_mint_notification_period?: boolean | undefined;
+  enable_mint_notification?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -55,7 +55,7 @@ export class DiscordUserCreateWithoutUserInput {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  enable_new_guild_notification_period?: boolean | undefined;
+  enable_new_guild_notification?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -65,7 +65,7 @@ export class DiscordUserCreateWithoutUserInput {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  enable_attribution_notification_period?: boolean | undefined;
+  enable_attribution_notification?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

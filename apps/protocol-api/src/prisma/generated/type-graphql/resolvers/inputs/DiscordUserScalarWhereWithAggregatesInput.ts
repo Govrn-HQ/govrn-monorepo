@@ -65,7 +65,7 @@ export class DiscordUserScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
     nullable: true
   })
-  enable_submit_reminder_period?: BoolWithAggregatesFilter | undefined;
+  enable_submit_reminder?: BoolWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true
@@ -75,7 +75,7 @@ export class DiscordUserScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
     nullable: true
   })
-  enable_mint_notification_period?: BoolWithAggregatesFilter | undefined;
+  enable_mint_notification?: BoolWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true
@@ -85,7 +85,7 @@ export class DiscordUserScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
     nullable: true
   })
-  enable_new_guild_notification_period?: BoolWithAggregatesFilter | undefined;
+  enable_new_guild_notification?: BoolWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true
@@ -95,7 +95,7 @@ export class DiscordUserScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
     nullable: true
   })
-  enable_attribution_notification_period?: BoolWithAggregatesFilter | undefined;
+  enable_attribution_notification?: BoolWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true

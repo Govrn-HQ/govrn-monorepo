@@ -50,7 +50,7 @@ export class DiscordUserGroupBy {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
-  enable_submit_reminder_period!: boolean;
+  enable_submit_reminder!: boolean;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -60,7 +60,7 @@ export class DiscordUserGroupBy {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
-  enable_mint_notification_period!: boolean;
+  enable_mint_notification!: boolean;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -70,7 +70,7 @@ export class DiscordUserGroupBy {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
-  enable_new_guild_notification_period!: boolean;
+  enable_new_guild_notification!: boolean;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -80,7 +80,7 @@ export class DiscordUserGroupBy {
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
-  enable_attribution_notification_period!: boolean;
+  enable_attribution_notification!: boolean;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

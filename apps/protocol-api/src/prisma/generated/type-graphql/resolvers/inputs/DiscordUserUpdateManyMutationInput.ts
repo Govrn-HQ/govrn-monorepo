@@ -40,7 +40,7 @@ export class DiscordUserUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
-  enable_submit_reminder_period?: BoolFieldUpdateOperationsInput | undefined;
+  enable_submit_reminder?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true
@@ -50,7 +50,7 @@ export class DiscordUserUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
-  enable_mint_notification_period?: BoolFieldUpdateOperationsInput | undefined;
+  enable_mint_notification?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true
@@ -60,7 +60,7 @@ export class DiscordUserUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
-  enable_new_guild_notification_period?: BoolFieldUpdateOperationsInput | undefined;
+  enable_new_guild_notification?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true
@@ -70,7 +70,7 @@ export class DiscordUserUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
-  enable_attribution_notification_period?: BoolFieldUpdateOperationsInput | undefined;
+  enable_attribution_notification?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true
