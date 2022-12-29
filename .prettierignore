@@ -3,6 +3,7 @@
 /dist
 /.husky
 
+apps/kevin-malone
 apps/govrn-contract/out
 apps/govrn-contract/cache
 apps/govrn-contract/lib
