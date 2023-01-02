@@ -64,6 +64,20 @@ jobs:
           echo VITE_STAGING_MODE=true >> .env
           echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
           echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
+          echo API_TOKEN= >> .env
+          echo CLIENT_ID= >> .env
+          echo BOT_DEBUG=true >> .env
+          echo REDIS_URL=redis://0.0.0.0:6379 >> .env
+          echo IS_DEV=True >> .env
+          echo GOVRN_GUILD_ID= >> .env
+          echo PROTOCOL_URL=http://localhost:4000/graphql >> .env
+          echo PROTOCOL_TOKEN= >> .env
+          echo TEST_CHANNEL= >> .env
+          echo TASK_WAKEUP_PERIOD_MINUTES= >> .env
+          echo WEEKLY_REPORT_MINIMUM_TIME_BETWEEN_LOOP_SECONDS= >> .env
+          echo WEEKLY_REPORT_WEEKDAY= >> .env
+          echo WEEKLY_REPORT_TIME= >> .env
+          echo WEEKLY_REPORT_ENABLE= >> .env
       - name: Build
         run: yarn nx affected:build --configuration production --base $BASE
       - uses: actions/cache@v3
