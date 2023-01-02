@@ -1,0 +1,12 @@
+# To ensure app dependencies are ported from your virtual environment/host machine into your container, run 'pip freeze > requirements.txt' in the terminal to overwrite this file
+python-dotenv >= 0.19.1
+boto3 >= 1.20.5
+aioredis==2.0.0
+texttable==1.6.4
+gql==3.3.0
+web3==5.29.2
+pyyaml
+-e git+https://github.com/Pycord-Development/pycord.git@44eb9a0c92c406c38ac06d46583391c76c611bf6#egg=py-cord
+pandas==1.4.3
+snscrape==0.4.3.20220106
+
