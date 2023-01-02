@@ -45,25 +45,9 @@ jobs:
         run: yarn nx affected --target install --base $BASE
       - name: Check Prettier
         run: yarn check-prettier
-      - run: yarn nx affected --target format --base $BASE
-      - run: yarn nx affected:lint --base $BASE
-      - name: Test
-        run: yarn nx affected:test --base $BASE
       - name: Create env file
         run: |
           touch .env
-          echo VITE_PROTOCOL_BASE_URL=https://api-staging.govrn.app  >> .env
-          echo VITE_PROTOCOL_URL=https://api-staging.govrn.app/graphql  >> .env
-          echo VITE_URL=${{secrets.VITE_URL_STAGING}} >> .env
-          echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
-          echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
-          echo VITE_LINEAR_REDIRECT_URI=https://api-staging.govrn.app/linear/oauth  >> .env
-          echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
-          echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
-          echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
-          echo VITE_STAGING_MODE=true >> .env
-          echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
-          echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
           echo API_TOKEN= >> .env
           echo CLIENT_ID= >> .env
           echo BOT_DEBUG=true >> .env
@@ -78,6 +62,24 @@ jobs:
           echo WEEKLY_REPORT_WEEKDAY= >> .env
           echo WEEKLY_REPORT_TIME= >> .env
           echo WEEKLY_REPORT_ENABLE= >> .env
+      - run: yarn nx affected --target format --base $BASE
+      - run: yarn nx affected:lint --base $BASE
+      - name: Test
+        run: yarn nx affected:test --base $BASE
+      - name: Add frontend env vars
+        run: |
+          echo VITE_PROTOCOL_BASE_URL=https://api-staging.govrn.app  >> .env
+          echo VITE_PROTOCOL_URL=https://api-staging.govrn.app/graphql  >> .env
+          echo VITE_URL=${{secrets.VITE_URL_STAGING}} >> .env
+          echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
+          echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
+          echo VITE_LINEAR_REDIRECT_URI=https://api-staging.govrn.app/linear/oauth  >> .env
+          echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
+          echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
+          echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
+          echo VITE_STAGING_MODE=true >> .env
+          echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
+          echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
       - name: Build
         run: yarn nx affected:build --configuration production --base $BASE
       - uses: actions/cache@v3
