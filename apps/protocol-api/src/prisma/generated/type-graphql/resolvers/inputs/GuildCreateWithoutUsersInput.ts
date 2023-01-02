@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutGuildInput";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
+import { GuildImportCreateNestedManyWithoutGuildInput } from "../inputs/GuildImportCreateNestedManyWithoutGuildInput";
 import { TwitterAccountCreateNestedManyWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedManyWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
 
@@ -41,6 +42,11 @@ export class GuildCreateWithoutUsersInput {
   })
   logo?: string | undefined;
 
+  @TypeGraphQL.Field(_type => GuildStatus, {
+    nullable: true
+  })
+  status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
+
   @TypeGraphQL.Field(_type => GuildContributionCreateNestedManyWithoutGuildInput, {
     nullable: true
   })
@@ -61,8 +67,8 @@ export class GuildCreateWithoutUsersInput {
   })
   contribution_reporting_channel?: string | undefined;
 
-  @TypeGraphQL.Field(_type => GuildStatus, {
+  @TypeGraphQL.Field(_type => GuildImportCreateNestedManyWithoutGuildInput, {
     nullable: true
   })
-  status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
+  guild_imports?: GuildImportCreateNestedManyWithoutGuildInput | undefined;
 }

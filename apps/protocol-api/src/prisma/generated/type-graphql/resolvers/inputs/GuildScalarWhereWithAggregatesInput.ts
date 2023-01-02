@@ -61,13 +61,13 @@ export class GuildScalarWhereWithAggregatesInput {
   })
   logo?: StringNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
-  })
-  contribution_reporting_channel?: StringNullableWithAggregatesFilter | undefined;
-
   @TypeGraphQL.Field(_type => EnumGuildStatusWithAggregatesFilter, {
     nullable: true
   })
   status?: EnumGuildStatusWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  contribution_reporting_channel?: StringNullableWithAggregatesFilter | undefined;
 }
