@@ -9,6 +9,7 @@
     "govrn-contract-subgraph": "apps/govrn-contract-subgraph",
     "govrn-subgraph-client": "libs/govrn-subgraph-client",
     "kevin-malone": "apps/kevin-malone",
+    "jobs-member-csv-upload-job": "apps/jobs/member-csv-upload-job",
     "linear-sync-job": "apps/linear-sync-job",
     "protocol-api": "apps/protocol-api",
     "protocol-client": "libs/protocol-client",
