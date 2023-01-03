@@ -15,6 +15,20 @@
       "type": "node",
       "request": "attach",
       "port": 9229
+    },
+    {
+      "name": "Python: Bot",
+      "type": "python",
+      "request": "launch",
+      "program": "apps/kevin-malone/bot/",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: Save contribution reports",
+      "type": "python",
+      "request": "launch",
+      "program": "apps/kevin-malone/bot/common/tasks/weekly_contributions.py",
+      "console": "integratedTerminal"
     }
   ]
 }
