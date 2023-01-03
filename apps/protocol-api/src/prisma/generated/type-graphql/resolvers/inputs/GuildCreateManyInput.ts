@@ -43,13 +43,13 @@ export class GuildCreateManyInput {
   })
   logo?: string | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  contribution_reporting_channel?: string | undefined;
-
   @TypeGraphQL.Field(_type => GuildStatus, {
     nullable: true
   })
   status?: "INPUTTED" | "VALIDATED" | "ONBOARDED" | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  contribution_reporting_channel?: string | undefined;
 }

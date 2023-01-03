@@ -1,5 +1,6 @@
 INSERT INTO "GuildMembershipStatus" (name)
-VALUES ('Member'),
+VALUES ('Admin'),
+       ('Member'),
        ('Contributor'),
        ('Recruit'),
        ('Supporter'),

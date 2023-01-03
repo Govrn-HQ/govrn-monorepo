@@ -61,8 +61,8 @@ export const AttestationModal = ({
       />
       <Flex align="flex-end" marginTop={4}>
         <Button
-          variant="primary"
           type="submit"
+          variant="primary"
           onClick={() => createAttestationsHandler(contribution)}
           isLoading={attesting}
           data-testid="addAttestations-btn"
@@ -123,11 +123,7 @@ export const BulkAttestationModal = ({
       <Flex align="flex-end" marginTop={4}>
         <Button
           type="submit"
-          width="100%"
-          color="brand.primary.600"
-          backgroundColor="brand.primary.50"
-          transition="all 100ms ease-in-out"
-          _hover={{ bgColor: 'brand.primary.100' }}
+          variant="primary"
           onClick={() => createAttestationsHandler(contributions)}
           isLoading={attesting}
           data-testId="addAttestations-btn"

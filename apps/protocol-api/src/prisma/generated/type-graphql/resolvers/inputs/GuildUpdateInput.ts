@@ -6,6 +6,7 @@ import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdat
 import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildStatusFieldUpdateOperationsInput";
 import { GuildActivityTypeUpdateManyWithoutGuildNestedInput } from "../inputs/GuildActivityTypeUpdateManyWithoutGuildNestedInput";
 import { GuildContributionUpdateManyWithoutGuildNestedInput } from "../inputs/GuildContributionUpdateManyWithoutGuildNestedInput";
+import { GuildImportUpdateManyWithoutGuildNestedInput } from "../inputs/GuildImportUpdateManyWithoutGuildNestedInput";
 import { GuildUserUpdateManyWithoutGuildNestedInput } from "../inputs/GuildUserUpdateManyWithoutGuildNestedInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { TwitterAccountUpdateManyWithoutGuildNestedInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildNestedInput";
@@ -44,6 +45,11 @@ export class GuildUpdateInput {
   })
   logo?: NullableStringFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => EnumGuildStatusFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => GuildContributionUpdateManyWithoutGuildNestedInput, {
     nullable: true
   })
@@ -69,8 +75,8 @@ export class GuildUpdateInput {
   })
   contribution_reporting_channel?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => EnumGuildStatusFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => GuildImportUpdateManyWithoutGuildNestedInput, {
     nullable: true
   })
-  status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
+  guild_imports?: GuildImportUpdateManyWithoutGuildNestedInput | undefined;
 }
