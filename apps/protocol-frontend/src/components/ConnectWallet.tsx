@@ -26,17 +26,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
   const { address, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
 
-  const { data: userEnsName } = useEnsName({
-    address: address,
-    chainId: chain.mainnet.id,
-    enabled: !!address,
-  });
-
-  // const { data: userEnsName, isLoading } = useEnsNameEthers(address);
-
-  // if (isLoading) {
-  //   return <GovrnSpinner />;
-  // }
+  const { data: userEnsName, isLoading } = useEnsNameEthers(address);
 
   return (
     <ConnectButton.Custom>
@@ -48,9 +38,11 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
         openConnectModal,
         mounted,
       }) => {
+        const ready = mounted && isLoading === false;
+
         return (
           <div
-            {...(!mounted && {
+            {...(!ready && {
               'aria-hidden': true,
               style: {
                 opacity: 0,
@@ -60,7 +52,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
             })}
           >
             {(() => {
-              if (!mounted || !account || !chain) {
+              if (!ready || !account || !chain) {
                 return (
                   <Button
                     variant="tertiary"
