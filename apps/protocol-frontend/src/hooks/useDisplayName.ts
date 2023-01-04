@@ -1,16 +1,13 @@
 import { useUser } from './../contexts/UserContext';
-import { useEnsName, chain, useAccount } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { displayAddress } from '../utils/web3';
+import { useEnsNameEthers } from './useEnsNameEthers';
 
 const useDisplayName = () => {
   const { userData, userAddress, userDataByAddress } = useUser();
   const { address } = useAccount();
 
-  const { data: userEnsName } = useEnsName({
-    address: address,
-    chainId: chain.mainnet.id,
-    enabled: !!address,
-  });
+  const { data: userEnsName } = useEnsNameEthers(address ? address : '');
 
   const displayName =
     userData?.name ||
