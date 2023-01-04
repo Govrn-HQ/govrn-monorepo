@@ -177,6 +177,12 @@ mutation createGuild($data: GuildCreateInput!) {
   }
 }
 
+mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
+  createGuildUserCustom(data: $data) {
+    id
+  }
+}
+
 mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
   deleteOneGuildUser(where: $where) {
     id
@@ -185,6 +191,15 @@ mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
 
 query getGuild($where: GuildWhereUniqueInput!) {
   result: guild(where: $where) {
+    ...GuildFragment
+  }
+}
+
+mutation updateGuildCustom(
+  $data: GuildUpdateCustomInput!
+  $where: GuildUpdateCustomWhereInput!
+) {
+  updateGuildCustom(data: $data, where: $where) {
     ...GuildFragment
   }
 }
@@ -290,7 +305,7 @@ mutation upsertTwitterUser(
   }
 }
 
-# User quries
+# User queries
 fragment UserFragment on User {
   address
   active
@@ -374,7 +389,7 @@ mutation createUserCustom($data: UserCreateCustomInput!) {
   }
 }
 
-# Contribution quries
+# Contribution queries
 fragment ContributionFragment on Contribution {
   activity_type {
     active

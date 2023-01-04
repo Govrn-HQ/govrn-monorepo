@@ -6,6 +6,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumGuildStatusFilter } from "../inputs/EnumGuildStatusFilter";
 import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
+import { GuildImportListRelationFilter } from "../inputs/GuildImportListRelationFilter";
 import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
@@ -65,6 +66,11 @@ export class GuildWhereInput {
   })
   logo?: StringNullableFilter | undefined;
 
+  @TypeGraphQL.Field(_type => EnumGuildStatusFilter, {
+    nullable: true
+  })
+  status?: EnumGuildStatusFilter | undefined;
+
   @TypeGraphQL.Field(_type => GuildContributionListRelationFilter, {
     nullable: true
   })
@@ -90,8 +96,8 @@ export class GuildWhereInput {
   })
   contribution_reporting_channel?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => EnumGuildStatusFilter, {
+  @TypeGraphQL.Field(_type => GuildImportListRelationFilter, {
     nullable: true
   })
-  status?: EnumGuildStatusFilter | undefined;
+  guild_imports?: GuildImportListRelationFilter | undefined;
 }

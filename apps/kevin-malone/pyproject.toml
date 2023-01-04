@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "kevinmalone"
+version = "0.1.0"
+description = ""
+authors = ["Alex Keating <keating.dev@protonmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pytest-mock = "^3.6.1"
+texttable = "^1.6.4"
+
+[tool.poetry.dev-dependencies]
+pytest-asyncio = "^0.16.0"
+pytest-mock = "^3.6.1"
+coverage = "^6.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
+markers = [
+    "discord_bot"
+]
