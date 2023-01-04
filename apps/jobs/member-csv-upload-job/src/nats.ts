@@ -34,11 +34,12 @@ const pullMessages = async (
   stream: string,
   durable: string,
   callback: (nc: NatsConnection, msg: JsMsg) => void,
+  batch = 10,
 ) => {
   // create a jetstream client:
   const js = nc.jetstream();
   // To get multiple messages in one request you can:
-  const msgs = await js.fetch(stream, durable, { batch: 10, expires: 5000 });
+  const msgs = await js.fetch(stream, durable, { batch: batch, expires: 5000 });
   // the request returns an iterator that will get at most 10 messages or wait
   // for 5000ms for messages to arrive.
 
