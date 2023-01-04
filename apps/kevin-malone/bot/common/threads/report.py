@@ -33,7 +33,7 @@ class ReportStep(BaseStep):
 
     async def send(self, message, user_id, ctx=None):
         guild = await gql.get_guild_by_discord_id(self.guild_id)
-        link = REPORTING_FORM_FMT % guild["id"]
+        link = REPORTING_FORM_FMT
 
         msg = ReportStep.report_message % link
         sent_message = None
