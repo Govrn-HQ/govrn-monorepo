@@ -59,10 +59,11 @@ export const useContributionUpdate = () => {
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
+            title: 'Contribution Successfully Updated',
             description: `Your Contribution ${
               bulkItemCount && bulkItemCount !== 1
-                ? 'Reports have'
-                : 'Report has'
+                ? 'reports have'
+                : 'report has'
             } been updated.`, // not using pluralize here because we need to also include 'have' and 'has'
           });
         }
@@ -71,7 +72,7 @@ export const useContributionUpdate = () => {
       onError: error => {
         console.log('error', error);
         toast.error({
-          // title: 'Unable to Update Contribution',
+          title: 'Unable to Update Contribution',
           description: `Something went wrong. Please try again.`,
         });
       },

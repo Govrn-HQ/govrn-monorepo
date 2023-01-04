@@ -102,17 +102,22 @@ const Toast: React.FC<ToastProps> = ({
         ) : (
           icon && <Icon as={icon} width="35px" height="35px" />
         )}
-        <Box color={colorValues[status].color}>
-          {title && <Heading size="md">{title}</Heading>}
-          {description && <Text size="sm">{description}</Text>}
+        <Box>
+          {title && (
+            <Heading size="md" color={colorValues[status].color}>
+              {title}
+            </Heading>
+          )}
+          {description && (
+            <Text size="sm" color="gray.900">
+              {description}
+            </Text>
+          )}
         </Box>
       </HStack>
       {props.isClosable === true && (
         <Flex
           marginLeft={8}
-          // position="absolute"
-          // top="10px"
-          // right="10px"
           onClick={closeToast}
           justifyContent="baseline"
           _hover={{ cursor: 'pointer' }}
