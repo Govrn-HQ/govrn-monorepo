@@ -126,7 +126,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserData(resp);
       toast.success({
         title: 'User Created',
-        description: `Your username has been created with your address: ${address}. Let's report your first Contribution!`,
+        description: `Your username has been created with your address: ${address}. Let's report your first contribution!`,
       });
       if (navigate) {
         navigate('/report');
