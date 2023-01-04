@@ -2,9 +2,9 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { AttestationConfidenceUpdateOneWithoutAttestationsInput } from "../inputs/AttestationConfidenceUpdateOneWithoutAttestationsInput";
-import { AttestationStatusUpdateOneWithoutAttestationInput } from "../inputs/AttestationStatusUpdateOneWithoutAttestationInput";
-import { ContributionUpdateOneRequiredWithoutAttestationsInput } from "../inputs/ContributionUpdateOneRequiredWithoutAttestationsInput";
+import { AttestationConfidenceUpdateOneWithoutAttestationsNestedInput } from "../inputs/AttestationConfidenceUpdateOneWithoutAttestationsNestedInput";
+import { AttestationStatusUpdateOneWithoutAttestationNestedInput } from "../inputs/AttestationStatusUpdateOneWithoutAttestationNestedInput";
+import { ContributionUpdateOneRequiredWithoutAttestationsNestedInput } from "../inputs/ContributionUpdateOneRequiredWithoutAttestationsNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("AttestationUpdateWithoutUserInput", {
@@ -21,23 +21,23 @@ export class AttestationUpdateWithoutUserInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => AttestationConfidenceUpdateOneWithoutAttestationsInput, {
+  @TypeGraphQL.Field(_type => AttestationConfidenceUpdateOneWithoutAttestationsNestedInput, {
     nullable: true
   })
-  confidence?: AttestationConfidenceUpdateOneWithoutAttestationsInput | undefined;
+  confidence?: AttestationConfidenceUpdateOneWithoutAttestationsNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionUpdateOneRequiredWithoutAttestationsInput, {
+  @TypeGraphQL.Field(_type => ContributionUpdateOneRequiredWithoutAttestationsNestedInput, {
     nullable: true
   })
-  contribution?: ContributionUpdateOneRequiredWithoutAttestationsInput | undefined;
+  contribution?: ContributionUpdateOneRequiredWithoutAttestationsNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
   date_of_attestation?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => AttestationStatusUpdateOneWithoutAttestationInput, {
+  @TypeGraphQL.Field(_type => AttestationStatusUpdateOneWithoutAttestationNestedInput, {
     nullable: true
   })
-  attestation_status?: AttestationStatusUpdateOneWithoutAttestationInput | undefined;
+  attestation_status?: AttestationStatusUpdateOneWithoutAttestationNestedInput | undefined;
 }

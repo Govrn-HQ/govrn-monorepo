@@ -1,10 +1,9 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { GroupByAttestationArgs } from "./args/GroupByAttestationArgs";
 import { Attestation } from "../../../models/Attestation";
 import { AttestationGroupBy } from "../../outputs/AttestationGroupBy";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => Attestation)
 export class GroupByAttestationResolver {
@@ -12,9 +11,7 @@ export class GroupByAttestationResolver {
     nullable: false
   })
   async groupByAttestation(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: GroupByAttestationArgs): Promise<AttestationGroupBy[]> {
-    const { _count, _avg, _sum, _min, _max } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count, _avg, _sum, _min, _max } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).attestation.groupBy({
       ...args,
       ...Object.fromEntries(

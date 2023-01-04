@@ -1,6 +1,7 @@
 import {
+  CreateGuildUserCustomMutationVariables,
   ListUsersQueryVariables,
-  MutationDeleteGuildUserArgs,
+  MutationDeleteOneGuildUserArgs,
   UserCreateCustomInput,
   UserUpdateInput,
   UserWhereUniqueInput,
@@ -23,7 +24,7 @@ export class User extends BaseClient {
 
   public async update(data: UserUpdateInput, where: UserWhereUniqueInput) {
     const user = await this.sdk.updateUser({ where, data });
-    return user.updateUser;
+    return user.updateOneUser;
   }
 
   public async list(args: ListUsersQueryVariables) {
@@ -38,8 +39,11 @@ export class User extends BaseClient {
 }
 
 class GuildUser extends BaseClient {
-  public async delete(args: MutationDeleteGuildUserArgs) {
-    const guildUser = await this.sdk.deleteGuildUser(args);
-    return guildUser;
+  public async create(args: CreateGuildUserCustomMutationVariables) {
+    return await this.sdk.createGuildUserCustom(args);
+  }
+
+  public async delete(args: MutationDeleteOneGuildUserArgs) {
+    return await this.sdk.deleteGuildUser(args);
   }
 }

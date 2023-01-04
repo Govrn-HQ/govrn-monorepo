@@ -2,9 +2,9 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ContributionUpdateOneRequiredWithoutGuildsInput } from "../inputs/ContributionUpdateOneRequiredWithoutGuildsInput";
+import { ContributionUpdateOneRequiredWithoutGuildsNestedInput } from "../inputs/ContributionUpdateOneRequiredWithoutGuildsNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { GuildUpdateOneRequiredWithoutContributionsInput } from "../inputs/GuildUpdateOneRequiredWithoutContributionsInput";
+import { GuildUpdateOneRequiredWithoutContributionsNestedInput } from "../inputs/GuildUpdateOneRequiredWithoutContributionsNestedInput";
 
 @TypeGraphQL.InputType("GuildContributionUpdateInput", {
   isAbstract: true
@@ -20,13 +20,13 @@ export class GuildContributionUpdateInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildUpdateOneRequiredWithoutContributionsInput, {
+  @TypeGraphQL.Field(_type => GuildUpdateOneRequiredWithoutContributionsNestedInput, {
     nullable: true
   })
-  guild?: GuildUpdateOneRequiredWithoutContributionsInput | undefined;
+  guild?: GuildUpdateOneRequiredWithoutContributionsNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionUpdateOneRequiredWithoutGuildsInput, {
+  @TypeGraphQL.Field(_type => ContributionUpdateOneRequiredWithoutGuildsNestedInput, {
     nullable: true
   })
-  contribution?: ContributionUpdateOneRequiredWithoutGuildsInput | undefined;
+  contribution?: ContributionUpdateOneRequiredWithoutGuildsNestedInput | undefined;
 }

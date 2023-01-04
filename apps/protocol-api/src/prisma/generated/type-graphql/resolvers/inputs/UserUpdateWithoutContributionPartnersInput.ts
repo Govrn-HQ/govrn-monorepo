@@ -2,18 +2,18 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { AttestationUpdateManyWithoutUserInput } from "../inputs/AttestationUpdateManyWithoutUserInput";
+import { AttestationUpdateManyWithoutUserNestedInput } from "../inputs/AttestationUpdateManyWithoutUserNestedInput";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
-import { ChainTypeUpdateOneRequiredWithoutUsersInput } from "../inputs/ChainTypeUpdateOneRequiredWithoutUsersInput";
-import { ContributionUpdateManyWithoutUserInput } from "../inputs/ContributionUpdateManyWithoutUserInput";
+import { ChainTypeUpdateOneRequiredWithoutUsersNestedInput } from "../inputs/ChainTypeUpdateOneRequiredWithoutUsersNestedInput";
+import { ContributionUpdateManyWithoutUserNestedInput } from "../inputs/ContributionUpdateManyWithoutUserNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { DiscordUserUpdateManyWithoutUserInput } from "../inputs/DiscordUserUpdateManyWithoutUserInput";
-import { GuildUserUpdateManyWithoutUserInput } from "../inputs/GuildUserUpdateManyWithoutUserInput";
-import { LinearUserUpdateManyWithoutUserInput } from "../inputs/LinearUserUpdateManyWithoutUserInput";
+import { DiscordUserUpdateManyWithoutUserNestedInput } from "../inputs/DiscordUserUpdateManyWithoutUserNestedInput";
+import { GuildUserUpdateManyWithoutUserNestedInput } from "../inputs/GuildUserUpdateManyWithoutUserNestedInput";
+import { LinearUserUpdateManyWithoutUserNestedInput } from "../inputs/LinearUserUpdateManyWithoutUserNestedInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { TwitterUserUpdateOneWithoutUserInput } from "../inputs/TwitterUserUpdateOneWithoutUserInput";
-import { UserActivityUpdateManyWithoutUserInput } from "../inputs/UserActivityUpdateManyWithoutUserInput";
+import { TwitterUserUpdateOneWithoutUserNestedInput } from "../inputs/TwitterUserUpdateOneWithoutUserNestedInput";
+import { UserActivityUpdateManyWithoutUserNestedInput } from "../inputs/UserActivityUpdateManyWithoutUserNestedInput";
 
 @TypeGraphQL.InputType("UserUpdateWithoutContributionPartnersInput", {
   isAbstract: true
@@ -44,10 +44,10 @@ export class UserUpdateWithoutContributionPartnersInput {
   })
   address?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => ChainTypeUpdateOneRequiredWithoutUsersInput, {
+  @TypeGraphQL.Field(_type => ChainTypeUpdateOneRequiredWithoutUsersNestedInput, {
     nullable: true
   })
-  chain_type?: ChainTypeUpdateOneRequiredWithoutUsersInput | undefined;
+  chain_type?: ChainTypeUpdateOneRequiredWithoutUsersNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true
@@ -64,38 +64,38 @@ export class UserUpdateWithoutContributionPartnersInput {
   })
   email?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserActivityUpdateManyWithoutUserInput, {
+  @TypeGraphQL.Field(_type => UserActivityUpdateManyWithoutUserNestedInput, {
     nullable: true
   })
-  activities?: UserActivityUpdateManyWithoutUserInput | undefined;
+  activities?: UserActivityUpdateManyWithoutUserNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => AttestationUpdateManyWithoutUserInput, {
+  @TypeGraphQL.Field(_type => AttestationUpdateManyWithoutUserNestedInput, {
     nullable: true
   })
-  attestations?: AttestationUpdateManyWithoutUserInput | undefined;
+  attestations?: AttestationUpdateManyWithoutUserNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutUserInput, {
+  @TypeGraphQL.Field(_type => ContributionUpdateManyWithoutUserNestedInput, {
     nullable: true
   })
-  contributions?: ContributionUpdateManyWithoutUserInput | undefined;
+  contributions?: ContributionUpdateManyWithoutUserNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearUserUpdateManyWithoutUserInput, {
+  @TypeGraphQL.Field(_type => LinearUserUpdateManyWithoutUserNestedInput, {
     nullable: true
   })
-  linear_users?: LinearUserUpdateManyWithoutUserInput | undefined;
+  linear_users?: LinearUserUpdateManyWithoutUserNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildUserUpdateManyWithoutUserInput, {
+  @TypeGraphQL.Field(_type => GuildUserUpdateManyWithoutUserNestedInput, {
     nullable: true
   })
-  guild_users?: GuildUserUpdateManyWithoutUserInput | undefined;
+  guild_users?: GuildUserUpdateManyWithoutUserNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => TwitterUserUpdateOneWithoutUserInput, {
+  @TypeGraphQL.Field(_type => TwitterUserUpdateOneWithoutUserNestedInput, {
     nullable: true
   })
-  twitter_user?: TwitterUserUpdateOneWithoutUserInput | undefined;
+  twitter_user?: TwitterUserUpdateOneWithoutUserNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => DiscordUserUpdateManyWithoutUserInput, {
+  @TypeGraphQL.Field(_type => DiscordUserUpdateManyWithoutUserNestedInput, {
     nullable: true
   })
-  discord_users?: DiscordUserUpdateManyWithoutUserInput | undefined;
+  discord_users?: DiscordUserUpdateManyWithoutUserNestedInput | undefined;
 }

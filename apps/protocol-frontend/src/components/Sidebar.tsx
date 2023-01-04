@@ -177,7 +177,7 @@ const Sidebar = () => {
                 )}
               </Stack>
             )}
-            <HStack>
+            <HStack paddingLeft={2}>
               <ConnectWallet showNetwork />
             </HStack>
           </Stack>

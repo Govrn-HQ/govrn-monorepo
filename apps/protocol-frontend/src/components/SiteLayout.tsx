@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import Sidebar from './Sidebar';
 import MobileNav from './MobileNav';
-import { useLocation } from 'react-router-dom';
+import { useLocation, matchPath } from 'react-router-dom';
 import FloatingReportButton from './FloatingReportButton';
 import { HiMenuAlt3 } from 'react-icons/hi';
 import ScrollToTopButton from './ScrollToTopButton';
@@ -25,6 +25,11 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const mobileNav = useDisclosure();
   const location = useLocation();
+
+  const showScrollToTopButton =
+    location.pathname === '/contributions' ||
+    location.pathname === '/attestations' ||
+    matchPath({ path: '/dao/:guildId' }, location.pathname) !== null;
 
   return (
     <Grid
@@ -60,7 +65,7 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({
       >
         {children}
       </Flex>
-      <ScrollToTopButton />
+      {showScrollToTopButton && <ScrollToTopButton />}
       <FloatingReportButton />
     </Grid>
   );

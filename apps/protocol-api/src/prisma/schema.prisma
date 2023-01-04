@@ -50,6 +50,26 @@ model DiscordUser {
   discord_id String @unique
   user_id Int
   user User @relation(fields: [user_id], references: [id])
+
+  // notifications
+  // enable notifications
+  enable_notifications Boolean @default(false)
+
+  // submit contributions
+  enable_submit_reminder Boolean @default(false)
+  submit_reminder_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
+
+  // contributions available to mint
+  enable_mint_notification Boolean @default(false)
+  mint_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
+
+  // user has been added to a guild
+  enable_new_guild_notification Boolean @default(false)
+  new_guild_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
+
+  // DAO attribution reminder
+  enable_attribution_notification Boolean @default(false)
+  attribution_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
 }
 
 model Guild {
@@ -60,12 +80,13 @@ model Guild {
   name String? // legacy
   congrats_channel String? // legacy
   logo String?
+  status GuildStatus @default(INPUTTED)
   contributions GuildContribution[]
   users GuildUser[]
   twitter_accounts TwitterAccount[]
   activity_type GuildActivityType[]
   contribution_reporting_channel String?
-  status GuildStatus @default(INPUTTED)
+  guild_imports GuildImport[]
 }
 
 model GuildMembershipStatus {
@@ -73,6 +94,7 @@ model GuildMembershipStatus {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   name String @unique
+  guildUsers GuildUser[]
 }
 
 model GuildUser {
@@ -83,6 +105,9 @@ model GuildUser {
   user User @relation(fields: [user_id], references: [id])
   guild_id Int
   guild Guild @relation(fields: [guild_id], references: [id])
+  membership_status_id Int?
+  membershipStatus GuildMembershipStatus? @relation(fields: [membership_status_id], references: [id])
+  favorite Boolean @default(false)
 
   @@unique([user_id, guild_id])
 }
@@ -111,7 +136,24 @@ model GuildActivityType {
   @@unique([guild_id, activity_type_id])
 }
 
+model IntegrationType {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  name String @unique
+  guild_imports GuildImport[]
+}
 
+model GuildImport {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  authentication_token String
+  guild_id Int
+  guild Guild @relation(fields: [guild_id], references: [id])
+  integration_type_id Int
+  integration_type IntegrationType @relation(fields: [integration_type_id], references: [id])
+}
 
 
 

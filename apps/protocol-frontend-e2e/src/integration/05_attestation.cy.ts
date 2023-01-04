@@ -13,6 +13,9 @@ beforeEach(() => {
   const getGuildID = `SELECT id
                       FROM "Guild"
                       WHERE name = 'GovrnE2eTesting2022'`;
+  const getMembershipStatusId = `SELECT id
+                                 FROM "GuildMembershipStatus"
+                                 WHERE name = 'Supporter'`;
   const getActivityTypeID = `SELECT id
                              FROM "ActivityType"
                              WHERE name = 'Pull Request'`;
@@ -35,6 +38,9 @@ beforeEach(() => {
       cy.task('create_guild', guild_name);
     }
   });
+
+  cy.task('create_MembershipStatus');
+
   // seed ChainType
   cy.task('create_chainType', chainTypeName);
 
@@ -68,8 +74,12 @@ beforeEach(() => {
   });
   cy.task('queryDatabase', getGuildID).then(res => {
     const guildID = res.rows[0].id;
-    GuildUser1Object['guildID'] = guildID;
-    cy.task('create_GuildUser', GuildUser1Object);
+    cy.task('queryDatabase', getMembershipStatusId).then(res => {
+      const membershipID = res.rows[0].id;
+      GuildUser1Object['guildID'] = guildID;
+      GuildUser1Object['membershipID'] = membershipID;
+      cy.task('create_GuildUser', GuildUser1Object);
+    });
   });
 
   //GuildUser2
@@ -79,8 +89,12 @@ beforeEach(() => {
   });
   cy.task('queryDatabase', getGuildID).then(res => {
     const guildID = res.rows[0].id;
-    GuildUser2Object['guildID'] = guildID;
-    cy.task('create_GuildUser', GuildUser2Object);
+    cy.task('queryDatabase', getMembershipStatusId).then(res => {
+      const membershipID = res.rows[0].id;
+      GuildUser2Object['guildID'] = guildID;
+      GuildUser2Object['membershipID'] = membershipID;
+      cy.task('create_GuildUser', GuildUser2Object);
+    });
   });
 
   // User-02 creates minted contribution
@@ -160,6 +174,7 @@ afterEach(() => {
     const guildID = res.rows[0].id;
     cy.task('delete_GuildContribution', guildID);
     cy.task('delete_GuildUser', guildID);
+    cy.task('delete_MembershipStatus');
   });
 
   // teardown Contribution
@@ -196,7 +211,7 @@ describe('Attestation flow', () => {
       .should('be.visible')
       .click({ force: true });
 
-    cy.contains(`These are Contributions that you have already Attested to.`, {
+    cy.contains(`These are contributions that you have already attested to.`, {
       timeout: 10000,
     }).should('be.visible');
   });

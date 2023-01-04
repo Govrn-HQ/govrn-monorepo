@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { Contribution } from "../../../models/Contribution";
 import { TwitterTweet } from "../../../models/TwitterTweet";
 import { TwitterTweetContribution } from "../../../models/TwitterTweetContribution";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => TwitterTweetContribution)
 export class TwitterTweetContributionRelationsResolver {

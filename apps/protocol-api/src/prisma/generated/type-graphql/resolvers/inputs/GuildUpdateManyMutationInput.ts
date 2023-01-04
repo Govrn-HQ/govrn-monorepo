@@ -40,13 +40,13 @@ export class GuildUpdateManyMutationInput {
   })
   logo?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  contribution_reporting_channel?: NullableStringFieldUpdateOperationsInput | undefined;
-
   @TypeGraphQL.Field(_type => EnumGuildStatusFieldUpdateOperationsInput, {
     nullable: true
   })
   status?: EnumGuildStatusFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  contribution_reporting_channel?: NullableStringFieldUpdateOperationsInput | undefined;
 }

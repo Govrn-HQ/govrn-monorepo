@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { GuildActivityTypeOrderByRelationAggregateInput } from "../inputs/GuildActivityTypeOrderByRelationAggregateInput";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
+import { GuildImportOrderByRelationAggregateInput } from "../inputs/GuildImportOrderByRelationAggregateInput";
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
 import { TwitterAccountOrderByRelationAggregateInput } from "../inputs/TwitterAccountOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -47,6 +48,11 @@ export class GuildOrderByWithRelationInput {
   })
   logo?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  status?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => GuildContributionOrderByRelationAggregateInput, {
     nullable: true
   })
@@ -72,8 +78,8 @@ export class GuildOrderByWithRelationInput {
   })
   contribution_reporting_channel?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
+  @TypeGraphQL.Field(_type => GuildImportOrderByRelationAggregateInput, {
     nullable: true
   })
-  status?: "asc" | "desc" | undefined;
+  guild_imports?: GuildImportOrderByRelationAggregateInput | undefined;
 }

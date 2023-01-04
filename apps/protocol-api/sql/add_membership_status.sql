@@ -1,7 +1,9 @@
 INSERT INTO "GuildMembershipStatus" (name)
-VALUES ('Member'),
+VALUES ('Admin'),
+       ('Member'),
        ('Contributor'),
        ('Recruit'),
        ('Supporter'),
-       ('Lurker');
+       ('Lurker')
+ON CONFLICT DO NOTHING;
 

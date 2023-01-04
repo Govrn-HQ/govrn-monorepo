@@ -1,10 +1,9 @@
 import * as TypeGraphQL from "type-graphql";
-import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { GroupByChainTypeArgs } from "./args/GroupByChainTypeArgs";
 import { ChainType } from "../../../models/ChainType";
 import { ChainTypeGroupBy } from "../../outputs/ChainTypeGroupBy";
-import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => ChainType)
 export class GroupByChainTypeResolver {
@@ -12,9 +11,7 @@ export class GroupByChainTypeResolver {
     nullable: false
   })
   async groupByChainType(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: GroupByChainTypeArgs): Promise<ChainTypeGroupBy[]> {
-    const { _count, _avg, _sum, _min, _max } = transformFields(
-      graphqlFields(info as any)
-    );
+    const { _count, _avg, _sum, _min, _max } = transformInfoIntoPrismaArgs(info);
     return getPrismaFromContext(ctx).chainType.groupBy({
       ...args,
       ...Object.fromEntries(

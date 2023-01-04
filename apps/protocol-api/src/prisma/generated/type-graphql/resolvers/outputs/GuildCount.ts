@@ -26,4 +26,9 @@ export class GuildCount {
     nullable: false
   })
   activity_type!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  guild_imports!: number;
 }

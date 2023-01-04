@@ -7,6 +7,8 @@ export * from "./ChainType/args";
 export * from "./Contribution/args";
 export * from "./ContributionStatus/args";
 export * from "./Guild/args";
+export * from "./GuildMembershipStatus/args";
+export * from "./IntegrationType/args";
 export * from "./LinearCycle/args";
 export * from "./LinearProject/args";
 export * from "./LinearTeam/args";

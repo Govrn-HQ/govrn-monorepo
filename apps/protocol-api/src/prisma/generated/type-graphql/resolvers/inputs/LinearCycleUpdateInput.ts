@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
-import { LinearIssueUpdateManyWithoutCycleInput } from "../inputs/LinearIssueUpdateManyWithoutCycleInput";
+import { LinearIssueUpdateManyWithoutCycleNestedInput } from "../inputs/LinearIssueUpdateManyWithoutCycleNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("LinearCycleUpdateInput", {
@@ -31,8 +31,8 @@ export class LinearCycleUpdateInput {
   })
   linear_id?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutCycleInput, {
+  @TypeGraphQL.Field(_type => LinearIssueUpdateManyWithoutCycleNestedInput, {
     nullable: true
   })
-  issues?: LinearIssueUpdateManyWithoutCycleInput | undefined;
+  issues?: LinearIssueUpdateManyWithoutCycleNestedInput | undefined;
 }

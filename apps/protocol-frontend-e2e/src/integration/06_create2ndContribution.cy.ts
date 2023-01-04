@@ -151,7 +151,7 @@ describe('Create Second Contribution', () => {
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
     cy.contains(
-      'Please select at least one Contribution to attribute to a DAO or mint.',
+      'Please select at least one contribution to attribute to a DAO or mint.',
       { timeout: 20000 },
     );
   });
