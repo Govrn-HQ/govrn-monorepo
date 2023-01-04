@@ -38,11 +38,9 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
         openConnectModal,
         mounted,
       }) => {
-        const ready = mounted && isLoading === false;
-
         return (
           <div
-            {...(!ready && {
+            {...(!mounted && {
               'aria-hidden': true,
               style: {
                 opacity: 0,
@@ -52,7 +50,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
             })}
           >
             {(() => {
-              if (!ready || !account || !chain) {
+              if (!mounted || !account || !chain) {
                 return (
                   <Button
                     variant="tertiary"
@@ -78,12 +76,14 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                 );
               }
 
+              if (!mounted || isLoading) return null;
+
               return (
                 <Flex gap={2}>
                   {showNetwork && chain.hasIcon && chain.iconUrl && (
                     <Button
-                      onClick={openChainModal}
                       display="flex"
+                      onClick={openChainModal}
                       alignItems="center"
                       bg={chain.iconBackground}
                       p={0}
