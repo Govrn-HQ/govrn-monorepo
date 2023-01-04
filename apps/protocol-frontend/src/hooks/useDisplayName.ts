@@ -7,7 +7,7 @@ const useDisplayName = () => {
   const { userData, userAddress, userDataByAddress } = useUser();
   const { address } = useAccount();
 
-  const { data: userEnsName } = useEnsNameEthers(address ? address : '');
+  const { data: userEnsName } = useEnsNameEthers(address);
 
   const displayName =
     userData?.name ||

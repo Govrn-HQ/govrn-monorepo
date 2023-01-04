@@ -1,5 +1,6 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useDisconnect } from 'wagmi';
+import { chain, useAccount, useDisconnect, useEnsName } from 'wagmi';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 import {
   Button,
   Text,
@@ -24,7 +25,18 @@ interface ConnectWalletProps {
 const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
   const { address, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
-  const { data: userEnsName } = useEnsNameEthers(address ? address : '');
+
+  const { data: userEnsName } = useEnsName({
+    address: address,
+    chainId: chain.mainnet.id,
+    enabled: !!address,
+  });
+
+  // const { data: userEnsName, isLoading } = useEnsNameEthers(address);
+
+  // if (isLoading) {
+  //   return <GovrnSpinner />;
+  // }
 
   return (
     <ConnectButton.Custom>
