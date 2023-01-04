@@ -20,8 +20,6 @@ const HomeShell = () => {
   const { userDataByAddress, isUserLoading } = useUser();
   const { displayName } = useDisplayName();
 
-  console.log('display name', displayName);
-
   useEffect(() => {
     if (userDataByAddress) {
       setCreateProfileSteps(3);

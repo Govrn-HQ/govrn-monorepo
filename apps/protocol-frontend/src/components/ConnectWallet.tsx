@@ -1,5 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { chain, useAccount, useDisconnect, useEnsName } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import {
   Button,
   Text,
@@ -14,6 +14,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { FiKey, FiChevronDown, FiXCircle } from 'react-icons/fi';
+import { useEnsNameEthers } from '../hooks/useEnsNameEthers';
 import { displayAddress } from '../utils/web3';
 
 interface ConnectWalletProps {
@@ -23,12 +24,7 @@ interface ConnectWalletProps {
 const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
   const { address, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
-
-  const { data: userEnsName } = useEnsName({
-    address: address,
-    chainId: chain.mainnet.id,
-    enabled: !!address,
-  });
+  const { data: userEnsName } = useEnsNameEthers(address ? address : '');
 
   return (
     <ConnectButton.Custom>
