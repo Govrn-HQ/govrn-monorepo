@@ -20,6 +20,7 @@
       "name": "Python: Bot",
       "type": "python",
       "request": "launch",
+      "python": "${workspaceFolder}/apps/kevin-malone/.venv/bin/python3",
       "cwd": "${workspaceFolder}/apps/kevin-malone/",
       "program": "${workspaceFolder}/apps/kevin-malone/bot/",
       "console": "integratedTerminal",
