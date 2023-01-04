@@ -20,15 +20,18 @@
       "name": "Python: Bot",
       "type": "python",
       "request": "launch",
-      "program": "apps/kevin-malone/bot/",
-      "console": "integratedTerminal"
+      "cwd": "${workspaceFolder}/apps/kevin-malone/",
+      "program": "${workspaceFolder}/apps/kevin-malone/bot/",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/apps/kevin-malone/.env"
     },
     {
       "name": "Python: Save contribution reports",
       "type": "python",
       "request": "launch",
-      "program": "apps/kevin-malone/bot/common/tasks/weekly_contributions.py",
-      "console": "integratedTerminal"
+      "program": "${workspaceFolder}/apps/kevin-malone/bot/common/tasks/weekly_contributions.py",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/apps/kevin-malone/.env"
     }
   ]
 }
