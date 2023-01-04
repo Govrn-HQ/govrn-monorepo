@@ -22,7 +22,7 @@ async def test_reporting_step_happypath(mocker, thread_dependencies):
 
     user_id = 1234
     (sent_message, metadata) = await report.send(message, user_id)
-    link = REPORTING_FORM_FMT % guild["id"]
+    link = REPORTING_FORM_FMT
     expected_message = ReportStep.report_message % link
     expected_congrats = ReportStep.congrats_message % (
         user_id,
@@ -51,7 +51,7 @@ async def test_reporting_step_no_congrats(mocker, thread_dependencies):
 
     user_id = 1234
     (sent_message, metadata) = await report.send(message, user_id)
-    link = REPORTING_FORM_FMT % guild["id"]
+    link = REPORTING_FORM_FMT
     expected_message = ReportStep.report_message % link
 
     # assert
@@ -74,7 +74,7 @@ async def test_reporting_step_no_contibutions(mocker, thread_dependencies):
 
     user_id = 1234
     (sent_message, metadata) = await report.send(message, user_id)
-    link = REPORTING_FORM_FMT % guild["id"]
+    link = REPORTING_FORM_FMT
     expected_message = ReportStep.report_message % link
 
     # assert
