@@ -19,7 +19,7 @@ const useLogout = () => {
     } catch (err) {
       console.error(err);
       toast.error({
-        // title: 'Failed to logout user',
+        title: 'Failed to Logout User',
         description: `Something went wrong. Please try again: ${err}`,
       });
     }
