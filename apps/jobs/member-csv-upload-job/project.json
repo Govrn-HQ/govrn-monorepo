@@ -46,7 +46,8 @@
       "outputs": ["coverage/apps/jobs/member-csv-upload-job"],
       "options": {
         "jestConfig": "apps/jobs/member-csv-upload-job/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "verbose": true
       }
     }
   },

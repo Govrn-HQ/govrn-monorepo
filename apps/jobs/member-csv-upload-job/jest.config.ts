@@ -1,6 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: 'jobs-member-csv-upload-job',
+  verbose: true,
   preset: '../../../jest.preset.js',
   globals: {
     'ts-jest': {
