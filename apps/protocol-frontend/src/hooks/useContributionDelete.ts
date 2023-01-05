@@ -2,7 +2,7 @@ import { useUser } from '../contexts/UserContext';
 import { useNetwork, useSigner } from 'wagmi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 export const useContributionDelete = () => {
   const toast = useGovrnToast();

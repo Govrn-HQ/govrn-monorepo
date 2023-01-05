@@ -16,7 +16,7 @@ import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 import '@rainbow-me/rainbowkit/styles.css';
 import { UserContextProvider } from './contexts/UserContext';
-import useGovrnToast from './components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 const container = document.getElementById('root');
 if (!container) {

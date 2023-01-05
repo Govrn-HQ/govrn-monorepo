@@ -93,7 +93,7 @@ const AttestationsTable = ({
               {status}{' '}
               <span
                 role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
+                aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
                 {status === 'pending' ? '🕒' : '👀'}
               </span>{' '}
@@ -198,7 +198,7 @@ const AttestationsTable = ({
                 DAO Contributions
               </Text>
               <Text fontSize="md" fontWeight="normal">
-                These are minted Contributions that you haven't already Attested
+                These are minted contributions that you haven't already attested
                 to.
               </Text>
             </Stack>

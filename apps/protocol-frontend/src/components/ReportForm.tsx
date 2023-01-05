@@ -31,7 +31,7 @@ import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
-import useGovrnToast from './toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 function CreateMoreSwitch({
   isChecked,

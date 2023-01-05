@@ -3,8 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useOverlay } from '../contexts/OverlayContext';
 import { ContributionFormValues } from '../types/forms';
 import { UIContribution } from '@govrn/ui-types';
-import useGovrnToast from '../components/toast';
-import pluralize from 'pluralize';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 interface UpdateContributionProps {
   updatedValues: ContributionFormValues;
@@ -60,14 +59,11 @@ export const useContributionUpdate = () => {
         if (!toast.isActive(toastUpdateContributionId)) {
           toast.success({
             id: toastUpdateContributionId,
-            title: `Contribution  ${pluralize(
-              'Report',
-              bulkItemCount,
-            )} Updated`,
+            title: 'Contribution Successfully Updated',
             description: `Your Contribution ${
               bulkItemCount && bulkItemCount !== 1
-                ? 'Reports have'
-                : 'Report has'
+                ? 'reports have'
+                : 'report has'
             } been updated.`, // not using pluralize here because we need to also include 'have' and 'has'
           });
         }

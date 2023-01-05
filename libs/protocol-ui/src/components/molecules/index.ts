@@ -12,4 +12,6 @@ export { default as Select } from './Select';
 export type { SelectProps } from './Select';
 export { default as Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
+export { default as Toast } from './Toast';
+export type { ToastProps } from './Toast';
 export type { InputLocalFormType } from './Input';
