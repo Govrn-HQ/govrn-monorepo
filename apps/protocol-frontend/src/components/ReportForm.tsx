@@ -134,7 +134,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
-    console.log('values', values);
     if (selectedFile && fileError === null && ipfsError === false) {
       try {
         await uploadFileIpfs(selectedFile, false);
@@ -192,7 +191,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
 
   useEffect(() => {
     const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
-    console.log('matched dao', matchedDao);
     setValue('engagementDate', engagementDateValue);
     setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
   }, []);
