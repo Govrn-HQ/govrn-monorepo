@@ -1,19 +1,20 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useDisconnect, useEnsName } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import {
   Button,
   Text,
   Menu,
   MenuButton,
+  Image,
   MenuList,
   MenuItem,
   Icon,
   HStack,
   Box,
   Flex,
-  Image,
 } from '@chakra-ui/react';
 import { FiKey, FiChevronDown, FiXCircle } from 'react-icons/fi';
+import { useEnsNameEthers } from '../hooks/useEnsNameEthers';
 import { displayAddress } from '../utils/web3';
 
 interface ConnectWalletProps {
@@ -23,7 +24,8 @@ interface ConnectWalletProps {
 const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
   const { address, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
-  const { data: name } = useEnsName();
+
+  const { data: userEnsName, isLoading } = useEnsNameEthers(address);
 
   return (
     <ConnectButton.Custom>
@@ -73,12 +75,14 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                 );
               }
 
+              if (!mounted || isLoading) return null;
+
               return (
                 <Flex gap={2}>
                   {showNetwork && chain.hasIcon && chain.iconUrl && (
                     <Button
-                      onClick={openChainModal}
                       display="flex"
+                      onClick={openChainModal}
                       alignItems="center"
                       bg={chain.iconBackground}
                       p={0}
@@ -126,7 +130,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                       paddingRight={2}
                     >
                       <Text color="gray.800" fontSize="sm">
-                        {name || displayAddress(address || '')}
+                        {userEnsName ?? displayAddress(address)}
                       </Text>
                     </MenuButton>
 
