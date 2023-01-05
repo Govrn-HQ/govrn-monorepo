@@ -1,5 +1,6 @@
 import {
   CreateGuildUserCustomMutationVariables,
+  CreateManyUsersMutationVariables,
   ListUsersQueryVariables,
   MutationDeleteOneGuildUserArgs,
   UserCreateCustomInput,
@@ -35,6 +36,11 @@ export class User extends BaseClient {
   public async create(args: UserCreateCustomInput) {
     const contributions = await this.sdk.createUserCustom({ data: args });
     return contributions.createUserCustom;
+  }
+
+  public async createMany(args: CreateManyUsersMutationVariables) {
+    const contributions = await this.sdk.createManyUsers(args);
+    return contributions.createManyUser;
   }
 }
 

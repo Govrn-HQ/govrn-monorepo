@@ -170,10 +170,7 @@ fragment GuildFragment on Guild {
 
 mutation createGuild($data: GuildCreateInput!) {
   createOneGuild(data: $data) {
-    congrats_channel
-    discord_id
-    logo
-    name
+    ...GuildFragment
   }
 }
 
@@ -217,6 +214,32 @@ query listGuilds(
 
 query getActiveGuildUsersAverage($where: GetActiveUsersInput!) {
   result: getActiveGuildUsersAverage(where: $where)
+}
+
+# GuildImport
+fragment GuildImportFragment on GuildImport {
+  id
+  createdAt
+  updatedAt
+  guild_id
+  integration_type_id
+  authentication_token
+}
+
+mutation createGuildImport($data: GuildImportCreateInput!) {
+  createOneGuildImport(data: $data) {
+    ...GuildImportFragment
+  }
+}
+
+# GuildUser
+mutation createManyGuildUser(
+  $data: [GuildUserCreateManyInput!]!
+  $skipDuplicates: Boolean!
+) {
+  createManyGuildUser(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
 }
 
 # Twitter
@@ -380,6 +403,15 @@ mutation updateUserCustom($data: UserUpdateCustomInput!) {
 mutation createUser($data: UserCreateInput!) {
   createOneUser(data: $data) {
     ...UserFragment
+  }
+}
+
+mutation createManyUsers(
+  $data: [UserCreateManyInput!]!
+  $skipDuplicates: Boolean!
+) {
+  createManyUser(data: $data, skipDuplicates: $skipDuplicates) {
+    count
   }
 }
 

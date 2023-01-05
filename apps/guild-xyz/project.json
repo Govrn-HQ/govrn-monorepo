@@ -1,0 +1,59 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/guild-xyz/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "assets": [],
+        "compiler": "tsc",
+        "main": "apps/guild-xyz/src/main.ts",
+        "outputPath": "dist/apps/guild-xyz",
+        "target": "node",
+        "tsConfig": "apps/guild-xyz/tsconfig.app.json"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/guild-xyz/src/environments/environment.ts",
+              "with": "apps/guild-xyz/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "guild-xyz:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "guild-xyz:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/guild-xyz/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/guild-xyz"],
+      "options": {
+        "jestConfig": "apps/guild-xyz/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
