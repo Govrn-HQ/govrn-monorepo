@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { INFURA_PROJECT_ID, INFURA_PROJECT_SECRET } from '../utils/constants';
 import { MintedContributionSchemaV1, IPFS } from '@govrn/protocol-client';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 const useContributionMetadataStore = () => {
   const toast = useGovrnToast();

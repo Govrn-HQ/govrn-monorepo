@@ -1,7 +1,7 @@
 import { useUser } from '../contexts/UserContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ContributionFormValues } from '../types/forms';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 export const useContributionCreate = () => {
   const toast = useGovrnToast();
@@ -38,8 +38,7 @@ export const useContributionCreate = () => {
 
         toast.success({
           title: 'Contribution Report Added',
-          description:
-            'Your Contribution report has been recorded. Add another Contribution report or check out your Contributions.',
+          description: 'Your contribution report has been recorded.',
         });
       },
       onError: error => {
