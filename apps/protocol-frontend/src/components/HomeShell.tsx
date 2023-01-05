@@ -83,9 +83,6 @@ const HomeShell = () => {
                 Welcome back,{' '}
                 <Text as="span" fontWeight="bolder">
                   {displayName}
-                  {/* {userData?.name ||
-                    userDataByAddress?.name ||
-                    displayAddress(userData?.address)} */}
                 </Text>
                 .
               </Text>
