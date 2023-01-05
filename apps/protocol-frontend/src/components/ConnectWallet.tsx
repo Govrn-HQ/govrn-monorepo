@@ -1,6 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { chain, useAccount, useDisconnect, useEnsName } from 'wagmi';
-import { GovrnSpinner } from '@govrn/protocol-ui';
+import { useAccount, useDisconnect } from 'wagmi';
 import {
   Button,
   Text,
