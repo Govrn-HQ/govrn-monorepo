@@ -3,7 +3,7 @@ import { networks } from '../utils/networks';
 import { ethers } from 'ethers';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 import useContributionMetadataStore from './useContributionMetadataStore';
 import { UIContribution } from '@govrn/ui-types';
 
@@ -78,7 +78,7 @@ const useContributionMint = () => {
 
         toast.success({
           title: 'Contribution Successfully Minted',
-          description: 'Your Contribution has been minted.',
+          description: 'Your contribution has been minted.',
         });
       },
       onError: error => {
