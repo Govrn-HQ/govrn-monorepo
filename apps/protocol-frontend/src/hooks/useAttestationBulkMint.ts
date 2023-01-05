@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import pluralize from 'pluralize';
@@ -49,7 +49,7 @@ const useAttestationBulkMint = () => {
 
         if (results.length > 0) {
           toast.success({
-            title: 'Attestation successfully minted',
+            title: 'Attestation Successfully Minted',
             description: `${pluralize('Attestation', results.length, true)} ${
               results.length === 1 ? 'has' : 'have'
             } been minted.`,
@@ -63,7 +63,7 @@ const useAttestationBulkMint = () => {
               'Attestation',
               errors.length,
               true,
-            )} failed to minted.`,
+            )} failed to mint.`,
           });
         }
       },
