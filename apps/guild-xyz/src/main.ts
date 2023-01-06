@@ -37,24 +37,21 @@ const main = async () => {
   console.log(`:: ${roles.length} roles fetched.`);
 
   console.log(`:: Inserting guild into database.`);
-  const existingGuild = await govrn.guild.get({
+  let dbGuild = await govrn.guild.get({
     discord_id: discordId,
   });
 
-  if (existingGuild) {
-    console.error(':: This Guild already exists in database.');
-    return;
+  if (!dbGuild) {
+    dbGuild = await govrn.guild.create({
+      data: {
+        discord_id: discordId,
+        name: getGuildResponse.name,
+        logo: getGuildResponse.imageUrl,
+      },
+    });
   }
 
-  const createdGuild = await govrn.guild.create({
-    data: {
-      discord_id: discordId,
-      name: getGuildResponse.name,
-      logo: getGuildResponse.imageUrl,
-    },
-  });
-
-  const guildId = createdGuild.id;
+  const guildId = dbGuild.id;
 
   await govrn.guild.import.create({
     data: {
@@ -81,6 +78,7 @@ const main = async () => {
         )}.`,
       );
 
+      console.dir({ chainTypeID: CHAIN_TYPE_ID });
       await Promise.all(
         chunk(role.members, CHUNK_SIZE).map(async members => {
           await govrn.user.createMany({
