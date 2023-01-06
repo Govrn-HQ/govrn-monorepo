@@ -68,7 +68,11 @@ const DaoCard = ({ dao }: DaoCardProps) => {
         paddingX={5}
         bg="white"
       >
-        <Flex direction="row" alignItems="center" justifyContent="space-around">
+        <Flex
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <Text
             fontWeight="semibold"
             fontSize="md"
@@ -84,13 +88,20 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             }
             bg="transparent"
             _hover={{ bg: 'transparent' }}
+            _active={{ bg: 'transparent' }}
             icon={
               dao.role === 'admin' ? (
-                <HiOutlineCog color="#5100E4" />
+                <HiOutlineCog color="#5100E4" size={24} />
               ) : dao.isFavorited === true ? (
-                <HiStar color="#5100E4" />
+                <HiStar
+                  fill={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
+                  size={24}
+                />
               ) : (
-                <HiOutlineStar color="#5100E4" />
+                <HiOutlineStar
+                  color={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
+                  size={24}
+                />
               )
             }
           />
