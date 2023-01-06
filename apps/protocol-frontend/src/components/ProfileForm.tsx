@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
+import { Flex, Heading, Button, Divider, Text } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,6 +7,8 @@ import { useUser } from '../contexts/UserContext';
 import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
+import useDisplayName from '../hooks/useDisplayName';
+import FeatureFlagWrapper from './FeatureFlagWrapper';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
@@ -14,6 +16,7 @@ const BACKEND_ADDR = `${BASE_URL}`;
 
 const ProfileForm = () => {
   const { userData, updateProfile, disconnectLinear } = useUser();
+  const { displayName } = useDisplayName();
 
   const localForm = useForm<ProfileFormValues>({
     mode: 'all',
@@ -75,9 +78,20 @@ const ProfileForm = () => {
           borderRadius={{ base: 'none', md: 'lg' }}
           marginBottom={4}
         >
-          <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
-            Your Details
+          <Heading as="h3" size="md" color="gray.800" fontWeight="medium">
+            Hi,{' '}
+            <Text
+              as="span"
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              bgClip="text"
+            >
+              {displayName}
+            </Text>
+            <span role="img" aria-labelledby="wave emoji next to user name">
+              {'!'} 👋
+            </span>
           </Heading>
+
           <Flex
             direction="column"
             alignItems="flex-start"
@@ -98,6 +112,34 @@ const ProfileForm = () => {
           </Flex>
         </Flex>
       </form>
+      <FeatureFlagWrapper>
+        <Flex
+          justify="space-between"
+          direction="column"
+          wrap="wrap"
+          width="100%"
+          paddingX={4}
+          paddingTop={4}
+          background="white"
+          boxShadow="sm"
+          marginBottom={4}
+        >
+          <Flex justify="space-between" direction="column" wrap="wrap">
+            <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
+              My DAOs
+            </Heading>
+            <Divider marginY={8} />
+            <Flex
+              direction="column"
+              align="flex-start"
+              marginTop={4}
+              marginBottom={4}
+              gap="20px"
+              width={{ base: '100%', lg: '50%' }}
+            ></Flex>
+          </Flex>
+        </Flex>
+      </FeatureFlagWrapper>
       <form>
         <Flex
           justify="space-between"
@@ -114,6 +156,7 @@ const ProfileForm = () => {
             <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
               Integrations
             </Heading>
+            <Divider marginY={8} />
             <Flex
               direction="column"
               align="flex-start"
