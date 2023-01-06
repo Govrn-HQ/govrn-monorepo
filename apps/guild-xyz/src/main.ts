@@ -1,111 +1,115 @@
 import { guild, role } from '@guildxyz/sdk';
-import { govrn } from './db';
+import { chunk } from 'lodash';
+import pluralize = require('pluralize');
+import { GovrnProtocol } from '@govrn/protocol-client';
 
-// const GUILD_ID = 'caribbean-blockchain-alliance';
-const GUILD_ID = 'our-guild';
 const INTEGRATION_TYPE = 'Guild';
+const CHUNK_SIZE = 500;
+
+const GUILD_ID = process.env.GUILD_ID;
+const CHAIN_TYPE_ID = Number(process.env.CHAIN_TYPE_ID);
+const PROTOCOL_URL = process.env.PROTOCOL_URL;
+const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
+
+export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
+  Authorization: CONTRACT_SYNC_TOKEN,
+});
 
 const main = async () => {
-  try {
-    console.log(`:: Fetching guild: ${GUILD_ID}`);
-    const getGuildResponse = await guild.get(GUILD_ID);
+  console.log(`:: Fetching guild: ${GUILD_ID}`);
+  const getGuildResponse = await guild.get(GUILD_ID);
 
-    const discordPlatforms = getGuildResponse.guildPlatforms.filter(g => {
-      return g.invite.startsWith('https://discord.gg');
-    });
+  const discordPlatforms = getGuildResponse.guildPlatforms.filter(g => {
+    return g.invite.startsWith('https://discord.gg');
+  });
 
-    if (discordPlatforms.length == 0) {
-      return;
-    }
-    const discordId = discordPlatforms[0].platformGuildId;
-
-    console.log(`:: Fetching roles of guild: ${GUILD_ID}.`);
-    const roles = await Promise.all(
-      getGuildResponse.roles.map(async r => {
-        return await role.get(r.id);
-      }),
-    );
-    console.log(`:: ${roles.length} roles fetched.`);
-
-    console.log(`:: Inserting guild to database.`);
-    const existingGuild = await govrn.guild.get({
-      discord_id: discordId,
-    });
-
-    if (existingGuild) {
-      console.error(':: This Guild already exists in database.');
-      return;
-    }
-
-    const createdGuild = await govrn.guild.create({
-      data: {
-        discord_id: discordId,
-        name: getGuildResponse.name,
-        logo: getGuildResponse.imageUrl,
-      },
-    });
-
-    const guildId = createdGuild.id;
-
-    // Add guild import record.
-    await govrn.guild.import.create({
-      data: {
-        guild: {
-          connect: { id: guildId },
-        },
-        integration_type: {
-          connectOrCreate: {
-            where: { name: INTEGRATION_TYPE },
-            create: { name: INTEGRATION_TYPE },
-          },
-        },
-        authentication_token: 'What&how',
-      },
-    });
-
-    await Promise.all(
-      roles.map(async role => {
-        console.log(
-          `:: Inserting ${role.members.length} members of role ${role.name}.`,
-        );
-        const { count: usersCount } = await govrn.user.createMany({
-          data: role.members.map(add => ({
-            address: add,
-            chain_type_id: 1, // TODO.
-          })),
-          skipDuplicates: true,
-        });
-        console.log(
-          `:: Successfully inserted ${usersCount} members of role ${role.name}.`,
-        );
-
-        const dbUsers = await govrn.user.list({
-          where: {
-            address: { in: role.members },
-          },
-        });
-
-        console.log(
-          `:: adding ${dbUsers.length} users to ${createdGuild.name}.`,
-        );
-        const { count: addedToGuildCount } = await govrn.guild.user.createMany({
-          data: dbUsers.map(u => ({
-            guild_id: guildId,
-            user_id: u.id,
-          })),
-          skipDuplicates: true,
-        });
-
-        console.log(
-          `:: ${addedToGuildCount} users added to ${createdGuild.name}.`,
-        );
-
-        console.log(`:: Done.`);
-      }),
-    );
-  } catch (e) {
-    console.error(e);
+  if (discordPlatforms.length == 0) {
+    return;
   }
+  const discordId = discordPlatforms[0].platformGuildId;
+
+  console.log(`:: Fetching roles of guild: ${GUILD_ID}.`);
+  const roles = await Promise.all(
+    getGuildResponse.roles.map(async r => {
+      return await role.get(r.id);
+    }),
+  );
+  console.log(`:: ${roles.length} roles fetched.`);
+
+  console.log(`:: Inserting guild into database.`);
+  const existingGuild = await govrn.guild.get({
+    discord_id: discordId,
+  });
+
+  if (existingGuild) {
+    console.error(':: This Guild already exists in database.');
+    return;
+  }
+
+  const createdGuild = await govrn.guild.create({
+    data: {
+      discord_id: discordId,
+      name: getGuildResponse.name,
+      logo: getGuildResponse.imageUrl,
+    },
+  });
+
+  const guildId = createdGuild.id;
+
+  await govrn.guild.import.create({
+    data: {
+      guild: {
+        connect: { id: guildId },
+      },
+      integration_type: {
+        connectOrCreate: {
+          where: { name: INTEGRATION_TYPE },
+          create: { name: INTEGRATION_TYPE },
+        },
+      },
+      authentication_token: 'What&how',
+    },
+  });
+
+  console.log();
+  await Promise.all(
+    roles.map(async role => {
+      console.log(
+        `:: Role '${role.name}' has ${role.members.length} ${pluralize(
+          'member',
+          role.members.length,
+        )}.`,
+      );
+
+      await Promise.all(
+        chunk(role.members, CHUNK_SIZE).map(async members => {
+          await govrn.user.createMany({
+            data: members.map(add => ({
+              address: add,
+              chain_type_id: CHAIN_TYPE_ID,
+            })),
+            skipDuplicates: true,
+          });
+
+          const dbUsers = await govrn.user.list({
+            where: {
+              address: { in: members },
+            },
+          });
+
+          await govrn.guild.user.createMany({
+            data: dbUsers.map(u => ({
+              guild_id: guildId,
+              user_id: u.id,
+            })),
+            skipDuplicates: true,
+          });
+        }),
+      );
+    }),
+  );
 };
 
-main().then();
+main()
+  .then(() => console.log(`:: Done.`))
+  .catch(e => console.error(e));
