@@ -15,14 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@govrn/govrn-contract-client": [
-        "libs/govrn-contract-client/src/index.ts"
-      ],
+      "@govrn-monorepo/govrn-nats": ["libs/govrn-nats/src/index.ts"],
+      "@govrn/govrn-nats": ["libs/govrn-nats/src/index.ts"],
+      "@govrn/protocol-client": ["libs/protocol-client/src/index.ts"],
+      "@govrn/protocol-ui": ["libs/protocol-ui/src/index.ts"],
       "@govrn/govrn-subgraph-client": [
         "libs/govrn-subgraph-client/src/index.ts"
       ],
-      "@govrn/protocol-client": ["libs/protocol-client/src/index.ts"],
-      "@govrn/protocol-ui": ["libs/protocol-ui/src/index.ts"],
       "@govrn/ui-types": ["libs/ui-types/src/index.ts"]
     }
   },

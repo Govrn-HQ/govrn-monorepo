@@ -22,7 +22,6 @@ export const setupNats = async (
       if (err) {
         console.log(`error closing:`, err);
       }
-      console.log('Done');
     } catch (err) {
       console.log(`error connecting to ${JSON.stringify(v)}`);
     }
@@ -60,3 +59,16 @@ export const pullMessages = async (
   // The iterator completed,
   await done;
 };
+
+export class Job {
+  nc = null;
+  server = null;
+  constructor(server: string) {
+    this.server = server;
+    // set props normally
+    // nothing async can go here
+  }
+  public async run() {
+    this.nc = await setupNats(this.server);
+  }
+}

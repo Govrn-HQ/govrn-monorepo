@@ -1,4 +1,5 @@
-import { NatsConnection } from 'nats';
+import { NatsConnection, JsMsg } from 'nats';
+import { setupNats, pullMessages } from '@govrn/govrn-nats';
 console.log('Hello World!');
 
 // 1. Receives form data with a file and input for dao name
@@ -17,13 +18,17 @@ const servers = [
   // { port: 4222 },
   { servers: 'localhost' },
 ];
-const logic = (conn: NatsConnection) => {
+const logic = (conn: NatsConnection, msg: JsMsg) => {
   console.log(conn);
   console.log('Main');
+  console.log(msg);
 };
 
 const main = async () => {
+  await pullMessages('dao-membership-csv', 'dao-membership-csv-durable', logic);
+
   await setupNats(servers, logic);
+  // TODO: Add schema validation
 };
 
 main();
