@@ -36,6 +36,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
       borderStyle="solid"
       borderColor={dao.role === 'recruit' ? 'gray.200' : 'brand.purple'}
       minWidth="14rem"
+      borderRadius="md"
     >
       <Flex
         direction="column"
@@ -52,8 +53,27 @@ const DaoCard = ({ dao }: DaoCardProps) => {
           {dao.name}
         </Heading>
       </Flex>
-      <Flex direction="column" alignItems="center" justifyContent="center">
-        <Text>{dao.role}</Text>
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        width="100%"
+        borderTopRadius="none"
+        borderTopWidth="1px"
+        borderTopStyle="solid"
+        borderTopColor={dao.role === 'recruit' ? 'gray.200' : 'brand.purple'}
+        borderBottomRadius="inherit"
+        paddingY={3}
+        paddingX={5}
+        bg="white"
+      >
+        <Text
+          fontWeight="semibold"
+          fontSize="md"
+          color={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
+        >
+          {dao.role}
+        </Text>
       </Flex>
     </Flex>
   );

@@ -1,5 +1,12 @@
 import { useCallback, useEffect } from 'react';
-import { Flex, Heading, Button, Divider, Text } from '@chakra-ui/react';
+import {
+  Flex,
+  Heading,
+  Button,
+  Divider,
+  SimpleGrid,
+  Text,
+} from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -156,7 +163,7 @@ const ProfileForm = () => {
           wrap="wrap"
           width="100%"
           paddingX={4}
-          paddingTop={4}
+          paddingY={8}
           background="white"
           boxShadow="sm"
           marginBottom={4}
@@ -168,15 +175,15 @@ const ProfileForm = () => {
             <Divider marginY={8} bgColor="gray.300" />
             <Flex
               direction="column"
-              align="flex-start"
-              marginTop={4}
-              marginBottom={4}
-              gap="20px"
-              width={{ base: '100%', lg: '50%' }}
+              justifyContent="space-apart"
+              gap={8}
+              width="100%"
             >
-              {mockDaos.map(dao => (
-                <DaoCard dao={dao} key={dao.id} />
-              ))}
+              <SimpleGrid columns={4} spacing={4}>
+                {mockDaos.map(dao => (
+                  <DaoCard dao={dao} key={dao.id} />
+                ))}
+              </SimpleGrid>
             </Flex>
           </Flex>
         </Flex>
