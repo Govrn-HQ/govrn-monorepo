@@ -9,10 +9,47 @@ import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
 import useDisplayName from '../hooks/useDisplayName';
 import FeatureFlagWrapper from './FeatureFlagWrapper';
+import DaoCard from './DaoCard';
+
+type DaoRoles = 'admin' | 'contributor' | 'recruit';
+
+type Dao = {
+  id: number;
+  name: string;
+  role: DaoRoles;
+  isFavorited: boolean;
+};
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 const BACKEND_ADDR = `${BASE_URL}`;
+
+const mockDaos: Dao[] = [
+  {
+    id: 1,
+    name: 'Govrn',
+    role: 'admin',
+    isFavorited: true,
+  },
+  {
+    id: 2,
+    name: 'Boys Club',
+    role: 'contributor',
+    isFavorited: true,
+  },
+  {
+    id: 3,
+    name: 'Seed Club',
+    role: 'recruit',
+    isFavorited: false,
+  },
+  {
+    id: 3,
+    name: 'Raid Guild',
+    role: 'recruit',
+    isFavorited: false,
+  },
+];
 
 const ProfileForm = () => {
   const { userData, updateProfile, disconnectLinear } = useUser();
@@ -87,7 +124,7 @@ const ProfileForm = () => {
             >
               {displayName}
             </Text>
-            <span role="img" aria-labelledby="wave emoji next to user name">
+            <span role="img" aria-labelledby="Wave emoji next to user name">
               {'!'} 👋
             </span>
           </Heading>
@@ -128,7 +165,7 @@ const ProfileForm = () => {
             <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
               My DAOs
             </Heading>
-            <Divider marginY={8} />
+            <Divider marginY={8} bgColor="gray.300" />
             <Flex
               direction="column"
               align="flex-start"
@@ -136,7 +173,11 @@ const ProfileForm = () => {
               marginBottom={4}
               gap="20px"
               width={{ base: '100%', lg: '50%' }}
-            ></Flex>
+            >
+              {mockDaos.map(dao => (
+                <DaoCard dao={dao} key={dao.id} />
+              ))}
+            </Flex>
           </Flex>
         </Flex>
       </FeatureFlagWrapper>
@@ -156,7 +197,7 @@ const ProfileForm = () => {
             <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
               Integrations
             </Heading>
-            <Divider marginY={8} />
+            <Divider marginY={8} bgColor="gray.300" />
             <Flex
               direction="column"
               align="flex-start"
@@ -166,7 +207,7 @@ const ProfileForm = () => {
               width={{ base: '100%', lg: '50%' }}
             >
               <Heading as="h4" size="sm" fontWeight="medium" color="gray.700">
-                Connect Linear
+                Linear
               </Heading>
               {userData?.linear_users && userData.linear_users.length > 0 ? (
                 <Button
@@ -186,7 +227,7 @@ const ProfileForm = () => {
                 </Button>
               )}
             </Flex>
-            <Divider bgColor="gray.300" />
+            {/* <Divider bgColor="gray.300" /> */}
           </Flex>
           <Flex justify="space-between" direction="column" wrap="wrap">
             <Flex
@@ -198,14 +239,13 @@ const ProfileForm = () => {
             >
               <Input
                 name="userTwitterHandle"
-                label="Twitter Handle (Coming Soon!)"
-                tip="Enter your Twitter handle for the upcoming Twitter integration."
+                label="Twitter Handle (Coming Soon)"
                 placeholder="govrn"
                 localForm={localForm}
                 isDisabled
               />
               <Button variant="primary" type="submit" isDisabled>
-                Link Twitter
+                Connect Twitter
               </Button>
             </Flex>
           </Flex>
