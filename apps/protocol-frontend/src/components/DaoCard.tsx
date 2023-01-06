@@ -1,4 +1,5 @@
-import { Flex, Heading, Text } from '@chakra-ui/react';
+import { Flex, Heading, IconButton, Text } from '@chakra-ui/react';
+import { HiOutlineCog, HiStar, HiOutlineStar } from 'react-icons/hi';
 
 type DaoRoles = 'admin' | 'contributor' | 'recruit';
 
@@ -34,7 +35,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
       bg={daoBgGradient[dao.role]}
       borderWidth="1px"
       borderStyle="solid"
-      borderColor={dao.role === 'recruit' ? 'gray.200' : 'brand.purple'}
+      borderColor={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
       minWidth="14rem"
       borderRadius="md"
     >
@@ -55,25 +56,45 @@ const DaoCard = ({ dao }: DaoCardProps) => {
       </Flex>
       <Flex
         direction="column"
-        alignItems="center"
+        alignItems="space-apart"
         justifyContent="center"
         width="100%"
         borderTopRadius="none"
         borderTopWidth="1px"
         borderTopStyle="solid"
-        borderTopColor={dao.role === 'recruit' ? 'gray.200' : 'brand.purple'}
+        borderTopColor={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
         borderBottomRadius="inherit"
         paddingY={3}
         paddingX={5}
         bg="white"
       >
-        <Text
-          fontWeight="semibold"
-          fontSize="md"
-          color={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
-        >
-          {dao.role}
-        </Text>
+        <Flex direction="row" alignItems="center" justifyContent="space-around">
+          <Text
+            fontWeight="semibold"
+            fontSize="md"
+            color={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
+          >
+            {dao.role.charAt(0).toUpperCase() + dao.role.slice(1)}
+          </Text>
+          <IconButton
+            aria-label={
+              dao.role === 'admin'
+                ? "Click on the gear icon to open this DAO's settings."
+                : 'Click on the star to favorite this DAO.'
+            }
+            bg="transparent"
+            _hover={{ bg: 'transparent' }}
+            icon={
+              dao.role === 'admin' ? (
+                <HiOutlineCog color="#5100E4" />
+              ) : dao.isFavorited === true ? (
+                <HiStar color="#5100E4" />
+              ) : (
+                <HiOutlineStar color="#5100E4" />
+              )
+            }
+          />
+        </Flex>
       </Flex>
     </Flex>
   );
