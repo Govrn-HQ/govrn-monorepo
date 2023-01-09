@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/guild-xyz/src",
+  "sourceRoot": "/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,33 +9,27 @@
       "options": {
         "assets": [],
         "compiler": "tsc",
-        "main": "apps/guild-xyz/src/main.ts",
-        "outputPath": "dist/apps/guild-xyz",
+        "main": "apps/guild-import-job/src/main.ts",
+        "outputPath": "dist/apps/guild-import-job",
         "target": "node",
-        "tsConfig": "apps/guild-xyz/tsconfig.app.json"
+        "tsConfig": "apps/guild-import-job/tsconfig.app.json"
       },
       "configurations": {
         "production": {
           "optimization": true,
           "extractLicenses": true,
-          "inspect": false,
-          "fileReplacements": [
-            {
-              "replace": "apps/guild-xyz/src/environments/environment.ts",
-              "with": "apps/guild-xyz/src/environments/environment.prod.ts"
-            }
-          ]
+          "inspect": false
         }
       }
     },
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "guild-xyz:build"
+        "buildTarget": "guild-import-job:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "guild-xyz:build:production"
+          "buildTarget": "guild-import-job:build:production"
         }
       }
     },
@@ -43,14 +37,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/guild-xyz/**/*.ts"]
+        "lintFilePatterns": ["apps/guild-import-job/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/guild-xyz"],
+      "outputs": ["coverage/apps/guild-import-job"],
       "options": {
-        "jestConfig": "apps/guild-xyz/jest.config.ts",
+        "jestConfig": "apps/guild-import-job/jest.config.ts",
         "passWithNoTests": true
       }
     }

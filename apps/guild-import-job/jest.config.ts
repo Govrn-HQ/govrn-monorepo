@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'guild-xyz',
+  displayName: 'guild-import-job',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -12,5 +12,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/guild-xyz',
+  coverageDirectory: '../../coverage/apps/guild-import-job',
 };
