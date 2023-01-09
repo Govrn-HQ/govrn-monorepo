@@ -8,6 +8,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import GovrnTextLogo from './GovrnTextLogo';
+import useDisplayName from '../hooks/useDisplayName';
 
 const HomeShell = () => {
   const { isConnected } = useAccount();
@@ -16,7 +17,8 @@ const HomeShell = () => {
     null,
   );
 
-  const { userDataByAddress, userData, isUserLoading } = useUser();
+  const { userDataByAddress, isUserLoading } = useUser();
+  const { displayName } = useDisplayName();
 
   useEffect(() => {
     if (userDataByAddress) {
@@ -80,7 +82,7 @@ const HomeShell = () => {
               <Text paddingBottom={8}>
                 Welcome back,{' '}
                 <Text as="span" fontWeight="bolder">
-                  {userData?.name || userDataByAddress?.name}
+                  {displayName}
                 </Text>
                 .
               </Text>

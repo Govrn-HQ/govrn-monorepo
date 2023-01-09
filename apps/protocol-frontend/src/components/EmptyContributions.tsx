@@ -22,7 +22,7 @@ const EmptyContributions = () => {
               No Contributions Yet!{' '}
               <span
                 role="img"
-                aria-labelledby="eyes emoji showcasing that there are not any Contributions submitted yet"
+                aria-labelledby="eyes emoji showcasing that there are not any contributions submitted yet"
               >
                 👀
               </span>
@@ -31,12 +31,12 @@ const EmptyContributions = () => {
           <Stack direction="column" spacing="4">
             {location.pathname.includes('/attestations') ? (
               <Text fontSize="sm" fontWeight="medium" color="gray.500">
-                You need to add a Contribution before you can make an
-                Attestation
+                You need to add a contribution before you can make an
+                attestation
               </Text>
             ) : null}
             <Text fontSize="sm" fontWeight="medium" color="gray.500">
-              Get started by adding your first Contribution. Click the button
+              Get started by adding your first contribution. Click the button
               below or the "+" in the bottom right corner of the page.
             </Text>
             <Link to="/report">

@@ -35,6 +35,7 @@ import { AttestationTableType } from '../types/table';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
+import { displayAddress } from '../utils/web3';
 
 const AttestationsTable = ({
   contributionsData,
@@ -59,7 +60,8 @@ const AttestationsTable = ({
         action: '',
         name: contribution.name,
         onChainId: contribution.on_chain_id,
-        contributor: contribution.user.name,
+        contributor:
+          contribution.user.name || displayAddress(contribution.user.address),
         attestations: contribution.attestations.filter(attestation => {
           return attestation.user.id === userData?.id;
         }),
@@ -93,7 +95,7 @@ const AttestationsTable = ({
               {status}{' '}
               <span
                 role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
+                aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
                 {status === 'pending' ? '🕒' : '👀'}
               </span>{' '}
@@ -198,7 +200,7 @@ const AttestationsTable = ({
                 DAO Contributions
               </Text>
               <Text fontSize="md" fontWeight="normal">
-                These are minted Contributions that you haven't already Attested
+                These are minted contributions that you haven't already attested
                 to.
               </Text>
             </Stack>

@@ -3,6 +3,7 @@
 /dist
 /.husky
 
+apps/kevin-malone
 apps/govrn-contract/out
 apps/govrn-contract/cache
 apps/govrn-contract/lib
@@ -13,3 +14,4 @@ apps/govrn-contract-subgraph/generated
 libs/govrn-subgraph-client/src/lib/subgraph
 
 libs/protocol-client/src/lib/protocol-types.ts
+.vscode

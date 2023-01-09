@@ -12,6 +12,7 @@ import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
 import { DEFAULT_DATE_RANGES } from '../utils/constants';
 import pluralize from 'pluralize';
+import useDisplayName from '../hooks/useDisplayName';
 
 const TODAY_DATE = new Date();
 
@@ -24,6 +25,8 @@ const unassignedContributions = [
 
 const DashboardShell = () => {
   const { userData } = useUser();
+  const { displayName } = useDisplayName();
+
   const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
     value: 52,
     label: 'Last Year',
@@ -116,7 +119,7 @@ const DashboardShell = () => {
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
               >
-                {userData?.name}
+                {displayName}
               </Text>
             </Heading>
             <Flex
@@ -128,7 +131,7 @@ const DashboardShell = () => {
               {userDaoListOptions.length > 0 && (
                 <ControlledSelect
                   label="Choose DAOs"
-                  tip="Choose DAOs to display Contributions from."
+                  tip="Choose DAOs to display contributions from."
                   onChange={daos => {
                     setSelectedDaos(Array.isArray(daos) ? daos : [daos]);
                   }}
@@ -142,7 +145,7 @@ const DashboardShell = () => {
                     date => date.value === 52,
                   )}
                   label="Choose Date Range"
-                  tip="Choose the date range for your Contributions."
+                  tip="Choose the date range for your contributions."
                   onChange={date => {
                     setDateRange(date);
                   }}
@@ -178,7 +181,7 @@ const DashboardShell = () => {
                         0,
                       )}{' '}
                     </Text>
-                    {pluralize('Contribution', fullContributionsCount.length)}
+                    {pluralize('contribution', fullContributionsCount.length)}
                     <Text as="span" fontSize="sm">
                       {' '}
                       in the last year
@@ -217,7 +220,7 @@ const DashboardShell = () => {
                         0,
                       )}{' '}
                     </Text>
-                    {pluralize('Contribution', contributionsCount.length)}
+                    {pluralize('contribution', contributionsCount.length)}
                     <Text as="span" fontSize="sm">
                       {' '}
                       in the {dateRange?.label.toLowerCase()}

@@ -3,6 +3,7 @@ import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
+import useDisplayName from '../hooks/useDisplayName';
 import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
 import useAttestationMint from '../hooks/useAttestationMint';
 import { TextList } from './TextList';
@@ -19,7 +20,7 @@ export const AttestationModal = ({
   contribution: AttestationTableType;
   onFinish?: (() => void) | undefined;
 }) => {
-  const { userData } = useUser();
+  const { displayName } = useDisplayName();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
     useAttestationMint();
   const { setModals } = useOverlay();
@@ -45,7 +46,7 @@ export const AttestationModal = ({
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       <Text paddingBottom={2}>
-        Attesting as: <strong>{userData?.name}</strong>
+        Attesting as: <strong>{displayName}</strong>
       </Text>
       <Text>
         Attesting to <strong>1 </strong>

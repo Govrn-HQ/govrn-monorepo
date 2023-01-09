@@ -1,0 +1,11 @@
+# include the production requirements
+-r requirements.txt
+
+# dev and test requirements
+pytest >= 6.2.5
+black >= 21.10b0
+flake8 >= 4.0.1
+pytest-mock==3.6.1
+pytest-asyncio==0.16.0
+autopep8
+deepdiff6==6.2.0

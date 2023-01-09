@@ -16,4 +16,24 @@ export class DiscordUserAvgAggregate {
     nullable: true
   })
   user_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  submit_reminder_period_min!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  mint_notification_period_min!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  new_guild_notification_period_min!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  attribution_notification_period_min!: number | null;
 }

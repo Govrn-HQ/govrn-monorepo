@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kevin-malone
+  labels:
+    environment: production
+    app: kevin-malone
+    tier: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: kevin-malone
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        name: kevin-malone
+    spec:
+      containers:
+        - name: web
+          image: <IMAGE>
+          env:
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: api_token
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: client_id
+            - name: PROTOCOL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: protocol_token
+            - name: TASK_WAKEUP_PERIOD_MINUTES
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: task_wakeup_period_minutes
+            - name: WEEKLY_REPORT_MINIMUM_TIME_BETWEEN_LOOP_SECONDS
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: weekly_report_minimum_time_between_loop_seconds
+            - name: WEEKLY_REPORT_TIME
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: weekly_report_time
+            - name: WEEKLY_REPORT_WEEKDAY
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: weekly_report_weekday
+            - name: GOVRN_GUILD_ID
+              value: '895453604520009738'
+            - name: IS_DEV
+              value: 'true'
+            - name: PROTOCOL_URL
+              value: 'https://api-staging.govrn.app/graphql'
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: redis_url
+          resources:
+            requests:
+              memory: 300Mi
+              cpu: 300m
+            limits:
+              memory: 500Mi
+              cpu: 500m

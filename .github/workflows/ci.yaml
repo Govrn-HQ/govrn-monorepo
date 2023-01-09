@@ -32,13 +32,40 @@ jobs:
         with:
           node-version: 16.x
           cache: 'yarn'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 'pypy3.9'
       - run: yarn install
       - run: npm install -g @graphprotocol/graph-cli
+      - name: Install poetry
+        run: pip install poetry
+      - name: Install deps
+        run: yarn nx affected --target install --base $BASE
       - name: Check Prettier
         run: yarn check-prettier
+      - name: Create env file
+        run: |
+          touch .env
+          echo API_TOKEN= >> .env
+          echo CLIENT_ID= >> .env
+          echo BOT_DEBUG=true >> .env
+          echo REDIS_URL=redis://0.0.0.0:6379 >> .env
+          echo IS_DEV=True >> .env
+          echo GOVRN_GUILD_ID= >> .env
+          echo PROTOCOL_URL=http://localhost:4000/graphql >> .env
+          echo PROTOCOL_TOKEN= >> .env
+          echo TEST_CHANNEL= >> .env
+          echo TASK_WAKEUP_PERIOD_MINUTES= >> .env
+          echo WEEKLY_REPORT_MINIMUM_TIME_BETWEEN_LOOP_SECONDS= >> .env
+          echo WEEKLY_REPORT_WEEKDAY= >> .env
+          echo WEEKLY_REPORT_TIME= >> .env
+          echo WEEKLY_REPORT_ENABLE= >> .env
+      - run: yarn nx affected --target format --base $BASE
       - run: npx nx affected:lint --base $BASE
       - name: Test
         run: npx nx affected:test --base $BASE
+      - name: Delete env
+        run: rm .env
       - name: Build
         run: npx nx affected:build --base $BASE
 
