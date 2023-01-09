@@ -83,6 +83,18 @@
         "parallel": false
       }
     },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/kevin_malone:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/kevin_malone.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/kevin_malone.yaml"
+        ],
+        "parallel": false
+      }
+    },
+
     "verify": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
