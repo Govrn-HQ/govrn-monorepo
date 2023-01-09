@@ -7,13 +7,14 @@
       "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "assets": [],
-        "compiler": "tsc",
+        "outputPath": "dist/apps/contract-sync-job",
+
         "generatePackageJson": true,
         "main": "apps/contract-sync-job/src/main.ts",
-        "outputPath": "dist/apps/contract-sync-job",
+        "tsConfig": "apps/contract-sync-job/tsconfig.app.json",
+        "assets": [],
         "target": "node",
-        "tsConfig": "apps/contract-sync-job/tsconfig.app.json"
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {

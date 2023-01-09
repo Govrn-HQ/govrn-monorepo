@@ -64,11 +64,10 @@ const main = async () => {
           create: { name: INTEGRATION_TYPE },
         },
       },
-      authentication_token: 'What&how',
+      authentication_token: '',
     },
   });
 
-  console.log();
   await Promise.all(
     roles.map(async role => {
       console.log(
