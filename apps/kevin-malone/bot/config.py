@@ -37,7 +37,7 @@ REQUESTED_SIGNED_MESSAGE = (
 WALLET_VERIFICATION_INSTRUCTIONS = (
     "To verify you have access to the wallet at your address, follow these steps:"
     "\n1: Navigate to myetherwallet.com/wallet/sign"
-    "\n2: Connect to MyEtherwallet with your wallet in the browser by pressing \"browser extension\""
+    '\n2: Connect to MyEtherWallet with your wallet in the browser by pressing "browser extension"'
     "\n3: Copy and paste the message below into the 'Signature' box"
     "\n4: Click the green 'Sign' button"
     "\n5: Approve the metamask notification and sign the message (it should match the message below)"
