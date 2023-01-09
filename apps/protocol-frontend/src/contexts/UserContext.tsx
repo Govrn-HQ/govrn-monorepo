@@ -16,7 +16,7 @@ import {
 import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { PROTOCOL_URL } from '../utils/constants';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 export const UserContext = createContext<UserContextType>(
   {} as UserContextType,
@@ -126,7 +126,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       setUserData(resp);
       toast.success({
         title: 'User Created',
-        description: `Your username has been created with your address: ${address}. Let's report your first Contribution!`,
+        description: `Your username has been created with your address: ${address}. Let's report your first contribution!`,
       });
       if (navigate) {
         navigate('/report');

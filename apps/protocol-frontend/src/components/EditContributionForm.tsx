@@ -29,7 +29,7 @@ import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
-import useGovrnToast from './toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 interface EditContributionFormProps {
   contribution: UIContribution;

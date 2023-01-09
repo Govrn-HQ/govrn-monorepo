@@ -89,7 +89,7 @@ after(() => {
 });
 
 describe('Create First Contribution', () => {
-  it('Report your first Contribution', () => {
+  it('Report your first contribution', () => {
     const contribution = this.contributions[0];
 
     cy.get('input[data-testid="reportForm-name"]', { timeout: 20000 })
