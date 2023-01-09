@@ -80,31 +80,35 @@ const DaoCard = ({ dao }: DaoCardProps) => {
           >
             {dao.role.charAt(0).toUpperCase() + dao.role.slice(1)}
           </Text>
-          <IconButton
-            aria-label={
-              dao.role === 'admin'
-                ? "Click on the gear icon to open this DAO's settings."
-                : 'Click on the star to favorite this DAO.'
-            }
-            bg="transparent"
-            _hover={{ bg: 'transparent' }}
-            _active={{ bg: 'transparent' }}
-            icon={
-              dao.role === 'admin' ? (
-                <HiOutlineCog color="#5100E4" size={24} />
-              ) : dao.isFavorited === true ? (
-                <HiStar
-                  fill={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
-                  size={24}
-                />
-              ) : (
-                <HiOutlineStar
-                  color={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
-                  size={24}
-                />
-              )
-            }
-          />
+          {dao.role === 'admin' ? (
+            <IconButton
+              aria-label="Click on the gear icon to open this DAO's settings."
+              bg="transparent"
+              _hover={{ bg: 'transparent' }}
+              _active={{ bg: 'transparent' }}
+              icon={<HiOutlineCog color="#5100E4" size={24} />}
+            />
+          ) : (
+            <IconButton
+              aria-label="Click on the star to favorite this DAO."
+              bg="transparent"
+              _hover={{ bg: 'transparent' }}
+              _active={{ bg: 'transparent' }}
+              icon={
+                dao.isFavorited === true ? (
+                  <HiStar
+                    fill={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
+                    size={24}
+                  />
+                ) : (
+                  <HiOutlineStar
+                    color={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
+                    size={24}
+                  />
+                )
+              }
+            />
+          )}
         </Flex>
       </Flex>
     </Flex>
