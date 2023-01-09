@@ -9,10 +9,10 @@ const CHUNK_SIZE = 500;
 const GUILD_ID = process.env.GUILD_ID;
 const CHAIN_TYPE_ID = Number(process.env.CHAIN_TYPE_ID);
 const PROTOCOL_URL = process.env.PROTOCOL_URL;
-const CONTRACT_SYNC_TOKEN = process.env.CONTRACT_SYNC_TOKEN;
+const GUILD_IMPORT_TOKEN = process.env.GUILD_IMPORT_TOKEN;
 
 export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
-  Authorization: CONTRACT_SYNC_TOKEN,
+  Authorization: GUILD_IMPORT_TOKEN,
 });
 
 const main = async () => {
@@ -78,7 +78,6 @@ const main = async () => {
         )}.`,
       );
 
-      console.dir({ chainTypeID: CHAIN_TYPE_ID });
       await Promise.all(
         chunk(role.members, CHUNK_SIZE).map(async members => {
           await govrn.user.createMany({
