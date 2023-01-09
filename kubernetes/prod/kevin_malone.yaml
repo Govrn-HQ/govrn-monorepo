@@ -63,8 +63,6 @@ spec:
                   key: weekly_report_weekday
             - name: GOVRN_GUILD_ID
               value: '837049837886767125'
-            - name: IS_DEV
-              value: 'true'
             - name: PROTOCOL_URL
               value: 'https://api.govrn.app/graphql'
             - name: REDIS_URL
