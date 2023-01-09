@@ -25,7 +25,7 @@ BOMB_EMOJI = "\U0001F4A3"
 COLLISION_EMOJI = "\U0001F4A5"
 MECHANICAL_ARM_EMOJI = "\U0001F9BE"
 
-REPORTING_FORM_FMT = "https://govrn.app/#/report"
+REPORTING_FORM_FMT = "https://govrn.app/#/report?daoId=%s"
 
 REQUESTED_TWEET_FMT = "Kevin Malone told me to tweet this number %s"
 TWITTER_URL_REGEXP = r"^https://twitter.com/(.+)/status/([0-9]+)"
