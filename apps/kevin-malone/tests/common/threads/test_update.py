@@ -62,7 +62,6 @@ async def test_user_update_field_selection(mocker, thread_dependencies):
 
 @pytest.mark.asyncio
 async def test_update_profile_field(mocker, thread_dependencies):
-
     (cache, context, message, bot) = thread_dependencies
     user_id = "1234"
     step = UpdateProfileFieldEmojiStep(cache)
