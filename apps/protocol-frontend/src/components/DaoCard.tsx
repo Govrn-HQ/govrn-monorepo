@@ -1,4 +1,13 @@
-import { Flex, Heading, IconButton, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import {
+  Flex,
+  Heading,
+  IconButton,
+  Text,
+  LinkBox,
+  LinkOverlay,
+  Box,
+} from '@chakra-ui/react';
 import { HiOutlineCog, HiStar, HiOutlineStar } from 'react-icons/hi';
 
 type DaoRoles = 'admin' | 'contributor' | 'recruit';
@@ -28,90 +37,100 @@ const daoNameColor = {
 
 const DaoCard = ({ dao }: DaoCardProps) => {
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      bg={daoBgGradient[dao.role]}
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
-      minWidth="14rem"
-      borderRadius="md"
-    >
+    <LinkBox>
       <Flex
         direction="column"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="6rem"
+        // alignItems="center"
+        // justifyContent="center"
+        bg={daoBgGradient[dao.role]}
+        borderWidth="1px"
+        borderStyle="solid"
+        borderColor={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
+        minWidth="14rem"
+        borderRadius="md"
       >
-        <Heading
-          as="h4"
-          color={daoNameColor[dao.role]}
-          fontWeight="600"
-          fontSize="md"
-        >
-          {dao.name}
-        </Heading>
-      </Flex>
-      <Flex
-        direction="column"
-        alignItems="space-apart"
-        justifyContent="center"
-        width="100%"
-        borderTopRadius="none"
-        borderTopWidth="1px"
-        borderTopStyle="solid"
-        borderTopColor={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
-        borderBottomRadius="inherit"
-        paddingY={3}
-        paddingX={5}
-        bg="white"
-      >
+        <Link to={`/dao/${dao.id}`}>
+          <LinkOverlay>
+            <Box height="100%" width="100%">
+              <Flex
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+                minHeight="6rem"
+                width="100%"
+                height="100%"
+              >
+                <Heading
+                  as="h4"
+                  color={daoNameColor[dao.role]}
+                  fontWeight="600"
+                  fontSize="md"
+                >
+                  {dao.name}
+                </Heading>
+              </Flex>
+            </Box>
+          </LinkOverlay>
+        </Link>
         <Flex
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
+          direction="column"
+          alignItems="space-apart"
+          justifyContent="center"
+          width="100%"
+          borderTopRadius="none"
+          borderTopWidth="1px"
+          borderTopStyle="solid"
+          borderTopColor={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
+          borderBottomRadius="inherit"
+          paddingY={3}
+          paddingX={5}
+          bg="white"
         >
-          <Text
-            fontWeight="semibold"
-            fontSize="md"
-            color={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
+          <Flex
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
           >
-            {dao.role.charAt(0).toUpperCase() + dao.role.slice(1)}
-          </Text>
-          {dao.role === 'admin' ? (
-            <IconButton
-              aria-label="Click on the gear icon to open this DAO's settings."
-              bg="transparent"
-              _hover={{ bg: 'transparent' }}
-              _active={{ bg: 'transparent' }}
-              icon={<HiOutlineCog color="#5100E4" size={24} />}
-            />
-          ) : (
-            <IconButton
-              aria-label="Click on the star to favorite this DAO."
-              bg="transparent"
-              _hover={{ bg: 'transparent' }}
-              _active={{ bg: 'transparent' }}
-              icon={
-                dao.isFavorited === true ? (
-                  <HiStar
-                    fill={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
-                    size={24}
-                  />
-                ) : (
-                  <HiOutlineStar
-                    color={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
-                    size={24}
-                  />
-                )
-              }
-            />
-          )}
+            <Text
+              fontWeight="semibold"
+              fontSize="md"
+              color={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
+            >
+              {dao.role.charAt(0).toUpperCase() + dao.role.slice(1)}
+            </Text>
+            {dao.role === 'admin' ? (
+              <IconButton
+                aria-label="Click on the gear icon to open this DAO's settings."
+                bg="transparent"
+                _hover={{ bg: 'transparent' }}
+                _active={{ bg: 'transparent' }}
+                icon={<HiOutlineCog color="#5100E4" size={24} />}
+              />
+            ) : (
+              <IconButton
+                aria-label="Click on the star to favorite this DAO."
+                bg="transparent"
+                _hover={{ bg: 'transparent' }}
+                _active={{ bg: 'transparent' }}
+                icon={
+                  dao.isFavorited === true ? (
+                    <HiStar
+                      fill={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
+                      size={24}
+                    />
+                  ) : (
+                    <HiOutlineStar
+                      color={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
+                      size={24}
+                    />
+                  )
+                }
+              />
+            )}
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </LinkBox>
   );
 };
 
