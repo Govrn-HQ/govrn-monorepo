@@ -15,8 +15,9 @@ import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
 import useDisplayName from '../hooks/useDisplayName';
+import { useDaosList } from '../hooks/useDaosList';
 import FeatureFlagWrapper from './FeatureFlagWrapper';
-import DaoCard from './DaoCard';
+import ProfileDaos from './ProfileDaos';
 
 type DaoRoles = 'admin' | 'contributor' | 'recruit';
 
@@ -31,6 +32,7 @@ const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 const BACKEND_ADDR = `${BASE_URL}`;
 
+// TODO: replace with updated useDaosList query that has the favorite and membershipStatus in it
 const mockDaos: Dao[] = [
   {
     id: 1,
@@ -62,6 +64,11 @@ const ProfileForm = () => {
   const { userData, updateProfile, disconnectLinear } = useUser();
   const { displayName } = useDisplayName();
 
+  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  });
+
+  console.log('daosListData', daosListData);
   const localForm = useForm<ProfileFormValues>({
     mode: 'all',
     resolver: yupResolver(profileFormValidation),
@@ -157,36 +164,7 @@ const ProfileForm = () => {
         </Flex>
       </form>
       <FeatureFlagWrapper>
-        <Flex
-          justify="space-between"
-          direction="column"
-          wrap="wrap"
-          width="100%"
-          paddingX={4}
-          paddingY={8}
-          background="white"
-          boxShadow="sm"
-          marginBottom={4}
-        >
-          <Flex justify="space-between" direction="column" wrap="wrap">
-            <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
-              My DAOs
-            </Heading>
-            <Divider marginY={8} bgColor="gray.300" />
-            <Flex
-              direction="column"
-              justifyContent="space-apart"
-              gap={8}
-              width="100%"
-            >
-              <SimpleGrid columns={4} spacing={4}>
-                {mockDaos.map(dao => (
-                  <DaoCard dao={dao} key={dao.id} />
-                ))}
-              </SimpleGrid>
-            </Flex>
-          </Flex>
-        </Flex>
+        <ProfileDaos daos={mockDaos} />
       </FeatureFlagWrapper>
       <form>
         <Flex
