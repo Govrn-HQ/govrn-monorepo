@@ -1,4 +1,5 @@
-import { Flex, Heading, Divider, SimpleGrid } from '@chakra-ui/react';
+import { Button, Flex, Heading, Divider, SimpleGrid } from '@chakra-ui/react';
+import { ControlledSelect } from '@govrn/protocol-ui';
 import DaoCard from './DaoCard';
 
 // only here for mocking purposes, will replace
@@ -28,7 +29,7 @@ const ProfileDaos = ({ daos }: ProfileDaoProps) => {
       boxShadow="sm"
       marginBottom={4}
     >
-      <Flex justify="space-between" direction="column" wrap="wrap">
+      <Flex justifyContent="space-between" direction="column" wrap="wrap">
         <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
           My DAOs
         </Heading>
@@ -39,6 +40,24 @@ const ProfileDaos = ({ daos }: ProfileDaoProps) => {
           gap={8}
           width="100%"
         >
+          <Flex
+            direction="row"
+            justifyContent="center"
+            alignItems="flex-end"
+            width="40%"
+            gap={4}
+          >
+            <ControlledSelect
+              label="Select a DAO to Join"
+              isSearchable={true}
+              onChange={value => console.log(value)}
+              options={[
+                { value: '1', label: 'DAO 1' },
+                { value: '2', label: 'DAO 2' },
+              ]}
+            />
+            <Button variant="primary">Join</Button>
+          </Flex>
           <SimpleGrid columns={{ base: 1, lg: 4 }} spacing={4}>
             {daos.map(dao => (
               <DaoCard dao={dao} key={dao.id} />
