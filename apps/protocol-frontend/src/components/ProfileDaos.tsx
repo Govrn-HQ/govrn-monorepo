@@ -44,12 +44,12 @@ const ProfileDaos = ({ daos }: ProfileDaoProps) => {
             direction="row"
             justifyContent="center"
             alignItems="flex-end"
-            width="40%"
+            width={{ base: '100%', lg: '40%' }}
             gap={4}
           >
             <ControlledSelect
               label="Select a DAO to Join"
-              isSearchable={true}
+              isSearchable={false}
               onChange={value => console.log(value)}
               options={[
                 { value: '1', label: 'DAO 1' },
