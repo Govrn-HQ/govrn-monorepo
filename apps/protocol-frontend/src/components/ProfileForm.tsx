@@ -125,10 +125,9 @@ const ProfileForm = () => {
               <Heading as="h4" size="sm" fontWeight="medium" color="gray.700">
                 Connect Linear
               </Heading>
-              <Button variant="secondary">Secondary</Button>
               {userData?.linear_users && userData.linear_users.length > 0 ? (
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   type="submit"
                   onClick={disconnectLinearOnClick}
                 >

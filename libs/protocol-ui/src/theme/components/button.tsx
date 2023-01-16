@@ -2,12 +2,12 @@ export default {
   baseStyle: {
     transition: 'all 250ms ease-in-out',
     borderRadius: 'md',
+    fontSize: 'md',
+    fontWeight: 'semibold',
   },
   variants: {
     primary: {
       color: 'white',
-      fontSize: 'md',
-      fontWeight: 'semibold',
       background: 'brand.gradient',
       _hover: {
         background: 'brand.gradientHover',
@@ -24,36 +24,21 @@ export default {
     },
     secondary: {
       position: 'relative',
-      border: 'solid 5px transparent',
-      borderImageSource: 'linear-gradient(100deg, #5100E4 0%, #DF1F97 100%)',
-      borderImageSlice: 1,
-      background:
-        'linear-gradient(transparent, transparent), linear-gradient(transparent, transparent), linear-gradient(to right, #5100E4 0%, #DF1F97 100%) padding-box',
-      color: 'transparent',
-      backgroundClip: 'text',
-      borderRadius: 'md',
-
-      // padding: 10px;
-      // border: 5px solid transparent;
-      // border-radius: 15px;
-      // display: inline-block;
-      // margin: 75px 0;
-      // mask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
-      // maskComposite: 'exclude',
-      // _hover: {
-      //   borderImageSource: 'brand.gradientHover',
-      //   background: 'brand.gradientHover',
-      //   _disabled: {
-      //     borderImageSource: 'brand.gradientDisabled',
-      //     background: 'brand.gradientDisabled',
-      //   },
-      // },
-      // _focus: {
-      //   background: 'brand.gradientFocused',
-      // },
-      // _disabled: {
-      //   background: 'brand.gradientDisabled',
-      // },
+      border: 'double 2px transparent',
+      borderRadius: '8px',
+      backgroundImage:
+        'linear-gradient(white, white), linear-gradient(100deg, #5100E4 0%, #DF1F97 100%)',
+      backgroundOrigin: 'border-box',
+      backgroundClip: 'padding-box, border-box',
+      color: 'brand.purple',
+      _hover: {
+        backgroundImage:
+          'linear-gradient(white, white), linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
+      },
+      _focus: {
+        backgroundImage:
+          'linear-gradient(white, white), linear-gradient(100deg, #9766EF 0%,#9766EF 100%)',
+      },
     },
     tertiary: {
       color: 'brand.purple',
