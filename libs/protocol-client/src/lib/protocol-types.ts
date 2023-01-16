@@ -4224,66 +4224,128 @@ export type DateTimeWithAggregatesFilter = {
 };
 
 export type DiscordUser = {
+  attribution_notification_period_min: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   discord_id: Scalars['String'];
   display_name?: Maybe<Scalars['String']>;
+  enable_attribution_notification: Scalars['Boolean'];
+  enable_mint_notification: Scalars['Boolean'];
+  enable_new_guild_notification: Scalars['Boolean'];
+  enable_notifications: Scalars['Boolean'];
+  enable_submit_reminder: Scalars['Boolean'];
   id: Scalars['Int'];
+  mint_notification_period_min: Scalars['Int'];
+  new_guild_notification_period_min: Scalars['Int'];
+  submit_reminder_period_min: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
   user: User;
   user_id: Scalars['Int'];
 };
 
 export type DiscordUserAvgAggregate = {
+  attribution_notification_period_min?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  mint_notification_period_min?: Maybe<Scalars['Float']>;
+  new_guild_notification_period_min?: Maybe<Scalars['Float']>;
+  submit_reminder_period_min?: Maybe<Scalars['Float']>;
   user_id?: Maybe<Scalars['Float']>;
 };
 
 export type DiscordUserAvgOrderByAggregateInput = {
+  attribution_notification_period_min?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mint_notification_period_min?: InputMaybe<SortOrder>;
+  new_guild_notification_period_min?: InputMaybe<SortOrder>;
+  submit_reminder_period_min?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type DiscordUserCountAggregate = {
   _all: Scalars['Int'];
+  attribution_notification_period_min: Scalars['Int'];
   createdAt: Scalars['Int'];
   discord_id: Scalars['Int'];
   display_name: Scalars['Int'];
+  enable_attribution_notification: Scalars['Int'];
+  enable_mint_notification: Scalars['Int'];
+  enable_new_guild_notification: Scalars['Int'];
+  enable_notifications: Scalars['Int'];
+  enable_submit_reminder: Scalars['Int'];
   id: Scalars['Int'];
+  mint_notification_period_min: Scalars['Int'];
+  new_guild_notification_period_min: Scalars['Int'];
+  submit_reminder_period_min: Scalars['Int'];
   updatedAt: Scalars['Int'];
   user_id: Scalars['Int'];
 };
 
 export type DiscordUserCountOrderByAggregateInput = {
+  attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  enable_attribution_notification?: InputMaybe<SortOrder>;
+  enable_mint_notification?: InputMaybe<SortOrder>;
+  enable_new_guild_notification?: InputMaybe<SortOrder>;
+  enable_notifications?: InputMaybe<SortOrder>;
+  enable_submit_reminder?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mint_notification_period_min?: InputMaybe<SortOrder>;
+  new_guild_notification_period_min?: InputMaybe<SortOrder>;
+  submit_reminder_period_min?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type DiscordUserCreateInput = {
+  attribution_notification_period_min?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id: Scalars['String'];
   display_name?: InputMaybe<Scalars['String']>;
+  enable_attribution_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_mint_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_new_guild_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_notifications?: InputMaybe<Scalars['Boolean']>;
+  enable_submit_reminder?: InputMaybe<Scalars['Boolean']>;
+  mint_notification_period_min?: InputMaybe<Scalars['Int']>;
+  new_guild_notification_period_min?: InputMaybe<Scalars['Int']>;
+  submit_reminder_period_min?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutDiscord_UsersInput;
 };
 
 export type DiscordUserCreateManyInput = {
+  attribution_notification_period_min?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id: Scalars['String'];
   display_name?: InputMaybe<Scalars['String']>;
+  enable_attribution_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_mint_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_new_guild_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_notifications?: InputMaybe<Scalars['Boolean']>;
+  enable_submit_reminder?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['Int']>;
+  mint_notification_period_min?: InputMaybe<Scalars['Int']>;
+  new_guild_notification_period_min?: InputMaybe<Scalars['Int']>;
+  submit_reminder_period_min?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
 
 export type DiscordUserCreateManyUserInput = {
+  attribution_notification_period_min?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id: Scalars['String'];
   display_name?: InputMaybe<Scalars['String']>;
+  enable_attribution_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_mint_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_new_guild_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_notifications?: InputMaybe<Scalars['Boolean']>;
+  enable_submit_reminder?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['Int']>;
+  mint_notification_period_min?: InputMaybe<Scalars['Int']>;
+  new_guild_notification_period_min?: InputMaybe<Scalars['Int']>;
+  submit_reminder_period_min?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -4305,9 +4367,18 @@ export type DiscordUserCreateOrConnectWithoutUserInput = {
 };
 
 export type DiscordUserCreateWithoutUserInput = {
+  attribution_notification_period_min?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id: Scalars['String'];
   display_name?: InputMaybe<Scalars['String']>;
+  enable_attribution_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_mint_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_new_guild_notification?: InputMaybe<Scalars['Boolean']>;
+  enable_notifications?: InputMaybe<Scalars['Boolean']>;
+  enable_submit_reminder?: InputMaybe<Scalars['Boolean']>;
+  mint_notification_period_min?: InputMaybe<Scalars['Int']>;
+  new_guild_notification_period_min?: InputMaybe<Scalars['Int']>;
+  submit_reminder_period_min?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -4317,10 +4388,19 @@ export type DiscordUserGroupBy = {
   _max?: Maybe<DiscordUserMaxAggregate>;
   _min?: Maybe<DiscordUserMinAggregate>;
   _sum?: Maybe<DiscordUserSumAggregate>;
+  attribution_notification_period_min: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   discord_id: Scalars['String'];
   display_name?: Maybe<Scalars['String']>;
+  enable_attribution_notification: Scalars['Boolean'];
+  enable_mint_notification: Scalars['Boolean'];
+  enable_new_guild_notification: Scalars['Boolean'];
+  enable_notifications: Scalars['Boolean'];
+  enable_submit_reminder: Scalars['Boolean'];
   id: Scalars['Int'];
+  mint_notification_period_min: Scalars['Int'];
+  new_guild_notification_period_min: Scalars['Int'];
+  submit_reminder_period_min: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
   user_id: Scalars['Int'];
 };
@@ -4332,37 +4412,73 @@ export type DiscordUserListRelationFilter = {
 };
 
 export type DiscordUserMaxAggregate = {
+  attribution_notification_period_min?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   discord_id?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
+  enable_attribution_notification?: Maybe<Scalars['Boolean']>;
+  enable_mint_notification?: Maybe<Scalars['Boolean']>;
+  enable_new_guild_notification?: Maybe<Scalars['Boolean']>;
+  enable_notifications?: Maybe<Scalars['Boolean']>;
+  enable_submit_reminder?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
+  mint_notification_period_min?: Maybe<Scalars['Int']>;
+  new_guild_notification_period_min?: Maybe<Scalars['Int']>;
+  submit_reminder_period_min?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
 export type DiscordUserMaxOrderByAggregateInput = {
+  attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  enable_attribution_notification?: InputMaybe<SortOrder>;
+  enable_mint_notification?: InputMaybe<SortOrder>;
+  enable_new_guild_notification?: InputMaybe<SortOrder>;
+  enable_notifications?: InputMaybe<SortOrder>;
+  enable_submit_reminder?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mint_notification_period_min?: InputMaybe<SortOrder>;
+  new_guild_notification_period_min?: InputMaybe<SortOrder>;
+  submit_reminder_period_min?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type DiscordUserMinAggregate = {
+  attribution_notification_period_min?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   discord_id?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
+  enable_attribution_notification?: Maybe<Scalars['Boolean']>;
+  enable_mint_notification?: Maybe<Scalars['Boolean']>;
+  enable_new_guild_notification?: Maybe<Scalars['Boolean']>;
+  enable_notifications?: Maybe<Scalars['Boolean']>;
+  enable_submit_reminder?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
+  mint_notification_period_min?: Maybe<Scalars['Int']>;
+  new_guild_notification_period_min?: Maybe<Scalars['Int']>;
+  submit_reminder_period_min?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
 export type DiscordUserMinOrderByAggregateInput = {
+  attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  enable_attribution_notification?: InputMaybe<SortOrder>;
+  enable_mint_notification?: InputMaybe<SortOrder>;
+  enable_new_guild_notification?: InputMaybe<SortOrder>;
+  enable_notifications?: InputMaybe<SortOrder>;
+  enable_submit_reminder?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mint_notification_period_min?: InputMaybe<SortOrder>;
+  new_guild_notification_period_min?: InputMaybe<SortOrder>;
+  submit_reminder_period_min?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
@@ -4377,29 +4493,56 @@ export type DiscordUserOrderByWithAggregationInput = {
   _max?: InputMaybe<DiscordUserMaxOrderByAggregateInput>;
   _min?: InputMaybe<DiscordUserMinOrderByAggregateInput>;
   _sum?: InputMaybe<DiscordUserSumOrderByAggregateInput>;
+  attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  enable_attribution_notification?: InputMaybe<SortOrder>;
+  enable_mint_notification?: InputMaybe<SortOrder>;
+  enable_new_guild_notification?: InputMaybe<SortOrder>;
+  enable_notifications?: InputMaybe<SortOrder>;
+  enable_submit_reminder?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mint_notification_period_min?: InputMaybe<SortOrder>;
+  new_guild_notification_period_min?: InputMaybe<SortOrder>;
+  submit_reminder_period_min?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type DiscordUserOrderByWithRelationInput = {
+  attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
   display_name?: InputMaybe<SortOrder>;
+  enable_attribution_notification?: InputMaybe<SortOrder>;
+  enable_mint_notification?: InputMaybe<SortOrder>;
+  enable_new_guild_notification?: InputMaybe<SortOrder>;
+  enable_notifications?: InputMaybe<SortOrder>;
+  enable_submit_reminder?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mint_notification_period_min?: InputMaybe<SortOrder>;
+  new_guild_notification_period_min?: InputMaybe<SortOrder>;
+  submit_reminder_period_min?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user?: InputMaybe<UserOrderByWithRelationInput>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export enum DiscordUserScalarFieldEnum {
+  AttributionNotificationPeriodMin = 'attribution_notification_period_min',
   CreatedAt = 'createdAt',
   DiscordId = 'discord_id',
   DisplayName = 'display_name',
+  EnableAttributionNotification = 'enable_attribution_notification',
+  EnableMintNotification = 'enable_mint_notification',
+  EnableNewGuildNotification = 'enable_new_guild_notification',
+  EnableNotifications = 'enable_notifications',
+  EnableSubmitReminder = 'enable_submit_reminder',
   Id = 'id',
+  MintNotificationPeriodMin = 'mint_notification_period_min',
+  NewGuildNotificationPeriodMin = 'new_guild_notification_period_min',
+  SubmitReminderPeriodMin = 'submit_reminder_period_min',
   UpdatedAt = 'updatedAt',
   UserId = 'user_id'
 }
@@ -4408,10 +4551,19 @@ export type DiscordUserScalarWhereInput = {
   AND?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
   NOT?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
   OR?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
+  attribution_notification_period_min?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   discord_id?: InputMaybe<StringFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
+  enable_attribution_notification?: InputMaybe<BoolFilter>;
+  enable_mint_notification?: InputMaybe<BoolFilter>;
+  enable_new_guild_notification?: InputMaybe<BoolFilter>;
+  enable_notifications?: InputMaybe<BoolFilter>;
+  enable_submit_reminder?: InputMaybe<BoolFilter>;
   id?: InputMaybe<IntFilter>;
+  mint_notification_period_min?: InputMaybe<IntFilter>;
+  new_guild_notification_period_min?: InputMaybe<IntFilter>;
+  submit_reminder_period_min?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user_id?: InputMaybe<IntFilter>;
 };
@@ -4420,36 +4572,71 @@ export type DiscordUserScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
+  attribution_notification_period_min?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   discord_id?: InputMaybe<StringWithAggregatesFilter>;
   display_name?: InputMaybe<StringNullableWithAggregatesFilter>;
+  enable_attribution_notification?: InputMaybe<BoolWithAggregatesFilter>;
+  enable_mint_notification?: InputMaybe<BoolWithAggregatesFilter>;
+  enable_new_guild_notification?: InputMaybe<BoolWithAggregatesFilter>;
+  enable_notifications?: InputMaybe<BoolWithAggregatesFilter>;
+  enable_submit_reminder?: InputMaybe<BoolWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
+  mint_notification_period_min?: InputMaybe<IntWithAggregatesFilter>;
+  new_guild_notification_period_min?: InputMaybe<IntWithAggregatesFilter>;
+  submit_reminder_period_min?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   user_id?: InputMaybe<IntWithAggregatesFilter>;
 };
 
 export type DiscordUserSumAggregate = {
+  attribution_notification_period_min?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  mint_notification_period_min?: Maybe<Scalars['Int']>;
+  new_guild_notification_period_min?: Maybe<Scalars['Int']>;
+  submit_reminder_period_min?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
 export type DiscordUserSumOrderByAggregateInput = {
+  attribution_notification_period_min?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  mint_notification_period_min?: InputMaybe<SortOrder>;
+  new_guild_notification_period_min?: InputMaybe<SortOrder>;
+  submit_reminder_period_min?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
 };
 
 export type DiscordUserUpdateInput = {
+  attribution_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  enable_attribution_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_mint_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_new_guild_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_notifications?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_submit_reminder?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  mint_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
+  new_guild_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
+  submit_reminder_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutDiscord_UsersNestedInput>;
 };
 
 export type DiscordUserUpdateManyMutationInput = {
+  attribution_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  enable_attribution_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_mint_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_new_guild_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_notifications?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_submit_reminder?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  mint_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
+  new_guild_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
+  submit_reminder_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -4478,9 +4665,18 @@ export type DiscordUserUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type DiscordUserUpdateWithoutUserInput = {
+  attribution_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  enable_attribution_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_mint_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_new_guild_notification?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_notifications?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  enable_submit_reminder?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  mint_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
+  new_guild_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
+  submit_reminder_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -4494,10 +4690,19 @@ export type DiscordUserWhereInput = {
   AND?: InputMaybe<Array<DiscordUserWhereInput>>;
   NOT?: InputMaybe<Array<DiscordUserWhereInput>>;
   OR?: InputMaybe<Array<DiscordUserWhereInput>>;
+  attribution_notification_period_min?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   discord_id?: InputMaybe<StringFilter>;
   display_name?: InputMaybe<StringNullableFilter>;
+  enable_attribution_notification?: InputMaybe<BoolFilter>;
+  enable_mint_notification?: InputMaybe<BoolFilter>;
+  enable_new_guild_notification?: InputMaybe<BoolFilter>;
+  enable_notifications?: InputMaybe<BoolFilter>;
+  enable_submit_reminder?: InputMaybe<BoolFilter>;
   id?: InputMaybe<IntFilter>;
+  mint_notification_period_min?: InputMaybe<IntFilter>;
+  new_guild_notification_period_min?: InputMaybe<IntFilter>;
+  submit_reminder_period_min?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   user_id?: InputMaybe<IntFilter>;
