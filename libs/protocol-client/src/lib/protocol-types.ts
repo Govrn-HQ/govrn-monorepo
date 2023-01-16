@@ -17549,29 +17549,6 @@ export type CreateGuildMutationVariables = Exact<{
 
 export type CreateGuildMutation = { createOneGuild: { congrats_channel?: string | null, discord_id?: string | null, logo?: string | null, name?: string | null } };
 
-export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
-
-export type CreateGuildUserCustomMutationVariables = Exact<{
-  data: GuildUserCreateCustomInput;
-}>;
-
-
-export type CreateGuildUserCustomMutation = { createGuildUserCustom: { id: number } };
-
-export type DeleteGuildUserMutationVariables = Exact<{
-  where: GuildUserWhereUniqueInput;
-}>;
-
-
-export type DeleteGuildUserMutation = { deleteOneGuildUser?: { id: number } | null };
-
-export type UpdateGuildUserCustomMutationVariables = Exact<{
-  data: GuildUserUpdateCustomInput;
-}>;
-
-
-export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
-
 export type GetGuildQueryVariables = Exact<{
   where: GuildWhereUniqueInput;
 }>;
@@ -17603,6 +17580,29 @@ export type GetActiveGuildUsersAverageQueryVariables = Exact<{
 
 
 export type GetActiveGuildUsersAverageQuery = { result: number };
+
+export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
+
+export type CreateGuildUserCustomMutationVariables = Exact<{
+  data: GuildUserCreateCustomInput;
+}>;
+
+
+export type CreateGuildUserCustomMutation = { createGuildUserCustom: { id: number } };
+
+export type DeleteGuildUserMutationVariables = Exact<{
+  where: GuildUserWhereUniqueInput;
+}>;
+
+
+export type DeleteGuildUserMutation = { deleteOneGuildUser?: { id: number } | null };
+
+export type UpdateGuildUserCustomMutationVariables = Exact<{
+  data: GuildUserUpdateCustomInput;
+}>;
+
+
+export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
 
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } }> };
 
@@ -18365,27 +18365,6 @@ export const CreateGuildDocument = gql`
   }
 }
     `;
-export const CreateGuildUserCustomDocument = gql`
-    mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
-  createGuildUserCustom(data: $data) {
-    id
-  }
-}
-    `;
-export const DeleteGuildUserDocument = gql`
-    mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
-  deleteOneGuildUser(where: $where) {
-    id
-  }
-}
-    `;
-export const UpdateGuildUserCustomDocument = gql`
-    mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
-  updateGuildUserCustom(data: $data) {
-    ...GuildUserFragment
-  }
-}
-    ${GuildUserFragmentFragmentDoc}`;
 export const GetGuildDocument = gql`
     query getGuild($where: GuildWhereUniqueInput!) {
   result: guild(where: $where) {
@@ -18412,6 +18391,27 @@ export const GetActiveGuildUsersAverageDocument = gql`
   result: getActiveGuildUsersAverage(where: $where)
 }
     `;
+export const CreateGuildUserCustomDocument = gql`
+    mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
+  createGuildUserCustom(data: $data) {
+    id
+  }
+}
+    `;
+export const DeleteGuildUserDocument = gql`
+    mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
+  deleteOneGuildUser(where: $where) {
+    id
+  }
+}
+    `;
+export const UpdateGuildUserCustomDocument = gql`
+    mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
+  updateGuildUserCustom(data: $data) {
+    ...GuildUserFragment
+  }
+}
+    ${GuildUserFragmentFragmentDoc}`;
 export const BulkCreateTwitterTweetDocument = gql`
     mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
@@ -18800,15 +18800,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createGuild(variables: CreateGuildMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildMutation>(CreateGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuild', 'mutation');
     },
-    createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');
-    },
-    deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');
-    },
-    updateGuildUserCustom(variables: UpdateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildUserCustomMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildUserCustomMutation>(UpdateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildUserCustom', 'mutation');
-    },
     getGuild(variables: GetGuildQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetGuildQuery>(GetGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuild', 'query');
     },
@@ -18820,6 +18811,15 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getActiveGuildUsersAverage(variables: GetActiveGuildUsersAverageQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetActiveGuildUsersAverageQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetActiveGuildUsersAverageQuery>(GetActiveGuildUsersAverageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getActiveGuildUsersAverage', 'query');
+    },
+    createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');
+    },
+    deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');
+    },
+    updateGuildUserCustom(variables: UpdateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildUserCustomMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildUserCustomMutation>(UpdateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildUserCustom', 'mutation');
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');
