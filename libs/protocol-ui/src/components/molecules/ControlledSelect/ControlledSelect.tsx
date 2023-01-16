@@ -63,6 +63,8 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
           onChange={onChange}
           value={value}
           isSearchable={isSearchable}
+          styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+          menuPortalTarget={document.querySelector('body')} // so dropdown menu doesnt interfere with clickable elements
           {...props}
         />
       </Box>
