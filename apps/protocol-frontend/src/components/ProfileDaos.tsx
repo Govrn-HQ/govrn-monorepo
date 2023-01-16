@@ -1,5 +1,6 @@
 import { Button, Flex, Heading, Divider, SimpleGrid } from '@chakra-ui/react';
-import { ControlledSelect } from '@govrn/protocol-ui';
+import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import { useDaosList } from '../hooks/useDaosList';
 import DaoCard from './DaoCard';
 
 // only here for mocking purposes, will replace
@@ -14,9 +15,22 @@ type Dao = {
 
 interface ProfileDaoProps {
   daos: Dao[];
+  userId: number | undefined;
 }
 
-const ProfileDaos = ({ daos }: ProfileDaoProps) => {
+const ProfileDaos = ({ daos, userId }: ProfileDaoProps) => {
+  const { isLoading: daosListIsLoading, data: joinableDaosListData } =
+    useDaosList({
+      where: { users: { none: { user_id: { equals: userId } } } }, // show daos user isn't in
+    });
+
+  const daoListOptions =
+    joinableDaosListData?.map(dao => ({
+      value: dao.id,
+      label: dao.name ?? '',
+    })) || [];
+
+  if (daosListIsLoading) return <GovrnSpinner />;
   return (
     <Flex
       justify="space-between"
@@ -51,10 +65,7 @@ const ProfileDaos = ({ daos }: ProfileDaoProps) => {
               label="Select a DAO to Join"
               isSearchable={false}
               onChange={value => console.log(value)}
-              options={[
-                { value: '1', label: 'DAO 1' },
-                { value: '2', label: 'DAO 2' },
-              ]}
+              options={daoListOptions}
             />
             <Button variant="primary">Join</Button>
           </Flex>

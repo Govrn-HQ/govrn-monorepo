@@ -4,6 +4,7 @@ import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
+import { useDaosList } from '../hooks/useDaosList';
 import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
@@ -153,7 +154,7 @@ const ProfileForm = () => {
         </Flex>
       </form>
       <FeatureFlagWrapper>
-        <ProfileDaos daos={mockDaos} />
+        <ProfileDaos daos={mockDaos} userId={userData?.id} />
       </FeatureFlagWrapper>
       <form>
         <Flex
@@ -201,7 +202,6 @@ const ProfileForm = () => {
                 </Button>
               )}
             </Flex>
-            {/* <Divider bgColor="gray.300" /> */}
           </Flex>
           <Flex justify="space-between" direction="column" wrap="wrap">
             <Flex

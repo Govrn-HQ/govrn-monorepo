@@ -10,6 +10,9 @@ import {
 } from '@chakra-ui/react';
 import { HiOutlineCog, HiStar, HiOutlineStar } from 'react-icons/hi';
 
+// TODO: clicking on admin settings -> dao settings page (when ready)
+// TODO: clicking on favorite -> toggles favorite true/false via a guild update mutation
+
 // these are here for mocking, will be removed
 type DaoRoles = 'admin' | 'contributor' | 'recruit';
 
