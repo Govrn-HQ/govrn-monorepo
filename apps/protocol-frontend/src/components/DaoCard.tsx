@@ -10,13 +10,14 @@ import {
 } from '@chakra-ui/react';
 import { HiOutlineCog, HiStar, HiOutlineStar } from 'react-icons/hi';
 
+// these are here for mocking, will be removed
 type DaoRoles = 'admin' | 'contributor' | 'recruit';
 
 type Dao = {
   id: number;
   name: string;
   role: DaoRoles;
-  isFavorited: boolean;
+  favorite: boolean;
 };
 
 interface DaoCardProps {
@@ -40,8 +41,6 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     <LinkBox>
       <Flex
         direction="column"
-        // alignItems="center"
-        // justifyContent="center"
         bg={daoBgGradient[dao.role]}
         borderWidth="1px"
         borderStyle="solid"
@@ -113,7 +112,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
                 _hover={{ bg: 'transparent' }}
                 _active={{ bg: 'transparent' }}
                 icon={
-                  dao.isFavorited === true ? (
+                  dao.favorite === true ? (
                     <HiStar
                       fill={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
                       size={24}

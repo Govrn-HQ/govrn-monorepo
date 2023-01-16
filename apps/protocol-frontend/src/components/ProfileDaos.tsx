@@ -9,7 +9,7 @@ type Dao = {
   id: number;
   name: string;
   role: DaoRoles;
-  isFavorited: boolean;
+  favorite: boolean;
 };
 
 interface ProfileDaoProps {

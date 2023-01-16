@@ -1,13 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  Flex,
-  Heading,
-  Button,
-  Divider,
-  SimpleGrid,
-  Text,
-} from '@chakra-ui/react';
+import { Flex, Heading, Button, Divider, Text } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,7 +8,6 @@ import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
 import useDisplayName from '../hooks/useDisplayName';
-import { useDaosList } from '../hooks/useDaosList';
 import FeatureFlagWrapper from './FeatureFlagWrapper';
 import ProfileDaos from './ProfileDaos';
 
@@ -26,38 +17,40 @@ type Dao = {
   id: number;
   name: string;
   role: DaoRoles;
-  isFavorited: boolean;
+  favorite: boolean;
 };
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 const BACKEND_ADDR = `${BASE_URL}`;
 
-// TODO: replace with updated useDaosList query that has the favorite and membershipStatus in it
+// this is mock data for the user's DAOs with their role and whether or note it is favorited
+// TODO: replace this with data coming from a guildUsers query that includes these fields
+
 const mockDaos: Dao[] = [
   {
     id: 1,
     name: 'Govrn',
     role: 'admin',
-    isFavorited: true,
+    favorite: true,
   },
   {
     id: 2,
     name: 'Boys Club',
     role: 'contributor',
-    isFavorited: true,
+    favorite: true,
   },
   {
     id: 3,
     name: 'Seed Club',
     role: 'recruit',
-    isFavorited: false,
+    favorite: false,
   },
   {
     id: 3,
     name: 'Raid Guild',
     role: 'recruit',
-    isFavorited: false,
+    favorite: false,
   },
 ];
 
@@ -65,11 +58,6 @@ const ProfileForm = () => {
   const { userData, updateProfile, disconnectLinear } = useUser();
   const { displayName } = useDisplayName();
 
-  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
-  });
-
-  console.log('daosListData', daosListData);
   const localForm = useForm<ProfileFormValues>({
     mode: 'all',
     resolver: yupResolver(profileFormValidation),
