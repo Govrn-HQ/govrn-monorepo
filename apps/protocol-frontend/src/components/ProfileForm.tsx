@@ -4,7 +4,6 @@ import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
-import { useDaosList } from '../hooks/useDaosList';
 import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
@@ -12,48 +11,9 @@ import useDisplayName from '../hooks/useDisplayName';
 import FeatureFlagWrapper from './FeatureFlagWrapper';
 import ProfileDaos from './ProfileDaos';
 
-type DaoRoles = 'admin' | 'contributor' | 'recruit';
-
-type Dao = {
-  id: number;
-  name: string;
-  role: DaoRoles;
-  favorite: boolean;
-};
-
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 const BACKEND_ADDR = `${BASE_URL}`;
-
-// this is mock data for the user's DAOs with their role and whether or note it is favorited
-// TODO: replace this with data coming from a guildUsers query that includes these fields
-
-const mockDaos: Dao[] = [
-  {
-    id: 1,
-    name: 'Govrn',
-    role: 'admin',
-    favorite: true,
-  },
-  {
-    id: 2,
-    name: 'Boys Club',
-    role: 'contributor',
-    favorite: true,
-  },
-  {
-    id: 3,
-    name: 'Seed Club',
-    role: 'recruit',
-    favorite: false,
-  },
-  {
-    id: 3,
-    name: 'Raid Guild',
-    role: 'recruit',
-    favorite: false,
-  },
-];
 
 const ProfileForm = () => {
   const { userData, updateProfile, disconnectLinear } = useUser();
@@ -154,7 +114,7 @@ const ProfileForm = () => {
         </Flex>
       </form>
       <FeatureFlagWrapper>
-        <ProfileDaos daos={mockDaos} userId={userData?.id} />
+        <ProfileDaos userId={userData?.id} />
       </FeatureFlagWrapper>
       <form>
         <Flex

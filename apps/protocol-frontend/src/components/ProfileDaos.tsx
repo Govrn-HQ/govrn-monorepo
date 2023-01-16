@@ -18,10 +18,41 @@ interface ProfileDaoProps {
   userId: number | undefined;
 }
 
+// this is mock data for the user's DAOs with their role and whether or note it is favorited
+// TODO: replace this with data coming from a guildUsers query that includes these fields
+
+const mockDaos: Dao[] = [
+  {
+    id: 1,
+    name: 'Govrn',
+    role: 'admin',
+    favorite: true,
+  },
+  {
+    id: 2,
+    name: 'Boys Club',
+    role: 'contributor',
+    favorite: true,
+  },
+  {
+    id: 3,
+    name: 'Seed Club',
+    role: 'recruit',
+    favorite: false,
+  },
+  {
+    id: 3,
+    name: 'Raid Guild',
+    role: 'recruit',
+    favorite: false,
+  },
+];
+
 const ProfileDaos = ({ daos, userId }: ProfileDaoProps) => {
+  // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only
   const { isLoading: daosListIsLoading, data: joinableDaosListData } =
     useDaosList({
-      where: { users: { none: { user_id: { equals: userId } } } }, // show daos user isn't in
+      where: { users: { none: { user_id: { equals: userId } } } }, // show daos user isn't in and can join
     });
 
   const daoListOptions =
@@ -31,6 +62,7 @@ const ProfileDaos = ({ daos, userId }: ProfileDaoProps) => {
     })) || [];
 
   if (daosListIsLoading) return <GovrnSpinner />;
+
   return (
     <Flex
       justify="space-between"
@@ -70,7 +102,7 @@ const ProfileDaos = ({ daos, userId }: ProfileDaoProps) => {
             <Button variant="primary">Join</Button>
           </Flex>
           <SimpleGrid columns={{ base: 1, lg: 4 }} spacing={4}>
-            {daos.map(dao => (
+            {mockDaos.map(dao => (
               <DaoCard dao={dao} key={dao.id} />
             ))}
           </SimpleGrid>
