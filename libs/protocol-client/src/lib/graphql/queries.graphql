@@ -177,6 +177,25 @@ mutation createGuild($data: GuildCreateInput!) {
   }
 }
 
+
+
+# GuildUser
+fragment GuildUserFragment on GuildUser {
+  id
+  createdAt
+  updatedAt
+  user_id
+  guild_id
+  favorite
+  membershipStatus {
+    id
+    createdAt
+    updatedAt
+    name
+  }
+}
+
+
 mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
   createGuildUserCustom(data: $data) {
     id
@@ -186,6 +205,12 @@ mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
 mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
   deleteOneGuildUser(where: $where) {
     id
+  }
+}
+
+mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
+  updateGuildUserCustom(data: $data) {
+    ...GuildUserFragment
   }
 }
 

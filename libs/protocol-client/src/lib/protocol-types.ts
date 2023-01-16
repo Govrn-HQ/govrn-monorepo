@@ -6956,6 +6956,12 @@ export type GuildUserSumOrderByAggregateInput = {
   user_id?: InputMaybe<SortOrder>;
 };
 
+export type GuildUserUpdateCustomInput = {
+  favorite: Scalars['Boolean'];
+  guildId: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
 export type GuildUserUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
@@ -10483,6 +10489,7 @@ export type Mutation = {
   deleteUserContribution: Contribution;
   getOrCreateActivityType: ActivityType;
   updateGuildCustom: Guild;
+  updateGuildUserCustom: GuildUser;
   updateManyActivityType: AffectedRowsOutput;
   updateManyAttestation: AffectedRowsOutput;
   updateManyAttestationConfidence: AffectedRowsOutput;
@@ -11277,6 +11284,11 @@ export type MutationGetOrCreateActivityTypeArgs = {
 export type MutationUpdateGuildCustomArgs = {
   data: GuildUpdateCustomInput;
   where: GuildUpdateCustomWhereInput;
+};
+
+
+export type MutationUpdateGuildUserCustomArgs = {
+  data: GuildUserUpdateCustomInput;
 };
 
 
@@ -17537,6 +17549,8 @@ export type CreateGuildMutationVariables = Exact<{
 
 export type CreateGuildMutation = { createOneGuild: { congrats_channel?: string | null, discord_id?: string | null, logo?: string | null, name?: string | null } };
 
+export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
+
 export type CreateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserCreateCustomInput;
 }>;
@@ -17550,6 +17564,13 @@ export type DeleteGuildUserMutationVariables = Exact<{
 
 
 export type DeleteGuildUserMutation = { deleteOneGuildUser?: { id: number } | null };
+
+export type UpdateGuildUserCustomMutationVariables = Exact<{
+  data: GuildUserUpdateCustomInput;
+}>;
+
+
+export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
 
 export type GetGuildQueryVariables = Exact<{
   where: GuildWhereUniqueInput;
@@ -17995,6 +18016,22 @@ export const GuildFragmentFragmentDoc = gql`
   status
 }
     `;
+export const GuildUserFragmentFragmentDoc = gql`
+    fragment GuildUserFragment on GuildUser {
+  id
+  createdAt
+  updatedAt
+  user_id
+  guild_id
+  favorite
+  membershipStatus {
+    id
+    createdAt
+    updatedAt
+    name
+  }
+}
+    `;
 export const ContributionFragmentFragmentDoc = gql`
     fragment ContributionFragment on Contribution {
   activity_type {
@@ -18342,6 +18379,13 @@ export const DeleteGuildUserDocument = gql`
   }
 }
     `;
+export const UpdateGuildUserCustomDocument = gql`
+    mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
+  updateGuildUserCustom(data: $data) {
+    ...GuildUserFragment
+  }
+}
+    ${GuildUserFragmentFragmentDoc}`;
 export const GetGuildDocument = gql`
     query getGuild($where: GuildWhereUniqueInput!) {
   result: guild(where: $where) {
@@ -18761,6 +18805,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');
+    },
+    updateGuildUserCustom(variables: UpdateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildUserCustomMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildUserCustomMutation>(UpdateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildUserCustom', 'mutation');
     },
     getGuild(variables: GetGuildQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetGuildQuery>(GetGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuild', 'query');
