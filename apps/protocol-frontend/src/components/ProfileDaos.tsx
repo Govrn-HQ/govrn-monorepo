@@ -16,7 +16,6 @@ type Dao = {
 };
 
 interface ProfileDaoProps {
-  daos: Dao[];
   userId: number | undefined;
 }
 
@@ -50,7 +49,7 @@ const mockDaos: Dao[] = [
   },
 ];
 
-const ProfileDaos = ({ daos, userId }: ProfileDaoProps) => {
+const ProfileDaos = ({ userId }: ProfileDaoProps) => {
   // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only similar to how we handle the fetches on the DaoDashboard page
   const { isLoading: daosListIsLoading, data: joinableDaosListData } =
     useDaosList({
