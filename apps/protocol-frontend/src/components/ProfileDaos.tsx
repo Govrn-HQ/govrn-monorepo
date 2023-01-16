@@ -3,6 +3,8 @@ import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { useDaosList } from '../hooks/useDaosList';
 import DaoCard from './DaoCard';
 
+//TODO: add the Join function
+
 // only here for mocking purposes, will replace
 type DaoRoles = 'admin' | 'contributor' | 'recruit';
 
@@ -18,7 +20,7 @@ interface ProfileDaoProps {
   userId: number | undefined;
 }
 
-// this is mock data for the user's DAOs with their role and whether or note it is favorited
+// this is mock data for the user's DAOs with their role and whether or not it is favorited
 // TODO: replace this with data coming from a guildUsers query that includes these fields
 
 const mockDaos: Dao[] = [
@@ -49,7 +51,7 @@ const mockDaos: Dao[] = [
 ];
 
 const ProfileDaos = ({ daos, userId }: ProfileDaoProps) => {
-  // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only
+  // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only similar to how we handle the fetches on the DaoDashboard page
   const { isLoading: daosListIsLoading, data: joinableDaosListData } =
     useDaosList({
       where: { users: { none: { user_id: { equals: userId } } } }, // show daos user isn't in and can join
