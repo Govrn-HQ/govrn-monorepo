@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
@@ -62,6 +63,7 @@ function CreateMoreSwitch({
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { userData } = useUser();
   const toast = useGovrnToast();
+  const [searchParams] = useSearchParams();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
@@ -74,6 +76,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       fileInputField.current.click();
     }
   };
+
+  const daoIdParam = Number(searchParams.get('daoId'));
 
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -121,10 +125,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   );
 
   const [isUserCreatingMore, setUserCreatingMore] = useState(false);
-
-  useEffect(() => {
-    setValue('engagementDate', engagementDateValue);
-  }, []);
 
   const {
     mutateAsync: createNewContribution,
@@ -188,6 +188,12 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       value: dao.id,
       label: dao.name ?? '',
     })) || [];
+
+  useEffect(() => {
+    const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
+    setValue('engagementDate', engagementDateValue);
+    setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
+  }, []);
 
   // there is an error with the query:
   if (userActivityTypesIsError) {
@@ -326,6 +332,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
             }}
             options={daoListOptions}
+            defaultValue={daoListOptions.find(dao => dao.value === daoIdParam)}
             localForm={localForm}
           />
           <DatePicker
