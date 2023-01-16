@@ -40,6 +40,9 @@ const daoNameColor = {
 };
 
 const DaoCard = ({ dao }: DaoCardProps) => {
+  const daoIconColor = (daoRole: DaoRoles) =>
+    daoRole === 'recruit' ? 'gray.700' : '#5100E4';
+
   return (
     <LinkBox>
       <Flex
@@ -96,7 +99,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             <Text
               fontWeight="semibold"
               fontSize="md"
-              color={dao.role === 'recruit' ? 'gray.700' : 'brand.purple'}
+              color={daoIconColor(dao.role)}
             >
               {dao.role.charAt(0).toUpperCase() + dao.role.slice(1)}
             </Text>
@@ -116,15 +119,9 @@ const DaoCard = ({ dao }: DaoCardProps) => {
                 _active={{ bg: 'transparent' }}
                 icon={
                   dao.favorite === true ? (
-                    <HiStar
-                      fill={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
-                      size={24}
-                    />
+                    <HiStar fill={daoIconColor(dao.role)} size={24} />
                   ) : (
-                    <HiOutlineStar
-                      color={dao.role === 'recruit' ? 'gray.700' : '#5100E4'}
-                      size={24}
-                    />
+                    <HiOutlineStar color={daoIconColor(dao.role)} size={24} />
                   )
                 }
               />

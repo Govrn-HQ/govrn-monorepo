@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Divider, SimpleGrid } from '@chakra-ui/react';
+import { Button, Flex, Heading, Divider, Grid } from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { useDaosList } from '../hooks/useDaosList';
 import DaoCard from './DaoCard';
@@ -102,11 +102,20 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
             />
             <Button variant="primary">Join</Button>
           </Flex>
-          <SimpleGrid columns={{ base: 1, lg: 4 }} spacing={4}>
+          <Grid
+            templateColumns={{
+              base: 'repeat(1, 1fr)',
+              md: 'repeat(2, 1fr)',
+              lg: 'repeat(3, 1fr)',
+              xl: 'repeat(4, 1fr)',
+            }}
+            gap={4}
+            justifyContent="space-between"
+          >
             {mockDaos.map(dao => (
               <DaoCard dao={dao} key={dao.id} />
             ))}
-          </SimpleGrid>
+          </Grid>
         </Flex>
       </Flex>
     </Flex>
