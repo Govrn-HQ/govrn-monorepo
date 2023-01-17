@@ -146,7 +146,7 @@ const ProfileForm = () => {
               </Heading>
               {userData?.linear_users && userData.linear_users.length > 0 ? (
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   type="submit"
                   onClick={disconnectLinearOnClick}
                 >
