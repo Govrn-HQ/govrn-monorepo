@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Stack, Button, Flex, Text } from '@chakra-ui/react';
+import { Button, Flex, Icon, Text } from '@chakra-ui/react';
+import { AiFillExclamationCircle } from 'react-icons/ai';
 import { ControlledTextarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
 import { isEthAddress } from '../utils/validations';
@@ -60,7 +61,7 @@ const DaoTextareaForm = () => {
   };
 
   return (
-    <Stack spacing="4" width="100%" color="gray.800">
+    <Flex direction="column" gap={4} width="100%" color="gray.800">
       <ControlledTextarea
         name="daoMemberAddresses"
         placeholder="ex. 0xf76d80200226ac250665139b9e435617e4ba55g9m,
@@ -70,11 +71,20 @@ const DaoTextareaForm = () => {
         onChange={handleDaoTextAreaChange}
       />
       {validationError !== null && (
-        <Text fontSize="xs" color="red.500">
-          Something went wrong: {validationError}
-        </Text>
+        <Flex direction="row" alignItems="center" marginY={0}>
+          <Icon
+            as={AiFillExclamationCircle}
+            color="red.500"
+            width="16px"
+            height="16px"
+            marginRight={2}
+          />
+          <Text fontSize="xs" color="red.500">
+            Something went wrong: {validationError}
+          </Text>
+        </Flex>
       )}
-      <Flex align="flex-end" marginTop={4}>
+      <Flex align="flex-end">
         <Button
           type="submit"
           variant="primary"
@@ -84,7 +94,7 @@ const DaoTextareaForm = () => {
           Import
         </Button>
       </Flex>
-    </Stack>
+    </Flex>
   );
 };
 
