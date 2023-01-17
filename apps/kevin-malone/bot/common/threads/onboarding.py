@@ -50,6 +50,8 @@ class CheckIfDiscordUserExists(BaseStep):
         super().__init__()
         self.cache = cache
 
+    # No input is required of the user, the step can be performed without
+    # the discord user id
     async def send(self, message, user_id):
         return None, None
 
@@ -67,6 +69,39 @@ class CheckIfDiscordUserExists(BaseStep):
             await write_cache_metadata(user_id, self.cache, "user_db_id", user["id"])
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
         return StepKeys.USER_DISPLAY_CONFIRM.value
+
+
+class PromptUserWalletAddressStep(BaseStep):
+    """Step to submit wallet address for the govrn profile"""
+
+    name = StepKeys.CREATE_USER_WITH_WALLET_ADDRESS.value
+
+    wallet_prompt = (
+        "What Ethereum wallet address would you like to associate with this guild?"
+    )
+
+    invalid_wallet_exception_fmt = "%s is not a valid wallet address"
+
+    def __init__(self, cache, guild_id):
+        super().__init__()
+        self.cache = cache
+        self.guild_id = guild_id
+
+    async def send(self, message, user_id):
+        channel = message.channel
+        sent_message = await channel.send(PromptUserWalletAddressStep.wallet_prompt)
+        return sent_message, None
+
+    async def save(self, message, guild_id, user_id):
+        # Save the supplied wallet address to cache
+        wallet = message.content.strip()
+
+        if not Web3.isAddress(wallet):
+            raise InvalidWalletAddressException(
+                PromptUserWalletAddressStep.invalid_wallet_exception_fmt % wallet
+            )
+
+        await write_cache_metadata(user_id, self.cache, WALLET_CACHE_KEY, wallet)
 
 
 class AssociateExistingUserWithGuild(BaseStep):
@@ -191,39 +226,6 @@ class UserDisplaySubmitStep(BaseStep):
         return _handle_skip_emoji(raw_reaction, self.guild_id)
 
 
-class PromptUserWalletAddressStep(BaseStep):
-    """Step to submit wallet address for the govrn profile"""
-
-    name = StepKeys.CREATE_USER_WITH_WALLET_ADDRESS.value
-
-    wallet_prompt = (
-        "What Ethereum wallet address would you like to associate with this guild?"
-    )
-
-    invalid_wallet_exception_fmt = "%s is not a valid wallet address"
-
-    def __init__(self, cache, guild_id):
-        super().__init__()
-        self.cache = cache
-        self.guild_id = guild_id
-
-    async def send(self, message, user_id):
-        channel = message.channel
-        sent_message = await channel.send(PromptUserWalletAddressStep.wallet_prompt)
-        return sent_message, None
-
-    async def save(self, message, guild_id, user_id):
-        # Save the supplied wallet address to cache
-        wallet = message.content.strip()
-
-        if not Web3.isAddress(wallet):
-            raise InvalidWalletAddressException(
-                PromptUserWalletAddressStep.invalid_wallet_exception_fmt % wallet
-            )
-
-        await write_cache_metadata(user_id, self.cache, WALLET_CACHE_KEY, wallet)
-
-
 class AddUserTwitterStep(BaseStep):
     """Step to submit twitter name for the govrn profile"""
 
@@ -325,7 +327,9 @@ class Onboarding(BaseThread):
             .build()
         )
 
-        profile_setup_steps = Step(current=CheckIfDiscordUserExists(cache=self.cache)).fork(
+        profile_setup_steps = Step(
+            current=CheckIfDiscordUserExists(cache=self.cache)
+        ).fork(
             (
                 AssociateExistingUserWithGuild(
                     cache=self.cache, guild_id=self.guild_id
