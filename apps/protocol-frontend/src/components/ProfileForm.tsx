@@ -4,7 +4,6 @@ import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
-import { useOverlay } from '../contexts/OverlayContext';
 import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
@@ -27,16 +26,10 @@ const ProfileForm = () => {
     resolver: yupResolver(profileFormValidation),
   });
   const { handleSubmit, setValue } = localForm;
-  const { setModals } = useOverlay();
-  const localOverlay = useOverlay();
 
   useEffect(() => {
     setValue('name', userData?.name ?? '');
   }, [userData]);
-
-  const handleDaoTextareaModal = () => {
-    setModals({ daoTextareaModal: true });
-  };
 
   const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (
     values: ProfileFormValues,
@@ -141,7 +134,6 @@ const ProfileForm = () => {
             <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
               Integrations
             </Heading>
-            <Button onClick={handleDaoTextareaModal}>Add DAO</Button>
             <Divider marginY={8} bgColor="gray.300" />
             <Flex
               direction="column"
