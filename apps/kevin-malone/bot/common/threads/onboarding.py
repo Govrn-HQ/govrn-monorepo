@@ -126,7 +126,7 @@ class AssociateDiscordProfileWithUser(BaseStep):
         if user:
             user = await self.bot.fetch_user(user_id)
             discord_display_name = user.display_name
-            
+
             # A user exists with a govrn profile, indicating they've joined on the webapp
             # Need to create a discord user object, and then associate the govrn user with the guild
             await gql.create_discord_user(user["id"], user_id, discord_display_name)
@@ -337,9 +337,7 @@ class Onboarding(BaseThread):
             VerifyUserTwitterStep(self.user_id, self.guild_id, self.cache)
         ).build()
         return (
-            Step(
-                current=VerifyUserWalletStep(cache=self.cache, update=False)
-            )
+            Step(current=VerifyUserWalletStep(cache=self.cache, update=False))
             .add_next_step(AddUserTwitterStep(guild_id=self.guild_id, cache=self.cache))
             .fork((verify_twitter.add_next_step(congrats).build(), congrats))
         )
@@ -363,16 +361,18 @@ class Onboarding(BaseThread):
         )
 
         guild_user_not_exist_flow = (
-            Step(current=PromptUserWalletAddressStep(cache=self.cache, guild_id=self.guild_id))
-            .add_next_step(
-                AssociateDiscordProfileWithUser(self.cache)
+            Step(
+                current=PromptUserWalletAddressStep(
+                    cache=self.cache, guild_id=self.guild_id
+                )
             )
+            .add_next_step(AssociateDiscordProfileWithUser(self.cache))
             .fork(
                 (
                     AssociateExistingUserWithGuild(
                         cache=self.cache, guild_id=self.guild_id
                     ),
-                    govrn_user_not_exist_flow
+                    govrn_user_not_exist_flow,
                 )
             )
             .build()
