@@ -104,16 +104,43 @@ class PromptUserWalletAddressStep(BaseStep):
         await write_cache_metadata(user_id, self.cache, WALLET_CACHE_KEY, wallet)
 
 
-class CheckUserWalletAddress(BaseStep):
-    """Check if the supplied user wallet already exists with Govrn; This will happen if a
-    user has joined via the webapp but not Kevin Malone"""
+class AssociateDiscordProfileWithUser(BaseStep):
+    """Check if the supplied user wallet already exists with Govrn; If the wallet
+    is already associated with a user profile, associates their discord profile with
+    the user profile. This will happen if a user has joined via the webapp but not
+    with Kevin Malone"""
 
-    name = StepKeys.CHECK_USER_WALLET_ADDRESS.value
+    name = StepKeys.ASSOCIATE_DISCORD_PROFILE_WITH_USER.value
 
     def __init__(self, cache):
         super().__init__()
         self.cache = cache
- 
+
+    # No user input is required
+    async def send(self, message, user_id):
+        return None, None
+
+    async def control_hook(self, message, user_id):
+        wallet_id = await get_cache_metadata_key(user_id, self.cache, WALLET_CACHE_KEY)
+        user = await gql.get_user_by_wallet(wallet_id)
+        if user:
+            user = await self.bot.fetch_user(user_id)
+            discord_display_name = user.display_name
+            
+            # A user exists with a govrn profile, indicating they've joined on the webapp
+            # Need to create a discord user object, and then associate the govrn user with the guild
+            await gql.create_discord_user(user["id"], user_id, discord_display_name)
+
+            # Cache user info for following step of associating with guild
+            await write_cache_metadata(
+                user_id, self.cache, "display_name", user["display_name"]
+            )
+            await write_cache_metadata(user_id, self.cache, "user_db_id", user["id"])
+
+            return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
+
+        return StepKeys.VERIFY_USER_WALLET.value
+
 
 class AssociateExistingUserWithGuild(BaseStep):
     """Associates an existing user profile with a given guild"""
