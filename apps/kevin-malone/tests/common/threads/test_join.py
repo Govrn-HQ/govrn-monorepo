@@ -56,7 +56,7 @@ async def test_check_if_user_exists(mocker, thread_dependencies):
     await assert_cache_metadata_content(
         user_id, cache, "display_name", test_display_name
     )
-    await assert_cache_metadata_content(user_id, cache, "wallet_address", address)
+    await assert_cache_metadata_content(user_id, cache, WALLET_CACHE_KEY, address)
     assert next_step_key == StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
 
 
@@ -69,7 +69,7 @@ async def test_check_if_user_exists_dne(mocker, thread_dependencies):
     mock_gql_query(mocker, "get_user_by_discord_id", None)
     next_step_key = await step.control_hook(None, user_id)
     assert len(cache.internal) == 0
-    assert next_step_key == StepKeys.USER_DISPLAY_CONFIRM.value
+    assert next_step_key == StepKeys.PROMPT_USER_WALLET_ADDRESS.value
 
 
 @pytest.mark.asyncio
@@ -97,7 +97,7 @@ async def test_associate_existing_user(mocker, thread_dependencies):
     await write_cache_metadata(
         user_id, cache, "display_name", mock_user["display_name"]
     )
-    await write_cache_metadata(user_id, cache, "wallet_address", mock_user["address"])
+    await write_cache_metadata(user_id, cache, WALLET_CACHE_KEY, mock_user["address"])
 
     (sent_message, metadata) = await step.send(message, user_id)
 
@@ -154,7 +154,7 @@ async def test_user_display_confirmation_emoji_step(mocker, thread_dependencies)
 
     reaction = MockReaction(user_id, step.emojis[0])
     (next_step, skip) = await step.handle_emoji(reaction)
-    assert next_step == StepKeys.PROMPT_USER_WALLET_ADDRESS.value
+    assert next_step == StepKeys.ADD_USER_TWITTER.value
     assert not skip
 
     reaction = MockReaction(user_id, step.emojis[1])
