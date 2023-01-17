@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { AggregateChainArgs } from "./args/AggregateChainArgs";
 import { CreateManyChainArgs } from "./args/CreateManyChainArgs";
 import { CreateOneChainArgs } from "./args/CreateOneChainArgs";

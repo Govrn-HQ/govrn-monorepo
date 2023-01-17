@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { FindUniqueCategoryActivityOrThrowArgs } from "./args/FindUniqueCategoryActivityOrThrowArgs";
 import { CategoryActivity } from "../../../models/CategoryActivity";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";

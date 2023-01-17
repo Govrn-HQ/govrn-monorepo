@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { GroupByTwitterUserArgs } from "./args/GroupByTwitterUserArgs";
 import { TwitterUser } from "../../../models/TwitterUser";
 import { TwitterUserGroupBy } from "../../outputs/TwitterUserGroupBy";

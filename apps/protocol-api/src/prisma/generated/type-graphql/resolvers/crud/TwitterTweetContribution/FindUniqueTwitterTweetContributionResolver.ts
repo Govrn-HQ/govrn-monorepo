@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { FindUniqueTwitterTweetContributionArgs } from "./args/FindUniqueTwitterTweetContributionArgs";
 import { TwitterTweetContribution } from "../../../models/TwitterTweetContribution";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";

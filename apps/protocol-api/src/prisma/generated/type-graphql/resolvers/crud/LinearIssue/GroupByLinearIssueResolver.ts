@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { GroupByLinearIssueArgs } from "./args/GroupByLinearIssueArgs";
 import { LinearIssue } from "../../../models/LinearIssue";
 import { LinearIssueGroupBy } from "../../outputs/LinearIssueGroupBy";

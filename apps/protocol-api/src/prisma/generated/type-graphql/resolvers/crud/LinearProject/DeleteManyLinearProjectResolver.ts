@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { DeleteManyLinearProjectArgs } from "./args/DeleteManyLinearProjectArgs";
 import { LinearProject } from "../../../models/LinearProject";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

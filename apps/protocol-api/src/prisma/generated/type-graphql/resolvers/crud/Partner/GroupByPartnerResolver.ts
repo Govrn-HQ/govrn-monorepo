@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { GroupByPartnerArgs } from "./args/GroupByPartnerArgs";
 import { Partner } from "../../../models/Partner";
 import { PartnerGroupBy } from "../../outputs/PartnerGroupBy";

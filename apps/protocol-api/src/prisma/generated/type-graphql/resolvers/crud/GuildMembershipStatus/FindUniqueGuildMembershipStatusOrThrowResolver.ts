@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { FindUniqueGuildMembershipStatusOrThrowArgs } from "./args/FindUniqueGuildMembershipStatusOrThrowArgs";
 import { GuildMembershipStatus } from "../../../models/GuildMembershipStatus";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";

@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { CreateManyJobRunArgs } from "./args/CreateManyJobRunArgs";
 import { JobRun } from "../../../models/JobRun";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

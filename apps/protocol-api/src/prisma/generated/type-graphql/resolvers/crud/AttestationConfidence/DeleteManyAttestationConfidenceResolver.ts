@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { DeleteManyAttestationConfidenceArgs } from "./args/DeleteManyAttestationConfidenceArgs";
 import { AttestationConfidence } from "../../../models/AttestationConfidence";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

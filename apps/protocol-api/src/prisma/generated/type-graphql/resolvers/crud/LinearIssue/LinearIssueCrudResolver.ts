@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { AggregateLinearIssueArgs } from "./args/AggregateLinearIssueArgs";
 import { CreateManyLinearIssueArgs } from "./args/CreateManyLinearIssueArgs";
 import { CreateOneLinearIssueArgs } from "./args/CreateOneLinearIssueArgs";

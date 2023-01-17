@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { AggregateTwitterUserArgs } from "./args/AggregateTwitterUserArgs";
 import { CreateManyTwitterUserArgs } from "./args/CreateManyTwitterUserArgs";
 import { CreateOneTwitterUserArgs } from "./args/CreateOneTwitterUserArgs";

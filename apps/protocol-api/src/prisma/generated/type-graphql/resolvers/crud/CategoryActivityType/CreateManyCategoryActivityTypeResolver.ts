@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { CreateManyCategoryActivityTypeArgs } from "./args/CreateManyCategoryActivityTypeArgs";
 import { CategoryActivityType } from "../../../models/CategoryActivityType";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

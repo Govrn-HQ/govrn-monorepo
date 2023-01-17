@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { UpdateManyUserActivityArgs } from "./args/UpdateManyUserActivityArgs";
 import { UserActivity } from "../../../models/UserActivity";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

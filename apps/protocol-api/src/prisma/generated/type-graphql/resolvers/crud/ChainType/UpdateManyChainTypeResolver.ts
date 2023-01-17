@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { UpdateManyChainTypeArgs } from "./args/UpdateManyChainTypeArgs";
 import { ChainType } from "../../../models/ChainType";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

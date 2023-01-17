@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { CreateManyTwitterTweetArgs } from "./args/CreateManyTwitterTweetArgs";
 import { TwitterTweet } from "../../../models/TwitterTweet";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

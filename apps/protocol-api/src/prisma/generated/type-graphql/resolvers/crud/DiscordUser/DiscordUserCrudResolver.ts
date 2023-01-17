@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { AggregateDiscordUserArgs } from "./args/AggregateDiscordUserArgs";
 import { CreateManyDiscordUserArgs } from "./args/CreateManyDiscordUserArgs";
 import { CreateOneDiscordUserArgs } from "./args/CreateOneDiscordUserArgs";

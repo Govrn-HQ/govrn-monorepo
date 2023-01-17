@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { DeleteManyGuildContributionArgs } from "./args/DeleteManyGuildContributionArgs";
 import { GuildContribution } from "../../../models/GuildContribution";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

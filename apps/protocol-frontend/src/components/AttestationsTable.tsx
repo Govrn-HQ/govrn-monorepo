@@ -14,6 +14,7 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import {
   Column,
   Row,
@@ -49,6 +50,7 @@ const AttestationsTable = ({
   const { userData } = useUser();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
+
   const data = useMemo<AttestationTableType[]>(
     () =>
       contributionsData.map(contribution => ({
@@ -74,10 +76,12 @@ const AttestationsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value }: { value: string }) => {
+        Cell: props => {
           return (
             <Flex direction="column" wrap="wrap">
-              <Text whiteSpace="normal">{value}</Text>
+              <Link to={`/contributions/${props.row.original.id}`}>
+                <Text whiteSpace="normal">{props.value}</Text>
+              </Link>
             </Flex>
           );
         },

@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { DeleteManyPartnerArgs } from "./args/DeleteManyPartnerArgs";
 import { Partner } from "../../../models/Partner";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

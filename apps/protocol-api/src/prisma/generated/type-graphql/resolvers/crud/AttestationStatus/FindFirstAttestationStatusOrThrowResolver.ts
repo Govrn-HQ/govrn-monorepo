@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { FindFirstAttestationStatusOrThrowArgs } from "./args/FindFirstAttestationStatusOrThrowArgs";
 import { AttestationStatus } from "../../../models/AttestationStatus";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";

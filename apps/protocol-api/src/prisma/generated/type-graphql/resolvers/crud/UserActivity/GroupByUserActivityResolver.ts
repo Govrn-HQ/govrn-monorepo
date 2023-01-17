@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { GroupByUserActivityArgs } from "./args/GroupByUserActivityArgs";
 import { UserActivity } from "../../../models/UserActivity";
 import { UserActivityGroupBy } from "../../outputs/UserActivityGroupBy";

@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { CreateManyLinearTeamArgs } from "./args/CreateManyLinearTeamArgs";
 import { LinearTeam } from "../../../models/LinearTeam";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { AggregateGuildUserArgs } from "./args/AggregateGuildUserArgs";
 import { GuildUser } from "../../../models/GuildUser";
 import { AggregateGuildUser } from "../../outputs/AggregateGuildUser";

@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { CreateManyPartnerArgs } from "./args/CreateManyPartnerArgs";
 import { Partner } from "../../../models/Partner";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

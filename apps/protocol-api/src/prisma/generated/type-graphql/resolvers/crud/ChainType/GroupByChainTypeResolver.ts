@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { GroupByChainTypeArgs } from "./args/GroupByChainTypeArgs";
 import { ChainType } from "../../../models/ChainType";
 import { ChainTypeGroupBy } from "../../outputs/ChainTypeGroupBy";

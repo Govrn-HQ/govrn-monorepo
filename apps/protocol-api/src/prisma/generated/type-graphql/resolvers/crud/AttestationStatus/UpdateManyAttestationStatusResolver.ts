@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { UpdateManyAttestationStatusArgs } from "./args/UpdateManyAttestationStatusArgs";
 import { AttestationStatus } from "../../../models/AttestationStatus";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";

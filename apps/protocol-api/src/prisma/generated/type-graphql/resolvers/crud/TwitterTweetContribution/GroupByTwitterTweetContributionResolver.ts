@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { GroupByTwitterTweetContributionArgs } from "./args/GroupByTwitterTweetContributionArgs";
 import { TwitterTweetContribution } from "../../../models/TwitterTweetContribution";
 import { TwitterTweetContributionGroupBy } from "../../outputs/TwitterTweetContributionGroupBy";

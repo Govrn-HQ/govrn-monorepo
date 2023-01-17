@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { GraphQLResolveInfo } from "graphql";
+import type { GraphQLResolveInfo } from "graphql";
 import { FindFirstAttestationConfidenceOrThrowArgs } from "./args/FindFirstAttestationConfidenceOrThrowArgs";
 import { AttestationConfidence } from "../../../models/AttestationConfidence";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
