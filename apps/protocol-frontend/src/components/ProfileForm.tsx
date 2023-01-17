@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Flex, Heading, Button, Divider } from '@chakra-ui/react';
+import { Flex, Heading, Button, Divider, Text } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,6 +7,9 @@ import { useUser } from '../contexts/UserContext';
 import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
+import useDisplayName from '../hooks/useDisplayName';
+import FeatureFlagWrapper from './FeatureFlagWrapper';
+import ProfileDaos from './ProfileDaos';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
@@ -14,6 +17,7 @@ const BACKEND_ADDR = `${BASE_URL}`;
 
 const ProfileForm = () => {
   const { userData, updateProfile, disconnectLinear } = useUser();
+  const { displayName } = useDisplayName();
 
   const localForm = useForm<ProfileFormValues>({
     mode: 'all',
@@ -75,9 +79,20 @@ const ProfileForm = () => {
           borderRadius={{ base: 'none', md: 'lg' }}
           marginBottom={4}
         >
-          <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
-            Your Details
+          <Heading as="h3" size="md" color="gray.800" fontWeight="medium">
+            Hi,{' '}
+            <Text
+              as="span"
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              bgClip="text"
+            >
+              {displayName}
+            </Text>
+            <span role="img" aria-labelledby="Wave emoji next to user name">
+              {'!'} 👋
+            </span>
           </Heading>
+
           <Flex
             direction="column"
             alignItems="flex-start"
@@ -98,6 +113,9 @@ const ProfileForm = () => {
           </Flex>
         </Flex>
       </form>
+      <FeatureFlagWrapper>
+        <ProfileDaos userId={userData?.id} />
+      </FeatureFlagWrapper>
       <form>
         <Flex
           justify="space-between"
@@ -114,6 +132,7 @@ const ProfileForm = () => {
             <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
               Integrations
             </Heading>
+            <Divider marginY={8} bgColor="gray.300" />
             <Flex
               direction="column"
               align="flex-start"
@@ -123,11 +142,11 @@ const ProfileForm = () => {
               width={{ base: '100%', lg: '50%' }}
             >
               <Heading as="h4" size="sm" fontWeight="medium" color="gray.700">
-                Connect Linear
+                Linear
               </Heading>
               {userData?.linear_users && userData.linear_users.length > 0 ? (
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   type="submit"
                   onClick={disconnectLinearOnClick}
                 >
@@ -143,7 +162,6 @@ const ProfileForm = () => {
                 </Button>
               )}
             </Flex>
-            <Divider bgColor="gray.300" />
           </Flex>
           <Flex justify="space-between" direction="column" wrap="wrap">
             <Flex
@@ -155,14 +173,13 @@ const ProfileForm = () => {
             >
               <Input
                 name="userTwitterHandle"
-                label="Twitter Handle (Coming Soon!)"
-                tip="Enter your Twitter handle for the upcoming Twitter integration."
+                label="Twitter Handle (Coming Soon)"
                 placeholder="govrn"
                 localForm={localForm}
                 isDisabled
               />
               <Button variant="primary" type="submit" isDisabled>
-                Link Twitter
+                Connect Twitter
               </Button>
             </Flex>
           </Flex>
