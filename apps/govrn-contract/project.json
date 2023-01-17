@@ -9,7 +9,7 @@
         "command": "forge build --root apps/govrn-contract"
       }
     },
-    "install": {
+    "installPackage": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "forge install --root apps/govrn-contract {args.package} --no-git"
