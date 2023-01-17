@@ -368,10 +368,12 @@ class Onboarding(BaseThread):
                 AssociateDiscordProfileWithUser(self.cache)
             )
             .fork(
-                AssociateExistingUserWithGuild(
-                    cache=self.cache, guild_id=self.guild_id
-                ),
-                govrn_user_not_exist_flow
+                (
+                    AssociateExistingUserWithGuild(
+                        cache=self.cache, guild_id=self.guild_id
+                    ),
+                    govrn_user_not_exist_flow
+                )
             )
             .build()
         )
