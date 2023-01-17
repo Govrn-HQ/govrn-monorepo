@@ -36,8 +36,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 'pypy3.9'
-      - name: Frozen lock
-        run: yarn install --frozen-lockfile # optional, --immutable
+      - name: Yarn install
+        run: yarn install
       - run: npm install -g @graphprotocol/graph-cli
       - name: Install poetry
         run: pip install poetry
@@ -170,7 +170,7 @@ jobs:
         with:
           path: ./*
           key: ${{ github.sha }}
-      - name: Frozen lock
+      - name: Yarn install
         run: yarn install
       - name: Cypress install
         run: ./node_modules/cypress/bin/cypress install
