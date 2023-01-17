@@ -63,6 +63,7 @@ class ThreadKeys(Enum):
 
 class StepKeys(Enum):
     CHECK_USER_EXISTS = "check_user_exists"
+    CHECK_USER_WALLET_ADDRESS = "check_user_wallet_address"
     ASSOCIATE_EXISTING_USER_WITH_GUILD = "associate_existing_user_with_guild"
     USER_DISPLAY_CONFIRM = "user_display_confirm"
     USER_DISPLAY_CONFIRM_EMOJI = "user_display_confirm_emoji"

@@ -104,6 +104,17 @@ class PromptUserWalletAddressStep(BaseStep):
         await write_cache_metadata(user_id, self.cache, WALLET_CACHE_KEY, wallet)
 
 
+class CheckUserWalletAddress(BaseStep):
+    """Check if the supplied user wallet already exists with Govrn; This will happen if a
+    user has joined via the webapp but not Kevin Malone"""
+
+    name = StepKeys.CHECK_USER_WALLET_ADDRESS.value
+
+    def __init__(self, cache):
+        super().__init__()
+        self.cache = cache
+ 
+
 class AssociateExistingUserWithGuild(BaseStep):
     """Associates an existing user profile with a given guild"""
 
