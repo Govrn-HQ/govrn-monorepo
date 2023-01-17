@@ -116,7 +116,7 @@ const ContributionsTableShell = () => {
                             Attribute to DAO
                           </Button>
                           <Button
-                            variant="primary"
+                            variant="secondary"
                             size="md"
                             onClick={mintModalHandler}
                             disabled={selectedContributions?.length === 0}
