@@ -48,3 +48,7 @@ Thumbs.db
 # Testing
 /cypress
 
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
