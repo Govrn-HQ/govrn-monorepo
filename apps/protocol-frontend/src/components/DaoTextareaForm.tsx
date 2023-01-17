@@ -12,6 +12,18 @@ const DaoTextareaForm = () => {
   const handleDaoTextAreaChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
+    // const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
+    // if (
+    //   !isArray(parsedDaoMemberAddresses) ||
+    //   !parsedDaoMemberAddresses.length
+    // ) {
+    //   setValidationError('Need to include at least one address.');
+    //   throw new Error('Need to include at least one address.');
+    // }
+    // if (!parsedDaoMemberAddresses.every(isEthAddress)) {
+    //   setValidationError(`Invalid addresses included in the list.`);
+    //   throw new Error('Invalid addresses included in the list.');
+    // }
     if (validationError !== null) {
       setValidationError(null);
     }
@@ -31,7 +43,7 @@ const DaoTextareaForm = () => {
       setValidationError(`Invalid addresses included in the list.`);
       throw new Error('Invalid addresses included in the list.');
     }
-    // we can uncomment this if we want to prevent duplicates in the list instead of removing them on submission
+    // we can uncomment this if we want to prevent duplicates in the list instead of only removing them on submission
     // if (
     //   parsedDaoMemberAddresses.length !== new Set(parsedDaoMemberAddresses).size
     // ) {
@@ -44,7 +56,7 @@ const DaoTextareaForm = () => {
     ];
     setValidationError(null);
     // import dao members function with the uniqueParsedDaoMemberAddresses as the list of validated addresses to prevent duplicates
-    // uniqueParsedDaoMemberAddresses
+    console.log('dao members for import', uniqueParsedDaoMemberAddresses); // adding this so we dont fail the lint for unused vars
   };
 
   return (
