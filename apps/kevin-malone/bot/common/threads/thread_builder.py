@@ -73,7 +73,7 @@ class StepKeys(Enum):
     ADD_USER_WALLET = "add_user_wallet"
     VERIFY_USER_WALLET = "verify_user_wallet"
     ONBOARDING_CONGRATS = "onboarding_congrats"
-    CREATE_USER_WITH_WALLET_ADDRESS = "create_user_with_wallet_address"
+    PROMPT_USER_WALLET_ADDRESS = "prompt_user_wallet_address"
     ADD_USER_DISCOURSE = "add_user_discourse"
     SELECT_GUILD_EMOJI = "select_guild_emoji"
     USER_UPDATE_FIELD_SELECT = "user_update_select"

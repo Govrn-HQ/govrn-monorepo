@@ -154,7 +154,7 @@ async def test_user_display_confirmation_emoji_step(mocker, thread_dependencies)
 
     reaction = MockReaction(user_id, step.emojis[0])
     (next_step, skip) = await step.handle_emoji(reaction)
-    assert next_step == StepKeys.CREATE_USER_WITH_WALLET_ADDRESS.value
+    assert next_step == StepKeys.PROMPT_USER_WALLET_ADDRESS.value
     assert not skip
 
     reaction = MockReaction(user_id, step.emojis[1])

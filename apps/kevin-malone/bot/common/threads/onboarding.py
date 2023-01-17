@@ -74,7 +74,7 @@ class CheckIfDiscordUserExists(BaseStep):
 class PromptUserWalletAddressStep(BaseStep):
     """Step to submit wallet address for the govrn profile"""
 
-    name = StepKeys.CREATE_USER_WITH_WALLET_ADDRESS.value
+    name = StepKeys.PROMPT_USER_WALLET_ADDRESS.value
 
     wallet_prompt = (
         "What Ethereum wallet address would you like to associate with this guild?"
@@ -202,7 +202,7 @@ class UserDisplayConfirmationEmojiStep(BaseStep):
         if raw_reaction.emoji.name in self.emojis:
             if raw_reaction.emoji.name == NO_EMOJI:
                 return StepKeys.USER_DISPLAY_SUBMIT.value, None
-            return StepKeys.CREATE_USER_WITH_WALLET_ADDRESS.value, None
+            return StepKeys.PROMPT_USER_WALLET_ADDRESS.value, None
         raise Exception(UserDisplayConfirmationEmojiStep.exception_msg)
 
     async def save(self, message, guild_id, user_id):
