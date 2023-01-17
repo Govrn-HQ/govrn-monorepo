@@ -64,7 +64,7 @@ class CheckIfDiscordUserExists(BaseStep):
                 user_id, self.cache, "display_name", user["display_name"]
             )
             await write_cache_metadata(
-                user_id, self.cache, "wallet_address", user["address"]
+                user_id, self.cache, WALLET_CACHE_KEY, user["address"]
             )
             await write_cache_metadata(user_id, self.cache, "user_db_id", user["id"])
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
@@ -140,7 +140,7 @@ class AssociateExistingUserWithGuild(BaseStep):
 
         guild_name = await get_cache_metadata_key(user_id, self.cache, "guild_name")
         display_name = await get_cache_metadata_key(user_id, self.cache, "display_name")
-        address = await get_cache_metadata_key(user_id, self.cache, "wallet_address")
+        address = await get_cache_metadata_key(user_id, self.cache, WALLET_CACHE_KEY)
 
         channel = message.channel
         sent_message = await channel.send(
