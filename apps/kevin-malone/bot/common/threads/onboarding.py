@@ -68,7 +68,7 @@ class CheckIfDiscordUserExists(BaseStep):
             )
             await write_cache_metadata(user_id, self.cache, "user_db_id", user["id"])
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
-        return StepKeys.USER_DISPLAY_CONFIRM.value
+        return StepKeys.PROMPT_USER_WALLET_ADDRESS.value
 
 
 class PromptUserWalletAddressStep(BaseStep):
@@ -229,7 +229,7 @@ class UserDisplayConfirmationEmojiStep(BaseStep):
         if raw_reaction.emoji.name in self.emojis:
             if raw_reaction.emoji.name == NO_EMOJI:
                 return StepKeys.USER_DISPLAY_SUBMIT.value, None
-            return StepKeys.PROMPT_USER_WALLET_ADDRESS.value, None
+            return StepKeys.ADD_USER_TWITTER.value, None
         raise Exception(UserDisplayConfirmationEmojiStep.exception_msg)
 
     async def save(self, message, guild_id, user_id):
@@ -338,11 +338,8 @@ class Onboarding(BaseThread):
         ).build()
         return (
             Step(
-                current=PromptUserWalletAddressStep(
-                    cache=self.cache, guild_id=self.guild_id
-                )
+                current=VerifyUserWalletStep(cache=self.cache, update=False)
             )
-            .add_next_step(VerifyUserWalletStep(cache=self.cache, update=False))
             .add_next_step(AddUserTwitterStep(guild_id=self.guild_id, cache=self.cache))
             .fork((verify_twitter.add_next_step(congrats).build(), congrats))
         )
@@ -356,12 +353,26 @@ class Onboarding(BaseThread):
             .build()
         )
 
-        user_not_exist_flow = (
+        govrn_user_not_exist_flow = (
             Step(current=UserDisplayConfirmationStep(cache=self.cache, bot=self.bot))
             .add_next_step(
                 UserDisplayConfirmationEmojiStep(cache=self.cache, bot=self.bot)
             )
             .fork((custom_user_name_steps, data_retrival_steps))
+            .build()
+        )
+
+        guild_user_not_exist_flow = (
+            Step(current=PromptUserWalletAddressStep(cache=self.cache, guild_id=self.guild_id))
+            .add_next_step(
+                AssociateDiscordProfileWithUser(self.cache)
+            )
+            .fork(
+                AssociateExistingUserWithGuild(
+                    cache=self.cache, guild_id=self.guild_id
+                ),
+                govrn_user_not_exist_flow
+            )
             .build()
         )
 
@@ -372,7 +383,7 @@ class Onboarding(BaseThread):
                 AssociateExistingUserWithGuild(
                     cache=self.cache, guild_id=self.guild_id
                 ),
-                user_not_exist_flow,
+                guild_user_not_exist_flow,
             )
         )
 
