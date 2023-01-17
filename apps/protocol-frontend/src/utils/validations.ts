@@ -1,4 +1,12 @@
 import * as yup from 'yup';
+import { ethers } from 'ethers';
+
+// Helpers
+
+export const isEthAddress = (item: unknown): item is `0x${string}` =>
+  typeof item === 'string' && ethers.utils.isAddress(item);
+
+// Specific Form Validations
 
 export const profileFormValidation = yup.object({
   name: yup.string(),

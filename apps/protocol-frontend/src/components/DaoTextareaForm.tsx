@@ -1,19 +1,50 @@
 import { useState } from 'react';
-import { Stack, Button, Flex } from '@chakra-ui/react';
+import { Stack, Button, Flex, Text } from '@chakra-ui/react';
 import { ControlledTextarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
+import { isEthAddress } from '../utils/validations';
+import { isArray } from 'lodash';
 
 const DaoTextareaForm = () => {
   const [daoMemberAddresses, setDaoMemberAddresses] = useState('');
+  const [validationError, setValidationError] = useState<string | null>(null);
+
   const handleDaoTextAreaChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
+    if (validationError !== null) {
+      setValidationError(null);
+    }
     setDaoMemberAddresses(e.target.value);
   };
 
   const handleDaoTextareaImport = () => {
     const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
-    console.log('dao addresses', parsedDaoMemberAddresses);
+    if (
+      !isArray(parsedDaoMemberAddresses) ||
+      !parsedDaoMemberAddresses.length
+    ) {
+      setValidationError('Need to include at least one address.');
+      throw new Error('Need to include at least one address.');
+    }
+    if (!parsedDaoMemberAddresses.every(isEthAddress)) {
+      setValidationError(`Invalid addresses included in the list.`);
+      throw new Error('Invalid addresses included in the list.');
+    }
+    // we can uncomment this if we want to prevent duplicates in the list instead of removing them on submission
+    // if (
+    //   parsedDaoMemberAddresses.length !== new Set(parsedDaoMemberAddresses).size
+    // ) {
+    //   setValidationError(`Duplicate addresses included in the list.`);
+    //   throw new Error('Duplicate addresses included in the list.');
+    // }
+
+    const uniqueParsedDaoMemberAddresses = [
+      ...new Set(parsedDaoMemberAddresses),
+    ];
+    setValidationError(null);
+    // import dao members function with the uniqueParsedDaoMemberAddresses as the list of validated addresses to prevent duplicates
+    // uniqueParsedDaoMemberAddresses
   };
 
   return (
@@ -26,11 +57,17 @@ const DaoTextareaForm = () => {
         value={daoMemberAddresses}
         onChange={handleDaoTextAreaChange}
       />
+      {validationError !== null && (
+        <Text fontSize="xs" color="red.500">
+          Something went wrong: {validationError}
+        </Text>
+      )}
       <Flex align="flex-end" marginTop={4}>
         <Button
           type="submit"
           variant="primary"
           onClick={handleDaoTextareaImport}
+          isDisabled={validationError !== null}
         >
           Import
         </Button>
