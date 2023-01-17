@@ -42,6 +42,7 @@ export interface CreatableSelectProps {
   variant?: 'outline' | 'filled';
   value?: any;
   components?: SelectComponents;
+  // menuPortalBody?: boolean;
 }
 
 const CreatableSelect: React.FC<CreatableSelectProps> = ({
@@ -87,6 +88,8 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
                 isDisabled={isDisabled}
                 value={value}
                 components={{ SelectContainer }}
+                styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+                menuPortalTarget={document.querySelector('body')} // so dropdown menu doesnt interfere with clickable elements
               />
             )}
           />
