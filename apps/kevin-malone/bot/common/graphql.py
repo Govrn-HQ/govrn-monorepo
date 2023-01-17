@@ -383,6 +383,25 @@ mutation createUser($data: UserCreateInput!) {
     return result
 
 
+async def create_discord_user(user_id, discord_id, discord_name):
+    data = {
+        "discord_users": {
+            "connectOrCreate": [
+                {
+                    "create": {
+                        "discord_id": str(discord_id),
+                        "display_name": discord_name,
+                    },
+                    "where": {"discord_id": str(discord_id)},
+                }
+            ]
+        }
+    }
+    where = {
+        "id": user_id
+    }
+    return await update_user(data, where)
+
 # have a different update query for each field
 #
 # display name
