@@ -41,7 +41,7 @@ def _handle_skip_emoji(raw_reaction, guild_id):
     raise Exception("Reacted with the wrong emoji")
 
 
-class CheckIfUserExists(BaseStep):
+class CheckIfDiscordUserExists(BaseStep):
     """Checks if the user with particular discord id exists"""
 
     name = StepKeys.CHECK_USER_EXISTS.value
@@ -325,7 +325,7 @@ class Onboarding(BaseThread):
             .build()
         )
 
-        profile_setup_steps = Step(current=CheckIfUserExists(cache=self.cache)).fork(
+        profile_setup_steps = Step(current=CheckIfDiscordUserExists(cache=self.cache)).fork(
             (
                 AssociateExistingUserWithGuild(
                     cache=self.cache, guild_id=self.guild_id
