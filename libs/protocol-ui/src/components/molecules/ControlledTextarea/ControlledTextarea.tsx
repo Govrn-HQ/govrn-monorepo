@@ -4,10 +4,9 @@ import {
   TextareaProps as ChakraTextareaProps,
   Stack,
   Box,
+  Text,
   useStyleConfig,
 } from '@chakra-ui/react';
-import FormLabel from '../../atoms/FormLabel';
-import HelperText from '../../atoms/HelperText';
 
 export interface ControlledTextareaProps extends ChakraTextareaProps {
   name: string; // this is required for validation
@@ -37,8 +36,16 @@ const ControlledTextarea: React.FC<ControlledTextareaProps> = ({
 
   return (
     <Stack spacing={2}>
-      {label && <FormLabel label={label} />}
-      {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}
+      {label && (
+        <Text fontSize="md" fontWeight="500" color="gray.800">
+          {label}
+        </Text>
+      )}
+      {tip && (
+        <Text fontSize="xs" color="gray.700">
+          {tip}
+        </Text>
+      )}
       <Box my={2}>
         <ChakraTextarea
           height="100px"
