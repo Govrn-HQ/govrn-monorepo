@@ -10,6 +10,8 @@ export type GovrnModals = {
   storybookModal: boolean;
   reportingFormModal: boolean;
   createDaoModal: boolean;
+  guildImportModal: boolean;
+  csvImportModal: boolean;
 };
 const defaults: GovrnModals = {
   addAttestationFormModal: false,
@@ -21,6 +23,8 @@ const defaults: GovrnModals = {
   reportingFormModal: false,
   storybookModal: false,
   createDaoModal: false,
+  guildImportModal: false,
+  csvImportModal: false,
 };
 
 export type OverlayContextType = {

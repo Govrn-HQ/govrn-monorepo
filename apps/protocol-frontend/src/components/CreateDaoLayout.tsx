@@ -1,8 +1,9 @@
-import { Box, Flex, Grid } from '@chakra-ui/react';
+import { Box, Grid } from '@chakra-ui/react';
 import { useOverlay } from '../contexts/OverlayContext';
-import DaoTextareaForm from './DaoTextareaForm';
-import ModalWrapper from './ModalWrapper';
 import PageHeading from './PageHeading';
+import DaoTextareaForm from './DaoTextareaForm';
+import DaoImportCard from './DaoImportCard';
+import ModalWrapper from './ModalWrapper';
 
 const CreateDaoLayout = () => {
   // this will be removed once we add this to the dao settings page -- needed for testing the modal
@@ -12,6 +13,38 @@ const CreateDaoLayout = () => {
   const createDaoModalHandler = () => {
     setModals({ createDaoModal: true });
   };
+
+  const guildImportModalHandler = () => {
+    setModals({ guildImportModal: true }); // no component yet, but added to overlay modals
+  };
+
+  const csvImportModalHandler = () => {
+    setModals({ csvImportModal: true }); // no component yet, but added to overlay modals
+  };
+
+  const daoImportMethods = [
+    {
+      importName: 'Import via Guild.xyz',
+      importDescription:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      importButtonCopy: 'Connect to Guild API',
+      importModalHandler: guildImportModalHandler,
+    },
+    {
+      importName: 'Import via CSV File',
+      importDescription:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      importButtonCopy: 'Upload CSV File',
+      importModalHandler: csvImportModalHandler,
+    },
+    {
+      importName: 'ICreate a DAO Manually',
+      importDescription:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      importButtonCopy: 'Create a DAO',
+      importModalHandler: createDaoModalHandler,
+    },
+  ];
 
   return (
     <>
@@ -23,35 +56,25 @@ const CreateDaoLayout = () => {
         width="100%"
       >
         <PageHeading>Create a DAO</PageHeading>
-        <Flex
-          justify="space-between"
-          direction="column"
-          wrap="wrap"
-          width="100%"
-          paddingX={4}
-          paddingY={4}
-          background="white"
-          boxShadow="sm"
-          borderRadius={{ base: 'none', md: 'lg' }}
-          marginBottom={7}
+        <Grid
+          templateColumns={{
+            base: 'repeat(1, 1fr)',
+            md: 'repeat(1, 1fr)',
+            lg: 'repeat(2, 1fr)',
+            xl: 'repeat(2, 1fr)',
+          }}
+          gap={8}
+          justifyContent="space-between"
         >
-          <Grid
-            templateColumns={{
-              base: 'repeat(1, 1fr)',
-              md: 'repeat(2, 1fr)',
-              lg: 'repeat(3, 1fr)',
-              xl: 'repeat(4, 1fr)',
-            }}
-            gap={4}
-            justifyContent="space-between"
-          >
+          {daoImportMethods.map(importMethod => (
             <DaoImportCard
-              importName="Create a DAO Manually"
-              importDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-              importModal={createDaoModalHandler}
+              importName={importMethod.importName}
+              importDescription={importMethod.importDescription}
+              importButtonCopy={importMethod.importButtonCopy}
+              importModalHandler={importMethod.importModalHandler}
             />
-          </Grid>
-        </Flex>
+          ))}
+        </Grid>
       </Box>
       <ModalWrapper
         name="createDaoModal"

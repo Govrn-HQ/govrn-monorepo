@@ -1,27 +1,42 @@
-import { Flex, Heading, IconButton, Text, Box } from '@chakra-ui/react';
+import { Flex, Heading, Button, Text, Box } from '@chakra-ui/react';
 
 interface DaoImportCardProps {
   importName: string;
   importDescription: string;
-  importModalFunction: () => void;
+  importButtonCopy: string;
+  importModalHandler: () => void;
 }
 
 const DaoImportCard = ({
   importName,
   importDescription,
-  importModalFunction,
+  importButtonCopy,
+  importModalHandler,
 }: DaoImportCardProps) => {
   return (
     <Flex
       direction="column"
+      justifyContent="center"
       background="white"
-      minWidth="14rem"
       borderRadius="md"
+      gap={8}
       padding={8}
+      color="gray.900"
+      minWidth="md"
     >
       <Heading as="h4" fontWeight="600" fontSize="md">
         {importName}
       </Heading>
+      <Text fontSize="md" fontWeight="regular">
+        {importDescription}
+      </Text>
+      <Button
+        variant="primary"
+        onClick={importModalHandler}
+        width="fit-content"
+      >
+        {importButtonCopy}
+      </Button>
     </Flex>
   );
 };
