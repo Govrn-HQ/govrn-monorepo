@@ -17,6 +17,7 @@ const DaoTextareaForm = () => {
       setValidationError(null);
     }
     setDaoMemberAddresses(e.target.value);
+    validateDaoMemberAddresses();
   };
 
   const validateDaoMemberAddresses = () => {
@@ -73,16 +74,20 @@ const DaoTextareaForm = () => {
         </Flex>
       ) : (
         <Flex direction="row" alignItems="center" marginY={0}>
-          <Icon
-            as={AiFillCheckCircle}
-            color="brand.purple"
-            width="16px"
-            height="16px"
-            marginRight={2}
-          />
-          <Text fontSize="xs" color="brand.purple">
-            Address list meets formatting requirements.
-          </Text>
+          {daoMemberAddresses !== '' ? (
+            <>
+              <Icon
+                as={AiFillCheckCircle}
+                color="brand.purple"
+                width="16px"
+                height="16px"
+                marginRight={2}
+              />
+              <Text fontSize="xs" color="brand.purple">
+                Address list meets formatting requirements.
+              </Text>
+            </>
+          ) : null}
         </Flex>
       )}
       <Flex align="flex-end">
