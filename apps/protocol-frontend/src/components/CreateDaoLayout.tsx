@@ -38,7 +38,7 @@ const CreateDaoLayout = () => {
       importModalHandler: csvImportModalHandler,
     },
     {
-      importName: 'ICreate a DAO Manually',
+      importName: 'Create a DAO Manually',
       importDescription:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       importButtonCopy: 'Create a DAO',
@@ -57,6 +57,7 @@ const CreateDaoLayout = () => {
       >
         <PageHeading>Create a DAO</PageHeading>
         <Grid
+          padding={{ base: 4, lg: 0 }}
           templateColumns={{
             base: 'repeat(1, 1fr)',
             md: 'repeat(1, 1fr)',

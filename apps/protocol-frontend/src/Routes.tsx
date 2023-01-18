@@ -135,7 +135,7 @@ const Routes = () => {
           }
         />
         <Route
-          path="/dao/create"
+          path="/feature/dao/create"
           element={
             <RequireActiveUser>
               <CreateDao />

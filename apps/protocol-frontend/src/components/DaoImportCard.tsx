@@ -22,7 +22,7 @@ const DaoImportCard = ({
       gap={8}
       padding={8}
       color="gray.900"
-      minWidth="md"
+      // minWidth="md"
     >
       <Heading as="h4" fontWeight="600" fontSize="md">
         {importName}
