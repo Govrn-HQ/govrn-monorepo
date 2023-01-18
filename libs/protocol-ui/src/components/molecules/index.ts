@@ -4,6 +4,8 @@ export { default as ControlledSelect } from './ControlledSelect';
 export type { ControlledSelectProps, Option } from './ControlledSelect';
 export { default as CreatableSelect } from './CreatableSelect';
 export type { CreatableSelectProps } from './CreatableSelect';
+export { default as ControlledTextarea } from './ControlledTextarea';
+export type { ControlledTextareaProps } from './ControlledTextarea';
 export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 export { default as Input } from './Input';
