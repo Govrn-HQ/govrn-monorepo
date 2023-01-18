@@ -4,12 +4,11 @@ import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
-import { useOverlay } from '../contexts/OverlayContext';
+
 import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
-import DaoTextareaForm from './DaoTextareaForm';
-import ModalWrapper from './ModalWrapper';
+
 import useDisplayName from '../hooks/useDisplayName';
 import FeatureFlagWrapper from './FeatureFlagWrapper';
 import ProfileDaos from './ProfileDaos';
@@ -27,9 +26,6 @@ const ProfileForm = () => {
     resolver: yupResolver(profileFormValidation),
   });
   const { handleSubmit, setValue } = localForm;
-
-  // this will be removed once we add this to the dao settings page -- needed for testing the modal
-  const localOverlay = useOverlay();
 
   useEffect(() => {
     setValue('name', userData?.name ?? '');
@@ -191,13 +187,6 @@ const ProfileForm = () => {
           </Flex>
         </Flex>
       </form>
-      <ModalWrapper
-        name="daoTextareaModal"
-        title="Add DAO Members"
-        localOverlay={localOverlay}
-        size="3xl"
-        content={<DaoTextareaForm />}
-      />
     </>
   );
 };
