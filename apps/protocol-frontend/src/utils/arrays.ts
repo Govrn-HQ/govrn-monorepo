@@ -9,6 +9,6 @@ export const mergePages = (pages: UIContribution[][]) => {
 };
 
 export const splitEntriesByComma = (entries: string) => {
-  if (typeof entries !== 'string' || entries === '') return '';
+  // if (typeof entries !== 'string' || entries === '') return '';
   return entries.split(/[,]/).map(str => str.trim());
 };
