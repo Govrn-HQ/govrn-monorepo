@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DaoTextareaFormValues } from '../types/forms';
 import { AiFillExclamationCircle, AiFillCheckCircle } from 'react-icons/ai';
+
 import { Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
 import { daoTextareaFormValidation, isEthAddress } from '../utils/validations';
@@ -21,7 +22,7 @@ const DaoTextareaForm = () => {
   const {
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = localForm;
 
   const daoTextareaImportHandler: SubmitHandler<
@@ -43,7 +44,7 @@ const DaoTextareaForm = () => {
   };
 
   return (
-    <Flex direction="column" gap={4} width="100%" color="gray.800">
+    <Flex direction="column" width="100%" color="gray.800">
       <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
         <Textarea
           name="daoMemberAddresses"
@@ -52,6 +53,21 @@ const DaoTextareaForm = () => {
           onChange={addresses => setValue('daoMemberAddresses', addresses)}
           localForm={localForm}
         />
+        {!errors['daoMemberAddresses'] &&
+          touchedFields['daoMemberAddresses'] === true && (
+            <Flex direction="row" alignItems="center" marginY={4}>
+              <Icon
+                as={AiFillCheckCircle}
+                color="brand.purple"
+                width="16px"
+                height="16px"
+                marginRight={2}
+              />
+              <Text fontSize="sm" color="brand.purple">
+                Address list meets formatting requirements.
+              </Text>
+            </Flex>
+          )}
         <Flex align="flex-end">
           <Button
             variant="primary"
