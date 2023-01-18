@@ -19,6 +19,7 @@ import Report from './pages/Report';
 import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
+import CreateDao from './pages/CreateDao';
 import ErrorView from './components/ErrorView';
 import { useAccount } from 'wagmi';
 import {
@@ -130,6 +131,14 @@ const Routes = () => {
               <RequireDaoUser>
                 <DaoDashboard />
               </RequireDaoUser>
+            </RequireActiveUser>
+          }
+        />
+        <Route
+          path="/dao/create"
+          element={
+            <RequireActiveUser>
+              <CreateDao />
             </RequireActiveUser>
           }
         />
