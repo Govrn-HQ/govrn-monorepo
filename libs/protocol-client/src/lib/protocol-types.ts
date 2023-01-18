@@ -17581,7 +17581,7 @@ export type GetActiveGuildUsersAverageQueryVariables = Exact<{
 
 export type GetActiveGuildUsersAverageQuery = { result: number };
 
-export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
+export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, createdAt: string | Date, updatedAt: string | Date, discord_id?: string | null, name?: string | null, congrats_channel?: string | null, logo?: string | null, contribution_reporting_channel?: string | null, status: GuildStatus }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
 
 export type CreateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserCreateCustomInput;
@@ -17597,12 +17597,22 @@ export type DeleteGuildUserMutationVariables = Exact<{
 
 export type DeleteGuildUserMutation = { deleteOneGuildUser?: { id: number } | null };
 
+export type ListGuildUsersQueryVariables = Exact<{
+  where?: GuildUserWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput> | GuildUserOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildUsersQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, createdAt: string | Date, updatedAt: string | Date, discord_id?: string | null, name?: string | null, congrats_channel?: string | null, logo?: string | null, contribution_reporting_channel?: string | null, status: GuildStatus }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null }> };
+
 export type UpdateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserUpdateCustomInput;
 }>;
 
 
-export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
+export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, createdAt: string | Date, updatedAt: string | Date, discord_id?: string | null, name?: string | null, congrats_channel?: string | null, logo?: string | null, contribution_reporting_channel?: string | null, status: GuildStatus }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
 
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } }> };
 
@@ -18021,9 +18031,19 @@ export const GuildUserFragmentFragmentDoc = gql`
   id
   createdAt
   updatedAt
-  user_id
-  guild_id
   favorite
+  user_id
+  guild {
+    id
+    createdAt
+    updatedAt
+    discord_id
+    name
+    congrats_channel
+    logo
+    contribution_reporting_channel
+    status
+  }
   membershipStatus {
     id
     createdAt
@@ -18405,6 +18425,13 @@ export const DeleteGuildUserDocument = gql`
   }
 }
     `;
+export const ListGuildUsersDocument = gql`
+    query listGuildUsers($where: GuildUserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildUserOrderByWithRelationInput!]) {
+  result: guildUsers(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...GuildUserFragment
+  }
+}
+    ${GuildUserFragmentFragmentDoc}`;
 export const UpdateGuildUserCustomDocument = gql`
     mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
   updateGuildUserCustom(data: $data) {
@@ -18817,6 +18844,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');
+    },
+    listGuildUsers(variables?: ListGuildUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildUsersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildUsersQuery>(ListGuildUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildUsers', 'query');
     },
     updateGuildUserCustom(variables: UpdateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildUserCustomMutation>(UpdateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildUserCustom', 'mutation');

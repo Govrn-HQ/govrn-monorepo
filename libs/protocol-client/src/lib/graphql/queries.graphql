@@ -212,9 +212,19 @@ fragment GuildUserFragment on GuildUser {
   id
   createdAt
   updatedAt
-  user_id
-  guild_id
   favorite
+  user_id
+  guild {
+    id
+    createdAt
+    updatedAt
+    discord_id
+    name
+    congrats_channel
+    logo
+    contribution_reporting_channel
+    status
+  }
   membershipStatus {
     id
     createdAt
@@ -232,6 +242,22 @@ mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
 mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
   deleteOneGuildUser(where: $where) {
     id
+  }
+}
+
+query listGuildUsers(
+  $where: GuildUserWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildUserOrderByWithRelationInput!]
+) {
+  result: guildUsers(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildUserFragment
   }
 }
 
