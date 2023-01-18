@@ -33,13 +33,6 @@ const DaoTextareaForm = () => {
       setValidationError(`Invalid addresses included in the list.`);
       throw new Error('Invalid addresses included in the list.');
     }
-    // we can uncomment this if we want to prevent duplicates in the list instead of only removing them on submission
-    // if (
-    //   parsedDaoMemberAddresses.length !== new Set(parsedDaoMemberAddresses).size
-    // ) {
-    //   setValidationError(`Duplicate addresses included in the list.`);
-    //   throw new Error('Duplicate addresses included in the list.');
-    // }
 
     const uniqueParsedDaoMemberAddresses = [
       ...new Set(parsedDaoMemberAddresses),
