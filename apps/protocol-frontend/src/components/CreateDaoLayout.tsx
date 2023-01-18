@@ -10,10 +10,6 @@ const CreateDaoLayout = () => {
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
 
-  const createDaoModalHandler = () => {
-    setModals({ createDaoModal: true });
-  };
-
   const guildImportModalHandler = () => {
     setModals({ guildImportModal: true }); // no component yet, but added to overlay modals
   };
@@ -22,6 +18,9 @@ const CreateDaoLayout = () => {
     setModals({ csvImportModal: true }); // no component yet, but added to overlay modals
   };
 
+  const createDaoModalHandler = () => {
+    setModals({ createDaoModal: true });
+  };
   const daoImportMethods = [
     {
       importName: 'Import via Guild.xyz',

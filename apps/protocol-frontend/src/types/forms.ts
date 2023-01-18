@@ -1,7 +1,6 @@
 import {
   createWaitlistFormValidation,
   profileFormValidation,
-  daoTextareaFormValidation,
 } from '../utils/validations';
 import type { InferType } from 'yup';
 
@@ -26,4 +25,6 @@ export type ProfileFormValues = Partial<
   InferType<typeof profileFormValidation>
 >;
 
-export type DaoTextareaFormValues = InferType<typeof daoTextareaFormValidation>;
+export type DaoTextareaFormValues = {
+  daoMemberAddresses?: string;
+};

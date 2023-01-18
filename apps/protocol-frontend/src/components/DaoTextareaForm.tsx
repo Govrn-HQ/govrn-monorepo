@@ -3,16 +3,13 @@ import { Button, Flex, Icon, Text } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DaoTextareaFormValues } from '../types/forms';
-import { AiFillExclamationCircle, AiFillCheckCircle } from 'react-icons/ai';
-
+import { AiFillCheckCircle } from 'react-icons/ai';
 import { Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
-import { daoTextareaFormValidation, isEthAddress } from '../utils/validations';
-import { isArray } from 'lodash';
+import { daoTextareaFormValidation } from '../utils/validations';
+import { useOverlay } from '../contexts/OverlayContext';
 
 const DaoTextareaForm = () => {
-  // const [daoMemberAddresses, setDaoMemberAddresses] = useState('');
-  const [validationError, setValidationError] = useState<string | null>(null);
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
@@ -24,23 +21,25 @@ const DaoTextareaForm = () => {
     setValue,
     formState: { errors, touchedFields },
   } = localForm;
+  const { setModals } = useOverlay();
 
   const daoTextareaImportHandler: SubmitHandler<
     DaoTextareaFormValues
   > = async values => {
     const { daoMemberAddresses } = values;
     setImporting(true);
-    const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
-    const uniqueParsedDaoMemberAddresses = [
-      ...new Set(parsedDaoMemberAddresses),
-    ];
-    console.log('values', daoMemberAddresses);
-    console.log(
-      'uniqueParsedDaoMemberAddresses',
-      uniqueParsedDaoMemberAddresses,
-    );
-
-    setImporting(false);
+    if (daoMemberAddresses !== undefined) {
+      const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
+      const uniqueParsedDaoMemberAddresses = [
+        ...new Set(parsedDaoMemberAddresses),
+      ];
+      console.log(
+        'uniqueParsedDaoMemberAddresses',
+        uniqueParsedDaoMemberAddresses,
+      ); // TODO: replace with the DAO creation logic
+      setImporting(false);
+      setModals({ createDaoModal: false });
+    }
   };
 
   return (
@@ -68,7 +67,15 @@ const DaoTextareaForm = () => {
               </Text>
             </Flex>
           )}
-        <Flex align="flex-end">
+        <Flex
+          alignItems="flex-end"
+          marginTop={
+            !errors['daoMemberAddresses'] ||
+            touchedFields['daoMemberAddresses'] === false
+              ? 4
+              : 0
+          }
+        >
           <Button
             variant="primary"
             type="submit"

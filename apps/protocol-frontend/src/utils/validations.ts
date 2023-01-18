@@ -14,24 +14,6 @@ yup.addMethod(yup.string, 'ethAddress', function format(formats, parseStrict) {
     return value.isValid() ? value.toDate() : new Date('');
   });
 });
-// parsedDaoMemberAddresses.every(isEthAddress)
-// Specific Form Validations
-
-// export const daoTextareaFormValidation = yup.object({
-//   daoMemberAddresses: yup
-//     .array()
-//     .min(1, 'Need to include at least one address.')
-//     .required('This field is required.'),
-// });
-
-// export const daoTextareaFormValidation = yup.object({
-//   daoMemberAddresses: yup.array(
-//     yup.string().required('This field is required.'),
-//   ),
-// });
-
-// parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
-// !parsedDaoMemberAddresses.every(isEthAddress)
 
 export const daoTextareaFormValidation = yup.object({
   daoMemberAddresses: yup
@@ -42,6 +24,7 @@ export const daoTextareaFormValidation = yup.object({
         const parsedDaoMemberAddresses = splitEntriesByComma(value);
         return parsedDaoMemberAddresses.every(isEthAddress);
       }
+      return false;
     })
     .required('This field is required.'),
 });
