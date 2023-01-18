@@ -1,4 +1,4 @@
-import { Flex, Heading, Button, Text, Box } from '@chakra-ui/react';
+import { Flex, Heading, Button, Text } from '@chakra-ui/react';
 
 interface DaoImportCardProps {
   importName: string;
