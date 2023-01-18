@@ -16,7 +16,6 @@ import {
 import { formatDate } from '../utils/date';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { UIContribution } from '@govrn/ui-types';
-import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { HiOutlineLink } from 'react-icons/hi';
 import PageHeading from './PageHeading';
