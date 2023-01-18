@@ -337,8 +337,7 @@ class Onboarding(BaseThread):
             VerifyUserTwitterStep(self.user_id, self.guild_id, self.cache)
         ).build()
         return (
-            Step(current=VerifyUserWalletStep(cache=self.cache, update=False))
-            .add_next_step(AddUserTwitterStep(guild_id=self.guild_id, cache=self.cache))
+            Step(current=AddUserTwitterStep(guild_id=self.guild_id, cache=self.cache))
             .fork((verify_twitter.add_next_step(congrats).build(), congrats))
         )
 
@@ -366,6 +365,7 @@ class Onboarding(BaseThread):
                     cache=self.cache, guild_id=self.guild_id
                 )
             )
+            .add_next_step(VerifyUserWalletStep(self.cache, update=False))
             .add_next_step(AssociateDiscordProfileWithUser(self.cache))
             .fork(
                 (
