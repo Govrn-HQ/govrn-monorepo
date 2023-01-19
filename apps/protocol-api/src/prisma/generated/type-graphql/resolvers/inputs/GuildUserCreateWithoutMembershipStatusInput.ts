@@ -6,10 +6,10 @@ import { GuildCreateNestedOneWithoutUsersInput } from "../inputs/GuildCreateNest
 import { GuildImportCreateNestedOneWithoutUsersInput } from "../inputs/GuildImportCreateNestedOneWithoutUsersInput";
 import { UserCreateNestedOneWithoutGuild_usersInput } from "../inputs/UserCreateNestedOneWithoutGuild_usersInput";
 
-@TypeGraphQL.InputType("GuildUserCreateWithoutMembership_statusInput", {
+@TypeGraphQL.InputType("GuildUserCreateWithoutMembershipStatusInput", {
   isAbstract: true
 })
-export class GuildUserCreateWithoutMembership_statusInput {
+export class GuildUserCreateWithoutMembershipStatusInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })

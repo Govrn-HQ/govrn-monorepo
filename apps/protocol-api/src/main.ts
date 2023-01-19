@@ -132,9 +132,9 @@ const permissions = shield(
     ActivityType: {
       id: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
-  updatedAt: or(isAuthenticated, hasToken),
-  name: or(isAuthenticated, hasToken),
-  active: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+      active: or(isAuthenticated, hasToken),
       default: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
       contributions: or(isAuthenticated, hasToken),
@@ -252,7 +252,7 @@ const permissions = shield(
       import_status: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
     },
-    GuildImportStatus:{
+    GuildImportStatus: {
       id: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
@@ -267,7 +267,7 @@ const permissions = shield(
       guild: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
       favorite: or(isAuthenticated, hasToken),
-      membership_status:  or(isAuthenticated, hasToken),
+      membershipStatus: or(isAuthenticated, hasToken),
     },
     TwitterUser: {
       id: or(isAuthenticated, hasToken),

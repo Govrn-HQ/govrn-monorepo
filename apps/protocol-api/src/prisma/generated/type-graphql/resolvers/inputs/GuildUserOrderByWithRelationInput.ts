@@ -55,7 +55,7 @@ export class GuildUserOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => GuildMembershipStatusOrderByWithRelationInput, {
     nullable: true
   })
-  membership_status?: GuildMembershipStatusOrderByWithRelationInput | undefined;
+  membershipStatus?: GuildMembershipStatusOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

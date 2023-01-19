@@ -35,7 +35,7 @@ export class GuildUserUpdateWithoutGuild_importInput {
   @TypeGraphQL.Field(_type => GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput, {
     nullable: true
   })
-  membership_status?: GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput | undefined;
+  membershipStatus?: GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true

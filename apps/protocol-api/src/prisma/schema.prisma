@@ -106,7 +106,7 @@ model GuildUser {
   guild_id Int
   guild Guild @relation(fields: [guild_id], references: [id])
   membership_status_id Int?
-  membership_status GuildMembershipStatus? @relation(fields: [membership_status_id], references: [id])
+  membershipStatus GuildMembershipStatus? @relation(fields: [membership_status_id], references: [id])
   favorite Boolean @default(false)
   guild_import_id Int?
   guild_import GuildImport? @relation(fields: [guild_import_id], references: [id])

@@ -73,7 +73,7 @@ export class GuildUserWhereInput {
   @TypeGraphQL.Field(_type => GuildMembershipStatusRelationFilter, {
     nullable: true
   })
-  membership_status?: GuildMembershipStatusRelationFilter | undefined;
+  membershipStatus?: GuildMembershipStatusRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true

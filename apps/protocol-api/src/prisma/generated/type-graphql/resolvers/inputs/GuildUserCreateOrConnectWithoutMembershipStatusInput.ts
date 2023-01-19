@@ -2,20 +2,20 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { GuildUserUpdateWithoutMembership_statusInput } from "../inputs/GuildUserUpdateWithoutMembership_statusInput";
+import { GuildUserCreateWithoutMembershipStatusInput } from "../inputs/GuildUserCreateWithoutMembershipStatusInput";
 import { GuildUserWhereUniqueInput } from "../inputs/GuildUserWhereUniqueInput";
 
-@TypeGraphQL.InputType("GuildUserUpdateWithWhereUniqueWithoutMembership_statusInput", {
+@TypeGraphQL.InputType("GuildUserCreateOrConnectWithoutMembershipStatusInput", {
   isAbstract: true
 })
-export class GuildUserUpdateWithWhereUniqueWithoutMembership_statusInput {
+export class GuildUserCreateOrConnectWithoutMembershipStatusInput {
   @TypeGraphQL.Field(_type => GuildUserWhereUniqueInput, {
     nullable: false
   })
   where!: GuildUserWhereUniqueInput;
 
-  @TypeGraphQL.Field(_type => GuildUserUpdateWithoutMembership_statusInput, {
+  @TypeGraphQL.Field(_type => GuildUserCreateWithoutMembershipStatusInput, {
     nullable: false
   })
-  data!: GuildUserUpdateWithoutMembership_statusInput;
+  create!: GuildUserCreateWithoutMembershipStatusInput;
 }

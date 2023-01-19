@@ -8,10 +8,10 @@ import { GuildImportUpdateOneWithoutUsersNestedInput } from "../inputs/GuildImpo
 import { GuildUpdateOneRequiredWithoutUsersNestedInput } from "../inputs/GuildUpdateOneRequiredWithoutUsersNestedInput";
 import { UserUpdateOneRequiredWithoutGuild_usersNestedInput } from "../inputs/UserUpdateOneRequiredWithoutGuild_usersNestedInput";
 
-@TypeGraphQL.InputType("GuildUserUpdateWithoutMembership_statusInput", {
+@TypeGraphQL.InputType("GuildUserUpdateWithoutMembershipStatusInput", {
   isAbstract: true
 })
-export class GuildUserUpdateWithoutMembership_statusInput {
+export class GuildUserUpdateWithoutMembershipStatusInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })

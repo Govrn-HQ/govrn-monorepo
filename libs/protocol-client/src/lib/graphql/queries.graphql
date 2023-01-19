@@ -215,7 +215,7 @@ fragment GuildUserFragment on GuildUser {
   user_id
   guild_id
   favorite
-  membership_status {
+  membershipStatus {
     id
     createdAt
     updatedAt

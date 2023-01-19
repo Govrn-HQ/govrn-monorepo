@@ -3,10 +3,10 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.InputType("GuildUserCreateManyMembership_statusInput", {
+@TypeGraphQL.InputType("GuildUserCreateManyMembershipStatusInput", {
   isAbstract: true
 })
-export class GuildUserCreateManyMembership_statusInput {
+export class GuildUserCreateManyMembershipStatusInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

@@ -5,10 +5,10 @@ import { DecimalJSScalar } from "../../scalars";
 import { GuildUserScalarWhereInput } from "../inputs/GuildUserScalarWhereInput";
 import { GuildUserUpdateManyMutationInput } from "../inputs/GuildUserUpdateManyMutationInput";
 
-@TypeGraphQL.InputType("GuildUserUpdateManyWithWhereWithoutMembership_statusInput", {
+@TypeGraphQL.InputType("GuildUserUpdateManyWithWhereWithoutMembershipStatusInput", {
   isAbstract: true
 })
-export class GuildUserUpdateManyWithWhereWithoutMembership_statusInput {
+export class GuildUserUpdateManyWithWhereWithoutMembershipStatusInput {
   @TypeGraphQL.Field(_type => GuildUserScalarWhereInput, {
     nullable: false
   })

@@ -33,12 +33,12 @@ export class GuildUserRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => GuildMembershipStatus, {
     nullable: true
   })
-  async membership_status(@TypeGraphQL.Root() guildUser: GuildUser, @TypeGraphQL.Ctx() ctx: any): Promise<GuildMembershipStatus | null> {
+  async membershipStatus(@TypeGraphQL.Root() guildUser: GuildUser, @TypeGraphQL.Ctx() ctx: any): Promise<GuildMembershipStatus | null> {
     return getPrismaFromContext(ctx).guildUser.findUnique({
       where: {
         id: guildUser.id,
       },
-    }).membership_status({});
+    }).membershipStatus({});
   }
 
   @TypeGraphQL.FieldResolver(_type => GuildImport, {
