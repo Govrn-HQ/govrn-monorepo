@@ -1,4 +1,4 @@
-import { useRef, ReactNode } from 'react';
+import { useState, useRef, ReactNode } from 'react';
 import {
   Button,
   Flex,
@@ -13,6 +13,7 @@ import { UseFormRegisterReturn, useForm, SubmitHandler } from 'react-hook-form';
 import { DaoCsvImportFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
+import { useOverlay } from '../contexts/OverlayContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { daoCsvFormValidation } from '../utils/validations';
 import { ErrorMessage, HelperText } from '@govrn/protocol-ui';
@@ -51,6 +52,8 @@ const FileUploadInput = ({ register, accept, children }: FileUploadProps) => {
 };
 
 const DaoCsvImport = () => {
+  const [importing, setImporting] = useState(false);
+  const { setModals } = useOverlay();
   const {
     register,
     handleSubmit,
@@ -66,8 +69,11 @@ const DaoCsvImport = () => {
     DaoCsvImportFormValues
   > = async values => {
     if (values !== undefined) {
-      console.log('On Submit: ', values.daoCsvFile[0]); // placeholder -- will add the integration to send the csv to the backend
+      setImporting(true);
+      console.log('On Submit: ', values.daoCsvFile[0]); // TODO: add the integration to send the csv to the backend
     }
+    setImporting(false);
+    setModals({ csvImportModal: false });
   };
 
   const daoCsvUpload = useRef<HTMLInputElement | null>(null);
@@ -145,7 +151,7 @@ const DaoCsvImport = () => {
             <Button
               type="submit"
               variant="primary"
-              isDisabled={!!errors['daoCsvFile']}
+              disabled={importing || errors['daoCsvFile'] !== undefined}
             >
               Import
             </Button>
