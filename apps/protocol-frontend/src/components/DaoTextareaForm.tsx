@@ -1,74 +1,60 @@
 import { useState } from 'react';
 import { Button, Flex, Icon, Text } from '@chakra-ui/react';
-import { AiFillExclamationCircle, AiFillCheckCircle } from 'react-icons/ai';
-import { ControlledTextarea } from '@govrn/protocol-ui';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { DaoTextareaFormValues } from '../types/forms';
+import { AiFillCheckCircle } from 'react-icons/ai';
+import { Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
-import { isEthAddress } from '../utils/validations';
-import { isArray } from 'lodash';
+import { daoTextareaFormValidation } from '../utils/validations';
+import { useOverlay } from '../contexts/OverlayContext';
 
 const DaoTextareaForm = () => {
-  const [daoMemberAddresses, setDaoMemberAddresses] = useState('');
-  const [validationError, setValidationError] = useState<string | null>(null);
+  const [importing, setImporting] = useState(false);
+  const localForm = useForm({
+    mode: 'all',
+    resolver: yupResolver(daoTextareaFormValidation),
+  });
 
-  const handleDaoTextAreaChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    if (validationError !== null) {
-      setValidationError(null);
-    }
-    setDaoMemberAddresses(e.target.value);
-    validateDaoMemberAddresses();
-  };
+  const {
+    handleSubmit,
+    setValue,
+    formState: { errors, touchedFields },
+  } = localForm;
+  const { setModals } = useOverlay();
 
-  const validateDaoMemberAddresses = () => {
-    const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
-    if (
-      !isArray(parsedDaoMemberAddresses) ||
-      !parsedDaoMemberAddresses.length
-    ) {
-      setValidationError('Need to include at least one address.');
-      throw new Error('Need to include at least one address.');
+  const daoTextareaImportHandler: SubmitHandler<
+    DaoTextareaFormValues
+  > = async values => {
+    const { daoMemberAddresses } = values;
+    setImporting(true);
+    if (daoMemberAddresses !== undefined) {
+      const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
+      const uniqueParsedDaoMemberAddresses = [
+        ...new Set(parsedDaoMemberAddresses),
+      ];
+      console.log(
+        'uniqueParsedDaoMemberAddresses',
+        uniqueParsedDaoMemberAddresses,
+      ); // TODO: replace with the DAO creation logic
+      setImporting(false);
+      setModals({ createDaoModal: false });
     }
-    if (!parsedDaoMemberAddresses.every(isEthAddress)) {
-      setValidationError(`Invalid addresses included in the list.`);
-      throw new Error('Invalid addresses included in the list.');
-    }
-
-    const uniqueParsedDaoMemberAddresses = [
-      ...new Set(parsedDaoMemberAddresses),
-    ];
-    setValidationError(null);
-    // import dao members function with the uniqueParsedDaoMemberAddresses as the list of validated addresses to prevent duplicates
-    console.log('dao members for import', uniqueParsedDaoMemberAddresses); // adding this so we dont fail the lint for unused vars
   };
 
   return (
-    <Flex direction="column" gap={4} width="100%" color="gray.800">
-      <ControlledTextarea
-        name="daoMemberAddresses"
-        tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
-        placeholder="0x..., 0x..."
-        value={daoMemberAddresses}
-        onChange={handleDaoTextAreaChange}
-        onBlur={validateDaoMemberAddresses}
-      />
-      {validationError !== null ? (
-        <Flex direction="row" alignItems="center" marginY={0}>
-          <Icon
-            as={AiFillExclamationCircle}
-            color="red.500"
-            width="16px"
-            height="16px"
-            marginRight={2}
-          />
-          <Text fontSize="xs" color="red.500">
-            {validationError}
-          </Text>
-        </Flex>
-      ) : (
-        <Flex direction="row" alignItems="center" marginY={0}>
-          {daoMemberAddresses !== '' ? (
-            <>
+    <Flex direction="column" width="100%" color="gray.800">
+      <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
+        <Textarea
+          name="daoMemberAddresses"
+          tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
+          placeholder="0x..., 0x..."
+          onChange={addresses => setValue('daoMemberAddresses', addresses)}
+          localForm={localForm}
+        />
+        {!errors['daoMemberAddresses'] &&
+          touchedFields['daoMemberAddresses'] === true && (
+            <Flex direction="row" alignItems="center" marginY={4}>
               <Icon
                 as={AiFillCheckCircle}
                 color="brand.purple"
@@ -76,23 +62,29 @@ const DaoTextareaForm = () => {
                 height="16px"
                 marginRight={2}
               />
-              <Text fontSize="xs" color="brand.purple">
+              <Text fontSize="sm" color="brand.purple">
                 Address list meets formatting requirements.
               </Text>
-            </>
-          ) : null}
-        </Flex>
-      )}
-      <Flex align="flex-end">
-        <Button
-          type="submit"
-          variant="primary"
-          onClick={validateDaoMemberAddresses} // submit handler will be added with the integration
-          isDisabled={validationError !== null}
+            </Flex>
+          )}
+        <Flex
+          alignItems="flex-end"
+          marginTop={
+            !errors['daoMemberAddresses'] ||
+            touchedFields['daoMemberAddresses'] === false
+              ? 4
+              : 0
+          }
         >
-          Import
-        </Button>
-      </Flex>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={importing || errors['daoMemberAddresses'] !== undefined}
+          >
+            Import
+          </Button>
+        </Flex>
+      </form>
     </Flex>
   );
 };

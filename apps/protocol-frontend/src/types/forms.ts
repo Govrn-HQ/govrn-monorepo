@@ -28,3 +28,7 @@ export type CreateUserFormValues = Partial<
 export type ProfileFormValues = Partial<
   InferType<typeof profileFormValidation>
 >;
+
+export type DaoTextareaFormValues = {
+  daoMemberAddresses?: string;
+};
