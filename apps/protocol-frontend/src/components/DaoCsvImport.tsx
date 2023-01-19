@@ -11,8 +11,7 @@ import { UseFormRegisterReturn, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { daoCsvFormValidation } from '../utils/validations';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { AiFillExclamationCircle, AiFillCheckCircle } from 'react-icons/ai';
-
+import { MAX_CSV_UPLOAD_SIZE } from '../utils/constants';
 interface FileUploadProps {
   register: UseFormRegisterReturn;
   accept?: string;
@@ -104,7 +103,10 @@ const DaoCsvImport = () => {
                 variant="outline"
               />
             </FileUpload>
-            <Text>Your file should be a CSV no larger than 5mb.</Text>
+            <Text>
+              Your file should be a CSV no larger than{' '}
+              {Number(MAX_CSV_UPLOAD_SIZE / (1024 * 1024)).toFixed(0)}mb
+            </Text>
           </Flex>
 
           {errors['daoCsvFile'] && (
