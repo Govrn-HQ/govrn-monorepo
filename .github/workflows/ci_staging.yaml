@@ -197,7 +197,7 @@ jobs:
         env:
           DEBUG: 'cypress:server'
         with:
-          start: yarn nx run protocol-api:serve
+          start: yarn nx run protocol-api:generate  && yarn nx run protocol-api:serve
           command: yarn nx run protocol-frontend-e2e:e2eTest --verbose
           install: false
       - uses: actions/upload-artifact@v2
