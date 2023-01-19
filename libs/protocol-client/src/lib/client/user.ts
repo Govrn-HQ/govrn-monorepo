@@ -1,8 +1,5 @@
 import {
-  CreateGuildUserCustomMutationVariables,
-  GuildUserUpdateCustomInput,
   ListUsersQueryVariables,
-  MutationDeleteOneGuildUserArgs,
   UserCreateCustomInput,
   UserUpdateInput,
   UserWhereUniqueInput,
