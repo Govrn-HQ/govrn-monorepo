@@ -72,6 +72,7 @@ const DaoCsvImport = () => {
     register,
     handleSubmit,
     getValues,
+    watch,
     formState: { errors, touchedFields },
   } = useForm<FormValues>({
     mode: 'all',
@@ -95,7 +96,8 @@ const DaoCsvImport = () => {
   };
 
   console.log('errors', errors);
-  console.log('getValues', getValues('daoCsvFile')[0].name);
+  console.log('getValues', getValues('daoCsvFile'));
+  const daoCsvFilename = watch('daoCsvFile')?.[0]?.name;
   return (
     <Flex direction="column" gap={4} width="100%" color="gray.800">
       <form onSubmit={handleSubmit(handleCsvUpload)}>
@@ -122,11 +124,12 @@ const DaoCsvImport = () => {
             <Text>{errors['daoCsvFile']?.message?.toString()}</Text>
           )}
         </FormControl>
-        <Text fontSize="xs" color="gray.700">
-          {getValues('daoCsvFile') === undefined
-            ? 'Please upload a file'
-            : getValues('daoCsvFile')[0]?.name}
-        </Text>
+
+        {getValues('daoCsvFile') !== undefined && (
+          <Text fontSize="xs" color="gray.700">
+            {daoCsvFilename}
+          </Text>
+        )}
         <Flex
           align="flex-end"
           // marginTop={
