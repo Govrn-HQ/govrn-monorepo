@@ -35,5 +35,5 @@ export class FindManyGuildImportArgs {
   @TypeGraphQL.Field(_type => [GuildImportScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "authentication_token" | "guild_id" | "integration_type_id"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "authentication_token" | "guild_id" | "integration_type_id" | "import_status_id"> | undefined;
 }

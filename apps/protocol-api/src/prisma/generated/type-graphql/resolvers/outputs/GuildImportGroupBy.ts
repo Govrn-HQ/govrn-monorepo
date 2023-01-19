@@ -42,6 +42,11 @@ export class GuildImportGroupBy {
   })
   integration_type_id!: number;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  import_status_id!: number;
+
   @TypeGraphQL.Field(_type => GuildImportCountAggregate, {
     nullable: true
   })

@@ -74,7 +74,7 @@ export class GuildUserCustomResolver {
             id: args.data.guildId,
           },
         },
-        membershipStatus: {
+        membership_status: {
           connect: {
             name: 'Recruit',
           },

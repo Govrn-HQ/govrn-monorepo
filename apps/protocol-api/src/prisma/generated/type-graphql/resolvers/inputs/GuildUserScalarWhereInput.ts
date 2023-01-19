@@ -60,4 +60,9 @@ export class GuildUserScalarWhereInput {
     nullable: true
   })
   favorite?: BoolFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  guild_import_id?: IntNullableFilter | undefined;
 }

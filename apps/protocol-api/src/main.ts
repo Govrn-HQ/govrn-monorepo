@@ -250,7 +250,7 @@ const permissions = shield(
       guild: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
       favorite: or(isAuthenticated, hasToken),
-      membershipStatus: or(isAuthenticated, hasToken),
+      membership_status:  or(isAuthenticated, hasToken),
     },
     TwitterUser: {
       id: or(isAuthenticated, hasToken),
