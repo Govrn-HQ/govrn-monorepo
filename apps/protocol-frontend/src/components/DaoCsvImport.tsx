@@ -2,15 +2,18 @@ import { useState, useRef, ReactNode } from 'react';
 import {
   Button,
   Flex,
+  Icon,
   IconButton,
   InputGroup,
   Text,
   FormControl,
 } from '@chakra-ui/react';
 import { UseFormRegisterReturn, useForm, SubmitHandler } from 'react-hook-form';
+import { HiOutlinePaperClip } from 'react-icons/hi';
+import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { daoCsvFormValidation } from '../utils/validations';
-import { HiOutlinePaperClip } from 'react-icons/hi';
+import { ErrorMessage } from '@govrn/protocol-ui';
 import { MAX_CSV_UPLOAD_SIZE } from '../utils/constants';
 interface FileUploadProps {
   register: UseFormRegisterReturn;
@@ -92,7 +95,7 @@ const DaoCsvImport = () => {
             alignItems="center"
             justifyContent="flex-start"
             gap={2}
-            paddingBottom={2}
+            marginY={2}
           >
             <FileUpload accept={'.csv'} register={register('daoCsvFile')}>
               <IconButton
@@ -109,25 +112,46 @@ const DaoCsvImport = () => {
             </Text>
           </Flex>
 
-          {errors['daoCsvFile'] && (
-            <Text>{errors['daoCsvFile']?.message?.toString()}</Text>
+          {errors['daoCsvFile'] ? (
+            <Flex direction="row" alignItems="center" marginY={4}>
+              <Icon
+                as={AiFillExclamationCircle}
+                color="red.500"
+                width="16px"
+                height="16px"
+                marginRight={2}
+              />
+              <ErrorMessage
+                marginY={0}
+                errorMessage={errors['daoCsvFile']?.message?.toString()}
+              />
+            </Flex>
+          ) : (
+            getValues('daoCsvFile') !== undefined && (
+              <Flex direction="row" alignItems="center" marginY={4}>
+                <Icon
+                  as={AiFillCheckCircle}
+                  color="brand.purple"
+                  width="16px"
+                  height="16px"
+                  marginRight={2}
+                />
+                <Text fontSize="sm" color="brand.purple">
+                  {daoCsvFilename}
+                </Text>
+              </Flex>
+            )
           )}
+          <Flex align="flex-end" marginTop={4}>
+            <Button
+              type="submit"
+              variant="primary"
+              isDisabled={!!errors['daoCsvFile']}
+            >
+              Import
+            </Button>
+          </Flex>
         </FormControl>
-
-        {getValues('daoCsvFile') !== undefined && (
-          <Text fontSize="xs" color="gray.700">
-            {daoCsvFilename}
-          </Text>
-        )}
-        <Flex align="flex-end" marginTop={4}>
-          <Button
-            type="submit"
-            variant="primary"
-            isDisabled={!!errors['daoCsvFile']}
-          >
-            Import
-          </Button>
-        </Flex>
       </form>
     </Flex>
   );
