@@ -17,6 +17,10 @@ export type BulkDaoAttributeFormValues = {
   daoId?: string | number | null;
 };
 
+export type DaoCsvImportFormValues = {
+  csv?: File;
+};
+
 export type CreateUserFormValues = Partial<
   InferType<typeof createWaitlistFormValidation>
 >;
