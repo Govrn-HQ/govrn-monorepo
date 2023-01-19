@@ -1,24 +1,13 @@
 import { useState, useRef, ReactNode } from 'react';
-import { DaoCsvImportFormValues } from '../types/forms';
-import { Input } from '@govrn/protocol-ui';
 import {
   Button,
   Flex,
-  Icon,
   IconButton,
-  Input as ChakraInput,
   InputGroup,
-  InputLeftElement,
   Text,
   FormControl,
 } from '@chakra-ui/react';
-import {
-  FormProvider,
-  UseFormRegisterReturn,
-  useForm,
-  SubmitHandler,
-  useController,
-} from 'react-hook-form';
+import { UseFormRegisterReturn, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { daoCsvFormValidation } from '../utils/validations';
 import { HiOutlinePaperClip } from 'react-icons/hi';
@@ -27,12 +16,10 @@ import { AiFillExclamationCircle, AiFillCheckCircle } from 'react-icons/ai';
 interface FileUploadProps {
   register: UseFormRegisterReturn;
   accept?: string;
-  multiple?: boolean;
   children?: ReactNode;
 }
 
-const FileUpload = (props: FileUploadProps) => {
-  const { register, accept, multiple, children } = props;
+const FileUpload = ({ register, accept, children }: FileUploadProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { ref, ...rest } = register as {
     ref: (instance: HTMLInputElement | null) => void;
@@ -44,14 +31,14 @@ const FileUpload = (props: FileUploadProps) => {
     <InputGroup onClick={handleClick} width="fit-content">
       <input
         type={'file'}
-        multiple={multiple || false}
-        hidden
+        multiple={false}
         accept={accept}
-        {...rest}
+        hidden
         ref={e => {
           ref(e);
           inputRef.current = e;
         }}
+        {...rest}
       />
       {children}
     </InputGroup>
@@ -66,7 +53,6 @@ const DaoCsvImport = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [, setIsUploading] = useState(false);
   const [fileError, setFileError] = useState<string | null>(null);
-  const [validationError, setValidationError] = useState<string | null>(null);
 
   const {
     register,
@@ -98,6 +84,7 @@ const DaoCsvImport = () => {
   console.log('errors', errors);
   console.log('getValues', getValues('daoCsvFile'));
   const daoCsvFilename = watch('daoCsvFile')?.[0]?.name;
+  console.log('touched fields', touchedFields);
   return (
     <Flex direction="column" gap={4} width="100%" color="gray.800">
       <form onSubmit={handleSubmit(handleCsvUpload)}>
@@ -130,18 +117,11 @@ const DaoCsvImport = () => {
             {daoCsvFilename}
           </Text>
         )}
-        <Flex
-          align="flex-end"
-          // marginTop={
-          //   !errors['daoCsvFile'] || touchedFields['daoCsvFile'] === false
-          //     ? 4
-          //     : 0
-          // }
-        >
+        <Flex align="flex-end" marginTop={4}>
           <Button
             type="submit"
             variant="primary"
-            isDisabled={fileError !== null}
+            isDisabled={!!errors['daoCsvFile']}
           >
             Import
           </Button>
