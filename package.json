@@ -44,7 +44,7 @@
     "@nivo/pie": "^0.80.0",
     "@nx-tools/docker-metadata": "^2.2.1",
     "@nx-tools/nx-docker": "^2.3.0",
-    "@prisma/client": "^4.7.1",
+    "@prisma/client": "4.8.0",
     "@qualifyze/airtable": "^2.0.1",
     "@rainbow-me/rainbowkit": "^0.4.7",
     "@rollup/plugin-strip": "^2.1.0",
