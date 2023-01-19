@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import { ethers } from 'ethers';
 import { splitEntriesByComma } from '../utils/arrays';
+import { MAX_CSV_UPLOAD_SIZE } from './constants';
 
 // Helpers
 
@@ -39,8 +40,7 @@ export const daoCsvFormValidation = yup.object().shape({
       return false;
     })
     .test('fileSize', 'File is too large', value => {
-      console.log('value in validator', value[0].size);
-      if (value[0].size <= 10) {
+      if (value[0]?.size <= MAX_CSV_UPLOAD_SIZE) {
         return true;
       }
       return false;

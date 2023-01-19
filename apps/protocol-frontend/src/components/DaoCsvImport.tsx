@@ -59,7 +59,7 @@ const FileUpload = (props: FileUploadProps) => {
 };
 
 type FormValues = {
-  daoCsvFile: File;
+  daoCsvFile: File[];
 };
 
 const DaoCsvImport = () => {
@@ -79,8 +79,7 @@ const DaoCsvImport = () => {
   });
 
   const handleCsvUpload = handleSubmit(data => {
-    // const file = data.daoCsvFile
-    console.log('On Submit: ', data);
+    console.log('On Submit: ', data.daoCsvFile[0]);
   });
 
   const { ref, ...rest } = register as unknown as {
@@ -96,7 +95,7 @@ const DaoCsvImport = () => {
   };
 
   console.log('errors', errors);
-  console.log('getValues', getValues('daoCsvFile'));
+  console.log('getValues', getValues('daoCsvFile')[0].name);
   return (
     <Flex direction="column" gap={4} width="100%" color="gray.800">
       <form onSubmit={handleSubmit(handleCsvUpload)}>
@@ -107,11 +106,7 @@ const DaoCsvImport = () => {
             gap={2}
             paddingBottom={2}
           >
-            <FileUpload
-              accept={'.csv'}
-              register={register('daoCsvFile', { validate: validateFiles })}
-            >
-              {/* <Button leftIcon={<Icon as={FiFile} />}>Upload</Button> */}
+            <FileUpload accept={'.csv'} register={register('daoCsvFile')}>
               <IconButton
                 size="sm"
                 aria-label="Upload a file for your contribution proof"
@@ -127,18 +122,18 @@ const DaoCsvImport = () => {
             <Text>{errors['daoCsvFile']?.message?.toString()}</Text>
           )}
         </FormControl>
-        {/* <Text fontSize="xs" color="gray.700">
-          {getValues('daoCsvFile') === null
-            ? 'csv'
-            : getValues('daoCsvFile').name}
-        </Text> */}
+        <Text fontSize="xs" color="gray.700">
+          {getValues('daoCsvFile') === undefined
+            ? 'Please upload a file'
+            : getValues('daoCsvFile')[0]?.name}
+        </Text>
         <Flex
           align="flex-end"
-          marginTop={
-            !errors['daoCsvFile'] || touchedFields['daoCsvFile'] === false
-              ? 4
-              : 0
-          }
+          // marginTop={
+          //   !errors['daoCsvFile'] || touchedFields['daoCsvFile'] === false
+          //     ? 4
+          //     : 0
+          // }
         >
           <Button
             type="submit"
@@ -154,60 +149,3 @@ const DaoCsvImport = () => {
 };
 
 export default DaoCsvImport;
-
-{
-  /* <form onSubmit={handleSubmit(handleCsvUpload)}>
-        <FormControl isRequired>
-          <Flex
-            direction="column"
-            alignItems="center"
-            justifyContent="flex-start"
-            gap={2}
-            paddingBottom={2}
-          >
-            <InputGroup onClick={handleFileUploadButtonClick}>
-              <input
-                type="file"
-                id="daoCsvUpload"
-                accept=".csv"
-                style={{ display: 'none', visibility: 'hidden' }}
-                {...register('daoCsvUpload')}
-                ref={daoCsvUpload}
-              />
-              <IconButton
-                size="sm"
-                aria-label="Upload a file for your contribution proof"
-                icon={<HiOutlinePaperClip />}
-                onClick={handleFileUploadButtonClick}
-                variant="outline"
-              />
-            </InputGroup>
-          </Flex>
-          {fileError && (
-            <Flex direction="row" alignItems="center" marginY={0}>
-              <Icon
-                as={AiFillExclamationCircle}
-                color="red.500"
-                width="16px"
-                height="16px"
-                marginRight={2}
-              />
-              <Text fontSize="xs" color="red.500">
-                {validationError}
-              </Text>
-            </Flex>
-          )}
-          <Flex align="flex-end">
-            <Button
-              type="submit"
-              variant="primary"
-              // onClick={handleCsvUpload} // submit handler will be added with the integration
-              isDisabled={fileError !== null}
-            >
-              Import
-            </Button>
-          </Flex>
-        </FormControl>
-      </form> */
-}
-// </Flex>
