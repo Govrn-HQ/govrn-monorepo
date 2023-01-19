@@ -29,6 +29,24 @@ export const daoTextareaFormValidation = yup.object({
     .required('This field is required.'),
 });
 
+export const daoCsvFormValidation = yup.object().shape({
+  daoCsvFile: yup
+    .mixed()
+    .test('fileRequired', 'You need to provide a file', value => {
+      if (value.length > 0) {
+        return true;
+      }
+      return false;
+    })
+    .test('fileSize', 'File is too large', value => {
+      console.log('value in validator', value[0].size);
+      if (value[0].size <= 10) {
+        return true;
+      }
+      return false;
+    }),
+});
+
 export const profileFormValidation = yup.object({
   name: yup.string(),
 });

@@ -18,7 +18,7 @@ export type BulkDaoAttributeFormValues = {
 };
 
 export type DaoCsvImportFormValues = {
-  csv?: File;
+  daoCsvFile?: File;
 };
 
 export type CreateUserFormValues = Partial<
