@@ -170,6 +170,8 @@ jobs:
         with:
           path: ./*
           key: ${{ github.sha }}
+      - name: Install os deps
+        run: sudoe apt && sudo apt install -y openssl
       - name: Frozen lock
         run: yarn install --frozen-lockfile # optional, --immutable
       - name: Cypress install
