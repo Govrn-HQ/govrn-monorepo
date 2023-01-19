@@ -33,18 +33,24 @@ export const daoTextareaFormValidation = yup.object({
 export const daoCsvFormValidation = yup.object().shape({
   daoCsvFile: yup
     .mixed()
-    .test('fileRequired', 'You need to provide a file', value => {
+    .test('fileRequired', 'Need to provide a CSV.', value => {
       if (value.length > 0) {
         return true;
       }
       return false;
     })
-    .test('fileSize', 'File is too large', value => {
-      if (value[0]?.size <= MAX_CSV_UPLOAD_SIZE) {
-        return true;
-      }
-      return false;
-    }),
+    .test(
+      'fileSize',
+      `File is too large. Please limit to  ${Number(
+        MAX_CSV_UPLOAD_SIZE / (1024 * 1024),
+      ).toFixed(0)}mb`,
+      value => {
+        if (value[0]?.size <= MAX_CSV_UPLOAD_SIZE) {
+          return true;
+        }
+        return false;
+      },
+    ),
 });
 
 export const profileFormValidation = yup.object({
