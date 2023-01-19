@@ -5,7 +5,7 @@ import {
   ListGuildUsersQuery,
   ListGuildUsersQueryVariables,
   MutationDeleteOneGuildUserArgs,
-} from '@govrn/protocol-client';
+} from '../protocol-types';
 import { paginate } from '../utils/paginate';
 
 export class GuildUser extends BaseClient {
