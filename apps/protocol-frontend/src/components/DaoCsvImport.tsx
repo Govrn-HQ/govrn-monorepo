@@ -23,6 +23,7 @@ interface FileUploadProps {
   children?: ReactNode;
 }
 
+// we can split this into a component that we include in our ui library after we use and refine
 const FileUploadInput = ({ register, accept, children }: FileUploadProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { ref, ...rest } = register as {
@@ -49,10 +50,6 @@ const FileUploadInput = ({ register, accept, children }: FileUploadProps) => {
   );
 };
 
-type FormValues = {
-  daoCsvFile: FileList;
-};
-
 const DaoCsvImport = () => {
   const {
     register,
@@ -60,7 +57,7 @@ const DaoCsvImport = () => {
     getValues,
     watch,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<DaoCsvImportFormValues>({
     mode: 'all',
     resolver: yupResolver(daoCsvFormValidation),
   });
@@ -69,12 +66,8 @@ const DaoCsvImport = () => {
     DaoCsvImportFormValues
   > = async values => {
     if (values !== undefined) {
-      console.log('On Submit: ', values.daoCsvFile[0]);
+      console.log('On Submit: ', values.daoCsvFile[0]); // placeholder -- will add the integration to send the csv to the backend
     }
-  };
-
-  const { ref, ...rest } = register as unknown as {
-    ref: (instance: HTMLInputElement | null) => void;
   };
 
   const daoCsvUpload = useRef<HTMLInputElement | null>(null);
@@ -101,7 +94,6 @@ const DaoCsvImport = () => {
               <FileUploadInput
                 accept={'.csv'}
                 register={register('daoCsvFile')}
-                {...rest}
               >
                 <IconButton
                   size="sm"
