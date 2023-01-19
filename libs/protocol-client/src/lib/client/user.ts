@@ -9,6 +9,7 @@ import {
 } from '../protocol-types';
 import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
+import { GuildUser } from './guild_user';
 
 export class User extends BaseClient {
   guild: GuildUser;
@@ -36,22 +37,5 @@ export class User extends BaseClient {
   public async create(args: UserCreateCustomInput) {
     const contributions = await this.sdk.createUserCustom({ data: args });
     return contributions.createUserCustom;
-  }
-}
-
-class GuildUser extends BaseClient {
-  public async create(args: CreateGuildUserCustomMutationVariables) {
-    return await this.sdk.createGuildUserCustom(args);
-  }
-
-  public async delete(args: MutationDeleteOneGuildUserArgs) {
-    return await this.sdk.deleteGuildUser(args);
-  }
-
-  public async update(args: GuildUserUpdateCustomInput) {
-    const updatedGuildUser = await this.sdk.updateGuildUserCustom({
-      data: args,
-    });
-    return updatedGuildUser.updateGuildUserCustom;
   }
 }

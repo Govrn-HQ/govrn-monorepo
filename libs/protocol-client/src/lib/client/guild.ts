@@ -3,15 +3,13 @@ import {
   GuildUpdateCustomInput,
   GuildUpdateCustomWhereInput,
   ListGuildsQueryVariables,
-  ListGuildUsersQuery,
-  ListGuildUsersQueryVariables,
 } from '../protocol-types';
 import {
   CreateGuildMutationVariables,
   GuildWhereUniqueInput,
 } from '../protocol-types';
+import { GuildUser } from './guild_user';
 import { GraphQLClient } from 'graphql-request';
-import { paginate } from '../utils/paginate';
 
 // TODO: Add users query
 export class Guild extends BaseClient {
@@ -43,14 +41,5 @@ export class Guild extends BaseClient {
   public async list(args: ListGuildsQueryVariables) {
     const guilds = await this.sdk.listGuilds(args);
     return guilds.result;
-  }
-}
-
-export class GuildUser extends BaseClient {
-  public async list(args: ListGuildUsersQueryVariables) {
-    return paginate<ListGuildUsersQueryVariables, ListGuildUsersQuery>(
-      this.sdk.listGuildUsers,
-      args,
-    );
   }
 }

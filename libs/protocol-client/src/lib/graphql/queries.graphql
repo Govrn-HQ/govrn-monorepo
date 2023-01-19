@@ -216,14 +216,7 @@ fragment GuildUserFragment on GuildUser {
   user_id
   guild {
     id
-    createdAt
-    updatedAt
-    discord_id
     name
-    congrats_channel
-    logo
-    contribution_reporting_channel
-    status
   }
   membershipStatus {
     id

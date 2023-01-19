@@ -1,0 +1,33 @@
+import { BaseClient } from './base';
+import {
+  CreateGuildUserCustomMutationVariables,
+  GuildUserUpdateCustomInput,
+  ListGuildUsersQuery,
+  ListGuildUsersQueryVariables,
+  MutationDeleteOneGuildUserArgs,
+} from '@govrn/protocol-client';
+import { paginate } from '../utils/paginate';
+
+export class GuildUser extends BaseClient {
+  public async list(args: ListGuildUsersQueryVariables) {
+    return paginate<ListGuildUsersQueryVariables, ListGuildUsersQuery>(
+      this.sdk.listGuildUsers,
+      args,
+    );
+  }
+
+  public async create(args: CreateGuildUserCustomMutationVariables) {
+    return await this.sdk.createGuildUserCustom(args);
+  }
+
+  public async delete(args: MutationDeleteOneGuildUserArgs) {
+    return await this.sdk.deleteGuildUser(args);
+  }
+
+  public async update(args: GuildUserUpdateCustomInput) {
+    const updatedGuildUser = await this.sdk.updateGuildUserCustom({
+      data: args,
+    });
+    return updatedGuildUser.updateGuildUserCustom;
+  }
+}
