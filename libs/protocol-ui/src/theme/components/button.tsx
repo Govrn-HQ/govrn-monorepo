@@ -1,12 +1,13 @@
 export default {
   baseStyle: {
     transition: 'all 250ms ease-in-out',
+    borderRadius: 'md',
+    fontSize: 'md',
+    fontWeight: 'semibold',
   },
   variants: {
     primary: {
       color: 'white',
-      fontSize: 'md',
-      fontWeight: 'semibold',
       background: 'brand.gradient',
       _hover: {
         background: 'brand.gradientHover',
@@ -19,6 +20,24 @@ export default {
       },
       _disabled: {
         background: 'brand.gradientDisabled',
+      },
+    },
+    secondary: {
+      position: 'relative',
+      border: 'double 2px transparent',
+      borderRadius: '8px',
+      backgroundImage:
+        'linear-gradient(white, white), linear-gradient(100deg, #5100E4 0%, #DF1F97 100%)',
+      backgroundOrigin: 'border-box',
+      backgroundClip: 'padding-box, border-box',
+      color: 'brand.purple',
+      _hover: {
+        backgroundImage:
+          'linear-gradient(white, white), linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
+      },
+      _focus: {
+        backgroundImage:
+          'linear-gradient(white, white), linear-gradient(100deg, #9766EF 0%,#9766EF 100%)',
       },
     },
     tertiary: {

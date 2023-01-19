@@ -25,7 +25,7 @@ BOMB_EMOJI = "\U0001F4A3"
 COLLISION_EMOJI = "\U0001F4A5"
 MECHANICAL_ARM_EMOJI = "\U0001F9BE"
 
-REPORTING_FORM_FMT = "https://report.govrn.app/#/contribution/%s"
+REPORTING_FORM_FMT = "https://govrn.app/#/report?daoId=%s"
 
 REQUESTED_TWEET_FMT = "Kevin Malone told me to tweet this number %s"
 TWITTER_URL_REGEXP = r"^https://twitter.com/(.+)/status/([0-9]+)"
@@ -37,12 +37,12 @@ REQUESTED_SIGNED_MESSAGE = (
 WALLET_VERIFICATION_INSTRUCTIONS = (
     "To verify you have access to the wallet at your address, follow these steps:"
     "\n1: Navigate to myetherwallet.com/wallet/sign"
-    "\n2: When prompted, connect with your metamask wallet in the browser"
+    '\n2: Connect to MyEtherWallet with your wallet in the browser by pressing "browser extension"'
     "\n3: Copy and paste the message below into the 'Signature' box"
-    "\n4: Click the 'Sign' button"
-    "\n5: Approve the metamask notification and sign the message"
-    "\n6: Copy the long string right after 'sig' (without quotes)"
-    "\n7: Paste that string into this conversation to verify ownership"
+    "\n4: Click the green 'Sign' button"
+    "\n5: Approve the metamask notification and sign the message (it should match the message below)"
+    "\n6: Copy the long string of characters right after 'sig' (without quotes)"
+    "\n7: Paste that string into this conversation to verify your wallet ownership"
 )
 
 emojis = [
