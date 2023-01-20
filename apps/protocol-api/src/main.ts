@@ -252,6 +252,7 @@ const permissions = shield(
       authentication_token: or(isAuthenticated, hasToken),
       import_status: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
     },
     GuildImportStatus: {
       id: or(isAuthenticated, hasToken),
