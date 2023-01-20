@@ -1,14 +1,65 @@
-import { useImportHistoryInfiniteList } from '../hooks/useImportHistoryList';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  Box,
+  chakra,
+  Flex,
+  Link as ChakraLink,
+  HStack,
+  Heading,
+  IconButton,
+  Stack,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tooltip,
+  Tr,
+} from '@chakra-ui/react';
+import {
+  ColumnDef,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+  flexRender,
+  SortingState,
+  getSortedRowModel,
+  Getter,
+  Row,
+} from '@tanstack/react-table';
+import {
+  useImportHistoryInfiniteList,
+  useImportHistoryList,
+} from '../hooks/useImportHistoryList';
 import { useUser } from '../contexts/UserContext';
-import { Box, Heading, Text, Stack } from '@chakra-ui/react';
+import { UIGuildImportHistory } from '@govrn/ui-types';
+import IndeterminateCheckbox from './IndeterminateCheckbox';
 import EmptyImports from './EmptyImports';
+import { GovrnSpinner } from '@govrn/protocol-ui';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { mergePages } from '../utils/arrays';
+import { formatDate } from '../utils/date';
+import { RowSelectionState } from '@tanstack/table-core';
 
 const ImportHistoryTable = () => {
   const { userData } = useUser();
-  const { data: importHistoryData } = useImportHistoryInfiniteList({
+
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [selectedRows, setSelectedRows] = useState<UIGuildImportHistory[]>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+
+  const { data: importHistoryData } = useImportHistoryList({
     where: { users: { some: { user_id: { equals: userData?.id } } } },
   });
   console.log('import history', importHistoryData);
+
+  const { data: importHistoryInfiniteData } = useImportHistoryInfiniteList({
+    where: { users: { some: { user_id: { equals: userData?.id } } } },
+  });
+  console.log('import history', importHistoryInfiniteData);
+
   return (
     <Box
       paddingY={{ base: '4' }}
@@ -22,16 +73,11 @@ const ImportHistoryTable = () => {
       borderRadius={{ base: 'none', md: 'md' }}
       marginBottom={10}
     >
-      {importHistoryData && importHistoryData.pages.length > 0 ? (
+      {importHistoryData && importHistoryData.length > 0 ? (
         <Stack spacing="5">
           <Heading as="h3" fontWeight="600" fontSize="md" marginY={4}>
             Import History
           </Heading>
-          {/* <RecentContributionsTable
-            contributionsData={recentContributions.pages}
-            nextPage={fetchNextPage}
-            hasMoreItems={hasNextPage || false}
-          /> */}
         </Stack>
       ) : (
         <EmptyImports />
