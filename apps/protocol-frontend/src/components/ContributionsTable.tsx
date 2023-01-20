@@ -170,17 +170,7 @@ const ContributionsTable = ({
         }: {
           getValue: Getter<UIContribution['status']>;
         }) => {
-          return (
-            <Text textTransform="capitalize">
-              {getValue().name}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {emojiSelect(getValue().name)}
-              </span>{' '}
-            </Text>
-          );
+          return <Text textTransform="capitalize">{getValue().name}</Text>;
         },
       },
       {

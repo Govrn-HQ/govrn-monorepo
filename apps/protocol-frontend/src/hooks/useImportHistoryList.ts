@@ -37,7 +37,6 @@ export const useImportHistoryInfiniteList = (
       const data = await govrn.guild.import.list(
         { ...args, first: pageSize, skip: pageParam } || {},
       );
-      console.log('data in query', data);
       const results = [];
       for (const importHistory of data.result) {
         results.push(importHistory);

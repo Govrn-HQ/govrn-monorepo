@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  Badge,
   Box,
   chakra,
   Flex,
@@ -17,10 +18,11 @@ import {
   Tooltip,
   Tr,
 } from '@chakra-ui/react';
+import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import {
   ColumnDef,
   getCoreRowModel,
-  getFilteredRowModel,
   useReactTable,
   flexRender,
   SortingState,
@@ -34,7 +36,6 @@ import {
 } from '../hooks/useImportHistoryList';
 import { useUser } from '../contexts/UserContext';
 import { UIGuildImportHistory } from '@govrn/ui-types';
-import IndeterminateCheckbox from './IndeterminateCheckbox';
 import EmptyImports from './EmptyImports';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -45,20 +46,89 @@ import { RowSelectionState } from '@tanstack/table-core';
 const ImportHistoryTable = () => {
   const { userData } = useUser();
 
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-  const [selectedRows, setSelectedRows] = useState<UIGuildImportHistory[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = useState('');
 
   const { data: importHistoryData } = useImportHistoryList({
     where: { users: { some: { user_id: { equals: userData?.id } } } },
   });
   console.log('import history', importHistoryData);
 
-  const { data: importHistoryInfiniteData } = useImportHistoryInfiniteList({
-    where: { users: { some: { user_id: { equals: userData?.id } } } },
+  // const { data: importHistoryInfiniteData } = useImportHistoryInfiniteList({
+  //   where: { users: { some: { user_id: { equals: userData?.id } } } },
+  // });
+  // console.log('import history', importHistoryInfiniteData);
+
+  // const columnDefs: ColumnDef<UIGuildImportHistory>[] = useMemo(() => {
+  //   return [
+  //     {
+  //       header: 'id',
+  //       accessor: 'id',
+  //       cell: {
+
+  //       }
+  //     },
+  //   ];
+  // }, []);
+
+  const columnsDefs = useMemo<ColumnDef<UIGuildImportHistory>[]>(() => {
+    return [
+      {
+        header: 'DAO',
+        accessorKey: 'guild',
+
+        cell: ({
+          row,
+          getValue,
+        }: {
+          row: Row<UIGuildImportHistory>;
+          getValue: Getter<UIGuildImportHistory['guild']>;
+        }) => {
+          return (
+            <Flex direction="column" wrap="wrap">
+              <Link to={`/dao/${row.original.id}`}>
+                <Text whiteSpace="normal">{getValue().name}</Text>
+              </Link>
+            </Flex>
+          );
+        },
+      },
+      {
+        header: 'Status',
+        accessorKey: 'import_status',
+        cell: ({
+          getValue,
+        }: {
+          getValue: Getter<UIGuildImportHistory['import_status']>;
+        }) => {
+          return <Badge textTransform="capitalize">{getValue().name}</Badge>;
+        },
+      },
+
+      {
+        header: 'Date',
+        accessorFn: importHistory => formatDate(importHistory.createdAt),
+      },
+      {
+        header: 'Members',
+        accessorFn: importHistory => String(importHistory.users.length),
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return <Text textTransform="capitalize">{getValue()} </Text>;
+        },
+      },
+    ];
+  }, []);
+
+  const table = useReactTable({
+    data: importHistoryData,
+    columns: columnsDefs,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    debugAll: false,
   });
-  console.log('import history', importHistoryInfiniteData);
 
   return (
     <Box
@@ -78,6 +148,64 @@ const ImportHistoryTable = () => {
           <Heading as="h3" fontWeight="600" fontSize="md" marginY={4}>
             Import History
           </Heading>
+          <Box width="100%" maxWidth="100vw" overflowX="auto">
+            <Table maxWidth="100vw" overflowX="auto">
+              <Thead backgroundColor="gray.50">
+                {table.getHeaderGroups().map(headerGroup => (
+                  <Tr key={headerGroup.id}>
+                    {headerGroup.headers.map(header => (
+                      <Th key={header.id} borderColor="gray.100">
+                        {header.isPlaceholder ? null : (
+                          <Box
+                            {...{
+                              onClick: header.column.getToggleSortingHandler(),
+                              cursor: 'pointer',
+                            }}
+                          >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+
+                            <chakra.span paddingLeft="4">
+                              {{
+                                asc: (
+                                  <IoArrowUp aria-label="sorted-ascending" />
+                                ),
+                                desc: (
+                                  <IoArrowDown aria-label="sorted-descending" />
+                                ),
+                              }[header.column.getIsSorted() as string] ?? null}
+                            </chakra.span>
+                          </Box>
+                        )}
+                      </Th>
+                    ))}
+                    <Th borderColor="gray.100" />
+                  </Tr>
+                ))}
+              </Thead>
+
+              <Tbody>
+                {table.getRowModel().rows.map(row => {
+                  return (
+                    <Tr key={row.id}>
+                      {row.getVisibleCells().map(cell => {
+                        return (
+                          <Td borderColor="gray.100" key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </Td>
+                        );
+                      })}
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </Box>
         </Stack>
       ) : (
         <EmptyImports />
