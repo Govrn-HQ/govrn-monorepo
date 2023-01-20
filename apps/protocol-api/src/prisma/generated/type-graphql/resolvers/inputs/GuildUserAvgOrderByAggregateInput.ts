@@ -27,4 +27,9 @@ export class GuildUserAvgOrderByAggregateInput {
     nullable: true
   })
   membership_status_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  guild_import_id?: "asc" | "desc" | undefined;
 }
