@@ -85,9 +85,20 @@ const ImportHistoryTable = () => {
         }) => {
           return (
             <Flex direction="column" wrap="wrap">
-              <Link to={`/dao/${row.original.id}`}>
+              {row.original.import_status.name === 'Completed' ? (
+                <Link to={`/dao/${row.original.id}`}>
+                  <Text
+                    as="span"
+                    bgGradient="linear(to-l, #7928CA, #FF0080)"
+                    bgClip="text"
+                    whiteSpace="normal"
+                  >
+                    {getValue().name}
+                  </Text>
+                </Link>
+              ) : (
                 <Text whiteSpace="normal">{getValue().name}</Text>
-              </Link>
+              )}
             </Flex>
           );
         },
