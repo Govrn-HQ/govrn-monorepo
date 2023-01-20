@@ -7,7 +7,6 @@ export const useImportHistory = ({ ...args }) => {
     ['daoImportHistory', args],
     async () => {
       const data = await govrn.guild.import.list({ ...args });
-
       return data;
     },
   );
