@@ -311,7 +311,7 @@ mutation createGuildUser($data: GuildUserCreateInput!) {
         },
     )
     if result:
-        return result.get("createGuildUser")
+        return result.get("createOneGuildUser")
     return result
 
 
@@ -333,7 +333,7 @@ mutation createGuild($data: GuildCreateInput!) {
         },
     )
     if result:
-        return result.get("createGuild")
+        return result.get("createOneGuild")
     return result
 
 
@@ -379,7 +379,7 @@ mutation createUser($data: UserCreateInput!) {
 
     if result:
         print(result)
-        return result.get("createUser")
+        return result.get("createOneUser")
     return result
 
 
@@ -423,7 +423,7 @@ mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
     )
     if result:
         print(result)
-        return result.get("updateUser")
+        return result.get("updateOneUser")
     return result
 
 
@@ -470,7 +470,7 @@ mutation updateGuild($data: GuildUpdateInput!, $where: GuildWhereUniqueInput!) {
     )
     if result:
         print(result)
-        return result.get("updateGuild")
+        return result.get("updateOneGuild")
     return result
 
 
