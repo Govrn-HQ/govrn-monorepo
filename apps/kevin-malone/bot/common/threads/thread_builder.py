@@ -72,6 +72,7 @@ class StepKeys(Enum):
     VERIFY_USER_TWITTER = "verify_user_twitter"
     ADD_USER_WALLET = "add_user_wallet"
     VERIFY_USER_WALLET = "verify_user_wallet"
+    CREATE_USER = "create_user"
     ONBOARDING_CONGRATS = "onboarding_congrats"
     PROMPT_USER_WALLET_ADDRESS = "prompt_user_wallet_address"
     ADD_USER_DISCOURSE = "add_user_discourse"

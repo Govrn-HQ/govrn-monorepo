@@ -120,8 +120,6 @@ class VerifyUserWalletStep(BaseStep):
         await self.remove_existing_wallet_usage(user_id, verified_wallet)
         if self.update:
             await self.update_existing_user_with_wallet(user_id, verified_wallet)
-        else:
-            await self.create_user_with_wallet(user_id, guild_id, verified_wallet)
 
     async def verify_message(self, user_id, message):
         # Retrieve expected message and wallet from cache
@@ -161,26 +159,7 @@ class VerifyUserWalletStep(BaseStep):
         # verified address
         err_address_marker = VerifyUserWalletStep.unverified_address_fmt % user_id
         await gql.update_user_wallet(user.get("id"), err_address_marker)
-
-    async def create_user_with_wallet(self, user_id, guild_id, wallet):
-        # Create a new user row with the supplied display name, wallet, etc.
-        display_name = await get_cache_metadata_key(user_id, self.cache, "display_name")
-        discord_display_name = await get_cache_metadata_key(
-            user_id, self.cache, DISCORD_DISPLAY_NAME_CACHE_KEY
-        )
-        # Assumption: user is in a discord server/not in DMs
-        guild = await gql.get_guild_by_discord_id(guild_id)
-
-        # user creation is performed when supplying wallet address since this
-        # is a mandatory field for the user record
-        # TODO: wrap into a single CRUD
-        user = await self.create_user(
-            user_id, discord_display_name, guild.get("id"), wallet
-        )
-        user_db_id = user.get("id")
-        await gql.update_user_display_name(user_db_id, display_name)
-        await write_cache_metadata(user_id, self.cache, "user_db_id", user_db_id)
-
+ 
     async def update_existing_user_with_wallet(self, user_id, verified_wallet):
         user = await gql.get_user_by_discord_id(user_id)
         # Update the user's profile with the verified wallet address

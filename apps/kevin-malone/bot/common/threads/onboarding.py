@@ -27,7 +27,9 @@ from bot.exceptions import InvalidWalletAddressException
 
 DISCORD_USER_CACHE_KEY = "discord_user_previously_exists"
 USER_CACHE_KEY = "user_previously_exists"
+USER_DB_ID_CACHE_KEY = "user_db_id"
 DISCORD_DISPLAY_NAME_CACHE_KEY = "discord_display_name"
+DISPLAY_NAME_CACHE_KEY = "display_name"
 TWITTER_HANDLE_CACHE_KEY = "twitter_handle"
 REQUESTED_TWEET_CACHE_KEY = "requested_tweet"
 
@@ -61,12 +63,12 @@ class CheckIfDiscordUserExists(BaseStep):
             # Cache for the message send in the next step rather than retrieving
             # from the database
             await write_cache_metadata(
-                user_id, self.cache, "display_name", user["display_name"]
+                user_id, self.cache, DISPLAY_NAME_CACHE_KEY, user["display_name"]
             )
             await write_cache_metadata(
                 user_id, self.cache, WALLET_CACHE_KEY, user["address"]
             )
-            await write_cache_metadata(user_id, self.cache, "user_db_id", user["id"])
+            await write_cache_metadata(user_id, self.cache, USER_DB_ID_CACHE_KEY, user["id"])
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
         return StepKeys.PROMPT_USER_WALLET_ADDRESS.value
 
@@ -112,9 +114,10 @@ class AssociateDiscordProfileWithUser(BaseStep):
 
     name = StepKeys.ASSOCIATE_DISCORD_PROFILE_WITH_USER.value
 
-    def __init__(self, cache):
+    def __init__(self, cache, bot):
         super().__init__()
         self.cache = cache
+        self.bot = bot
 
     # No user input is required
     async def send(self, message, user_id):
@@ -124,22 +127,22 @@ class AssociateDiscordProfileWithUser(BaseStep):
         wallet_id = await get_cache_metadata_key(user_id, self.cache, WALLET_CACHE_KEY)
         user = await gql.get_user_by_wallet(wallet_id)
         if user:
-            user = await self.bot.fetch_user(user_id)
-            discord_display_name = user.display_name
+            discord_user = await self.bot.fetch_user(user_id)
+            discord_display_name = discord_user.display_name
 
             # A user exists with a govrn profile, indicating they've joined on the webapp
             # Need to create a discord user object, and then associate the govrn user with the guild
-            await gql.create_discord_user(user["id"], user_id, discord_display_name)
+            await gql.create_discord_user(user.get("id"), user_id, discord_display_name)
 
             # Cache user info for following step of associating with guild
             await write_cache_metadata(
-                user_id, self.cache, "display_name", user["display_name"]
+                user_id, self.cache, DISPLAY_NAME_CACHE_KEY, discord_display_name
             )
-            await write_cache_metadata(user_id, self.cache, "user_db_id", user["id"])
+            await write_cache_metadata(user_id, self.cache, USER_DB_ID_CACHE_KEY, user.get("id"))
 
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
 
-        return StepKeys.VERIFY_USER_WALLET.value
+        return StepKeys.USER_DISPLAY_CONFIRM.value
 
 
 class AssociateExistingUserWithGuild(BaseStep):
@@ -162,11 +165,11 @@ class AssociateExistingUserWithGuild(BaseStep):
     async def send(self, message, user_id):
         # discord user + user exist, guild user does not
         guild = await gql.get_guild_by_discord_id(self.guild_id)
-        user_db_id = await get_cache_metadata_key(user_id, self.cache, "user_db_id")
-        await gql.create_guild_user(user_db_id, guild["id"])
+        user_db_id = await get_cache_metadata_key(user_id, self.cache, USER_DB_ID_CACHE_KEY)
+        await gql.create_guild_user(user_db_id, guild.get("id"))
 
         guild_name = await get_cache_metadata_key(user_id, self.cache, "guild_name")
-        display_name = await get_cache_metadata_key(user_id, self.cache, "display_name")
+        display_name = await get_cache_metadata_key(user_id, self.cache, DISPLAY_NAME_CACHE_KEY)
         address = await get_cache_metadata_key(user_id, self.cache, WALLET_CACHE_KEY)
 
         channel = message.channel
@@ -237,7 +240,7 @@ class UserDisplayConfirmationEmojiStep(BaseStep):
             user_id, self.cache, DISCORD_DISPLAY_NAME_CACHE_KEY
         )
         await write_cache_metadata(
-            user_id, self.cache, "display_name", discord_display_name
+            user_id, self.cache, DISPLAY_NAME_CACHE_KEY, discord_display_name
         )
 
 
@@ -258,7 +261,7 @@ class UserDisplaySubmitStep(BaseStep):
 
     async def save(self, message, guild_id, user_id):
         display_name = message.content.strip()
-        await write_cache_metadata(user_id, self.cache, "display_name", display_name)
+        await write_cache_metadata(user_id, self.cache, DISPLAY_NAME_CACHE_KEY, display_name)
 
     async def handle_emoji(self, raw_reaction):
         return _handle_skip_emoji(raw_reaction, self.guild_id)
@@ -295,6 +298,37 @@ class AddUserTwitterStep(BaseStep):
         raise Exception(AddUserTwitterStep.exception_message)
 
 
+class CreateUserStep(BaseStep):
+    """Creates User, GuildUser, DiscordUser, TwitterUser in our DB"""
+
+    name = StepKeys.CREATE_USER.value
+
+    def __init__(self, cache):
+        self.cache = cache
+
+    async def send(self, message, user_id):
+        return None, None
+
+    async def save(self, message, guild_id, user_id):
+        # retrieve user fields from cache
+        address = await get_cache_metadata_key(user_id, self.cache, WALLET_CACHE_KEY)
+        display_name = await get_cache_metadata_key(user_id, self.cache, DISPLAY_NAME_CACHE_KEY)
+        discord_display_name = await get_cache_metadata_key(
+            user_id, self.cache, DISCORD_DISPLAY_NAME_CACHE_KEY
+        )
+        
+        # Assumption: user is in a discord server/not in DMs
+        guild = await gql.get_guild_by_discord_id(guild_id)
+
+        # Create a new user row with the supplied display name, wallet, etc.
+        # TODO: wrap into a single CRUD
+        user = await self.create_user(
+            user_id, discord_display_name, guild.get("id"), address
+        )
+        user_db_id = user.get("id")
+        await gql.update_user_display_name(user_db_id, display_name)
+
+    
 class CongratsStep(BaseStep):
     """Send congratulations for completing the profile"""
 
@@ -366,7 +400,7 @@ class Onboarding(BaseThread):
                 )
             )
             .add_next_step(VerifyUserWalletStep(self.cache, update=False))
-            .add_next_step(AssociateDiscordProfileWithUser(self.cache))
+            .add_next_step(AssociateDiscordProfileWithUser(self.cache, self.bot))
             .fork(
                 (
                     AssociateExistingUserWithGuild(
