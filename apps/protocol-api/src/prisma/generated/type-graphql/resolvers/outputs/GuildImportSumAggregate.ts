@@ -21,4 +21,9 @@ export class GuildImportSumAggregate {
     nullable: true
   })
   integration_type_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  import_status_id!: number | null;
 }

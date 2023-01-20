@@ -7,7 +7,8 @@ export enum GuildUserScalarFieldEnum {
   user_id = "user_id",
   guild_id = "guild_id",
   membership_status_id = "membership_status_id",
-  favorite = "favorite"
+  favorite = "favorite",
+  guild_import_id = "guild_import_id"
 }
 TypeGraphQL.registerEnumType(GuildUserScalarFieldEnum, {
   name: "GuildUserScalarFieldEnum",

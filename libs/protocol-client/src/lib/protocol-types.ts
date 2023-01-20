@@ -585,6 +585,14 @@ export type AggregateGuildImport = {
   _sum?: Maybe<GuildImportSumAggregate>;
 };
 
+export type AggregateGuildImportStatus = {
+  _avg?: Maybe<GuildImportStatusAvgAggregate>;
+  _count?: Maybe<GuildImportStatusCountAggregate>;
+  _max?: Maybe<GuildImportStatusMaxAggregate>;
+  _min?: Maybe<GuildImportStatusMinAggregate>;
+  _sum?: Maybe<GuildImportStatusSumAggregate>;
+};
+
 export type AggregateGuildMembershipStatus = {
   _avg?: Maybe<GuildMembershipStatusAvgAggregate>;
   _count?: Maybe<GuildMembershipStatusCountAggregate>;
@@ -5755,26 +5763,46 @@ export type GuildGroupBy = {
 };
 
 export type GuildImport = {
+  _count?: Maybe<GuildImportCount>;
   authentication_token: Scalars['String'];
   createdAt: Scalars['DateTime'];
   guild: Guild;
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
+  import_status: GuildImportStatus;
+  import_status_id: Scalars['Int'];
   integration_type: IntegrationType;
   integration_type_id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
+  users: Array<GuildUser>;
+};
+
+
+export type GuildImportUsersArgs = {
+  cursor?: InputMaybe<GuildUserWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildUserScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildUserWhereInput>;
 };
 
 export type GuildImportAvgAggregate = {
   guild_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  import_status_id?: Maybe<Scalars['Float']>;
   integration_type_id?: Maybe<Scalars['Float']>;
 };
 
 export type GuildImportAvgOrderByAggregateInput = {
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  import_status_id?: InputMaybe<SortOrder>;
   integration_type_id?: InputMaybe<SortOrder>;
+};
+
+export type GuildImportCount = {
+  users: Scalars['Int'];
 };
 
 export type GuildImportCountAggregate = {
@@ -5783,6 +5811,7 @@ export type GuildImportCountAggregate = {
   createdAt: Scalars['Int'];
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
+  import_status_id: Scalars['Int'];
   integration_type_id: Scalars['Int'];
   updatedAt: Scalars['Int'];
 };
@@ -5792,6 +5821,7 @@ export type GuildImportCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  import_status_id?: InputMaybe<SortOrder>;
   integration_type_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -5800,14 +5830,17 @@ export type GuildImportCreateInput = {
   authentication_token: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild: GuildCreateNestedOneWithoutGuild_ImportsInput;
+  import_status: GuildImportStatusCreateNestedOneWithoutGuild_ImportsInput;
   integration_type: IntegrationTypeCreateNestedOneWithoutGuild_ImportsInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
+  users?: InputMaybe<GuildUserCreateNestedManyWithoutGuild_ImportInput>;
 };
 
 export type GuildImportCreateManyGuildInput = {
   authentication_token: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
+  import_status_id: Scalars['Int'];
   integration_type_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -5817,11 +5850,26 @@ export type GuildImportCreateManyGuildInputEnvelope = {
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type GuildImportCreateManyImport_StatusInput = {
+  authentication_token: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild_id: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  integration_type_id: Scalars['Int'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildImportCreateManyImport_StatusInputEnvelope = {
+  data: Array<GuildImportCreateManyImport_StatusInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type GuildImportCreateManyInput = {
   authentication_token: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
+  import_status_id: Scalars['Int'];
   integration_type_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -5831,6 +5879,7 @@ export type GuildImportCreateManyIntegration_TypeInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
+  import_status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -5846,6 +5895,13 @@ export type GuildImportCreateNestedManyWithoutGuildInput = {
   createMany?: InputMaybe<GuildImportCreateManyGuildInputEnvelope>;
 };
 
+export type GuildImportCreateNestedManyWithoutImport_StatusInput = {
+  connect?: InputMaybe<Array<GuildImportWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildImportCreateOrConnectWithoutImport_StatusInput>>;
+  create?: InputMaybe<Array<GuildImportCreateWithoutImport_StatusInput>>;
+  createMany?: InputMaybe<GuildImportCreateManyImport_StatusInputEnvelope>;
+};
+
 export type GuildImportCreateNestedManyWithoutIntegration_TypeInput = {
   connect?: InputMaybe<Array<GuildImportWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildImportCreateOrConnectWithoutIntegration_TypeInput>>;
@@ -5853,8 +5909,19 @@ export type GuildImportCreateNestedManyWithoutIntegration_TypeInput = {
   createMany?: InputMaybe<GuildImportCreateManyIntegration_TypeInputEnvelope>;
 };
 
+export type GuildImportCreateNestedOneWithoutUsersInput = {
+  connect?: InputMaybe<GuildImportWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildImportCreateOrConnectWithoutUsersInput>;
+  create?: InputMaybe<GuildImportCreateWithoutUsersInput>;
+};
+
 export type GuildImportCreateOrConnectWithoutGuildInput = {
   create: GuildImportCreateWithoutGuildInput;
+  where: GuildImportWhereUniqueInput;
+};
+
+export type GuildImportCreateOrConnectWithoutImport_StatusInput = {
+  create: GuildImportCreateWithoutImport_StatusInput;
   where: GuildImportWhereUniqueInput;
 };
 
@@ -5863,17 +5930,44 @@ export type GuildImportCreateOrConnectWithoutIntegration_TypeInput = {
   where: GuildImportWhereUniqueInput;
 };
 
+export type GuildImportCreateOrConnectWithoutUsersInput = {
+  create: GuildImportCreateWithoutUsersInput;
+  where: GuildImportWhereUniqueInput;
+};
+
 export type GuildImportCreateWithoutGuildInput = {
   authentication_token: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  import_status: GuildImportStatusCreateNestedOneWithoutGuild_ImportsInput;
   integration_type: IntegrationTypeCreateNestedOneWithoutGuild_ImportsInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
+  users?: InputMaybe<GuildUserCreateNestedManyWithoutGuild_ImportInput>;
+};
+
+export type GuildImportCreateWithoutImport_StatusInput = {
+  authentication_token: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild: GuildCreateNestedOneWithoutGuild_ImportsInput;
+  integration_type: IntegrationTypeCreateNestedOneWithoutGuild_ImportsInput;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  users?: InputMaybe<GuildUserCreateNestedManyWithoutGuild_ImportInput>;
 };
 
 export type GuildImportCreateWithoutIntegration_TypeInput = {
   authentication_token: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild: GuildCreateNestedOneWithoutGuild_ImportsInput;
+  import_status: GuildImportStatusCreateNestedOneWithoutGuild_ImportsInput;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  users?: InputMaybe<GuildUserCreateNestedManyWithoutGuild_ImportInput>;
+};
+
+export type GuildImportCreateWithoutUsersInput = {
+  authentication_token: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild: GuildCreateNestedOneWithoutGuild_ImportsInput;
+  import_status: GuildImportStatusCreateNestedOneWithoutGuild_ImportsInput;
+  integration_type: IntegrationTypeCreateNestedOneWithoutGuild_ImportsInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -5887,6 +5981,7 @@ export type GuildImportGroupBy = {
   createdAt: Scalars['DateTime'];
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
+  import_status_id: Scalars['Int'];
   integration_type_id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
 };
@@ -5902,6 +5997,7 @@ export type GuildImportMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  import_status_id?: Maybe<Scalars['Int']>;
   integration_type_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -5911,6 +6007,7 @@ export type GuildImportMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  import_status_id?: InputMaybe<SortOrder>;
   integration_type_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -5920,6 +6017,7 @@ export type GuildImportMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  import_status_id?: Maybe<Scalars['Int']>;
   integration_type_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -5929,6 +6027,7 @@ export type GuildImportMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  import_status_id?: InputMaybe<SortOrder>;
   integration_type_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -5947,6 +6046,7 @@ export type GuildImportOrderByWithAggregationInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  import_status_id?: InputMaybe<SortOrder>;
   integration_type_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -5957,9 +6057,17 @@ export type GuildImportOrderByWithRelationInput = {
   guild?: InputMaybe<GuildOrderByWithRelationInput>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  import_status?: InputMaybe<GuildImportStatusOrderByWithRelationInput>;
+  import_status_id?: InputMaybe<SortOrder>;
   integration_type?: InputMaybe<IntegrationTypeOrderByWithRelationInput>;
   integration_type_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+  users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
+};
+
+export type GuildImportRelationFilter = {
+  is?: InputMaybe<GuildImportWhereInput>;
+  isNot?: InputMaybe<GuildImportWhereInput>;
 };
 
 export enum GuildImportScalarFieldEnum {
@@ -5967,6 +6075,7 @@ export enum GuildImportScalarFieldEnum {
   CreatedAt = 'createdAt',
   GuildId = 'guild_id',
   Id = 'id',
+  ImportStatusId = 'import_status_id',
   IntegrationTypeId = 'integration_type_id',
   UpdatedAt = 'updatedAt'
 }
@@ -5979,6 +6088,7 @@ export type GuildImportScalarWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   guild_id?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
+  import_status_id?: InputMaybe<IntFilter>;
   integration_type_id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
@@ -5991,19 +6101,237 @@ export type GuildImportScalarWhereWithAggregatesInput = {
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   guild_id?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
+  import_status_id?: InputMaybe<IntWithAggregatesFilter>;
   integration_type_id?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type GuildImportStatus = {
+  _count?: Maybe<GuildImportStatusCount>;
+  createdAt: Scalars['DateTime'];
+  guild_imports: Array<GuildImport>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+
+export type GuildImportStatusGuild_ImportsArgs = {
+  cursor?: InputMaybe<GuildImportWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildImportScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildImportOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildImportWhereInput>;
+};
+
+export type GuildImportStatusAvgAggregate = {
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type GuildImportStatusAvgOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildImportStatusCount = {
+  guild_imports: Scalars['Int'];
+};
+
+export type GuildImportStatusCountAggregate = {
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type GuildImportStatusCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildImportStatusCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild_imports?: InputMaybe<GuildImportCreateNestedManyWithoutImport_StatusInput>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildImportStatusCreateManyInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildImportStatusCreateNestedOneWithoutGuild_ImportsInput = {
+  connect?: InputMaybe<GuildImportStatusWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildImportStatusCreateOrConnectWithoutGuild_ImportsInput>;
+  create?: InputMaybe<GuildImportStatusCreateWithoutGuild_ImportsInput>;
+};
+
+export type GuildImportStatusCreateOrConnectWithoutGuild_ImportsInput = {
+  create: GuildImportStatusCreateWithoutGuild_ImportsInput;
+  where: GuildImportStatusWhereUniqueInput;
+};
+
+export type GuildImportStatusCreateWithoutGuild_ImportsInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildImportStatusGroupBy = {
+  _avg?: Maybe<GuildImportStatusAvgAggregate>;
+  _count?: Maybe<GuildImportStatusCountAggregate>;
+  _max?: Maybe<GuildImportStatusMaxAggregate>;
+  _min?: Maybe<GuildImportStatusMinAggregate>;
+  _sum?: Maybe<GuildImportStatusSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type GuildImportStatusMaxAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type GuildImportStatusMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildImportStatusMinAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type GuildImportStatusMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildImportStatusOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GuildImportStatusAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GuildImportStatusCountOrderByAggregateInput>;
+  _max?: InputMaybe<GuildImportStatusMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GuildImportStatusMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GuildImportStatusSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildImportStatusOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  guild_imports?: InputMaybe<GuildImportOrderByRelationAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type GuildImportStatusRelationFilter = {
+  is?: InputMaybe<GuildImportStatusWhereInput>;
+  isNot?: InputMaybe<GuildImportStatusWhereInput>;
+};
+
+export enum GuildImportStatusScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Name = 'name',
+  UpdatedAt = 'updatedAt'
+}
+
+export type GuildImportStatusScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GuildImportStatusScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GuildImportStatusScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GuildImportStatusScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type GuildImportStatusSumAggregate = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type GuildImportStatusSumOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildImportStatusUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild_imports?: InputMaybe<GuildImportUpdateManyWithoutImport_StatusNestedInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildImportStatusUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildImportStatusUpdateOneRequiredWithoutGuild_ImportsNestedInput = {
+  connect?: InputMaybe<GuildImportStatusWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildImportStatusCreateOrConnectWithoutGuild_ImportsInput>;
+  create?: InputMaybe<GuildImportStatusCreateWithoutGuild_ImportsInput>;
+  update?: InputMaybe<GuildImportStatusUpdateWithoutGuild_ImportsInput>;
+  upsert?: InputMaybe<GuildImportStatusUpsertWithoutGuild_ImportsInput>;
+};
+
+export type GuildImportStatusUpdateWithoutGuild_ImportsInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type GuildImportStatusUpsertWithoutGuild_ImportsInput = {
+  create: GuildImportStatusCreateWithoutGuild_ImportsInput;
+  update: GuildImportStatusUpdateWithoutGuild_ImportsInput;
+};
+
+export type GuildImportStatusWhereInput = {
+  AND?: InputMaybe<Array<GuildImportStatusWhereInput>>;
+  NOT?: InputMaybe<Array<GuildImportStatusWhereInput>>;
+  OR?: InputMaybe<Array<GuildImportStatusWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  guild_imports?: InputMaybe<GuildImportListRelationFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type GuildImportStatusWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type GuildImportSumAggregate = {
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  import_status_id?: Maybe<Scalars['Int']>;
   integration_type_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildImportSumOrderByAggregateInput = {
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  import_status_id?: InputMaybe<SortOrder>;
   integration_type_id?: InputMaybe<SortOrder>;
 };
 
@@ -6011,8 +6339,10 @@ export type GuildImportUpdateInput = {
   authentication_token?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
+  import_status?: InputMaybe<GuildImportStatusUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
   integration_type?: InputMaybe<IntegrationTypeUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuild_ImportNestedInput>;
 };
 
 export type GuildImportUpdateManyMutationInput = {
@@ -6022,6 +6352,11 @@ export type GuildImportUpdateManyMutationInput = {
 };
 
 export type GuildImportUpdateManyWithWhereWithoutGuildInput = {
+  data: GuildImportUpdateManyMutationInput;
+  where: GuildImportScalarWhereInput;
+};
+
+export type GuildImportUpdateManyWithWhereWithoutImport_StatusInput = {
   data: GuildImportUpdateManyMutationInput;
   where: GuildImportScalarWhereInput;
 };
@@ -6045,6 +6380,20 @@ export type GuildImportUpdateManyWithoutGuildNestedInput = {
   upsert?: InputMaybe<Array<GuildImportUpsertWithWhereUniqueWithoutGuildInput>>;
 };
 
+export type GuildImportUpdateManyWithoutImport_StatusNestedInput = {
+  connect?: InputMaybe<Array<GuildImportWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildImportCreateOrConnectWithoutImport_StatusInput>>;
+  create?: InputMaybe<Array<GuildImportCreateWithoutImport_StatusInput>>;
+  createMany?: InputMaybe<GuildImportCreateManyImport_StatusInputEnvelope>;
+  delete?: InputMaybe<Array<GuildImportWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<GuildImportScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<GuildImportWhereUniqueInput>>;
+  set?: InputMaybe<Array<GuildImportWhereUniqueInput>>;
+  update?: InputMaybe<Array<GuildImportUpdateWithWhereUniqueWithoutImport_StatusInput>>;
+  updateMany?: InputMaybe<Array<GuildImportUpdateManyWithWhereWithoutImport_StatusInput>>;
+  upsert?: InputMaybe<Array<GuildImportUpsertWithWhereUniqueWithoutImport_StatusInput>>;
+};
+
 export type GuildImportUpdateManyWithoutIntegration_TypeNestedInput = {
   connect?: InputMaybe<Array<GuildImportWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<GuildImportCreateOrConnectWithoutIntegration_TypeInput>>;
@@ -6059,8 +6408,23 @@ export type GuildImportUpdateManyWithoutIntegration_TypeNestedInput = {
   upsert?: InputMaybe<Array<GuildImportUpsertWithWhereUniqueWithoutIntegration_TypeInput>>;
 };
 
+export type GuildImportUpdateOneWithoutUsersNestedInput = {
+  connect?: InputMaybe<GuildImportWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildImportCreateOrConnectWithoutUsersInput>;
+  create?: InputMaybe<GuildImportCreateWithoutUsersInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<GuildImportUpdateWithoutUsersInput>;
+  upsert?: InputMaybe<GuildImportUpsertWithoutUsersInput>;
+};
+
 export type GuildImportUpdateWithWhereUniqueWithoutGuildInput = {
   data: GuildImportUpdateWithoutGuildInput;
+  where: GuildImportWhereUniqueInput;
+};
+
+export type GuildImportUpdateWithWhereUniqueWithoutImport_StatusInput = {
+  data: GuildImportUpdateWithoutImport_StatusInput;
   where: GuildImportWhereUniqueInput;
 };
 
@@ -6072,14 +6436,36 @@ export type GuildImportUpdateWithWhereUniqueWithoutIntegration_TypeInput = {
 export type GuildImportUpdateWithoutGuildInput = {
   authentication_token?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  import_status?: InputMaybe<GuildImportStatusUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
   integration_type?: InputMaybe<IntegrationTypeUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuild_ImportNestedInput>;
+};
+
+export type GuildImportUpdateWithoutImport_StatusInput = {
+  authentication_token?: InputMaybe<StringFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
+  integration_type?: InputMaybe<IntegrationTypeUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuild_ImportNestedInput>;
 };
 
 export type GuildImportUpdateWithoutIntegration_TypeInput = {
   authentication_token?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
+  import_status?: InputMaybe<GuildImportStatusUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  users?: InputMaybe<GuildUserUpdateManyWithoutGuild_ImportNestedInput>;
+};
+
+export type GuildImportUpdateWithoutUsersInput = {
+  authentication_token?: InputMaybe<StringFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
+  import_status?: InputMaybe<GuildImportStatusUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
+  integration_type?: InputMaybe<IntegrationTypeUpdateOneRequiredWithoutGuild_ImportsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -6089,10 +6475,21 @@ export type GuildImportUpsertWithWhereUniqueWithoutGuildInput = {
   where: GuildImportWhereUniqueInput;
 };
 
+export type GuildImportUpsertWithWhereUniqueWithoutImport_StatusInput = {
+  create: GuildImportCreateWithoutImport_StatusInput;
+  update: GuildImportUpdateWithoutImport_StatusInput;
+  where: GuildImportWhereUniqueInput;
+};
+
 export type GuildImportUpsertWithWhereUniqueWithoutIntegration_TypeInput = {
   create: GuildImportCreateWithoutIntegration_TypeInput;
   update: GuildImportUpdateWithoutIntegration_TypeInput;
   where: GuildImportWhereUniqueInput;
+};
+
+export type GuildImportUpsertWithoutUsersInput = {
+  create: GuildImportCreateWithoutUsersInput;
+  update: GuildImportUpdateWithoutUsersInput;
 };
 
 export type GuildImportWhereInput = {
@@ -6104,9 +6501,12 @@ export type GuildImportWhereInput = {
   guild?: InputMaybe<GuildRelationFilter>;
   guild_id?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
+  import_status?: InputMaybe<GuildImportStatusRelationFilter>;
+  import_status_id?: InputMaybe<IntFilter>;
   integration_type?: InputMaybe<IntegrationTypeRelationFilter>;
   integration_type_id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
+  users?: InputMaybe<GuildUserListRelationFilter>;
 };
 
 export type GuildImportWhereUniqueInput = {
@@ -6644,6 +7044,8 @@ export type GuildUser = {
   favorite: Scalars['Boolean'];
   guild: Guild;
   guild_id: Scalars['Int'];
+  guild_import?: Maybe<GuildImport>;
+  guild_import_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   membershipStatus?: Maybe<GuildMembershipStatus>;
   membership_status_id?: Maybe<Scalars['Int']>;
@@ -6654,6 +7056,7 @@ export type GuildUser = {
 
 export type GuildUserAvgAggregate = {
   guild_id?: Maybe<Scalars['Float']>;
+  guild_import_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   membership_status_id?: Maybe<Scalars['Float']>;
   user_id?: Maybe<Scalars['Float']>;
@@ -6661,6 +7064,7 @@ export type GuildUserAvgAggregate = {
 
 export type GuildUserAvgOrderByAggregateInput = {
   guild_id?: InputMaybe<SortOrder>;
+  guild_import_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   membership_status_id?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
@@ -6671,6 +7075,7 @@ export type GuildUserCountAggregate = {
   createdAt: Scalars['Int'];
   favorite: Scalars['Int'];
   guild_id: Scalars['Int'];
+  guild_import_id: Scalars['Int'];
   id: Scalars['Int'];
   membership_status_id: Scalars['Int'];
   updatedAt: Scalars['Int'];
@@ -6681,6 +7086,7 @@ export type GuildUserCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   favorite?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
+  guild_import_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -6696,6 +7102,7 @@ export type GuildUserCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild: GuildCreateNestedOneWithoutUsersInput;
+  guild_import?: InputMaybe<GuildImportCreateNestedOneWithoutUsersInput>;
   membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutGuild_UsersInput;
@@ -6704,6 +7111,7 @@ export type GuildUserCreateInput = {
 export type GuildUserCreateManyGuildInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
+  guild_import_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   membership_status_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -6715,10 +7123,26 @@ export type GuildUserCreateManyGuildInputEnvelope = {
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type GuildUserCreateManyGuild_ImportInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
+  guild_id: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  membership_status_id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_id: Scalars['Int'];
+};
+
+export type GuildUserCreateManyGuild_ImportInputEnvelope = {
+  data: Array<GuildUserCreateManyGuild_ImportInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type GuildUserCreateManyInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild_id: Scalars['Int'];
+  guild_import_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   membership_status_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -6729,6 +7153,7 @@ export type GuildUserCreateManyMembershipStatusInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild_id: Scalars['Int'];
+  guild_import_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
@@ -6743,6 +7168,7 @@ export type GuildUserCreateManyUserInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild_id: Scalars['Int'];
+  guild_import_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   membership_status_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -6758,6 +7184,13 @@ export type GuildUserCreateNestedManyWithoutGuildInput = {
   connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutGuildInput>>;
   create?: InputMaybe<Array<GuildUserCreateWithoutGuildInput>>;
   createMany?: InputMaybe<GuildUserCreateManyGuildInputEnvelope>;
+};
+
+export type GuildUserCreateNestedManyWithoutGuild_ImportInput = {
+  connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutGuild_ImportInput>>;
+  create?: InputMaybe<Array<GuildUserCreateWithoutGuild_ImportInput>>;
+  createMany?: InputMaybe<GuildUserCreateManyGuild_ImportInputEnvelope>;
 };
 
 export type GuildUserCreateNestedManyWithoutMembershipStatusInput = {
@@ -6779,6 +7212,11 @@ export type GuildUserCreateOrConnectWithoutGuildInput = {
   where: GuildUserWhereUniqueInput;
 };
 
+export type GuildUserCreateOrConnectWithoutGuild_ImportInput = {
+  create: GuildUserCreateWithoutGuild_ImportInput;
+  where: GuildUserWhereUniqueInput;
+};
+
 export type GuildUserCreateOrConnectWithoutMembershipStatusInput = {
   create: GuildUserCreateWithoutMembershipStatusInput;
   where: GuildUserWhereUniqueInput;
@@ -6792,6 +7230,16 @@ export type GuildUserCreateOrConnectWithoutUserInput = {
 export type GuildUserCreateWithoutGuildInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
+  guild_import?: InputMaybe<GuildImportCreateNestedOneWithoutUsersInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutGuild_UsersInput;
+};
+
+export type GuildUserCreateWithoutGuild_ImportInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  favorite?: InputMaybe<Scalars['Boolean']>;
+  guild: GuildCreateNestedOneWithoutUsersInput;
   membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutGuild_UsersInput;
@@ -6801,6 +7249,7 @@ export type GuildUserCreateWithoutMembershipStatusInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild: GuildCreateNestedOneWithoutUsersInput;
+  guild_import?: InputMaybe<GuildImportCreateNestedOneWithoutUsersInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutGuild_UsersInput;
 };
@@ -6809,6 +7258,7 @@ export type GuildUserCreateWithoutUserInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild: GuildCreateNestedOneWithoutUsersInput;
+  guild_import?: InputMaybe<GuildImportCreateNestedOneWithoutUsersInput>;
   membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -6822,6 +7272,7 @@ export type GuildUserGroupBy = {
   createdAt: Scalars['DateTime'];
   favorite: Scalars['Boolean'];
   guild_id: Scalars['Int'];
+  guild_import_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   membership_status_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
@@ -6838,6 +7289,7 @@ export type GuildUserMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   favorite?: Maybe<Scalars['Boolean']>;
   guild_id?: Maybe<Scalars['Int']>;
+  guild_import_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   membership_status_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -6848,6 +7300,7 @@ export type GuildUserMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   favorite?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
+  guild_import_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -6858,6 +7311,7 @@ export type GuildUserMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   favorite?: Maybe<Scalars['Boolean']>;
   guild_id?: Maybe<Scalars['Int']>;
+  guild_import_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   membership_status_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -6868,6 +7322,7 @@ export type GuildUserMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   favorite?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
+  guild_import_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -6887,6 +7342,7 @@ export type GuildUserOrderByWithAggregationInput = {
   createdAt?: InputMaybe<SortOrder>;
   favorite?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
+  guild_import_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   membership_status_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -6898,6 +7354,8 @@ export type GuildUserOrderByWithRelationInput = {
   favorite?: InputMaybe<SortOrder>;
   guild?: InputMaybe<GuildOrderByWithRelationInput>;
   guild_id?: InputMaybe<SortOrder>;
+  guild_import?: InputMaybe<GuildImportOrderByWithRelationInput>;
+  guild_import_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   membershipStatus?: InputMaybe<GuildMembershipStatusOrderByWithRelationInput>;
   membership_status_id?: InputMaybe<SortOrder>;
@@ -6910,6 +7368,7 @@ export enum GuildUserScalarFieldEnum {
   CreatedAt = 'createdAt',
   Favorite = 'favorite',
   GuildId = 'guild_id',
+  GuildImportId = 'guild_import_id',
   Id = 'id',
   MembershipStatusId = 'membership_status_id',
   UpdatedAt = 'updatedAt',
@@ -6923,6 +7382,7 @@ export type GuildUserScalarWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   favorite?: InputMaybe<BoolFilter>;
   guild_id?: InputMaybe<IntFilter>;
+  guild_import_id?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
   membership_status_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -6936,6 +7396,7 @@ export type GuildUserScalarWhereWithAggregatesInput = {
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   favorite?: InputMaybe<BoolWithAggregatesFilter>;
   guild_id?: InputMaybe<IntWithAggregatesFilter>;
+  guild_import_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   membership_status_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
@@ -6944,6 +7405,7 @@ export type GuildUserScalarWhereWithAggregatesInput = {
 
 export type GuildUserSumAggregate = {
   guild_id?: Maybe<Scalars['Int']>;
+  guild_import_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   membership_status_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
@@ -6951,6 +7413,7 @@ export type GuildUserSumAggregate = {
 
 export type GuildUserSumOrderByAggregateInput = {
   guild_id?: InputMaybe<SortOrder>;
+  guild_import_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   membership_status_id?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
@@ -6966,6 +7429,7 @@ export type GuildUserUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
+  guild_import?: InputMaybe<GuildImportUpdateOneWithoutUsersNestedInput>;
   membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
@@ -6978,6 +7442,11 @@ export type GuildUserUpdateManyMutationInput = {
 };
 
 export type GuildUserUpdateManyWithWhereWithoutGuildInput = {
+  data: GuildUserUpdateManyMutationInput;
+  where: GuildUserScalarWhereInput;
+};
+
+export type GuildUserUpdateManyWithWhereWithoutGuild_ImportInput = {
   data: GuildUserUpdateManyMutationInput;
   where: GuildUserScalarWhereInput;
 };
@@ -7004,6 +7473,20 @@ export type GuildUserUpdateManyWithoutGuildNestedInput = {
   update?: InputMaybe<Array<GuildUserUpdateWithWhereUniqueWithoutGuildInput>>;
   updateMany?: InputMaybe<Array<GuildUserUpdateManyWithWhereWithoutGuildInput>>;
   upsert?: InputMaybe<Array<GuildUserUpsertWithWhereUniqueWithoutGuildInput>>;
+};
+
+export type GuildUserUpdateManyWithoutGuild_ImportNestedInput = {
+  connect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildUserCreateOrConnectWithoutGuild_ImportInput>>;
+  create?: InputMaybe<Array<GuildUserCreateWithoutGuild_ImportInput>>;
+  createMany?: InputMaybe<GuildUserCreateManyGuild_ImportInputEnvelope>;
+  delete?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<GuildUserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  set?: InputMaybe<Array<GuildUserWhereUniqueInput>>;
+  update?: InputMaybe<Array<GuildUserUpdateWithWhereUniqueWithoutGuild_ImportInput>>;
+  updateMany?: InputMaybe<Array<GuildUserUpdateManyWithWhereWithoutGuild_ImportInput>>;
+  upsert?: InputMaybe<Array<GuildUserUpsertWithWhereUniqueWithoutGuild_ImportInput>>;
 };
 
 export type GuildUserUpdateManyWithoutMembershipStatusNestedInput = {
@@ -7039,6 +7522,11 @@ export type GuildUserUpdateWithWhereUniqueWithoutGuildInput = {
   where: GuildUserWhereUniqueInput;
 };
 
+export type GuildUserUpdateWithWhereUniqueWithoutGuild_ImportInput = {
+  data: GuildUserUpdateWithoutGuild_ImportInput;
+  where: GuildUserWhereUniqueInput;
+};
+
 export type GuildUserUpdateWithWhereUniqueWithoutMembershipStatusInput = {
   data: GuildUserUpdateWithoutMembershipStatusInput;
   where: GuildUserWhereUniqueInput;
@@ -7052,6 +7540,16 @@ export type GuildUserUpdateWithWhereUniqueWithoutUserInput = {
 export type GuildUserUpdateWithoutGuildInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  guild_import?: InputMaybe<GuildImportUpdateOneWithoutUsersNestedInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
+};
+
+export type GuildUserUpdateWithoutGuild_ImportInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
   membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
@@ -7061,6 +7559,7 @@ export type GuildUserUpdateWithoutMembershipStatusInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
+  guild_import?: InputMaybe<GuildImportUpdateOneWithoutUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
 };
@@ -7069,6 +7568,7 @@ export type GuildUserUpdateWithoutUserInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
+  guild_import?: InputMaybe<GuildImportUpdateOneWithoutUsersNestedInput>;
   membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -7076,6 +7576,12 @@ export type GuildUserUpdateWithoutUserInput = {
 export type GuildUserUpsertWithWhereUniqueWithoutGuildInput = {
   create: GuildUserCreateWithoutGuildInput;
   update: GuildUserUpdateWithoutGuildInput;
+  where: GuildUserWhereUniqueInput;
+};
+
+export type GuildUserUpsertWithWhereUniqueWithoutGuild_ImportInput = {
+  create: GuildUserCreateWithoutGuild_ImportInput;
+  update: GuildUserUpdateWithoutGuild_ImportInput;
   where: GuildUserWhereUniqueInput;
 };
 
@@ -7104,6 +7610,8 @@ export type GuildUserWhereInput = {
   favorite?: InputMaybe<BoolFilter>;
   guild?: InputMaybe<GuildRelationFilter>;
   guild_id?: InputMaybe<IntFilter>;
+  guild_import?: InputMaybe<GuildImportRelationFilter>;
+  guild_import_id?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
   membershipStatus?: InputMaybe<GuildMembershipStatusRelationFilter>;
   membership_status_id?: InputMaybe<IntNullableFilter>;
@@ -10372,6 +10880,7 @@ export type Mutation = {
   createManyGuildActivityType: AffectedRowsOutput;
   createManyGuildContribution: AffectedRowsOutput;
   createManyGuildImport: AffectedRowsOutput;
+  createManyGuildImportStatus: AffectedRowsOutput;
   createManyGuildMembershipStatus: AffectedRowsOutput;
   createManyGuildUser: AffectedRowsOutput;
   createManyIntegrationType: AffectedRowsOutput;
@@ -10404,6 +10913,7 @@ export type Mutation = {
   createOneGuildActivityType: GuildActivityType;
   createOneGuildContribution: GuildContribution;
   createOneGuildImport: GuildImport;
+  createOneGuildImportStatus: GuildImportStatus;
   createOneGuildMembershipStatus: GuildMembershipStatus;
   createOneGuildUser: GuildUser;
   createOneIntegrationType: IntegrationType;
@@ -10439,6 +10949,7 @@ export type Mutation = {
   deleteManyGuildActivityType: AffectedRowsOutput;
   deleteManyGuildContribution: AffectedRowsOutput;
   deleteManyGuildImport: AffectedRowsOutput;
+  deleteManyGuildImportStatus: AffectedRowsOutput;
   deleteManyGuildMembershipStatus: AffectedRowsOutput;
   deleteManyGuildUser: AffectedRowsOutput;
   deleteManyIntegrationType: AffectedRowsOutput;
@@ -10470,6 +10981,7 @@ export type Mutation = {
   deleteOneGuildActivityType?: Maybe<GuildActivityType>;
   deleteOneGuildContribution?: Maybe<GuildContribution>;
   deleteOneGuildImport?: Maybe<GuildImport>;
+  deleteOneGuildImportStatus?: Maybe<GuildImportStatus>;
   deleteOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   deleteOneGuildUser?: Maybe<GuildUser>;
   deleteOneIntegrationType?: Maybe<IntegrationType>;
@@ -10505,6 +11017,7 @@ export type Mutation = {
   updateManyGuildActivityType: AffectedRowsOutput;
   updateManyGuildContribution: AffectedRowsOutput;
   updateManyGuildImport: AffectedRowsOutput;
+  updateManyGuildImportStatus: AffectedRowsOutput;
   updateManyGuildMembershipStatus: AffectedRowsOutput;
   updateManyGuildUser: AffectedRowsOutput;
   updateManyIntegrationType: AffectedRowsOutput;
@@ -10536,6 +11049,7 @@ export type Mutation = {
   updateOneGuildActivityType?: Maybe<GuildActivityType>;
   updateOneGuildContribution?: Maybe<GuildContribution>;
   updateOneGuildImport?: Maybe<GuildImport>;
+  updateOneGuildImportStatus?: Maybe<GuildImportStatus>;
   updateOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   updateOneGuildUser?: Maybe<GuildUser>;
   updateOneIntegrationType?: Maybe<IntegrationType>;
@@ -10571,6 +11085,7 @@ export type Mutation = {
   upsertOneGuildActivityType: GuildActivityType;
   upsertOneGuildContribution: GuildContribution;
   upsertOneGuildImport: GuildImport;
+  upsertOneGuildImportStatus: GuildImportStatus;
   upsertOneGuildMembershipStatus: GuildMembershipStatus;
   upsertOneGuildUser: GuildUser;
   upsertOneIntegrationType: IntegrationType;
@@ -10681,6 +11196,12 @@ export type MutationCreateManyGuildContributionArgs = {
 
 export type MutationCreateManyGuildImportArgs = {
   data: Array<GuildImportCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyGuildImportStatusArgs = {
+  data: Array<GuildImportStatusCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -10861,6 +11382,11 @@ export type MutationCreateOneGuildImportArgs = {
 };
 
 
+export type MutationCreateOneGuildImportStatusArgs = {
+  data: GuildImportStatusCreateInput;
+};
+
+
 export type MutationCreateOneGuildMembershipStatusArgs = {
   data: GuildMembershipStatusCreateInput;
 };
@@ -11036,6 +11562,11 @@ export type MutationDeleteManyGuildImportArgs = {
 };
 
 
+export type MutationDeleteManyGuildImportStatusArgs = {
+  where?: InputMaybe<GuildImportStatusWhereInput>;
+};
+
+
 export type MutationDeleteManyGuildMembershipStatusArgs = {
   where?: InputMaybe<GuildMembershipStatusWhereInput>;
 };
@@ -11188,6 +11719,11 @@ export type MutationDeleteOneGuildContributionArgs = {
 
 export type MutationDeleteOneGuildImportArgs = {
   where: GuildImportWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneGuildImportStatusArgs = {
+  where: GuildImportStatusWhereUniqueInput;
 };
 
 
@@ -11382,6 +11918,12 @@ export type MutationUpdateManyGuildImportArgs = {
 };
 
 
+export type MutationUpdateManyGuildImportStatusArgs = {
+  data: GuildImportStatusUpdateManyMutationInput;
+  where?: InputMaybe<GuildImportStatusWhereInput>;
+};
+
+
 export type MutationUpdateManyGuildMembershipStatusArgs = {
   data: GuildMembershipStatusUpdateManyMutationInput;
   where?: InputMaybe<GuildMembershipStatusWhereInput>;
@@ -11565,6 +12107,12 @@ export type MutationUpdateOneGuildContributionArgs = {
 export type MutationUpdateOneGuildImportArgs = {
   data: GuildImportUpdateInput;
   where: GuildImportWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneGuildImportStatusArgs = {
+  data: GuildImportStatusUpdateInput;
+  where: GuildImportStatusWhereUniqueInput;
 };
 
 
@@ -11791,6 +12339,13 @@ export type MutationUpsertOneGuildImportArgs = {
   create: GuildImportCreateInput;
   update: GuildImportUpdateInput;
   where: GuildImportWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneGuildImportStatusArgs = {
+  create: GuildImportStatusCreateInput;
+  update: GuildImportStatusUpdateInput;
+  where: GuildImportStatusWhereUniqueInput;
 };
 
 
@@ -12539,6 +13094,7 @@ export type Query = {
   aggregateGuildActivityType: AggregateGuildActivityType;
   aggregateGuildContribution: AggregateGuildContribution;
   aggregateGuildImport: AggregateGuildImport;
+  aggregateGuildImportStatus: AggregateGuildImportStatus;
   aggregateGuildMembershipStatus: AggregateGuildMembershipStatus;
   aggregateGuildUser: AggregateGuildUser;
   aggregateIntegrationType: AggregateIntegrationType;
@@ -12604,6 +13160,8 @@ export type Query = {
   findFirstGuildContributionOrThrow?: Maybe<GuildContribution>;
   findFirstGuildImport?: Maybe<GuildImport>;
   findFirstGuildImportOrThrow?: Maybe<GuildImport>;
+  findFirstGuildImportStatus?: Maybe<GuildImportStatus>;
+  findFirstGuildImportStatusOrThrow?: Maybe<GuildImportStatus>;
   findFirstGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   findFirstGuildMembershipStatusOrThrow?: Maybe<GuildMembershipStatus>;
   findFirstGuildOrThrow?: Maybe<Guild>;
@@ -12657,6 +13215,7 @@ export type Query = {
   getGuildActivityType?: Maybe<GuildActivityType>;
   getGuildContribution?: Maybe<GuildContribution>;
   getGuildImport?: Maybe<GuildImport>;
+  getGuildImportStatus?: Maybe<GuildImportStatus>;
   getGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   getGuildUser?: Maybe<GuildUser>;
   getIntegrationType?: Maybe<IntegrationType>;
@@ -12688,6 +13247,7 @@ export type Query = {
   groupByGuildActivityType: Array<GuildActivityTypeGroupBy>;
   groupByGuildContribution: Array<GuildContributionGroupBy>;
   groupByGuildImport: Array<GuildImportGroupBy>;
+  groupByGuildImportStatus: Array<GuildImportStatusGroupBy>;
   groupByGuildMembershipStatus: Array<GuildMembershipStatusGroupBy>;
   groupByGuildUser: Array<GuildUserGroupBy>;
   groupByIntegrationType: Array<IntegrationTypeGroupBy>;
@@ -12710,6 +13270,8 @@ export type Query = {
   guildContribution?: Maybe<GuildContribution>;
   guildContributions: Array<GuildContribution>;
   guildImport?: Maybe<GuildImport>;
+  guildImportStatus?: Maybe<GuildImportStatus>;
+  guildImportStatuses: Array<GuildImportStatus>;
   guildImports: Array<GuildImport>;
   guildMembershipStatus?: Maybe<GuildMembershipStatus>;
   guildMembershipStatuses: Array<GuildMembershipStatus>;
@@ -12896,6 +13458,15 @@ export type QueryAggregateGuildImportArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildImportWhereInput>;
+};
+
+
+export type QueryAggregateGuildImportStatusArgs = {
+  cursor?: InputMaybe<GuildImportStatusWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GuildImportStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildImportStatusWhereInput>;
 };
 
 
@@ -13483,6 +14054,26 @@ export type QueryFindFirstGuildImportOrThrowArgs = {
 };
 
 
+export type QueryFindFirstGuildImportStatusArgs = {
+  cursor?: InputMaybe<GuildImportStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildImportStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildImportStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildImportStatusWhereInput>;
+};
+
+
+export type QueryFindFirstGuildImportStatusOrThrowArgs = {
+  cursor?: InputMaybe<GuildImportStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildImportStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildImportStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildImportStatusWhereInput>;
+};
+
+
 export type QueryFindFirstGuildMembershipStatusArgs = {
   cursor?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildMembershipStatusScalarFieldEnum>>;
@@ -13913,6 +14504,11 @@ export type QueryGetGuildImportArgs = {
 };
 
 
+export type QueryGetGuildImportStatusArgs = {
+  where: GuildImportStatusWhereUniqueInput;
+};
+
+
 export type QueryGetGuildMembershipStatusArgs = {
   where: GuildMembershipStatusWhereUniqueInput;
 };
@@ -14143,6 +14739,16 @@ export type QueryGroupByGuildImportArgs = {
 };
 
 
+export type QueryGroupByGuildImportStatusArgs = {
+  by: Array<GuildImportStatusScalarFieldEnum>;
+  having?: InputMaybe<GuildImportStatusScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GuildImportStatusOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildImportStatusWhereInput>;
+};
+
+
 export type QueryGroupByGuildMembershipStatusArgs = {
   by: Array<GuildMembershipStatusScalarFieldEnum>;
   having?: InputMaybe<GuildMembershipStatusScalarWhereWithAggregatesInput>;
@@ -14340,6 +14946,21 @@ export type QueryGuildContributionsArgs = {
 
 export type QueryGuildImportArgs = {
   where: GuildImportWhereUniqueInput;
+};
+
+
+export type QueryGuildImportStatusArgs = {
+  where: GuildImportStatusWhereUniqueInput;
+};
+
+
+export type QueryGuildImportStatusesArgs = {
+  cursor?: InputMaybe<GuildImportStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildImportStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildImportStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildImportStatusWhereInput>;
 };
 
 
@@ -17604,6 +18225,18 @@ export type UpdateGuildUserCustomMutationVariables = Exact<{
 
 export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
 
+export type GuildImportFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id: number, integration_type_id: number, authentication_token: string, import_status: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string }, users: Array<{ user_id: number }> };
+
+export type ListGuildImportsQueryVariables = Exact<{
+  where?: GuildImportWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildImportOrderByWithRelationInput> | GuildImportOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildImportsQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, guild_id: number, integration_type_id: number, authentication_token: string, import_status: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string }, users: Array<{ user_id: number }> }> };
+
 export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } }> };
 
 export type TwitterTweetContributionFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
@@ -18032,6 +18665,25 @@ export const GuildUserFragmentFragmentDoc = gql`
   }
 }
     `;
+export const GuildImportFragmentFragmentDoc = gql`
+    fragment GuildImportFragment on GuildImport {
+  id
+  createdAt
+  updatedAt
+  guild_id
+  integration_type_id
+  authentication_token
+  import_status {
+    id
+    createdAt
+    updatedAt
+    name
+  }
+  users {
+    user_id
+  }
+}
+    `;
 export const ContributionFragmentFragmentDoc = gql`
     fragment ContributionFragment on Contribution {
   activity_type {
@@ -18412,6 +19064,18 @@ export const UpdateGuildUserCustomDocument = gql`
   }
 }
     ${GuildUserFragmentFragmentDoc}`;
+export const ListGuildImportsDocument = gql`
+    query listGuildImports($where: GuildImportWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildImportOrderByWithRelationInput!]) {
+  result: guildImports(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildImportFragment
+  }
+}
+    ${GuildImportFragmentFragmentDoc}`;
 export const BulkCreateTwitterTweetDocument = gql`
     mutation bulkCreateTwitterTweet($data: [TwitterTweetCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyTwitterTweet(data: $data, skipDuplicates: $skipDuplicates) {
@@ -18820,6 +19484,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateGuildUserCustom(variables: UpdateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildUserCustomMutation>(UpdateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildUserCustom', 'mutation');
+    },
+    listGuildImports(variables?: ListGuildImportsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildImportsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildImportsQuery>(ListGuildImportsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildImports', 'query');
     },
     bulkCreateTwitterTweet(variables: BulkCreateTwitterTweetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BulkCreateTwitterTweetMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BulkCreateTwitterTweetMutation>(BulkCreateTwitterTweetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'bulkCreateTwitterTweet', 'mutation');

@@ -13,6 +13,7 @@ export * from "./Guild/args";
 export * from "./GuildActivityType/args";
 export * from "./GuildContribution/args";
 export * from "./GuildImport/args";
+export * from "./GuildImportStatus/args";
 export * from "./GuildMembershipStatus/args";
 export * from "./GuildUser/args";
 export * from "./IntegrationType/args";

@@ -13,6 +13,7 @@ export { GuildCrudResolver } from "./Guild/GuildCrudResolver";
 export { GuildActivityTypeCrudResolver } from "./GuildActivityType/GuildActivityTypeCrudResolver";
 export { GuildContributionCrudResolver } from "./GuildContribution/GuildContributionCrudResolver";
 export { GuildImportCrudResolver } from "./GuildImport/GuildImportCrudResolver";
+export { GuildImportStatusCrudResolver } from "./GuildImportStatus/GuildImportStatusCrudResolver";
 export { GuildMembershipStatusCrudResolver } from "./GuildMembershipStatus/GuildMembershipStatusCrudResolver";
 export { GuildUserCrudResolver } from "./GuildUser/GuildUserCrudResolver";
 export { IntegrationTypeCrudResolver } from "./IntegrationType/IntegrationTypeCrudResolver";

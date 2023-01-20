@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { GuildImportOrderByWithRelationInput } from "../inputs/GuildImportOrderByWithRelationInput";
 import { GuildMembershipStatusOrderByWithRelationInput } from "../inputs/GuildMembershipStatusOrderByWithRelationInput";
 import { GuildOrderByWithRelationInput } from "../inputs/GuildOrderByWithRelationInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
@@ -60,4 +61,14 @@ export class GuildUserOrderByWithRelationInput {
     nullable: true
   })
   favorite?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  guild_import_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => GuildImportOrderByWithRelationInput, {
+    nullable: true
+  })
+  guild_import?: GuildImportOrderByWithRelationInput | undefined;
 }

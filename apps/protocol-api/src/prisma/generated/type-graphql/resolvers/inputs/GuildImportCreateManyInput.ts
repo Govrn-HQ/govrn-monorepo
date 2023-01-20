@@ -36,4 +36,9 @@ export class GuildImportCreateManyInput {
     nullable: false
   })
   integration_type_id!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  import_status_id!: number;
 }

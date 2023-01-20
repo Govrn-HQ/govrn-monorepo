@@ -6,7 +6,8 @@ export enum GuildImportScalarFieldEnum {
   updatedAt = "updatedAt",
   authentication_token = "authentication_token",
   guild_id = "guild_id",
-  integration_type_id = "integration_type_id"
+  integration_type_id = "integration_type_id",
+  import_status_id = "import_status_id"
 }
 TypeGraphQL.registerEnumType(GuildImportScalarFieldEnum, {
   name: "GuildImportScalarFieldEnum",
