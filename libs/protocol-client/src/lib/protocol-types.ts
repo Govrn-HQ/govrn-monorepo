@@ -18202,7 +18202,7 @@ export type GetActiveGuildUsersAverageQueryVariables = Exact<{
 
 export type GetActiveGuildUsersAverageQuery = { result: number };
 
-export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
+export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
 
 export type CreateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserCreateCustomInput;
@@ -18218,12 +18218,22 @@ export type DeleteGuildUserMutationVariables = Exact<{
 
 export type DeleteGuildUserMutation = { deleteOneGuildUser?: { id: number } | null };
 
+export type ListGuildUsersQueryVariables = Exact<{
+  where?: GuildUserWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildUserOrderByWithRelationInput> | GuildUserOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildUsersQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null }> };
+
 export type UpdateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserUpdateCustomInput;
 }>;
 
 
-export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, user_id: number, guild_id: number, favorite: boolean, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
+export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
 
 export type GuildImportFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id: number, integration_type_id: number, authentication_token: string, import_status: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string }, users: Array<{ user_id: number }> };
 
@@ -18654,9 +18664,12 @@ export const GuildUserFragmentFragmentDoc = gql`
   id
   createdAt
   updatedAt
-  user_id
-  guild_id
   favorite
+  user_id
+  guild {
+    id
+    name
+  }
   membershipStatus {
     id
     createdAt
@@ -19057,6 +19070,13 @@ export const DeleteGuildUserDocument = gql`
   }
 }
     `;
+export const ListGuildUsersDocument = gql`
+    query listGuildUsers($where: GuildUserWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildUserOrderByWithRelationInput!]) {
+  result: guildUsers(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...GuildUserFragment
+  }
+}
+    ${GuildUserFragmentFragmentDoc}`;
 export const UpdateGuildUserCustomDocument = gql`
     mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
   updateGuildUserCustom(data: $data) {
@@ -19481,6 +19501,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     deleteGuildUser(variables: DeleteGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteGuildUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteGuildUserMutation>(DeleteGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteGuildUser', 'mutation');
+    },
+    listGuildUsers(variables?: ListGuildUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildUsersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildUsersQuery>(ListGuildUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildUsers', 'query');
     },
     updateGuildUserCustom(variables: UpdateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildUserCustomMutation>(UpdateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildUserCustom', 'mutation');

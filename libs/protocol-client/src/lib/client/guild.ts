@@ -9,14 +9,17 @@ import {
   CreateGuildMutationVariables,
   GuildWhereUniqueInput,
 } from '../protocol-types';
+import { GuildUser } from './guild_user';
 import { GraphQLClient } from 'graphql-request';
 
 // TODO: Add users query
 export class Guild extends BaseClient {
+  user: GuildUser;
   import: GuildImport;
 
   constructor(client: GraphQLClient) {
     super(client);
+    this.user = new GuildUser(this.client);
     this.import = new GuildImport(this.client);
   }
 
