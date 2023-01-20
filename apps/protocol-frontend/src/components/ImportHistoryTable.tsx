@@ -1,15 +1,11 @@
-import { useImportHistory } from '../hooks/useImportHistory';
+import { useImportHistoryInfiniteList } from '../hooks/useImportHistoryList';
 import { useUser } from '../contexts/UserContext';
 import { Box, Heading, Text, Stack } from '@chakra-ui/react';
 import EmptyImports from './EmptyImports';
 
 const ImportHistoryTable = () => {
   const { userData } = useUser();
-  const {
-    data: importHistoryData,
-    isLoading,
-    isError,
-  } = useImportHistory({
+  const { data: importHistoryData } = useImportHistoryInfiniteList({
     where: { users: { some: { user_id: { equals: userData?.id } } } },
   });
   console.log('import history', importHistoryData);
@@ -26,7 +22,7 @@ const ImportHistoryTable = () => {
       borderRadius={{ base: 'none', md: 'md' }}
       marginBottom={10}
     >
-      {importHistoryData && importHistoryData.length > 0 ? (
+      {importHistoryData && importHistoryData.pages.length > 0 ? (
         <Stack spacing="5">
           <Heading as="h3" fontWeight="600" fontSize="md" marginY={4}>
             Import History
