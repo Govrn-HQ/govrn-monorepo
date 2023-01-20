@@ -12,6 +12,7 @@ import { customResolvers } from './prisma/resolvers';
 import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 import fetch from 'cross-fetch';
+import { IntegrationType } from '../../../libs/protocol-client/src/lib/protocol-types';
 
 import cors = require('cors');
 
@@ -248,11 +249,12 @@ const permissions = shield(
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
       integration_type_id: or(isAuthenticated, hasToken),
+      integration_type: or(isAuthenticated, hasToken),
       authentication_token: or(isAuthenticated, hasToken),
       import_status: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
-      guild: or(isAuthenticated, hasToken),
     },
     GuildImportStatus: {
       id: or(isAuthenticated, hasToken),
@@ -270,6 +272,10 @@ const permissions = shield(
       guild_id: or(isAuthenticated, hasToken),
       favorite: or(isAuthenticated, hasToken),
       membershipStatus: or(isAuthenticated, hasToken),
+    },
+    IntegrationType: {
+      id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
     },
     TwitterUser: {
       id: or(isAuthenticated, hasToken),

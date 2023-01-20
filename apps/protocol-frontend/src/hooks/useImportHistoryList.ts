@@ -19,49 +19,49 @@ export const useImportHistoryList = (
   return { isLoading, isError, isFetching, error, data };
 };
 
-export const useImportHistoryInfiniteList = (
-  args?: ListGuildImportsQueryVariables,
-  pageSize = 20,
-) => {
-  const { govrnProtocol: govrn } = useUser();
-  const {
-    status,
-    data,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery(
-    ['daoImportHistoryInfiniteList', args],
-    async ({ pageParam }): Promise<UIGuildImportHistory[]> => {
-      const data = await govrn.guild.import.list(
-        { ...args, first: pageSize, skip: pageParam } || {},
-      );
-      const results = [];
-      for (const importHistory of data.result) {
-        results.push(importHistory);
-      }
-      return results;
-    },
-    {
-      getNextPageParam: (lastPage, pages) => {
-        let skip = 0;
-        if (lastPage.length < pageSize) {
-          return;
-        }
-        for (const page of pages) {
-          skip += page.length;
-        }
-        return skip;
-      },
-    },
-  );
-  return {
-    status,
-    data,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage: hasNextPage || false,
-  };
-};
+// export const useImportHistoryInfiniteList = (
+//   args?: ListGuildImportsQueryVariables,
+//   pageSize = 20,
+// ) => {
+//   const { govrnProtocol: govrn } = useUser();
+//   const {
+//     status,
+//     data,
+//     isFetching,
+//     isFetchingNextPage,
+//     fetchNextPage,
+//     hasNextPage,
+//   } = useInfiniteQuery(
+//     ['daoImportHistoryInfiniteList', args],
+//     async ({ pageParam }): Promise<UIGuildImportHistory[]> => {
+//       const data = await govrn.guild.import.list(
+//         { ...args, first: pageSize, skip: pageParam } || {},
+//       );
+//       const results = [];
+//       for (const importHistory of data.result) {
+//         results.push(importHistory);
+//       }
+//       return results;
+//     },
+//     {
+//       getNextPageParam: (lastPage, pages) => {
+//         let skip = 0;
+//         if (lastPage.length < pageSize) {
+//           return;
+//         }
+//         for (const page of pages) {
+//           skip += page.length;
+//         }
+//         return skip;
+//       },
+//     },
+//   );
+//   return {
+//     status,
+//     data,
+//     isFetching,
+//     isFetchingNextPage,
+//     fetchNextPage,
+//     hasNextPage: hasNextPage || false,
+//   };
+// };

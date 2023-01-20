@@ -31,7 +31,7 @@ import {
   Row,
 } from '@tanstack/react-table';
 import {
-  useImportHistoryInfiniteList,
+  // useImportHistoryInfiniteList,
   useImportHistoryList,
 } from '../hooks/useImportHistoryList';
 import { useUser } from '../contexts/UserContext';
@@ -103,10 +103,20 @@ const ImportHistoryTable = () => {
           return <Badge textTransform="capitalize">{getValue().name}</Badge>;
         },
       },
-
       {
         header: 'Date',
         accessorFn: importHistory => formatDate(importHistory.createdAt),
+      },
+      {
+        header: 'Import Method',
+        accessorKey: 'integration_type',
+        cell: ({
+          getValue,
+        }: {
+          getValue: Getter<UIGuildImportHistory['integration_type']>;
+        }) => {
+          return <Text whiteSpace="normal">{getValue().name}</Text>;
+        },
       },
       {
         header: 'Members',
@@ -119,7 +129,7 @@ const ImportHistoryTable = () => {
   }, []);
 
   const table = useReactTable({
-    data: importHistoryData,
+    data: importHistoryData !== undefined ? importHistoryData : [], // TODO: see why this is needed compared to other tables
     columns: columnsDefs,
     state: {
       sorting,
