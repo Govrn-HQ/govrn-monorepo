@@ -6,7 +6,7 @@ interface FeatureFlagWrapperProps {
 }
 
 const FeatureFlagWrapper = ({ children }: FeatureFlagWrapperProps) => {
-  const dev = import.meta.env.MODE || false;
+  const dev = import.meta.env.DEV === true;
   return <Box display={dev ? 'block' : 'none'}>{children}</Box>;
 };
 

@@ -35,5 +35,5 @@ export class FindFirstGuildUserOrThrowArgs {
   @TypeGraphQL.Field(_type => [GuildUserScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "user_id" | "guild_id" | "membership_status_id" | "favorite"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "user_id" | "guild_id" | "membership_status_id" | "favorite" | "guild_import_id"> | undefined;
 }

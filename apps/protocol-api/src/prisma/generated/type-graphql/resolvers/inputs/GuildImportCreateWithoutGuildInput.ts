@@ -2,6 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { GuildImportStatusCreateNestedOneWithoutGuild_importsInput } from "../inputs/GuildImportStatusCreateNestedOneWithoutGuild_importsInput";
+import { GuildUserCreateNestedManyWithoutGuild_importInput } from "../inputs/GuildUserCreateNestedManyWithoutGuild_importInput";
 import { IntegrationTypeCreateNestedOneWithoutGuild_importsInput } from "../inputs/IntegrationTypeCreateNestedOneWithoutGuild_importsInput";
 
 @TypeGraphQL.InputType("GuildImportCreateWithoutGuildInput", {
@@ -27,4 +29,14 @@ export class GuildImportCreateWithoutGuildInput {
     nullable: false
   })
   integration_type!: IntegrationTypeCreateNestedOneWithoutGuild_importsInput;
+
+  @TypeGraphQL.Field(_type => GuildImportStatusCreateNestedOneWithoutGuild_importsInput, {
+    nullable: false
+  })
+  import_status!: GuildImportStatusCreateNestedOneWithoutGuild_importsInput;
+
+  @TypeGraphQL.Field(_type => GuildUserCreateNestedManyWithoutGuild_importInput, {
+    nullable: true
+  })
+  users?: GuildUserCreateNestedManyWithoutGuild_importInput | undefined;
 }

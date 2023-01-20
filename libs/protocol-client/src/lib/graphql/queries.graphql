@@ -260,6 +260,41 @@ mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
   }
 }
 
+# GuildImport
+fragment GuildImportFragment on GuildImport {
+  id
+  createdAt
+  updatedAt
+  guild_id
+  integration_type_id
+  authentication_token
+  import_status {
+    id
+    createdAt
+    updatedAt
+    name
+  }
+  users {
+    user_id
+  }
+}
+
+query listGuildImports(
+  $where: GuildImportWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildImportOrderByWithRelationInput!]
+) {
+  result: guildImports(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildImportFragment
+  }
+}
+
 # Twitter
 fragment TwitterTweetFragment on TwitterTweet {
   id

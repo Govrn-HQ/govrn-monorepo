@@ -7,3 +7,7 @@ export const mergePages = (pages: UIContribution[][]) => {
   }
   return contributions;
 };
+
+export const splitEntriesByComma = (entries: string) => {
+  return entries.split(/[,]/).map(str => str.trim());
+};
