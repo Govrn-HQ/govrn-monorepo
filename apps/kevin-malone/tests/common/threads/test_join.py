@@ -362,7 +362,6 @@ async def test_create_user(mocker, thread_dependencies):
     create_user = mock_gql_query(mocker, "create_user", mock_user)
     create_guild_user = mock_gql_query(mocker, "create_guild_user", None)
     update_user_twitter_handle = mock_gql_query(mocker, "update_user_twitter_handle", None)
-    update_display = mock_gql_query(mocker, "update_user_display_name", None)
     get_guild = mock_gql_query(mocker, "get_guild_by_discord_id", mock_guild)
 
     await cache.set(user_id, build_cache_value("t", "s", "1", "1"))
@@ -376,6 +375,7 @@ async def test_create_user(mocker, thread_dependencies):
 
     create_user.assert_called_once_with(test_display_name, user_id, test_display_name, wallet)
     create_guild_user.assert_called_once_with(mock_user.get("id"), mock_guild.get("id"))
+    get_guild.assert_called_once_with(guild_id)
     update_user_twitter_handle.assert_not_called()
 
     # Test twitter verificaiton
