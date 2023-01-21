@@ -10,6 +10,7 @@ from bot.common.threads.thread_builder import (
 from bot.common.threads.onboarding import (
     DISCORD_DISPLAY_NAME_CACHE_KEY,
     TWITTER_HANDLE_CACHE_KEY,
+    DISPLAY_NAME_CACHE_KEY,
     AddUserTwitterStep,
     AssociateExistingUserWithGuild,
     CheckIfDiscordUserExists,
@@ -17,12 +18,14 @@ from bot.common.threads.onboarding import (
     UserDisplayConfirmationEmojiStep,
     UserDisplaySubmitStep,
     PromptUserWalletAddressStep,
+    CreateUserStep
 )
 from bot.common.threads.shared_steps import (
     VerifyUserTwitterStep,
     VerifyUserWalletStep,
     WALLET_CACHE_KEY,
     WALLET_VERIFICATION_MESSAGE_CACHE_KEY,
+    TWEET_VERIFIED_CACHE_KEY
 )
 from bot.config import NO_EMOJI, SKIP_EMOJI, YES_EMOJI, REQUESTED_SIGNED_MESSAGE
 from bot.exceptions import InvalidWalletAddressException, ThreadTerminatingException
@@ -242,18 +245,6 @@ async def test_add_user_twitter_step(mocker, thread_dependencies):
         user_id, cache, TWITTER_HANDLE_CACHE_KEY, fake_twitter.replace("@", "")
     )
 
-    mock_reaction = MockReaction(user_id, "‼️")
-    try:
-        await step.handle_emoji(mock_reaction)
-        assert False
-    except Exception as e:
-        assert AddUserTwitterStep.exception_message == f"{e}"
-
-    mock_reaction = MockReaction(user_id, SKIP_EMOJI)
-    (next_step, skip) = await step.handle_emoji(mock_reaction)
-    assert next_step == StepKeys.ONBOARDING_CONGRATS.value
-    assert not skip
-
 
 @pytest.mark.asyncio
 async def test_verify_user_twitter_step(mocker, thread_dependencies):
@@ -262,11 +253,20 @@ async def test_verify_user_twitter_step(mocker, thread_dependencies):
     guild_id = "12345"
     await cache.set(user_id, build_cache_value("t", "s", "1", "1"))
 
-    step = VerifyUserTwitterStep(user_id, guild_id, cache)
+    step = VerifyUserTwitterStep(user_id, guild_id, cache, False)
+
+    mock_reaction = MockReaction(user_id, "‼️")
+    try:
+        await step.handle_emoji(mock_reaction)
+        assert False
+    except Exception as e:
+        assert VerifyUserTwitterStep.exception_message == f"{e}"
 
     (sent_message, metadata) = await step.send(message, user_id)
     tweet = await get_cache_metadata_key(user_id, cache, "requested_tweet")
     assert sent_message.embed.description == tweet
+
+    # TODO: Mock snscraper for ut
 
 
 @pytest.mark.asyncio
@@ -302,8 +302,6 @@ async def test_verify_user_wallet_step(mocker, thread_dependencies):
     wallet = "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377"
     private_k = "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
     test_display_name = "test_display_name"
-    mock_guild = {"id": "1", "name": "test_guild_name"}
-    mock_user = {"id": "01", "display_name": test_display_name, "address": wallet}
 
     message.content = wallet
     await cache.set(user_id, build_cache_value("t", "s", "1", "1"))
@@ -313,14 +311,10 @@ async def test_verify_user_wallet_step(mocker, thread_dependencies):
     )
     await write_cache_metadata(user_id, cache, WALLET_CACHE_KEY, wallet)
 
-    mock_gql_query(mocker, "get_guild_by_discord_id", mock_guild)
-    mock_gql_query(mocker, "get_user_by_discord_id", mock_user)
     mock_gql_query(mocker, "get_user_by_wallet", None)
     mock_gql_query(mocker, "update_user_wallet", None)
-    create_user = mock_gql_query(mocker, "create_user", mock_user)
-    create_guild_user = mock_gql_query(mocker, "create_guild_user", None)
-    update_display = mock_gql_query(mocker, "update_user_display_name", None)
-
+    mock_gql_query(mocker, "get_user_by_discord_id", None)
+    
     step = VerifyUserWalletStep(cache, update=False)
     msg = MockMessage(message.channel)
 
@@ -353,7 +347,43 @@ async def test_verify_user_wallet_step(mocker, thread_dependencies):
     msg.content = signed_message.signature.hex()[2:]
     await step.save(msg, guild_id, user_id)
 
-    create_user.assert_called_once_with(user_id, test_display_name, wallet)
-    create_guild_user.assert_called_once_with(mock_user["id"], mock_guild["id"])
-    update_display.assert_called_once_with(mock_user["id"], test_display_name)
-    await assert_cache_metadata_content(user_id, cache, "user_db_id", mock_user["id"])
+
+@pytest.mark.asyncio
+async def test_create_user(mocker, thread_dependencies):
+    (cache, context, message, bot) = thread_dependencies
+    user_id = "1234"
+    guild_id = "12345"
+    test_display_name = "test_display_name"
+    wallet = "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377"
+
+    mock_user = {"id": "01", "display_name": test_display_name, "address": wallet}
+    mock_guild = {"id": "10"}
+
+    create_user = mock_gql_query(mocker, "create_user", mock_user)
+    create_guild_user = mock_gql_query(mocker, "create_guild_user", None)
+    update_user_twitter_handle = mock_gql_query(mocker, "update_user_twitter_handle", None)
+    update_display = mock_gql_query(mocker, "update_user_display_name", None)
+    get_guild = mock_gql_query(mocker, "get_guild_by_discord_id", mock_guild)
+
+    await cache.set(user_id, build_cache_value("t", "s", "1", "1"))
+    await write_cache_metadata(user_id, cache, WALLET_CACHE_KEY, wallet)
+    await write_cache_metadata(user_id, cache, DISPLAY_NAME_CACHE_KEY, test_display_name)
+    await write_cache_metadata(user_id, cache, DISCORD_DISPLAY_NAME_CACHE_KEY, test_display_name)
+
+    step = CreateUserStep(cache)
+
+    await step.save(message, guild_id, user_id)
+
+    create_user.assert_called_once_with(test_display_name, user_id, test_display_name, wallet)
+    create_guild_user.assert_called_once_with(mock_user.get("id"), mock_guild.get("id"))
+    update_user_twitter_handle.assert_not_called()
+
+    # Test twitter verificaiton
+    await write_cache_metadata(user_id, cache, TWITTER_HANDLE_CACHE_KEY, "handle")
+    await write_cache_metadata(user_id, cache, TWEET_VERIFIED_CACHE_KEY, "True")
+
+    step = CreateUserStep(cache)
+
+    await step.save(message, guild_id, user_id)
+
+    update_user_twitter_handle.assert_called_once_with(mock_user.get("id"), "handle")
