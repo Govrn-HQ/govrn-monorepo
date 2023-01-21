@@ -361,7 +361,7 @@ mutation createUser($data: UserCreateInput!) {
                         "where": {"discord_id": str(discord_id)},
                     }
                 ]
-            }
+            },
         }
     }
     result = None

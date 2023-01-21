@@ -21,7 +21,7 @@ from bot.common.threads.shared_steps import (
     VerifyUserTwitterStep,
     VerifyUserWalletStep,
     WALLET_CACHE_KEY,
-    TWEET_VERIFIED_CACHE_KEY
+    TWEET_VERIFIED_CACHE_KEY,
 )
 from bot.exceptions import InvalidWalletAddressException
 
@@ -69,7 +69,9 @@ class CheckIfDiscordUserExists(BaseStep):
             await write_cache_metadata(
                 user_id, self.cache, WALLET_CACHE_KEY, user["address"]
             )
-            await write_cache_metadata(user_id, self.cache, USER_DB_ID_CACHE_KEY, user["id"])
+            await write_cache_metadata(
+                user_id, self.cache, USER_DB_ID_CACHE_KEY, user["id"]
+            )
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
         return StepKeys.PROMPT_USER_WALLET_ADDRESS.value
 
@@ -139,7 +141,9 @@ class AssociateDiscordProfileWithUser(BaseStep):
             await write_cache_metadata(
                 user_id, self.cache, DISPLAY_NAME_CACHE_KEY, discord_display_name
             )
-            await write_cache_metadata(user_id, self.cache, USER_DB_ID_CACHE_KEY, user.get("id"))
+            await write_cache_metadata(
+                user_id, self.cache, USER_DB_ID_CACHE_KEY, user.get("id")
+            )
 
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
 
@@ -173,7 +177,7 @@ class AssociateExistingUserWithGuild(BaseStep):
         # skip if the user has already joined the guild
         guild_users = user.get("guild_users")
         if guild_users is not None and any(
-             guild_user.get("guild_id") == guild_id for guild_user in guild_users
+            guild_user.get("guild_id") == guild_id for guild_user in guild_users
         ):
             desc = (
                 "It looks like you've joined this guild previously, but I didn't have your "
@@ -190,11 +194,15 @@ class AssociateExistingUserWithGuild(BaseStep):
             sent_message = await channel.send(embed=embed)
             return sent_message, None
 
-        user_db_id = await get_cache_metadata_key(user_id, self.cache, USER_DB_ID_CACHE_KEY)
+        user_db_id = await get_cache_metadata_key(
+            user_id, self.cache, USER_DB_ID_CACHE_KEY
+        )
         await gql.create_guild_user(user_db_id, guild.get("id"))
 
         guild_name = await get_cache_metadata_key(user_id, self.cache, "guild_name")
-        display_name = await get_cache_metadata_key(user_id, self.cache, DISPLAY_NAME_CACHE_KEY)
+        display_name = await get_cache_metadata_key(
+            user_id, self.cache, DISPLAY_NAME_CACHE_KEY
+        )
         address = await get_cache_metadata_key(user_id, self.cache, WALLET_CACHE_KEY)
 
         channel = message.channel
@@ -286,7 +294,9 @@ class UserDisplaySubmitStep(BaseStep):
 
     async def save(self, message, guild_id, user_id):
         display_name = message.content.strip()
-        await write_cache_metadata(user_id, self.cache, DISPLAY_NAME_CACHE_KEY, display_name)
+        await write_cache_metadata(
+            user_id, self.cache, DISPLAY_NAME_CACHE_KEY, display_name
+        )
 
     async def handle_emoji(self, raw_reaction):
         return _handle_skip_emoji(raw_reaction, self.guild_id)
@@ -330,27 +340,35 @@ class CreateUserStep(BaseStep):
 
     async def save(self, message, guild_id, user_id):
         # check for twitter verification
-        verified_twitter = await get_cache_metadata_key(user_id, self.cache, TWEET_VERIFIED_CACHE_KEY)
-        twitter_handle = await get_cache_metadata_key(user_id, self.cache, TWITTER_HANDLE_CACHE_KEY)
+        verified_twitter = await get_cache_metadata_key(
+            user_id, self.cache, TWEET_VERIFIED_CACHE_KEY
+        )
+        twitter_handle = await get_cache_metadata_key(
+            user_id, self.cache, TWITTER_HANDLE_CACHE_KEY
+        )
 
         # retrieve user fields from cache
         address = await get_cache_metadata_key(user_id, self.cache, WALLET_CACHE_KEY)
-        display_name = await get_cache_metadata_key(user_id, self.cache, DISPLAY_NAME_CACHE_KEY)
+        display_name = await get_cache_metadata_key(
+            user_id, self.cache, DISPLAY_NAME_CACHE_KEY
+        )
         discord_display_name = await get_cache_metadata_key(
             user_id, self.cache, DISCORD_DISPLAY_NAME_CACHE_KEY
         )
-        
+
         # Assumption: user is in a discord server/not in DMs
         guild = await gql.get_guild_by_discord_id(guild_id)
 
         # Create a new user row with the supplied display name, wallet, etc.
         # TODO: make atomic
-        user = await gql.create_user(display_name, user_id, discord_display_name, address)
+        user = await gql.create_user(
+            display_name, user_id, discord_display_name, address
+        )
         await gql.create_guild_user(user.get("id"), guild.get("id"))
         if verified_twitter:
             await gql.update_user_twitter_handle(user.get("id"), twitter_handle)
 
-    
+
 class CongratsStep(BaseStep):
     """Send congratulations for completing the profile"""
 
@@ -388,17 +406,22 @@ class Onboarding(BaseThread):
     name = ThreadKeys.ONBOARDING.value
 
     def get_profile_setup_steps(self):
-        create_user_chain = Step(
-            CreateUserStep(self.cache)
-        ).add_next_step(CongratsStep(self.user_id, self.guild_id, self.cache)).build()
+        create_user_chain = (
+            Step(CreateUserStep(self.cache))
+            .add_next_step(CongratsStep(self.user_id, self.guild_id, self.cache))
+            .build()
+        )
 
-        verify_twitter = Step(
-            VerifyUserTwitterStep(self.user_id, self.guild_id, self.cache, False)
-        ).add_next_step(create_user_chain).build()
+        verify_twitter = (
+            Step(VerifyUserTwitterStep(self.user_id, self.guild_id, self.cache, False))
+            .add_next_step(create_user_chain)
+            .build()
+        )
 
         twitter_retrieval_steps = (
-            Step(current=AddUserTwitterStep(guild_id=self.guild_id, cache=self.cache))
-            .fork((verify_twitter, create_user_chain))
+            Step(
+                current=AddUserTwitterStep(guild_id=self.guild_id, cache=self.cache)
+            ).fork((verify_twitter, create_user_chain))
         ).build()
 
         custom_user_name_steps = (

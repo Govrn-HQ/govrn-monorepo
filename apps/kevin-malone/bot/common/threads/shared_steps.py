@@ -16,7 +16,7 @@ from bot.config import (
     TWITTER_URL_REGEXP,
     REQUESTED_SIGNED_MESSAGE,
     WALLET_VERIFICATION_INSTRUCTIONS,
-    SKIP_EMOJI
+    SKIP_EMOJI,
 )
 from bot.common.bot.bot import bot
 import bot.common.graphql as gql
@@ -161,7 +161,7 @@ class VerifyUserWalletStep(BaseStep):
         # verified address
         err_address_marker = VerifyUserWalletStep.unverified_address_fmt % user_id
         await gql.update_user_wallet(user.get("id"), err_address_marker)
- 
+
     async def update_existing_user_with_wallet(self, user_id, verified_wallet):
         user = await gql.get_user_by_discord_id(user_id)
         # Update the user's profile with the verified wallet address
@@ -227,7 +227,9 @@ class VerifyUserTwitterStep(BaseStep):
         verify_tweet_text(tweet.content, requested_tweet)
         # write to cache after tweet verification so that a user can't skip this step
         # if they want to associate a twitter profile
-        await write_cache_metadata(self.user_id, self.cache, TWEET_VERIFIED_CACHE_KEY, "True")
+        await write_cache_metadata(
+            self.user_id, self.cache, TWEET_VERIFIED_CACHE_KEY, "True"
+        )
 
     async def save_authenticated_account(self):
         user_record = await gql.get_user_by_discord_id(self.user_id)

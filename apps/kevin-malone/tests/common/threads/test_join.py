@@ -18,14 +18,14 @@ from bot.common.threads.onboarding import (
     UserDisplayConfirmationEmojiStep,
     UserDisplaySubmitStep,
     PromptUserWalletAddressStep,
-    CreateUserStep
+    CreateUserStep,
 )
 from bot.common.threads.shared_steps import (
     VerifyUserTwitterStep,
     VerifyUserWalletStep,
     WALLET_CACHE_KEY,
     WALLET_VERIFICATION_MESSAGE_CACHE_KEY,
-    TWEET_VERIFIED_CACHE_KEY
+    TWEET_VERIFIED_CACHE_KEY,
 )
 from bot.config import NO_EMOJI, SKIP_EMOJI, YES_EMOJI, REQUESTED_SIGNED_MESSAGE
 from bot.exceptions import InvalidWalletAddressException, ThreadTerminatingException
@@ -105,7 +105,7 @@ async def test_associate_existing_user(mocker, thread_dependencies):
 
     (sent_message, metadata) = await step.send(message, user_id)
 
-    mocked_get_guild.assert_called_once_with(guild_id) 
+    mocked_get_guild.assert_called_once_with(guild_id)
     mocked_get_user_by_wallet.assert_called_once_with(address)
     mocked_create.assert_called_once_with(mock_user["id"], mock_guild["id"])
 
@@ -314,7 +314,7 @@ async def test_verify_user_wallet_step(mocker, thread_dependencies):
     mock_gql_query(mocker, "get_user_by_wallet", None)
     mock_gql_query(mocker, "update_user_wallet", None)
     mock_gql_query(mocker, "get_user_by_discord_id", None)
-    
+
     step = VerifyUserWalletStep(cache, update=False)
     msg = MockMessage(message.channel)
 
@@ -361,19 +361,27 @@ async def test_create_user(mocker, thread_dependencies):
 
     create_user = mock_gql_query(mocker, "create_user", mock_user)
     create_guild_user = mock_gql_query(mocker, "create_guild_user", None)
-    update_user_twitter_handle = mock_gql_query(mocker, "update_user_twitter_handle", None)
+    update_user_twitter_handle = mock_gql_query(
+        mocker, "update_user_twitter_handle", None
+    )
     get_guild = mock_gql_query(mocker, "get_guild_by_discord_id", mock_guild)
 
     await cache.set(user_id, build_cache_value("t", "s", "1", "1"))
     await write_cache_metadata(user_id, cache, WALLET_CACHE_KEY, wallet)
-    await write_cache_metadata(user_id, cache, DISPLAY_NAME_CACHE_KEY, test_display_name)
-    await write_cache_metadata(user_id, cache, DISCORD_DISPLAY_NAME_CACHE_KEY, test_display_name)
+    await write_cache_metadata(
+        user_id, cache, DISPLAY_NAME_CACHE_KEY, test_display_name
+    )
+    await write_cache_metadata(
+        user_id, cache, DISCORD_DISPLAY_NAME_CACHE_KEY, test_display_name
+    )
 
     step = CreateUserStep(cache)
 
     await step.save(message, guild_id, user_id)
 
-    create_user.assert_called_once_with(test_display_name, user_id, test_display_name, wallet)
+    create_user.assert_called_once_with(
+        test_display_name, user_id, test_display_name, wallet
+    )
     create_guild_user.assert_called_once_with(mock_user.get("id"), mock_guild.get("id"))
     get_guild.assert_called_once_with(guild_id)
     update_user_twitter_handle.assert_not_called()
