@@ -170,10 +170,10 @@ class AssociateExistingUserWithGuild(BaseStep):
         guild = await gql.get_guild_by_discord_id(self.guild_id)
         guild_id = guild["id"]
 
-
         # skip if the user has already joined the guild
-        if any(
-            guild_user["guild_id"] == guild_id for guild_user in user["guild_users"]
+        guild_users = user.get("guild_users")
+        if guild_users is not None and any(
+             guild_user.get("guild_id") == guild_id for guild_user in guild_users
         ):
             desc = (
                 "It looks like you've joined this guild previously, but I didn't have your "
@@ -191,7 +191,6 @@ class AssociateExistingUserWithGuild(BaseStep):
             return sent_message, None
 
         user_db_id = await get_cache_metadata_key(user_id, self.cache, USER_DB_ID_CACHE_KEY)
-        guild = await gql.get_guild_by_discord_id(self.guild_id)
         await gql.create_guild_user(user_db_id, guild.get("id"))
 
         guild_name = await get_cache_metadata_key(user_id, self.cache, "guild_name")

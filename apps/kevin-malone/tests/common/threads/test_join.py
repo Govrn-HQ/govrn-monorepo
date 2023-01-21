@@ -89,7 +89,8 @@ async def test_associate_existing_user(mocker, thread_dependencies):
 
     await cache.set(user_id, build_cache_value("t", "s", "1", "1"))
 
-    mock_gql_query(mocker, "get_guild_by_discord_id", mock_guild)
+    mocked_get_guild = mock_gql_query(mocker, "get_guild_by_discord_id", mock_guild)
+    mocked_get_user_by_wallet = mock_gql_query(mocker, "get_user_by_wallet", mock_user)
     await write_cache_metadata(user_id, cache, "user_db_id", mock_user["id"])
     mocked_create = mock_gql_query(mocker, "create_guild_user", None)
 
@@ -101,6 +102,8 @@ async def test_associate_existing_user(mocker, thread_dependencies):
 
     (sent_message, metadata) = await step.send(message, user_id)
 
+    mocked_get_guild.assert_called_once_with(guild_id) 
+    mocked_get_user_by_wallet.assert_called_once_with(address)
     mocked_create.assert_called_once_with(mock_user["id"], mock_guild["id"])
 
     assert_message_content(
