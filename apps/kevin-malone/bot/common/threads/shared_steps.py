@@ -204,8 +204,8 @@ class VerifyUserTwitterStep(BaseStep):
         return sent_message, None
 
     async def save(self, message, guild_id, user_id):
+        await self.verify_message(message)
         if self.update:
-            await self.verify_message(message)
             await self.save_authenticated_account()
 
     async def handle_emoji(self, raw_reaction):
