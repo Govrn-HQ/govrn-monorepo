@@ -337,7 +337,7 @@ mutation createGuild($data: GuildCreateInput!) {
     return result
 
 
-async def create_user(discord_id, discord_name, wallet):
+async def create_user(display_name, discord_id, discord_name, wallet):
     query = """
 mutation createUser($data: UserCreateInput!) {
   createOneUser(data: $data) {
@@ -349,6 +349,8 @@ mutation createUser($data: UserCreateInput!) {
         "data": {
             "address": wallet,
             "chain_type": {"connect": {"name": "ETH"}},
+            "display_name": display_name,
+            "name": display_name,
             "discord_users": {
                 "connectOrCreate": [
                     {
@@ -359,7 +361,7 @@ mutation createUser($data: UserCreateInput!) {
                         "where": {"discord_id": str(discord_id)},
                     }
                 ]
-            },
+            }
         }
     }
     result = None
