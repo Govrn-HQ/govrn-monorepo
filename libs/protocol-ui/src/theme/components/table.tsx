@@ -6,7 +6,6 @@ export default {
     },
     th: {
       fontWeight: 'bold',
-      color: 'red.500',
       textTransform: 'uppercase',
       letterSpacing: 'normal',
       borderTopWidth: '1px',
