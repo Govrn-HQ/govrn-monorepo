@@ -89,6 +89,7 @@ const ImportHistoryTable = () => {
                 <Link to={`/dao/${row.original.id}`}>
                   <Text
                     as="span"
+                    fontWeight="bold"
                     bgGradient="linear(to-l, #7928CA, #FF0080)"
                     bgClip="text"
                     whiteSpace="normal"
@@ -111,7 +112,32 @@ const ImportHistoryTable = () => {
         }: {
           getValue: Getter<UIGuildImportHistory['import_status']>;
         }) => {
-          return <Badge textTransform="capitalize">{getValue().name}</Badge>;
+          return (
+            <Badge
+              bgColor={
+                getValue().name === 'Completed'
+                  ? 'brand.purple'
+                  : getValue().name === 'Failed'
+                  ? 'red.500'
+                  : 'gray.200'
+              }
+              color={
+                getValue().name === 'Completed'
+                  ? 'white'
+                  : getValue().name === 'Failed'
+                  ? 'white'
+                  : 'gray.600'
+              }
+              fontWeight="bold"
+              paddingX={2}
+              paddingY={1}
+              borderRadius="md"
+              size="sm"
+              textTransform="capitalize"
+            >
+              {getValue().name}
+            </Badge>
+          );
         },
       },
       {
