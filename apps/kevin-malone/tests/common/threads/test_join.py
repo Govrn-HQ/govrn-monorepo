@@ -27,7 +27,7 @@ from bot.common.threads.shared_steps import (
     WALLET_VERIFICATION_MESSAGE_CACHE_KEY,
     TWEET_VERIFIED_CACHE_KEY,
 )
-from bot.config import NO_EMOJI, SKIP_EMOJI, YES_EMOJI, REQUESTED_SIGNED_MESSAGE
+from bot.config import NO_EMOJI, YES_EMOJI, REQUESTED_SIGNED_MESSAGE
 from bot.exceptions import InvalidWalletAddressException, ThreadTerminatingException
 
 from tests.test_utils import (
