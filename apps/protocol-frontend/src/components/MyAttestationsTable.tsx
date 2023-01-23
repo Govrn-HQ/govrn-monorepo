@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -13,15 +13,15 @@ import {
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
-  Column,
-  HeaderGroup,
-  useFilters,
-  useGlobalFilter,
-  useRowSelect,
-  useSortBy,
-  useTable,
-  UseTableHooks,
-} from 'react-table';
+  ColumnDef,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+  flexRender,
+  SortingState,
+  getSortedRowModel,
+  Getter,
+} from '@tanstack/react-table';
 import GlobalFilter from './GlobalFilter';
 import { formatDate } from '../utils/date';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -38,6 +38,39 @@ type MyAttestationsTableType = {
   contributor?: string | null;
 };
 
+const columnsDef: ColumnDef<MyAttestationsTableType>[] = [
+  {
+    header: 'Name',
+    accessorKey: 'name',
+  },
+  {
+    header: 'Status',
+    accessorKey: 'status',
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return (
+        <Text textTransform="capitalize">
+          {getValue()}{' '}
+          <span
+            role="img"
+            aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
+          >
+            {getValue() === 'minted' ? '🌞' : '👀'}
+          </span>{' '}
+        </Text>
+      );
+    },
+  },
+  {
+    header: 'Attestation Date',
+    accessorKey: 'attestationDate',
+  },
+  {
+    header: 'Contributor',
+    accessorKey: 'contributor',
+  },
+  // { header: 'DAO', accessorKey: 'guild' },
+];
+
 const MyAttestationsTable = ({
   contributionsData,
   hasMoreItems,
@@ -47,135 +80,108 @@ const MyAttestationsTable = ({
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+
   const data = useMemo<MyAttestationsTableType[]>(
     () =>
-      contributionsData.map(contribution => ({
-        id: contribution.id,
-        date_of_submission: contribution.date_of_submission,
-        date_of_engagement: contribution.date_of_engagement,
-        status: contribution.status.name,
-        name: contribution.name,
-        attestationDate: formatDate(
-          contribution.attestations[0]?.date_of_attestation,
-        ),
-        contributor: contribution.user.name,
-      })),
+      contributionsData.map(contribution => {
+        console.log(contribution);
+        return {
+          id: contribution.id,
+          date_of_submission: contribution.date_of_submission,
+          date_of_engagement: contribution.date_of_engagement,
+          status: contribution.status.name,
+          name: contribution.name,
+          attestationDate: formatDate(
+            // contribution.attestations[0]?.date_of_attestation,
+            '12/21/2021',
+          ),
+          contributor: contribution.user.name,
+        };
+      }),
     [contributionsData],
   );
 
-  const columns = useMemo<Column<MyAttestationsTableType>[]>(
-    () => [
-      {
-        Header: 'Name',
-        accessor: 'name',
-      },
-      {
-        Header: 'Status',
-        accessor: 'status',
-        Cell: ({ value }: { value: string }) => {
-          return (
-            <Text textTransform="capitalize">
-              {value}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {value === 'minted' ? '🌞' : '👀'}
-              </span>{' '}
-            </Text>
-          );
-        },
-      },
-      {
-        Header: 'Attestation Date',
-        accessor: 'attestationDate',
-      },
-      {
-        Header: 'Contributor',
-        accessor: 'contributor',
-      },
-      // { Header: 'DAO', accessor: 'guild' },
-    ],
-    [],
-  );
-
-  const tableHooks = (hooks: UseTableHooks<MyAttestationsTableType>) => {
-    hooks.visibleColumns.push(columns => [...columns]);
-  };
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    state: { globalFilter },
-    preGlobalFilteredRows,
-    setGlobalFilter,
-    prepareRow,
-  } = useTable(
-    { columns, data },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    useRowSelect,
-    tableHooks,
-  );
+  const table = useReactTable({
+    data,
+    columns: columnsDef,
+    state: {
+      sorting,
+      globalFilter,
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    debugAll: false,
+  });
 
   return (
     <Stack>
       <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
+        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
       <Box width="100%" maxWidth="100vw" overflowX="auto">
         <InfiniteScroll
-          dataLength={rows.length}
+          dataLength={table.getRowModel().rows.length}
           next={nextPage}
           scrollThreshold={0.8}
           hasMore={hasMoreItems}
           loader={<GovrnSpinner />}
         >
-          <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+          <Table maxWidth="100vw" overflowX="auto">
             <Thead backgroundColor="gray.50">
-              {headerGroups.map(
-                (headerGroup: HeaderGroup<MyAttestationsTableType>) => (
-                  <Tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(
-                      (column: HeaderGroup<MyAttestationsTableType>) => (
-                        <Th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps(),
-                          )}
-                          borderColor="gray.100"
+              {table.getHeaderGroups().map(headerGroup => (
+                <Tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => (
+                    <Th key={header.id} borderColor="gray.100">
+                      {header.isPlaceholder ? null : (
+                        <Box
+                          {...{
+                            onClick: header.column.getToggleSortingHandler(),
+                            cursor: 'pointer',
+                          }}
                         >
-                          {column.render('Header')}
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+
                           <chakra.span paddingLeft="4">
-                            {column.isSorted ? (
-                              column.isSortedDesc ? (
+                            {{
+                              asc: <IoArrowUp aria-label="sorted-ascending" />,
+                              desc: (
                                 <IoArrowDown aria-label="sorted-descending" />
-                              ) : (
-                                <IoArrowUp aria-label="sorted-ascending" />
-                              )
-                            ) : null}
+                              ),
+                            }[header.column.getIsSorted() as string] ?? null}
                           </chakra.span>
-                        </Th>
-                      ),
-                    )}
-                  </Tr>
-                ),
-              )}
+                        </Box>
+                      )}
+                    </Th>
+                  ))}
+                  <Th borderColor="gray.100" />
+                </Tr>
+              ))}
             </Thead>
-            <Tbody {...getTableBodyProps()}>
-              {rows.map(row => {
-                prepareRow(row);
+
+            <Tbody>
+              {table.getRowModel().rows.map(row => {
                 return (
-                  <Tr {...row.getRowProps()}>
-                    {row.cells.map(cell => (
-                      <Td {...cell.getCellProps()} borderColor="gray.100">
-                        {cell.render('Cell')}
-                      </Td>
-                    ))}
+                  <Tr key={row.id}>
+                    {row.getVisibleCells().map(cell => {
+                      return (
+                        <Td borderColor="gray.100" key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </Td>
+                      );
+                    })}
                   </Tr>
                 );
               })}
