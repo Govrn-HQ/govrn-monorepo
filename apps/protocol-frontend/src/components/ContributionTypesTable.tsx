@@ -80,24 +80,26 @@ const ContributionTypesTable = ({
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  // FIXME: This will be re-calculated for each render.
-  const uniqueContributions: UIContribution[] = [
-    ...new Map(
-      mergePages(contributionTypesData)
-        .sort((firstContribution, nextContribution) =>
-          isAfter(
-            new Date(firstContribution.date_of_engagement),
-            new Date(nextContribution.date_of_engagement),
+  const uniqueContributions: UIContribution[] = useMemo(
+    () => [
+      ...new Map(
+        mergePages(contributionTypesData)
+          .sort((firstContribution, nextContribution) =>
+            isAfter(
+              new Date(firstContribution.date_of_engagement),
+              new Date(nextContribution.date_of_engagement),
+            )
+              ? 1
+              : -1,
           )
-            ? 1
-            : -1,
-        )
-        .map(contributionType => [
-          contributionType.activity_type['name'],
-          contributionType,
-        ]),
-    ).values(),
-  ];
+          .map(contributionType => [
+            contributionType.activity_type['name'],
+            contributionType,
+          ]),
+      ).values(),
+    ],
+    [contributionTypesData],
+  );
 
   const data = useMemo<ContributionTypesTableType[]>(
     () =>
@@ -115,7 +117,8 @@ const ContributionTypesTable = ({
         date_of_submission: contributionType.date_of_submission,
         date_of_engagement: contributionType.date_of_engagement,
       })),
-    [], // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line -- It's already chained, removing `contributionTypesData`
+    [uniqueContributions],
   );
 
   const table = useReactTable({
