@@ -41,4 +41,9 @@ export class GuildUserMaxAggregate {
     nullable: true
   })
   favorite!: boolean | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  guild_import_id!: number | null;
 }

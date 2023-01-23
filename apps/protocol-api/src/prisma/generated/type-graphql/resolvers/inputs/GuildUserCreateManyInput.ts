@@ -41,4 +41,9 @@ export class GuildUserCreateManyInput {
     nullable: true
   })
   favorite?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  guild_import_id?: number | undefined;
 }

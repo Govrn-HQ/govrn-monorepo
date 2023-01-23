@@ -21,4 +21,9 @@ export class GuildImportAvgAggregate {
     nullable: true
   })
   integration_type_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  import_status_id!: number | null;
 }

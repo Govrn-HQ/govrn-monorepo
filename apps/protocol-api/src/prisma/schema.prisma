@@ -108,6 +108,8 @@ model GuildUser {
   membership_status_id Int?
   membershipStatus GuildMembershipStatus? @relation(fields: [membership_status_id], references: [id])
   favorite Boolean @default(false)
+  guild_import_id Int?
+  guild_import GuildImport? @relation(fields: [guild_import_id], references: [id])
 
   @@unique([user_id, guild_id])
 }
@@ -144,6 +146,14 @@ model IntegrationType {
   guild_imports GuildImport[]
 }
 
+model GuildImportStatus {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  name String @unique
+  guild_imports GuildImport[]
+}
+
 model GuildImport {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -153,9 +163,10 @@ model GuildImport {
   guild Guild @relation(fields: [guild_id], references: [id])
   integration_type_id Int
   integration_type IntegrationType @relation(fields: [integration_type_id], references: [id])
+  import_status_id Int
+  import_status GuildImportStatus @relation(fields: [import_status_id], references: [id])
+  users GuildUser[]
 }
-
-
 
 // Type of chain Ethereum solana etc...
 model ChainType {

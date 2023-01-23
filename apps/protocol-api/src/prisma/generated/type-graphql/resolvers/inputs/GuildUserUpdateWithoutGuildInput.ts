@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { GuildImportUpdateOneWithoutUsersNestedInput } from "../inputs/GuildImportUpdateOneWithoutUsersNestedInput";
 import { GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput } from "../inputs/GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput";
 import { UserUpdateOneRequiredWithoutGuild_usersNestedInput } from "../inputs/UserUpdateOneRequiredWithoutGuild_usersNestedInput";
 
@@ -35,4 +36,9 @@ export class GuildUserUpdateWithoutGuildInput {
     nullable: true
   })
   favorite?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildImportUpdateOneWithoutUsersNestedInput, {
+    nullable: true
+  })
+  guild_import?: GuildImportUpdateOneWithoutUsersNestedInput | undefined;
 }

@@ -3,7 +3,10 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Guild } from "../models/Guild";
+import { GuildImportStatus } from "../models/GuildImportStatus";
+import { GuildUser } from "../models/GuildUser";
 import { IntegrationType } from "../models/IntegrationType";
+import { GuildImportCount } from "../resolvers/outputs/GuildImportCount";
 
 @TypeGraphQL.ObjectType("GuildImport", {
   isAbstract: true
@@ -42,4 +45,18 @@ export class GuildImport {
   integration_type_id!: number;
 
   integration_type?: IntegrationType;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  import_status_id!: number;
+
+  import_status?: GuildImportStatus;
+
+  users?: GuildUser[];
+
+  @TypeGraphQL.Field(_type => GuildImportCount, {
+    nullable: true
+  })
+  _count?: GuildImportCount | null;
 }
