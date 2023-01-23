@@ -177,7 +177,7 @@ class UpdateProfile(BaseThread):
     async def get_steps(self):
         twitter_update = (
             Step(
-                VerifyUserTwitterStep(self.user_id, self.guild_id, self.cache)
+                VerifyUserTwitterStep(self.user_id, self.guild_id, self.cache, True)
             ).add_next_step(CongratsFieldUpdateStep())
         ).build()
         wallet_update = (
