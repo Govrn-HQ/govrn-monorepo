@@ -21,6 +21,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { HiOutlineLink } from 'react-icons/hi';
 import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
+import { useNavigate } from 'react-router-dom';
 
 interface ContributionDetailShellProps {
   contribution: UIContribution;
@@ -29,6 +30,7 @@ interface ContributionDetailShellProps {
 const ContributionDetailShell = ({
   contribution,
 }: ContributionDetailShellProps) => {
+  const navigate = useNavigate();
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -39,11 +41,16 @@ const ContributionDetailShell = ({
     >
       <PageHeading>Contribution Details</PageHeading>
       <Flex direction="column" paddingBottom={4}>
-        <Link to="/contributions">
-          <Button leftIcon={<FiArrowLeft />} variant="ghost" paddingX="0">
-            Contributions
+        <Box>
+          <Button
+            leftIcon={<FiArrowLeft />}
+            variant="ghost"
+            onClick={() => navigate(-1)}
+            padding={2}
+          >
+            Back
           </Button>
-        </Link>
+        </Box>
       </Flex>
       <Flex
         justify="space-between"

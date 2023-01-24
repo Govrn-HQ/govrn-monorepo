@@ -13,6 +13,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   Column,
@@ -74,10 +75,12 @@ const AttestationsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value }: { value: string }) => {
+        Cell: props => {
           return (
             <Flex direction="column" wrap="wrap">
-              <Text whiteSpace="normal">{value}</Text>
+              <Link to={`/contributions/${props.row.original.id}`}>
+                <Text whiteSpace="normal">{props.value}</Text>
+              </Link>
             </Flex>
           );
         },
