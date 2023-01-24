@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Box,
+  chakra,
   Flex,
   Heading,
   Stack,
@@ -13,19 +14,60 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import {
-  Column,
-  HeaderGroup,
-  useFilters,
-  useGlobalFilter,
-  useRowSelect,
-  useSortBy,
-  useTable,
-} from 'react-table';
+  ColumnDef,
+  getCoreRowModel,
+  useReactTable,
+  flexRender,
+  SortingState,
+  getSortedRowModel,
+  Getter,
+} from '@tanstack/react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { RecentContributionTableType } from '../types/table';
 import { formatDate } from '../utils/date';
+import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+
+const columnsDef: ColumnDef<RecentContributionTableType>[] = [
+  {
+    header: 'Name',
+    accessorKey: 'name',
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return (
+        <Flex direction="column" wrap="wrap">
+          <Text whiteSpace="normal">{getValue()}</Text>
+        </Flex>
+      );
+    },
+  },
+  {
+    header: 'Type',
+    accessorKey: 'activity_type',
+    cell: ({
+      getValue,
+    }: {
+      getValue: Getter<RecentContributionTableType['activity_type']>;
+    }) => {
+      return <Text>{getValue().name} </Text>;
+    },
+  },
+  {
+    header: 'Engagement Date',
+    accessorKey: 'engagementDate',
+  },
+  {
+    header: 'Contributor',
+    accessorKey: 'user',
+    cell: ({
+      getValue,
+    }: {
+      getValue: Getter<RecentContributionTableType['user']>;
+    }) => {
+      return <Text>{getValue().name ?? ''} </Text>;
+    },
+  },
+];
 
 const RecentContributionsTable = ({
   contributionsData,
@@ -39,6 +81,8 @@ const RecentContributionsTable = ({
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const data = useMemo<RecentContributionTableType[]>(() => {
     const tableData = [] as RecentContributionTableType[];
     for (const page of contributionsData) {
@@ -55,49 +99,15 @@ const RecentContributionsTable = ({
     return tableData;
   }, [contributionsData]);
 
-  const columns = useMemo<Column<RecentContributionTableType>[]>(
-    () => [
-      {
-        Header: 'Name',
-        accessor: 'name',
-        Cell: ({ value }: { value: string }) => {
-          return (
-            <Flex direction="column" wrap="wrap">
-              <Text whiteSpace="normal">{value}</Text>
-            </Flex>
-          );
-        },
-      },
-      {
-        Header: 'Type',
-        accessor: 'activity_type',
-        Cell: ({ value }: { value: { name: string } }) => {
-          return <Text>{value.name} </Text>;
-        },
-      },
-      {
-        Header: 'Engagement Date',
-        accessor: 'engagementDate',
-      },
-      {
-        Header: 'Contributor',
-        accessor: 'user',
-        Cell: ({ value }: { value: { name?: string | null } }) => {
-          return <Text>{value.name ?? ''} </Text>;
-        },
-      },
-    ],
-    [],
-  );
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      { columns, data },
-      useFilters,
-      useGlobalFilter,
-      useSortBy,
-      useRowSelect,
-    );
+  const table = useReactTable({
+    data,
+    columns: columnsDef,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    debugAll: false,
+  });
 
   return (
     <Stack>
@@ -114,14 +124,13 @@ const RecentContributionsTable = ({
           </Heading>
           <Box width="100%" maxWidth="100vw" overflowX="auto">
             <InfiniteScroll
-              dataLength={rows.length}
+              dataLength={table.getRowModel().rows.length}
               next={nextPage}
               scrollThreshold={0.8}
               hasMore={hasMoreItems}
               loader={<GovrnSpinner />}
             >
               <Table
-                {...getTableProps()}
                 maxWidth="100vw"
                 overflowX="auto"
                 borderWidth="1px"
@@ -129,39 +138,57 @@ const RecentContributionsTable = ({
                 borderRadius={{ base: 'none', md: 'md' }}
               >
                 <Thead backgroundColor="gray.50">
-                  {headerGroups.map(
-                    (headerGroup: HeaderGroup<RecentContributionTableType>) => (
-                      <Tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(
-                          (
-                            column: HeaderGroup<RecentContributionTableType>,
-                          ) => (
-                            <Th
-                              {...column.getHeaderProps(
-                                column.getSortByToggleProps(),
-                              )}
-                              borderColor="gray.100"
+                  {table.getHeaderGroups().map(headerGroup => (
+                    <Tr key={headerGroup.id}>
+                      {headerGroup.headers.map(header => (
+                        <Th key={header.id} borderColor="gray.100">
+                          {header.isPlaceholder ? null : (
+                            <Box
+                              {...{
+                                onClick:
+                                  header.column.getToggleSortingHandler(),
+                                cursor: 'pointer',
+                              }}
                             >
-                              {column.render('Header')}
-                            </Th>
-                          ),
-                        )}
-                        <Th borderColor="gray.100" />
-                      </Tr>
-                    ),
-                  )}
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+
+                              <chakra.span paddingLeft="4">
+                                {{
+                                  asc: (
+                                    <IoArrowUp aria-label="sorted-ascending" />
+                                  ),
+                                  desc: (
+                                    <IoArrowDown aria-label="sorted-descending" />
+                                  ),
+                                }[header.column.getIsSorted() as string] ??
+                                  null}
+                              </chakra.span>
+                            </Box>
+                          )}
+                        </Th>
+                      ))}
+                      <Th borderColor="gray.100" />
+                    </Tr>
+                  ))}
                 </Thead>
 
-                <Tbody {...getTableBodyProps()}>
-                  {rows.map(row => {
-                    prepareRow(row);
+                <Tbody>
+                  {table.getRowModel().rows.map(row => {
                     return (
-                      <Tr {...row.getRowProps()}>
-                        {row.cells.map(cell => (
-                          <Td {...cell.getCellProps()} borderColor="gray.100">
-                            <>{cell.render('Cell')}</>
-                          </Td>
-                        ))}
+                      <Tr key={row.id}>
+                        {row.getVisibleCells().map(cell => {
+                          return (
+                            <Td borderColor="gray.100" key={cell.id}>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext(),
+                              )}
+                            </Td>
+                          );
+                        })}
                       </Tr>
                     );
                   })}
