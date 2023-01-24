@@ -255,11 +255,11 @@ def verify_twitter_url(tweet_url, expected_profile):
         )
 
     profile = match.group(1)
-
-    if profile != expected_profile.strip().replace("@", ""):
+    expected_profile_stripped = expected_profile.strip().replace("@", "")
+    if profile.lower() != expected_profile_stripped.lower():
         errMsg = (
             f"Tweet profile {profile} does not match the supplied"
-            f" handle {expected_profile}"
+            f" handle {expected_profile_stripped}"
         )
         raise ThreadTerminatingException(errMsg)
 
