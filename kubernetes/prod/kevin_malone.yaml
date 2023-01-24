@@ -65,6 +65,8 @@ spec:
               value: '837049837886767125'
             - name: PROTOCOL_URL
               value: 'https://api.govrn.app/graphql'
+            - name: IS_DEV
+              value: 'false'
             - name: REDIS_URL
               valueFrom:
                 secretKeyRef:
