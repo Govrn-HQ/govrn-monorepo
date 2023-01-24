@@ -54,4 +54,9 @@ export class GuildImportScalarWhereInput {
     nullable: true
   })
   integration_type_id?: IntFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntFilter, {
+    nullable: true
+  })
+  import_status_id?: IntFilter | undefined;
 }

@@ -13,6 +13,7 @@ export { Guild } from "./Guild";
 export { GuildActivityType } from "./GuildActivityType";
 export { GuildContribution } from "./GuildContribution";
 export { GuildImport } from "./GuildImport";
+export { GuildImportStatus } from "./GuildImportStatus";
 export { GuildMembershipStatus } from "./GuildMembershipStatus";
 export { GuildUser } from "./GuildUser";
 export { IntegrationType } from "./IntegrationType";

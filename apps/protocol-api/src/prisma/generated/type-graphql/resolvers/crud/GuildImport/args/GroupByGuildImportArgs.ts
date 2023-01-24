@@ -20,7 +20,7 @@ export class GroupByGuildImportArgs {
   @TypeGraphQL.Field(_type => [GuildImportScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "authentication_token" | "guild_id" | "integration_type_id">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "authentication_token" | "guild_id" | "integration_type_id" | "import_status_id">;
 
   @TypeGraphQL.Field(_type => GuildImportScalarWhereWithAggregatesInput, {
     nullable: true

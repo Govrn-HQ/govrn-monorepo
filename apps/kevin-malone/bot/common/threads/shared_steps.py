@@ -16,6 +16,7 @@ from bot.config import (
     TWITTER_URL_REGEXP,
     REQUESTED_SIGNED_MESSAGE,
     WALLET_VERIFICATION_INSTRUCTIONS,
+    SKIP_EMOJI,
 )
 from bot.common.bot.bot import bot
 import bot.common.graphql as gql
@@ -32,6 +33,7 @@ USER_CACHE_KEY = "user_previously_exists"
 DISCORD_DISPLAY_NAME_CACHE_KEY = "discord_display_name"
 TWITTER_HANDLE_CACHE_KEY = "twitter_handle"
 REQUESTED_TWEET_CACHE_KEY = "requested_tweet"
+TWEET_VERIFIED_CACHE_KEY = "tweet_verified"
 WALLET_CACHE_KEY = "user_wallet_address"
 WALLET_VERIFICATION_MESSAGE_CACHE_KEY = "wallet_verification_message"
 
@@ -117,11 +119,9 @@ class VerifyUserWalletStep(BaseStep):
 
     async def save(self, message, guild_id, user_id):
         verified_wallet = await self.verify_message(user_id, message)
-        await self.remove_existing_wallet_usage(user_id, verified_wallet)
         if self.update:
+            await self.remove_existing_wallet_usage(user_id, verified_wallet)
             await self.update_existing_user_with_wallet(user_id, verified_wallet)
-        else:
-            await self.create_user_with_wallet(user_id, guild_id, verified_wallet)
 
     async def verify_message(self, user_id, message):
         # Retrieve expected message and wallet from cache
@@ -162,46 +162,24 @@ class VerifyUserWalletStep(BaseStep):
         err_address_marker = VerifyUserWalletStep.unverified_address_fmt % user_id
         await gql.update_user_wallet(user.get("id"), err_address_marker)
 
-    async def create_user_with_wallet(self, user_id, guild_id, wallet):
-        # Create a new user row with the supplied display name, wallet, etc.
-        display_name = await get_cache_metadata_key(user_id, self.cache, "display_name")
-        discord_display_name = await get_cache_metadata_key(
-            user_id, self.cache, DISCORD_DISPLAY_NAME_CACHE_KEY
-        )
-        # Assumption: user is in a discord server/not in DMs
-        guild = await gql.get_guild_by_discord_id(guild_id)
-
-        # user creation is performed when supplying wallet address since this
-        # is a mandatory field for the user record
-        # TODO: wrap into a single CRUD
-        user = await self.create_user(
-            user_id, discord_display_name, guild.get("id"), wallet
-        )
-        user_db_id = user.get("id")
-        await gql.update_user_display_name(user_db_id, display_name)
-        await write_cache_metadata(user_id, self.cache, "user_db_id", user_db_id)
-
     async def update_existing_user_with_wallet(self, user_id, verified_wallet):
         user = await gql.get_user_by_discord_id(user_id)
         # Update the user's profile with the verified wallet address
         await gql.update_user_wallet(user.get("id"), verified_wallet)
-
-    async def create_user(self, discord_id, discord_name, guild_id, wallet):
-        user = await gql.create_user(discord_id, discord_name, wallet)
-        await gql.create_guild_user(user.get("id"), guild_id)
-        return user
 
 
 class VerifyUserTwitterStep(BaseStep):
     """Step to verify user's twitter profile"""
 
     name = StepKeys.VERIFY_USER_TWITTER.value
+    exception_message = "Reacted with the wrong emoji"
 
-    def __init__(self, user_id, guild_id, cache):
+    def __init__(self, user_id, guild_id, cache, update: bool):
         super().__init__()
         self.user_id = user_id
         self.guild_id = guild_id
         self.cache = cache
+        self.update = update
 
     async def send(self, message, user_id):
         embed_title = (
@@ -227,7 +205,14 @@ class VerifyUserTwitterStep(BaseStep):
 
     async def save(self, message, guild_id, user_id):
         await self.verify_message(message)
-        await self.save_authenticated_account()
+        if self.update:
+            await self.save_authenticated_account()
+
+    async def handle_emoji(self, raw_reaction):
+        # skips twitter verification
+        if SKIP_EMOJI in raw_reaction.emoji.name and not self.update:
+            return StepKeys.CREATE_USER.value, False
+        raise Exception(VerifyUserTwitterStep.exception_message)
 
     async def verify_message(self, authentication_message):
         twitter_handle = await get_cache_metadata_key(
@@ -240,9 +225,13 @@ class VerifyUserTwitterStep(BaseStep):
             self.user_id, self.cache, "requested_tweet"
         )
         verify_tweet_text(tweet.content, requested_tweet)
+        # write to cache after tweet verification so that a user can't skip this step
+        # if they want to associate a twitter profile
+        await write_cache_metadata(
+            self.user_id, self.cache, TWEET_VERIFIED_CACHE_KEY, "True"
+        )
 
     async def save_authenticated_account(self):
-        # retrieve and save handle from cache into airtable
         user_record = await gql.get_user_by_discord_id(self.user_id)
         twitter_handle = await get_cache_metadata_key(
             self.user_id, self.cache, TWITTER_HANDLE_CACHE_KEY

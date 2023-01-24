@@ -4,11 +4,16 @@ import PageHeading from './PageHeading';
 import DaoTextareaForm from './DaoTextareaForm';
 import DaoImportCard from './DaoImportCard';
 import ModalWrapper from './ModalWrapper';
+import DaoCsvImport from './DaoCsvImport';
 
 const CreateDaoLayout = () => {
   // this will be removed once we add this to the dao settings page -- needed for testing the modal
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
+
+  const createDaoModalHandler = () => {
+    setModals({ createDaoModal: true });
+  };
 
   const guildImportModalHandler = () => {
     setModals({ guildImportModal: true }); // no component yet, but added to overlay modals
@@ -18,9 +23,6 @@ const CreateDaoLayout = () => {
     setModals({ csvImportModal: true }); // no component yet, but added to overlay modals
   };
 
-  const createDaoModalHandler = () => {
-    setModals({ createDaoModal: true });
-  };
   const daoImportMethods = [
     {
       importName: 'Import via Guild.xyz',
@@ -76,6 +78,13 @@ const CreateDaoLayout = () => {
           ))}
         </Grid>
       </Box>
+      <ModalWrapper
+        name="csvImportModal"
+        title="Upload a CSV File"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={<DaoCsvImport />}
+      />
       <ModalWrapper
         name="createDaoModal"
         title="Add DAO Members"
