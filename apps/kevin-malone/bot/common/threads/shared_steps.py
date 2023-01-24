@@ -256,7 +256,7 @@ def verify_twitter_url(tweet_url, expected_profile):
 
     profile = match.group(1)
 
-    if profile != expected_profile:
+    if profile != expected_profile.trim().replace("@", ""):
         errMsg = (
             f"Tweet profile {profile} does not match the supplied"
             f" handle {expected_profile}"
