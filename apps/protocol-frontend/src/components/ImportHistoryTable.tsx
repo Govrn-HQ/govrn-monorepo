@@ -72,6 +72,10 @@ const ImportHistoryTable = () => {
 
   const columnsDefs = useMemo<ColumnDef<UIGuildImportHistory>[]>(() => {
     return [
+      // {
+      //   header: 'Settings',
+      //   acccessorFn:
+      // },
       {
         header: 'DAO',
         accessorKey: 'guild',
