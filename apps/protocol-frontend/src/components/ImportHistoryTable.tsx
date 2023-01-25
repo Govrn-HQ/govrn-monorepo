@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Badge,
   Box,
   chakra,
   Flex,
   Link as ChakraLink,
-  HStack,
   Heading,
   IconButton,
   Stack,
@@ -15,10 +14,10 @@ import {
   Text,
   Th,
   Thead,
-  Tooltip,
   Tr,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { HiOutlineCog } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import {
   ColumnDef,
@@ -41,10 +40,9 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
-import { RowSelectionState } from '@tanstack/table-core';
 
 const ImportHistoryTable = () => {
-  const { userData } = useUser();
+  const { userData, userDaos } = useUser();
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -72,14 +70,30 @@ const ImportHistoryTable = () => {
 
   const columnsDefs = useMemo<ColumnDef<UIGuildImportHistory>[]>(() => {
     return [
-      // {
-      //   header: 'Settings',
-      //   acccessorFn:
-      // },
+      {
+        header: 'Settings',
+        accessorKey: 'guild_id',
+        cell: ({
+          getValue,
+        }: {
+          getValue: Getter<UIGuildImportHistory['guild_id']>;
+        }) => {
+          return (
+            userDaos.get(getValue())?.membershipStatus.name === 'admin' && (
+              <IconButton
+                aria-label="Click on the gear icon to open this DAO's settings."
+                bg="transparent"
+                _hover={{ bg: 'transparent' }}
+                _active={{ bg: 'transparent' }}
+                icon={<HiOutlineCog color="#4A5568" size={24} />} // gray.600
+              />
+            )
+          );
+        },
+      },
       {
         header: 'DAO',
         accessorKey: 'guild',
-
         cell: ({
           row,
           getValue,
@@ -163,7 +177,7 @@ const ImportHistoryTable = () => {
         header: 'Members',
         accessorFn: importHistory => String(importHistory.users.length),
         cell: ({ getValue }: { getValue: Getter<string> }) => {
-          return <Text textTransform="capitalize">{getValue()} </Text>;
+          return <Text>{getValue()} </Text>;
         },
       },
     ];
