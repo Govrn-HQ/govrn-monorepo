@@ -18,6 +18,7 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
   const { isLoading: daoUsersListLoading, data: daosUsersListData } =
     useDaoUsersList({
       where: { user_id: { equals: userId } },
+      orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
     });
 
   console.log('guild users list', daosUsersListData);
