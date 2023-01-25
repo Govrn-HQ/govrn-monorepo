@@ -56,6 +56,12 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
       where: { users: { none: { user_id: { equals: userId } } } }, // show daos user isn't in and can join
     });
 
+  const { data: daosListData } = useDaosList({
+    where: { users: { some: { user_id: { equals: userId } } } }, // show only user's DAOs
+  });
+
+  console.log('daosListData', daosListData);
+
   const daoListOptions =
     joinableDaosListData?.map(dao => ({
       value: dao.id,
