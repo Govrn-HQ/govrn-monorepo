@@ -42,11 +42,6 @@ const ImportHistoryTable = () => {
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  // const { data: importHistoryData } = useImportHistoryList({
-  //   where: { users: { some: { user_id: { equals: userData?.id } } } },
-  // });
-  // console.log('import history', importHistoryData);
-
   const {
     data: importHistoryData,
     hasNextPage,

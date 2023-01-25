@@ -49,13 +49,6 @@ export class Guild extends BaseClient {
   }
 }
 
-// export class GuildImport extends BaseClient {
-//   public async list(args: ListGuildImportsQueryVariables) {
-//     const guilds = await this.sdk.listGuildImports(args);
-//     return guilds.result;
-//   }
-// }
-
 export class GuildImport extends BaseClient {
   public async list(args: ListGuildImportsQueryVariables) {
     return paginate<ListGuildImportsQueryVariables, ListGuildImportsQuery>(
