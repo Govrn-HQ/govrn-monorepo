@@ -194,7 +194,7 @@ const ImportHistoryTable = () => {
         },
       },
     ];
-  }, []);
+  }, [userDaos]);
 
   const table = useReactTable({
     data,
