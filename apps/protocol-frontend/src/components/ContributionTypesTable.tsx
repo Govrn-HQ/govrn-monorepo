@@ -1,8 +1,17 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { isAfter } from 'date-fns';
 import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useSortBy, useTable, Column, HeaderGroup } from 'react-table';
+import {
+  ColumnDef,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+  flexRender,
+  SortingState,
+  getSortedRowModel,
+  Getter,
+} from '@tanstack/react-table';
 import { UIContribution } from '@govrn/ui-types';
 import { mergePages } from '../utils/arrays';
 
@@ -17,31 +26,80 @@ type ContributionTypesTableType = {
   date_of_submission: Date | string;
 };
 
+const columnsDefs: ColumnDef<ContributionTypesTableType>[] = [
+  {
+    header: 'Activity Type',
+    accessorKey: 'activityType',
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return (
+        <Box
+          bgColor="blue.50"
+          width="fit-content"
+          padding={2}
+          borderRadius="md"
+        >
+          {getValue()}
+        </Box>
+      );
+    },
+  },
+  {
+    header: 'Total',
+    accessorKey: 'total',
+    cell: ({ getValue }: { getValue: Getter<number> }) => {
+      return (
+        <Box
+          bgColor="blue.50"
+          width="fit-content"
+          padding={2}
+          borderRadius="md"
+        >
+          {getValue()}
+        </Box>
+      );
+    },
+  },
+  {
+    header: 'Last Occurrence',
+    accessorKey: 'date_of_engagement',
+  },
+  {
+    header: 'Name',
+    accessorKey: 'name',
+  },
+  {
+    header: 'DAOs',
+    accessorKey: 'guilds',
+  },
+];
+
 const ContributionTypesTable = ({
   contributionTypesData,
 }: {
   contributionTypesData: UIContribution[][];
 }) => {
-  const uniqueKey = 'name';
+  const [sorting, setSorting] = useState<SortingState>([]);
 
-  // FIXME: This will be re-calculated for each render.
-  const uniqueContributions: UIContribution[] = [
-    ...new Map(
-      mergePages(contributionTypesData)
-        .sort((firstContribution, nextContribution) =>
-          isAfter(
-            new Date(firstContribution.date_of_engagement),
-            new Date(nextContribution.date_of_engagement),
+  const uniqueContributions: UIContribution[] = useMemo(
+    () => [
+      ...new Map(
+        mergePages(contributionTypesData)
+          .sort((firstContribution, nextContribution) =>
+            isAfter(
+              new Date(firstContribution.date_of_engagement),
+              new Date(nextContribution.date_of_engagement),
+            )
+              ? 1
+              : -1,
           )
-            ? 1
-            : -1,
-        )
-        .map(contributionType => [
-          contributionType.activity_type[uniqueKey],
-          contributionType,
-        ]),
-    ).values(),
-  ];
+          .map(contributionType => [
+            contributionType.activity_type['name'],
+            contributionType,
+          ]),
+      ).values(),
+    ],
+    [contributionTypesData],
+  );
 
   const data = useMemo<ContributionTypesTableType[]>(
     () =>
@@ -59,113 +117,66 @@ const ContributionTypesTable = ({
         date_of_submission: contributionType.date_of_submission,
         date_of_engagement: contributionType.date_of_engagement,
       })),
-    [], // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line -- It's already chained, removing `contributionTypesData`
+    [uniqueContributions],
   );
 
-  const columns = useMemo<Column<ContributionTypesTableType>[]>(
-    () => [
-      {
-        Header: 'Activity Type',
-        accessor: 'activityType',
-        Cell: ({ value }: { value: string }) => {
-          return (
-            <Box
-              bgColor="blue.50"
-              width="fit-content"
-              padding={2}
-              borderRadius="md"
-            >
-              {value}
-            </Box>
-          );
-        },
-      },
-      {
-        Header: 'Total',
-        accessor: 'total',
-        Cell: ({ value }: { value: number }) => {
-          return (
-            <Box
-              bgColor="blue.50"
-              width="fit-content"
-              padding={2}
-              borderRadius="md"
-            >
-              {value}
-            </Box>
-          );
-        },
-      },
-      {
-        Header: 'Last Occurrence',
-        accessor: 'date_of_engagement',
-      },
-      {
-        Header: 'Name',
-        accessor: 'name',
-      },
-
-      { Header: 'DAOs', accessor: 'guilds' },
-    ],
-    [],
-  );
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
-        initialState: {
-          sortBy: columns.map(one => {
-            return {
-              desc: false,
-              id: 'activityType',
-            };
-          }),
-        },
-      },
-      useSortBy,
-    );
+  const table = useReactTable({
+    data,
+    columns: columnsDefs,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    debugAll: true,
+  });
 
   return (
-    <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
+    <Table maxWidth="100vw" overflowX="auto">
       <Thead backgroundColor="gray.50">
-        {headerGroups.map(
-          (headerGroup: HeaderGroup<ContributionTypesTableType>) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(
-                (column: HeaderGroup<ContributionTypesTableType>) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    borderColor="gray.100"
+        {table.getHeaderGroups().map(headerGroup => (
+          <Tr key={headerGroup.id}>
+            {headerGroup.headers.map(header => (
+              <Th borderColor="gray.100">
+                {header.isPlaceholder ? null : (
+                  <Box
+                    {...{
+                      onClick: header.column.getToggleSortingHandler(),
+                      cursor: 'pointer',
+                    }}
                   >
-                    {column.render('Header')}
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
+
                     <chakra.span paddingLeft="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <IoArrowDown aria-label="sorted-descending" />
-                        ) : (
-                          <IoArrowUp aria-label="sorted-ascending" />
-                        )
-                      ) : null}
+                      {{
+                        asc: <IoArrowUp aria-label="sorted-ascending" />,
+                        desc: <IoArrowDown aria-label="sorted-descending" />,
+                      }[header.column.getIsSorted() as string] ?? null}
                     </chakra.span>
-                  </Th>
-                ),
-              )}
-            </Tr>
-          ),
-        )}
+                  </Box>
+                )}
+              </Th>
+            ))}
+            <Th borderColor="gray.100" />
+          </Tr>
+        ))}
       </Thead>
-      <Tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row);
+
+      <Tbody>
+        {table.getRowModel().rows.map(row => {
           return (
-            <Tr {...row.getRowProps()}>
-              {row.cells.map(cell => (
-                <Td {...cell.getCellProps()} borderColor="gray.100">
-                  {cell.render('Cell')}
-                </Td>
-              ))}
+            <Tr key={row.id}>
+              {row.getVisibleCells().map(cell => {
+                return (
+                  <Td borderColor="gray.100" key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                );
+              })}
             </Tr>
           );
         })}
