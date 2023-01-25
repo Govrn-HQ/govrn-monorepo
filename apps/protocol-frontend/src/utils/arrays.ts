@@ -8,6 +8,7 @@ export const mergePages = (pages: UIContribution[][]) => {
   return contributions;
 };
 
+// TODO: look to generalize this and mergePages
 export const mergeHistoryPages = (pages: UIGuildImportHistory[][]) => {
   let importHistories = [] as UIGuildImportHistory[];
   for (const page of pages) {
