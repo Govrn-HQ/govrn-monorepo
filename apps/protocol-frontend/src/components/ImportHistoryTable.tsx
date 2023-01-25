@@ -4,7 +4,6 @@ import {
   Box,
   chakra,
   Flex,
-  // Link as ChakraLink,
   Heading,
   IconButton,
   Stack,
@@ -55,18 +54,6 @@ const ImportHistoryTable = () => {
   } = useImportHistoryInfiniteList({
     where: { users: { some: { user_id: { equals: userData?.id } } } },
   });
-  console.log('import infinite history', importHistoryData);
-
-  // type ImportHistoryType = Pick<
-  //   UIGuildImportHistory,
-  //   | 'id'
-  //   | 'guild'
-  //   | 'guild_id'
-  //   | 'import_status'
-  //   | 'integration_type'
-  //   | 'createdAt'
-  //   | 'users'
-  // >[][];
 
   const data = useMemo<UIGuildImportHistory[]>(() => {
     return mergeHistoryPages(
