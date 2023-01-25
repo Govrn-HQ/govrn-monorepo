@@ -12,7 +12,6 @@ import { customResolvers } from './prisma/resolvers';
 import { and, deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 import fetch from 'cross-fetch';
-import { IntegrationType } from '../../../libs/protocol-client/src/lib/protocol-types';
 
 import cors = require('cors');
 
