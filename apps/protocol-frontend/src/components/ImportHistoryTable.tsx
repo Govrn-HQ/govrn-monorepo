@@ -4,7 +4,7 @@ import {
   Box,
   chakra,
   Flex,
-  Link as ChakraLink,
+  // Link as ChakraLink,
   Heading,
   IconButton,
   Stack,
@@ -29,10 +29,7 @@ import {
   Getter,
   Row,
 } from '@tanstack/react-table';
-import {
-  useImportHistoryInfiniteList,
-  useImportHistoryList,
-} from '../hooks/useImportHistoryList';
+import { useImportHistoryInfiniteList } from '../hooks/useImportHistoryList';
 import { useUser } from '../contexts/UserContext';
 import { UIGuildImportHistory } from '@govrn/ui-types';
 import EmptyImports from './EmptyImports';
@@ -53,13 +50,23 @@ const ImportHistoryTable = () => {
 
   const {
     data: importHistoryData,
-    isFetching,
     hasNextPage,
     fetchNextPage,
   } = useImportHistoryInfiniteList({
     where: { users: { some: { user_id: { equals: userData?.id } } } },
   });
   console.log('import infinite history', importHistoryData);
+
+  // type ImportHistoryType = Pick<
+  //   UIGuildImportHistory,
+  //   | 'id'
+  //   | 'guild'
+  //   | 'guild_id'
+  //   | 'import_status'
+  //   | 'integration_type'
+  //   | 'createdAt'
+  //   | 'users'
+  // >[][];
 
   const data = useMemo<UIGuildImportHistory[]>(() => {
     return mergePages(
@@ -265,7 +272,6 @@ const ImportHistoryTable = () => {
                     </Tr>
                   ))}
                 </Thead>
-
                 <Tbody>
                   {table.getRowModel().rows.map(row => {
                     return (
