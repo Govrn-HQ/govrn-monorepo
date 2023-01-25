@@ -12,7 +12,8 @@ export const BLOCK_EXPLORER_URLS = {
   gnosisChain: `https://blockscout.com/xdai/mainnet/tx/`,
 };
 
-export const MAX_FILE_UPLOAD_SIZE = 5000000; // 5MB
+export const MAX_FILE_UPLOAD_SIZE = 5242880; // 5MB in bytes. used in ipfs upload
+export const MAX_CSV_UPLOAD_SIZE = 5242880; // 5MB in bytes. used in csv upload
 export const UNASSIGNED = 'Unassigned';
 export const GOVRN_MOTTO = 'Track and record your DAO Contributions.';
 export const DEFAULT_ACTIVITY_TYPES = [

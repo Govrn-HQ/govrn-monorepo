@@ -25,10 +25,12 @@ const gnosisChain: Chain = {
   testnet: false,
 };
 
-const dev = import.meta.env.DEV === true;
-const defaultChains = dev
-  ? [gnosisChain, chain.goerli, chain.rinkeby, chain.localhost]
-  : [gnosisChain];
+const buildEnv = import.meta.env.VITE_BUILD_ENV;
+
+const defaultChains =
+  buildEnv !== 'production'
+    ? [gnosisChain, chain.goerli, chain.rinkeby, chain.localhost]
+    : [gnosisChain];
 export const { chains, provider } = configureChains(defaultChains, [
   alchemyProvider({ apiKey: ALCHEMY_KEY }),
   publicProvider(),

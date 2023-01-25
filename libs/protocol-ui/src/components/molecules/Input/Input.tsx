@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Input as ChakraInput,
+  InputProps as ChakraInputProps,
   FormControl,
   Stack,
   Box,
@@ -15,7 +16,7 @@ export type InputLocalFormType<T> = Pick<
   'formState' | 'register'
 >;
 
-export interface InputProps {
+export interface InputProps extends ChakraInputProps {
   name: string; // this is required for validation since it's used as the key in the errors object
   label?: string;
   placeholder?: string;
@@ -43,6 +44,7 @@ const Input: React.FC<InputProps> = ({
   variant = 'outline',
   dataTestId = '',
   onChange,
+  ...props
 }: InputProps) => {
   const {
     register,
@@ -69,6 +71,7 @@ const Input: React.FC<InputProps> = ({
             {...register(name)}
             data-testid={dataTestId}
             onChange={onChange}
+            {...props}
           />
           {errors && (
             <ErrorMessage
