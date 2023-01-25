@@ -417,6 +417,10 @@ fragment UserFragment on User {
       id
       name
     }
+    favorite
+    membershipStatus {
+      name
+    }
   }
 }
 

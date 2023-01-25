@@ -11,6 +11,7 @@ const DaoDashboard = () => {
   const { userDaos } = useUser();
   const { guildId } = useParams();
 
+  console.log('user daos', userDaos);
   const currentDao = userDaos?.get(parseInt(guildId ? guildId : ''));
 
   return (
