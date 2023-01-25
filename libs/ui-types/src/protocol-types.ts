@@ -3,6 +3,7 @@ import {
   ListActivityTypesQuery,
   ListContributionsQuery,
   ListGuildsQuery,
+  ListGuildUsersQuery,
   ListAttestationsQuery,
 } from '@govrn/protocol-client';
 
