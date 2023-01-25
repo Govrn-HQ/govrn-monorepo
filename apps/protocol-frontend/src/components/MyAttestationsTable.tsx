@@ -27,6 +27,7 @@ import { formatDate } from '../utils/date';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import { Link } from 'react-router-dom';
 
 type MyAttestationsTableType = {
   id: number;
@@ -68,6 +69,13 @@ const MyAttestationsTable = ({
       {
         Header: 'Name',
         accessor: 'name',
+        Cell: props => {
+          return (
+            <Link to={`/contributions/${props.row.original.id}`}>
+              <Text whiteSpace="normal">{props.value}</Text>
+            </Link>
+          );
+        },
       },
       {
         Header: 'Status',
