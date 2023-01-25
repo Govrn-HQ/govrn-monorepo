@@ -68,7 +68,6 @@ const columnsDef: ColumnDef<MyAttestationsTableType>[] = [
     header: 'Contributor',
     accessorKey: 'contributor',
   },
-  // { header: 'DAO', accessorKey: 'guild' },
 ];
 
 const MyAttestationsTable = ({
@@ -85,21 +84,17 @@ const MyAttestationsTable = ({
 
   const data = useMemo<MyAttestationsTableType[]>(
     () =>
-      contributionsData.map(contribution => {
-        console.log(contribution);
-        return {
-          id: contribution.id,
-          date_of_submission: contribution.date_of_submission,
-          date_of_engagement: contribution.date_of_engagement,
-          status: contribution.status.name,
-          name: contribution.name,
-          attestationDate: formatDate(
-            // contribution.attestations[0]?.date_of_attestation,
-            '12/21/2021',
-          ),
-          contributor: contribution.user.name,
-        };
-      }),
+      contributionsData.map(contribution => ({
+        id: contribution.id,
+        date_of_submission: contribution.date_of_submission,
+        date_of_engagement: contribution.date_of_engagement,
+        status: contribution.status.name,
+        name: contribution.name,
+        attestationDate: formatDate(
+          contribution.attestations[0]?.date_of_attestation,
+        ),
+        contributor: contribution.user.name,
+      })),
     [contributionsData],
   );
 
