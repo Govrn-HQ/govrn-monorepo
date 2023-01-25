@@ -26,9 +26,6 @@ const ContributionsHeatMap = ({
     };
   });
 
-  console.log('contributions count', contributionsCount);
-  console.log('contributionsCountMap', contributionsCountMap);
-
   return (
     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
       <Flex
