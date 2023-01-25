@@ -277,14 +277,20 @@ type UserContextType = {
   userDaos: Map<
     number | string,
     {
-      membershipStatus: any;
       id: number;
       user_id: number;
       guild_id: number;
+      favorite: boolean;
       guild: {
         id: number;
         name?: string | null;
       };
+      membershipStatus?:
+        | {
+            name: string;
+          }
+        | null
+        | undefined;
     }
   >;
   userData: UIUser | null;
