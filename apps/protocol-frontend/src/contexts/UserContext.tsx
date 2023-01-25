@@ -174,7 +174,7 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
       await getUser();
       toast.success({
         title: 'User Profile Updated',
-        description: 'Your profile has been updated',
+        description: 'Your profile has been updated.',
       });
     } catch (error) {
       console.error(error);

@@ -113,7 +113,7 @@ export const BulkAttestationModal = ({
       </Text>
       <Text>
         Attesting to <strong>{contributions.length} </strong>
-        {pluralize('Contribution', contributions.length)}:
+        {pluralize('contribution', contributions.length)}:
       </Text>
       <TextList
         items={contributions.map(c => ({
