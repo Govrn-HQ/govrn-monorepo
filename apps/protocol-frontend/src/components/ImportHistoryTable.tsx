@@ -35,7 +35,7 @@ import { UIGuildImportHistory } from '@govrn/ui-types';
 import EmptyImports from './EmptyImports';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { mergePages } from '../utils/arrays';
+import { mergeHistoryPages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
 
 const ImportHistoryTable = () => {
@@ -69,7 +69,7 @@ const ImportHistoryTable = () => {
   // >[][];
 
   const data = useMemo<UIGuildImportHistory[]>(() => {
-    return mergePages(
+    return mergeHistoryPages(
       importHistoryData && importHistoryData.pages.length > 0
         ? importHistoryData.pages
         : [],
@@ -90,7 +90,7 @@ const ImportHistoryTable = () => {
         }) => {
           return (
             row.original.import_status.name === 'Completed' &&
-            userDaos.get(getValue())?.membershipStatus.name === 'admin' && (
+            userDaos?.get(getValue())?.membershipStatus?.name === 'admin' && (
               <IconButton
                 aria-label="Click on the gear icon to open this DAO's settings."
                 bg="transparent"

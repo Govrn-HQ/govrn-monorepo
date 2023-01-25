@@ -1,4 +1,4 @@
-import { UIContribution } from '@govrn/ui-types';
+import { UIContribution, UIGuildImportHistory } from '@govrn/ui-types';
 
 export const mergePages = (pages: UIContribution[][]) => {
   let contributions = [] as UIContribution[];
@@ -6,6 +6,14 @@ export const mergePages = (pages: UIContribution[][]) => {
     contributions = [...contributions, ...page];
   }
   return contributions;
+};
+
+export const mergeHistoryPages = (pages: UIGuildImportHistory[][]) => {
+  let importHistories = [] as UIGuildImportHistory[];
+  for (const page of pages) {
+    importHistories = [...importHistories, ...page];
+  }
+  return importHistories;
 };
 
 export const splitEntriesByComma = (entries: string) => {
