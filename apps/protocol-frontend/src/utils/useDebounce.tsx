@@ -15,19 +15,16 @@ export const useDebounce = (fn: (value: string) => void, delay: number) => {
     setDebouncedValue(value);
   };
 
-  useEffect(
-    () => {
-      const handler = setTimeout(() => {
-        fn(debouncedValue ?? '');
-      }, delay);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      fn(debouncedValue ?? '');
+    }, delay);
 
-      // Cancel the timeout if: value changes, delay change or unmount and passed fn changes
-      return () => {
-        clearTimeout(handler);
-      };
-    },
-    [debouncedValue, delay, fn], // Only re-call effect if value or delay changes
-  );
+    // Cancel the timeout if: value changes, delay change or unmount and passed fn changes
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [debouncedValue, delay, fn]);
 
   return onValueChanged;
 };
