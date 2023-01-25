@@ -13,6 +13,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   ColumnDef,
@@ -23,6 +24,7 @@ import {
   SortingState,
   getSortedRowModel,
   Getter,
+  Row,
 } from '@tanstack/react-table';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
@@ -64,10 +66,18 @@ const columnsDefs: ColumnDef<AttestationTableType>[] = [
   {
     header: 'Name',
     accessorKey: 'name',
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
+    cell: ({
+      getValue,
+      row,
+    }: {
+      getValue: Getter<string>;
+      row: Row<AttestationTableType>;
+    }) => {
       return (
         <Flex direction="column" wrap="wrap">
-          <Text whiteSpace="normal">{getValue()}</Text>
+          <Link to={`/contributions/${row.original.id}`}>
+            <Text whiteSpace="normal">{getValue()}</Text>
+          </Link>
         </Flex>
       );
     },

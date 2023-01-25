@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import {
   Box,
   chakra,
+  Flex,
   Stack,
   Table,
   Tbody,
@@ -21,12 +22,14 @@ import {
   SortingState,
   getSortedRowModel,
   Getter,
+  Row,
 } from '@tanstack/react-table';
 import GlobalFilter from './GlobalFilter';
 import { formatDate } from '../utils/date';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import { Link } from 'react-router-dom';
 
 type MyAttestationsTableType = {
   id: number;
@@ -42,6 +45,21 @@ const columnsDef: ColumnDef<MyAttestationsTableType>[] = [
   {
     header: 'Name',
     accessorKey: 'name',
+    cell: ({
+      row,
+      getValue,
+    }: {
+      row: Row<MyAttestationsTableType>;
+      getValue: Getter<string>;
+    }) => {
+      return (
+        <Flex direction="column" wrap="wrap">
+          <Link to={`/contributions/${row.original.id}`}>
+            <Text whiteSpace="normal">{getValue()}</Text>
+          </Link>
+        </Flex>
+      );
+    },
   },
   {
     header: 'Status',
