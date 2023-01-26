@@ -396,13 +396,6 @@ const ContributionsTable = ({
             />
           }
         />
-        <ModalWrapper
-          name="bulkDaoAttributeModal"
-          title="Attribute Contributions to a DAO"
-          localOverlay={localOverlay}
-          size="3xl"
-          content={<BulkDaoAttributeModal contributions={selectedRows} />}
-        />
         <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
         <ModalWrapper
           name="mintModal"
