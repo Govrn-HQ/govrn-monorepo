@@ -4,6 +4,7 @@ import {
   ListContributionsQuery,
   ListGuildsQuery,
   ListAttestationsQuery,
+  ListGuildImportsQuery,
 } from '@govrn/protocol-client';
 
 type ObjectLike = { [key: string]: unknown };
@@ -28,3 +29,5 @@ export type UIGuilds = ResultArray<ListGuildsQuery>;
 export type UIAttestations = ResultArray<ListAttestationsQuery>;
 
 export type UIAttestation = ResultArrayOf<ListAttestationsQuery>;
+
+export type UIGuildImportHistory = ResultArrayOf<ListGuildImportsQuery>;
