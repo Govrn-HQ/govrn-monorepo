@@ -95,3 +95,9 @@ export const reportFormValidation = yup.object({
 export const addAttestationFormValidation = yup.object({
   // username: yup.string().required('This field is required.'),
 });
+
+// dao updates
+
+export const daoNameFormValidation = yup.object({
+  daoName: yup.string(),
+});

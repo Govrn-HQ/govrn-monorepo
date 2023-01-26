@@ -1,7 +1,7 @@
 import { useAccount } from 'wagmi';
 import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
-import CreateDaoLayout from '../components/CreateDaoLayout';
+import DaoSettingsLayout from '../components/DaoSettingsLayout';
 
 const DaoSettings = () => {
   const { isConnected } = useAccount();
@@ -9,7 +9,7 @@ const DaoSettings = () => {
 
   return (
     <SiteLayout>
-      {isConnected && isAuthenticated && <CreateDaoLayout />}
+      {isConnected && isAuthenticated && <DaoSettingsLayout />}
     </SiteLayout>
   );
 };

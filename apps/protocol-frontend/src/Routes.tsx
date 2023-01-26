@@ -15,6 +15,7 @@ import Attestations from './pages/Attestations';
 import Dashboard from './pages/Dashboard';
 import DaoLandingPage from './pages/DaoLandingPage';
 import DaoDashboard from './pages/DaoDashboard';
+import DaoSettings from './pages/DaoSettings';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
@@ -130,6 +131,17 @@ const Routes = () => {
             <RequireActiveUser>
               <RequireDaoUser>
                 <DaoDashboard />
+              </RequireDaoUser>
+            </RequireActiveUser>
+          }
+        />
+        // TODO: gate to admin. modify/add RequireDaoAdmin
+        <Route
+          path="/feature/dao/:guildId/settings"
+          element={
+            <RequireActiveUser>
+              <RequireDaoUser>
+                <DaoSettings />
               </RequireDaoUser>
             </RequireActiveUser>
           }
