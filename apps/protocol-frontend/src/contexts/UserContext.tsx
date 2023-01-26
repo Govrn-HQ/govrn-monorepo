@@ -97,6 +97,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
         id: number;
         name?: string | null;
       };
+      favorite: boolean;
+      membershipStatus?:
+        | {
+            name: string;
+          }
+        | null
+        | undefined;
     }
   >();
   if (userData?.guild_users) {
@@ -273,10 +280,17 @@ type UserContextType = {
       id: number;
       user_id: number;
       guild_id: number;
+      favorite: boolean;
       guild: {
         id: number;
         name?: string | null;
       };
+      membershipStatus?:
+        | {
+            name: string;
+          }
+        | null
+        | undefined;
     }
   >;
   userData: UIUser | null;
