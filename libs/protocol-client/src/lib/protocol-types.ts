@@ -7095,7 +7095,9 @@ export type GuildUserCountOrderByAggregateInput = {
 
 export type GuildUserCreateCustomInput = {
   guildId: Scalars['Int'];
-  userId: Scalars['Int'];
+  membershipStatus?: InputMaybe<Scalars['String']>;
+  userAddress?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['Int']>;
 };
 
 export type GuildUserCreateInput = {

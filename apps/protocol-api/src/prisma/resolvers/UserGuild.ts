@@ -11,8 +11,8 @@ export class GuildUserCreateCustomInput {
   })
   userId?: number;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
-  guildId: number;
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  guildId?: number;
 
   @TypeGraphQL.Field(_type => String, { nullable: true })
   userAddress?: string;
@@ -94,8 +94,13 @@ export class GuildUserCustomResolver {
           },
         },
         guild: {
-          connect: {
-            id: args.data.guildId,
+          connectOrCreate: {
+            create: {
+              id: args.data.guildId,
+            },
+            where: {
+              id: args.data.guildId,
+            },
           },
         },
         membershipStatus: {
