@@ -20,8 +20,6 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
       orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
     });
 
-  console.log('guild users list', daosUsersListData);
-
   const daoListOptions =
     joinableDaosListData?.map(dao => ({
       value: dao.id,

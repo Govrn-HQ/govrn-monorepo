@@ -48,21 +48,15 @@ const DaoSettingsLayout = () => {
         </Heading>
         <form onSubmit={handleSubmit(handleUpdateDaoName)}>
           <Flex
-            direction="column"
-            alignItems="flex-start"
-            marginY={8}
-            width={{ base: '100%', lg: '50%' }}
+            direction="row"
+            justifyContent="center"
+            alignItems="flex-end"
+            width={{ base: '100%', lg: '40%' }}
+            gap={4}
           >
-            <Input
-              name="name"
-              label="Govrn Username"
-              tip="Enter your username for the Govrn protocol."
-              placeholder="govrn-user"
-              defaultValue={userData?.name ?? ''}
-              localForm={localForm}
-            />
-            <Button variant="primary" type="submit">
-              Save Username
+            <Input name="daoName" localForm={localForm} />
+            <Button variant="secondary" type="submit">
+              Save Name
             </Button>
           </Flex>
         </form>
