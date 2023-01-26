@@ -8,10 +8,8 @@ import {
   LinkOverlay,
   Box,
 } from '@chakra-ui/react';
-
 import { HiOutlineCog, HiStar, HiOutlineStar } from 'react-icons/hi';
 
-// type DaoRoles = | {'Admin' | 'Contributor' | 'Recruit' }  | undefined;
 type DaoUser = {
   id: number;
   user_id: number;
