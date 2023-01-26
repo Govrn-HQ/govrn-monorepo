@@ -266,7 +266,15 @@ fragment GuildImportFragment on GuildImport {
   createdAt
   updatedAt
   guild_id
+  guild {
+    id
+    name
+  }
   integration_type_id
+  integration_type {
+    id
+    name
+  }
   authentication_token
   import_status {
     id

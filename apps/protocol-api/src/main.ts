@@ -248,7 +248,9 @@ const permissions = shield(
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
       integration_type_id: or(isAuthenticated, hasToken),
+      integration_type: or(isAuthenticated, hasToken),
       authentication_token: or(isAuthenticated, hasToken),
       import_status: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
@@ -269,6 +271,10 @@ const permissions = shield(
       guild_id: or(isAuthenticated, hasToken),
       favorite: or(isAuthenticated, hasToken),
       membershipStatus: or(isAuthenticated, hasToken),
+    },
+    IntegrationType: {
+      id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
     },
     TwitterUser: {
       id: or(isAuthenticated, hasToken),

@@ -1,35 +1,26 @@
-import { useEffect, forwardRef, useRef } from 'react';
+import { useEffect, useRef, HTMLProps } from 'react';
 
-import { TableToggleRowsSelectedProps } from 'react-table';
-
-type IndeterminateCheckboxProps = Partial<TableToggleRowsSelectedProps> & {
-  disabled?: boolean;
-};
-type IndeterminateCheckboxCustomProps = {
-  ref: HTMLInputElement;
-} & IndeterminateCheckboxProps;
-
-const IndeterminateCheckbox = forwardRef<
-  IndeterminateCheckboxProps,
-  IndeterminateCheckboxCustomProps
->(({ indeterminate, ...rest }: any, ref) => {
-  const defaultRef = useRef<HTMLInputElement>(null);
-  const resolvedRef = defaultRef;
+function IndeterminateCheckbox({
+  indeterminate,
+  className = '',
+  ...rest
+}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
+  const ref = useRef<HTMLInputElement>(null!);
 
   useEffect(() => {
-    if (resolvedRef.current) {
-      resolvedRef.current.indeterminate = indeterminate;
+    if (typeof indeterminate === 'boolean') {
+      ref.current.indeterminate = !rest.checked && indeterminate;
     }
-  }, [resolvedRef, indeterminate]);
+  }, [ref, indeterminate, rest.checked]);
 
   return (
     <input
       type="checkbox"
-      ref={resolvedRef}
-      {...rest}
+      ref={ref}
       className="input-indeterminateCheckbox"
+      {...rest}
     />
   );
-});
+}
 
 export default IndeterminateCheckbox;

@@ -43,9 +43,6 @@ const ContributionsByDateChart = ({
     };
   });
 
-  console.log('original data', contributionsCount);
-  console.log('mapped data', contributionsCountMap);
-
   if (isError) {
     return (
       <Text>An error occurred fetching the DAO's recent Contributions.</Text>

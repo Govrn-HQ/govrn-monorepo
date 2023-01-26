@@ -5,8 +5,8 @@ export default {
       whiteSpace: { base: 'wrap', lg: 'nowrap' },
     },
     th: {
-      fontWeight: 'medium',
-      textTransform: 'normal',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
       letterSpacing: 'normal',
       borderTopWidth: '1px',
       whiteSpace: 'nowrap',

@@ -193,7 +193,7 @@ afterEach(() => {
 
 describe('Attestation flow', () => {
   it('attest to a minted Contribution', () => {
-    cy.get('input[title="Toggle Row Selected"]').click();
+    cy.get('[testid="toggle-row-selected"]').click({ multiple: true });
 
     cy.get('[data-testId="attest-testId"]').click();
 
