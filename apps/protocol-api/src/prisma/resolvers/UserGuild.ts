@@ -6,11 +6,19 @@ import { Context } from './types';
   isAbstract: true,
 })
 export class GuildUserCreateCustomInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
-  userId: number;
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+  })
+  userId?: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   guildId: number;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  userAddress?: string;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  membershipStatus?: string;
 }
 
 @TypeGraphQL.ArgsType()
@@ -65,8 +73,24 @@ export class GuildUserCustomResolver {
     return await prisma.guildUser.create({
       data: {
         user: {
-          connect: {
-            id: args.data.userId,
+          connectOrCreate: {
+            create: {
+              address: args.data.userAddress,
+              chain_type: {
+                connectOrCreate: {
+                  create: {
+                    name: 'ethereum_mainnet',
+                  },
+                  where: {
+                    name: 'ethereum_mainnet',
+                  },
+                },
+              },
+            },
+            where: {
+              id: args.data.userId,
+              address: args.data.userAddress,
+            },
           },
         },
         guild: {
@@ -76,7 +100,7 @@ export class GuildUserCustomResolver {
         },
         membershipStatus: {
           connect: {
-            name: 'Recruit',
+            name: args.data.membershipStatus ?? 'Recruit',
           },
         },
       },
