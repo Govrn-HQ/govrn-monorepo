@@ -55,7 +55,7 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
   const [selectedDao, setSelectedDao] = useState<{
     value: number;
     label: string;
-  }>();
+  } | null>(null);
   // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only similar to how we handle the fetches on the DaoDashboard page
   const { isLoading: daosListIsLoading, data: joinableDaosListData } =
     useDaosList({
@@ -73,10 +73,13 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
 
   const handleDaoJoin = async () => {
     if (!selectedDao) return;
-    await createDaoUser({
+    const result = await createDaoUser({
       userId: userId,
       guildId: selectedDao?.value,
     });
+    if (result) {
+      setSelectedDao(null);
+    }
   };
 
   if (daosListIsLoading) return <GovrnSpinner />;
@@ -113,9 +116,11 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
           >
             <ControlledSelect
               label="Select a DAO to Join"
-              isSearchable={false}
               onChange={dao => setSelectedDao(dao)}
+              value={selectedDao ?? null}
               options={daoListOptions}
+              isSearchable={false}
+              isClearable
             />
             <Button
               variant="primary"
