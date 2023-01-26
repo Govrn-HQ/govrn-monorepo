@@ -208,9 +208,13 @@ const ContributionsTableShell = () => {
                     </Stack>
                   </Box>
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
-                    {contributions.pages.length > 0 ? (
+                    {contributions?.pages?.length > 0 ||
+                    mintedContributions?.pages?.length > 0 ? (
                       <ContributionTypesTable
-                        contributionTypesData={contributions.pages}
+                        contributionTypesData={[
+                          ...(contributions?.pages ?? []),
+                          ...(mintedContributions?.pages ?? []),
+                        ]}
                       />
                     ) : (
                       <EmptyContributions />

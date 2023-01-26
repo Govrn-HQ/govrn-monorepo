@@ -47,22 +47,13 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
 import { RowSelectionState } from '@tanstack/table-core';
+import { statusEmojiSelect } from "../utils/statusEmojiSelect";
 
 export type DialogProps = {
   isOpen: boolean;
   title: string;
   onConfirm: boolean;
   contributionId: number;
-};
-
-const emojiSelect = (status: string) => {
-  if (status === 'minted') {
-    return '🌞';
-  } else if (status === 'pending') {
-    return '🕒';
-  } else {
-    return '👀';
-  }
 };
 
 const ContributionsTable = ({
@@ -177,7 +168,7 @@ const ContributionsTable = ({
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {emojiSelect(getValue().name)}
+                {statusEmojiSelect(getValue().name)}
               </span>{' '}
             </Text>
           );
