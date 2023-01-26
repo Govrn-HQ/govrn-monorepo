@@ -18,7 +18,7 @@ type Dao = {
 };
 
 interface ProfileDaoProps {
-  userId: number;
+  userId: number | undefined;
 }
 
 // this is mock data for the user's DAOs with their role and whether or not it is favorited
@@ -72,7 +72,7 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
     useDaoUserCreate();
 
   const handleDaoJoin = async () => {
-    if (!selectedDao) return;
+    if (!selectedDao || userId === undefined) return;
     const result = await createDaoUser({
       userId: userId,
       guildId: selectedDao?.value,
