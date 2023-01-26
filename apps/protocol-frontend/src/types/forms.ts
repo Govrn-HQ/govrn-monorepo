@@ -37,3 +37,8 @@ export type DaoTextareaFormValues = {
 export type DaoCsvImportFormValues = {
   daoCsvFile: FileList;
 };
+
+export type DaoUserCreateValues = {
+  userId: number;
+  guildId: number;
+};
