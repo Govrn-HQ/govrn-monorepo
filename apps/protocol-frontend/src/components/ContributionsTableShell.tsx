@@ -22,6 +22,7 @@ import EmptyContributions from './EmptyContributions';
 import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { UIContribution } from '@govrn/ui-types';
+import MintedContributionsTable from './MintedContributionsTable';
 
 const ContributionsTableShell = () => {
   const { userData } = useUser();
@@ -33,8 +34,22 @@ const ContributionsTableShell = () => {
   } = useContributionInfiniteList({
     where: {
       user_id: { equals: userData?.id },
+      status: { isNot: { name: { equals: 'minted' } } },
     },
   });
+
+  const {
+    data: mintedContributions,
+    isMintedFetching,
+    hasMintedNextPage,
+    fetchMintedNextPage,
+  } = useContributionInfiniteList({
+    where: {
+      user_id: { equals: userData?.id },
+      status: { is: { name: { equals: 'minted' } } },
+    },
+  });
+
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<
     UIContribution[]
@@ -56,7 +71,10 @@ const ContributionsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Contributions</PageHeading>
-      {isFetching && contributions && contributions.pages.length === 0 ? (
+      {isFetching &&
+      isMintedFetching &&
+      contributions &&
+      contributions.pages.length === 0 ? (
         <GovrnSpinner />
       ) : contributions && contributions.pages.length > 0 ? (
         <Tabs
@@ -67,6 +85,7 @@ const ContributionsTableShell = () => {
         >
           <TabList>
             <Tab>Contributions</Tab>
+            <Tab>Minted Contributions</Tab>
             <Tab>Contribution Types</Tab>
           </TabList>
           <TabPanels>
@@ -136,6 +155,36 @@ const ContributionsTableShell = () => {
                       setSelectedContributions={setSelectedContributions}
                       nextPage={fetchNextPage}
                       hasMoreItems={hasNextPage || false}
+                    />
+                  </Box>
+                </Stack>
+              </Box>
+            </TabPanel>
+            <TabPanel paddingX="0">
+              <Box
+                background="white"
+                boxShadow="sm"
+                borderRadius={{ base: 'none', md: 'lg' }}
+              >
+                <Stack spacing="5">
+                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
+                    <Stack
+                      direction={{ base: 'column', md: 'row' }}
+                      justifyContent={{ base: 'center', lg: 'space-between' }}
+                      alignItems={{ base: 'flex-start', lg: 'center' }}
+                      width={{ base: '100%' }}
+                      maxWidth="100vw"
+                    >
+                      <Text fontSize="lg" fontWeight="medium">
+                        My Minted Contributions 🌞
+                      </Text>
+                    </Stack>
+                  </Box>
+                  <Box width="100%" maxWidth="100vw" overflowX="auto">
+                    <MintedContributionsTable
+                      contributionsData={mintedContributions?.pages ?? []}
+                      nextPage={fetchMintedNextPage}
+                      hasMoreItems={hasMintedNextPage || false}
                     />
                   </Box>
                 </Stack>
