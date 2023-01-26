@@ -5,14 +5,14 @@ import { useGovrnToast } from '@govrn/protocol-ui';
 
 export const useDaoUserCreate = () => {
   const toast = useGovrnToast();
-  const { govrnProtocol: govrn, userData } = useUser();
+  const { govrnProtocol: govrn } = useUser();
   const queryClient = useQueryClient();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async (newDaoUser: DaoUserCreateValues) => {
       const mutationData = await govrn.guild.user.create({
         data: {
-          userId: userData?.id ?? -1,
+          userId: newDaoUser.userId,
           guildId: newDaoUser.guildId,
         },
       });
