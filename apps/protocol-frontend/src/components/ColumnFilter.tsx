@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useAsyncDebounce } from 'react-table';
 import {
   InputGroup,
   InputLeftElement,
@@ -8,6 +7,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
+import { DEFAULT_DELAY, useDebounce } from '../utils/useDebounce';
 
 interface GlobalFilterTypes<T> {
   preGlobalFilteredRows: T[];
@@ -25,9 +25,7 @@ const ColumnFilter = <T,>({
 
   const rowCount = preGlobalFilteredRows.length;
   const [value, setValue] = useState(globalFilter);
-  const onChangeDebouncer = useAsyncDebounce(value => {
-    setGlobalFilter(value || undefined);
-  }, 200);
+  const onChangeDebounce = useDebounce(setGlobalFilter, DEFAULT_DELAY);
 
   return (
     <Flex paddingX={{ base: '4', md: '6' }} paddingBottom={4}>
@@ -42,7 +40,7 @@ const ColumnFilter = <T,>({
           value={value || ''}
           onChange={e => {
             setValue(e.target.value);
-            onChangeDebouncer(e.target.value);
+            onChangeDebounce(e.target.value);
           }}
           variant="outline"
         />

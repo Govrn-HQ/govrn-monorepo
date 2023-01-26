@@ -60,7 +60,7 @@ export const useContributionUpdate = () => {
           toast.success({
             id: toastUpdateContributionId,
             title: 'Contribution Successfully Updated',
-            description: `Your Contribution ${
+            description: `Your contribution ${
               bulkItemCount && bulkItemCount !== 1
                 ? 'reports have'
                 : 'report has'
