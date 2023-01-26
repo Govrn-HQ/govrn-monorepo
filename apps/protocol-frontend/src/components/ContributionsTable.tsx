@@ -77,7 +77,6 @@ const ContributionsTable = ({
   nextPage: () => void;
 }) => {
   const { userData } = useUser();
-
   const localOverlay = useOverlay();
   const { setModals } = useOverlay();
   const [selectedContribution, setSelectedContribution] = useState<number>();
