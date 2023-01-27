@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DaoTextareaFormValues } from '../types/forms';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import { Textarea } from '@govrn/protocol-ui';
+import { Input, Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
 import { daoTextareaFormValidation } from '../utils/validations';
 import { useOverlay } from '../contexts/OverlayContext';
@@ -45,8 +45,15 @@ const DaoTextareaForm = () => {
   return (
     <Flex direction="column" width="100%" color="gray.800">
       <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
+        <Input
+          name="guildName"
+          label="DAO Name"
+          placeholder="govrn-user"
+          localForm={localForm}
+        />
         <Textarea
           name="daoMemberAddresses"
+          label="DAO Member Addresses"
           tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
           placeholder="0x..., 0x..."
           onChange={addresses => setValue('daoMemberAddresses', addresses)}

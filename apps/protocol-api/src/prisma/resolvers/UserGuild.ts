@@ -114,10 +114,6 @@ export class GuildUserCustomResolver {
       throw new Error('Signature address does not equal requested address');
     }
 
-    // modify to fetch the guild and if the guild doesnt exist then skip this check
-    // create the guild in separate query and use this guild id
-    // name would be required in the create guild query
-
     if (args.data.guildId !== undefined) {
       return await prisma.guildUser.create({
         data: {
