@@ -103,7 +103,7 @@ const DaoTextareaForm = () => {
           <Button
             variant="primary"
             type="submit"
-            disabled={errors['daoMemberAddresses'] !== undefined}
+            disabled={importing || errors['daoMemberAddresses'] !== undefined}
           >
             Import
           </Button>
