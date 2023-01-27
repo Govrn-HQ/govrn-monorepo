@@ -19,6 +19,11 @@ export class GuildUserCreateCustomInput {
 
   @TypeGraphQL.Field(_type => String, { nullable: true })
   membershipStatus?: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+  })
+  guildName?: string;
 }
 
 @TypeGraphQL.ArgsType()
@@ -66,7 +71,48 @@ export class GuildUserCustomResolver {
       where: { address: { equals: address } },
     });
 
-    if (user?.id !== args.data.userId) {
+    if (args.data.guildId === undefined) {
+      const guildCreate = await prisma.guild.create({
+        data: {
+          name: args.data.guildName,
+        },
+      });
+      return await prisma.guildUser.create({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: args.data.userAddress,
+                chain_type: {
+                  connect: {
+                    name: 'ethereum_mainnet',
+                  },
+                },
+              },
+              where: {
+                id: args.data.userId,
+                address: args.data.userAddress,
+              },
+            },
+          },
+          guild: {
+            connect: {
+              id:
+                args.data.guildId !== undefined
+                  ? args.data.guildId
+                  : guildCreate.id,
+            },
+          },
+          // membershipStatus: {
+          //   connect: {
+          //     name: args.data.membershipStatus ?? 'Recruit',
+          //   },
+          // },
+        },
+      });
+    }
+
+    if (args.data.guildId !== undefined && user?.id !== args.data.userId) {
       throw new Error('Signature address does not equal requested address');
     }
 
@@ -74,36 +120,38 @@ export class GuildUserCustomResolver {
     // create the guild in separate query and use this guild id
     // name would be required in the create guild query
 
-    return await prisma.guildUser.create({
-      data: {
-        user: {
-          connectOrCreate: {
-            create: {
-              address: args.data.userAddress,
-              chain_type: {
-                connect: {
-                  name: 'ethereum_mainnet',
+    if (args.data.guildId !== undefined) {
+      return await prisma.guildUser.create({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: args.data.userAddress,
+                chain_type: {
+                  connect: {
+                    name: 'ethereum_mainnet',
+                  },
                 },
               },
+              where: {
+                id: args.data.userId,
+                address: args.data.userAddress,
+              },
             },
-            where: {
-              id: args.data.userId,
-              address: args.data.userAddress,
+          },
+          guild: {
+            connect: {
+              id: args.data.guildId,
             },
           },
+          // membershipStatus: {
+          //   connect: {
+          //     name: args.data.membershipStatus ?? 'Recruit',
+          //   },
+          // },
         },
-        guild: {
-          connect: {
-            id: args.data.guildId,
-          },
-        },
-        membershipStatus: {
-          connect: {
-            name: args.data.membershipStatus ?? 'Recruit',
-          },
-        },
-      },
-    });
+      });
+    }
   }
 
   @TypeGraphQL.Mutation(_returns => GuildUser, {
