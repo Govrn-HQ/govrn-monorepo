@@ -46,7 +46,6 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 });
 
 const hasToken = rule()(async (parent, args, ctx, info) => {
-  return true;
   const auth = ctx.req.headers['authorization'];
   if (auth) {
     const found = BACKEND_TOKENS.find(token => token === auth);
