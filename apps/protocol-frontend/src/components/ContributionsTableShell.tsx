@@ -194,7 +194,7 @@ const ContributionsTableShell = () => {
                   <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
                     <Text fontSize="lg" fontWeight="medium">
                       My Minted Contributions{' '}
-                      <span role="img" aria-label="sun emoji">
+                      <span role="img" aria-label="Sun emoji for Minted">
                         🌞
                       </span>
                     </Text>
