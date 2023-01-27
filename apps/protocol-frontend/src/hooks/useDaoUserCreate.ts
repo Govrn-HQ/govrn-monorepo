@@ -22,9 +22,11 @@ export const useDaoUserCreate = () => {
       return mutationData;
     },
     {
-      onSuccess: () => {
+      onSuccess: data => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
+
+        console.log('data', data);
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {

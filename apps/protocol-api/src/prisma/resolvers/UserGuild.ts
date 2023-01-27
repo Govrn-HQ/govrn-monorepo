@@ -71,10 +71,6 @@ export class GuildUserCustomResolver {
       where: { address: { equals: address } },
     });
 
-    console.log('address', address);
-    console.log('args.data.userId', args.data.userId);
-    console.log('guild id', args.data.guildId);
-
     if (args.data.guildId === undefined && user?.id !== args.data.userId) {
       throw new Error('Signature address does not equal requested address');
     }
@@ -130,7 +126,6 @@ export class GuildUserCustomResolver {
               },
             },
             where: {
-              // id: args.data.userId,
               address: args.data.userAddress,
             },
           },

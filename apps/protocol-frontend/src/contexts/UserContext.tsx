@@ -230,6 +230,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     }
   }, [userDataByAddress, isAuthenticated]);
 
+  useEffect(() => {
+    if (userData) {
+      console.log('change in user data', userData);
+      getUser();
+    }
+  }, [userData]);
+
   return (
     <UserContext.Provider
       value={{
