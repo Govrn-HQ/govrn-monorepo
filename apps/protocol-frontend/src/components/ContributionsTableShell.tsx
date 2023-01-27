@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   AlertDescription,
@@ -23,11 +23,12 @@ import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { UIContribution } from '@govrn/ui-types';
 import MintedContributionsTable from './MintedContributionsTable';
+import { mergePages } from '../utils/arrays';
 
 const ContributionsTableShell = () => {
   const { userData } = useUser();
   const {
-    data: contributions,
+    data: nonMintedContributionPages,
     isFetching,
     hasNextPage,
     fetchNextPage,
@@ -39,7 +40,7 @@ const ContributionsTableShell = () => {
   });
 
   const {
-    data: mintedContributions,
+    data: mintedContributionPages,
     isMintedFetching,
     hasMintedNextPage,
     fetchMintedNextPage,
@@ -49,6 +50,18 @@ const ContributionsTableShell = () => {
       status: { is: { name: { equals: 'minted' } } },
     },
   });
+
+  const nonMintedContributions = useMemo(() => {
+    return mergePages([...(nonMintedContributionPages?.pages ?? [])]);
+  }, [nonMintedContributionPages]);
+
+  const mintedContributions = useMemo(() => {
+    return mergePages([...(mintedContributionPages?.pages ?? [])]);
+  }, [mintedContributionPages]);
+
+  const allContributions = useMemo(() => {
+    return [...nonMintedContributions, ...mintedContributions];
+  }, [nonMintedContributions, mintedContributions]);
 
   const { setModals } = useOverlay();
   const [selectedContributions, setSelectedContributions] = useState<
@@ -71,12 +84,9 @@ const ContributionsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Contributions</PageHeading>
-      {isFetching &&
-      isMintedFetching &&
-      contributions &&
-      contributions.pages.length === 0 ? (
+      {isFetching && isMintedFetching ? (
         <GovrnSpinner />
-      ) : contributions && contributions.pages.length > 0 ? (
+      ) : allContributions.length > 0 ? (
         <Tabs
           variant="soft-rounded"
           width="100%"
@@ -85,7 +95,9 @@ const ContributionsTableShell = () => {
         >
           <TabList>
             <Tab>Contributions</Tab>
-            <Tab>Minted Contributions</Tab>
+            <Tab isDisabled={mintedContributions.length === 0}>
+              Minted Contributions
+            </Tab>
             <Tab>Contribution Types</Tab>
           </TabList>
           <TabPanels>
@@ -95,69 +107,81 @@ const ContributionsTableShell = () => {
                 boxShadow="sm"
                 borderRadius={{ base: 'none', md: 'lg' }}
               >
-                <Stack spacing="5">
-                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
-                    <Stack
-                      direction={{ base: 'column', md: 'row' }}
-                      justifyContent={{ base: 'center', lg: 'space-between' }}
-                      alignItems={{ base: 'flex-start', lg: 'center' }}
-                      width={{ base: '100%' }}
-                      maxWidth="100vw"
-                    >
-                      <Text fontSize="lg" fontWeight="medium">
-                        My Contributions
-                      </Text>
-                      {selectedContributions?.length === 0 ? (
-                        <Alert
-                          status="info"
-                          width={{ base: '100%', lg: '60%' }}
-                          borderRadius="md"
-                        >
-                          <AlertDescription>
-                            <span
-                              role="img"
-                              aria-labelledby="Sun emoji for alert to select at least one contribution to attribute to a DAO or mint."
+                {nonMintedContributions.length > 0 ? (
+                  <Stack spacing="5">
+                    <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
+                      <Stack
+                        direction={{ base: 'column', md: 'row' }}
+                        justifyContent={{ base: 'center', lg: 'space-between' }}
+                        alignItems={{ base: 'flex-start', lg: 'center' }}
+                        width={{ base: '100%' }}
+                        maxWidth="100vw"
+                      >
+                        <Text fontSize="lg" fontWeight="medium">
+                          My Contributions
+                        </Text>
+                        {selectedContributions?.length === 0 ? (
+                          <Alert
+                            status="info"
+                            width={{ base: '100%', lg: '60%' }}
+                            borderRadius="md"
+                          >
+                            <AlertDescription>
+                              <span
+                                role="img"
+                                aria-labelledby="Sun emoji for alert to select at least one contribution to attribute to a DAO or mint."
+                              >
+                                🌞
+                              </span>{' '}
+                              Please select at least one contribution to
+                              attribute to a DAO or mint.
+                            </AlertDescription>
+                          </Alert>
+                        ) : (
+                          <Stack direction="row" spacing={5}>
+                            <Button
+                              variant="primary"
+                              size="md"
+                              onClick={bulkDaoAttributeHandler}
+                              disabled={selectedContributions?.length === 0}
                             >
-                              🌞
-                            </span>{' '}
-                            Please select at least one contribution to attribute
-                            to a DAO or mint.
-                          </AlertDescription>
-                        </Alert>
-                      ) : (
-                        <Stack direction="row" spacing={5}>
-                          <Button
-                            variant="primary"
-                            size="md"
-                            onClick={bulkDaoAttributeHandler}
-                            disabled={selectedContributions?.length === 0}
-                          >
-                            Attribute to DAO
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            size="md"
-                            onClick={mintModalHandler}
-                            disabled={selectedContributions?.length === 0}
-                            data-testid="mint-btn-test"
-                          >
-                            {selectedContributions?.length > 1
-                              ? 'Bulk Mint'
-                              : 'Mint'}
-                          </Button>
-                        </Stack>
-                      )}
-                    </Stack>
-                  </Box>
-                  <Box width="100%" maxWidth="100vw" overflowX="auto">
-                    <ContributionsTable
-                      contributionsData={contributions.pages}
-                      setSelectedContributions={setSelectedContributions}
-                      nextPage={fetchNextPage}
-                      hasMoreItems={hasNextPage || false}
-                    />
-                  </Box>
-                </Stack>
+                              Attribute to DAO
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              size="md"
+                              onClick={mintModalHandler}
+                              disabled={selectedContributions?.length === 0}
+                              data-testid="mint-btn-test"
+                            >
+                              {selectedContributions?.length > 1
+                                ? 'Bulk Mint'
+                                : 'Mint'}
+                            </Button>
+                          </Stack>
+                        )}
+                      </Stack>
+                    </Box>
+                    <Box width="100%" maxWidth="100vw" overflowX="auto">
+                      <ContributionsTable
+                        data={nonMintedContributions}
+                        setSelectedContributions={setSelectedContributions}
+                        nextPage={fetchNextPage}
+                        hasMoreItems={hasNextPage || false}
+                      />
+                    </Box>
+                  </Stack>
+                ) : (
+                  <Stack
+                    direction={{ base: 'column', md: 'row' }}
+                    justifyContent={{ base: 'center', lg: 'space-between' }}
+                    alignItems={{ base: 'flex-start', lg: 'center' }}
+                    width={{ base: '100%' }}
+                    maxWidth="100vw"
+                  >
+                    <EmptyContributions />
+                  </Stack>
+                )}
               </Box>
             </TabPanel>
             <TabPanel paddingX="0">
@@ -168,21 +192,16 @@ const ContributionsTableShell = () => {
               >
                 <Stack spacing="5">
                   <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
-                    <Stack
-                      direction={{ base: 'column', md: 'row' }}
-                      justifyContent={{ base: 'center', lg: 'space-between' }}
-                      alignItems={{ base: 'flex-start', lg: 'center' }}
-                      width={{ base: '100%' }}
-                      maxWidth="100vw"
-                    >
-                      <Text fontSize="lg" fontWeight="medium">
-                        My Minted Contributions 🌞
-                      </Text>
-                    </Stack>
+                    <Text fontSize="lg" fontWeight="medium">
+                      My Minted Contributions{' '}
+                      <span role="img" aria-label="sun emoji">
+                        🌞
+                      </span>
+                    </Text>
                   </Box>
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
                     <MintedContributionsTable
-                      contributionsData={mintedContributions?.pages ?? []}
+                      data={mintedContributions}
                       nextPage={fetchMintedNextPage}
                       hasMoreItems={hasMintedNextPage || false}
                     />
@@ -208,17 +227,9 @@ const ContributionsTableShell = () => {
                     </Stack>
                   </Box>
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
-                    {contributions?.pages?.length > 0 ||
-                    mintedContributions?.pages?.length > 0 ? (
-                      <ContributionTypesTable
-                        contributionTypesData={[
-                          ...(contributions?.pages ?? []),
-                          ...(mintedContributions?.pages ?? []),
-                        ]}
-                      />
-                    ) : (
-                      <EmptyContributions />
-                    )}
+                    <ContributionTypesTable
+                      contributionTypesData={allContributions}
+                    />
                   </Box>
                 </Stack>
               </Box>

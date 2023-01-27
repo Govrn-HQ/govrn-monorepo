@@ -76,14 +76,14 @@ const columnsDefs: ColumnDef<ContributionTypesTableType>[] = [
 const ContributionTypesTable = ({
   contributionTypesData,
 }: {
-  contributionTypesData: UIContribution[][];
+  contributionTypesData: UIContribution[];
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const uniqueContributions: UIContribution[] = useMemo(
     () => [
       ...new Map(
-        mergePages(contributionTypesData)
+        contributionTypesData
           .sort((firstContribution, nextContribution) =>
             isAfter(
               new Date(firstContribution.date_of_engagement),
@@ -106,7 +106,7 @@ const ContributionTypesTable = ({
       uniqueContributions.map(contributionType => ({
         id: contributionType.id,
         name: contributionType.name,
-        total: mergePages(contributionTypesData).filter(
+        total: contributionTypesData.filter(
           contribution =>
             contribution.activity_type.name ===
             contributionType.activity_type.name,

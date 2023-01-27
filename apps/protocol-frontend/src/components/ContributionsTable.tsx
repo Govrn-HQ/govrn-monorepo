@@ -47,7 +47,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
 import { RowSelectionState } from '@tanstack/table-core';
-import { statusEmojiSelect } from "../utils/statusEmojiSelect";
+import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -57,12 +57,12 @@ export type DialogProps = {
 };
 
 const ContributionsTable = ({
-  contributionsData,
+  data,
   setSelectedContributions,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[][];
+  data: UIContribution[];
   setSelectedContributions: (rows: UIContribution[]) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
@@ -103,10 +103,6 @@ const ContributionsTable = ({
   const deselectAll = () => {
     setRowSelection({});
   };
-
-  const data = useMemo<UIContribution[]>(() => {
-    return mergePages(contributionsData);
-  }, [contributionsData]);
 
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
@@ -269,7 +265,7 @@ const ContributionsTable = ({
     ];
   }, []);
 
-  const table = useReactTable({
+  const table = useReactTable<UIContribution>({
     data,
     columns: columnsDefs,
     state: {
@@ -379,7 +375,7 @@ const ContributionsTable = ({
           content={
             <EditContributionForm
               contribution={
-                mergePages(contributionsData).find(
+                data.find(
                   localContribution =>
                     localContribution.id === selectedContribution,
                 )!

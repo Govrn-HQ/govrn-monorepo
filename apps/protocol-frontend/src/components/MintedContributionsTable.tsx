@@ -46,11 +46,11 @@ export type DialogProps = {
 };
 
 const MintedContributionsTable = ({
-  contributionsData,
+  data,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[][];
+  data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
@@ -75,10 +75,6 @@ const MintedContributionsTable = ({
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
-
-  const data = useMemo<UIContribution[]>(() => {
-    return mergePages(contributionsData);
-  }, [contributionsData]);
 
   const columnsDefs: ColumnDef<UIContribution>[] = useMemo<
     ColumnDef<UIContribution>[]
@@ -181,7 +177,9 @@ const MintedContributionsTable = ({
   return (
     <Stack>
       <GlobalFilter
-        preGlobalFilteredRows={table.getPreFilteredRowModel().rows.map(r => r.original)}
+        preGlobalFilteredRows={table
+          .getPreFilteredRowModel()
+          .rows.map(r => r.original)}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
@@ -229,22 +227,23 @@ const MintedContributionsTable = ({
             </Thead>
 
             <Tbody>
-              {table.getRowModel().rows.length > 0 && table.getRowModel().rows.map(row => {
-                return (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map(cell => {
-                      return (
-                        <Td borderColor="gray.100" key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </Td>
-                      );
-                    })}
-                  </Tr>
-                );
-              })}
+              {table.getRowModel().rows.length > 0 &&
+                table.getRowModel().rows.map(row => {
+                  return (
+                    <Tr key={row.id}>
+                      {row.getVisibleCells().map(cell => {
+                        return (
+                          <Td borderColor="gray.100" key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </Td>
+                        );
+                      })}
+                    </Tr>
+                  );
+                })}
             </Tbody>
           </Table>
         </InfiniteScroll>
