@@ -112,7 +112,7 @@ export class GuildUserCustomResolver {
       });
     }
 
-    if (args.data.guildId !== undefined && user?.id !== args.data.userId) {
+    if (args.data.guildId === undefined && user?.id !== args.data.userId) {
       throw new Error('Signature address does not equal requested address');
     }
 
