@@ -228,7 +228,13 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
     if (userDataByAddress && isAuthenticated) {
       getUser();
     }
-  }, [userDataByAddress, userData, isAuthenticated]);
+  }, [userDataByAddress, isAuthenticated]);
+
+  // useEffect(() => {
+  //   if (userDataByAddress && isAuthenticated) {
+  //     getUser();
+  //   }
+  // }, [userData?.guild_users, isAuthenticated, userDataByAddress]);
 
   return (
     <UserContext.Provider

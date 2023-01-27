@@ -116,7 +116,7 @@ const ProfileForm = () => {
         </Flex>
       </form>
       <FeatureFlagWrapper>
-        <ProfileDaos userId={userData?.id} />
+        <ProfileDaos userId={userData?.id} userAddress={userData?.address} />
       </FeatureFlagWrapper>
       <form>
         <Flex

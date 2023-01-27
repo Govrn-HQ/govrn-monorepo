@@ -67,6 +67,8 @@ export class GuildUserCustomResolver {
   ) {
     const address = req.session.siwe.data.address;
 
+    console.log('args', args);
+
     const user = await prisma.user.findFirst({
       where: { address: { equals: address } },
     });
