@@ -100,27 +100,6 @@ const MintedContributionsTable = ({
         },
       },
       {
-        header: 'Status',
-        accessorKey: 'status',
-        cell: ({
-          getValue,
-        }: {
-          getValue: Getter<UIContribution['status']>;
-        }) => {
-          return (
-            <Text textTransform="capitalize">
-              {getValue().name}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {statusEmojiSelect(getValue().name)}
-              </span>{' '}
-            </Text>
-          );
-        },
-      },
-      {
         header: 'Engagement Date',
         accessorFn: contribution => formatDate(contribution.date_of_engagement),
       },
