@@ -3,13 +3,18 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { DaoUserCreateValues } from '../types/forms';
 import { useGovrnToast } from '@govrn/protocol-ui';
 
+interface DaoUserCreateProps {
+  newDaoUser: DaoUserCreateValues;
+  creatingNewDao?: boolean;
+}
+
 export const useDaoUserCreate = () => {
   const toast = useGovrnToast();
   const { govrnProtocol: govrn } = useUser();
   const queryClient = useQueryClient();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    async (newDaoUser: DaoUserCreateValues) => {
+    async ({ newDaoUser, creatingNewDao = false }: DaoUserCreateProps) => {
       const mutationData = await govrn.guild.user.create({
         data: {
           userId: newDaoUser.userId,
@@ -19,30 +24,40 @@ export const useDaoUserCreate = () => {
           membershipStatus: newDaoUser.membershipStatus,
         },
       });
-      console.log('mutationData', mutationData);
-      return mutationData;
+      return { mutationData, creatingNewDao };
     },
     {
-      onSuccess: data => {
+      onSuccess: (_, { creatingNewDao }) => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
-        console.log('data', data);
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
           toast.success({
             id: toastSuccessId,
-            title: 'Successfully joined DAO',
-            description: 'You have successfully joined as a recruit.',
+            title: `${
+              creatingNewDao === true
+                ? 'Successfully Created DAO'
+                : 'Successfully Joined DAO'
+            }`,
+            description: `${
+              creatingNewDao === true
+                ? 'You have successfully created a new DAO.'
+                : 'You have successfully joined the DAO as a recruit.'
+            }`,
           });
         }
       },
-      onError: error => {
+      onError: (error, { creatingNewDao }) => {
         const toastErrorId = 'dao-user-create-error';
         if (!toast.isActive(toastErrorId)) {
           toast.error({
             id: toastErrorId,
-            title: 'Unable to Join DAO',
+            title: `${
+              creatingNewDao === true
+                ? 'Unable to Create DAO'
+                : 'Unable to Join DAO'
+            }`,
             description: `Something went wrong. Please try again: ${error}`,
           });
         }
