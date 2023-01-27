@@ -1,4 +1,4 @@
-const emojis = {
+const emojis: { [key: string]: string } = {
   minted: '🌞',
   staging: '🕒',
   pending: '👀',

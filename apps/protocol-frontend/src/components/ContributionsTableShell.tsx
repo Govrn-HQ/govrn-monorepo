@@ -41,9 +41,9 @@ const ContributionsTableShell = () => {
 
   const {
     data: mintedContributionPages,
-    isMintedFetching,
-    hasMintedNextPage,
-    fetchMintedNextPage,
+    isFetching: isMintedFetching,
+    hasNextPage: hasMintedNextPage,
+    fetchNextPage: fetchMintedNextPage,
   } = useContributionInfiniteList({
     where: {
       user_id: { equals: userData?.id },
