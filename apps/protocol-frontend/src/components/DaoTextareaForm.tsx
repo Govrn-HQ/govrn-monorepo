@@ -42,16 +42,21 @@ const DaoTextareaForm = () => {
       ];
 
       await createDaoUser({
-        userId: userData?.id,
-        guildName: values.guildName,
-        userAddress: userData?.address,
-        membershipStatus: 'Admin',
+        newDaoUser: {
+          userId: userData?.id,
+          guildName: values.guildName,
+          userAddress: userData?.address,
+          membershipStatus: 'Admin',
+        },
+        creatingNewDao: true,
       }).then(data =>
         uniqueParsedDaoMemberAddresses.map(address => {
           createDaoUser({
-            guildName: values.guildName,
-            userAddress: address,
-            guildId: data.createGuildUserCustom.guild_id,
+            newDaoUser: {
+              guildName: values.guildName,
+              userAddress: address,
+              guildId: data.mutationData.createGuildUserCustom.guild_id,
+            },
           });
           return true;
         }),
