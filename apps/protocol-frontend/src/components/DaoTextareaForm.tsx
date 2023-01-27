@@ -32,7 +32,7 @@ const DaoTextareaForm = () => {
     DaoTextareaFormValues
   > = async values => {
     const { daoMemberAddresses } = values;
-    // setImporting(true);
+    setImporting(true);
     if (daoMemberAddresses !== undefined) {
       const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
       const uniqueParsedDaoMemberAddresses = [
@@ -40,6 +40,7 @@ const DaoTextareaForm = () => {
       ];
 
       await createDaoUser({
+        userId: userData?.id,
         guildName: values.guildName,
         userAddress: userData?.address,
         membershipStatus: 'Admin',
@@ -53,7 +54,7 @@ const DaoTextareaForm = () => {
           return true;
         }),
       );
-      // setImporting(false);
+      setImporting(false);
       setModals({ createDaoModal: false });
     }
   };

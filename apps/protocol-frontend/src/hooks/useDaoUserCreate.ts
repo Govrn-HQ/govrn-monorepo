@@ -14,6 +14,9 @@ export const useDaoUserCreate = () => {
         data: {
           userId: newDaoUser.userId,
           guildId: newDaoUser.guildId,
+          guildName: newDaoUser.guildName,
+          userAddress: newDaoUser.userAddress,
+          membershipStatus: newDaoUser.membershipStatus,
         },
       });
       return mutationData;

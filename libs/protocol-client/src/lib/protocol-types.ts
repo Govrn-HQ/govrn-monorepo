@@ -11109,7 +11109,7 @@ export type Mutation = {
 
 
 export type MutationCreateGuildUserCustomArgs = {
-  data?: InputMaybe<GuildUserCreateCustomInput>;
+  data: GuildUserCreateCustomInput;
 };
 
 

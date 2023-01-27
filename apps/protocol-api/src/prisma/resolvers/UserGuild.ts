@@ -71,6 +71,14 @@ export class GuildUserCustomResolver {
       where: { address: { equals: address } },
     });
 
+    console.log('address', address);
+    console.log('args.data.userId', args.data.userId);
+    console.log('guild id', args.data.guildId);
+
+    if (args.data.guildId === undefined && user?.id !== args.data.userId) {
+      throw new Error('Signature address does not equal requested address');
+    }
+
     if (args.data.guildId === undefined) {
       const guildCreate = await prisma.guild.create({
         data: {
@@ -91,7 +99,6 @@ export class GuildUserCustomResolver {
                 },
               },
               where: {
-                id: args.data.userId,
                 address: args.data.userAddress,
               },
             },
@@ -110,42 +117,36 @@ export class GuildUserCustomResolver {
       });
     }
 
-    if (args.data.guildId === undefined && user?.id !== args.data.userId) {
-      throw new Error('Signature address does not equal requested address');
-    }
-
-    if (args.data.guildId !== undefined) {
-      await prisma.guildUser.create({
-        data: {
-          user: {
-            connectOrCreate: {
-              create: {
-                address: args.data.userAddress,
-                chain_type: {
-                  connect: {
-                    name: 'ethereum_mainnet',
-                  },
+    return await prisma.guildUser.create({
+      data: {
+        user: {
+          connectOrCreate: {
+            create: {
+              address: args.data.userAddress,
+              chain_type: {
+                connect: {
+                  name: 'ethereum_mainnet',
                 },
               },
-              where: {
-                id: args.data.userId,
-                address: args.data.userAddress,
-              },
             },
-          },
-          guild: {
-            connect: {
-              id: args.data.guildId,
-            },
-          },
-          membershipStatus: {
-            connect: {
-              name: args.data.membershipStatus ?? 'Recruit',
+            where: {
+              // id: args.data.userId,
+              address: args.data.userAddress,
             },
           },
         },
-      });
-    }
+        guild: {
+          connect: {
+            id: args.data.guildId,
+          },
+        },
+        membershipStatus: {
+          connect: {
+            name: 'Recruit',
+          },
+        },
+      },
+    });
   }
 
   @TypeGraphQL.Mutation(_returns => GuildUser, {
