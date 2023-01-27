@@ -4,6 +4,7 @@ import PageHeading from './PageHeading';
 import DaoTextareaForm from './DaoTextareaForm';
 import DaoImportCard from './DaoImportCard';
 import ModalWrapper from './ModalWrapper';
+import ImportHistoryTable from './ImportHistoryTable';
 import DaoCsvImport from './DaoCsvImport';
 
 const CreateDaoLayout = () => {
@@ -57,6 +58,7 @@ const CreateDaoLayout = () => {
         width="100%"
       >
         <PageHeading>Create a DAO</PageHeading>
+        <ImportHistoryTable />
         <Grid
           padding={{ base: 4, lg: 0 }}
           templateColumns={{

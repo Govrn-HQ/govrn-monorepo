@@ -1,59 +1,30 @@
+import { useState } from 'react';
 import { Button, Flex, Heading, Divider, Grid } from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useDaosList } from '../hooks/useDaosList';
+import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import DaoCard from './DaoCard';
-
-//TODO: add the Join function
-
-// only here for mocking purposes, will replace
-type DaoRoles = 'admin' | 'contributor' | 'recruit';
-
-type Dao = {
-  id: number;
-  name: string;
-  role: DaoRoles;
-  favorite: boolean;
-};
 
 interface ProfileDaoProps {
   userId: number | undefined;
 }
 
-// this is mock data for the user's DAOs with their role and whether or not it is favorited
-// TODO: replace this with data coming from a guildUsers query that includes these fields
-
-const mockDaos: Dao[] = [
-  {
-    id: 1,
-    name: 'Govrn',
-    role: 'admin',
-    favorite: true,
-  },
-  {
-    id: 2,
-    name: 'Boys Club',
-    role: 'contributor',
-    favorite: true,
-  },
-  {
-    id: 3,
-    name: 'Seed Club',
-    role: 'recruit',
-    favorite: false,
-  },
-  {
-    id: 3,
-    name: 'Raid Guild',
-    role: 'recruit',
-    favorite: false,
-  },
-];
-
 const ProfileDaos = ({ userId }: ProfileDaoProps) => {
+  const [selectedDao, setSelectedDao] = useState<{
+    value: number;
+    label: string;
+  } | null>(null);
   // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only similar to how we handle the fetches on the DaoDashboard page
-  const { isLoading: daosListIsLoading, data: joinableDaosListData } =
+  const { isLoading: daosListLoading, data: joinableDaosListData } =
     useDaosList({
-      where: { users: { none: { user_id: { equals: userId } } } }, // show daos user isn't in and can join
+      where: { users: { none: { user_id: { equals: userId } } } },
+    });
+
+  const { isLoading: daoUsersListLoading, data: daosUsersListData } =
+    useDaoUsersList({
+      where: { user_id: { equals: userId } },
+      orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
     });
 
   const daoListOptions =
@@ -62,7 +33,21 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
       label: dao.name ?? '',
     })) || [];
 
-  if (daosListIsLoading) return <GovrnSpinner />;
+  const { mutateAsync: createDaoUser, isLoading: createDaoUserLoading } =
+    useDaoUserCreate();
+
+  const handleDaoJoin = async () => {
+    if (!selectedDao || userId === undefined) return;
+    const result = await createDaoUser({
+      userId: userId,
+      guildId: selectedDao?.value,
+    });
+    if (result) {
+      setSelectedDao(null);
+    }
+  };
+
+  if (daosListLoading || daoUsersListLoading) return <GovrnSpinner />;
 
   return (
     <Flex
@@ -96,11 +81,19 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
           >
             <ControlledSelect
               label="Select a DAO to Join"
-              isSearchable={false}
-              onChange={value => console.log(value)}
+              onChange={dao => setSelectedDao(dao)}
+              value={selectedDao ?? null}
               options={daoListOptions}
+              isSearchable={false}
+              isClearable
             />
-            <Button variant="primary">Join</Button>
+            <Button
+              variant="primary"
+              onClick={handleDaoJoin}
+              disabled={createDaoUserLoading}
+            >
+              Join
+            </Button>
           </Flex>
           <Grid
             templateColumns={{
@@ -112,8 +105,8 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
             gap={4}
             justifyContent="space-between"
           >
-            {mockDaos.map(dao => (
-              <DaoCard dao={dao} key={dao.id} />
+            {daosUsersListData?.map(daoUser => (
+              <DaoCard daoUser={daoUser} key={daoUser.id} />
             ))}
           </Grid>
         </Flex>
