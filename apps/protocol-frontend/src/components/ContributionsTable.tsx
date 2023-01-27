@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -83,15 +83,18 @@ const ContributionsTable = ({
     contributionId: 0,
   });
 
-  const handleDeleteContribution = (contributionId: number) => {
-    setDialog({
-      ...dialog,
-      isOpen: true, //this opens AlertDialog
-      title:
-        "Are you sure you want to delete this contribution? You can't undo this action.",
-      contributionId: contributionId,
-    });
-  };
+  const handleDeleteContribution = useCallback(
+    (contributionId: number) => {
+      setDialog({
+        ...dialog,
+        isOpen: true, //this opens AlertDialog
+        title:
+          "Are you sure you want to delete this contribution? You can't undo this action.",
+        contributionId: contributionId,
+      });
+    },
+    [dialog],
+  );
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);

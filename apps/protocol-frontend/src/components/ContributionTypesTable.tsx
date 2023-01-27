@@ -13,7 +13,6 @@ import {
   Getter,
 } from '@tanstack/react-table';
 import { UIContribution } from '@govrn/ui-types';
-import { mergePages } from '../utils/arrays';
 
 type ContributionTypesTableType = {
   id: number;

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -33,10 +33,8 @@ import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
 import { FiTrash2 } from 'react-icons/fi';
-import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -63,16 +61,18 @@ const MintedContributionsTable = ({
     contributionId: 0,
   });
 
-  const handleDeleteContribution = (contributionId: number) => {
-    setDialog({
-      ...dialog,
-      isOpen: true, //this opens AlertDialog
-      title:
-        "Are you sure you want to delete this contribution? You can't undo this action.",
-      contributionId: contributionId,
-    });
-  };
-
+  const handleDeleteContribution = useCallback(
+    (contributionId: number) => {
+      setDialog({
+        ...dialog,
+        isOpen: true, //this opens AlertDialog
+        title:
+          "Are you sure you want to delete this contribution? You can't undo this action.",
+        contributionId: contributionId,
+      });
+    },
+    [dialog],
+  );
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
@@ -136,7 +136,7 @@ const MintedContributionsTable = ({
         ),
       },
     ];
-  }, []);
+  }, [handleDeleteContribution, userData?.id]);
 
   const table = useReactTable({
     data,
