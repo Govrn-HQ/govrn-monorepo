@@ -37,6 +37,9 @@ const PROTOCOL_FRONTEND = process.env.PROTOCOL_FRONTEND;
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
 });
+// console.log(typeSchema);
+// console.log(typeSchema.getTypeMap().Query.toString());
+// console.log(typeSchema._typeMap.Query);
 
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
   if (!ctx.req.session.siwe) {
@@ -54,13 +57,32 @@ const hasToken = rule()(async (parent, args, ctx, info) => {
   return false;
 });
 
+// 1. Add input rules
+//  - Users should not be able to pass certain keys
+// 2. 3 levels of permissions, User only accessing things that belong to it's id
+//   - Dao only accessing things in its dao
+//   - Admin only taking actions within its dao
+const testRule = rule()(async (parent, args, ctx, info) => {
+  console.log(parent);
+  // console.log(ctx);
+  console.log(args);
+  console.log(info);
+  console.log(JSON.stringify(info.fieldNodes[0], null, 4));
+  // console.log(info.fieldNodes[0].alias);
+  // console.log(info.fieldNodes[0].name);
+  console.log(info.fieldNodes[0].arguments);
+  // console.log(info.fieldNodes[0].selectionSet);
+  // console.log(info.fieldNodes[0].loc);
+  return false;
+});
+
 const permissions = shield(
   {
     Query: {
       '*': deny,
       chain: hasToken,
       contribution: or(isAuthenticated, hasToken),
-      contributions: or(isAuthenticated, hasToken),
+      contributions: or(testRule, isAuthenticated, hasToken),
       activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
       listActivityTypesByUser: isAuthenticated,
@@ -122,6 +144,9 @@ const permissions = shield(
       upsertOneLinearProject: hasToken,
       upsertOneLinearTeam: hasToken,
       upsertOneLinearUser: hasToken,
+    },
+    ContributionWhereInput: {
+      '*': deny,
     },
     ActivityType: {
       id: or(isAuthenticated, hasToken),
