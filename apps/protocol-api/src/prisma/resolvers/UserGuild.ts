@@ -77,6 +77,7 @@ export class GuildUserCustomResolver {
           name: args.data.guildName,
         },
       });
+
       return await prisma.guildUser.create({
         data: {
           user: {
@@ -97,17 +98,14 @@ export class GuildUserCustomResolver {
           },
           guild: {
             connect: {
-              id:
-                args.data.guildId !== undefined
-                  ? args.data.guildId
-                  : guildCreate.id,
+              id: guildCreate.id,
             },
           },
-          // membershipStatus: {
-          //   connect: {
-          //     name: args.data.membershipStatus ?? 'Recruit',
-          //   },
-          // },
+          membershipStatus: {
+            connect: {
+              name: args.data.membershipStatus ?? 'Recruit',
+            },
+          },
         },
       });
     }
@@ -144,11 +142,11 @@ export class GuildUserCustomResolver {
               id: args.data.guildId,
             },
           },
-          // membershipStatus: {
-          //   connect: {
-          //     name: args.data.membershipStatus ?? 'Recruit',
-          //   },
-          // },
+          membershipStatus: {
+            connect: {
+              name: args.data.membershipStatus ?? 'Recruit',
+            },
+          },
         },
       });
     }
