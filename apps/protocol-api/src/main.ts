@@ -38,12 +38,6 @@ const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
 });
 
-// TODO: Figure out is there is a way to genralize this
-//
-const ownsData = rule()(async (parent, args, ctx, info) => {
-  return true;
-});
-
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
   if (!ctx.req.session.siwe) {
     return false;
@@ -104,9 +98,9 @@ const permissions = shield(
       createOnChainUserContribution: isAuthenticated,
       createOneUser: or(isAuthenticated, hasToken),
       createOneUserActivity: hasToken,
-      createUserAttestation: and(ownsData, isAuthenticated),
-      createUserContribution: and(ownsData, isAuthenticated),
-      createUserCustom: or(hasToken, and(ownsData, isAuthenticated)),
+      createUserAttestation: isAuthenticated,
+      createUserContribution: isAuthenticated,
+      createUserCustom: or(hasToken, isAuthenticated),
       createGuildUserCustom: isAuthenticated,
       createUserOnChainAttestation: isAuthenticated,
       deleteOneContribution: or(hasToken, isAuthenticated),
@@ -115,9 +109,9 @@ const permissions = shield(
       updateOneContribution: hasToken,
       updateOneGuild: hasToken,
       updateOneUser: hasToken,
-      updateUserContribution: and(ownsData, isAuthenticated),
+      updateUserContribution: isAuthenticated,
       updateGuildCustom: isAuthenticated,
-      updateUserCustom: and(ownsData, isAuthenticated),
+      updateUserCustom: isAuthenticated,
       updateGuildUserCustom: isAuthenticated,
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
