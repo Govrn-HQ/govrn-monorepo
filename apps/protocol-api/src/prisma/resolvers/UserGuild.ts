@@ -70,6 +70,10 @@ export class GuildUserCustomResolver {
       throw new Error('Signature address does not equal requested address');
     }
 
+    // modify to fetch the guild and if the guild doesnt exist then skip this check
+    // create the guild in separate query and use this guild id
+    // name would be required in the create guild query
+
     return await prisma.guildUser.create({
       data: {
         user: {
@@ -77,13 +81,8 @@ export class GuildUserCustomResolver {
             create: {
               address: args.data.userAddress,
               chain_type: {
-                connectOrCreate: {
-                  create: {
-                    name: 'ethereum_mainnet',
-                  },
-                  where: {
-                    name: 'ethereum_mainnet',
-                  },
+                connect: {
+                  name: 'ethereum_mainnet',
                 },
               },
             },
@@ -94,13 +93,8 @@ export class GuildUserCustomResolver {
           },
         },
         guild: {
-          connectOrCreate: {
-            create: {
-              id: args.data.guildId,
-            },
-            where: {
-              id: args.data.guildId,
-            },
+          connect: {
+            id: args.data.guildId,
           },
         },
         membershipStatus: {
