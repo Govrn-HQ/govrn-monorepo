@@ -115,7 +115,7 @@ export class GuildUserCustomResolver {
     }
 
     if (args.data.guildId !== undefined) {
-      return await prisma.guildUser.create({
+      await prisma.guildUser.create({
         data: {
           user: {
             connectOrCreate: {

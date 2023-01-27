@@ -7,9 +7,12 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 import { Input, Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
 import { daoTextareaFormValidation } from '../utils/validations';
+import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useOverlay } from '../contexts/OverlayContext';
+import { useUser } from '../contexts/UserContext';
 
 const DaoTextareaForm = () => {
+  const { userData } = useUser();
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
@@ -23,21 +26,34 @@ const DaoTextareaForm = () => {
   } = localForm;
   const { setModals } = useOverlay();
 
+  const { mutateAsync: createDaoUser } = useDaoUserCreate();
+
   const daoTextareaImportHandler: SubmitHandler<
     DaoTextareaFormValues
   > = async values => {
     const { daoMemberAddresses } = values;
-    setImporting(true);
+    // setImporting(true);
     if (daoMemberAddresses !== undefined) {
       const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
       const uniqueParsedDaoMemberAddresses = [
         ...new Set(parsedDaoMemberAddresses),
       ];
-      console.log(
-        'uniqueParsedDaoMemberAddresses',
-        uniqueParsedDaoMemberAddresses,
-      ); // TODO: replace with the DAO creation logic
-      setImporting(false);
+
+      await createDaoUser({
+        guildName: values.guildName,
+        userAddress: userData?.address,
+        membershipStatus: 'Admin',
+      }).then(data =>
+        uniqueParsedDaoMemberAddresses.map(address => {
+          createDaoUser({
+            guildName: values.guildName,
+            userAddress: address,
+            guildId: data.createGuildUserCustom.guild_id,
+          });
+          return true;
+        }),
+      );
+      // setImporting(false);
       setModals({ createDaoModal: false });
     }
   };
@@ -86,7 +102,7 @@ const DaoTextareaForm = () => {
           <Button
             variant="primary"
             type="submit"
-            disabled={importing || errors['daoMemberAddresses'] !== undefined}
+            disabled={errors['daoMemberAddresses'] !== undefined}
           >
             Import
           </Button>

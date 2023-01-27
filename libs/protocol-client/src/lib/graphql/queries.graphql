@@ -229,6 +229,7 @@ fragment GuildUserFragment on GuildUser {
 mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
   createGuildUserCustom(data: $data) {
     id
+    guild_id
   }
 }
 

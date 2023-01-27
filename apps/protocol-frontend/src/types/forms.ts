@@ -32,6 +32,7 @@ export type ProfileFormValues = Partial<
 
 export type DaoTextareaFormValues = {
   daoMemberAddresses?: string;
+  guildName?: string;
 };
 
 export type DaoCsvImportFormValues = {
@@ -39,6 +40,9 @@ export type DaoCsvImportFormValues = {
 };
 
 export type DaoUserCreateValues = {
-  userId: number;
-  guildId: number;
+  userId?: number;
+  guildId?: number;
+  guildName?: string;
+  userAddress?: string;
+  membershipStatus?: string;
 };
