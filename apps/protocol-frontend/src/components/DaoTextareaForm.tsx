@@ -34,7 +34,9 @@ const DaoTextareaForm = () => {
     const { daoMemberAddresses } = values;
     setImporting(true);
     if (daoMemberAddresses !== undefined) {
-      const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
+      const parsedDaoMemberAddresses = splitEntriesByComma(
+        daoMemberAddresses,
+      ).filter(address => address !== userData?.address);
       const uniqueParsedDaoMemberAddresses = [
         ...new Set(parsedDaoMemberAddresses),
       ];
