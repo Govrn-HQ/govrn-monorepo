@@ -16,33 +16,11 @@ const CreateDaoLayout = () => {
     setModals({ createDaoModal: true });
   };
 
-  const guildImportModalHandler = () => {
-    setModals({ guildImportModal: true }); // no component yet, but added to overlay modals
-  };
-
-  const csvImportModalHandler = () => {
-    setModals({ csvImportModal: true }); // no component yet, but added to overlay modals
-  };
-
+  // we can add the other methods in as they're ready
   const daoImportMethods = [
     {
-      importName: 'Import via Guild.xyz',
-      importDescription:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      importButtonCopy: 'Connect to Guild API',
-      importModalHandler: guildImportModalHandler,
-    },
-    {
-      importName: 'Import via CSV File',
-      importDescription:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      importButtonCopy: 'Upload CSV File',
-      importModalHandler: csvImportModalHandler,
-    },
-    {
       importName: 'Create a DAO Manually',
-      importDescription:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      importDescription: `Simply add your members' Ethereum wallet addresses in the provided space. Once done, click "Create a DAO" and you're all set to join the party!`,
       importButtonCopy: 'Create a DAO',
       importModalHandler: createDaoModalHandler,
     },
