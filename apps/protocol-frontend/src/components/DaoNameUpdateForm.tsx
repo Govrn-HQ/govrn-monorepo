@@ -8,9 +8,10 @@ import { Input } from '@govrn/protocol-ui';
 
 interface DaoNameUpdateFormProps {
   daoId: number;
+  daoName: string | null | undefined;
 }
 
-const DaoNameUpdateForm = ({ daoId }: DaoNameUpdateFormProps) => {
+const DaoNameUpdateForm = ({ daoId, daoName }: DaoNameUpdateFormProps) => {
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(daoNameFormValidation),
@@ -41,7 +42,11 @@ const DaoNameUpdateForm = ({ daoId }: DaoNameUpdateFormProps) => {
         width={{ base: '100%', lg: '50%' }}
         gap={4}
       >
-        <Input name="daoName" localForm={localForm} />
+        <Input
+          name="daoName"
+          defaultValue={daoName ?? ''}
+          localForm={localForm}
+        />
         <Button variant="secondary" type="submit" disabled={updateDaoLoading}>
           Save Name
         </Button>

@@ -83,7 +83,10 @@ const DaoSettingsLayout = () => {
         >
           Set Your DAO's Name
         </Heading>
-        <DaoNameUpdateForm daoId={parseInt(guildId ? guildId : '')} />
+        <DaoNameUpdateForm
+          daoId={parseInt(guildId ? guildId : '')}
+          daoName={daoData?.name}
+        />
         <Flex direction="column" width="80%">
           <DaoSettingsMemberUpdateForm
             daoId={parseInt(guildId ? guildId : '')}
