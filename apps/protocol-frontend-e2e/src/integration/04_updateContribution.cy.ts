@@ -68,7 +68,7 @@ beforeEach(() => {
     .should('be.visible')
     .click();
 
-  cy.get('.infinite-scroll-component').scrollTo('500px');
+  cy.get('.infinite-scroll-component').scrollTo('bottom');
 
   cy.get('[data-testid="editContribution-test"]', { timeout: 60000 })
     .should('be.visible')
