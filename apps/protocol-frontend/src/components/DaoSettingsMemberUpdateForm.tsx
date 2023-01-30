@@ -8,15 +8,14 @@ import { Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
 import { daoMembersUpdateFormValidation } from '../utils/validations';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
-
 import { useUser } from '../contexts/UserContext';
 
 interface DaoSettingsMemberUpdateFormProps {
-  guildId: string | undefined;
+  daoId: number;
 }
 
 const DaoSettingsMemberUpdateForm = ({
-  guildId,
+  daoId,
 }: DaoSettingsMemberUpdateFormProps) => {
   const { userData } = useUser();
   const [importing, setImporting] = useState(false);
@@ -45,14 +44,14 @@ const DaoSettingsMemberUpdateForm = ({
       const uniqueParsedDaoMemberAddresses = [
         ...new Set(parsedDaoMemberAddresses),
       ];
-      if (guildId === undefined) return;
+      if (daoId === undefined) return;
       uniqueParsedDaoMemberAddresses.map(address => {
         createDaoUser({
           newDaoUser: {
             userId: userData?.id,
             guildName: values.guildName,
             userAddress: address,
-            guildId: parseInt(guildId),
+            guildId: daoId,
           },
           creatingNewDao: false,
         });

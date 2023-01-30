@@ -9,10 +9,10 @@ import { Input } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
 
 interface DaoNameUpdateFormProps {
-  guildId: string | undefined;
+  daoId: number;
 }
 
-const DaoNameUpdateForm = ({ guildId }: DaoNameUpdateFormProps) => {
+const DaoNameUpdateForm = ({ daoId }: DaoNameUpdateFormProps) => {
   const { userData } = useUser();
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
@@ -33,10 +33,10 @@ const DaoNameUpdateForm = ({ guildId }: DaoNameUpdateFormProps) => {
     DaoNameUpdateFormValues
   > = async values => {
     const { daoName } = values;
-    if (guildId === undefined) return;
+    if (daoId === undefined) return;
     await updateDao({
       name: daoName,
-      guildId: parseInt(guildId),
+      guildId: daoId,
     });
   };
 

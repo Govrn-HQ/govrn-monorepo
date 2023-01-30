@@ -12,6 +12,7 @@ import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import { useDaoUpdate } from '../hooks/useDaoUpdate';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 import { useUser } from '../contexts/UserContext';
+import DaoNameUpdateForm from './DaoNameUpdateForm';
 import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
 
 const DaoSettingsLayout = () => {
@@ -91,26 +92,9 @@ const DaoSettingsLayout = () => {
         >
           Set Your DAO's Name
         </Heading>
-        <form onSubmit={handleSubmit(daoNameUpdateHandler)}>
-          <Flex
-            direction="row"
-            justifyContent="center"
-            alignItems="baseline"
-            width={{ base: '100%', lg: '50%' }}
-            gap={4}
-          >
-            <Input name="daoName" localForm={daoNameUpdateForm} />
-            <Button
-              variant="secondary"
-              type="submit"
-              disabled={updateDaoLoading}
-            >
-              Save Name
-            </Button>
-          </Flex>
-        </form>
+        <DaoNameUpdateForm daoId={parseInt(guildId ? guildId : '')} />
         <Flex direction="column" width="80%">
-          <DaoSettingsMemberUpdateForm guildId={guildId} />
+          <DaoSettingsMemberUpdateForm daoId={guildId} />
           <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
         </Flex>
       </Flex>
