@@ -1,7 +1,6 @@
 import {
   createWaitlistFormValidation,
   profileFormValidation,
-  daoNameFormValidation,
 } from '../utils/validations';
 import type { InferType } from 'yup';
 

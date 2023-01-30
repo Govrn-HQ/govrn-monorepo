@@ -50,13 +50,13 @@ const DaoSettingsLayout = () => {
   const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
     useDaoUpdate();
 
-  console.log('daoUsersList', daosUsersListData);
-  const handleUpdateDaoName: SubmitHandler<DaoNameUpdateFormValues> = async (
-    values: DaoNameUpdateFormValues,
-  ) => {
+  const daoNameUpdateHandler: SubmitHandler<
+    DaoNameUpdateFormValues
+  > = async values => {
+    const { daoName } = values;
     if (guildId === undefined) return;
     await updateDao({
-      name: values.daoName,
+      name: daoName,
       guildId: parseInt(guildId),
     });
   };
@@ -109,7 +109,7 @@ const DaoSettingsLayout = () => {
         >
           Set Your DAO's Name
         </Heading>
-        <form onSubmit={handleSubmit(handleUpdateDaoName)}>
+        <form onSubmit={handleSubmit(daoNameUpdateHandler)}>
           <Flex
             direction="row"
             justifyContent="center"
