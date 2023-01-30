@@ -292,7 +292,6 @@ const ContributionsTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: false,
   });
 
   useEffect(() => {

@@ -111,7 +111,6 @@ const MyAttestationsTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: false,
   });
 
   return (

@@ -87,7 +87,6 @@ const RecentContributionsTable = ({
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugAll: false,
   });
 
   return (

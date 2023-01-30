@@ -108,7 +108,6 @@ const ContributionTypesTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: true,
   });
 
   return (
