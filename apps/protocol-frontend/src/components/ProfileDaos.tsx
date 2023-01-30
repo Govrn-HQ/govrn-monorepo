@@ -8,9 +8,10 @@ import DaoCard from './DaoCard';
 
 interface ProfileDaoProps {
   userId: number | undefined;
+  userAddress: string | undefined;
 }
 
-const ProfileDaos = ({ userId }: ProfileDaoProps) => {
+const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   const [selectedDao, setSelectedDao] = useState<{
     value: number;
     label: string;
@@ -39,8 +40,12 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
   const handleDaoJoin = async () => {
     if (!selectedDao || userId === undefined) return;
     const result = await createDaoUser({
-      userId: userId,
-      guildId: selectedDao?.value,
+      newDaoUser: {
+        userId: userId,
+        userAddress: userAddress,
+        guildId: selectedDao?.value,
+      },
+      creatingNewDao: false,
     });
     if (result) {
       setSelectedDao(null);

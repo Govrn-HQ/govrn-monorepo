@@ -4,12 +4,15 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DaoTextareaFormValues } from '../types/forms';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import { Textarea } from '@govrn/protocol-ui';
+import { Input, Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
 import { daoTextareaFormValidation } from '../utils/validations';
+import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useOverlay } from '../contexts/OverlayContext';
+import { useUser } from '../contexts/UserContext';
 
 const DaoTextareaForm = () => {
+  const { userData } = useUser();
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
@@ -23,20 +26,42 @@ const DaoTextareaForm = () => {
   } = localForm;
   const { setModals } = useOverlay();
 
+  const { mutateAsync: createDaoUser } = useDaoUserCreate();
+
   const daoTextareaImportHandler: SubmitHandler<
     DaoTextareaFormValues
   > = async values => {
     const { daoMemberAddresses } = values;
     setImporting(true);
     if (daoMemberAddresses !== undefined) {
-      const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
+      const parsedDaoMemberAddresses = splitEntriesByComma(
+        daoMemberAddresses,
+      ).filter(address => address !== userData?.address);
       const uniqueParsedDaoMemberAddresses = [
         ...new Set(parsedDaoMemberAddresses),
       ];
-      console.log(
-        'uniqueParsedDaoMemberAddresses',
-        uniqueParsedDaoMemberAddresses,
-      ); // TODO: replace with the DAO creation logic
+
+      await createDaoUser({
+        newDaoUser: {
+          userId: userData?.id,
+          guildName: values.guildName,
+          userAddress: userData?.address,
+          membershipStatus: 'Admin',
+        },
+        creatingNewDao: true,
+      }).then(data =>
+        uniqueParsedDaoMemberAddresses.map(address => {
+          createDaoUser({
+            newDaoUser: {
+              userId: userData?.id, // summoner's userId still needed for the resolver -- it still creates new users with a unique ID
+              guildName: values.guildName,
+              userAddress: address,
+              guildId: data.mutationData.createGuildUserCustom.guild_id,
+            },
+          });
+          return true;
+        }),
+      );
       setImporting(false);
       setModals({ createDaoModal: false });
     }
@@ -45,8 +70,15 @@ const DaoTextareaForm = () => {
   return (
     <Flex direction="column" width="100%" color="gray.800">
       <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
+        <Input
+          name="guildName"
+          label="DAO Name"
+          placeholder="govrn-user"
+          localForm={localForm}
+        />
         <Textarea
           name="daoMemberAddresses"
+          label="DAO Member Addresses"
           tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
           placeholder="0x..., 0x..."
           onChange={addresses => setValue('daoMemberAddresses', addresses)}
