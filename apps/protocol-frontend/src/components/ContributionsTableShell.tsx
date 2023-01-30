@@ -31,9 +31,9 @@ const ContributionsTableShell = () => {
     hasNextPage,
     fetchNextPage,
   } = useContributionInfiniteList({
-    // where: {
-    //   user_id: { equals: userData?.id },
-    // },
+    where: {
+      user_id: { equals: userData?.id },
+    },
   });
 
   const { setModals } = useOverlay();
