@@ -53,6 +53,7 @@ const DaoTextareaForm = () => {
         uniqueParsedDaoMemberAddresses.map(address => {
           createDaoUser({
             newDaoUser: {
+              userId: userData?.id, // summoner's userId still needed for the resolver -- it still creates new users with a unique ID
               guildName: values.guildName,
               userAddress: address,
               guildId: data.mutationData.createGuildUserCustom.guild_id,
