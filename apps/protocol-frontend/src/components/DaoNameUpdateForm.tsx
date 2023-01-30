@@ -20,7 +20,10 @@ const DaoNameUpdateForm = ({ daoId, daoName }: DaoNameUpdateFormProps) => {
   const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
     useDaoUpdate();
 
-  const { handleSubmit, setValue } = localForm;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = localForm;
 
   const daoNameUpdateHandler: SubmitHandler<
     DaoNameUpdateFormValues
@@ -47,7 +50,11 @@ const DaoNameUpdateForm = ({ daoId, daoName }: DaoNameUpdateFormProps) => {
           defaultValue={daoName ?? ''}
           localForm={localForm}
         />
-        <Button variant="secondary" type="submit" disabled={updateDaoLoading}>
+        <Button
+          variant="secondary"
+          type="submit"
+          disabled={updateDaoLoading || errors['daoName']}
+        >
           Save Name
         </Button>
       </Flex>
