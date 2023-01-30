@@ -17,6 +17,7 @@ yup.addMethod(yup.string, 'ethAddress', function format(formats, parseStrict) {
 });
 
 export const daoTextareaFormValidation = yup.object({
+  guildName: yup.string().required('This field is required.'),
   daoMemberAddresses: yup
     .string()
     .min(1, 'Need to include at least one address.')
