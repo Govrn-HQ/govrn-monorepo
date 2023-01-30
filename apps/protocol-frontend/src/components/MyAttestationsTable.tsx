@@ -30,6 +30,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { Link } from 'react-router-dom';
+import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 
 type MyAttestationsTableType = {
   id: number;
@@ -72,7 +73,7 @@ const columnsDef: ColumnDef<MyAttestationsTableType>[] = [
             role="img"
             aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
           >
-            {getValue() === 'minted' ? '🌞' : '👀'}
+            {statusEmojiSelect(getValue())}
           </span>{' '}
         </Text>
       );
