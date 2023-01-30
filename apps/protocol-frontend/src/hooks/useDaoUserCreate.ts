@@ -14,7 +14,6 @@ export const useDaoUserCreate = () => {
   const queryClient = useQueryClient();
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async ({ newDaoUser, creatingNewDao = false }: DaoUserCreateProps) => {
-      console.log('newDaoUser', newDaoUser);
       const mutationData = await govrn.guild.user.create({
         data: {
           userId: newDaoUser.userId,
