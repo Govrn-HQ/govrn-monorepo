@@ -13,6 +13,7 @@ import {
 import { DaoTextareaFormValues } from '../types/forms';
 import { splitEntriesByComma } from '../utils/arrays';
 import { useDaoUsersList } from '../hooks/useDaoUsersList';
+import { useDaoUpdate } from '../hooks/useDaoUpdate';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 
 type DaoNameUpdateFormValues = {
@@ -42,11 +43,18 @@ const DaoSettingsLayout = () => {
       where: { guild_id: { equals: parseInt(guildId ? guildId : '') } },
     });
 
+  const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
+    useDaoUpdate();
+
   console.log('daoUsersList', daosUsersListData);
   const handleUpdateDaoName: SubmitHandler<DaoNameUpdateFormValues> = async (
     values: DaoNameUpdateFormValues,
   ) => {
-    console.log('values', values);
+    if (guildId === undefined) return;
+    await updateDao({
+      name: values.daoName,
+      guildId: parseInt(guildId),
+    });
   };
 
   const daoTextareaImportHandler: SubmitHandler<
