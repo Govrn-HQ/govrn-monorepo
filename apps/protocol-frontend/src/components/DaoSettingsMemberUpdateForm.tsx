@@ -4,15 +4,15 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DaoTextareaFormValues } from '../types/forms';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import { Input, Textarea } from '@govrn/protocol-ui';
+import { Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
 import { daoMembersUpdateFormValidation } from '../utils/validations';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
-import { useOverlay } from '../contexts/OverlayContext';
+
 import { useUser } from '../contexts/UserContext';
 
 interface DaoSettingsMemberUpdateFormProps {
-  guildId: string;
+  guildId: string | undefined;
 }
 
 const DaoSettingsMemberUpdateForm = ({
@@ -30,7 +30,6 @@ const DaoSettingsMemberUpdateForm = ({
     setValue,
     formState: { errors, touchedFields },
   } = localForm;
-  const { setModals } = useOverlay();
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
 
@@ -48,7 +47,6 @@ const DaoSettingsMemberUpdateForm = ({
       ];
       if (guildId === undefined) return;
       uniqueParsedDaoMemberAddresses.map(address => {
-        console.log('creating users');
         createDaoUser({
           newDaoUser: {
             userId: userData?.id,
@@ -69,7 +67,7 @@ const DaoSettingsMemberUpdateForm = ({
       <form onSubmit={handleSubmit(daoMembersUpdateHandler)}>
         <Textarea
           name="daoMemberAddresses"
-          label="DAO Member Addresses"
+          label="Add Member Wallet Addresses"
           tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
           placeholder="0x..., 0x..."
           onChange={addresses => setValue('daoMemberAddresses', addresses)}

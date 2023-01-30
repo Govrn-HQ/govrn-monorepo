@@ -4,15 +4,10 @@ import { Input, Textarea } from '@govrn/protocol-ui';
 import { useParams } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeading from './PageHeading';
-import { AiFillCheckCircle } from 'react-icons/ai';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  daoNameFormValidation,
-  // daoTextareaUpdateFormValidation,
-} from '../utils/validations';
-import { DaoTextareaFormValues, DaoNameUpdateFormValues } from '../types/forms';
+import { daoNameFormValidation } from '../utils/validations';
+import { DaoNameUpdateFormValues } from '../types/forms';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
-import { splitEntriesByComma } from '../utils/arrays';
 import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import { useDaoUpdate } from '../hooks/useDaoUpdate';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
@@ -54,35 +49,6 @@ const DaoSettingsLayout = () => {
     useDaoUpdate();
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
-
-  const daoTextareaImportHandler: SubmitHandler<
-    DaoTextareaFormValues
-  > = async values => {
-    console.log('clicked');
-    const { daoMemberAddresses } = values;
-    setImporting(true);
-    if (daoMemberAddresses !== undefined) {
-      const parsedDaoMemberAddresses = splitEntriesByComma(
-        daoMemberAddresses,
-      ).filter(address => address !== userData?.address);
-      const uniqueParsedDaoMemberAddresses = [
-        ...new Set(parsedDaoMemberAddresses),
-      ];
-      if (guildId === undefined) return;
-      uniqueParsedDaoMemberAddresses.map(address => {
-        createDaoUser({
-          newDaoUser: {
-            userId: userData?.id,
-            guildName: values.guildName,
-            userAddress: address,
-            guildId: parseInt(guildId),
-          },
-        });
-        return true;
-      });
-      setImporting(false);
-    }
-  };
 
   const daoNameUpdateHandler: SubmitHandler<
     DaoNameUpdateFormValues
@@ -145,62 +111,6 @@ const DaoSettingsLayout = () => {
         </form>
         <Flex direction="column" width="80%">
           <DaoSettingsMemberUpdateForm guildId={guildId} />
-          {/* <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
-            <Heading
-              as="h3"
-              fontWeight="600"
-              fontSize="md"
-              marginTop={0}
-              marginBottom={4}
-            >
-              Add Member Wallet Addresses
-            </Heading>
-            <Textarea
-              name="daoMemberAddresses"
-              tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
-              placeholder="0x..., 0x..."
-              onChange={addresses => setValue('daoMemberAddresses', addresses)}
-              localForm={daoMemberAddressesUpdateForm}
-            />
-            {!errorsDaoMemberAddressesUpdate['daoMemberAddresses'] &&
-              touchedFieldsDaoMemberAddressesUpdate['daoMemberAddresses'] ===
-                true && (
-                <Flex direction="row" alignItems="center" marginY={4}>
-                  <Icon
-                    as={AiFillCheckCircle}
-                    color="brand.purple"
-                    width="16px"
-                    height="16px"
-                    marginRight={2}
-                  />
-                  <Text fontSize="sm" color="brand.purple">
-                    Address list meets formatting requirements.
-                  </Text>
-                </Flex>
-              )}
-            <Flex
-              alignItems="flex-end"
-              marginTop={
-                !errorsDaoMemberAddressesUpdate['daoMemberAddresses'] ||
-                touchedFieldsDaoMemberAddressesUpdate['daoMemberAddresses'] ===
-                  false
-                  ? 4
-                  : 0
-              }
-            >
-              <Button
-                variant="secondary"
-                type="submit"
-                disabled={
-                  importing ||
-                  errorsDaoMemberAddressesUpdate['daoMemberAddresses'] !==
-                    undefined
-                }
-              >
-                Add
-              </Button>
-            </Flex>
-          </form> */}
           <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
         </Flex>
       </Flex>
