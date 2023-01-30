@@ -30,94 +30,77 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { Link } from 'react-router-dom';
-
-type MyAttestationsTableType = {
-  id: number;
-  date_of_submission: Date | string;
-  date_of_engagement: Date | string;
-  status: string;
-  name: string;
-  attestationDate: Date | string;
-  contributor?: string | null;
-};
-
-const columnsDef: ColumnDef<MyAttestationsTableType>[] = [
-  {
-    header: 'Name',
-    accessorKey: 'name',
-    cell: ({
-      row,
-      getValue,
-    }: {
-      row: Row<MyAttestationsTableType>;
-      getValue: Getter<string>;
-    }) => {
-      return (
-        <Flex direction="column" wrap="wrap">
-          <Link to={`/contributions/${row.original.id}`}>
-            <Text whiteSpace="normal">{getValue()}</Text>
-          </Link>
-        </Flex>
-      );
-    },
-  },
-  {
-    header: 'Status',
-    accessorKey: 'status',
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return (
-        <Text textTransform="capitalize">
-          {getValue()}{' '}
-          <span
-            role="img"
-            aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
-          >
-            {getValue() === 'minted' ? '🌞' : '👀'}
-          </span>{' '}
-        </Text>
-      );
-    },
-  },
-  {
-    header: 'Attestation Date',
-    accessorKey: 'attestationDate',
-  },
-  {
-    header: 'Contributor',
-    accessorKey: 'contributor',
-  },
-];
+import { useUser } from '../contexts/UserContext';
 
 const MyAttestationsTable = ({
-  contributionsData,
+  data,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[];
+  data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
+  const { userData } = useUser();
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const data = useMemo<MyAttestationsTableType[]>(
-    () =>
-      contributionsData.map(contribution => ({
-        id: contribution.id,
-        date_of_submission: contribution.date_of_submission,
-        date_of_engagement: contribution.date_of_engagement,
-        status: contribution.status.name,
-        name: contribution.name,
-        attestationDate: formatDate(
-          contribution.attestations[0]?.date_of_attestation,
-        ),
-        contributor: contribution.user.name,
-      })),
-    [contributionsData],
-  );
+  const columnsDef = useMemo<ColumnDef<UIContribution>[]>(() => {
+    return [
+      {
+        header: 'Name',
+        accessorKey: 'name',
+        cell: ({
+          row,
+          getValue,
+        }: {
+          row: Row<UIContribution>;
+          getValue: Getter<string>;
+        }) => {
+          return (
+            <Flex direction="column" wrap="wrap">
+              <Link to={`/contributions/${row.original.id}`}>
+                <Text whiteSpace="normal">{getValue()}</Text>
+              </Link>
+            </Flex>
+          );
+        },
+      },
+      {
+        header: 'Status',
+        accessorFn: contr => contr.status.name,
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return (
+            <Text textTransform="capitalize">
+              {getValue()}{' '}
+              <span
+                role="img"
+                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
+              >
+                {getValue() === 'minted' ? '🌞' : '👀'}
+              </span>{' '}
+            </Text>
+          );
+        },
+      },
+      {
+        header: 'Attestation Date',
+        accessorFn: contribution =>
+          formatDate(
+            contribution.attestations.find(a => a.user_id === userData?.id)
+              ?.date_of_attestation ?? '---',
+          ),
+      },
+      {
+        header: 'Contributor',
+        accessorFn: contribution => contribution.user.name,
+      },
+    ];
+  }, [userData?.id]);
 
   const table = useReactTable({
-    data,
+    data: data,
     columns: columnsDef,
     state: {
       sorting,

@@ -136,9 +136,7 @@ const AttestationsTableShell = () => {
                     {attestedContributions &&
                     attestedContributions?.pages.length > 0 ? (
                       <MyAttestationsTable
-                        contributionsData={mergePages(
-                          attestedContributions?.pages || [],
-                        )}
+                        data={mergePages(attestedContributions?.pages || [])}
                         hasMoreItems={hasNextPageAttestedContributions}
                         nextPage={fetchNextPageAttestedContributions}
                       />
