@@ -3,6 +3,7 @@ export default {
     table: {
       bg: 'white',
       whiteSpace: { base: 'wrap', lg: 'nowrap' },
+      border: '1px solid red.500',
     },
     th: {
       fontWeight: 'bold',

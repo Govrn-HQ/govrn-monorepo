@@ -111,57 +111,61 @@ const DaoSettingsLayout = () => {
             </Button>
           </Flex>
         </form>
-        <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
-          <Heading
-            as="h3"
-            fontWeight="600"
-            fontSize="md"
-            marginTop={0}
-            marginBottom={4}
-          >
-            Add Member Wallet Addresses
-          </Heading>
-          <Textarea
-            name="daoMemberAddresses"
-            tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
-            placeholder="0x..., 0x..."
-            onChange={addresses => setValue('daoMemberAddresses', addresses)}
-            localForm={localForm}
-          />
-          {!errors['daoMemberAddresses'] &&
-            touchedFields['daoMemberAddresses'] === true && (
-              <Flex direction="row" alignItems="center" marginY={4}>
-                <Icon
-                  as={AiFillCheckCircle}
-                  color="brand.purple"
-                  width="16px"
-                  height="16px"
-                  marginRight={2}
-                />
-                <Text fontSize="sm" color="brand.purple">
-                  Address list meets formatting requirements.
-                </Text>
-              </Flex>
-            )}
-          <Flex
-            alignItems="flex-end"
-            marginTop={
-              !errors['daoMemberAddresses'] ||
-              touchedFields['daoMemberAddresses'] === false
-                ? 4
-                : 0
-            }
-          >
-            <Button
-              variant="secondary"
-              type="submit"
-              disabled={importing || errors['daoMemberAddresses'] !== undefined}
+        <Flex direction="column" width="80%">
+          <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
+            <Heading
+              as="h3"
+              fontWeight="600"
+              fontSize="md"
+              marginTop={0}
+              marginBottom={4}
             >
-              Add
-            </Button>
-          </Flex>
-        </form>
-        <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
+              Add Member Wallet Addresses
+            </Heading>
+            <Textarea
+              name="daoMemberAddresses"
+              tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
+              placeholder="0x..., 0x..."
+              onChange={addresses => setValue('daoMemberAddresses', addresses)}
+              localForm={localForm}
+            />
+            {!errors['daoMemberAddresses'] &&
+              touchedFields['daoMemberAddresses'] === true && (
+                <Flex direction="row" alignItems="center" marginY={4}>
+                  <Icon
+                    as={AiFillCheckCircle}
+                    color="brand.purple"
+                    width="16px"
+                    height="16px"
+                    marginRight={2}
+                  />
+                  <Text fontSize="sm" color="brand.purple">
+                    Address list meets formatting requirements.
+                  </Text>
+                </Flex>
+              )}
+            <Flex
+              alignItems="flex-end"
+              marginTop={
+                !errors['daoMemberAddresses'] ||
+                touchedFields['daoMemberAddresses'] === false
+                  ? 4
+                  : 0
+              }
+            >
+              <Button
+                variant="secondary"
+                type="submit"
+                disabled={
+                  importing || errors['daoMemberAddresses'] !== undefined
+                }
+              >
+                Add
+              </Button>
+            </Flex>
+          </form>
+          <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
+        </Flex>
       </Flex>
     </Box>
   );

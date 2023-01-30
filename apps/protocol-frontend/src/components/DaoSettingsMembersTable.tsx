@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import {
   Badge,
+  Button,
   Box,
   chakra,
   Flex,
@@ -66,34 +67,31 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
 
   console.log('initialAdminsArray', initialAdminsArray);
 
-  const initialAdmins = initialAdminsArray.reduce(
-    (o, key, idx) => ({ [key as string]: key }),
-    {},
-  );
+  // const initialAdmins = initialAdminsArray.reduce(
+  //   (o, key, idx) => ({ [key as string]: key }),
+  //   {},
+  // );
 
-  console.log('initialAdmins', { ...initialAdminsArray });
+  // console.log('initialAdmins', { ...initialAdminsArray });
 
-  const test = {
-    '0': true,
-    '1': false,
-  };
+  // const test = {
+  //   '0': true,
+  //   '1': false,
+  // };
 
-  const res = initialAdminsArray.reduce(
-    (acc, curr) => ((curr] = ''), acc),
-    {},
-  );
-  console.log('res', res);
+  // const res = initialAdminsArray.reduce(
+  //   (acc, curr) => ((curr] = ''), acc),
+  //   {},
+  // );
+  // console.log('res', res);
 
-  const [rowSelection, setRowSelection] =
-    useState<RowSelectionState>(initialAdmins);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   // const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>(
   //   data !== undefined
   //     ? data.filter(user => user.membershipStatus?.name === 'Admin')
   //     : [],
   // );
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  console.log('data', data);
 
   const columnsDefs = useMemo<ColumnDef<UIGuildUsers>[]>(() => {
     return [
@@ -150,92 +148,98 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   console.log('table state', table.getState());
 
   return (
-    <Box
-      paddingY={{ base: '4' }}
-      paddingX={{ base: '0', md: '4' }}
-      color="gray.700"
-      width="100%"
-      maxWidth="100vw"
-      overflowX="auto"
-      background="white"
-      boxShadow="sm"
-      borderRadius={{ base: 'none', md: 'md' }}
-      marginBottom={10}
-    >
-      {daoUsersData && daoUsersData.pages.length > 0 ? (
-        <Stack spacing="5">
-          <Box width="100%" maxWidth="100vw" overflowX="auto">
-            <InfiniteScroll
-              dataLength={table.getRowModel().rows.length}
-              next={fetchNextPage}
-              scrollThreshold={0.8}
-              hasMore={hasNextPage || false}
-              loader={<GovrnSpinner />}
-            >
-              <Table maxWidth="100vw" overflowX="auto">
-                <Thead backgroundColor="gray.50">
-                  {table.getHeaderGroups().map(headerGroup => (
-                    <Tr key={headerGroup.id}>
-                      {headerGroup.headers.map(header => (
-                        <Th key={header.id} borderColor="gray.100">
-                          {header.isPlaceholder ? null : (
-                            <Box
-                              {...{
-                                onClick:
-                                  header.column.getToggleSortingHandler(),
-                                cursor: 'pointer',
-                              }}
-                            >
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext(),
-                              )}
+    <Flex direction="column" marginBottom={8}>
+      <Box
+        color="gray.700"
+        width="100%"
+        maxWidth="100vw"
+        overflowX="auto"
+        background="white"
+        boxShadow="sm"
+        borderWidth="1px"
+        borderColor="gray.400"
+        borderRadius={{ base: 'none', md: 'md' }}
+        marginTop={8}
+        marginBottom={4}
+      >
+        {daoUsersData && daoUsersData.pages.length > 0 ? (
+          <Stack spacing="5">
+            <Box width="100%" maxWidth="100vw" overflowX="auto">
+              <InfiniteScroll
+                dataLength={table.getRowModel().rows.length}
+                next={fetchNextPage}
+                scrollThreshold={0.8}
+                hasMore={hasNextPage || false}
+                loader={<GovrnSpinner />}
+              >
+                <Table maxWidth="100vw" overflowX="auto">
+                  <Thead backgroundColor="gray.50">
+                    {table.getHeaderGroups().map(headerGroup => (
+                      <Tr key={headerGroup.id}>
+                        {headerGroup.headers.map(header => (
+                          <Th key={header.id} borderColor="gray.100">
+                            {header.isPlaceholder ? null : (
+                              <Box
+                                {...{
+                                  onClick:
+                                    header.column.getToggleSortingHandler(),
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext(),
+                                )}
 
-                              <chakra.span paddingLeft="4">
-                                {{
-                                  asc: (
-                                    <IoArrowUp aria-label="sorted-ascending" />
-                                  ),
-                                  desc: (
-                                    <IoArrowDown aria-label="sorted-descending" />
-                                  ),
-                                }[header.column.getIsSorted() as string] ??
-                                  null}
-                              </chakra.span>
-                            </Box>
-                          )}
-                        </Th>
-                      ))}
-                      <Th borderColor="gray.100" />
-                    </Tr>
-                  ))}
-                </Thead>
-                <Tbody>
-                  {table.getRowModel().rows.map(row => {
-                    return (
-                      <Tr key={row.id}>
-                        {row.getVisibleCells().map(cell => {
-                          return (
-                            <Td borderColor="gray.100" key={cell.id}>
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext(),
-                              )}
-                            </Td>
-                          );
-                        })}
+                                <chakra.span paddingLeft="4">
+                                  {{
+                                    asc: (
+                                      <IoArrowUp aria-label="sorted-ascending" />
+                                    ),
+                                    desc: (
+                                      <IoArrowDown aria-label="sorted-descending" />
+                                    ),
+                                  }[header.column.getIsSorted() as string] ??
+                                    null}
+                                </chakra.span>
+                              </Box>
+                            )}
+                          </Th>
+                        ))}
+                        <Th borderColor="gray.100" />
                       </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
-            </InfiniteScroll>
-          </Box>
-        </Stack>
-      ) : (
-        <EmptyImports />
-      )}
-    </Box>
+                    ))}
+                  </Thead>
+                  <Tbody>
+                    {table.getRowModel().rows.map(row => {
+                      return (
+                        <Tr key={row.id}>
+                          {row.getVisibleCells().map(cell => {
+                            return (
+                              <Td borderColor="gray.100" key={cell.id}>
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext(),
+                                )}
+                              </Td>
+                            );
+                          })}
+                        </Tr>
+                      );
+                    })}
+                  </Tbody>
+                </Table>
+              </InfiniteScroll>
+            </Box>
+          </Stack>
+        ) : (
+          <EmptyImports />
+        )}
+      </Box>
+      <Button variant="secondary" width="fit-content">
+        Set Admins
+      </Button>
+    </Flex>
   );
 };
 
