@@ -20,7 +20,7 @@ export const useDaoUpdate = () => {
       onSuccess: data => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
-        queryClient.invalidateQueries(['daoGet']);
+        queryClient.invalidateQueries(['daoGet', { id: data.id }]);
 
         toast.success({
           title: 'Successfully Updated DAO',

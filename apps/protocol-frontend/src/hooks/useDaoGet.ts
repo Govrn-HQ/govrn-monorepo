@@ -7,7 +7,7 @@ export const useDaoGet = ({ ...args }) => {
   console.log('boolean', Boolean(args.id));
   const { govrnProtocol: govrn } = useUser();
   const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['guildGet', args],
+    ['daoGet', args],
     async () => {
       const data = await govrn.guild.get({ ...args });
       return data;

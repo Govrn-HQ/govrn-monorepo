@@ -43,8 +43,8 @@ const App = () => {
       <RainbowKitProvider chains={chains}>
         <AuthContextProvider>
           <UserContextProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
             <QueryClientProvider client={queryClient}>
+              <ReactQueryDevtools initialIsOpen={false} />
               <Routes />
             </QueryClientProvider>
           </UserContextProvider>
