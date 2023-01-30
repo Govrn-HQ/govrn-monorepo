@@ -13,6 +13,7 @@ import {
 import { DaoTextareaFormValues } from '../types/forms';
 import { splitEntriesByComma } from '../utils/arrays';
 import { useDaoUsersList } from '../hooks/useDaoUsersList';
+import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 
 type DaoNameUpdateFormValues = {
   daoName: string;
@@ -160,7 +161,7 @@ const DaoSettingsLayout = () => {
             </Button>
           </Flex>
         </form>
-        <DaoSettingsMembershipTable />
+        <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
       </Flex>
     </Box>
   );
