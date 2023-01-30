@@ -64,24 +64,33 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     user => user.membershipStatus?.name === 'Admin',
   );
 
-  const initialAdmins = { ...initialAdminsArray };
+  console.log('initialAdminsArray', initialAdminsArray);
 
-  // const convertArrayToObject = (array, key) => {
-  //   const initialValue = {};
-  //   return array.reduce((obj, item) => {
-  //     return {
-  //       ...obj,
-  //       [item[key]]: item,
-  //     };
-  //   }, initialValue);
-  // };
-
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-  const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>(
-    data !== undefined
-      ? data.filter(user => user.membershipStatus?.name === 'Admin')
-      : [],
+  const initialAdmins = initialAdminsArray.reduce(
+    (o, key, idx) => ({ [key as string]: key }),
+    {},
   );
+
+  console.log('initialAdmins', { ...initialAdminsArray });
+
+  const test = {
+    '0': true,
+    '1': false,
+  };
+
+  const res = initialAdminsArray.reduce(
+    (acc, curr) => ((curr] = ''), acc),
+    {},
+  );
+  console.log('res', res);
+
+  const [rowSelection, setRowSelection] =
+    useState<RowSelectionState>(initialAdmins);
+  // const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>(
+  //   data !== undefined
+  //     ? data.filter(user => user.membershipStatus?.name === 'Admin')
+  //     : [],
+  // );
   const [sorting, setSorting] = useState<SortingState>([]);
 
   console.log('data', data);
@@ -125,18 +134,18 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     debugAll: false,
   });
 
-  useEffect(() => {
-    const selectedGuildUser: UIGuildUsers[] = data.filter(
-      user => user.membershipStatus?.name === 'Admin',
-    );
-    for (const key in rowSelection) {
-      if (rowSelection[key]) {
-        selectedGuildUser.push(table.getRow(key).original);
-      }
-    }
-    setSelectedRows(selectedGuildUser);
-    console.log('selected', selectedGuildUser);
-  }, [rowSelection, table, data]);
+  // useEffect(() => {
+  //   const selectedGuildUser: UIGuildUsers[] = data.filter(
+  //     user => user.membershipStatus?.name === 'Admin',
+  //   );
+  //   for (const key in rowSelection) {
+  //     if (rowSelection[key]) {
+  //       selectedGuildUser.push(table.getRow(key).original);
+  //     }
+  //   }
+  //   setSelectedRows(selectedGuildUser);
+  //   console.log('selected', selectedGuildUser);
+  // }, [rowSelection, table, data]);
 
   console.log('table state', table.getState());
 
