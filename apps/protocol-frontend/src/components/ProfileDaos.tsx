@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Button, Flex, Heading, Divider, Grid } from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useDaosList } from '../hooks/useDaosList';
 import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import DaoCard from './DaoCard';
@@ -9,7 +11,12 @@ interface ProfileDaoProps {
 }
 
 const ProfileDaos = ({ userId }: ProfileDaoProps) => {
-  const { isLoading: joinableDaosListIsLoading, data: joinableDaosListData } =
+  const [selectedDao, setSelectedDao] = useState<{
+    value: number;
+    label: string;
+  } | null>(null);
+  // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only similar to how we handle the fetches on the DaoDashboard page
+  const { isLoading: daosListLoading, data: joinableDaosListData } =
     useDaosList({
       where: { users: { none: { user_id: { equals: userId } } } },
     });
@@ -26,7 +33,21 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
       label: dao.name ?? '',
     })) || [];
 
-  if (joinableDaosListIsLoading || daoUsersListLoading) return <GovrnSpinner />;
+  const { mutateAsync: createDaoUser, isLoading: createDaoUserLoading } =
+    useDaoUserCreate();
+
+  const handleDaoJoin = async () => {
+    if (!selectedDao || userId === undefined) return;
+    const result = await createDaoUser({
+      userId: userId,
+      guildId: selectedDao?.value,
+    });
+    if (result) {
+      setSelectedDao(null);
+    }
+  };
+
+  if (daosListLoading || daoUsersListLoading) return <GovrnSpinner />;
 
   return (
     <Flex
@@ -60,11 +81,19 @@ const ProfileDaos = ({ userId }: ProfileDaoProps) => {
           >
             <ControlledSelect
               label="Select a DAO to Join"
-              isSearchable={false}
-              onChange={value => console.log(value)}
+              onChange={dao => setSelectedDao(dao)}
+              value={selectedDao ?? null}
               options={daoListOptions}
+              isSearchable={false}
+              isClearable
             />
-            <Button variant="primary">Join</Button>
+            <Button
+              variant="primary"
+              onClick={handleDaoJoin}
+              disabled={createDaoUserLoading}
+            >
+              Join
+            </Button>
           </Flex>
           <Grid
             templateColumns={{
