@@ -11,12 +11,15 @@ import {
   daoTextareaFormValidation,
 } from '../utils/validations';
 import { DaoTextareaFormValues, DaoNameUpdateFormValues } from '../types/forms';
+import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { splitEntriesByComma } from '../utils/arrays';
 import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import { useDaoUpdate } from '../hooks/useDaoUpdate';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
+import { useUser } from '../contexts/UserContext';
 
 const DaoSettingsLayout = () => {
+  const { userData } = useUser();
   const daoNameUpdateForm = useForm({
     mode: 'all',
     resolver: yupResolver(daoNameFormValidation),
@@ -42,13 +45,42 @@ const DaoSettingsLayout = () => {
 
   const { guildId } = useParams();
   const [importing, setImporting] = useState(false);
-
   const { data: daosUsersListData } = useDaoUsersList({
     where: { guild_id: { equals: parseInt(guildId ? guildId : '') } },
   });
 
   const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
     useDaoUpdate();
+
+  const { mutateAsync: createDaoUser } = useDaoUserCreate();
+
+  const daoTextareaImportHandler: SubmitHandler<
+    DaoTextareaFormValues
+  > = async values => {
+    const { daoMemberAddresses } = values;
+    setImporting(true);
+    if (daoMemberAddresses !== undefined) {
+      const parsedDaoMemberAddresses = splitEntriesByComma(
+        daoMemberAddresses,
+      ).filter(address => address !== userData?.address);
+      const uniqueParsedDaoMemberAddresses = [
+        ...new Set(parsedDaoMemberAddresses),
+      ];
+      if (guildId === undefined) return;
+      uniqueParsedDaoMemberAddresses.map(address => {
+        createDaoUser({
+          newDaoUser: {
+            userId: userData?.id,
+            guildName: values.guildName,
+            userAddress: address,
+            guildId: parseInt(guildId),
+          },
+        });
+        return true;
+      });
+      setImporting(false);
+    }
+  };
 
   const daoNameUpdateHandler: SubmitHandler<
     DaoNameUpdateFormValues
@@ -59,24 +91,6 @@ const DaoSettingsLayout = () => {
       name: daoName,
       guildId: parseInt(guildId),
     });
-  };
-
-  const daoTextareaImportHandler: SubmitHandler<
-    DaoTextareaFormValues
-  > = async values => {
-    const { daoMemberAddresses } = values;
-    setImporting(true);
-    if (daoMemberAddresses !== undefined) {
-      const parsedDaoMemberAddresses = splitEntriesByComma(daoMemberAddresses);
-      const uniqueParsedDaoMemberAddresses = [
-        ...new Set(parsedDaoMemberAddresses),
-      ];
-      console.log(
-        'uniqueParsedDaoMemberAddresses',
-        uniqueParsedDaoMemberAddresses,
-      ); // TODO: replace with the DAO creation logic
-      setImporting(false);
-    }
   };
 
   return (
