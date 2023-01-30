@@ -2,29 +2,26 @@ import { useUser } from '../contexts/UserContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useGovrnToast } from '@govrn/protocol-ui';
 
-interface DaoUserUpdateProps {
-  //
-}
+// interface DaoUserUpdateProps {
+//   //
+// }
 
 export const useDaoUserUpdate = () => {
   const toast = useGovrnToast();
   const { govrnProtocol: govrn } = useUser();
   const queryClient = useQueryClient();
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    async ({ updatedUser }: DaoUserUpdateProps) => {
-      const mutationData = await govrn.guild.user.create({
+    async ({ updatedDaoUser }) => {
+      const mutationData = await govrn.guild.user.update({
         data: {
-          userId: newDaoUser.userId,
-          guildId: newDaoUser.guildId,
-          guildName: newDaoUser.guildName,
-          userAddress: newDaoUser.userAddress,
           membershipStatus: newDaoUser.membershipStatus,
+
         },
       });
-      return { mutationData, creatingNewDao };
+      return { mutationData };
     },
     {
-      onSuccess: (_, { creatingNewDao }) => {
+      onSuccess: () => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
 
@@ -33,7 +30,6 @@ export const useDaoUserUpdate = () => {
           toast.success({
             id: toastSuccessId,
             title: `${
-              creatingNewDao === true
                 ? 'Successfully Created DAO'
                 : 'Successfully Joined DAO'
             }`,

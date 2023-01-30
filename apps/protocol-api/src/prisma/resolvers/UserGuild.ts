@@ -44,8 +44,11 @@ export class GuildUserUpdateCustomInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   guildId: number;
 
-  @TypeGraphQL.Field(_type => Boolean)
-  favorite: boolean;
+  @TypeGraphQL.Field(_type => Boolean, { nullable: true })
+  favorite?: boolean;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  membershipStatus?: string;
 }
 
 @TypeGraphQL.ArgsType()
@@ -152,13 +155,14 @@ export class GuildUserCustomResolver {
     @TypeGraphQL.Args() args: UpdateGuildUserCustomArgs,
   ) {
     const address = req.session.siwe.data.address;
+    console.log('args', args);
 
     const user = await prisma.user.findFirst({
       where: { address: { equals: address } },
     });
 
     if (user?.id !== args.data.userId) {
-      throw new Error('Signature address does not equal requested address');
+      throw new Error('Signature address does not equal requested address.');
     }
 
     return await prisma.guildUser.update({
