@@ -31,6 +31,20 @@ export const daoTextareaFormValidation = yup.object({
     .required('This field is required.'),
 });
 
+export const daoMembersUpdateFormValidation = yup.object({
+  daoMemberAddresses: yup
+    .string()
+    .min(1, 'Need to include at least one address.')
+    .test('isEthAddress', 'Invalid addresses included in the list.', value => {
+      if (value) {
+        const parsedDaoMemberAddresses = splitEntriesByComma(value);
+        return parsedDaoMemberAddresses.every(isEthAddress);
+      }
+      return false;
+    })
+    .required('This field is required.'),
+});
+
 export const daoCsvFormValidation = yup.object().shape({
   daoCsvFile: yup
     .mixed()

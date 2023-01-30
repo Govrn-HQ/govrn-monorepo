@@ -8,7 +8,7 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   daoNameFormValidation,
-  daoTextareaFormValidation,
+  // daoTextareaUpdateFormValidation,
 } from '../utils/validations';
 import { DaoTextareaFormValues, DaoNameUpdateFormValues } from '../types/forms';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
@@ -17,6 +17,7 @@ import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import { useDaoUpdate } from '../hooks/useDaoUpdate';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 import { useUser } from '../contexts/UserContext';
+import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
 
 const DaoSettingsLayout = () => {
   const { userData } = useUser();
@@ -32,7 +33,7 @@ const DaoSettingsLayout = () => {
 
   const daoMemberAddressesUpdateForm = useForm({
     mode: 'all',
-    resolver: yupResolver(daoTextareaFormValidation),
+    // resolver: yupResolver(daoTextareaUpdateFormValidation),
   });
   const {
     handleSubmit: handleSubmitDaoMemberAddressesUpdate,
@@ -57,6 +58,7 @@ const DaoSettingsLayout = () => {
   const daoTextareaImportHandler: SubmitHandler<
     DaoTextareaFormValues
   > = async values => {
+    console.log('clicked');
     const { daoMemberAddresses } = values;
     setImporting(true);
     if (daoMemberAddresses !== undefined) {
@@ -142,7 +144,8 @@ const DaoSettingsLayout = () => {
           </Flex>
         </form>
         <Flex direction="column" width="80%">
-          <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
+          <DaoSettingsMemberUpdateForm guildId={guildId} />
+          {/* <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
             <Heading
               as="h3"
               fontWeight="600"
@@ -159,8 +162,9 @@ const DaoSettingsLayout = () => {
               onChange={addresses => setValue('daoMemberAddresses', addresses)}
               localForm={daoMemberAddressesUpdateForm}
             />
-            {!errors['daoMemberAddresses'] &&
-              touchedFields['daoMemberAddresses'] === true && (
+            {!errorsDaoMemberAddressesUpdate['daoMemberAddresses'] &&
+              touchedFieldsDaoMemberAddressesUpdate['daoMemberAddresses'] ===
+                true && (
                 <Flex direction="row" alignItems="center" marginY={4}>
                   <Icon
                     as={AiFillCheckCircle}
@@ -177,8 +181,9 @@ const DaoSettingsLayout = () => {
             <Flex
               alignItems="flex-end"
               marginTop={
-                !errors['daoMemberAddresses'] ||
-                touchedFields['daoMemberAddresses'] === false
+                !errorsDaoMemberAddressesUpdate['daoMemberAddresses'] ||
+                touchedFieldsDaoMemberAddressesUpdate['daoMemberAddresses'] ===
+                  false
                   ? 4
                   : 0
               }
@@ -187,13 +192,15 @@ const DaoSettingsLayout = () => {
                 variant="secondary"
                 type="submit"
                 disabled={
-                  importing || errors['daoMemberAddresses'] !== undefined
+                  importing ||
+                  errorsDaoMemberAddressesUpdate['daoMemberAddresses'] !==
+                    undefined
                 }
               >
                 Add
               </Button>
             </Flex>
-          </form>
+          </form> */}
           <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
         </Flex>
       </Flex>
