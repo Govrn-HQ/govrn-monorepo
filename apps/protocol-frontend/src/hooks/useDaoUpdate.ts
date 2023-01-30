@@ -17,9 +17,10 @@ export const useDaoUpdate = () => {
       return mutationData;
     },
     {
-      onSuccess: () => {
+      onSuccess: data => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
+        queryClient.invalidateQueries(['daoGet']);
 
         toast.success({
           title: 'Successfully Updated DAO',

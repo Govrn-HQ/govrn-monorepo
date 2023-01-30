@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import { Box, Flex, Heading, Text, Icon, Button } from '@chakra-ui/react';
-import { Input, Textarea } from '@govrn/protocol-ui';
+import { Input, Textarea, GovrnSpinner } from '@govrn/protocol-ui';
 import { useParams } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeading from './PageHeading';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { daoNameFormValidation } from '../utils/validations';
-import { DaoNameUpdateFormValues } from '../types/forms';
-import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
-import { useDaoUsersList } from '../hooks/useDaoUsersList';
-import { useDaoUpdate } from '../hooks/useDaoUpdate';
+import { useDaoGet } from '../hooks/useDaoGet';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 import { useUser } from '../contexts/UserContext';
 import DaoNameUpdateForm from './DaoNameUpdateForm';
@@ -41,26 +38,20 @@ const DaoSettingsLayout = () => {
   } = daoMemberAddressesUpdateForm;
 
   const { guildId } = useParams();
-  const [importing, setImporting] = useState(false);
-  const { data: daosUsersListData } = useDaoUsersList({
-    where: { guild_id: { equals: parseInt(guildId ? guildId : '') } },
-  });
 
-  const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
-    useDaoUpdate();
+  const {
+    isLoading: daoLoading,
+    isError: daoError,
+    data: daoData,
+  } = useDaoGet({ id: parseInt(guildId ?? '') });
 
-  const { mutateAsync: createDaoUser } = useDaoUserCreate();
+  if (daoLoading) {
+    return <GovrnSpinner />;
+  }
 
-  const daoNameUpdateHandler: SubmitHandler<
-    DaoNameUpdateFormValues
-  > = async values => {
-    const { daoName } = values;
-    if (guildId === undefined) return;
-    await updateDao({
-      name: daoName,
-      guildId: parseInt(guildId),
-    });
-  };
+  if (daoError) {
+    return <Text>An error occurred fetching the DAO.</Text>;
+  }
 
   return (
     <Box
@@ -70,7 +61,7 @@ const DaoSettingsLayout = () => {
       maxWidth="1200px"
       width="100%"
     >
-      <PageHeading>DAO Settings</PageHeading>
+      <PageHeading>DAO Settings [{daoData?.name}]</PageHeading>
       <Flex
         justify="space-between"
         direction="column"
