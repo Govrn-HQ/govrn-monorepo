@@ -20,10 +20,6 @@ type DaoNameUpdateFormValues = {
   daoName: string;
 };
 
-// interface DaoSettinsgsLayoutProps {
-//   daoId: number;
-// }
-
 const DaoSettingsLayout = () => {
   const localForm = useForm<DaoNameUpdateFormValues>({
     mode: 'all',
@@ -36,12 +32,10 @@ const DaoSettingsLayout = () => {
   } = localForm;
   const { guildId } = useParams();
   const [importing, setImporting] = useState(false);
-  console.log('guildId', guildId);
 
-  const { isLoading: daoUsersListLoading, data: daosUsersListData } =
-    useDaoUsersList({
-      where: { guild_id: { equals: parseInt(guildId ? guildId : '') } },
-    });
+  const { data: daosUsersListData } = useDaoUsersList({
+    where: { guild_id: { equals: parseInt(guildId ? guildId : '') } },
+  });
 
   const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
     useDaoUpdate();
@@ -114,7 +108,11 @@ const DaoSettingsLayout = () => {
             gap={4}
           >
             <Input name="daoName" localForm={localForm} />
-            <Button variant="secondary" type="submit">
+            <Button
+              variant="secondary"
+              type="submit"
+              disabled={updateDaoLoading}
+            >
               Save Name
             </Button>
           </Flex>
