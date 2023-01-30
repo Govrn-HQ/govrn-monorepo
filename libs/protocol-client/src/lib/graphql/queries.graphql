@@ -214,12 +214,10 @@ fragment GuildUserFragment on GuildUser {
   updatedAt
   favorite
   user_id
-  users {
     user {
       name
       address
     }
-  }
   guild {
     id
     name

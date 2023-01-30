@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import {
   Badge,
   Box,
@@ -35,18 +35,16 @@ import EmptyImports from './EmptyImports';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergeHistoryPages } from '../utils/arrays';
-import { formatDate } from '../utils/date';
+import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { UIGuildUsers } from '@govrn/ui-types';
 import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
+import { RowSelectionState } from '@tanstack/table-core';
 
 interface DaoSettingsMembersTableProps {
   daoId: number;
 }
 const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const { userData, userDaos } = useUser();
-
-  const [sorting, setSorting] = useState<SortingState>([]);
-
   const {
     data: daoUsersData,
     hasNextPage,
@@ -62,9 +60,55 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   }, [daoUsersData]);
 
   console.log('data', data);
+  const initialAdminsArray = data.map(
+    user => user.membershipStatus?.name === 'Admin',
+  );
+
+  const initialAdmins = { ...initialAdminsArray };
+
+  // const convertArrayToObject = (array, key) => {
+  //   const initialValue = {};
+  //   return array.reduce((obj, item) => {
+  //     return {
+  //       ...obj,
+  //       [item[key]]: item,
+  //     };
+  //   }, initialValue);
+  // };
+
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>(
+    data !== undefined
+      ? data.filter(user => user.membershipStatus?.name === 'Admin')
+      : [],
+  );
+  const [sorting, setSorting] = useState<SortingState>([]);
+
+  console.log('data', data);
 
   const columnsDefs = useMemo<ColumnDef<UIGuildUsers>[]>(() => {
-    return [];
+    return [
+      {
+        id: 'selection',
+        header: 'Select Admin',
+        cell: ({ row, table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: row.getIsSelected(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
+        ),
+      },
+      {
+        header: 'Member Address',
+        accessorKey: 'user',
+        cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
+          return <Text whiteSpace="normal">{getValue().address}</Text>;
+        },
+      },
+    ];
   }, [daoUsersData]);
 
   const table = useReactTable({
@@ -72,12 +116,29 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     columns: columnsDefs,
     state: {
       sorting,
+      rowSelection: rowSelection,
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    onRowSelectionChange: setRowSelection,
     debugAll: false,
   });
+
+  useEffect(() => {
+    const selectedGuildUser: UIGuildUsers[] = data.filter(
+      user => user.membershipStatus?.name === 'Admin',
+    );
+    for (const key in rowSelection) {
+      if (rowSelection[key]) {
+        selectedGuildUser.push(table.getRow(key).original);
+      }
+    }
+    setSelectedRows(selectedGuildUser);
+    console.log('selected', selectedGuildUser);
+  }, [rowSelection, table, data]);
+
+  console.log('table state', table.getState());
 
   return (
     <Box
@@ -94,9 +155,6 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     >
       {daoUsersData && daoUsersData.pages.length > 0 ? (
         <Stack spacing="5">
-          <Heading as="h3" fontWeight="600" fontSize="md" marginY={4}>
-            Import History
-          </Heading>
           <Box width="100%" maxWidth="100vw" overflowX="auto">
             <InfiniteScroll
               dataLength={table.getRowModel().rows.length}
