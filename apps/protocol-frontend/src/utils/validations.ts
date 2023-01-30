@@ -99,5 +99,5 @@ export const addAttestationFormValidation = yup.object({
 // dao updates
 
 export const daoNameFormValidation = yup.object({
-  daoName: yup.string(),
+  daoName: yup.string().required('DAO name is required.'),
 });

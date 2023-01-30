@@ -10,18 +10,14 @@ import {
   daoNameFormValidation,
   daoTextareaFormValidation,
 } from '../utils/validations';
-import { DaoTextareaFormValues } from '../types/forms';
+import { DaoTextareaFormValues, DaoNameUpdateFormValues } from '../types/forms';
 import { splitEntriesByComma } from '../utils/arrays';
 import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import { useDaoUpdate } from '../hooks/useDaoUpdate';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 
-type DaoNameUpdateFormValues = {
-  daoName: string;
-};
-
 const DaoSettingsLayout = () => {
-  const localForm = useForm<DaoNameUpdateFormValues>({
+  const daoNameUpdateForm = useForm({
     mode: 'all',
     resolver: yupResolver(daoNameFormValidation),
   });
@@ -29,7 +25,21 @@ const DaoSettingsLayout = () => {
     handleSubmit,
     setValue,
     formState: { errors, touchedFields },
-  } = localForm;
+  } = daoNameUpdateForm;
+
+  const daoMemberAddressesUpdateForm = useForm({
+    mode: 'all',
+    resolver: yupResolver(daoTextareaFormValidation),
+  });
+  const {
+    handleSubmit: handleSubmitDaoMemberAddressesUpdate,
+    setValue: setValueDaoMemberAddressesUpdate,
+    formState: {
+      errors: errorsDaoMemberAddressesUpdate,
+      touchedFields: touchedFieldsDaoMemberAddressesUpdate,
+    },
+  } = daoMemberAddressesUpdateForm;
+
   const { guildId } = useParams();
   const [importing, setImporting] = useState(false);
 
@@ -107,7 +117,7 @@ const DaoSettingsLayout = () => {
             width={{ base: '100%', lg: '50%' }}
             gap={4}
           >
-            <Input name="daoName" localForm={localForm} />
+            <Input name="daoName" localForm={daoNameUpdateForm} />
             <Button
               variant="secondary"
               type="submit"
@@ -133,7 +143,7 @@ const DaoSettingsLayout = () => {
               tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
               placeholder="0x..., 0x..."
               onChange={addresses => setValue('daoMemberAddresses', addresses)}
-              localForm={localForm}
+              localForm={daoMemberAddressesUpdateForm}
             />
             {!errors['daoMemberAddresses'] &&
               touchedFields['daoMemberAddresses'] === true && (

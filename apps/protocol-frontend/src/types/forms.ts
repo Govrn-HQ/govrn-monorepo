@@ -1,6 +1,7 @@
 import {
   createWaitlistFormValidation,
   profileFormValidation,
+  daoNameFormValidation,
 } from '../utils/validations';
 import type { InferType } from 'yup';
 
@@ -42,4 +43,10 @@ export type DaoUpdateValues = {
   userId?: number;
   guildId: number;
   name?: string;
+};
+
+// export type DaoNameUpdateFormValues = InferType<typeof daoNameFormValidation>;
+
+export type DaoNameUpdateFormValues = {
+  daoName: string;
 };
