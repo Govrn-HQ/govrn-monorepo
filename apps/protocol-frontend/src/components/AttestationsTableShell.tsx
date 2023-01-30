@@ -107,7 +107,7 @@ const AttestationsTableShell = () => {
               >
                 <Stack spacing="5">
                   <AttestationsTable
-                    contributionsData={mergePages(contributions.pages)}
+                    data={mergePages(contributions.pages)}
                     hasMoreItems={hasNextPage}
                     nextPage={fetchNextPage}
                   />

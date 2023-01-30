@@ -32,114 +32,18 @@ import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
-import { AttestationTableType } from '../types/table';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
 import { displayAddress } from '../utils/web3';
 import { RowSelectionState } from '@tanstack/table-core';
 
-const columnsDefs: ColumnDef<AttestationTableType>[] = [
-  {
-    id: 'selection',
-    header: ({ table }) => (
-      <IndeterminateCheckbox
-        {...{
-          checked: table.getIsAllRowsSelected(),
-          indeterminate: table.getIsSomeRowsSelected(),
-          onChange: table.getToggleAllRowsSelectedHandler(),
-          testid: 'toggle-row-selected',
-        }}
-      />
-    ),
-    cell: ({ row }) => (
-      <IndeterminateCheckbox
-        {...{
-          checked: row.getIsSelected(),
-          indeterminate: row.getIsSomeSelected(),
-          onChange: row.getToggleSelectedHandler(),
-        }}
-      />
-    ),
-  },
-
-  {
-    header: 'Name',
-    accessorKey: 'name',
-    cell: ({
-      getValue,
-      row,
-    }: {
-      getValue: Getter<string>;
-      row: Row<AttestationTableType>;
-    }) => {
-      return (
-        <Flex direction="column" wrap="wrap">
-          <Link to={`/contributions/${row.original.id}`}>
-            <Text whiteSpace="normal">{getValue()}</Text>
-          </Link>
-        </Flex>
-      );
-    },
-  },
-  {
-    header: 'Status',
-    accessorKey: 'attestations',
-    cell: ({
-      getValue,
-    }: {
-      getValue: Getter<AttestationTableType['attestations']>;
-    }) => {
-      let status = 'Unattested';
-      const attestations = getValue();
-      if (attestations && attestations.length > 0) {
-        status = attestations[0].attestation_status?.name || 'Unattested';
-      }
-      return (
-        <Text textTransform="capitalize">
-          {status}{' '}
-          <span
-            role="img"
-            aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
-          >
-            {status === 'pending' ? '🕒' : '👀'}
-          </span>{' '}
-        </Text>
-      );
-    },
-  },
-  {
-    header: 'Engagement Date',
-    accessorKey: 'date_of_engagement',
-  },
-  {
-    header: 'Contributor',
-    accessorKey: 'contributor',
-  },
-  {
-    header: 'DAO',
-    accessorKey: 'guilds',
-    cell: ({
-      getValue,
-    }: {
-      getValue: Getter<AttestationTableType['guilds']>;
-    }) => {
-      let guildName;
-      const guilds = getValue();
-      if (guilds && guilds.length > 0) {
-        guildName = guilds[0].guild.name ?? '---';
-      }
-      return <Text>{guildName}</Text>;
-    },
-  },
-];
-
 const AttestationsTable = ({
-  contributionsData,
+  data,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[];
+  data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
@@ -148,7 +52,7 @@ const AttestationsTable = ({
   const localOverlay = useOverlay();
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-  const [selectedRows, setSelectedRows] = useState<AttestationTableType[]>([]);
+  const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
@@ -156,28 +60,109 @@ const AttestationsTable = ({
     setRowSelection({});
   };
 
-  const data = useMemo<AttestationTableType[]>(
-    () =>
-      contributionsData.map(contribution => ({
-        id: contribution.id,
-        date_of_submission: contribution.date_of_submission,
-        date_of_engagement: contribution.date_of_submission,
-        guilds: contribution.guilds,
-        status: contribution.status.name,
-        action: '',
-        name: contribution.name,
-        onChainId: contribution.on_chain_id,
-        contributor:
-          contribution.user.name || displayAddress(contribution.user.address),
-        attestations: contribution.attestations.filter(attestation => {
-          return attestation.user.id === userData?.id;
-        }),
-      })),
-    [contributionsData, userData?.id],
-  );
+  const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
+    return [
+      {
+        id: 'selection',
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+              testid: 'toggle-row-selected',
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: row.getIsSelected(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
+        ),
+      },
 
-  const table = useReactTable({
-    data,
+      {
+        header: 'Name',
+        accessorKey: 'name',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          return (
+            <Flex direction="column" wrap="wrap">
+              <Link to={`/contributions/${row.original.id}`}>
+                <Text whiteSpace="normal">{getValue()}</Text>
+              </Link>
+            </Flex>
+          );
+        },
+      },
+      {
+        header: 'Status',
+        accessorFn: contribution =>
+          contribution.attestations.filter(attestation => {
+            return attestation.user.id === userData?.id;
+          }),
+        cell: ({
+          getValue,
+        }: {
+          getValue: Getter<UIContribution['attestations']>;
+        }) => {
+          let status = 'Unattested';
+          const attestations = getValue();
+          if (attestations && attestations.length > 0) {
+            status = attestations[0].attestation_status?.name || 'Unattested';
+          }
+          return (
+            <Text textTransform="capitalize">
+              {status}{' '}
+              <span
+                role="img"
+                aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
+              >
+                {status === 'pending' ? '🕒' : '👀'}
+              </span>{' '}
+            </Text>
+          );
+        },
+      },
+      {
+        header: 'Engagement Date',
+        accessorKey: 'date_of_engagement',
+      },
+      {
+        header: 'Contributor',
+        accessorFn: contribution =>
+          contribution.user.name || displayAddress(contribution.user.address),
+      },
+      {
+        header: 'DAO',
+        accessorKey: 'guilds',
+        cell: ({
+          getValue,
+        }: {
+          getValue: Getter<UIContribution['guilds']>;
+        }) => {
+          let guildName;
+          const guilds = getValue();
+          if (guilds && guilds.length > 0) {
+            guildName = guilds[0].guild.name ?? '---';
+          }
+          return <Text>{guildName}</Text>;
+        },
+      },
+    ];
+  }, [userData?.id]);
+
+  const table = useReactTable<UIContribution>({
+    data: data,
     columns: columnsDefs,
     state: {
       sorting,
@@ -191,11 +176,11 @@ const AttestationsTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: true,
+    debugAll: false,
   });
 
   useEffect(() => {
-    const selectedContributions: AttestationTableType[] = [];
+    const selectedContributions: UIContribution[] = [];
     for (const key in rowSelection) {
       if (rowSelection[key]) {
         selectedContributions.push(table.getRow(key).original);
@@ -222,7 +207,7 @@ const AttestationsTable = ({
       </Text>
     </Box>
   );
-  if (contributionsData.length) {
+  if (data.length) {
     component = (
       <>
         <Box paddingX={{ base: '4', md: '6' }} paddingTop="5" paddingBottom="3">
