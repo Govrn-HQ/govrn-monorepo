@@ -45,10 +45,8 @@ export type DaoUpdateValues = {
   name?: string;
 };
 
-// export type DaoNameUpdateFormValues = InferType<typeof daoNameFormValidation>;
-
 export type DaoNameUpdateFormValues = {
-  daoName: string;
+  daoName?: string;
 };
 
 export type DaoUserCreateValues = {

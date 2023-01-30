@@ -94,7 +94,9 @@ const DaoSettingsLayout = () => {
         </Heading>
         <DaoNameUpdateForm daoId={parseInt(guildId ? guildId : '')} />
         <Flex direction="column" width="80%">
-          <DaoSettingsMemberUpdateForm daoId={guildId} />
+          <DaoSettingsMemberUpdateForm
+            daoId={parseInt(guildId ? guildId : '')}
+          />
           <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
         </Flex>
       </Flex>
