@@ -14,6 +14,7 @@ export const useDaoUserUpdate = () => {
     async ({ updatedDaoUser }) => {
       const mutationData = await govrn.guild.user.update({
         data: {
+          userId: user
           membershipStatus: newDaoUser.membershipStatus,
 
         },

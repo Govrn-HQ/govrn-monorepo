@@ -7423,8 +7423,10 @@ export type GuildUserSumOrderByAggregateInput = {
 };
 
 export type GuildUserUpdateCustomInput = {
-  favorite: Scalars['Boolean'];
+  favorite?: InputMaybe<Scalars['Boolean']>;
   guildId: Scalars['Int'];
+  membershipStatus?: InputMaybe<Scalars['String']>;
+  membershipStatusId?: InputMaybe<Scalars['Int']>;
   userId: Scalars['Int'];
 };
 

@@ -49,6 +49,9 @@ export class GuildUserUpdateCustomInput {
 
   @TypeGraphQL.Field(_type => String, { nullable: true })
   membershipStatus?: string;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  membershipStatusId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -155,7 +158,6 @@ export class GuildUserCustomResolver {
     @TypeGraphQL.Args() args: UpdateGuildUserCustomArgs,
   ) {
     const address = req.session.siwe.data.address;
-    console.log('args', args);
 
     const user = await prisma.user.findFirst({
       where: { address: { equals: address } },
@@ -167,7 +169,12 @@ export class GuildUserCustomResolver {
 
     return await prisma.guildUser.update({
       data: {
-        favorite: { set: args.data.favorite },
+        ...(args.data.favorite !== undefined && {
+          favorite: { set: args.data.favorite },
+        }),
+        ...(args.data.membershipStatusId !== undefined && {
+          membership_status_id: { set: args.data.membershipStatusId },
+        }),
       },
       where: {
         user_id_guild_id: {
