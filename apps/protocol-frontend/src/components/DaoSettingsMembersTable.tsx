@@ -146,8 +146,6 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     setSelectedRows(selectedMemberAddresses);
   }, [rowSelection, table]);
 
-  console.log('table state', table.getState().rowSelection);
-
   return (
     <Flex direction="column" marginBottom={8}>
       <Box
