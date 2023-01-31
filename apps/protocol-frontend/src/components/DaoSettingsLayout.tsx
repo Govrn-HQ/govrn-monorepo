@@ -2,13 +2,17 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useParams } from 'react-router-dom';
 import { useDaoGet } from '../hooks/useDaoGet';
+import { useDaoUsersList } from '../hooks/useDaoUsersList';
+import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
 import DaoNameUpdateForm from './DaoNameUpdateForm';
 import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
+import ErrorView from './ErrorView';
 
 const DaoSettingsLayout = () => {
   const { guildId } = useParams();
+  const { userData } = useUser();
 
   const {
     isLoading: daoLoading,
@@ -16,12 +20,38 @@ const DaoSettingsLayout = () => {
     data: daoData,
   } = useDaoGet({ id: parseInt(guildId ?? '') });
 
-  if (daoLoading) {
+  const { data: daosUsersListData, isLoading: daosUsersListLoading } =
+    useDaoUsersList({
+      where: { user_id: { equals: userData?.id } },
+    });
+
+  const isAdmin = daosUsersListData
+    ?.filter(dao => dao.guild.id === parseInt(guildId ?? ''))
+    .some(daoUser => daoUser.membershipStatus?.name === 'Admin');
+
+  if (daoLoading || daosUsersListLoading) {
     return <GovrnSpinner />;
   }
 
   if (daoError) {
     return <Text>An error occurred fetching the DAO.</Text>;
+  }
+
+  if (isAdmin === false) {
+    return (
+      <Box
+        paddingY={{ base: '4', md: '8' }}
+        paddingX={{ base: '0', md: '8' }}
+        color="gray.700"
+        maxWidth="1200px"
+        width="100%"
+      >
+        <ErrorView
+          errorMessage="You have to be an admin of this DAO to view the settings."
+          includeMotto={false}
+        />
+      </Box>
+    );
   }
 
   return (

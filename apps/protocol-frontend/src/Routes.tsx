@@ -139,9 +139,7 @@ const Routes = () => {
           path="/dao/:guildId/settings"
           element={
             <RequireActiveUser>
-              <RequireDaoUser>
-                <DaoSettings />
-              </RequireDaoUser>
+              <DaoSettings />
             </RequireActiveUser>
           }
         />
