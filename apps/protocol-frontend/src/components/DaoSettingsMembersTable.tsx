@@ -35,7 +35,7 @@ import { UIGuildImportHistory } from '@govrn/ui-types';
 import EmptyImports from './EmptyImports';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { mergeHistoryPages } from '../utils/arrays';
+import { mergeMemberPages } from '../utils/arrays';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { UIGuildUsers } from '@govrn/ui-types';
 import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
@@ -55,7 +55,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   });
 
   const data = useMemo<UIGuildUsers[]>(() => {
-    return mergeHistoryPages(
+    return mergeMemberPages(
       daoUsersData && daoUsersData.pages.length > 0 ? daoUsersData.pages : [],
     );
   }, [daoUsersData]);
