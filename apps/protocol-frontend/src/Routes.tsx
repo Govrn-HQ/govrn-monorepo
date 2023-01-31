@@ -137,7 +137,7 @@ const Routes = () => {
         />
         // TODO: gate to admin. modify/add RequireDaoAdmin
         <Route
-          path="/feature/dao/:guildId/settings"
+          path="/dao/:guildId/settings"
           element={
             <RequireActiveUser>
               <RequireDaoUser>
@@ -147,7 +147,7 @@ const Routes = () => {
           }
         />
         <Route
-          path="/feature/dao/create"
+          path="/dao/create"
           element={
             <RequireActiveUser>
               <CreateDao />
