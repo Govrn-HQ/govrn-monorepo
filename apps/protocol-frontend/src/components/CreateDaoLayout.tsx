@@ -89,7 +89,7 @@ const CreateDaoLayout = () => {
       />
       <ModalWrapper
         name="createDaoModal"
-        title="Add DAO Members"
+        title="Create a DAO"
         localOverlay={localOverlay}
         size="3xl"
         content={<DaoTextareaForm />}

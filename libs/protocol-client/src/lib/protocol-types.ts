@@ -7094,8 +7094,11 @@ export type GuildUserCountOrderByAggregateInput = {
 };
 
 export type GuildUserCreateCustomInput = {
-  guildId: Scalars['Int'];
-  userId: Scalars['Int'];
+  guildId?: InputMaybe<Scalars['Int']>;
+  guildName?: InputMaybe<Scalars['String']>;
+  membershipStatus?: InputMaybe<Scalars['String']>;
+  userAddress?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['Int']>;
 };
 
 export type GuildUserCreateInput = {
@@ -18209,7 +18212,7 @@ export type CreateGuildUserCustomMutationVariables = Exact<{
 }>;
 
 
-export type CreateGuildUserCustomMutation = { createGuildUserCustom: { id: number } };
+export type CreateGuildUserCustomMutation = { createGuildUserCustom: { id: number, guild_id: number } };
 
 export type DeleteGuildUserMutationVariables = Exact<{
   where: GuildUserWhereUniqueInput;
@@ -19072,6 +19075,7 @@ export const CreateGuildUserCustomDocument = gql`
     mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
   createGuildUserCustom(data: $data) {
     id
+    guild_id
   }
 }
     `;

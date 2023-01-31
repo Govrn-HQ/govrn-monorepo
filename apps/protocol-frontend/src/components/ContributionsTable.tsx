@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
@@ -44,9 +44,9 @@ import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { mergePages } from '../utils/arrays';
 import { formatDate } from '../utils/date';
 import { RowSelectionState } from '@tanstack/table-core';
+import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -55,23 +55,13 @@ export type DialogProps = {
   contributionId: number;
 };
 
-const emojiSelect = (status: string) => {
-  if (status === 'minted') {
-    return '🌞';
-  } else if (status === 'pending') {
-    return '🕒';
-  } else {
-    return '👀';
-  }
-};
-
 const ContributionsTable = ({
-  contributionsData,
+  data,
   setSelectedContributions,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[][];
+  data: UIContribution[];
   setSelectedContributions: (rows: UIContribution[]) => void;
   hasMoreItems: boolean;
   nextPage: () => void;
@@ -93,15 +83,18 @@ const ContributionsTable = ({
     contributionId: 0,
   });
 
-  const handleDeleteContribution = (contributionId: number) => {
-    setDialog({
-      ...dialog,
-      isOpen: true, //this opens AlertDialog
-      title:
-        "Are you sure you want to delete this contribution? You can't undo this action.",
-      contributionId: contributionId,
-    });
-  };
+  const handleDeleteContribution = useCallback(
+    (contributionId: number) => {
+      setDialog({
+        ...dialog,
+        isOpen: true, //this opens AlertDialog
+        title:
+          "Are you sure you want to delete this contribution? You can't undo this action.",
+        contributionId: contributionId,
+      });
+    },
+    [dialog],
+  );
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
@@ -111,10 +104,6 @@ const ContributionsTable = ({
   const deselectAll = () => {
     setRowSelection({});
   };
-
-  const data = useMemo<UIContribution[]>(() => {
-    return mergePages(contributionsData);
-  }, [contributionsData]);
 
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
@@ -136,7 +125,6 @@ const ContributionsTable = ({
               checked: row.getIsSelected(),
               indeterminate: row.getIsSomeSelected(),
               onChange: row.getToggleSelectedHandler(),
-              disabled: row.original.status.name !== 'staging',
             }}
           />
         ),
@@ -174,9 +162,9 @@ const ContributionsTable = ({
               {getValue().name}{' '}
               <span
                 role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
+                aria-labelledby="Emoji indicating Contribution status: Eyes emoji for staging and Three O’Clock emoji for Pending"
               >
-                {emojiSelect(getValue().name)}
+                {statusEmojiSelect(getValue().name)}
               </span>{' '}
             </Text>
           );
@@ -206,55 +194,38 @@ const ContributionsTable = ({
         header: 'Actions',
         cell: ({ row }) => (
           <HStack spacing={1}>
-            {row.original.status.name === 'minted' ||
-            row.original.status.name === 'pending' ? (
-              <HStack spacing="1">
-                {row.original.tx_hash !== null && (
-                  <Tooltip
-                    variant="primary"
-                    label="Minted and Pending contributions cannot be edited or deleted. View on Block Explorer."
-                    aria-label="A tooltip"
-                  >
-                    <Box>
-                      <ChakraLink
-                        href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.tx_hash}`}
-                        isExternal
-                      >
-                        <IconButton
-                          icon={<HiOutlineLink fontSize="1rem" />}
-                          aria-label="View on Block Explorer"
-                          variant="ghost"
-                          color="gray.800"
-                          padding={1}
-                        />
-                      </ChakraLink>
-                    </Box>
-                  </Tooltip>
-                )}
-                {row.original.status.name !== 'pending' && (
-                  <IconButton
-                    icon={<FiTrash2 fontSize="1rem" />}
-                    variant="ghost"
-                    color="gray.800"
-                    disabled={row.original.user.id !== userData?.id}
-                    aria-label="Delete Contribution"
-                    data-testid="deleteContribution-test"
-                    onClick={() => handleDeleteContribution(row.original.id)}
-                  />
-                )}
-              </HStack>
-            ) : (
+            {row.original.status.name === 'pending' &&
+              row.original.tx_hash !== null && (
+                <Tooltip
+                  variant="primary"
+                  label="Pending contributions cannot be edited or deleted. View on Block Explorer."
+                  aria-label="A tooltip: Pending contributions cannot be edited or deleted. View on Block Explorer."
+                >
+                  <Box>
+                    <ChakraLink
+                      href={`${BLOCK_EXPLORER_URLS['gnosisChain']}/${row.original.tx_hash}`}
+                      isExternal
+                    >
+                      <IconButton
+                        icon={<HiOutlineLink fontSize="1rem" />}
+                        aria-label="View on Block Explorer"
+                        variant="ghost"
+                        color="gray.800"
+                        padding={1}
+                      />
+                    </ChakraLink>
+                  </Box>
+                </Tooltip>
+              )}
+
+            {row.original.status.name === 'staging' && (
               <HStack spacing="1">
                 <IconButton
                   icon={<FiEdit2 fontSize="1rem" />}
                   variant="ghost"
                   color="gray.800"
                   aria-label="Edit Contribution"
-                  disabled={
-                    row.original.user.id !== userData?.id ||
-                    row.original.status.name === 'minted' ||
-                    row.original.status.name === 'pending'
-                  }
+                  disabled={row.original.user.id !== userData?.id}
                   data-testid="editContribution-test"
                   onClick={() =>
                     handleEditContributionFormModal(row.original.id)
@@ -275,9 +246,9 @@ const ContributionsTable = ({
         ),
       },
     ];
-  }, []);
+  }, [handleDeleteContribution, handleEditContributionFormModal, userData?.id]);
 
-  const table = useReactTable({
+  const table = useReactTable<UIContribution>({
     data,
     columns: columnsDefs,
     state: {
@@ -285,7 +256,7 @@ const ContributionsTable = ({
       rowSelection: rowSelection,
       globalFilter,
     },
-    enableRowSelection: row => row.original.status.name === 'staging',
+    enableRowSelection: true,
     onSortingChange: setSorting,
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setGlobalFilter,
@@ -386,20 +357,13 @@ const ContributionsTable = ({
           content={
             <EditContributionForm
               contribution={
-                mergePages(contributionsData).find(
+                data.find(
                   localContribution =>
                     localContribution.id === selectedContribution,
                 )!
               }
             />
           }
-        />
-        <ModalWrapper
-          name="bulkDaoAttributeModal"
-          title="Attribute Contributions to a DAO"
-          localOverlay={localOverlay}
-          size="3xl"
-          content={<BulkDaoAttributeModal contributions={selectedRows} />}
         />
         <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
         <ModalWrapper
