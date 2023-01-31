@@ -29,7 +29,7 @@ export const useDaoUserCreate = () => {
       onSuccess: (_, { creatingNewDao }) => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
-        queryClient.invalidateQueries(['daoUserInfiniteList']);
+        queryClient.invalidateQueries(['daoUsersInfiniteList']);
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {

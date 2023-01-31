@@ -1,12 +1,9 @@
 import { useMemo, useState, useEffect } from 'react';
 import {
-  Badge,
   Button,
   Box,
   chakra,
   Flex,
-  Heading,
-  IconButton,
   Stack,
   Table,
   Tbody,
@@ -17,8 +14,6 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { HiOutlineCog } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -29,9 +24,7 @@ import {
   Getter,
   Row,
 } from '@tanstack/react-table';
-import { useImportHistoryInfiniteList } from '../hooks/useImportHistoryList';
 import { useUser } from '../contexts/UserContext';
-import { UIGuildImportHistory } from '@govrn/ui-types';
 import EmptyImports from './EmptyImports';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -45,7 +38,7 @@ interface DaoSettingsMembersTableProps {
   daoId: number;
 }
 const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
-  const { userData, userDaos } = useUser();
+  const { userData } = useUser();
   const {
     data: daoUsersData,
     hasNextPage,
