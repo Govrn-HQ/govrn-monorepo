@@ -25,6 +25,7 @@ import {
   Row,
 } from '@tanstack/react-table';
 import { useUser } from '../contexts/UserContext';
+import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import EmptyImports from './EmptyImports';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -39,6 +40,10 @@ interface DaoSettingsMembersTableProps {
 }
 const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const { userData } = useUser();
+  const [selectedMemberAddresses, setSelectedMemberAddreses] = useState<
+    UIGuildUsers[]
+  >([]);
+
   const {
     data: daoUsersData,
     hasNextPage,
@@ -46,6 +51,8 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   } = useDaoUsersInfiniteList({
     where: { guild_id: { equals: daoId } },
   });
+
+  const { mutateAsync: updateDaoMemberStatus } = useDaoUserUpdate();
 
   const data = useMemo<UIGuildUsers[]>(() => {
     return mergeMemberPages(
@@ -78,13 +85,44 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   // );
   // console.log('res', res);
 
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   // const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>(
   //   data !== undefined
   //     ? data.filter(user => user.membershipStatus?.name === 'Admin')
   //     : [],
   // );
+
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [addingMembers, setAddingMembers] = useState(false);
+
+  const handleSetAdmins = async () => {
+    setAddingMembers(true);
+    if (
+      userData?.id === undefined ||
+      selectedMemberAddresses === undefined ||
+      selectedMemberAddresses.length === 0
+    )
+      return;
+    if (selectedMemberAddresses !== undefined) {
+      const parsedDaoMemberAddresses = selectedMemberAddresses.filter(
+        memberAddress => memberAddress.user.address !== userData?.address,
+      );
+      const uniqueParsedDaoMemberAddresses = [
+        ...new Set(parsedDaoMemberAddresses),
+      ];
+      uniqueParsedDaoMemberAddresses.map(address => {
+        updateDaoMemberStatus({
+          userId: userData.id,
+          guildId: daoId,
+          memberId: address.user_id,
+          membershipStatusId: 1,
+        });
+        return true;
+      });
+      setAddingMembers(false);
+    }
+  };
 
   const columnsDefs = useMemo<ColumnDef<UIGuildUsers>[]>(() => {
     return [
@@ -118,27 +156,27 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       sorting,
       rowSelection: rowSelection,
     },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onRowSelectionChange: setRowSelection,
     debugAll: false,
   });
 
-  // useEffect(() => {
-  //   const selectedGuildUser: UIGuildUsers[] = data.filter(
-  //     user => user.membershipStatus?.name === 'Admin',
-  //   );
-  //   for (const key in rowSelection) {
-  //     if (rowSelection[key]) {
-  //       selectedGuildUser.push(table.getRow(key).original);
-  //     }
-  //   }
-  //   setSelectedRows(selectedGuildUser);
-  //   console.log('selected', selectedGuildUser);
-  // }, [rowSelection, table, data]);
+  useEffect(() => {
+    setSelectedMemberAddreses(selectedRows);
+  }, [selectedRows, selectedMemberAddresses]);
 
-  console.log('table state', table.getState());
+  useEffect(() => {
+    const selectedMemberAddresses: UIGuildUsers[] = [];
+    for (const key in rowSelection) {
+      if (rowSelection[key]) {
+        selectedMemberAddresses.push(table.getRow(key).original);
+      }
+    }
+    setSelectedRows(selectedMemberAddresses);
+  }, [rowSelection, table]);
 
   return (
     <Flex direction="column" marginBottom={8}>
@@ -229,7 +267,12 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           <EmptyImports />
         )}
       </Box>
-      <Button variant="secondary" width="fit-content">
+      <Button
+        variant="secondary"
+        width="fit-content"
+        onClick={handleSetAdmins}
+        disabled={addingMembers}
+      >
         Set Admins
       </Button>
     </Flex>

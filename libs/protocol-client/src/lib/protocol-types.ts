@@ -7425,8 +7425,10 @@ export type GuildUserSumOrderByAggregateInput = {
 export type GuildUserUpdateCustomInput = {
   favorite?: InputMaybe<Scalars['Boolean']>;
   guildId: Scalars['Int'];
+  memberId?: InputMaybe<Scalars['Int']>;
   membershipStatus?: InputMaybe<Scalars['String']>;
   membershipStatusId?: InputMaybe<Scalars['Int']>;
+  userAddress?: InputMaybe<Scalars['String']>;
   userId: Scalars['Int'];
 };
 

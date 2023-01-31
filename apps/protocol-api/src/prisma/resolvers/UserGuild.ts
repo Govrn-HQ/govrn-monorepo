@@ -52,6 +52,12 @@ export class GuildUserUpdateCustomInput {
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   membershipStatusId?: number;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  userAddress?: string;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  memberId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -179,7 +185,7 @@ export class GuildUserCustomResolver {
       where: {
         user_id_guild_id: {
           guild_id: args.data.guildId,
-          user_id: args.data.userId,
+          user_id: args.data.memberId ? args.data.memberId : args.data.userId,
         },
       },
     });
