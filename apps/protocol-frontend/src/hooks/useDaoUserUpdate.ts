@@ -33,27 +33,35 @@ export const useDaoUserUpdate = () => {
       return { mutationData };
     },
     {
-      onSuccess: (_, variables) => {
+      onSuccess: (_, { favorite }) => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
-        console.log('variables', variables);
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
           toast.success({
             id: toastSuccessId,
-            title: 'hi',
-            description: 'hi',
+            title:
+              favorite !== undefined
+                ? 'Favorite Status Updated'
+                : 'DAO Updated',
+            description:
+              favorite !== undefined
+                ? 'Favorite status has been updated.'
+                : 'DAO has been updated.',
           });
         }
       },
-      onError: (error, variables) => {
+      onError: (error, { favorite }) => {
         const toastErrorId = 'dao-user-create-error';
-        console.log('error vars', variables);
+
         if (!toast.isActive(toastErrorId)) {
           toast.error({
             id: toastErrorId,
-            title: 'hi',
+            title:
+              favorite !== undefined
+                ? 'Favorite status update failed.'
+                : 'DAO update failed.',
             description: `Something went wrong. Please try again: ${error}`,
           });
         }
