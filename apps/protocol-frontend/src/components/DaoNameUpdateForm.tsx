@@ -39,11 +39,11 @@ const DaoNameUpdateForm = ({ daoId, daoName }: DaoNameUpdateFormProps) => {
   return (
     <form onSubmit={handleSubmit(daoNameUpdateHandler)}>
       <Flex
-        direction="row"
+        direction={{ base: 'column', lg: 'row' }}
         justifyContent="center"
         alignItems="baseline"
         width={{ base: '100%', lg: '50%' }}
-        gap={4}
+        gap={{ base: 0, lg: 4 }}
       >
         <Input
           name="daoName"
@@ -53,6 +53,7 @@ const DaoNameUpdateForm = ({ daoId, daoName }: DaoNameUpdateFormProps) => {
         <Button
           variant="secondary"
           type="submit"
+          marginBottom={{ base: 4, lg: 0 }}
           disabled={updateDaoLoading || errors['daoName'] !== undefined}
         >
           Save Name

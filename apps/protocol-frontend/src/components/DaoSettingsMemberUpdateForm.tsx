@@ -97,7 +97,7 @@ const DaoSettingsMemberUpdateForm = ({
           }
         >
           <Button
-            variant="primary"
+            variant="secondary"
             type="submit"
             disabled={importing || errors['daoMemberAddresses'] !== undefined}
           >
