@@ -13,37 +13,35 @@ import {
   Getter,
 } from '@tanstack/react-table';
 import { UIContribution } from '@govrn/ui-types';
-import { mergePages } from '../utils/arrays';
 
 const ContributionTypesTable = ({
   contributionTypesData,
 }: {
-  contributionTypesData: UIContribution[][];
+  contributionTypesData: UIContribution[];
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const totalContributions: UIContribution[] = useMemo(() => {
-    return mergePages(contributionTypesData).sort(
-      (firstContribution, nextContribution) =>
-        isAfter(
-          new Date(firstContribution.date_of_engagement),
-          new Date(nextContribution.date_of_engagement),
-        )
-          ? 1
-          : -1,
+  const sortedContributions: UIContribution[] = useMemo(() => {
+    return contributionTypesData.sort((firstContribution, nextContribution) =>
+      isAfter(
+        new Date(firstContribution.date_of_engagement),
+        new Date(nextContribution.date_of_engagement),
+      )
+        ? 1
+        : -1,
     );
   }, [contributionTypesData]);
 
   const uniqueContributions: UIContribution[] = useMemo(
     () => [
       ...new Map(
-        totalContributions.map(contributionType => [
+        sortedContributions.map(contributionType => [
           contributionType.activity_type['name'],
           contributionType,
         ]),
       ).values(),
     ],
-    [totalContributions],
+    [sortedContributions],
   );
 
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(
@@ -67,7 +65,7 @@ const ContributionTypesTable = ({
       {
         header: 'Total',
         accessorFn: contribution =>
-          totalContributions.filter(
+          sortedContributions.filter(
             c => c.activity_type.name === contribution.activity_type.name,
           ).length,
         cell: ({ getValue }: { getValue: Getter<number> }) => {
@@ -97,7 +95,7 @@ const ContributionTypesTable = ({
           contribution.guilds.map(g => g.guild.name).join(','),
       },
     ],
-    [totalContributions],
+    [sortedContributions],
   );
 
   const table = useReactTable({
