@@ -187,7 +187,6 @@ const ImportHistoryTable = () => {
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugAll: false,
   });
 
   return (
