@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
+import _ from 'lodash';
 import {
   Button,
   Box,
@@ -22,7 +23,6 @@ import {
   SortingState,
   getSortedRowModel,
   Getter,
-  Row,
 } from '@tanstack/react-table';
 import { useUser } from '../contexts/UserContext';
 import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
@@ -59,37 +59,6 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       daoUsersData && daoUsersData.pages.length > 0 ? daoUsersData.pages : [],
     );
   }, [daoUsersData]);
-
-  console.log('data', data);
-  const initialAdminsArray = data.map(
-    user => user.membershipStatus?.name === 'Admin',
-  );
-
-  console.log('initialAdminsArray', initialAdminsArray);
-
-  // const initialAdmins = initialAdminsArray.reduce(
-  //   (o, key, idx) => ({ [key as string]: key }),
-  //   {},
-  // );
-
-  // console.log('initialAdmins', { ...initialAdminsArray });
-
-  // const test = {
-  //   '0': true,
-  //   '1': false,
-  // };
-
-  // const res = initialAdminsArray.reduce(
-  //   (acc, curr) => ((curr] = ''), acc),
-  //   {},
-  // );
-  // console.log('res', res);
-
-  // const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>(
-  //   data !== undefined
-  //     ? data.filter(user => user.membershipStatus?.name === 'Admin')
-  //     : [],
-  // );
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>([]);
@@ -177,6 +146,8 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     }
     setSelectedRows(selectedMemberAddresses);
   }, [rowSelection, table]);
+
+  console.log('table state', table.getState().rowSelection);
 
   return (
     <Flex direction="column" marginBottom={8}>
