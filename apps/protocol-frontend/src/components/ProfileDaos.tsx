@@ -111,7 +111,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             justifyContent="space-between"
           >
             {daosUsersListData?.map(daoUser => (
-              <DaoCard daoUser={daoUser} key={daoUser.id} />
+              <DaoCard userId={userId} daoUser={daoUser} key={daoUser.id} />
             ))}
           </Grid>
         </Flex>

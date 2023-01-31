@@ -264,6 +264,7 @@ const permissions = shield(
       guild_id: or(isAuthenticated, hasToken),
       favorite: or(isAuthenticated, hasToken),
       membershipStatus: or(isAuthenticated, hasToken),
+      membership_status_id: or(isAuthenticated, hasToken),
     },
     IntegrationType: {
       id: or(isAuthenticated, hasToken),
