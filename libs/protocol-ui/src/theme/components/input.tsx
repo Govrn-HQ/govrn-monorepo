@@ -1,12 +1,13 @@
 export default {
-  baseStyle: {},
+  baseStyle: {
+    borderRadius: 'md',
+    padding: '0px',
+  },
   variants: {
     filled: {
       field: {
         color: 'gray.700',
         bg: 'white',
-        borderRadius: '16px',
-        padding: '16px',
         _hover: {
           bg: 'white.300',
         },
@@ -18,10 +19,9 @@ export default {
         _hover: { borderColor: 'gray.300' },
         _focus: {
           boxShadow: ['xs', 'xs'],
-          borderColor: ['gray.300', 'gray.300'],
+          borderColor: ['gray.500', 'gray.500'],
         },
-        borderRadius: '16px',
-        borderColor: 'gray.200',
+        borderColor: 'gray.400',
         boxShadow: 'xs',
         _placeholder: {
           color: 'gray.500',

@@ -7,6 +7,7 @@ interface DaoUserUpdateProps {
   guildId: number;
   favorite?: boolean;
   membershipStatusId?: number;
+  memberId?: number;
 }
 
 export const useDaoUserUpdate = () => {
@@ -19,12 +20,14 @@ export const useDaoUserUpdate = () => {
       guildId,
       favorite,
       membershipStatusId,
+      memberId,
     }: DaoUserUpdateProps) => {
       const mutationData = await govrn.guild.user.update({
         userId: userId,
         guildId: guildId,
         favorite: favorite,
         membershipStatusId: membershipStatusId,
+        memberId: memberId,
       });
       return { mutationData };
     },

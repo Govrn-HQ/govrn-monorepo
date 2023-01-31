@@ -7425,8 +7425,10 @@ export type GuildUserSumOrderByAggregateInput = {
 export type GuildUserUpdateCustomInput = {
   favorite?: InputMaybe<Scalars['Boolean']>;
   guildId: Scalars['Int'];
+  memberId?: InputMaybe<Scalars['Int']>;
   membershipStatus?: InputMaybe<Scalars['String']>;
   membershipStatusId?: InputMaybe<Scalars['Int']>;
+  userAddress?: InputMaybe<Scalars['String']>;
   userId: Scalars['Int'];
 };
 
@@ -18207,7 +18209,7 @@ export type GetActiveGuildUsersAverageQueryVariables = Exact<{
 
 export type GetActiveGuildUsersAverageQuery = { result: number };
 
-export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
+export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
 
 export type CreateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserCreateCustomInput;
@@ -18231,14 +18233,14 @@ export type ListGuildUsersQueryVariables = Exact<{
 }>;
 
 
-export type ListGuildUsersQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null }> };
+export type ListGuildUsersQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null }> };
 
 export type UpdateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserUpdateCustomInput;
 }>;
 
 
-export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
+export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
 
 export type GuildImportFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id: number, integration_type_id: number, authentication_token: string, guild: { id: number, name?: string | null }, integration_type: { id: number, name: string }, import_status: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string }, users: Array<{ user_id: number }> };
 
@@ -18671,6 +18673,10 @@ export const GuildUserFragmentFragmentDoc = gql`
   updatedAt
   favorite
   user_id
+  user {
+    name
+    address
+  }
   guild {
     id
     name

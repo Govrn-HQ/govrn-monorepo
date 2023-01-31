@@ -39,6 +39,16 @@ export type DaoCsvImportFormValues = {
   daoCsvFile: FileList;
 };
 
+export type DaoUpdateValues = {
+  userId?: number;
+  guildId: number;
+  name?: string;
+};
+
+export type DaoNameUpdateFormValues = {
+  daoName?: string;
+};
+
 export type DaoUserCreateValues = {
   userId?: number;
   guildId?: number;
