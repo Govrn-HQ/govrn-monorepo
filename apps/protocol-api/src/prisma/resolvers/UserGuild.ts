@@ -185,7 +185,10 @@ export class GuildUserCustomResolver {
       where: {
         user_id_guild_id: {
           guild_id: args.data.guildId,
-          user_id: args.data.memberId ? args.data.memberId : args.data.userId,
+          user_id:
+            args.data.memberId !== undefined
+              ? args.data.memberId
+              : args.data.userId,
         },
       },
     });
