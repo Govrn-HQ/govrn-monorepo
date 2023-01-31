@@ -53,7 +53,6 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
   const { mutateAsync: updateDaoUserFavorite } = useDaoUserUpdate();
 
   const handleUpdateFavorite = async () => {
-    console.log('favorite', daoUser.favorite);
     if (userId === undefined || daoUser.guild === undefined) return;
     await updateDaoUserFavorite({
       userId: userId,
