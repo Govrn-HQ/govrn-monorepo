@@ -25,7 +25,7 @@ import {
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
-import { formatDate } from '../utils/date';
+import { formatDate, toDate } from '../utils/date';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { mergePages } from '../utils/arrays';
 
@@ -54,7 +54,12 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   },
   {
     header: 'Engagement Date',
-    accessorFn: contribution => formatDate(contribution.date_of_engagement),
+    accessorFn: contribution => toDate(contribution.date_of_engagement),
+    cell: ({ getValue }: { getValue: Getter<Date> }) => {
+      return <Text>{formatDate(getValue())}</Text>;
+    },
+    sortingFn: 'datetime',
+    invertSorting: true,
   },
   {
     header: 'Contributor',

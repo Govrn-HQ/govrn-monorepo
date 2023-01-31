@@ -35,7 +35,7 @@ import EmptyImports from './EmptyImports';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergeHistoryPages } from '../utils/arrays';
-import { formatDate } from '../utils/date';
+import { formatDate, toDate } from '../utils/date';
 
 const ImportHistoryTable = () => {
   const { userData, userDaos } = useUser();
@@ -155,7 +155,12 @@ const ImportHistoryTable = () => {
       },
       {
         header: 'Date',
-        accessorFn: importHistory => formatDate(importHistory.createdAt),
+        accessorFn: importHistory => toDate(importHistory.createdAt),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
         header: 'Import Method',

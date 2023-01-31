@@ -44,7 +44,7 @@ import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { formatDate } from '../utils/date';
+import { formatDate, toDate } from '../utils/date';
 import { RowSelectionState } from '@tanstack/table-core';
 import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 
@@ -172,7 +172,12 @@ const ContributionsTable = ({
       },
       {
         header: 'Engagement Date',
-        accessorFn: contribution => formatDate(contribution.date_of_engagement),
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
         header: 'Attestations',

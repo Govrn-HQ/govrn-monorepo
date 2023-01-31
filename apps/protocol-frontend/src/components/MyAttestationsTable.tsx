@@ -25,7 +25,7 @@ import {
   Row,
 } from '@tanstack/react-table';
 import GlobalFilter from './GlobalFilter';
-import { formatDate } from '../utils/date';
+import { formatDate, toDate } from '../utils/date';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
@@ -88,10 +88,15 @@ const MyAttestationsTable = ({
       {
         header: 'Attestation Date',
         accessorFn: contribution =>
-          formatDate(
+          toDate(
             contribution.attestations.find(a => a.user_id === userData?.id)
               ?.date_of_attestation ?? '---',
           ),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
         header: 'Contributor',
