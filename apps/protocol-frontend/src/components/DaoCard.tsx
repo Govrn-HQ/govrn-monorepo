@@ -50,10 +50,7 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
       ? 'brand.purple'
       : 'white';
 
-  const {
-    mutateAsync: updateDaoUserFavorite,
-    isLoading: updateDaoUserFavoriteLoading,
-  } = useDaoUserUpdate();
+  const { mutateAsync: updateDaoUserFavorite } = useDaoUserUpdate();
 
   const handleUpdateFavorite = async () => {
     console.log('favorite', daoUser.favorite);
@@ -135,14 +132,16 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
             >
               {daoUser.membershipStatus?.name}
             </Text>
-            {daoUser.membershipStatus?.name === 'admin' ? (
-              <IconButton
-                aria-label="Click on the gear icon to open this DAO's settings."
-                bg="transparent"
-                _hover={{ bg: 'transparent' }}
-                _active={{ bg: 'transparent' }}
-                icon={<HiOutlineCog color="#5100E4" size={24} />}
-              />
+            {daoUser.membershipStatus?.name === 'Admin' ? (
+              <Link to={`/dao/${daoUser.id}/settings`}>
+                <IconButton
+                  aria-label="Click on the gear icon to open this DAO's settings."
+                  bg="transparent"
+                  _hover={{ bg: 'transparent' }}
+                  _active={{ bg: 'transparent' }}
+                  icon={<HiOutlineCog color="#5100E4" size={24} />}
+                />
+              </Link>
             ) : (
               <IconButton
                 aria-label="Click on the star to favorite this DAO."
