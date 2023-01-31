@@ -125,6 +125,7 @@ const MintedContributionsTable = ({
       {
         id: 'actions',
         header: 'Actions',
+        enableSorting: false,
         cell: ({ row }) => (
           <HStack spacing="1">
             <IconButton
