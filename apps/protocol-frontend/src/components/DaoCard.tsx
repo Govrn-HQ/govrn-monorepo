@@ -9,6 +9,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { HiOutlineCog, HiStar, HiOutlineStar } from 'react-icons/hi';
+import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 
 type DaoUser = {
   id: number;
@@ -27,10 +28,11 @@ type DaoUser = {
 };
 
 interface DaoCardProps {
+  userId: number | undefined;
   daoUser: DaoUser;
 }
 
-const DaoCard = ({ daoUser }: DaoCardProps) => {
+const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
   const daoBgGradient = (daoRole: string | undefined) =>
     daoRole === 'Recruit'
       ? 'linear-gradient(180deg, #E2E8F0 0%, #F7FAFC 100%)'
@@ -47,6 +49,21 @@ const DaoCard = ({ daoUser }: DaoCardProps) => {
       : daoRole === 'Contributor'
       ? 'brand.purple'
       : 'white';
+
+  const {
+    mutateAsync: updateDaoUserFavorite,
+    isLoading: updateDaoUserFavoriteLoading,
+  } = useDaoUserUpdate();
+
+  const handleUpdateFavorite = async () => {
+    console.log('favorite', daoUser.favorite);
+    if (userId === undefined || daoUser.guild === undefined) return;
+    await updateDaoUserFavorite({
+      userId: userId,
+      guildId: daoUser.guild.id,
+      favorite: !daoUser.favorite,
+    });
+  };
 
   return (
     <LinkBox>
@@ -132,6 +149,7 @@ const DaoCard = ({ daoUser }: DaoCardProps) => {
                 bg="transparent"
                 _hover={{ bg: 'transparent' }}
                 _active={{ bg: 'transparent' }}
+                onClick={handleUpdateFavorite}
                 icon={
                   daoUser.favorite === true ? (
                     <HiStar
