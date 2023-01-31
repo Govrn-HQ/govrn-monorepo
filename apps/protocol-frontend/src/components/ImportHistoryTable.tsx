@@ -63,6 +63,7 @@ const ImportHistoryTable = () => {
       {
         header: 'Settings',
         accessorKey: 'guild_id',
+        enableSorting: false,
         cell: ({
           row,
           getValue,
@@ -86,13 +87,14 @@ const ImportHistoryTable = () => {
       },
       {
         header: 'DAO',
-        accessorKey: 'guild',
+        accessorFn: imported => imported.guild.name,
+        enableSorting: false,
         cell: ({
           row,
           getValue,
         }: {
           row: Row<UIGuildImportHistory>;
-          getValue: Getter<UIGuildImportHistory['guild']>;
+          getValue: Getter<string>;
         }) => {
           return (
             <Flex direction="column" wrap="wrap">
@@ -105,11 +107,11 @@ const ImportHistoryTable = () => {
                     bgClip="text"
                     whiteSpace="normal"
                   >
-                    {getValue().name}
+                    {getValue()}
                   </Text>
                 </Link>
               ) : (
-                <Text whiteSpace="normal">{getValue().name}</Text>
+                <Text whiteSpace="normal">{getValue()}</Text>
               )}
             </Flex>
           );
@@ -117,27 +119,23 @@ const ImportHistoryTable = () => {
       },
       {
         header: 'Status',
-        accessorKey: 'import_status',
-        cell: ({
-          getValue,
-        }: {
-          getValue: Getter<UIGuildImportHistory['import_status']>;
-        }) => {
+        accessorFn: imported => imported.import_status.name,
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
           return (
             <Badge
               minWidth="5rem"
               textAlign="center"
               bgColor={
-                getValue().name === 'Completed'
+                getValue() === 'Completed'
                   ? 'brand.purple'
-                  : getValue().name === 'Failed'
+                  : getValue() === 'Failed'
                   ? 'red.500'
                   : 'gray.200'
               }
               color={
-                getValue().name === 'Completed'
+                getValue() === 'Completed'
                   ? 'white'
-                  : getValue().name === 'Failed'
+                  : getValue() === 'Failed'
                   ? 'white'
                   : 'gray.600'
               }
@@ -148,7 +146,7 @@ const ImportHistoryTable = () => {
               size="sm"
               textTransform="capitalize"
             >
-              {getValue().name}
+              {getValue()}
             </Badge>
           );
         },
@@ -164,19 +162,15 @@ const ImportHistoryTable = () => {
       },
       {
         header: 'Import Method',
-        accessorKey: 'integration_type',
-        cell: ({
-          getValue,
-        }: {
-          getValue: Getter<UIGuildImportHistory['integration_type']>;
-        }) => {
-          return <Text whiteSpace="normal">{getValue().name}</Text>;
+        accessorFn: imported => imported.integration_type.name,
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return <Text whiteSpace="normal">{getValue()}</Text>;
         },
       },
       {
         header: 'Members',
         accessorFn: importHistory => String(importHistory.users.length),
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
+        cell: ({ getValue }: { getValue: Getter<number> }) => {
           return <Text>{getValue()} </Text>;
         },
       },

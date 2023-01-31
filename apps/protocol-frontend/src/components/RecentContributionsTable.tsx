@@ -43,13 +43,9 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   },
   {
     header: 'Type',
-    accessorKey: 'activity_type',
-    cell: ({
-      getValue,
-    }: {
-      getValue: Getter<UIContribution['activity_type']>;
-    }) => {
-      return <Text>{getValue().name} </Text>;
+    accessorFn: contribution => contribution.activity_type.name,
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return <Text>{getValue()} </Text>;
     },
   },
   {
@@ -63,9 +59,9 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   },
   {
     header: 'Contributor',
-    accessorKey: 'user',
-    cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
-      return <Text>{getValue().name ?? ''} </Text>;
+    accessorFn: contribution => contribution.user.name,
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return <Text>{getValue()} </Text>;
     },
   },
 ];

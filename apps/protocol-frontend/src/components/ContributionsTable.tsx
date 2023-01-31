@@ -151,20 +151,16 @@ const ContributionsTable = ({
       },
       {
         header: 'Status',
-        accessorKey: 'status',
-        cell: ({
-          getValue,
-        }: {
-          getValue: Getter<UIContribution['status']>;
-        }) => {
+        accessorFn: contribution => contribution.status.name,
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
           return (
             <Text textTransform="capitalize">
-              {getValue().name}{' '}
+              {getValue()}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Eyes emoji for staging and Three O’Clock emoji for Pending"
               >
-                {statusEmojiSelect(getValue().name)}
+                {statusEmojiSelect(getValue())}
               </span>{' '}
             </Text>
           );
@@ -252,7 +248,7 @@ const ContributionsTable = ({
         ),
       },
     ];
-  }, [handleDeleteContribution, handleEditContributionFormModal, userData?.id]);
+  }, [userData?.id]);
 
   const table = useReactTable<UIContribution>({
     data,

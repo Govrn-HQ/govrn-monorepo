@@ -139,7 +139,6 @@ const MintedContributionsTable = ({
             />
           </HStack>
         ),
-        enableSorting: false,
       },
     ];
   }, [handleDeleteContribution, userData?.id]);
