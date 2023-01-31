@@ -44,8 +44,14 @@ export class GuildUserUpdateCustomInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   guildId: number;
 
-  @TypeGraphQL.Field(_type => Boolean)
-  favorite: boolean;
+  @TypeGraphQL.Field(_type => Boolean, { nullable: true })
+  favorite?: boolean;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  membershipStatus?: string;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  membershipStatusId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -158,12 +164,17 @@ export class GuildUserCustomResolver {
     });
 
     if (user?.id !== args.data.userId) {
-      throw new Error('Signature address does not equal requested address');
+      throw new Error('Signature address does not equal requested address.');
     }
 
     return await prisma.guildUser.update({
       data: {
-        favorite: { set: args.data.favorite },
+        ...(args.data.favorite !== undefined && {
+          favorite: { set: args.data.favorite },
+        }),
+        ...(args.data.membershipStatusId !== undefined && {
+          membership_status_id: { set: args.data.membershipStatusId },
+        }),
       },
       where: {
         user_id_guild_id: {
