@@ -9,6 +9,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { HiOutlineCog, HiStar, HiOutlineStar } from 'react-icons/hi';
+import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 
 type DaoUser = {
   id: number;
@@ -27,10 +28,11 @@ type DaoUser = {
 };
 
 interface DaoCardProps {
+  userId: number | undefined;
   daoUser: DaoUser;
 }
 
-const DaoCard = ({ daoUser }: DaoCardProps) => {
+const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
   const daoBgGradient = (daoRole: string | undefined) =>
     daoRole === 'Recruit'
       ? 'linear-gradient(180deg, #E2E8F0 0%, #F7FAFC 100%)'
@@ -47,6 +49,17 @@ const DaoCard = ({ daoUser }: DaoCardProps) => {
       : daoRole === 'Contributor'
       ? 'brand.purple'
       : 'white';
+
+  const { mutateAsync: updateDaoUserFavorite } = useDaoUserUpdate();
+
+  const handleUpdateFavorite = async () => {
+    if (userId === undefined || daoUser.guild === undefined) return;
+    await updateDaoUserFavorite({
+      userId: userId,
+      guildId: daoUser.guild.id,
+      favorite: !daoUser.favorite,
+    });
+  };
 
   return (
     <LinkBox>
@@ -118,20 +131,23 @@ const DaoCard = ({ daoUser }: DaoCardProps) => {
             >
               {daoUser.membershipStatus?.name}
             </Text>
-            {daoUser.membershipStatus?.name === 'admin' ? (
-              <IconButton
-                aria-label="Click on the gear icon to open this DAO's settings."
-                bg="transparent"
-                _hover={{ bg: 'transparent' }}
-                _active={{ bg: 'transparent' }}
-                icon={<HiOutlineCog color="#5100E4" size={24} />}
-              />
+            {daoUser.membershipStatus?.name === 'Admin' ? (
+              <Link to={`/dao/${daoUser.id}/settings`}>
+                <IconButton
+                  aria-label="Click on the gear icon to open this DAO's settings."
+                  bg="transparent"
+                  _hover={{ bg: 'transparent' }}
+                  _active={{ bg: 'transparent' }}
+                  icon={<HiOutlineCog color="#5100E4" size={24} />}
+                />
+              </Link>
             ) : (
               <IconButton
                 aria-label="Click on the star to favorite this DAO."
                 bg="transparent"
                 _hover={{ bg: 'transparent' }}
                 _active={{ bg: 'transparent' }}
+                onClick={handleUpdateFavorite}
                 icon={
                   daoUser.favorite === true ? (
                     <HiStar

@@ -20,7 +20,7 @@ export const useDaoUserUpdate = () => {
       guildId,
       favorite,
       membershipStatusId,
-      memberId
+      memberId,
     }: DaoUserUpdateProps) => {
       const mutationData = await govrn.guild.user.update({
         userId: userId,

@@ -14,64 +14,6 @@ import {
 } from '@tanstack/react-table';
 import { UIContribution } from '@govrn/ui-types';
 
-type ContributionTypesTableType = {
-  id: number;
-  name: string;
-  total: number;
-  lastOccurrence: Date | string;
-  activityType: string;
-  guilds: string;
-  date_of_engagement: Date | string;
-  date_of_submission: Date | string;
-};
-
-const columnsDefs: ColumnDef<ContributionTypesTableType>[] = [
-  {
-    header: 'Activity Type',
-    accessorKey: 'activityType',
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return (
-        <Box
-          bgColor="blue.50"
-          width="fit-content"
-          padding={2}
-          borderRadius="md"
-        >
-          {getValue()}
-        </Box>
-      );
-    },
-  },
-  {
-    header: 'Total',
-    accessorKey: 'total',
-    cell: ({ getValue }: { getValue: Getter<number> }) => {
-      return (
-        <Box
-          bgColor="blue.50"
-          width="fit-content"
-          padding={2}
-          borderRadius="md"
-        >
-          {getValue()}
-        </Box>
-      );
-    },
-  },
-  {
-    header: 'Last Occurrence',
-    accessorKey: 'date_of_engagement',
-  },
-  {
-    header: 'Name',
-    accessorKey: 'name',
-  },
-  {
-    header: 'DAOs',
-    accessorKey: 'guilds',
-  },
-];
-
 const ContributionTypesTable = ({
   contributionTypesData,
 }: {
@@ -79,56 +21,91 @@ const ContributionTypesTable = ({
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
+  const sortedContributions: UIContribution[] = useMemo(() => {
+    return contributionTypesData.sort((firstContribution, nextContribution) =>
+      isAfter(
+        new Date(firstContribution.date_of_engagement),
+        new Date(nextContribution.date_of_engagement),
+      )
+        ? 1
+        : -1,
+    );
+  }, [contributionTypesData]);
+
   const uniqueContributions: UIContribution[] = useMemo(
     () => [
       ...new Map(
-        contributionTypesData
-          .sort((firstContribution, nextContribution) =>
-            isAfter(
-              new Date(firstContribution.date_of_engagement),
-              new Date(nextContribution.date_of_engagement),
-            )
-              ? 1
-              : -1,
-          )
-          .map(contributionType => [
-            contributionType.activity_type['name'],
-            contributionType,
-          ]),
+        sortedContributions.map(contributionType => [
+          contributionType.activity_type['name'],
+          contributionType,
+        ]),
       ).values(),
     ],
-    [contributionTypesData],
+    [sortedContributions],
   );
 
-  const data = useMemo<ContributionTypesTableType[]>(
-    () =>
-      uniqueContributions.map(contributionType => ({
-        id: contributionType.id,
-        name: contributionType.name,
-        total: contributionTypesData.filter(
-          contribution =>
-            contribution.activity_type.name ===
-            contributionType.activity_type.name,
-        ).length,
-        lastOccurrence: contributionType.date_of_engagement,
-        activityType: contributionType.activity_type.name,
-        guilds: contributionType.guilds.map(g => g.guild.name).join(','),
-        date_of_submission: contributionType.date_of_submission,
-        date_of_engagement: contributionType.date_of_engagement,
-      })),
-    // eslint-disable-next-line -- It's already chained, removing `contributionTypesData`
-    [uniqueContributions],
+  const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(
+    () => [
+      {
+        header: 'Activity Type',
+        accessorFn: contribution => contribution.activity_type.name,
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return (
+            <Box
+              bgColor="blue.50"
+              width="fit-content"
+              padding={2}
+              borderRadius="md"
+            >
+              {getValue()}
+            </Box>
+          );
+        },
+      },
+      {
+        header: 'Total',
+        accessorFn: contribution =>
+          sortedContributions.filter(
+            c => c.activity_type.name === contribution.activity_type.name,
+          ).length,
+        cell: ({ getValue }: { getValue: Getter<number> }) => {
+          return (
+            <Box
+              bgColor="blue.50"
+              width="fit-content"
+              padding={2}
+              borderRadius="md"
+            >
+              {getValue()}
+            </Box>
+          );
+        },
+      },
+      {
+        header: 'Last Occurrence',
+        accessorKey: 'date_of_engagement',
+      },
+      {
+        header: 'Name',
+        accessorKey: 'name',
+      },
+      {
+        header: 'DAOs',
+        accessorFn: contribution =>
+          contribution.guilds.map(g => g.guild.name).join(','),
+      },
+    ],
+    [sortedContributions],
   );
 
   const table = useReactTable({
-    data,
+    data: uniqueContributions,
     columns: columnsDefs,
     state: { sorting },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: true,
   });
 
   return (

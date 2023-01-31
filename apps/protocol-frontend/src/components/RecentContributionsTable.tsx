@@ -25,11 +25,11 @@ import {
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
-import { RecentContributionTableType } from '../types/table';
 import { formatDate } from '../utils/date';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { mergePages } from '../utils/arrays';
 
-const columnsDef: ColumnDef<RecentContributionTableType>[] = [
+const columnsDef: ColumnDef<UIContribution>[] = [
   {
     header: 'Name',
     accessorKey: 'name',
@@ -47,23 +47,19 @@ const columnsDef: ColumnDef<RecentContributionTableType>[] = [
     cell: ({
       getValue,
     }: {
-      getValue: Getter<RecentContributionTableType['activity_type']>;
+      getValue: Getter<UIContribution['activity_type']>;
     }) => {
       return <Text>{getValue().name} </Text>;
     },
   },
   {
     header: 'Engagement Date',
-    accessorKey: 'engagementDate',
+    accessorFn: contribution => formatDate(contribution.date_of_engagement),
   },
   {
     header: 'Contributor',
     accessorKey: 'user',
-    cell: ({
-      getValue,
-    }: {
-      getValue: Getter<RecentContributionTableType['user']>;
-    }) => {
+    cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
       return <Text>{getValue().name ?? ''} </Text>;
     },
   },
@@ -74,29 +70,14 @@ const RecentContributionsTable = ({
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: Pick<
-    UIContribution,
-    'id' | 'name' | 'date_of_engagement' | 'user' | 'activity_type'
-  >[][];
+  contributionsData: UIContribution[][];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const data = useMemo<RecentContributionTableType[]>(() => {
-    const tableData = [] as RecentContributionTableType[];
-    for (const page of contributionsData) {
-      for (const contribution of page) {
-        tableData.push({
-          id: contribution.id,
-          name: contribution.name,
-          engagementDate: formatDate(contribution.date_of_engagement),
-          user: contribution.user,
-          activity_type: contribution.activity_type,
-        });
-      }
-    }
-    return tableData;
+  const data = useMemo<UIContribution[]>(() => {
+    return mergePages(contributionsData);
   }, [contributionsData]);
 
   const table = useReactTable({
@@ -106,7 +87,6 @@ const RecentContributionsTable = ({
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugAll: false,
   });
 
   return (
