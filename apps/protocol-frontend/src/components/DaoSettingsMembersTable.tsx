@@ -1,5 +1,4 @@
 import { useMemo, useState, useEffect } from 'react';
-import _ from 'lodash';
 import {
   Button,
   Box,
@@ -116,7 +115,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         },
       },
     ];
-  }, [daoUsersData]);
+  }, []);
 
   const table = useReactTable({
     data,
