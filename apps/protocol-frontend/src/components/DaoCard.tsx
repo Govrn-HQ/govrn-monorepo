@@ -36,7 +36,7 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
   const daoBgGradient = (daoRole: string | undefined) =>
     daoRole === 'Recruit'
       ? 'linear-gradient(180deg, #E2E8F0 0%, #F7FAFC 100%)'
-      : daoRole === 'Contributor'
+      : daoRole === 'Member'
       ? 'linear-gradient(180deg, #DCCCFA 0%, #F8F4FF 100%)'
       : 'linear-gradient(180deg, #5100E4 0%, #9766EF 100%)';
 
@@ -46,7 +46,7 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
   const daoNameColor = (daoRole: string | undefined) =>
     daoRole === 'Recruit'
       ? 'gray.700'
-      : daoRole === 'Contributor'
+      : daoRole === 'Member'
       ? 'brand.purple'
       : 'white';
 

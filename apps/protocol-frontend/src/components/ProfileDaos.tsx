@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Button, Flex, Heading, Divider, Grid } from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
@@ -77,21 +78,17 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
           gap={8}
           width="100%"
         >
-          <Flex
-            direction="row"
-            justifyContent="center"
-            alignItems="flex-end"
-            width={{ base: '100%', lg: '40%' }}
-            gap={4}
-          >
-            <ControlledSelect
-              label="Select a DAO to Join"
-              onChange={dao => setSelectedDao(dao)}
-              value={selectedDao ?? null}
-              options={daoListOptions}
-              isSearchable={false}
-              isClearable
-            />
+          <Flex direction="row" alignItems="flex-end" gap={4}>
+            <Flex direction="column" width="40%" alignSelf="flex-start">
+              <ControlledSelect
+                label="Select a DAO to Join"
+                onChange={dao => setSelectedDao(dao)}
+                value={selectedDao ?? null}
+                options={daoListOptions}
+                isSearchable={false}
+                isClearable
+              />
+            </Flex>
             <Button
               variant="primary"
               onClick={handleDaoJoin}
@@ -99,6 +96,11 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             >
               Join
             </Button>
+            <Link to="/dao/create">
+              <Button variant="secondary" disabled={createDaoUserLoading}>
+                Create DAO
+              </Button>
+            </Link>
           </Flex>
           <Grid
             templateColumns={{
