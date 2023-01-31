@@ -53,7 +53,7 @@ const DaoNameUpdateForm = ({ daoId, daoName }: DaoNameUpdateFormProps) => {
         <Button
           variant="secondary"
           type="submit"
-          disabled={updateDaoLoading || errors['daoName']}
+          disabled={updateDaoLoading || errors['daoName'] !== undefined}
         >
           Save Name
         </Button>

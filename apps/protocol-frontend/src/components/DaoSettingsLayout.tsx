@@ -1,42 +1,13 @@
-import { useState } from 'react';
-import { Box, Flex, Heading, Text, Icon, Button } from '@chakra-ui/react';
-import { Input, Textarea, GovrnSpinner } from '@govrn/protocol-ui';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useParams } from 'react-router-dom';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import PageHeading from './PageHeading';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { daoNameFormValidation } from '../utils/validations';
 import { useDaoGet } from '../hooks/useDaoGet';
-import DaoSettingsMembersTable from './DaoSettingsMembersTable';
-import { useUser } from '../contexts/UserContext';
+import PageHeading from './PageHeading';
 import DaoNameUpdateForm from './DaoNameUpdateForm';
 import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
+import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 
 const DaoSettingsLayout = () => {
-  const { userData } = useUser();
-  const daoNameUpdateForm = useForm({
-    mode: 'all',
-    resolver: yupResolver(daoNameFormValidation),
-  });
-  const {
-    handleSubmit,
-    setValue,
-    formState: { errors, touchedFields },
-  } = daoNameUpdateForm;
-
-  const daoMemberAddressesUpdateForm = useForm({
-    mode: 'all',
-    // resolver: yupResolver(daoTextareaUpdateFormValidation),
-  });
-  const {
-    handleSubmit: handleSubmitDaoMemberAddressesUpdate,
-    setValue: setValueDaoMemberAddressesUpdate,
-    formState: {
-      errors: errorsDaoMemberAddressesUpdate,
-      touchedFields: touchedFieldsDaoMemberAddressesUpdate,
-    },
-  } = daoMemberAddressesUpdateForm;
-
   const { guildId } = useParams();
 
   const {
