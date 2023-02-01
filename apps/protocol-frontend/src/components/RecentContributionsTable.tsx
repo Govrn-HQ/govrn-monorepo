@@ -25,7 +25,7 @@ import {
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
-import { formatDate } from '../utils/date';
+import { formatDate, toDate } from '../utils/date';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { mergePages } from '../utils/arrays';
 
@@ -43,24 +43,25 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   },
   {
     header: 'Type',
-    accessorKey: 'activity_type',
-    cell: ({
-      getValue,
-    }: {
-      getValue: Getter<UIContribution['activity_type']>;
-    }) => {
-      return <Text>{getValue().name} </Text>;
+    accessorFn: contribution => contribution.activity_type.name,
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return <Text>{getValue()} </Text>;
     },
   },
   {
     header: 'Engagement Date',
-    accessorFn: contribution => formatDate(contribution.date_of_engagement),
+    accessorFn: contribution => toDate(contribution.date_of_engagement),
+    cell: ({ getValue }: { getValue: Getter<Date> }) => {
+      return <Text>{formatDate(getValue())}</Text>;
+    },
+    sortingFn: 'datetime',
+    invertSorting: true,
   },
   {
     header: 'Contributor',
-    accessorKey: 'user',
-    cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
-      return <Text>{getValue().name ?? ''} </Text>;
+    accessorFn: contribution => contribution.user.name,
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return <Text>{getValue()} </Text>;
     },
   },
 ];

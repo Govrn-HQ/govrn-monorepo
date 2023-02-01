@@ -1,6 +1,16 @@
 import { useMemo, useState } from 'react';
 import { isAfter } from 'date-fns';
-import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+  Box,
+  chakra,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   ColumnDef,
@@ -13,6 +23,7 @@ import {
   Getter,
 } from '@tanstack/react-table';
 import { UIContribution } from '@govrn/ui-types';
+import { formatDate, toDate } from '../utils/date';
 
 const ContributionTypesTable = ({
   contributionTypesData,
@@ -83,7 +94,12 @@ const ContributionTypesTable = ({
       },
       {
         header: 'Last Occurrence',
-        accessorKey: 'date_of_engagement',
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
         header: 'Name',
@@ -145,7 +161,7 @@ const ContributionTypesTable = ({
       <Tbody>
         {table.getRowModel().rows.map(row => {
           return (
-            <Tr key={row.id}>
+            <Tr key={row.original.id}>
               {row.getVisibleCells().map(cell => {
                 return (
                   <Td borderColor="gray.100" key={cell.id}>

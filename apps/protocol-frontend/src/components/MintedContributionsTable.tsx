@@ -33,7 +33,7 @@ import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { formatDate } from '../utils/date';
+import { formatDate, toDate } from '../utils/date';
 import { FiTrash2 } from 'react-icons/fi';
 
 export type DialogProps = {
@@ -76,9 +76,7 @@ const MintedContributionsTable = ({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const columnsDefs: ColumnDef<UIContribution>[] = useMemo<
-    ColumnDef<UIContribution>[]
-  >(() => {
+  const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
       {
         header: 'Name',
@@ -101,7 +99,12 @@ const MintedContributionsTable = ({
       },
       {
         header: 'Engagement Date',
-        accessorFn: contribution => formatDate(contribution.date_of_engagement),
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
         header: 'Attestations',
@@ -117,10 +120,12 @@ const MintedContributionsTable = ({
         cell: ({ getValue }: { getValue: Getter<string> }) => {
           return <Text>{getValue()}</Text>;
         },
+        invertSorting: true,
       },
       {
         id: 'actions',
         header: 'Actions',
+        enableSorting: false,
         cell: ({ row }) => (
           <HStack spacing="1">
             <IconButton
