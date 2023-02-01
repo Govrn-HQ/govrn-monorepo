@@ -216,7 +216,13 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       >
         {daoUsersData && daoUsersData.pages.length > 0 ? (
           <Stack spacing="5">
-            <Box width="100%" maxWidth="100vw" overflowX="auto">
+            <Box
+              width="100%"
+              maxWidth="100vw"
+              overflowX="auto"
+              height="15rem"
+              overflowY="scroll"
+            >
               <InfiniteScroll
                 dataLength={table.getRowModel().rows.length}
                 next={fetchNextPage}
