@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import {
+  Badge,
   Button,
   Box,
   chakra,
@@ -33,6 +34,7 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { UIGuildUsers } from '@govrn/ui-types';
 import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import { RowSelectionState } from '@tanstack/table-core';
+import { SortOrder } from '@govrn/protocol-client';
 
 interface DaoSettingsMembersTableProps {
   daoId: number;
@@ -49,6 +51,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     fetchNextPage,
   } = useDaoUsersInfiniteList({
     where: { guild_id: { equals: daoId } },
+    orderBy: [{ membershipStatus: { name: SortOrder.Asc } }],
   });
 
   const { mutateAsync: updateDaoMemberStatus } = useDaoUserUpdate();
@@ -112,6 +115,45 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
           return <Text whiteSpace="normal">{getValue().address}</Text>;
+        },
+      },
+      {
+        header: 'Role',
+        accessorKey: 'membershipStatus',
+        cell: ({
+          getValue,
+        }: {
+          getValue: Getter<UIGuildUsers['membershipStatus']>;
+        }) => {
+          if (getValue() === undefined || getValue() === null) return;
+          return (
+            <Badge
+              minWidth="5rem"
+              textAlign="center"
+              bgColor={
+                getValue()?.name === 'Admin'
+                  ? 'brand.purple'
+                  : getValue()?.name === 'Member'
+                  ? 'brand.magenta'
+                  : 'gray.200'
+              }
+              color={
+                getValue()?.name === 'Admin'
+                  ? 'white'
+                  : getValue()?.name === 'Member'
+                  ? 'white'
+                  : 'gray.600'
+              }
+              fontWeight="bold"
+              paddingX={2}
+              paddingY={1}
+              borderRadius="md"
+              size="sm"
+              textTransform="uppercase"
+            >
+              {getValue()?.name}
+            </Badge>
+          );
         },
       },
     ];
