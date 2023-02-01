@@ -622,12 +622,6 @@ mutation deleteUserContribution($where: UserContributionDeleteInput!) {
   }
 }
 
-mutation deleteContribution($where: ContributionWhereUniqueInput!) {
-  deleteOneContribution(where: $where) {
-    id
-  }
-}
-
 mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
     ...ContributionFragment
@@ -723,12 +717,6 @@ query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
 
 mutation createActivityType($data: ActivityTypeCreateInput!) {
   createOneActivityType(data: $data) {
-    ...ActivityTypeFragment
-  }
-}
-
-mutation getOrCreateActivityType($data: GetOrCreateActivityTypeInput!) {
-  getOrCreateActivityType(data: $data) {
     ...ActivityTypeFragment
   }
 }
