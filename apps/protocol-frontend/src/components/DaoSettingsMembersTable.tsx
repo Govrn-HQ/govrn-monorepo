@@ -168,7 +168,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         },
       },
     ];
-  }, []);
+  }, [userData?.address]);
 
   const table = useReactTable({
     data,
