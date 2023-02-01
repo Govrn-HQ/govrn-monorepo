@@ -62,7 +62,7 @@ const DaoSettingsLayout = () => {
       maxWidth="1200px"
       width="100%"
     >
-      <PageHeading>DAO Settings [{daoData?.name}]</PageHeading>
+      <PageHeading>{daoData?.name} - DAO Settings</PageHeading>
       <Flex
         justify="space-between"
         direction="column"
