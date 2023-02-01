@@ -38,6 +38,7 @@ import { useUser } from '../contexts/UserContext';
 import { displayAddress } from '../utils/web3';
 import { RowSelectionState } from '@tanstack/table-core';
 import { statusEmojiSelect } from '../utils/statusEmojiSelect';
+import { formatDate, toDate } from "../utils/date";
 
 const AttestationsTable = ({
   data,
@@ -128,7 +129,12 @@ const AttestationsTable = ({
       },
       {
         header: 'Engagement Date',
-        accessorKey: 'date_of_engagement',
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
         header: 'Contributor',
