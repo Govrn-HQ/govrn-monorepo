@@ -23,6 +23,7 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Design',
   'Other',
 ];
+export const ADDRESS_IMPORT_MAX = 1;
 
 const primaryBrandColorsFromTheme: string[] = Object.values(
   GovrnTheme.colors.brand.primary,
