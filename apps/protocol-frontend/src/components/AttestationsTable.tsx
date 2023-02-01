@@ -37,6 +37,8 @@ import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
 import { displayAddress } from '../utils/web3';
 import { RowSelectionState } from '@tanstack/table-core';
+import { statusEmojiSelect } from '../utils/statusEmojiSelect';
+import { formatDate, toDate } from '../utils/date';
 
 const AttestationsTable = ({
   data,
@@ -109,17 +111,9 @@ const AttestationsTable = ({
         accessorFn: contribution =>
           contribution.attestations.filter(attestation => {
             return attestation.user.id === userData?.id;
-          }),
-        cell: ({
-          getValue,
-        }: {
-          getValue: Getter<UIContribution['attestations']>;
-        }) => {
-          let status = 'Unattested';
-          const attestations = getValue();
-          if (attestations && attestations.length > 0) {
-            status = attestations[0].attestation_status?.name || 'Unattested';
-          }
+          })[0]?.attestation_status?.name || 'Unattested',
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          const status = getValue();
           return (
             <Text textTransform="capitalize">
               {status}{' '}
@@ -127,7 +121,7 @@ const AttestationsTable = ({
                 role="img"
                 aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {status === 'pending' ? '🕒' : '👀'}
+                {statusEmojiSelect(status)}
               </span>{' '}
             </Text>
           );
@@ -135,7 +129,12 @@ const AttestationsTable = ({
       },
       {
         header: 'Engagement Date',
-        accessorKey: 'date_of_engagement',
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
         header: 'Contributor',
@@ -144,19 +143,8 @@ const AttestationsTable = ({
       },
       {
         header: 'DAO',
-        accessorKey: 'guilds',
-        cell: ({
-          getValue,
-        }: {
-          getValue: Getter<UIContribution['guilds']>;
-        }) => {
-          let guildName;
-          const guilds = getValue();
-          if (guilds && guilds.length > 0) {
-            guildName = guilds[0].guild.name ?? '---';
-          }
-          return <Text>{guildName}</Text>;
-        },
+        accessorFn: contribution =>
+          contribution.guilds[0]?.guild?.name ?? '---',
       },
     ];
   }, [userData?.id]);
