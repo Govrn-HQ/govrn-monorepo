@@ -38,7 +38,7 @@ import { useUser } from '../contexts/UserContext';
 import { displayAddress } from '../utils/web3';
 import { RowSelectionState } from '@tanstack/table-core';
 import { statusEmojiSelect } from '../utils/statusEmojiSelect';
-import { formatDate, toDate } from "../utils/date";
+import { formatDate, toDate } from '../utils/date';
 
 const AttestationsTable = ({
   data,
