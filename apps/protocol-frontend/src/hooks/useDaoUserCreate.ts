@@ -9,6 +9,7 @@ interface DaoUserCreateProps {
 }
 
 export const useDaoUserCreate = () => {
+  console.log('mutation');
   const toast = useGovrnToast();
   const { govrnProtocol: govrn } = useUser();
   const queryClient = useQueryClient();
