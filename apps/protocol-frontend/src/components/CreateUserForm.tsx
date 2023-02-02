@@ -1,4 +1,3 @@
-import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';

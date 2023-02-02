@@ -5,7 +5,6 @@ import { useAuth } from './AuthContext';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { PROTOCOL_URL } from '../utils/constants';
 import useUserByAddress from '../hooks/useUserByAddress';
-import useUserGet from '../hooks/useUserGet';
 
 export const UserContext = createContext<UserContextType>(
   {} as UserContextType,
