@@ -9,7 +9,7 @@ export const useUserGet = ({ userId }: { userId?: number }) => {
     ['userGet', userId],
     async () => {
       if (!userId) {
-        return {};
+        return null;
       }
       const resp = await govrn.user.get(userId);
       const userDaos = new Map();

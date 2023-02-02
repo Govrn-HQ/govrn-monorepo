@@ -26,12 +26,9 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
 
   const { data: userDataByAddress, isLoading: isUserLoading } =
-    useUserByAddress({ address });
-  console.log(address);
-  console.log(userDataByAddress);
+    useUserByAddress({ address: address || '' });
   let user;
   if (userDataByAddress) {
-    console.log(userDataByAddress[0]);
     user = userDataByAddress[0];
   }
 
