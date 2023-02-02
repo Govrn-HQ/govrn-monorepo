@@ -17,7 +17,7 @@ export const useDaoUsersList = ({ ...args }) => {
 
 export const useDaoUsersInfiniteList = (
   args?: ListGuildUsersQueryVariables,
-  pageSize = 20,
+  pageSize = 4,
 ) => {
   const { govrnProtocol: govrn } = useUser();
   const {
