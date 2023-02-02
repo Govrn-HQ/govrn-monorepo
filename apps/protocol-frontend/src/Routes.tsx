@@ -22,6 +22,7 @@ import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import CreateDao from './pages/CreateDao';
 import ErrorView from './components/ErrorView';
+import useUserGet from './hooks/useUserGet';
 import { useAccount } from 'wagmi';
 import {
   CONTRIBUTION_NEW_DOMAIN,
@@ -44,10 +45,11 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  const { isUserDaoMember } = useUser();
   const { guildId } = useParams();
+  const { userData } = useUser();
+  const { data } = useUserGet({ userId: userData?.id });
   if (guildId) {
-    if (isUserDaoMember(guildId) === false) {
+    if (data?.userDaos.has(parseInt(guildId)) === false) {
       return (
         <ErrorView
           errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
@@ -60,8 +62,9 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const Routes = () => {
-  const { userDaos } = useUser();
-  const [firstDao] = userDaos.values();
+  const { userData } = useUser();
+  const { data } = useUserGet({ userId: userData?.id });
+  const userDaos = data?.userDaos;
   const url = new URL(window.location.href);
 
   return (
@@ -117,7 +120,10 @@ const Routes = () => {
           path="/dao"
           element={
             userDaos && userDaos?.size > 0 ? (
-              <Navigate replace to={`/dao/${firstDao.guild_id}`} />
+              <Navigate
+                replace
+                to={`/dao/${userDaos?.values().next().value}`}
+              />
             ) : (
               <RequireActiveUser>
                 <DaoLandingPage />

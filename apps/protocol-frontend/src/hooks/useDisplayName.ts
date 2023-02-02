@@ -4,7 +4,7 @@ import { displayAddress } from '../utils/web3';
 import { useEnsNameEthers } from './useEnsNameEthers';
 
 const useDisplayName = () => {
-  const { userData, userAddress, userDataByAddress } = useUser();
+  const { userData, userDataByAddress } = useUser();
   const { address } = useAccount();
 
   const { data: userEnsName, isLoading } = useEnsNameEthers(address);
@@ -19,7 +19,7 @@ const useDisplayName = () => {
     userDataByAddress?.name ||
     userDataByAddress?.display_name ||
     userEnsName ||
-    displayAddress(userAddress);
+    displayAddress(address);
   return { displayName };
 };
 
