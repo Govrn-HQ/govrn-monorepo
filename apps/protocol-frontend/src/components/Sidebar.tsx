@@ -39,10 +39,6 @@ const Sidebar = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
 
-  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
-  });
-
   return (
     <Flex
       alignItems="flex-start"
@@ -115,9 +111,7 @@ const Sidebar = () => {
             </Link>
             {isConnected && isAuthenticated && (
               <Stack>
-                {!daosListIsLoading &&
-                daosListData &&
-                daosListData.length > 0 ? (
+                {userData?.guild_users && userData?.guild_users.length > 0 ? (
                   <Accordion allowToggle width="100%">
                     <AccordionItem border="none">
                       <AccordionButton
@@ -145,9 +139,9 @@ const Sidebar = () => {
                       </AccordionButton>
                       <AccordionPanel paddingTop={0}>
                         <Flex direction="column">
-                          {daosListData?.map(dao => (
+                          {userData?.guild_users.map(dao => (
                             <Stack paddingLeft={8} paddingY={1} key={dao.id}>
-                              <Link to={`/dao/${dao.id}`}>
+                              <Link to={`/dao/${dao.guild.id}`}>
                                 <Text
                                   as="span"
                                   color="gray.800"
@@ -157,7 +151,7 @@ const Sidebar = () => {
                                     color: 'gray.900',
                                   }}
                                 >
-                                  {dao.name}
+                                  {dao.guild.name}
                                 </Text>
                               </Link>
                             </Stack>

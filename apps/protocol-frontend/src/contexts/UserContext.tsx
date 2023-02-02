@@ -27,15 +27,21 @@ export const UserContextProvider: React.FC<UserContextProps> = ({
 
   const { data: userDataByAddress, isLoading: isUserLoading } =
     useUserByAddress({ address });
-  const { data: userData } = useUserGet({ userId: userDataByAddress?.id });
+  console.log(address);
+  console.log(userDataByAddress);
+  let user;
+  if (userDataByAddress) {
+    console.log(userDataByAddress[0]);
+    user = userDataByAddress[0];
+  }
 
   return (
     <UserContext.Provider
       value={{
         govrnProtocol: govrn,
         isUserLoading,
-        userData,
-        userDataByAddress,
+        userData: user,
+        userDataByAddress: user,
       }}
     >
       {children}
