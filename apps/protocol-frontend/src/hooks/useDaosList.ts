@@ -7,9 +7,6 @@ export const useDaosList = ({ ...args }) => {
   const { isLoading, isFetching, isError, error, data } = useQuery(
     ['userDaos', args],
     async () => {
-      if (!args.userId) {
-        return [];
-      }
       const data = await govrn.guild.list({ ...args });
       return data;
     },

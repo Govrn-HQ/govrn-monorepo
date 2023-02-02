@@ -20,7 +20,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only similar to how we handle the fetches on the DaoDashboard page
   const { isLoading: daosListLoading, data: joinableDaosListData } =
     useDaosList({
-      where: { users: { none: { user_id: { equals: userId } } } },
+      where: { users: { none: { user_id: { equals: userId || 0 } } } },
     });
 
   const { isLoading: daoUsersListLoading, data: daosUsersListData } =

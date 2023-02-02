@@ -28,7 +28,6 @@ import { FaDiscord } from 'react-icons/fa';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
-import { useDaosList } from '../hooks/useDaosList';
 import ConnectWallet from './ConnectWallet';
 import Logo from './Logo';
 import NavButton from './NavButton';
