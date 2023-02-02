@@ -40,13 +40,16 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useDaoUsersInfiniteList({
-    where: { user_id: { equals: userId } },
-    orderBy: [
-      { membershipStatus: { name: SortOrder.Asc } },
-      { favorite: SortOrder.Desc },
-    ],
-  });
+  } = useDaoUsersInfiniteList(
+    {
+      where: { user_id: { equals: userId } },
+      orderBy: [
+        { membershipStatus: { name: SortOrder.Asc } },
+        { favorite: SortOrder.Desc },
+      ],
+    },
+    4,
+  );
 
   const daoListOptions =
     joinableDaosListData?.map(dao => ({
@@ -141,18 +144,22 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             {data?.map(daoUser => (
               <DaoCard userId={userId} daoUser={daoUser} key={daoUser.id} />
             ))}
-            <Button
-              variant="secondary"
-              onClick={() => fetchNextPage()}
-              disabled={!hasNextPage || isFetchingNextPage}
-            >
-              {isFetchingNextPage
-                ? 'Loading more...'
-                : hasNextPage
-                ? 'Load More'
-                : 'Nothing more to load'}
-            </Button>
           </Grid>
+          {hasNextPage && (
+            <Flex direction="column" alignItems="flex-start">
+              <Button
+                variant="secondary"
+                onClick={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetchingNextPage}
+              >
+                {isFetchingNextPage
+                  ? 'Loading more...'
+                  : hasNextPage
+                  ? 'Load More'
+                  : 'Nothing more to load'}
+              </Button>
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </Flex>
