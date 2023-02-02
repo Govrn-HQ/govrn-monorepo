@@ -52,7 +52,7 @@ const MobileNav = ({ children, isOpen, onClose }: MobileNavProps) => {
   const { isAuthenticated } = useAuth();
 
   const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+    where: { users: { some: { user_id: { equals: userData?.id || 0 } } } }, // show only user's DAOs
   });
   return (
     <AnimatePresence>

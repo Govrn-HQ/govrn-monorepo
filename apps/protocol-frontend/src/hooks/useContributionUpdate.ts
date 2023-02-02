@@ -23,7 +23,7 @@ export const useContributionUpdate = () => {
       contribution,
       bulkItemCount,
     }: UpdateContributionProps) => {
-      if (userData !== null) {
+      if (userData !== null && userData?.address && userData?.id) {
         const data = await govrn.custom.updateUserContribution({
           address: userData.address,
           chainName: 'ethereum',

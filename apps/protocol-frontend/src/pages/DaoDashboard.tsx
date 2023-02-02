@@ -3,12 +3,16 @@ import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
+import useUserGet from '../hooks/useUserGet';
 import DaoDashboardShell from '../components/DaoDashboardShell';
 
 const DaoDashboard = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
-  const { userDaos } = useUser();
+  const { userData } = useUser();
+  const { data } = useUserGet({ userId: userData?.id });
+  const userDaos = data?.userDaos;
+
   const { guildId } = useParams();
 
   const currentDao = userDaos?.get(parseInt(guildId ? guildId : ''));
