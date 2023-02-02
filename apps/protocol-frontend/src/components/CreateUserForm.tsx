@@ -20,7 +20,6 @@ const CreateUserForm = () => {
   } = localForm;
   const { address } = useAccount();
   const { mutateAsync: createUser } = useUserCreate();
-  // const { createUser } = useUser();
   const navigate = useNavigate();
 
   const createUserHandler: SubmitHandler<
