@@ -1,33 +1,17 @@
 import { useCallback, useMemo, useState } from 'react';
-import {
-  Box,
-  chakra,
-  Flex,
-  HStack,
-  IconButton,
-  Stack,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+import { Box, Flex, HStack, IconButton, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import {
   ColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
-  flexRender,
   SortingState,
   getSortedRowModel,
   Getter,
   Row,
 } from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
@@ -35,6 +19,7 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { formatDate, toDate } from '../utils/date';
 import { FiTrash2 } from 'react-icons/fi';
+import GovrnTable from './GovrnTable';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -175,61 +160,7 @@ const MintedContributionsTable = ({
           hasMore={hasMoreItems}
           loader={<GovrnSpinner />}
         >
-          <Table maxWidth="100vw" overflowX="auto">
-            <Thead backgroundColor="gray.50">
-              {table.getHeaderGroups().map(headerGroup => (
-                <Tr key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
-                    <Th key={header.id} borderColor="gray.100">
-                      {header.isPlaceholder ? null : (
-                        <Box
-                          {...{
-                            onClick: header.column.getToggleSortingHandler(),
-                            cursor: 'pointer',
-                          }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-
-                          <chakra.span paddingLeft="4">
-                            {{
-                              asc: <IoArrowUp aria-label="sorted-ascending" />,
-                              desc: (
-                                <IoArrowDown aria-label="sorted-descending" />
-                              ),
-                            }[header.column.getIsSorted() as string] ?? null}
-                          </chakra.span>
-                        </Box>
-                      )}
-                    </Th>
-                  ))}
-                  <Th borderColor="gray.100" />
-                </Tr>
-              ))}
-            </Thead>
-
-            <Tbody>
-              {table.getRowModel().rows.length > 0 &&
-                table.getRowModel().rows.map(row => {
-                  return (
-                    <Tr key={row.id}>
-                      {row.getVisibleCells().map(cell => {
-                        return (
-                          <Td borderColor="gray.100" key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </Td>
-                        );
-                      })}
-                    </Tr>
-                  );
-                })}
-            </Tbody>
-          </Table>
+          <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />{' '}
         </InfiniteScroll>
         <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
       </Box>

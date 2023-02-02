@@ -1,29 +1,18 @@
 import { useMemo, useState } from 'react';
 import { isAfter } from 'date-fns';
-import {
-  Box,
-  chakra,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { Box, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
-  flexRender,
   SortingState,
   getSortedRowModel,
   Getter,
 } from '@tanstack/react-table';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
+import GovrnTable from './GovrnTable';
 
 const ContributionTypesTable = ({
   contributionTypesData,
@@ -124,57 +113,7 @@ const ContributionTypesTable = ({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  return (
-    <Table maxWidth="100vw" overflowX="auto">
-      <Thead backgroundColor="gray.50">
-        {table.getHeaderGroups().map(headerGroup => (
-          <Tr key={headerGroup.id}>
-            {headerGroup.headers.map(header => (
-              <Th borderColor="gray.100">
-                {header.isPlaceholder ? null : (
-                  <Box
-                    {...{
-                      onClick: header.column.getToggleSortingHandler(),
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
-
-                    <chakra.span paddingLeft="4">
-                      {{
-                        asc: <IoArrowUp aria-label="sorted-ascending" />,
-                        desc: <IoArrowDown aria-label="sorted-descending" />,
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </chakra.span>
-                  </Box>
-                )}
-              </Th>
-            ))}
-            <Th borderColor="gray.100" />
-          </Tr>
-        ))}
-      </Thead>
-
-      <Tbody>
-        {table.getRowModel().rows.map(row => {
-          return (
-            <Tr key={row.original.id}>
-              {row.getVisibleCells().map(cell => {
-                return (
-                  <Td borderColor="gray.100" key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Td>
-                );
-              })}
-            </Tr>
-          );
-        })}
-      </Tbody>
-    </Table>
-  );
+  return <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />;
 };
 
 export default ContributionTypesTable;
