@@ -31,6 +31,9 @@ export const useDaoUserCreate = () => {
         queryClient.invalidateQueries(['daoUsersList']);
         queryClient.invalidateQueries(['daoUsersInfiniteList']);
 
+        const membershipStatusDisplay = newDaoUser.membershipStatus
+          ? newDaoUser.membershipStatus.toLowerCase()
+          : 'recruit';
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
           toast.success({
@@ -43,11 +46,7 @@ export const useDaoUserCreate = () => {
             description: `${
               creatingNewDao === true
                 ? 'You have successfully created a new DAO.'
-                : `Successfully added to the DAO as a ${
-                    newDaoUser.membershipStatus
-                      ? newDaoUser.membershipStatus.toLowerCase()
-                      : 'recruit'
-                  }.`
+                : `Successfully added to the DAO as a ${membershipStatusDisplay}.`
             }`,
           });
         }
