@@ -100,7 +100,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       {
         id: 'selection',
         header: 'Select Admin',
-        cell: ({ row, table }) => (
+        cell: ({ row }) => (
           <IndeterminateCheckbox
             {...{
               checked: row.getIsSelected(),
@@ -114,9 +114,8 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         header: 'Member Address',
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
-          const { address } = getValue();
-          const memberAddress = getValue().address;
-          return address === userData?.address ? (
+          const value = getValue();
+          return value.address === userData?.address ? (
             <Text
               whiteSpace="normal"
               fontWeight="bold"
@@ -126,7 +125,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               {getValue().address}
             </Text>
           ) : (
-            <Text whiteSpace="normal">{getValue().address}</Text>
+            <Text whiteSpace="normal">{value.address}</Text>
           );
         },
       },
@@ -138,22 +137,23 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         }: {
           getValue: Getter<UIGuildUsers['membershipStatus']>;
         }) => {
-          if (getValue() === undefined || getValue() === null) return;
+          const value = getValue();
+          if (value === undefined || value === null) return;
           return (
             <Badge
               minWidth="5rem"
               textAlign="center"
               bgColor={
-                getValue()?.name === 'Admin'
+                value.name === 'Admin'
                   ? 'brand.purple'
-                  : getValue()?.name === 'Member'
+                  : value.name === 'Member'
                   ? 'brand.magenta'
                   : 'gray.200'
               }
               color={
-                getValue()?.name === 'Admin'
+                value.name === 'Admin'
                   ? 'white'
-                  : getValue()?.name === 'Member'
+                  : value.name === 'Member'
                   ? 'white'
                   : 'gray.600'
               }
@@ -164,7 +164,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               size="sm"
               textTransform="uppercase"
             >
-              {getValue()?.name}
+              {value.name}
             </Badge>
           );
         },
