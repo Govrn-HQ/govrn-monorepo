@@ -22,6 +22,7 @@ from bot.common.threads.utils import get_thread
 from bot.config import (
     GUILD_IDS,
     INFO_EMBED_COLOR,
+    FEEDBACK_MSG_FMT,
     FEEDBACK_FORM_LINK,
     Redis,
     get_list_of_emojis,
@@ -318,11 +319,11 @@ async def add_dao(ctx: discord.ApplicationContext):
     description="Report feedback for Kevin Malone or other parts of the Govrn platform"
 )
 async def feedback(ctx):
+    feedback_msg = FEEDBACK_MSG_FMT % FEEDBACK_FORM_LINK
     feedback_embed = discord.Embed(
         colour=INFO_EMBED_COLOR,
         title="Feedback",
-        description=f"Thanks for helping to improve the Govrn platform! You can share "
-        "your feedback with the following link: {FEEDBACK_FORM_LINK}"
+        description=feedback_msg
     )
     await ctx.followup.send(embed=feedback_embed)
 
