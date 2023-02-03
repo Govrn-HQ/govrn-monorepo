@@ -28,6 +28,7 @@ import { FaDiscord } from 'react-icons/fa';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import ConnectWallet from './ConnectWallet';
 import Logo from './Logo';
 import NavButton from './NavButton';
@@ -37,6 +38,11 @@ const Sidebar = () => {
   const { userData } = useUser();
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
+
+  const { data: daosUsersListData } = useDaoUsersList({
+    where: { user_id: { equals: userData?.id } },
+    orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
+  });
 
   return (
     <Flex
@@ -110,7 +116,8 @@ const Sidebar = () => {
             </Link>
             {isConnected && isAuthenticated && (
               <Stack>
-                {userData?.guild_users && userData?.guild_users.length > 0 ? (
+                {daosUsersListData !== undefined &&
+                daosUsersListData.length > 0 ? (
                   <Accordion allowToggle width="100%">
                     <AccordionItem border="none">
                       <AccordionButton
@@ -138,7 +145,7 @@ const Sidebar = () => {
                       </AccordionButton>
                       <AccordionPanel paddingTop={0}>
                         <Flex direction="column">
-                          {userData?.guild_users.map(dao => (
+                          {daosUsersListData.map(dao => (
                             <Stack paddingLeft={8} paddingY={1} key={dao.id}>
                               <Link to={`/dao/${dao.guild.id}`}>
                                 <Text
