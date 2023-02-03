@@ -43,7 +43,7 @@ export const useDaoUserCreate = () => {
             title: `${
               creatingNewDao === true
                 ? 'Successfully Created DAO'
-                : 'Successfully Joined DAO'
+                : 'Successfully Added to DAO'
             }`,
             description: `${
               creatingNewDao === true
