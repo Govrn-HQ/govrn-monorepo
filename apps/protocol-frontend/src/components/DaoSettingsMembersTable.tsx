@@ -122,7 +122,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               bgGradient="linear(to-l, #7928CA, #FF0080)"
               bgClip="text"
             >
-              {getValue().address}
+              {value.address}
             </Text>
           ) : (
             <Text whiteSpace="normal">{value.address}</Text>
