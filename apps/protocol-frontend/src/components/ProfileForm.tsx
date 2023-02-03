@@ -10,6 +10,8 @@ import { ProfileFormValues } from '../types/forms';
 import { BASE_URL } from '../utils/constants';
 
 import useDisplayName from '../hooks/useDisplayName';
+import useLinearUserDisconnect from '../hooks/useLinearUserDisconnect';
+import useUserCustomUpdate from '../hooks/useUserCustomUpdate';
 import FeatureFlagWrapper from './FeatureFlagWrapper';
 import ProfileDaos from './ProfileDaos';
 
@@ -18,8 +20,10 @@ const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 const BACKEND_ADDR = `${BASE_URL}`;
 
 const ProfileForm = () => {
-  const { userData, updateProfile, disconnectLinear } = useUser();
+  const { userData } = useUser();
+  const { mutateAsync: disconnectLinearUser } = useLinearUserDisconnect();
   const { displayName } = useDisplayName();
+  const { mutateAsync: updateProfile } = useUserCustomUpdate();
 
   const localForm = useForm<ProfileFormValues>({
     mode: 'all',
@@ -34,7 +38,12 @@ const ProfileForm = () => {
   const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (
     values: ProfileFormValues,
   ) => {
-    updateProfile(values);
+    if (values.name && userData) {
+      updateProfile({
+        name: values.name,
+        id: userData.id,
+      });
+    }
   };
 
   const handleLinearOauth = async () => {
@@ -59,12 +68,12 @@ const ProfileForm = () => {
     if (!userData?.id || !userData?.name) {
       return;
     }
-    await disconnectLinear({
+    await disconnectLinearUser({
       userId: userData?.id,
       username: userData?.name || '',
       linearUserId: userData?.linear_users[0].id,
     });
-  }, [userData, disconnectLinear]);
+  }, [userData, disconnectLinearUser]);
 
   return (
     <>
