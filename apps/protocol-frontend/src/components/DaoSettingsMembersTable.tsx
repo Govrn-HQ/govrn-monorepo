@@ -114,7 +114,9 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         header: 'Member Address',
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
-          return getValue().address === userData?.address ? (
+          const { address } = getValue();
+          const memberAddress = getValue().address;
+          return address === userData?.address ? (
             <Text
               whiteSpace="normal"
               fontWeight="bold"
