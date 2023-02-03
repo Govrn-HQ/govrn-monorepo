@@ -1,11 +1,14 @@
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import { Button, Flex, Heading, Divider, Grid } from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useDaosList } from '../hooks/useDaosList';
-import { useDaoUsersList } from '../hooks/useDaoUsersList';
+import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import DaoCard from './DaoCard';
+import { SortOrder } from '@govrn/protocol-client';
+import { mergeMemberPages } from '../utils/arrays';
+import { UIGuildUsers } from '@govrn/ui-types';
 
 interface ProfileDaoProps {
   userId: number | undefined;
@@ -17,17 +20,27 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     value: number;
     label: string;
   } | null>(null);
-  // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only similar to how we handle the fetches on the DaoDashboard page
-  const { isLoading: daosListLoading, data: joinableDaosListData } =
+
+  const { isLoading: joinableDaosListLoading, data: joinableDaosListData } =
     useDaosList({
       where: { users: { none: { user_id: { equals: userId || 0 } } } },
     });
 
-  const { isLoading: daoUsersListLoading, data: daosUsersListData } =
-    useDaoUsersList({
+  const {
+    data: daoUsersData,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useDaoUsersInfiniteList(
+    {
       where: { user_id: { equals: userId } },
-      orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
-    });
+      orderBy: [
+        { membershipStatus: { name: SortOrder.Asc } },
+        { favorite: SortOrder.Desc },
+      ],
+    },
+    8, // page size
+  );
 
   const daoListOptions =
     joinableDaosListData?.map(dao => ({
@@ -53,7 +66,13 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     }
   };
 
-  if (daosListLoading || daoUsersListLoading) return <GovrnSpinner />;
+  const data = useMemo<UIGuildUsers[]>(() => {
+    return mergeMemberPages(
+      daoUsersData && daoUsersData.pages.length > 0 ? daoUsersData.pages : [],
+    );
+  }, [daoUsersData]);
+
+  if (joinableDaosListLoading) return <GovrnSpinner />;
 
   return (
     <Flex
@@ -112,10 +131,25 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             gap={4}
             justifyContent="space-between"
           >
-            {daosUsersListData?.map(daoUser => (
+            {data?.map(daoUser => (
               <DaoCard userId={userId} daoUser={daoUser} key={daoUser.id} />
             ))}
           </Grid>
+          {hasNextPage && (
+            <Flex direction="column" alignItems="flex-start">
+              <Button
+                variant="secondary"
+                onClick={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetchingNextPage}
+              >
+                {isFetchingNextPage
+                  ? 'Loading more...'
+                  : hasNextPage
+                  ? 'Load More'
+                  : 'Nothing more to load'}
+              </Button>
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </Flex>
