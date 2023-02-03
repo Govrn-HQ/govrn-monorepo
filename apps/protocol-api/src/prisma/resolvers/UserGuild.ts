@@ -6,11 +6,24 @@ import { Context } from './types';
   isAbstract: true,
 })
 export class GuildUserCreateCustomInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
-  userId: number;
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+  })
+  userId?: number;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
-  guildId: number;
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  guildId?: number;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  userAddress?: string;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  membershipStatus?: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+  })
+  guildName?: string;
 }
 
 @TypeGraphQL.ArgsType()
@@ -31,8 +44,20 @@ export class GuildUserUpdateCustomInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   guildId: number;
 
-  @TypeGraphQL.Field(_type => Boolean)
-  favorite: boolean;
+  @TypeGraphQL.Field(_type => Boolean, { nullable: true })
+  favorite?: boolean;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  membershipStatus?: string;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  membershipStatusId?: number;
+
+  @TypeGraphQL.Field(_type => String, { nullable: true })
+  userAddress?: string;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  memberId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -58,15 +83,63 @@ export class GuildUserCustomResolver {
       where: { address: { equals: address } },
     });
 
-    if (user?.id !== args.data.userId) {
+    if (args.data.guildId !== undefined && user?.id !== args.data.userId) {
       throw new Error('Signature address does not equal requested address');
+    }
+
+    if (args.data.guildId === undefined) {
+      const guildCreate = await prisma.guild.create({
+        data: {
+          name: args.data.guildName,
+        },
+      });
+
+      return await prisma.guildUser.create({
+        data: {
+          user: {
+            connectOrCreate: {
+              create: {
+                address: args.data.userAddress,
+                chain_type: {
+                  connect: {
+                    name: 'ethereum_mainnet',
+                  },
+                },
+              },
+              where: {
+                address: args.data.userAddress,
+              },
+            },
+          },
+          guild: {
+            connect: {
+              id: guildCreate.id,
+            },
+          },
+          membershipStatus: {
+            connect: {
+              name: args.data.membershipStatus ?? 'Recruit',
+            },
+          },
+        },
+      });
     }
 
     return await prisma.guildUser.create({
       data: {
         user: {
-          connect: {
-            id: args.data.userId,
+          connectOrCreate: {
+            create: {
+              address: args.data.userAddress,
+              chain_type: {
+                connect: {
+                  name: 'ethereum_mainnet',
+                },
+              },
+            },
+            where: {
+              address: args.data.userAddress,
+            },
           },
         },
         guild: {
@@ -97,17 +170,25 @@ export class GuildUserCustomResolver {
     });
 
     if (user?.id !== args.data.userId) {
-      throw new Error('Signature address does not equal requested address');
+      throw new Error('Signature address does not equal requested address.');
     }
 
     return await prisma.guildUser.update({
       data: {
-        favorite: { set: args.data.favorite },
+        ...(args.data.favorite !== undefined && {
+          favorite: { set: args.data.favorite },
+        }),
+        ...(args.data.membershipStatusId !== undefined && {
+          membership_status_id: { set: args.data.membershipStatusId },
+        }),
       },
       where: {
         user_id_guild_id: {
           guild_id: args.data.guildId,
-          user_id: args.data.userId,
+          user_id:
+            args.data.memberId !== undefined
+              ? args.data.memberId
+              : args.data.userId,
         },
       },
     });

@@ -25,11 +25,11 @@ import {
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
-import { RecentContributionTableType } from '../types/table';
-import { formatDate } from '../utils/date';
+import { formatDate, toDate } from '../utils/date';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { mergePages } from '../utils/arrays';
 
-const columnsDef: ColumnDef<RecentContributionTableType>[] = [
+const columnsDef: ColumnDef<UIContribution>[] = [
   {
     header: 'Name',
     accessorKey: 'name',
@@ -43,28 +43,25 @@ const columnsDef: ColumnDef<RecentContributionTableType>[] = [
   },
   {
     header: 'Type',
-    accessorKey: 'activity_type',
-    cell: ({
-      getValue,
-    }: {
-      getValue: Getter<RecentContributionTableType['activity_type']>;
-    }) => {
-      return <Text>{getValue().name} </Text>;
+    accessorFn: contribution => contribution.activity_type.name,
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return <Text>{getValue()} </Text>;
     },
   },
   {
     header: 'Engagement Date',
-    accessorKey: 'engagementDate',
+    accessorFn: contribution => toDate(contribution.date_of_engagement),
+    cell: ({ getValue }: { getValue: Getter<Date> }) => {
+      return <Text>{formatDate(getValue())}</Text>;
+    },
+    sortingFn: 'datetime',
+    invertSorting: true,
   },
   {
     header: 'Contributor',
-    accessorKey: 'user',
-    cell: ({
-      getValue,
-    }: {
-      getValue: Getter<RecentContributionTableType['user']>;
-    }) => {
-      return <Text>{getValue().name ?? ''} </Text>;
+    accessorFn: contribution => contribution.user.name,
+    cell: ({ getValue }: { getValue: Getter<string> }) => {
+      return <Text>{getValue()} </Text>;
     },
   },
 ];
@@ -74,29 +71,14 @@ const RecentContributionsTable = ({
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: Pick<
-    UIContribution,
-    'id' | 'name' | 'date_of_engagement' | 'user' | 'activity_type'
-  >[][];
+  contributionsData: UIContribution[][];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const data = useMemo<RecentContributionTableType[]>(() => {
-    const tableData = [] as RecentContributionTableType[];
-    for (const page of contributionsData) {
-      for (const contribution of page) {
-        tableData.push({
-          id: contribution.id,
-          name: contribution.name,
-          engagementDate: formatDate(contribution.date_of_engagement),
-          user: contribution.user,
-          activity_type: contribution.activity_type,
-        });
-      }
-    }
-    return tableData;
+  const data = useMemo<UIContribution[]>(() => {
+    return mergePages(contributionsData);
   }, [contributionsData]);
 
   const table = useReactTable({
@@ -106,7 +88,6 @@ const RecentContributionsTable = ({
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugAll: false,
   });
 
   return (

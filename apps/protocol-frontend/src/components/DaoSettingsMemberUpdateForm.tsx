@@ -4,19 +4,24 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DaoTextareaFormValues } from '../types/forms';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import { Input, Textarea } from '@govrn/protocol-ui';
+import { Textarea } from '@govrn/protocol-ui';
 import { splitEntriesByComma } from '../utils/arrays';
-import { daoTextareaFormValidation } from '../utils/validations';
+import { daoMembersUpdateFormValidation } from '../utils/validations';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
-import { useOverlay } from '../contexts/OverlayContext';
 import { useUser } from '../contexts/UserContext';
 
-const DaoTextareaForm = () => {
+interface DaoSettingsMemberUpdateFormProps {
+  daoId: number;
+}
+
+const DaoSettingsMemberUpdateForm = ({
+  daoId,
+}: DaoSettingsMemberUpdateFormProps) => {
   const { userData } = useUser();
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
-    resolver: yupResolver(daoTextareaFormValidation),
+    resolver: yupResolver(daoMembersUpdateFormValidation),
   });
 
   const {
@@ -24,11 +29,10 @@ const DaoTextareaForm = () => {
     setValue,
     formState: { errors, touchedFields },
   } = localForm;
-  const { setModals } = useOverlay();
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
 
-  const daoTextareaImportHandler: SubmitHandler<
+  const daoMembersUpdateHandler: SubmitHandler<
     DaoTextareaFormValues
   > = async values => {
     const { daoMemberAddresses } = values;
@@ -40,45 +44,29 @@ const DaoTextareaForm = () => {
       const uniqueParsedDaoMemberAddresses = [
         ...new Set(parsedDaoMemberAddresses),
       ];
-
-      await createDaoUser({
-        newDaoUser: {
-          userId: userData?.id,
-          guildName: values.guildName,
-          userAddress: userData?.address,
-          membershipStatus: 'Admin',
-        },
-        creatingNewDao: true,
-      }).then(data =>
-        uniqueParsedDaoMemberAddresses.map(address => {
-          createDaoUser({
-            newDaoUser: {
-              userId: userData?.id, // summoner's userId still needed for the resolver -- it still creates new users with a unique ID
-              guildName: values.guildName,
-              userAddress: address,
-              guildId: data.mutationData.createGuildUserCustom.guild_id,
-            },
-          });
-          return true;
-        }),
-      );
+      if (daoId === undefined) return;
+      uniqueParsedDaoMemberAddresses.map(address => {
+        createDaoUser({
+          newDaoUser: {
+            userId: userData?.id,
+            guildName: values.guildName,
+            userAddress: address,
+            guildId: daoId,
+          },
+          creatingNewDao: false,
+        });
+        return true;
+      });
       setImporting(false);
-      setModals({ createDaoModal: false });
     }
   };
 
   return (
     <Flex direction="column" width="100%" color="gray.800">
-      <form onSubmit={handleSubmit(daoTextareaImportHandler)}>
-        <Input
-          name="guildName"
-          label="DAO Name"
-          placeholder="govrn-user"
-          localForm={localForm}
-        />
+      <form onSubmit={handleSubmit(daoMembersUpdateHandler)}>
         <Textarea
           name="daoMemberAddresses"
-          label="DAO Member Addresses"
+          label="Add Member Wallet Addresses"
           tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
           placeholder="0x..., 0x..."
           onChange={addresses => setValue('daoMemberAddresses', addresses)}
@@ -109,11 +97,11 @@ const DaoTextareaForm = () => {
           }
         >
           <Button
-            variant="primary"
+            variant="secondary"
             type="submit"
             disabled={importing || errors['daoMemberAddresses'] !== undefined}
           >
-            Import
+            Add
           </Button>
         </Flex>
       </form>
@@ -121,4 +109,4 @@ const DaoTextareaForm = () => {
   );
 };
 
-export default DaoTextareaForm;
+export default DaoSettingsMemberUpdateForm;

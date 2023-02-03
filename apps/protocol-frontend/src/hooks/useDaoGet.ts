@@ -1,13 +1,12 @@
 import { useUser } from '../contexts/UserContext';
 import { useQuery } from '@tanstack/react-query';
 
-export const useDaosList = ({ ...args }) => {
+export const useDaoGet = ({ ...args }) => {
   const { govrnProtocol: govrn } = useUser();
-
   const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['userDaos', args],
+    ['daoGet', args],
     async () => {
-      const data = await govrn.guild.list({ ...args });
+      const data = await govrn.guild.get({ ...args });
       return data;
     },
   );

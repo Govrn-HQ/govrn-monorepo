@@ -12,11 +12,11 @@ export default {
     },
     outline: {
       padding: '16px',
-      borderRadius: '16px',
+      borderRadius: '8px',
       bg: ['white', 'white'],
       color: ['gray.700', 'gray.700'],
-      borderColor: ['gray.200', 'gray.200'],
-      borderWidth: '2px',
+      borderColor: ['gray.400', 'gray.400'],
+      borderWidth: '1px',
       _hover: { borderColor: ['gray.300', 'gray.300'] },
       _focus: {
         borderColor: ['gray.300', 'gray.300'],

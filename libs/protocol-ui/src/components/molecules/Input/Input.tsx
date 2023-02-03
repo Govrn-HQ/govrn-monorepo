@@ -62,10 +62,8 @@ const Input: React.FC<InputProps> = ({
             id={id}
             visibility={type === 'file' ? 'hidden' : 'visible'}
             display={type === 'file' ? 'none' : 'auto'}
-            height="30px"
             placeholder={placeholder}
             defaultValue={defaultValue}
-            py={6}
             variant={variant}
             isDisabled={isDisabled}
             {...register(name)}

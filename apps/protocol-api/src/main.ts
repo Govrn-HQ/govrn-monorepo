@@ -9,7 +9,7 @@ import { LinearClient } from '@linear/sdk';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { and, deny, or, rule, shield } from 'graphql-shield';
+import { deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 import fetch from 'cross-fetch';
 
@@ -38,12 +38,6 @@ const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
 });
 
-// TODO: Figure out is there is a way to genralize this
-//
-const ownsData = rule()(async (parent, args, ctx, info) => {
-  return true;
-});
-
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
   if (!ctx.req.session.siwe) {
     return false;
@@ -52,7 +46,6 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 });
 
 const hasToken = rule()(async (parent, args, ctx, info) => {
-  return true;
   const auth = ctx.req.headers['authorization'];
   if (auth) {
     const found = BACKEND_TOKENS.find(token => token === auth);
@@ -104,9 +97,9 @@ const permissions = shield(
       createOnChainUserContribution: isAuthenticated,
       createOneUser: or(isAuthenticated, hasToken),
       createOneUserActivity: hasToken,
-      createUserAttestation: and(ownsData, isAuthenticated),
-      createUserContribution: and(ownsData, isAuthenticated),
-      createUserCustom: or(hasToken, and(ownsData, isAuthenticated)),
+      createUserAttestation: isAuthenticated,
+      createUserContribution: isAuthenticated,
+      createUserCustom: or(hasToken, isAuthenticated),
       createGuildUserCustom: isAuthenticated,
       createUserOnChainAttestation: isAuthenticated,
       deleteOneContribution: or(hasToken, isAuthenticated),
@@ -115,9 +108,9 @@ const permissions = shield(
       updateOneContribution: hasToken,
       updateOneGuild: hasToken,
       updateOneUser: hasToken,
-      updateUserContribution: and(ownsData, isAuthenticated),
+      updateUserContribution: isAuthenticated,
       updateGuildCustom: isAuthenticated,
-      updateUserCustom: and(ownsData, isAuthenticated),
+      updateUserCustom: isAuthenticated,
       updateGuildUserCustom: isAuthenticated,
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
@@ -248,7 +241,9 @@ const permissions = shield(
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
       integration_type_id: or(isAuthenticated, hasToken),
+      integration_type: or(isAuthenticated, hasToken),
       authentication_token: or(isAuthenticated, hasToken),
       import_status: or(isAuthenticated, hasToken),
       users: or(isAuthenticated, hasToken),
@@ -269,6 +264,11 @@ const permissions = shield(
       guild_id: or(isAuthenticated, hasToken),
       favorite: or(isAuthenticated, hasToken),
       membershipStatus: or(isAuthenticated, hasToken),
+      membership_status_id: or(isAuthenticated, hasToken),
+    },
+    IntegrationType: {
+      id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
     },
     TwitterUser: {
       id: or(isAuthenticated, hasToken),

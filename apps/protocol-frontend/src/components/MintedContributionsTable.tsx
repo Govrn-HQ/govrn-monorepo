@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Box,
   chakra,
   Flex,
+  HStack,
+  IconButton,
   Stack,
   Table,
   Tbody,
@@ -12,7 +14,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { useUser } from '../contexts/UserContext';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -24,16 +26,24 @@ import {
   Getter,
   Row,
 } from '@tanstack/react-table';
-import GlobalFilter from './GlobalFilter';
-import { formatDate, toDate } from '../utils/date';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { UIContribution } from '@govrn/ui-types';
-import { GovrnSpinner } from '@govrn/protocol-ui';
 import { Link } from 'react-router-dom';
-import { useUser } from '../contexts/UserContext';
-import { statusEmojiSelect } from '../utils/statusEmojiSelect';
+import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import GlobalFilter from './GlobalFilter';
+import { UIContribution } from '@govrn/ui-types';
+import DeleteContributionDialog from './DeleteContributionDialog';
+import { GovrnSpinner } from '@govrn/protocol-ui';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { formatDate, toDate } from '../utils/date';
+import { FiTrash2 } from 'react-icons/fi';
 
-const MyAttestationsTable = ({
+export type DialogProps = {
+  isOpen: boolean;
+  title: string;
+  onConfirm: boolean;
+  contributionId: number;
+};
+
+const MintedContributionsTable = ({
   data,
   hasMoreItems,
   nextPage,
@@ -44,10 +54,29 @@ const MyAttestationsTable = ({
 }) => {
   const { userData } = useUser();
 
+  const [dialog, setDialog] = useState<DialogProps>({
+    isOpen: false,
+    title: '',
+    onConfirm: false,
+    contributionId: 0,
+  });
+
+  const handleDeleteContribution = useCallback(
+    (contributionId: number) => {
+      setDialog({
+        ...dialog,
+        isOpen: true, //this opens AlertDialog
+        title:
+          "Are you sure you want to delete this contribution? You can't undo this action.",
+        contributionId: contributionId,
+      });
+    },
+    [dialog],
+  );
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const columnsDef = useMemo<ColumnDef<UIContribution>[]>(() => {
+  const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
       {
         header: 'Name',
@@ -69,29 +98,8 @@ const MyAttestationsTable = ({
         },
       },
       {
-        header: 'Status',
-        accessorFn: contr => contr.status.name,
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
-          return (
-            <Text textTransform="capitalize">
-              {getValue()}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {statusEmojiSelect(getValue())}
-              </span>{' '}
-            </Text>
-          );
-        },
-      },
-      {
-        header: 'Attestation Date',
-        accessorFn: contribution =>
-          toDate(
-            contribution.attestations.find(a => a.user_id === userData?.id)
-              ?.date_of_attestation ?? '---',
-          ),
+        header: 'Engagement Date',
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
         cell: ({ getValue }: { getValue: Getter<Date> }) => {
           return <Text>{formatDate(getValue())}</Text>;
         },
@@ -99,15 +107,45 @@ const MyAttestationsTable = ({
         invertSorting: true,
       },
       {
-        header: 'Contributor',
-        accessorFn: contribution => contribution.user.name,
+        header: 'Attestations',
+        accessorFn: contribution => String(contribution.attestations.length),
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return <Text textTransform="capitalize">{getValue()} </Text>;
+        },
+      },
+      {
+        header: 'DAO',
+        accessorFn: contribution =>
+          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return <Text>{getValue()}</Text>;
+        },
+        invertSorting: true,
+      },
+      {
+        id: 'actions',
+        header: 'Actions',
+        enableSorting: false,
+        cell: ({ row }) => (
+          <HStack spacing="1">
+            <IconButton
+              icon={<FiTrash2 fontSize="1rem" />}
+              variant="ghost"
+              color="gray.800"
+              disabled={row.original.user.id !== userData?.id}
+              aria-label="Delete Contribution"
+              data-testid="deleteContribution-test"
+              onClick={() => handleDeleteContribution(row.original.id)}
+            />
+          </HStack>
+        ),
       },
     ];
-  }, [userData?.id]);
+  }, [handleDeleteContribution, userData?.id]);
 
   const table = useReactTable({
     data,
-    columns: columnsDef,
+    columns: columnsDefs,
     state: {
       sorting,
       globalFilter,
@@ -117,12 +155,15 @@ const MyAttestationsTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    debugAll: false,
   });
 
   return (
     <Stack>
       <GlobalFilter
-        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
+        preGlobalFilteredRows={table
+          .getPreFilteredRowModel()
+          .rows.map(r => r.original)}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
@@ -170,28 +211,30 @@ const MyAttestationsTable = ({
             </Thead>
 
             <Tbody>
-              {table.getRowModel().rows.map(row => {
-                return (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map(cell => {
-                      return (
-                        <Td borderColor="gray.100" key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </Td>
-                      );
-                    })}
-                  </Tr>
-                );
-              })}
+              {table.getRowModel().rows.length > 0 &&
+                table.getRowModel().rows.map(row => {
+                  return (
+                    <Tr key={row.id}>
+                      {row.getVisibleCells().map(cell => {
+                        return (
+                          <Td borderColor="gray.100" key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </Td>
+                        );
+                      })}
+                    </Tr>
+                  );
+                })}
             </Tbody>
           </Table>
         </InfiniteScroll>
+        <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
       </Box>
     </Stack>
   );
 };
 
-export default MyAttestationsTable;
+export default MintedContributionsTable;

@@ -3,5 +3,6 @@ VALUES ('Guild'),
        ('ERC20'),
        ('ERC721'),
        ('Disco'),
-       ('CSV')
+       ('CSV'),
+       ('Manual')
 ON CONFLICT DO NOTHING;

@@ -1,6 +1,16 @@
 import { useMemo, useState } from 'react';
 import { isAfter } from 'date-fns';
-import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+  Box,
+  chakra,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import {
   ColumnDef,
@@ -13,123 +23,105 @@ import {
   Getter,
 } from '@tanstack/react-table';
 import { UIContribution } from '@govrn/ui-types';
-import { mergePages } from '../utils/arrays';
-
-type ContributionTypesTableType = {
-  id: number;
-  name: string;
-  total: number;
-  lastOccurrence: Date | string;
-  activityType: string;
-  guilds: string;
-  date_of_engagement: Date | string;
-  date_of_submission: Date | string;
-};
-
-const columnsDefs: ColumnDef<ContributionTypesTableType>[] = [
-  {
-    header: 'Activity Type',
-    accessorKey: 'activityType',
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return (
-        <Box
-          bgColor="blue.50"
-          width="fit-content"
-          padding={2}
-          borderRadius="md"
-        >
-          {getValue()}
-        </Box>
-      );
-    },
-  },
-  {
-    header: 'Total',
-    accessorKey: 'total',
-    cell: ({ getValue }: { getValue: Getter<number> }) => {
-      return (
-        <Box
-          bgColor="blue.50"
-          width="fit-content"
-          padding={2}
-          borderRadius="md"
-        >
-          {getValue()}
-        </Box>
-      );
-    },
-  },
-  {
-    header: 'Last Occurrence',
-    accessorKey: 'date_of_engagement',
-  },
-  {
-    header: 'Name',
-    accessorKey: 'name',
-  },
-  {
-    header: 'DAOs',
-    accessorKey: 'guilds',
-  },
-];
+import { formatDate, toDate } from '../utils/date';
 
 const ContributionTypesTable = ({
   contributionTypesData,
 }: {
-  contributionTypesData: UIContribution[][];
+  contributionTypesData: UIContribution[];
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const sortedContributions: UIContribution[] = useMemo(() => {
+    return contributionTypesData.sort((firstContribution, nextContribution) =>
+      isAfter(
+        new Date(firstContribution.date_of_engagement),
+        new Date(nextContribution.date_of_engagement),
+      )
+        ? 1
+        : -1,
+    );
+  }, [contributionTypesData]);
 
   const uniqueContributions: UIContribution[] = useMemo(
     () => [
       ...new Map(
-        mergePages(contributionTypesData)
-          .sort((firstContribution, nextContribution) =>
-            isAfter(
-              new Date(firstContribution.date_of_engagement),
-              new Date(nextContribution.date_of_engagement),
-            )
-              ? 1
-              : -1,
-          )
-          .map(contributionType => [
-            contributionType.activity_type['name'],
-            contributionType,
-          ]),
+        sortedContributions.map(contributionType => [
+          contributionType.activity_type['name'],
+          contributionType,
+        ]),
       ).values(),
     ],
-    [contributionTypesData],
+    [sortedContributions],
   );
 
-  const data = useMemo<ContributionTypesTableType[]>(
-    () =>
-      uniqueContributions.map(contributionType => ({
-        id: contributionType.id,
-        name: contributionType.name,
-        total: mergePages(contributionTypesData).filter(
-          contribution =>
-            contribution.activity_type.name ===
-            contributionType.activity_type.name,
-        ).length,
-        lastOccurrence: contributionType.date_of_engagement,
-        activityType: contributionType.activity_type.name,
-        guilds: contributionType.guilds.map(g => g.guild.name).join(','),
-        date_of_submission: contributionType.date_of_submission,
-        date_of_engagement: contributionType.date_of_engagement,
-      })),
-    // eslint-disable-next-line -- It's already chained, removing `contributionTypesData`
-    [uniqueContributions],
+  const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(
+    () => [
+      {
+        header: 'Activity Type',
+        accessorFn: contribution => contribution.activity_type.name,
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return (
+            <Box
+              bgColor="blue.50"
+              width="fit-content"
+              padding={2}
+              borderRadius="md"
+            >
+              {getValue()}
+            </Box>
+          );
+        },
+      },
+      {
+        header: 'Total',
+        accessorFn: contribution =>
+          sortedContributions.filter(
+            c => c.activity_type.name === contribution.activity_type.name,
+          ).length,
+        cell: ({ getValue }: { getValue: Getter<number> }) => {
+          return (
+            <Box
+              bgColor="blue.50"
+              width="fit-content"
+              padding={2}
+              borderRadius="md"
+            >
+              {getValue()}
+            </Box>
+          );
+        },
+      },
+      {
+        header: 'Last Occurrence',
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
+      },
+      {
+        header: 'Name',
+        accessorKey: 'name',
+      },
+      {
+        header: 'DAOs',
+        accessorFn: contribution =>
+          contribution.guilds.map(g => g.guild.name).join(','),
+      },
+    ],
+    [sortedContributions],
   );
 
   const table = useReactTable({
-    data,
+    data: uniqueContributions,
     columns: columnsDefs,
     state: { sorting },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: true,
   });
 
   return (
@@ -169,7 +161,7 @@ const ContributionTypesTable = ({
       <Tbody>
         {table.getRowModel().rows.map(row => {
           return (
-            <Tr key={row.id}>
+            <Tr key={row.original.id}>
               {row.getVisibleCells().map(cell => {
                 return (
                   <Td borderColor="gray.100" key={cell.id}>
