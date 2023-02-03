@@ -1,20 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box,
-  chakra,
   Flex,
   Link as ChakraLink,
   HStack,
   IconButton,
   Stack,
-  Table,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
   Tooltip,
-  Tr,
 } from '@chakra-ui/react';
 import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
@@ -23,14 +16,12 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
-  flexRender,
   SortingState,
   getSortedRowModel,
   Getter,
   Row,
 } from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import ModalWrapper from './ModalWrapper';
 import MintModal from './MintModal';
@@ -47,6 +38,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { formatDate, toDate } from '../utils/date';
 import { RowSelectionState } from '@tanstack/table-core';
 import { statusEmojiSelect } from '../utils/statusEmojiSelect';
+import GovrnTable from './GovrnTable';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -296,60 +288,7 @@ const ContributionsTable = ({
           hasMore={hasMoreItems}
           loader={<GovrnSpinner />}
         >
-          <Table maxWidth="100vw" overflowX="auto">
-            <Thead backgroundColor="gray.50">
-              {table.getHeaderGroups().map(headerGroup => (
-                <Tr key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
-                    <Th key={header.id} borderColor="gray.100">
-                      {header.isPlaceholder ? null : (
-                        <Box
-                          {...{
-                            onClick: header.column.getToggleSortingHandler(),
-                            cursor: 'pointer',
-                          }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-
-                          <chakra.span paddingLeft="4">
-                            {{
-                              asc: <IoArrowUp aria-label="sorted-ascending" />,
-                              desc: (
-                                <IoArrowDown aria-label="sorted-descending" />
-                              ),
-                            }[header.column.getIsSorted() as string] ?? null}
-                          </chakra.span>
-                        </Box>
-                      )}
-                    </Th>
-                  ))}
-                  <Th borderColor="gray.100" />
-                </Tr>
-              ))}
-            </Thead>
-
-            <Tbody>
-              {table.getRowModel().rows.map(row => {
-                return (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map(cell => {
-                      return (
-                        <Td borderColor="gray.100" key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </Td>
-                      );
-                    })}
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
+          <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
         </InfiniteScroll>
         <ModalWrapper
           name="editContributionFormModal"

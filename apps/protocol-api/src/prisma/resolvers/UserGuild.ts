@@ -149,7 +149,7 @@ export class GuildUserCustomResolver {
         },
         membershipStatus: {
           connect: {
-            name: 'Recruit',
+            name: args.data.membershipStatus ?? 'Recruit',
           },
         },
       },
