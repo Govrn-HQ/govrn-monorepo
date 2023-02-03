@@ -4,10 +4,7 @@ import { Button, Flex, Heading, Divider, Grid } from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useDaosList } from '../hooks/useDaosList';
-import {
-  useDaoUsersList,
-  useDaoUsersInfiniteList,
-} from '../hooks/useDaoUsersList';
+import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import DaoCard from './DaoCard';
 import { SortOrder } from '@govrn/protocol-client';
 import { mergeMemberPages } from '../utils/arrays';
@@ -23,17 +20,11 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     value: number;
     label: string;
   } | null>(null);
-  // data fetching within this component so the loading states dont block the entire profile's render -- we can show a spinner for this part of the UI only similar to how we handle the fetches on the DaoDashboard page
-  const { isLoading: daosListLoading, data: joinableDaosListData } =
+
+  const { isLoading: joinableDaosListLoading, data: joinableDaosListData } =
     useDaosList({
       where: { users: { none: { user_id: { equals: userId || 0 } } } },
     });
-
-  // const { isLoading: daoUsersListLoading, data: daosUsersListData } =
-  //   useDaoUsersList({
-  //     where: { user_id: { equals: userId } },
-  //     orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
-  //   });
 
   const {
     data: daoUsersData,
@@ -48,7 +39,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
         { favorite: SortOrder.Desc },
       ],
     },
-    4,
+    8, // page size
   );
 
   const daoListOptions =
@@ -81,8 +72,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     );
   }, [daoUsersData]);
 
-  // if (daosListLoading || daoUsersListLoading) return <GovrnSpinner />;
-  // if (daosListLoading || daoUsersListLoading) return <GovrnSpinner />;
+  if (joinableDaosListLoading) return <GovrnSpinner />;
 
   return (
     <Flex
