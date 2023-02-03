@@ -36,9 +36,12 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergeHistoryPages } from '../utils/arrays';
 import { formatDate, toDate } from '../utils/date';
+import useUserGet from '../hooks/useUserGet';
 
 const ImportHistoryTable = () => {
-  const { userData, userDaos } = useUser();
+  const { userData } = useUser();
+  const { data: userResp } = useUserGet({ userId: userData?.id });
+  const userDaos = userResp?.userDaos;
 
   const [sorting, setSorting] = useState<SortingState>([]);
 

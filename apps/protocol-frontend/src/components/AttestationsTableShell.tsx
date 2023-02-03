@@ -19,6 +19,9 @@ import { useUser } from '../contexts/UserContext';
 
 const AttestationsTableShell = () => {
   const { userData } = useUser();
+  const guildIds = userData?.guild_users
+    ? userData?.guild_users.map(guild => guild.guild_id)
+    : [];
   const {
     isFetching,
     data: contributions,
@@ -33,7 +36,7 @@ const AttestationsTableShell = () => {
       guilds: {
         some: {
           guild_id: {
-            in: userData?.guild_users.map(guild => guild.guild_id) || [],
+            in: guildIds,
           },
         },
       },
