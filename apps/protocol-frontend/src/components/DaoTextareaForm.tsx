@@ -74,7 +74,7 @@ const DaoTextareaForm = () => {
         <Input
           name="guildName"
           label="DAO Name"
-          placeholder="govrn-user"
+          placeholder="YourDAO"
           localForm={localForm}
         />
         <Textarea

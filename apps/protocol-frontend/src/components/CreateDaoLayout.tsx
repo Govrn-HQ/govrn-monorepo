@@ -4,10 +4,8 @@ import PageHeading from './PageHeading';
 import DaoTextareaForm from './DaoTextareaForm';
 import DaoImportCard from './DaoImportCard';
 import ModalWrapper from './ModalWrapper';
-import ImportHistoryTable from './ImportHistoryTable';
 
 const CreateDaoLayout = () => {
-  // this will be removed once we add this to the dao settings page -- needed for testing the modal
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
 
@@ -15,7 +13,7 @@ const CreateDaoLayout = () => {
     setModals({ createDaoModal: true });
   };
 
-  // we can add the other methods in as they're ready
+  // we can add the other methods in as they're ready. we'll add the ImportHistoryTable back in at that point
   const daoImportMethods = [
     {
       importName: 'Create a DAO Manually',
@@ -35,7 +33,6 @@ const CreateDaoLayout = () => {
         width="100%"
       >
         <PageHeading>Create a DAO</PageHeading>
-        <ImportHistoryTable />
         <Grid
           padding={{ base: 4, lg: 0 }}
           templateColumns={{

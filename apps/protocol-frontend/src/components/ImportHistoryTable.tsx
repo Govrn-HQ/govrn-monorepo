@@ -68,7 +68,7 @@ const ImportHistoryTable = () => {
         }) => {
           return (
             row.original.import_status.name === 'Completed' &&
-            userDaos?.get(getValue())?.membershipStatus?.name === 'admin' && (
+            userDaos?.get(getValue())?.membershipStatus?.name === 'Admin' && (
               <IconButton
                 aria-label="Click on the gear icon to open this DAO's settings."
                 bg="transparent"
