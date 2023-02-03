@@ -74,7 +74,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     isError: daosListIsError,
     data: daosListData,
   } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+    where: { users: { some: { user_id: { equals: userData?.id || 0 } } } }, // show only user's DAOs
   });
 
   const daoListOptions =

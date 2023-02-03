@@ -1,10 +1,10 @@
-import { useUser } from '../contexts/UserContext';
 import { Stack, Flex, Button } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createUserFormValidation } from '../utils/validations';
 import { CreateUserFormValues } from '../types/forms';
+import useUserCreate from '../hooks/useUserCreate';
 import { useAccount } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,14 +18,18 @@ const CreateUserForm = () => {
     formState: { isSubmitting },
   } = localForm;
   const { address } = useAccount();
-  const { createUser } = useUser();
+  const { mutateAsync: createUser } = useUserCreate();
   const navigate = useNavigate();
 
   const createUserHandler: SubmitHandler<
     CreateUserFormValues
   > = async values => {
-    if (address) {
-      await createUser(values, address);
+    if (address && values?.username && values?.email) {
+      await createUser({
+        username: values?.username,
+        email: values?.email,
+        address,
+      });
       navigate('/dashboard');
     }
   };
