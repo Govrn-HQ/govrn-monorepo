@@ -57,6 +57,7 @@ const DaoTextareaForm = () => {
               guildName: values.guildName,
               userAddress: address,
               guildId: data.mutationData.createGuildUserCustom.guild_id,
+              membershipStatus: 'Member',
             },
           });
           return true;

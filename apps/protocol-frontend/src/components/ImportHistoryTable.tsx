@@ -2,27 +2,18 @@ import { useMemo, useState } from 'react';
 import {
   Badge,
   Box,
-  chakra,
   Flex,
   Heading,
   IconButton,
   Stack,
-  Table,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
 } from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
 import { HiOutlineCog } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import {
   ColumnDef,
   getCoreRowModel,
   useReactTable,
-  flexRender,
   SortingState,
   getSortedRowModel,
   Getter,
@@ -36,6 +27,7 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergeHistoryPages } from '../utils/arrays';
 import { formatDate, toDate } from '../utils/date';
+import GovrnTable from './GovrnTable';
 import useUserGet from '../hooks/useUserGet';
 
 const ImportHistoryTable = () => {
@@ -217,63 +209,11 @@ const ImportHistoryTable = () => {
               hasMore={hasNextPage || false}
               loader={<GovrnSpinner />}
             >
-              <Table maxWidth="100vw" overflowX="auto">
-                <Thead backgroundColor="gray.50">
-                  {table.getHeaderGroups().map(headerGroup => (
-                    <Tr key={headerGroup.id}>
-                      {headerGroup.headers.map(header => (
-                        <Th key={header.id} borderColor="gray.100">
-                          {header.isPlaceholder ? null : (
-                            <Box
-                              {...{
-                                onClick:
-                                  header.column.getToggleSortingHandler(),
-                                cursor: 'pointer',
-                              }}
-                            >
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext(),
-                              )}
-
-                              <chakra.span paddingLeft="4">
-                                {{
-                                  asc: (
-                                    <IoArrowUp aria-label="sorted-ascending" />
-                                  ),
-                                  desc: (
-                                    <IoArrowDown aria-label="sorted-descending" />
-                                  ),
-                                }[header.column.getIsSorted() as string] ??
-                                  null}
-                              </chakra.span>
-                            </Box>
-                          )}
-                        </Th>
-                      ))}
-                      <Th borderColor="gray.100" />
-                    </Tr>
-                  ))}
-                </Thead>
-                <Tbody>
-                  {table.getRowModel().rows.map(row => {
-                    return (
-                      <Tr key={row.id}>
-                        {row.getVisibleCells().map(cell => {
-                          return (
-                            <Td borderColor="gray.100" key={cell.id}>
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext(),
-                              )}
-                            </Td>
-                          );
-                        })}
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
+              <GovrnTable
+                controller={table}
+                maxWidth="100vw"
+                overflowX="auto"
+              />
             </InfiniteScroll>
           </Box>
         </Stack>
