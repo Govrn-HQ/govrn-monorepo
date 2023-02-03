@@ -208,7 +208,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               width="100%"
               maxWidth="100vw"
               overflowX="auto"
-              height="15rem"
+              maxHeight="15rem"
               overflowY="scroll"
             >
               <InfiniteScroll
