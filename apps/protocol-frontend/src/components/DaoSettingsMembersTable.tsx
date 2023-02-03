@@ -73,7 +73,8 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           userId: userData.id,
           guildId: daoId,
           memberId: address.user_id,
-          membershipStatusId: 1,
+          // membershipStatusId: 1,
+          membershipStatus: 'Admin',
         });
         return true;
       });
