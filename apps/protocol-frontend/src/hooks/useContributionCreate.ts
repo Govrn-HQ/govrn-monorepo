@@ -34,8 +34,21 @@ export const useContributionCreate = () => {
     onMutate: async (newContribution: ContributionFormValues) => {
       // await queryClient.cancelQueries(['contributionList']);
       await queryClient.cancelQueries({
-        queryKey: [['contributionInfiniteList'], ['contributionList']],
+        queryKey: [
+          [
+            'contributionInfiniteList',
+            {
+              where: {
+                user_id: { equals: userData?.id },
+                status: { isNot: { name: { equals: 'minted' } } },
+              },
+            },
+          ],
+          ['contributionList'],
+        ],
       });
+
+      // this is the full key with the args included
 
       const previousContributions = queryClient.getQueryData<UIContribution[]>([
         'contributionInfiniteList',
@@ -80,7 +93,7 @@ export const useContributionCreate = () => {
               },
             },
           ],
-          context.previousContributions,
+          context.previousContributions, // type error we can resolve once we see if this works
         );
       }
       toast.error({
