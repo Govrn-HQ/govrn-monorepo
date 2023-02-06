@@ -8,6 +8,7 @@ interface DaoUserUpdateProps {
   favorite?: boolean;
   membershipStatusId?: number;
   memberId?: number;
+  membershipStatus?: string;
 }
 
 export const useDaoUserUpdate = () => {
@@ -21,6 +22,7 @@ export const useDaoUserUpdate = () => {
       favorite,
       membershipStatusId,
       memberId,
+      membershipStatus,
     }: DaoUserUpdateProps) => {
       const mutationData = await govrn.guild.user.update({
         userId: userId,
@@ -28,13 +30,16 @@ export const useDaoUserUpdate = () => {
         favorite: favorite,
         membershipStatusId: membershipStatusId,
         memberId: memberId,
+        membershipStatus: membershipStatus,
       });
       return { mutationData };
     },
     {
-      onSuccess: (_, { favorite }) => {
-        queryClient.invalidateQueries(['userDaos']);
+      onSuccess: (_, { userId, favorite }) => {
+        queryClient.invalidateQueries(['userDaos', userId]);
+        queryClient.invalidateQueries(['userGet', userId]);
         queryClient.invalidateQueries(['daoUsersList']);
+        queryClient.invalidateQueries(['daoUsersInfiniteList']);
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
