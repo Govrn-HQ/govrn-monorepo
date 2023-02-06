@@ -40,6 +40,7 @@ const MintModal = ({ contributions, onFinish }: MintModalProps) => {
   const mintHandler = async (contributions: UIContribution[]) => {
     // Mint button is disabled unless user accepts terms.
     // Consequently, calling this means `isChecked` is already `true`.
+
     try {
       agreementCheckboxHandler();
       setMinting(true);
