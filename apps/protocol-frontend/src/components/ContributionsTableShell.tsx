@@ -42,6 +42,8 @@ const ContributionsTableShell = () => {
     false, // Don't refetch on refocus
   );
 
+  console.log('nonMintedContributionPages', nonMintedContributionPages);
+
   const {
     data: mintedContributionPages,
     isFetching: isMintedFetching,
