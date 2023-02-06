@@ -86,7 +86,6 @@ const Select: React.FC<SelectProps> = ({
                 value={value}
                 components={{ SelectContainer }}
                 styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
-                menuPortalTarget={document.querySelector('body')} // so dropdown menu doesnt interfere with clickable elements
               />
             )}
           />
