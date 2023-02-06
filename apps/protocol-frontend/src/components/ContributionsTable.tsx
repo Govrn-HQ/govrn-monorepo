@@ -273,6 +273,10 @@ const ContributionsTable = ({
     setSelectedRows(selectedContributions);
   }, [rowSelection, table]);
 
+  useEffect(() => {
+    console.log('mounting');
+  }, []);
+
   return (
     <Stack>
       <GlobalFilter
