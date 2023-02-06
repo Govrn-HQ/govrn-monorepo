@@ -27,7 +27,9 @@ export const useDaoUserCreate = () => {
     },
     {
       onSuccess: (_, { creatingNewDao, newDaoUser }) => {
-        queryClient.invalidateQueries(['userDaos']);
+        const { userId } = newDaoUser;
+        queryClient.invalidateQueries(['userDaos', userId]);
+        queryClient.invalidateQueries(['userGet', userId]);
         queryClient.invalidateQueries(['daoUsersList']);
         queryClient.invalidateQueries(['daoUsersInfiniteList']);
 
@@ -41,7 +43,7 @@ export const useDaoUserCreate = () => {
             title: `${
               creatingNewDao === true
                 ? 'Successfully Created DAO'
-                : 'Successfully Joined DAO'
+                : 'Successfully Added to DAO'
             }`,
             description: `${
               creatingNewDao === true

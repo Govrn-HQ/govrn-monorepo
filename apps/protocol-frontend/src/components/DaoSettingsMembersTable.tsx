@@ -73,7 +73,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           userId: userData.id,
           guildId: daoId,
           memberId: address.user_id,
-          membershipStatusId: 1,
+          membershipStatus: 'Admin',
         });
         return true;
       });
@@ -208,7 +208,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               width="100%"
               maxWidth="100vw"
               overflowX="auto"
-              height="15rem"
+              maxHeight="15rem"
               overflowY="scroll"
             >
               <InfiniteScroll
