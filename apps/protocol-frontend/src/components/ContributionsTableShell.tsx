@@ -32,24 +32,30 @@ const ContributionsTableShell = () => {
     isFetching,
     hasNextPage,
     fetchNextPage,
-  } = useContributionInfiniteList({
-    where: {
-      user_id: { equals: userData?.id },
-      status: { isNot: { name: { equals: 'minted' } } },
+  } = useContributionInfiniteList(
+    {
+      where: {
+        user_id: { equals: userData?.id },
+        status: { isNot: { name: { equals: 'minted' } } },
+      },
     },
-  });
+    false, // Don't refetch on refocus
+  );
 
   const {
     data: mintedContributionPages,
     isFetching: isMintedFetching,
     hasNextPage: hasMintedNextPage,
     fetchNextPage: fetchMintedNextPage,
-  } = useContributionInfiniteList({
-    where: {
-      user_id: { equals: userData?.id },
-      status: { is: { name: { equals: 'minted' } } },
+  } = useContributionInfiniteList(
+    {
+      where: {
+        user_id: { equals: userData?.id },
+        status: { is: { name: { equals: 'minted' } } },
+      },
     },
-  });
+    false, // Don't refetch on refocus
+  );
 
   const nonMintedContributions = useMemo(() => {
     return mergePages([...(nonMintedContributionPages?.pages ?? [])]);
