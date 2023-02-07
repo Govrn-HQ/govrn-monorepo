@@ -90,9 +90,9 @@ const ContributionsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Contributions</PageHeading>
-      {isFetching && isMintedFetching ? (
+      {isFetching && isMintedFetching && allContributions.length === 0 ? (
         <GovrnSpinner />
-      ) : allContributions.length > 0 ? (
+      ) : allContributions && allContributions.length > 0 ? (
         <Tabs
           variant="soft-rounded"
           width="100%"
