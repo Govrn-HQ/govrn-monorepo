@@ -1,11 +1,12 @@
 import { format } from 'date-fns';
+import { isDate } from 'lodash';
 
 export const formatDate = (
-  date: string | Date,
+  value: string | Date,
   formatting?: string,
   ignoreTimezone?: true,
 ) => {
-  const dateOriginal = new Date(date);
+  const dateOriginal = new Date(value);
   const dateWithoutTimezone = new Date(
     dateOriginal.valueOf() + dateOriginal.getTimezoneOffset() * 60 * 1000,
   );
@@ -13,4 +14,8 @@ export const formatDate = (
     new Date(ignoreTimezone === true ? dateWithoutTimezone : dateOriginal),
     formatting ?? 'P',
   );
+};
+
+export const toDate = (value: string | Date): Date => {
+  return isDate(value) ? value : new Date(value);
 };

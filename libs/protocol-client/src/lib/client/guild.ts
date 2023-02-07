@@ -9,8 +9,10 @@ import {
   CreateGuildMutationVariables,
   GuildWhereUniqueInput,
 } from '../protocol-types';
+import { paginate } from '../utils/paginate';
 import { GuildUser } from './guild_user';
 import { GraphQLClient } from 'graphql-request';
+import { ListGuildImportsQuery } from '../protocol-types';
 
 // TODO: Add users query
 export class Guild extends BaseClient {
@@ -49,7 +51,9 @@ export class Guild extends BaseClient {
 
 export class GuildImport extends BaseClient {
   public async list(args: ListGuildImportsQueryVariables) {
-    const guilds = await this.sdk.listGuildImports(args);
-    return guilds.result;
+    return paginate<ListGuildImportsQueryVariables, ListGuildImportsQuery>(
+      this.sdk.listGuildImports,
+      args,
+    );
   }
 }

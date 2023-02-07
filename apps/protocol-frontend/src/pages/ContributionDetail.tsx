@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Container,
   Box,
@@ -18,6 +18,7 @@ import ContributionDetailShell from '../components/ContributionDetailShell';
 import NewUserView from '../components/NewUserView';
 import { GOVRN_MOTTO } from '../utils/constants';
 import { useContributionGet } from '../hooks/useContributionGet';
+import { useNavigate } from 'react-router-dom';
 
 const UserView = () => {
   return (
@@ -39,6 +40,7 @@ const ContributionDetails = () => {
   const { userData } = useUser();
   const { data: contribution } = useContributionGet(parseInt(id || '0'));
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   let DetailComponent = () => (
     <Box
@@ -82,11 +84,17 @@ const ContributionDetails = () => {
           </span>
         </Heading>
         <Text>Let's try another one! </Text>
-        <Link to="/contributions">
-          <Button leftIcon={<FiArrowLeft />} variant="outline" paddingX={4}>
-            Contributions
+        <Box>
+          <Button
+            leftIcon={<FiArrowLeft />}
+            variant="outline"
+            padding={2}
+            paddingX={4}
+            onClick={() => navigate(-1)}
+          >
+            Back
           </Button>
-        </Link>
+        </Box>
       </Flex>
     </Box>
   );

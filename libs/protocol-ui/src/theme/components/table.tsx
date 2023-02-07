@@ -3,10 +3,11 @@ export default {
     table: {
       bg: 'white',
       whiteSpace: { base: 'wrap', lg: 'nowrap' },
+      border: '1px solid red.500',
     },
     th: {
-      fontWeight: 'medium',
-      textTransform: 'normal',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
       letterSpacing: 'normal',
       borderTopWidth: '1px',
       whiteSpace: 'nowrap',

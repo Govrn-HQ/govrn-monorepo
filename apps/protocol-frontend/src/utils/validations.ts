@@ -1,22 +1,39 @@
 import * as yup from 'yup';
 import { ethers } from 'ethers';
 import { splitEntriesByComma } from '../utils/arrays';
-import { MAX_CSV_UPLOAD_SIZE } from './constants';
+import { MAX_CSV_UPLOAD_SIZE, ADDRESS_IMPORT_MAX } from './constants';
 
 // Helpers
 
 export const isEthAddress = (item: unknown): item is `0x${string}` =>
   typeof item === 'string' && ethers.utils.isAddress(item);
 
-// custom yup validation methods
-
-yup.addMethod(yup.string, 'ethAddress', function format(formats, parseStrict) {
-  return this.transform((value, originalValue, ctx) => {
-    return value.isValid() ? value.toDate() : new Date('');
-  });
-});
+export const listLength = (length: number, maxLength: number) =>
+  maxLength >= length;
 
 export const daoTextareaFormValidation = yup.object({
+  guildName: yup.string().required('This field is required.'),
+  daoMemberAddresses: yup
+    .string()
+    .min(1, 'Need to include at least one address.')
+    .test('isEthAddress', 'Invalid addresses included in the list.', value => {
+      if (value) {
+        const parsedDaoMemberAddresses = splitEntriesByComma(value);
+        return parsedDaoMemberAddresses.every(isEthAddress);
+      }
+      return false;
+    })
+    .test('listLength', 'Too many addresses in the list.', value => {
+      if (value) {
+        const parsedDaoMemberAddresses = splitEntriesByComma(value);
+        return listLength(parsedDaoMemberAddresses.length, ADDRESS_IMPORT_MAX);
+      }
+      return false;
+    })
+    .required('This field is required.'),
+});
+
+export const daoMembersUpdateFormValidation = yup.object({
   daoMemberAddresses: yup
     .string()
     .min(1, 'Need to include at least one address.')
@@ -94,4 +111,10 @@ export const reportFormValidation = yup.object({
 
 export const addAttestationFormValidation = yup.object({
   // username: yup.string().required('This field is required.'),
+});
+
+// dao updates
+
+export const daoNameFormValidation = yup.object({
+  daoName: yup.string().required('DAO name is required.'),
 });

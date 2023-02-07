@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useDaosList = ({ ...args }) => {
   const { govrnProtocol: govrn } = useUser();
+
   const { isLoading, isFetching, isError, error, data } = useQuery(
     ['userDaos', args],
     async () => {

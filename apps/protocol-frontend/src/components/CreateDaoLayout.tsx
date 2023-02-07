@@ -4,10 +4,8 @@ import PageHeading from './PageHeading';
 import DaoTextareaForm from './DaoTextareaForm';
 import DaoImportCard from './DaoImportCard';
 import ModalWrapper from './ModalWrapper';
-import DaoCsvImport from './DaoCsvImport';
 
 const CreateDaoLayout = () => {
-  // this will be removed once we add this to the dao settings page -- needed for testing the modal
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
 
@@ -15,33 +13,11 @@ const CreateDaoLayout = () => {
     setModals({ createDaoModal: true });
   };
 
-  const guildImportModalHandler = () => {
-    setModals({ guildImportModal: true }); // no component yet, but added to overlay modals
-  };
-
-  const csvImportModalHandler = () => {
-    setModals({ csvImportModal: true }); // no component yet, but added to overlay modals
-  };
-
+  // we can add the other methods in as they're ready. we'll add the ImportHistoryTable back in at that point
   const daoImportMethods = [
     {
-      importName: 'Import via Guild.xyz',
-      importDescription:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      importButtonCopy: 'Connect to Guild API',
-      importModalHandler: guildImportModalHandler,
-    },
-    {
-      importName: 'Import via CSV File',
-      importDescription:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      importButtonCopy: 'Upload CSV File',
-      importModalHandler: csvImportModalHandler,
-    },
-    {
       importName: 'Create a DAO Manually',
-      importDescription:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      importDescription: `Simply add your members' Ethereum wallet addresses in the provided space. Once done, click "Create a DAO" and you're all set to join the party!`,
       importButtonCopy: 'Create a DAO',
       importModalHandler: createDaoModalHandler,
     },
@@ -79,15 +55,8 @@ const CreateDaoLayout = () => {
         </Grid>
       </Box>
       <ModalWrapper
-        name="csvImportModal"
-        title="Upload a CSV File"
-        localOverlay={localOverlay}
-        size="3xl"
-        content={<DaoCsvImport />}
-      />
-      <ModalWrapper
         name="createDaoModal"
-        title="Add DAO Members"
+        title="Create a DAO"
         localOverlay={localOverlay}
         size="3xl"
         content={<DaoTextareaForm />}
