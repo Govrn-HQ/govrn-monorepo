@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAccount, useSignMessage } from 'wagmi';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
-import CreateUserForm from './CreateUserForm';
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import GovrnTextLogo from './GovrnTextLogo';
-import useDisplayName from '../hooks/useDisplayName';
 
 const SignatureLayout = () => {
   const { isConnected, address } = useAccount();
   const { isAuthenticated } = useAuth();
+  const [searchParams] = useSearchParams();
+  const displayName = searchParams.get('displayName');
+
   console.log('user account', isConnected ? address : 'not connected');
+  console.log('display name', displayName);
 
   return (
     <Flex
@@ -64,13 +66,6 @@ const SignatureLayout = () => {
               To get started, connect your wallet to Gnosis Chain.
             </Text>
             <ConnectWallet />
-            <Button
-              variant="primary"
-              onClick={signMessageHandler}
-              disabled={!isConnected}
-            >
-              Sign Message
-            </Button>
           </Flex>
         </Flex>
       </Flex>

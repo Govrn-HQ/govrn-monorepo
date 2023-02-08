@@ -45,6 +45,15 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   return children;
 };
 
+const RequireConnectedUser = ({ children }: { children: JSX.Element }) => {
+  const location = useLocation();
+  const { isAuthenticated, checkExistingCreds } = useAuth();
+  if (!isAuthenticated && checkExistingCreds) {
+    return <Navigate to="/authenticate" state={{ from: location }} replace />;
+  }
+  return children;
+};
+
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
   const { guildId } = useParams();
   const { userData } = useUser();
@@ -86,9 +95,9 @@ const Routes = () => {
         <Route
           path="/signature"
           element={
-            // <RequireActiveUser>
-            <Signature />
-            // </RequireActiveUser>
+            <RequireConnectedUser>
+              <Signature />
+            </RequireConnectedUser>
           }
         />
         <Route
