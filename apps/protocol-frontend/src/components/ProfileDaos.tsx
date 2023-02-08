@@ -28,6 +28,9 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
         status: { equals: 'VALIDATED' },
       },
       first: 1000,
+      orderBy: {
+        name: SortOrder.Asc,
+      },
     });
 
   const {
