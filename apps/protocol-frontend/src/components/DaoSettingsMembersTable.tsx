@@ -1,5 +1,13 @@
 import { useMemo, useState, useEffect } from 'react';
-import { Badge, Button, Box, Flex, Stack, Text } from '@chakra-ui/react';
+import {
+  Badge,
+  Button,
+  Box,
+  Flex,
+  Stack,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -47,6 +55,8 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       daoUsersData && daoUsersData.pages.length > 0 ? daoUsersData.pages : [],
     );
   }, [daoUsersData]);
+
+  console.log('data', data);
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>([]);
@@ -97,24 +107,57 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         ),
       },
       {
-        header: 'Member Address',
+        header: 'Member',
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
           const value = getValue();
           return value.address === userData?.address ? (
-            <Text
-              whiteSpace="normal"
-              fontWeight="bold"
-              bgGradient="linear(to-l, #7928CA, #FF0080)"
-              bgClip="text"
+            <Tooltip
+              variant="primary"
+              label={value.name}
+              fontSize="sm"
+              placement="right"
             >
-              {value.address}
-            </Text>
+              <Text
+                whiteSpace="normal"
+                fontWeight="bold"
+                bgGradient="linear(to-l, #7928CA, #FF0080)"
+                bgClip="text"
+              >
+                {value.address}
+              </Text>
+            </Tooltip>
           ) : (
-            <Text whiteSpace="normal">{value.address}</Text>
+            <Tooltip
+              variant="primary"
+              label={value.name}
+              fontSize="sm"
+              placement="right"
+            >
+              <Text whiteSpace="normal">{value.address}</Text>
+            </Tooltip>
           );
         },
       },
+      // {
+      //   header: 'Member Name',
+      //   accessorKey: 'user',
+      //   cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
+      //     const value = getValue();
+      //     return value.name === userData?.name ? (
+      //       <Text
+      //         whiteSpace="normal"
+      //         fontWeight="bold"
+      //         bgGradient="linear(to-l, #7928CA, #FF0080)"
+      //         bgClip="text"
+      //       >
+      //         {value.name}
+      //       </Text>
+      //     ) : (
+      //       <Text whiteSpace="normal">{value.name}</Text>
+      //     );
+      //   },
+      // },
       {
         header: 'Role',
         accessorKey: 'membershipStatus',
