@@ -22,6 +22,7 @@ export const useContributionList = (
 
 export const useContributionInfiniteList = (
   args?: ListContributionsQueryVariables,
+  refetchOnWindowFocus?: boolean,
   pageSize = 20,
 ) => {
   const { govrnProtocol: govrn } = useUser();
@@ -32,9 +33,9 @@ export const useContributionInfiniteList = (
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery(
-    ['contributionInfiniteList', args],
-    async ({ pageParam }): Promise<UIContribution[]> => {
+  } = useInfiniteQuery({
+    queryKey: ['contributionInfiniteList', args],
+    queryFn: async ({ pageParam }): Promise<UIContribution[]> => {
       const data = await govrn.contribution.list(
         { ...args, first: pageSize, skip: pageParam } || {},
       );
@@ -48,19 +49,18 @@ export const useContributionInfiniteList = (
       }
       return results;
     },
-    {
-      getNextPageParam: (lastPage, pages) => {
-        let skip = 0;
-        if (lastPage.length < pageSize) {
-          return;
-        }
-        for (const page of pages) {
-          skip += page.length;
-        }
-        return skip;
-      },
+    refetchOnWindowFocus,
+    getNextPageParam: (lastPage, pages) => {
+      let skip = 0;
+      if (lastPage.length < pageSize) {
+        return;
+      }
+      for (const page of pages) {
+        skip += page.length;
+      }
+      return skip;
     },
-  );
+  });
   return {
     status,
     data,

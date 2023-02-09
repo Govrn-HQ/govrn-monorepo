@@ -76,7 +76,7 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
         minWidth="14rem"
         borderRadius="md"
       >
-        <Link to={`/dao/${daoUser.id}`}>
+        <Link to={`/dao/${daoUser.guild.id}`}>
           <LinkOverlay>
             <Box height="100%" width="100%">
               <Flex
@@ -132,7 +132,7 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
               {daoUser.membershipStatus?.name}
             </Text>
             {daoUser.membershipStatus?.name === 'Admin' ? (
-              <Link to={`/dao/${daoUser.id}/settings`}>
+              <Link to={`/dao/${daoUser.guild.id}/settings`}>
                 <IconButton
                   aria-label="Click on the gear icon to open this DAO's settings."
                   bg="transparent"

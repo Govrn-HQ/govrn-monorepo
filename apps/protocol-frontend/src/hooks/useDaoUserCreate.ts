@@ -26,11 +26,16 @@ export const useDaoUserCreate = () => {
       return { mutationData, creatingNewDao };
     },
     {
-      onSuccess: (_, { creatingNewDao }) => {
-        queryClient.invalidateQueries(['userDaos']);
+      onSuccess: (_, { creatingNewDao, newDaoUser }) => {
+        const { userId } = newDaoUser;
+        queryClient.invalidateQueries(['userDaos', userId]);
+        queryClient.invalidateQueries(['userGet', userId]);
         queryClient.invalidateQueries(['daoUsersList']);
         queryClient.invalidateQueries(['daoUsersInfiniteList']);
 
+        const membershipStatusDisplay = newDaoUser.membershipStatus
+          ? newDaoUser.membershipStatus.toLowerCase()
+          : 'recruit';
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
           toast.success({
@@ -38,12 +43,12 @@ export const useDaoUserCreate = () => {
             title: `${
               creatingNewDao === true
                 ? 'Successfully Created DAO'
-                : 'Successfully Joined DAO'
+                : 'Successfully Added to DAO'
             }`,
             description: `${
               creatingNewDao === true
                 ? 'You have successfully created a new DAO.'
-                : 'You have successfully joined the DAO as a recruit.'
+                : `Successfully added to the DAO as a ${membershipStatusDisplay}.`
             }`,
           });
         }

@@ -12,7 +12,6 @@ import { BASE_URL } from '../utils/constants';
 import useDisplayName from '../hooks/useDisplayName';
 import useLinearUserDisconnect from '../hooks/useLinearUserDisconnect';
 import useUserCustomUpdate from '../hooks/useUserCustomUpdate';
-import FeatureFlagWrapper from './FeatureFlagWrapper';
 import ProfileDaos from './ProfileDaos';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
@@ -124,9 +123,7 @@ const ProfileForm = () => {
           </Flex>
         </Flex>
       </form>
-      <FeatureFlagWrapper>
-        <ProfileDaos userId={userData?.id} userAddress={userData?.address} />
-      </FeatureFlagWrapper>
+      <ProfileDaos userId={userData?.id} userAddress={userData?.address} />
       <form>
         <Flex
           justify="space-between"

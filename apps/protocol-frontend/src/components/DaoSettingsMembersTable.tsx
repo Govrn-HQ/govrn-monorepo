@@ -1,24 +1,9 @@
 import { useMemo, useState, useEffect } from 'react';
-import {
-  Button,
-  Box,
-  chakra,
-  Flex,
-  Stack,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
+import { Badge, Button, Box, Flex, Stack, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
   useReactTable,
-  flexRender,
   SortingState,
   getSortedRowModel,
   Getter,
@@ -33,10 +18,13 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { UIGuildUsers } from '@govrn/ui-types';
 import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import { RowSelectionState } from '@tanstack/table-core';
+import { SortOrder } from '@govrn/protocol-client';
+import GovrnTable from './GovrnTable';
 
 interface DaoSettingsMembersTableProps {
   daoId: number;
 }
+
 const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const { userData } = useUser();
   const [selectedMemberAddresses, setSelectedMemberAddreses] = useState<
@@ -49,6 +37,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     fetchNextPage,
   } = useDaoUsersInfiniteList({
     where: { guild_id: { equals: daoId } },
+    orderBy: [{ membershipStatus: { name: SortOrder.Asc } }],
   });
 
   const { mutateAsync: updateDaoMemberStatus } = useDaoUserUpdate();
@@ -84,7 +73,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           userId: userData.id,
           guildId: daoId,
           memberId: address.user_id,
-          membershipStatusId: 1,
+          membershipStatus: 'Admin',
         });
         return true;
       });
@@ -97,7 +86,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       {
         id: 'selection',
         header: 'Select Admin',
-        cell: ({ row, table }) => (
+        cell: ({ row }) => (
           <IndeterminateCheckbox
             {...{
               checked: row.getIsSelected(),
@@ -111,11 +100,63 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         header: 'Member Address',
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
-          return <Text whiteSpace="normal">{getValue().address}</Text>;
+          const value = getValue();
+          return value.address === userData?.address ? (
+            <Text
+              whiteSpace="normal"
+              fontWeight="bold"
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              bgClip="text"
+            >
+              {value.address}
+            </Text>
+          ) : (
+            <Text whiteSpace="normal">{value.address}</Text>
+          );
+        },
+      },
+      {
+        header: 'Role',
+        accessorKey: 'membershipStatus',
+        cell: ({
+          getValue,
+        }: {
+          getValue: Getter<UIGuildUsers['membershipStatus']>;
+        }) => {
+          const value = getValue();
+          if (value === undefined || value === null) return;
+          return (
+            <Badge
+              minWidth="5rem"
+              textAlign="center"
+              bgColor={
+                value.name === 'Admin'
+                  ? 'brand.purple'
+                  : value.name === 'Member'
+                  ? 'brand.magenta'
+                  : 'gray.200'
+              }
+              color={
+                value.name === 'Admin'
+                  ? 'white'
+                  : value.name === 'Member'
+                  ? 'white'
+                  : 'gray.600'
+              }
+              fontWeight="bold"
+              paddingX={2}
+              paddingY={1}
+              borderRadius="md"
+              size="sm"
+              textTransform="uppercase"
+            >
+              {value.name}
+            </Badge>
+          );
         },
       },
     ];
-  }, []);
+  }, [userData?.address]);
 
   const table = useReactTable({
     data,
@@ -163,7 +204,13 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       >
         {daoUsersData && daoUsersData.pages.length > 0 ? (
           <Stack spacing="5">
-            <Box width="100%" maxWidth="100vw" overflowX="auto">
+            <Box
+              width="100%"
+              maxWidth="100vw"
+              overflowX="auto"
+              maxHeight="15rem"
+              overflowY="scroll"
+            >
               <InfiniteScroll
                 dataLength={table.getRowModel().rows.length}
                 next={fetchNextPage}
@@ -171,63 +218,11 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
                 hasMore={hasNextPage || false}
                 loader={<GovrnSpinner />}
               >
-                <Table maxWidth="100vw" overflowX="auto">
-                  <Thead backgroundColor="gray.50">
-                    {table.getHeaderGroups().map(headerGroup => (
-                      <Tr key={headerGroup.id}>
-                        {headerGroup.headers.map(header => (
-                          <Th key={header.id} borderColor="gray.100">
-                            {header.isPlaceholder ? null : (
-                              <Box
-                                {...{
-                                  onClick:
-                                    header.column.getToggleSortingHandler(),
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                {flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext(),
-                                )}
-
-                                <chakra.span paddingLeft="4">
-                                  {{
-                                    asc: (
-                                      <IoArrowUp aria-label="sorted-ascending" />
-                                    ),
-                                    desc: (
-                                      <IoArrowDown aria-label="sorted-descending" />
-                                    ),
-                                  }[header.column.getIsSorted() as string] ??
-                                    null}
-                                </chakra.span>
-                              </Box>
-                            )}
-                          </Th>
-                        ))}
-                        <Th borderColor="gray.100" />
-                      </Tr>
-                    ))}
-                  </Thead>
-                  <Tbody>
-                    {table.getRowModel().rows.map(row => {
-                      return (
-                        <Tr key={row.id}>
-                          {row.getVisibleCells().map(cell => {
-                            return (
-                              <Td borderColor="gray.100" key={cell.id}>
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext(),
-                                )}
-                              </Td>
-                            );
-                          })}
-                        </Tr>
-                      );
-                    })}
-                  </Tbody>
-                </Table>
+                <GovrnTable
+                  controller={table}
+                  maxWidth="100vw"
+                  overflowX="auto"
+                />
               </InfiniteScroll>
             </Box>
           </Stack>

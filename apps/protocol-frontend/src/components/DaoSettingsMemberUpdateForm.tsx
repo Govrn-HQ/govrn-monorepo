@@ -52,6 +52,7 @@ const DaoSettingsMemberUpdateForm = ({
             guildName: values.guildName,
             userAddress: address,
             guildId: daoId,
+            membershipStatus: 'Member',
           },
           creatingNewDao: false,
         });

@@ -57,6 +57,7 @@ const DaoTextareaForm = () => {
               guildName: values.guildName,
               userAddress: address,
               guildId: data.mutationData.createGuildUserCustom.guild_id,
+              membershipStatus: 'Member',
             },
           });
           return true;
@@ -73,7 +74,7 @@ const DaoTextareaForm = () => {
         <Input
           name="guildName"
           label="DAO Name"
-          placeholder="govrn-user"
+          placeholder="YourDAO"
           localForm={localForm}
         />
         <Textarea

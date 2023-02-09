@@ -31,6 +31,7 @@ import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useDaosList } from '../hooks/useDaosList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
+import useUserGet from '../hooks/useUserGet';
 import { useGovrnToast } from '@govrn/protocol-ui';
 
 function CreateMoreSwitch({
@@ -167,6 +168,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setUserCreatingMore(!isUserCreatingMore);
   };
 
+  const {
+    data: useUserData,
+    isError: useUserError,
+    isLoading: useUserLoading,
+  } = useUserGet({
+    userId: userData?.id,
+  });
+
   // renaming these on destructuring incase we have parallel queries:
   const {
     isLoading: userActivityTypesIsLoading,
@@ -174,19 +183,10 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     data: userActivityTypesData,
   } = useUserActivityTypesList();
 
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: daosListIsLoading,
-    isError: daosListIsError,
-    data: daosListData,
-  } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id || 0 } } } }, // show only user's DAOs
-  });
-
   const daoListOptions =
-    daosListData?.map(dao => ({
-      value: dao.id,
-      label: dao.name ?? '',
+    useUserData?.guild_users.map(dao => ({
+      value: dao.guild.id,
+      label: dao.guild.name ?? '',
     })) || [];
 
   useEffect(() => {
@@ -215,7 +215,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   );
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || daosListIsLoading) {
+  if (userActivityTypesIsLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
@@ -224,7 +224,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
-  if (daosListIsError) {
+  if (useUserError) {
     return <Text>An error occurred fetching DAOs.</Text>;
   }
 
