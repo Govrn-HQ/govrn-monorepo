@@ -9,19 +9,17 @@ const useDisplayName = () => {
 
   const { data: userEnsName, isLoading } = useEnsNameEthers(address);
 
-  if (isLoading) {
-    return { displayName: null };
-  }
-
   const displayName =
     userData?.name ||
     userData?.display_name ||
     userDataByAddress?.name ||
-    userDataByAddress?.display_name ||
-    userEnsName ||
-    displayAddress(address);
+    userDataByAddress?.display_name;
 
-  return { displayName };
+  if (isLoading) {
+    return { displayName };
+  }
+
+  return { displayName: displayName || userEnsName || displayAddress(address) };
 };
 
 export default useDisplayName;
