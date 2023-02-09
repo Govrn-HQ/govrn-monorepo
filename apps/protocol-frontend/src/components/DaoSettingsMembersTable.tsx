@@ -28,6 +28,7 @@ import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import { RowSelectionState } from '@tanstack/table-core';
 import { SortOrder } from '@govrn/protocol-client';
 import GovrnTable from './GovrnTable';
+import { displayAddress } from '../utils/web3';
 
 interface DaoSettingsMembersTableProps {
   daoId: number;
@@ -111,6 +112,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
           const value = getValue();
+          const displayMemberName = value.name || displayAddress(value.address);
           return value.address === userData?.address ? (
             <Tooltip
               variant="primary"
@@ -124,17 +126,21 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
                 bgGradient="linear(to-l, #7928CA, #FF0080)"
                 bgClip="text"
               >
-                {value.address}
+                {displayAddress(value.address)}
               </Text>
             </Tooltip>
           ) : (
             <Tooltip
               variant="primary"
-              label={value.name}
+              label={value.address}
               fontSize="sm"
               placement="right"
             >
-              <Text whiteSpace="normal">{value.address}</Text>
+              <Text whiteSpace="normal">
+                {value.name === null || value.name === undefined
+                  ? displayAddress(value.address)
+                  : value.name}
+              </Text>
             </Tooltip>
           );
         },
