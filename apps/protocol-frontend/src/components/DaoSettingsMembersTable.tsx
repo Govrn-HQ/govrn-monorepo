@@ -57,8 +57,6 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     );
   }, [daoUsersData]);
 
-  console.log('data', data);
-
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -112,6 +110,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
           const value = getValue();
+          const hasMemberName = value.name || value.display_name;
           const displayMemberName =
             value.name || value.display_name || displayAddress(value.address);
           return value.address === userData?.address ? (
@@ -123,10 +122,10 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
             >
               {displayMemberName}
             </Text>
-          ) : value.name || value.display_name ? (
+          ) : hasMemberName ? (
             <Tooltip
               variant="primary"
-              label={displayAddress(value.address)}
+              label={value.address}
               fontSize="sm"
               placement="right"
             >
