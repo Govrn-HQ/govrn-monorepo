@@ -47,11 +47,6 @@ export class LinearUserMaxAggregate {
   })
   url!: string | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  user_id!: number | null;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
@@ -61,4 +56,9 @@ export class LinearUserMaxAggregate {
     nullable: true
   })
   active_token!: boolean | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  user_id!: number | null;
 }

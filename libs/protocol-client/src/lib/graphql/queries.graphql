@@ -410,6 +410,10 @@ fragment UserFragment on User {
   id
   name
   updatedAt
+  discord_users {
+    id
+    active_token
+  }
   linear_users {
     id
     active_token

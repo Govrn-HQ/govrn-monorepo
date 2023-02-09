@@ -7,6 +7,8 @@ export enum DiscordUserScalarFieldEnum {
   display_name = "display_name",
   discord_id = "discord_id",
   user_id = "user_id",
+  access_token = "access_token",
+  active_token = "active_token",
   enable_notifications = "enable_notifications",
   enable_submit_reminder = "enable_submit_reminder",
   submit_reminder_period_min = "submit_reminder_period_min",

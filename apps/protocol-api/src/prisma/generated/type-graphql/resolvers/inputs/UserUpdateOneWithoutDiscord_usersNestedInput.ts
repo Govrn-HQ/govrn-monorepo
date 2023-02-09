@@ -8,10 +8,10 @@ import { UserUpdateWithoutDiscord_usersInput } from "../inputs/UserUpdateWithout
 import { UserUpsertWithoutDiscord_usersInput } from "../inputs/UserUpsertWithoutDiscord_usersInput";
 import { UserWhereUniqueInput } from "../inputs/UserWhereUniqueInput";
 
-@TypeGraphQL.InputType("UserUpdateOneRequiredWithoutDiscord_usersNestedInput", {
+@TypeGraphQL.InputType("UserUpdateOneWithoutDiscord_usersNestedInput", {
   isAbstract: true
 })
-export class UserUpdateOneRequiredWithoutDiscord_usersNestedInput {
+export class UserUpdateOneWithoutDiscord_usersNestedInput {
   @TypeGraphQL.Field(_type => UserCreateWithoutDiscord_usersInput, {
     nullable: true
   })
@@ -26,6 +26,16 @@ export class UserUpdateOneRequiredWithoutDiscord_usersNestedInput {
     nullable: true
   })
   upsert?: UserUpsertWithoutDiscord_usersInput | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  disconnect?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereUniqueInput, {
     nullable: true
