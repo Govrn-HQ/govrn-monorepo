@@ -140,9 +140,6 @@ const SignatureLayout = () => {
                     Click the Discord button below to connect your address to
                     your Discord account.
                   </Text>
-                  <Text>
-                    You can also use the button below to switch wallets.
-                  </Text>
                 </Text>
                 <Flex
                   direction={{ base: 'column', lg: 'row' }}
