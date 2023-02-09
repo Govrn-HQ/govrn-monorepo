@@ -17733,6 +17733,7 @@ export type UserSumOrderByAggregateInput = {
 };
 
 export type UserUpdateCustomInput = {
+  disconnectDiscordId?: InputMaybe<Scalars['Float']>;
   disconnectLinearId?: InputMaybe<Scalars['Float']>;
   id: Scalars['Int'];
   name: Scalars['String'];

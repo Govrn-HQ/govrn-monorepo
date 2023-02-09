@@ -13,14 +13,20 @@ import useDisplayName from '../hooks/useDisplayName';
 import useLinearUserDisconnect from '../hooks/useLinearUserDisconnect';
 import useUserCustomUpdate from '../hooks/useUserCustomUpdate';
 import ProfileDaos from './ProfileDaos';
+import { CgLinear, SiDiscord } from 'react-icons/all';
+import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 const BACKEND_ADDR = `${BASE_URL}`;
 
+const DISCORD_CLIENT_ID = '1062060045929549844';
+const REDIRECT_URL = 'http://localhost:4000/discord/oauth';
+
 const ProfileForm = () => {
   const { userData } = useUser();
   const { mutateAsync: disconnectLinearUser } = useLinearUserDisconnect();
+  const { mutateAsync: disconnectDiscordUser } = useDiscordUserDisconnect();
   const { displayName } = useDisplayName();
   const { mutateAsync: updateProfile } = useUserCustomUpdate();
 
@@ -73,6 +79,34 @@ const ProfileForm = () => {
       linearUserId: userData?.linear_users[0].id,
     });
   }, [userData, disconnectLinearUser]);
+
+  const disconnectDiscordOnClick = useCallback(async () => {
+    if (!userData?.id || !userData?.name) {
+      return;
+    }
+    await disconnectDiscordUser({
+      userId: userData?.id,
+      username: userData?.name || '',
+      discordUserId: userData?.discord_users[0].id,
+    });
+  }, [userData, disconnectDiscordUser]);
+
+  const handleDiscordAuth = async () => {
+    const res = await fetch(`${BACKEND_ADDR}/discord_nonce`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const state = await res.text();
+
+    const params = new URLSearchParams();
+    params.append('client_id', DISCORD_CLIENT_ID);
+    params.append('redirect_uri', REDIRECT_URL);
+    params.append('response_type', 'code');
+    params.append('scope', 'identify guilds.join');
+    params.append('state', `${state}/${userData?.address}`); // generate string to prevent crsf attack
+    params.append('prompt', 'consent');
+    window.location.href = `https://discord.com/oauth2/authorize?${params.toString()}`;
+  };
 
   return (
     <>
@@ -152,7 +186,8 @@ const ProfileForm = () => {
               <Heading as="h4" size="sm" fontWeight="medium" color="gray.700">
                 Linear
               </Heading>
-              {userData?.linear_users && userData.linear_users.length > 0 ? (
+              {userData?.linear_users?.length &&
+              userData.linear_users[0].active_token ? (
                 <Button
                   variant="secondary"
                   type="submit"
@@ -165,8 +200,40 @@ const ProfileForm = () => {
                   variant="primary"
                   type="submit"
                   onClick={handleLinearOauth}
+                  leftIcon={<CgLinear />}
                 >
                   Connect Linear
+                </Button>
+              )}
+            </Flex>
+            <Flex
+              direction="column"
+              align="flex-start"
+              marginTop={4}
+              marginBottom={4}
+              gap="20px"
+              width={{ base: '100%', lg: '50%' }}
+            >
+              <Heading as="h4" size="sm" fontWeight="medium" color="gray.700">
+                Discord
+              </Heading>
+              {userData?.discord_users?.length &&
+              userData.discord_users[0].active_token ? (
+                <Button
+                  variant="secondary"
+                  type="submit"
+                  onClick={disconnectDiscordOnClick}
+                >
+                  Disconnect Discord
+                </Button>
+              ) : (
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={handleDiscordAuth}
+                  leftIcon={<SiDiscord />}
+                >
+                  Connect Discord
                 </Button>
               )}
             </Flex>

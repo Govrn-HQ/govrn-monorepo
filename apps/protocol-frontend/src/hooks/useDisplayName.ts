@@ -1,4 +1,4 @@
-import { useUser } from './../contexts/UserContext';
+import { useUser } from '../contexts/UserContext';
 import { useAccount } from 'wagmi';
 import { displayAddress } from '../utils/web3';
 import { useEnsNameEthers } from './useEnsNameEthers';
@@ -20,6 +20,7 @@ const useDisplayName = () => {
     userDataByAddress?.display_name ||
     userEnsName ||
     displayAddress(address);
+
   return { displayName };
 };
 
