@@ -567,7 +567,12 @@ app.get('/discord/oauth', async function (req, res) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     });
     const respJSON = await resp.json();
-    const accessToken = respJSON.access_token;
+    const accessToken = String(respJSON.access_token);
+
+    if (!accessToken) {
+      res.status(500).send('Failed to connect to discord.');
+      return;
+    }
 
     const userResp = await fetch('https://discord.com/api/users/@me', {
       headers: { authorization: `Bearer ${accessToken}` },
@@ -585,7 +590,7 @@ app.get('/discord/oauth', async function (req, res) {
       },
       where: { discord_id: me.id },
       update: {
-        access_token: accessToken.access_token,
+        access_token: accessToken,
         active_token: true,
         user: { connect: { address: address } },
       },
