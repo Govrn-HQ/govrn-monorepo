@@ -126,7 +126,7 @@ const SignatureLayout = () => {
                 </Text>
                 <ConnectWallet />
               </>
-            ) : userDataByAddress !== undefined ? (
+            ) : userDataByAddress ? (
               <>
                 <Text paddingBottom={8}>
                   Welcome back,{' '}
@@ -151,8 +151,22 @@ const SignatureLayout = () => {
                   <ConnectWallet />
                 </Flex>
               </>
+            ) : displayNameFromParams !== null ? (
+              <Text>
+                Welcome to Govrn! Creating user with your wallet address and the
+                display name of{' '}
+                <Text as="span" fontWeight="bolder">
+                  {displayNameFromParams}
+                </Text>
+                . You can change your display name in your profile or through
+                Kevin Malone.
+              </Text>
             ) : (
-              <Text>Creating user...</Text>
+              <Text>
+                Welcome to Govrn! Creating user with your wallet address. You
+                can set your display name in your profile or through Kevin
+                Malone.
+              </Text>
             )}
           </Flex>
         </Flex>
