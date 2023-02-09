@@ -48,8 +48,13 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 const RequireConnectedUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
   const { isAuthenticated, checkExistingCreds } = useAuth();
+  const { isConnected } = useAccount();
+
   if (!isAuthenticated && checkExistingCreds) {
     return <Navigate to="/authenticate" state={{ from: location }} replace />;
+  }
+  if (!isConnected) {
+    return <Navigate to="/signature" state={{ from: location }} replace />;
   }
   return children;
 };
@@ -95,9 +100,9 @@ const Routes = () => {
         <Route
           path="/signature"
           element={
-            <RequireConnectedUser>
-              <Signature />
-            </RequireConnectedUser>
+            // <RequireConnectedUser>
+            <Signature />
+            // </RequireConnectedUser>
           }
         />
         <Route

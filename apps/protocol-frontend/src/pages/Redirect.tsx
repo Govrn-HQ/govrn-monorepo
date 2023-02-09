@@ -14,8 +14,12 @@ const RedirectHome = () => {
   const { authenticateAddress } = useAuth();
   setTimeout(() => setRedirectNow(true), TIMEOUT);
 
+  const { from } = location.state;
+
   if (redirectNow) authenticateAddress();
-  navigate('/', { state: location.state, replace: true });
+  console.log('from', from);
+
+  navigate(from.pathname, { state: location.state, replace: true });
 
   return (
     <Flex
