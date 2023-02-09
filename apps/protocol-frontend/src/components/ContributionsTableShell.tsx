@@ -24,6 +24,7 @@ import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { UIContribution } from '@govrn/ui-types';
 import MintedContributionsTable from './MintedContributionsTable';
 import { mergePages } from '../utils/arrays';
+import { SortOrder } from '@govrn/protocol-client';
 
 const ContributionsTableShell = () => {
   const { userData } = useUser();
@@ -38,6 +39,7 @@ const ContributionsTableShell = () => {
         user_id: { equals: userData?.id },
         status: { isNot: { name: { equals: 'minted' } } },
       },
+      orderBy: { date_of_engagement: SortOrder.Desc },
     },
     false, // Don't refetch on refocus
   );
@@ -53,6 +55,7 @@ const ContributionsTableShell = () => {
         user_id: { equals: userData?.id },
         status: { is: { name: { equals: 'minted' } } },
       },
+      orderBy: { date_of_engagement: SortOrder.Desc },
     },
     false, // Don't refetch on refocus
   );
@@ -100,11 +103,9 @@ const ContributionsTableShell = () => {
           paddingX={{ base: 4, lg: 0 }}
         >
           <TabList>
-            <Tab>Contributions</Tab>
-            <Tab isDisabled={mintedContributions.length === 0}>
-              Minted Contributions
-            </Tab>
-            <Tab>Contribution Types</Tab>
+            <Tab>Staged</Tab>
+            <Tab isDisabled={mintedContributions.length === 0}>Minted</Tab>
+            <Tab> Types</Tab>
           </TabList>
           <TabPanels>
             <TabPanel paddingX="0">
