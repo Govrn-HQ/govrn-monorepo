@@ -112,58 +112,31 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
           const value = getValue();
-          const displayMemberName = value.name || displayAddress(value.address);
+          const displayMemberName =
+            value.name || value.display_name || displayAddress(value.address);
           return value.address === userData?.address ? (
+            <Text
+              whiteSpace="normal"
+              fontWeight="bold"
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              bgClip="text"
+            >
+              {displayMemberName}
+            </Text>
+          ) : value.name || value.display_name ? (
             <Tooltip
               variant="primary"
-              label={value.name}
+              label={displayAddress(value.address)}
               fontSize="sm"
               placement="right"
             >
-              <Text
-                whiteSpace="normal"
-                fontWeight="bold"
-                bgGradient="linear(to-l, #7928CA, #FF0080)"
-                bgClip="text"
-              >
-                {displayAddress(value.address)}
-              </Text>
+              <Text whiteSpace="normal">{displayMemberName}</Text>
             </Tooltip>
           ) : (
-            <Tooltip
-              variant="primary"
-              label={value.address}
-              fontSize="sm"
-              placement="right"
-            >
-              <Text whiteSpace="normal">
-                {value.name === null || value.name === undefined
-                  ? displayAddress(value.address)
-                  : value.name}
-              </Text>
-            </Tooltip>
+            <Text whiteSpace="normal">{displayMemberName}</Text>
           );
         },
       },
-      // {
-      //   header: 'Member Name',
-      //   accessorKey: 'user',
-      //   cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
-      //     const value = getValue();
-      //     return value.name === userData?.name ? (
-      //       <Text
-      //         whiteSpace="normal"
-      //         fontWeight="bold"
-      //         bgGradient="linear(to-l, #7928CA, #FF0080)"
-      //         bgClip="text"
-      //       >
-      //         {value.name}
-      //       </Text>
-      //     ) : (
-      //       <Text whiteSpace="normal">{value.name}</Text>
-      //     );
-      //   },
-      // },
       {
         header: 'Role',
         accessorKey: 'membershipStatus',
