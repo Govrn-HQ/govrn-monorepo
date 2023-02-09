@@ -1,5 +1,13 @@
 import { useMemo, useState, useEffect } from 'react';
-import { Badge, Button, Box, Flex, Stack, Text } from '@chakra-ui/react';
+import {
+  Badge,
+  Button,
+  Box,
+  Flex,
+  Stack,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -20,6 +28,7 @@ import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import { RowSelectionState } from '@tanstack/table-core';
 import { SortOrder } from '@govrn/protocol-client';
 import GovrnTable from './GovrnTable';
+import { displayAddress } from '../utils/web3';
 
 interface DaoSettingsMembersTableProps {
   daoId: number;
@@ -97,10 +106,13 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         ),
       },
       {
-        header: 'Member Address',
+        header: 'Member',
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
           const value = getValue();
+          const hasMemberName = value.name || value.display_name;
+          const displayMemberName =
+            value.name || value.display_name || displayAddress(value.address);
           return value.address === userData?.address ? (
             <Text
               whiteSpace="normal"
@@ -108,10 +120,19 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               bgGradient="linear(to-l, #7928CA, #FF0080)"
               bgClip="text"
             >
-              {value.address}
+              {displayMemberName}
             </Text>
+          ) : hasMemberName ? (
+            <Tooltip
+              variant="primary"
+              label={value.address}
+              fontSize="sm"
+              placement="right"
+            >
+              <Text whiteSpace="normal">{displayMemberName}</Text>
+            </Tooltip>
           ) : (
-            <Text whiteSpace="normal">{value.address}</Text>
+            <Text whiteSpace="normal">{displayMemberName}</Text>
           );
         },
       },

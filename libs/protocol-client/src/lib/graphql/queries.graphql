@@ -216,6 +216,7 @@ fragment GuildUserFragment on GuildUser {
   user_id
   user {
     name
+    display_name
     address
   }
   guild {
