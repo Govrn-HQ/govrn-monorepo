@@ -58,6 +58,6 @@ export const useDaoUsersInfiniteList = (
     isFetching,
     isFetchingNextPage,
     fetchNextPage,
-    hasNextPage: hasNextPage || false,
+    hasNextPage: hasNextPage,
   };
 };
