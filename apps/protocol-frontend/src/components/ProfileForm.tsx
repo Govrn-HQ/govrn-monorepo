@@ -15,6 +15,7 @@ import useUserCustomUpdate from '../hooks/useUserCustomUpdate';
 import ProfileDaos from './ProfileDaos';
 import { CgLinear, SiDiscord } from 'react-icons/all';
 import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
+import { UIUser } from '@govrn/ui-types';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
@@ -22,6 +23,12 @@ const BACKEND_ADDR = `${BASE_URL}`;
 
 const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
 const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+
+const isDiscordConnected = (userData?: UIUser | null) =>
+  userData?.discord_users?.length && userData.discord_users[0].active_token;
+
+const isLinearConnected = (userData?: UIUser | null) =>
+  userData?.linear_users?.length && userData.linear_users[0].active_token;
 
 const ProfileForm = () => {
   const { userData } = useUser();
@@ -164,8 +171,7 @@ const ProfileForm = () => {
               <Heading as="h4" size="sm" fontWeight="medium" color="gray.700">
                 Linear
               </Heading>
-              {userData?.linear_users?.length &&
-              userData.linear_users[0].active_token ? (
+              {isLinearConnected(userData) ? (
                 <Button
                   variant="secondary"
                   type="submit"
@@ -195,8 +201,7 @@ const ProfileForm = () => {
               <Heading as="h4" size="sm" fontWeight="medium" color="gray.700">
                 Discord
               </Heading>
-              {userData?.discord_users?.length &&
-              userData.discord_users[0].active_token ? (
+              {isDiscordConnected(userData) ? (
                 <Button
                   variant="secondary"
                   type="submit"
