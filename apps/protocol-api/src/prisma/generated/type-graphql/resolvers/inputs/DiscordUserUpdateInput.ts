@@ -7,7 +7,7 @@ import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdat
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { UserUpdateOneRequiredWithoutDiscord_usersNestedInput } from "../inputs/UserUpdateOneRequiredWithoutDiscord_usersNestedInput";
+import { UserUpdateOneWithoutDiscord_usersNestedInput } from "../inputs/UserUpdateOneWithoutDiscord_usersNestedInput";
 
 @TypeGraphQL.InputType("DiscordUserUpdateInput", {
   isAbstract: true
@@ -33,10 +33,20 @@ export class DiscordUserUpdateInput {
   })
   discord_id?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutDiscord_usersNestedInput, {
+  @TypeGraphQL.Field(_type => UserUpdateOneWithoutDiscord_usersNestedInput, {
     nullable: true
   })
-  user?: UserUpdateOneRequiredWithoutDiscord_usersNestedInput | undefined;
+  user?: UserUpdateOneWithoutDiscord_usersNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  access_token?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  active_token?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true

@@ -17,7 +17,6 @@ import {
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
 import { batch } from '../utils/batch';
-// noinspection ES6PreferShortImport
 import { ChainIdError } from '../utils/errors';
 
 export class Contribution extends BaseClient {

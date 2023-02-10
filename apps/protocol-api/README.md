@@ -71,6 +71,9 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 - `LINEAR_REDIRECT_URI`: The redirect uri used by the frontend when authenticating a user via oauth. It should look similar to http://localhost:4000/linear/oauth
 - `LINEAR_CLIENT_ID`: The client id of our linear app
 - `LINEAR_CLIENT_SECRET`: The client secret of our linear app
+- `DISCORD_REDIRECT_URI`: e.g. http://localhost:4000/discord/oauth for local development.
+- `DISCORD_CLIENT_ID`: The client ID of Discord app ([Docs](https://discord.com/developers/docs/topics/oauth2))
+- `DISCORD_CLIENT_SECRET`
 - `PROTOCOL_FRONTEND`: The url for our protocol frontend. It should look similar to http://localhost:3000
 - `LINEAR_JOB_TOKEN`: Authorization for graphql requests for linear sync job
 
