@@ -28,6 +28,7 @@ const DaoSettingsMemberUpdateForm = ({
     handleSubmit,
     setValue,
     formState: { errors, touchedFields },
+    reset,
   } = localForm;
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
@@ -59,6 +60,7 @@ const DaoSettingsMemberUpdateForm = ({
         return true;
       });
       setImporting(false);
+      reset();
     }
   };
 
