@@ -239,7 +239,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               <InfiniteScroll
                 dataLength={data.length}
                 next={fetchNextPage}
-                scrollThreshold={1}
+                scrollThreshold={0.9}
                 hasMore={Boolean(hasNextPage)}
                 loader={<GovrnSpinner />}
                 scrollableTarget="settings-table-container"
