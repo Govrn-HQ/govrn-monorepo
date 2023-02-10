@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Flex, Heading, Button, Divider, Text } from '@chakra-ui/react';
 import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -38,7 +38,7 @@ const ProfileForm = () => {
 
   useEffect(() => {
     setValue('name', userData?.name ?? '');
-  }, [userData]);
+  }, [setValue, userData]);
 
   const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (
     values: ProfileFormValues,
@@ -68,28 +68,6 @@ const ProfileForm = () => {
     params.append('prompt', 'consent');
     window.location.href = `https://linear.app/oauth/authorize?${params.toString()}`;
   };
-
-  const disconnectLinearOnClick = useCallback(async () => {
-    if (!userData?.id || !userData?.name) {
-      return;
-    }
-    await disconnectLinearUser({
-      userId: userData?.id,
-      username: userData?.name || '',
-      linearUserId: userData?.linear_users[0].id,
-    });
-  }, [userData, disconnectLinearUser]);
-
-  const disconnectDiscordOnClick = useCallback(async () => {
-    if (!userData?.id || !userData?.name) {
-      return;
-    }
-    await disconnectDiscordUser({
-      userId: userData?.id,
-      username: userData?.name || '',
-      discordUserId: userData?.discord_users[0].id,
-    });
-  }, [userData, disconnectDiscordUser]);
 
   const handleDiscordAuth = async () => {
     const res = await fetch(`${BACKEND_ADDR}/discord_nonce`, {
@@ -191,7 +169,7 @@ const ProfileForm = () => {
                 <Button
                   variant="secondary"
                   type="submit"
-                  onClick={disconnectLinearOnClick}
+                  onClick={async () => await disconnectLinearUser()}
                 >
                   Disconnect Linear
                 </Button>
@@ -222,7 +200,7 @@ const ProfileForm = () => {
                 <Button
                   variant="secondary"
                   type="submit"
-                  onClick={disconnectDiscordOnClick}
+                  onClick={async () => await disconnectDiscordUser()}
                 >
                   Disconnect Discord
                 </Button>

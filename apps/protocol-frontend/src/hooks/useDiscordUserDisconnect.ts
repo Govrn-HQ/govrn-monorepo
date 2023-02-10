@@ -2,27 +2,23 @@ import { GovrnProtocol } from '@govrn/protocol-client';
 import { PROTOCOL_URL } from '../utils/constants';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useGovrnToast } from '@govrn/protocol-ui';
-
-type DiscordUserDisconnect = {
-  discordUserId: number;
-  userId: number;
-  username: string;
-};
+import { useUser } from '../contexts/UserContext';
 
 export const useDiscordUserDisconnect = () => {
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
   const queryClient = useQueryClient();
+  const { userData } = useUser();
   const toast = useGovrnToast();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    async (props: DiscordUserDisconnect) => {
-      const resp = await govrn.custom.updateUser({
-        name: props.username,
-        id: props.userId,
-        disconnectDiscordId: props.discordUserId,
-      });
-
-      return resp;
+    async () => {
+      if (userData?.id && userData?.name) {
+        return await govrn.custom.updateUser({
+          id: userData.id,
+          name: userData.name,
+          disconnectDiscordId: userData?.discord_users[0].id,
+        });
+      }
     },
     {
       onSuccess: () => {
