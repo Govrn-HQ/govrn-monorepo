@@ -20,8 +20,8 @@ const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 const BACKEND_ADDR = `${BASE_URL}`;
 
-const DISCORD_CLIENT_ID = '1062060045929549844';
-const REDIRECT_URL = 'http://localhost:4000/discord/oauth';
+const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
+const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
 
 const ProfileForm = () => {
   const { userData } = useUser();
@@ -100,7 +100,7 @@ const ProfileForm = () => {
 
     const params = new URLSearchParams();
     params.append('client_id', DISCORD_CLIENT_ID);
-    params.append('redirect_uri', REDIRECT_URL);
+    params.append('redirect_uri', DISCORD_REDIRECT_URI);
     params.append('response_type', 'code');
     params.append('scope', 'identify guilds.join');
     params.append('state', `${state}/${userData?.address}`); // generate string to prevent crsf attack
