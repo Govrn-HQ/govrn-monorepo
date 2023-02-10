@@ -544,7 +544,7 @@ app.get('/linear/oauth', async function (req, res) {
 
 app.get('/discord_nonce', async function (req, res) {
   const nonce = generateNonce();
-  req.session.linearNonce = nonce;
+  req.session.discordNonce = generateNonce();
   res.setHeader('Content-Type', 'text/plain');
   res.status(200).send(req.session.nonce);
 });
