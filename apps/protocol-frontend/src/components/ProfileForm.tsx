@@ -152,7 +152,7 @@ const ProfileForm = () => {
             <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
               Integrations
             </Heading>
-            <Divider marginY={8} bgColor="gray.300" />
+            <Divider marginY={2} bgColor="gray.300" />
             <Flex
               direction="column"
               align="flex-start"
@@ -224,9 +224,17 @@ const ProfileForm = () => {
               marginBottom={{ base: 8, lg: 0 }}
               width={{ base: '100%', lg: '50%' }}
             >
+              <Heading
+                as="h4"
+                size="sm"
+                fontWeight="medium"
+                color="gray.700"
+                mb="1rem"
+              >
+                Twitter Handle (Coming Soon)
+              </Heading>
               <Input
                 name="userTwitterHandle"
-                label="Twitter Handle (Coming Soon)"
                 placeholder="govrn"
                 localForm={localForm}
                 isDisabled
