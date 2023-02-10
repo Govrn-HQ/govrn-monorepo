@@ -144,6 +144,7 @@ const SignatureLayout = () => {
                 <Flex
                   direction={{ base: 'column', lg: 'row' }}
                   gap={{ base: 2, lg: 4 }}
+                  marginTop={4}
                 >
                   <Button variant="tertiary" leftIcon={<SiDiscord />}>
                     Connect to Discord
@@ -152,21 +153,45 @@ const SignatureLayout = () => {
                 </Flex>
               </>
             ) : displayNameFromParams !== null ? (
-              <Text>
-                Welcome to Govrn! Creating user with your wallet address and the
-                display name of{' '}
-                <Text as="span" fontWeight="bolder">
-                  {displayNameFromParams}
+              <>
+                <Text>
+                  Welcome to Govrn! Creating user with your wallet address and
+                  the display name of{' '}
+                  <Text as="span" fontWeight="bolder">
+                    {displayNameFromParams}
+                  </Text>
+                  . You can change your display name in your profile or through
+                  Kevin Malone.
                 </Text>
-                . You can change your display name in your profile or through
-                Kevin Malone.
-              </Text>
+                <Flex
+                  direction={{ base: 'column', lg: 'row' }}
+                  gap={{ base: 2, lg: 4 }}
+                  marginTop={4}
+                >
+                  <Button variant="tertiary" leftIcon={<SiDiscord />}>
+                    Connect to Discord
+                  </Button>
+                  <ConnectWallet />
+                </Flex>
+              </>
             ) : (
-              <Text>
-                Welcome to Govrn! Creating user with your wallet address. You
-                can set your display name in your profile or through Kevin
-                Malone.
-              </Text>
+              <>
+                <Text>
+                  Welcome to Govrn! Creating user with your wallet address. You
+                  can set your display name in your profile or through Kevin
+                  Malone.
+                </Text>
+                <Flex
+                  direction={{ base: 'column', lg: 'row' }}
+                  gap={{ base: 2, lg: 4 }}
+                  marginTop={4}
+                >
+                  <Button variant="tertiary" leftIcon={<SiDiscord />}>
+                    Connect to Discord
+                  </Button>
+                  <ConnectWallet />
+                </Flex>
+              </>
             )}
           </Flex>
         </Flex>
