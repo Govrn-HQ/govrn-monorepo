@@ -10,21 +10,27 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import GovrnTextLogo from './GovrnTextLogo';
 import useDisplayName from '../hooks/useDisplayName';
 import useUserCreate from '../hooks/useUserCreate';
+import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
+
+import { BASE_URL } from '../utils/constants';
+
+import { UIUser } from '@govrn/ui-types';
 
 const SignatureLayout = () => {
   const { isConnected, address } = useAccount();
   const { isAuthenticated } = useAuth();
   const [signatureSteps, setSignatureSteps] = useState<number | null>(null);
-
   const [searchParams] = useSearchParams();
   const displayNameFromParams = searchParams.get('displayName');
   const { mutateAsync: createUser } = useUserCreate();
   console.log('display name', displayNameFromParams);
-  const { userDataByAddress, isUserLoading } = useUser();
+  const { userDataByAddress, userData, isUserLoading } = useUser();
   const { displayName } = useDisplayName();
 
-  console.log('userdata', userDataByAddress);
-
+  const BACKEND_ADDR = `${BASE_URL}`;
+  const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
+  const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+  const { mutateAsync: disconnectDiscordUser } = useDiscordUserDisconnect();
   // useEffect(() => {
   //   if (userDataByAddress) {
   //     setCreateProfileSteps(3);
@@ -71,6 +77,27 @@ const SignatureLayout = () => {
       </Text>
       <ConnectWallet />
     </>;
+  };
+
+  const isDiscordConnected = (userData?: UIUser | null) =>
+    userData?.discord_users?.length && userData.discord_users[0].active_token;
+
+  const handleDiscordAuth = async () => {
+    console.log('handle discord auth');
+    const res = await fetch(`${BACKEND_ADDR}/discord_nonce`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const state = await res.text();
+
+    const params = new URLSearchParams();
+    params.append('client_id', DISCORD_CLIENT_ID);
+    params.append('redirect_uri', DISCORD_REDIRECT_URI);
+    params.append('response_type', 'code');
+    params.append('scope', 'identify guilds.join');
+    params.append('state', `${state}/${address}`); // generate string to prevent crsf attack
+    params.append('prompt', 'consent');
+    window.location.href = `https://discord.com/oauth2/authorize?${params.toString()}`;
   };
 
   return (
@@ -146,9 +173,24 @@ const SignatureLayout = () => {
                   gap={{ base: 2, lg: 4 }}
                   marginTop={4}
                 >
-                  <Button variant="tertiary" leftIcon={<SiDiscord />}>
-                    Connect to Discord
-                  </Button>
+                  {isDiscordConnected(userData) ? (
+                    <Button
+                      variant="tertiary"
+                      type="submit"
+                      onClick={async () => await disconnectDiscordUser()}
+                    >
+                      Disconnect Discord
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="tertiary"
+                      type="submit"
+                      onClick={handleDiscordAuth}
+                      leftIcon={<SiDiscord />}
+                    >
+                      Connect Discord
+                    </Button>
+                  )}
                   <ConnectWallet />
                 </Flex>
               </>
@@ -168,9 +210,24 @@ const SignatureLayout = () => {
                   gap={{ base: 2, lg: 4 }}
                   marginTop={4}
                 >
-                  <Button variant="tertiary" leftIcon={<SiDiscord />}>
-                    Connect to Discord
-                  </Button>
+                  {isDiscordConnected(userData) ? (
+                    <Button
+                      variant="secondary"
+                      type="submit"
+                      onClick={async () => await disconnectDiscordUser()}
+                    >
+                      Disconnect Discord
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="tertiary"
+                      type="submit"
+                      onClick={handleDiscordAuth}
+                      leftIcon={<SiDiscord />}
+                    >
+                      Connect Discord
+                    </Button>
+                  )}
                   <ConnectWallet />
                 </Flex>
               </>
