@@ -34,6 +34,9 @@ const GlobalFilter = <T,>({
           <Icon as={FiSearch} color="gray.500" boxSize="5" />
         </InputLeftElement>
         <Input
+          background="gray.50"
+          border="none"
+          borderRadius="1rem"
           placeholder={`Search ${rowCount} ${
             rowCount === 1 ? 'contribution' : 'contributions'
           }`}

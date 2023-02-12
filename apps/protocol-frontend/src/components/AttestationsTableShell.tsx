@@ -13,6 +13,7 @@ import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import { SortOrder } from '@govrn/protocol-client';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { mergePages } from '../utils/arrays';
 import { useUser } from '../contexts/UserContext';
@@ -28,6 +29,7 @@ const AttestationsTableShell = () => {
     hasNextPage,
     fetchNextPage,
   } = useContributionInfiniteList({
+    orderBy: { date_of_engagement: SortOrder.Desc },
     where: {
       status: { is: { name: { equals: 'minted' } } },
       user_id: {
@@ -58,6 +60,7 @@ const AttestationsTableShell = () => {
     hasNextPage: hasNextPageAttestedContributions,
     fetchNextPage: fetchNextPageAttestedContributions,
   } = useContributionInfiniteList({
+    orderBy: { date_of_engagement: SortOrder.Desc },
     where: {
       status: { is: { name: { equals: 'minted' } } },
       user_id: {

@@ -24,6 +24,7 @@ import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { UIContribution } from '@govrn/ui-types';
 import MintedContributionsTable from './MintedContributionsTable';
 import { mergePages } from '../utils/arrays';
+import { SortOrder } from '@govrn/protocol-client';
 
 const ContributionsTableShell = () => {
   const { userData } = useUser();
@@ -32,24 +33,32 @@ const ContributionsTableShell = () => {
     isFetching,
     hasNextPage,
     fetchNextPage,
-  } = useContributionInfiniteList({
-    where: {
-      user_id: { equals: userData?.id },
-      status: { isNot: { name: { equals: 'minted' } } },
+  } = useContributionInfiniteList(
+    {
+      where: {
+        user_id: { equals: userData?.id },
+        status: { isNot: { name: { equals: 'minted' } } },
+      },
+      orderBy: { date_of_engagement: SortOrder.Desc },
     },
-  });
+    false, // Don't refetch on refocus
+  );
 
   const {
     data: mintedContributionPages,
     isFetching: isMintedFetching,
     hasNextPage: hasMintedNextPage,
     fetchNextPage: fetchMintedNextPage,
-  } = useContributionInfiniteList({
-    where: {
-      user_id: { equals: userData?.id },
-      status: { is: { name: { equals: 'minted' } } },
+  } = useContributionInfiniteList(
+    {
+      where: {
+        user_id: { equals: userData?.id },
+        status: { is: { name: { equals: 'minted' } } },
+      },
+      orderBy: { date_of_engagement: SortOrder.Desc },
     },
-  });
+    false, // Don't refetch on refocus
+  );
 
   const nonMintedContributions = useMemo(() => {
     return mergePages([...(nonMintedContributionPages?.pages ?? [])]);
@@ -84,9 +93,9 @@ const ContributionsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Contributions</PageHeading>
-      {isFetching && isMintedFetching ? (
+      {isFetching && isMintedFetching && allContributions.length === 0 ? (
         <GovrnSpinner />
-      ) : allContributions.length > 0 ? (
+      ) : allContributions && allContributions.length > 0 ? (
         <Tabs
           variant="soft-rounded"
           width="100%"
@@ -94,11 +103,9 @@ const ContributionsTableShell = () => {
           paddingX={{ base: 4, lg: 0 }}
         >
           <TabList>
-            <Tab>Contributions</Tab>
-            <Tab isDisabled={mintedContributions.length === 0}>
-              Minted Contributions
-            </Tab>
-            <Tab>Contribution Types</Tab>
+            <Tab>Staged</Tab>
+            <Tab isDisabled={mintedContributions.length === 0}>Minted</Tab>
+            <Tab> Types</Tab>
           </TabList>
           <TabPanels>
             <TabPanel paddingX="0">

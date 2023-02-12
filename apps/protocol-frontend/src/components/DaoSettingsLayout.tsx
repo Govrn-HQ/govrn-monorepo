@@ -2,8 +2,8 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useParams } from 'react-router-dom';
 import { useDaoGet } from '../hooks/useDaoGet';
-import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import { useUser } from '../contexts/UserContext';
+import useUserGet from '../hooks/useUserGet';
 import PageHeading from './PageHeading';
 import DaoNameUpdateForm from './DaoNameUpdateForm';
 import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
@@ -14,22 +14,21 @@ const DaoSettingsLayout = () => {
   const { guildId } = useParams();
   const { userData } = useUser();
 
+  const { data: useUserData, isLoading: useUserLoading } = useUserGet({
+    userId: userData?.id,
+  });
+
   const {
     isLoading: daoLoading,
     isError: daoError,
     data: daoData,
   } = useDaoGet({ id: parseInt(guildId ?? '') });
 
-  const { data: daosUsersListData, isLoading: daosUsersListLoading } =
-    useDaoUsersList({
-      where: { user_id: { equals: userData?.id } },
-    });
+  const isAdmin =
+    useUserData?.userDaos.get(parseInt(guildId ?? '')).membershipStatus
+      ?.name === 'Admin';
 
-  const isAdmin = daosUsersListData
-    ?.filter(dao => dao.guild.id === parseInt(guildId ?? ''))
-    .some(daoUser => daoUser.membershipStatus?.name === 'Admin');
-
-  if (daoLoading || daosUsersListLoading) {
+  if (daoLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
@@ -62,7 +61,7 @@ const DaoSettingsLayout = () => {
       maxWidth="1200px"
       width="100%"
     >
-      <PageHeading>DAO Settings [{daoData?.name}]</PageHeading>
+      <PageHeading>{daoData?.name} - DAO Settings</PageHeading>
       <Flex
         justify="space-between"
         direction="column"

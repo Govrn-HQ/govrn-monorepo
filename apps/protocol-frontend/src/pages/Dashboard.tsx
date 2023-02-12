@@ -9,6 +9,7 @@ import DashboardShell from '../components/DashboardShell';
 import NewUserView from '../components/NewUserView';
 import ErrorView from '../components/ErrorView';
 import { GOVRN_MOTTO } from '../utils/constants';
+import { GovrnSpinner } from '@govrn/protocol-ui';
 
 const UserView = () => {
   return (
@@ -25,15 +26,29 @@ const Dashboard = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
   const { userData } = useUser();
-  const { data: userContributions } = useContributionList({
+  const {
+    data: userContributions,
+    isLoading: userContributionsLoading,
+    isFetching: userContributionsFetching,
+    isError: userContributionsError,
+  } = useContributionList({
     where: {
       user_id: { equals: userData?.id },
     },
   });
 
-  if (userContributions === undefined) {
+  if (userContributionsLoading || userContributionsFetching) {
+    return <GovrnSpinner />;
+  }
+
+  if (
+    (!userContributionsLoading &&
+      !userContributionsFetching &&
+      userContributions === undefined) ||
+    userContributionsError
+  ) {
     return (
-      <ErrorView errorMessage="There may have been an issue loading your Contributions. Please try again." />
+      <ErrorView errorMessage="There may have been an issue loading your contributions. Please try again." />
     );
   }
 

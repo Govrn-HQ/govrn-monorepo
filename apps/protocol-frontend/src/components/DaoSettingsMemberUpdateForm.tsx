@@ -28,6 +28,7 @@ const DaoSettingsMemberUpdateForm = ({
     handleSubmit,
     setValue,
     formState: { errors, touchedFields },
+    reset,
   } = localForm;
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
@@ -52,12 +53,14 @@ const DaoSettingsMemberUpdateForm = ({
             guildName: values.guildName,
             userAddress: address,
             guildId: daoId,
+            membershipStatus: 'Member',
           },
           creatingNewDao: false,
         });
         return true;
       });
       setImporting(false);
+      reset();
     }
   };
 

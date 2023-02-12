@@ -149,7 +149,7 @@ export class GuildUserCustomResolver {
         },
         membershipStatus: {
           connect: {
-            name: 'Recruit',
+            name: args.data.membershipStatus ?? 'Recruit',
           },
         },
       },
@@ -178,8 +178,12 @@ export class GuildUserCustomResolver {
         ...(args.data.favorite !== undefined && {
           favorite: { set: args.data.favorite },
         }),
-        ...(args.data.membershipStatusId !== undefined && {
-          membership_status_id: { set: args.data.membershipStatusId },
+        ...(args.data.membershipStatus !== undefined && {
+          membershipStatus: {
+            connect: {
+              name: args.data.membershipStatus,
+            },
+          },
         }),
       },
       where: {
