@@ -325,7 +325,7 @@ async def feedback(ctx):
         title="Feedback",
         description=feedback_msg
     )
-    await ctx.followup.send(embed=feedback_embed)
+    await ctx.respond(embed=feedback_embed)
 
 # if bool(strtobool(constants.Bot.is_dev)):
 
