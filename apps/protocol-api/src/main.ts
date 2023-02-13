@@ -550,9 +550,13 @@ app.get('/discord_nonce', async function (req, res) {
 });
 
 app.get('/discord/oauth', async function (req, res) {
+  // test adding a param to the redirect uri
+  // read param and see if we can do a dynamic redirect
+  // look into other options if this doesn't work -- split redirect endpoint
   try {
     const query = req.query;
     const code = query.code;
+    // const destination = query.destination;
     const state = query.state.toString();
     const params = new URLSearchParams();
     params.append('code', code.toString());
@@ -561,6 +565,7 @@ app.get('/discord/oauth', async function (req, res) {
     params.append('client_secret', DISCORD_CLIENT_SECRET);
     params.append('state', state);
     params.append('grant_type', 'authorization_code');
+    // params.append('destination', destination);
     const resp = await fetch(DISCORD_TOKEN_URL, {
       method: 'POST',
       body: params,
@@ -570,7 +575,7 @@ app.get('/discord/oauth', async function (req, res) {
     const accessToken = String(respJSON.access_token);
 
     if (!accessToken) {
-      res.status(500).send('Failed to connect to discord.');
+      res.status(500).send('Failed to connect to Discord.');
       return;
     }
 
@@ -578,7 +583,7 @@ app.get('/discord/oauth', async function (req, res) {
       headers: { authorization: `Bearer ${accessToken}` },
     });
     const me = await userResp.json();
-    const [, address] = state.split('/');
+    const [, address, redirectDestination] = state.split('/');
 
     await prisma.discordUser.upsert({
       create: {
@@ -595,8 +600,13 @@ app.get('/discord/oauth', async function (req, res) {
         user: { connect: { address: address } },
       },
     });
-
-    res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+    // specifically only allowing these 2 options instead of being fully dynamic,
+    if (redirectDestination === 'profile') {
+      res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+    }
+    if (redirectDestination === 'signature') {
+      res.status(200).redirect(PROTOCOL_FRONTEND + '/#/signature');
+    }
   } catch (e) {
     console.error(e);
     res.status(500).send();

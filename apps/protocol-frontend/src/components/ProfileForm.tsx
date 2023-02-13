@@ -82,13 +82,14 @@ const ProfileForm = () => {
       credentials: 'include',
     });
     const state = await res.text();
-
     const params = new URLSearchParams();
+
     params.append('client_id', DISCORD_CLIENT_ID);
     params.append('redirect_uri', DISCORD_REDIRECT_URI);
     params.append('response_type', 'code');
     params.append('scope', 'identify guilds.join');
-    params.append('state', `${state}/${userData?.address}`); // generate string to prevent crsf attack
+    params.append('state', `${state}/${userData?.address}/profile`); // generate string to prevent crsf attack
+
     params.append('prompt', 'consent');
     window.location.href = `https://discord.com/oauth2/authorize?${params.toString()}`;
   };

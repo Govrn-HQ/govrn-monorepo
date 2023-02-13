@@ -17,9 +17,8 @@ const RedirectHome = () => {
   const { from } = location.state;
 
   if (redirectNow) authenticateAddress();
-  console.log('from', from);
 
-  navigate(from.pathname, { state: location.state, replace: true });
+  navigate('/', { state: location.state, replace: true });
 
   return (
     <Flex
