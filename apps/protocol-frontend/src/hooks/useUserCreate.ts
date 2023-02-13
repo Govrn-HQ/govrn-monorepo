@@ -4,6 +4,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useGovrnToast } from '@govrn/protocol-ui';
 import { useAccount } from 'wagmi';
 
+interface CustomUserCreateProps {
+  newUser: UserCreateCustomInput;
+  showToast?: boolean;
+}
+
 export const useUserCustomUpdate = () => {
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
   const queryClient = useQueryClient();
@@ -11,23 +16,27 @@ export const useUserCustomUpdate = () => {
   const { address } = useAccount();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    async (props: UserCreateCustomInput) => {
+    async ({ newUser, showToast = false }: CustomUserCreateProps) => {
       const resp = await govrn.user.create({
-        ...props,
+        ...newUser,
       });
 
       return resp;
     },
     {
-      onSuccess: () => {
+      onSuccess: (_, { showToast }) => {
         queryClient.invalidateQueries(['userGet']);
         queryClient.invalidateQueries(['userByAddressGet']);
-        toast.success({
-          title: 'User Created',
-          description: `Your username has been created with your address: ${address}. Let's report your first contribution!`,
-        });
+        // only show toast if specified
+        if (showToast === true) {
+          toast.success({
+            title: 'User Created',
+            description: `Your username has been created with your address: ${address}. Let's report your first contribution!`,
+          });
+        }
       },
       onError: error => {
+        // always show error toast
         toast.error({
           title: 'Unable to Create User',
           description: `Something went wrong. Please try again: ${error}`,

@@ -25,7 +25,6 @@ const SignatureLayout = () => {
   const { mutateAsync: createUser } = useUserCreate();
   // console.log('display name', displayNameFromParams);
   const { userDataByAddress, userData, isUserLoading } = useUser();
-  console.log('userDataByAddress', userDataByAddress);
 
   const { displayName } = useDisplayName();
 
@@ -42,14 +41,14 @@ const SignatureLayout = () => {
   //   }
   // }, [userDataByAddress]);
 
-  const createUserHandler = async () => {
-    if (address && displayName !== undefined) {
-      await createUser({
-        username: displayName || '',
-        address,
-      });
-    }
-  };
+  // const createUserHandler = async () => {
+  //   if (address && displayName !== undefined) {
+  //     await createUser({
+  //       username: displayName || '',
+  //       address,
+  //     });
+  //   }
+  // };
 
   // first screen: prompt user to connect wallet
   // second screen: successful signature -> check if user exists -> if exists, move to third screen or create user with display name first then move to third screen
@@ -85,7 +84,22 @@ const SignatureLayout = () => {
     userDataByAddress?.discord_users?.length &&
     userDataByAddress.discord_users[0].active_token;
 
-  const handleDiscordAuth = async () => {
+  const handleDiscordAuth = async (newUser: boolean) => {
+    if (newUser === true) {
+      if (
+        userData === undefined &&
+        address &&
+        displayNameFromParams !== undefined
+      ) {
+        await createUser({
+          newUser: {
+            username: displayNameFromParams ?? '',
+            address: address,
+          },
+          showToast: false,
+        });
+      }
+    }
     const res = await fetch(`${BACKEND_ADDR}/discord_nonce`, {
       method: 'GET',
       credentials: 'include',
@@ -97,7 +111,7 @@ const SignatureLayout = () => {
     params.append('redirect_uri', DISCORD_REDIRECT_URI);
     params.append('response_type', 'code');
     params.append('scope', 'identify guilds.join');
-    params.append('state', `${state}/${address}/signature`); // generate string to prevent crsf attack
+    params.append('state', `${state}/${address}/signature`); // generate string to prevent crsf attack and include signature as source
     params.append('prompt', 'consent');
     window.location.href = `https://discord.com/oauth2/authorize?${params.toString()}`;
   };
@@ -145,19 +159,20 @@ const SignatureLayout = () => {
             color="white"
             fontSize={{ base: 'lg', lg: 'xl' }}
             fontWeight="400"
-            maxW={{ base: '60%', lg: '70%' }}
+            maxW={{ base: '70%', lg: '80%' }}
+            textAlign="center"
           >
-            {!isConnected ? (
+            {!isConnected ? ( // stage 1: connect wallet
               <>
-                <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
+                <Text marginBottom={{ base: 10, lg: 16 }}>
                   Connect your wallet to Gnosis Chain and sign the signature
                   request to verify.
                 </Text>
                 <ConnectWallet />
               </>
-            ) : userDataByAddress ? (
+            ) : userDataByAddress ? ( // stage 2: discord oauth
               <>
-                <Text paddingBottom={8}>
+                <Text>
                   Welcome back,{' '}
                   <Text as="span" fontWeight="bolder">
                     {displayName}
@@ -165,7 +180,7 @@ const SignatureLayout = () => {
                   <Text as="span" fontWeight="normal">
                     .
                   </Text>
-                  <Text>
+                  <Text marginBottom={{ base: 10, lg: 16 }}>
                     Click the Discord button below to connect your address to
                     your Discord account.
                   </Text>
@@ -188,7 +203,7 @@ const SignatureLayout = () => {
                     <Button
                       variant="tertiary"
                       type="submit"
-                      onClick={handleDiscordAuth}
+                      onClick={() => handleDiscordAuth(false)}
                       leftIcon={<SiDiscord />}
                     >
                       Connect Discord
@@ -197,7 +212,7 @@ const SignatureLayout = () => {
                   <ConnectWallet />
                 </Flex>
               </>
-            ) : displayNameFromParams !== null ? (
+            ) : displayNameFromParams !== null ? ( // stage 2b: creating user with the display name first then move to third screen
               <>
                 <Text>
                   Welcome to Govrn! Creating user with your wallet address and
@@ -214,6 +229,7 @@ const SignatureLayout = () => {
                   marginTop={4}
                 >
                   {isDiscordConnected(userData) ? (
+                    // user has successfully connected Discord
                     <Button
                       variant="secondary"
                       type="submit"
@@ -225,7 +241,7 @@ const SignatureLayout = () => {
                     <Button
                       variant="tertiary"
                       type="submit"
-                      onClick={handleDiscordAuth}
+                      onClick={() => handleDiscordAuth(true)}
                       leftIcon={<SiDiscord />}
                     >
                       Connect Discord
