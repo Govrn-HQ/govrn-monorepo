@@ -84,6 +84,27 @@ const SignatureLayout = () => {
     userDataByAddress?.discord_users?.length &&
     userDataByAddress.discord_users[0].active_token;
 
+  const DiscordSection = () =>
+    isDiscordConnected(userData) ? (
+      <Button
+        variant="tertiary"
+        type="submit"
+        leftIcon={<SiDiscord />}
+        onClick={async () => await disconnectDiscordUser()}
+      >
+        Disconnect Discord
+      </Button>
+    ) : (
+      <Button
+        variant="tertiary"
+        type="submit"
+        onClick={() => handleDiscordAuth(false)}
+        leftIcon={<SiDiscord />}
+      >
+        Connect Discord
+      </Button>
+    );
+
   const handleDiscordAuth = async (newUser: boolean) => {
     if (newUser === true) {
       if (
@@ -93,7 +114,7 @@ const SignatureLayout = () => {
       ) {
         await createUser({
           newUser: {
-            username: displayNameFromParams ?? '',
+            username: displayNameFromParams ?? '', // see if displayname from discord exists and create with this username if so
             address: address,
           },
           showToast: false,
@@ -190,25 +211,7 @@ const SignatureLayout = () => {
                   gap={{ base: 2, lg: 4 }}
                   marginTop={4}
                 >
-                  {isDiscordConnected(userData) ? (
-                    <Button
-                      variant="tertiary"
-                      type="submit"
-                      leftIcon={<SiDiscord />}
-                      onClick={async () => await disconnectDiscordUser()}
-                    >
-                      Disconnect Discord
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="tertiary"
-                      type="submit"
-                      onClick={() => handleDiscordAuth(false)}
-                      leftIcon={<SiDiscord />}
-                    >
-                      Connect Discord
-                    </Button>
-                  )}
+                  <DiscordSection />
                   <ConnectWallet />
                 </Flex>
               </>
@@ -228,25 +231,6 @@ const SignatureLayout = () => {
                   gap={{ base: 2, lg: 4 }}
                   marginTop={4}
                 >
-                  {isDiscordConnected(userData) ? (
-                    // user has successfully connected Discord
-                    <Button
-                      variant="secondary"
-                      type="submit"
-                      onClick={async () => await disconnectDiscordUser()}
-                    >
-                      Disconnect Discord
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="tertiary"
-                      type="submit"
-                      onClick={() => handleDiscordAuth(true)}
-                      leftIcon={<SiDiscord />}
-                    >
-                      Connect Discord
-                    </Button>
-                  )}
                   <ConnectWallet />
                 </Flex>
               </>
@@ -262,7 +246,11 @@ const SignatureLayout = () => {
                   gap={{ base: 2, lg: 4 }}
                   marginTop={4}
                 >
-                  <Button variant="tertiary" leftIcon={<SiDiscord />}>
+                  <Button
+                    variant="tertiary"
+                    onClick={() => handleDiscordAuth(true)}
+                    leftIcon={<SiDiscord />}
+                  >
                     Connect to Discord
                   </Button>
                   <ConnectWallet />
