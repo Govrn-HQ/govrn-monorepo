@@ -19,7 +19,7 @@ import { UIUser } from '@govrn/ui-types';
 const SignatureLayout = () => {
   const { isConnected, address } = useAccount();
   const { isAuthenticated } = useAuth();
-  const [signatureSteps, setSignatureSteps] = useState<number | null>(null);
+  const [signatureStep, setSignatureStep] = useState<number | null>(1);
   const [searchParams] = useSearchParams();
   const displayNameFromParams = searchParams.get('displayName');
   const { mutateAsync: createUser } = useUserCreate();
@@ -55,59 +55,143 @@ const SignatureLayout = () => {
   // third screen: discord oauth prompt (can possibly be combined with second screen)
   // fourth screen: success / error after oauth and next steps
 
-  const NewUserFlow = () => {
-    if (isUserLoading) {
-      return <GovrnSpinner />;
-    }
-  };
-
-  const SignatureStageOne = () => {
-    <>
-      <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
-        Connect your wallet to Gnosis Chain and sign the signature request to
-        verify.
-      </Text>
-      <ConnectWallet />
-    </>;
-  };
-
-  const SignatureStageTwo = () => {
-    <>
-      <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
-        this would be stage 2
-      </Text>
-      <ConnectWallet />
-    </>;
-  };
-
   const isDiscordConnected = (userData?: UIUser | null) =>
     userDataByAddress?.discord_users?.length &&
     userDataByAddress.discord_users[0].active_token;
 
+  useEffect(() => {
+    if (isConnected) {
+      setSignatureStep(1);
+    }
+    if (userData && !isDiscordConnected(userData)) {
+      setSignatureStep(2);
+    }
+    if (userData && isDiscordConnected(userData)) {
+      setSignatureStep(3);
+    }
+  }, [userData, isConnected, isDiscordConnected]);
+
   const DiscordSection = () =>
     isDiscordConnected(userData) ? (
+      <Button
+        variant="tertiary"
+        type="submit"
+        leftIcon={<SiDiscord />}
+        onClick={async () => await disconnectDiscordUser()}
+      >
+        Disconnect Discord
+      </Button>
+    ) : (
+      <Button
+        variant="tertiary"
+        type="submit"
+        onClick={() => handleDiscordAuth(false)}
+        leftIcon={<SiDiscord />}
+      >
+        Connect Discord
+      </Button>
+    );
+
+  const StageOne = () => (
+    <>
+      <Text marginBottom={{ base: 10, lg: 16 }}>
+        Connect your wallet to Gnosis Chain and sign the signature request to
+        verify.
+      </Text>
+      <ConnectWallet />
+    </>
+  );
+
+  const StageTwoExistingUser = () => (
+    <>
+      <Text>
+        Welcome back,{' '}
+        <Text as="span" fontWeight="bolder">
+          {displayName}
+        </Text>
+        <Text as="span" fontWeight="normal">
+          .
+        </Text>
+        <Text marginBottom={{ base: 10, lg: 16 }}>
+          Click the Discord button below to connect your address to your Discord
+          account.
+        </Text>
+      </Text>
+      <Flex
+        direction={{ base: 'column', lg: 'row' }}
+        gap={{ base: 2, lg: 4 }}
+        marginTop={4}
+      >
+        {isDiscordConnected(userData) ? (
+          <Button
+            variant="tertiary"
+            type="submit"
+            leftIcon={<SiDiscord />}
+            onClick={async () => await disconnectDiscordUser()}
+          >
+            Disconnect Discord
+          </Button>
+        ) : (
+          <Button
+            variant="tertiary"
+            type="submit"
+            onClick={() => handleDiscordAuth(false)}
+            leftIcon={<SiDiscord />}
+          >
+            Connect Discord
+          </Button>
+        )}
+      </Flex>
+    </>
+  );
+
+  const StageTwoNewUser = () => {
+    return displayNameFromParams !== null ? ( // stage 2b: creating user with the display name first then move to third screen
       <>
-        <Button
-          variant="tertiary"
-          type="submit"
-          leftIcon={<SiDiscord />}
-          onClick={async () => await disconnectDiscordUser()}
+        <Text>
+          Welcome to Govrn! The next step is creating your user with your wallet
+          address and display name of{' '}
+          <Text as="span" fontWeight="bolder">
+            {displayNameFromParams}
+          </Text>
+          . We'll then verify on Discord.
+        </Text>
+        <Text marginBottom={{ base: 10, lg: 16 }}>
+          You can always change your display name in your profile or through
+          Kevin Malone.
+        </Text>
+        <Flex
+          direction={{ base: 'column', lg: 'row' }}
+          gap={{ base: 2, lg: 4 }}
+          marginTop={4}
         >
-          Disconnect Discord
-        </Button>
+          <DiscordSection />
+        </Flex>
       </>
     ) : (
       <>
-        <Button
-          variant="tertiary"
-          type="submit"
-          onClick={() => handleDiscordAuth(false)}
-          leftIcon={<SiDiscord />}
+        <Text marginBottom={{ base: 10, lg: 16 }}>
+          Welcome to Govrn! The next step is creating your user with your wallet
+          address and verifying through Discord. You can always change your
+          display name in your profile or through Kevin Malone.
+        </Text>
+        <Flex
+          direction={{ base: 'column', lg: 'row' }}
+          gap={{ base: 2, lg: 4 }}
+          marginTop={4}
         >
-          Connect Discord
-        </Button>
+          <Button
+            variant="tertiary"
+            onClick={() => handleDiscordAuth(true)}
+            leftIcon={<SiDiscord />}
+          >
+            Connect to Discord
+          </Button>
+          {/* <ConnectWallet /> */}
+        </Flex>
       </>
     );
+  };
 
   const handleDiscordAuth = async (newUser: boolean) => {
     if (newUser === true) {
@@ -187,84 +271,17 @@ const SignatureLayout = () => {
             maxW={{ base: '60%', lg: '70%' }}
             textAlign="center"
           >
-            {!isConnected ? ( // stage 1: connect wallet
-              <>
-                <Text marginBottom={{ base: 10, lg: 16 }}>
-                  Connect your wallet to Gnosis Chain and sign the signature
-                  request to verify.
-                </Text>
-                <ConnectWallet />
-              </>
-            ) : userDataByAddress ? ( // stage 2: discord oauth
-              <>
-                <Text>
-                  Welcome back,{' '}
-                  <Text as="span" fontWeight="bolder">
-                    {displayName}
-                  </Text>
-                  <Text as="span" fontWeight="normal">
-                    .
-                  </Text>
-                  <Text marginBottom={{ base: 10, lg: 16 }}>
-                    Click the Discord button below to connect your address to
-                    your Discord account.
-                  </Text>
-                </Text>
-                <Flex
-                  direction={{ base: 'column', lg: 'row' }}
-                  gap={{ base: 2, lg: 4 }}
-                  marginTop={4}
-                >
-                  <DiscordSection />
-                  <ConnectWallet />
-                </Flex>
-              </>
-            ) : displayNameFromParams !== null ? ( // stage 2b: creating user with the display name first then move to third screen
-              <>
-                <Text>
-                  Welcome to Govrn! The next step is creating your user with
-                  your wallet address and display name of{' '}
-                  <Text as="span" fontWeight="bolder">
-                    {displayNameFromParams}
-                  </Text>
-                  . We'll then verify on Discord.
-                </Text>
-                <Text marginBottom={{ base: 10, lg: 16 }}>
-                  You can always change your display name in your profile or
-                  through Kevin Malone.
-                </Text>
-                <Flex
-                  direction={{ base: 'column', lg: 'row' }}
-                  gap={{ base: 2, lg: 4 }}
-                  marginTop={4}
-                >
-                  <DiscordSection />
-                </Flex>
-              </>
-            ) : (
-              <>
-                <Text marginBottom={{ base: 10, lg: 16 }}>
-                  Welcome to Govrn! The next step is creating your user with
-                  your wallet address and verifying through Discord. You can
-                  always change your display name in your profile or through
-                  Kevin Malone.
-                </Text>
-                <Flex
-                  direction={{ base: 'column', lg: 'row' }}
-                  gap={{ base: 2, lg: 4 }}
-                  marginTop={4}
-                >
-                  <Button
-                    variant="tertiary"
-                    onClick={() => handleDiscordAuth(true)}
-                    leftIcon={<SiDiscord />}
-                  >
-                    Connect to Discord
-                  </Button>
-                  <ConnectWallet />
-                </Flex>
-              </>
-            )}
+            {signatureStep === 1 ? ( // stage 1: connect wallet
+              <StageOne />
+            ) : null}
+            {signatureStep === 2 ? ( // stage 2: discord oauth
+              userData ? (
+                <StageTwoExistingUser />
+              ) : (
+                <StageTwoNewUser />
+              )
+            ) : null}
+            {signatureStep === 3 ? <Text>Success!</Text> : null}
           </Flex>
         </Flex>
       </Flex>
