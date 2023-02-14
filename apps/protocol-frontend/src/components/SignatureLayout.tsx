@@ -86,23 +86,27 @@ const SignatureLayout = () => {
 
   const DiscordSection = () =>
     isDiscordConnected(userData) ? (
-      <Button
-        variant="tertiary"
-        type="submit"
-        leftIcon={<SiDiscord />}
-        onClick={async () => await disconnectDiscordUser()}
-      >
-        Disconnect Discord
-      </Button>
+      <>
+        <Button
+          variant="tertiary"
+          type="submit"
+          leftIcon={<SiDiscord />}
+          onClick={async () => await disconnectDiscordUser()}
+        >
+          Disconnect Discord
+        </Button>
+      </>
     ) : (
-      <Button
-        variant="tertiary"
-        type="submit"
-        onClick={() => handleDiscordAuth(false)}
-        leftIcon={<SiDiscord />}
-      >
-        Connect Discord
-      </Button>
+      <>
+        <Button
+          variant="tertiary"
+          type="submit"
+          onClick={() => handleDiscordAuth(false)}
+          leftIcon={<SiDiscord />}
+        >
+          Connect Discord
+        </Button>
+      </>
     );
 
   const handleDiscordAuth = async (newUser: boolean) => {
@@ -171,7 +175,7 @@ const SignatureLayout = () => {
           fontWeight="400"
           marginBottom={{ base: 40, lg: 0 }}
           gap={1}
-          maxW={{ base: '70%', lg: '60%' }}
+          maxW={{ base: '60%', lg: '70%' }}
         >
           <Flex
             direction="column"
@@ -180,7 +184,7 @@ const SignatureLayout = () => {
             color="white"
             fontSize={{ base: 'lg', lg: 'xl' }}
             fontWeight="400"
-            maxW={{ base: '70%', lg: '80%' }}
+            maxW={{ base: '60%', lg: '70%' }}
             textAlign="center"
           >
             {!isConnected ? ( // stage 1: connect wallet
@@ -218,28 +222,32 @@ const SignatureLayout = () => {
             ) : displayNameFromParams !== null ? ( // stage 2b: creating user with the display name first then move to third screen
               <>
                 <Text>
-                  Welcome to Govrn! Creating user with your wallet address and
-                  the display name of{' '}
+                  Welcome to Govrn! The next step is creating your user with
+                  your wallet address and display name of{' '}
                   <Text as="span" fontWeight="bolder">
                     {displayNameFromParams}
                   </Text>
-                  . You can change your display name in your profile or through
-                  Kevin Malone.
+                  . We'll then verify on Discord.
+                </Text>
+                <Text marginBottom={{ base: 10, lg: 16 }}>
+                  You can always change your display name in your profile or
+                  through Kevin Malone.
                 </Text>
                 <Flex
                   direction={{ base: 'column', lg: 'row' }}
                   gap={{ base: 2, lg: 4 }}
                   marginTop={4}
                 >
-                  <ConnectWallet />
+                  <DiscordSection />
                 </Flex>
               </>
             ) : (
               <>
-                <Text>
-                  Welcome to Govrn! Creating user with your wallet address. You
-                  can set your display name in your profile or through Kevin
-                  Malone.
+                <Text marginBottom={{ base: 10, lg: 16 }}>
+                  Welcome to Govrn! The next step is creating your user with
+                  your wallet address and verifying through Discord. You can
+                  always change your display name in your profile or through
+                  Kevin Malone.
                 </Text>
                 <Flex
                   direction={{ base: 'column', lg: 'row' }}
