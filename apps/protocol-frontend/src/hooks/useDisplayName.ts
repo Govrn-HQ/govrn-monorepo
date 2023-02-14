@@ -1,4 +1,4 @@
-import { useUser } from './../contexts/UserContext';
+import { useUser } from '../contexts/UserContext';
 import { useAccount } from 'wagmi';
 import { displayAddress } from '../utils/web3';
 import { useEnsNameEthers } from './useEnsNameEthers';
@@ -9,18 +9,17 @@ const useDisplayName = () => {
 
   const { data: userEnsName, isLoading } = useEnsNameEthers(address);
 
-  if (isLoading) {
-    return { displayName: null };
-  }
-
   const displayName =
     userData?.name ||
     userData?.display_name ||
     userDataByAddress?.name ||
-    userDataByAddress?.display_name ||
-    userEnsName ||
-    displayAddress(address);
-  return { displayName };
+    userDataByAddress?.display_name;
+
+  if (isLoading) {
+    return { displayName };
+  }
+
+  return { displayName: displayName || userEnsName || displayAddress(address) };
 };
 
 export default useDisplayName;

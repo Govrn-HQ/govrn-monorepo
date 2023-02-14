@@ -32,6 +32,16 @@ export class DiscordUserCreateManyUserInput {
   })
   discord_id!: string;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  access_token?: string | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  active_token?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })

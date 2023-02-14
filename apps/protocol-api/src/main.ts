@@ -34,6 +34,11 @@ const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
 const LINEAR_CLIENT_SECRET = process.env.LINEAR_CLIENT_SECRET;
 const PROTOCOL_FRONTEND = process.env.PROTOCOL_FRONTEND;
 
+const DISCORD_TOKEN_URL = 'https://discord.com/api/v10/oauth2/token';
+const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
+const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
+
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
 });
@@ -208,6 +213,8 @@ const permissions = shield(
       updatedAt: or(isAuthenticated, hasToken),
       user: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
+      access_token: or(isAuthenticated, hasToken),
+      active_token: or(isAuthenticated, hasToken),
     },
     Guild: {
       activity_type: or(isAuthenticated, hasToken),
@@ -523,6 +530,67 @@ app.get('/linear/oauth', async function (req, res) {
       where: { linear_id: me.id },
       update: {
         access_token: respJSON.access_token,
+        active_token: true,
+        user: { connect: { address: address } },
+      },
+    });
+
+    res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+  } catch (e) {
+    console.error(e);
+    res.status(500).send();
+  }
+});
+
+app.get('/discord_nonce', async function (req, res) {
+  const nonce = generateNonce();
+  req.session.discordNonce = generateNonce();
+  res.setHeader('Content-Type', 'text/plain');
+  res.status(200).send(req.session.nonce);
+});
+
+app.get('/discord/oauth', async function (req, res) {
+  try {
+    const query = req.query;
+    const code = query.code;
+    const state = query.state.toString();
+    const params = new URLSearchParams();
+    params.append('code', code.toString());
+    params.append('redirect_uri', DISCORD_REDIRECT_URI);
+    params.append('client_id', DISCORD_CLIENT_ID);
+    params.append('client_secret', DISCORD_CLIENT_SECRET);
+    params.append('state', state);
+    params.append('grant_type', 'authorization_code');
+    const resp = await fetch(DISCORD_TOKEN_URL, {
+      method: 'POST',
+      body: params,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+    const respJSON = await resp.json();
+    const accessToken = String(respJSON.access_token);
+
+    if (!accessToken) {
+      res.status(500).send('Failed to connect to discord.');
+      return;
+    }
+
+    const userResp = await fetch('https://discord.com/api/users/@me', {
+      headers: { authorization: `Bearer ${accessToken}` },
+    });
+    const me = await userResp.json();
+    const [, address] = state.split('/');
+
+    await prisma.discordUser.upsert({
+      create: {
+        access_token: accessToken,
+        active_token: true,
+        discord_id: me.id,
+        display_name: me.display_name,
+        user: { connect: { address: address } },
+      },
+      where: { discord_id: me.id },
+      update: {
+        access_token: accessToken,
         active_token: true,
         user: { connect: { address: address } },
       },
