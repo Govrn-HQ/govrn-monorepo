@@ -21,6 +21,8 @@ import { HiOutlineLink } from 'react-icons/hi';
 import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown'
+import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 
 interface ContributionDetailShellProps {
   contribution: UIContribution;
@@ -96,7 +98,7 @@ const ContributionDetailShell = ({
                 ))}
             </Flex>
           </Flex>
-          {contribution?.details && <Text>{contribution?.details}</Text>}
+          {contribution?.details && <ReactMarkdown components={ChakraUIRenderer()} children={contribution?.details} skipHtml />}
           <Stack marginBottom={4} fontSize="sm" fontWeight="bolder">
             {contribution?.proof && (
               <ChakraLink href={contribution?.proof} isExternal>
