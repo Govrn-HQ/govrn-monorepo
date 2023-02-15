@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
@@ -23,8 +23,7 @@ const SignatureLayout = () => {
   const [searchParams] = useSearchParams();
   const displayNameFromParams = searchParams.get('displayName');
   const { mutateAsync: createUser } = useUserCreate();
-  // console.log('display name', displayNameFromParams);
-  const { userDataByAddress, userData, isUserLoading } = useUser();
+  const { userDataByAddress, userData } = useUser();
 
   const { displayName } = useDisplayName();
 
@@ -32,47 +31,25 @@ const SignatureLayout = () => {
   const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
   const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
   const { mutateAsync: disconnectDiscordUser } = useDiscordUserDisconnect();
-  // useEffect(() => {
-  //   if (userDataByAddress) {
-  //     setCreateProfileSteps(3);
-  //   }
-  //   if (!userDataByAddress) {
-  //     setCreateProfileSteps(1);
-  //   }
-  // }, [userDataByAddress]);
 
-  // const createUserHandler = async () => {
-  //   if (address && displayName !== undefined) {
-  //     await createUser({
-  //       username: displayName || '',
-  //       address,
-  //     });
-  //   }
-  // };
-
-  // first screen: prompt user to connect wallet
-  // second screen: successful signature -> check if user exists -> if exists, move to third screen or create user with display name first then move to third screen
-  // third screen: discord oauth prompt (can possibly be combined with second screen)
-  // fourth screen: success / error after oauth and next steps
-
-  const isDiscordConnected = (userData?: UIUser | null) =>
+  const isDiscordConnected = (userDataByAddress: UIUser | null | undefined) =>
     userDataByAddress?.discord_users?.length &&
     userDataByAddress.discord_users[0].active_token;
 
-  useEffect(() => {
-    if (isConnected) {
-      setSignatureStep(1);
-    }
-    if (userData && !isDiscordConnected(userData)) {
-      setSignatureStep(2);
-    }
-    if (userData && isDiscordConnected(userData)) {
-      setSignatureStep(3);
-    }
-  }, [userData, isConnected, isDiscordConnected]);
+  // useEffect(() => {
+  //   if (!isConnected && userData === undefined) {
+  //     setSignatureStep(1);
+  //   }
+  //   if (isConnected && !isDiscordConnected(userData)) {
+  //     setSignatureStep(2);
+  //   }
+  //   if (isConnected && userData && isDiscordConnected(userData)) {
+  //     setSignatureStep(3);
+  //   }
+  // }, [userDataByAddress]);
 
-  const DiscordSection = () =>
-    isDiscordConnected(userData) ? (
+  const DiscordSection = () => {
+    return isDiscordConnected(userData) ? (
       <Button
         variant="tertiary"
         type="submit"
@@ -91,9 +68,16 @@ const SignatureLayout = () => {
         Connect Discord
       </Button>
     );
+  };
 
   const StageOne = () => (
     <>
+      <Text>
+        <span role="img" aria-labelledby="Wave emoji next to user name">
+          👋
+        </span>{' '}
+        Hello! Welcome to Govrn.
+      </Text>
       <Text marginBottom={{ base: 10, lg: 16 }}>
         Connect your wallet to Gnosis Chain and sign the signature request to
         verify.
@@ -165,7 +149,13 @@ const SignatureLayout = () => {
           gap={{ base: 2, lg: 4 }}
           marginTop={4}
         >
-          <DiscordSection />
+          <Button
+            variant="tertiary"
+            onClick={() => handleDiscordAuth(true)}
+            leftIcon={<SiDiscord />}
+          >
+            Connect to Discord
+          </Button>
         </Flex>
       </>
     ) : (
@@ -187,7 +177,6 @@ const SignatureLayout = () => {
           >
             Connect to Discord
           </Button>
-          {/* <ConnectWallet /> */}
         </Flex>
       </>
     );
@@ -259,6 +248,7 @@ const SignatureLayout = () => {
     window.location.href = `https://discord.com/oauth2/authorize?${params.toString()}`;
   };
 
+  console.log('userdata by address', userDataByAddress);
   return (
     <Flex
       direction="column"
@@ -293,7 +283,7 @@ const SignatureLayout = () => {
           fontWeight="400"
           marginBottom={{ base: 40, lg: 0 }}
           gap={1}
-          maxW={{ base: '60%', lg: '70%' }}
+          maxW={{ base: '60%', lg: '75%' }}
         >
           <Flex
             direction="column"
@@ -302,20 +292,22 @@ const SignatureLayout = () => {
             color="white"
             fontSize={{ base: 'lg', lg: 'xl' }}
             fontWeight="400"
-            maxW={{ base: '60%', lg: '70%' }}
+            maxW={{ base: '60%', lg: '75%' }}
             textAlign="center"
           >
-            {signatureStep === 1 ? ( // stage 1: connect wallet
+            {!isConnected && userDataByAddress === undefined ? ( // stage 1: connect wallet
               <StageOne />
             ) : null}
-            {signatureStep === 2 ? ( // stage 2: discord oauth
+            {isConnected && !isDiscordConnected(userData) ? ( // stage 2: discord oauth
               userData ? (
                 <StageTwoExistingUser />
               ) : (
                 <StageTwoNewUser />
               )
             ) : null}
-            {signatureStep === 3 ? <StageThreeSuccess /> : null}
+            {isConnected && userData && isDiscordConnected(userData) ? (
+              <StageThreeSuccess />
+            ) : null}
           </Flex>
         </Flex>
       </Flex>
