@@ -53,19 +53,6 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   return children;
 };
 
-const RequireUser = ({ children }: { children: JSX.Element }) => {
-  const { userData } = useUser();
-  if (userData === undefined) {
-    return (
-      <ErrorView
-        errorMessage="You have to be a user to view this."
-        includeMotto={false}
-      />
-    );
-  }
-  return children;
-};
-
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
   const { guildId } = useParams();
   const { userData } = useUser();
