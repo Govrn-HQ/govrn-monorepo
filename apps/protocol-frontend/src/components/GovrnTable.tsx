@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   chakra,
   Table as ChakraTable,
   TableProps,
@@ -27,7 +28,10 @@ const GovrnTable = <T extends RowData>(props: GovrnTableProps<T>) => {
             {headerGroup.headers.map(header => (
               <Th key={header.id} borderColor="gray.100">
                 {header.isPlaceholder ? null : (
-                  <Box
+                  <Flex
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
                     {...{
                       onClick: header.column.getToggleSortingHandler(),
                       cursor: 'pointer',
@@ -38,13 +42,13 @@ const GovrnTable = <T extends RowData>(props: GovrnTableProps<T>) => {
                       header.getContext(),
                     )}
 
-                    <chakra.span paddingLeft="4">
+                    <chakra.span marginLeft="4">
                       {{
                         asc: <IoArrowUp aria-label="sorted-ascending" />,
                         desc: <IoArrowDown aria-label="sorted-descending" />,
                       }[header.column.getIsSorted() as string] ?? null}
                     </chakra.span>
-                  </Box>
+                  </Flex>
                 )}
               </Th>
             ))}
