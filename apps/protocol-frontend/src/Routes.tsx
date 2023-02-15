@@ -19,7 +19,6 @@ import DaoSettings from './pages/DaoSettings';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
-import Signature from './pages/Signature';
 import ContributionDetail from './pages/ContributionDetail';
 import CreateDao from './pages/CreateDao';
 import ErrorView from './components/ErrorView';
@@ -32,6 +31,7 @@ import {
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
+  const { userData } = useUser();
   const { isAuthenticated, checkExistingCreds } = useAuth();
   const { isConnected } = useAccount();
 
@@ -41,21 +41,15 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   if (!isConnected) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
-
-  return children;
-};
-
-const RequireConnectedUser = ({ children }: { children: JSX.Element }) => {
-  const location = useLocation();
-  const { isAuthenticated, checkExistingCreds } = useAuth();
-  const { isConnected } = useAccount();
-
-  if (!isAuthenticated && checkExistingCreds) {
-    return <Navigate to="/authenticate" state={{ from: location }} replace />;
+  if (
+    isConnected &&
+    isAuthenticated &&
+    checkExistingCreds &&
+    userData === undefined
+  ) {
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
-  if (!isConnected) {
-    return <Navigate to="/signature" state={{ from: location }} replace />;
-  }
+
   return children;
 };
 
@@ -95,14 +89,6 @@ const Routes = () => {
             ) : (
               <Home />
             )
-          }
-        />
-        <Route
-          path="/signature"
-          element={
-            // <RequireConnectedUser>
-            <Signature />
-            // </RequireConnectedUser>
           }
         />
         <Route

@@ -571,7 +571,6 @@ app.get('/discord/oauth', async function (req, res) {
     params.append('client_secret', DISCORD_CLIENT_SECRET);
     params.append('state', state);
     params.append('grant_type', 'authorization_code');
-    // params.append('destination', destination);
     const resp = await fetch(DISCORD_TOKEN_URL, {
       method: 'POST',
       body: params,
