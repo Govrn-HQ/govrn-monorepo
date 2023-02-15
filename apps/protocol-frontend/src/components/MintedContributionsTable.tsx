@@ -76,7 +76,19 @@ const MintedContributionsTable = ({
           return (
             <Flex direction="column" wrap="wrap">
               <Link to={`/contributions/${row.original.id}`}>
-                <Text whiteSpace="normal">{getValue()}</Text>
+                <Text
+                  whiteSpace="normal"
+                  bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
+                  bgClip="text"
+                  transition="all 100ms ease-in-out"
+                  _hover={{
+                    fontWeight: 'bolder',
+                    bgGradient: 'linear(to-l, #7928CA, #FF0080)',
+                  }}
+                >
+                  {' '}
+                  {getValue()}
+                </Text>
               </Link>
             </Flex>
           );

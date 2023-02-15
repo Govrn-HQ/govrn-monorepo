@@ -134,7 +134,7 @@ const ContributionsTable = ({
           getValue: Getter<string>;
         }) => {
           return (
-            <Flex direction="column" wrap="wrap">
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
               <Link to={`/contributions/${row.original.id}`}>
                 <Text
                   whiteSpace="normal"
@@ -146,7 +146,6 @@ const ContributionsTable = ({
                     bgGradient: 'linear(to-l, #7928CA, #FF0080)',
                   }}
                 >
-                  {' '}
                   {getValue()}
                 </Text>
               </Link>

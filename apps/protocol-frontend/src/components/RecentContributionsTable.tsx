@@ -7,8 +7,10 @@ import {
   SortingState,
   getSortedRowModel,
   Getter,
+  Row,
 } from '@tanstack/react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link } from 'react-router-dom';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
@@ -19,10 +21,25 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   {
     header: 'Name',
     accessorKey: 'name',
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
+    cell: ({
+      row,
+      getValue,
+    }: {
+      row: Row<UIContribution>;
+      getValue: Getter<string>;
+    }) => {
       return (
         <Flex direction="column" wrap="wrap">
-          <Text whiteSpace="normal">{getValue()}</Text>
+          <Link to={`/contributions/${row.original.id}`}>
+            <Text
+              whiteSpace="normal"
+              bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
+              bgClip="text"
+              transition="all 100ms ease-in-out"
+            >
+              {getValue()}
+            </Text>
+          </Link>
         </Flex>
       );
     },
