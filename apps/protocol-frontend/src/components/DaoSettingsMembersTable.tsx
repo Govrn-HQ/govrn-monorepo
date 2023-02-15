@@ -46,7 +46,10 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     fetchNextPage,
   } = useDaoUsersInfiniteList({
     where: { guild_id: { equals: daoId } },
-    orderBy: [{ membershipStatus: { name: SortOrder.Asc } }],
+    orderBy: [
+      { membershipStatus: { name: SortOrder.Asc } },
+      { user: { display_name: SortOrder.Asc } },
+    ],
   });
 
   const { mutateAsync: updateDaoMemberStatus } = useDaoUserUpdate();
@@ -226,6 +229,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         {daoUsersData && daoUsersData.pages.length > 0 ? (
           <Stack spacing="5">
             <Box
+              id="settings-table-container"
               width="100%"
               maxWidth="100vw"
               overflowX="auto"
@@ -233,11 +237,12 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               overflowY="scroll"
             >
               <InfiniteScroll
-                dataLength={table.getRowModel().rows.length}
+                dataLength={data.length}
                 next={fetchNextPage}
-                scrollThreshold={0.8}
-                hasMore={hasNextPage || false}
+                scrollThreshold={0.9}
+                hasMore={Boolean(hasNextPage)}
                 loader={<GovrnSpinner />}
+                scrollableTarget="settings-table-container"
               >
                 <GovrnTable
                   controller={table}

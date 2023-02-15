@@ -16,6 +16,9 @@ import ProfileDaos from './ProfileDaos';
 import { CgLinear, SiDiscord } from 'react-icons/all';
 import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
 import { UIUser } from '@govrn/ui-types';
+import { CgLinear, SiDiscord } from 'react-icons/all';
+import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
+import { UIUser } from '@govrn/ui-types';
 
 const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
 const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
@@ -30,9 +33,19 @@ const isDiscordConnected = (userData?: UIUser | null) =>
 const isLinearConnected = (userData?: UIUser | null) =>
   userData?.linear_users?.length && userData.linear_users[0].active_token;
 
+const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
+const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+
+const isDiscordConnected = (userData?: UIUser | null) =>
+  userData?.discord_users?.length && userData.discord_users[0].active_token;
+
+const isLinearConnected = (userData?: UIUser | null) =>
+  userData?.linear_users?.length && userData.linear_users[0].active_token;
+
 const ProfileForm = () => {
   const { userData } = useUser();
   const { mutateAsync: disconnectLinearUser } = useLinearUserDisconnect();
+  const { mutateAsync: disconnectDiscordUser } = useDiscordUserDisconnect();
   const { mutateAsync: disconnectDiscordUser } = useDiscordUserDisconnect();
   const { displayName } = useDisplayName();
   const { mutateAsync: updateProfile } = useUserCustomUpdate();
@@ -45,6 +58,7 @@ const ProfileForm = () => {
 
   useEffect(() => {
     setValue('name', userData?.name ?? '');
+  }, [setValue, userData]);
   }, [setValue, userData]);
 
   const updateProfileHandler: SubmitHandler<ProfileFormValues> = async (
@@ -76,6 +90,10 @@ const ProfileForm = () => {
     window.location.href = `https://linear.app/oauth/authorize?${params.toString()}`;
   };
 
+  const handleDiscordAuth = async () => {
+    const res = await fetch(`${BACKEND_ADDR}/discord_nonce`, {
+      method: 'GET',
+      credentials: 'include',
   const handleDiscordAuth = async () => {
     const res = await fetch(`${BACKEND_ADDR}/discord_nonce`, {
       method: 'GET',

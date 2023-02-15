@@ -39,6 +39,11 @@ const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
 
+const DISCORD_TOKEN_URL = 'https://discord.com/api/v10/oauth2/token';
+const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
+const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
+
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
 });
@@ -213,6 +218,8 @@ const permissions = shield(
       updatedAt: or(isAuthenticated, hasToken),
       user: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
+      access_token: or(isAuthenticated, hasToken),
+      active_token: or(isAuthenticated, hasToken),
       access_token: or(isAuthenticated, hasToken),
       active_token: or(isAuthenticated, hasToken),
     },
@@ -556,7 +563,6 @@ app.get('/discord/oauth', async function (req, res) {
   try {
     const query = req.query;
     const code = query.code;
-    // const destination = query.destination;
     const state = query.state.toString();
     const params = new URLSearchParams();
     params.append('code', code.toString());
