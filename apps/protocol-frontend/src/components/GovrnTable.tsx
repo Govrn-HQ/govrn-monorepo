@@ -30,8 +30,10 @@ const GovrnTable = <T extends RowData>(props: GovrnTableProps<T>) => {
                 {header.isPlaceholder ? null : (
                   <Flex
                     direction="row"
-                    alignItems="center"
+                    alignItems="stretch"
                     justifyContent="space-between"
+                    paddingRight={header.column.getIsSorted() ? '1' : '4'}
+                    flex="1"
                     {...{
                       onClick: header.column.getToggleSortingHandler(),
                       cursor: 'pointer',
@@ -42,7 +44,7 @@ const GovrnTable = <T extends RowData>(props: GovrnTableProps<T>) => {
                       header.getContext(),
                     )}
 
-                    <chakra.span marginLeft="4">
+                    <chakra.span paddingLeft="4" flex="1 1 auto">
                       {{
                         asc: <IoArrowUp aria-label="sorted-ascending" />,
                         desc: <IoArrowDown aria-label="sorted-descending" />,
