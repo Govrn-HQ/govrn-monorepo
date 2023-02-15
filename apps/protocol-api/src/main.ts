@@ -215,8 +215,6 @@ const permissions = shield(
       user_id: or(isAuthenticated, hasToken),
       access_token: or(isAuthenticated, hasToken),
       active_token: or(isAuthenticated, hasToken),
-      access_token: or(isAuthenticated, hasToken),
-      active_token: or(isAuthenticated, hasToken),
     },
     Guild: {
       activity_type: or(isAuthenticated, hasToken),
