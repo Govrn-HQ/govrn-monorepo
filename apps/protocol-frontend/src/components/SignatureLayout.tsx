@@ -4,9 +4,8 @@ import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import { SiDiscord } from 'react-icons/si';
 import ConnectWallet from '../components/ConnectWallet';
-import { useAuth } from '../contexts/AuthContext';
+
 import { useUser } from '../contexts/UserContext';
-import { GovrnSpinner } from '@govrn/protocol-ui';
 import GovrnTextLogo from './GovrnTextLogo';
 import useDisplayName from '../hooks/useDisplayName';
 import useUserCreate from '../hooks/useUserCreate';
@@ -18,8 +17,6 @@ import { UIUser } from '@govrn/ui-types';
 
 const SignatureLayout = () => {
   const { isConnected, address } = useAccount();
-  const { isAuthenticated } = useAuth();
-  const [signatureStep, setSignatureStep] = useState<number | null>(1);
   const [searchParams] = useSearchParams();
   const displayNameFromParams = searchParams.get('displayName');
   const { mutateAsync: createUser } = useUserCreate();
@@ -35,40 +32,6 @@ const SignatureLayout = () => {
   const isDiscordConnected = (userDataByAddress: UIUser | null | undefined) =>
     userDataByAddress?.discord_users?.length &&
     userDataByAddress.discord_users[0].active_token;
-
-  // useEffect(() => {
-  //   if (!isConnected && userData === undefined) {
-  //     setSignatureStep(1);
-  //   }
-  //   if (isConnected && !isDiscordConnected(userData)) {
-  //     setSignatureStep(2);
-  //   }
-  //   if (isConnected && userData && isDiscordConnected(userData)) {
-  //     setSignatureStep(3);
-  //   }
-  // }, [userDataByAddress]);
-
-  const DiscordSection = () => {
-    return isDiscordConnected(userData) ? (
-      <Button
-        variant="tertiary"
-        type="submit"
-        leftIcon={<SiDiscord />}
-        onClick={async () => await disconnectDiscordUser()}
-      >
-        Disconnect Discord
-      </Button>
-    ) : (
-      <Button
-        variant="tertiary"
-        type="submit"
-        onClick={() => handleDiscordAuth(false)}
-        leftIcon={<SiDiscord />}
-      >
-        Connect Discord
-      </Button>
-    );
-  };
 
   const StageOne = () => (
     <>

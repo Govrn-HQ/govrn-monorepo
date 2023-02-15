@@ -39,11 +39,6 @@ const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
 
-const DISCORD_TOKEN_URL = 'https://discord.com/api/v10/oauth2/token';
-const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
-const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
-const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
-
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
 });
@@ -589,6 +584,7 @@ app.get('/discord/oauth', async function (req, res) {
     });
     const me = await userResp.json();
     const [, address, redirectDestination] = state.split('/');
+    console.log('redirectDestination', redirectDestination);
 
     await prisma.discordUser.upsert({
       create: {
