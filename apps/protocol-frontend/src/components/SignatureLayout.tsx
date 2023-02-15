@@ -193,6 +193,40 @@ const SignatureLayout = () => {
     );
   };
 
+  const StageThreeSuccess = () => (
+    <>
+      <Text>
+        <span role="img" aria-labelledby="tada emoji celebrating success">
+          🎉
+        </span>{' '}
+        Congratulations on connecting{' '}
+        <Text as="span" fontWeight="bolder">
+          {displayName}
+        </Text>{' '}
+        <span role="img" aria-labelledby="tada emoji celebrating success">
+          🎉
+        </span>
+        <Text marginBottom={{ base: 10, lg: 16 }}>
+          Head to your profile to join or create a DAO or return to Kevin Malone
+          and re-run the{' '}
+          <Text as="span" fontWeight="bolder" fontFamily="monospace">
+            /join
+          </Text>{' '}
+          command.
+        </Text>
+      </Text>
+      <Flex
+        direction={{ base: 'column', lg: 'row' }}
+        gap={{ base: 2, lg: 4 }}
+        marginTop={4}
+      >
+        <Link to="/profile">
+          <Button variant="secondary">Check Out Your Profile</Button>
+        </Link>
+      </Flex>
+    </>
+  );
+
   const handleDiscordAuth = async (newUser: boolean) => {
     if (newUser === true) {
       if (
@@ -281,7 +315,7 @@ const SignatureLayout = () => {
                 <StageTwoNewUser />
               )
             ) : null}
-            {signatureStep === 3 ? <Text>Success!</Text> : null}
+            {signatureStep === 3 ? <StageThreeSuccess /> : null}
           </Flex>
         </Flex>
       </Flex>
