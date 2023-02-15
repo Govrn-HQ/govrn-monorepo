@@ -61,6 +61,11 @@ spec:
                 secretKeyRef:
                   name: kevin-malone
                   key: weekly_report_weekday
+            - name: WEEKLY_REPORT_ENABLE
+              valueFrom:
+                secretKeyRef:
+                  name: kevin-malone
+                  key: weekly_report_enable
             - name: GOVRN_GUILD_ID
               value: '837049837886767125'
             - name: PROTOCOL_URL
