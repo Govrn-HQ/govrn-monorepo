@@ -265,7 +265,7 @@ const SignatureLayout = () => {
                 <StageTwoNewUser />
               )
             ) : null}
-            {isConnected && userData && isDiscordConnected(userData) ? (
+            {isConnected && userData && isDiscordConnected(userData) ? ( // stage 3: success and next steps
               <StageThreeSuccess />
             ) : null}
           </Flex>

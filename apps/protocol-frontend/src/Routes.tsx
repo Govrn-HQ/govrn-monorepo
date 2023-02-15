@@ -32,7 +32,6 @@ import {
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
-  const { userData } = useUser();
   const { isAuthenticated, checkExistingCreds } = useAuth();
   const { isConnected } = useAccount();
 
