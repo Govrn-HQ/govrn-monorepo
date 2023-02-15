@@ -25,13 +25,13 @@ export const useLinearUserDisconnect = () => {
         queryClient.invalidateQueries(['userGet']);
         queryClient.invalidateQueries(['userByAddressGet']);
         toast.success({
-          title: 'Disconnected linear user',
-          description: 'Your linear user has been disconnected',
+          title: 'Disconnected Linear user',
+          description: 'Your Linear user has been disconnected.',
         });
       },
       onError: error => {
         toast.error({
-          title: 'Failed to disconnect linear user',
+          title: 'Failed to disconnect Linear user.',
           description: `Something went wrong. Please try again: ${error}`,
         });
       },

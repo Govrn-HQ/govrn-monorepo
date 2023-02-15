@@ -42,14 +42,6 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   if (!isConnected) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
-  if (
-    isConnected &&
-    isAuthenticated &&
-    checkExistingCreds &&
-    userData === undefined
-  ) {
-    return <Navigate to="/" state={{ from: location }} replace />;
-  }
 
   return children;
 };

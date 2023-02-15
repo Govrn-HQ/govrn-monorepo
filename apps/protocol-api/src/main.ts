@@ -584,7 +584,6 @@ app.get('/discord/oauth', async function (req, res) {
     });
     const me = await userResp.json();
     const [, address, redirectDestination] = state.split('/');
-    console.log('redirectDestination', redirectDestination);
 
     await prisma.discordUser.upsert({
       create: {

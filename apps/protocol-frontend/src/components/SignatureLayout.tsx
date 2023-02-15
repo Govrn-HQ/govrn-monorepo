@@ -1,4 +1,3 @@
-import { useEffect, useState, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
@@ -21,7 +20,6 @@ const SignatureLayout = () => {
   const displayNameFromParams = searchParams.get('displayName');
   const { mutateAsync: createUser } = useUserCreate();
   const { userDataByAddress, userData } = useUser();
-
   const { displayName } = useDisplayName();
 
   const BACKEND_ADDR = `${BASE_URL}`;
@@ -211,7 +209,6 @@ const SignatureLayout = () => {
     window.location.href = `https://discord.com/oauth2/authorize?${params.toString()}`;
   };
 
-  console.log('userdata by address', userDataByAddress);
   return (
     <Flex
       direction="column"

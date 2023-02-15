@@ -21,8 +21,8 @@ export const useDiscordUserDisconnect = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['userGet', userData?.id]);
-        queryClient.invalidateQueries(['userByAddressGet', userData?.address]);
+        queryClient.invalidateQueries(['userGet']);
+        queryClient.invalidateQueries(['userByAddressGet']);
         toast.success({
           title: 'Disconnected Discord user.',
           description: 'Your Discord user has been disconnected.',
