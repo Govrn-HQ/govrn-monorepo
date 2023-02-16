@@ -570,7 +570,7 @@ app.get('/discord/oauth', async function (req, res) {
     const accessToken = String(respJSON.access_token);
 
     if (!accessToken) {
-      res.status(500).send('Failed to connect to discord.');
+      res.status(500).send('Failed to connect to Discord.');
       return;
     }
 
@@ -578,7 +578,7 @@ app.get('/discord/oauth', async function (req, res) {
       headers: { authorization: `Bearer ${accessToken}` },
     });
     const me = await userResp.json();
-    const [, address] = state.split('/');
+    const [, address, redirectDestination] = state.split('/');
 
     await prisma.discordUser.upsert({
       create: {
@@ -595,8 +595,13 @@ app.get('/discord/oauth', async function (req, res) {
         user: { connect: { address: address } },
       },
     });
-
-    res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+    // specifically only allowing these 2 options instead of being fully dynamic,
+    if (redirectDestination === 'profile') {
+      res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+    }
+    if (redirectDestination === 'signature') {
+      res.status(200).redirect(PROTOCOL_FRONTEND + '/#/signature');
+    }
   } catch (e) {
     console.error(e);
     res.status(500).send();

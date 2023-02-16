@@ -53,15 +53,15 @@ The following environment variables are required:
 
 - `VITE_PROTOCOL_URL`: e.g. http://localhost:4000/graphql for local development
 - `VITE_PROTOCOL_BASE_URL`: e.g. http://localhost:4000/ for local development
+- `VITE_INFURA_SUBDOMAIN`: The subdomain of the dedicated Infura gateway
 - `VITE_LINEAR_REDIRECT_URI`: e.g. http://localhost:4000/linear/oauth for local development
 - `VITE_LINEAR_CLIENT_ID`: The client ID of our Linear app
 - `VITE_DISCORD_REDIRECT_URI`: e.g. http://localhost:4000/discord/oauth for local development
 - `VITE_DISCORD_CLIENT_ID`: The client ID of Discord app ([Docs](https://discord.com/developers/docs/topics/oauth2))
-- `VITE_INFURA_SUBDOMAIN`: The subdomain of the dedicated infura gateway
 
-The Linear specific environment variables are also used in the `protocol-api` `.env` file, but the frontend ones need to be prefixed with `VITE_`. If you're having issues with the Linear integration, check that these variables are set properly.
+The Linear and Discord specific environment variables are also used in the `protocol-api` `.env` file, but the frontend ones need to be prefixed with `VITE_`. If you're having issues either integration, check that these variables are set properly.
 
-These assume that you're running the `protocol-api` locally on port 4000. If you are not, you'll not be able to fully interact with the frontend for local develpment.s
+These assume that you're running the `protocol-api` locally on port 4000. If you are not, you'll not be able to fully interact with the frontend for local development.
 
 ### Running the Apps
 

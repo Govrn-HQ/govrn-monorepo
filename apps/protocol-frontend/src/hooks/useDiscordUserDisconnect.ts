@@ -9,7 +9,6 @@ export const useDiscordUserDisconnect = () => {
   const queryClient = useQueryClient();
   const { userData } = useUser();
   const toast = useGovrnToast();
-
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async () => {
       if (userData?.id && userData?.name) {
