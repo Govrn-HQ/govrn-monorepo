@@ -29,9 +29,12 @@ const columnsDef: ColumnDef<UIContribution>[] = [
       getValue: Getter<string>;
     }) => {
       return (
-        <Flex direction="column" wrap="wrap">
+        <Flex direction="column" wrap="wrap" paddingRight={1}>
           <Link to={`/contributions/${row.original.id}`}>
             <Text
+              paddingRight={8}
+              flex="1 0 0"
+              maxW="300px"
               whiteSpace="normal"
               bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
               bgClip="text"
@@ -52,7 +55,13 @@ const columnsDef: ColumnDef<UIContribution>[] = [
     header: 'Type',
     accessorFn: contribution => contribution.activity_type.name,
     cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return <Text>{getValue()} </Text>;
+      return (
+        <Flex direction="column" wrap="wrap">
+          <Text whiteSpace="normal" flex="1 0 0">
+            {getValue()}
+          </Text>
+        </Flex>
+      );
     },
   },
   {
