@@ -24,7 +24,7 @@ import CreateDao from './pages/CreateDao';
 import ErrorView from './components/ErrorView';
 import useUserGet from './hooks/useUserGet';
 import { useAccount } from 'wagmi';
-import SignatureLayout from './components/SignatureLayout';
+import DiscordSignatureLayout from './components/DiscordSignatureLayout';
 import {
   CONTRIBUTION_NEW_DOMAIN,
   CONTRIBUTION_NEW_STAGING_DOMAIN,
@@ -83,7 +83,7 @@ const Routes = () => {
             )
           }
         />
-        <Route path="/signature" element={<SignatureLayout />} />
+        <Route path="/signature" element={<DiscordSignatureLayout />} />
         <Route
           path="/profile"
           element={

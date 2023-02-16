@@ -2,7 +2,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import { SiDiscord } from 'react-icons/si';
-import ConnectWallet from '../components/ConnectWallet';
+import ConnectWallet from './ConnectWallet';
 import { useUser } from '../contexts/UserContext';
 import GovrnTextLogo from './GovrnTextLogo';
 import useDisplayName from '../hooks/useDisplayName';
@@ -15,7 +15,7 @@ import {
 } from '../utils/constants';
 import { UIUser } from '@govrn/ui-types';
 
-const SignatureLayout = () => {
+const DiscordSignatureLayout = () => {
   const { isConnected, address } = useAccount();
   const [searchParams] = useSearchParams();
   const displayNameFromParams = searchParams.get('displayName');
@@ -273,4 +273,4 @@ const SignatureLayout = () => {
   );
 };
 
-export default SignatureLayout;
+export default DiscordSignatureLayout;
