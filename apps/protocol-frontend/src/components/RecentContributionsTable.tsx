@@ -34,7 +34,7 @@ const columnsDef: ColumnDef<UIContribution>[] = [
             <Text
               paddingRight={8}
               flex="1 0 0"
-              maxW="300px"
+              maxW="15rem"
               whiteSpace="normal"
               bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
               bgClip="text"
