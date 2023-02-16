@@ -2,6 +2,7 @@ import discord
 import logging
 from web3 import Web3
 import bot.common.graphql as gql
+from bot import constants
 from bot.config import (
     YES_EMOJI,
     NO_EMOJI,
@@ -79,8 +80,7 @@ class PromptUserToConnectWallet(BaseStep):
     name = StepKeys.PROMPT_USER_CONNECT_WALLET.value
 
     msg = (
-        "It doesn't look like your wallet is connected to this discord account please connected them at this link"
-        "http://localhost:3000/?#/profile. "
+        f"It doesn't look like your wallet is connected to this discord account please connected them at this link {constants.Bot.govrn_discord_auth_url}.\n\n"
         "Once you finish connecting your accounts rerun the join flow or join your dao via the web app")
 
     async def send(self, message, user_id):
