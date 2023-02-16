@@ -19,12 +19,10 @@ from bot.common.threads.thread_builder import (
 )
 from bot.common.threads.shared_steps import (
     VerifyUserTwitterStep,
-    VerifyUserWalletStep,
     WALLET_CACHE_KEY,
     TWEET_VERIFIED_CACHE_KEY,
 )
 from bot.exceptions import InvalidWalletAddressException
-
 
 DISCORD_USER_CACHE_KEY = "discord_user_previously_exists"
 USER_CACHE_KEY = "user_previously_exists"
@@ -33,7 +31,6 @@ DISCORD_DISPLAY_NAME_CACHE_KEY = "discord_display_name"
 DISPLAY_NAME_CACHE_KEY = "display_name"
 TWITTER_HANDLE_CACHE_KEY = "twitter_handle"
 REQUESTED_TWEET_CACHE_KEY = "requested_tweet"
-
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +70,23 @@ class CheckIfDiscordUserExists(BaseStep):
                 user_id, self.cache, USER_DB_ID_CACHE_KEY, user["id"]
             )
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
-        return StepKeys.PROMPT_USER_WALLET_ADDRESS.value
+        return StepKeys.PROMPT_USER_CONNECT_WALLET.value
+
+
+class PromptUserToConnectWallet(BaseStep):
+    """Step to submit wallet address for the govrn profile"""
+
+    name = StepKeys.PROMPT_USER_CONNECT_WALLET.value
+
+    msg = (
+        "It doesn't look like your wallet is connected to this discord account please connected them at this link"
+        "http://localhost:3000/?#/profile. "
+        "Once you finish connecting your accounts rerun the join flow or join your dao via the web app")
+
+    async def send(self, message, user_id):
+        channel = message.channel
+        sent_message = await channel.send(PromptUserToConnectWallet.msg)
+        return sent_message, None
 
 
 class PromptUserWalletAddressStep(BaseStep):
@@ -177,7 +190,7 @@ class AssociateExistingUserWithGuild(BaseStep):
         # skip if the user has already joined the guild
         guild_users = user.get("guild_users")
         if guild_users is not None and any(
-            guild_user.get("guild_id") == guild_id for guild_user in guild_users
+                guild_user.get("guild_id") == guild_id for guild_user in guild_users
         ):
             desc = (
                 "It looks like you've joined this guild previously, but I didn't have your "
@@ -243,7 +256,7 @@ class UserDisplayConfirmationStep(BaseStep):
         return sent_message, None
 
 
-# save is a single branch so it can be one to one
+# save is a single branch, so it can be one to one
 # handle_emoji can branch
 class UserDisplayConfirmationEmojiStep(BaseStep):
     """Emoji confirmation step of whether the Discord name should be accepted"""
@@ -370,7 +383,7 @@ class CreateUserStep(BaseStep):
 
 
 class CongratsStep(BaseStep):
-    """Send congratulations for completing the profile"""
+    """Send congratulations on completing the profile"""
 
     name = StepKeys.ONBOARDING_CONGRATS.value
 
@@ -441,13 +454,8 @@ class Onboarding(BaseThread):
 
         guild_user_not_exist_flow = (
             Step(
-                current=PromptUserWalletAddressStep(
-                    cache=self.cache, guild_id=self.guild_id
-                )
-            )
-            .add_next_step(VerifyUserWalletStep(self.cache, update=False))
-            .add_next_step(AssociateDiscordProfileWithUser(self.cache, self.bot))
-            .fork(
+                current=PromptUserToConnectWallet()
+            ).fork(
                 (
                     AssociateExistingUserWithGuild(
                         cache=self.cache, guild_id=self.guild_id
