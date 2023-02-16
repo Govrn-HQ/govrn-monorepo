@@ -296,6 +296,7 @@ export class Contribution extends BaseClient {
         chain: { is: { chain_id: { equals: `${chainId}` } } },
         on_chain_id: { in: contributionIds },
       },
+      first: contributionIds.length,
     });
     if (dbContributions.result.length !== contributionIds.length) {
       throw new Error(
