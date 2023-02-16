@@ -4,13 +4,12 @@ import {
   Flex,
   Link as ChakraLink,
   HStack,
-  Icon,
   IconButton,
   Stack,
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { HiOutlineLink, HiOutlineEye } from 'react-icons/hi';
+import { HiOutlineLink } from 'react-icons/hi';
 import { useUser } from '../contexts/UserContext';
 import {
   ColumnDef,

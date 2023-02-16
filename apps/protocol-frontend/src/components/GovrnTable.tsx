@@ -1,5 +1,4 @@
 import {
-  Box,
   Flex,
   chakra,
   Table as ChakraTable,
