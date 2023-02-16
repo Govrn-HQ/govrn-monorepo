@@ -81,7 +81,7 @@ jobs:
           echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
           echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
           echo VITE_DISCORD_CLIENT_ID=${{secrets.DISCORD_CLIENT_ID}} >> .env
-          echo VITE_DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }}
+          echo VITE_DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }} >> .env
       - name: Build
         run: yarn nx affected:build --configuration production --base $BASE
       - uses: actions/cache@v3

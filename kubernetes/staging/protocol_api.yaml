@@ -75,6 +75,16 @@ spec:
               value: 'https://staging.govrn.app'
             - name: LINEAR_REDIRECT_URI
               value: 'https://api-staging.govrn.app/linear/oauth'
+            - name: DISCORD_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: discord_client_secret
+            - name: DISCORD_CLIENT_ID
+              value: 'https://api-staging.govrn.app/discord/oauth'
+            - name: DISCORD_REDIRECT_URI
+              value: '1073271811074183258'
+
           resources:
             requests:
               memory: 300Mi
