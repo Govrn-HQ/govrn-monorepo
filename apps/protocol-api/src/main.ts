@@ -550,9 +550,6 @@ app.get('/discord_nonce', async function (req, res) {
 });
 
 app.get('/discord/oauth', async function (req, res) {
-  // test adding a param to the redirect uri
-  // read param and see if we can do a dynamic redirect
-  // look into other options if this doesn't work -- split redirect endpoint
   try {
     const query = req.query;
     const code = query.code;

@@ -4,11 +4,15 @@ import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
-
 import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
-import { BASE_URL } from '../utils/constants';
-
+import {
+  BACKEND_ADDR,
+  DISCORD_CLIENT_ID,
+  DISCORD_REDIRECT_URI,
+  LINEAR_CLIENT_ID,
+  LINEAR_REDIRECT_URI,
+} from '../utils/constants';
 import useDisplayName from '../hooks/useDisplayName';
 import useLinearUserDisconnect from '../hooks/useLinearUserDisconnect';
 import useUserCustomUpdate from '../hooks/useUserCustomUpdate';
@@ -16,12 +20,6 @@ import ProfileDaos from './ProfileDaos';
 import { CgLinear, SiDiscord } from 'react-icons/all';
 import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
 import { UIUser } from '@govrn/ui-types';
-
-const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
-const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
-const BACKEND_ADDR = `${BASE_URL}`;
-const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
-const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
 
 const isDiscordConnected = (userData?: UIUser | null) =>
   userData?.discord_users?.length && userData.discord_users[0].active_token;

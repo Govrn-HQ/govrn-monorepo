@@ -27,7 +27,7 @@ export const useUserCustomUpdate = () => {
       onSuccess: (_, { showToast }) => {
         queryClient.invalidateQueries(['userGet']);
         queryClient.invalidateQueries(['userByAddressGet']);
-        // only show toast if specified
+
         if (showToast === true) {
           toast.success({
             title: 'User Created',
@@ -36,7 +36,6 @@ export const useUserCustomUpdate = () => {
         }
       },
       onError: error => {
-        // always show error toast
         toast.error({
           title: 'Unable to Create User',
           description: `Something went wrong. Please try again: ${error}`,

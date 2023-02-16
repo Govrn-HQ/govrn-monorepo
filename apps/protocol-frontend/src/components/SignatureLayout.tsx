@@ -3,15 +3,16 @@ import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import { SiDiscord } from 'react-icons/si';
 import ConnectWallet from '../components/ConnectWallet';
-
 import { useUser } from '../contexts/UserContext';
 import GovrnTextLogo from './GovrnTextLogo';
 import useDisplayName from '../hooks/useDisplayName';
 import useUserCreate from '../hooks/useUserCreate';
 import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
-
-import { BASE_URL } from '../utils/constants';
-
+import {
+  BACKEND_ADDR,
+  DISCORD_CLIENT_ID,
+  DISCORD_REDIRECT_URI,
+} from '../utils/constants';
 import { UIUser } from '@govrn/ui-types';
 
 const SignatureLayout = () => {
@@ -22,14 +23,11 @@ const SignatureLayout = () => {
   const { userDataByAddress, userData } = useUser();
   const { displayName } = useDisplayName();
 
-  const BACKEND_ADDR = `${BASE_URL}`;
-  const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
-  const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
   const { mutateAsync: disconnectDiscordUser } = useDiscordUserDisconnect();
 
   const isDiscordConnected = (userDataByAddress: UIUser | null | undefined) =>
     userDataByAddress?.discord_users?.length &&
-    userDataByAddress.discord_users[0].active_token;
+    userDataByAddress?.discord_users[0].active_token;
 
   const StageOne = () => (
     <>
