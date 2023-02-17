@@ -81,9 +81,9 @@ spec:
                   name: protocol-api
                   key: discord_client_secret
             - name: DISCORD_CLIENT_ID
-              value: 'https://api-staging.govrn.app/discord/oauth'
-            - name: DISCORD_REDIRECT_URI
               value: '1073271811074183258'
+            - name: DISCORD_REDIRECT_URI
+              value: 'https://api-staging.govrn.app/discord/oauth'
 
           resources:
             requests:
