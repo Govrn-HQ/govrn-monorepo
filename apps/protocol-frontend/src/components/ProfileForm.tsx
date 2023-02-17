@@ -4,11 +4,15 @@ import { Input } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
-
 import { profileFormValidation } from '../utils/validations';
 import { ProfileFormValues } from '../types/forms';
-import { BASE_URL } from '../utils/constants';
-
+import {
+  BACKEND_ADDR,
+  DISCORD_CLIENT_ID,
+  DISCORD_REDIRECT_URI,
+  LINEAR_CLIENT_ID,
+  LINEAR_REDIRECT_URI,
+} from '../utils/constants';
 import useDisplayName from '../hooks/useDisplayName';
 import useLinearUserDisconnect from '../hooks/useLinearUserDisconnect';
 import useUserCustomUpdate from '../hooks/useUserCustomUpdate';
@@ -16,13 +20,6 @@ import ProfileDaos from './ProfileDaos';
 import { CgLinear, SiDiscord } from 'react-icons/all';
 import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
 import { UIUser } from '@govrn/ui-types';
-
-const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
-const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
-const BACKEND_ADDR = `${BASE_URL}`;
-
-const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
-const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
 
 const isDiscordConnected = (userData?: UIUser | null) =>
   userData?.discord_users?.length && userData.discord_users[0].active_token;
@@ -82,13 +79,13 @@ const ProfileForm = () => {
       credentials: 'include',
     });
     const state = await res.text();
-
     const params = new URLSearchParams();
+
     params.append('client_id', DISCORD_CLIENT_ID);
     params.append('redirect_uri', DISCORD_REDIRECT_URI);
     params.append('response_type', 'code');
     params.append('scope', 'identify guilds.join');
-    params.append('state', `${state}/${userData?.address}`); // generate string to prevent crsf attack
+    params.append('state', `${state}/${userData?.address}/profile`); // generate string to prevent crsf attack and include profile as source
     params.append('prompt', 'consent');
     window.location.href = `https://discord.com/oauth2/authorize?${params.toString()}`;
   };

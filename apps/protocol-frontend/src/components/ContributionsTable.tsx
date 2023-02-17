@@ -37,7 +37,6 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { formatDate, toDate } from '../utils/date';
 import { RowSelectionState } from '@tanstack/table-core';
-import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import GovrnTable from './GovrnTable';
 
 export type DialogProps = {
@@ -133,28 +132,24 @@ const ContributionsTable = ({
           getValue: Getter<string>;
         }) => {
           return (
-            <Flex direction="column" wrap="wrap">
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
               <Link to={`/contributions/${row.original.id}`}>
-                <Text whiteSpace="normal">{getValue()}</Text>
+                <Text
+                  whiteSpace="normal"
+                  bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
+                  bgClip="text"
+                  flex="1 0 0"
+                  transition="all 100ms ease-in-out"
+                  _hover={{
+                    fontWeight: 'bolder',
+                    bgGradient: 'linear(to-l, #7928CA, #FF0080)',
+                    textShadow: '10px 10px 11px #fff',
+                  }}
+                >
+                  {getValue()}
+                </Text>
               </Link>
             </Flex>
-          );
-        },
-      },
-      {
-        header: 'Status',
-        accessorFn: contribution => contribution.status.name,
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
-          return (
-            <Text textTransform="capitalize">
-              {getValue()}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating Contribution status: Eyes emoji for staging and Three O’Clock emoji for Pending"
-              >
-                {statusEmojiSelect(getValue())}
-              </span>{' '}
-            </Text>
           );
         },
       },

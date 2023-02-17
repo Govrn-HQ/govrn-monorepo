@@ -2,7 +2,6 @@ import discord
 import logging
 from web3 import Web3
 import bot.common.graphql as gql
-from bot import constants
 from bot.config import (
     YES_EMOJI,
     NO_EMOJI,
@@ -19,11 +18,11 @@ from bot.common.threads.thread_builder import (
     write_cache_metadata,
 )
 from bot.common.threads.shared_steps import (
-    VerifyUserTwitterStep,
     WALLET_CACHE_KEY,
     TWEET_VERIFIED_CACHE_KEY,
 )
 from bot.exceptions import InvalidWalletAddressException
+from bot import constants
 
 DISCORD_USER_CACHE_KEY = "discord_user_previously_exists"
 USER_CACHE_KEY = "user_previously_exists"
@@ -79,13 +78,24 @@ class PromptUserToConnectWallet(BaseStep):
 
     name = StepKeys.PROMPT_USER_CONNECT_WALLET.value
 
-    msg = (
-        f"It doesn't look like your wallet is connected to this discord account please connected them at this link {constants.Bot.govrn_discord_auth_url}.\n\n"
-        "Once you finish connecting your accounts rerun the join flow or join your dao via the web app")
+    def __init__(self, cache, guild_id, bot):
+        super().__init__()
+        self.cache = cache
+        self.guild_id = guild_id
+        self.bot = bot
 
     async def send(self, message, user_id):
         channel = message.channel
-        sent_message = await channel.send(PromptUserToConnectWallet.msg)
+        discord_user = await self.bot.fetch_user(user_id)
+        msg = (
+            "It doesn't look like your wallet"
+            " is connected to this discord account please "
+            "connected them at this link"
+            f" {constants.Bot.frontend_url}/#/signature?displayName={discord_user.display_name}."
+            "Once you finish connecting your accounts rerun the join flow or join your dao via the web app"
+        )
+
+        sent_message = await channel.send(msg)
         return sent_message, None
 
 
@@ -190,7 +200,7 @@ class AssociateExistingUserWithGuild(BaseStep):
         # skip if the user has already joined the guild
         guild_users = user.get("guild_users")
         if guild_users is not None and any(
-                guild_user.get("guild_id") == guild_id for guild_user in guild_users
+            guild_user.get("guild_id") == guild_id for guild_user in guild_users
         ):
             desc = (
                 "It looks like you've joined this guild previously, but I didn't have your "
@@ -256,7 +266,7 @@ class UserDisplayConfirmationStep(BaseStep):
         return sent_message, None
 
 
-# save is a single branch, so it can be one to one
+# save is a single branch so it can be one to one
 # handle_emoji can branch
 class UserDisplayConfirmationEmojiStep(BaseStep):
     """Emoji confirmation step of whether the Discord name should be accepted"""
@@ -383,7 +393,7 @@ class CreateUserStep(BaseStep):
 
 
 class CongratsStep(BaseStep):
-    """Send congratulations on completing the profile"""
+    """Send congratulations for completing the profile"""
 
     name = StepKeys.ONBOARDING_CONGRATS.value
 
@@ -419,52 +429,11 @@ class Onboarding(BaseThread):
     name = ThreadKeys.ONBOARDING.value
 
     def get_profile_setup_steps(self):
-        create_user_chain = (
-            Step(CreateUserStep(self.cache))
-            .add_next_step(CongratsStep(self.user_id, self.guild_id, self.cache))
-            .build()
-        )
-
-        verify_twitter = (
-            Step(VerifyUserTwitterStep(self.user_id, self.guild_id, self.cache, False))
-            .add_next_step(create_user_chain)
-            .build()
-        )
-
-        twitter_retrieval_steps = (
-            Step(
-                current=AddUserTwitterStep(guild_id=self.guild_id, cache=self.cache)
-            ).fork((verify_twitter, create_user_chain))
+        guild_user_not_exist_flow = Step(
+            current=PromptUserToConnectWallet(
+                cache=self.cache, guild_id=self.guild_id, bot=self.bot
+            )
         ).build()
-
-        custom_user_name_steps = (
-            Step(current=UserDisplaySubmitStep(cache=self.cache))
-            .add_next_step(twitter_retrieval_steps)
-            .build()
-        )
-
-        govrn_user_not_exist_flow = (
-            Step(current=UserDisplayConfirmationStep(cache=self.cache, bot=self.bot))
-            .add_next_step(
-                UserDisplayConfirmationEmojiStep(cache=self.cache, bot=self.bot)
-            )
-            .fork((custom_user_name_steps, twitter_retrieval_steps))
-            .build()
-        )
-
-        guild_user_not_exist_flow = (
-            Step(
-                current=PromptUserToConnectWallet()
-            ).fork(
-                (
-                    AssociateExistingUserWithGuild(
-                        cache=self.cache, guild_id=self.guild_id
-                    ),
-                    govrn_user_not_exist_flow,
-                )
-            )
-            .build()
-        )
 
         profile_setup_steps = Step(
             current=CheckIfDiscordUserExists(cache=self.cache)
