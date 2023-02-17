@@ -24,6 +24,7 @@ from bot.common.threads.shared_steps import (
     TWEET_VERIFIED_CACHE_KEY,
 )
 from bot.exceptions import InvalidWalletAddressException
+from bot import constants
 
 DISCORD_USER_CACHE_KEY = "discord_user_previously_exists"
 USER_CACHE_KEY = "user_previously_exists"
@@ -71,7 +72,7 @@ class CheckIfDiscordUserExists(BaseStep):
                 user_id, self.cache, USER_DB_ID_CACHE_KEY, user["id"]
             )
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
-        return StepKeys.PROMPT_USER_WALLET_ADDRESS.value
+        return StepKeys.PROMPT_USER_CONNECT_WALLET.value
 
 
 class PromptUserToConnectWallet(BaseStep):
@@ -79,19 +80,19 @@ class PromptUserToConnectWallet(BaseStep):
 
     name = StepKeys.PROMPT_USER_CONNECT_WALLET.value
 
-    msg = (
-        """It doesn't look like your wallet is connected to this discord account please connected them at this link  
-        http://localhost:3000/?#/profile.  
-        Once you finish connecting your accounts rerun the join flow or join your dao via the web app""")
-
-    def __init__(self, cache, guild_id):
+    def __init__(self, cache, guild_id, bot):
         super().__init__()
         self.cache = cache
         self.guild_id = guild_id
+        self.bot = bot
 
     async def send(self, message, user_id):
         channel = message.channel
-        sent_message = await channel.send(PromptUserToConnectWallet.msg)
+        discord_user = await self.bot.fetch_user(user_id)
+        msg = f"""It doesn't look like your wallet is connected to this discord account please connected them at this link {constants.Bot.frontend_url}/#/signature?displayName={discord_user.display_name}. Once you finish connecting your accounts rerun the join flow or join your dao via the web app"""
+    
+
+        sent_message = await channel.send(msg)
         return sent_message, None
 
 
@@ -196,7 +197,7 @@ class AssociateExistingUserWithGuild(BaseStep):
         # skip if the user has already joined the guild
         guild_users = user.get("guild_users")
         if guild_users is not None and any(
-                guild_user.get("guild_id") == guild_id for guild_user in guild_users
+            guild_user.get("guild_id") == guild_id for guild_user in guild_users
         ):
             desc = (
                 "It looks like you've joined this guild previously, but I didn't have your "
@@ -461,17 +462,8 @@ class Onboarding(BaseThread):
         guild_user_not_exist_flow = (
             Step(
                 current=PromptUserToConnectWallet(
-                    cache=self.cache, guild_id=self.guild_id
-                )
-            )
-            .add_next_step(VerifyUserWalletStep(self.cache, update=False))
-            .add_next_step(AssociateDiscordProfileWithUser(self.cache, self.bot))
-            .fork(
-                (
-                    AssociateExistingUserWithGuild(
-                        cache=self.cache, guild_id=self.guild_id
-                    ),
-                    govrn_user_not_exist_flow,
+                    cache=self.cache, guild_id=self.guild_id,
+                    bot=self.bot
                 )
             )
             .build()
