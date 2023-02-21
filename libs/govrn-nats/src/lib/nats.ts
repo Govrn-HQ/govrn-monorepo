@@ -69,6 +69,6 @@ export class Job {
     // nothing async can go here
   }
   public async run() {
-    this.nc = await setupNats(this.server);
+    // this.nc = await setupNats(this.server);
   }
 }

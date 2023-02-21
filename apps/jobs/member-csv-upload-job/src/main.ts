@@ -18,15 +18,20 @@ const servers = [
   // { port: 4222 },
   { servers: 'localhost' },
 ];
-const logic = (conn: NatsConnection, msg: JsMsg) => {
+const logic = async (conn: NatsConnection) => {
   console.log(conn);
   console.log('Main');
-  console.log(msg);
+  // pull
+  // transform 
+  // enqueue
+  // etc
+  const pullTransform = async (conn: NatsConnection) => {
+    return;
+  }
+  await pullMessages(conn, 'dao-membership-csv', 'dao-membership-csv-durable', pullTransform);
 };
 
 const main = async () => {
-  await pullMessages('dao-membership-csv', 'dao-membership-csv-durable', logic);
-
   await setupNats(servers, logic);
   // TODO: Add schema validation
 };
