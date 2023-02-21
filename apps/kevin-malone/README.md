@@ -12,7 +12,7 @@ A self reporting bot for the movement model
 ## Setup
 
 1. Clone this repository
-2. Create a [virtual environment](https://python-poetry.org/docs/managing-environments/#switching-between-environments)
+2. Create a [virtual environment](https://python-poetry.org/docs/managing-environments)
    with python `3.8`.
 3. Install dependencies via pip: `poetry run pip install -r requirements-dev.txt`.
 4. Setup environment variables: `cp env.example .env`
