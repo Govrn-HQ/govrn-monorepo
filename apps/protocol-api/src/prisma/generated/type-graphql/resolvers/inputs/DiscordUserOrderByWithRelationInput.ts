@@ -47,6 +47,16 @@ export class DiscordUserOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  access_token?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  active_token?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   enable_notifications?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

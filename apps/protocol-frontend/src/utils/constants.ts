@@ -11,7 +11,11 @@ export const SIWE_ACTIVE_URL = `${BASE_URL}/siwe/active`;
 export const BLOCK_EXPLORER_URLS = {
   gnosisChain: `https://blockscout.com/xdai/mainnet/tx/`,
 };
-
+export const BACKEND_ADDR = `${BASE_URL}`;
+export const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
+export const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+export const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
+export const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
 export const MAX_FILE_UPLOAD_SIZE = 5242880; // 5MB in bytes. used in ipfs upload
 export const MAX_CSV_UPLOAD_SIZE = 5242880; // 5MB in bytes. used in csv upload
 export const UNASSIGNED = 'Unassigned';

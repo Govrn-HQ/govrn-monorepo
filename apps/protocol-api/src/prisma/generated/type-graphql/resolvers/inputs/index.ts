@@ -1168,8 +1168,8 @@ export { UserUpdateOneRequiredWithoutActivitiesNestedInput } from "./UserUpdateO
 export { UserUpdateOneRequiredWithoutAttestationsNestedInput } from "./UserUpdateOneRequiredWithoutAttestationsNestedInput";
 export { UserUpdateOneRequiredWithoutContributionPartnersNestedInput } from "./UserUpdateOneRequiredWithoutContributionPartnersNestedInput";
 export { UserUpdateOneRequiredWithoutContributionsNestedInput } from "./UserUpdateOneRequiredWithoutContributionsNestedInput";
-export { UserUpdateOneRequiredWithoutDiscord_usersNestedInput } from "./UserUpdateOneRequiredWithoutDiscord_usersNestedInput";
 export { UserUpdateOneRequiredWithoutGuild_usersNestedInput } from "./UserUpdateOneRequiredWithoutGuild_usersNestedInput";
+export { UserUpdateOneWithoutDiscord_usersNestedInput } from "./UserUpdateOneWithoutDiscord_usersNestedInput";
 export { UserUpdateOneWithoutLinear_usersNestedInput } from "./UserUpdateOneWithoutLinear_usersNestedInput";
 export { UserUpdateOneWithoutTwitter_userNestedInput } from "./UserUpdateOneWithoutTwitter_userNestedInput";
 export { UserUpdateWithWhereUniqueWithoutChain_typeInput } from "./UserUpdateWithWhereUniqueWithoutChain_typeInput";

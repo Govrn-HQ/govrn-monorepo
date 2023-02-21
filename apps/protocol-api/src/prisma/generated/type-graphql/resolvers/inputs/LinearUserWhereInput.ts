@@ -71,11 +71,6 @@ export class LinearUserWhereInput {
   })
   url?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  user_id?: IntNullableFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
@@ -85,6 +80,11 @@ export class LinearUserWhereInput {
     nullable: true
   })
   active_token?: BoolNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  user_id?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserRelationFilter, {
     nullable: true

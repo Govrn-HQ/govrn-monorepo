@@ -4,19 +4,18 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useGovrnToast } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
 
-export const useLinearUserDisconnect = () => {
+export const useDiscordUserDisconnect = () => {
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
   const queryClient = useQueryClient();
   const { userData } = useUser();
   const toast = useGovrnToast();
-
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async () => {
-      if (userData?.id || userData?.name) {
+      if (userData?.id && userData?.name) {
         return await govrn.custom.updateUser({
-          name: userData.name || '',
           id: userData.id,
-          disconnectLinearId: userData.linear_users[0].id,
+          name: userData.name,
+          disconnectDiscordId: userData?.discord_users[0].id,
         });
       }
     },
@@ -25,13 +24,13 @@ export const useLinearUserDisconnect = () => {
         queryClient.invalidateQueries(['userGet']);
         queryClient.invalidateQueries(['userByAddressGet']);
         toast.success({
-          title: 'Disconnected Linear user',
-          description: 'Your Linear user has been disconnected.',
+          title: 'Disconnected Discord user.',
+          description: 'Your Discord user has been disconnected.',
         });
       },
       onError: error => {
         toast.error({
-          title: 'Failed to disconnect Linear user.',
+          title: 'Failed to disconnect Discord user.',
           description: `Something went wrong. Please try again: ${error}`,
         });
       },
@@ -40,4 +39,4 @@ export const useLinearUserDisconnect = () => {
   return { mutateAsync, isLoading, isError, isSuccess };
 };
 
-export default useLinearUserDisconnect;
+export default useDiscordUserDisconnect;
