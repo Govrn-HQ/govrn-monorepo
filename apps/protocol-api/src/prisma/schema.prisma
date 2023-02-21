@@ -48,8 +48,11 @@ model DiscordUser {
   display_name String?
   // Maybe Change this to a string
   discord_id String @unique
-  user_id Int
-  user User @relation(fields: [user_id], references: [id])
+  user_id Int?
+  user User? @relation(fields: [user_id], references: [id])
+
+  access_token String?
+  active_token Boolean @default(false)
 
   // notifications
   // enable notifications
@@ -374,9 +377,9 @@ model LinearUser {
   linear_id String @unique
   name String?
   url String?
-  user_id Int?
   access_token String?
   active_token Boolean?
+  user_id Int?
   user User? @relation(fields: [user_id], references: [id])
   assigned_issues LinearIssue[]  @relation("Assignee")
   created_issues   LinearIssue[]   @relation("Creator")

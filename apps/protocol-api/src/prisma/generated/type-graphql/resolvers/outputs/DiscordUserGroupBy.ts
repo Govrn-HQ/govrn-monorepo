@@ -38,9 +38,19 @@ export class DiscordUserGroupBy {
   discord_id!: string;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  user_id!: number | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  access_token!: string | null;
+
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
-  user_id!: number;
+  active_token!: boolean;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false

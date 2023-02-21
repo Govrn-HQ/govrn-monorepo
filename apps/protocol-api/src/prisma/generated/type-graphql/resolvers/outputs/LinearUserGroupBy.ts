@@ -52,11 +52,6 @@ export class LinearUserGroupBy {
   })
   url!: string | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  user_id!: number | null;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
@@ -66,6 +61,11 @@ export class LinearUserGroupBy {
     nullable: true
   })
   active_token!: boolean | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  user_id!: number | null;
 
   @TypeGraphQL.Field(_type => LinearUserCountAggregate, {
     nullable: true
