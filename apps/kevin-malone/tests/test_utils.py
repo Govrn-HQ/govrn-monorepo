@@ -114,6 +114,7 @@ class MockContext:
         self.interaction: MockInteraction = MockInteraction()
         self.response: MockResponse = MockResponse()
         self.followup: MockResponse = MockResponse()
+        self.respond = self.followup.send_message
 
 
 class MockInteraction:
