@@ -19,12 +19,6 @@ A self reporting bot for the movement model
 1. In a separate directory, clone the [Govrn monorepo](https://github.com/Govrn-HQ/govrn-monorepo), and follow the the setup instructions there. 
 
 
-## Development in VS Code
-
-Requires the following VS Code extensions to be installed:
-
-- Docker
-- Remote – Containers
 
 ## Develop with Intellisense, Run, and Debug in Dev Container
 
