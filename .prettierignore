@@ -14,3 +14,4 @@ apps/govrn-contract-subgraph/generated
 libs/govrn-subgraph-client/src/lib/subgraph
 
 libs/protocol-client/src/lib/protocol-types.ts
+.vscode

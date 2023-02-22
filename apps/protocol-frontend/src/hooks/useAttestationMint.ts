@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { networks } from '../utils/networks';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 
@@ -43,7 +43,7 @@ const useAttestationMint = () => {
         queryClient.invalidateQueries(['contributionInfiniteList']);
         toast.success({
           title: 'Attestation Successfully Minted',
-          description: 'Your Attestation has been minted.',
+          description: 'Your attestation has been minted.',
         });
       },
       onError: error => {

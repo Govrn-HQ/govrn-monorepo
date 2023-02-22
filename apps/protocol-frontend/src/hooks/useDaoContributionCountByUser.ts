@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useUser } from '../contexts/UserContext';
+import { displayAddress } from '../utils/web3';
 
 const useDaoContributionCountByUserInRange = (
   args: {
@@ -22,9 +23,7 @@ const useDaoContributionCountByUserInRange = (
       return resp.map(row => {
         return {
           ...row,
-          display_name:
-            row?.display_name ||
-            `${row.address.slice(0, 5)}...${row.address.slice(-4)}`,
+          display_name: row?.display_name || `${displayAddress(row.address)}`,
         };
       });
     },

@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
@@ -52,10 +53,20 @@ export class DiscordUserScalarWhereInput {
   })
   discord_id?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  user_id?: IntFilter | undefined;
+  user_id?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  access_token?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  active_token?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true

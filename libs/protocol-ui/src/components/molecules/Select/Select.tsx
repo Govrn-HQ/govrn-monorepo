@@ -85,6 +85,7 @@ const Select: React.FC<SelectProps> = ({
                 isDisabled={isDisabled}
                 value={value}
                 components={{ SelectContainer }}
+                styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
               />
             )}
           />

@@ -1,14 +1,15 @@
 import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
-import { AttestationTableType } from '../types/table';
 import pluralize from 'pluralize';
+import useDisplayName from '../hooks/useDisplayName';
 import useAttestationBulkMint from '../hooks/useAttestationBulkMint';
 import useAttestationMint from '../hooks/useAttestationMint';
 import { TextList } from './TextList';
+import { UIContribution } from '@govrn/ui-types';
 
 interface BulkAttestationModalProps {
-  contributions: AttestationTableType[];
+  contributions: UIContribution[];
   onFinish?: (() => void) | undefined;
 }
 
@@ -16,23 +17,21 @@ export const AttestationModal = ({
   contribution,
   onFinish,
 }: {
-  contribution: AttestationTableType;
+  contribution: UIContribution;
   onFinish?: (() => void) | undefined;
 }) => {
-  const { userData } = useUser();
+  const { displayName } = useDisplayName();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
     useAttestationMint();
   const { setModals } = useOverlay();
 
-  const createAttestationsHandler = async (
-    contributions: AttestationTableType,
-  ) => {
-    if (!contribution.onChainId) {
+  const createAttestationsHandler = async (contributions: UIContribution) => {
+    if (!contribution.on_chain_id) {
       throw new Error('No on chain id for contribution!');
     }
     try {
       await mintAttestation({
-        onChainId: contribution.onChainId,
+        onChainId: contribution.on_chain_id,
         contributionId: contribution.id,
       });
       setModals({ attestationModal: false });
@@ -45,7 +44,7 @@ export const AttestationModal = ({
   return (
     <Stack spacing="4" width="100%" color="gray.800">
       <Text paddingBottom={2}>
-        Attesting as: <strong>{userData?.name}</strong>
+        Attesting as: <strong>{displayName}</strong>
       </Text>
       <Text>
         Attesting to <strong>1 </strong>
@@ -83,18 +82,16 @@ export const BulkAttestationModal = ({
     useAttestationBulkMint();
   const { setModals } = useOverlay();
 
-  const createAttestationsHandler = async (
-    contributions: AttestationTableType[],
-  ) => {
+  const createAttestationsHandler = async (contributions: UIContribution[]) => {
     try {
       const attestationInput = [];
       for (const c of contributions) {
-        if (!c.onChainId) {
+        if (!c.on_chain_id) {
           continue;
         }
         attestationInput.push({
           name: c.name,
-          onChainId: c.onChainId,
+          onChainId: c.on_chain_id,
         });
       }
       await bulkMintAttestation(attestationInput);
@@ -112,7 +109,7 @@ export const BulkAttestationModal = ({
       </Text>
       <Text>
         Attesting to <strong>{contributions.length} </strong>
-        {pluralize('Contribution', contributions.length)}:
+        {pluralize('contribution', contributions.length)}:
       </Text>
       <TextList
         items={contributions.map(c => ({

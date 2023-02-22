@@ -3,7 +3,9 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { GuildImportStatusRelationFilter } from "../inputs/GuildImportStatusRelationFilter";
 import { GuildRelationFilter } from "../inputs/GuildRelationFilter";
+import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntegrationTypeRelationFilter } from "../inputs/IntegrationTypeRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -66,4 +68,19 @@ export class GuildImportWhereInput {
     nullable: true
   })
   integration_type?: IntegrationTypeRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntFilter, {
+    nullable: true
+  })
+  import_status_id?: IntFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildImportStatusRelationFilter, {
+    nullable: true
+  })
+  import_status?: GuildImportStatusRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildUserListRelationFilter, {
+    nullable: true
+  })
+  users?: GuildUserListRelationFilter | undefined;
 }

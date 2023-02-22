@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useAsyncDebounce } from 'react-table';
 import {
   Flex,
   Icon,
@@ -8,6 +7,7 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
+import { DEFAULT_DELAY, useDebounce } from '../utils/useDebounce';
 
 interface GlobalFilterTypes<T> {
   preGlobalFilteredRows: T[];
@@ -25,9 +25,7 @@ const GlobalFilter = <T,>({
 
   const rowCount = preGlobalFilteredRows.length;
   const [value, setValue] = useState(globalFilter);
-  const onChangeDebouncer = useAsyncDebounce(value => {
-    setGlobalFilter(value || undefined);
-  }, 200);
+  const onChangeDebounce = useDebounce(setGlobalFilter, DEFAULT_DELAY);
 
   return (
     <Flex paddingX={{ base: '4', md: '6' }} paddingBottom={4}>
@@ -36,13 +34,16 @@ const GlobalFilter = <T,>({
           <Icon as={FiSearch} color="gray.500" boxSize="5" />
         </InputLeftElement>
         <Input
+          background="gray.50"
+          border="none"
+          borderRadius="1rem"
           placeholder={`Search ${rowCount} ${
-            rowCount === 1 ? 'Contribution' : 'Contributions'
+            rowCount === 1 ? 'contribution' : 'contributions'
           }`}
           value={value || ''}
           onChange={e => {
             setValue(e.target.value);
-            onChangeDebouncer(e.target.value);
+            onChangeDebounce(e.target.value);
           }}
           variant="outline"
         />

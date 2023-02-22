@@ -1,10 +1,11 @@
 import { useDisconnect } from 'wagmi';
 import { BASE_URL } from '../utils/constants';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 const useLogout = () => {
   const toast = useGovrnToast();
   const { disconnect } = useDisconnect();
+
   const logout = async () => {
     try {
       await fetch(`${BASE_URL}/logout`, {
@@ -18,7 +19,7 @@ const useLogout = () => {
     } catch (err) {
       console.error(err);
       toast.error({
-        title: 'Failed to logout user',
+        title: 'Failed to Logout User',
         description: `Something went wrong. Please try again: ${err}`,
       });
     }

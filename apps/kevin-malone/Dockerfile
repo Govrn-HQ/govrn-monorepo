@@ -13,12 +13,12 @@ RUN apt update
 RUN apt install -y git make gcc
 
 # Install pip requirements
-COPY requirements.txt .
-COPY requirements-dev.txt .
+COPY apps/kevin-malone/requirements.txt .
+COPY apps/kevin-malone/requirements-dev.txt .
 RUN python -m pip install -r requirements-dev.txt
 
 WORKDIR /app
-COPY . /app
+COPY apps/kevin-malone /app
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers

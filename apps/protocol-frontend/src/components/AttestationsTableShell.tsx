@@ -13,18 +13,23 @@ import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
 import { GovrnSpinner } from '@govrn/protocol-ui';
+import { SortOrder } from '@govrn/protocol-client';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { mergePages } from '../utils/arrays';
 import { useUser } from '../contexts/UserContext';
 
 const AttestationsTableShell = () => {
   const { userData } = useUser();
+  const guildIds = userData?.guild_users
+    ? userData?.guild_users.map(guild => guild.guild_id)
+    : [];
   const {
     isFetching,
     data: contributions,
     hasNextPage,
     fetchNextPage,
   } = useContributionInfiniteList({
+    orderBy: { date_of_engagement: SortOrder.Desc },
     where: {
       status: { is: { name: { equals: 'minted' } } },
       user_id: {
@@ -33,7 +38,7 @@ const AttestationsTableShell = () => {
       guilds: {
         some: {
           guild_id: {
-            in: userData?.guild_users.map(guild => guild.guild_id) || [],
+            in: guildIds,
           },
         },
       },
@@ -55,6 +60,7 @@ const AttestationsTableShell = () => {
     hasNextPage: hasNextPageAttestedContributions,
     fetchNextPage: fetchNextPageAttestedContributions,
   } = useContributionInfiniteList({
+    orderBy: { date_of_engagement: SortOrder.Desc },
     where: {
       status: { is: { name: { equals: 'minted' } } },
       user_id: {
@@ -107,7 +113,7 @@ const AttestationsTableShell = () => {
               >
                 <Stack spacing="5">
                   <AttestationsTable
-                    contributionsData={mergePages(contributions.pages)}
+                    data={mergePages(contributions.pages)}
                     hasMoreItems={hasNextPage}
                     nextPage={fetchNextPage}
                   />
@@ -136,9 +142,7 @@ const AttestationsTableShell = () => {
                     {attestedContributions &&
                     attestedContributions?.pages.length > 0 ? (
                       <MyAttestationsTable
-                        contributionsData={mergePages(
-                          attestedContributions?.pages || [],
-                        )}
+                        data={mergePages(attestedContributions?.pages || [])}
                         hasMoreItems={hasNextPageAttestedContributions}
                         nextPage={fetchNextPageAttestedContributions}
                       />

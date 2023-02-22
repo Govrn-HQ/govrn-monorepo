@@ -48,8 +48,11 @@ model DiscordUser {
   display_name String?
   // Maybe Change this to a string
   discord_id String @unique
-  user_id Int
-  user User @relation(fields: [user_id], references: [id])
+  user_id Int?
+  user User? @relation(fields: [user_id], references: [id])
+
+  access_token String?
+  active_token Boolean @default(false)
 
   // notifications
   // enable notifications
@@ -108,6 +111,8 @@ model GuildUser {
   membership_status_id Int?
   membershipStatus GuildMembershipStatus? @relation(fields: [membership_status_id], references: [id])
   favorite Boolean @default(false)
+  guild_import_id Int?
+  guild_import GuildImport? @relation(fields: [guild_import_id], references: [id])
 
   @@unique([user_id, guild_id])
 }
@@ -144,6 +149,14 @@ model IntegrationType {
   guild_imports GuildImport[]
 }
 
+model GuildImportStatus {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  name String @unique
+  guild_imports GuildImport[]
+}
+
 model GuildImport {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -153,9 +166,10 @@ model GuildImport {
   guild Guild @relation(fields: [guild_id], references: [id])
   integration_type_id Int
   integration_type IntegrationType @relation(fields: [integration_type_id], references: [id])
+  import_status_id Int
+  import_status GuildImportStatus @relation(fields: [import_status_id], references: [id])
+  users GuildUser[]
 }
-
-
 
 // Type of chain Ethereum solana etc...
 model ChainType {
@@ -363,9 +377,9 @@ model LinearUser {
   linear_id String @unique
   name String?
   url String?
-  user_id Int?
   access_token String?
   active_token Boolean?
+  user_id Int?
   user User? @relation(fields: [user_id], references: [id])
   assigned_issues LinearIssue[]  @relation("Assignee")
   created_issues   LinearIssue[]   @relation("Creator")

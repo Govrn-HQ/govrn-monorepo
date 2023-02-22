@@ -27,9 +27,9 @@ import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
-import { useDaosList } from '../hooks/useDaosList';
+import useUserGet from '../hooks/useUserGet';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
-import useGovrnToast from './toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -68,19 +68,18 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     data: userActivityTypesData,
   } = useUserActivityTypesList();
 
-  // renaming these on destructuring incase we have parallel queries:
   const {
-    isLoading: daosListIsLoading,
-    isError: daosListIsError,
-    data: daosListData,
-  } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+    data: useUserData,
+    isError: useUserError,
+    isLoading: useUserLoading,
+  } = useUserGet({
+    userId: userData?.id,
   });
 
   const daoListOptions =
-    daosListData?.map(dao => ({
-      value: dao.id,
-      label: dao.name ?? '',
+    useUserData?.guild_users.map(dao => ({
+      value: dao.guild.id,
+      label: dao.guild.name ?? '',
     })) || [];
 
   const daoReset = [
@@ -201,7 +200,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   };
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || daosListIsLoading) {
+  if (userActivityTypesIsLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
@@ -210,7 +209,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
-  if (daosListIsError) {
+  if (useUserError) {
     return <Text>An error occurred fetching DAOs.</Text>;
   }
 

@@ -15,6 +15,26 @@
       "type": "node",
       "request": "attach",
       "port": 9229
+    },
+    {
+      "name": "Python: Bot",
+      "type": "python",
+      "request": "launch",
+      "python": "${workspaceFolder}/apps/kevin-malone/.venv/bin/python3",
+      "cwd": "${workspaceFolder}/apps/kevin-malone/",
+      "program": "${workspaceFolder}/apps/kevin-malone/bot/",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/apps/kevin-malone/.env"
+    },
+    {
+      "name": "Python: Save contribution reports",
+      "type": "python",
+      "request": "launch",
+      "python": "${workspaceFolder}/apps/kevin-malone/.venv/bin/python3",
+      "cwd": "${workspaceFolder}/apps/kevin-malone/",
+      "program": "${workspaceFolder}/apps/kevin-malone/bot/common/tasks/weekly_contributions.py",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/apps/kevin-malone/.env"
     }
   ]
 }

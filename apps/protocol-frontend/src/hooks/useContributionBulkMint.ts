@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useGovrnToast from '../components/toast';
+import { useGovrnToast } from '@govrn/protocol-ui';
 import { useNetwork, useSigner } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { networks } from '../utils/networks';
@@ -59,7 +59,7 @@ const useContributionBulkMint = () => {
 
           toast.success({
             title: 'Contribution Successfully Minted',
-            description: `${pluralize('Contribution', minted.length, true)} ${
+            description: `${pluralize('contribution', minted.length, true)} ${
               minted.length === 1 ? 'has' : 'have'
             } been minted.`,
           });
@@ -69,7 +69,7 @@ const useContributionBulkMint = () => {
           toast.error({
             title: 'Failed to Mint Some Contribution',
             description: `${pluralize(
-              'Contribution',
+              'contribution',
               failedToMint.length,
               true,
             )} failed to mint.`,

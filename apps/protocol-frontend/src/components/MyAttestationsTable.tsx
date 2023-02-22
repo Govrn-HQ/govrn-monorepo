@@ -1,186 +1,138 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { Box, Flex, Stack, Text } from '@chakra-ui/react';
 import {
-  Box,
-  chakra,
-  Stack,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import {
-  Column,
-  HeaderGroup,
-  useFilters,
-  useGlobalFilter,
-  useRowSelect,
-  useSortBy,
-  useTable,
-  UseTableHooks,
-} from 'react-table';
+  ColumnDef,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+  SortingState,
+  getSortedRowModel,
+  Getter,
+  Row,
+} from '@tanstack/react-table';
 import GlobalFilter from './GlobalFilter';
-import { formatDate } from '../utils/date';
+import { formatDate, toDate } from '../utils/date';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
-
-type MyAttestationsTableType = {
-  id: number;
-  date_of_submission: Date | string;
-  date_of_engagement: Date | string;
-  status: string;
-  name: string;
-  attestationDate: Date | string;
-  contributor?: string | null;
-};
+import { Link } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
+import { statusEmojiSelect } from '../utils/statusEmojiSelect';
+import GovrnTable from './GovrnTable';
 
 const MyAttestationsTable = ({
-  contributionsData,
+  data,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[];
+  data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
-  const data = useMemo<MyAttestationsTableType[]>(
-    () =>
-      contributionsData.map(contribution => ({
-        id: contribution.id,
-        date_of_submission: contribution.date_of_submission,
-        date_of_engagement: contribution.date_of_engagement,
-        status: contribution.status.name,
-        name: contribution.name,
-        attestationDate: formatDate(
-          contribution.attestations[0]?.date_of_attestation,
-        ),
-        contributor: contribution.user.name,
-      })),
-    [contributionsData],
-  );
+  const { userData } = useUser();
 
-  const columns = useMemo<Column<MyAttestationsTableType>[]>(
-    () => [
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+
+  const columnsDef = useMemo<ColumnDef<UIContribution>[]>(() => {
+    return [
       {
-        Header: 'Name',
-        accessor: 'name',
+        header: 'Name',
+        accessorKey: 'name',
+        cell: ({
+          row,
+          getValue,
+        }: {
+          row: Row<UIContribution>;
+          getValue: Getter<string>;
+        }) => {
+          return (
+            <Flex direction="column" wrap="wrap">
+              <Link to={`/contributions/${row.original.id}`}>
+                <Text
+                  whiteSpace="normal"
+                  bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
+                  bgClip="text"
+                  transition="all 100ms ease-in-out"
+                  _hover={{
+                    fontWeight: 'bolder',
+                    bgGradient: 'linear(to-l, #7928CA, #FF0080)',
+                  }}
+                >
+                  {getValue()}
+                </Text>
+              </Link>
+            </Flex>
+          );
+        },
       },
       {
-        Header: 'Status',
-        accessor: 'status',
-        Cell: ({ value }: { value: string }) => {
+        header: 'Status',
+        accessorFn: contr => contr.status.name,
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
           return (
             <Text textTransform="capitalize">
-              {value}{' '}
+              {getValue()}{' '}
               <span
                 role="img"
                 aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {value === 'minted' ? '🌞' : '👀'}
+                {statusEmojiSelect(getValue())}
               </span>{' '}
             </Text>
           );
         },
       },
       {
-        Header: 'Attestation Date',
-        accessor: 'attestationDate',
+        header: 'Attestation Date',
+        accessorFn: contribution =>
+          toDate(
+            contribution.attestations.find(a => a.user_id === userData?.id)
+              ?.date_of_attestation ?? '---',
+          ),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
-        Header: 'Contributor',
-        accessor: 'contributor',
+        header: 'Contributor',
+        accessorFn: contribution => contribution.user.name,
       },
-      // { Header: 'DAO', accessor: 'guild' },
-    ],
-    [],
-  );
+    ];
+  }, [userData?.id]);
 
-  const tableHooks = (hooks: UseTableHooks<MyAttestationsTableType>) => {
-    hooks.visibleColumns.push(columns => [...columns]);
-  };
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    state: { globalFilter },
-    preGlobalFilteredRows,
-    setGlobalFilter,
-    prepareRow,
-  } = useTable(
-    { columns, data },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    useRowSelect,
-    tableHooks,
-  );
+  const table = useReactTable({
+    data,
+    columns: columnsDef,
+    state: {
+      sorting,
+      globalFilter,
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  });
 
   return (
     <Stack>
       <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
+        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
       <Box width="100%" maxWidth="100vw" overflowX="auto">
         <InfiniteScroll
-          dataLength={rows.length}
+          dataLength={table.getRowModel().rows.length}
           next={nextPage}
           scrollThreshold={0.8}
           hasMore={hasMoreItems}
           loader={<GovrnSpinner />}
         >
-          <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-            <Thead backgroundColor="gray.50">
-              {headerGroups.map(
-                (headerGroup: HeaderGroup<MyAttestationsTableType>) => (
-                  <Tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(
-                      (column: HeaderGroup<MyAttestationsTableType>) => (
-                        <Th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps(),
-                          )}
-                          borderColor="gray.100"
-                        >
-                          {column.render('Header')}
-                          <chakra.span paddingLeft="4">
-                            {column.isSorted ? (
-                              column.isSortedDesc ? (
-                                <IoArrowDown aria-label="sorted-descending" />
-                              ) : (
-                                <IoArrowUp aria-label="sorted-ascending" />
-                              )
-                            ) : null}
-                          </chakra.span>
-                        </Th>
-                      ),
-                    )}
-                  </Tr>
-                ),
-              )}
-            </Thead>
-            <Tbody {...getTableBodyProps()}>
-              {rows.map(row => {
-                prepareRow(row);
-                return (
-                  <Tr {...row.getRowProps()}>
-                    {row.cells.map(cell => (
-                      <Td {...cell.getCellProps()} borderColor="gray.100">
-                        {cell.render('Cell')}
-                      </Td>
-                    ))}
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
+          <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
         </InfiniteScroll>
       </Box>
     </Stack>

@@ -26,4 +26,9 @@ export class GuildUserAvgAggregate {
     nullable: true
   })
   membership_status_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  guild_import_id!: number | null;
 }

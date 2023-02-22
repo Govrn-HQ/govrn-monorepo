@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  Flex,
+  Icon,
   Textarea as ChakraTextarea,
   TextareaProps as ChakraTextareaProps,
   FormControl,
@@ -7,6 +9,7 @@ import {
   Box,
   useStyleConfig,
 } from '@chakra-ui/react';
+import { AiFillExclamationCircle } from 'react-icons/ai';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
@@ -18,6 +21,7 @@ export interface TextareaProps extends ChakraTextareaProps {
   placeholder?: string;
   defaultValue?: string;
   tip?: string;
+  includeIcon?: boolean;
   localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'filled' | 'outline' | 'flushed' | 'unstyled';
 }
@@ -29,6 +33,7 @@ const Textarea: React.FC<TextareaProps> = ({
   tip,
   defaultValue,
   localForm,
+  includeIcon = false,
   variant = 'outline',
 }: TextareaProps) => {
   const {
@@ -40,11 +45,11 @@ const Textarea: React.FC<TextareaProps> = ({
   });
 
   return (
-    <FormControl mb={4} isInvalid={errors[name] !== undefined}>
+    <FormControl isInvalid={errors[name] !== undefined}>
       <Stack spacing={2}>
         {label && <FormLabel label={label} />}
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}
-        <Box my={2}>
+        <Box>
           <ChakraTextarea
             height="100px"
             placeholder={placeholder}
@@ -55,10 +60,20 @@ const Textarea: React.FC<TextareaProps> = ({
             {...register(name)}
             data-testid="textarea-test"
           />
-          {errors && (
-            <ErrorMessage
-              errorMessage={errors[name] && errors[name]?.message?.toString()}
-            />
+          {errors[name] && (
+            <Flex direction="row" alignItems="center" marginY={4}>
+              <Icon
+                as={AiFillExclamationCircle}
+                color="red.500"
+                width="16px"
+                height="16px"
+                marginRight={2}
+              />
+              <ErrorMessage
+                marginY={0}
+                errorMessage={errors[name] && errors[name]?.message?.toString()}
+              />
+            </Flex>
           )}
         </Box>
       </Stack>
