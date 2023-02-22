@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import GovrnTheme from '../src/theme/index';
+import { GovrnTheme } from '../src/theme/index';
 
 const withThemeProvider = (Story, context) => (
   <ChakraProvider theme={GovrnTheme}>
@@ -9,7 +9,7 @@ const withThemeProvider = (Story, context) => (
 
 export const parameters = {
   chakra: {
-    GovrnTheme,
+    theme: GovrnTheme,
   },
 };
 
