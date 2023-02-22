@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
-import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  ControlledDatePicker,
+  GovrnSpinner,
+  GovrnShowcase,
+} from '@govrn/protocol-ui';
+import useContributionCountInRange from '../hooks/useContributionCount';
+import ErrorView from './ErrorView';
 import PageHeading from '../components/PageHeading';
 import WeeklyActiveMembersShell from './WeeklyActiveMembersShell';
 import ContributionsByDateShell from './ContributionsByDateShell';
@@ -8,13 +15,13 @@ import MonthlyContributionsShell from './MonthlyContributionsShell';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
-import { subWeeks } from 'date-fns';
-import { YEAR, DEFAULT_DATE_RANGES } from '../utils/constants';
+import { subWeeks, startOfDay, endOfDay } from 'date-fns';
+import { TODAY_DATE, YEAR, DEFAULT_DATE_RANGES } from '../utils/constants';
+
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
 }
-const TODAY_DATE = new Date();
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
@@ -42,6 +49,68 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       ),
     );
   };
+
+  const {
+    isFetching,
+    isLoading,
+    isError,
+    data: contributionsByDate,
+  } = useContributionCountInRange(
+    {
+      startDate: subWeeks(startOfDay(TODAY_DATE), YEAR),
+      endDate: endOfDay(TODAY_DATE),
+      guildIds: [daoId],
+      excludeUnassigned: true,
+    },
+    false,
+  );
+
+  if (isFetching || isLoading) {
+    return <GovrnSpinner />;
+  }
+
+  if (isError) {
+    return (
+      <Box
+        paddingY={{ base: '4', md: '8' }}
+        paddingX={{ base: '0', md: '8' }}
+        color="gray.700"
+        maxWidth="1200px"
+        width="100%"
+      >
+        <ErrorView
+          errorMessage="Something went wrong fetching the data for this DAO."
+          includeMotto={false}
+        />
+      </Box>
+    );
+  }
+
+  const ButtonChildren = <></>;
+
+  if (contributionsByDate && contributionsByDate.length === 0) {
+    return (
+      <Box
+        paddingY={{ base: '4', md: '8' }}
+        paddingX={{ base: '4', md: '8' }}
+        color="gray.700"
+        width="100%"
+      >
+        <Flex
+          direction={{ base: 'column', lg: 'row' }}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <PageHeading>{daoName}</PageHeading>
+          <GovrnShowCase
+            copy="Go mint contributions so we can show your data"
+            emoji="🙌"
+            children={ButtonChildren}
+          />
+        </Flex>
+      </Box>
+    );
+  }
 
   return (
     <Box
