@@ -17,3 +17,5 @@ export type { TextareaProps } from './Textarea';
 export { default as Toast } from './Toast';
 export type { ToastProps } from './Toast';
 export type { InputLocalFormType } from './Input';
+export { default as GovrnCta } from './GovrnCta';
+export type { GovrnCtaProps } from './GovrnCta';
