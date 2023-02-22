@@ -89,10 +89,10 @@ class PromptUserToConnectWallet(BaseStep):
         discord_user = await self.bot.fetch_user(user_id)
         msg = (
             "It doesn't look like your wallet"
-            " is connected to this discord account please "
-            "connected them at this link"
+            " is connected to this discord account on Govrn. Please "
+            "connect them by clicking the following link"
             f" {constants.Bot.frontend_url}/#/signature?displayName={discord_user.display_name}."
-            "Once you finish connecting your accounts rerun the join flow or join your dao via the web app"
+            "Once you finish connecting your accounts rerun the join command or join your dao via the web app"
         )
 
         sent_message = await channel.send(msg)
