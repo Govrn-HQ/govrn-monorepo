@@ -28,6 +28,9 @@ MECHANICAL_ARM_EMOJI = "\U0001F9BE"
 
 REPORTING_FORM_FMT = "https://govrn.app/#/report?daoId=%s"
 
+FEEDBACK_MSG_FMT = "We love your feedback! Please use this form and share improvements for the Govrn ecosystem.\n %s"
+FEEDBACK_FORM_LINK = "https://forms.gle/uE8w3FgjAcWyqAN58"
+
 REQUESTED_TWEET_FMT = "Kevin Malone told me to tweet this number %s"
 TWITTER_URL_REGEXP = r"^https://twitter.com/(.+)/status/([0-9]+)"
 TWEET_NONCE_LEGNTH = 20
