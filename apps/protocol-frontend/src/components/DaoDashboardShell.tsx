@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import {
   ControlledSelect,
   ControlledDatePicker,
   GovrnSpinner,
   GovrnShowcase,
 } from '@govrn/protocol-ui';
-import useContributionCountInRange from '../hooks/useContributionCount';
+import { useContributionList } from '../hooks/useContributionList';
 import ErrorView from './ErrorView';
 import PageHeading from '../components/PageHeading';
 import WeeklyActiveMembersShell from './WeeklyActiveMembersShell';
@@ -54,15 +55,14 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
     isFetching,
     isLoading,
     isError,
-    data: contributionsByDate,
-  } = useContributionCountInRange(
+    data: daoContributions,
+  } = useContributionList(
     {
-      startDate: subWeeks(startOfDay(TODAY_DATE), YEAR),
-      endDate: endOfDay(TODAY_DATE),
-      guildIds: [daoId],
-      excludeUnassigned: true,
+      where: {
+        guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+      },
     },
-    false,
+    true,
   );
 
   if (isFetching || isLoading) {
@@ -86,31 +86,20 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
     );
   }
 
-  const ButtonChildren = <></>;
-
-  if (contributionsByDate && contributionsByDate.length === 0) {
-    return (
-      <Box
-        paddingY={{ base: '4', md: '8' }}
-        paddingX={{ base: '4', md: '8' }}
-        color="gray.700"
-        width="100%"
-      >
-        <Flex
-          direction={{ base: 'column', lg: 'row' }}
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <PageHeading>{daoName}</PageHeading>
-          <GovrnShowCase
-            copy="Go mint contributions so we can show your data"
-            emoji="🙌"
-            children={ButtonChildren}
-          />
-        </Flex>
-      </Box>
-    );
-  }
+  const ButtonChildren = () => (
+    <>
+      <Link to="/profile">
+        <Button variant="primary" size="md">
+          Join a DAO
+        </Button>
+      </Link>
+      <Link to="/report">
+        <Button variant="secondary" size="md">
+          Contribute
+        </Button>
+      </Link>
+    </>
+  );
 
   return (
     <Box
@@ -133,46 +122,59 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           gap={2}
           width={{ base: '100%', lg: 'auto' }}
         >
-          <Flex
-            direction={{ base: 'column', lg: 'row' }}
-            alignItems="center"
-            justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
-            width="100%"
-            flexBasis={{ base: '100%', lg: '60%' }}
-            flexGrow="1"
-            gap={{ base: 0, lg: 2 }}
-          >
-            <Box
-              visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
+          {daoContributions && daoContributions.length > 0 ? (
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              alignItems="center"
+              justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
               width="100%"
+              flexBasis={{ base: '100%', lg: '60%' }}
+              flexGrow="1"
+              gap={{ base: 0, lg: 2 }}
             >
-              <ControlledDatePicker
-                selected={startDate}
-                onChange={dates => {
-                  const datesArray = dates as Date[];
-                  const [start, end] = datesArray;
-                  setStartDate(start);
-                  setEndDate(end);
+              <Box
+                visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
+                width="100%"
+              >
+                <ControlledDatePicker
+                  selected={startDate}
+                  onChange={dates => {
+                    const datesArray = dates as Date[];
+                    const [start, end] = datesArray;
+                    setStartDate(start);
+                    setEndDate(end);
+                  }}
+                  startDate={startDate}
+                  endDate={endDate}
+                  maxDate={TODAY_DATE}
+                />
+              </Box>
+              <ControlledSelect
+                isSearchable={false}
+                defaultValue={dateRangeOptions.find(
+                  date => date.value === YEAR,
+                )}
+                onChange={dateRangeOffset => {
+                  setShowCustomDatePicker(false);
+                  dateChangeHandler(dateRangeOffset.value);
                 }}
-                startDate={startDate}
-                endDate={endDate}
-                maxDate={TODAY_DATE}
+                options={dateRangeOptions}
               />
-            </Box>
-            <ControlledSelect
-              isSearchable={false}
-              defaultValue={dateRangeOptions.find(date => date.value === YEAR)}
-              onChange={dateRangeOffset => {
-                setShowCustomDatePicker(false);
-                dateChangeHandler(dateRangeOffset.value);
-              }}
-              options={dateRangeOptions}
-            />
-          </Flex>
+            </Flex>
+          ) : null}
         </Flex>
       </Flex>
       <Flex direction="column" gap={4}>
         <Flex direction={{ base: 'column' }} gap={2}>
+          {daoContributions && daoContributions.length === 0 ? (
+            <Box marginTop={2} marginBottom={4}>
+              <GovrnShowcase
+                copy="Go mint contributions so we can show your data"
+                emoji="🙌"
+                children={<ButtonChildren />}
+              />
+            </Box>
+          ) : null}
           <Flex
             direction={{ base: 'column', lg: 'row' }}
             gap={4}
