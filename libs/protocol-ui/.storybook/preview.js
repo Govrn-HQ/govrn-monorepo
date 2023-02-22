@@ -1,15 +1,27 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import GovrnTheme from '../src/theme/index';
+import { GovrnTheme } from '../src/theme/index';
 
-const withThemeProvider = (Story, context) => (
+const withThemeProvider = Story => (
   <ChakraProvider theme={GovrnTheme}>
-    <Story {...context} />
+    <Story />
   </ChakraProvider>
 );
 
 export const parameters = {
   chakra: {
-    GovrnTheme,
+    theme: GovrnTheme,
+  },
+  controls: {
+    expanded: true,
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/,
+    },
+  },
+  options: {
+    storySort: {
+      method: 'alphabetical',
+    },
   },
 };
 
