@@ -9,17 +9,14 @@ A self reporting bot for the movement model
 - `/update` - Update a profile for a given community
 - `/add_onboarding_contributions` - Ask user whether they have completed the initial contributions
 
-## Setup
+## Dev Setup
 
-1. Clone this repository
-2. Create a [virtual environment](https://python-poetry.org/docs/managing-environments)
-   with python `3.8`.
-3. Install dependencies via pip: `poetry run pip install -r requirements-dev.txt`.
-4. Setup environment variables: `cp env.example .env`
-5. Run protocol API server. Follow these [instructions](../protocol-api/README.md) for instructions (_update .env with
-   protocol API URL_).
+1. Clone this repository.
+2. Setup environment variables: `cp env.example .env`
 
-### Setup local redis instance
+### Requirements
+
+#### Local redis instance
 
 - Install [Redis CLI tools](https://redis.io/docs/getting-started/).
 - [start](https://tableplus.com/blog/2018/10/how-to-start-stop-restart-redis.html) the redis server, if not running.
@@ -32,12 +29,21 @@ There are available GUI alternative e.g. [DBngin](https://dbngin.com/); It’s a
 database
 servers.
 
+#### Protocol API
+
+- Run protocol API server. To learn about how to setup local protocol API, check Protocol
+  API's [README](../protocol-api/README.md)
+- update `PROTOCOL_URL` env variable with Protocol API URL.
+
 ## Develop with Intellisense and Dev Container
 
 ### Develop Locally
 
-- You can run & test using nx, check [project.json](project.json).
-- Or you can directly run using command line:
+1. Create a [virtual environment](https://python-poetry.org/docs/managing-environments)
+   with python `3.8`.
+2. Install dependencies via pip: `poetry run pip install -r requirements-dev.txt`.
+3. You can run & test using nx, check [project.json](project.json).
+4. Or you can directly run using command line:
     - run: `poetry run make`
     - test: `poetry run make test`
 

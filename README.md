@@ -19,7 +19,7 @@ Our monorepo uses [Nx](https://nx.dev/getting-started/intro) as a build system a
 
 ## Monorepo Structure
 
-Each app or lib has its own readme that explains the scoped purpose & required `.env` variables to operate.
+Each app or lib has its own readme that explains the scoped purpose & requires `.env` variables to operate.
 
 ### Apps
 
