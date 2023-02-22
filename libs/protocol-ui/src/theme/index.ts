@@ -12,7 +12,7 @@ import Tooltip from './components/tooltip';
 import { extendTheme } from '@chakra-ui/react';
 import '@fontsource/inter/variable-full.css';
 
-export const GovrnTheme = extendTheme({
+const GovrnTheme = extendTheme({
   colors,
   styles: {
     global: {
@@ -43,3 +43,5 @@ export const GovrnTheme = extendTheme({
     useSystemColorMode: false,
   },
 });
+
+export default GovrnTheme;
