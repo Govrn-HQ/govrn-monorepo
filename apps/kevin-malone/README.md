@@ -37,7 +37,7 @@ servers.
 
 ## Develop with Intellisense and Dev Container
 
-### Develop Locally
+### Run & Test Locally
 
 1. Create a [virtual environment](https://python-poetry.org/docs/managing-environments)
    with python `3.8`.
