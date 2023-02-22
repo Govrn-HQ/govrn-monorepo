@@ -5,6 +5,7 @@ from bot import constants
 GUILD_IDS = [747131845317230695, 799328534988193793]
 
 IS_DEV = constants.Bot.is_dev
+FRONTEND_URL = constants.Bot.frontend_url
 REDIS_URL = constants.Bot.redis_tls_url
 if IS_DEV:
     REDIS_URL = constants.Bot.redis_url
