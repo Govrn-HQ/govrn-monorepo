@@ -113,6 +113,8 @@ class MockContext:
     def __init__(self):
         self.interaction: MockInteraction = MockInteraction()
         self.response: MockResponse = MockResponse()
+        self.followup: MockResponse = MockResponse()
+        self.respond = self.followup.send_message
 
 
 class MockInteraction:
@@ -138,6 +140,12 @@ class MockResponse:
         self.ephemeral = ephemeral
         self.embed = embed
         self.file = file
+
+    async def send(
+        self,
+        embed: discord.Embed = None
+    ):
+        self.embed = embed
 
 
 class MockEmoji:
