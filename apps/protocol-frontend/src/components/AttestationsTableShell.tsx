@@ -32,8 +32,19 @@ const AttestationsTableShell = () => {
     orderBy: { date_of_engagement: SortOrder.Desc },
     where: {
       status: { is: { name: { equals: 'minted' } } },
-      user_id: {
-        not: { equals: userData?.id || 0 },
+      user: {
+        is: {
+          AND: [
+            { id: { not: { equals: userData?.id || 0 } } },
+            {
+              guild_users: {
+                every: {
+                  membershipStatus: { is: { name: { notIn: ['Left'] } } },
+                },
+              },
+            },
+          ],
+        },
       },
       guilds: {
         some: {
