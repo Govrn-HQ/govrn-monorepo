@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
 import WeeklyActiveMembersShell from './WeeklyActiveMembersShell';
@@ -17,6 +17,7 @@ import { SortOrder } from '@govrn/protocol-client';
 import { mergePages } from '../utils/arrays';
 import { UIContribution } from '@govrn/ui-types';
 import { useNavigate } from 'react-router-dom';
+import GovrnAlertDialog from './GovrnAlertDialog';
 
 interface DaoDashboardShellProps {
   daoName: string;
@@ -28,7 +29,10 @@ const TODAY_DATE = new Date();
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const navigate = useNavigate();
   const { userData } = useUser();
-  const { mutateAsync: updateDaoMemberStatus } = useDaoUserUpdate();
+  const {
+    mutateAsync: updateDaoMemberStatus,
+    isLoading: isLeavingLoading,
+  } = useDaoUserUpdate();
   const { data, hasNextPage, fetchNextPage } = useContributionInfiniteList({
     where: {
       guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
@@ -43,6 +47,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
   const [startDate, setStartDate] = useState<Date>(subWeeks(TODAY_DATE, YEAR));
   const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
+  const [isLeavingDialogShown, showLeavingDialog] = useState(false);
 
   const dateRangeOptions = [
     {
@@ -74,8 +79,9 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
 
     navigate('/dashboard');
   };
+
   return (
-    <Box
+    <Stack
       paddingY={{ base: '4', md: '8' }}
       paddingX={{ base: '4', md: '8' }}
       color="gray.700"
@@ -106,7 +112,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               variant="primary"
               width="min-content"
               px={8}
-              onClick={handleLeavingDao}
+              onClick={() => showLeavingDialog(true)}
             >
               Leave
             </Button>
@@ -207,7 +213,14 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           </Flex>
         </Flex>
       </Flex>
-    </Box>
+      <GovrnAlertDialog
+        title={`Are you sure you want to leave ${daoName}?`}
+        isOpen={isLeavingDialogShown}
+        isLoading={isLeavingLoading}
+        onConfirm={handleLeavingDao}
+        onCancel={() => showLeavingDialog(false)}
+      />
+    </Stack>
   );
 };
 
