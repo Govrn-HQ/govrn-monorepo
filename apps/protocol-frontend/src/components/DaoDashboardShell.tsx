@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
@@ -10,6 +10,13 @@ import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { subWeeks } from 'date-fns';
 import { YEAR, DEFAULT_DATE_RANGES } from '../utils/constants';
+import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
+import { useUser } from '../contexts/UserContext';
+import { useContributionInfiniteList } from '../hooks/useContributionList';
+import { SortOrder } from '@govrn/protocol-client';
+import { mergePages } from '../utils/arrays';
+import { UIContribution } from '@govrn/ui-types';
+
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
@@ -18,8 +25,20 @@ interface DaoDashboardShellProps {
 const TODAY_DATE = new Date();
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
-  const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
+  const { userData } = useUser();
+  const { mutateAsync: updateDaoMemberStatus } = useDaoUserUpdate();
+  const { data, hasNextPage, fetchNextPage } = useContributionInfiniteList({
+    where: {
+      guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+    },
+    orderBy: { date_of_engagement: SortOrder.Desc },
+  });
 
+  const recentContributions = useMemo<UIContribution[]>(() => {
+    return mergePages(data?.pages ?? []);
+  }, [data]);
+
+  const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
   const [startDate, setStartDate] = useState<Date>(subWeeks(TODAY_DATE, YEAR));
   const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
 
@@ -164,7 +183,11 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             </Flex>
           </Flex>
           <Flex direction="column" gap={2}>
-            <RecentContributionsTableShell daoId={daoId} />
+            <RecentContributionsTableShell
+              data={recentContributions}
+              hasNextPage={hasNextPage}
+              fetchNextPage={fetchNextPage}
+            />
           </Flex>
         </Flex>
       </Flex>
