@@ -95,7 +95,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               Leave
             </Button>
             <Box
-              visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
+              display={showCustomDatePicker ? 'inherit' : 'none'}
               width="100%"
             >
               <ControlledDatePicker
