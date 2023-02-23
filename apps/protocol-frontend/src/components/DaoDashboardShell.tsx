@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
 import PageHeading from '../components/PageHeading';
 import WeeklyActiveMembersShell from './WeeklyActiveMembersShell';
@@ -14,6 +14,7 @@ interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
 }
+
 const TODAY_DATE = new Date();
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
@@ -68,11 +69,12 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             direction={{ base: 'column', lg: 'row' }}
             alignItems="center"
             justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
-            width="100%"
-            flexBasis={{ base: '100%', lg: '60%' }}
-            flexGrow="1"
+            width="auto"
             gap={{ base: 0, lg: 2 }}
           >
+            <Button variant="primary" width="min-content" px={8}>
+              Leave
+            </Button>
             <Box
               visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
               width="100%"
