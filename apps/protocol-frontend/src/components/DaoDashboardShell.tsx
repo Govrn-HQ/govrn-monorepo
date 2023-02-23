@@ -16,6 +16,7 @@ import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { SortOrder } from '@govrn/protocol-client';
 import { mergePages } from '../utils/arrays';
 import { UIContribution } from '@govrn/ui-types';
+import { useNavigate } from 'react-router-dom';
 
 interface DaoDashboardShellProps {
   daoName: string;
@@ -25,6 +26,7 @@ interface DaoDashboardShellProps {
 const TODAY_DATE = new Date();
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
+  const navigate = useNavigate();
   const { userData } = useUser();
   const { mutateAsync: updateDaoMemberStatus } = useDaoUserUpdate();
   const { data, hasNextPage, fetchNextPage } = useContributionInfiniteList({
@@ -63,6 +65,15 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
     );
   };
 
+  const handleLeavingDao = async () => {
+    await updateDaoMemberStatus({
+      userId: userData?.id ?? -1,
+      guildId: daoId,
+      membershipStatus: 'Left',
+    });
+
+    navigate('/dashboard');
+  };
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -91,7 +102,12 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             width="auto"
             gap={{ base: 0, lg: 2 }}
           >
-            <Button variant="primary" width="min-content" px={8}>
+            <Button
+              variant="primary"
+              width="min-content"
+              px={8}
+              onClick={handleLeavingDao}
+            >
               Leave
             </Button>
             <Box
