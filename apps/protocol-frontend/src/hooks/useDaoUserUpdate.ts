@@ -11,6 +11,8 @@ interface DaoUserUpdateProps {
   membershipStatus?: string;
 }
 
+const LEFT_MEMBERSHIP = 'Left';
+
 export const useDaoUserUpdate = () => {
   const toast = useGovrnToast();
   const { govrnProtocol: govrn } = useUser();
@@ -35,7 +37,7 @@ export const useDaoUserUpdate = () => {
       return { mutationData };
     },
     {
-      onSuccess: (_, { userId, favorite }) => {
+      onSuccess: (_, { userId, favorite, membershipStatus }) => {
         queryClient.invalidateQueries(['userDaos', userId]);
         queryClient.invalidateQueries(['userGet', userId]);
         queryClient.invalidateQueries(['daoUsersList']);
@@ -43,6 +45,14 @@ export const useDaoUserUpdate = () => {
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
+          if (membershipStatus === LEFT_MEMBERSHIP) {
+            toast.success({
+              id: toastSuccessId,
+              title: "Leaving DAO",
+              description: "You have left successfully."
+            })
+            return;
+          }
           toast.success({
             id: toastSuccessId,
             title:
