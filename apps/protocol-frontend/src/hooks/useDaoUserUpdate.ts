@@ -48,9 +48,9 @@ export const useDaoUserUpdate = () => {
           if (membershipStatus === LEFT_MEMBERSHIP) {
             toast.success({
               id: toastSuccessId,
-              title: "Leaving DAO",
-              description: "You have left successfully."
-            })
+              title: 'Leaving DAO',
+              description: 'You have left successfully.',
+            });
             return;
           }
           toast.success({

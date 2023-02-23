@@ -29,10 +29,8 @@ const TODAY_DATE = new Date();
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const navigate = useNavigate();
   const { userData } = useUser();
-  const {
-    mutateAsync: updateDaoMemberStatus,
-    isLoading: isLeavingLoading,
-  } = useDaoUserUpdate();
+  const { mutateAsync: updateDaoMemberStatus, isLoading: isLeavingLoading } =
+    useDaoUserUpdate();
   const { data, hasNextPage, fetchNextPage } = useContributionInfiniteList({
     where: {
       guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
