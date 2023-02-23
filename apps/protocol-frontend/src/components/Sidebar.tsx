@@ -40,7 +40,10 @@ const Sidebar = () => {
   const { isAuthenticated } = useAuth();
 
   const { data: daosUsersListData } = useDaoUsersList({
-    where: { user_id: { equals: userData?.id } },
+    where: {
+      user_id: { equals: userData?.id },
+      membershipStatus: { is: { name: { notIn: ['Left'] } } },
+    },
     orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
   });
 
