@@ -64,7 +64,11 @@ const DaoLandingPage = () => {
           textDecoration: 'none',
         }}
       >
-        <Button variant="primary" size="md">
+        <Button
+          variant="primary"
+          size="md"
+          width={{ base: '100%', lg: 'auto' }}
+        >
           Join a DAO From Your Profile
         </Button>
       </Link>
@@ -100,6 +104,8 @@ const DaoLandingPage = () => {
             background="white"
             boxShadow="sm"
             borderRadius={{ base: 'none', md: 'lg' }}
+            marginX={{ base: 4, lg: 0 }}
+            marginTop={{ base: 8, lg: 0 }}
           >
             <GovrnCta
               heading={`You aren't in any DAOs yet`}
