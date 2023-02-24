@@ -8,6 +8,8 @@ export { default as ControlledTextarea } from './ControlledTextarea';
 export type { ControlledTextareaProps } from './ControlledTextarea';
 export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
+export { default as GovrnShowcase } from './GovrnShowcase';
+export type { GovrnShowcaseProps } from './GovrnShowcase';
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
 export { default as Select } from './Select';
