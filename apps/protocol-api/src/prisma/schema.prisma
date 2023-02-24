@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-
 }
 
 generator typegraphql {
@@ -20,36 +19,36 @@ enum GuildStatus {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name  String?
-  display_name String?
-  address String @db.Citext @unique
-  chain_type_id Int
-  chain_type ChainType @relation(fields: [chain_type_id], references: [id])
-  full_name String?
-  active Boolean @default(false)
-  email String?
-  activities UserActivity[]
-  attestations Attestation[]
+  id                   Int            @id @default(autoincrement())
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @default(now()) @updatedAt
+  name                 String?
+  display_name         String?
+  address              String         @unique @db.Citext
+  chain_type_id        Int
+  chain_type           ChainType      @relation(fields: [chain_type_id], references: [id])
+  full_name            String?
+  active               Boolean        @default(false)
+  email                String?
+  activities           UserActivity[]
+  attestations         Attestation[]
   contributionPartners Partner[]
-  contributions Contribution[]
-  linear_users LinearUser[]
-  guild_users GuildUser[]
-  twitter_user TwitterUser?
-  discord_users DiscordUser[]
+  contributions        Contribution[]
+  linear_users         LinearUser[]
+  guild_users          GuildUser[]
+  twitter_user         TwitterUser?
+  discord_users        DiscordUser[]
 }
 
 model DiscordUser {
-  id    Int     @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
   display_name String?
   // Maybe Change this to a string
-  discord_id String @unique
-  user_id Int?
-  user User? @relation(fields: [user_id], references: [id])
+  discord_id   String   @unique
+  user_id      Int?
+  user         User?    @relation(fields: [user_id], references: [id])
 
   access_token String?
   active_token Boolean @default(false)
@@ -59,266 +58,264 @@ model DiscordUser {
   enable_notifications Boolean @default(false)
 
   // submit contributions
-  enable_submit_reminder Boolean @default(false)
-  submit_reminder_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
+  enable_submit_reminder     Boolean @default(false)
+  submit_reminder_period_min Int     @default(10080) // 60 * 24 * 7 (weekly)
 
   // contributions available to mint
-  enable_mint_notification Boolean @default(false)
-  mint_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
+  enable_mint_notification     Boolean @default(false)
+  mint_notification_period_min Int     @default(10080) // 60 * 24 * 7 (weekly)
 
   // user has been added to a guild
-  enable_new_guild_notification Boolean @default(false)
-  new_guild_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
+  enable_new_guild_notification     Boolean @default(false)
+  new_guild_notification_period_min Int     @default(10080) // 60 * 24 * 7 (weekly)
 
   // DAO attribution reminder
-  enable_attribution_notification Boolean @default(false)
-  attribution_notification_period_min Int @default(10080) // 60 * 24 * 7 (weekly)
+  enable_attribution_notification     Boolean @default(false)
+  attribution_notification_period_min Int     @default(10080) // 60 * 24 * 7 (weekly)
 }
 
 model Guild {
-  id    Int     @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  discord_id String? @unique // legacy
-  name String? // legacy
-  congrats_channel String? // legacy
-  logo String?
-  status GuildStatus @default(INPUTTED)
-  contributions GuildContribution[]
-  users GuildUser[]
-  twitter_accounts TwitterAccount[]
-  activity_type GuildActivityType[]
+  id                             Int                 @id @default(autoincrement())
+  createdAt                      DateTime            @default(now())
+  updatedAt                      DateTime            @default(now()) @updatedAt
+  discord_id                     String?             @unique // legacy
+  name                           String? // legacy
+  congrats_channel               String? // legacy
+  logo                           String?
+  status                         GuildStatus         @default(INPUTTED)
+  contributions                  GuildContribution[]
+  users                          GuildUser[]
+  twitter_accounts               TwitterAccount[]
+  activity_type                  GuildActivityType[]
   contribution_reporting_channel String?
-  guild_imports GuildImport[]
+  guild_imports                  GuildImport[]
 }
 
 model GuildMembershipStatus {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
+  id         Int         @id @default(autoincrement())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now()) @updatedAt
+  name       String      @unique
   guildUsers GuildUser[]
 }
 
 model GuildUser {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  user_id Int
-  user User @relation(fields: [user_id], references: [id])
-  guild_id Int
-  guild Guild @relation(fields: [guild_id], references: [id])
-  membership_status_id Int?
-  membershipStatus GuildMembershipStatus? @relation(fields: [membership_status_id], references: [id])
-  favorite Boolean @default(false)
-  guild_import_id Int?
-  guild_import GuildImport? @relation(fields: [guild_import_id], references: [id])
+  id                   Int                   @id @default(autoincrement())
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @default(now()) @updatedAt
+  user_id              Int
+  user                 User                  @relation(fields: [user_id], references: [id])
+  guild_id             Int
+  guild                Guild                 @relation(fields: [guild_id], references: [id])
+  membership_status_id Int
+  membershipStatus     GuildMembershipStatus @relation(fields: [membership_status_id], references: [id])
+  favorite             Boolean               @default(false)
+  guild_import_id      Int?
+  guild_import         GuildImport?          @relation(fields: [guild_import_id], references: [id])
 
   @@unique([user_id, guild_id])
 }
 
 model GuildContribution {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  guild_id Int
-  guild Guild @relation(fields: [guild_id], references: [id])
+  id              Int          @id @default(autoincrement())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now()) @updatedAt
+  guild_id        Int
+  guild           Guild        @relation(fields: [guild_id], references: [id])
   contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
+  contribution    Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
 
   @@unique([guild_id, contribution_id])
 }
 
 model GuildActivityType {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  guild_id Int
-  guild Guild @relation(fields: [guild_id], references: [id])
+  id               Int          @id @default(autoincrement())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @default(now()) @updatedAt
+  guild_id         Int
+  guild            Guild        @relation(fields: [guild_id], references: [id])
   activity_type_id Int
-  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
+  activity_type    ActivityType @relation(fields: [activity_type_id], references: [id])
 
   @@unique([guild_id, activity_type_id])
 }
 
 model IntegrationType {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now()) @updatedAt
+  name          String        @unique
   guild_imports GuildImport[]
 }
 
 model GuildImportStatus {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now()) @updatedAt
+  name          String        @unique
   guild_imports GuildImport[]
 }
 
 model GuildImport {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id                   Int               @id @default(autoincrement())
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @default(now()) @updatedAt
   authentication_token String
-  guild_id Int
-  guild Guild @relation(fields: [guild_id], references: [id])
-  integration_type_id Int
-  integration_type IntegrationType @relation(fields: [integration_type_id], references: [id])
-  import_status_id Int
-  import_status GuildImportStatus @relation(fields: [import_status_id], references: [id])
-  users GuildUser[]
+  guild_id             Int
+  guild                Guild             @relation(fields: [guild_id], references: [id])
+  integration_type_id  Int
+  integration_type     IntegrationType   @relation(fields: [integration_type_id], references: [id])
+  import_status_id     Int
+  import_status        GuildImportStatus @relation(fields: [import_status_id], references: [id])
+  users                GuildUser[]
 }
 
 // Type of chain Ethereum solana etc...
 model ChainType {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
-  users User[]
+  updatedAt DateTime @default(now()) @updatedAt
+  name      String   @unique
+  users     User[]
 }
 
 // EthereumChain
 model Chain {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
-  chain_id String @unique
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  name          String         @unique
+  chain_id      String         @unique
   contributions Contribution[]
 }
 
-
 model Contribution {
-  id Int @id @default(autoincrement())
-  updatedAt DateTime @updatedAt @default(now())
-  name String
-  status_id Int
-  status ContributionStatus @relation(fields: [status_id], references: [id])
-  activity_type_id Int
-  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
-  user_id Int
-  user User @relation(fields: [user_id], references: [id])
-  date_of_submission DateTime @default(now())
-  date_of_engagement DateTime
-  details String?
-  proof String?
-  attestations Attestation[]
-  partners Partner[]
-  guilds GuildContribution[]
-  linear_issue LinearIssue?
+  id                          Int                        @id @default(autoincrement())
+  updatedAt                   DateTime                   @default(now()) @updatedAt
+  name                        String
+  status_id                   Int
+  status                      ContributionStatus         @relation(fields: [status_id], references: [id])
+  activity_type_id            Int
+  activity_type               ActivityType               @relation(fields: [activity_type_id], references: [id])
+  user_id                     Int
+  user                        User                       @relation(fields: [user_id], references: [id])
+  date_of_submission          DateTime                   @default(now())
+  date_of_engagement          DateTime
+  details                     String?
+  proof                       String?
+  attestations                Attestation[]
+  partners                    Partner[]
+  guilds                      GuildContribution[]
+  linear_issue                LinearIssue?
   twitter_tweet_contributions TwitterTweetContribution[]
-  chain_id Int?
-  chain Chain? @relation(fields: [chain_id], references: [id])
-  on_chain_id Int?
-  tx_hash String? @db.Citext
+  chain_id                    Int?
+  chain                       Chain?                     @relation(fields: [chain_id], references: [id])
+  on_chain_id                 Int?
+  tx_hash                     String?                    @db.Citext
 
   @@unique([chain_id, on_chain_id])
 }
 
 model Partner {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  user_id Int
-  user User @relation(fields: [user_id], references: [id])
+  id              Int          @id @default(autoincrement())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now()) @updatedAt
+  user_id         Int
+  user            User         @relation(fields: [user_id], references: [id])
   contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
+  contribution    Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
 
   @@unique([user_id, contribution_id])
 }
 
 model Attestation {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  confidence_id Int?
-  confidence AttestationConfidence? @relation(fields: [confidence_id], references: [id])
-  user_id Int
-  user User @relation(fields: [user_id], references: [id])
-  contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
-  date_of_attestation DateTime @default(now())
+  id                    Int                    @id @default(autoincrement())
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @default(now()) @updatedAt
+  confidence_id         Int?
+  confidence            AttestationConfidence? @relation(fields: [confidence_id], references: [id])
+  user_id               Int
+  user                  User                   @relation(fields: [user_id], references: [id])
+  contribution_id       Int
+  contribution          Contribution           @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
+  date_of_attestation   DateTime               @default(now())
   // Make required
   attestation_status_id Int?
-  attestation_status AttestationStatus? @relation(fields: [attestation_status_id], references: [id])
+  attestation_status    AttestationStatus?     @relation(fields: [attestation_status_id], references: [id])
 
   @@unique([user_id, contribution_id])
 }
 
 model AttestationConfidence {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  name         String        @unique
   attestations Attestation[]
 }
 
 model AttestationStatus {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+  name        String        @unique
   attestation Attestation[]
 }
 
 model ContributionStatus {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  name          String         @unique
   contributions Contribution[]
 }
 
 // There should be a mapping
 // activity to user
 model ActivityType {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
-  active Boolean @default(true)
-  default Boolean @default(false)
-  users UserActivity[]
-  contributions Contribution[]
+  id               Int                    @id @default(autoincrement())
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @default(now()) @updatedAt
+  name             String                 @unique
+  active           Boolean                @default(true)
+  default          Boolean                @default(false)
+  users            UserActivity[]
+  contributions    Contribution[]
   categoryActivity CategoryActivityType[]
-  guilds GuildActivityType[]
+  guilds           GuildActivityType[]
 }
 
 model UserActivity {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  user_id Int
-  user User @relation(fields: [user_id], references: [id])
+  id               Int          @id @default(autoincrement())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @default(now()) @updatedAt
+  user_id          Int
+  user             User         @relation(fields: [user_id], references: [id])
   activity_type_id Int
-  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
+  activity_type    ActivityType @relation(fields: [activity_type_id], references: [id])
 
   @@unique([user_id, activity_type_id])
 }
 
 model CategoryActivityType {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id                   Int              @id @default(autoincrement())
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @default(now()) @updatedAt
   category_activity_id Int
-  category_activity CategoryActivity @relation(fields: [category_activity_id], references: [id])
-  activity_type_id Int
-  activity_type ActivityType @relation(fields: [activity_type_id], references: [id])
+  category_activity    CategoryActivity @relation(fields: [category_activity_id], references: [id])
+  activity_type_id     Int
+  activity_type        ActivityType     @relation(fields: [activity_type_id], references: [id])
 
   @@unique([category_activity_id, activity_type_id])
 }
 
 model CategoryActivity {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  name String @unique
+  id            Int                    @id @default(autoincrement())
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @default(now()) @updatedAt
+  name          String                 @unique
   activityTypes CategoryActivityType[]
 }
-
 
 ////
 // Linear integration schemas
@@ -327,100 +324,98 @@ model CategoryActivity {
 // mapping between linear user and user
 // mapping between contribution and linear issue
 
-
 model LinearIssue {
-  id Int @id @default(autoincrement())
-  archivedAt DateTime?
-  autoArchivedAt DateTime?
-  autoClosedAt DateTime?
-  boardOrder Int?
-  branchName String?
-  canceledAt DateTime?
-  completedAt DateTime?
-  createdAt DateTime?
+  id                  Int            @id @default(autoincrement())
+  archivedAt          DateTime?
+  autoArchivedAt      DateTime?
+  autoClosedAt        DateTime?
+  boardOrder          Int?
+  branchName          String?
+  canceledAt          DateTime?
+  completedAt         DateTime?
+  createdAt           DateTime?
   customerTickerCount Int?
-  description String?
-  dueDate DateTime?
-  estimate Float?
-  linear_id String? @unique
-  identifier String?
-  priority Int?
-  priorityLabel String?
-  snoozedUntilAt DateTime?
-  sortOrder Float?
-  startedAt DateTime?
-  subIssueSortOrder Float?
-  title String?
-  trashed Boolean?
-  updatedAt DateTime?
-  url String?
-  assignee_id Int?
-  assignee LinearUser? @relation(name: "Assignee", fields: [assignee_id], references: [id])
-  creator_id Int?
-  creator LinearUser? @relation(name: "Creator", fields: [creator_id], references: [id])
-  cycle_id Int?
-  cycle LinearCycle? @relation(fields: [cycle_id], references: [id])
-  project_id Int?
-  project LinearProject? @relation(fields: [project_id], references: [id])
-  team_id Int?
-  team LinearTeam? @relation(fields: [team_id], references: [id])
-  contribution_id Int? @unique
-  contribution Contribution? @relation(fields: [contribution_id], references: [id])
+  description         String?
+  dueDate             DateTime?
+  estimate            Float?
+  linear_id           String?        @unique
+  identifier          String?
+  priority            Int?
+  priorityLabel       String?
+  snoozedUntilAt      DateTime?
+  sortOrder           Float?
+  startedAt           DateTime?
+  subIssueSortOrder   Float?
+  title               String?
+  trashed             Boolean?
+  updatedAt           DateTime?
+  url                 String?
+  assignee_id         Int?
+  assignee            LinearUser?    @relation(name: "Assignee", fields: [assignee_id], references: [id])
+  creator_id          Int?
+  creator             LinearUser?    @relation(name: "Creator", fields: [creator_id], references: [id])
+  cycle_id            Int?
+  cycle               LinearCycle?   @relation(fields: [cycle_id], references: [id])
+  project_id          Int?
+  project             LinearProject? @relation(fields: [project_id], references: [id])
+  team_id             Int?
+  team                LinearTeam?    @relation(fields: [team_id], references: [id])
+  contribution_id     Int?           @unique
+  contribution        Contribution?  @relation(fields: [contribution_id], references: [id])
 }
 
 model LinearUser {
-  id Int @id @default(autoincrement())
-  active Boolean @default(true)
-  createdAt DateTime?
-  displayName String?
-  email String?
-  linear_id String @unique
-  name String?
-  url String?
-  access_token String?
-  active_token Boolean?
-  user_id Int?
-  user User? @relation(fields: [user_id], references: [id])
-  assigned_issues LinearIssue[]  @relation("Assignee")
-  created_issues   LinearIssue[]   @relation("Creator")
+  id              Int           @id @default(autoincrement())
+  active          Boolean       @default(true)
+  createdAt       DateTime?
+  displayName     String?
+  email           String?
+  linear_id       String        @unique
+  name            String?
+  url             String?
+  access_token    String?
+  active_token    Boolean?
+  user_id         Int?
+  user            User?         @relation(fields: [user_id], references: [id])
+  assigned_issues LinearIssue[] @relation("Assignee")
+  created_issues  LinearIssue[] @relation("Creator")
 }
 
 model LinearCycle {
-  id Int @id @default(autoincrement())
-  number Int
-  startsAt DateTime
-  endsAt DateTime
-  linear_id String @unique
-  issues LinearIssue[]
+  id        Int           @id @default(autoincrement())
+  number    Int
+  startsAt  DateTime
+  endsAt    DateTime
+  linear_id String        @unique
+  issues    LinearIssue[]
 }
 
 model LinearProject {
-  id Int @id @default(autoincrement())
-  name String
-  linear_id String @unique
-  issues LinearIssue[]
+  id        Int           @id @default(autoincrement())
+  name      String
+  linear_id String        @unique
+  issues    LinearIssue[]
 }
 
 model LinearTeam {
-  id Int @id @default(autoincrement())
-  linear_id String @unique
-  name String
-  key String
-  issues LinearIssue[]
+  id        Int           @id @default(autoincrement())
+  linear_id String        @unique
+  name      String
+  key       String
+  issues    LinearIssue[]
 }
-
 
 ////
 // Job specific model
 ////
 
 model JobRun {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   completedDate DateTime
-  startDate DateTime
-  name String
+  startDate     DateTime
+  name          String
 }
 
 ////
@@ -428,16 +423,16 @@ model JobRun {
 ////
 
 model TwitterUser {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
   twitter_user_id String?
-  name String?
-  username String @unique
-  description String?
+  name            String?
+  username        String   @unique
+  description     String?
 
-  user_id Int? @unique
-  user User? @relation(fields: [user_id], references: [id])
+  user_id Int?  @unique
+  user    User? @relation(fields: [user_id], references: [id])
 
   tweets TwitterTweet[]
 
@@ -445,37 +440,37 @@ model TwitterUser {
 }
 
 model TwitterTweet {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  twitter_tweet_id Int
-  text String
-  twitter_user_id Int?
-  twitter_user TwitterUser? @relation(fields: [twitter_user_id], references: [id])
+  id                             Int                        @id @default(autoincrement())
+  createdAt                      DateTime                   @default(now())
+  updatedAt                      DateTime                   @default(now()) @updatedAt
+  twitter_tweet_id               Int
+  text                           String
+  twitter_user_id                Int?
+  twitter_user                   TwitterUser?               @relation(fields: [twitter_user_id], references: [id])
   twitter_tweet_contribution_ids Int[]
-  twitter_tweet_contributions TwitterTweetContribution[]
+  twitter_tweet_contributions    TwitterTweetContribution[]
 
   @@unique([twitter_tweet_id])
 }
 
 model TwitterAccount {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
   account_name String
-  guild_id Int?
-  guild Guild? @relation(fields: [guild_id], references: [id])
+  guild_id     Int?
+  guild        Guild?   @relation(fields: [guild_id], references: [id])
 
   // Unique on account_name and guild_id
   @@unique([account_name])
 }
 
 model TwitterTweetContribution {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id               Int          @id @default(autoincrement())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @default(now()) @updatedAt
   twitter_tweet_id Int
-  twitter_tweet TwitterTweet @relation(fields: [twitter_tweet_id], references: [id])
-  contribution_id Int
-  contribution Contribution @relation(fields: [contribution_id], references: [id])
+  twitter_tweet    TwitterTweet @relation(fields: [twitter_tweet_id], references: [id])
+  contribution_id  Int
+  contribution     Contribution @relation(fields: [contribution_id], references: [id])
 }

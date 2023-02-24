@@ -1,6 +1,14 @@
 import { useMemo, useState } from 'react';
 import { Box, Button, Flex, Stack } from '@chakra-ui/react';
-import { ControlledSelect, ControlledDatePicker } from '@govrn/protocol-ui';
+import { Link } from 'react-router-dom';
+import {
+  ControlledSelect,
+  ControlledDatePicker,
+  GovrnSpinner,
+  GovrnShowcase,
+} from '@govrn/protocol-ui';
+import { useContributionList } from '../hooks/useContributionList';
+import ErrorView from './ErrorView';
 import PageHeading from '../components/PageHeading';
 import WeeklyActiveMembersShell from './WeeklyActiveMembersShell';
 import ContributionsByDateShell from './ContributionsByDateShell';
@@ -9,11 +17,6 @@ import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { subWeeks } from 'date-fns';
-import {
-  YEAR,
-  DEFAULT_DATE_RANGES,
-  LEFT_MEMBERSHIP_NAME,
-} from '../utils/constants';
 import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
@@ -22,13 +25,17 @@ import { mergePages } from '../utils/arrays';
 import { UIContribution } from '@govrn/ui-types';
 import { useNavigate } from 'react-router-dom';
 import GovrnAlertDialog from './GovrnAlertDialog';
+import {
+  TODAY_DATE,
+  LEFT_MEMBERSHIP_NAME,
+  YEAR,
+  DEFAULT_DATE_RANGES,
+} from '../utils/constants';
 
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
 }
-
-const TODAY_DATE = new Date();
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const navigate = useNavigate();
@@ -81,6 +88,48 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
 
     navigate('/dashboard');
   };
+  const {
+    isFetching,
+    isLoading,
+    isError,
+    data: daoContributions,
+  } = useContributionList(
+    {
+      where: {
+        guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+      },
+    },
+    true,
+  );
+
+  if (isFetching || isLoading) {
+    return <GovrnSpinner />;
+  }
+
+  if (isError) {
+    return (
+      <Box
+        paddingY={{ base: '4', md: '8' }}
+        paddingX={{ base: '0', md: '8' }}
+        color="gray.700"
+        maxWidth="1200px"
+        width="100%"
+      >
+        <ErrorView
+          errorMessage="Something went wrong fetching the data for this DAO."
+          includeMotto={false}
+        />
+      </Box>
+    );
+  }
+
+  const ButtonChildren = () => (
+    <Link to="/report">
+      <Button variant="primary" size="md">
+        Contribute
+      </Button>
+    </Link>
+  );
 
   return (
     <Stack
@@ -118,37 +167,63 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             >
               Leave
             </Button>
-            <Box
-              display={showCustomDatePicker ? 'inherit' : 'none'}
-              width="100%"
-            >
-              <ControlledDatePicker
-                selected={startDate}
-                onChange={dates => {
-                  const datesArray = dates as Date[];
-                  const [start, end] = datesArray;
-                  setStartDate(start);
-                  setEndDate(end);
-                }}
-                startDate={startDate}
-                endDate={endDate}
-                maxDate={TODAY_DATE}
-              />
-            </Box>
-            <ControlledSelect
-              isSearchable={false}
-              defaultValue={dateRangeOptions.find(date => date.value === YEAR)}
-              onChange={dateRangeOffset => {
-                setShowCustomDatePicker(false);
-                dateChangeHandler(dateRangeOffset.value);
-              }}
-              options={dateRangeOptions}
-            />
           </Flex>
+          {daoContributions && daoContributions.length > 0 ? (
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              alignItems="center"
+              justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
+              width="100%"
+              flexBasis={{ base: '100%', lg: '60%' }}
+              flexGrow="1"
+              gap={{ base: 0, lg: 2 }}
+              maxW="18rem"
+            >
+              {showCustomDatePicker && (
+                <Box
+                  visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
+                  width="100%"
+                >
+                  <ControlledDatePicker
+                    selected={startDate}
+                    onChange={dates => {
+                      const datesArray = dates as Date[];
+                      const [start, end] = datesArray;
+                      setStartDate(start);
+                      setEndDate(end);
+                    }}
+                    startDate={startDate}
+                    endDate={endDate}
+                    maxDate={TODAY_DATE}
+                  />
+                </Box>
+              )}
+              <ControlledSelect
+                isSearchable={false}
+                defaultValue={dateRangeOptions.find(
+                  date => date.value === YEAR,
+                )}
+                onChange={dateRangeOffset => {
+                  setShowCustomDatePicker(false);
+                  dateChangeHandler(dateRangeOffset.value);
+                }}
+                options={dateRangeOptions}
+              />
+            </Flex>
+          ) : null}
         </Flex>
       </Flex>
       <Flex direction="column" gap={4}>
         <Flex direction={{ base: 'column' }} gap={2}>
+          {daoContributions && daoContributions.length === 0 ? (
+            <Box marginTop={2} marginBottom={4}>
+              <GovrnShowcase
+                copy="Start adding your contributions to see your data"
+                emoji="🙌"
+                children={<ButtonChildren />}
+              />
+            </Box>
+          ) : null}
           <Flex
             direction={{ base: 'column', lg: 'row' }}
             gap={4}
