@@ -139,8 +139,7 @@ const AttestationsTable = ({
       {
         header: 'Contributor',
         accessorKey: 'user',
-        // accessorFn: contribution =>
-        //   contribution.user.name || displayAddress(contribution.user.address),
+
         cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
           const value = getValue();
 
