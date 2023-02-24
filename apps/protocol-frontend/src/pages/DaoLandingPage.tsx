@@ -60,6 +60,7 @@ const DaoLandingPage = () => {
       <Link
         as={RouterLink}
         to="/profile"
+        state={{ targetId: 'myDaos' }}
         _hover={{
           textDecoration: 'none',
         }}

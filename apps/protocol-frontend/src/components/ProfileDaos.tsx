@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Button,
   Flex,
@@ -28,6 +28,16 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     value: number;
     label: string;
   } | null>(null);
+
+  const { state } = useLocation();
+  const { targetId } = state || {};
+
+  useEffect(() => {
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView();
+    }
+  }, [targetId]);
 
   const { isLoading: joinableDaosListLoading, data: joinableDaosListData } =
     useDaosList({
@@ -101,7 +111,12 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
       boxShadow="sm"
       marginBottom={4}
     >
-      <Flex justifyContent="space-between" direction="column" wrap="wrap">
+      <Flex
+        justifyContent="space-between"
+        direction="column"
+        wrap="wrap"
+        id="myDaos"
+      >
         <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
           My DAOs
         </Heading>
