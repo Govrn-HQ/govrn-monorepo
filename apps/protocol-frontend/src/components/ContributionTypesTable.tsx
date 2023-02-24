@@ -55,7 +55,7 @@ const ContributionTypesTable = ({
         cell: ({ getValue }: { getValue: Getter<string> }) => {
           return (
             <Box
-              bgColor="blue.50"
+              bgColor="brand.secondary.50"
               width="fit-content"
               padding={2}
               borderRadius="md"
@@ -74,7 +74,7 @@ const ContributionTypesTable = ({
         cell: ({ getValue }: { getValue: Getter<number> }) => {
           return (
             <Box
-              bgColor="blue.50"
+              bgColor="brand.secondary.50"
               width="fit-content"
               padding={2}
               borderRadius="md"

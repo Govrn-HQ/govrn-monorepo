@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Flex, Stack, Button, Text } from '@chakra-ui/react';
+import { Box, Flex, Stack, Button, Text, Tooltip } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import {
   ColumnDef,
@@ -138,8 +138,28 @@ const AttestationsTable = ({
       },
       {
         header: 'Contributor',
-        accessorFn: contribution =>
-          contribution.user.name || displayAddress(contribution.user.address),
+        accessorKey: 'user',
+        // accessorFn: contribution =>
+        //   contribution.user.name || displayAddress(contribution.user.address),
+        cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+          const value = getValue();
+
+          const hasMemberName = value.name || value.display_name;
+          const displayMemberName =
+            value.name || value.display_name || displayAddress(value.address);
+          return hasMemberName ? (
+            <Tooltip
+              variant="primary"
+              label={value.address}
+              fontSize="sm"
+              placement="right"
+            >
+              <Text whiteSpace="normal">{displayMemberName}</Text>
+            </Tooltip>
+          ) : (
+            <Text whiteSpace="normal">{displayMemberName}</Text>
+          );
+        },
       },
       {
         header: 'DAO',
@@ -165,6 +185,7 @@ const AttestationsTable = ({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+  console.log('table data', data);
 
   useEffect(() => {
     const selectedContributions: UIContribution[] = [];
