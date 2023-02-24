@@ -117,7 +117,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             </Text>
           </Flex>
         ) : null}
-        <Divider marginY={{ base: 4, lg: 0 }} bgColor="gray.300" />
+        <Divider marginY={{ base: 4, lg: 4 }} bgColor="gray.300" />
         <Flex
           direction="column"
           justifyContent="space-apart"
