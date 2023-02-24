@@ -18,13 +18,11 @@ from bot.common.threads.thread_builder import (
     write_cache_metadata,
 )
 from bot.common.threads.shared_steps import (
-    VerifyUserTwitterStep,
-    VerifyUserWalletStep,
     WALLET_CACHE_KEY,
     TWEET_VERIFIED_CACHE_KEY,
 )
 from bot.exceptions import InvalidWalletAddressException
-
+from bot import constants
 
 DISCORD_USER_CACHE_KEY = "discord_user_previously_exists"
 USER_CACHE_KEY = "user_previously_exists"
@@ -33,7 +31,6 @@ DISCORD_DISPLAY_NAME_CACHE_KEY = "discord_display_name"
 DISPLAY_NAME_CACHE_KEY = "display_name"
 TWITTER_HANDLE_CACHE_KEY = "twitter_handle"
 REQUESTED_TWEET_CACHE_KEY = "requested_tweet"
-
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +70,33 @@ class CheckIfDiscordUserExists(BaseStep):
                 user_id, self.cache, USER_DB_ID_CACHE_KEY, user["id"]
             )
             return StepKeys.ASSOCIATE_EXISTING_USER_WITH_GUILD.value
-        return StepKeys.PROMPT_USER_WALLET_ADDRESS.value
+        return StepKeys.PROMPT_USER_CONNECT_WALLET.value
+
+
+class PromptUserToConnectWallet(BaseStep):
+    """Step to submit wallet address for the govrn profile"""
+
+    name = StepKeys.PROMPT_USER_CONNECT_WALLET.value
+
+    def __init__(self, cache, guild_id, bot):
+        super().__init__()
+        self.cache = cache
+        self.guild_id = guild_id
+        self.bot = bot
+
+    async def send(self, message, user_id):
+        channel = message.channel
+        discord_user = await self.bot.fetch_user(user_id)
+        msg = (
+            "It doesn't look like your wallet"
+            " is connected to this discord account on Govrn. Please "
+            "connect them by clicking the following link"
+            f" {constants.Bot.frontend_url}/#/signature?displayName={discord_user.display_name}."
+            "Once you finish connecting your accounts rerun the join command or join your dao via the web app"
+        )
+
+        sent_message = await channel.send(msg)
+        return sent_message, None
 
 
 class PromptUserWalletAddressStep(BaseStep):
@@ -406,57 +429,11 @@ class Onboarding(BaseThread):
     name = ThreadKeys.ONBOARDING.value
 
     def get_profile_setup_steps(self):
-        create_user_chain = (
-            Step(CreateUserStep(self.cache))
-            .add_next_step(CongratsStep(self.user_id, self.guild_id, self.cache))
-            .build()
-        )
-
-        verify_twitter = (
-            Step(VerifyUserTwitterStep(self.user_id, self.guild_id, self.cache, False))
-            .add_next_step(create_user_chain)
-            .build()
-        )
-
-        twitter_retrieval_steps = (
-            Step(
-                current=AddUserTwitterStep(guild_id=self.guild_id, cache=self.cache)
-            ).fork((verify_twitter, create_user_chain))
+        guild_user_not_exist_flow = Step(
+            current=PromptUserToConnectWallet(
+                cache=self.cache, guild_id=self.guild_id, bot=self.bot
+            )
         ).build()
-
-        custom_user_name_steps = (
-            Step(current=UserDisplaySubmitStep(cache=self.cache))
-            .add_next_step(twitter_retrieval_steps)
-            .build()
-        )
-
-        govrn_user_not_exist_flow = (
-            Step(current=UserDisplayConfirmationStep(cache=self.cache, bot=self.bot))
-            .add_next_step(
-                UserDisplayConfirmationEmojiStep(cache=self.cache, bot=self.bot)
-            )
-            .fork((custom_user_name_steps, twitter_retrieval_steps))
-            .build()
-        )
-
-        guild_user_not_exist_flow = (
-            Step(
-                current=PromptUserWalletAddressStep(
-                    cache=self.cache, guild_id=self.guild_id
-                )
-            )
-            .add_next_step(VerifyUserWalletStep(self.cache, update=False))
-            .add_next_step(AssociateDiscordProfileWithUser(self.cache, self.bot))
-            .fork(
-                (
-                    AssociateExistingUserWithGuild(
-                        cache=self.cache, guild_id=self.guild_id
-                    ),
-                    govrn_user_not_exist_flow,
-                )
-            )
-            .build()
-        )
 
         profile_setup_steps = Step(
             current=CheckIfDiscordUserExists(cache=self.cache)

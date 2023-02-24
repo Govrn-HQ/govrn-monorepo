@@ -361,7 +361,7 @@ export class Contribution extends BaseClient {
         name: { set: ethers.utils.toUtf8String(name) },
         details: { set: ethers.utils.toUtf8String(details) },
         date_of_submission: { set: new Date(args.dateOfSubmission).toString() },
-        date_of_engagement: { set: new Date(args.dateOfSubmission).toString() },
+        date_of_engagement: { set: new Date(args.dateOfEngagement).toString() },
         proof: { set: ethers.utils.toUtf8String(proof) },
         on_chain_id: { set: onChainId },
         tx_hash: { set: txHash },
