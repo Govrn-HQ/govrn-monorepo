@@ -96,6 +96,7 @@ const DaoLandingPage = () => {
       <Container
         paddingY={{ base: '4', md: '8' }}
         paddingX={{ base: '0', md: '8' }}
+        marginY={{ base: 8, lg: 0 }}
         color="gray.700"
         maxWidth="1200px"
       >

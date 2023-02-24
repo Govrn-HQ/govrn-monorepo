@@ -20,8 +20,8 @@ const GovrnCta = ({ heading, emoji, copy, children }: GovrnCtaProps) => (
       direction="row"
       alignItems="baseline"
       fontSize={{ base: 'xl', lg: '3xl' }}
-      paddingY={8}
-      paddingX={{ base: 2 }}
+      paddingY="8"
+      paddingX={{ base: 8, lg: 0 }}
     >
       {emoji ? (
         <Text
