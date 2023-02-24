@@ -184,7 +184,6 @@ const AttestationsTable = ({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
-  console.log('table data', data);
 
   useEffect(() => {
     const selectedContributions: UIContribution[] = [];
