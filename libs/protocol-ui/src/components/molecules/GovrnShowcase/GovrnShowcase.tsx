@@ -47,7 +47,7 @@ const GovrnShowcase = ({ copy, emoji, children }: GovrnShowcaseProps) => (
             aria-labelledby="emoji for the showcase"
             fontSize="3xl"
           >
-            {emoji}
+            {emoji}&nbsp;
           </Text>
         </Flex>
       )}

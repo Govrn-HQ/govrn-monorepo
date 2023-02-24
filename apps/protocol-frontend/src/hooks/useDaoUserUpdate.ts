@@ -1,6 +1,7 @@
 import { useUser } from '../contexts/UserContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useGovrnToast } from '@govrn/protocol-ui';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 
 interface DaoUserUpdateProps {
   userId: number;
@@ -35,7 +36,7 @@ export const useDaoUserUpdate = () => {
       return { mutationData };
     },
     {
-      onSuccess: (_, { userId, favorite }) => {
+      onSuccess: (_, { userId, favorite, membershipStatus }) => {
         queryClient.invalidateQueries(['userDaos', userId]);
         queryClient.invalidateQueries(['userGet', userId]);
         queryClient.invalidateQueries(['daoUsersList']);
@@ -43,6 +44,14 @@ export const useDaoUserUpdate = () => {
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
+          if (membershipStatus === LEFT_MEMBERSHIP_NAME) {
+            toast.success({
+              id: toastSuccessId,
+              title: 'Leaving DAO',
+              description: 'You have left successfully.',
+            });
+            return;
+          }
           toast.success({
             id: toastSuccessId,
             title:

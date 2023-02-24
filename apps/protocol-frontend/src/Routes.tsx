@@ -124,7 +124,7 @@ const Routes = () => {
             userDaos && userDaos?.size > 0 ? (
               <Navigate
                 replace
-                to={`/dao/${userDaos?.values().next().value}`}
+                to={`/dao/${userDaos?.values().next().value?.guild_id}`}
               />
             ) : (
               <RequireActiveUser>

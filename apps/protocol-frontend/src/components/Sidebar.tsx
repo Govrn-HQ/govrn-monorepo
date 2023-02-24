@@ -1,4 +1,9 @@
-import { TWITTER_LINK, DISCORD_LINK, FEEDBACK_LINK } from '../utils/constants';
+import {
+  TWITTER_LINK,
+  DISCORD_LINK,
+  FEEDBACK_LINK,
+  LEFT_MEMBERSHIP_NAME,
+} from '../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Accordion,
@@ -40,7 +45,10 @@ const Sidebar = () => {
   const { isAuthenticated } = useAuth();
 
   const { data: daosUsersListData } = useDaoUsersList({
-    where: { user_id: { equals: userData?.id } },
+    where: {
+      user_id: { equals: userData?.id },
+      membershipStatus: { is: { name: { notIn: [LEFT_MEMBERSHIP_NAME] } } },
+    },
     orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
   });
 
