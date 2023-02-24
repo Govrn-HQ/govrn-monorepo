@@ -33,7 +33,7 @@ const GovrnShowcase = ({ copy, emoji, children }: GovrnShowcaseProps) => (
       >
         <Text>{copy}</Text>
       </Flex>
-      {emoji ? (
+      {emoji && (
         <Flex
           direction="row"
           alignItems="center"
@@ -50,7 +50,7 @@ const GovrnShowcase = ({ copy, emoji, children }: GovrnShowcaseProps) => (
             {emoji}
           </Text>
         </Flex>
-      ) : null}
+      )}
       <Flex
         direction="row"
         alignItems="flex-start"

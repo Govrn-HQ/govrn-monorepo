@@ -16,7 +16,7 @@ import MonthlyContributionsShell from './MonthlyContributionsShell';
 import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
-import { subWeeks, startOfDay, endOfDay } from 'date-fns';
+import { subWeeks } from 'date-fns';
 import { TODAY_DATE, YEAR, DEFAULT_DATE_RANGES } from '../utils/constants';
 
 interface DaoDashboardShellProps {
@@ -87,18 +87,11 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   }
 
   const ButtonChildren = () => (
-    <>
-      <Link to="/profile">
-        <Button variant="primary" size="md">
-          Join a DAO
-        </Button>
-      </Link>
-      <Link to="/report">
-        <Button variant="secondary" size="md">
-          Contribute
-        </Button>
-      </Link>
-    </>
+    <Link to="/report">
+      <Button variant="primary" size="md">
+        Contribute
+      </Button>
+    </Link>
   );
 
   return (
@@ -169,7 +162,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           {daoContributions && daoContributions.length === 0 ? (
             <Box marginTop={2} marginBottom={4}>
               <GovrnShowcase
-                copy="Go mint contributions so we can show your data"
+                copy="Start adding your contributions to see your data"
                 emoji="🙌"
                 children={<ButtonChildren />}
               />
