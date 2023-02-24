@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack, Text, Tooltip } from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -15,6 +15,7 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
 import { mergePages } from '../utils/arrays';
+import { displayAddress } from '../utils/web3';
 import GovrnTable from './GovrnTable';
 
 const columnsDef: ColumnDef<UIContribution>[] = [
@@ -75,9 +76,26 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   },
   {
     header: 'Contributor',
-    accessorFn: contribution => contribution.user.name,
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return <Text>{getValue()} </Text>;
+    accessorKey: 'user',
+
+    cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+      const value = getValue();
+
+      const hasMemberName = value.name || value.display_name;
+      const displayMemberName =
+        value.name || value.display_name || displayAddress(value.address);
+      return hasMemberName ? (
+        <Tooltip
+          variant="primary"
+          label={value.address}
+          fontSize="sm"
+          placement="right"
+        >
+          <Text whiteSpace="normal">{displayMemberName}</Text>
+        </Tooltip>
+      ) : (
+        <Text whiteSpace="normal">{displayMemberName}</Text>
+      );
     },
   },
 ];
