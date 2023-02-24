@@ -3,7 +3,7 @@ import { Heading, Divider, Flex, Text } from '@chakra-ui/react';
 export interface GovrnCtaProps {
   heading: string;
   emoji?: string;
-  copy?: string;
+  copy?: string | React.ReactNode;
   children?: React.ReactNode;
 }
 
