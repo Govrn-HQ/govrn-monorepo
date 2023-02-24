@@ -51,10 +51,10 @@ export class GuildUserScalarWhereInput {
   })
   guild_id?: IntFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  membership_status_id?: IntNullableFilter | undefined;
+  membership_status_id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true

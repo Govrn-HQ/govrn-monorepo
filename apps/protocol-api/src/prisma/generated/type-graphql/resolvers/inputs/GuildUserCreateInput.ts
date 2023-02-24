@@ -32,9 +32,9 @@ export class GuildUserCreateInput {
   guild!: GuildCreateNestedOneWithoutUsersInput;
 
   @TypeGraphQL.Field(_type => GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput, {
-    nullable: true
+    nullable: false
   })
-  membershipStatus?: GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput | undefined;
+  membershipStatus!: GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
