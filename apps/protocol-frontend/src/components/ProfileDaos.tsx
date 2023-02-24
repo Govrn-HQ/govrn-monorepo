@@ -111,12 +111,9 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             maxWidth={{ base: '100%', xl: '50%' }}
             fontSize="md"
           >
+            <Text>You'll need other collaborators to be part of a DAO!</Text>
             <Text>
-              You'll need other collaborators to be part of a DAO!
-              <Text>
-                Select a DAO to join below or press create DAO and make your
-                own.
-              </Text>
+              Select a DAO to join below or press create DAO and make your own.
             </Text>
           </Flex>
         ) : null}
@@ -159,6 +156,10 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
               as={RouterLink}
               to="/dao/create"
               width={{ base: '100%', lg: 'auto' }}
+              textDecoration="none"
+              _hover={{
+                textDecoration: 'none',
+              }}
             >
               <Button
                 variant="secondary"
