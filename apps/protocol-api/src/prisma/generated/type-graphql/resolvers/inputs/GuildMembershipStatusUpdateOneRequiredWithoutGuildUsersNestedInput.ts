@@ -8,10 +8,10 @@ import { GuildMembershipStatusUpdateWithoutGuildUsersInput } from "../inputs/Gui
 import { GuildMembershipStatusUpsertWithoutGuildUsersInput } from "../inputs/GuildMembershipStatusUpsertWithoutGuildUsersInput";
 import { GuildMembershipStatusWhereUniqueInput } from "../inputs/GuildMembershipStatusWhereUniqueInput";
 
-@TypeGraphQL.InputType("GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput", {
+@TypeGraphQL.InputType("GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput", {
   isAbstract: true
 })
-export class GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput {
+export class GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput {
   @TypeGraphQL.Field(_type => GuildMembershipStatusCreateWithoutGuildUsersInput, {
     nullable: true
   })
@@ -26,16 +26,6 @@ export class GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput {
     nullable: true
   })
   upsert?: GuildMembershipStatusUpsertWithoutGuildUsersInput | undefined;
-
-  @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
-  })
-  disconnect?: boolean | undefined;
-
-  @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
-  })
-  delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => GuildMembershipStatusWhereUniqueInput, {
     nullable: true

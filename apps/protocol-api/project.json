@@ -37,7 +37,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/protocol-api/**/*.ts"],
-        "maxWarnings": 6
+        "maxWarnings": 3
       }
     },
     "test": {
