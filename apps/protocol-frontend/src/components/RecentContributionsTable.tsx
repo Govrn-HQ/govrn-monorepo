@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Box, Flex, Heading, Stack, Text, Tooltip } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
-import { mergePages } from '../utils/arrays';
 import { displayAddress } from '../utils/web3';
 import GovrnTable from './GovrnTable';
 
