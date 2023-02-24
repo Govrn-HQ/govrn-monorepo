@@ -17,6 +17,7 @@ import { SortOrder } from '@govrn/protocol-client';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { mergePages } from '../utils/arrays';
 import { useUser } from '../contexts/UserContext';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 
 const AttestationsTableShell = () => {
   const { userData } = useUser();
@@ -39,7 +40,9 @@ const AttestationsTableShell = () => {
             {
               guild_users: {
                 every: {
-                  membershipStatus: { is: { name: { notIn: ['Left'] } } },
+                  membershipStatus: {
+                    is: { name: { notIn: [LEFT_MEMBERSHIP_NAME] } },
+                  },
                 },
               },
             },

@@ -9,7 +9,11 @@ import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { subWeeks } from 'date-fns';
-import { YEAR, DEFAULT_DATE_RANGES } from '../utils/constants';
+import {
+  YEAR,
+  DEFAULT_DATE_RANGES,
+  LEFT_MEMBERSHIP_NAME,
+} from '../utils/constants';
 import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
@@ -72,7 +76,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
     await updateDaoMemberStatus({
       userId: userData?.id ?? -1,
       guildId: daoId,
-      membershipStatus: 'Left',
+      membershipStatus: LEFT_MEMBERSHIP_NAME,
     });
 
     navigate('/dashboard');
