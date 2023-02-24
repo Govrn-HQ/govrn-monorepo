@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Box, Button, Flex, Stack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { Box, Button, Flex } from '@chakra-ui/react';
 import {
   ControlledSelect,
   ControlledDatePicker,
@@ -17,7 +17,20 @@ import ContributionTypesPieShell from './ContributionTypesPieShell';
 import ContributionMembersPieShell from './ContributionMembersPieShell';
 import RecentContributionsTableShell from './RecentContributionsTableShell';
 import { subWeeks } from 'date-fns';
-import { TODAY_DATE, YEAR, DEFAULT_DATE_RANGES } from '../utils/constants';
+import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
+import { useUser } from '../contexts/UserContext';
+import { useContributionInfiniteList } from '../hooks/useContributionList';
+import { SortOrder } from '@govrn/protocol-client';
+import { mergePages } from '../utils/arrays';
+import { UIContribution } from '@govrn/ui-types';
+import { useNavigate } from 'react-router-dom';
+import GovrnAlertDialog from './GovrnAlertDialog';
+import {
+  TODAY_DATE,
+  LEFT_MEMBERSHIP_NAME,
+  YEAR,
+  DEFAULT_DATE_RANGES,
+} from '../utils/constants';
 
 interface DaoDashboardShellProps {
   daoName: string;
@@ -25,10 +38,25 @@ interface DaoDashboardShellProps {
 }
 
 const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
-  const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
+  const navigate = useNavigate();
+  const { userData } = useUser();
+  const { mutateAsync: updateDaoMemberStatus, isLoading: isLeavingLoading } =
+    useDaoUserUpdate();
+  const { data, hasNextPage, fetchNextPage } = useContributionInfiniteList({
+    where: {
+      guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
+    },
+    orderBy: { date_of_engagement: SortOrder.Desc },
+  });
 
+  const recentContributions = useMemo<UIContribution[]>(() => {
+    return mergePages(data?.pages ?? []);
+  }, [data]);
+
+  const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
   const [startDate, setStartDate] = useState<Date>(subWeeks(TODAY_DATE, YEAR));
   const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
+  const [isLeavingDialogShown, showLeavingDialog] = useState(false);
 
   const dateRangeOptions = [
     {
@@ -51,6 +79,15 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
     );
   };
 
+  const handleLeavingDao = async () => {
+    await updateDaoMemberStatus({
+      userId: userData?.id ?? -1,
+      guildId: daoId,
+      membershipStatus: LEFT_MEMBERSHIP_NAME,
+    });
+
+    navigate('/dashboard');
+  };
   const {
     isFetching,
     isLoading,
@@ -95,7 +132,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   );
 
   return (
-    <Box
+    <Stack
       paddingY={{ base: '4', md: '8' }}
       paddingX={{ base: '4', md: '8' }}
       color="gray.700"
@@ -115,6 +152,22 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           gap={2}
           width={{ base: '100%', lg: 'auto' }}
         >
+          <Flex
+            direction={{ base: 'column', lg: 'row' }}
+            alignItems="center"
+            justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
+            width="auto"
+            gap={{ base: 0, lg: 2 }}
+          >
+            <Button
+              variant="primary"
+              width="min-content"
+              px={8}
+              onClick={() => showLeavingDialog(true)}
+            >
+              Leave
+            </Button>
+          </Flex>
           {daoContributions && daoContributions.length > 0 ? (
             <Flex
               direction={{ base: 'column', lg: 'row' }}
@@ -124,24 +177,27 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
               flexBasis={{ base: '100%', lg: '60%' }}
               flexGrow="1"
               gap={{ base: 0, lg: 2 }}
+              maxW="18rem"
             >
-              <Box
-                visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
-                width="100%"
-              >
-                <ControlledDatePicker
-                  selected={startDate}
-                  onChange={dates => {
-                    const datesArray = dates as Date[];
-                    const [start, end] = datesArray;
-                    setStartDate(start);
-                    setEndDate(end);
-                  }}
-                  startDate={startDate}
-                  endDate={endDate}
-                  maxDate={TODAY_DATE}
-                />
-              </Box>
+              {showCustomDatePicker && (
+                <Box
+                  visibility={showCustomDatePicker ? 'inherit' : 'hidden'}
+                  width="100%"
+                >
+                  <ControlledDatePicker
+                    selected={startDate}
+                    onChange={dates => {
+                      const datesArray = dates as Date[];
+                      const [start, end] = datesArray;
+                      setStartDate(start);
+                      setEndDate(end);
+                    }}
+                    startDate={startDate}
+                    endDate={endDate}
+                    maxDate={TODAY_DATE}
+                  />
+                </Box>
+              )}
               <ControlledSelect
                 isSearchable={false}
                 defaultValue={dateRangeOptions.find(
@@ -226,11 +282,22 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             </Flex>
           </Flex>
           <Flex direction="column" gap={2}>
-            <RecentContributionsTableShell daoId={daoId} />
+            <RecentContributionsTableShell
+              data={recentContributions}
+              hasNextPage={hasNextPage}
+              fetchNextPage={fetchNextPage}
+            />
           </Flex>
         </Flex>
       </Flex>
-    </Box>
+      <GovrnAlertDialog
+        title={`Are you sure you want to leave ${daoName}?`}
+        isOpen={isLeavingDialogShown}
+        isLoading={isLeavingLoading}
+        onConfirm={handleLeavingDao}
+        onCancel={() => showLeavingDialog(false)}
+      />
+    </Stack>
   );
 };
 

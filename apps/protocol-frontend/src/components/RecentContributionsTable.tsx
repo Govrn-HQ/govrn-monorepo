@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
-import { mergePages } from '../utils/arrays';
 import GovrnTable from './GovrnTable';
 
 const columnsDef: ColumnDef<UIContribution>[] = [
@@ -83,19 +82,15 @@ const columnsDef: ColumnDef<UIContribution>[] = [
 ];
 
 const RecentContributionsTable = ({
-  contributionsData,
+  data,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[][];
+  data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  const data = useMemo<UIContribution[]>(() => {
-    return mergePages(contributionsData);
-  }, [contributionsData]);
 
   const table = useReactTable({
     data,

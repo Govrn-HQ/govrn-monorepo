@@ -1,27 +1,19 @@
 import { Box, Stack } from '@chakra-ui/react';
-import { useContributionInfiniteList } from '../hooks/useContributionList';
-import { SortOrder } from '@govrn/protocol-client';
 import RecentContributionsTable from './RecentContributionsTable';
 import EmptyContributions from './EmptyContributions';
+import { UIContribution } from '@govrn/ui-types';
 
 interface RecentContributionTableShellProps {
-  daoId: number;
+  data: UIContribution[];
+  hasNextPage: boolean;
+  fetchNextPage: () => void;
 }
 
 const RecentContributionsTableShell = ({
-  daoId,
+  data: recentContributions,
+  fetchNextPage,
+  hasNextPage,
 }: RecentContributionTableShellProps) => {
-  const {
-    data: recentContributions,
-    hasNextPage,
-    fetchNextPage,
-  } = useContributionInfiniteList({
-    where: {
-      guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
-    },
-    orderBy: { date_of_engagement: SortOrder.Desc },
-  });
-
   return (
     <Box
       paddingY={{ base: '4' }}
@@ -34,10 +26,10 @@ const RecentContributionsTableShell = ({
       boxShadow="sm"
       borderRadius={{ base: 'none', md: 'md' }}
     >
-      {recentContributions && recentContributions.pages.length > 0 ? (
+      {recentContributions.length > 0 ? (
         <Stack spacing="5">
           <RecentContributionsTable
-            contributionsData={recentContributions.pages}
+            data={recentContributions}
             nextPage={fetchNextPage}
             hasMoreItems={hasNextPage || false}
           />
