@@ -27,12 +27,12 @@ export class User extends BaseClient {
   }
 
   public async list(args: ListUsersQueryVariables) {
-    const contributions = await this.sdk.listUsers(args);
-    return contributions.result;
+    const users = await this.sdk.listUsers(args);
+    return users.result;
   }
 
   public async create(args: UserCreateCustomInput) {
-    const contributions = await this.sdk.createUserCustom({ data: args });
-    return contributions.createUserCustom;
+    const user = await this.sdk.createUserCustom({ data: args });
+    return user.createUserCustom;
   }
 }
