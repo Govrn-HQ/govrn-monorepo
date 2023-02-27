@@ -6,7 +6,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
