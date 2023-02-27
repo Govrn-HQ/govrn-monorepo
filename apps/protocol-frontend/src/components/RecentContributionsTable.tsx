@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Flex, Heading, Stack, Text, Tooltip } from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
-import { displayAddress } from '../utils/web3';
 import GovrnTable from './GovrnTable';
 import MemberDisplayName from './MemberDisplayName';
 
