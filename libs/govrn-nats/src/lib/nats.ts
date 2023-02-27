@@ -28,7 +28,6 @@ export const setupNats = async (
   }
 };
 
-// Subscription membership.import.csv
 // subscription is a durable queue group
 export const pullMessages = async (
   nc: NatsConnection,
@@ -51,7 +50,6 @@ export const pullMessages = async (
   const done = (async () => {
     for await (const m of msgs) {
       // do something with the message
-      // and if the consumer is not set to auto-ack, ack!
       await callback(nc, m);
       m.ack();
     }
