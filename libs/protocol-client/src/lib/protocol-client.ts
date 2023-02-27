@@ -7,6 +7,7 @@ import { Guild } from './client/guild';
 import { Linear } from './client/linear';
 import { Twitter } from './client/twitter';
 import { User } from './client/user';
+import { GuildUser } from './client/guild_user';
 import { GraphQLClient } from 'graphql-request';
 import { Chain } from './client/chain';
 
@@ -24,6 +25,7 @@ export class GovrnProtocol {
   linear: Linear;
   twitter: Twitter;
   user: User;
+  guildUser: GuildUser;
 
   constructor(
     apiUrl: string,
@@ -47,6 +49,7 @@ export class GovrnProtocol {
     this.twitter = new Twitter(this.client);
     this.jobRun = new JobRun(this.client);
     this.guild = new Guild(this.client);
+    this.guildUser = new GuildUser(this.client);
     this.custom = new Custom(this.client);
   }
 }
