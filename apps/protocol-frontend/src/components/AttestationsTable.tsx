@@ -232,7 +232,7 @@ const AttestationsTable = ({
         </Button>
       </Link>
       <Link
-        href="https://govrn.gitbook.io/govrn-docs/lets-party/kevin-malone"
+        href="https://govrn.gitbook.io/govrn-docs/attestations/attestations"
         isExternal
         textDecoration="none"
         _hover={{
@@ -253,7 +253,7 @@ const AttestationsTable = ({
   let component = (
     <GovrnCta
       heading={`You aren't in any DAOs yet`}
-      emoji="👀"
+      emoji="🙏"
       copy={<CopyChildren />}
       children={<ButtonChildren />}
     />
