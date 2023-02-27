@@ -2,6 +2,7 @@ import { NatsConnection, JsMsg, StringCodec } from 'nats';
 import { setupNats, pullMessages } from '@govrn/govrn-nats';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { ethers } from 'ethers';
+import { User } from 'libs/protocol-client/src/lib/client/user';
 console.log('Hello World!');
 const protcolUrl = process.env.PROTOCOL_URL;
 const protocolApiToken = process.env.PROTOCOL_API_TOKEN;
@@ -40,6 +41,54 @@ const logic = async (conn: NatsConnection) => {
     const guild = await govrn.guild.get({
       id: +daoId,
     });
+    if (guild == null) {
+      console.log('No guild exists for id: ' + daoId);
+      return;
+    }
+
+    if (!ethers.utils.isAddress(address)) {
+      console.log('Invalid wallet address: ' + address);
+      return;
+    }
+
+    // TODO: validate username/discord id?
+
+    const user = await govrn.user.createEx({
+      address: address,
+      display_name: discordName,
+      name: discordName,
+      chain_type: {
+        connectOrCreate: {
+          create: {
+            name: 'ethereum_mainnet',
+          },
+          where: {
+            name: 'ethereum_mainnet',
+          },
+        },
+      },
+      discord_users: {
+        create: [
+          {
+            discord_id: discordId,
+            display_name: discordName,
+          },
+        ],
+      },
+    });
+    console.log(
+      `created user: ${user.id} ${user.address} ${user.discord_users}`,
+    );
+    const guildUser = await govrn.guildUser.create({
+      data: {
+        guildId: guild.id,
+        guildName: guild.name,
+        userAddress: address,
+        userId: user.id,
+      },
+    });
+    console.log(`created guildUser: ${guildUser.guild_id} ${guildUser.id}`);
+
     // ack is handled by pull messages
     return;
   };

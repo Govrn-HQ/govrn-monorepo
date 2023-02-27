@@ -1,6 +1,7 @@
 import {
   ListUsersQueryVariables,
   UserCreateCustomInput,
+  UserCreateInput,
   UserUpdateInput,
   UserWhereUniqueInput,
 } from '../protocol-types';
@@ -34,5 +35,10 @@ export class User extends BaseClient {
   public async create(args: UserCreateCustomInput) {
     const user = await this.sdk.createUserCustom({ data: args });
     return user.createUserCustom;
+  }
+
+  public async createEx(args: UserCreateInput) {
+    const user = await this.sdk.createUser({ data: args });
+    return user.createOneUser;
   }
 }
