@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Flex, Stack, Button, Text, Tooltip } from '@chakra-ui/react';
+import { Box, Flex, Stack, Button, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import {
   ColumnDef,
@@ -20,11 +20,11 @@ import { useOverlay } from '../contexts/OverlayContext';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
-import { displayAddress } from '../utils/web3';
 import { RowSelectionState } from '@tanstack/table-core';
 import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
 
 const AttestationsTable = ({
   data,
@@ -142,22 +142,7 @@ const AttestationsTable = ({
 
         cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
           const value = getValue();
-
-          const hasMemberName = value.name || value.display_name;
-          const displayMemberName =
-            value.name || value.display_name || displayAddress(value.address);
-          return hasMemberName ? (
-            <Tooltip
-              variant="primary"
-              label={value.address}
-              fontSize="sm"
-              placement="right"
-            >
-              <Text whiteSpace="normal">{displayMemberName}</Text>
-            </Tooltip>
-          ) : (
-            <Text whiteSpace="normal">{displayMemberName}</Text>
-          );
+          return <MemberDisplayName memberValue={value} />;
         },
       },
       {

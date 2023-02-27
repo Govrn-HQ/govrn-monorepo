@@ -16,6 +16,7 @@ import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
 import { displayAddress } from '../utils/web3';
 import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
 
 const columnsDef: ColumnDef<UIContribution>[] = [
   {
@@ -79,22 +80,7 @@ const columnsDef: ColumnDef<UIContribution>[] = [
 
     cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
       const value = getValue();
-
-      const hasMemberName = value.name || value.display_name;
-      const displayMemberName =
-        value.name || value.display_name || displayAddress(value.address);
-      return hasMemberName ? (
-        <Tooltip
-          variant="primary"
-          label={value.address}
-          fontSize="sm"
-          placement="right"
-        >
-          <Text whiteSpace="normal">{displayMemberName}</Text>
-        </Tooltip>
-      ) : (
-        <Text whiteSpace="normal">{displayMemberName}</Text>
-      );
+      return <MemberDisplayName memberValue={value} />;
     },
   },
 ];

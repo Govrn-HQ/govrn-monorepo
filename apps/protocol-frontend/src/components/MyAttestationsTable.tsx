@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { Box, Flex, Stack, Text, Tooltip } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -19,8 +19,8 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { statusEmojiSelect } from '../utils/statusEmojiSelect';
-import { displayAddress } from '../utils/web3';
 import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
 
 const MyAttestationsTable = ({
   data,
@@ -104,22 +104,7 @@ const MyAttestationsTable = ({
 
         cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
           const value = getValue();
-
-          const hasMemberName = value.name || value.display_name;
-          const displayMemberName =
-            value.name || value.display_name || displayAddress(value.address);
-          return hasMemberName ? (
-            <Tooltip
-              variant="primary"
-              label={value.address}
-              fontSize="sm"
-              placement="right"
-            >
-              <Text whiteSpace="normal">{displayMemberName}</Text>
-            </Tooltip>
-          ) : (
-            <Text whiteSpace="normal">{displayMemberName}</Text>
-          );
+          return <MemberDisplayName memberValue={value} />;
         },
       },
     ];
