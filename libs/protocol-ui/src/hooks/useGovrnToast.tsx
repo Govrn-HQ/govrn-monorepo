@@ -70,7 +70,8 @@ const useGovrnToast = () => {
         status: 'error',
         iconName: 'error',
         closeToast: closeToast,
-        isClosable: props.isClosable ?? true,
+        isClosable: true,
+        // isClosable: props.isClosable ?? true,
         toast,
       });
     },
