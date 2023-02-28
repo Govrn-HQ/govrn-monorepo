@@ -17,6 +17,7 @@ import { SortOrder } from '@govrn/protocol-client';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { mergePages } from '../utils/arrays';
 import { useUser } from '../contexts/UserContext';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 
 const AttestationsTableShell = () => {
   const { userData } = useUser();
@@ -32,8 +33,21 @@ const AttestationsTableShell = () => {
     orderBy: { date_of_engagement: SortOrder.Desc },
     where: {
       status: { is: { name: { equals: 'minted' } } },
-      user_id: {
-        not: { equals: userData?.id || 0 },
+      user: {
+        is: {
+          AND: [
+            { id: { not: { equals: userData?.id || 0 } } },
+            {
+              guild_users: {
+                every: {
+                  membershipStatus: {
+                    is: { name: { notIn: [LEFT_MEMBERSHIP_NAME] } },
+                  },
+                },
+              },
+            },
+          ],
+        },
       },
       guilds: {
         some: {
