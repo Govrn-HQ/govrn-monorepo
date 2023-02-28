@@ -2,11 +2,11 @@ import { NatsConnection, JsMsg, StringCodec } from 'nats';
 import { setupNats, pullMessages } from '@govrn/govrn-nats';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { ethers } from 'ethers';
-import { User } from 'libs/protocol-client/src/lib/client/user';
+
 console.log('Hello World!');
 const protcolUrl = process.env.PROTOCOL_URL;
 const protocolApiToken = process.env.PROTOCOL_API_TOKEN;
-
+const streamName = 'dao-membership-csv';
 // 1. Receives form data with a file and input for dao name
 // https://stackoverflow.com/questions/74927686/how-to-upload-a-file-from-client-to-server-and-then-server-to-server
 // 2. Verify File is a CSV file
@@ -92,12 +92,7 @@ const logic = async (conn: NatsConnection) => {
     // ack is handled by pull messages
     return;
   };
-  await pullMessages(
-    conn,
-    'dao-membership-csv',
-    'dao-membership-csv-durable',
-    pullTransform,
-  );
+  await pullMessages(conn, streamName, `${streamName}-durable`, pullTransform);
 };
 
 const main = async () => {
@@ -105,7 +100,7 @@ const main = async () => {
     Authorization: protocolApiToken,
   });
 
-  await setupNats(servers, logic);
+  await setupNats(servers, streamName, logic);
   // TODO: Add schema validation
 };
 

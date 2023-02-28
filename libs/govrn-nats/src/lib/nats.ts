@@ -1,15 +1,26 @@
-import { connect, NatsConnection, JsMsg } from 'nats';
+import { connect, NatsConnection, JsMsg, StringCodec } from 'nats';
 
 // TODO: How are streams created
 // TODO: How is pulling filtered
 export const setupNats = async (
   servers: { servers?: string; port?: number }[],
+  streamName: string,
   work: (conn: NatsConnection) => Promise<void>,
 ) => {
   for (const v of servers) {
     try {
       const nc = await connect(v);
       console.log(`connected to ${nc.getServer()}`);
+
+      // create a stream to upload messages
+      const jsm = await nc.jetstreamManager();
+      const subj = `${streamName}.*`;
+      const streamCfg = await jsm.streams.add({
+        name: streamName,
+        subjects: [subj],
+      });
+      console.log(`created stream ${streamCfg}`);
+
       // this promise indicates the client closed
       const done = nc.closed();
       // do something with the connection
@@ -25,6 +36,22 @@ export const setupNats = async (
     } catch (err) {
       console.log(`error connecting to ${JSON.stringify(v)}`);
     }
+  }
+};
+
+export const writeMessages = async (
+  nc: NatsConnection,
+  streamName: string,
+  messages: string[],
+) => {
+  // create a jetstream client:
+  const js = nc.jetstream();
+  const sc = StringCodec();
+  for (const m in messages) {
+    const pubAck = await js.publish(`${streamName}.row`, sc.encode(m));
+    console.log(
+      `Published message ${m} to ${pubAck.stream}, seq ${pubAck.seq}`,
+    );
   }
 };
 
