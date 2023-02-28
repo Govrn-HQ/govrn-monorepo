@@ -28,6 +28,7 @@ import DiscordSignatureLayout from './components/DiscordSignatureLayout';
 import {
   CONTRIBUTION_NEW_DOMAIN,
   CONTRIBUTION_NEW_STAGING_DOMAIN,
+  LEFT_MEMBERSHIP_NAME,
 } from './utils/constants';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
@@ -50,7 +51,11 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
   const { userData } = useUser();
   const { data } = useUserGet({ userId: userData?.id });
   if (guildId) {
-    if (data?.userDaos && data?.userDaos.has(parseInt(guildId)) === false) {
+    if (
+      (data?.userDaos && data?.userDaos.has(parseInt(guildId)) === false) ||
+      data?.userDaos.get(parseInt(guildId)).membershipStatus?.name ===
+        LEFT_MEMBERSHIP_NAME
+    ) {
       return (
         <ErrorView
           errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
