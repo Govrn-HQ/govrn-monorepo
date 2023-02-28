@@ -1,5 +1,5 @@
 import { NatsConnection, JsMsg, StringCodec } from 'nats';
-import { setupNats, pullMessages } from '@govrn/govrn-nats';
+import { setupNats, pullMessages, writeMessages } from '@govrn/govrn-nats';
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { ethers } from 'ethers';
 
@@ -92,7 +92,17 @@ const logic = async (conn: NatsConnection) => {
     // ack is handled by pull messages
     return;
   };
-  await pullMessages(conn, streamName, `${streamName}-durable`, pullTransform);
+  await writeMessages(conn, streamName, [
+    // DAO ID, address, discord name/username (optional), dicord_id (optional	), admin
+    '15,0x292c4cE0EEFbCA990F319BEfac1c032cCcA6dE57,Flip,447315691226398733,False',
+    '15,0x690B9A9E9aa1C9dB991C7721a92d351Db4FaC990,Flip2,447315691226398739,False',
+  ]);
+  await await pullMessages(
+    conn,
+    streamName,
+    `${streamName}-durable`,
+    pullTransform,
+  );
 };
 
 const main = async () => {
