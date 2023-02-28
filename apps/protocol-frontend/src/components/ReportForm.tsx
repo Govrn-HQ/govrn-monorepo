@@ -240,6 +240,32 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             localForm={localForm}
             dataTestId="reportForm-name"
           />
+          <Select
+            name="daoId"
+            label="DAO"
+            tip={
+              <>
+                Please select a DAO to associate this contribution with.
+                <Box fontWeight={700} lineHeight={2}>
+                  This is optional. Don't see your DAO? Request to add it{' '}
+                  <ChakraLink
+                    href="https://airtable.com/shrOedOjQpH9xlg7l"
+                    isExternal
+                    textDecoration="underline"
+                  >
+                    here
+                  </ChakraLink>
+                </Box>
+              </>
+            }
+            placeholder="Select a DAO to associate this contribution with."
+            onChange={dao => {
+              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
+            }}
+            options={daoListOptions}
+            defaultValue={daoListOptions.find(dao => dao.value === daoIdParam)}
+            localForm={localForm}
+          />
           <CreatableSelect
             name="activityType"
             label="Activity Type"
@@ -308,32 +334,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               </Text>
             )}
           </Flex>
-          <Select
-            name="daoId"
-            label="DAO"
-            tip={
-              <>
-                Please select a DAO to associate this contribution with.
-                <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Request to add it{' '}
-                  <ChakraLink
-                    href="https://airtable.com/shrOedOjQpH9xlg7l"
-                    isExternal
-                    textDecoration="underline"
-                  >
-                    here
-                  </ChakraLink>
-                </Box>
-              </>
-            }
-            placeholder="Select a DAO to associate this contribution with."
-            onChange={dao => {
-              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
-            }}
-            options={daoListOptions}
-            defaultValue={daoListOptions.find(dao => dao.value === daoIdParam)}
-            localForm={localForm}
-          />
           <DatePicker
             name="engagementDate"
             localForm={localForm}
