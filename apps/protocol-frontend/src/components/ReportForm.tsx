@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
@@ -182,11 +182,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     data: userActivityTypesData,
   } = useUserActivityTypesList();
 
-  const daoListOptions =
-    useUserData?.guild_users.map(dao => ({
-      value: dao.guild.id,
-      label: dao.guild.name ?? '',
-    })) || [];
+  const daoListOptions = useMemo(() => {
+    return (
+      useUserData?.guild_users.map(dao => ({
+        value: dao.guild.id,
+        label: dao.guild.name ?? '',
+      })) || []
+    );
+  }, [useUserData]);
 
   useEffect(() => {
     const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
@@ -194,7 +197,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
   }, []);
 
-  // there is an error with the query:
   if (userActivityTypesIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
