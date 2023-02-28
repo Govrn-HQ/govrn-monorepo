@@ -16,14 +16,11 @@ export function SelectContainer(props: any) {
     />
   );
 }
-type Option =
-  | {
-      label: string | number;
-      value: string | number;
-    }
-  | { value: number | null; label: string }
-  | { value: number; label: string | null | undefined }
-  | { value: null; label: string };
+
+type Option = {
+  label: string | number | null;
+  value: string | number | null;
+};
 
 export interface SelectProps {
   name: string;
