@@ -141,16 +141,11 @@ const AttestationsTableShell = () => {
               >
                 <Stack>
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
-                    {attestedContributions &&
-                    attestedContributions?.pages.length > 0 ? (
-                      <MyAttestationsTable
-                        data={mergePages(attestedContributions?.pages || [])}
-                        hasMoreItems={hasNextPageAttestedContributions}
-                        nextPage={fetchNextPageAttestedContributions}
-                      />
-                    ) : (
-                      <EmptyContributions />
-                    )}
+                    <MyAttestationsTable
+                      data={mergePages(attestedContributions?.pages || [])}
+                      hasMoreItems={hasNextPageAttestedContributions}
+                      nextPage={fetchNextPageAttestedContributions}
+                    />
                   </Box>
                 </Stack>
               </Box>
