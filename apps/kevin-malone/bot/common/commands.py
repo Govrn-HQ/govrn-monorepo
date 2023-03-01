@@ -94,7 +94,7 @@ async def join(ctx: discord.ApplicationContext):
     guild_id = guild["id"]
 
     if user is not None and any(
-        guild_user["guild_id"] == guild_id for guild_user in user["guild_users"]
+        (guild_user["guild_id"] == guild_id and guild_user["membershipStatus"]["name"] is not "Left") for guild_user in user["guild_users"]
     ):
         # Send welcome message and
         # And ask what journey they are
@@ -110,7 +110,6 @@ async def join(ctx: discord.ApplicationContext):
                 embed.add_field(
                     name=f"/ {cmd.name}", value=cmd.description, inline=False
                 )
-        print(embed)
         await ctx.followup.send(embed=embed, ephemeral=True)
         return
 

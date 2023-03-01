@@ -76,6 +76,7 @@ export const useDaoUserUpdate = () => {
                 ? 'Favorite status update failed.'
                 : 'DAO update failed.',
             description: `Something went wrong. Please try again: ${error}`,
+            isClosable: true,
           });
         }
       },

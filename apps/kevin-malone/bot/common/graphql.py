@@ -52,6 +52,9 @@ fragment UserFragment on User {
   guild_users {
     id
     guild_id
+    membershipStatus {
+      name
+    }
   }
   twitter_user {
     id
