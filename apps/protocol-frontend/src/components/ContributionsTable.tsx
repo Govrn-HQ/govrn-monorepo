@@ -51,6 +51,7 @@ export type DialogProps = {
 const ContributionsTable = ({
   data,
   setSelectedContributions,
+  selectedContributions,
   hasMoreItems,
   nextPage,
 }: {
@@ -284,16 +285,12 @@ const ContributionsTable = ({
   const ButtonChildren = () => (
     <ChakraLink
       as={Link}
-      to="/contributions"
+      to="/report"
       _hover={{
         textDecoration: 'none',
       }}
     >
-      <Button
-        variant="secondary"
-        size="md"
-        width={{ base: '100%', lg: 'auto' }}
-      >
+      <Button variant="primary" size="md" width={{ base: '100%', lg: 'auto' }}>
         Report Your First Contribution
       </Button>
     </ChakraLink>
@@ -308,58 +305,66 @@ const ContributionsTable = ({
     />
   );
 
+  if (data.length) {
+    component = (
+      <Stack>
+        <GlobalFilter
+          preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
+        <Box width="100%" maxWidth="100vw" overflowX="auto">
+          <InfiniteScroll
+            dataLength={table.getRowModel().rows.length}
+            next={nextPage}
+            scrollThreshold={0.8}
+            hasMore={hasMoreItems}
+            loader={<GovrnSpinner />}
+          >
+            <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
+          </InfiniteScroll>
+        </Box>
+      </Stack>
+    );
+  }
+
   return (
-    <Stack>
-      <GlobalFilter
-        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
+    <>
+      {component}
+      <ModalWrapper
+        name="editContributionFormModal"
+        title="Update Contribution Activity"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <EditContributionForm
+            contribution={
+              data.find(
+                localContribution =>
+                  localContribution.id === selectedContribution,
+              )!
+            }
+          />
+        }
       />
-      <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <InfiniteScroll
-          dataLength={table.getRowModel().rows.length}
-          next={nextPage}
-          scrollThreshold={0.8}
-          hasMore={hasMoreItems}
-          loader={<GovrnSpinner />}
-        >
-          <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
-        </InfiniteScroll>
-        <ModalWrapper
-          name="editContributionFormModal"
-          title="Update Contribution Activity"
-          localOverlay={localOverlay}
-          size="3xl"
-          content={
-            <EditContributionForm
-              contribution={
-                data.find(
-                  localContribution =>
-                    localContribution.id === selectedContribution,
-                )!
-              }
-            />
-          }
-        />
-        <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
-        <ModalWrapper
-          name="mintModal"
-          title="Mint Your DAO Contributions"
-          localOverlay={localOverlay}
-          size="3xl"
-          content={
-            <MintModal contributions={selectedRows} onFinish={deselectAll} />
-          }
-        />
-        <ModalWrapper
-          name="bulkDaoAttributeModal"
-          title="Attribute Contributions to a DAO"
-          localOverlay={localOverlay}
-          size="3xl"
-          content={<BulkDaoAttributeModal contributions={selectedRows} />}
-        />
-      </Box>
-    </Stack>
+      <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
+      <ModalWrapper
+        name="mintModal"
+        title="Mint Your DAO Contributions"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <MintModal contributions={selectedRows} onFinish={deselectAll} />
+        }
+      />
+      <ModalWrapper
+        name="bulkDaoAttributeModal"
+        title="Attribute Contributions to a DAO"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={<BulkDaoAttributeModal contributions={selectedRows} />}
+      />
+    </>
   );
 };
 
