@@ -190,14 +190,16 @@ const ContributionsTableShell = () => {
               borderRadius={{ base: 'none', md: 'lg' }}
             >
               <Stack spacing="5">
-                <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
-                  <Text fontSize="lg" fontWeight="medium">
-                    My Minted Contributions{' '}
-                    <span role="img" aria-label="Sun emoji for Minted">
-                      🌞
-                    </span>
-                  </Text>
-                </Box>
+                {mintedContributions && mintedContributions.length > 0 ? (
+                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
+                    <Text fontSize="lg" fontWeight="medium">
+                      My Minted Contributions{' '}
+                      <span role="img" aria-label="Sun emoji for Minted">
+                        🌞
+                      </span>
+                    </Text>
+                  </Box>
+                ) : null}
                 <Box width="100%" maxWidth="100vw" overflowX="auto">
                   <MintedContributionsTable
                     data={mintedContributions}
@@ -215,16 +217,18 @@ const ContributionsTableShell = () => {
               borderRadius={{ base: 'none', md: 'lg' }}
             >
               <Stack spacing="5">
-                <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
-                  <Stack
-                    direction={{ base: 'column', md: 'row' }}
-                    justify="space-between"
-                  >
-                    <Text fontSize="lg" fontWeight="medium">
-                      Contribution Types
-                    </Text>
-                  </Stack>
-                </Box>
+                {allContributions && allContributions.length > 0 ? (
+                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
+                    <Stack
+                      direction={{ base: 'column', md: 'row' }}
+                      justify="space-between"
+                    >
+                      <Text fontSize="lg" fontWeight="medium">
+                        Contribution Types
+                      </Text>
+                    </Stack>
+                  </Box>
+                ) : null}
                 <Box width="100%" maxWidth="100vw" overflowX="auto">
                   <ContributionTypesTable
                     contributionTypesData={allContributions}

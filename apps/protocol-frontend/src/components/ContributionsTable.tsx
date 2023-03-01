@@ -51,7 +51,6 @@ export type DialogProps = {
 const ContributionsTable = ({
   data,
   setSelectedContributions,
-  selectedContributions,
   hasMoreItems,
   nextPage,
 }: {
