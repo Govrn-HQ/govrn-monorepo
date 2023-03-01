@@ -21,6 +21,7 @@ import {
   GovrnSpinner,
   Select,
   Textarea,
+  SelectOption as Option,
 } from '@govrn/protocol-ui';
 import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
@@ -134,7 +135,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
-    if (selectedFile && fileError === null && ipfsError === false) {
+    if (selectedFile && fileError === null && !ipfsError) {
       try {
         await uploadFileIpfs(selectedFile, false);
         setIpfsError(false);
@@ -148,7 +149,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         return;
       }
     }
-    if (ipfsError === false) {
+    if (!ipfsError) {
       const result = await createNewContribution(values);
       if (result) {
         reset({
@@ -208,7 +209,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     ]),
   ];
 
-  const combinedActivityTypeOptions = combinedActivityTypesList.map(
+  const combinedActivityTypeOptions: Option<string>[] = combinedActivityTypesList.map(
     activity => ({
       value: activity,
       label: activity,
@@ -273,7 +274,10 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             label="Activity Type"
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
-              setValue('activityType', activity.value);
+              setValue(
+                'activityType',
+                (activity as Option<string>)?.value,
+              );
             }}
             options={combinedActivityTypeOptions}
             localForm={localForm}

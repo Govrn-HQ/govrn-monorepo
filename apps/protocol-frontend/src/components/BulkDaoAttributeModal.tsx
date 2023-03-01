@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { GovrnSpinner, Select } from '@govrn/protocol-ui';
+import {
+  GovrnSpinner,
+  Select,
+  SelectOption as Option,
+} from '@govrn/protocol-ui';
 import { Stack, Button, Text, Progress } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -41,20 +45,20 @@ const BulkDaoAttributeModal = ({
     userId: userData?.id,
   });
 
-  const daoListOptions =
+  const daoListOptions: Option<number>[] =
     useUserData?.guild_users.map(dao => ({
-      value: dao.guild.id,
       label: dao.guild.name ?? '',
+      value: dao.guild.id,
     })) || [];
 
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
-    },
-  ];
+  const daoReset: Option<number> = {
+    value: 0,
+    label: 'No DAO',
+  };
 
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+  const combinedDaoListOptions: Option<number>[] = [
+    ...new Set([daoReset, ...daoListOptions]),
+  ];
 
   const bulkAttributeDaoHandler: SubmitHandler<
     BulkDaoAttributeFormValues
@@ -112,7 +116,7 @@ const BulkDaoAttributeModal = ({
           }
           placeholder="Select a DAO to attribute to."
           onChange={dao => {
-            setValue('daoId', dao.value);
+            setValue('daoId', (dao as Option<number>).value);
           }}
           options={combinedDaoListOptions}
           localForm={localForm}

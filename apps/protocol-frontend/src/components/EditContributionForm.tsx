@@ -17,6 +17,7 @@ import {
   Input,
   Select,
   Textarea,
+  SelectOption as Option,
 } from '@govrn/protocol-ui';
 import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -76,15 +77,15 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     userId: userData?.id,
   });
 
-  const daoListOptions =
+  const daoListOptions: Option<number>[] =
     useUserData?.guild_users.map(dao => ({
       value: dao.guild.id,
       label: dao.guild.name ?? '',
     })) || [];
 
-  const daoReset = [
+  const daoReset: Option<number>[] = [
     {
-      value: null,
+      value: -1,
       label: 'No DAO',
     },
   ];
@@ -234,8 +235,8 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               value: contribution?.activity_type?.name,
               label: contribution?.activity_type?.name,
             }}
-            onChange={activity => {
-              setValue('activityType', activity.value);
+            onChange={(activity) => {
+              setValue('activityType', (activity as Option<string>)?.value);
             }}
             options={combinedActivityTypeOptions}
             localForm={localForm}

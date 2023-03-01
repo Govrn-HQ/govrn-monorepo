@@ -9,7 +9,11 @@ import {
   Grid,
   Text,
 } from '@chakra-ui/react';
-import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  SelectOption as Option,
+} from '@govrn/protocol-ui';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useDaosList } from '../hooks/useDaosList';
 import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
@@ -71,10 +75,10 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     8, // page size
   );
 
-  const daoListOptions =
+  const daoListOptions: Option<number>[] =
     joinableDaosListData?.map(dao => ({
-      value: dao.id,
       label: dao.name ?? '',
+      value: dao.id,
     })) || [];
 
   const { mutateAsync: createDaoUser, isLoading: createDaoUserLoading } =
@@ -157,7 +161,8 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             >
               <ControlledSelect
                 label="Select a DAO to Join"
-                onChange={dao => setSelectedDao(dao)}
+                isMulti={false}
+                onChange={(dao) => setSelectedDao(dao as Option<number>)}
                 value={selectedDao ?? null}
                 options={daoListOptions}
                 isSearchable={false}

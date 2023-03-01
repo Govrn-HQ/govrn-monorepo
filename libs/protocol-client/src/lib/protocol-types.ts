@@ -18525,7 +18525,7 @@ export type GetContributionStatusQueryVariables = Exact<{
 
 export type GetContributionStatusQuery = { contributionStatuses: Array<{ id: number, name: string }> };
 
-export type ActivityTypeFragmentFragment = { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date };
+export type ActivityTypeFragmentFragment = { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> };
 
 export type ListActivityTypesQueryVariables = Exact<{
   where?: ActivityTypeWhereInput;
@@ -18535,28 +18535,28 @@ export type ListActivityTypesQueryVariables = Exact<{
 }>;
 
 
-export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }> };
+export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
 export type ListActivityTypesByUserQueryVariables = Exact<{
   where: ListActivityTypesByUserInput;
 }>;
 
 
-export type ListActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string | Date, updatedAt: string | Date }> };
+export type ListActivityTypesByUserQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
 export type CreateActivityTypeMutationVariables = Exact<{
   data: ActivityTypeCreateInput;
 }>;
 
 
-export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type GetOrCreateActivityTypeMutationVariables = Exact<{
   data: GetOrCreateActivityTypeInput;
 }>;
 
 
-export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UpsertActivityTypeMutationVariables = Exact<{
   create: ActivityTypeCreateInput;
@@ -18565,7 +18565,7 @@ export type UpsertActivityTypeMutationVariables = Exact<{
 }>;
 
 
-export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } };
 
@@ -18920,6 +18920,12 @@ export const ActivityTypeFragmentFragmentDoc = gql`
   id
   name
   updatedAt
+  guilds {
+    guild {
+      id
+      name
+    }
+  }
 }
     `;
 export const UserActivityFragmentFragmentDoc = gql`
@@ -19401,14 +19407,10 @@ export const ListActivityTypesDocument = gql`
 export const ListActivityTypesByUserDocument = gql`
     query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
-    id
-    name
-    active
-    createdAt
-    updatedAt
+    ...ActivityTypeFragment
   }
 }
-    `;
+    ${ActivityTypeFragmentFragmentDoc}`;
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
   createOneActivityType(data: $data) {
