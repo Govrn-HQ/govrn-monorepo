@@ -1,6 +1,6 @@
 import React from 'react';
 import Creatable from 'react-select/creatable';
-import SelectComponents from 'react-select';
+import SelectComponents, { GroupBase, OptionsOrGroups } from 'react-select';
 import { Controller } from 'react-hook-form';
 import { Box, FormControl, Stack } from '@chakra-ui/react';
 import FormLabel from '../../atoms/FormLabel';
@@ -8,6 +8,12 @@ import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
 import { components } from 'react-select';
+import {
+  SelectOption as Option,
+  BaseSelectProps,
+  ValueType,
+  IsMultiValue,
+} from '../ReactSelect';
 
 export function SelectContainer(props: any) {
   return (
@@ -20,32 +26,16 @@ export function SelectContainer(props: any) {
   );
 }
 
-type Option = {
-  label: string;
-  value: string;
-};
-
-export interface CreatableSelectProps {
+export interface CreatableSelectProps<
+  Type extends ValueType = ValueType,
+> extends BaseSelectProps<Type> {
   name: string;
-  label?: string;
-  placeholder?: string;
-  defaultValue?: Option | Option[];
-  id?: string;
-  tip?: string;
-  options: Option[];
-  isRequired?: boolean;
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
-  isMulti?: boolean;
-  isClearable?: boolean;
-  onChange?: (option: Option) => void;
-  isDisabled?: boolean;
-  variant?: 'outline' | 'filled';
-  value?: any;
   components?: SelectComponents;
   // menuPortalBody?: boolean;
 }
 
-const CreatableSelect: React.FC<CreatableSelectProps> = ({
+const CreatableSelect = <T extends ValueType>({
   label,
   name,
   tip,
@@ -59,7 +49,7 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
   value,
   localForm,
   components,
-}: CreatableSelectProps) => {
+}: CreatableSelectProps<T>) => {
   const {
     control,
     formState: { errors },
