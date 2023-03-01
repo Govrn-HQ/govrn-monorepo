@@ -235,7 +235,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               value: contribution?.activity_type?.name,
               label: contribution?.activity_type?.name,
             }}
-            onChange={(activity) => {
+            onChange={activity => {
               setValue('activityType', (activity as Option<string>)?.value);
             }}
             options={combinedActivityTypeOptions}

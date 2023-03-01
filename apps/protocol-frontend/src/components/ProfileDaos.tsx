@@ -162,7 +162,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
               <ControlledSelect
                 label="Select a DAO to Join"
                 isMulti={false}
-                onChange={(dao) => setSelectedDao(dao as Option<number>)}
+                onChange={dao => setSelectedDao(dao as Option<number>)}
                 value={selectedDao ?? null}
                 options={daoListOptions}
                 isSearchable={false}
