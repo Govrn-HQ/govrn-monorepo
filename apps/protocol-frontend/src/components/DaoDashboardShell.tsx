@@ -25,12 +25,15 @@ import { mergePages } from '../utils/arrays';
 import { UIContribution } from '@govrn/ui-types';
 import { useNavigate } from 'react-router-dom';
 import GovrnAlertDialog from './GovrnAlertDialog';
+import { SelectOption as Option } from '@govrn/protocol-ui';
 import {
   TODAY_DATE,
   LEFT_MEMBERSHIP_NAME,
   YEAR,
   DEFAULT_DATE_RANGES,
 } from '../utils/constants';
+
+const CUSTOM_VALUE = 0;
 
 interface DaoDashboardShellProps {
   daoName: string;
@@ -58,25 +61,20 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
   const [isLeavingDialogShown, showLeavingDialog] = useState(false);
 
-  const dateRangeOptions = [
+  const dateRangeOptions: Option<number>[] = [
     {
-      value: 'Custom',
+      value: CUSTOM_VALUE,
       label: 'Custom',
     },
     ...DEFAULT_DATE_RANGES,
   ];
 
-  const dateChangeHandler = (selectedDateOffset: number | string) => {
-    if (selectedDateOffset === 'Custom') {
+  const dateChangeHandler = (selectedDateOffset: number) => {
+    if (selectedDateOffset === CUSTOM_VALUE) {
       setShowCustomDatePicker(true);
     }
     setEndDate(TODAY_DATE);
-    setStartDate(
-      subWeeks(
-        TODAY_DATE,
-        typeof selectedDateOffset === 'number' ? selectedDateOffset : 0,
-      ),
-    );
+    setStartDate(subWeeks(TODAY_DATE, selectedDateOffset));
   };
 
   const handleLeavingDao = async () => {
@@ -205,7 +203,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                 )}
                 onChange={dateRangeOffset => {
                   setShowCustomDatePicker(false);
-                  dateChangeHandler(dateRangeOffset.value);
+                  dateChangeHandler((dateRangeOffset as Option<number>)?.value ?? 0);
                 }}
                 options={dateRangeOptions}
               />

@@ -5,6 +5,7 @@ import { FormControl, Stack, Box } from '@chakra-ui/react';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
+import { BaseSelectProps, ValueType } from "../ReactSelect";
 
 export function SelectContainer(props: any) {
   return (
@@ -16,31 +17,10 @@ export function SelectContainer(props: any) {
     />
   );
 }
-type Option =
-  | {
-      label: string | number;
-      value: string | number;
-    }
-  | { value: number | null; label: string }
-  | { value: number; label: string | null | undefined }
-  | { value: null; label: string };
 
-export interface SelectProps {
+export interface SelectProps<Type extends ValueType = ValueType> extends BaseSelectProps<Type> {
   name: string;
-  label?: string;
-  placeholder?: string;
-  defaultValue?: Option | Option[];
-  id?: string;
-  tip?: string | React.ReactNode;
-  options: Option[];
-  isRequired?: boolean;
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
-  isMulti?: boolean;
-  isClearable?: boolean;
-  onChange?: (option: Option) => void;
-  isDisabled?: boolean;
-  variant?: 'outline' | 'filled';
-  value?: any;
 }
 
 const Select: React.FC<SelectProps> = ({

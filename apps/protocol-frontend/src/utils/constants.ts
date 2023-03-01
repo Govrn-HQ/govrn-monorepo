@@ -1,4 +1,4 @@
-import { GovrnTheme } from '@govrn/protocol-ui';
+import { GovrnTheme, SelectOption } from "@govrn/protocol-ui";
 
 /* Environment Variables */
 export const INFURA_PROJECT_SECRET = import.meta.env.VITE_INFURA_PROJECT_SECRET;
@@ -44,11 +44,11 @@ export const WEEK = 1;
 export const MONTH = 4;
 export const QUARTER = 12;
 export const YEAR = 52;
-export const DEFAULT_DATE_RANGES = [
-  { value: WEEK, label: 'Last Week' },
-  { value: MONTH, label: 'Last Month' },
-  { value: QUARTER, label: 'Last Quarter' },
-  { value: YEAR, label: 'Last Year' },
+export const DEFAULT_DATE_RANGES: SelectOption<number>[] = [
+  { label: 'Last Week', value: WEEK },
+  { label: 'Last Month', value: MONTH },
+  { label: 'Last Quarter', value: QUARTER },
+  { label: 'Last Year', value: YEAR },
 ];
 
 /* Social Media Links */

@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
-import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  SelectOption as Option,
+} from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
@@ -16,10 +20,10 @@ import useDisplayName from '../hooks/useDisplayName';
 
 const TODAY_DATE = new Date();
 
-const unassignedContributions = [
+const unassignedContributions: Option<number>[] = [
   {
-    value: Number(null),
     label: UNASSIGNED,
+    value: Number(null),
   },
 ];
 
@@ -27,9 +31,9 @@ const DashboardShell = () => {
   const { userData } = useUser();
   const { displayName } = useDisplayName();
 
-  const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
-    value: 52,
+  const [dateRange, setDateRange] = useState<Option<number>>({
     label: 'Last Year',
+    value: 52,
   });
   const [selectedDaos, setSelectedDaos] = useState<
     { value: number; label: string }[]
@@ -46,11 +50,11 @@ const DashboardShell = () => {
 
   const userDaoListOptions =
     userDaosListData?.map(dao => ({
-      value: dao.id,
       label: dao.name ?? '',
+      value: dao.id,
     })) || [];
 
-  const combinedDaoListOptions = [
+  const combinedDaoListOptions: Option<number>[] = [
     ...new Set([...unassignedContributions, ...userDaoListOptions]),
   ];
 
@@ -74,7 +78,7 @@ const DashboardShell = () => {
 
   const { data: contributionsCount } = useContributionCountInRange({
     id: userData?.id,
-    startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value),
+    startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value as number),
     endDate: endOfDay(TODAY_DATE),
     guildIds,
     excludeUnassigned,
@@ -146,9 +150,7 @@ const DashboardShell = () => {
                   )}
                   label="Choose Date Range"
                   tip="Choose the date range for your contributions."
-                  onChange={date => {
-                    setDateRange(date);
-                  }}
+                  onChange={date => setDateRange(date as Option<number>)}
                   options={DEFAULT_DATE_RANGES}
                 />
               </Flex>
