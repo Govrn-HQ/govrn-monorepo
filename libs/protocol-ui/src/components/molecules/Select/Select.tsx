@@ -5,7 +5,7 @@ import { FormControl, Stack, Box } from '@chakra-ui/react';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
-import { BaseSelectProps, ValueType } from "../ReactSelect";
+import { BaseSelectProps, ValueType } from './types';
 
 export function SelectContainer(props: any) {
   return (
@@ -23,7 +23,7 @@ export interface SelectProps<Type extends ValueType = ValueType> extends BaseSel
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
 }
 
-const Select: React.FC<SelectProps> = ({
+export const Select: React.FC<SelectProps> = ({
   label,
   name,
   tip,
@@ -79,5 +79,3 @@ const Select: React.FC<SelectProps> = ({
     </FormControl>
   );
 };
-
-export default Select;
