@@ -15,6 +15,7 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
 
 const columnsDef: ColumnDef<UIContribution>[] = [
   {
@@ -74,9 +75,11 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   },
   {
     header: 'Contributor',
-    accessorFn: contribution => contribution.user.name,
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return <Text>{getValue()} </Text>;
+    accessorKey: 'user',
+
+    cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+      const value = getValue();
+      return <MemberDisplayName memberValue={value} />;
     },
   },
 ];

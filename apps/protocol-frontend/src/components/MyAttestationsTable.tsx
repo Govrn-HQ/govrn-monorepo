@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Box, Button, Flex, Link, Stack, Text } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+
+import { Box, Flex, Stack, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -19,7 +19,7 @@ import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
 import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import GovrnTable from './GovrnTable';
-import { HiOutlineExternalLink } from 'react-icons/hi';
+import MemberDisplayName from './MemberDisplayName';
 
 const MyAttestationsTable = ({
   data,
@@ -99,7 +99,12 @@ const MyAttestationsTable = ({
       },
       {
         header: 'Contributor',
-        accessorFn: contribution => contribution.user.name,
+        accessorKey: 'user',
+
+        cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+          const value = getValue();
+          return <MemberDisplayName memberValue={value} />;
+        },
       },
     ];
   }, [userData?.id]);
