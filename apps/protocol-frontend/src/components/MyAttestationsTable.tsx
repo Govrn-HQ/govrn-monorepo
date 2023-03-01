@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-
-import { Box, Flex, Stack, Text } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
+import { Box, Flex, Link, Stack, Button, Text } from '@chakra-ui/react';
+import { HiOutlineExternalLink } from 'react-icons/hi';
 import {
   ColumnDef,
   getCoreRowModel,

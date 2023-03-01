@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, Flex, Link, Stack, Button, Text } from '@chakra-ui/react';
+import { HiOutlineExternalLink } from 'react-icons/hi';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   ColumnDef,
