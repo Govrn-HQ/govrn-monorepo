@@ -196,7 +196,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
     setValue('engagementDate', engagementDateValue);
     setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
-  }, []);
+  }, [engagementDateValue, setValue, daoListOptions, daoIdParam]);
 
   if (userActivityTypesIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
@@ -209,12 +209,11 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     ]),
   ];
 
-  const combinedActivityTypeOptions: Option<string>[] = combinedActivityTypesList.map(
-    activity => ({
+  const combinedActivityTypeOptions: Option<string>[] =
+    combinedActivityTypesList.map(activity => ({
       value: activity,
       label: activity,
-    }),
-  );
+    }));
 
   // the loading and fetching states from the query are true:
   if (userActivityTypesIsLoading || useUserLoading) {
@@ -274,10 +273,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             label="Activity Type"
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
-              setValue(
-                'activityType',
-                (activity as Option<string>)?.value,
-              );
+              setValue('activityType', (activity as Option<string>)?.value);
             }}
             options={combinedActivityTypeOptions}
             localForm={localForm}

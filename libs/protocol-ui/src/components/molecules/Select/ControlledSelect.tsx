@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import { Stack, Box, Text } from '@chakra-ui/react';
-import {
-  BaseSelectProps,
-  ValueType
-} from "./types";
+import { BaseSelectProps, ValueType } from './types';
 
-export interface ControlledSelectProps<
-  Type extends ValueType = ValueType,
-> extends BaseSelectProps<Type> {
+export interface ControlledSelectProps<Type extends ValueType = ValueType>
+  extends BaseSelectProps<Type> {
   isSearchable?: boolean;
 }
 
@@ -57,4 +53,4 @@ export const ControlledSelect = <T extends ValueType>({
   );
 };
 
- ControlledSelect;
+ControlledSelect;

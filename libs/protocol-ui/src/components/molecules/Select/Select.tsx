@@ -18,7 +18,8 @@ export function SelectContainer(props: any) {
   );
 }
 
-export interface SelectProps<Type extends ValueType = ValueType> extends BaseSelectProps<Type> {
+export interface SelectProps<Type extends ValueType = ValueType>
+  extends BaseSelectProps<Type> {
   name: string;
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
 }
