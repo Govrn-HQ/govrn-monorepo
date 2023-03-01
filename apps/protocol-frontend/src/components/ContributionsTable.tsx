@@ -299,72 +299,68 @@ const ContributionsTable = ({
     </ChakraLink>
   );
 
-  console.log('data', data);
-  console.log('length', data.length);
-  if (!data.length)
-    return (
-      <GovrnCta
-        heading={`It's new contribution time!`}
-        emoji="⚡"
-        copy={<CopyChildren />}
-        children={<ButtonChildren />}
-      />
-    );
+  let component = (
+    <GovrnCta
+      heading={`It's new contribution time!`}
+      emoji="⚡"
+      copy={<CopyChildren />}
+      children={<ButtonChildren />}
+    />
+  );
 
-  if (data.length)
-    return (
-      <Stack>
-        <GlobalFilter
-          preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
+  return (
+    <Stack>
+      <GlobalFilter
+        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+      <Box width="100%" maxWidth="100vw" overflowX="auto">
+        <InfiniteScroll
+          dataLength={table.getRowModel().rows.length}
+          next={nextPage}
+          scrollThreshold={0.8}
+          hasMore={hasMoreItems}
+          loader={<GovrnSpinner />}
+        >
+          <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
+        </InfiniteScroll>
+        <ModalWrapper
+          name="editContributionFormModal"
+          title="Update Contribution Activity"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <EditContributionForm
+              contribution={
+                data.find(
+                  localContribution =>
+                    localContribution.id === selectedContribution,
+                )!
+              }
+            />
+          }
         />
-        <Box width="100%" maxWidth="100vw" overflowX="auto">
-          <InfiniteScroll
-            dataLength={table.getRowModel().rows.length}
-            next={nextPage}
-            scrollThreshold={0.8}
-            hasMore={hasMoreItems}
-            loader={<GovrnSpinner />}
-          >
-            <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
-          </InfiniteScroll>
-          <ModalWrapper
-            name="editContributionFormModal"
-            title="Update Contribution Activity"
-            localOverlay={localOverlay}
-            size="3xl"
-            content={
-              <EditContributionForm
-                contribution={
-                  data.find(
-                    localContribution =>
-                      localContribution.id === selectedContribution,
-                  )!
-                }
-              />
-            }
-          />
-          <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
-          <ModalWrapper
-            name="mintModal"
-            title="Mint Your DAO Contributions"
-            localOverlay={localOverlay}
-            size="3xl"
-            content={
-              <MintModal contributions={selectedRows} onFinish={deselectAll} />
-            }
-          />
-          <ModalWrapper
-            name="bulkDaoAttributeModal"
-            title="Attribute Contributions to a DAO"
-            localOverlay={localOverlay}
-            size="3xl"
-            content={<BulkDaoAttributeModal contributions={selectedRows} />}
-          />
-        </Box>
-      </Stack>
-    );
+        <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
+        <ModalWrapper
+          name="mintModal"
+          title="Mint Your DAO Contributions"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={
+            <MintModal contributions={selectedRows} onFinish={deselectAll} />
+          }
+        />
+        <ModalWrapper
+          name="bulkDaoAttributeModal"
+          title="Attribute Contributions to a DAO"
+          localOverlay={localOverlay}
+          size="3xl"
+          content={<BulkDaoAttributeModal contributions={selectedRows} />}
+        />
+      </Box>
+    </Stack>
+  );
 };
 
 export default ContributionsTable;
