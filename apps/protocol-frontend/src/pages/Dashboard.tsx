@@ -17,11 +17,18 @@ import SiteLayout from '../components/SiteLayout';
 import DashboardShell from '../components/DashboardShell';
 import NewUserView from '../components/NewUserView';
 import ErrorView from '../components/ErrorView';
-import { GOVRN_MOTTO } from '../utils/constants';
+
 import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
 
 const CopyChildren = () => (
   <Flex direction="column" alignItems="center" justifyContent="center">
+    <Text as="span">
+      {' '}
+      <span role="img" aria-labelledby="pencil and paper emoji">
+        📝
+      </span>{' '}
+      Report and mint your first contribution
+    </Text>
     <Text as="span">
       {' '}
       <span role="img" aria-labelledby="person emoji">
