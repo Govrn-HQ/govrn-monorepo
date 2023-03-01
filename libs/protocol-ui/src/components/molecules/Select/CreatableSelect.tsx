@@ -1,25 +1,13 @@
 import React from 'react';
 import Creatable from 'react-select/creatable';
-import SelectComponents, { GroupBase, OptionsOrGroups } from 'react-select';
+import SelectComponents from 'react-select';
 import { Controller } from 'react-hook-form';
 import { Box, FormControl, Stack } from '@chakra-ui/react';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
-import { components } from 'react-select';
 import { BaseSelectProps, ValueType } from './types';
-
-export function SelectContainer(props: any) {
-  return (
-    <components.SelectContainer
-      {...props}
-      innerProps={Object.assign({}, props.innerProps, {
-        'data-cy': 'daoCreatableSelect-testing',
-      })}
-    />
-  );
-}
 
 export interface CreatableSelectProps<Type extends ValueType = ValueType>
   extends BaseSelectProps<Type> {
@@ -71,7 +59,6 @@ export const CreatableSelect = <T extends ValueType>({
                 onChange={onChange}
                 isDisabled={isDisabled}
                 value={value}
-                components={{ SelectContainer }}
                 styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                 menuPortalTarget={document.querySelector('body')} // so dropdown menu doesnt interfere with clickable elements
               />
