@@ -52,5 +52,3 @@ export const ControlledSelect = <T extends ValueType>({
     </Stack>
   );
 };
-
-ControlledSelect;

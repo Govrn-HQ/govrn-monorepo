@@ -1,22 +1,11 @@
 import React from 'react';
-import ReactSelect, { components } from 'react-select';
+import ReactSelect from 'react-select';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { FormControl, Stack, Box } from '@chakra-ui/react';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { BaseSelectProps, ValueType } from './types';
-
-export function SelectContainer(props: any) {
-  return (
-    <components.SelectContainer
-      {...props}
-      innerProps={Object.assign({}, props.innerProps, {
-        'data-cy': 'daoSelect-testing',
-      })}
-    />
-  );
-}
 
 export interface SelectProps<Type extends ValueType = ValueType>
   extends BaseSelectProps<Type> {
@@ -65,7 +54,6 @@ export const Select: React.FC<SelectProps> = ({
                 onChange={onChange}
                 isDisabled={isDisabled}
                 value={value}
-                components={{ SelectContainer }}
                 styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
               />
             )}
