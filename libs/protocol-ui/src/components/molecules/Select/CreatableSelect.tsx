@@ -8,10 +8,7 @@ import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
 import { components } from 'react-select';
-import {
-  BaseSelectProps,
-  ValueType,
-} from './types';
+import { BaseSelectProps, ValueType } from './types';
 
 export function SelectContainer(props: any) {
   return (

@@ -203,7 +203,9 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                 )}
                 onChange={dateRangeOffset => {
                   setShowCustomDatePicker(false);
-                  dateChangeHandler((dateRangeOffset as Option<number>)?.value ?? 0);
+                  dateChangeHandler(
+                    (dateRangeOffset as Option<number>)?.value ?? 0,
+                  );
                 }}
                 options={dateRangeOptions}
               />

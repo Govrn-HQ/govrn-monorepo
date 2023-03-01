@@ -1,4 +1,4 @@
-import { GovrnTheme, SelectOption } from "@govrn/protocol-ui";
+import { GovrnTheme, SelectOption } from '@govrn/protocol-ui';
 
 /* Environment Variables */
 export const INFURA_PROJECT_SECRET = import.meta.env.VITE_INFURA_PROJECT_SECRET;
