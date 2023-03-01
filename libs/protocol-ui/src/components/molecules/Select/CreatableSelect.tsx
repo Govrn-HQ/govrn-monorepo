@@ -9,11 +9,9 @@ import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
 import { components } from 'react-select';
 import {
-  SelectOption as Option,
   BaseSelectProps,
   ValueType,
-  IsMultiValue,
-} from '../ReactSelect';
+} from './types';
 
 export function SelectContainer(props: any) {
   return (
@@ -26,16 +24,15 @@ export function SelectContainer(props: any) {
   );
 }
 
-export interface CreatableSelectProps<
-  Type extends ValueType = ValueType,
-> extends BaseSelectProps<Type> {
+export interface CreatableSelectProps<Type extends ValueType = ValueType>
+  extends BaseSelectProps<Type> {
   name: string;
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   components?: SelectComponents;
   // menuPortalBody?: boolean;
 }
 
-const CreatableSelect = <T extends ValueType>({
+export const CreatableSelect = <T extends ValueType>({
   label,
   name,
   tip,
@@ -93,5 +90,3 @@ const CreatableSelect = <T extends ValueType>({
     </FormControl>
   );
 };
-
-export default CreatableSelect;

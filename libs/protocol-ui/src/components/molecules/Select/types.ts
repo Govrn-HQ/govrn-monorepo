@@ -3,8 +3,6 @@ import { ReactNode } from 'react';
 
 export type ValueType = string | number;
 
-export type IsMultiValue = true | false;
-
 export type SelectOption<Type extends ValueType> = {
   /**
    * The label to display in the UI to represent this option.

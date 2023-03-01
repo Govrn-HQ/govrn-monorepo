@@ -4,7 +4,7 @@ import { Stack, Box, Text } from '@chakra-ui/react';
 import {
   BaseSelectProps,
   ValueType
-} from "../ReactSelect";
+} from "./types";
 
 export interface ControlledSelectProps<
   Type extends ValueType = ValueType,
@@ -12,7 +12,7 @@ export interface ControlledSelectProps<
   isSearchable?: boolean;
 }
 
-const ControlledSelect = <T extends ValueType>({
+export const ControlledSelect = <T extends ValueType>({
   label,
   tip,
   placeholder,
@@ -57,4 +57,4 @@ const ControlledSelect = <T extends ValueType>({
   );
 };
 
-export default ControlledSelect;
+ ControlledSelect;
