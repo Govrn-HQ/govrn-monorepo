@@ -27,7 +27,7 @@ const CopyChildren = () => (
       <span role="img" aria-labelledby="pencil and paper emoji">
         📝
       </span>{' '}
-      Report and mint your first contribution
+      Add a Contribution to view your Dashboard
     </Text>
     <Text as="span">
       {' '}
@@ -94,8 +94,8 @@ const ButtonChildren = () => (
 const EmptyContributionsView = () => {
   return (
     <GovrnCta
-      heading={`It's new contribution time!   `}
-      emoji="⚡"
+      heading={`Welcome back to Govrn!`}
+      emoji="👋"
       copy={<CopyChildren />}
       children={<ButtonChildren />}
     />
