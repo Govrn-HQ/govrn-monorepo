@@ -32,7 +32,6 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Other',
 ];
 
-
 export const DEFAULT_ACTIVITY_TYPES_OPTIONS: Option<string>[] =
   DEFAULT_ACTIVITY_TYPES.map(activity => {
     return {

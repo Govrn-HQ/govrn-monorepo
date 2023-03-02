@@ -81,20 +81,17 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     userId: userData?.id,
   });
 
-  const daoListOptions: Option<number>[] =
-    useUserData?.guild_users.map(dao => ({
-      value: dao.guild.id,
-      label: dao.guild.name ?? '',
-    })) || [];
+  const daoReset: Option<number> = { label: 'No DAO', value: -1 };
 
-  const daoReset: Option<number>[] = [
-    {
-      value: -1,
-      label: 'No DAO',
-    },
-  ];
+  const combinedDaoListOptions: Option<number>[] = useMemo(() => {
+    const daoListOptions: Option<number>[] =
+      useUserData?.guild_users.map(dao => ({
+        value: dao.guild.id,
+        label: dao.guild.name ?? '',
+      })) || [];
 
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+    return [daoReset, ...daoListOptions];
+  }, [useUserData, daoReset]);
 
   const combinedActivityTypeOptions: SelectGroupedOptions<string> =
     useMemo(() => {
@@ -128,7 +125,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       'daoId',
       contribution?.guilds[0]?.guild.id
         ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
+        : daoReset.value,
     );
   }, [contribution]);
 
@@ -142,7 +139,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       'daoId',
       contribution?.guilds[0]?.guild.id
         ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
+        : daoReset.value,
     );
   }, [contribution]);
 
@@ -334,10 +331,10 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             defaultValue={{
               value: contribution?.guilds[0]?.guild.id
                 ? contribution?.guilds[0]?.guild.id
-                : daoReset[0].value,
+                : daoReset.value,
               label: contribution?.guilds[0]?.guild.name
                 ? contribution?.guilds[0]?.guild.name
-                : daoReset[0].label,
+                : daoReset.label,
             }}
             onChange={dao => {
               setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
