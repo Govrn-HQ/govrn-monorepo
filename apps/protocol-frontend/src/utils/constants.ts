@@ -1,4 +1,8 @@
-import { GovrnTheme, SelectOption } from '@govrn/protocol-ui';
+import {
+  GovrnTheme,
+  SelectOption as Option,
+  SelectOption,
+} from '@govrn/protocol-ui';
 
 /* Environment Variables */
 export const INFURA_PROJECT_SECRET = import.meta.env.VITE_INFURA_PROJECT_SECRET;
@@ -27,6 +31,15 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Design',
   'Other',
 ];
+
+
+export const DEFAULT_ACTIVITY_TYPES_OPTIONS: Option<string>[] =
+  DEFAULT_ACTIVITY_TYPES.map(activity => {
+    return {
+      label: activity,
+      value: activity,
+    };
+  });
 export const ADDRESS_IMPORT_MAX = 1000;
 
 const primaryBrandColorsFromTheme: string[] = Object.values(

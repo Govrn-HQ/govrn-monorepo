@@ -2,7 +2,10 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
-import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
+import {
+  DEFAULT_ACTIVITY_TYPES_OPTIONS,
+  MAX_FILE_UPLOAD_SIZE,
+} from '../utils/constants';
 import {
   Stack,
   Flex,
@@ -24,7 +27,6 @@ import {
   SelectOption as Option,
   SelectGroupedOptions,
 } from '@govrn/protocol-ui';
-import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
@@ -35,14 +37,6 @@ import { useContributionCreate } from '../hooks/useContributionCreate';
 import useUserGet from '../hooks/useUserGet';
 import { useGovrnToast } from '@govrn/protocol-ui';
 import { groupBy } from 'lodash';
-
-const DEFAULT_ACTIVITY_TYPES_OPTIONS: Option<string>[] =
-  DEFAULT_ACTIVITY_TYPES.map(activity => {
-    return {
-      label: activity,
-      value: activity,
-    };
-  });
 
 function CreateMoreSwitch({
   isChecked,

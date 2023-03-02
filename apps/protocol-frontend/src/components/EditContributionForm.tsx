@@ -1,6 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
-import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
+import {
+  DEFAULT_ACTIVITY_TYPES_OPTIONS,
+  MAX_FILE_UPLOAD_SIZE,
+} from '../utils/constants';
 import {
   Box,
   Button,
@@ -18,8 +21,8 @@ import {
   Select,
   Textarea,
   SelectOption as Option,
+  SelectGroupedOptions,
 } from '@govrn/protocol-ui';
-import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
@@ -31,6 +34,7 @@ import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import useUserGet from '../hooks/useUserGet';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
 import { useGovrnToast } from '@govrn/protocol-ui';
+import { groupBy } from 'lodash';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -92,19 +96,27 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
 
   const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
 
-  const combinedActivityTypesList = [
-    ...new Set([
-      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...DEFAULT_ACTIVITY_TYPES,
-    ]),
-  ];
+  const combinedActivityTypeOptions: SelectGroupedOptions<string> =
+    useMemo(() => {
+      const groupedActivityTypes = groupBy(
+        userActivityTypesData?.map(activity => ({
+          activity: activity.name,
+          guild: activity.guilds[0]?.guild?.name,
+        })),
+        'guild',
+      );
 
-  const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    activity => ({
-      value: activity,
-      label: activity,
-    }),
-  );
+      return [
+        ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+        ...Object.keys(groupedActivityTypes).map(key => ({
+          label: key,
+          options: groupedActivityTypes[key].map(item => ({
+            value: item.activity,
+            label: item.activity,
+          })),
+        })),
+      ];
+    }, [userActivityTypesData]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
