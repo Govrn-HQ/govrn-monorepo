@@ -9,7 +9,7 @@ import { Twitter } from './client/twitter';
 import { User } from './client/user';
 import { GraphQLClient } from 'graphql-request';
 import { Chain } from './client/chain';
-import { GuildMembershipStatus } from "./client/membership_status";
+import { GuildMembershipStatus } from './client/membership_status';
 
 export { cursorPagination } from './client/pagination';
 

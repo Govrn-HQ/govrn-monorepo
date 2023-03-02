@@ -315,7 +315,6 @@ mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
   }
 }
 
-
 query listGuildImports(
   $where: GuildImportWhereInput! = {}
   $skip: Int! = 0
