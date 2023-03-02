@@ -84,11 +84,7 @@ const ButtonChildren = () => (
         textDecoration: 'none',
       }}
     >
-      <Button
-        variant="secondary"
-        size="md"
-        leftIcon={<HiOutlineExternalLink />}
-      >
+      <Button variant="tertiary" size="md" leftIcon={<HiOutlineExternalLink />}>
         Learn More About Kevin Malone
       </Button>
     </ChakraLink>
