@@ -698,6 +698,12 @@ fragment ActivityTypeFragment on ActivityType {
   id
   name
   updatedAt
+  guilds {
+    guild {
+      id
+      name
+    }
+  }
 }
 
 query listActivityTypes(
@@ -718,11 +724,7 @@ query listActivityTypes(
 
 query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
-    id
-    name
-    active
-    createdAt
-    updatedAt
+    ...ActivityTypeFragment
   }
 }
 

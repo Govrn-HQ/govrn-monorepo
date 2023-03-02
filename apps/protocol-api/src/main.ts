@@ -231,6 +231,9 @@ const permissions = shield(
       contribution_reporting_channel: or(hasToken, isAuthenticated),
       status: or(hasToken, isAuthenticated),
     },
+    GuildActivityType: {
+      guild: or(isAuthenticated, hasToken),
+    },
     GuildContribution: {
       id: or(isAuthenticated, hasToken),
       contribution_id: or(isAuthenticated, hasToken),
