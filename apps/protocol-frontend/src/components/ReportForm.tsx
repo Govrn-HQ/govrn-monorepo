@@ -22,6 +22,7 @@ import {
   Select,
   Textarea,
   SelectOption as Option,
+  SelectGroupedOptions,
 } from '@govrn/protocol-ui';
 import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
@@ -33,6 +34,15 @@ import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 import useUserGet from '../hooks/useUserGet';
 import { useGovrnToast } from '@govrn/protocol-ui';
+import { groupBy } from 'lodash';
+
+const DEFAULT_ACTIVITY_TYPES_OPTIONS: Option<string>[] =
+  DEFAULT_ACTIVITY_TYPES.map(activity => {
+    return {
+      label: activity,
+      value: activity,
+    };
+  });
 
 function CreateMoreSwitch({
   isChecked,
@@ -121,7 +131,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     resolver: yupResolver(reportFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
-  const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
+  const [engagementDateValue, setEngagementDateValue] = useState<Date>(
     new Date(),
   );
 
@@ -175,14 +185,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   } = useUserGet({
     userId: userData?.id,
   });
-
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-  } = useUserActivityTypesList();
-
   const daoListOptions = useMemo(() => {
     return (
       useUserData?.guild_users.map(dao => ({
@@ -198,22 +200,34 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
   }, [engagementDateValue, setValue, daoListOptions, daoIdParam]);
 
-  if (userActivityTypesIsError) {
-    return <Text>An error occurred fetching User Activity Types.</Text>;
-  }
+  // renaming these on destructuring incase we have parallel queries:
+  const {
+    isLoading: userActivityTypesIsLoading,
+    isError: userActivityTypesIsError,
+    data: userActivityTypesData,
+  } = useUserActivityTypesList();
 
-  const combinedActivityTypesList = [
-    ...new Set([
-      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...DEFAULT_ACTIVITY_TYPES,
-    ]),
-  ];
+  const combinedActivityTypeOptions: SelectGroupedOptions<string> =
+    useMemo(() => {
+      const groupedActivityTypes = groupBy(
+        userActivityTypesData?.map(activity => ({
+          activity: activity.name,
+          guild: activity.guilds[0]?.guild?.name,
+        })),
+        'guild',
+      );
 
-  const combinedActivityTypeOptions: Option<string>[] =
-    combinedActivityTypesList.map(activity => ({
-      value: activity,
-      label: activity,
-    }));
+      return [
+        ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+        ...Object.keys(groupedActivityTypes).map(key => ({
+          label: key,
+          options: groupedActivityTypes[key].map(item => ({
+            value: item.activity,
+            label: item.activity,
+          })),
+        })),
+      ];
+    }, [userActivityTypesData]);
 
   // the loading and fetching states from the query are true:
   if (userActivityTypesIsLoading || useUserLoading) {
@@ -347,7 +361,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               if (Array.isArray(date)) {
                 return;
               }
-              setEngagementDateValue(date);
+              setEngagementDateValue(date ?? new Date());
               setValue('engagementDate', date);
             }}
           />
