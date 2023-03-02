@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { GuildImportUpdateOneWithoutUsersNestedInput } from "../inputs/GuildImportUpdateOneWithoutUsersNestedInput";
-import { GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput } from "../inputs/GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput";
+import { GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput } from "../inputs/GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput";
 import { GuildUpdateOneRequiredWithoutUsersNestedInput } from "../inputs/GuildUpdateOneRequiredWithoutUsersNestedInput";
 import { UserUpdateOneRequiredWithoutGuild_usersNestedInput } from "../inputs/UserUpdateOneRequiredWithoutGuild_usersNestedInput";
 
@@ -33,10 +33,10 @@ export class GuildUserUpdateInput {
   })
   guild?: GuildUpdateOneRequiredWithoutUsersNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput, {
+  @TypeGraphQL.Field(_type => GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput, {
     nullable: true
   })
-  membershipStatus?: GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput | undefined;
+  membershipStatus?: GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true

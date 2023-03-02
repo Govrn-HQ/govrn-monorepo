@@ -20,11 +20,11 @@ import { useOverlay } from '../contexts/OverlayContext';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
-import { displayAddress } from '../utils/web3';
 import { RowSelectionState } from '@tanstack/table-core';
 import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
 
 const AttestationsTable = ({
   data,
@@ -138,8 +138,12 @@ const AttestationsTable = ({
       },
       {
         header: 'Contributor',
-        accessorFn: contribution =>
-          contribution.user.name || displayAddress(contribution.user.address),
+        accessorKey: 'user',
+
+        cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+          const value = getValue();
+          return <MemberDisplayName memberValue={value} />;
+        },
       },
       {
         header: 'DAO',

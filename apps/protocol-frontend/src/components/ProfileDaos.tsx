@@ -1,6 +1,14 @@
-import { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Flex, Heading, Divider, Grid } from '@chakra-ui/react';
+import { useState, useMemo, useEffect } from 'react';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+import {
+  Button,
+  Flex,
+  Heading,
+  Link,
+  Divider,
+  Grid,
+  Text,
+} from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useDaosList } from '../hooks/useDaosList';
@@ -9,6 +17,7 @@ import DaoCard from './DaoCard';
 import { SortOrder } from '@govrn/protocol-client';
 import { mergeMemberPages } from '../utils/arrays';
 import { UIGuildUsers } from '@govrn/ui-types';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 
 interface ProfileDaoProps {
   userId: number | undefined;
@@ -20,6 +29,16 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     value: number;
     label: string;
   } | null>(null);
+
+  const { state } = useLocation();
+  const { targetId } = state || {};
+
+  useEffect(() => {
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView();
+    }
+  }, [targetId]);
 
   const { isLoading: joinableDaosListLoading, data: joinableDaosListData } =
     useDaosList({
@@ -40,7 +59,10 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     isFetchingNextPage,
   } = useDaoUsersInfiniteList(
     {
-      where: { user_id: { equals: userId } },
+      where: {
+        user_id: { equals: userId },
+        membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
+      },
       orderBy: [
         { membershipStatus: { name: SortOrder.Asc } },
         { favorite: SortOrder.Desc },
@@ -81,6 +103,8 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
 
   if (joinableDaosListLoading) return <GovrnSpinner />;
 
+  console.log('data', data);
+
   return (
     <Flex
       justify="space-between"
@@ -93,19 +117,44 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
       boxShadow="sm"
       marginBottom={4}
     >
-      <Flex justifyContent="space-between" direction="column" wrap="wrap">
+      <Flex
+        justifyContent="space-between"
+        direction="column"
+        wrap="wrap"
+        id="myDaos"
+      >
         <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
           My DAOs
         </Heading>
-        <Divider marginY={8} bgColor="gray.300" />
+        {data && data.length === 0 ? (
+          <Flex
+            direction="column"
+            maxWidth={{ base: '100%', xl: '50%' }}
+            fontSize="md"
+          >
+            <Text>You'll need other collaborators to be part of a DAO!</Text>
+            <Text>
+              Select a DAO to join below or press create DAO and make your own.
+            </Text>
+          </Flex>
+        ) : null}
+        <Divider marginY={{ base: 4, lg: 4 }} bgColor="gray.300" />
         <Flex
           direction="column"
           justifyContent="space-apart"
           gap={8}
           width="100%"
         >
-          <Flex direction="row" alignItems="flex-end" gap={4}>
-            <Flex direction="column" width="40%" alignSelf="flex-start">
+          <Flex
+            direction={{ base: 'column', lg: 'row' }}
+            alignItems={{ base: 'flex-start', lg: 'flex-end' }}
+            gap={4}
+          >
+            <Flex
+              direction="column"
+              alignSelf="flex-start"
+              width={{ base: '100%', lg: '40%' }}
+            >
               <ControlledSelect
                 label="Select a DAO to Join"
                 onChange={dao => setSelectedDao(dao)}
@@ -119,11 +168,25 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
               variant="primary"
               onClick={handleDaoJoin}
               disabled={createDaoUserLoading}
+              width={{ base: '100%', lg: 'auto' }}
             >
               Join
             </Button>
-            <Link to="/dao/create">
-              <Button variant="secondary" disabled={createDaoUserLoading}>
+
+            <Link
+              as={RouterLink}
+              to="/dao/create"
+              width={{ base: '100%', lg: 'auto' }}
+              textDecoration="none"
+              _hover={{
+                textDecoration: 'none',
+              }}
+            >
+              <Button
+                variant="secondary"
+                disabled={createDaoUserLoading}
+                width={{ base: '100%', lg: 'auto' }}
+              >
                 Create DAO
               </Button>
             </Link>

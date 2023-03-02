@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -14,8 +14,8 @@ import { Link } from 'react-router-dom';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
-import { mergePages } from '../utils/arrays';
 import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
 
 const columnsDef: ColumnDef<UIContribution>[] = [
   {
@@ -75,27 +75,25 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   },
   {
     header: 'Contributor',
-    accessorFn: contribution => contribution.user.name,
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return <Text>{getValue()} </Text>;
+    accessorKey: 'user',
+
+    cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+      const value = getValue();
+      return <MemberDisplayName memberValue={value} />;
     },
   },
 ];
 
 const RecentContributionsTable = ({
-  contributionsData,
+  data,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[][];
+  data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  const data = useMemo<UIContribution[]>(() => {
-    return mergePages(contributionsData);
-  }, [contributionsData]);
 
   const table = useReactTable({
     data,

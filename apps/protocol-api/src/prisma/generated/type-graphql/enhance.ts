@@ -2202,7 +2202,7 @@ const inputsInfo = {
   GuildImportCreateNestedOneWithoutUsersInput: ["create", "connectOrCreate", "connect"],
   UserUpdateOneRequiredWithoutGuild_usersNestedInput: ["create", "connectOrCreate", "upsert", "connect", "update"],
   GuildUpdateOneRequiredWithoutUsersNestedInput: ["create", "connectOrCreate", "upsert", "connect", "update"],
-  GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput: ["create", "connectOrCreate", "upsert", "disconnect", "delete", "connect", "update"],
+  GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput: ["create", "connectOrCreate", "upsert", "connect", "update"],
   GuildImportUpdateOneWithoutUsersNestedInput: ["create", "connectOrCreate", "upsert", "disconnect", "delete", "connect", "update"],
   GuildCreateNestedOneWithoutContributionsInput: ["create", "connectOrCreate", "connect"],
   ContributionCreateNestedOneWithoutGuildsInput: ["create", "connectOrCreate", "connect"],
