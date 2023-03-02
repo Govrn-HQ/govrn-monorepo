@@ -74,6 +74,7 @@ const permissions = shield(
       guilds: or(isAuthenticated, hasToken),
       guildUsers: or(isAuthenticated, hasToken),
       guildImports: or(isAuthenticated, hasToken),
+      guildMembershipStatus: hasToken,
       listUserByAddress: isAuthenticated,
       getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
       getDaoContributionCountByUser: or(isAuthenticated, hasToken),

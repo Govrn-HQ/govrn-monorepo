@@ -96,6 +96,11 @@ const main = async () => {
   const importId = importedGuild.id;
 
   try {
+    const membershipStatus = await govrn.guildMembershipStatus.get({
+      where: { name: 'Member' },
+    });
+    const membershipStatusId = membershipStatus.id;
+
     await Promise.all(
       roles.map(async role => {
         console.log(
@@ -123,9 +128,9 @@ const main = async () => {
 
             await govrn.guild.user.createMany({
               data: dbUsers.map(u => ({
-                membership_status_id: 2,
                 guild_id: guildId,
                 user_id: u.id,
+                membership_status_id: membershipStatusId,
               })),
               skipDuplicates: true,
             });

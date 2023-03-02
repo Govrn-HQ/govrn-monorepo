@@ -332,6 +332,20 @@ query listGuildImports(
   }
 }
 
+# MembershipStatus
+fragment MembershipStatusFragment on GuildMembershipStatus {
+  id
+  createdAt
+  updatedAt
+  name
+}
+
+query guildMembershipStatus($where: GuildMembershipStatusWhereUniqueInput!) {
+  result: guildMembershipStatus(where: $where) {
+    ...MembershipStatusFragment
+  }
+}
+
 # Twitter
 fragment TwitterTweetFragment on TwitterTweet {
   id
