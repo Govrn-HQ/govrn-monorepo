@@ -15,6 +15,26 @@ export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
   Authorization: GUILD_IMPORT_TOKEN,
 });
 
+const updateImportStatus = async ({
+  importId: id,
+  status,
+}: {
+  importId: number;
+  status: 'Pending' | 'Complete' | 'Failed';
+}) => {
+  return await govrn.guild.import.update({
+    where: { id },
+    data: {
+      import_status: {
+        connectOrCreate: {
+          where: { name: status },
+          create: { name: status },
+        },
+      },
+    },
+  });
+};
+
 const main = async () => {
   console.log(`:: Fetching guild: ${GUILD_ID}`);
   const getGuildResponse = await guild.get(GUILD_ID);
@@ -50,10 +70,9 @@ const main = async () => {
       },
     });
   }
-
   const guildId = dbGuild.id;
 
-  await govrn.guild.import.create({
+  const importedGuild = await govrn.guild.import.create({
     data: {
       guild: {
         connect: { id: guildId },
@@ -73,44 +92,60 @@ const main = async () => {
       authentication_token: '',
     },
   });
+  // This will be used to update the import status later.
+  const importId = importedGuild.id;
 
-  await Promise.all(
-    roles.map(async role => {
-      console.log(
-        `:: Role '${role.name}' has ${role.members.length} ${pluralize(
-          'member',
-          role.members.length,
-        )}.`,
-      );
+  try {
+    await Promise.all(
+      roles.map(async role => {
+        console.log(
+          `:: Role '${role.name}' has ${role.members.length} ${pluralize(
+            'member',
+            role.members.length,
+          )}.`,
+        );
 
-      await Promise.all(
-        chunk(role.members, CHUNK_SIZE).map(async members => {
-          await govrn.user.createMany({
-            data: members.map(add => ({
-              address: add,
-              chain_type_id: CHAIN_TYPE_ID,
-            })),
-            skipDuplicates: true,
-          });
+        await Promise.all(
+          chunk(role.members, CHUNK_SIZE).map(async members => {
+            await govrn.user.createMany({
+              data: members.map(add => ({
+                address: add,
+                chain_type_id: CHAIN_TYPE_ID,
+              })),
+              skipDuplicates: true,
+            });
 
-          const dbUsers = await govrn.user.list({
-            where: {
-              address: { in: members },
-            },
-          });
+            const dbUsers = await govrn.user.list({
+              where: {
+                address: { in: members },
+              },
+            });
 
-          await govrn.guild.user.createMany({
-            data: dbUsers.map(u => ({
-              membership_status_id: 2,
-              guild_id: guildId,
-              user_id: u.id,
-            })),
-            skipDuplicates: true,
-          });
-        }),
-      );
-    }),
-  );
+            await govrn.guild.user.createMany({
+              data: dbUsers.map(u => ({
+                membership_status_id: 2,
+                guild_id: guildId,
+                user_id: u.id,
+              })),
+              skipDuplicates: true,
+            });
+          }),
+        );
+      }),
+    );
+
+    await updateImportStatus({
+      importId: importId,
+      status: 'Complete',
+    });
+  } catch (e) {
+    console.error(e);
+    await updateImportStatus({
+      importId: importId,
+      status: 'Failed',
+    });
+    throw e;
+  }
 };
 
 main()

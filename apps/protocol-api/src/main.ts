@@ -114,6 +114,7 @@ const permissions = shield(
       deleteUserContribution: or(isAuthenticated, hasToken),
       getOrCreateActivityType: isAuthenticated,
       updateOneContribution: hasToken,
+      updateOneGuildImport: hasToken,
       updateOneGuild: hasToken,
       updateOneUser: hasToken,
       updateUserContribution: isAuthenticated,

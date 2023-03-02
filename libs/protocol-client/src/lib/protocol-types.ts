@@ -18271,6 +18271,14 @@ export type CreateGuildImportMutationVariables = Exact<{
 
 export type CreateGuildImportMutation = { createOneGuildImport: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id: number, integration_type_id: number, authentication_token: string, guild: { id: number, name?: string | null }, integration_type: { id: number, name: string }, import_status: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string }, users: Array<{ user_id: number }> } };
 
+export type UpdateGuildImportMutationVariables = Exact<{
+  data: GuildImportUpdateInput;
+  where: GuildImportWhereUniqueInput;
+}>;
+
+
+export type UpdateGuildImportMutation = { updateOneGuildImport?: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id: number, integration_type_id: number, authentication_token: string, guild: { id: number, name?: string | null }, integration_type: { id: number, name: string }, import_status: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string }, users: Array<{ user_id: number }> } | null };
+
 export type CreateManyGuildUserMutationVariables = Exact<{
   data: Array<GuildUserCreateManyInput> | GuildUserCreateManyInput;
   skipDuplicates: Scalars['Boolean'];
@@ -19161,6 +19169,13 @@ export const CreateGuildImportDocument = gql`
   }
 }
     ${GuildImportFragmentFragmentDoc}`;
+export const UpdateGuildImportDocument = gql`
+    mutation updateGuildImport($data: GuildImportUpdateInput!, $where: GuildImportWhereUniqueInput!) {
+  updateOneGuildImport(data: $data, where: $where) {
+    ...GuildImportFragment
+  }
+}
+    ${GuildImportFragmentFragmentDoc}`;
 export const CreateManyGuildUserDocument = gql`
     mutation createManyGuildUser($data: [GuildUserCreateManyInput!]!, $skipDuplicates: Boolean!) {
   createManyGuildUser(data: $data, skipDuplicates: $skipDuplicates) {
@@ -19614,6 +19629,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createGuildImport(variables: CreateGuildImportMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildImportMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildImportMutation>(CreateGuildImportDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildImport', 'mutation');
+    },
+    updateGuildImport(variables: UpdateGuildImportMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildImportMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildImportMutation>(UpdateGuildImportDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildImport', 'mutation');
     },
     createManyGuildUser(variables: CreateManyGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateManyGuildUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateManyGuildUserMutation>(CreateManyGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createManyGuildUser', 'mutation');

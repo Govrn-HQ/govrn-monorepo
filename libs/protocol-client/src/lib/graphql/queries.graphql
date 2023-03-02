@@ -253,6 +253,15 @@ mutation createGuildImport($data: GuildImportCreateInput!) {
   }
 }
 
+mutation updateGuildImport(
+  $data: GuildImportUpdateInput!
+  $where: GuildImportWhereUniqueInput!
+) {
+  updateOneGuildImport(data: $data, where: $where) {
+    ...GuildImportFragment
+  }
+}
+
 # GuildUser
 mutation createManyGuildUser(
   $data: [GuildUserCreateManyInput!]!
