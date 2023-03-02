@@ -1,14 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import {
-  Box,
-  Button,
-  Flex,
-  Link as ChakraLink,
-  HStack,
-  IconButton,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Flex, HStack, IconButton, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import {
   ColumnDef,

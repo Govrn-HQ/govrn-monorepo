@@ -18,7 +18,6 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import PageHeading from './PageHeading';
 import ContributionsTable from './ContributionsTable';
 import ContributionTypesTable from './ContributionTypesTable';
-import EmptyContributions from './EmptyContributions';
 import { useUser } from '../contexts/UserContext';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { UIContribution } from '@govrn/ui-types';
@@ -136,7 +135,6 @@ const ContributionsTableShell = () => {
       maxWidth="1200px"
     >
       <PageHeading>Contributions</PageHeading>
-      {/* {allContributions && allContributions.length > 0 ? ( */}
       <Tabs
         variant="soft-rounded"
         width="100%"

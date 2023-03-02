@@ -11,7 +11,6 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { HiOutlineLink } from 'react-icons/hi';
-import { HiOutlineExternalLink } from 'react-icons/hi';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
