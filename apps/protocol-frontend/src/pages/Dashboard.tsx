@@ -1,5 +1,13 @@
-import React from 'react';
-import { Container, Box, Stack, Text } from '@chakra-ui/react';
+import {
+  Container,
+  Box,
+  Button,
+  Link as ChakraLink,
+  Flex,
+  Text,
+} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import { HiOutlineExternalLink } from 'react-icons/hi';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,17 +16,88 @@ import SiteLayout from '../components/SiteLayout';
 import DashboardShell from '../components/DashboardShell';
 import NewUserView from '../components/NewUserView';
 import ErrorView from '../components/ErrorView';
-import { GOVRN_MOTTO } from '../utils/constants';
-import { GovrnSpinner } from '@govrn/protocol-ui';
 
-const UserView = () => {
+import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
+
+const CopyChildren = () => (
+  <Flex direction="column" alignItems="center" justifyContent="center">
+    <Text as="span">
+      {' '}
+      <span role="img" aria-labelledby="pencil and paper emoji">
+        📝
+      </span>{' '}
+      Add a Contribution to view your Dashboard
+    </Text>
+    <Text as="span">
+      {' '}
+      <span role="img" aria-labelledby="person emoji">
+        👤
+      </span>{' '}
+      Head to your profile to join or create a DAO
+    </Text>
+    <Text as="span">
+      {' '}
+      <span role="img" aria-labelledby="robot emoji">
+        🤖
+      </span>{' '}
+      Learn more about Kevin Malone, our friendly Discord bot for DAOs
+    </Text>
+  </Flex>
+);
+
+const ButtonChildren = () => (
+  <>
+    <ChakraLink
+      as={Link}
+      to="/report"
+      state={{ targetId: 'myDaos' }}
+      _hover={{
+        textDecoration: 'none',
+      }}
+    >
+      <Button variant="primary" size="md" width={{ base: '100%', lg: 'auto' }}>
+        Report Your First Contribution
+      </Button>
+    </ChakraLink>
+    <ChakraLink
+      as={Link}
+      to="/profile"
+      state={{ targetId: 'myDaos' }}
+      _hover={{
+        textDecoration: 'none',
+      }}
+    >
+      <Button
+        variant="secondary"
+        size="md"
+        width={{ base: '100%', lg: 'auto' }}
+      >
+        Join a DAO From Your Profile
+      </Button>
+    </ChakraLink>
+    <ChakraLink
+      href="https://govrn.gitbook.io/govrn-docs/lets-party/kevin-malone"
+      isExternal
+      textDecoration="none"
+      _hover={{
+        textDecoration: 'none',
+      }}
+    >
+      <Button variant="tertiary" size="md" leftIcon={<HiOutlineExternalLink />}>
+        Learn More About Kevin Malone
+      </Button>
+    </ChakraLink>
+  </>
+);
+
+const EmptyContributionsView = () => {
   return (
-    <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-      <Text>{GOVRN_MOTTO}</Text>
-      <Text fontSize="lg" fontWeight="medium">
-        Welcome back! Add a Contribution to view your Dashboard
-      </Text>
-    </Stack>
+    <GovrnCta
+      heading={`Welcome back to Govrn!`}
+      emoji="👋"
+      copy={<CopyChildren />}
+      children={<ButtonChildren />}
+    />
   );
 };
 
@@ -72,7 +151,7 @@ const Dashboard = () => {
             borderRadius={{ base: 'none', md: 'lg' }}
           >
             {isConnected && isAuthenticated && userData ? (
-              <UserView />
+              <EmptyContributionsView />
             ) : (
               <NewUserView />
             )}
