@@ -4,7 +4,6 @@ import {
   Button,
   Link as ChakraLink,
   Flex,
-  Stack,
   Text,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
