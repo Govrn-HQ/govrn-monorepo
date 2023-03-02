@@ -193,7 +193,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
     setValue('engagementDate', engagementDateValue);
     setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
-  }, [engagementDateValue, setValue, daoListOptions, daoIdParam]);
+  }, []);
 
   // there is an error with the query:
   if (userActivityTypesIsError) {
