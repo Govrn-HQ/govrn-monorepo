@@ -16,7 +16,7 @@ import { AuthContextProvider } from './contexts/AuthContext';
 import { wagmiClient, chains } from './utils/web3';
 import '@rainbow-me/rainbowkit/styles.css';
 import { UserContextProvider } from './contexts/UserContext';
-import { useGovrnToast } from '@govrn/protocol-ui';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const container = document.getElementById('root');
 if (!container) {
@@ -26,26 +26,19 @@ const root = createRoot(container);
 
 const App = () => {
   // we can refactor this to use a standalone toast
-  const toast = useGovrnToast();
   const queryClient = new QueryClient({
-    queryCache: new QueryCache({
-      onError: error => {
-        toast.error({
-          title: 'Something went wrong.',
-          description: `Please try again: ${error}`,
-        });
-      },
-    }),
+    queryCache: new QueryCache(),
   });
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <AuthContextProvider>
-          <UserContextProvider>
-            <QueryClientProvider client={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <UserContextProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
               <Routes />
-            </QueryClientProvider>
-          </UserContextProvider>
+            </UserContextProvider>
+          </QueryClientProvider>
         </AuthContextProvider>
       </RainbowKitProvider>
     </WagmiConfig>

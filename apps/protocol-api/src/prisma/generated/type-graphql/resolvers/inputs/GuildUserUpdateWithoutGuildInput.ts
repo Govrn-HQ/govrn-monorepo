@@ -4,7 +4,8 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput } from "../inputs/GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput";
+import { GuildImportUpdateOneWithoutUsersNestedInput } from "../inputs/GuildImportUpdateOneWithoutUsersNestedInput";
+import { GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput } from "../inputs/GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput";
 import { UserUpdateOneRequiredWithoutGuild_usersNestedInput } from "../inputs/UserUpdateOneRequiredWithoutGuild_usersNestedInput";
 
 @TypeGraphQL.InputType("GuildUserUpdateWithoutGuildInput", {
@@ -26,13 +27,18 @@ export class GuildUserUpdateWithoutGuildInput {
   })
   user?: UserUpdateOneRequiredWithoutGuild_usersNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput, {
+  @TypeGraphQL.Field(_type => GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput, {
     nullable: true
   })
-  membershipStatus?: GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput | undefined;
+  membershipStatus?: GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
   favorite?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildImportUpdateOneWithoutUsersNestedInput, {
+    nullable: true
+  })
+  guild_import?: GuildImportUpdateOneWithoutUsersNestedInput | undefined;
 }

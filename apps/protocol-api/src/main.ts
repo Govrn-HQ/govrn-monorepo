@@ -9,7 +9,7 @@ import { LinearClient } from '@linear/sdk';
 
 import { resolvers } from './prisma/generated/type-graphql';
 import { customResolvers } from './prisma/resolvers';
-import { and, deny, or, rule, shield } from 'graphql-shield';
+import { deny, or, rule, shield } from 'graphql-shield';
 import { graphqlHTTP } from 'express-graphql';
 import fetch from 'cross-fetch';
 
@@ -34,14 +34,13 @@ const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
 const LINEAR_CLIENT_SECRET = process.env.LINEAR_CLIENT_SECRET;
 const PROTOCOL_FRONTEND = process.env.PROTOCOL_FRONTEND;
 
+const DISCORD_TOKEN_URL = 'https://discord.com/api/v10/oauth2/token';
+const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
+const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
+
 const typeSchema = buildSchemaSync({
   resolvers: [...resolvers, ...customResolvers],
-});
-
-// TODO: Figure out is there is a way to genralize this
-//
-const ownsData = rule()(async (parent, args, ctx, info) => {
-  return true;
 });
 
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
@@ -52,7 +51,6 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 });
 
 const hasToken = rule()(async (parent, args, ctx, info) => {
-  return true;
   const auth = ctx.req.headers['authorization'];
   if (auth) {
     const found = BACKEND_TOKENS.find(token => token === auth);
@@ -74,6 +72,8 @@ const permissions = shield(
       getUser: isAuthenticated,
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),
+      guildUsers: or(isAuthenticated, hasToken),
+      guildImports: or(isAuthenticated, hasToken),
       listUserByAddress: isAuthenticated,
       getContributionCountByDateForUserInRange: or(isAuthenticated, hasToken),
       getDaoContributionCountByUser: or(isAuthenticated, hasToken),
@@ -105,9 +105,9 @@ const permissions = shield(
       createOneUser: or(isAuthenticated, hasToken),
       createOneGuildImport: hasToken,
       createOneUserActivity: hasToken,
-      createUserAttestation: and(ownsData, isAuthenticated),
-      createUserContribution: and(ownsData, isAuthenticated),
-      createUserCustom: or(hasToken, and(ownsData, isAuthenticated)),
+      createUserAttestation: isAuthenticated,
+      createUserContribution: isAuthenticated,
+      createUserCustom: or(hasToken, isAuthenticated),
       createGuildUserCustom: isAuthenticated,
       createUserOnChainAttestation: isAuthenticated,
       deleteOneContribution: or(hasToken, isAuthenticated),
@@ -116,9 +116,10 @@ const permissions = shield(
       updateOneContribution: hasToken,
       updateOneGuild: hasToken,
       updateOneUser: hasToken,
-      updateUserContribution: and(ownsData, isAuthenticated),
+      updateUserContribution: isAuthenticated,
       updateGuildCustom: isAuthenticated,
-      updateUserCustom: and(ownsData, isAuthenticated),
+      updateUserCustom: isAuthenticated,
+      updateGuildUserCustom: isAuthenticated,
       updateUserOnChainAttestation: isAuthenticated,
       updateUserOnChainContribution: isAuthenticated,
       upsertOneAttestation: hasToken,
@@ -215,6 +216,8 @@ const permissions = shield(
       updatedAt: or(isAuthenticated, hasToken),
       user: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
+      access_token: or(isAuthenticated, hasToken),
+      active_token: or(isAuthenticated, hasToken),
     },
     Guild: {
       activity_type: or(isAuthenticated, hasToken),
@@ -237,22 +240,46 @@ const permissions = shield(
       guild_id: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
     },
+
+    GuildMembershipStatus: {
+      id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
+    },
     GuildImport: {
       id: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
-      authentication_token: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
       integration_type_id: or(isAuthenticated, hasToken),
+      integration_type: or(isAuthenticated, hasToken),
+      authentication_token: or(isAuthenticated, hasToken),
+      import_status: or(isAuthenticated, hasToken),
+      users: or(isAuthenticated, hasToken),
+    },
+    GuildImportStatus: {
+      id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
     },
     GuildUser: {
-      createdAt: or(isAuthenticated, hasToken),
-      guild: or(isAuthenticated, hasToken),
-      guild_id: or(isAuthenticated, hasToken),
       id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       user: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
+      guild_id: or(isAuthenticated, hasToken),
+      favorite: or(isAuthenticated, hasToken),
+      membershipStatus: or(isAuthenticated, hasToken),
+      membership_status_id: or(isAuthenticated, hasToken),
+    },
+    IntegrationType: {
+      id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
     },
     TwitterUser: {
       id: or(isAuthenticated, hasToken),
@@ -513,6 +540,72 @@ app.get('/linear/oauth', async function (req, res) {
     });
 
     res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+  } catch (e) {
+    console.error(e);
+    res.status(500).send();
+  }
+});
+
+app.get('/discord_nonce', async function (req, res) {
+  const nonce = generateNonce();
+  req.session.discordNonce = generateNonce();
+  res.setHeader('Content-Type', 'text/plain');
+  res.status(200).send(req.session.nonce);
+});
+
+app.get('/discord/oauth', async function (req, res) {
+  try {
+    const query = req.query;
+    const code = query.code;
+    const state = query.state.toString();
+    const params = new URLSearchParams();
+    params.append('code', code.toString());
+    params.append('redirect_uri', DISCORD_REDIRECT_URI);
+    params.append('client_id', DISCORD_CLIENT_ID);
+    params.append('client_secret', DISCORD_CLIENT_SECRET);
+    params.append('state', state);
+    params.append('grant_type', 'authorization_code');
+    const resp = await fetch(DISCORD_TOKEN_URL, {
+      method: 'POST',
+      body: params,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+    const respJSON = await resp.json();
+    const accessToken = String(respJSON.access_token);
+
+    if (!accessToken) {
+      res.status(500).send('Failed to connect to Discord.');
+      return;
+    }
+
+    const userResp = await fetch('https://discord.com/api/users/@me', {
+      headers: { authorization: `Bearer ${accessToken}` },
+    });
+    const me = await userResp.json();
+    const [, address, redirectDestination] = state.split('/');
+
+    await prisma.discordUser.upsert({
+      create: {
+        access_token: accessToken,
+        active_token: true,
+        discord_id: me.id,
+        display_name: me.display_name,
+        user: { connect: { address: address } },
+      },
+      where: { discord_id: me.id },
+      update: {
+        access_token: accessToken,
+        active_token: true,
+        user: { connect: { address: address } },
+      },
+    });
+    // specifically only allowing these 2 options instead of being fully dynamic,
+    if (redirectDestination === 'profile') {
+      res.status(200).redirect(PROTOCOL_FRONTEND + '/#/profile');
+    }
+    if (redirectDestination === 'signature') {
+      res.status(200).redirect(PROTOCOL_FRONTEND + '/#/signature');
+    }
   } catch (e) {
     console.error(e);
     res.status(500).send();

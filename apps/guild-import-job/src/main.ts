@@ -58,6 +58,12 @@ const main = async () => {
       guild: {
         connect: { id: guildId },
       },
+      import_status: {
+        connectOrCreate: {
+          where: { name: 'Pending' },
+          create: { name: 'Pending' },
+        },
+      },
       integration_type: {
         connectOrCreate: {
           where: { name: INTEGRATION_TYPE },
@@ -95,6 +101,7 @@ const main = async () => {
 
           await govrn.guild.user.createMany({
             data: dbUsers.map(u => ({
+              membership_status_id: 2,
               guild_id: guildId,
               user_id: u.id,
             })),

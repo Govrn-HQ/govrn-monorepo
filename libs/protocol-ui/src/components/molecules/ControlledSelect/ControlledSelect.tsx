@@ -45,7 +45,7 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
   return (
     <Stack spacing={2} width="100%">
       {label && (
-        <Text fontSize="" color="gray.800">
+        <Text fontSize="md" fontWeight="500" color="gray.800">
           {label}
         </Text>
       )}
@@ -63,6 +63,8 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
           onChange={onChange}
           value={value}
           isSearchable={isSearchable}
+          styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+          menuPortalTarget={document.querySelector('body')} // so dropdown menu doesnt interfere with clickable elements
           {...props}
         />
       </Box>

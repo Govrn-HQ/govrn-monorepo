@@ -11,8 +11,13 @@ export const SIWE_ACTIVE_URL = `${BASE_URL}/siwe/active`;
 export const BLOCK_EXPLORER_URLS = {
   gnosisChain: `https://blockscout.com/xdai/mainnet/tx/`,
 };
-
-export const MAX_FILE_UPLOAD_SIZE = 5000000; // 5MB
+export const BACKEND_ADDR = `${BASE_URL}`;
+export const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
+export const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+export const LINEAR_CLIENT_ID = import.meta.env.VITE_LINEAR_CLIENT_ID;
+export const LINEAR_REDIRECT_URI = import.meta.env.VITE_LINEAR_REDIRECT_URI;
+export const MAX_FILE_UPLOAD_SIZE = 5242880; // 5MB in bytes. used in ipfs upload
+export const MAX_CSV_UPLOAD_SIZE = 5242880; // 5MB in bytes. used in csv upload
 export const UNASSIGNED = 'Unassigned';
 export const GOVRN_MOTTO = 'Track and record your DAO Contributions.';
 export const DEFAULT_ACTIVITY_TYPES = [
@@ -22,6 +27,7 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Design',
   'Other',
 ];
+export const ADDRESS_IMPORT_MAX = 1000;
 
 const primaryBrandColorsFromTheme: string[] = Object.values(
   GovrnTheme.colors.brand.primary,
@@ -50,3 +56,5 @@ export const DEFAULT_DATE_RANGES = [
 export const TWITTER_LINK = 'https://twitter.com/govrnHQ';
 export const DISCORD_LINK = 'https://discord.gg/3e36ZHU5aG';
 export const FEEDBACK_LINK = 'https://forms.gle/uE8w3FgjAcWyqAN58';
+
+export const LEFT_MEMBERSHIP_NAME = 'Left';

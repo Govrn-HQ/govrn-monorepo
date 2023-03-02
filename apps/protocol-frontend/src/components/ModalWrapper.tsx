@@ -48,13 +48,15 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
       <ModalContent
         background={props.bgColor ? props.bgColor : 'white'}
         minWidth="20vw"
-        paddingY={8}
       >
-        <ModalHeader color={props.color ? props.color : 'gray.800'}>
+        <ModalHeader
+          paddingBottom={0}
+          color={props.color ? props.color : 'gray.800'}
+        >
           {title}
         </ModalHeader>
         <ModalCloseButton color="gray.800" />
-        <ModalBody>{content}</ModalBody>
+        <ModalBody paddingBottom={8}>{content}</ModalBody>
       </ModalContent>
     </Modal>
   );

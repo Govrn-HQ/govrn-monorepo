@@ -52,6 +52,9 @@ fragment UserFragment on User {
   guild_users {
     id
     guild_id
+    membershipStatus {
+      name
+    }
   }
   twitter_user {
     id
@@ -311,7 +314,7 @@ mutation createGuildUser($data: GuildUserCreateInput!) {
         },
     )
     if result:
-        return result.get("createGuildUser")
+        return result.get("createOneGuildUser")
     return result
 
 
@@ -333,11 +336,11 @@ mutation createGuild($data: GuildCreateInput!) {
         },
     )
     if result:
-        return result.get("createGuild")
+        return result.get("createOneGuild")
     return result
 
 
-async def create_user(discord_id, discord_name, wallet):
+async def create_user(display_name, discord_id, discord_name, wallet):
     query = """
 mutation createUser($data: UserCreateInput!) {
   createOneUser(data: $data) {
@@ -349,6 +352,8 @@ mutation createUser($data: UserCreateInput!) {
         "data": {
             "address": wallet,
             "chain_type": {"connect": {"name": "ETH"}},
+            "display_name": display_name,
+            "name": display_name,
             "discord_users": {
                 "connectOrCreate": [
                     {
@@ -379,8 +384,26 @@ mutation createUser($data: UserCreateInput!) {
 
     if result:
         print(result)
-        return result.get("createUser")
+        return result.get("createOneUser")
     return result
+
+
+async def create_discord_user(user_id, discord_id, discord_name):
+    data = {
+        "discord_users": {
+            "connectOrCreate": [
+                {
+                    "create": {
+                        "discord_id": str(discord_id),
+                        "display_name": discord_name,
+                    },
+                    "where": {"discord_id": str(discord_id)},
+                }
+            ]
+        }
+    }
+    where = {"id": user_id}
+    return await update_user(data, where)
 
 
 # have a different update query for each field
@@ -405,7 +428,7 @@ mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
     )
     if result:
         print(result)
-        return result.get("updateUser")
+        return result.get("updateOneUser")
     return result
 
 
@@ -452,7 +475,7 @@ mutation updateGuild($data: GuildUpdateInput!, $where: GuildWhereUniqueInput!) {
     )
     if result:
         print(result)
-        return result.get("updateGuild")
+        return result.get("updateOneGuild")
     return result
 
 

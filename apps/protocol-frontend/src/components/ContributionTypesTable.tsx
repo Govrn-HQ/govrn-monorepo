@@ -1,177 +1,143 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { isAfter } from 'date-fns';
-import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import { useSortBy, useTable, Column, HeaderGroup } from 'react-table';
-import { UIContribution } from '@govrn/ui-types';
-import { mergePages } from '../utils/arrays';
+import { Link } from 'react-router-dom';
+import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 
-type ContributionTypesTableType = {
-  id: number;
-  name: string;
-  total: number;
-  lastOccurrence: Date | string;
-  activityType: string;
-  guilds: string;
-  date_of_engagement: Date | string;
-  date_of_submission: Date | string;
-};
+import {
+  ColumnDef,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+  SortingState,
+  getSortedRowModel,
+  Getter,
+  Row,
+} from '@tanstack/react-table';
+import { UIContribution } from '@govrn/ui-types';
+import { formatDate, toDate } from '../utils/date';
+import GovrnTable from './GovrnTable';
 
 const ContributionTypesTable = ({
   contributionTypesData,
 }: {
-  contributionTypesData: UIContribution[][];
+  contributionTypesData: UIContribution[];
 }) => {
-  const uniqueKey = 'name';
+  const [sorting, setSorting] = useState<SortingState>([]);
 
-  // FIXME: This will be re-calculated for each render.
-  const uniqueContributions: UIContribution[] = [
-    ...new Map(
-      mergePages(contributionTypesData)
-        .sort((firstContribution, nextContribution) =>
-          isAfter(
-            new Date(firstContribution.date_of_engagement),
-            new Date(nextContribution.date_of_engagement),
-          )
-            ? 1
-            : -1,
-        )
-        .map(contributionType => [
-          contributionType.activity_type[uniqueKey],
+  const sortedContributions: UIContribution[] = useMemo(() => {
+    return contributionTypesData.sort((firstContribution, nextContribution) =>
+      isAfter(
+        new Date(firstContribution.date_of_engagement),
+        new Date(nextContribution.date_of_engagement),
+      )
+        ? 1
+        : -1,
+    );
+  }, [contributionTypesData]);
+
+  const uniqueContributions: UIContribution[] = useMemo(
+    () => [
+      ...new Map(
+        sortedContributions.map(contributionType => [
+          contributionType.activity_type['name'],
           contributionType,
         ]),
-    ).values(),
-  ];
-
-  const data = useMemo<ContributionTypesTableType[]>(
-    () =>
-      uniqueContributions.map(contributionType => ({
-        id: contributionType.id,
-        name: contributionType.name,
-        total: mergePages(contributionTypesData).filter(
-          contribution =>
-            contribution.activity_type.name ===
-            contributionType.activity_type.name,
-        ).length,
-        lastOccurrence: contributionType.date_of_engagement,
-        activityType: contributionType.activity_type.name,
-        guilds: contributionType.guilds.map(g => g.guild.name).join(','),
-        date_of_submission: contributionType.date_of_submission,
-        date_of_engagement: contributionType.date_of_engagement,
-      })),
-    [], // eslint-disable-line react-hooks/exhaustive-deps
+      ).values(),
+    ],
+    [sortedContributions],
   );
 
-  const columns = useMemo<Column<ContributionTypesTableType>[]>(
+  const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(
     () => [
       {
-        Header: 'Activity Type',
-        accessor: 'activityType',
-        Cell: ({ value }: { value: string }) => {
+        header: 'Activity Type',
+        accessorFn: contribution => contribution.activity_type.name,
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
           return (
             <Box
-              bgColor="blue.50"
+              bgColor="brand.secondary.50"
               width="fit-content"
               padding={2}
               borderRadius="md"
             >
-              {value}
+              {getValue()}
             </Box>
           );
         },
       },
       {
-        Header: 'Total',
-        accessor: 'total',
-        Cell: ({ value }: { value: number }) => {
+        header: 'Total',
+        accessorFn: contribution =>
+          sortedContributions.filter(
+            c => c.activity_type.name === contribution.activity_type.name,
+          ).length,
+        cell: ({ getValue }: { getValue: Getter<number> }) => {
           return (
             <Box
-              bgColor="blue.50"
+              bgColor="brand.secondary.50"
               width="fit-content"
               padding={2}
               borderRadius="md"
             >
-              {value}
+              {getValue()}
             </Box>
           );
         },
       },
       {
-        Header: 'Last Occurrence',
-        accessor: 'date_of_engagement',
-      },
-      {
-        Header: 'Name',
-        accessor: 'name',
-      },
-
-      { Header: 'DAOs', accessor: 'guilds' },
-    ],
-    [],
-  );
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
-        initialState: {
-          sortBy: columns.map(one => {
-            return {
-              desc: false,
-              id: 'activityType',
-            };
-          }),
-        },
-      },
-      useSortBy,
-    );
-
-  return (
-    <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-      <Thead backgroundColor="gray.50">
-        {headerGroups.map(
-          (headerGroup: HeaderGroup<ContributionTypesTableType>) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(
-                (column: HeaderGroup<ContributionTypesTableType>) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    borderColor="gray.100"
+        header: 'Last Occurrence',
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
+        cell: ({
+          row,
+          getValue,
+        }: {
+          row: Row<UIContribution>;
+          getValue: Getter<Date>;
+        }) => {
+          return (
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
+              <Link to={`/contributions/${row.original.id}`}>
+                <HStack justifyContent="baseline" alignItems="center">
+                  <Text
+                    as="span"
+                    paddingRight={8}
+                    flex="1 0 0"
+                    maxW="15rem"
+                    minW="15rem"
+                    whiteSpace="normal"
+                    bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
+                    bgClip="text"
+                    transition="all 100ms ease-in-out"
+                    _hover={{
+                      fontWeight: 'bolder',
+                      bgGradient: 'linear(to-l, #7928CA, #FF0080)',
+                    }}
                   >
-                    {column.render('Header')}
-                    <chakra.span paddingLeft="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <IoArrowDown aria-label="sorted-descending" />
-                        ) : (
-                          <IoArrowUp aria-label="sorted-ascending" />
-                        )
-                      ) : null}
-                    </chakra.span>
-                  </Th>
-                ),
-              )}
-            </Tr>
-          ),
-        )}
-      </Thead>
-      <Tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row);
-          return (
-            <Tr {...row.getRowProps()}>
-              {row.cells.map(cell => (
-                <Td {...cell.getCellProps()} borderColor="gray.100">
-                  {cell.render('Cell')}
-                </Td>
-              ))}
-            </Tr>
+                    {formatDate(getValue())}
+                  </Text>
+                </HStack>
+              </Link>
+            </Flex>
           );
-        })}
-      </Tbody>
-    </Table>
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
+      },
+    ],
+    [sortedContributions],
   );
+
+  const table = useReactTable({
+    data: uniqueContributions,
+    columns: columnsDefs,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  });
+
+  return <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />;
 };
 
 export default ContributionTypesTable;

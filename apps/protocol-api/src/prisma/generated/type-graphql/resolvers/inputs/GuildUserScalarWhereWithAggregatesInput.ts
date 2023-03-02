@@ -51,13 +51,18 @@ export class GuildUserScalarWhereWithAggregatesInput {
   })
   guild_id?: IntWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true
   })
-  membership_status_id?: IntNullableWithAggregatesFilter | undefined;
+  membership_status_id?: IntWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
     nullable: true
   })
   favorite?: BoolWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  guild_import_id?: IntNullableWithAggregatesFilter | undefined;
 }

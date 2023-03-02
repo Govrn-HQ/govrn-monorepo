@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
 import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
@@ -28,8 +29,8 @@ import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
-import { useDaosList } from '../hooks/useDaosList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
+import useUserGet from '../hooks/useUserGet';
 import { useGovrnToast } from '@govrn/protocol-ui';
 
 function CreateMoreSwitch({
@@ -62,6 +63,7 @@ function CreateMoreSwitch({
 const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const { userData } = useUser();
   const toast = useGovrnToast();
+  const [searchParams] = useSearchParams();
   const [, setIpfsUri] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputField = useRef<HTMLInputElement>(null);
@@ -74,6 +76,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       fileInputField.current.click();
     }
   };
+
+  const daoIdParam = Number(searchParams.get('daoId'));
 
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -122,10 +126,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
 
   const [isUserCreatingMore, setUserCreatingMore] = useState(false);
 
-  useEffect(() => {
-    setValue('engagementDate', engagementDateValue);
-  }, []);
-
   const {
     mutateAsync: createNewContribution,
     isLoading: createNewContributionIsLoading,
@@ -167,6 +167,14 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setUserCreatingMore(!isUserCreatingMore);
   };
 
+  const {
+    data: useUserData,
+    isError: useUserError,
+    isLoading: useUserLoading,
+  } = useUserGet({
+    userId: userData?.id,
+  });
+
   // renaming these on destructuring incase we have parallel queries:
   const {
     isLoading: userActivityTypesIsLoading,
@@ -174,20 +182,17 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     data: userActivityTypesData,
   } = useUserActivityTypesList();
 
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: daosListIsLoading,
-    isError: daosListIsError,
-    data: daosListData,
-  } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
-  });
-
   const daoListOptions =
-    daosListData?.map(dao => ({
-      value: dao.id,
-      label: dao.name ?? '',
+    useUserData?.guild_users.map(dao => ({
+      value: dao.guild.id,
+      label: dao.guild.name ?? '',
     })) || [];
+
+  useEffect(() => {
+    const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
+    setValue('engagementDate', engagementDateValue);
+    setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
+  }, []);
 
   // there is an error with the query:
   if (userActivityTypesIsError) {
@@ -209,7 +214,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   );
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || daosListIsLoading) {
+  if (userActivityTypesIsLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
@@ -218,7 +223,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
-  if (daosListIsError) {
+  if (useUserError) {
     return <Text>An error occurred fetching DAOs.</Text>;
   }
 
@@ -326,6 +331,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
             }}
             options={daoListOptions}
+            defaultValue={daoListOptions.find(dao => dao.value === daoIdParam)}
             localForm={localForm}
           />
           <DatePicker

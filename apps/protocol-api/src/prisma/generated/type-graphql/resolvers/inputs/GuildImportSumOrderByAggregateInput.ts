@@ -22,4 +22,9 @@ export class GuildImportSumOrderByAggregateInput {
     nullable: true
   })
   integration_type_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  import_status_id?: "asc" | "desc" | undefined;
 }

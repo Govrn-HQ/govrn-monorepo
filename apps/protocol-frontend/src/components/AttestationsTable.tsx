@@ -1,95 +1,119 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Box, Flex, Stack, Button, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import {
-  Box,
-  chakra,
-  Flex,
-  Stack,
-  Button,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
-import { IoArrowDown, IoArrowUp } from 'react-icons/io5';
-import {
-  Column,
+  ColumnDef,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+  SortingState,
+  getSortedRowModel,
+  Getter,
   Row,
-  HeaderGroup,
-  useFilters,
-  useGlobalFilter,
-  useRowSelect,
-  useSortBy,
-  useTable,
-  UseTableHooks,
-} from 'react-table';
+} from '@tanstack/react-table';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
-import { AttestationTableType } from '../types/table';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
-import { displayAddress } from '../utils/web3';
+import { RowSelectionState } from '@tanstack/table-core';
+import { statusEmojiSelect } from '../utils/statusEmojiSelect';
+import { formatDate, toDate } from '../utils/date';
+import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
 
 const AttestationsTable = ({
-  contributionsData,
+  data,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[];
+  data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
   const { userData } = useUser();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
-  const data = useMemo<AttestationTableType[]>(
-    () =>
-      contributionsData.map(contribution => ({
-        id: contribution.id,
-        date_of_submission: contribution.date_of_submission,
-        date_of_engagement: contribution.date_of_submission,
-        guilds: contribution.guilds,
-        status: contribution.status.name,
-        action: '',
-        name: contribution.name,
-        onChainId: contribution.on_chain_id,
-        contributor:
-          contribution.user.name || displayAddress(contribution.user.address),
-        attestations: contribution.attestations.filter(attestation => {
-          return attestation.user.id === userData?.id;
-        }),
-      })),
-    [contributionsData, userData?.id],
-  );
 
-  const columns = useMemo<Column<AttestationTableType>[]>(
-    () => [
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+
+  const deselectAll = () => {
+    setRowSelection({});
+  };
+
+  const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
+    return [
       {
-        Header: 'Name',
-        accessor: 'name',
-        Cell: ({ value }: { value: string }) => {
+        id: 'selection',
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+              testid: 'toggle-row-selected',
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: row.getIsSelected(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
+        ),
+      },
+
+      {
+        header: 'Name',
+        accessorKey: 'name',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
           return (
-            <Flex direction="column" wrap="wrap">
-              <Text whiteSpace="normal">{value}</Text>
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
+              <Link to={`/contributions/${row.original.id}`}>
+                <Text
+                  whiteSpace="normal"
+                  flex="1 0 0"
+                  maxW="300px"
+                  bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
+                  bgClip="text"
+                  transition="all 100ms ease-in-out"
+                  _hover={{
+                    fontWeight: 'bolder',
+                    bgGradient: 'linear(to-l, #7928CA, #FF0080)',
+                  }}
+                >
+                  {' '}
+                  {getValue()}
+                </Text>
+              </Link>
             </Flex>
           );
         },
       },
       {
-        Header: 'Status',
-        accessor: 'attestations',
-        Cell: ({ value }) => {
-          let status = 'Unattested';
-          if (value && value.length > 0) {
-            status = value[0].attestation_status?.name || 'Unattested';
-          }
+        header: 'Status',
+        accessorFn: contribution =>
+          contribution.attestations.filter(attestation => {
+            return attestation.user.id === userData?.id;
+          })[0]?.attestation_status?.name || 'Unattested',
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          const status = getValue();
           return (
             <Text textTransform="capitalize">
               {status}{' '}
@@ -97,84 +121,72 @@ const AttestationsTable = ({
                 role="img"
                 aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
               >
-                {status === 'pending' ? '🕒' : '👀'}
+                {statusEmojiSelect(status)}
               </span>{' '}
             </Text>
           );
         },
       },
       {
-        Header: 'Engagement Date',
-        accessor: 'date_of_engagement',
+        header: 'Engagement Date',
+        accessorFn: contribution => toDate(contribution.date_of_engagement),
+        cell: ({ getValue }: { getValue: Getter<Date> }) => {
+          return <Text>{formatDate(getValue())}</Text>;
+        },
+        sortingFn: 'datetime',
+        invertSorting: true,
       },
       {
-        Header: 'Contributor',
-        accessor: 'contributor',
-      },
-      {
-        Header: 'DAO',
-        accessor: 'guilds',
-        Cell: ({ value }) => {
-          let guildName;
-          if (value && value.length > 0) {
-            guildName = value[0].guild.name ?? '---';
-          }
-          return <Text>{guildName}</Text>;
+        header: 'Contributor',
+        accessorKey: 'user',
+
+        cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+          const value = getValue();
+          return <MemberDisplayName memberValue={value} />;
         },
       },
-    ],
-    [],
-  );
-
-  const tableHooks = (hooks: UseTableHooks<AttestationTableType>) => {
-    hooks.visibleColumns.push(columns => [
       {
-        id: 'selection',
-        Header: ({ getToggleAllRowsSelectedProps }) => (
-          <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-        ),
-        Cell: ({ row }: { row: Row<AttestationTableType> }) => (
-          <IndeterminateCheckbox
-            {...row.getToggleRowSelectedProps()}
-            disabled={row.original.status !== 'minted'}
-          />
-        ),
+        header: 'DAO',
+        accessorFn: contribution =>
+          contribution.guilds[0]?.guild?.name ?? '---',
       },
-      ...columns,
-    ]);
-  };
+    ];
+  }, [userData?.id]);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    state: { globalFilter },
-    preGlobalFilteredRows,
-    setGlobalFilter,
-    selectedFlatRows,
-    prepareRow,
-    toggleAllRowsSelected,
-  } = useTable(
-    { columns, data, autoResetSelectedRows: false },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    useRowSelect,
-    tableHooks,
-  );
+  const table = useReactTable<UIContribution>({
+    data: data,
+    columns: columnsDefs,
+    state: {
+      sorting,
+      rowSelection: rowSelection,
+      globalFilter,
+    },
+    enableRowSelection: true,
+    onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  });
 
-  const toggleSelected = () => {
-    toggleAllRowsSelected(false);
-  };
+  useEffect(() => {
+    const selectedContributions: UIContribution[] = [];
+    for (const key in rowSelection) {
+      if (rowSelection[key]) {
+        selectedContributions.push(table.getRow(key).original);
+      }
+    }
+    setSelectedRows(selectedContributions);
+  }, [rowSelection, table]);
 
   const attestationsModalHandler = useCallback(() => {
-    if (selectedFlatRows.length > 1) {
+    if (selectedRows.length > 1) {
       setModals({ bulkAttestationModal: true });
     } else {
       setModals({ attestationModal: true });
     }
-  }, [selectedFlatRows, setModals]);
+  }, [selectedRows, setModals]);
 
   let component = (
     <Box
@@ -186,7 +198,7 @@ const AttestationsTable = ({
       </Text>
     </Box>
   );
-  if (contributionsData.length) {
+  if (data.length) {
     component = (
       <>
         <Box paddingX={{ base: '4', md: '6' }} paddingTop="5" paddingBottom="3">
@@ -207,11 +219,11 @@ const AttestationsTable = ({
             <Button
               variant="primary"
               flexBasis="10%"
-              disabled={selectedFlatRows?.length === 0}
+              disabled={selectedRows?.length === 0}
               onClick={attestationsModalHandler}
               data-testId="attest-testId"
             >
-              {selectedFlatRows.length > 1 ? 'Bulk ' : ''}Attest
+              {selectedRows.length > 1 ? 'Bulk ' : ''}Attest
             </Button>
           </Stack>
         </Box>
@@ -219,64 +231,24 @@ const AttestationsTable = ({
         <Stack>
           <Flex alignItems="center">
             <GlobalFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
+              preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
             />
           </Flex>
           <Box width="100%" maxWidth="100vw" overflowX="auto">
             <InfiniteScroll
-              dataLength={rows.length}
+              dataLength={table.getRowModel().rows.length}
               next={nextPage}
               scrollThreshold={0.8}
               hasMore={hasMoreItems}
               loader={<GovrnSpinner />}
             >
-              <Table {...getTableProps()} maxWidth="100vw" overflowX="auto">
-                <Thead backgroundColor="gray.50">
-                  {headerGroups.map(
-                    (headerGroup: HeaderGroup<AttestationTableType>) => (
-                      <Tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(
-                          (column: HeaderGroup<AttestationTableType>) => (
-                            <Th
-                              {...column.getHeaderProps(
-                                column.getSortByToggleProps(),
-                              )}
-                              borderColor="gray.100"
-                            >
-                              {column.render('Header')}
-                              <chakra.span paddingLeft="4">
-                                {column.isSorted ? (
-                                  column.isSortedDesc ? (
-                                    <IoArrowDown aria-label="sorted-descending" />
-                                  ) : (
-                                    <IoArrowUp aria-label="sorted-ascending" />
-                                  )
-                                ) : null}
-                              </chakra.span>
-                            </Th>
-                          ),
-                        )}
-                      </Tr>
-                    ),
-                  )}
-                </Thead>
-                <Tbody {...getTableBodyProps()}>
-                  {rows.map(row => {
-                    prepareRow(row);
-                    return (
-                      <Tr {...row.getRowProps()}>
-                        {row.cells.map(cell => (
-                          <Td {...cell.getCellProps()} borderColor="gray.100">
-                            {cell.render('Cell')}
-                          </Td>
-                        ))}
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
+              <GovrnTable
+                controller={table}
+                maxWidth="100vw"
+                overflowX="auto"
+              />{' '}
             </InfiniteScroll>
           </Box>
         </Stack>
@@ -294,12 +266,12 @@ const AttestationsTable = ({
         size="3xl"
         content={
           <BulkAttestationModal
-            contributions={selectedFlatRows.map(r => r.original)}
-            onFinish={toggleSelected}
+            contributions={selectedRows}
+            onFinish={deselectAll}
           />
         }
       />
-      {selectedFlatRows.length > 0 && (
+      {selectedRows.length > 0 && (
         <ModalWrapper
           name="attestationModal"
           title="Attest to DAO Contributions"
@@ -307,8 +279,8 @@ const AttestationsTable = ({
           size="3xl"
           content={
             <AttestationModal
-              contribution={selectedFlatRows[0].original}
-              onFinish={toggleSelected}
+              contribution={selectedRows[0]}
+              onFinish={deselectAll}
             />
           }
         />

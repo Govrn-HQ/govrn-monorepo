@@ -2,13 +2,13 @@ import {
   CreateGuildUserCustomMutationVariables,
   CreateManyUsersMutationVariables,
   ListUsersQueryVariables,
-  MutationDeleteOneGuildUserArgs,
   UserCreateCustomInput,
   UserUpdateInput,
   UserWhereUniqueInput,
 } from '../protocol-types';
 import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
+import { GuildUser } from './guild_user';
 
 export class User extends BaseClient {
   guild: GuildUser;
@@ -41,15 +41,5 @@ export class User extends BaseClient {
   public async createMany(args: CreateManyUsersMutationVariables) {
     const contributions = await this.sdk.createManyUsers(args);
     return contributions.createManyUser;
-  }
-}
-
-class GuildUser extends BaseClient {
-  public async create(args: CreateGuildUserCustomMutationVariables) {
-    return await this.sdk.createGuildUserCustom(args);
-  }
-
-  public async delete(args: MutationDeleteOneGuildUserArgs) {
-    return await this.sdk.deleteGuildUser(args);
   }
 }

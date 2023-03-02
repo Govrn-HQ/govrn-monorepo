@@ -1,4 +1,9 @@
-import { TWITTER_LINK, DISCORD_LINK, FEEDBACK_LINK } from '../utils/constants';
+import {
+  TWITTER_LINK,
+  DISCORD_LINK,
+  FEEDBACK_LINK,
+  LEFT_MEMBERSHIP_NAME,
+} from '../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Accordion,
@@ -28,7 +33,7 @@ import { FaDiscord } from 'react-icons/fa';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
-import { useDaosList } from '../hooks/useDaosList';
+import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import ConnectWallet from './ConnectWallet';
 import Logo from './Logo';
 import NavButton from './NavButton';
@@ -39,8 +44,12 @@ const Sidebar = () => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
 
-  const { isLoading: daosListIsLoading, data: daosListData } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id } } } }, // show only user's DAOs
+  const { data: daosUsersListData } = useDaoUsersList({
+    where: {
+      user_id: { equals: userData?.id },
+      membershipStatus: { is: { name: { notIn: [LEFT_MEMBERSHIP_NAME] } } },
+    },
+    orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
   });
 
   return (
@@ -115,9 +124,8 @@ const Sidebar = () => {
             </Link>
             {isConnected && isAuthenticated && (
               <Stack>
-                {!daosListIsLoading &&
-                daosListData &&
-                daosListData.length > 0 ? (
+                {daosUsersListData !== undefined &&
+                daosUsersListData.length > 0 ? (
                   <Accordion allowToggle width="100%">
                     <AccordionItem border="none">
                       <AccordionButton
@@ -145,9 +153,9 @@ const Sidebar = () => {
                       </AccordionButton>
                       <AccordionPanel paddingTop={0}>
                         <Flex direction="column">
-                          {daosListData?.map(dao => (
+                          {daosUsersListData.map(dao => (
                             <Stack paddingLeft={8} paddingY={1} key={dao.id}>
-                              <Link to={`/dao/${dao.id}`}>
+                              <Link to={`/dao/${dao.guild.id}`}>
                                 <Text
                                   as="span"
                                   color="gray.800"
@@ -157,7 +165,7 @@ const Sidebar = () => {
                                     color: 'gray.900',
                                   }}
                                 >
-                                  {dao.name}
+                                  {dao.guild.name}
                                 </Text>
                               </Link>
                             </Stack>

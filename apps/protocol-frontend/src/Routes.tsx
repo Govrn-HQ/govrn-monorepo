@@ -15,15 +15,20 @@ import Attestations from './pages/Attestations';
 import Dashboard from './pages/Dashboard';
 import DaoLandingPage from './pages/DaoLandingPage';
 import DaoDashboard from './pages/DaoDashboard';
+import DaoSettings from './pages/DaoSettings';
 import Report from './pages/Report';
 import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
+import CreateDao from './pages/CreateDao';
 import ErrorView from './components/ErrorView';
+import useUserGet from './hooks/useUserGet';
 import { useAccount } from 'wagmi';
+import DiscordSignatureLayout from './components/DiscordSignatureLayout';
 import {
   CONTRIBUTION_NEW_DOMAIN,
   CONTRIBUTION_NEW_STAGING_DOMAIN,
+  LEFT_MEMBERSHIP_NAME,
 } from './utils/constants';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
@@ -42,10 +47,15 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  const { isUserDaoMember } = useUser();
   const { guildId } = useParams();
+  const { userData } = useUser();
+  const { data } = useUserGet({ userId: userData?.id });
   if (guildId) {
-    if (isUserDaoMember(guildId) === false) {
+    if (
+      (data?.userDaos && data?.userDaos.has(parseInt(guildId)) === false) ||
+      data?.userDaos.get(parseInt(guildId)).membershipStatus?.name ===
+        LEFT_MEMBERSHIP_NAME
+    ) {
       return (
         <ErrorView
           errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
@@ -58,8 +68,9 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
 };
 
 const Routes = () => {
-  const { userDaos } = useUser();
-  const [firstDao] = userDaos.values();
+  const { userData } = useUser();
+  const { data } = useUserGet({ userId: userData?.id });
+  const userDaos = data?.userDaos;
   const url = new URL(window.location.href);
 
   return (
@@ -77,6 +88,7 @@ const Routes = () => {
             )
           }
         />
+        <Route path="/signature" element={<DiscordSignatureLayout />} />
         <Route
           path="/profile"
           element={
@@ -115,7 +127,10 @@ const Routes = () => {
           path="/dao"
           element={
             userDaos && userDaos?.size > 0 ? (
-              <Navigate replace to={`/dao/${firstDao.guild_id}`} />
+              <Navigate
+                replace
+                to={`/dao/${userDaos?.values().next().value?.guild_id}`}
+              />
             ) : (
               <RequireActiveUser>
                 <DaoLandingPage />
@@ -130,6 +145,22 @@ const Routes = () => {
               <RequireDaoUser>
                 <DaoDashboard />
               </RequireDaoUser>
+            </RequireActiveUser>
+          }
+        />
+        <Route
+          path="/dao/:guildId/settings"
+          element={
+            <RequireActiveUser>
+              <DaoSettings />
+            </RequireActiveUser>
+          }
+        />
+        <Route
+          path="/dao/create"
+          element={
+            <RequireActiveUser>
+              <CreateDao />
             </RequireActiveUser>
           }
         />

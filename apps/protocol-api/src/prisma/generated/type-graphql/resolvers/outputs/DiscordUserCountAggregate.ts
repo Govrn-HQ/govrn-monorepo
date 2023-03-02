@@ -40,6 +40,16 @@ export class DiscordUserCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  access_token!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  active_token!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   enable_notifications!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

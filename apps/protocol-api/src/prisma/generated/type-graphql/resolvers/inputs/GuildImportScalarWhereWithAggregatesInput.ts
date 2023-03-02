@@ -54,4 +54,9 @@ export class GuildImportScalarWhereWithAggregatesInput {
     nullable: true
   })
   integration_type_id?: IntWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+    nullable: true
+  })
+  import_status_id?: IntWithAggregatesFilter | undefined;
 }

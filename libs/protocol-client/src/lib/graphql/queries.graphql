@@ -174,18 +174,6 @@ mutation createGuild($data: GuildCreateInput!) {
   }
 }
 
-mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
-  createGuildUserCustom(data: $data) {
-    id
-  }
-}
-
-mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
-  deleteOneGuildUser(where: $where) {
-    id
-  }
-}
-
 query getGuild($where: GuildWhereUniqueInput!) {
   result: guild(where: $where) {
     ...GuildFragment
@@ -222,8 +210,41 @@ fragment GuildImportFragment on GuildImport {
   createdAt
   updatedAt
   guild_id
+  guild {
+    id
+    name
+  }
   integration_type_id
+  integration_type {
+    id
+    name
+  }
   authentication_token
+  import_status {
+    id
+    createdAt
+    updatedAt
+    name
+  }
+  users {
+    user_id
+  }
+}
+
+query listGuildUsers(
+  $where: GuildUserWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildUserOrderByWithRelationInput!]
+) {
+  result: guildUsers(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildUserFragment
+  }
 }
 
 mutation createGuildImport($data: GuildImportCreateInput!) {
@@ -239,6 +260,66 @@ mutation createManyGuildUser(
 ) {
   createManyGuildUser(data: $data, skipDuplicates: $skipDuplicates) {
     count
+  }
+}
+
+# GuildUser
+fragment GuildUserFragment on GuildUser {
+  id
+  createdAt
+  updatedAt
+  favorite
+  user_id
+  user {
+    name
+    display_name
+    address
+  }
+  guild {
+    id
+    name
+  }
+  membershipStatus {
+    id
+    createdAt
+    updatedAt
+    name
+  }
+}
+
+mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
+  createGuildUserCustom(data: $data) {
+    id
+    guild_id
+  }
+}
+
+mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
+  deleteOneGuildUser(where: $where) {
+    id
+  }
+}
+
+mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
+  updateGuildUserCustom(data: $data) {
+    ...GuildUserFragment
+  }
+}
+
+
+query listGuildImports(
+  $where: GuildImportWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildImportOrderByWithRelationInput!]
+) {
+  result: guildImports(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildImportFragment
   }
 }
 
@@ -344,6 +425,10 @@ fragment UserFragment on User {
   id
   name
   updatedAt
+  discord_users {
+    id
+    active_token
+  }
   linear_users {
     id
     active_token
@@ -354,6 +439,10 @@ fragment UserFragment on User {
     guild_id
     guild {
       id
+      name
+    }
+    favorite
+    membershipStatus {
       name
     }
   }

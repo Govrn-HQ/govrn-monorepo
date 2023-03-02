@@ -23,7 +23,7 @@ export const useContributionUpdate = () => {
       contribution,
       bulkItemCount,
     }: UpdateContributionProps) => {
-      if (userData !== null) {
+      if (userData !== null && userData?.address && userData?.id) {
         const data = await govrn.custom.updateUserContribution({
           address: userData.address,
           chainName: 'ethereum',
@@ -60,7 +60,7 @@ export const useContributionUpdate = () => {
           toast.success({
             id: toastUpdateContributionId,
             title: 'Contribution Successfully Updated',
-            description: `Your Contribution ${
+            description: `Your contribution ${
               bulkItemCount && bulkItemCount !== 1
                 ? 'reports have'
                 : 'report has'

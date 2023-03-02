@@ -17,7 +17,6 @@ import {
 import { GraphQLClient } from 'graphql-request';
 import { paginate } from '../utils/paginate';
 import { batch } from '../utils/batch';
-// noinspection ES6PreferShortImport
 import { ChainIdError } from '../utils/errors';
 
 export class Contribution extends BaseClient {
@@ -297,6 +296,7 @@ export class Contribution extends BaseClient {
         chain: { is: { chain_id: { equals: `${chainId}` } } },
         on_chain_id: { in: contributionIds },
       },
+      first: contributionIds.length,
     });
     if (dbContributions.result.length !== contributionIds.length) {
       throw new Error(
@@ -361,7 +361,7 @@ export class Contribution extends BaseClient {
         name: { set: ethers.utils.toUtf8String(name) },
         details: { set: ethers.utils.toUtf8String(details) },
         date_of_submission: { set: new Date(args.dateOfSubmission).toString() },
-        date_of_engagement: { set: new Date(args.dateOfSubmission).toString() },
+        date_of_engagement: { set: new Date(args.dateOfEngagement).toString() },
         proof: { set: ethers.utils.toUtf8String(proof) },
         on_chain_id: { set: onChainId },
         tx_hash: { set: txHash },

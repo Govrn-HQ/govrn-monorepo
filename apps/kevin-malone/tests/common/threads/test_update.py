@@ -62,7 +62,6 @@ async def test_user_update_field_selection(mocker, thread_dependencies):
 
 @pytest.mark.asyncio
 async def test_update_profile_field(mocker, thread_dependencies):
-
     (cache, context, message, bot) = thread_dependencies
     user_id = "1234"
     step = UpdateProfileFieldEmojiStep(cache)
@@ -177,7 +176,7 @@ async def test_verify_user_twitter_step(mocker, thread_dependencies):
     tweet_url = f"https://twitter.com/{mock_twitter_profile}/status/{mock_status_id}"
     await cache.set(user_id, build_cache_value("t", "s", "1", "1"))
 
-    step = VerifyUserTwitterStep(user_id, guild_id, cache)
+    step = VerifyUserTwitterStep(user_id, guild_id, cache, True)
     (sent_message, metadata) = await step.send(message, user_id)
 
     requested_tweet = await get_cache_metadata_key(user_id, cache, "requested_tweet")
