@@ -19,7 +19,11 @@ import {
 import { useUser } from '../contexts/UserContext';
 import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import EmptyImports from './EmptyImports';
-import { GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  SelectOption,
+} from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergeMemberPages } from '../utils/arrays';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
@@ -34,9 +38,24 @@ interface DaoSettingsMembersTableProps {
   daoId: number;
 }
 
+const options = [
+  {
+    label: 'Admin',
+    value: 'Admin',
+  },
+  {
+    label: 'Member',
+    value: 'Member',
+  },
+  {
+    label: 'Recruit',
+    value: 'Recruit',
+  },
+];
+
 const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const { userData } = useUser();
-  const [selectedMemberAddresses, setSelectedMemberAddreses] = useState<
+  const [selectedMemberAddresses, setSelectedMemberAddresses] = useState<
     UIGuildUsers[]
   >([]);
 
@@ -64,6 +83,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [addingMembers, setAddingMembers] = useState(false);
+  const [selectedRole, setSelectedRole] = useState('');
 
   const handleSetAdmins = async () => {
     setAddingMembers(true);
@@ -73,31 +93,32 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       selectedMemberAddresses.length === 0
     )
       return;
-    if (selectedMemberAddresses !== undefined) {
-      const parsedDaoMemberAddresses = selectedMemberAddresses.filter(
-        memberAddress => memberAddress.user.address !== userData?.address,
-      );
-      const uniqueParsedDaoMemberAddresses = [
-        ...new Set(parsedDaoMemberAddresses),
-      ];
-      uniqueParsedDaoMemberAddresses.map(address => {
-        updateDaoMemberStatus({
-          userId: userData.id,
-          guildId: daoId,
-          memberId: address.user_id,
-          membershipStatus: 'Admin',
-        });
-        return true;
+
+    const parsedDaoMemberAddresses = selectedMemberAddresses.filter(
+      memberAddress => memberAddress.user.address !== userData?.address,
+    );
+    const uniqueParsedDaoMemberAddresses = [
+      ...new Set(parsedDaoMemberAddresses),
+    ];
+    uniqueParsedDaoMemberAddresses.map(address => {
+      updateDaoMemberStatus({
+        userId: userData.id,
+        guildId: daoId,
+        memberId: address.user_id,
+        membershipStatus: selectedRole,
       });
-      setAddingMembers(false);
-    }
+      return true;
+    });
+
+    setRowSelection({});
+    setAddingMembers(false);
   };
 
   const columnsDefs = useMemo<ColumnDef<UIGuildUsers>[]>(() => {
     return [
       {
         id: 'selection',
-        header: 'Select Admin',
+        header: 'Select',
         cell: ({ row }) => (
           <IndeterminateCheckbox
             {...{
@@ -112,11 +133,11 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         header: 'Member',
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
-          const value = getValue();
-          const hasMemberName = value.name || value.display_name;
+          const user = getValue();
+          const hasMemberName = user.name || user.display_name;
           const displayMemberName =
-            value.name || value.display_name || displayAddress(value.address);
-          return value.address === userData?.address ? (
+            user.name || user.display_name || displayAddress(user.address);
+          return user.address === userData?.address ? (
             <Text
               whiteSpace="normal"
               fontWeight="bold"
@@ -128,7 +149,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           ) : hasMemberName ? (
             <Tooltip
               variant="primary"
-              label={value.address}
+              label={user.address}
               fontSize="sm"
               placement="right"
             >
@@ -141,29 +162,26 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       },
       {
         header: 'Role',
+        accessorFn: user => user.membershipStatus.name,
         accessorKey: 'membershipStatus',
-        cell: ({
-          getValue,
-        }: {
-          getValue: Getter<UIGuildUsers['membershipStatus']>;
-        }) => {
-          const value = getValue();
-          if (value === undefined || value === null) return;
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          const role = getValue();
+          if (role === undefined || role === null) return;
           return (
             <Badge
               minWidth="5rem"
               textAlign="center"
               bgColor={
-                value.name === 'Admin'
+                role === 'Admin'
                   ? 'brand.purple'
-                  : value.name === 'Member'
+                  : role === 'Member'
                   ? 'brand.magenta'
                   : 'gray.200'
               }
               color={
-                value.name === 'Admin'
+                role === 'Admin'
                   ? 'white'
-                  : value.name === 'Member'
+                  : role === 'Member'
                   ? 'white'
                   : 'gray.600'
               }
@@ -174,7 +192,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               size="sm"
               textTransform="uppercase"
             >
-              {value.name}
+              {role}
             </Badge>
           );
         },
@@ -198,7 +216,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   });
 
   useEffect(() => {
-    setSelectedMemberAddreses(selectedRows);
+    setSelectedMemberAddresses(selectedRows);
   }, [selectedRows, selectedMemberAddresses]);
 
   useEffect(() => {
@@ -256,13 +274,34 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           <EmptyImports />
         )}
       </Box>
+
+      {daoUsersData?.pages?.length && (
+        <Box width="fit-content" py={6} paddingEnd={10}>
+          <ControlledSelect
+            options={options}
+            label="Membership"
+            tip="Change members' status"
+            placeholder="Modify Member      "
+            onChange={option =>
+              setSelectedRole((option as SelectOption<string>)?.value)
+            }
+            isSearchable={false}
+            isClearable={false}
+            isDisabled={selectedRows.length === 0}
+          />
+        </Box>
+      )}
       <Button
         variant="secondary"
         width="fit-content"
         onClick={handleSetAdmins}
-        disabled={addingMembers}
+        disabled={
+          addingMembers ||
+          selectedRole.length === 0 ||
+          selectedRows.length === 0
+        }
       >
-        Set Admins
+        Update Status
       </Button>
     </Flex>
   );
