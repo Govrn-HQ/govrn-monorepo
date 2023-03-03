@@ -96,9 +96,11 @@ const DaoSettingsLayout = () => {
           <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
         </Flex>
       </Flex>
-      <FeatureFlagWrapper>
-        <VerificationFramework />
-      </FeatureFlagWrapper>
+      {isAdmin === true ? (
+        <FeatureFlagWrapper>
+          <VerificationFramework />
+        </FeatureFlagWrapper>
+      ) : null}
     </Box>
   );
 };

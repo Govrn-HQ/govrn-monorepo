@@ -35,6 +35,7 @@ const VerificationFramework = () => {
             option you can always return and edit settings.
           </Text>
         </Flex>
+        <VerificationFrameworkForm />
       </Flex>
     </Flex>
   );
