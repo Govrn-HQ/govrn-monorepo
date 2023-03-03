@@ -9,6 +9,8 @@ import DaoNameUpdateForm from './DaoNameUpdateForm';
 import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 import ErrorView from './ErrorView';
+import FeatureFlagWrapper from './FeatureFlagWrapper';
+import VerificationFramework from './VerificationFramework';
 
 const DaoSettingsLayout = () => {
   const { guildId } = useParams();
@@ -94,6 +96,9 @@ const DaoSettingsLayout = () => {
           <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
         </Flex>
       </Flex>
+      <FeatureFlagWrapper>
+        <VerificationFramework />
+      </FeatureFlagWrapper>
     </Box>
   );
 };

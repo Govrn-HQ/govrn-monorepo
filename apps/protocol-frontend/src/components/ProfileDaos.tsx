@@ -103,8 +103,6 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
 
   if (joinableDaosListLoading) return <GovrnSpinner />;
 
-  console.log('data', data);
-
   return (
     <Flex
       justify="space-between"
