@@ -158,7 +158,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             gap={{ base: 0, lg: 2 }}
           >
             <Button
-              variant="primary"
+              variant="secondary"
               width="min-content"
               px={8}
               onClick={() => showLeavingDialog(true)}
@@ -218,7 +218,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           {daoContributions && daoContributions.length === 0 ? (
             <Box marginTop={2} marginBottom={4}>
               <GovrnShowcase
-                copy="Start adding your contributions to see your data"
+                copy="Record contributions to see your data"
                 emoji="🙌"
                 children={<ButtonChildren />}
               />

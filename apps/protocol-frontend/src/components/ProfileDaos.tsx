@@ -21,6 +21,7 @@ import DaoCard from './DaoCard';
 import { SortOrder } from '@govrn/protocol-client';
 import { mergeMemberPages } from '../utils/arrays';
 import { UIGuildUsers } from '@govrn/ui-types';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 
 interface ProfileDaoProps {
   userId: number | undefined;
@@ -62,7 +63,10 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     isFetchingNextPage,
   } = useDaoUsersInfiniteList(
     {
-      where: { user_id: { equals: userId } },
+      where: {
+        user_id: { equals: userId },
+        membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
+      },
       orderBy: [
         { membershipStatus: { name: SortOrder.Asc } },
         { favorite: SortOrder.Desc },
@@ -102,6 +106,8 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   }, [daoUsersData]);
 
   if (joinableDaosListLoading) return <GovrnSpinner />;
+
+  console.log('data', data);
 
   return (
     <Flex
