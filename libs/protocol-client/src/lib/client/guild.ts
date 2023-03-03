@@ -4,7 +4,6 @@ import {
   GuildUpdateCustomInput,
   GuildUpdateCustomWhereInput,
   ListGuildsQueryVariables,
-  UpdateContributionMutationVariables,
   UpdateGuildImportMutationVariables,
 } from '../protocol-types';
 import {

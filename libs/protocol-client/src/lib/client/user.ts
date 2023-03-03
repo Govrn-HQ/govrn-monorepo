@@ -1,5 +1,4 @@
 import {
-  CreateGuildUserCustomMutationVariables,
   CreateManyUsersMutationVariables,
   ListUsersQueryVariables,
   UserCreateCustomInput,
