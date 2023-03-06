@@ -26,7 +26,7 @@ const CopyChildren = () => (
       <span role="img" aria-labelledby="pencil and paper emoji">
         📝
       </span>{' '}
-      Add a Contribution to view your Dashboard
+      Add a contribution to view your dashboard
     </Text>
     <Text as="span">
       {' '}
