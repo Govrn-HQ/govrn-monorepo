@@ -12,6 +12,8 @@ export { default as GovrnShowcase } from './GovrnShowcase';
 export type { GovrnShowcaseProps } from './GovrnShowcase';
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
+export { default as NumberInput } from './NumberInput';
+export type { NumberInputProps } from './NumberInput';
 export { default as Select } from './Select';
 export type { SelectProps } from './Select';
 export { default as Textarea } from './Textarea';
