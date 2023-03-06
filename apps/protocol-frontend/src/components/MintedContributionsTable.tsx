@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
-import { GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { formatDate, toDate } from '../utils/date';
 import { FiTrash2 } from 'react-icons/fi';
@@ -157,28 +157,56 @@ const MintedContributionsTable = ({
     debugAll: false,
   });
 
+  const CopyChildren = () => (
+    <Flex direction="column" alignItems="center" justifyContent="center">
+      <Text as="span">
+        Record a contribution and then attribute it to a DAO or minting it on
+        the Staged tab
+      </Text>
+      <span role="img" aria-labelledby="winking emoji">
+        😉
+      </span>
+    </Flex>
+  );
+
+  let component = (
+    <GovrnCta
+      heading={`It's minting time!`}
+      emoji="🔭"
+      copy={<CopyChildren />}
+    />
+  );
+
+  if (data.length) {
+    component = (
+      <Stack>
+        <GlobalFilter
+          preGlobalFilteredRows={table
+            .getPreFilteredRowModel()
+            .rows.map(r => r.original)}
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
+        <Box width="100%" maxWidth="100vw" overflowX="auto">
+          <InfiniteScroll
+            dataLength={table.getRowModel().rows.length}
+            next={nextPage}
+            scrollThreshold={0.8}
+            hasMore={hasMoreItems}
+            loader={<GovrnSpinner />}
+          >
+            <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />{' '}
+          </InfiniteScroll>
+        </Box>
+      </Stack>
+    );
+  }
+
   return (
-    <Stack>
-      <GlobalFilter
-        preGlobalFilteredRows={table
-          .getPreFilteredRowModel()
-          .rows.map(r => r.original)}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
-      <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <InfiniteScroll
-          dataLength={table.getRowModel().rows.length}
-          next={nextPage}
-          scrollThreshold={0.8}
-          hasMore={hasMoreItems}
-          loader={<GovrnSpinner />}
-        >
-          <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />{' '}
-        </InfiniteScroll>
-        <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
-      </Box>
-    </Stack>
+    <>
+      {component}
+      <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
+    </>
   );
 };
 
