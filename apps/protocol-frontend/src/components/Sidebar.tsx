@@ -209,7 +209,6 @@ const Sidebar = () => {
               linkTo={FEEDBACK_LINK}
             />
             <NavButton label="Docs" icon={FiBook} linkTo={DOCS_LINK} />
-            // todo add the navbutton for the FIbook icon
           </Stack>
         </Flex>
       </Flex>
