@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box,
+  Button,
   Flex,
   Link as ChakraLink,
   HStack,
@@ -10,6 +11,8 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { HiOutlineLink } from 'react-icons/hi';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import {
   ColumnDef,
@@ -21,8 +24,6 @@ import {
   Getter,
   Row,
 } from '@tanstack/react-table';
-import { Link } from 'react-router-dom';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import ModalWrapper from './ModalWrapper';
 import MintModal from './MintModal';
 import BulkDaoAttributeModal from './BulkDaoAttributeModal';
@@ -33,7 +34,7 @@ import EditContributionForm from './EditContributionForm';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
-import { GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { formatDate, toDate } from '../utils/date';
 import { RowSelectionState } from '@tanstack/table-core';
@@ -268,58 +269,100 @@ const ContributionsTable = ({
     setSelectedRows(selectedContributions);
   }, [rowSelection, table]);
 
+  const CopyChildren = () => (
+    <Flex direction="column" alignItems="center" justifyContent="center">
+      <Text as="span">
+        Record a contribution and then try attributing it to a DAO or minting it
+      </Text>
+      <span role="img" aria-labelledby="winking emoji">
+        😉
+      </span>
+    </Flex>
+  );
+
+  const ButtonChildren = () => (
+    <ChakraLink
+      as={Link}
+      to="/report"
+      _hover={{
+        textDecoration: 'none',
+      }}
+    >
+      <Button variant="primary" size="md" width={{ base: '100%', lg: 'auto' }}>
+        Report Your First Contribution
+      </Button>
+    </ChakraLink>
+  );
+
+  let component = (
+    <GovrnCta
+      heading={`It's new contribution time!`}
+      emoji="⚡"
+      copy={<CopyChildren />}
+      children={<ButtonChildren />}
+    />
+  );
+
+  if (data.length) {
+    component = (
+      <Stack>
+        <GlobalFilter
+          preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
+        <Box width="100%" maxWidth="100vw" overflowX="auto">
+          <InfiniteScroll
+            dataLength={table.getRowModel().rows.length}
+            next={nextPage}
+            scrollThreshold={0.8}
+            hasMore={hasMoreItems}
+            loader={<GovrnSpinner />}
+          >
+            <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
+          </InfiniteScroll>
+        </Box>
+      </Stack>
+    );
+  }
+
   return (
-    <Stack>
-      <GlobalFilter
-        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
+    <>
+      {component}
+      <ModalWrapper
+        name="editContributionFormModal"
+        title="Update Contribution Activity"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <EditContributionForm
+            contribution={
+              data.find(
+                localContribution =>
+                  localContribution.id === selectedContribution,
+              )!
+            }
+          />
+        }
       />
-      <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <InfiniteScroll
-          dataLength={table.getRowModel().rows.length}
-          next={nextPage}
-          scrollThreshold={0.8}
-          hasMore={hasMoreItems}
-          loader={<GovrnSpinner />}
-        >
-          <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
-        </InfiniteScroll>
-        <ModalWrapper
-          name="editContributionFormModal"
-          title="Update Contribution Activity"
-          localOverlay={localOverlay}
-          size="3xl"
-          content={
-            <EditContributionForm
-              contribution={
-                data.find(
-                  localContribution =>
-                    localContribution.id === selectedContribution,
-                )!
-              }
-            />
-          }
-        />
-        <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
-        <ModalWrapper
-          name="mintModal"
-          title="Mint Your DAO Contributions"
-          localOverlay={localOverlay}
-          size="3xl"
-          content={
-            <MintModal contributions={selectedRows} onFinish={deselectAll} />
-          }
-        />
-        <ModalWrapper
-          name="bulkDaoAttributeModal"
-          title="Attribute Contributions to a DAO"
-          localOverlay={localOverlay}
-          size="3xl"
-          content={<BulkDaoAttributeModal contributions={selectedRows} />}
-        />
-      </Box>
-    </Stack>
+      <DeleteContributionDialog dialog={dialog} setDialog={setDialog} />
+      <ModalWrapper
+        name="mintModal"
+        title="Mint Your DAO Contributions"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <MintModal contributions={selectedRows} onFinish={deselectAll} />
+        }
+      />
+      <ModalWrapper
+        name="bulkDaoAttributeModal"
+        title="Attribute Contributions to a DAO"
+        localOverlay={localOverlay}
+        size="3xl"
+        content={<BulkDaoAttributeModal contributions={selectedRows} />}
+      />
+    </>
   );
 };
 
