@@ -71,6 +71,8 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     8, // page size
   );
 
+  console.log('daoUsersData', daoUsersData);
+
   const daoListOptions =
     joinableDaosListData?.map(dao => ({
       value: dao.id,
