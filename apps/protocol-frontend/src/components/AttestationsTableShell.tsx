@@ -6,7 +6,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
@@ -140,29 +139,13 @@ const AttestationsTableShell = () => {
                 boxShadow="sm"
                 borderRadius={{ base: 'none', md: 'lg' }}
               >
-                <Stack spacing="5">
-                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
-                    <Stack direction="column" gap="2">
-                      <Text fontSize="lg" fontWeight="medium">
-                        My Attestations
-                      </Text>
-                      <Text fontSize="md" fontWeight="normal">
-                        These are contributions that you have already attested
-                        to.
-                      </Text>
-                    </Stack>
-                  </Box>
+                <Stack>
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
-                    {attestedContributions &&
-                    attestedContributions?.pages.length > 0 ? (
-                      <MyAttestationsTable
-                        data={mergePages(attestedContributions?.pages || [])}
-                        hasMoreItems={hasNextPageAttestedContributions}
-                        nextPage={fetchNextPageAttestedContributions}
-                      />
-                    ) : (
-                      <EmptyContributions />
-                    )}
+                    <MyAttestationsTable
+                      data={mergePages(attestedContributions?.pages || [])}
+                      hasMoreItems={hasNextPageAttestedContributions}
+                      nextPage={fetchNextPageAttestedContributions}
+                    />
                   </Box>
                 </Stack>
               </Box>
