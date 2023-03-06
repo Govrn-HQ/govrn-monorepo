@@ -1,7 +1,14 @@
 import { useMemo, useState } from 'react';
 import { isAfter } from 'date-fns';
 import { Link } from 'react-router-dom';
-import { Box, Flex, HStack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Link as ChakraLink,
+  HStack,
+  Text,
+} from '@chakra-ui/react';
 
 import {
   ColumnDef,
@@ -14,6 +21,7 @@ import {
   Row,
 } from '@tanstack/react-table';
 import { UIContribution } from '@govrn/ui-types';
+import { GovrnCta } from '@govrn/protocol-ui';
 import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
 
@@ -137,7 +145,47 @@ const ContributionTypesTable = ({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  return <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />;
+  const CopyChildren = () => (
+    <Flex direction="column" alignItems="center" justifyContent="center">
+      <Text as="span">
+        Record a contribution and then try attributing it to a DAO or minting it
+      </Text>
+      <span role="img" aria-labelledby="winking emoji">
+        😉
+      </span>
+    </Flex>
+  );
+
+  const ButtonChildren = () => (
+    <ChakraLink
+      as={Link}
+      to="/report"
+      _hover={{
+        textDecoration: 'none',
+      }}
+    >
+      <Button variant="primary" size="md" width={{ base: '100%', lg: 'auto' }}>
+        Report Your First Contribution
+      </Button>
+    </ChakraLink>
+  );
+
+  let component = (
+    <GovrnCta
+      heading={`It's new contribution time!`}
+      emoji="⚡"
+      copy={<CopyChildren />}
+      children={<ButtonChildren />}
+    />
+  );
+
+  if (uniqueContributions.length) {
+    component = (
+      <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
+    );
+  }
+
+  return component;
 };
 
 export default ContributionTypesTable;
