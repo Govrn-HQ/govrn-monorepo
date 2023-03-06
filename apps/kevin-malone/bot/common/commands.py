@@ -93,8 +93,9 @@ async def join(ctx: discord.ApplicationContext):
     guild = await get_guild_by_discord_id(guild_discord_id)
     guild_id = guild["id"]
 
+    # and guild_user["membershipStatus"]["name"] is not "Left") for guild_user in user["guild_users"]
     if user is not None and any(
-        (guild_user["guild_id"] == guild_id and guild_user["membershipStatus"]["name"] is not "Left") for guild_user in user["guild_users"]
+        (guild_user["guild_id"] == guild_id for guild_user in user["guild_users"])
     ):
         # Send welcome message and
         # And ask what journey they are
@@ -315,16 +316,15 @@ async def add_dao(ctx: discord.ApplicationContext):
 
 @bot.slash_command(
     guild_id=GUILD_IDS,
-    description="Report feedback for Kevin Malone or other parts of the Govrn platform"
+    description="Report feedback for Kevin Malone or other parts of the Govrn platform",
 )
 async def feedback(ctx):
     feedback_msg = FEEDBACK_MSG_FMT % FEEDBACK_FORM_LINK
     feedback_embed = discord.Embed(
-        colour=INFO_EMBED_COLOR,
-        title="Feedback",
-        description=feedback_msg
+        colour=INFO_EMBED_COLOR, title="Feedback", description=feedback_msg
     )
     await ctx.respond(embed=feedback_embed)
+
 
 # if bool(strtobool(constants.Bot.is_dev)):
 
