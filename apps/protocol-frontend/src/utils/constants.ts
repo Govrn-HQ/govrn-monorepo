@@ -1,8 +1,4 @@
-import {
-  GovrnTheme,
-  SelectOption as Option,
-  SelectOption,
-} from '@govrn/protocol-ui';
+import { GovrnTheme } from '@govrn/protocol-ui';
 
 /* Environment Variables */
 export const INFURA_PROJECT_SECRET = import.meta.env.VITE_INFURA_PROJECT_SECRET;
@@ -32,13 +28,14 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Other',
 ];
 
-export const DEFAULT_ACTIVITY_TYPES_OPTIONS: Option<string>[] =
-  DEFAULT_ACTIVITY_TYPES.map(activity => {
+export const DEFAULT_ACTIVITY_TYPES_OPTIONS = DEFAULT_ACTIVITY_TYPES.map(
+  activity => {
     return {
       label: activity,
       value: activity,
     };
-  });
+  },
+);
 export const ADDRESS_IMPORT_MAX = 1000;
 
 const primaryBrandColorsFromTheme: string[] = Object.values(
@@ -56,7 +53,7 @@ export const WEEK = 1;
 export const MONTH = 4;
 export const QUARTER = 12;
 export const YEAR = 52;
-export const DEFAULT_DATE_RANGES: SelectOption<number>[] = [
+export const DEFAULT_DATE_RANGES = [
   { label: 'Last Week', value: WEEK },
   { label: 'Last Month', value: MONTH },
   { label: 'Last Quarter', value: QUARTER },

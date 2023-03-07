@@ -29,10 +29,7 @@ interface ProfileDaoProps {
 }
 
 const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
-  const [selectedDao, setSelectedDao] = useState<{
-    value: number;
-    label: string;
-  } | null>(null);
+  const [selectedDao, setSelectedDao] = useState<Option<number> | null>(null);
 
   const { state } = useLocation();
   const { targetId } = state || {};
@@ -75,7 +72,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     8, // page size
   );
 
-  const daoListOptions: Option<number>[] =
+  const daoListOptions =
     joinableDaosListData?.map(dao => ({
       label: dao.name ?? '',
       value: dao.id,
@@ -162,7 +159,12 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
               <ControlledSelect
                 label="Select a DAO to Join"
                 isMulti={false}
-                onChange={dao => setSelectedDao(dao as Option<number>)}
+                onChange={dao => {
+                  if (dao instanceof Array || !dao) {
+                    return;
+                  }
+                  setSelectedDao(dao);
+                }}
                 value={selectedDao ?? null}
                 options={daoListOptions}
                 isSearchable={false}

@@ -24,8 +24,6 @@ import {
   GovrnSpinner,
   Select,
   Textarea,
-  SelectOption as Option,
-  SelectGroupedOptions,
 } from '@govrn/protocol-ui';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -36,7 +34,7 @@ import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 import useUserGet from '../hooks/useUserGet';
 import { useGovrnToast } from '@govrn/protocol-ui';
-import { groupBy } from 'lodash';
+import groupBy from 'lodash/groupBy';
 
 function CreateMoreSwitch({
   isChecked,
@@ -201,27 +199,26 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     data: userActivityTypesData,
   } = useUserActivityTypesList();
 
-  const combinedActivityTypeOptions: SelectGroupedOptions<string> =
-    useMemo(() => {
-      const groupedActivityTypes = groupBy(
-        userActivityTypesData?.map(activity => ({
-          activity: activity.name,
-          guild: activity.guilds[0]?.guild?.name,
-        })),
-        'guild',
-      );
+  const combinedActivityTypeOptions = useMemo(() => {
+    const groupedActivityTypes = groupBy(
+      userActivityTypesData?.map(activity => ({
+        activity: activity.name,
+        guild: activity.guilds[0]?.guild?.name,
+      })),
+      'guild',
+    );
 
-      return [
-        ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
-        ...Object.keys(groupedActivityTypes).map(key => ({
-          label: key,
-          options: groupedActivityTypes[key].map(item => ({
-            value: item.activity,
-            label: item.activity,
-          })),
+    return [
+      ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+      ...Object.keys(groupedActivityTypes).map(key => ({
+        label: key,
+        options: groupedActivityTypes[key].map(item => ({
+          value: item.activity,
+          label: item.activity,
         })),
-      ];
-    }, [userActivityTypesData]);
+      })),
+    ];
+  }, [userActivityTypesData]);
 
   // the loading and fetching states from the query are true:
   if (userActivityTypesIsLoading || useUserLoading) {
@@ -281,7 +278,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             label="Activity Type"
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
-              setValue('activityType', (activity as Option<string>)?.value);
+              setValue('activityType', activity);
             }}
             options={combinedActivityTypeOptions}
             localForm={localForm}

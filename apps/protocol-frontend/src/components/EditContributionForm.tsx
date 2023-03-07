@@ -20,8 +20,6 @@ import {
   Input,
   Select,
   Textarea,
-  SelectOption as Option,
-  SelectGroupedOptions,
 } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -34,7 +32,7 @@ import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import useUserGet from '../hooks/useUserGet';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
 import { useGovrnToast } from '@govrn/protocol-ui';
-import { groupBy } from 'lodash';
+import groupBy from 'lodash/groupBy';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -81,10 +79,10 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     userId: userData?.id,
   });
 
-  const daoReset: Option<number> = { label: 'No DAO', value: -1 };
+  const daoReset = { label: 'No DAO', value: -1 };
 
-  const combinedDaoListOptions: Option<number>[] = useMemo(() => {
-    const daoListOptions: Option<number>[] =
+  const combinedDaoListOptions = useMemo(() => {
+    const daoListOptions =
       useUserData?.guild_users.map(dao => ({
         value: dao.guild.id,
         label: dao.guild.name ?? '',
@@ -93,27 +91,26 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     return [daoReset, ...daoListOptions];
   }, [useUserData, daoReset]);
 
-  const combinedActivityTypeOptions: SelectGroupedOptions<string> =
-    useMemo(() => {
-      const groupedActivityTypes = groupBy(
-        userActivityTypesData?.map(activity => ({
-          activity: activity.name,
-          guild: activity.guilds[0]?.guild?.name,
-        })),
-        'guild',
-      );
+  const combinedActivityTypeOptions = useMemo(() => {
+    const groupedActivityTypes = groupBy(
+      userActivityTypesData?.map(activity => ({
+        activity: activity.name,
+        guild: activity.guilds[0]?.guild?.name,
+      })),
+      'guild',
+    );
 
-      return [
-        ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
-        ...Object.keys(groupedActivityTypes).map(key => ({
-          label: key,
-          options: groupedActivityTypes[key].map(item => ({
-            value: item.activity,
-            label: item.activity,
-          })),
+    return [
+      ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+      ...Object.keys(groupedActivityTypes).map(key => ({
+        label: key,
+        options: groupedActivityTypes[key].map(item => ({
+          value: item.activity,
+          label: item.activity,
         })),
-      ];
-    }, [userActivityTypesData]);
+      })),
+    ];
+  }, [userActivityTypesData]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -245,7 +242,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               label: contribution?.activity_type?.name,
             }}
             onChange={activity => {
-              setValue('activityType', (activity as Option<string>)?.value);
+              setValue('activityType', activity);
             }}
             options={combinedActivityTypeOptions}
             localForm={localForm}
