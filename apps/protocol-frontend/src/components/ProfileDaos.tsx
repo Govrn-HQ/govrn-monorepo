@@ -114,19 +114,10 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     isLoading: updateDaoMemberLoading,
   } = useDaoUserUpdate();
 
-  // await updateDaoMemberStatus({
-  //   userId: userData?.id ?? -1,
-  //   guildId: daoId,
-  //   membershipStatus: LEFT_MEMBERSHIP_NAME,
-  // });
-
   const handleDaoJoin = async () => {
     if (!selectedDao || userId === undefined) return;
 
     if (userDaoIds.has(selectedDao?.value)) {
-      console.log('user is already in this dao as a Left member');
-
-      // this path is if the user is already in the dao but has left
       const updateResult = await updateDaoMemberStatus({
         userId: userId,
         guildId: selectedDao?.value,
