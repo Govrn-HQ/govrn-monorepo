@@ -47,7 +47,7 @@ const Sidebar = () => {
   const { data: daosUsersListData } = useDaoUsersList({
     where: {
       user_id: { equals: userData?.id },
-      membershipStatus: { is: { name: { notIn: [LEFT_MEMBERSHIP_NAME] } } },
+      membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
     },
     orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
   });

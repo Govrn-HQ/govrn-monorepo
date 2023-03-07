@@ -63,10 +63,11 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
         user_id: { equals: userId },
         membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
       },
-      orderBy: [
-        { membershipStatus: { name: SortOrder.Asc } },
-        { favorite: SortOrder.Desc },
-      ],
+
+      // orderBy: [
+      //   { membershipStatus: { name: SortOrder.Asc } },
+      //   { favorite: SortOrder.Desc },
+      // ],
     },
     8, // page size
   );
@@ -104,8 +105,6 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   }, [daoUsersData]);
 
   if (joinableDaosListLoading) return <GovrnSpinner />;
-
-  console.log('data', data);
 
   return (
     <Flex
