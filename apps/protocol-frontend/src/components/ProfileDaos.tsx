@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
+import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import { useDaosList } from '../hooks/useDaosList';
 import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import DaoCard from './DaoCard';
@@ -18,6 +19,7 @@ import { SortOrder } from '@govrn/protocol-client';
 import { mergeMemberPages } from '../utils/arrays';
 import { UIGuildUsers } from '@govrn/ui-types';
 import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
+import useUserGet from '../hooks/useUserGet';
 
 interface ProfileDaoProps {
   userId: number | undefined;
@@ -39,6 +41,14 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
       el.scrollIntoView();
     }
   }, [targetId]);
+
+  const { data: userDaosData } = useUserGet({ userId: userId });
+  const userDaos = userDaosData?.userDaos;
+
+  const userDaoIds = new Map();
+  userDaos?.forEach(dao => {
+    userDaoIds.set(dao.guild_id, dao.guild_id);
+  });
 
   const { isLoading: joinableDaosListLoading, data: joinableDaosListData } =
     useDaosList({
@@ -99,18 +109,47 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   const { mutateAsync: createDaoUser, isLoading: createDaoUserLoading } =
     useDaoUserCreate();
 
+  const {
+    mutateAsync: updateDaoMemberStatus,
+    isLoading: updateDaoMemberLoading,
+  } = useDaoUserUpdate();
+
+  // await updateDaoMemberStatus({
+  //   userId: userData?.id ?? -1,
+  //   guildId: daoId,
+  //   membershipStatus: LEFT_MEMBERSHIP_NAME,
+  // });
+
   const handleDaoJoin = async () => {
     if (!selectedDao || userId === undefined) return;
-    const result = await createDaoUser({
-      newDaoUser: {
+
+    if (userDaoIds.has(selectedDao?.value)) {
+      console.log('user is already in this dao as a Left member');
+
+      // this path is if the user is already in the dao but has left
+      const updateResult = await updateDaoMemberStatus({
         userId: userId,
-        userAddress: userAddress,
         guildId: selectedDao?.value,
-      },
-      creatingNewDao: false,
-    });
-    if (result) {
-      setSelectedDao(null);
+        membershipStatus: 'Recruit',
+      });
+      console.log('updateResult', updateResult);
+      if (updateResult) {
+        setSelectedDao(null);
+      }
+    }
+
+    if (!userDaoIds.has(selectedDao?.value)) {
+      const createResult = await createDaoUser({
+        newDaoUser: {
+          userId: userId,
+          userAddress: userAddress,
+          guildId: selectedDao?.value,
+        },
+        creatingNewDao: false,
+      });
+      if (createResult) {
+        setSelectedDao(null);
+      }
     }
   };
 
@@ -184,7 +223,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             <Button
               variant="primary"
               onClick={handleDaoJoin}
-              disabled={createDaoUserLoading}
+              disabled={createDaoUserLoading || updateDaoMemberLoading}
               width={{ base: '100%', lg: 'auto' }}
             >
               Join
