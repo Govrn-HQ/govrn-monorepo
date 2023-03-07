@@ -43,7 +43,14 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   const { isLoading: joinableDaosListLoading, data: joinableDaosListData } =
     useDaosList({
       where: {
-        users: { none: { user_id: { equals: userId || 0 } } },
+        users: {
+          some: {
+            OR: [
+              { user_id: { not: { equals: userId || 0 } } },
+              { membershipStatus: { is: { name: { equals: 'Left' } } } },
+            ],
+          },
+        },
         status: { equals: 'VALIDATED' },
       },
       first: 1000,
