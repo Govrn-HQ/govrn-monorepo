@@ -64,15 +64,13 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
         membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
       },
 
-      // orderBy: [
-      //   { membershipStatus: { name: SortOrder.Asc } },
-      //   { favorite: SortOrder.Desc },
-      // ],
+      orderBy: [
+        { membershipStatus: { name: SortOrder.Asc } },
+        { favorite: SortOrder.Desc },
+      ],
     },
     8, // page size
   );
-
-  console.log('daoUsersData', daoUsersData);
 
   const daoListOptions =
     joinableDaosListData?.map(dao => ({
