@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
-import {
-  ControlledSelect,
-  GovrnSpinner,
-  SelectOption as Option,
-} from '@govrn/protocol-ui';
+import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
@@ -20,7 +16,7 @@ import useDisplayName from '../hooks/useDisplayName';
 
 const TODAY_DATE = new Date();
 
-const unassignedContributions: Option<number>[] = [
+const unassignedContributions = [
   {
     label: UNASSIGNED,
     value: Number(null),
@@ -31,7 +27,7 @@ const DashboardShell = () => {
   const { userData } = useUser();
   const { displayName } = useDisplayName();
 
-  const [dateRange, setDateRange] = useState<Option<number>>({
+  const [dateRange, setDateRange] = useState({
     label: 'Last Year',
     value: 52,
   });
@@ -54,7 +50,7 @@ const DashboardShell = () => {
       value: dao.id,
     })) || [];
 
-  const combinedDaoListOptions: Option<number>[] = [
+  const combinedDaoListOptions = [
     ...new Set([...unassignedContributions, ...userDaoListOptions]),
   ];
 
@@ -78,7 +74,7 @@ const DashboardShell = () => {
 
   const { data: contributionsCount } = useContributionCountInRange({
     id: userData?.id,
-    startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value as number),
+    startDate: subWeeks(startOfDay(TODAY_DATE), dateRange.value),
     endDate: endOfDay(TODAY_DATE),
     guildIds,
     excludeUnassigned,
@@ -150,7 +146,7 @@ const DashboardShell = () => {
                   )}
                   label="Choose Date Range"
                   tip="Choose the date range for your contributions."
-                  onChange={date => setDateRange(date as Option<number>)}
+                  onChange={date => setDateRange(date)}
                   options={DEFAULT_DATE_RANGES}
                 />
               </Flex>

@@ -25,7 +25,6 @@ import { mergePages } from '../utils/arrays';
 import { UIContribution } from '@govrn/ui-types';
 import { useNavigate } from 'react-router-dom';
 import GovrnAlertDialog from './GovrnAlertDialog';
-import { SelectOption as Option } from '@govrn/protocol-ui';
 import {
   TODAY_DATE,
   LEFT_MEMBERSHIP_NAME,
@@ -61,7 +60,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
   const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
   const [isLeavingDialogShown, showLeavingDialog] = useState(false);
 
-  const dateRangeOptions: Option<number>[] = [
+  const dateRangeOptions = [
     {
       value: CUSTOM_VALUE,
       label: 'Custom',
@@ -203,9 +202,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                 )}
                 onChange={dateRangeOffset => {
                   setShowCustomDatePicker(false);
-                  dateChangeHandler(
-                    (dateRangeOffset as Option<number>)?.value ?? 0,
-                  );
+                  dateChangeHandler(dateRangeOffset?.value ?? 0);
                 }}
                 options={dateRangeOptions}
               />
