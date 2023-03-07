@@ -40,11 +40,9 @@ const GovrnAlertDialog = ({
             <Button ref={cancelRef} onClick={onCancel}>
               Cancel
             </Button>
-
             <Button
               colorScheme="red"
               transition="all 100ms ease-in-out"
-              _hover={{ bgColor: 'brand.primary.200' }}
               ml={3}
               onClick={onConfirm}
               data-testid="deleteContributionConfirm-test"

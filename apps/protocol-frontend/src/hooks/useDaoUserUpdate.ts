@@ -36,11 +36,13 @@ export const useDaoUserUpdate = () => {
       return { mutationData };
     },
     {
-      onSuccess: (_, { userId, favorite, membershipStatus }) => {
+      onSuccess: (data, { userId, favorite, membershipStatus }) => {
+        const { address } = data.mutationData.user;
         queryClient.invalidateQueries(['userDaos', userId]);
         queryClient.invalidateQueries(['userGet', userId]);
         queryClient.invalidateQueries(['daoUsersList']);
         queryClient.invalidateQueries(['daoUsersInfiniteList']);
+        queryClient.invalidateQueries(['userByAddressGet', address]); // to invalidate the dependent queries that have deeply nested args the contribution infinite lists
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
