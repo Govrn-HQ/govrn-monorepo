@@ -44,10 +44,21 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     useDaosList({
       where: {
         users: {
-          some: {
+          every: {
             OR: [
               { user_id: { not: { equals: userId || 0 } } },
-              { membershipStatus: { is: { name: { equals: 'Left' } } } },
+              {
+                AND: [
+                  {
+                    user_id: { equals: userId || 0 },
+                  },
+                  {
+                    membershipStatus: {
+                      is: { name: { equals: LEFT_MEMBERSHIP_NAME } },
+                    },
+                  },
+                ],
+              },
             ],
           },
         },
