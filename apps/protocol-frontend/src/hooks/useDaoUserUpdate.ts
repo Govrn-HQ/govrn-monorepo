@@ -10,6 +10,7 @@ interface DaoUserUpdateProps {
   membershipStatusId?: number;
   memberId?: number;
   membershipStatus?: string;
+  rejoining?: boolean;
 }
 
 export const useDaoUserUpdate = () => {
@@ -24,6 +25,7 @@ export const useDaoUserUpdate = () => {
       membershipStatusId,
       memberId,
       membershipStatus,
+      rejoining = false,
     }: DaoUserUpdateProps) => {
       const mutationData = await govrn.guild.user.update({
         userId: userId,
@@ -36,7 +38,7 @@ export const useDaoUserUpdate = () => {
       return { mutationData };
     },
     {
-      onSuccess: (data, { userId, favorite, membershipStatus }) => {
+      onSuccess: (data, { userId, favorite, membershipStatus, rejoining }) => {
         const { address } = data.mutationData.user;
         queryClient.invalidateQueries({ queryKey: ['userDaos'] });
         queryClient.invalidateQueries(['userGet', userId]);
@@ -50,7 +52,15 @@ export const useDaoUserUpdate = () => {
             toast.success({
               id: toastSuccessId,
               title: 'Leaving DAO',
-              description: 'You have left successfully.',
+              description: 'You have successfully left the DAO.',
+            });
+            return;
+          }
+          if (rejoining === true) {
+            toast.success({
+              id: toastSuccessId,
+              title: 'Successfully Added to DAO',
+              description: `Successfully added to the DAO as a ${membershipStatus}.`,
             });
             return;
           }

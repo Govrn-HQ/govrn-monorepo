@@ -122,6 +122,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
         userId: userId,
         guildId: selectedDao?.value,
         membershipStatus: 'Recruit',
+        rejoining: true,
       });
       if (updateResult) {
         setSelectedDao(null);
