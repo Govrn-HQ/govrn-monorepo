@@ -38,7 +38,10 @@ const ContributionsTableShell = () => {
         user_id: { equals: userData?.id },
         status: { isNot: { name: { equals: 'minted' } } },
       },
-      orderBy: { date_of_engagement: SortOrder.Desc },
+      orderBy: [
+        { date_of_engagement: SortOrder.Desc },
+        { name: SortOrder.Asc },
+      ],
     },
     false, // Don't refetch on refocus
   );
@@ -54,17 +57,34 @@ const ContributionsTableShell = () => {
         user_id: { equals: userData?.id },
         status: { is: { name: { equals: 'minted' } } },
       },
-      orderBy: { date_of_engagement: SortOrder.Desc },
+      orderBy: [{ date_of_engagement: SortOrder.Desc }],
     },
     false, // Don't refetch on refocus
   );
 
+  const contributionSort = (a: UIContribution, b: UIContribution) => {
+    if (new Date(a.date_of_engagement) < new Date(b.date_of_engagement)) {
+      return 1;
+    }
+    if (a.date_of_engagement === b.date_of_engagement) {
+      if (a.name.toLowerCase().localeCompare(b.name.toLowerCase()) === 0) {
+        return a.id < b.id ? 1 : -1;
+      }
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    }
+    return -1;
+  };
+
   const nonMintedContributions = useMemo(() => {
-    return mergePages([...(nonMintedContributionPages?.pages ?? [])]);
+    return mergePages([...(nonMintedContributionPages?.pages ?? [])]).sort(
+      contributionSort,
+    );
   }, [nonMintedContributionPages]);
 
   const mintedContributions = useMemo(() => {
-    return mergePages([...(mintedContributionPages?.pages ?? [])]);
+    return mergePages([...(mintedContributionPages?.pages ?? [])]).sort(
+      contributionSort,
+    );
   }, [mintedContributionPages]);
 
   const allContributions = useMemo(() => {

@@ -207,6 +207,35 @@ query getActiveGuildUsersAverage($where: GetActiveUsersInput!) {
   result: getActiveGuildUsersAverage(where: $where)
 }
 
+# GuildActivityType
+fragment GuildActivityTypeFragment on GuildActivityType {
+  id
+  guild {
+    id
+    name
+  }
+  activity_type {
+    id
+    name
+  }
+}
+
+query listGuildActivityTypes(
+  $where: GuildActivityTypeWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildActivityTypeOrderByWithRelationInput!]
+) {
+  result: guildActivityTypes(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildActivityTypeFragment
+  }
+}
+
 # GuildUser
 fragment GuildUserFragment on GuildUser {
   id
@@ -698,6 +727,12 @@ fragment ActivityTypeFragment on ActivityType {
   id
   name
   updatedAt
+  guilds {
+    guild {
+      id
+      name
+    }
+  }
 }
 
 query listActivityTypes(
@@ -718,11 +753,7 @@ query listActivityTypes(
 
 query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
-    id
-    name
-    active
-    createdAt
-    updatedAt
+    ...ActivityTypeFragment
   }
 }
 

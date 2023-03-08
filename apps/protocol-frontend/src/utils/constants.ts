@@ -27,6 +27,15 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Design',
   'Other',
 ];
+
+export const DEFAULT_ACTIVITY_TYPES_OPTIONS = DEFAULT_ACTIVITY_TYPES.map(
+  activity => {
+    return {
+      label: activity,
+      value: activity,
+    };
+  },
+);
 export const ADDRESS_IMPORT_MAX = 1000;
 
 const primaryBrandColorsFromTheme: string[] = Object.values(
@@ -45,10 +54,10 @@ export const MONTH = 4;
 export const QUARTER = 12;
 export const YEAR = 52;
 export const DEFAULT_DATE_RANGES = [
-  { value: WEEK, label: 'Last Week' },
-  { value: MONTH, label: 'Last Month' },
-  { value: QUARTER, label: 'Last Quarter' },
-  { value: YEAR, label: 'Last Year' },
+  { label: 'Last Week', value: WEEK },
+  { label: 'Last Month', value: MONTH },
+  { label: 'Last Quarter', value: QUARTER },
+  { label: 'Last Year', value: YEAR },
 ];
 
 /* Social Media Links */

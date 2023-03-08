@@ -43,18 +43,16 @@ const BulkDaoAttributeModal = ({
 
   const daoListOptions =
     useUserData?.guild_users.map(dao => ({
-      value: dao.guild.id,
       label: dao.guild.name ?? '',
+      value: dao.guild.id,
     })) || [];
 
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
-    },
-  ];
+  const daoReset = {
+    value: 0,
+    label: 'No DAO',
+  };
 
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+  const combinedDaoListOptions = [...new Set([daoReset, ...daoListOptions])];
 
   const bulkAttributeDaoHandler: SubmitHandler<
     BulkDaoAttributeFormValues
@@ -112,7 +110,12 @@ const BulkDaoAttributeModal = ({
           }
           placeholder="Select a DAO to attribute to."
           onChange={dao => {
-            setValue('daoId', dao.value);
+            if (dao instanceof Array) {
+              return;
+            }
+            if (dao) {
+              setValue('daoId', dao.value);
+            }
           }}
           options={combinedDaoListOptions}
           localForm={localForm}

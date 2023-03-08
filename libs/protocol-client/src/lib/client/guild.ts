@@ -2,8 +2,10 @@ import { BaseClient } from './base';
 import {
   GuildUpdateCustomInput,
   GuildUpdateCustomWhereInput,
+  ListGuildActivityTypesQueryVariables,
   ListGuildImportsQueryVariables,
   ListGuildsQueryVariables,
+  ListGuildActivityTypesQuery,
 } from '../protocol-types';
 import {
   CreateGuildMutationVariables,
@@ -18,11 +20,13 @@ import { ListGuildImportsQuery } from '../protocol-types';
 export class Guild extends BaseClient {
   user: GuildUser;
   import: GuildImport;
+  activity_type: GuildActivityType;
 
   constructor(client: GraphQLClient) {
     super(client);
     this.user = new GuildUser(this.client);
     this.import = new GuildImport(this.client);
+    this.activity_type = new GuildActivityType(this.client);
   }
 
   public async create(args: CreateGuildMutationVariables) {
@@ -55,5 +59,15 @@ export class GuildImport extends BaseClient {
       this.sdk.listGuildImports,
       args,
     );
+  }
+}
+
+// Guild activity types table
+export class GuildActivityType extends BaseClient {
+  public async list(args: ListGuildActivityTypesQueryVariables) {
+    return paginate<
+      ListGuildActivityTypesQueryVariables,
+      ListGuildActivityTypesQuery
+    >(this.sdk.listGuildActivityTypes, args);
   }
 }
