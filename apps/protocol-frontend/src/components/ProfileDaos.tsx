@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
+import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import { useDaosList } from '../hooks/useDaosList';
 import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import DaoCard from './DaoCard';
@@ -18,6 +19,7 @@ import { SortOrder } from '@govrn/protocol-client';
 import { mergeMemberPages } from '../utils/arrays';
 import { UIGuildUsers } from '@govrn/ui-types';
 import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
+import useUserGet from '../hooks/useUserGet';
 
 interface ProfileDaoProps {
   userId: number | undefined;
@@ -40,10 +42,36 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     }
   }, [targetId]);
 
-  const { isLoading: joinableDaosListLoading, data: joinableDaosListData } =
+  const { data: userDaosData } = useUserGet({ userId: userId });
+  const userDaos = userDaosData?.userDaos;
+
+  const userDaoIds = new Map();
+  userDaos?.forEach(dao => {
+    userDaoIds.set(dao.guild_id, dao.guild_id);
+  });
+
+  const { data: joinableDaosListData, isLoading: joinableDaosListLoading } =
     useDaosList({
       where: {
-        users: { none: { user_id: { equals: userId || 0 } } },
+        users: {
+          every: {
+            OR: [
+              { user_id: { not: { equals: userId || 0 } } },
+              {
+                AND: [
+                  {
+                    user_id: { equals: userId || 0 },
+                  },
+                  {
+                    membershipStatus: {
+                      is: { name: { equals: LEFT_MEMBERSHIP_NAME } },
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        },
         status: { equals: 'VALIDATED' },
       },
       first: 1000,
@@ -63,6 +91,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
         user_id: { equals: userId },
         membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
       },
+
       orderBy: [
         { membershipStatus: { name: SortOrder.Asc } },
         { favorite: SortOrder.Desc },
@@ -80,18 +109,38 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   const { mutateAsync: createDaoUser, isLoading: createDaoUserLoading } =
     useDaoUserCreate();
 
+  const {
+    mutateAsync: updateDaoMemberStatus,
+    isLoading: updateDaoMemberLoading,
+  } = useDaoUserUpdate();
+
   const handleDaoJoin = async () => {
     if (!selectedDao || userId === undefined) return;
-    const result = await createDaoUser({
-      newDaoUser: {
+
+    if (userDaoIds.has(selectedDao?.value)) {
+      const updateResult = await updateDaoMemberStatus({
         userId: userId,
-        userAddress: userAddress,
         guildId: selectedDao?.value,
-      },
-      creatingNewDao: false,
-    });
-    if (result) {
-      setSelectedDao(null);
+        membershipStatus: 'Recruit',
+        rejoining: true,
+      });
+      if (updateResult) {
+        setSelectedDao(null);
+      }
+    }
+
+    if (!userDaoIds.has(selectedDao?.value)) {
+      const createResult = await createDaoUser({
+        newDaoUser: {
+          userId: userId,
+          userAddress: userAddress,
+          guildId: selectedDao?.value,
+        },
+        creatingNewDao: false,
+      });
+      if (createResult) {
+        setSelectedDao(null);
+      }
     }
   };
 
@@ -102,8 +151,6 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   }, [daoUsersData]);
 
   if (joinableDaosListLoading) return <GovrnSpinner />;
-
-  console.log('data', data);
 
   return (
     <Flex
@@ -167,7 +214,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             <Button
               variant="primary"
               onClick={handleDaoJoin}
-              disabled={createDaoUserLoading}
+              disabled={createDaoUserLoading || updateDaoMemberLoading}
               width={{ base: '100%', lg: 'auto' }}
             >
               Join

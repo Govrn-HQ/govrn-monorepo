@@ -21,8 +21,11 @@ import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 const AttestationsTableShell = () => {
   const { userData } = useUser();
   const guildIds = userData?.guild_users
-    ? userData?.guild_users.map(guild => guild.guild_id)
-    : [];
+    ? userData?.guild_users
+        .filter(guild => guild?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME)
+        .map(guild => guild.guild_id)
+    : []; // filter out the daos a user has left
+
   const {
     isFetching,
     data: contributions,
@@ -34,18 +37,7 @@ const AttestationsTableShell = () => {
       status: { is: { name: { equals: 'minted' } } },
       user: {
         is: {
-          AND: [
-            { id: { not: { equals: userData?.id || 0 } } },
-            {
-              guild_users: {
-                every: {
-                  membershipStatus: {
-                    is: { name: { notIn: [LEFT_MEMBERSHIP_NAME] } },
-                  },
-                },
-              },
-            },
-          ],
+          id: { not: { equals: userData?.id || 0 } },
         },
       },
       guilds: {
