@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
-import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  SelectOption,
+} from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
@@ -27,7 +31,7 @@ const DashboardShell = () => {
   const { userData } = useUser();
   const { displayName } = useDisplayName();
 
-  const [dateRange, setDateRange] = useState({
+  const [dateRange, setDateRange] = useState<SelectOption<number>>({
     label: 'Last Year',
     value: 52,
   });
@@ -146,7 +150,12 @@ const DashboardShell = () => {
                   )}
                   label="Choose Date Range"
                   tip="Choose the date range for your contributions."
-                  onChange={date => setDateRange(date)}
+                  onChange={date => {
+                    if (date instanceof Array || !date) {
+                      return;
+                    }
+                    setDateRange(date);
+                  }}
                   options={DEFAULT_DATE_RANGES}
                 />
               </Flex>

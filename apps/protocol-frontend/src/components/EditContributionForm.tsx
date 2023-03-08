@@ -28,9 +28,9 @@ import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import useUserGet from '../hooks/useUserGet';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
+import { useGuildActivityTypesList } from '../hooks/useGuildActivityTypesList';
 import { useGovrnToast } from '@govrn/protocol-ui';
 import groupBy from 'lodash/groupBy';
 
@@ -64,13 +64,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     }
   };
 
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-  } = useUserActivityTypesList();
-
   const {
     data: useUserData,
     isError: useUserError,
@@ -79,7 +72,22 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     userId: userData?.id,
   });
 
-  const daoReset = { label: 'No DAO', value: -1 };
+  const {
+    data: guildActivityTypeListData,
+    isError: guildActivityTypeListIsError,
+    isLoading: guildActivityTypeListIsLoading,
+  } = useGuildActivityTypesList({
+    first: 10000,
+    where: {
+      guild: {
+        is: {
+          id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+        },
+      },
+    },
+  });
+
+  const daoReset = useMemo(() => ({ label: 'No DAO', value: -1 }), []);
 
   const combinedDaoListOptions = useMemo(() => {
     const daoListOptions =
@@ -92,14 +100,18 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   }, [useUserData, daoReset]);
 
   const combinedActivityTypeOptions = useMemo(() => {
+    if (!guildActivityTypeListData) return [];
     const groupedActivityTypes = groupBy(
-      userActivityTypesData?.map(activity => ({
-        activity: activity.name,
-        guild: activity.guilds[0]?.guild?.name,
-      })),
+      guildActivityTypeListData.result.map(guildActivity => {
+        return {
+          activity: guildActivity.activity_type.name,
+          guild: guildActivity.guild.name,
+        };
+      }),
       'guild',
     );
 
+    // TODO: Missing custom types in a section
     return [
       ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
       ...Object.keys(groupedActivityTypes).map(key => ({
@@ -110,7 +122,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
         })),
       })),
     ];
-  }, [userActivityTypesData]);
+  }, [guildActivityTypeListData]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -207,12 +219,12 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   };
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || useUserLoading) {
+  if (guildActivityTypeListIsLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
-  if (userActivityTypesIsError) {
+  if (guildActivityTypeListIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 

@@ -30,7 +30,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
+import { useGuildActivityTypesList } from '../hooks/useGuildActivityTypesList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 import useUserGet from '../hooks/useUserGet';
 import { useGovrnToast } from '@govrn/protocol-ui';
@@ -192,22 +192,34 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
   }, [engagementDateValue, setValue, daoListOptions, daoIdParam]);
 
-  // renaming these on destructuring incase we have parallel queries:
   const {
-    isLoading: userActivityTypesIsLoading,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-  } = useUserActivityTypesList();
+    data: guildActivityTypeListData,
+    isError: guildActivityTypeListIsError,
+    isLoading: guildActivityTypeListIsLoading,
+  } = useGuildActivityTypesList({
+    first: 10000,
+    where: {
+      guild: {
+        is: {
+          id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+        },
+      },
+    },
+  });
 
   const combinedActivityTypeOptions = useMemo(() => {
+    if (!guildActivityTypeListData) return [];
     const groupedActivityTypes = groupBy(
-      userActivityTypesData?.map(activity => ({
-        activity: activity.name,
-        guild: activity.guilds[0]?.guild?.name,
-      })),
+      guildActivityTypeListData.result.map(guildActivity => {
+        return {
+          activity: guildActivity.activity_type.name,
+          guild: guildActivity.guild.name,
+        };
+      }),
       'guild',
     );
 
+    // TODO: Missing custom types in a section
     return [
       ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
       ...Object.keys(groupedActivityTypes).map(key => ({
@@ -218,15 +230,15 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         })),
       })),
     ];
-  }, [userActivityTypesData]);
+  }, [guildActivityTypeListData]);
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || useUserLoading) {
+  if (guildActivityTypeListIsLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
-  if (userActivityTypesIsError) {
+  if (guildActivityTypeListIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 

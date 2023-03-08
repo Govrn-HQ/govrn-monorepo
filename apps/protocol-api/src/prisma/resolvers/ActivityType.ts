@@ -130,7 +130,6 @@ export class ActivityTypeCustomResolver {
           { id: args.where.id },
         ],
       },
-      include: { guilds: true },
     });
   }
 }

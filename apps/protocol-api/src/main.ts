@@ -85,6 +85,7 @@ const permissions = shield(
       linearIssues: hasToken,
       contributionStatuses: hasToken,
       getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
+      guildActivityTypes: or(isAuthenticated, hasToken),
     },
     ContributionCountByUser: or(isAuthenticated, hasToken),
     ContributionCountByDate: or(isAuthenticated, hasToken),
@@ -232,6 +233,8 @@ const permissions = shield(
       status: or(hasToken, isAuthenticated),
     },
     GuildActivityType: {
+      id: isAuthenticated,
+      activity_type: isAuthenticated,
       guild: or(isAuthenticated, hasToken),
     },
     GuildContribution: {

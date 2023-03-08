@@ -201,8 +201,11 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                   date => date.value === YEAR,
                 )}
                 onChange={dateRangeOffset => {
+                  if (dateRangeOffset instanceof Array) {
+                    return;
+                  }
                   setShowCustomDatePicker(false);
-                  dateChangeHandler(dateRangeOffset?.value ?? 0);
+                  dateChangeHandler(Number(dateRangeOffset?.value));
                 }}
                 options={dateRangeOptions}
               />

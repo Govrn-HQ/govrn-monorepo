@@ -18252,6 +18252,18 @@ export type GetActiveGuildUsersAverageQueryVariables = Exact<{
 
 export type GetActiveGuildUsersAverageQuery = { result: number };
 
+export type GuildActivityTypeFragmentFragment = { id: number, guild: { id: number, name?: string | null }, activity_type: { id: number, name: string } };
+
+export type ListGuildActivityTypesQueryVariables = Exact<{
+  where?: GuildActivityTypeWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildActivityTypeOrderByWithRelationInput> | GuildActivityTypeOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildActivityTypesQuery = { result: Array<{ id: number, guild: { id: number, name?: string | null }, activity_type: { id: number, name: string } }> };
+
 export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, display_name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } };
 
 export type CreateGuildUserCustomMutationVariables = Exact<{
@@ -18709,6 +18721,19 @@ export const GuildFragmentFragmentDoc = gql`
   status
 }
     `;
+export const GuildActivityTypeFragmentFragmentDoc = gql`
+    fragment GuildActivityTypeFragment on GuildActivityType {
+  id
+  guild {
+    id
+    name
+  }
+  activity_type {
+    id
+    name
+  }
+}
+    `;
 export const GuildUserFragmentFragmentDoc = gql`
     fragment GuildUserFragment on GuildUser {
   id
@@ -19133,6 +19158,18 @@ export const GetActiveGuildUsersAverageDocument = gql`
   result: getActiveGuildUsersAverage(where: $where)
 }
     `;
+export const ListGuildActivityTypesDocument = gql`
+    query listGuildActivityTypes($where: GuildActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildActivityTypeOrderByWithRelationInput!]) {
+  result: guildActivityTypes(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildActivityTypeFragment
+  }
+}
+    ${GuildActivityTypeFragmentFragmentDoc}`;
 export const CreateGuildUserCustomDocument = gql`
     mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
   createGuildUserCustom(data: $data) {
@@ -19569,6 +19606,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getActiveGuildUsersAverage(variables: GetActiveGuildUsersAverageQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetActiveGuildUsersAverageQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetActiveGuildUsersAverageQuery>(GetActiveGuildUsersAverageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getActiveGuildUsersAverage', 'query');
+    },
+    listGuildActivityTypes(variables?: ListGuildActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildActivityTypesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildActivityTypesQuery>(ListGuildActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildActivityTypes', 'query');
     },
     createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');
