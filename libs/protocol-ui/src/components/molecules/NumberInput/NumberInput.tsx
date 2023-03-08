@@ -17,7 +17,7 @@ import ErrorMessage from '../../atoms/ErrorMessage';
 
 export type NumberInputLocalFormType<T> = Pick<
   UseFormReturn<T>,
-  'formState' | 'register'
+  'formState' | 'control'
 >;
 
 export interface NumberInputProps extends ChakraNumberInputProps {

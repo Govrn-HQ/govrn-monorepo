@@ -1,18 +1,12 @@
 import { useState } from 'react';
-import { Button, Flex, Icon, Text } from '@chakra-ui/react';
-import { NumberInput, Input, Select } from '@govrn/protocol-ui';
+import { Button, Flex } from '@chakra-ui/react';
+import { NumberInput, Select } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { VerificationFrameworkFormValues } from '../types/forms';
 import { verificationFrameworkFormValidation } from '../utils/validations';
-import { useUser } from '../contexts/UserContext';
-
-// interface VerificationFrameworkFormProps {
-//   // daoId: number;
-// }
 
 const VerificationFrameworkForm = () => {
-  const { userData } = useUser();
   const [submitting, setSubmitting] = useState(false);
   const localForm = useForm({
     mode: 'all',
