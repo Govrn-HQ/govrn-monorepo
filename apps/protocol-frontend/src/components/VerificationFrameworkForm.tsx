@@ -5,7 +5,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { VerificationFrameworkFormValues } from '../types/forms';
 import { verificationFrameworkFormValidation } from '../utils/validations';
-import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useUser } from '../contexts/UserContext';
 
 // interface VerificationFrameworkFormProps {
@@ -14,7 +13,7 @@ import { useUser } from '../contexts/UserContext';
 
 const VerificationFrameworkForm = () => {
   const { userData } = useUser();
-  const [importing, setImporting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(verificationFrameworkFormValidation),
@@ -33,7 +32,9 @@ const VerificationFrameworkForm = () => {
   const verificationFrameworkHandler: SubmitHandler<
     VerificationFrameworkFormValues
   > = async values => {
-    console.log('form values', values);
+    setSubmitting(true);
+    console.log('form values', values); // placeholder for the hook call
+    setSubmitting(false); // will be on success
   };
 
   return (
@@ -71,7 +72,7 @@ const VerificationFrameworkForm = () => {
           <Button
             variant="secondary"
             type="submit"
-            disabled={importing || errors['numberOfAttestors'] !== undefined}
+            disabled={submitting || Object.keys(errors).length !== 0}
           >
             Apply Verification Settings
           </Button>

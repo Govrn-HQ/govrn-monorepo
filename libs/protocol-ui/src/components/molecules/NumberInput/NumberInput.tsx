@@ -29,7 +29,7 @@ export interface NumberInputProps extends ChakraNumberInputProps {
   id?: string;
   defaultValue?: string | number;
   isDisabled?: boolean;
-  localForm: Pick<UseFormReturn, 'formState' | 'register'>;
+  localForm: Pick<UseFormReturn, 'formState' | 'control'>;
   variant?: 'outline' | 'filled';
   dataTestId?: string;
   onChange?: (valueAsString: string, valueAsNumber: number) => void;
