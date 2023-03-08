@@ -3,6 +3,7 @@ import {
   DISCORD_LINK,
   FEEDBACK_LINK,
   LEFT_MEMBERSHIP_NAME,
+  DOCS_LINK,
 } from '../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -28,6 +29,7 @@ import {
   FiUsers,
   FiMessageSquare,
   FiGitBranch,
+  FiBook,
 } from 'react-icons/fi';
 import { FaDiscord } from 'react-icons/fa';
 import { useAccount } from 'wagmi';
@@ -206,6 +208,7 @@ const Sidebar = () => {
               icon={FiMessageSquare}
               linkTo={FEEDBACK_LINK}
             />
+            <NavButton label="Docs" icon={FiBook} linkTo={DOCS_LINK} />
           </Stack>
         </Flex>
       </Flex>
