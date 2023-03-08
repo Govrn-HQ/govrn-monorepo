@@ -17,7 +17,7 @@ const GovrnAlertDialog = ({
   onConfirm,
   onCancel,
 }: {
-  title: string;
+  title: string | React.ReactNode;
   isOpen: boolean;
   isLoading: boolean;
   onConfirm: () => void;
@@ -35,7 +35,6 @@ const GovrnAlertDialog = ({
       <AlertDialogOverlay>
         <AlertDialogContent bgColor="white" color="gray.800">
           <AlertDialogBody mt="20px">{title}</AlertDialogBody>
-
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
               Cancel
