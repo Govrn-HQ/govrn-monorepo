@@ -87,7 +87,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     },
   });
 
-  const daoReset = useMemo(() => ({ label: 'No DAO', value: -1 }), []);
+  const daoReset = useMemo(() => ({ label: 'No DAO', value: 0 }), []);
 
   const combinedDaoListOptions = useMemo(() => {
     const daoListOptions =
@@ -136,7 +136,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
         ? contribution?.guilds[0]?.guild.id
         : daoReset.value,
     );
-  }, [contribution]);
+  }, [contribution, daoReset.value]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -150,7 +150,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
         ? contribution?.guilds[0]?.guild.id
         : daoReset.value,
     );
-  }, [contribution]);
+  }, [contribution, daoReset.value]);
 
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -254,7 +254,10 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               label: contribution?.activity_type?.name,
             }}
             onChange={activity => {
-              setValue('activityType', activity);
+              if (activity instanceof Array || !activity) {
+                return;
+              }
+              setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}
             localForm={localForm}
