@@ -50,7 +50,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     userDaoIds.set(dao.guild_id, dao.guild_id);
   });
 
-  const { isLoading: joinableDaosListLoading, data: joinableDaosListData } =
+  const { data: joinableDaosListData, isLoading: joinableDaosListLoading } =
     useDaosList({
       where: {
         users: {
@@ -123,7 +123,6 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
         guildId: selectedDao?.value,
         membershipStatus: 'Recruit',
       });
-      console.log('updateResult', updateResult);
       if (updateResult) {
         setSelectedDao(null);
       }
