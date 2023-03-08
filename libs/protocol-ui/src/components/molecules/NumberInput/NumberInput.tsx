@@ -10,10 +10,10 @@ import {
   Stack,
   Box,
 } from '@chakra-ui/react';
+import { Controller, UseFormReturn } from 'react-hook-form';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
-import { UseFormReturn } from 'react-hook-form/dist/types/form';
 
 export type NumberInputLocalFormType<T> = Pick<
   UseFormReturn<T>,
@@ -50,7 +50,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   ...props
 }: NumberInputProps) => {
   const {
-    register,
+    control,
     formState: { errors },
   } = localForm;
 
@@ -60,20 +60,20 @@ const NumberInput: React.FC<NumberInputProps> = ({
         {label && <FormLabel label={label} />}
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}
         <Box my={2}>
-          <ChakraNumberInput
-            // id={id}
-            // defaultValue={defaultValue}
-            // isDisabled={isDisabled}
-            {...register(name)}
-            // onChange={onChange}
-            // {...props}
-          >
-            <NumberInputField id={id} name={name} />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </ChakraNumberInput>
+          <Controller
+            name={name}
+            control={control}
+            shouldUnregister={false}
+            render={({ field }) => (
+              <ChakraNumberInput {...field} {...props}>
+                <NumberInputField id={id} name={name} />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </ChakraNumberInput>
+            )}
+          />
           {errors && (
             <ErrorMessage
               errorMessage={errors[name] && errors[name]?.message?.toString()}
