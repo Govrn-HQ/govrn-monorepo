@@ -38,10 +38,14 @@ const ContributionsTableShell = () => {
         user_id: { equals: userData?.id },
         status: { isNot: { name: { equals: 'minted' } } },
       },
-      orderBy: { date_of_engagement: SortOrder.Desc },
+      orderBy: [
+        { date_of_engagement: SortOrder.Desc },
+        { name: SortOrder.Asc },
+      ],
     },
     false, // Don't refetch on refocus
   );
+  console.log(nonMintedContributionPages);
 
   const {
     data: mintedContributionPages,
@@ -54,7 +58,7 @@ const ContributionsTableShell = () => {
         user_id: { equals: userData?.id },
         status: { is: { name: { equals: 'minted' } } },
       },
-      orderBy: { date_of_engagement: SortOrder.Desc },
+      orderBy: [{ date_of_engagement: SortOrder.Desc }],
     },
     false, // Don't refetch on refocus
   );

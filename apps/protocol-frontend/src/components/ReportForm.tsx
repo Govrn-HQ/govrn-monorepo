@@ -290,7 +290,10 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             label="Activity Type"
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
-              setValue('activityType', activity);
+              if (activity instanceof Array || !activity) {
+                return;
+              }
+              setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}
             localForm={localForm}
