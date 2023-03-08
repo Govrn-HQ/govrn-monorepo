@@ -65,5 +65,7 @@ export const DEFAULT_DATE_RANGES = [
 export const TWITTER_LINK = 'https://twitter.com/govrnHQ';
 export const DISCORD_LINK = 'https://discord.gg/3e36ZHU5aG';
 export const FEEDBACK_LINK = 'https://forms.gle/uE8w3FgjAcWyqAN58';
+export const DOCS_LINK =
+  'https://govrn.gitbook.io/govrn-docs/overview/welcome-to-govrn';
 
 export const LEFT_MEMBERSHIP_NAME = 'Left';

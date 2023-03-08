@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Box, Button, Flex, Stack } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import {
   ControlledSelect,
@@ -127,6 +127,24 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
       </Button>
     </Link>
   );
+
+  const LeaveDaoDialogCopy = () => {
+    return (
+      <Stack direction="column">
+        <Text>
+          Are you sure you want to leave{' '}
+          <Text as="span" fontWeight="bolder">
+            {daoName}
+          </Text>
+          ?
+        </Text>
+        <Text>
+          If you're the only DAO admin, we recommend adding another admin before
+          leaving.
+        </Text>
+      </Stack>
+    );
+  };
 
   return (
     <Stack
@@ -291,7 +309,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
         </Flex>
       </Flex>
       <GovrnAlertDialog
-        title={`Are you sure you want to leave ${daoName}?`}
+        title={<LeaveDaoDialogCopy />}
         isOpen={isLeavingDialogShown}
         isLoading={isLeavingLoading}
         onConfirm={handleLeavingDao}

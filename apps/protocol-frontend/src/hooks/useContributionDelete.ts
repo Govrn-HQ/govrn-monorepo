@@ -39,7 +39,7 @@ export const useContributionDelete = () => {
         ]); // invalidate the contributionGet Query with the ID of the deleted Contribution
         toast.success({
           title: 'Contribution successfully deleted',
-          description: 'Your Contribution has been deleted.',
+          description: 'Your contribution has been deleted.',
         });
       },
       onError: error => {
