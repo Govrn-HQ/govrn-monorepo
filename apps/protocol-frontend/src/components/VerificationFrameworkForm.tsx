@@ -54,9 +54,11 @@ const VerificationFrameworkForm = () => {
           <Select
             name="verificationFramework"
             label="Choose a Verification Framework"
+            placeholder="Verification Framework..."
             onChange={verificationFramework => {
               setValue('verificationFramework', verificationFramework.value);
             }}
+            defaultValue={verificationFrameworkOptions[0]} // will set this to the currently selected verification framework
             options={verificationFrameworkOptions}
             localForm={localForm}
           />

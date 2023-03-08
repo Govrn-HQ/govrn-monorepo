@@ -30,7 +30,7 @@ export interface NumberInputProps extends ChakraNumberInputProps {
   defaultValue?: string | number;
   isDisabled?: boolean;
   localForm: Pick<UseFormReturn, 'formState' | 'control'>;
-  variant?: 'outline' | 'filled';
+
   dataTestId?: string;
   onChange?: (valueAsString: string, valueAsNumber: number) => void;
 }
@@ -45,7 +45,6 @@ const NumberInput: React.FC<NumberInputProps> = ({
   defaultValue,
   localForm,
   isDisabled = false,
-  variant = 'outline',
   onChange,
   ...props
 }: NumberInputProps) => {
@@ -65,7 +64,11 @@ const NumberInput: React.FC<NumberInputProps> = ({
             control={control}
             shouldUnregister={false}
             render={({ field }) => (
-              <ChakraNumberInput {...field} {...props}>
+              <ChakraNumberInput
+                {...field}
+                defaultValue={defaultValue}
+                {...props}
+              >
                 <NumberInputField id={id} name={name} />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
