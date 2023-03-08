@@ -18252,6 +18252,18 @@ export type GetActiveGuildUsersAverageQueryVariables = Exact<{
 
 export type GetActiveGuildUsersAverageQuery = { result: number };
 
+export type GuildActivityTypeFragmentFragment = { id: number, guild: { id: number, name?: string | null }, activity_type: { id: number, name: string } };
+
+export type ListGuildActivityTypesQueryVariables = Exact<{
+  where?: GuildActivityTypeWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildActivityTypeOrderByWithRelationInput> | GuildActivityTypeOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildActivityTypesQuery = { result: Array<{ id: number, guild: { id: number, name?: string | null }, activity_type: { id: number, name: string } }> };
+
 export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, display_name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } };
 
 export type CreateGuildUserCustomMutationVariables = Exact<{
@@ -18525,7 +18537,7 @@ export type GetContributionStatusQueryVariables = Exact<{
 
 export type GetContributionStatusQuery = { contributionStatuses: Array<{ id: number, name: string }> };
 
-export type ActivityTypeFragmentFragment = { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date };
+export type ActivityTypeFragmentFragment = { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> };
 
 export type ListActivityTypesQueryVariables = Exact<{
   where?: ActivityTypeWhereInput;
@@ -18535,28 +18547,28 @@ export type ListActivityTypesQueryVariables = Exact<{
 }>;
 
 
-export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }> };
+export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
 export type ListActivityTypesByUserQueryVariables = Exact<{
   where: ListActivityTypesByUserInput;
 }>;
 
 
-export type ListActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string | Date, updatedAt: string | Date }> };
+export type ListActivityTypesByUserQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
 export type CreateActivityTypeMutationVariables = Exact<{
   data: ActivityTypeCreateInput;
 }>;
 
 
-export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type GetOrCreateActivityTypeMutationVariables = Exact<{
   data: GetOrCreateActivityTypeInput;
 }>;
 
 
-export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UpsertActivityTypeMutationVariables = Exact<{
   create: ActivityTypeCreateInput;
@@ -18565,7 +18577,7 @@ export type UpsertActivityTypeMutationVariables = Exact<{
 }>;
 
 
-export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } };
 
@@ -18707,6 +18719,19 @@ export const GuildFragmentFragmentDoc = gql`
   updatedAt
   contribution_reporting_channel
   status
+}
+    `;
+export const GuildActivityTypeFragmentFragmentDoc = gql`
+    fragment GuildActivityTypeFragment on GuildActivityType {
+  id
+  guild {
+    id
+    name
+  }
+  activity_type {
+    id
+    name
+  }
 }
     `;
 export const GuildUserFragmentFragmentDoc = gql`
@@ -18920,6 +18945,12 @@ export const ActivityTypeFragmentFragmentDoc = gql`
   id
   name
   updatedAt
+  guilds {
+    guild {
+      id
+      name
+    }
+  }
 }
     `;
 export const UserActivityFragmentFragmentDoc = gql`
@@ -19127,6 +19158,18 @@ export const GetActiveGuildUsersAverageDocument = gql`
   result: getActiveGuildUsersAverage(where: $where)
 }
     `;
+export const ListGuildActivityTypesDocument = gql`
+    query listGuildActivityTypes($where: GuildActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildActivityTypeOrderByWithRelationInput!]) {
+  result: guildActivityTypes(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildActivityTypeFragment
+  }
+}
+    ${GuildActivityTypeFragmentFragmentDoc}`;
 export const CreateGuildUserCustomDocument = gql`
     mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
   createGuildUserCustom(data: $data) {
@@ -19401,14 +19444,10 @@ export const ListActivityTypesDocument = gql`
 export const ListActivityTypesByUserDocument = gql`
     query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
-    id
-    name
-    active
-    createdAt
-    updatedAt
+    ...ActivityTypeFragment
   }
 }
-    `;
+    ${ActivityTypeFragmentFragmentDoc}`;
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
   createOneActivityType(data: $data) {
@@ -19567,6 +19606,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getActiveGuildUsersAverage(variables: GetActiveGuildUsersAverageQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetActiveGuildUsersAverageQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetActiveGuildUsersAverageQuery>(GetActiveGuildUsersAverageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getActiveGuildUsersAverage', 'query');
+    },
+    listGuildActivityTypes(variables?: ListGuildActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildActivityTypesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildActivityTypesQuery>(ListGuildActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildActivityTypes', 'query');
     },
     createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');

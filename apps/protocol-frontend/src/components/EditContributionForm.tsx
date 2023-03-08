@@ -1,6 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
-import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
+import {
+  DEFAULT_ACTIVITY_TYPES_OPTIONS,
+  MAX_FILE_UPLOAD_SIZE,
+} from '../utils/constants';
 import {
   Box,
   Button,
@@ -18,7 +21,6 @@ import {
   Select,
   Textarea,
 } from '@govrn/protocol-ui';
-import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
@@ -26,10 +28,11 @@ import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import useUserGet from '../hooks/useUserGet';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
+import { useGuildActivityTypesList } from '../hooks/useGuildActivityTypesList';
 import { useGovrnToast } from '@govrn/protocol-ui';
+import groupBy from 'lodash/groupBy';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -61,13 +64,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     }
   };
 
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-  } = useUserActivityTypesList();
-
   const {
     data: useUserData,
     isError: useUserError,
@@ -76,34 +72,57 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     userId: userData?.id,
   });
 
-  const daoListOptions =
-    useUserData?.guild_users.map(dao => ({
-      value: dao.guild.id,
-      label: dao.guild.name ?? '',
-    })) || [];
-
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
+  const {
+    data: guildActivityTypeListData,
+    isError: guildActivityTypeListIsError,
+    isLoading: guildActivityTypeListIsLoading,
+  } = useGuildActivityTypesList({
+    first: 10000,
+    where: {
+      guild: {
+        is: {
+          id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+        },
+      },
     },
-  ];
+  });
 
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+  const daoReset = useMemo(() => ({ label: 'No DAO', value: 0 }), []);
 
-  const combinedActivityTypesList = [
-    ...new Set([
-      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...DEFAULT_ACTIVITY_TYPES,
-    ]),
-  ];
+  const combinedDaoListOptions = useMemo(() => {
+    const daoListOptions =
+      useUserData?.guild_users.map(dao => ({
+        value: dao.guild.id,
+        label: dao.guild.name ?? '',
+      })) || [];
 
-  const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    activity => ({
-      value: activity,
-      label: activity,
-    }),
-  );
+    return [daoReset, ...daoListOptions];
+  }, [useUserData, daoReset]);
+
+  const combinedActivityTypeOptions = useMemo(() => {
+    if (!guildActivityTypeListData) return [];
+    const groupedActivityTypes = groupBy(
+      guildActivityTypeListData.result.map(guildActivity => {
+        return {
+          activity: guildActivity.activity_type.name,
+          guild: guildActivity.guild.name,
+        };
+      }),
+      'guild',
+    );
+
+    // TODO: Missing custom types in a section
+    return [
+      ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+      ...Object.keys(groupedActivityTypes).map(key => ({
+        label: key,
+        options: groupedActivityTypes[key].map(item => ({
+          value: item.activity,
+          label: item.activity,
+        })),
+      })),
+    ];
+  }, [guildActivityTypeListData]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -115,9 +134,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       'daoId',
       contribution?.guilds[0]?.guild.id
         ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
+        : daoReset.value,
     );
-  }, [contribution]);
+  }, [contribution, daoReset.value]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -129,9 +148,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       'daoId',
       contribution?.guilds[0]?.guild.id
         ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
+        : daoReset.value,
     );
-  }, [contribution]);
+  }, [contribution, daoReset.value]);
 
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -200,12 +219,12 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   };
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || useUserLoading) {
+  if (guildActivityTypeListIsLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
-  if (userActivityTypesIsError) {
+  if (guildActivityTypeListIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
@@ -235,6 +254,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               label: contribution?.activity_type?.name,
             }}
             onChange={activity => {
+              if (activity instanceof Array || !activity) {
+                return;
+              }
               setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}
@@ -321,10 +343,10 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             defaultValue={{
               value: contribution?.guilds[0]?.guild.id
                 ? contribution?.guilds[0]?.guild.id
-                : daoReset[0].value,
+                : daoReset.value,
               label: contribution?.guilds[0]?.guild.name
                 ? contribution?.guilds[0]?.guild.name
-                : daoReset[0].label,
+                : daoReset.label,
             }}
             onChange={dao => {
               setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
