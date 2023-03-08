@@ -220,19 +220,21 @@ fragment GuildActivityTypeFragment on GuildActivityType {
   }
 }
 
-
 query listGuildActivityTypes(
   $where: GuildActivityTypeWhereInput! = {}
   $skip: Int! = 0
   $first: Int! = 10
   $orderBy: [GuildActivityTypeOrderByWithRelationInput!]
 ) {
-  result: guildActivityTypes(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+  result: guildActivityTypes(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
     ...GuildActivityTypeFragment
   }
 }
-
-
 
 # GuildUser
 fragment GuildUserFragment on GuildUser {
