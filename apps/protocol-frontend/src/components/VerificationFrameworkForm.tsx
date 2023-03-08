@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Flex, Icon, Text } from '@chakra-ui/react';
-import { NumberInput } from '@govrn/protocol-ui';
+import { NumberInput, Input, Select } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { VerificationFrameworkFormValues } from '../types/forms';
@@ -24,10 +24,11 @@ const VerificationFrameworkForm = () => {
     handleSubmit,
     setValue,
     formState: { errors, touchedFields },
-    reset,
   } = localForm;
 
-  const { mutateAsync: createDaoUser } = useDaoUserCreate();
+  const verificationFrameworkOptions = [
+    { label: 'Number of Attestors', value: 'numberOfAttestors' },
+  ]; // will match this to the backend data structure
 
   const verificationFrameworkHandler: SubmitHandler<
     VerificationFrameworkFormValues
@@ -49,17 +50,28 @@ const VerificationFrameworkForm = () => {
               : 0
           }
         >
-          <NumberInput
+          <Select
+            name="verificationFramework"
+            label="Choose a Verification Framework"
+            onChange={verificationFramework => {
+              setValue('verificationFramework', verificationFramework.value);
+            }}
+            options={verificationFrameworkOptions}
             localForm={localForm}
-            name="numberOfAttestors"
-            defaultValue={0}
-            min={0}
-            max={2}
           />
+          <NumberInput
+            name="numberOfAttestors"
+            label="Choose the Number of Attestors"
+            defaultValue={1}
+            min={1}
+            max={10}
+            localForm={localForm}
+          />
+
           <Button
             variant="secondary"
             type="submit"
-            // disabled={importing || errors['numberOfAttestors'] !== undefined}
+            disabled={importing || errors['numberOfAttestors'] !== undefined}
           >
             Apply Verification Settings
           </Button>
