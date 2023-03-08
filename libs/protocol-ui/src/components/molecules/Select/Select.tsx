@@ -37,6 +37,7 @@ export interface SelectProps {
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
   isMulti?: boolean;
   isClearable?: boolean;
+  isSearchable?: boolean;
   onChange?: (option: Option) => void;
   isDisabled?: boolean;
   variant?: 'outline' | 'filled';
@@ -52,6 +53,7 @@ const Select: React.FC<SelectProps> = ({
   options,
   isMulti,
   isClearable,
+  isSearchable,
   onChange,
   isDisabled,
   value,
@@ -80,6 +82,7 @@ const Select: React.FC<SelectProps> = ({
                 defaultValue={defaultValue}
                 placeholder={placeholder}
                 isClearable={isClearable}
+                isSearchable={isSearchable}
                 isMulti={isMulti}
                 onChange={onChange}
                 isDisabled={isDisabled}
