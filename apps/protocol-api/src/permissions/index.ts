@@ -1,4 +1,5 @@
-import { deny, or, rule, shield } from 'graphql-shield';
+import { deny, or, rule, shield, and } from 'graphql-shield';
+import { createOnChainUserContributionInput } from './inputs';
 
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
@@ -94,7 +95,10 @@ export const permissions = shield(
     // Input field to restrict sensitive fields and create rule for generic types where applicable
     Mutation: {
       '*': deny,
-      createOnChainUserContribution: isAuthenticated, // user can only create on chain contribution for itself
+      createOnChainUserContribution: and(
+        isAuthenticated,
+        createOnChainUserContributionInput,
+      ), // user can only create on chain contribution for itself
       //export type UserOnChainContributionCreateInput = {
       //  activityTypeId: Scalars['Float'];
       //  chainId?: InputMaybe<Scalars['Float']>;
@@ -290,6 +294,8 @@ export const permissions = shield(
       updatedAt: or(isAuthenticated, hasToken),
       user: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
+      access_token: or(isAuthenticated, hasToken),
+      active_token: or(isAuthenticated, hasToken),
     },
     Guild: {
       activity_type: or(isAuthenticated, hasToken),
