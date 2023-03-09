@@ -2,17 +2,23 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { useParams } from 'react-router-dom';
 import { useDaoGet } from '../hooks/useDaoGet';
-import { useDaoUsersList } from '../hooks/useDaoUsersList';
 import { useUser } from '../contexts/UserContext';
+import useUserGet from '../hooks/useUserGet';
 import PageHeading from './PageHeading';
 import DaoNameUpdateForm from './DaoNameUpdateForm';
 import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 import ErrorView from './ErrorView';
+import FeatureFlagWrapper from './FeatureFlagWrapper';
+import VerificationFramework from './VerificationFramework';
 
 const DaoSettingsLayout = () => {
   const { guildId } = useParams();
   const { userData } = useUser();
+
+  const { data: useUserData, isLoading: useUserLoading } = useUserGet({
+    userId: userData?.id,
+  });
 
   const {
     isLoading: daoLoading,
@@ -20,16 +26,11 @@ const DaoSettingsLayout = () => {
     data: daoData,
   } = useDaoGet({ id: parseInt(guildId ?? '') });
 
-  const { data: daosUsersListData, isLoading: daosUsersListLoading } =
-    useDaoUsersList({
-      where: { user_id: { equals: userData?.id } },
-    });
+  const isAdmin =
+    useUserData?.userDaos.get(parseInt(guildId ?? '')).membershipStatus
+      ?.name === 'Admin';
 
-  const isAdmin = daosUsersListData
-    ?.filter(dao => dao.guild.id === parseInt(guildId ?? ''))
-    .some(daoUser => daoUser.membershipStatus?.name === 'Admin');
-
-  if (daoLoading || daosUsersListLoading) {
+  if (daoLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
@@ -95,6 +96,11 @@ const DaoSettingsLayout = () => {
           <DaoSettingsMembersTable daoId={parseInt(guildId ? guildId : '')} />
         </Flex>
       </Flex>
+      {isAdmin === true ? (
+        <FeatureFlagWrapper>
+          <VerificationFramework />
+        </FeatureFlagWrapper>
+      ) : null}
     </Box>
   );
 };

@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
 import { editContributionFormValidation } from '../utils/validations';
 import { BulkDaoAttributeFormValues } from '../types/forms';
-import { useDaosList } from '../hooks/useDaosList';
+import useUserGet from '../hooks/useUserGet';
 import pluralize from 'pluralize';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
 import { UIContribution } from '@govrn/ui-types';
@@ -33,29 +33,26 @@ const BulkDaoAttributeModal = ({
     isLoading: updateNewContributionIsLoading,
   } = useContributionUpdate();
 
-  // renaming these on destructuring incase we have parallel queries:
   const {
-    isLoading: daosListIsLoading,
-    isError: daosListIsError,
-    data: daosListData,
-  } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id || 0 } } } }, // show only user's DAOs
+    data: useUserData,
+    isError: useUserError,
+    isLoading: useUserLoading,
+  } = useUserGet({
+    userId: userData?.id,
   });
 
   const daoListOptions =
-    daosListData?.map(dao => ({
-      value: dao.id,
-      label: dao.name ?? '',
+    useUserData?.guild_users.map(dao => ({
+      label: dao.guild.name ?? '',
+      value: dao.guild.id,
     })) || [];
 
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
-    },
-  ];
+  const daoReset = {
+    value: 0,
+    label: 'No DAO',
+  };
 
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+  const combinedDaoListOptions = [...new Set([daoReset, ...daoListOptions])];
 
   const bulkAttributeDaoHandler: SubmitHandler<
     BulkDaoAttributeFormValues
@@ -73,11 +70,11 @@ const BulkDaoAttributeModal = ({
   };
 
   // the loading and fetching states from the query are true:
-  if (daosListIsLoading) {
+  if (useUserLoading) {
     return <GovrnSpinner />;
   }
 
-  if (daosListIsError) {
+  if (useUserError) {
     return <Text>An error occurred fetching DAOs.</Text>;
   }
 
@@ -113,7 +110,12 @@ const BulkDaoAttributeModal = ({
           }
           placeholder="Select a DAO to attribute to."
           onChange={dao => {
-            setValue('daoId', dao.value);
+            if (dao instanceof Array) {
+              return;
+            }
+            if (dao) {
+              setValue('daoId', dao.value);
+            }
           }}
           options={combinedDaoListOptions}
           localForm={localForm}

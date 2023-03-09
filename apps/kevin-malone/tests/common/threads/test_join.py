@@ -72,7 +72,7 @@ async def test_check_if_user_exists_dne(mocker, thread_dependencies):
     mock_gql_query(mocker, "get_user_by_discord_id", None)
     next_step_key = await step.control_hook(None, user_id)
     assert len(cache.internal) == 0
-    assert next_step_key == StepKeys.PROMPT_USER_WALLET_ADDRESS.value
+    assert next_step_key == StepKeys.PROMPT_USER_CONNECT_WALLET.value
 
 
 @pytest.mark.asyncio

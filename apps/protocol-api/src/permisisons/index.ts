@@ -85,6 +85,7 @@ export const permissions = shield(
       getDaoContributionCount: or(isAuthenticated, hasToken),
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
+      guildActivityTypes: or(isAuthenticated, hasToken),
       ...JOB_ONLY_QUERIES,
     },
     ContributionCountByUser: or(isAuthenticated, hasToken),
@@ -304,6 +305,11 @@ export const permissions = shield(
       users: or(isAuthenticated, hasToken),
       contribution_reporting_channel: or(hasToken, isAuthenticated),
       status: or(hasToken, isAuthenticated),
+    },
+    GuildActivityType: {
+      id: isAuthenticated,
+      activity_type: isAuthenticated,
+      guild: or(isAuthenticated, hasToken),
     },
     GuildContribution: {
       id: or(isAuthenticated, hasToken),

@@ -30,7 +30,7 @@ export const useDaoUsersInfiniteList = (
   } = useInfiniteQuery(
     ['daoUsersInfiniteList', args],
     async ({ pageParam }): Promise<UIGuildUsers[]> => {
-      const data = await govrn.guild.user.list(
+      const data = await govrn.guild?.user.list(
         { ...args, first: pageSize, skip: pageParam } || {},
       );
       const results = [];
@@ -58,6 +58,6 @@ export const useDaoUsersInfiniteList = (
     isFetching,
     isFetchingNextPage,
     fetchNextPage,
-    hasNextPage: hasNextPage || false,
+    hasNextPage: hasNextPage,
   };
 };

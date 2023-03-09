@@ -86,9 +86,11 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
                 minHeight="6rem"
                 width="100%"
                 height="100%"
+                wrap="wrap"
               >
                 <Heading
                   as="h4"
+                  textAlign="center"
                   color={daoNameColor(
                     daoUser.membershipStatus?.name ?? 'white',
                   )}

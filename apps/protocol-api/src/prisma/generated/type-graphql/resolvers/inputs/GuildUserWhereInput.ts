@@ -65,10 +65,10 @@ export class GuildUserWhereInput {
   })
   guild?: GuildRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  membership_status_id?: IntNullableFilter | undefined;
+  membership_status_id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildMembershipStatusRelationFilter, {
     nullable: true

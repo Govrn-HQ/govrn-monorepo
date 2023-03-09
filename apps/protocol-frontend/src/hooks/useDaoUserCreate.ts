@@ -26,8 +26,10 @@ export const useDaoUserCreate = () => {
       return { mutationData, creatingNewDao };
     },
     {
-      onSuccess: (_, { creatingNewDao, newDaoUser }) => {
-        queryClient.invalidateQueries(['userDaos']);
+      onSuccess: (data, { creatingNewDao, newDaoUser }) => {
+        const { userId } = newDaoUser;
+        queryClient.invalidateQueries({ queryKey: ['userDaos'] });
+        queryClient.invalidateQueries(['userGet', userId]);
         queryClient.invalidateQueries(['daoUsersList']);
         queryClient.invalidateQueries(['daoUsersInfiniteList']);
 
@@ -41,7 +43,7 @@ export const useDaoUserCreate = () => {
             title: `${
               creatingNewDao === true
                 ? 'Successfully Created DAO'
-                : 'Successfully Joined DAO'
+                : 'Successfully Added to DAO'
             }`,
             description: `${
               creatingNewDao === true

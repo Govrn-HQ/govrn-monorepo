@@ -35,7 +35,7 @@ jobs:
           cache: 'yarn'
       - uses: actions/setup-python@v4
         with:
-          python-version: 'pypy3.9'
+          python-version: 'pypy3.8'
       - name: Frozen lock
         run: yarn install --frozen-lockfile # optional, --immutable
       - run: npm install -g @graphprotocol/graph-cli
@@ -77,9 +77,12 @@ jobs:
           echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
           echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
           echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
-          echo VITE_STAGING_MODE=true >> .env
+          echo VITE_STAGING_MODE=false >> .env
           echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
           echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
+          echo VITE_DISCORD_CLIENT_ID=${{secrets.DISCORD_CLIENT_ID}} >> .env
+          echo VITE_DISCORD_CLIENT_ID=${{secrets.DISCORD_STAGING_CLIENT_ID}} >> .env
+          echo VITE_DISCORD_REDIRECT_URI=https://api-staging.govrn.app/discord/oauth >> .env
       - name: Build
         run: yarn nx affected:build --configuration production --base $BASE
       - uses: actions/cache@v3

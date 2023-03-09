@@ -18,7 +18,6 @@ export const useUserGet = ({ userId }: { userId?: number }) => {
           userDaos.set(guildUser.guild_id, guildUser);
         });
       }
-
       return { ...resp, userDaos };
     },
   );

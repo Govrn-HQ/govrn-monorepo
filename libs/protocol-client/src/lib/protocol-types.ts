@@ -4232,6 +4232,8 @@ export type DateTimeWithAggregatesFilter = {
 };
 
 export type DiscordUser = {
+  access_token?: Maybe<Scalars['String']>;
+  active_token: Scalars['Boolean'];
   attribution_notification_period_min: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   discord_id: Scalars['String'];
@@ -4246,8 +4248,8 @@ export type DiscordUser = {
   new_guild_notification_period_min: Scalars['Int'];
   submit_reminder_period_min: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-  user: User;
-  user_id: Scalars['Int'];
+  user?: Maybe<User>;
+  user_id?: Maybe<Scalars['Int']>;
 };
 
 export type DiscordUserAvgAggregate = {
@@ -4270,6 +4272,8 @@ export type DiscordUserAvgOrderByAggregateInput = {
 
 export type DiscordUserCountAggregate = {
   _all: Scalars['Int'];
+  access_token: Scalars['Int'];
+  active_token: Scalars['Int'];
   attribution_notification_period_min: Scalars['Int'];
   createdAt: Scalars['Int'];
   discord_id: Scalars['Int'];
@@ -4288,6 +4292,8 @@ export type DiscordUserCountAggregate = {
 };
 
 export type DiscordUserCountOrderByAggregateInput = {
+  access_token?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
@@ -4306,6 +4312,8 @@ export type DiscordUserCountOrderByAggregateInput = {
 };
 
 export type DiscordUserCreateInput = {
+  access_token?: InputMaybe<Scalars['String']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   attribution_notification_period_min?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id: Scalars['String'];
@@ -4319,10 +4327,12 @@ export type DiscordUserCreateInput = {
   new_guild_notification_period_min?: InputMaybe<Scalars['Int']>;
   submit_reminder_period_min?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  user: UserCreateNestedOneWithoutDiscord_UsersInput;
+  user?: InputMaybe<UserCreateNestedOneWithoutDiscord_UsersInput>;
 };
 
 export type DiscordUserCreateManyInput = {
+  access_token?: InputMaybe<Scalars['String']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   attribution_notification_period_min?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id: Scalars['String'];
@@ -4337,10 +4347,12 @@ export type DiscordUserCreateManyInput = {
   new_guild_notification_period_min?: InputMaybe<Scalars['Int']>;
   submit_reminder_period_min?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  user_id: Scalars['Int'];
+  user_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type DiscordUserCreateManyUserInput = {
+  access_token?: InputMaybe<Scalars['String']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   attribution_notification_period_min?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id: Scalars['String'];
@@ -4375,6 +4387,8 @@ export type DiscordUserCreateOrConnectWithoutUserInput = {
 };
 
 export type DiscordUserCreateWithoutUserInput = {
+  access_token?: InputMaybe<Scalars['String']>;
+  active_token?: InputMaybe<Scalars['Boolean']>;
   attribution_notification_period_min?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   discord_id: Scalars['String'];
@@ -4396,6 +4410,8 @@ export type DiscordUserGroupBy = {
   _max?: Maybe<DiscordUserMaxAggregate>;
   _min?: Maybe<DiscordUserMinAggregate>;
   _sum?: Maybe<DiscordUserSumAggregate>;
+  access_token?: Maybe<Scalars['String']>;
+  active_token: Scalars['Boolean'];
   attribution_notification_period_min: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   discord_id: Scalars['String'];
@@ -4410,7 +4426,7 @@ export type DiscordUserGroupBy = {
   new_guild_notification_period_min: Scalars['Int'];
   submit_reminder_period_min: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-  user_id: Scalars['Int'];
+  user_id?: Maybe<Scalars['Int']>;
 };
 
 export type DiscordUserListRelationFilter = {
@@ -4420,6 +4436,8 @@ export type DiscordUserListRelationFilter = {
 };
 
 export type DiscordUserMaxAggregate = {
+  access_token?: Maybe<Scalars['String']>;
+  active_token?: Maybe<Scalars['Boolean']>;
   attribution_notification_period_min?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   discord_id?: Maybe<Scalars['String']>;
@@ -4438,6 +4456,8 @@ export type DiscordUserMaxAggregate = {
 };
 
 export type DiscordUserMaxOrderByAggregateInput = {
+  access_token?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
@@ -4456,6 +4476,8 @@ export type DiscordUserMaxOrderByAggregateInput = {
 };
 
 export type DiscordUserMinAggregate = {
+  access_token?: Maybe<Scalars['String']>;
+  active_token?: Maybe<Scalars['Boolean']>;
   attribution_notification_period_min?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   discord_id?: Maybe<Scalars['String']>;
@@ -4474,6 +4496,8 @@ export type DiscordUserMinAggregate = {
 };
 
 export type DiscordUserMinOrderByAggregateInput = {
+  access_token?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
@@ -4501,6 +4525,8 @@ export type DiscordUserOrderByWithAggregationInput = {
   _max?: InputMaybe<DiscordUserMaxOrderByAggregateInput>;
   _min?: InputMaybe<DiscordUserMinOrderByAggregateInput>;
   _sum?: InputMaybe<DiscordUserSumOrderByAggregateInput>;
+  access_token?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
@@ -4519,6 +4545,8 @@ export type DiscordUserOrderByWithAggregationInput = {
 };
 
 export type DiscordUserOrderByWithRelationInput = {
+  access_token?: InputMaybe<SortOrder>;
+  active_token?: InputMaybe<SortOrder>;
   attribution_notification_period_min?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   discord_id?: InputMaybe<SortOrder>;
@@ -4538,6 +4566,8 @@ export type DiscordUserOrderByWithRelationInput = {
 };
 
 export enum DiscordUserScalarFieldEnum {
+  AccessToken = 'access_token',
+  ActiveToken = 'active_token',
   AttributionNotificationPeriodMin = 'attribution_notification_period_min',
   CreatedAt = 'createdAt',
   DiscordId = 'discord_id',
@@ -4559,6 +4589,8 @@ export type DiscordUserScalarWhereInput = {
   AND?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
   NOT?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
   OR?: InputMaybe<Array<DiscordUserScalarWhereInput>>;
+  access_token?: InputMaybe<StringNullableFilter>;
+  active_token?: InputMaybe<BoolFilter>;
   attribution_notification_period_min?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   discord_id?: InputMaybe<StringFilter>;
@@ -4573,13 +4605,15 @@ export type DiscordUserScalarWhereInput = {
   new_guild_notification_period_min?: InputMaybe<IntFilter>;
   submit_reminder_period_min?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-  user_id?: InputMaybe<IntFilter>;
+  user_id?: InputMaybe<IntNullableFilter>;
 };
 
 export type DiscordUserScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<DiscordUserScalarWhereWithAggregatesInput>>;
+  access_token?: InputMaybe<StringNullableWithAggregatesFilter>;
+  active_token?: InputMaybe<BoolWithAggregatesFilter>;
   attribution_notification_period_min?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   discord_id?: InputMaybe<StringWithAggregatesFilter>;
@@ -4594,7 +4628,7 @@ export type DiscordUserScalarWhereWithAggregatesInput = {
   new_guild_notification_period_min?: InputMaybe<IntWithAggregatesFilter>;
   submit_reminder_period_min?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  user_id?: InputMaybe<IntWithAggregatesFilter>;
+  user_id?: InputMaybe<IntNullableWithAggregatesFilter>;
 };
 
 export type DiscordUserSumAggregate = {
@@ -4616,6 +4650,8 @@ export type DiscordUserSumOrderByAggregateInput = {
 };
 
 export type DiscordUserUpdateInput = {
+  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  active_token?: InputMaybe<BoolFieldUpdateOperationsInput>;
   attribution_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -4629,10 +4665,12 @@ export type DiscordUserUpdateInput = {
   new_guild_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   submit_reminder_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutDiscord_UsersNestedInput>;
+  user?: InputMaybe<UserUpdateOneWithoutDiscord_UsersNestedInput>;
 };
 
 export type DiscordUserUpdateManyMutationInput = {
+  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  active_token?: InputMaybe<BoolFieldUpdateOperationsInput>;
   attribution_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -4673,6 +4711,8 @@ export type DiscordUserUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type DiscordUserUpdateWithoutUserInput = {
+  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  active_token?: InputMaybe<BoolFieldUpdateOperationsInput>;
   attribution_notification_period_min?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   discord_id?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -4698,6 +4738,8 @@ export type DiscordUserWhereInput = {
   AND?: InputMaybe<Array<DiscordUserWhereInput>>;
   NOT?: InputMaybe<Array<DiscordUserWhereInput>>;
   OR?: InputMaybe<Array<DiscordUserWhereInput>>;
+  access_token?: InputMaybe<StringNullableFilter>;
+  active_token?: InputMaybe<BoolFilter>;
   attribution_notification_period_min?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   discord_id?: InputMaybe<StringFilter>;
@@ -4713,7 +4755,7 @@ export type DiscordUserWhereInput = {
   submit_reminder_period_min?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
-  user_id?: InputMaybe<IntFilter>;
+  user_id?: InputMaybe<IntNullableFilter>;
 };
 
 export type DiscordUserWhereUniqueInput = {
@@ -6717,12 +6759,10 @@ export type GuildMembershipStatusUpdateManyMutationInput = {
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput = {
+export type GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput = {
   connect?: InputMaybe<GuildMembershipStatusWhereUniqueInput>;
   connectOrCreate?: InputMaybe<GuildMembershipStatusCreateOrConnectWithoutGuildUsersInput>;
   create?: InputMaybe<GuildMembershipStatusCreateWithoutGuildUsersInput>;
-  delete?: InputMaybe<Scalars['Boolean']>;
-  disconnect?: InputMaybe<Scalars['Boolean']>;
   update?: InputMaybe<GuildMembershipStatusUpdateWithoutGuildUsersInput>;
   upsert?: InputMaybe<GuildMembershipStatusUpsertWithoutGuildUsersInput>;
 };
@@ -7047,8 +7087,8 @@ export type GuildUser = {
   guild_import?: Maybe<GuildImport>;
   guild_import_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
-  membershipStatus?: Maybe<GuildMembershipStatus>;
-  membership_status_id?: Maybe<Scalars['Int']>;
+  membershipStatus: GuildMembershipStatus;
+  membership_status_id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
   user: User;
   user_id: Scalars['Int'];
@@ -7106,7 +7146,7 @@ export type GuildUserCreateInput = {
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild: GuildCreateNestedOneWithoutUsersInput;
   guild_import?: InputMaybe<GuildImportCreateNestedOneWithoutUsersInput>;
-  membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
+  membershipStatus: GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutGuild_UsersInput;
 };
@@ -7116,7 +7156,7 @@ export type GuildUserCreateManyGuildInput = {
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild_import_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
-  membership_status_id?: InputMaybe<Scalars['Int']>;
+  membership_status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
@@ -7131,7 +7171,7 @@ export type GuildUserCreateManyGuild_ImportInput = {
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
-  membership_status_id?: InputMaybe<Scalars['Int']>;
+  membership_status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
@@ -7147,7 +7187,7 @@ export type GuildUserCreateManyInput = {
   guild_id: Scalars['Int'];
   guild_import_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
-  membership_status_id?: InputMaybe<Scalars['Int']>;
+  membership_status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
 };
@@ -7173,7 +7213,7 @@ export type GuildUserCreateManyUserInput = {
   guild_id: Scalars['Int'];
   guild_import_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
-  membership_status_id?: InputMaybe<Scalars['Int']>;
+  membership_status_id: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -7234,7 +7274,7 @@ export type GuildUserCreateWithoutGuildInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild_import?: InputMaybe<GuildImportCreateNestedOneWithoutUsersInput>;
-  membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
+  membershipStatus: GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutGuild_UsersInput;
 };
@@ -7243,7 +7283,7 @@ export type GuildUserCreateWithoutGuild_ImportInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild: GuildCreateNestedOneWithoutUsersInput;
-  membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
+  membershipStatus: GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutGuild_UsersInput;
 };
@@ -7262,7 +7302,7 @@ export type GuildUserCreateWithoutUserInput = {
   favorite?: InputMaybe<Scalars['Boolean']>;
   guild: GuildCreateNestedOneWithoutUsersInput;
   guild_import?: InputMaybe<GuildImportCreateNestedOneWithoutUsersInput>;
-  membershipStatus?: InputMaybe<GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput>;
+  membershipStatus: GuildMembershipStatusCreateNestedOneWithoutGuildUsersInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -7277,7 +7317,7 @@ export type GuildUserGroupBy = {
   guild_id: Scalars['Int'];
   guild_import_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
-  membership_status_id?: Maybe<Scalars['Int']>;
+  membership_status_id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
   user_id: Scalars['Int'];
 };
@@ -7387,7 +7427,7 @@ export type GuildUserScalarWhereInput = {
   guild_id?: InputMaybe<IntFilter>;
   guild_import_id?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
-  membership_status_id?: InputMaybe<IntNullableFilter>;
+  membership_status_id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user_id?: InputMaybe<IntFilter>;
 };
@@ -7401,7 +7441,7 @@ export type GuildUserScalarWhereWithAggregatesInput = {
   guild_id?: InputMaybe<IntWithAggregatesFilter>;
   guild_import_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
-  membership_status_id?: InputMaybe<IntNullableWithAggregatesFilter>;
+  membership_status_id?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   user_id?: InputMaybe<IntWithAggregatesFilter>;
 };
@@ -7437,7 +7477,7 @@ export type GuildUserUpdateInput = {
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
   guild_import?: InputMaybe<GuildImportUpdateOneWithoutUsersNestedInput>;
-  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
 };
@@ -7548,7 +7588,7 @@ export type GuildUserUpdateWithoutGuildInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
   guild_import?: InputMaybe<GuildImportUpdateOneWithoutUsersNestedInput>;
-  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
 };
@@ -7557,7 +7597,7 @@ export type GuildUserUpdateWithoutGuild_ImportInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
-  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutGuild_UsersNestedInput>;
 };
@@ -7576,7 +7616,7 @@ export type GuildUserUpdateWithoutUserInput = {
   favorite?: InputMaybe<BoolFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutUsersNestedInput>;
   guild_import?: InputMaybe<GuildImportUpdateOneWithoutUsersNestedInput>;
-  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput>;
+  membershipStatus?: InputMaybe<GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -7621,7 +7661,7 @@ export type GuildUserWhereInput = {
   guild_import_id?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<IntFilter>;
   membershipStatus?: InputMaybe<GuildMembershipStatusRelationFilter>;
-  membership_status_id?: InputMaybe<IntNullableFilter>;
+  membership_status_id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   user_id?: InputMaybe<IntFilter>;
@@ -17691,6 +17731,7 @@ export type UserSumOrderByAggregateInput = {
 };
 
 export type UserUpdateCustomInput = {
+  disconnectDiscordId?: InputMaybe<Scalars['Float']>;
   disconnectLinearId?: InputMaybe<Scalars['Float']>;
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -17778,20 +17819,22 @@ export type UserUpdateOneRequiredWithoutContributionsNestedInput = {
   upsert?: InputMaybe<UserUpsertWithoutContributionsInput>;
 };
 
-export type UserUpdateOneRequiredWithoutDiscord_UsersNestedInput = {
-  connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutDiscord_UsersInput>;
-  create?: InputMaybe<UserCreateWithoutDiscord_UsersInput>;
-  update?: InputMaybe<UserUpdateWithoutDiscord_UsersInput>;
-  upsert?: InputMaybe<UserUpsertWithoutDiscord_UsersInput>;
-};
-
 export type UserUpdateOneRequiredWithoutGuild_UsersNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutGuild_UsersInput>;
   create?: InputMaybe<UserCreateWithoutGuild_UsersInput>;
   update?: InputMaybe<UserUpdateWithoutGuild_UsersInput>;
   upsert?: InputMaybe<UserUpsertWithoutGuild_UsersInput>;
+};
+
+export type UserUpdateOneWithoutDiscord_UsersNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutDiscord_UsersInput>;
+  create?: InputMaybe<UserCreateWithoutDiscord_UsersInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<UserUpdateWithoutDiscord_UsersInput>;
+  upsert?: InputMaybe<UserUpsertWithoutDiscord_UsersInput>;
 };
 
 export type UserUpdateOneWithoutLinear_UsersNestedInput = {
@@ -18209,7 +18252,19 @@ export type GetActiveGuildUsersAverageQueryVariables = Exact<{
 
 export type GetActiveGuildUsersAverageQuery = { result: number };
 
-export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
+export type GuildActivityTypeFragmentFragment = { id: number, guild: { id: number, name?: string | null }, activity_type: { id: number, name: string } };
+
+export type ListGuildActivityTypesQueryVariables = Exact<{
+  where?: GuildActivityTypeWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildActivityTypeOrderByWithRelationInput> | GuildActivityTypeOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildActivityTypesQuery = { result: Array<{ id: number, guild: { id: number, name?: string | null }, activity_type: { id: number, name: string } }> };
+
+export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, display_name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } };
 
 export type CreateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserCreateCustomInput;
@@ -18233,14 +18288,14 @@ export type ListGuildUsersQueryVariables = Exact<{
 }>;
 
 
-export type ListGuildUsersQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null }> };
+export type ListGuildUsersQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, display_name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } }> };
 
 export type UpdateGuildUserCustomMutationVariables = Exact<{
   data: GuildUserUpdateCustomInput;
 }>;
 
 
-export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null } };
+export type UpdateGuildUserCustomMutation = { updateGuildUserCustom: { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, display_name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } } };
 
 export type GuildImportFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id: number, integration_type_id: number, authentication_token: string, guild: { id: number, name?: string | null }, integration_type: { id: number, name: string }, import_status: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string }, users: Array<{ user_id: number }> };
 
@@ -18289,21 +18344,21 @@ export type UpsertTwitterUserMutationVariables = Exact<{
 
 export type UpsertTwitterUserMutation = { upsertOneTwitterUser: { createdAt: string | Date, updatedAt: string | Date, description?: string | null, id: number, twitter_user_id?: string | null, username: string, user?: { id: number } | null } };
 
-export type UserFragmentFragment = { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> };
+export type UserFragmentFragment = { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> };
 
 export type GetUserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
 
-export type GetUserQuery = { result?: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> } | null };
+export type GetUserQuery = { result?: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> } | null };
 
 export type GetUserCustomQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type GetUserCustomQuery = { result: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> } };
+export type GetUserCustomQuery = { result: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> } };
 
 export type ListUsersQueryVariables = Exact<{
   where?: UserWhereInput;
@@ -18313,14 +18368,14 @@ export type ListUsersQueryVariables = Exact<{
 }>;
 
 
-export type ListUsersQuery = { result: Array<{ address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> }> };
+export type ListUsersQuery = { result: Array<{ address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> }> };
 
 export type ListUserByAddressQueryVariables = Exact<{
   address: Scalars['String'];
 }>;
 
 
-export type ListUserByAddressQuery = { result: Array<{ address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> }> };
+export type ListUserByAddressQuery = { result: Array<{ address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> }> };
 
 export type UpdateUserMutationVariables = Exact<{
   data: UserUpdateInput;
@@ -18328,28 +18383,28 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { updateOneUser?: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> } | null };
+export type UpdateUserMutation = { updateOneUser?: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> } | null };
 
 export type UpdateUserCustomMutationVariables = Exact<{
   data: UserUpdateCustomInput;
 }>;
 
 
-export type UpdateUserCustomMutation = { updateUserCustom: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> } };
+export type UpdateUserCustomMutation = { updateUserCustom: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> } };
 
 export type CreateUserMutationVariables = Exact<{
   data: UserCreateInput;
 }>;
 
 
-export type CreateUserMutation = { createOneUser: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> } };
+export type CreateUserMutation = { createOneUser: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> } };
 
 export type CreateUserCustomMutationVariables = Exact<{
   data: UserCreateCustomInput;
 }>;
 
 
-export type CreateUserCustomMutation = { createUserCustom: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus?: { name: string } | null }> } };
+export type CreateUserCustomMutation = { createUserCustom: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> } };
 
 export type ContributionFragmentFragment = { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> };
 
@@ -18482,7 +18537,7 @@ export type GetContributionStatusQueryVariables = Exact<{
 
 export type GetContributionStatusQuery = { contributionStatuses: Array<{ id: number, name: string }> };
 
-export type ActivityTypeFragmentFragment = { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date };
+export type ActivityTypeFragmentFragment = { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> };
 
 export type ListActivityTypesQueryVariables = Exact<{
   where?: ActivityTypeWhereInput;
@@ -18492,28 +18547,28 @@ export type ListActivityTypesQueryVariables = Exact<{
 }>;
 
 
-export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }> };
+export type ListActivityTypesQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
 export type ListActivityTypesByUserQueryVariables = Exact<{
   where: ListActivityTypesByUserInput;
 }>;
 
 
-export type ListActivityTypesByUserQuery = { result: Array<{ id: number, name: string, active: boolean, createdAt: string | Date, updatedAt: string | Date }> };
+export type ListActivityTypesByUserQuery = { result: Array<{ active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> }> };
 
 export type CreateActivityTypeMutationVariables = Exact<{
   data: ActivityTypeCreateInput;
 }>;
 
 
-export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type GetOrCreateActivityTypeMutationVariables = Exact<{
   data: GetOrCreateActivityTypeInput;
 }>;
 
 
-export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UpsertActivityTypeMutationVariables = Exact<{
   create: ActivityTypeCreateInput;
@@ -18522,7 +18577,7 @@ export type UpsertActivityTypeMutationVariables = Exact<{
 }>;
 
 
-export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date } };
+export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } };
 
@@ -18666,6 +18721,19 @@ export const GuildFragmentFragmentDoc = gql`
   status
 }
     `;
+export const GuildActivityTypeFragmentFragmentDoc = gql`
+    fragment GuildActivityTypeFragment on GuildActivityType {
+  id
+  guild {
+    id
+    name
+  }
+  activity_type {
+    id
+    name
+  }
+}
+    `;
 export const GuildUserFragmentFragmentDoc = gql`
     fragment GuildUserFragment on GuildUser {
   id
@@ -18675,6 +18743,7 @@ export const GuildUserFragmentFragmentDoc = gql`
   user_id
   user {
     name
+    display_name
     address
   }
   guild {
@@ -18846,6 +18915,10 @@ export const UserFragmentFragmentDoc = gql`
   id
   name
   updatedAt
+  discord_users {
+    id
+    active_token
+  }
   linear_users {
     id
     active_token
@@ -18872,6 +18945,12 @@ export const ActivityTypeFragmentFragmentDoc = gql`
   id
   name
   updatedAt
+  guilds {
+    guild {
+      id
+      name
+    }
+  }
 }
     `;
 export const UserActivityFragmentFragmentDoc = gql`
@@ -19079,6 +19158,18 @@ export const GetActiveGuildUsersAverageDocument = gql`
   result: getActiveGuildUsersAverage(where: $where)
 }
     `;
+export const ListGuildActivityTypesDocument = gql`
+    query listGuildActivityTypes($where: GuildActivityTypeWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildActivityTypeOrderByWithRelationInput!]) {
+  result: guildActivityTypes(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildActivityTypeFragment
+  }
+}
+    ${GuildActivityTypeFragmentFragmentDoc}`;
 export const CreateGuildUserCustomDocument = gql`
     mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
   createGuildUserCustom(data: $data) {
@@ -19353,14 +19444,10 @@ export const ListActivityTypesDocument = gql`
 export const ListActivityTypesByUserDocument = gql`
     query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
-    id
-    name
-    active
-    createdAt
-    updatedAt
+    ...ActivityTypeFragment
   }
 }
-    `;
+    ${ActivityTypeFragmentFragmentDoc}`;
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
   createOneActivityType(data: $data) {
@@ -19519,6 +19606,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getActiveGuildUsersAverage(variables: GetActiveGuildUsersAverageQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetActiveGuildUsersAverageQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetActiveGuildUsersAverageQuery>(GetActiveGuildUsersAverageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getActiveGuildUsersAverage', 'query');
+    },
+    listGuildActivityTypes(variables?: ListGuildActivityTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildActivityTypesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildActivityTypesQuery>(ListGuildActivityTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildActivityTypes', 'query');
     },
     createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');

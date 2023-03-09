@@ -577,7 +577,7 @@ export { GuildMembershipStatusScalarWhereWithAggregatesInput } from "./GuildMemb
 export { GuildMembershipStatusSumOrderByAggregateInput } from "./GuildMembershipStatusSumOrderByAggregateInput";
 export { GuildMembershipStatusUpdateInput } from "./GuildMembershipStatusUpdateInput";
 export { GuildMembershipStatusUpdateManyMutationInput } from "./GuildMembershipStatusUpdateManyMutationInput";
-export { GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput } from "./GuildMembershipStatusUpdateOneWithoutGuildUsersNestedInput";
+export { GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput } from "./GuildMembershipStatusUpdateOneRequiredWithoutGuildUsersNestedInput";
 export { GuildMembershipStatusUpdateWithoutGuildUsersInput } from "./GuildMembershipStatusUpdateWithoutGuildUsersInput";
 export { GuildMembershipStatusUpsertWithoutGuildUsersInput } from "./GuildMembershipStatusUpsertWithoutGuildUsersInput";
 export { GuildMembershipStatusWhereInput } from "./GuildMembershipStatusWhereInput";
@@ -1168,8 +1168,8 @@ export { UserUpdateOneRequiredWithoutActivitiesNestedInput } from "./UserUpdateO
 export { UserUpdateOneRequiredWithoutAttestationsNestedInput } from "./UserUpdateOneRequiredWithoutAttestationsNestedInput";
 export { UserUpdateOneRequiredWithoutContributionPartnersNestedInput } from "./UserUpdateOneRequiredWithoutContributionPartnersNestedInput";
 export { UserUpdateOneRequiredWithoutContributionsNestedInput } from "./UserUpdateOneRequiredWithoutContributionsNestedInput";
-export { UserUpdateOneRequiredWithoutDiscord_usersNestedInput } from "./UserUpdateOneRequiredWithoutDiscord_usersNestedInput";
 export { UserUpdateOneRequiredWithoutGuild_usersNestedInput } from "./UserUpdateOneRequiredWithoutGuild_usersNestedInput";
+export { UserUpdateOneWithoutDiscord_usersNestedInput } from "./UserUpdateOneWithoutDiscord_usersNestedInput";
 export { UserUpdateOneWithoutLinear_usersNestedInput } from "./UserUpdateOneWithoutLinear_usersNestedInput";
 export { UserUpdateOneWithoutTwitter_userNestedInput } from "./UserUpdateOneWithoutTwitter_userNestedInput";
 export { UserUpdateWithWhereUniqueWithoutChain_typeInput } from "./UserUpdateWithWhereUniqueWithoutChain_typeInput";

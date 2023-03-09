@@ -29,9 +29,19 @@ export class DiscordUserCreateInput {
   discord_id!: string;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutDiscord_usersInput, {
-    nullable: false
+    nullable: true
   })
-  user!: UserCreateNestedOneWithoutDiscord_usersInput;
+  user?: UserCreateNestedOneWithoutDiscord_usersInput | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  access_token?: string | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  active_token?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true

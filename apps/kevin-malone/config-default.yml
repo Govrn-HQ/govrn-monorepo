@@ -9,6 +9,7 @@ bot:
   govrn_guild_id: !ENV "GOVRN_GUILD_ID"
   protocol_url: !ENV "PROTOCOL_URL"
   protocol_token: !ENV "PROTOCOL_TOKEN"
+  frontend_url: !ENV "FRONTEND_URL"
   tasks:
     task_wakeup_period_minutes: !ENV "TASK_WAKEUP_PERIOD_MINUTES"
     weekly_report_minimum_time_between_loop_seconds: !ENV "WEEKLY_REPORT_MINIMUM_TIME_BETWEEN_LOOP_SECONDS"

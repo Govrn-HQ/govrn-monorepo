@@ -24,11 +24,14 @@ const CreateUserForm = () => {
   const createUserHandler: SubmitHandler<
     CreateUserFormValues
   > = async values => {
-    if (address && values?.username && values?.email) {
+    if (address && values?.username) {
       await createUser({
-        username: values?.username,
-        email: values?.email,
-        address,
+        newUser: {
+          username: values?.username,
+          email: values?.email || '',
+          address,
+        },
+        showToast: true,
       });
       navigate('/dashboard');
     }

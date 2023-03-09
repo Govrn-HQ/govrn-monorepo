@@ -47,11 +47,6 @@ export class LinearUserCreateManyInput {
   })
   url?: string | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  user_id?: number | undefined;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
@@ -61,4 +56,9 @@ export class LinearUserCreateManyInput {
     nullable: true
   })
   active_token?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  user_id?: number | undefined;
 }

@@ -1,5 +1,13 @@
 import { useMemo, useState, useEffect } from 'react';
-import { Badge, Button, Box, Flex, Stack, Text } from '@chakra-ui/react';
+import {
+  Badge,
+  Button,
+  Box,
+  Flex,
+  Stack,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -20,6 +28,7 @@ import { useDaoUsersInfiniteList } from '../hooks/useDaoUsersList';
 import { RowSelectionState } from '@tanstack/table-core';
 import { SortOrder } from '@govrn/protocol-client';
 import GovrnTable from './GovrnTable';
+import { displayAddress } from '../utils/web3';
 
 interface DaoSettingsMembersTableProps {
   daoId: number;
@@ -37,7 +46,10 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     fetchNextPage,
   } = useDaoUsersInfiniteList({
     where: { guild_id: { equals: daoId } },
-    orderBy: [{ membershipStatus: { name: SortOrder.Asc } }],
+    orderBy: [
+      { membershipStatus: { name: SortOrder.Asc } },
+      { user: { display_name: SortOrder.Asc } },
+    ],
   });
 
   const { mutateAsync: updateDaoMemberStatus } = useDaoUserUpdate();
@@ -73,7 +85,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           userId: userData.id,
           guildId: daoId,
           memberId: address.user_id,
-          membershipStatusId: 1,
+          membershipStatus: 'Admin',
         });
         return true;
       });
@@ -97,10 +109,13 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         ),
       },
       {
-        header: 'Member Address',
+        header: 'Member',
         accessorKey: 'user',
         cell: ({ getValue }: { getValue: Getter<UIGuildUsers['user']> }) => {
           const value = getValue();
+          const hasMemberName = value.name || value.display_name;
+          const displayMemberName =
+            value.name || value.display_name || displayAddress(value.address);
           return value.address === userData?.address ? (
             <Text
               whiteSpace="normal"
@@ -108,10 +123,19 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
               bgGradient="linear(to-l, #7928CA, #FF0080)"
               bgClip="text"
             >
-              {value.address}
+              {displayMemberName}
             </Text>
+          ) : hasMemberName ? (
+            <Tooltip
+              variant="primary"
+              label={value.address}
+              fontSize="sm"
+              placement="right"
+            >
+              <Text whiteSpace="normal">{displayMemberName}</Text>
+            </Tooltip>
           ) : (
-            <Text whiteSpace="normal">{value.address}</Text>
+            <Text whiteSpace="normal">{displayMemberName}</Text>
           );
         },
       },
@@ -205,18 +229,20 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         {daoUsersData && daoUsersData.pages.length > 0 ? (
           <Stack spacing="5">
             <Box
+              id="settings-table-container"
               width="100%"
               maxWidth="100vw"
               overflowX="auto"
-              height="15rem"
+              maxHeight="15rem"
               overflowY="scroll"
             >
               <InfiniteScroll
-                dataLength={table.getRowModel().rows.length}
+                dataLength={data.length}
                 next={fetchNextPage}
-                scrollThreshold={0.8}
-                hasMore={hasNextPage || false}
+                scrollThreshold={0.9}
+                hasMore={Boolean(hasNextPage)}
                 loader={<GovrnSpinner />}
+                scrollableTarget="settings-table-container"
               >
                 <GovrnTable
                   controller={table}

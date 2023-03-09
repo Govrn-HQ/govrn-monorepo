@@ -6,9 +6,9 @@ import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldI
 @TypeGraphQL.Resolver(_of => DiscordUser)
 export class DiscordUserRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => User, {
-    nullable: false
+    nullable: true
   })
-  async user(@TypeGraphQL.Root() discordUser: DiscordUser, @TypeGraphQL.Ctx() ctx: any): Promise<User> {
+  async user(@TypeGraphQL.Root() discordUser: DiscordUser, @TypeGraphQL.Ctx() ctx: any): Promise<User | null> {
     return getPrismaFromContext(ctx).discordUser.findUnique({
       where: {
         id: discordUser.id,

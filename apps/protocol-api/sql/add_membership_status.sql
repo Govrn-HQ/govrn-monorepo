@@ -4,6 +4,7 @@ VALUES ('Admin'),
        ('Contributor'),
        ('Recruit'),
        ('Supporter'),
-       ('Lurker')
+       ('Lurker'),
+       ('Left')
 ON CONFLICT DO NOTHING;
 

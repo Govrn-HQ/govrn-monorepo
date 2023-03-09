@@ -75,6 +75,15 @@ spec:
               value: 'https://govrn.app'
             - name: LINEAR_REDIRECT_URI
               value: 'https://api.govrn.app/linear/oauth'
+            - name: DISCORD_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: discord_client_secret
+            - name: DISCORD_CLIENT_ID
+              value: '897920137653534780'
+            - name: DISCORD_REDIRECT_URI
+              value: 'https://api.govrn.app/discord/oauth'
           resources:
             requests:
               memory: 300Mi

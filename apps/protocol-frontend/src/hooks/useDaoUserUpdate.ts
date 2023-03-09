@@ -1,6 +1,7 @@
 import { useUser } from '../contexts/UserContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useGovrnToast } from '@govrn/protocol-ui';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 
 interface DaoUserUpdateProps {
   userId: number;
@@ -8,6 +9,8 @@ interface DaoUserUpdateProps {
   favorite?: boolean;
   membershipStatusId?: number;
   memberId?: number;
+  membershipStatus?: string;
+  rejoining?: boolean;
 }
 
 export const useDaoUserUpdate = () => {
@@ -21,6 +24,8 @@ export const useDaoUserUpdate = () => {
       favorite,
       membershipStatusId,
       memberId,
+      membershipStatus,
+      rejoining = false,
     }: DaoUserUpdateProps) => {
       const mutationData = await govrn.guild.user.update({
         userId: userId,
@@ -28,16 +33,37 @@ export const useDaoUserUpdate = () => {
         favorite: favorite,
         membershipStatusId: membershipStatusId,
         memberId: memberId,
+        membershipStatus: membershipStatus,
       });
       return { mutationData };
     },
     {
-      onSuccess: (_, { favorite }) => {
-        queryClient.invalidateQueries(['userDaos']);
-        queryClient.invalidateQueries(['daoUsersList']);
+      onSuccess: (data, { userId, favorite, membershipStatus, rejoining }) => {
+        const { address } = data.mutationData.user;
+        queryClient.invalidateQueries({ queryKey: ['userDaos'] });
+        queryClient.invalidateQueries(['userGet', userId]);
+        queryClient.invalidateQueries({ queryKey: ['daoUsersList'] });
+        queryClient.invalidateQueries({ queryKey: ['daoUsersInfiniteList'] });
+        queryClient.invalidateQueries(['userByAddressGet', address]); // to invalidate the dependent queries that have deeply nested args the contribution infinite lists
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
+          if (membershipStatus === LEFT_MEMBERSHIP_NAME) {
+            toast.success({
+              id: toastSuccessId,
+              title: 'Leaving DAO',
+              description: 'You have successfully left the DAO.',
+            });
+            return;
+          }
+          if (rejoining === true) {
+            toast.success({
+              id: toastSuccessId,
+              title: 'Successfully Added to DAO',
+              description: `Successfully added to the DAO as a ${membershipStatus}.`,
+            });
+            return;
+          }
           toast.success({
             id: toastSuccessId,
             title:
@@ -62,6 +88,7 @@ export const useDaoUserUpdate = () => {
                 ? 'Favorite status update failed.'
                 : 'DAO update failed.',
             description: `Something went wrong. Please try again: ${error}`,
+            isClosable: true,
           });
         }
       },

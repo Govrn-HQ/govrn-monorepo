@@ -32,6 +32,9 @@ export class UserUpdateCustomInput {
 
   @TypeGraphQL.Field(_type => Number, { nullable: true })
   disconnectLinearId?: number;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  disconnectDiscordId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -121,6 +124,23 @@ export class UserCustomResolver {
         },
       });
     }
+
+    if (args.data.disconnectDiscordId) {
+      extraData = {
+        ...extraData,
+        discord_users: { disconnect: { id: args.data.disconnectDiscordId } },
+      };
+      await prisma.discordUser.update({
+        data: {
+          active_token: { set: false },
+          access_token: { set: null },
+        },
+        where: {
+          id: args.data.disconnectDiscordId,
+        },
+      });
+    }
+
     // conditionally add linear disconnect
     return await prisma.user.update({
       data: { ...extraData, name: { set: args.data.name } },

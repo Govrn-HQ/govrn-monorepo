@@ -24,9 +24,11 @@ import CreateDao from './pages/CreateDao';
 import ErrorView from './components/ErrorView';
 import useUserGet from './hooks/useUserGet';
 import { useAccount } from 'wagmi';
+import DiscordSignatureLayout from './components/DiscordSignatureLayout';
 import {
   CONTRIBUTION_NEW_DOMAIN,
   CONTRIBUTION_NEW_STAGING_DOMAIN,
+  LEFT_MEMBERSHIP_NAME,
 } from './utils/constants';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
@@ -49,7 +51,11 @@ const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
   const { userData } = useUser();
   const { data } = useUserGet({ userId: userData?.id });
   if (guildId) {
-    if (data?.userDaos && data?.userDaos.has(parseInt(guildId)) === false) {
+    if (
+      (data?.userDaos && data?.userDaos.has(parseInt(guildId)) === false) ||
+      data?.userDaos.get(parseInt(guildId)).membershipStatus?.name ===
+        LEFT_MEMBERSHIP_NAME
+    ) {
       return (
         <ErrorView
           errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
@@ -66,6 +72,12 @@ const Routes = () => {
   const { data } = useUserGet({ userId: userData?.id });
   const userDaos = data?.userDaos;
   const url = new URL(window.location.href);
+  const userDaosFilter = new Map();
+  userDaos?.forEach(dao => {
+    if (dao?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME) {
+      userDaosFilter.set(dao.guild_id, dao);
+    }
+  });
 
   return (
     <HashRouter>
@@ -82,6 +94,7 @@ const Routes = () => {
             )
           }
         />
+        <Route path="/signature" element={<DiscordSignatureLayout />} />
         <Route
           path="/profile"
           element={
@@ -119,10 +132,10 @@ const Routes = () => {
         <Route
           path="/dao"
           element={
-            userDaos && userDaos?.size > 0 ? (
+            userDaosFilter && userDaosFilter?.size > 0 ? (
               <Navigate
                 replace
-                to={`/dao/${userDaos?.values().next().value}`}
+                to={`/dao/${userDaosFilter?.values().next().value?.guild_id}`}
               />
             ) : (
               <RequireActiveUser>
