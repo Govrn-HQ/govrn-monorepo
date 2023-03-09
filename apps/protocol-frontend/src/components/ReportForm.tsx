@@ -176,6 +176,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     isLoading: useUserLoading,
   } = useUserGet({
     userId: userData?.id,
+    refetchOnWindowFocus: false,
   });
   const daoListOptions = useMemo(() => {
     return (
@@ -197,14 +198,17 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     isError: guildActivityTypeListIsError,
     isLoading: guildActivityTypeListIsLoading,
   } = useGuildActivityTypesList({
-    first: 10000,
-    where: {
-      guild: {
-        is: {
-          id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+    args: {
+      first: 10000,
+      where: {
+        guild: {
+          is: {
+            id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+          },
         },
       },
     },
+    refetchOnWindowFocus: false,
   });
 
   const combinedActivityTypeOptions = useMemo(() => {
