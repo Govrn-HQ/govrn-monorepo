@@ -5,7 +5,7 @@ import Checkbox from './components/checkbox';
 import Switch from './components/switch';
 import Table from './components/table';
 import Tabs from './components/tabs';
-
+import NumberInput from './components/numberinput';
 import Textarea from './components/textarea';
 import Toast from './components/toast';
 import Tooltip from './components/tooltip';
@@ -28,12 +28,12 @@ export const GovrnTheme = extendTheme({
 
   components: {
     Button,
-    Input,
     Checkbox,
+    Input,
+    NumberInput,
     Switch,
     Table,
     Tabs,
-
     Textarea,
     Toast,
     Tooltip,
