@@ -210,7 +210,7 @@ const DashboardShell = () => {
                 color="gray.800"
                 fontWeight="normal"
               >
-                {} Contribution Bar Chart
+                Contribution Bar Chart
               </Heading>
               {contributionsCount ? (
                 <>
