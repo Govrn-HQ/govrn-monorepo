@@ -94,7 +94,6 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       selectedMemberAddresses.length === 0
     )
       return;
-    // TODO: Pop error toast if current user is selected
     if (selectedMemberAddresses !== undefined) {
       const parsedDaoMemberAddresses = selectedMemberAddresses.filter(
         memberAddress => {
