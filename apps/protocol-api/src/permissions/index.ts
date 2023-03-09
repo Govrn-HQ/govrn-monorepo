@@ -50,14 +50,15 @@ const hasToken = rule()(async (parent, args, ctx, info) => {
   return false;
 });
 
-const isUsersMapping = new Map([['createUsersContribution', 'data.userId']]);
+const isUsersMapping = new Map([
+  ['createUserContribution', 'data.userId'],
+  ['createOnChainUserContribution', 'userId'],
+]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   const userId = byString(args, isUsersMapping.get(info.fieldName));
-  console.log(info.fieldName);
-  console.log(ctx.req.session.siwe.data);
   const user = await ctx.prisma.user.findFirst({
     where: {
-      address: { eq: ctx.req.session.siwe.data.address },
+      address: ctx.req.session.siwe.data.address,
     },
   });
 
@@ -129,20 +130,8 @@ export const permissions = shield(
       createOnChainUserContribution: and(
         isAuthenticated,
         createOnChainUserContributionInput,
-      ), // user can only create on chain contribution for itself
-      //export type UserOnChainContributionCreateInput = {
-      //  activityTypeId: Scalars['Float'];
-      //  chainId?: InputMaybe<Scalars['Float']>;
-      //  dateOfEngagement: Scalars['DateTime'];
-      //  dateOfSubmission: Scalars['DateTime'];
-      //  details: Scalars['String'];
-      //  name: Scalars['String'];
-      //  onChainId: Scalars['Float'];
-      //  proof: Scalars['String'];
-      //  status: Scalars['String'];
-      //  txHash: Scalars['String'];
-      //  userId: Scalars['Float'];
-      //};
+        isUsers,
+      ), // user can only create on chain contribution for themself
       createUserAttestation: isAuthenticated, // Can only create an attestation for yourself
       // export type AttestationUserCreateInput = {
       //   address: Scalars['String'];
@@ -156,20 +145,6 @@ export const permissions = shield(
         createUserContributionInput,
         isUsers,
       ), // user can only create a contribution for itself
-      // export type UserContributionCreateInput = {
-      //   activityTypeName: Scalars['String'];
-      //   address: Scalars['String'];
-      //   chainId?: InputMaybe<Scalars['Float']>;
-      //   chainName: Scalars['String'];
-      //   dateOfEngagement: Scalars['DateTime'];
-      //   details: Scalars['String'];
-      //   guildId?: InputMaybe<Scalars['Float']>;
-      //   name: Scalars['String'];
-      //   proof: Scalars['String'];
-      //   status: Scalars['String'];
-      //   userId: Scalars['Float'];
-      // };
-
       createUserCustom: or(hasToken, isAuthenticated), // Can only create a user if has address
       // export type UserCreateCustomInput = {
       //   address: Scalars['String'];
