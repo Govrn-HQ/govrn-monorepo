@@ -92,6 +92,7 @@ const logic = async (conn: NatsConnection) => {
     // ack is handled by pull messages
     return;
   };
+
   await writeMessages(conn, streamName, [
     // DAO ID, address, discord name/username (optional), dicord_id (optional	), admin
     '15,0x292c4cE0EEFbCA990F319BEfac1c032cCcA6dE57,Flip,447315691226398733,False',
