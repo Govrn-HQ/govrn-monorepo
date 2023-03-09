@@ -161,7 +161,7 @@ export const permissions = shield(
       //   contributionId: Scalars['Int'];
       // };
 
-      // getOrCreateActivityType: isAuthenticated,
+      getOrCreateActivityType: isAuthenticated,
       updateUserContribution: isAuthenticated, // only user can do this on their own
       updateGuildCustom: isAuthenticated,
       // export type GuildUpdateCustomInput = {
