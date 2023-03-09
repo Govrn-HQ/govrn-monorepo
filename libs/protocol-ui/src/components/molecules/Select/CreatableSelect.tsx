@@ -7,45 +7,17 @@ import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
 import { UseFormReturn } from 'react-hook-form/dist/types/form';
-import { components } from 'react-select';
+import { BaseSelectProps, ValueType } from './types';
 
-export function SelectContainer(props: any) {
-  return (
-    <components.SelectContainer
-      {...props}
-      innerProps={Object.assign({}, props.innerProps, {
-        'data-cy': 'daoCreatableSelect-testing',
-      })}
-    />
-  );
-}
-
-type Option = {
-  label: string;
-  value: string;
-};
-
-export interface CreatableSelectProps {
+export interface CreatableSelectProps<Type extends ValueType = ValueType>
+  extends BaseSelectProps<Type> {
   name: string;
-  label?: string;
-  placeholder?: string;
-  defaultValue?: Option | Option[];
-  id?: string;
-  tip?: string;
-  options: Option[];
-  isRequired?: boolean;
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
-  isMulti?: boolean;
-  isClearable?: boolean;
-  onChange?: (option: Option) => void;
-  isDisabled?: boolean;
-  variant?: 'outline' | 'filled';
-  value?: any;
   components?: SelectComponents;
   // menuPortalBody?: boolean;
 }
 
-const CreatableSelect: React.FC<CreatableSelectProps> = ({
+export const CreatableSelect = <T extends ValueType>({
   label,
   name,
   tip,
@@ -59,7 +31,7 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
   value,
   localForm,
   components,
-}: CreatableSelectProps) => {
+}: CreatableSelectProps<T>) => {
   const {
     control,
     formState: { errors },
@@ -87,7 +59,6 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
                 onChange={onChange}
                 isDisabled={isDisabled}
                 value={value}
-                components={{ SelectContainer }}
                 styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                 menuPortalTarget={document.querySelector('body')} // so dropdown menu doesnt interfere with clickable elements
               />
@@ -103,5 +74,3 @@ const CreatableSelect: React.FC<CreatableSelectProps> = ({
     </FormControl>
   );
 };
-
-export default CreatableSelect;

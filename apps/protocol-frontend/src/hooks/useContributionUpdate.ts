@@ -37,8 +37,7 @@ export const useContributionUpdate = () => {
             updatedValues.engagementDate ?? contribution.date_of_engagement,
           ).toISOString(),
           status: 'staging', // should always be staging since can only update staged Contributions
-          guildId:
-            updatedValues.daoId === null ? null : Number(updatedValues.daoId),
+          guildId: !updatedValues.daoId ? null : Number(updatedValues.daoId),
           contributionId: contribution.id,
           currentGuildId: contribution.guilds[0]?.guild?.id || 0,
           contributionUserAddress: contribution.user?.address,

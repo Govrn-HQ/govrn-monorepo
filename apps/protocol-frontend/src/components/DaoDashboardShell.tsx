@@ -32,6 +32,8 @@ import {
   DEFAULT_DATE_RANGES,
 } from '../utils/constants';
 
+const CUSTOM_VALUE = 0;
+
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
@@ -60,23 +62,18 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
 
   const dateRangeOptions = [
     {
-      value: 'Custom',
+      value: CUSTOM_VALUE,
       label: 'Custom',
     },
     ...DEFAULT_DATE_RANGES,
   ];
 
-  const dateChangeHandler = (selectedDateOffset: number | string) => {
-    if (selectedDateOffset === 'Custom') {
+  const dateChangeHandler = (selectedDateOffset: number) => {
+    if (selectedDateOffset === CUSTOM_VALUE) {
       setShowCustomDatePicker(true);
     }
     setEndDate(TODAY_DATE);
-    setStartDate(
-      subWeeks(
-        TODAY_DATE,
-        typeof selectedDateOffset === 'number' ? selectedDateOffset : 0,
-      ),
-    );
+    setStartDate(subWeeks(TODAY_DATE, selectedDateOffset));
   };
 
   const handleLeavingDao = async () => {
@@ -222,8 +219,11 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                   date => date.value === YEAR,
                 )}
                 onChange={dateRangeOffset => {
+                  if (dateRangeOffset instanceof Array) {
+                    return;
+                  }
                   setShowCustomDatePicker(false);
-                  dateChangeHandler(dateRangeOffset.value);
+                  dateChangeHandler(Number(dateRangeOffset?.value));
                 }}
                 options={dateRangeOptions}
               />

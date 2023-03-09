@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
-import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  SelectOption,
+} from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
@@ -18,8 +22,8 @@ const TODAY_DATE = new Date();
 
 const unassignedContributions = [
   {
-    value: Number(null),
     label: UNASSIGNED,
+    value: Number(null),
   },
 ];
 
@@ -27,9 +31,9 @@ const DashboardShell = () => {
   const { userData } = useUser();
   const { displayName } = useDisplayName();
 
-  const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
-    value: 52,
+  const [dateRange, setDateRange] = useState<SelectOption<number>>({
     label: 'Last Year',
+    value: 52,
   });
   const [selectedDaos, setSelectedDaos] = useState<
     { value: number; label: string }[]
@@ -46,8 +50,8 @@ const DashboardShell = () => {
 
   const userDaoListOptions =
     userDaosListData?.map(dao => ({
-      value: dao.id,
       label: dao.name ?? '',
+      value: dao.id,
     })) || [];
 
   const combinedDaoListOptions = [
@@ -147,6 +151,9 @@ const DashboardShell = () => {
                   label="Choose Date Range"
                   tip="Choose the date range for your contributions."
                   onChange={date => {
+                    if (date instanceof Array || !date) {
+                      return;
+                    }
                     setDateRange(date);
                   }}
                   options={DEFAULT_DATE_RANGES}

@@ -1,47 +1,27 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import { Stack, Box, Text } from '@chakra-ui/react';
+import { BaseSelectProps, ValueType } from './types';
 
-export type Option =
-  | {
-      label: string | number;
-      value: string | number;
-    }
-  | { value: number | null; label: string }
-  | { value: number; label: string | null | undefined }
-  | { value: null; label: string }
-  | { label: string | number; value: string | number }
-  | { value: number; label: string };
-
-export interface ControlledSelectProps {
-  label?: string;
-  placeholder?: string;
-  defaultValue?: Option | Option[];
-  id?: string;
-  tip?: string;
-  options: Option[];
-  isRequired?: boolean;
-  isMulti?: boolean;
-  isClearable?: boolean;
-  onChange?: (option: { value: number; label: string }) => void;
-  variant?: 'outline' | 'filled';
-  value?: any;
+export interface ControlledSelectProps<Type extends ValueType = ValueType>
+  extends BaseSelectProps<Type> {
   isSearchable?: boolean;
 }
 
-const ControlledSelect: React.FC<ControlledSelectProps> = ({
+export const ControlledSelect = <T extends ValueType>({
   label,
   tip,
   placeholder,
   defaultValue,
   options,
-  isMulti,
+  isMulti = false,
   isClearable,
+  isDisabled,
   onChange,
   value,
   isSearchable,
   ...props
-}: ControlledSelectProps) => {
+}: ControlledSelectProps<T>) => {
   return (
     <Stack spacing={2} width="100%">
       {label && (
@@ -61,6 +41,7 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
           placeholder={placeholder}
           isMulti={isMulti}
           onChange={onChange}
+          isDisabled={isDisabled}
           value={value}
           isSearchable={isSearchable}
           styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
@@ -71,5 +52,3 @@ const ControlledSelect: React.FC<ControlledSelectProps> = ({
     </Stack>
   );
 };
-
-export default ControlledSelect;

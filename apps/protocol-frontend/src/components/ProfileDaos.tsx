@@ -9,7 +9,11 @@ import {
   Grid,
   Text,
 } from '@chakra-ui/react';
-import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  SelectOption as Option,
+} from '@govrn/protocol-ui';
 import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import { useDaosList } from '../hooks/useDaosList';
@@ -27,10 +31,7 @@ interface ProfileDaoProps {
 }
 
 const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
-  const [selectedDao, setSelectedDao] = useState<{
-    value: number;
-    label: string;
-  } | null>(null);
+  const [selectedDao, setSelectedDao] = useState<Option<number> | null>(null);
 
   const { state } = useLocation();
   const { targetId } = state || {};
@@ -102,8 +103,8 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
 
   const daoListOptions =
     joinableDaosListData?.map(dao => ({
-      value: dao.id,
       label: dao.name ?? '',
+      value: dao.id,
     })) || [];
 
   const { mutateAsync: createDaoUser, isLoading: createDaoUserLoading } =
@@ -204,7 +205,13 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             >
               <ControlledSelect
                 label="Select a DAO to Join"
-                onChange={dao => setSelectedDao(dao)}
+                isMulti={false}
+                onChange={dao => {
+                  if (dao instanceof Array || !dao) {
+                    return;
+                  }
+                  setSelectedDao(dao);
+                }}
                 value={selectedDao ?? null}
                 options={daoListOptions}
                 isSearchable={false}

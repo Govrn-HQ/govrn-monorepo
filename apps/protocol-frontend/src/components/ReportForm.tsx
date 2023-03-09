@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
-import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
+import {
+  DEFAULT_ACTIVITY_TYPES_OPTIONS,
+  MAX_FILE_UPLOAD_SIZE,
+} from '../utils/constants';
 import {
   Stack,
   Flex,
@@ -22,16 +25,16 @@ import {
   Select,
   Textarea,
 } from '@govrn/protocol-ui';
-import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reportFormValidation } from '../utils/validations';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
+import { useGuildActivityTypesList } from '../hooks/useGuildActivityTypesList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 import useUserGet from '../hooks/useUserGet';
 import { useGovrnToast } from '@govrn/protocol-ui';
+import groupBy from 'lodash/groupBy';
 
 function CreateMoreSwitch({
   isChecked,
@@ -120,7 +123,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     resolver: yupResolver(reportFormValidation),
   });
   const { handleSubmit, setValue, reset } = localForm;
-  const [engagementDateValue, setEngagementDateValue] = useState<Date | null>(
+  const [engagementDateValue, setEngagementDateValue] = useState<Date>(
     new Date(),
   );
 
@@ -134,7 +137,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
-    if (selectedFile && fileError === null && ipfsError === false) {
+    if (selectedFile && fileError === null && !ipfsError) {
       try {
         await uploadFileIpfs(selectedFile, false);
         setIpfsError(false);
@@ -148,7 +151,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         return;
       }
     }
-    if (ipfsError === false) {
+    if (!ipfsError) {
       const result = await createNewContribution(values);
       if (result) {
         reset({
@@ -174,52 +177,68 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   } = useUserGet({
     userId: userData?.id,
   });
-
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-  } = useUserActivityTypesList();
-
-  const daoListOptions =
-    useUserData?.guild_users.map(dao => ({
-      value: dao.guild.id,
-      label: dao.guild.name ?? '',
-    })) || [];
+  const daoListOptions = useMemo(() => {
+    return (
+      useUserData?.guild_users.map(dao => ({
+        value: dao.guild.id,
+        label: dao.guild.name ?? '',
+      })) || []
+    );
+  }, [useUserData]);
 
   useEffect(() => {
     const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
     setValue('engagementDate', engagementDateValue);
     setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
-  }, []);
+  }, [engagementDateValue, setValue, daoListOptions, daoIdParam]);
 
-  // there is an error with the query:
-  if (userActivityTypesIsError) {
-    return <Text>An error occurred fetching User Activity Types.</Text>;
-  }
+  const {
+    data: guildActivityTypeListData,
+    isError: guildActivityTypeListIsError,
+    isLoading: guildActivityTypeListIsLoading,
+  } = useGuildActivityTypesList({
+    first: 10000,
+    where: {
+      guild: {
+        is: {
+          id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+        },
+      },
+    },
+  });
 
-  const combinedActivityTypesList = [
-    ...new Set([
-      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...DEFAULT_ACTIVITY_TYPES,
-    ]),
-  ];
+  const combinedActivityTypeOptions = useMemo(() => {
+    if (!guildActivityTypeListData) return [];
+    const groupedActivityTypes = groupBy(
+      guildActivityTypeListData.result.map(guildActivity => {
+        return {
+          activity: guildActivity.activity_type.name,
+          guild: guildActivity.guild.name,
+        };
+      }),
+      'guild',
+    );
 
-  const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    activity => ({
-      value: activity,
-      label: activity,
-    }),
-  );
+    // TODO: Missing custom types in a section
+    return [
+      ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+      ...Object.keys(groupedActivityTypes).map(key => ({
+        label: key,
+        options: groupedActivityTypes[key].map(item => ({
+          value: item.activity,
+          label: item.activity,
+        })),
+      })),
+    ];
+  }, [guildActivityTypeListData]);
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || useUserLoading) {
+  if (guildActivityTypeListIsLoading || useUserLoading) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
-  if (userActivityTypesIsError) {
+  if (guildActivityTypeListIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
@@ -240,11 +259,40 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             localForm={localForm}
             dataTestId="reportForm-name"
           />
+          <Select
+            name="daoId"
+            label="DAO"
+            tip={
+              <>
+                Please select a DAO to associate this contribution with.
+                <Box fontWeight={700} lineHeight={2}>
+                  This is optional. Don't see your DAO? Request to add it{' '}
+                  <ChakraLink
+                    href="https://airtable.com/shrOedOjQpH9xlg7l"
+                    isExternal
+                    textDecoration="underline"
+                  >
+                    here
+                  </ChakraLink>
+                </Box>
+              </>
+            }
+            placeholder="Select a DAO to associate this contribution with."
+            onChange={dao => {
+              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
+            }}
+            options={daoListOptions}
+            defaultValue={daoListOptions.find(dao => dao.value === daoIdParam)}
+            localForm={localForm}
+          />
           <CreatableSelect
             name="activityType"
             label="Activity Type"
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
+              if (activity instanceof Array || !activity) {
+                return;
+              }
               setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}
@@ -308,32 +356,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               </Text>
             )}
           </Flex>
-          <Select
-            name="daoId"
-            label="DAO"
-            tip={
-              <>
-                Please select a DAO to associate this contribution with.
-                <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Request to add it{' '}
-                  <ChakraLink
-                    href="https://airtable.com/shrOedOjQpH9xlg7l"
-                    isExternal
-                    textDecoration="underline"
-                  >
-                    here
-                  </ChakraLink>
-                </Box>
-              </>
-            }
-            placeholder="Select a DAO to associate this contribution with."
-            onChange={dao => {
-              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
-            }}
-            options={daoListOptions}
-            defaultValue={daoListOptions.find(dao => dao.value === daoIdParam)}
-            localForm={localForm}
-          />
           <DatePicker
             name="engagementDate"
             localForm={localForm}
@@ -345,7 +367,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               if (Array.isArray(date)) {
                 return;
               }
-              setEngagementDateValue(date);
+              setEngagementDateValue(date ?? new Date());
               setValue('engagementDate', date);
             }}
           />
