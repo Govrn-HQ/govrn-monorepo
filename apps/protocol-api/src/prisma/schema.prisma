@@ -75,20 +75,21 @@ model DiscordUser {
 }
 
 model Guild {
-  id                             Int                 @id @default(autoincrement())
-  createdAt                      DateTime            @default(now())
-  updatedAt                      DateTime            @default(now()) @updatedAt
-  discord_id                     String?             @unique // legacy
+  id                             Int                    @id @default(autoincrement())
+  createdAt                      DateTime               @default(now())
+  updatedAt                      DateTime               @default(now()) @updatedAt
+  discord_id                     String?                @unique // legacy
   name                           String? // legacy
   congrats_channel               String? // legacy
   logo                           String?
-  status                         GuildStatus         @default(INPUTTED)
+  status                         GuildStatus            @default(INPUTTED)
   contributions                  GuildContribution[]
   users                          GuildUser[]
   twitter_accounts               TwitterAccount[]
   activity_type                  GuildActivityType[]
   contribution_reporting_channel String?
   guild_imports                  GuildImport[]
+  VerificationSettings           VerificationSettings[]
 }
 
 model GuildMembershipStatus {
@@ -473,4 +474,13 @@ model TwitterTweetContribution {
   twitter_tweet    TwitterTweet @relation(fields: [twitter_tweet_id], references: [id])
   contribution_id  Int
   contribution     Contribution @relation(fields: [contribution_id], references: [id])
+}
+
+model VerificationSettings {
+  id                  Int      @id @default(autoincrement())
+  guild_id            Int?
+  guild               Guild?   @relation(fields: [guild_id], references: [id])
+  num_of_attestations Int
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now()) @updatedAt
 }
