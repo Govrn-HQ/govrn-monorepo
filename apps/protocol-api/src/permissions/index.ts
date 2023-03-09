@@ -205,9 +205,25 @@ export const permissions = shield(
       //   contributionId: Scalars['Int'];
       // };
 
-      getOrCreateActivityType: isAuthenticated,
+      getOrCreateActivityType: isAuthenticated, // TODO: scope permissions
       updateUserContribution: isAuthenticated, // only user can do this on their own
-      updateGuildCustom: isAuthenticated,
+      // export type UserContributionUpdateInput = {
+      //   activityTypeName: Scalars['String'];
+      //   address: Scalars['String'];
+      //   chainName: Scalars['String'];
+      //   contributionId: Scalars['Int'];
+      //   contributionUserAddress?: InputMaybe<Scalars['String']>;
+      //   currentGuildId?: InputMaybe<Scalars['Float']>;
+      //   dateOfEngagement: Scalars['DateTime'];
+      //   details?: InputMaybe<Scalars['String']>;
+      //   guildId?: InputMaybe<Scalars['Float']>;
+      //   name: Scalars['String'];
+      //   proof?: InputMaybe<Scalars['String']>;
+      //   status: Scalars['String'];
+      //   userId: Scalars['Float'];
+      // };
+
+      updateGuildCustom: isAuthenticated, // Admin?
       // export type GuildUpdateCustomInput = {
       //   congrats_channel?: InputMaybe<Scalars['String']>;
       //   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
