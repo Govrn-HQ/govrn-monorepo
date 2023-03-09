@@ -2,6 +2,18 @@
 // Create more generic user and admin rulesj
 import { inputRule } from 'graphql-shield';
 
+export const createUserAttestationInput = inputRule()(
+  yup =>
+    yup.object({
+      address: yup.string().required(),
+      chainName: yup.string().required(),
+      confidenceName: yup.string().required(),
+      contributionId: yup.number().required(),
+      userId: yup.number().required(),
+    }),
+  { abortEarly: false },
+);
+
 export const createOnChainUserContributionInput = inputRule()(
   yup =>
     yup.object({
@@ -41,6 +53,41 @@ export const createUserContributionInput = inputRule()(
           .matches(/(staging)/, { excludeEmptyString: true })
           .required(),
         userId: yup.number().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const createUserCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        address: yup.string().required(),
+        email: yup.string().email(),
+        username: yup.string().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const createUserOnChainAttestationInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        chainId: yup.number().required(),
+        confidence: yup.string().required(),
+        contributionOnChainId: yup.number().required(),
+        userId: yup.number().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const deleteUserContributionInput = inputRule()(
+  yup =>
+    yup.object({
+      where: yup.object({
+        contributionId: yup.number().required(),
       }),
     }),
   { abortEarly: false },

@@ -1,7 +1,11 @@
 import { deny, or, rule, shield, and } from 'graphql-shield';
 import {
+  createUserAttestationInput,
   createOnChainUserContributionInput,
   createUserContributionInput,
+  createUserCustomInput,
+  createUserOnChainAttestationInput,
+  deleteUserContributionInput,
 } from './inputs';
 
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
@@ -51,18 +55,49 @@ const hasToken = rule()(async (parent, args, ctx, info) => {
 });
 
 const isUsersMapping = new Map([
+  ['createUserAttestation', 'data.userId'],
   ['createUserContribution', 'data.userId'],
   ['createOnChainUserContribution', 'userId'],
+  ['createUserOnChainAttestation', 'data.userId'],
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   const userId = byString(args, isUsersMapping.get(info.fieldName));
+  console.log('isUsers', userId, info.fieldName, args);
   const user = await ctx.prisma.user.findFirst({
     where: {
       address: ctx.req.session.siwe.data.address,
     },
   });
+  console.log(user);
 
   return user.id === userId;
+});
+
+// TODO: Add helpful error messages
+const isUsersContributionMapping = new Map([
+  ['deleteUserContribution', 'where.contributionId'],
+]);
+const isUsersContribution = rule()(async (parent, args, ctx, info) => {
+  const contributionId = byString(
+    args,
+    isUsersContributionMapping.get(info.fieldName),
+  );
+  console.log('isUsersContribution', contributionId, info.fieldName, args);
+  const user = await ctx.prisma.user.findFirst({
+    where: {
+      address: ctx.req.session.siwe.data.address,
+    },
+  });
+  const contribution = await ctx.prisma.contribution.findFirst({
+    where: {
+      id: contributionId,
+    },
+  });
+
+  console.log(user);
+  console.log(contribution);
+
+  return user.id === contribution.user_id;
 });
 
 const JOB_ONLY_QUERIES = {
@@ -132,26 +167,20 @@ export const permissions = shield(
         createOnChainUserContributionInput,
         isUsers,
       ), // user can only create on chain contribution for themself
-      createUserAttestation: isAuthenticated, // Can only create an attestation for yourself
-      // export type AttestationUserCreateInput = {
-      //   address: Scalars['String'];
-      //   chainName: Scalars['String'];
-      //   confidenceName: Scalars['String'];
-      //   contributionId: Scalars['Int'];
-      //   userId: Scalars['Float'];
-      // };
+      createUserAttestation: and(
+        createUserAttestationInput,
+        isAuthenticated,
+        isUsers,
+      ), // Can only create an attestation for yourself
       createUserContribution: and(
         isAuthenticated,
         createUserContributionInput,
         isUsers,
       ), // user can only create a contribution for itself
-      createUserCustom: or(hasToken, isAuthenticated), // Can only create a user if has address
-      // export type UserCreateCustomInput = {
-      //   address: Scalars['String'];
-      //   email?: InputMaybe<Scalars['String']>;
-      //   username: Scalars['String'];
-      // };
-
+      createUserCustom: or(
+        hasToken,
+        and(isAuthenticated, createUserCustomInput),
+      ),
       createGuildUserCustom: isAuthenticated, // only admin or user with status recruit
       // export type GuildUserCreateCustomInput = {
       //   guildId?: InputMaybe<Scalars['Int']>;
@@ -161,16 +190,17 @@ export const permissions = shield(
       //   userId?: InputMaybe<Scalars['Int']>;
       // };
 
-      createUserOnChainAttestation: isAuthenticated, // only user can do this
-      // export type AttestationUserOnChainCreateInput = {
-      //   chainId: Scalars['Float'];
-      //   confidence: Scalars['String'];
-      //   contributionOnChainId: Scalars['Float'];
-      //   userId: Scalars['Float'];
-      // };
+      createUserOnChainAttestation: and(
+        isAuthenticated,
+        createUserOnChainAttestationInput,
+        isUsers,
+      ), // only user can do this
 
       // deleteOneContribution: or(hasToken, isAuthenticated),
-      deleteUserContribution: or(isAuthenticated, hasToken), // User can only delete their own contribution
+      deleteUserContribution: or(
+        and(isAuthenticated, isUsersContribution, deleteUserContributionInput),
+        hasToken,
+      ), // User can only delete their own contribution
       // export type UserContributionDeleteInput = {
       //   contributionId: Scalars['Int'];
       // };
