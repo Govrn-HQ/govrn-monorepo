@@ -49,6 +49,12 @@ const VerificationFrameworkForm = () => {
             name="verificationFramework"
             label="Choose a Verification Framework"
             onChange={verificationFramework => {
+              if (
+                verificationFramework instanceof Array ||
+                !verificationFramework
+              ) {
+                return;
+              }
               setValue('verificationFramework', verificationFramework.value);
             }}
             defaultValue={verificationFrameworkOptions[0]} // will set this to the currently selected verification framework
