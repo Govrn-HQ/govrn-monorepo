@@ -125,6 +125,8 @@ model GuildContribution {
   guild           Guild        @relation(fields: [guild_id], references: [id])
   contribution_id Int
   contribution    Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
+  threshold       Int          @default(0)
+  verified        Boolean      @default(false)
 
   @@unique([guild_id, contribution_id])
 }
