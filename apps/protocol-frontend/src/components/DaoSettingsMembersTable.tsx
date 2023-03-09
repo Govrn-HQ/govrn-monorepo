@@ -19,7 +19,11 @@ import {
 import { useUser } from '../contexts/UserContext';
 import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import EmptyImports from './EmptyImports';
-import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  useGovrnToast,
+} from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergeMemberPages } from '../utils/arrays';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
@@ -55,6 +59,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const [selectedMemberAddresses, setSelectedMemberAddresses] = useState<
     UIGuildUsers[]
   >([]);
+  const toast = useGovrnToast();
 
   const {
     data: daoUsersData,
@@ -92,7 +97,16 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     // TODO: Pop error toast if current user is selected
     if (selectedMemberAddresses !== undefined) {
       const parsedDaoMemberAddresses = selectedMemberAddresses.filter(
-        memberAddress => memberAddress.user.address !== userData?.address,
+        memberAddress => {
+          if (memberAddress.user.address !== userData?.address) {
+            return true;
+          }
+          toast.warning({
+            title: 'Attempt to update your own role',
+            description: 'Users cannot update their own role',
+          });
+          return false;
+        },
       );
       const uniqueParsedDaoMemberAddresses = [
         ...new Set(parsedDaoMemberAddresses),
