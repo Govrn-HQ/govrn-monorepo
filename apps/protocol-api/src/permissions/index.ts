@@ -1,5 +1,8 @@
 import { deny, or, rule, shield, and } from 'graphql-shield';
-import { createOnChainUserContributionInput } from './inputs';
+import {
+  createOnChainUserContributionInput,
+  createUserContributionInput,
+} from './inputs';
 
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
@@ -16,6 +19,20 @@ const BACKEND_TOKENS = [
 // Rule is admin of passed in dao
 // Rule is member of passed in dao
 //
+const byString = function (o, s) {
+  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+  s = s.replace(/^\./, ''); // strip a leading dot
+  const a = s.split('.');
+  for (let i = 0, n = a.length; i < n; ++i) {
+    const k = a[i];
+    if (k in o) {
+      o = o[k];
+    } else {
+      return;
+    }
+  }
+  return o;
+};
 
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
   if (!ctx.req.session.siwe) {
@@ -31,6 +48,20 @@ const hasToken = rule()(async (parent, args, ctx, info) => {
     return !!found;
   }
   return false;
+});
+
+const isUsersMapping = new Map([['createUsersContribution', 'data.userId']]);
+const isUsers = rule()(async (parent, args, ctx, info) => {
+  const userId = byString(args, isUsersMapping.get(info.fieldName));
+  console.log(info.fieldName);
+  console.log(ctx.req.session.siwe.data);
+  const user = await ctx.prisma.user.findFirst({
+    where: {
+      address: { eq: ctx.req.session.siwe.data.address },
+    },
+  });
+
+  return user.id === userId;
 });
 
 const JOB_ONLY_QUERIES = {
@@ -120,7 +151,11 @@ export const permissions = shield(
       //   contributionId: Scalars['Int'];
       //   userId: Scalars['Float'];
       // };
-      createUserContribution: isAuthenticated, // user can only create a contribution for itself
+      createUserContribution: and(
+        isAuthenticated,
+        createUserContributionInput,
+        isUsers,
+      ), // user can only create a contribution for itself
       // export type UserContributionCreateInput = {
       //   activityTypeName: Scalars['String'];
       //   address: Scalars['String'];
