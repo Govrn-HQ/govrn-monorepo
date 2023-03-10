@@ -36,28 +36,28 @@ export type ToastProps = ChakraToastProps & CustomToastProps;
 
 const colorValues = {
   success: {
-    bg: 'brand.secondary.100',
+    bg: 'brand.secondary.50',
     color: 'brand.purple',
     displayBorder: 'block',
   },
   error: {
-    bg: 'red.100',
+    bg: 'red.50',
     color: 'red.500',
     displayBorder: 'block',
   },
   info: {
-    bg: 'blue.100',
+    bg: 'blue.50',
     color: 'blue.500',
     displayBorder: 'block',
   },
   warning: {
-    bg: 'yellow.100',
+    bg: 'yellow.50',
     color: 'yellow.500',
     displayBorder: 'block',
   },
   loading: {
-    bg: 'brand.primary.100',
-    color: 'brand.magenta',
+    bg: 'green.50',
+    color: 'green.500',
     displayBorder: 'block',
   },
 };
@@ -65,10 +65,10 @@ const colorValues = {
 const icons: {
   [name: string]: { icon: IconType; color: ColorProps['color'] };
 } = {
-  success: { icon: AiFillCheckCircle, color: 'brand.purple' },
+  success: { icon: AiFillCheckCircle, color: 'brand.secondary.500' },
   error: { icon: AiFillExclamationCircle, color: 'red.500' },
   warning: { icon: AiFillWarning, color: 'yellow.500' },
-  alert: { icon: AiFillAlert, color: 'blue.500' },
+  info: { icon: AiFillAlert, color: 'blue.500' },
   loading: { icon: AiFillExclamationCircle, color: 'green.500' },
 };
 
@@ -95,7 +95,7 @@ const Toast: React.FC<ToastProps> = ({
         {iconName ? (
           <Icon
             as={icons[iconName].icon}
-            color={iconColor || icons[iconName].color || 'whiteAlpha.800'}
+            color={iconColor || icons[iconName].color || 'gray.900'}
             width="24px"
             height="24px"
           />
