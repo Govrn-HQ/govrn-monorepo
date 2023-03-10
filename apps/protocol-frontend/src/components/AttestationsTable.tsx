@@ -150,6 +150,13 @@ const AttestationsTable = ({
         header: 'DAO',
         accessorFn: contribution =>
           contribution.guilds[0]?.guild?.name ?? '---',
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return (
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
+              <Text whiteSpace="normal">{getValue()}</Text>
+            </Flex>
+          );
+        },
       },
     ];
   }, [userData?.id]);

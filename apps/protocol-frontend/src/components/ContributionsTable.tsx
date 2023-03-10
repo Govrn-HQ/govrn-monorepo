@@ -175,7 +175,11 @@ const ContributionsTable = ({
         accessorFn: contribution =>
           contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
         cell: ({ getValue }: { getValue: Getter<string> }) => {
-          return <Text>{getValue()}</Text>;
+          return (
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
+              <Text whiteSpace="normal">{getValue()}</Text>
+            </Flex>
+          );
         },
       },
       {
