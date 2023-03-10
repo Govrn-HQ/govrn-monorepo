@@ -22,4 +22,14 @@ export class GuildContributionCreateWithoutContributionInput {
     nullable: false
   })
   guild!: GuildCreateNestedOneWithoutContributionsInput;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  threshold?: number | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  verified?: boolean | undefined;
 }

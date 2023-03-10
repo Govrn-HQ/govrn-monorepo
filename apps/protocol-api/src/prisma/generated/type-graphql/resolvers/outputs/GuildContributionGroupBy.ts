@@ -37,6 +37,16 @@ export class GuildContributionGroupBy {
   })
   contribution_id!: number;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  threshold!: number;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  verified!: boolean;
+
   @TypeGraphQL.Field(_type => GuildContributionCountAggregate, {
     nullable: true
   })

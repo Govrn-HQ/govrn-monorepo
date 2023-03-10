@@ -21,4 +21,9 @@ export class GuildContributionSumAggregate {
     nullable: true
   })
   contribution_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  threshold!: number | null;
 }
