@@ -46,7 +46,7 @@ const icons: {
   [icon: string]: { icon: IconType; color: ColorProps['color'] };
 } = {
   checkmark: { icon: AiFillCheckCircle, color: 'white' },
-  info: { icon: AiFillExclamationCircle, color: 'white' },
+  info: { icon: AiFillExclamationCircle, color: 'brand.purple' },
 };
 
 const Pill = ({ label, status, icon }: PillProps) => {

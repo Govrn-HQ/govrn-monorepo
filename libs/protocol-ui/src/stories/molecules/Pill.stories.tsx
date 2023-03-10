@@ -7,7 +7,7 @@ export default {
   component: Pill,
 };
 
-export const GradientChecked = (args: PillProps) => (
+export const GradientChecked = () => (
   <Box backgroundColor="gray.50">
     <Box padding={10}>
       <Pill {...gradientCheckedArgs} />
@@ -15,7 +15,7 @@ export const GradientChecked = (args: PillProps) => (
   </Box>
 );
 
-export const PrimaryChecked = (args: PillProps) => (
+export const PrimaryChecked = () => (
   <Box backgroundColor="gray.50">
     <Box padding={10}>
       <Pill {...primaryCheckedArgs} />
@@ -23,7 +23,23 @@ export const PrimaryChecked = (args: PillProps) => (
   </Box>
 );
 
-export const TertiaryNoIcon = (args: PillProps) => (
+export const SecondaryChecked = () => (
+  <Box backgroundColor="gray.50">
+    <Box padding={10}>
+      <Pill {...secondaryCheckedArgs} />
+    </Box>
+  </Box>
+);
+
+export const TertiaryInfo = () => (
+  <Box backgroundColor="white">
+    <Box padding={10}>
+      <Pill {...tertiaryInfoArgs} />
+    </Box>
+  </Box>
+);
+
+export const TertiaryNoIcon = () => (
   <Box backgroundColor="white">
     <Box padding={10}>
       <Pill {...tertiaryNoIconArgs} />
@@ -41,6 +57,18 @@ const primaryCheckedArgs = {
   label: 'Govrn',
   status: 'primary',
   icon: 'checkmark',
+};
+
+const secondaryCheckedArgs = {
+  label: 'Boys Club',
+  status: 'secondary',
+  icon: 'checkmark',
+};
+
+const tertiaryInfoArgs = {
+  label: 'Unattested',
+  status: 'tertiary',
+  icon: 'info',
 };
 
 const tertiaryNoIconArgs = {
