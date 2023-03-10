@@ -142,3 +142,26 @@ export const updateUserOnChainAttestationInput = inputRule()(
     }),
   { abortEarly: false },
 );
+
+export const updateUserOnChainContributionInput = inputRule()(
+  yup =>
+    yup.object({
+      id: yup.number().required(),
+      status: yup
+        .string()
+        .matches(/(pending|minted)/, { excludeEmptyString: true })
+        .required(),
+      chainId: yup.number().required(),
+      data: yup.object({
+        date_of_engagement: yup.object({ set: yup.date() }),
+        date_of_submission: yup.object({ set: yup.date() }),
+        details: yup.object({ set: yup.string() }),
+        name: yup.object({ set: yup.string() }),
+        on_chain_id: yup.object({ set: yup.number() }),
+        proof: yup.object({ set: yup.string() }),
+        tx_hash: yup.object({ set: yup.string() }),
+        updatedAt: yup.object({ set: yup.date() }),
+      }),
+    }),
+  { abortEarly: false },
+);

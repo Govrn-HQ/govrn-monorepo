@@ -9,6 +9,7 @@ import {
   updateUserContributionInput,
   updateUserCustomInput,
   updateUserOnChainAttestationInput,
+  updateUserOnChainContributionInput,
 } from './inputs';
 
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
@@ -81,6 +82,7 @@ const isUsers = rule()(async (parent, args, ctx, info) => {
 const isUsersContributionMapping = new Map([
   ['deleteUserContribution', 'where.contributionId'],
   ['updateUserContribution', 'data.contributionId'],
+  ['updateUserOnChainContribution', 'id'],
 ]);
 const isUsersContribution = rule()(async (parent, args, ctx, info) => {
   const contributionId = byString(
@@ -264,25 +266,11 @@ export const permissions = shield(
         updateUserOnChainAttestationInput,
         isUsersAttestation,
       ), // user can only make their own attestations
-      updateUserOnChainContribution: isAuthenticated, // user can only make their own attestations
-      // export type UpdateUserOnChainContributionMutationVariables = Exact<{
-      //   id: Scalars['Float'];
-      //   status: Scalars['String'];
-      //   chainId: Scalars['Float'];
-      //   data: ContributionUpdateManyMutationInput;
-      // }>;
-      //
-      //export type ContributionUpdateManyMutationInput = {
-      //  date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-      //  date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-      //  details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-      //  name?: InputMaybe<StringFieldUpdateOperationsInput>;
-      //  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-      //  proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-      //  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-      //  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-      //};
-
+      updateUserOnChainContribution: and(
+        isAuthenticated,
+        updateUserOnChainContributionInput,
+        isUsersContribution,
+      ), // user can only make their own attestations
       ...JOB_ONLY_MUTATIONS,
     },
     ActivityType: {
