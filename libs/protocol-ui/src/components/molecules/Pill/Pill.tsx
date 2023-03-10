@@ -15,7 +15,7 @@ export interface PillProps extends TagProps {
   // status: 'gradient' | 'primary' | 'secondary' | 'tertiary';
   status: string;
   // icon?: 'checkmark' | 'info';
-  icon: string;
+  icon?: string;
 }
 
 const colorValues: {
