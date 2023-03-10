@@ -35,5 +35,7 @@ export default {
     gradientFocused: 'linear-gradient(100deg, #9766EF 0%,#9766EF 100%)', // purple.400
     gradientBackground:
       'linear-gradient(49deg, rgba(223,31,151,1) 0%, rgba(81,0,228,1) 100%)',
+    gradientBackgroundVariant:
+      'linear-gradient(90.33deg, #B200E4 0.29%, #DF1F97 52.82%)',
   },
 };
