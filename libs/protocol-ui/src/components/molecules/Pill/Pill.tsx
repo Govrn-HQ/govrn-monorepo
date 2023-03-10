@@ -5,16 +5,25 @@ import {
   Tag,
   TagLabel,
   TagLeftIcon,
+  TagProps,
+  BackgroundProps,
 } from '@chakra-ui/react';
 import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 
-export interface PillProps {
+export interface PillProps extends TagProps {
   label: string;
-  status: 'gradient' | 'primary' | 'secondary' | 'tertiary';
-  icon?: 'checkmark' | 'info';
+  // status: 'gradient' | 'primary' | 'secondary' | 'tertiary';
+  status: string;
+  // icon?: 'checkmark' | 'info';
+  icon: string;
 }
 
-const colorValues = {
+const colorValues: {
+  [status: string]: {
+    bg: BackgroundProps['bg'];
+    color: ColorProps['color'];
+  };
+} = {
   primary: {
     bg: 'brand.purple',
     color: 'white',
@@ -36,16 +45,22 @@ const colorValues = {
 const icons: {
   [icon: string]: { icon: IconType; color: ColorProps['color'] };
 } = {
-  checkmark: { icon: AiFillCheckCircle, color: 'brand.secondary.500' },
-  info: { icon: AiFillExclamationCircle, color: 'red.500' },
+  checkmark: { icon: AiFillCheckCircle, color: 'white' },
+  info: { icon: AiFillExclamationCircle, color: 'white' },
 };
 
 const Pill = ({ label, status, icon }: PillProps) => {
   return (
     <HStack spacing={4}>
       <Tag bg={colorValues[status].bg}>
-        {icon ? <TagLeftIcon boxSize="12px" as={icons[icon].icon} /> : null}
-        <TagLabel color={[colorValues[status].color]}>{label}</TagLabel>
+        {icon ? (
+          <TagLeftIcon
+            boxSize="18px"
+            as={icons[icon].icon}
+            color={icons[icon].color}
+          />
+        ) : null}
+        <TagLabel color={colorValues[status].color}>{label}</TagLabel>
       </Tag>
     </HStack>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { Pill, PillProps } from '../..';
 
 export default {
@@ -7,23 +7,16 @@ export default {
   component: Pill,
 };
 
-export const OneButton = (args: GovrnShowcaseProps) => (
+export const GradientChecked = (args: PillProps) => (
   <Box backgroundColor="gray.50">
     <Box padding={10}>
-      <GovrnShowcase {...sharedArgs} children={Buttons.slice(0, 1)} />
+      <Pill {...gradientCheckedArgs} />
     </Box>
   </Box>
 );
 
-export const TwoButtons = (args: GovrnShowcaseProps) => (
-  <Box backgroundColor="gray.50">
-    <Box padding={10}>
-      <GovrnShowcase {...sharedArgs} children={Buttons.slice(0, 2)} />
-    </Box>
-  </Box>
-);
-
-const sharedArgs = {
-  emoji: '🙌',
-  copy: 'Go mint contributions so we can show your data',
+const gradientCheckedArgs = {
+  label: 'Verified',
+  status: 'gradient',
+  icon: 'checkmark',
 };
