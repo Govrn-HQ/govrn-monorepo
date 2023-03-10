@@ -67,9 +67,9 @@ const icons: {
 } = {
   success: { icon: AiFillCheckCircle, color: 'brand.purple' },
   error: { icon: AiFillExclamationCircle, color: 'red.500' },
-  warning: { icon: AiFillWarning, color: 'whiteAlpha.700' },
-  alert: { icon: AiFillAlert, color: 'whiteAlpha.800' },
-  loading: { icon: AiFillExclamationCircle, color: 'whiteAlpha.700' },
+  warning: { icon: AiFillWarning, color: 'yellow.500' },
+  alert: { icon: AiFillAlert, color: 'blue.500' },
+  loading: { icon: AiFillExclamationCircle, color: 'green.500' },
 };
 
 const Toast: React.FC<ToastProps> = ({
