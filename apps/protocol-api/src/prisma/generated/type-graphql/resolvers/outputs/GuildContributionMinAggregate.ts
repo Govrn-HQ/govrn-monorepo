@@ -31,4 +31,14 @@ export class GuildContributionMinAggregate {
     nullable: true
   })
   contribution_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  threshold!: number | null;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  verified!: boolean | null;
 }
