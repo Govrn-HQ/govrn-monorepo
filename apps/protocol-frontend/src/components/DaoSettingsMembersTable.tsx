@@ -102,7 +102,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           }
           toast.warning({
             title: 'Attempt to update your own role',
-            description: 'Users cannot update their own role',
+            description: 'Users cannot update their own role.',
           });
           return false;
         },
