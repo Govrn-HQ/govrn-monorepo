@@ -35,5 +35,5 @@ export class GuildContributionsArgs {
   @TypeGraphQL.Field(_type => [GuildContributionScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "guild_id" | "contribution_id"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "guild_id" | "contribution_id" | "threshold" | "verified"> | undefined;
 }
