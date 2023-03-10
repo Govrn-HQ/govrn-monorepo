@@ -12,10 +12,8 @@ import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 
 export interface PillProps extends TagProps {
   label: string;
-  // status: 'gradient' | 'primary' | 'secondary' | 'tertiary';
-  status: string;
-  // icon?: 'checkmark' | 'info';
-  icon?: string;
+  status: 'gradient' | 'primary' | 'secondary' | 'tertiary';
+  icon?: 'checkmark' | 'primaryInfo' | 'secondaryInfo';
 }
 
 const colorValues: {
@@ -46,7 +44,8 @@ const icons: {
   [icon: string]: { icon: IconType; color: ColorProps['color'] };
 } = {
   checkmark: { icon: AiFillCheckCircle, color: 'white' },
-  info: { icon: AiFillExclamationCircle, color: 'brand.purple' },
+  primaryInfo: { icon: AiFillExclamationCircle, color: 'brand.purple' },
+  secondaryInfo: { icon: AiFillExclamationCircle, color: 'brand.magenta' },
 };
 
 const Pill = ({ label, status, icon }: PillProps) => {

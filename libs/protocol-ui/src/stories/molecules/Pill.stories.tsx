@@ -7,71 +7,85 @@ export default {
   component: Pill,
 };
 
-export const GradientChecked = () => (
+export const GradientChecked = (args: PillProps) => (
   <Box backgroundColor="gray.50">
     <Box padding={10}>
-      <Pill {...gradientCheckedArgs} />
+      <Pill {...args} />
     </Box>
   </Box>
 );
 
-export const PrimaryChecked = () => (
+export const PrimaryChecked = (args: PillProps) => (
   <Box backgroundColor="gray.50">
     <Box padding={10}>
-      <Pill {...primaryCheckedArgs} />
+      <Pill {...args} />
     </Box>
   </Box>
 );
 
-export const SecondaryChecked = () => (
+export const SecondaryChecked = (args: PillProps) => (
   <Box backgroundColor="gray.50">
     <Box padding={10}>
-      <Pill {...secondaryCheckedArgs} />
+      <Pill {...args} />
     </Box>
   </Box>
 );
 
-export const TertiaryInfo = () => (
+export const TertiaryBackgroundPrimaryInfo = (args: PillProps) => (
   <Box backgroundColor="white">
     <Box padding={10}>
-      <Pill {...tertiaryInfoArgs} />
+      <Pill {...args} />
     </Box>
   </Box>
 );
 
-export const TertiaryNoIcon = () => (
+export const TertiaryBackgroundSecondaryInfo = (args: PillProps) => (
   <Box backgroundColor="white">
     <Box padding={10}>
-      <Pill {...tertiaryNoIconArgs} />
+      <Pill {...args} />
     </Box>
   </Box>
 );
 
-const gradientCheckedArgs = {
+export const TertiaryNoIcon = (args: PillProps) => (
+  <Box backgroundColor="white">
+    <Box padding={10}>
+      <Pill {...args} />
+    </Box>
+  </Box>
+);
+
+GradientChecked.args = {
   label: 'Verified',
   status: 'gradient',
   icon: 'checkmark',
 };
 
-const primaryCheckedArgs = {
+PrimaryChecked.args = {
   label: 'Govrn',
   status: 'primary',
   icon: 'checkmark',
 };
 
-const secondaryCheckedArgs = {
+SecondaryChecked.args = {
   label: 'Boys Club',
   status: 'secondary',
   icon: 'checkmark',
 };
 
-const tertiaryInfoArgs = {
+TertiaryBackgroundPrimaryInfo.args = {
   label: 'Unattested',
   status: 'tertiary',
-  icon: 'info',
+  icon: 'primaryInfo',
 };
 
-const tertiaryNoIconArgs = {
+TertiaryBackgroundSecondaryInfo.args = {
+  label: 'Unattested',
+  status: 'tertiary',
+  icon: 'secondaryInfo',
+};
+
+TertiaryNoIcon.args = {
   label: 'Raid Guild',
   status: 'tertiary',
 };
