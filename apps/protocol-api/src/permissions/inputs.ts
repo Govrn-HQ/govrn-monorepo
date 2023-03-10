@@ -92,3 +92,53 @@ export const deleteUserContributionInput = inputRule()(
     }),
   { abortEarly: false },
 );
+
+export const updateUserContributionInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        activityTypeName: yup.string().required(),
+        address: yup.string().required(),
+        chainName: yup.string().required(),
+        contributionId: yup.number().required(),
+        contributionUserAddress: yup.string(),
+        currentGuildId: yup.number(),
+        dateOfEngagement: yup.date().required(),
+        details: yup.string(),
+        guildId: yup.number().nullable(),
+        name: yup.string().required(),
+        proof: yup.string(),
+        status: yup.string().required(),
+        userId: yup.number().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const updateUserCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        disconnectLinearId: yup.string(),
+        id: yup.number().required(),
+        name: yup.string().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+export const updateUserOnChainAttestationInput = inputRule()(
+  yup =>
+    yup.object({
+      id: yup.number().required(),
+      status: yup
+        .string()
+        .matches(/(pending|attested)/, { excludeEmptyString: true })
+        .required(),
+      data: yup.object({
+        createdAt: yup.date(),
+        updatedAt: yup.date(),
+        date_of_attestation: yup.date(),
+      }),
+    }),
+  { abortEarly: false },
+);

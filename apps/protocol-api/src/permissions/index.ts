@@ -6,6 +6,9 @@ import {
   createUserCustomInput,
   createUserOnChainAttestationInput,
   deleteUserContributionInput,
+  updateUserContributionInput,
+  updateUserCustomInput,
+  updateUserOnChainAttestationInput,
 } from './inputs';
 
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
@@ -59,6 +62,7 @@ const isUsersMapping = new Map([
   ['createUserContribution', 'data.userId'],
   ['createOnChainUserContribution', 'userId'],
   ['createUserOnChainAttestation', 'data.userId'],
+  ['updateUserCustom', 'data.id'],
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   const userId = byString(args, isUsersMapping.get(info.fieldName));
@@ -76,6 +80,7 @@ const isUsers = rule()(async (parent, args, ctx, info) => {
 // TODO: Add helpful error messages
 const isUsersContributionMapping = new Map([
   ['deleteUserContribution', 'where.contributionId'],
+  ['updateUserContribution', 'data.contributionId'],
 ]);
 const isUsersContribution = rule()(async (parent, args, ctx, info) => {
   const contributionId = byString(
@@ -98,6 +103,32 @@ const isUsersContribution = rule()(async (parent, args, ctx, info) => {
   console.log(contribution);
 
   return user.id === contribution.user_id;
+});
+
+const isUsersAttestationMapping = new Map([
+  ['updateUserOnChainAttestation', 'id'],
+]);
+const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
+  const attestationId = byString(
+    args,
+    isUsersAttestationMapping.get(info.fieldName),
+  );
+  console.log('isUsersAttestation', attestationId, info.fieldName, args);
+  const user = await ctx.prisma.user.findFirst({
+    where: {
+      address: ctx.req.session.siwe.data.address,
+    },
+  });
+  const attestation = await ctx.prisma.attestation.findFirst({
+    where: {
+      id: attestationId,
+    },
+  });
+
+  console.log(user);
+  console.log(attestation);
+
+  return user.id === attestation.user_id;
 });
 
 const JOB_ONLY_QUERIES = {
@@ -201,28 +232,13 @@ export const permissions = shield(
         and(isAuthenticated, isUsersContribution, deleteUserContributionInput),
         hasToken,
       ), // User can only delete their own contribution
-      // export type UserContributionDeleteInput = {
-      //   contributionId: Scalars['Int'];
-      // };
 
       getOrCreateActivityType: isAuthenticated, // TODO: scope permissions
-      updateUserContribution: isAuthenticated, // only user can do this on their own
-      // export type UserContributionUpdateInput = {
-      //   activityTypeName: Scalars['String'];
-      //   address: Scalars['String'];
-      //   chainName: Scalars['String'];
-      //   contributionId: Scalars['Int'];
-      //   contributionUserAddress?: InputMaybe<Scalars['String']>;
-      //   currentGuildId?: InputMaybe<Scalars['Float']>;
-      //   dateOfEngagement: Scalars['DateTime'];
-      //   details?: InputMaybe<Scalars['String']>;
-      //   guildId?: InputMaybe<Scalars['Float']>;
-      //   name: Scalars['String'];
-      //   proof?: InputMaybe<Scalars['String']>;
-      //   status: Scalars['String'];
-      //   userId: Scalars['Float'];
-      // };
-
+      updateUserContribution: and(
+        isAuthenticated,
+        updateUserContributionInput,
+        isUsersContribution,
+      ), // only user can do this on their own
       updateGuildCustom: isAuthenticated, // Admin?
       // export type GuildUpdateCustomInput = {
       //   congrats_channel?: InputMaybe<Scalars['String']>;
@@ -232,12 +248,7 @@ export const permissions = shield(
       //   name?: InputMaybe<Scalars['String']>;
       // };
 
-      updateUserCustom: isAuthenticated, // user can only update themselves
-      // export type UserUpdateCustomInput = {
-      //   disconnectLinearId?: InputMaybe<Scalars['Float']>;
-      //   id: Scalars['Int'];
-      //   name: Scalars['String'];
-      // };
+      updateUserCustom: and(isAuthenticated, updateUserCustomInput, isUsers), // user can only update themselves
 
       updateGuildUserCustom: isAuthenticated, //  can only be done by user and admin of guild
       // export type GuildUpdateCustomInput = {
@@ -248,13 +259,11 @@ export const permissions = shield(
       //   name?: InputMaybe<Scalars['String']>;
       // };
 
-      updateUserOnChainAttestation: isAuthenticated, // user can only make their own attestations
-      // export type UpdateUserOnChainAttestationMutationVariables = Exact<{
-      //   id: Scalars['Float'];
-      //   status: Scalars['String'];
-      //   data: AttestationUpdateManyMutationInput;
-      // }>;
-
+      updateUserOnChainAttestation: and(
+        isAuthenticated,
+        updateUserOnChainAttestationInput,
+        isUsersAttestation,
+      ), // user can only make their own attestations
       updateUserOnChainContribution: isAuthenticated, // user can only make their own attestations
       // export type UpdateUserOnChainContributionMutationVariables = Exact<{
       //   id: Scalars['Float'];
@@ -262,6 +271,17 @@ export const permissions = shield(
       //   chainId: Scalars['Float'];
       //   data: ContributionUpdateManyMutationInput;
       // }>;
+      //
+      //export type ContributionUpdateManyMutationInput = {
+      //  date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+      //  date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+      //  details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+      //  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+      //  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+      //  proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+      //  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+      //  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+      //};
 
       ...JOB_ONLY_MUTATIONS,
     },
