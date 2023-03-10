@@ -38,6 +38,7 @@ export { AggregateTwitterTweetContribution } from "./AggregateTwitterTweetContri
 export { AggregateTwitterUser } from "./AggregateTwitterUser";
 export { AggregateUser } from "./AggregateUser";
 export { AggregateUserActivity } from "./AggregateUserActivity";
+export { AggregateVerificationSettings } from "./AggregateVerificationSettings";
 export { AttestationAvgAggregate } from "./AttestationAvgAggregate";
 export { AttestationConfidenceAvgAggregate } from "./AttestationConfidenceAvgAggregate";
 export { AttestationConfidenceCount } from "./AttestationConfidenceCount";
@@ -243,3 +244,9 @@ export { UserGroupBy } from "./UserGroupBy";
 export { UserMaxAggregate } from "./UserMaxAggregate";
 export { UserMinAggregate } from "./UserMinAggregate";
 export { UserSumAggregate } from "./UserSumAggregate";
+export { VerificationSettingsAvgAggregate } from "./VerificationSettingsAvgAggregate";
+export { VerificationSettingsCountAggregate } from "./VerificationSettingsCountAggregate";
+export { VerificationSettingsGroupBy } from "./VerificationSettingsGroupBy";
+export { VerificationSettingsMaxAggregate } from "./VerificationSettingsMaxAggregate";
+export { VerificationSettingsMinAggregate } from "./VerificationSettingsMinAggregate";
+export { VerificationSettingsSumAggregate } from "./VerificationSettingsSumAggregate";
