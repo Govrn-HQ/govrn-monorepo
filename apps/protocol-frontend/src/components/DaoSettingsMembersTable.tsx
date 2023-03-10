@@ -100,7 +100,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           if (memberAddress.user.address !== userData?.address) {
             return true;
           }
-          toast.info({
+          toast.warning({
             title: 'Attempt to update your own role',
             description: 'Users cannot update their own role.',
           });

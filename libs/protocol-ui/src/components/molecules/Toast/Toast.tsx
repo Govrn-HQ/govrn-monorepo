@@ -104,7 +104,7 @@ const Toast: React.FC<ToastProps> = ({
         )}
         <Box>
           {title && (
-            <Heading size="md" color={colorValues[status].color}>
+            <Heading size="md" fontWeight="bolder" color="gray.800">
               {title}
             </Heading>
           )}
