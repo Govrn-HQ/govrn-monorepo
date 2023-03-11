@@ -10,6 +10,9 @@ import {
   updateUserCustomInput,
   updateUserOnChainAttestationInput,
   updateUserOnChainContributionInput,
+  updateGuildCustomInput,
+  createGuildUserCustomInput,
+  createGuildUserRecruitCustomInput,
 } from './inputs';
 
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
@@ -64,6 +67,7 @@ const isUsersMapping = new Map([
   ['createOnChainUserContribution', 'userId'],
   ['createUserOnChainAttestation', 'data.userId'],
   ['updateUserCustom', 'data.id'],
+  ['createGuildUserCustom', 'data.userId'],
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   const userId = byString(args, isUsersMapping.get(info.fieldName));
@@ -131,6 +135,36 @@ const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
   console.log(attestation);
 
   return user.id === attestation.user_id;
+});
+
+const isGuildAdminMapping = new Map([['updateGuildCustom', 'where.guildId']]);
+
+const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
+  try {
+    const guildId = byString(args, isGuildAdminMapping.get(info.fieldName));
+    console.log('isGuildAdmin', guildId, info.fieldName, args);
+    const user = await ctx.prisma.user.findFirst({
+      where: {
+        address: ctx.req.session.siwe.data.address,
+      },
+    });
+    const guildUser = await ctx.prisma.guildUser.findFirst({
+      where: {
+        guild_id: { equals: guildId },
+        membershipStatus: {
+          is: { name: { equals: 'Admin' } },
+        },
+      },
+    });
+
+    console.log(user);
+    console.log(guildUser);
+
+    return user.id === guildUser.user_id;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
 });
 
 const JOB_ONLY_QUERIES = {
@@ -214,14 +248,13 @@ export const permissions = shield(
         hasToken,
         and(isAuthenticated, createUserCustomInput),
       ),
-      createGuildUserCustom: isAuthenticated, // only admin or user with status recruit
-      // export type GuildUserCreateCustomInput = {
-      //   guildId?: InputMaybe<Scalars['Int']>;
-      //   guildName?: InputMaybe<Scalars['String']>;
-      //   membershipStatus?: InputMaybe<Scalars['String']>;
-      //   userAddress?: InputMaybe<Scalars['String']>;
-      //   userId?: InputMaybe<Scalars['Int']>;
-      // };
+      createGuildUserCustom: and(
+        isAuthenticated,
+        or(
+          and(isGuildAdmin, createGuildUserCustomInput),
+          and(createGuildUserRecruitCustomInput, isUsers),
+        ),
+      ), // only admin or user with status recruit
 
       createUserOnChainAttestation: and(
         isAuthenticated,
@@ -241,14 +274,11 @@ export const permissions = shield(
         updateUserContributionInput,
         isUsersContribution,
       ), // only user can do this on their own
-      updateGuildCustom: isAuthenticated, // Admin?
-      // export type GuildUpdateCustomInput = {
-      //   congrats_channel?: InputMaybe<Scalars['String']>;
-      //   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
-      //   discord_id?: InputMaybe<Scalars['String']>;
-      //   logo?: InputMaybe<Scalars['String']>;
-      //   name?: InputMaybe<Scalars['String']>;
-      // };
+      updateGuildCustom: and(
+        isAuthenticated,
+        isGuildAdmin,
+        updateGuildCustomInput,
+      ), // Admin?
 
       updateUserCustom: and(isAuthenticated, updateUserCustomInput, isUsers), // user can only update themselves
 

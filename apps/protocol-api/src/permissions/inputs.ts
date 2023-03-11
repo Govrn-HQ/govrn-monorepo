@@ -165,3 +165,51 @@ export const updateUserOnChainContributionInput = inputRule()(
     }),
   { abortEarly: false },
 );
+
+export const createGuildUserCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        guildId: yup.number().required(),
+        guildName: yup.string(),
+        membershipStatus: yup.string().required(),
+        userAddress: yup.string(),
+        userId: yup.string().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const createGuildUserRecruitCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        guildId: yup.number().required(),
+        guildName: yup.string(),
+        membershipStatus: yup
+          .string()
+          .matches(/(Recruit)/, { excludeEmptyString: true })
+          .required(),
+        userAddress: yup.string(),
+        userId: yup.string().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const updateGuildCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      where: yup.object({
+        guildId: yup.number().required(),
+      }),
+      data: yup.object({
+        congrats_channel: yup.string(),
+        contribution_reporting_channel: yup.string(),
+        discord_id: yup.string(),
+        logo: yup.string(),
+        name: yup.string(),
+      }),
+    }),
+  { abortEarly: false },
+);
