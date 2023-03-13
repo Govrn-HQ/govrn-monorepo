@@ -76,15 +76,17 @@ const isUsersMapping = new Map([
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   const userId = byString(args, isUsersMapping.get(info.fieldName));
-  console.log('isUsers', userId, info.fieldName, args);
   const user = await ctx.prisma.user.findFirst({
     where: {
       address: ctx.req.session.siwe.data.address,
     },
   });
-  console.log(user);
 
-  return user.id === userId;
+  const isUser = user.id === userId;
+  if (!isUser) {
+    return new Error('User does not own resource');
+  }
+  return isUser;
 });
 
 // TODO: Add helpful error messages
@@ -98,7 +100,6 @@ const isUsersContribution = rule()(async (parent, args, ctx, info) => {
     args,
     isUsersContributionMapping.get(info.fieldName),
   );
-  console.log('isUsersContribution', contributionId, info.fieldName, args);
   const user = await ctx.prisma.user.findFirst({
     where: {
       address: ctx.req.session.siwe.data.address,
@@ -109,11 +110,11 @@ const isUsersContribution = rule()(async (parent, args, ctx, info) => {
       id: contributionId,
     },
   });
-
-  console.log(user);
-  console.log(contribution);
-
-  return user.id === contribution.user_id;
+  const isUser = user.id === contribution.user_id;
+  if (!isUser) {
+    return new Error('User does not own contribution');
+  }
+  return isUser;
 });
 
 const isUsersAttestationMapping = new Map([
@@ -124,7 +125,6 @@ const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
     args,
     isUsersAttestationMapping.get(info.fieldName),
   );
-  console.log('isUsersAttestation', attestationId, info.fieldName, args);
   const user = await ctx.prisma.user.findFirst({
     where: {
       address: ctx.req.session.siwe.data.address,
@@ -136,10 +136,11 @@ const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
     },
   });
 
-  console.log(user);
-  console.log(attestation);
-
-  return user.id === attestation.user_id;
+  const isUser = user.id === attestation.user_id;
+  if (!isUser) {
+    return new Error('User does not own attestation');
+  }
+  return isUser;
 });
 
 const isGuildAdminMapping = new Map([
@@ -150,7 +151,6 @@ const isGuildAdminMapping = new Map([
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
   try {
     const guildId = byString(args, isGuildAdminMapping.get(info.fieldName));
-    console.log('isGuildAdmin', guildId, info.fieldName, args);
     const user = await ctx.prisma.user.findFirst({
       where: {
         address: ctx.req.session.siwe.data.address,
@@ -165,10 +165,11 @@ const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
       },
     });
 
-    console.log(user);
-    console.log(guildUser);
-
-    return user.id === guildUser.user_id;
+    const isUser = user.id === guildUser.user_id;
+    if (!isUser) {
+      return new Error(`User is not guild admin of guild ${guildId}`);
+    }
+    return isUser;
   } catch (e) {
     console.error(e);
     return false;
