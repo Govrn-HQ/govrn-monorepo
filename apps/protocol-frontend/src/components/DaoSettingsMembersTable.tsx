@@ -91,6 +91,10 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [addingMembers, setAddingMembers] = useState(false);
 
+  const deselectAll = () => {
+    setRowSelection({});
+  };
+
   const handleSetAdmins = async () => {
     setAddingMembers(true);
     if (
@@ -125,6 +129,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         return true;
       });
       setAddingMembers(false);
+      deselectAll();
     }
   };
 
