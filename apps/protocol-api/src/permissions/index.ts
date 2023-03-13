@@ -13,6 +13,9 @@ import {
   updateGuildCustomInput,
   createGuildUserCustomInput,
   createGuildUserRecruitCustomInput,
+  updateGuildUserCustomInput,
+  updateGuildUserRecruitCustomInput,
+  getOrCreateActivityTypeInput,
 } from './inputs';
 
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
@@ -68,6 +71,8 @@ const isUsersMapping = new Map([
   ['createUserOnChainAttestation', 'data.userId'],
   ['updateUserCustom', 'data.id'],
   ['createGuildUserCustom', 'data.userId'],
+  ['updateGuildUserRecruitCustomInput', 'data.userId'],
+  ['getOrCreateActivityType', 'data.userId'],
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   const userId = byString(args, isUsersMapping.get(info.fieldName));
@@ -137,7 +142,10 @@ const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
   return user.id === attestation.user_id;
 });
 
-const isGuildAdminMapping = new Map([['updateGuildCustom', 'where.guildId']]);
+const isGuildAdminMapping = new Map([
+  ['updateGuildCustom', 'where.guildId'],
+  ['updateGuildUserCustom', 'data.guildId'],
+]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
   try {
@@ -268,7 +276,12 @@ export const permissions = shield(
         hasToken,
       ), // User can only delete their own contribution
 
-      getOrCreateActivityType: isAuthenticated, // TODO: scope permissions
+      getOrCreateActivityType: and(
+        isAuthenticated,
+        getOrCreateActivityTypeInput,
+        isUsers,
+      ), // is users activity type
+
       updateUserContribution: and(
         isAuthenticated,
         updateUserContributionInput,
@@ -278,18 +291,15 @@ export const permissions = shield(
         isAuthenticated,
         isGuildAdmin,
         updateGuildCustomInput,
-      ), // Admin?
+      ), // Must be admin
 
       updateUserCustom: and(isAuthenticated, updateUserCustomInput, isUsers), // user can only update themselves
 
-      updateGuildUserCustom: isAuthenticated, //  can only be done by user and admin of guild
-      // export type GuildUpdateCustomInput = {
-      //   congrats_channel?: InputMaybe<Scalars['String']>;
-      //   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
-      //   discord_id?: InputMaybe<Scalars['String']>;
-      //   logo?: InputMaybe<Scalars['String']>;
-      //   name?: InputMaybe<Scalars['String']>;
-      // };
+      updateGuildUserCustom: and(
+        isAuthenticated,
+        or(updateGuildUserCustomInput, isGuildAdmin),
+        or(isUsers, updateGuildUserRecruitCustomInput),
+      ), //  can only be done by user and admin of guild
 
       updateUserOnChainAttestation: and(
         isAuthenticated,

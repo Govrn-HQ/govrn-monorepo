@@ -213,3 +213,54 @@ export const updateGuildCustomInput = inputRule()(
     }),
   { abortEarly: false },
 );
+
+export const updateGuildUserCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      where: yup.object({
+        guildId: yup.number().required(),
+      }),
+      data: yup.object({
+        favorite: yup.boolean(),
+        guildId: yup.number().required(),
+        memberId: yup.number(),
+        memberStatusId: yup.number(),
+        memberStatus: yup.string(),
+        userAddress: yup.string(),
+        userId: yup.number(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const updateGuildUserRecruitCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      where: yup.object({
+        guildId: yup.number().required(),
+      }),
+      data: yup.object({
+        favorite: yup.boolean(),
+        guildId: yup.number().required(),
+        memberId: yup.number(),
+        memberStatus: yup
+          .string()
+          .matches(/(Recruit)/, { excludeEmptyString: true })
+          .required(),
+        userAddress: yup.string(),
+        userId: yup.number(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const getOrCreateActivityTypeInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        activityTypeName: yup.string().required(),
+        userId: yup.number().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
