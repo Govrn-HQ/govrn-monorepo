@@ -2,12 +2,18 @@ import { GovrnProtocol } from '@govrn/protocol-client';
 import { useQuery } from '@tanstack/react-query';
 import { PROTOCOL_URL } from '../utils/constants';
 
-export const useUserGet = ({ userId }: { userId?: number }) => {
+export const useUserGet = ({
+  userId,
+  refetchOnWindowFocus,
+}: {
+  userId?: number;
+  refetchOnWindowFocus?: boolean;
+}) => {
   const govrn = new GovrnProtocol(PROTOCOL_URL, { credentials: 'include' });
 
-  const { isLoading, isFetching, isError, error, data } = useQuery(
-    ['userGet', userId],
-    async () => {
+  const { isLoading, isFetching, isError, error, data } = useQuery({
+    queryKey: ['userGet', userId],
+    queryFn: async () => {
       if (!userId) {
         return null;
       }
@@ -20,7 +26,8 @@ export const useUserGet = ({ userId }: { userId?: number }) => {
       }
       return { ...resp, userDaos };
     },
-  );
+    refetchOnWindowFocus,
+  });
   return { isLoading, isError, isFetching, error, data };
 };
 

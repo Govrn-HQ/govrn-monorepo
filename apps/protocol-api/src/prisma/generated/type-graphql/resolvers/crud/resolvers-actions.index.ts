@@ -446,3 +446,17 @@ export { GroupByUserActivityResolver } from "./UserActivity/GroupByUserActivityR
 export { UpdateManyUserActivityResolver } from "./UserActivity/UpdateManyUserActivityResolver";
 export { UpdateOneUserActivityResolver } from "./UserActivity/UpdateOneUserActivityResolver";
 export { UpsertOneUserActivityResolver } from "./UserActivity/UpsertOneUserActivityResolver";
+export { AggregateVerificationSettingsResolver } from "./VerificationSettings/AggregateVerificationSettingsResolver";
+export { CreateManyVerificationSettingsResolver } from "./VerificationSettings/CreateManyVerificationSettingsResolver";
+export { CreateOneVerificationSettingsResolver } from "./VerificationSettings/CreateOneVerificationSettingsResolver";
+export { DeleteManyVerificationSettingsResolver } from "./VerificationSettings/DeleteManyVerificationSettingsResolver";
+export { DeleteOneVerificationSettingsResolver } from "./VerificationSettings/DeleteOneVerificationSettingsResolver";
+export { FindFirstVerificationSettingsResolver } from "./VerificationSettings/FindFirstVerificationSettingsResolver";
+export { FindFirstVerificationSettingsOrThrowResolver } from "./VerificationSettings/FindFirstVerificationSettingsOrThrowResolver";
+export { FindManyVerificationSettingsResolver } from "./VerificationSettings/FindManyVerificationSettingsResolver";
+export { FindUniqueVerificationSettingsResolver } from "./VerificationSettings/FindUniqueVerificationSettingsResolver";
+export { FindUniqueVerificationSettingsOrThrowResolver } from "./VerificationSettings/FindUniqueVerificationSettingsOrThrowResolver";
+export { GroupByVerificationSettingsResolver } from "./VerificationSettings/GroupByVerificationSettingsResolver";
+export { UpdateManyVerificationSettingsResolver } from "./VerificationSettings/UpdateManyVerificationSettingsResolver";
+export { UpdateOneVerificationSettingsResolver } from "./VerificationSettings/UpdateOneVerificationSettingsResolver";
+export { UpsertOneVerificationSettingsResolver } from "./VerificationSettings/UpsertOneVerificationSettingsResolver";

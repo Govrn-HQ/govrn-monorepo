@@ -22,4 +22,9 @@ export class GuildContributionSumOrderByAggregateInput {
     nullable: true
   })
   contribution_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  threshold?: "asc" | "desc" | undefined;
 }

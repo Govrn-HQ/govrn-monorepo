@@ -19,3 +19,5 @@ export type { ToastProps } from './Toast';
 export type { InputLocalFormType } from './Input';
 export { default as GovrnCta } from './GovrnCta';
 export type { GovrnCtaProps } from './GovrnCta';
+export { default as Pill } from './Pill';
+export type { PillProps } from './Pill';

@@ -15,6 +15,7 @@ import { useDaosList } from '../hooks/useDaosList';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
 import { DEFAULT_DATE_RANGES } from '../utils/constants';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 import pluralize from 'pluralize';
 import useDisplayName from '../hooks/useDisplayName';
 
@@ -45,7 +46,21 @@ const DashboardShell = () => {
     isError: userDaosListIsError,
     data: userDaosListData,
   } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id || 0 } } } }, // show only user's DAOs
+    where: {
+      users: {
+        some: {
+          AND: [
+            { user_id: { equals: userData?.id || 0 } },
+            {
+              membershipStatus: {
+                isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } },
+              },
+            },
+          ],
+        },
+      },
+    },
+    first: 1000,
   });
 
   const userDaoListOptions =
@@ -210,7 +225,7 @@ const DashboardShell = () => {
                 color="gray.800"
                 fontWeight="normal"
               >
-                {} Contribution Bar Chart
+                Contribution Bar Chart
               </Heading>
               {contributionsCount ? (
                 <>

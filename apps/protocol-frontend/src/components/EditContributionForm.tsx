@@ -77,14 +77,17 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     isError: guildActivityTypeListIsError,
     isLoading: guildActivityTypeListIsLoading,
   } = useGuildActivityTypesList({
-    first: 10000,
-    where: {
-      guild: {
-        is: {
-          id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+    args: {
+      first: 10000,
+      where: {
+        guild: {
+          is: {
+            id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+          },
         },
       },
     },
+    refetchOnWindowFocus: false,
   });
 
   const daoReset = useMemo(() => ({ label: 'No DAO', value: 0 }), []);
