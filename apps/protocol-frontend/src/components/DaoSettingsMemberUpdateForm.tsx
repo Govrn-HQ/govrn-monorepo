@@ -60,6 +60,7 @@ const DaoSettingsMemberUpdateForm = ({
         return true;
       });
       setImporting(false);
+
       reset();
     }
   };
