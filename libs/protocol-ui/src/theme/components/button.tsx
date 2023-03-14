@@ -31,14 +31,40 @@ export default {
       backgroundOrigin: 'border-box',
       backgroundClip: 'padding-box, border-box',
       color: 'brand.purple',
+      _disabled: {
+        color: 'gray.800',
+        border: 'double 2px transparent',
+        backgroundImage:
+          'linear-gradient(white, white), linear-gradient(100deg, #1A202C 0%,#1A202C 100%)',
+        backgroundOrigin: 'border-box',
+        backgroundClip: 'padding-box, border-box',
+        _hover: {
+          color: 'gray.800',
+          border: 'double 2px transparent',
+          backgroundImage:
+            'linear-gradient(white, white), linear-gradient(100deg, #1A202C 0%,#1A202C 100%)',
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
+        },
+      },
       _hover: {
-        backgroundImage:
-          'linear-gradient(white, white), linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
+        _disabled: {
+          border: 'double 2px transparent',
+          color: 'gray.800',
+          backgroundImage:
+            'linear-gradient(white, white), linear-gradient(100deg, #1A202C 0%,#1A202C 100%)',
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
+        },
       },
-      _focus: {
-        backgroundImage:
-          'linear-gradient(white, white), linear-gradient(100deg, #9766EF 0%,#9766EF 100%)',
-      },
+      // _hover: {
+      //   backgroundImage:
+      //     'linear-gradient(white, white), linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
+      // },
+      // _focus: {
+      //   backgroundImage:
+      //     'linear-gradient(white, white), linear-gradient(100deg, #9766EF 0%,#9766EF 100%)',
+      // },
     },
     tertiary: {
       color: 'brand.purple',

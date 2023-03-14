@@ -27,7 +27,7 @@ const DaoSettingsMemberUpdateForm = ({
   const {
     handleSubmit,
     setValue,
-    formState: { errors, touchedFields },
+    formState: { isValidating, errors, touchedFields },
     reset,
   } = localForm;
 
@@ -64,6 +64,7 @@ const DaoSettingsMemberUpdateForm = ({
     }
   };
 
+  console.log('is validating', isValidating);
   return (
     <Flex direction="column" width="100%" color="gray.800">
       <form onSubmit={handleSubmit(daoMembersUpdateHandler)}>
@@ -75,7 +76,8 @@ const DaoSettingsMemberUpdateForm = ({
           onChange={addresses => setValue('daoMemberAddresses', addresses)}
           localForm={localForm}
         />
-        {!errors['daoMemberAddresses'] &&
+        {!isValidating &&
+          !errors['daoMemberAddresses'] &&
           touchedFields['daoMemberAddresses'] === true && (
             <Flex direction="row" alignItems="center" marginY={4}>
               <Icon
@@ -102,7 +104,11 @@ const DaoSettingsMemberUpdateForm = ({
           <Button
             variant="secondary"
             type="submit"
-            disabled={importing || errors['daoMemberAddresses'] !== undefined}
+            disabled={
+              importing ||
+              isValidating ||
+              errors['daoMemberAddresses'] !== undefined
+            }
           >
             Add
           </Button>

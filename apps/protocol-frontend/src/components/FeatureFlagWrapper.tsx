@@ -9,7 +9,7 @@ const FeatureFlagWrapper = ({ children }: FeatureFlagWrapperProps) => {
   const buildEnv = import.meta.env.VITE_BUILD_ENV;
 
   return (
-    <Box display={buildEnv !== 'production' ? 'block' : 'none'}>{children}</Box>
+    <Box display={buildEnv === 'production' ? 'none' : 'block'}>{children}</Box>
   );
 };
 
