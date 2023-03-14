@@ -83,6 +83,7 @@ jobs:
           echo VITE_DISCORD_CLIENT_ID=${{secrets.DISCORD_CLIENT_ID}} >> .env
           echo VITE_DISCORD_CLIENT_ID=${{secrets.DISCORD_STAGING_CLIENT_ID}} >> .env
           echo VITE_DISCORD_REDIRECT_URI=https://api-staging.govrn.app/discord/oauth >> .env
+          echo VITE_BUILD_ENV=production >> .env
       - name: Build
         run: yarn nx affected:build --configuration production --base $BASE
       - uses: actions/cache@v3
