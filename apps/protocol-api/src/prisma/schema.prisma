@@ -118,15 +118,27 @@ model GuildUser {
 }
 
 model GuildContribution {
-  id              Int          @id @default(autoincrement())
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @default(now()) @updatedAt
-  guild_id        Int
-  guild           Guild        @relation(fields: [guild_id], references: [id])
-  contribution_id Int
-  contribution    Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
+  id                     Int                                  @id @default(autoincrement())
+  createdAt              DateTime                             @default(now())
+  updatedAt              DateTime                             @default(now()) @updatedAt
+  guild_id               Int
+  guild                  Guild                                @relation(fields: [guild_id], references: [id])
+  contribution_id        Int
+  contribution           Contribution                         @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
+  verification_status_id Int?
+  verificationStatus     GuildContributionVerificationStatus? @relation(fields: [verification_status_id], references: [id])
 
   @@unique([guild_id, contribution_id])
+}
+
+model GuildContributionVerificationStatus {
+  id                   Int                 @id @default(autoincrement())
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @default(now()) @updatedAt
+  name                 String              @unique
+  verified             Boolean
+  attestationThreshold Int
+  guild_contributions  GuildContribution[]
 }
 
 model GuildActivityType {
