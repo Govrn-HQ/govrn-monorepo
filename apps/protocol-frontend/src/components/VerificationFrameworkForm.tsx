@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Flex, Text } from '@chakra-ui/react';
 import { NumberInput, Select } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -20,9 +20,9 @@ const VerificationFrameworkForm = () => {
     formState: { errors, touchedFields },
   } = localForm;
 
-  const watchVerificationFramework = watch('verificationFramework');
-
-  console.log('watchVerificationFramework', watchVerificationFramework);
+  useEffect(() => {
+    setValue('verificationFramework', 'none'); // we'll set this to be existing verificaiton framework
+  }, [setValue]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
