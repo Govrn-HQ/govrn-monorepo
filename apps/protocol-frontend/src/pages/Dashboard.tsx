@@ -110,11 +110,14 @@ const Dashboard = () => {
     isLoading: userContributionsLoading,
     isFetching: userContributionsFetching,
     isError: userContributionsError,
-  } = useContributionList({
-    where: {
-      user_id: { equals: userData?.id },
+  } = useContributionList(
+    {
+      where: {
+        user_id: { equals: userData?.id },
+      },
     },
-  });
+    false,
+  );
 
   if (userContributionsLoading || userContributionsFetching) {
     return <GovrnSpinner />;

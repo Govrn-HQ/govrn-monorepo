@@ -19,7 +19,11 @@ import {
 import { useUser } from '../contexts/UserContext';
 import { useDaoUserUpdate } from '../hooks/useDaoUserUpdate';
 import EmptyImports from './EmptyImports';
-import { GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  useGovrnToast,
+} from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { mergeMemberPages } from '../utils/arrays';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
@@ -34,11 +38,28 @@ interface DaoSettingsMembersTableProps {
   daoId: number;
 }
 
+const options = [
+  {
+    label: 'Admin',
+    value: 'Admin',
+  },
+  {
+    label: 'Member',
+    value: 'Member',
+  },
+  {
+    label: 'Recruit',
+    value: 'Recruit',
+  },
+];
+
 const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const { userData } = useUser();
-  const [selectedMemberAddresses, setSelectedMemberAddreses] = useState<
+  const [selectedRole, setSelectedRole] = useState('');
+  const [selectedMemberAddresses, setSelectedMemberAddresses] = useState<
     UIGuildUsers[]
   >([]);
+  const toast = useGovrnToast();
 
   const {
     data: daoUsersData,
@@ -75,7 +96,16 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
       return;
     if (selectedMemberAddresses !== undefined) {
       const parsedDaoMemberAddresses = selectedMemberAddresses.filter(
-        memberAddress => memberAddress.user.address !== userData?.address,
+        memberAddress => {
+          if (memberAddress.user.address !== userData?.address) {
+            return true;
+          }
+          toast.warning({
+            title: 'Attempt to update your own role',
+            description: 'Users cannot update their own role.',
+          });
+          return false;
+        },
       );
       const uniqueParsedDaoMemberAddresses = [
         ...new Set(parsedDaoMemberAddresses),
@@ -85,7 +115,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           userId: userData.id,
           guildId: daoId,
           memberId: address.user_id,
-          membershipStatus: 'Admin',
+          membershipStatus: selectedRole,
         });
         return true;
       });
@@ -97,7 +127,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     return [
       {
         id: 'selection',
-        header: 'Select Admin',
+        header: 'Select',
         cell: ({ row }) => (
           <IndeterminateCheckbox
             {...{
@@ -198,7 +228,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   });
 
   useEffect(() => {
-    setSelectedMemberAddreses(selectedRows);
+    setSelectedMemberAddresses(selectedRows);
   }, [selectedRows, selectedMemberAddresses]);
 
   useEffect(() => {
@@ -256,13 +286,36 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
           <EmptyImports />
         )}
       </Box>
+      {daoUsersData?.pages?.length && (
+        <Box width="fit-content" py={6} paddingEnd={10}>
+          <ControlledSelect
+            options={options}
+            label="Membership"
+            tip="Change members' status"
+            placeholder="Modify Member"
+            onChange={option => {
+              if (option instanceof Array || !option) {
+                return;
+              }
+              setSelectedRole(option?.value.toString());
+            }}
+            isSearchable={false}
+            isClearable={false}
+            isDisabled={selectedRows.length === 0}
+          />
+        </Box>
+      )}
       <Button
         variant="secondary"
         width="fit-content"
         onClick={handleSetAdmins}
-        disabled={addingMembers}
+        disabled={
+          addingMembers ||
+          selectedRole.length === 0 ||
+          selectedRows.length === 0
+        }
       >
-        Set Admins
+        Update role
       </Button>
     </Flex>
   );

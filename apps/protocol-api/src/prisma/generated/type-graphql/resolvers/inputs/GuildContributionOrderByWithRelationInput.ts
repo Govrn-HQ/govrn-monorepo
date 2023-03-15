@@ -44,4 +44,14 @@ export class GuildContributionOrderByWithRelationInput {
     nullable: true
   })
   contribution?: ContributionOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  threshold?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  verified?: "asc" | "desc" | undefined;
 }

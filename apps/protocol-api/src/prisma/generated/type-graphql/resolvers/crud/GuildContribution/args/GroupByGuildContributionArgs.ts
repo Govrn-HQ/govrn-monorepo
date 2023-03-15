@@ -20,7 +20,7 @@ export class GroupByGuildContributionArgs {
   @TypeGraphQL.Field(_type => [GuildContributionScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "guild_id" | "contribution_id">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "guild_id" | "contribution_id" | "threshold" | "verified">;
 
   @TypeGraphQL.Field(_type => GuildContributionScalarWhereWithAggregatesInput, {
     nullable: true
