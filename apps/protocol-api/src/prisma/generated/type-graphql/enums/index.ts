@@ -11,6 +11,7 @@ export { ContributionStatusScalarFieldEnum } from "./ContributionStatusScalarFie
 export { DiscordUserScalarFieldEnum } from "./DiscordUserScalarFieldEnum";
 export { GuildActivityTypeScalarFieldEnum } from "./GuildActivityTypeScalarFieldEnum";
 export { GuildContributionScalarFieldEnum } from "./GuildContributionScalarFieldEnum";
+export { GuildContributionVerificationStatusScalarFieldEnum } from "./GuildContributionVerificationStatusScalarFieldEnum";
 export { GuildImportScalarFieldEnum } from "./GuildImportScalarFieldEnum";
 export { GuildImportStatusScalarFieldEnum } from "./GuildImportStatusScalarFieldEnum";
 export { GuildMembershipStatusScalarFieldEnum } from "./GuildMembershipStatusScalarFieldEnum";

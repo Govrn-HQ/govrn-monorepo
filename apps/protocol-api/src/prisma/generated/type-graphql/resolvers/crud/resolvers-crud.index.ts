@@ -12,6 +12,7 @@ export { DiscordUserCrudResolver } from "./DiscordUser/DiscordUserCrudResolver";
 export { GuildCrudResolver } from "./Guild/GuildCrudResolver";
 export { GuildActivityTypeCrudResolver } from "./GuildActivityType/GuildActivityTypeCrudResolver";
 export { GuildContributionCrudResolver } from "./GuildContribution/GuildContributionCrudResolver";
+export { GuildContributionVerificationStatusCrudResolver } from "./GuildContributionVerificationStatus/GuildContributionVerificationStatusCrudResolver";
 export { GuildImportCrudResolver } from "./GuildImport/GuildImportCrudResolver";
 export { GuildImportStatusCrudResolver } from "./GuildImportStatus/GuildImportStatusCrudResolver";
 export { GuildMembershipStatusCrudResolver } from "./GuildMembershipStatus/GuildMembershipStatusCrudResolver";

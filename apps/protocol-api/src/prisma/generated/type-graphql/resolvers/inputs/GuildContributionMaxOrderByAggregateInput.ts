@@ -36,10 +36,5 @@ export class GuildContributionMaxOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  threshold?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  verified?: "asc" | "desc" | undefined;
+  verification_status_id?: "asc" | "desc" | undefined;
 }
