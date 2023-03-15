@@ -12,6 +12,7 @@ export { DiscordUser } from "./DiscordUser";
 export { Guild } from "./Guild";
 export { GuildActivityType } from "./GuildActivityType";
 export { GuildContribution } from "./GuildContribution";
+export { GuildContributionVerificationStatus } from "./GuildContributionVerificationStatus";
 export { GuildImport } from "./GuildImport";
 export { GuildImportStatus } from "./GuildImportStatus";
 export { GuildMembershipStatus } from "./GuildMembershipStatus";

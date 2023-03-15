@@ -26,5 +26,5 @@ export class GuildContributionAvgOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  threshold?: "asc" | "desc" | undefined;
+  verification_status_id?: "asc" | "desc" | undefined;
 }
