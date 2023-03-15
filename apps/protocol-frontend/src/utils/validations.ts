@@ -72,7 +72,15 @@ export const daoCsvFormValidation = yup.object().shape({
 
 export const verificationFrameworkFormValidation = yup.object({
   verificationFramework: yup.string().required('This field is required.'), // we can make this more specific when we have additinonal verification frameworks
-  numberOfAttestors: yup.number().required('This field is required.'), // we'll make this conditionally required
+  numberOfAttestors: yup.number().when('verificationFramework', {
+    is: (verificationFramework: string) =>
+      verificationFramework === 'numberOfAttestors',
+    then: yup
+      .number()
+      .required(
+        'This field is required since Number of Attestors is set as the verification framework.',
+      ),
+  }),
 });
 
 export const profileFormValidation = yup.object({
