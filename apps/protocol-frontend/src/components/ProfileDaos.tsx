@@ -136,6 +136,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
           userId: userId,
           userAddress: userAddress,
           guildId: selectedDao?.value,
+          membershipStatus: 'Recruit',
         },
         creatingNewDao: false,
       });
