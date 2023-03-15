@@ -25,5 +25,5 @@ export class GuildContributionAvgAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
-  threshold!: number | null;
+  verification_status_id!: number | null;
 }

@@ -137,7 +137,7 @@ model GuildContributionVerificationStatus {
   updatedAt            DateTime            @default(now()) @updatedAt
   name                 String              @unique
   verified             Boolean
-  attestationThreshold Int
+  attestation_threshold Int
   guild_contributions  GuildContribution[]
 }
 
