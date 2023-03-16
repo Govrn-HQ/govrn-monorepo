@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ContributionOrderByWithRelationInput } from "../inputs/ContributionOrderByWithRelationInput";
+import { GuildContributionVerificationStatusOrderByWithRelationInput } from "../inputs/GuildContributionVerificationStatusOrderByWithRelationInput";
 import { GuildOrderByWithRelationInput } from "../inputs/GuildOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -48,10 +49,10 @@ export class GuildContributionOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  threshold?: "asc" | "desc" | undefined;
+  verification_status_id?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
+  @TypeGraphQL.Field(_type => GuildContributionVerificationStatusOrderByWithRelationInput, {
     nullable: true
   })
-  verified?: "asc" | "desc" | undefined;
+  verificationStatus?: GuildContributionVerificationStatusOrderByWithRelationInput | undefined;
 }

@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { GuildContributionVerificationStatusCreateNestedOneWithoutGuild_contributionsInput } from "../inputs/GuildContributionVerificationStatusCreateNestedOneWithoutGuild_contributionsInput";
 import { GuildCreateNestedOneWithoutContributionsInput } from "../inputs/GuildCreateNestedOneWithoutContributionsInput";
 
 @TypeGraphQL.InputType("GuildContributionCreateWithoutContributionInput", {
@@ -23,13 +24,8 @@ export class GuildContributionCreateWithoutContributionInput {
   })
   guild!: GuildCreateNestedOneWithoutContributionsInput;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => GuildContributionVerificationStatusCreateNestedOneWithoutGuild_contributionsInput, {
     nullable: true
   })
-  threshold?: number | undefined;
-
-  @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
-  })
-  verified?: boolean | undefined;
+  verificationStatus?: GuildContributionVerificationStatusCreateNestedOneWithoutGuild_contributionsInput | undefined;
 }

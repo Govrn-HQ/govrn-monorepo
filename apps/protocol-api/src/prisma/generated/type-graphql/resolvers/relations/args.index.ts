@@ -7,6 +7,7 @@ export * from "./ChainType/args";
 export * from "./Contribution/args";
 export * from "./ContributionStatus/args";
 export * from "./Guild/args";
+export * from "./GuildContributionVerificationStatus/args";
 export * from "./GuildImport/args";
 export * from "./GuildImportStatus/args";
 export * from "./GuildMembershipStatus/args";
