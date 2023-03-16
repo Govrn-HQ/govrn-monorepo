@@ -416,6 +416,7 @@ export const permissions = shield(
       users: or(isAuthenticated, hasToken),
       contribution_reporting_channel: or(hasToken, isAuthenticated),
       status: or(hasToken, isAuthenticated),
+      verificationSettings: or(hasToken, isAuthenticated),
     },
     GuildActivityType: {
       id: isAuthenticated,
@@ -427,6 +428,16 @@ export const permissions = shield(
       contribution_id: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
+      verification_status_id: or(isAuthenticated, hasToken),
+    },
+    GuildContributionVerificationStats: {
+      id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      guild_id: or(isAuthenticated, hasToken),
+      verified: or(isAuthenticated, hasToken),
+      attestationThreshold: or(isAuthenticated, hasToken),
+      guild_contributions: or(isAuthenticated, hasToken),
     },
     GuildMembershipStatus: {
       id: or(isAuthenticated, hasToken),
@@ -568,6 +579,14 @@ export const permissions = shield(
       access_token: hasToken,
       active_token: or(isAuthenticated, hasToken),
       user_id: hasToken,
+    },
+    VerificationSettings: {
+      id: or(isAuthenticated, hasToken),
+      guild_id: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
+      num_of_attestations: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
     },
   },
   {
