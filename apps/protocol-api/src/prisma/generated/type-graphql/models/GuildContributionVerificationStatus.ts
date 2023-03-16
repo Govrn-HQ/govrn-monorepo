@@ -37,7 +37,7 @@ export class GuildContributionVerificationStatus {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  attestation_threshold!: number;
+  attestationThreshold!: number;
 
   guild_contributions?: GuildContribution[];
 

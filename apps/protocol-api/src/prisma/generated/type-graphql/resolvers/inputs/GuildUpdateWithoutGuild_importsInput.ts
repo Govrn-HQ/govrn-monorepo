@@ -78,5 +78,5 @@ export class GuildUpdateWithoutGuild_importsInput {
   @TypeGraphQL.Field(_type => VerificationSettingsUpdateManyWithoutGuildNestedInput, {
     nullable: true
   })
-  VerificationSettings?: VerificationSettingsUpdateManyWithoutGuildNestedInput | undefined;
+  verificationSettings?: VerificationSettingsUpdateManyWithoutGuildNestedInput | undefined;
 }

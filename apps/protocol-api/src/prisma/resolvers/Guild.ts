@@ -6,6 +6,7 @@ import {
   UserCreateInput,
   UserUpdateInput,
   UserWhereUniqueInput,
+  VerificationSettings,
 } from '../generated/type-graphql';
 import { Int } from 'type-graphql';
 
@@ -62,12 +63,41 @@ export class GuildUpdateCustomInput {
   logo?: string;
 }
 
-@TypeGraphQL.InputType('GuildUpdateCustomWhereInput', {
+@TypeGraphQL.InputType('GuildCustomWhereInput', {
   isAbstract: true,
 })
-export class GuildUpdateCustomWhereInput {
+export class GuildCustomWhereInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   guildId: number;
+}
+
+@TypeGraphQL.InputType('GuildVerificationSettingsUpdateInput', {
+  isAbstract: true,
+})
+export class GuildVerificationSettingsUpdateInput {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
+  num_of_attestations: number;
+}
+
+@TypeGraphQL.ArgsType()
+export class GetGuildVerificationSettingsArgs {
+  @TypeGraphQL.Field(_type => GuildCustomWhereInput, {
+    nullable: false,
+  })
+  where!: GuildCustomWhereInput;
+}
+
+@TypeGraphQL.ArgsType()
+export class UpdateGuildVerificationSettingsArgs {
+  @TypeGraphQL.Field(_type => GuildVerificationSettingsUpdateInput, {
+    nullable: false,
+  })
+  data!: GuildVerificationSettingsUpdateInput;
+
+  @TypeGraphQL.Field(_type => GuildCustomWhereInput, {
+    nullable: false,
+  })
+  where!: GuildCustomWhereInput;
 }
 
 @TypeGraphQL.ArgsType()
@@ -77,10 +107,10 @@ export class UpdateGuildCustomArgs {
   })
   data!: GuildUpdateCustomInput;
 
-  @TypeGraphQL.Field(_type => GuildUpdateCustomWhereInput, {
+  @TypeGraphQL.Field(_type => GuildCustomWhereInput, {
     nullable: false,
   })
-  where!: GuildUpdateCustomWhereInput;
+  where!: GuildCustomWhereInput;
 }
 
 @TypeGraphQL.ArgsType()
@@ -103,6 +133,24 @@ export class UpsertOneUserArgs {
 
 @TypeGraphQL.Resolver(_of => Guild)
 export class GuildCustomResolver {
+  async isAuthorized({ prisma, req }: Context, guildId: number) {
+    const address = req.session.siwe.data.address;
+
+    const guildUserWithMembershipStatus = await prisma.guildUser.findFirst({
+      where: {
+        user: { address },
+        guild: {
+          id: guildId,
+        },
+      },
+      include: { membershipStatus: true },
+    });
+
+    if (guildUserWithMembershipStatus.membershipStatus.name !== 'Admin') {
+      throw new Error("You don't have permission for this");
+    }
+  }
+
   @TypeGraphQL.Query(_returns => Number)
   async getActiveGuildUsersAverage(
     @TypeGraphQL.Ctx() { prisma }: Context,
@@ -151,6 +199,19 @@ export class GuildCustomResolver {
     return result[0].avg;
   }
 
+  @TypeGraphQL.Query(_returns => VerificationSettings)
+  async getGuildVerificationSettings(
+    @TypeGraphQL.Ctx() { prisma }: Context,
+    @TypeGraphQL.Args() args: GetGuildVerificationSettingsArgs,
+  ) {
+    const verificationSettings = await prisma.verificationSettings.findFirst({
+      where: {
+        guild_id: args.where.guildId,
+      },
+    });
+    return verificationSettings;
+  }
+
   @TypeGraphQL.Mutation(_returns => Guild, {
     nullable: false,
   })
@@ -158,21 +219,7 @@ export class GuildCustomResolver {
     @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: UpdateGuildCustomArgs,
   ) {
-    const address = req.session.siwe.data.address;
-
-    const guildUserWithMembershipStatus = await prisma.guildUser.findFirst({
-      where: {
-        user: { address },
-        guild: {
-          id: args.where.guildId,
-        },
-      },
-      include: { membershipStatus: true },
-    });
-
-    if (guildUserWithMembershipStatus.membershipStatus.name !== 'Admin') {
-      throw new Error("You don't have permission for this");
-    }
+    await this.isAuthorized({ prisma, req }, args.where.guildId);
 
     const data = {};
     for (const key of Object.keys(args.data)) {
@@ -187,5 +234,46 @@ export class GuildCustomResolver {
         id: args.where.guildId,
       },
     });
+  }
+
+  @TypeGraphQL.Mutation(_returns => VerificationSettings, {
+    nullable: false,
+  })
+  async updateGuildVerificationSettings(
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
+    @TypeGraphQL.Args() args: UpdateGuildVerificationSettingsArgs,
+  ) {
+    await this.isAuthorized({ prisma, req }, args.where.guildId);
+
+    // schema supports >1 verification settings, but for now only allow 1
+    const guildVerificationSettings =
+      await prisma.verificationSettings.findMany({
+        where: {
+          guild_id: args.where.guildId,
+        },
+      });
+
+    let verificationSettings: VerificationSettings;
+    // create new verification settings for guild
+    if (guildVerificationSettings.length == 0) {
+      verificationSettings = await prisma.verificationSettings.create({
+        data: {
+          guild_id: args.where.guildId,
+          num_of_attestations: args.data.num_of_attestations,
+        },
+      });
+    } else {
+      // update existing verification settings for guild
+      verificationSettings = await prisma.verificationSettings.update({
+        where: {
+          id: verificationSettings[0].id,
+        },
+        data: {
+          num_of_attestations: args.data.num_of_attestations,
+        },
+      });
+    }
+
+    return verificationSettings;
   }
 }

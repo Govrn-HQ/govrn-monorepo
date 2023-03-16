@@ -105,5 +105,5 @@ export class GuildWhereInput {
   @TypeGraphQL.Field(_type => VerificationSettingsListRelationFilter, {
     nullable: true
   })
-  VerificationSettings?: VerificationSettingsListRelationFilter | undefined;
+  verificationSettings?: VerificationSettingsListRelationFilter | undefined;
 }

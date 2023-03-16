@@ -35,5 +35,5 @@ export class GuildContributionVerificationStatusMinAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  attestation_threshold!: number | null;
+  attestationThreshold!: number | null;
 }

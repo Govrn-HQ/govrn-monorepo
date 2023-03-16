@@ -74,11 +74,11 @@ export class GuildRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => [VerificationSettings], {
     nullable: false
   })
-  async VerificationSettings(@TypeGraphQL.Root() guild: Guild, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: GuildVerificationSettingsArgs): Promise<VerificationSettings[]> {
+  async verificationSettings(@TypeGraphQL.Root() guild: Guild, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: GuildVerificationSettingsArgs): Promise<VerificationSettings[]> {
     return getPrismaFromContext(ctx).guild.findUnique({
       where: {
         id: guild.id,
       },
-    }).VerificationSettings(args);
+    }).verificationSettings(args);
   }
 }

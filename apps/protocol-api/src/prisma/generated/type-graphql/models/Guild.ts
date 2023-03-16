@@ -70,7 +70,7 @@ export class Guild {
 
   guild_imports?: GuildImport[];
 
-  VerificationSettings?: VerificationSettings[];
+  verificationSettings?: VerificationSettings[];
 
   @TypeGraphQL.Field(_type => GuildCount, {
     nullable: true

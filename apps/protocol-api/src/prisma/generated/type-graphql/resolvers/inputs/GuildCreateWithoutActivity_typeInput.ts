@@ -76,5 +76,5 @@ export class GuildCreateWithoutActivity_typeInput {
   @TypeGraphQL.Field(_type => VerificationSettingsCreateNestedManyWithoutGuildInput, {
     nullable: true
   })
-  VerificationSettings?: VerificationSettingsCreateNestedManyWithoutGuildInput | undefined;
+  verificationSettings?: VerificationSettingsCreateNestedManyWithoutGuildInput | undefined;
 }

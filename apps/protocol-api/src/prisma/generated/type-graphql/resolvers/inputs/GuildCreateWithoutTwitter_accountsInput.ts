@@ -76,5 +76,5 @@ export class GuildCreateWithoutTwitter_accountsInput {
   @TypeGraphQL.Field(_type => VerificationSettingsCreateNestedManyWithoutGuildInput, {
     nullable: true
   })
-  VerificationSettings?: VerificationSettingsCreateNestedManyWithoutGuildInput | undefined;
+  verificationSettings?: VerificationSettingsCreateNestedManyWithoutGuildInput | undefined;
 }

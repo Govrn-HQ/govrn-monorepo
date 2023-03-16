@@ -185,7 +185,7 @@ query getGuild($where: GuildWhereUniqueInput!) {
 
 mutation updateGuildCustom(
   $data: GuildUpdateCustomInput!
-  $where: GuildUpdateCustomWhereInput!
+  $where: GuildCustomWhereInput!
 ) {
   updateGuildCustom(data: $data, where: $where) {
     ...GuildFragment
@@ -942,5 +942,29 @@ fragment ChainFragment on Chain {
 query getChain($where: ChainWhereUniqueInput!) {
   result: chain(where: $where) {
     ...ChainFragment
+  }
+}
+
+# Verification settings
+fragment VerificationSettingFragment on VerificationSettings {
+  id
+  createdAt
+  updatedAt
+  guild_id
+  num_of_attestations
+}
+
+query getGuildVerificationSettings($where: GuildCustomWhereInput!) {
+  result: getGuildVerificationSettings(where: $where) {
+    ...VerificationSettingFragment
+  }
+}
+
+mutation updateGuildVerificationSettings(
+  $where: GuildCustomWhereInput!
+  $data: GuildVerificationSettingsUpdateInput!
+) {
+  result: updateGuildVerificationSettings(where: $where, data: $data) {
+    ...VerificationSettingFragment
   }
 }

@@ -87,5 +87,5 @@ export class GuildOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => VerificationSettingsOrderByRelationAggregateInput, {
     nullable: true
   })
-  VerificationSettings?: VerificationSettingsOrderByRelationAggregateInput | undefined;
+  verificationSettings?: VerificationSettingsOrderByRelationAggregateInput | undefined;
 }

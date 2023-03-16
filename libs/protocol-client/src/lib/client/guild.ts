@@ -1,7 +1,7 @@
 import { BaseClient } from './base';
 import {
   GuildUpdateCustomInput,
-  GuildUpdateCustomWhereInput,
+  GuildCustomWhereInput,
   ListGuildActivityTypesQueryVariables,
   ListGuildImportsQueryVariables,
   ListGuildsQueryVariables,
@@ -41,7 +41,7 @@ export class Guild extends BaseClient {
 
   public async update(
     args: GuildUpdateCustomInput,
-    where: GuildUpdateCustomWhereInput,
+    where: GuildCustomWhereInput,
   ) {
     const guild = await this.sdk.updateGuildCustom({ data: args, where });
     return guild.updateGuildCustom;

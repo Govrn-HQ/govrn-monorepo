@@ -577,6 +577,14 @@ export type AggregateGuildContribution = {
   _sum?: Maybe<GuildContributionSumAggregate>;
 };
 
+export type AggregateGuildContributionVerificationStatus = {
+  _avg?: Maybe<GuildContributionVerificationStatusAvgAggregate>;
+  _count?: Maybe<GuildContributionVerificationStatusCountAggregate>;
+  _max?: Maybe<GuildContributionVerificationStatusMaxAggregate>;
+  _min?: Maybe<GuildContributionVerificationStatusMinAggregate>;
+  _sum?: Maybe<GuildContributionVerificationStatusSumAggregate>;
+};
+
 export type AggregateGuildImport = {
   _avg?: Maybe<GuildImportAvgAggregate>;
   _count?: Maybe<GuildImportCountAggregate>;
@@ -4847,7 +4855,6 @@ export type GetUserContributionCountInput = {
 };
 
 export type Guild = {
-  VerificationSettings: Array<VerificationSettings>;
   _count?: Maybe<GuildCount>;
   activity_type: Array<GuildActivityType>;
   congrats_channel?: Maybe<Scalars['String']>;
@@ -4863,16 +4870,7 @@ export type Guild = {
   twitter_accounts: Array<TwitterAccount>;
   updatedAt: Scalars['DateTime'];
   users: Array<GuildUser>;
-};
-
-
-export type GuildVerificationSettingsArgs = {
-  cursor?: InputMaybe<VerificationSettingsWhereUniqueInput>;
-  distinct?: InputMaybe<Array<VerificationSettingsScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<VerificationSettingsOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<VerificationSettingsWhereInput>;
+  verificationSettings: Array<VerificationSettings>;
 };
 
 
@@ -4923,6 +4921,16 @@ export type GuildUsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildUserWhereInput>;
+};
+
+
+export type GuildVerificationSettingsArgs = {
+  cursor?: InputMaybe<VerificationSettingsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<VerificationSettingsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<VerificationSettingsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<VerificationSettingsWhereInput>;
 };
 
 export type GuildActivityType = {
@@ -5281,23 +5289,23 @@ export type GuildContribution = {
   guild: Guild;
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
-  threshold: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-  verified: Scalars['Boolean'];
+  verificationStatus?: Maybe<GuildContributionVerificationStatus>;
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionAvgAggregate = {
   contribution_id?: Maybe<Scalars['Float']>;
   guild_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  threshold?: Maybe<Scalars['Float']>;
+  verification_status_id?: Maybe<Scalars['Float']>;
 };
 
 export type GuildContributionAvgOrderByAggregateInput = {
   contribution_id?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionCountAggregate = {
@@ -5306,9 +5314,8 @@ export type GuildContributionCountAggregate = {
   createdAt: Scalars['Int'];
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
-  threshold: Scalars['Int'];
   updatedAt: Scalars['Int'];
-  verified: Scalars['Int'];
+  verification_status_id: Scalars['Int'];
 };
 
 export type GuildContributionCountOrderByAggregateInput = {
@@ -5316,27 +5323,24 @@ export type GuildContributionCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionCreateInput = {
   contribution: ContributionCreateNestedOneWithoutGuildsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild: GuildCreateNestedOneWithoutContributionsInput;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusCreateNestedOneWithoutGuild_ContributionsInput>;
 };
 
 export type GuildContributionCreateManyContributionInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verification_status_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type GuildContributionCreateManyContributionInputEnvelope = {
@@ -5348,9 +5352,8 @@ export type GuildContributionCreateManyGuildInput = {
   contribution_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verification_status_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type GuildContributionCreateManyGuildInputEnvelope = {
@@ -5363,9 +5366,21 @@ export type GuildContributionCreateManyInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verification_status_id?: InputMaybe<Scalars['Int']>;
+};
+
+export type GuildContributionCreateManyVerificationStatusInput = {
+  contribution_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild_id: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildContributionCreateManyVerificationStatusInputEnvelope = {
+  data: Array<GuildContributionCreateManyVerificationStatusInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type GuildContributionCreateNestedManyWithoutContributionInput = {
@@ -5382,6 +5397,13 @@ export type GuildContributionCreateNestedManyWithoutGuildInput = {
   createMany?: InputMaybe<GuildContributionCreateManyGuildInputEnvelope>;
 };
 
+export type GuildContributionCreateNestedManyWithoutVerificationStatusInput = {
+  connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutVerificationStatusInput>>;
+  create?: InputMaybe<Array<GuildContributionCreateWithoutVerificationStatusInput>>;
+  createMany?: InputMaybe<GuildContributionCreateManyVerificationStatusInputEnvelope>;
+};
+
 export type GuildContributionCreateOrConnectWithoutContributionInput = {
   create: GuildContributionCreateWithoutContributionInput;
   where: GuildContributionWhereUniqueInput;
@@ -5392,20 +5414,30 @@ export type GuildContributionCreateOrConnectWithoutGuildInput = {
   where: GuildContributionWhereUniqueInput;
 };
 
+export type GuildContributionCreateOrConnectWithoutVerificationStatusInput = {
+  create: GuildContributionCreateWithoutVerificationStatusInput;
+  where: GuildContributionWhereUniqueInput;
+};
+
 export type GuildContributionCreateWithoutContributionInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild: GuildCreateNestedOneWithoutContributionsInput;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusCreateNestedOneWithoutGuild_ContributionsInput>;
 };
 
 export type GuildContributionCreateWithoutGuildInput = {
   contribution: ContributionCreateNestedOneWithoutGuildsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusCreateNestedOneWithoutGuild_ContributionsInput>;
+};
+
+export type GuildContributionCreateWithoutVerificationStatusInput = {
+  contribution: ContributionCreateNestedOneWithoutGuildsInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild: GuildCreateNestedOneWithoutContributionsInput;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type GuildContributionGroupBy = {
@@ -5418,9 +5450,8 @@ export type GuildContributionGroupBy = {
   createdAt: Scalars['DateTime'];
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
-  threshold: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-  verified: Scalars['Boolean'];
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionGuild_IdContribution_IdCompoundUniqueInput = {
@@ -5439,9 +5470,8 @@ export type GuildContributionMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  threshold?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  verified?: Maybe<Scalars['Boolean']>;
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionMaxOrderByAggregateInput = {
@@ -5449,9 +5479,8 @@ export type GuildContributionMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionMinAggregate = {
@@ -5459,9 +5488,8 @@ export type GuildContributionMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  threshold?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  verified?: Maybe<Scalars['Boolean']>;
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionMinOrderByAggregateInput = {
@@ -5469,9 +5497,8 @@ export type GuildContributionMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionOrderByRelationAggregateInput = {
@@ -5488,9 +5515,8 @@ export type GuildContributionOrderByWithAggregationInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionOrderByWithRelationInput = {
@@ -5500,9 +5526,9 @@ export type GuildContributionOrderByWithRelationInput = {
   guild?: InputMaybe<GuildOrderByWithRelationInput>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusOrderByWithRelationInput>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export enum GuildContributionScalarFieldEnum {
@@ -5510,9 +5536,8 @@ export enum GuildContributionScalarFieldEnum {
   CreatedAt = 'createdAt',
   GuildId = 'guild_id',
   Id = 'id',
-  Threshold = 'threshold',
   UpdatedAt = 'updatedAt',
-  Verified = 'verified'
+  VerificationStatusId = 'verification_status_id'
 }
 
 export type GuildContributionScalarWhereInput = {
@@ -5523,9 +5548,8 @@ export type GuildContributionScalarWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   guild_id?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
-  threshold?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-  verified?: InputMaybe<BoolFilter>;
+  verification_status_id?: InputMaybe<IntNullableFilter>;
 };
 
 export type GuildContributionScalarWhereWithAggregatesInput = {
@@ -5536,39 +5560,35 @@ export type GuildContributionScalarWhereWithAggregatesInput = {
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   guild_id?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
-  threshold?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  verified?: InputMaybe<BoolWithAggregatesFilter>;
+  verification_status_id?: InputMaybe<IntNullableWithAggregatesFilter>;
 };
 
 export type GuildContributionSumAggregate = {
   contribution_id?: Maybe<Scalars['Int']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  threshold?: Maybe<Scalars['Int']>;
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionSumOrderByAggregateInput = {
   contribution_id?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionUpdateInput = {
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsNestedInput>;
-  threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusUpdateOneWithoutGuild_ContributionsNestedInput>;
 };
 
 export type GuildContributionUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
 };
 
 export type GuildContributionUpdateManyWithWhereWithoutContributionInput = {
@@ -5577,6 +5597,11 @@ export type GuildContributionUpdateManyWithWhereWithoutContributionInput = {
 };
 
 export type GuildContributionUpdateManyWithWhereWithoutGuildInput = {
+  data: GuildContributionUpdateManyMutationInput;
+  where: GuildContributionScalarWhereInput;
+};
+
+export type GuildContributionUpdateManyWithWhereWithoutVerificationStatusInput = {
   data: GuildContributionUpdateManyMutationInput;
   where: GuildContributionScalarWhereInput;
 };
@@ -5609,6 +5634,20 @@ export type GuildContributionUpdateManyWithoutGuildNestedInput = {
   upsert?: InputMaybe<Array<GuildContributionUpsertWithWhereUniqueWithoutGuildInput>>;
 };
 
+export type GuildContributionUpdateManyWithoutVerificationStatusNestedInput = {
+  connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutVerificationStatusInput>>;
+  create?: InputMaybe<Array<GuildContributionCreateWithoutVerificationStatusInput>>;
+  createMany?: InputMaybe<GuildContributionCreateManyVerificationStatusInputEnvelope>;
+  delete?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<GuildContributionScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  set?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  update?: InputMaybe<Array<GuildContributionUpdateWithWhereUniqueWithoutVerificationStatusInput>>;
+  updateMany?: InputMaybe<Array<GuildContributionUpdateManyWithWhereWithoutVerificationStatusInput>>;
+  upsert?: InputMaybe<Array<GuildContributionUpsertWithWhereUniqueWithoutVerificationStatusInput>>;
+};
+
 export type GuildContributionUpdateWithWhereUniqueWithoutContributionInput = {
   data: GuildContributionUpdateWithoutContributionInput;
   where: GuildContributionWhereUniqueInput;
@@ -5619,20 +5658,30 @@ export type GuildContributionUpdateWithWhereUniqueWithoutGuildInput = {
   where: GuildContributionWhereUniqueInput;
 };
 
+export type GuildContributionUpdateWithWhereUniqueWithoutVerificationStatusInput = {
+  data: GuildContributionUpdateWithoutVerificationStatusInput;
+  where: GuildContributionWhereUniqueInput;
+};
+
 export type GuildContributionUpdateWithoutContributionInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsNestedInput>;
-  threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusUpdateOneWithoutGuild_ContributionsNestedInput>;
 };
 
 export type GuildContributionUpdateWithoutGuildInput = {
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusUpdateOneWithoutGuild_ContributionsNestedInput>;
+};
+
+export type GuildContributionUpdateWithoutVerificationStatusInput = {
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type GuildContributionUpsertWithWhereUniqueWithoutContributionInput = {
@@ -5647,6 +5696,271 @@ export type GuildContributionUpsertWithWhereUniqueWithoutGuildInput = {
   where: GuildContributionWhereUniqueInput;
 };
 
+export type GuildContributionUpsertWithWhereUniqueWithoutVerificationStatusInput = {
+  create: GuildContributionCreateWithoutVerificationStatusInput;
+  update: GuildContributionUpdateWithoutVerificationStatusInput;
+  where: GuildContributionWhereUniqueInput;
+};
+
+export type GuildContributionVerificationStatus = {
+  _count?: Maybe<GuildContributionVerificationStatusCount>;
+  attestationThreshold: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  guild_contributions: Array<GuildContribution>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  verified: Scalars['Boolean'];
+};
+
+
+export type GuildContributionVerificationStatusGuild_ContributionsArgs = {
+  cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+export type GuildContributionVerificationStatusAvgAggregate = {
+  attestationThreshold?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type GuildContributionVerificationStatusAvgOrderByAggregateInput = {
+  attestationThreshold?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusCount = {
+  guild_contributions: Scalars['Int'];
+};
+
+export type GuildContributionVerificationStatusCountAggregate = {
+  _all: Scalars['Int'];
+  attestationThreshold: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  verified: Scalars['Int'];
+};
+
+export type GuildContributionVerificationStatusCountOrderByAggregateInput = {
+  attestationThreshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusCreateInput = {
+  attestationThreshold: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild_contributions?: InputMaybe<GuildContributionCreateNestedManyWithoutVerificationStatusInput>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  verified: Scalars['Boolean'];
+};
+
+export type GuildContributionVerificationStatusCreateManyInput = {
+  attestationThreshold: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  verified: Scalars['Boolean'];
+};
+
+export type GuildContributionVerificationStatusCreateNestedOneWithoutGuild_ContributionsInput = {
+  connect?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildContributionVerificationStatusCreateOrConnectWithoutGuild_ContributionsInput>;
+  create?: InputMaybe<GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput>;
+};
+
+export type GuildContributionVerificationStatusCreateOrConnectWithoutGuild_ContributionsInput = {
+  create: GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput;
+  where: GuildContributionVerificationStatusWhereUniqueInput;
+};
+
+export type GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput = {
+  attestationThreshold: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  verified: Scalars['Boolean'];
+};
+
+export type GuildContributionVerificationStatusGroupBy = {
+  _avg?: Maybe<GuildContributionVerificationStatusAvgAggregate>;
+  _count?: Maybe<GuildContributionVerificationStatusCountAggregate>;
+  _max?: Maybe<GuildContributionVerificationStatusMaxAggregate>;
+  _min?: Maybe<GuildContributionVerificationStatusMinAggregate>;
+  _sum?: Maybe<GuildContributionVerificationStatusSumAggregate>;
+  attestationThreshold: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  verified: Scalars['Boolean'];
+};
+
+export type GuildContributionVerificationStatusMaxAggregate = {
+  attestationThreshold?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  verified?: Maybe<Scalars['Boolean']>;
+};
+
+export type GuildContributionVerificationStatusMaxOrderByAggregateInput = {
+  attestationThreshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusMinAggregate = {
+  attestationThreshold?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  verified?: Maybe<Scalars['Boolean']>;
+};
+
+export type GuildContributionVerificationStatusMinOrderByAggregateInput = {
+  attestationThreshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GuildContributionVerificationStatusAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GuildContributionVerificationStatusCountOrderByAggregateInput>;
+  _max?: InputMaybe<GuildContributionVerificationStatusMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GuildContributionVerificationStatusMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GuildContributionVerificationStatusSumOrderByAggregateInput>;
+  attestationThreshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusOrderByWithRelationInput = {
+  attestationThreshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  guild_contributions?: InputMaybe<GuildContributionOrderByRelationAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusRelationFilter = {
+  is?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+  isNot?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+export enum GuildContributionVerificationStatusScalarFieldEnum {
+  AttestationThreshold = 'attestationThreshold',
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Name = 'name',
+  UpdatedAt = 'updatedAt',
+  Verified = 'verified'
+}
+
+export type GuildContributionVerificationStatusScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
+  attestationThreshold?: InputMaybe<IntWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  verified?: InputMaybe<BoolWithAggregatesFilter>;
+};
+
+export type GuildContributionVerificationStatusSumAggregate = {
+  attestationThreshold?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type GuildContributionVerificationStatusSumOrderByAggregateInput = {
+  attestationThreshold?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusUpdateInput = {
+  attestationThreshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild_contributions?: InputMaybe<GuildContributionUpdateManyWithoutVerificationStatusNestedInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+};
+
+export type GuildContributionVerificationStatusUpdateManyMutationInput = {
+  attestationThreshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+};
+
+export type GuildContributionVerificationStatusUpdateOneWithoutGuild_ContributionsNestedInput = {
+  connect?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildContributionVerificationStatusCreateOrConnectWithoutGuild_ContributionsInput>;
+  create?: InputMaybe<GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<GuildContributionVerificationStatusUpdateWithoutGuild_ContributionsInput>;
+  upsert?: InputMaybe<GuildContributionVerificationStatusUpsertWithoutGuild_ContributionsInput>;
+};
+
+export type GuildContributionVerificationStatusUpdateWithoutGuild_ContributionsInput = {
+  attestationThreshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+};
+
+export type GuildContributionVerificationStatusUpsertWithoutGuild_ContributionsInput = {
+  create: GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput;
+  update: GuildContributionVerificationStatusUpdateWithoutGuild_ContributionsInput;
+};
+
+export type GuildContributionVerificationStatusWhereInput = {
+  AND?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
+  NOT?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
+  OR?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
+  attestationThreshold?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  guild_contributions?: InputMaybe<GuildContributionListRelationFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  verified?: InputMaybe<BoolFilter>;
+};
+
+export type GuildContributionVerificationStatusWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type GuildContributionWhereInput = {
   AND?: InputMaybe<Array<GuildContributionWhereInput>>;
   NOT?: InputMaybe<Array<GuildContributionWhereInput>>;
@@ -5657,9 +5971,9 @@ export type GuildContributionWhereInput = {
   guild?: InputMaybe<GuildRelationFilter>;
   guild_id?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
-  threshold?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-  verified?: InputMaybe<BoolFilter>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusRelationFilter>;
+  verification_status_id?: InputMaybe<IntNullableFilter>;
 };
 
 export type GuildContributionWhereUniqueInput = {
@@ -5668,12 +5982,12 @@ export type GuildContributionWhereUniqueInput = {
 };
 
 export type GuildCount = {
-  VerificationSettings: Scalars['Int'];
   activity_type: Scalars['Int'];
   contributions: Scalars['Int'];
   guild_imports: Scalars['Int'];
   twitter_accounts: Scalars['Int'];
   users: Scalars['Int'];
+  verificationSettings: Scalars['Int'];
 };
 
 export type GuildCountAggregate = {
@@ -5702,7 +6016,6 @@ export type GuildCountOrderByAggregateInput = {
 };
 
 export type GuildCreateInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
   activity_type?: InputMaybe<GuildActivityTypeCreateNestedManyWithoutGuildInput>;
   congrats_channel?: InputMaybe<Scalars['String']>;
   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
@@ -5716,6 +6029,7 @@ export type GuildCreateInput = {
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
 };
 
 export type GuildCreateManyInput = {
@@ -5797,7 +6111,6 @@ export type GuildCreateOrConnectWithoutVerificationSettingsInput = {
 };
 
 export type GuildCreateWithoutActivity_TypeInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
   congrats_channel?: InputMaybe<Scalars['String']>;
   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
   contributions?: InputMaybe<GuildContributionCreateNestedManyWithoutGuildInput>;
@@ -5810,10 +6123,10 @@ export type GuildCreateWithoutActivity_TypeInput = {
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
 };
 
 export type GuildCreateWithoutContributionsInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
   activity_type?: InputMaybe<GuildActivityTypeCreateNestedManyWithoutGuildInput>;
   congrats_channel?: InputMaybe<Scalars['String']>;
   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
@@ -5826,10 +6139,10 @@ export type GuildCreateWithoutContributionsInput = {
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
 };
 
 export type GuildCreateWithoutGuild_ImportsInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
   activity_type?: InputMaybe<GuildActivityTypeCreateNestedManyWithoutGuildInput>;
   congrats_channel?: InputMaybe<Scalars['String']>;
   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
@@ -5842,10 +6155,10 @@ export type GuildCreateWithoutGuild_ImportsInput = {
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
 };
 
 export type GuildCreateWithoutTwitter_AccountsInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
   activity_type?: InputMaybe<GuildActivityTypeCreateNestedManyWithoutGuildInput>;
   congrats_channel?: InputMaybe<Scalars['String']>;
   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
@@ -5858,10 +6171,10 @@ export type GuildCreateWithoutTwitter_AccountsInput = {
   status?: InputMaybe<GuildStatus>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
 };
 
 export type GuildCreateWithoutUsersInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
   activity_type?: InputMaybe<GuildActivityTypeCreateNestedManyWithoutGuildInput>;
   congrats_channel?: InputMaybe<Scalars['String']>;
   contribution_reporting_channel?: InputMaybe<Scalars['String']>;
@@ -5874,6 +6187,7 @@ export type GuildCreateWithoutUsersInput = {
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
+  verificationSettings?: InputMaybe<VerificationSettingsCreateNestedManyWithoutGuildInput>;
 };
 
 export type GuildCreateWithoutVerificationSettingsInput = {
@@ -5890,6 +6204,10 @@ export type GuildCreateWithoutVerificationSettingsInput = {
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
+};
+
+export type GuildCustomWhereInput = {
+  guildId: Scalars['Int'];
 };
 
 export type GuildGroupBy = {
@@ -6941,7 +7259,6 @@ export type GuildOrderByWithAggregationInput = {
 };
 
 export type GuildOrderByWithRelationInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsOrderByRelationAggregateInput>;
   activity_type?: InputMaybe<GuildActivityTypeOrderByRelationAggregateInput>;
   congrats_channel?: InputMaybe<SortOrder>;
   contribution_reporting_channel?: InputMaybe<SortOrder>;
@@ -6956,6 +7273,7 @@ export type GuildOrderByWithRelationInput = {
   twitter_accounts?: InputMaybe<TwitterAccountOrderByRelationAggregateInput>;
   updatedAt?: InputMaybe<SortOrder>;
   users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsOrderByRelationAggregateInput>;
 };
 
 export type GuildRelationFilter = {
@@ -7012,12 +7330,7 @@ export type GuildUpdateCustomInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
-export type GuildUpdateCustomWhereInput = {
-  guildId: Scalars['Int'];
-};
-
 export type GuildUpdateInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
   activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -7031,6 +7344,7 @@ export type GuildUpdateInput = {
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateManyMutationInput = {
@@ -7097,7 +7411,6 @@ export type GuildUpdateOneWithoutVerificationSettingsNestedInput = {
 };
 
 export type GuildUpdateWithoutActivity_TypeInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contributions?: InputMaybe<GuildContributionUpdateManyWithoutGuildNestedInput>;
@@ -7110,10 +7423,10 @@ export type GuildUpdateWithoutActivity_TypeInput = {
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateWithoutContributionsInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
   activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -7126,10 +7439,10 @@ export type GuildUpdateWithoutContributionsInput = {
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateWithoutGuild_ImportsInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
   activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -7142,10 +7455,10 @@ export type GuildUpdateWithoutGuild_ImportsInput = {
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateWithoutTwitter_AccountsInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
   activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -7158,10 +7471,10 @@ export type GuildUpdateWithoutTwitter_AccountsInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateWithoutUsersInput = {
-  VerificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
   activity_type?: InputMaybe<GuildActivityTypeUpdateManyWithoutGuildNestedInput>;
   congrats_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   contribution_reporting_channel?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -7174,6 +7487,7 @@ export type GuildUpdateWithoutUsersInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  verificationSettings?: InputMaybe<VerificationSettingsUpdateManyWithoutGuildNestedInput>;
 };
 
 export type GuildUpdateWithoutVerificationSettingsInput = {
@@ -7815,11 +8129,14 @@ export type GuildUserWhereUniqueInput = {
   user_id_guild_id?: InputMaybe<GuildUserUser_IdGuild_IdCompoundUniqueInput>;
 };
 
+export type GuildVerificationSettingsUpdateInput = {
+  num_of_attestations: Scalars['Int'];
+};
+
 export type GuildWhereInput = {
   AND?: InputMaybe<Array<GuildWhereInput>>;
   NOT?: InputMaybe<Array<GuildWhereInput>>;
   OR?: InputMaybe<Array<GuildWhereInput>>;
-  VerificationSettings?: InputMaybe<VerificationSettingsListRelationFilter>;
   activity_type?: InputMaybe<GuildActivityTypeListRelationFilter>;
   congrats_channel?: InputMaybe<StringNullableFilter>;
   contribution_reporting_channel?: InputMaybe<StringNullableFilter>;
@@ -7834,6 +8151,7 @@ export type GuildWhereInput = {
   twitter_accounts?: InputMaybe<TwitterAccountListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   users?: InputMaybe<GuildUserListRelationFilter>;
+  verificationSettings?: InputMaybe<VerificationSettingsListRelationFilter>;
 };
 
 export type GuildWhereUniqueInput = {
@@ -11070,6 +11388,7 @@ export type Mutation = {
   createManyGuild: AffectedRowsOutput;
   createManyGuildActivityType: AffectedRowsOutput;
   createManyGuildContribution: AffectedRowsOutput;
+  createManyGuildContributionVerificationStatus: AffectedRowsOutput;
   createManyGuildImport: AffectedRowsOutput;
   createManyGuildImportStatus: AffectedRowsOutput;
   createManyGuildMembershipStatus: AffectedRowsOutput;
@@ -11104,6 +11423,7 @@ export type Mutation = {
   createOneGuild: Guild;
   createOneGuildActivityType: GuildActivityType;
   createOneGuildContribution: GuildContribution;
+  createOneGuildContributionVerificationStatus: GuildContributionVerificationStatus;
   createOneGuildImport: GuildImport;
   createOneGuildImportStatus: GuildImportStatus;
   createOneGuildMembershipStatus: GuildMembershipStatus;
@@ -11141,6 +11461,7 @@ export type Mutation = {
   deleteManyGuild: AffectedRowsOutput;
   deleteManyGuildActivityType: AffectedRowsOutput;
   deleteManyGuildContribution: AffectedRowsOutput;
+  deleteManyGuildContributionVerificationStatus: AffectedRowsOutput;
   deleteManyGuildImport: AffectedRowsOutput;
   deleteManyGuildImportStatus: AffectedRowsOutput;
   deleteManyGuildMembershipStatus: AffectedRowsOutput;
@@ -11174,6 +11495,7 @@ export type Mutation = {
   deleteOneGuild?: Maybe<Guild>;
   deleteOneGuildActivityType?: Maybe<GuildActivityType>;
   deleteOneGuildContribution?: Maybe<GuildContribution>;
+  deleteOneGuildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
   deleteOneGuildImport?: Maybe<GuildImport>;
   deleteOneGuildImportStatus?: Maybe<GuildImportStatus>;
   deleteOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
@@ -11197,6 +11519,7 @@ export type Mutation = {
   getOrCreateActivityType: ActivityType;
   updateGuildCustom: Guild;
   updateGuildUserCustom: GuildUser;
+  updateGuildVerificationSettings: VerificationSettings;
   updateManyActivityType: AffectedRowsOutput;
   updateManyAttestation: AffectedRowsOutput;
   updateManyAttestationConfidence: AffectedRowsOutput;
@@ -11211,6 +11534,7 @@ export type Mutation = {
   updateManyGuild: AffectedRowsOutput;
   updateManyGuildActivityType: AffectedRowsOutput;
   updateManyGuildContribution: AffectedRowsOutput;
+  updateManyGuildContributionVerificationStatus: AffectedRowsOutput;
   updateManyGuildImport: AffectedRowsOutput;
   updateManyGuildImportStatus: AffectedRowsOutput;
   updateManyGuildMembershipStatus: AffectedRowsOutput;
@@ -11244,6 +11568,7 @@ export type Mutation = {
   updateOneGuild?: Maybe<Guild>;
   updateOneGuildActivityType?: Maybe<GuildActivityType>;
   updateOneGuildContribution?: Maybe<GuildContribution>;
+  updateOneGuildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
   updateOneGuildImport?: Maybe<GuildImport>;
   updateOneGuildImportStatus?: Maybe<GuildImportStatus>;
   updateOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
@@ -11281,6 +11606,7 @@ export type Mutation = {
   upsertOneGuild: Guild;
   upsertOneGuildActivityType: GuildActivityType;
   upsertOneGuildContribution: GuildContribution;
+  upsertOneGuildContributionVerificationStatus: GuildContributionVerificationStatus;
   upsertOneGuildImport: GuildImport;
   upsertOneGuildImportStatus: GuildImportStatus;
   upsertOneGuildMembershipStatus: GuildMembershipStatus;
@@ -11388,6 +11714,12 @@ export type MutationCreateManyGuildActivityTypeArgs = {
 
 export type MutationCreateManyGuildContributionArgs = {
   data: Array<GuildContributionCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyGuildContributionVerificationStatusArgs = {
+  data: Array<GuildContributionVerificationStatusCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -11581,6 +11913,11 @@ export type MutationCreateOneGuildContributionArgs = {
 };
 
 
+export type MutationCreateOneGuildContributionVerificationStatusArgs = {
+  data: GuildContributionVerificationStatusCreateInput;
+};
+
+
 export type MutationCreateOneGuildImportArgs = {
   data: GuildImportCreateInput;
 };
@@ -11766,6 +12103,11 @@ export type MutationDeleteManyGuildContributionArgs = {
 };
 
 
+export type MutationDeleteManyGuildContributionVerificationStatusArgs = {
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+
 export type MutationDeleteManyGuildImportArgs = {
   where?: InputMaybe<GuildImportWhereInput>;
 };
@@ -11931,6 +12273,11 @@ export type MutationDeleteOneGuildContributionArgs = {
 };
 
 
+export type MutationDeleteOneGuildContributionVerificationStatusArgs = {
+  where: GuildContributionVerificationStatusWhereUniqueInput;
+};
+
+
 export type MutationDeleteOneGuildImportArgs = {
   where: GuildImportWhereUniqueInput;
 };
@@ -12038,12 +12385,18 @@ export type MutationGetOrCreateActivityTypeArgs = {
 
 export type MutationUpdateGuildCustomArgs = {
   data: GuildUpdateCustomInput;
-  where: GuildUpdateCustomWhereInput;
+  where: GuildCustomWhereInput;
 };
 
 
 export type MutationUpdateGuildUserCustomArgs = {
   data: GuildUserUpdateCustomInput;
+};
+
+
+export type MutationUpdateGuildVerificationSettingsArgs = {
+  data: GuildVerificationSettingsUpdateInput;
+  where: GuildCustomWhereInput;
 };
 
 
@@ -12128,6 +12481,12 @@ export type MutationUpdateManyGuildActivityTypeArgs = {
 export type MutationUpdateManyGuildContributionArgs = {
   data: GuildContributionUpdateManyMutationInput;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type MutationUpdateManyGuildContributionVerificationStatusArgs = {
+  data: GuildContributionVerificationStatusUpdateManyMutationInput;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
 };
 
 
@@ -12326,6 +12685,12 @@ export type MutationUpdateOneGuildActivityTypeArgs = {
 export type MutationUpdateOneGuildContributionArgs = {
   data: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneGuildContributionVerificationStatusArgs = {
+  data: GuildContributionVerificationStatusUpdateInput;
+  where: GuildContributionVerificationStatusWhereUniqueInput;
 };
 
 
@@ -12563,6 +12928,13 @@ export type MutationUpsertOneGuildContributionArgs = {
   create: GuildContributionCreateInput;
   update: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneGuildContributionVerificationStatusArgs = {
+  create: GuildContributionVerificationStatusCreateInput;
+  update: GuildContributionVerificationStatusUpdateInput;
+  where: GuildContributionVerificationStatusWhereUniqueInput;
 };
 
 
@@ -13331,6 +13703,7 @@ export type Query = {
   aggregateGuild: AggregateGuild;
   aggregateGuildActivityType: AggregateGuildActivityType;
   aggregateGuildContribution: AggregateGuildContribution;
+  aggregateGuildContributionVerificationStatus: AggregateGuildContributionVerificationStatus;
   aggregateGuildImport: AggregateGuildImport;
   aggregateGuildImportStatus: AggregateGuildImportStatus;
   aggregateGuildMembershipStatus: AggregateGuildMembershipStatus;
@@ -13397,6 +13770,8 @@ export type Query = {
   findFirstGuildActivityTypeOrThrow?: Maybe<GuildActivityType>;
   findFirstGuildContribution?: Maybe<GuildContribution>;
   findFirstGuildContributionOrThrow?: Maybe<GuildContribution>;
+  findFirstGuildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
+  findFirstGuildContributionVerificationStatusOrThrow?: Maybe<GuildContributionVerificationStatus>;
   findFirstGuildImport?: Maybe<GuildImport>;
   findFirstGuildImportOrThrow?: Maybe<GuildImport>;
   findFirstGuildImportStatus?: Maybe<GuildImportStatus>;
@@ -13458,10 +13833,12 @@ export type Query = {
   getGuild?: Maybe<Guild>;
   getGuildActivityType?: Maybe<GuildActivityType>;
   getGuildContribution?: Maybe<GuildContribution>;
+  getGuildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
   getGuildImport?: Maybe<GuildImport>;
   getGuildImportStatus?: Maybe<GuildImportStatus>;
   getGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   getGuildUser?: Maybe<GuildUser>;
+  getGuildVerificationSettings: VerificationSettings;
   getIntegrationType?: Maybe<IntegrationType>;
   getJobRun?: Maybe<JobRun>;
   getLinearCycle?: Maybe<LinearCycle>;
@@ -13490,6 +13867,7 @@ export type Query = {
   groupByGuild: Array<GuildGroupBy>;
   groupByGuildActivityType: Array<GuildActivityTypeGroupBy>;
   groupByGuildContribution: Array<GuildContributionGroupBy>;
+  groupByGuildContributionVerificationStatus: Array<GuildContributionVerificationStatusGroupBy>;
   groupByGuildImport: Array<GuildImportGroupBy>;
   groupByGuildImportStatus: Array<GuildImportStatusGroupBy>;
   groupByGuildMembershipStatus: Array<GuildMembershipStatusGroupBy>;
@@ -13513,6 +13891,8 @@ export type Query = {
   guildActivityType?: Maybe<GuildActivityType>;
   guildActivityTypes: Array<GuildActivityType>;
   guildContribution?: Maybe<GuildContribution>;
+  guildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
+  guildContributionVerificationStatuses: Array<GuildContributionVerificationStatus>;
   guildContributions: Array<GuildContribution>;
   guildImport?: Maybe<GuildImport>;
   guildImportStatus?: Maybe<GuildImportStatus>;
@@ -13694,6 +14074,15 @@ export type QueryAggregateGuildContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryAggregateGuildContributionVerificationStatusArgs = {
+  cursor?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
 };
 
 
@@ -14288,6 +14677,26 @@ export type QueryFindFirstGuildContributionOrThrowArgs = {
 };
 
 
+export type QueryFindFirstGuildContributionVerificationStatusArgs = {
+  cursor?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionVerificationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+
+export type QueryFindFirstGuildContributionVerificationStatusOrThrowArgs = {
+  cursor?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionVerificationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+
 export type QueryFindFirstGuildImportArgs = {
   cursor?: InputMaybe<GuildImportWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildImportScalarFieldEnum>>;
@@ -14793,6 +15202,11 @@ export type QueryGetGuildContributionArgs = {
 };
 
 
+export type QueryGetGuildContributionVerificationStatusArgs = {
+  where: GuildContributionVerificationStatusWhereUniqueInput;
+};
+
+
 export type QueryGetGuildImportArgs = {
   where: GuildImportWhereUniqueInput;
 };
@@ -14810,6 +15224,11 @@ export type QueryGetGuildMembershipStatusArgs = {
 
 export type QueryGetGuildUserArgs = {
   where: GuildUserWhereUniqueInput;
+};
+
+
+export type QueryGetGuildVerificationSettingsArgs = {
+  where: GuildCustomWhereInput;
 };
 
 
@@ -15020,6 +15439,16 @@ export type QueryGroupByGuildContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryGroupByGuildContributionVerificationStatusArgs = {
+  by: Array<GuildContributionVerificationStatusScalarFieldEnum>;
+  having?: InputMaybe<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
 };
 
 
@@ -15235,6 +15664,21 @@ export type QueryGuildActivityTypesArgs = {
 
 export type QueryGuildContributionArgs = {
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type QueryGuildContributionVerificationStatusArgs = {
+  where: GuildContributionVerificationStatusWhereUniqueInput;
+};
+
+
+export type QueryGuildContributionVerificationStatusesArgs = {
+  cursor?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionVerificationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
 };
 
 
@@ -18753,7 +19197,7 @@ export type GetGuildQuery = { result?: { congrats_channel?: string | null, creat
 
 export type UpdateGuildCustomMutationVariables = Exact<{
   data: GuildUpdateCustomInput;
-  where: GuildUpdateCustomWhereInput;
+  where: GuildCustomWhereInput;
 }>;
 
 
@@ -19005,13 +19449,6 @@ export type DeleteUserContributionMutationVariables = Exact<{
 
 export type DeleteUserContributionMutation = { deleteUserContribution: { id: number } };
 
-export type DeleteContributionMutationVariables = Exact<{
-  where: ContributionWhereUniqueInput;
-}>;
-
-
-export type DeleteContributionMutation = { deleteOneContribution?: { id: number } | null };
-
 export type UpdateUserContributionMutationVariables = Exact<{
   data: UserContributionUpdateInput;
 }>;
@@ -19086,13 +19523,6 @@ export type CreateActivityTypeMutationVariables = Exact<{
 
 
 export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
-
-export type GetOrCreateActivityTypeMutationVariables = Exact<{
-  data: GetOrCreateActivityTypeInput;
-}>;
-
-
-export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UpsertActivityTypeMutationVariables = Exact<{
   create: ActivityTypeCreateInput;
@@ -19199,6 +19629,23 @@ export type GetChainQueryVariables = Exact<{
 
 
 export type GetChainQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string, chain_id: string } | null };
+
+export type VerificationSettingFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number };
+
+export type GetGuildVerificationSettingsQueryVariables = Exact<{
+  where: GuildCustomWhereInput;
+}>;
+
+
+export type GetGuildVerificationSettingsQuery = { result: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number } };
+
+export type UpdateGuildVerificationSettingsMutationVariables = Exact<{
+  where: GuildCustomWhereInput;
+  data: GuildVerificationSettingsUpdateInput;
+}>;
+
+
+export type UpdateGuildVerificationSettingsMutation = { result: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number } };
 
 export const JobFieldsFragmentFragmentDoc = gql`
     fragment JobFieldsFragment on JobRun {
@@ -19553,6 +20000,15 @@ export const ChainFragmentFragmentDoc = gql`
   chain_id
 }
     `;
+export const VerificationSettingFragmentFragmentDoc = gql`
+    fragment VerificationSettingFragment on VerificationSettings {
+  id
+  createdAt
+  updatedAt
+  guild_id
+  num_of_attestations
+}
+    `;
 export const ListJobRunsDocument = gql`
     query listJobRuns($where: JobRunWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [JobRunOrderByWithRelationInput!]) {
   result: jobRuns(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
@@ -19664,7 +20120,7 @@ export const GetGuildDocument = gql`
 }
     ${GuildFragmentFragmentDoc}`;
 export const UpdateGuildCustomDocument = gql`
-    mutation updateGuildCustom($data: GuildUpdateCustomInput!, $where: GuildUpdateCustomWhereInput!) {
+    mutation updateGuildCustom($data: GuildUpdateCustomInput!, $where: GuildCustomWhereInput!) {
   updateGuildCustom(data: $data, where: $where) {
     ...GuildFragment
   }
@@ -19898,13 +20354,6 @@ export const DeleteUserContributionDocument = gql`
   }
 }
     `;
-export const DeleteContributionDocument = gql`
-    mutation deleteContribution($where: ContributionWhereUniqueInput!) {
-  deleteOneContribution(where: $where) {
-    id
-  }
-}
-    `;
 export const UpdateUserContributionDocument = gql`
     mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
@@ -19975,13 +20424,6 @@ export const ListActivityTypesByUserDocument = gql`
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
   createOneActivityType(data: $data) {
-    ...ActivityTypeFragment
-  }
-}
-    ${ActivityTypeFragmentFragmentDoc}`;
-export const GetOrCreateActivityTypeDocument = gql`
-    mutation getOrCreateActivityType($data: GetOrCreateActivityTypeInput!) {
-  getOrCreateActivityType(data: $data) {
     ...ActivityTypeFragment
   }
 }
@@ -20075,6 +20517,20 @@ export const GetChainDocument = gql`
   }
 }
     ${ChainFragmentFragmentDoc}`;
+export const GetGuildVerificationSettingsDocument = gql`
+    query getGuildVerificationSettings($where: GuildCustomWhereInput!) {
+  result: getGuildVerificationSettings(where: $where) {
+    ...VerificationSettingFragment
+  }
+}
+    ${VerificationSettingFragmentFragmentDoc}`;
+export const UpdateGuildVerificationSettingsDocument = gql`
+    mutation updateGuildVerificationSettings($where: GuildCustomWhereInput!, $data: GuildVerificationSettingsUpdateInput!) {
+  result: updateGuildVerificationSettings(where: $where, data: $data) {
+    ...VerificationSettingFragment
+  }
+}
+    ${VerificationSettingFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -20212,9 +20668,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     deleteUserContribution(variables: DeleteUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserContributionMutation>(DeleteUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteUserContribution', 'mutation');
     },
-    deleteContribution(variables: DeleteContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteContributionMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DeleteContributionMutation>(DeleteContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteContribution', 'mutation');
-    },
     updateUserContribution(variables: UpdateUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserContributionMutation>(UpdateUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserContribution', 'mutation');
     },
@@ -20241,9 +20694,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
-    },
-    getOrCreateActivityType(variables: GetOrCreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetOrCreateActivityTypeMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetOrCreateActivityTypeMutation>(GetOrCreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getOrCreateActivityType', 'mutation');
     },
     upsertActivityType(variables: UpsertActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertActivityTypeMutation>(UpsertActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertActivityType', 'mutation');
@@ -20280,6 +20730,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getChain(variables: GetChainQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetChainQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetChainQuery>(GetChainDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getChain', 'query');
+    },
+    getGuildVerificationSettings(variables: GetGuildVerificationSettingsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildVerificationSettingsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildVerificationSettingsQuery>(GetGuildVerificationSettingsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuildVerificationSettings', 'query');
+    },
+    updateGuildVerificationSettings(variables: UpdateGuildVerificationSettingsMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildVerificationSettingsMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildVerificationSettingsMutation>(UpdateGuildVerificationSettingsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildVerificationSettings', 'mutation');
     }
   };
 }
