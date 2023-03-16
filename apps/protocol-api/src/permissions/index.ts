@@ -430,11 +430,10 @@ export const permissions = shield(
       guild: or(isAuthenticated, hasToken),
       verification_status_id: or(isAuthenticated, hasToken),
     },
-    GuildContributionVerificationStats: {
+    GuildContributionVerificationStatus: {
       id: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
-      guild_id: or(isAuthenticated, hasToken),
       verified: or(isAuthenticated, hasToken),
       attestationThreshold: or(isAuthenticated, hasToken),
       guild_contributions: or(isAuthenticated, hasToken),
