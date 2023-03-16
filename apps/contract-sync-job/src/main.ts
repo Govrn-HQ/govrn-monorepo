@@ -164,7 +164,6 @@ const main = async () => {
         confidence_id: 1, // TODO: insert the manually.
         user_id: userId,
         contribution_id: contributionId,
-        date_of_attestation: new Date(attestation.dateOfSubmission.toNumber()),
       };
     },
     BATCH_SIZE,
