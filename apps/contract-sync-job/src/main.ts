@@ -142,11 +142,6 @@ const main = async () => {
   const { results: attestations } = await batch(
     attestationEvents,
     async event => {
-      const attestation = await govrnContract.attestations({
-        tokenId: event.contribution.id,
-        address: event.attestor,
-      });
-
       console.log(
         `:: Processing Attestation of contribution: ${Number(
           event.contribution.id,
