@@ -217,15 +217,12 @@ export const updateGuildCustomInput = inputRule()(
 export const updateGuildUserCustomInput = inputRule()(
   yup =>
     yup.object({
-      where: yup.object({
-        guildId: yup.number().required(),
-      }),
       data: yup.object({
         favorite: yup.boolean(),
         guildId: yup.number().required(),
         memberId: yup.number(),
-        memberStatusId: yup.number(),
-        memberStatus: yup.string(),
+        membershipStatusId: yup.number(),
+        membershipStatus: yup.string(),
         userAddress: yup.string(),
         userId: yup.number(),
       }),
@@ -236,14 +233,11 @@ export const updateGuildUserCustomInput = inputRule()(
 export const updateGuildUserRecruitCustomInput = inputRule()(
   yup =>
     yup.object({
-      where: yup.object({
-        guildId: yup.number().required(),
-      }),
       data: yup.object({
         favorite: yup.boolean(),
         guildId: yup.number().required(),
         memberId: yup.number(),
-        memberStatus: yup
+        membershipStatus: yup
           .string()
           .matches(/(Recruit)/, { excludeEmptyString: true })
           .required(),
