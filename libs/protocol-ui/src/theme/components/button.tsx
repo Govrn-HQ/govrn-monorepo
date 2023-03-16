@@ -57,14 +57,6 @@ export default {
           backgroundClip: 'padding-box, border-box',
         },
       },
-      // _hover: {
-      //   backgroundImage:
-      //     'linear-gradient(white, white), linear-gradient(100deg, #5100E4 0%, #5100E4 100%)',
-      // },
-      // _focus: {
-      //   backgroundImage:
-      //     'linear-gradient(white, white), linear-gradient(100deg, #9766EF 0%,#9766EF 100%)',
-      // },
     },
     tertiary: {
       color: 'brand.purple',
