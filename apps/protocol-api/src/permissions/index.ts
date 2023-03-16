@@ -75,18 +75,23 @@ const isUsersMapping = new Map([
   ['getOrCreateActivityType', 'data.userId'],
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
-  const userId = byString(args, isUsersMapping.get(info.fieldName));
-  const user = await ctx.prisma.user.findFirst({
-    where: {
-      address: ctx.req.session.siwe.data.address,
-    },
-  });
+  try {
+    const userId = byString(args, isUsersMapping.get(info.fieldName));
+    const user = await ctx.prisma.user.findFirst({
+      where: {
+        address: ctx.req.session.siwe.data.address,
+      },
+    });
 
-  const isUser = user.id === userId;
-  if (!isUser) {
-    return new Error('User does not own resource');
+    const isUser = user.id === userId;
+    if (!isUser) {
+      return new Error('User does not own resource');
+    }
+    return isUser;
+  } catch (e) {
+    console.error(e);
+    return false;
   }
-  return isUser;
 });
 
 // TODO: Add helpful error messages
@@ -96,51 +101,61 @@ const isUsersContributionMapping = new Map([
   ['updateUserOnChainContribution', 'id'],
 ]);
 const isUsersContribution = rule()(async (parent, args, ctx, info) => {
-  const contributionId = byString(
-    args,
-    isUsersContributionMapping.get(info.fieldName),
-  );
-  const user = await ctx.prisma.user.findFirst({
-    where: {
-      address: ctx.req.session.siwe.data.address,
-    },
-  });
-  const contribution = await ctx.prisma.contribution.findFirst({
-    where: {
-      id: contributionId,
-    },
-  });
-  const isUser = user.id === contribution.user_id;
-  if (!isUser) {
-    return new Error('User does not own contribution');
+  try {
+    const contributionId = byString(
+      args,
+      isUsersContributionMapping.get(info.fieldName),
+    );
+    const user = await ctx.prisma.user.findFirst({
+      where: {
+        address: ctx.req.session.siwe.data.address,
+      },
+    });
+    const contribution = await ctx.prisma.contribution.findFirst({
+      where: {
+        id: contributionId,
+      },
+    });
+    const isUser = user.id === contribution.user_id;
+    if (!isUser) {
+      return new Error('User does not own contribution');
+    }
+    return isUser;
+  } catch (e) {
+    console.error(e);
+    return false;
   }
-  return isUser;
 });
 
 const isUsersAttestationMapping = new Map([
   ['updateUserOnChainAttestation', 'id'],
 ]);
 const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
-  const attestationId = byString(
-    args,
-    isUsersAttestationMapping.get(info.fieldName),
-  );
-  const user = await ctx.prisma.user.findFirst({
-    where: {
-      address: ctx.req.session.siwe.data.address,
-    },
-  });
-  const attestation = await ctx.prisma.attestation.findFirst({
-    where: {
-      id: attestationId,
-    },
-  });
+  try {
+    const attestationId = byString(
+      args,
+      isUsersAttestationMapping.get(info.fieldName),
+    );
+    const user = await ctx.prisma.user.findFirst({
+      where: {
+        address: ctx.req.session.siwe.data.address,
+      },
+    });
+    const attestation = await ctx.prisma.attestation.findFirst({
+      where: {
+        id: attestationId,
+      },
+    });
 
-  const isUser = user.id === attestation.user_id;
-  if (!isUser) {
-    return new Error('User does not own attestation');
+    const isUser = user.id === attestation.user_id;
+    if (!isUser) {
+      return new Error('User does not own attestation');
+    }
+    return isUser;
+  } catch (e) {
+    console.error(e);
+    return false;
   }
-  return isUser;
 });
 
 const isGuildAdminMapping = new Map([
@@ -298,8 +313,10 @@ export const permissions = shield(
 
       updateGuildUserCustom: and(
         isAuthenticated,
-        or(updateGuildUserCustomInput, isGuildAdmin),
-        or(isUsers, updateGuildUserRecruitCustomInput),
+        or(
+          and(updateGuildUserCustomInput, isGuildAdmin),
+          and(isUsers, updateGuildUserRecruitCustomInput),
+        ),
       ), //  can only be done by user and admin of guild
 
       updateUserOnChainAttestation: and(
