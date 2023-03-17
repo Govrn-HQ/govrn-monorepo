@@ -553,7 +553,7 @@ fragment ContributionFragment on Contribution {
   attestations {
     id
     user_id
-    date_of_attestation
+    createdAt
     attestation_status {
       id
       name
@@ -656,6 +656,12 @@ mutation deleteUserContribution($where: UserContributionDeleteInput!) {
   }
 }
 
+mutation deleteContribution($where: ContributionWhereUniqueInput!) {
+  deleteOneContribution(where: $where) {
+    id
+  }
+}
+
 mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
     ...ContributionFragment
@@ -753,6 +759,12 @@ query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
 
 mutation createActivityType($data: ActivityTypeCreateInput!) {
   createOneActivityType(data: $data) {
+    ...ActivityTypeFragment
+  }
+}
+
+mutation getOrCreateActivityType($data: GetOrCreateActivityTypeInput!) {
+  getOrCreateActivityType(data: $data) {
     ...ActivityTypeFragment
   }
 }
@@ -915,7 +927,6 @@ fragment AttestationFragment on Attestation {
     user_id
     on_chain_id
   }
-  date_of_attestation
   id
   updatedAt
   user {

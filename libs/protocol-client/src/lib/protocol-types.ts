@@ -577,6 +577,14 @@ export type AggregateGuildContribution = {
   _sum?: Maybe<GuildContributionSumAggregate>;
 };
 
+export type AggregateGuildContributionVerificationStatus = {
+  _avg?: Maybe<GuildContributionVerificationStatusAvgAggregate>;
+  _count?: Maybe<GuildContributionVerificationStatusCountAggregate>;
+  _max?: Maybe<GuildContributionVerificationStatusMaxAggregate>;
+  _min?: Maybe<GuildContributionVerificationStatusMinAggregate>;
+  _sum?: Maybe<GuildContributionVerificationStatusSumAggregate>;
+};
+
 export type AggregateGuildImport = {
   _avg?: Maybe<GuildImportAvgAggregate>;
   _count?: Maybe<GuildImportCountAggregate>;
@@ -737,7 +745,6 @@ export type Attestation = {
   contribution: Contribution;
   contribution_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
-  date_of_attestation: Scalars['DateTime'];
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
   user: User;
@@ -983,7 +990,6 @@ export type AttestationCountAggregate = {
   confidence_id: Scalars['Int'];
   contribution_id: Scalars['Int'];
   createdAt: Scalars['Int'];
-  date_of_attestation: Scalars['Int'];
   id: Scalars['Int'];
   updatedAt: Scalars['Int'];
   user_id: Scalars['Int'];
@@ -994,7 +1000,6 @@ export type AttestationCountOrderByAggregateInput = {
   confidence_id?: InputMaybe<SortOrder>;
   contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  date_of_attestation?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
@@ -1005,7 +1010,6 @@ export type AttestationCreateInput = {
   confidence?: InputMaybe<AttestationConfidenceCreateNestedOneWithoutAttestationsInput>;
   contribution: ContributionCreateNestedOneWithoutAttestationsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutAttestationsInput;
 };
@@ -1014,7 +1018,6 @@ export type AttestationCreateManyAttestation_StatusInput = {
   confidence_id?: InputMaybe<Scalars['Int']>;
   contribution_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
@@ -1029,7 +1032,6 @@ export type AttestationCreateManyConfidenceInput = {
   attestation_status_id?: InputMaybe<Scalars['Int']>;
   contribution_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
@@ -1044,7 +1046,6 @@ export type AttestationCreateManyContributionInput = {
   attestation_status_id?: InputMaybe<Scalars['Int']>;
   confidence_id?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
@@ -1060,7 +1061,6 @@ export type AttestationCreateManyInput = {
   confidence_id?: InputMaybe<Scalars['Int']>;
   contribution_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user_id: Scalars['Int'];
@@ -1071,7 +1071,6 @@ export type AttestationCreateManyUserInput = {
   confidence_id?: InputMaybe<Scalars['Int']>;
   contribution_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -1133,7 +1132,6 @@ export type AttestationCreateWithoutAttestation_StatusInput = {
   confidence?: InputMaybe<AttestationConfidenceCreateNestedOneWithoutAttestationsInput>;
   contribution: ContributionCreateNestedOneWithoutAttestationsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutAttestationsInput;
 };
@@ -1142,7 +1140,6 @@ export type AttestationCreateWithoutConfidenceInput = {
   attestation_status?: InputMaybe<AttestationStatusCreateNestedOneWithoutAttestationInput>;
   contribution: ContributionCreateNestedOneWithoutAttestationsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutAttestationsInput;
 };
@@ -1151,7 +1148,6 @@ export type AttestationCreateWithoutContributionInput = {
   attestation_status?: InputMaybe<AttestationStatusCreateNestedOneWithoutAttestationInput>;
   confidence?: InputMaybe<AttestationConfidenceCreateNestedOneWithoutAttestationsInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutAttestationsInput;
 };
@@ -1161,7 +1157,6 @@ export type AttestationCreateWithoutUserInput = {
   confidence?: InputMaybe<AttestationConfidenceCreateNestedOneWithoutAttestationsInput>;
   contribution: ContributionCreateNestedOneWithoutAttestationsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  date_of_attestation?: InputMaybe<Scalars['DateTime']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -1175,7 +1170,6 @@ export type AttestationGroupBy = {
   confidence_id?: Maybe<Scalars['Int']>;
   contribution_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
-  date_of_attestation: Scalars['DateTime'];
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
   user_id: Scalars['Int'];
@@ -1192,7 +1186,6 @@ export type AttestationMaxAggregate = {
   confidence_id?: Maybe<Scalars['Int']>;
   contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  date_of_attestation?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
@@ -1203,7 +1196,6 @@ export type AttestationMaxOrderByAggregateInput = {
   confidence_id?: InputMaybe<SortOrder>;
   contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  date_of_attestation?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
@@ -1214,7 +1206,6 @@ export type AttestationMinAggregate = {
   confidence_id?: Maybe<Scalars['Int']>;
   contribution_id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  date_of_attestation?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user_id?: Maybe<Scalars['Int']>;
@@ -1225,7 +1216,6 @@ export type AttestationMinOrderByAggregateInput = {
   confidence_id?: InputMaybe<SortOrder>;
   contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  date_of_attestation?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
@@ -1245,7 +1235,6 @@ export type AttestationOrderByWithAggregationInput = {
   confidence_id?: InputMaybe<SortOrder>;
   contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  date_of_attestation?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user_id?: InputMaybe<SortOrder>;
@@ -1259,7 +1248,6 @@ export type AttestationOrderByWithRelationInput = {
   contribution?: InputMaybe<ContributionOrderByWithRelationInput>;
   contribution_id?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  date_of_attestation?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user?: InputMaybe<UserOrderByWithRelationInput>;
@@ -1271,7 +1259,6 @@ export enum AttestationScalarFieldEnum {
   ConfidenceId = 'confidence_id',
   ContributionId = 'contribution_id',
   CreatedAt = 'createdAt',
-  DateOfAttestation = 'date_of_attestation',
   Id = 'id',
   UpdatedAt = 'updatedAt',
   UserId = 'user_id'
@@ -1285,7 +1272,6 @@ export type AttestationScalarWhereInput = {
   confidence_id?: InputMaybe<IntNullableFilter>;
   contribution_id?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  date_of_attestation?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user_id?: InputMaybe<IntFilter>;
@@ -1299,7 +1285,6 @@ export type AttestationScalarWhereWithAggregatesInput = {
   confidence_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   contribution_id?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  date_of_attestation?: InputMaybe<DateTimeWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   user_id?: InputMaybe<IntWithAggregatesFilter>;
@@ -1543,14 +1528,12 @@ export type AttestationUpdateInput = {
   confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsNestedInput>;
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsNestedInput>;
 };
 
 export type AttestationUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -1654,7 +1637,6 @@ export type AttestationUpdateWithoutAttestation_StatusInput = {
   confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsNestedInput>;
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsNestedInput>;
 };
@@ -1663,7 +1645,6 @@ export type AttestationUpdateWithoutConfidenceInput = {
   attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationNestedInput>;
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsNestedInput>;
 };
@@ -1672,7 +1653,6 @@ export type AttestationUpdateWithoutContributionInput = {
   attestation_status?: InputMaybe<AttestationStatusUpdateOneWithoutAttestationNestedInput>;
   confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   user?: InputMaybe<UserUpdateOneRequiredWithoutAttestationsNestedInput>;
 };
@@ -1682,7 +1662,6 @@ export type AttestationUpdateWithoutUserInput = {
   confidence?: InputMaybe<AttestationConfidenceUpdateOneWithoutAttestationsNestedInput>;
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutAttestationsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  date_of_attestation?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -1741,7 +1720,6 @@ export type AttestationWhereInput = {
   contribution?: InputMaybe<ContributionRelationFilter>;
   contribution_id?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  date_of_attestation?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -5281,23 +5259,23 @@ export type GuildContribution = {
   guild: Guild;
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
-  threshold: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-  verified: Scalars['Boolean'];
+  verificationStatus?: Maybe<GuildContributionVerificationStatus>;
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionAvgAggregate = {
   contribution_id?: Maybe<Scalars['Float']>;
   guild_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  threshold?: Maybe<Scalars['Float']>;
+  verification_status_id?: Maybe<Scalars['Float']>;
 };
 
 export type GuildContributionAvgOrderByAggregateInput = {
   contribution_id?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionCountAggregate = {
@@ -5306,9 +5284,8 @@ export type GuildContributionCountAggregate = {
   createdAt: Scalars['Int'];
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
-  threshold: Scalars['Int'];
   updatedAt: Scalars['Int'];
-  verified: Scalars['Int'];
+  verification_status_id: Scalars['Int'];
 };
 
 export type GuildContributionCountOrderByAggregateInput = {
@@ -5316,27 +5293,24 @@ export type GuildContributionCountOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionCreateInput = {
   contribution: ContributionCreateNestedOneWithoutGuildsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild: GuildCreateNestedOneWithoutContributionsInput;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusCreateNestedOneWithoutGuild_ContributionsInput>;
 };
 
 export type GuildContributionCreateManyContributionInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verification_status_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type GuildContributionCreateManyContributionInputEnvelope = {
@@ -5348,9 +5322,8 @@ export type GuildContributionCreateManyGuildInput = {
   contribution_id: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verification_status_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type GuildContributionCreateManyGuildInputEnvelope = {
@@ -5363,9 +5336,21 @@ export type GuildContributionCreateManyInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild_id: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verification_status_id?: InputMaybe<Scalars['Int']>;
+};
+
+export type GuildContributionCreateManyVerificationStatusInput = {
+  contribution_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild_id: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type GuildContributionCreateManyVerificationStatusInputEnvelope = {
+  data: Array<GuildContributionCreateManyVerificationStatusInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type GuildContributionCreateNestedManyWithoutContributionInput = {
@@ -5382,6 +5367,13 @@ export type GuildContributionCreateNestedManyWithoutGuildInput = {
   createMany?: InputMaybe<GuildContributionCreateManyGuildInputEnvelope>;
 };
 
+export type GuildContributionCreateNestedManyWithoutVerificationStatusInput = {
+  connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutVerificationStatusInput>>;
+  create?: InputMaybe<Array<GuildContributionCreateWithoutVerificationStatusInput>>;
+  createMany?: InputMaybe<GuildContributionCreateManyVerificationStatusInputEnvelope>;
+};
+
 export type GuildContributionCreateOrConnectWithoutContributionInput = {
   create: GuildContributionCreateWithoutContributionInput;
   where: GuildContributionWhereUniqueInput;
@@ -5392,20 +5384,30 @@ export type GuildContributionCreateOrConnectWithoutGuildInput = {
   where: GuildContributionWhereUniqueInput;
 };
 
+export type GuildContributionCreateOrConnectWithoutVerificationStatusInput = {
+  create: GuildContributionCreateWithoutVerificationStatusInput;
+  where: GuildContributionWhereUniqueInput;
+};
+
 export type GuildContributionCreateWithoutContributionInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild: GuildCreateNestedOneWithoutContributionsInput;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusCreateNestedOneWithoutGuild_ContributionsInput>;
 };
 
 export type GuildContributionCreateWithoutGuildInput = {
   contribution: ContributionCreateNestedOneWithoutGuildsInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  threshold?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  verified?: InputMaybe<Scalars['Boolean']>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusCreateNestedOneWithoutGuild_ContributionsInput>;
+};
+
+export type GuildContributionCreateWithoutVerificationStatusInput = {
+  contribution: ContributionCreateNestedOneWithoutGuildsInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild: GuildCreateNestedOneWithoutContributionsInput;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type GuildContributionGroupBy = {
@@ -5418,9 +5420,8 @@ export type GuildContributionGroupBy = {
   createdAt: Scalars['DateTime'];
   guild_id: Scalars['Int'];
   id: Scalars['Int'];
-  threshold: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
-  verified: Scalars['Boolean'];
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionGuild_IdContribution_IdCompoundUniqueInput = {
@@ -5439,9 +5440,8 @@ export type GuildContributionMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  threshold?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  verified?: Maybe<Scalars['Boolean']>;
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionMaxOrderByAggregateInput = {
@@ -5449,9 +5449,8 @@ export type GuildContributionMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionMinAggregate = {
@@ -5459,9 +5458,8 @@ export type GuildContributionMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  threshold?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  verified?: Maybe<Scalars['Boolean']>;
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionMinOrderByAggregateInput = {
@@ -5469,9 +5467,8 @@ export type GuildContributionMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionOrderByRelationAggregateInput = {
@@ -5488,9 +5485,8 @@ export type GuildContributionOrderByWithAggregationInput = {
   createdAt?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionOrderByWithRelationInput = {
@@ -5500,9 +5496,9 @@ export type GuildContributionOrderByWithRelationInput = {
   guild?: InputMaybe<GuildOrderByWithRelationInput>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
-  verified?: InputMaybe<SortOrder>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusOrderByWithRelationInput>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export enum GuildContributionScalarFieldEnum {
@@ -5510,9 +5506,8 @@ export enum GuildContributionScalarFieldEnum {
   CreatedAt = 'createdAt',
   GuildId = 'guild_id',
   Id = 'id',
-  Threshold = 'threshold',
   UpdatedAt = 'updatedAt',
-  Verified = 'verified'
+  VerificationStatusId = 'verification_status_id'
 }
 
 export type GuildContributionScalarWhereInput = {
@@ -5523,9 +5518,8 @@ export type GuildContributionScalarWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   guild_id?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
-  threshold?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-  verified?: InputMaybe<BoolFilter>;
+  verification_status_id?: InputMaybe<IntNullableFilter>;
 };
 
 export type GuildContributionScalarWhereWithAggregatesInput = {
@@ -5536,39 +5530,35 @@ export type GuildContributionScalarWhereWithAggregatesInput = {
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   guild_id?: InputMaybe<IntWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
-  threshold?: InputMaybe<IntWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  verified?: InputMaybe<BoolWithAggregatesFilter>;
+  verification_status_id?: InputMaybe<IntNullableWithAggregatesFilter>;
 };
 
 export type GuildContributionSumAggregate = {
   contribution_id?: Maybe<Scalars['Int']>;
   guild_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  threshold?: Maybe<Scalars['Int']>;
+  verification_status_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionSumOrderByAggregateInput = {
   contribution_id?: InputMaybe<SortOrder>;
   guild_id?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  threshold?: InputMaybe<SortOrder>;
+  verification_status_id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionUpdateInput = {
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsNestedInput>;
-  threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusUpdateOneWithoutGuild_ContributionsNestedInput>;
 };
 
 export type GuildContributionUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
 };
 
 export type GuildContributionUpdateManyWithWhereWithoutContributionInput = {
@@ -5577,6 +5567,11 @@ export type GuildContributionUpdateManyWithWhereWithoutContributionInput = {
 };
 
 export type GuildContributionUpdateManyWithWhereWithoutGuildInput = {
+  data: GuildContributionUpdateManyMutationInput;
+  where: GuildContributionScalarWhereInput;
+};
+
+export type GuildContributionUpdateManyWithWhereWithoutVerificationStatusInput = {
   data: GuildContributionUpdateManyMutationInput;
   where: GuildContributionScalarWhereInput;
 };
@@ -5609,6 +5604,20 @@ export type GuildContributionUpdateManyWithoutGuildNestedInput = {
   upsert?: InputMaybe<Array<GuildContributionUpsertWithWhereUniqueWithoutGuildInput>>;
 };
 
+export type GuildContributionUpdateManyWithoutVerificationStatusNestedInput = {
+  connect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<GuildContributionCreateOrConnectWithoutVerificationStatusInput>>;
+  create?: InputMaybe<Array<GuildContributionCreateWithoutVerificationStatusInput>>;
+  createMany?: InputMaybe<GuildContributionCreateManyVerificationStatusInputEnvelope>;
+  delete?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<GuildContributionScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  set?: InputMaybe<Array<GuildContributionWhereUniqueInput>>;
+  update?: InputMaybe<Array<GuildContributionUpdateWithWhereUniqueWithoutVerificationStatusInput>>;
+  updateMany?: InputMaybe<Array<GuildContributionUpdateManyWithWhereWithoutVerificationStatusInput>>;
+  upsert?: InputMaybe<Array<GuildContributionUpsertWithWhereUniqueWithoutVerificationStatusInput>>;
+};
+
 export type GuildContributionUpdateWithWhereUniqueWithoutContributionInput = {
   data: GuildContributionUpdateWithoutContributionInput;
   where: GuildContributionWhereUniqueInput;
@@ -5619,20 +5628,30 @@ export type GuildContributionUpdateWithWhereUniqueWithoutGuildInput = {
   where: GuildContributionWhereUniqueInput;
 };
 
+export type GuildContributionUpdateWithWhereUniqueWithoutVerificationStatusInput = {
+  data: GuildContributionUpdateWithoutVerificationStatusInput;
+  where: GuildContributionWhereUniqueInput;
+};
+
 export type GuildContributionUpdateWithoutContributionInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsNestedInput>;
-  threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusUpdateOneWithoutGuild_ContributionsNestedInput>;
 };
 
 export type GuildContributionUpdateWithoutGuildInput = {
   contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusUpdateOneWithoutGuild_ContributionsNestedInput>;
+};
+
+export type GuildContributionUpdateWithoutVerificationStatusInput = {
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutGuildsNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild?: InputMaybe<GuildUpdateOneRequiredWithoutContributionsNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type GuildContributionUpsertWithWhereUniqueWithoutContributionInput = {
@@ -5647,6 +5666,271 @@ export type GuildContributionUpsertWithWhereUniqueWithoutGuildInput = {
   where: GuildContributionWhereUniqueInput;
 };
 
+export type GuildContributionUpsertWithWhereUniqueWithoutVerificationStatusInput = {
+  create: GuildContributionCreateWithoutVerificationStatusInput;
+  update: GuildContributionUpdateWithoutVerificationStatusInput;
+  where: GuildContributionWhereUniqueInput;
+};
+
+export type GuildContributionVerificationStatus = {
+  _count?: Maybe<GuildContributionVerificationStatusCount>;
+  attestation_threshold: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  guild_contributions: Array<GuildContribution>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  verified: Scalars['Boolean'];
+};
+
+
+export type GuildContributionVerificationStatusGuild_ContributionsArgs = {
+  cursor?: InputMaybe<GuildContributionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+export type GuildContributionVerificationStatusAvgAggregate = {
+  attestation_threshold?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type GuildContributionVerificationStatusAvgOrderByAggregateInput = {
+  attestation_threshold?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusCount = {
+  guild_contributions: Scalars['Int'];
+};
+
+export type GuildContributionVerificationStatusCountAggregate = {
+  _all: Scalars['Int'];
+  attestation_threshold: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  verified: Scalars['Int'];
+};
+
+export type GuildContributionVerificationStatusCountOrderByAggregateInput = {
+  attestation_threshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusCreateInput = {
+  attestation_threshold: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  guild_contributions?: InputMaybe<GuildContributionCreateNestedManyWithoutVerificationStatusInput>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  verified: Scalars['Boolean'];
+};
+
+export type GuildContributionVerificationStatusCreateManyInput = {
+  attestation_threshold: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  verified: Scalars['Boolean'];
+};
+
+export type GuildContributionVerificationStatusCreateNestedOneWithoutGuild_ContributionsInput = {
+  connect?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildContributionVerificationStatusCreateOrConnectWithoutGuild_ContributionsInput>;
+  create?: InputMaybe<GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput>;
+};
+
+export type GuildContributionVerificationStatusCreateOrConnectWithoutGuild_ContributionsInput = {
+  create: GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput;
+  where: GuildContributionVerificationStatusWhereUniqueInput;
+};
+
+export type GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput = {
+  attestation_threshold: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  verified: Scalars['Boolean'];
+};
+
+export type GuildContributionVerificationStatusGroupBy = {
+  _avg?: Maybe<GuildContributionVerificationStatusAvgAggregate>;
+  _count?: Maybe<GuildContributionVerificationStatusCountAggregate>;
+  _max?: Maybe<GuildContributionVerificationStatusMaxAggregate>;
+  _min?: Maybe<GuildContributionVerificationStatusMinAggregate>;
+  _sum?: Maybe<GuildContributionVerificationStatusSumAggregate>;
+  attestation_threshold: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  verified: Scalars['Boolean'];
+};
+
+export type GuildContributionVerificationStatusMaxAggregate = {
+  attestation_threshold?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  verified?: Maybe<Scalars['Boolean']>;
+};
+
+export type GuildContributionVerificationStatusMaxOrderByAggregateInput = {
+  attestation_threshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusMinAggregate = {
+  attestation_threshold?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  verified?: Maybe<Scalars['Boolean']>;
+};
+
+export type GuildContributionVerificationStatusMinOrderByAggregateInput = {
+  attestation_threshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusOrderByWithAggregationInput = {
+  _avg?: InputMaybe<GuildContributionVerificationStatusAvgOrderByAggregateInput>;
+  _count?: InputMaybe<GuildContributionVerificationStatusCountOrderByAggregateInput>;
+  _max?: InputMaybe<GuildContributionVerificationStatusMaxOrderByAggregateInput>;
+  _min?: InputMaybe<GuildContributionVerificationStatusMinOrderByAggregateInput>;
+  _sum?: InputMaybe<GuildContributionVerificationStatusSumOrderByAggregateInput>;
+  attestation_threshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusOrderByWithRelationInput = {
+  attestation_threshold?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  guild_contributions?: InputMaybe<GuildContributionOrderByRelationAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusRelationFilter = {
+  is?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+  isNot?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+export enum GuildContributionVerificationStatusScalarFieldEnum {
+  AttestationThreshold = 'attestation_threshold',
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Name = 'name',
+  UpdatedAt = 'updatedAt',
+  Verified = 'verified'
+}
+
+export type GuildContributionVerificationStatusScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
+  attestation_threshold?: InputMaybe<IntWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  verified?: InputMaybe<BoolWithAggregatesFilter>;
+};
+
+export type GuildContributionVerificationStatusSumAggregate = {
+  attestation_threshold?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type GuildContributionVerificationStatusSumOrderByAggregateInput = {
+  attestation_threshold?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type GuildContributionVerificationStatusUpdateInput = {
+  attestation_threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  guild_contributions?: InputMaybe<GuildContributionUpdateManyWithoutVerificationStatusNestedInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+};
+
+export type GuildContributionVerificationStatusUpdateManyMutationInput = {
+  attestation_threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+};
+
+export type GuildContributionVerificationStatusUpdateOneWithoutGuild_ContributionsNestedInput = {
+  connect?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<GuildContributionVerificationStatusCreateOrConnectWithoutGuild_ContributionsInput>;
+  create?: InputMaybe<GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<GuildContributionVerificationStatusUpdateWithoutGuild_ContributionsInput>;
+  upsert?: InputMaybe<GuildContributionVerificationStatusUpsertWithoutGuild_ContributionsInput>;
+};
+
+export type GuildContributionVerificationStatusUpdateWithoutGuild_ContributionsInput = {
+  attestation_threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  verified?: InputMaybe<BoolFieldUpdateOperationsInput>;
+};
+
+export type GuildContributionVerificationStatusUpsertWithoutGuild_ContributionsInput = {
+  create: GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput;
+  update: GuildContributionVerificationStatusUpdateWithoutGuild_ContributionsInput;
+};
+
+export type GuildContributionVerificationStatusWhereInput = {
+  AND?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
+  NOT?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
+  OR?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
+  attestation_threshold?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  guild_contributions?: InputMaybe<GuildContributionListRelationFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  verified?: InputMaybe<BoolFilter>;
+};
+
+export type GuildContributionVerificationStatusWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type GuildContributionWhereInput = {
   AND?: InputMaybe<Array<GuildContributionWhereInput>>;
   NOT?: InputMaybe<Array<GuildContributionWhereInput>>;
@@ -5657,9 +5941,9 @@ export type GuildContributionWhereInput = {
   guild?: InputMaybe<GuildRelationFilter>;
   guild_id?: InputMaybe<IntFilter>;
   id?: InputMaybe<IntFilter>;
-  threshold?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-  verified?: InputMaybe<BoolFilter>;
+  verificationStatus?: InputMaybe<GuildContributionVerificationStatusRelationFilter>;
+  verification_status_id?: InputMaybe<IntNullableFilter>;
 };
 
 export type GuildContributionWhereUniqueInput = {
@@ -11070,6 +11354,7 @@ export type Mutation = {
   createManyGuild: AffectedRowsOutput;
   createManyGuildActivityType: AffectedRowsOutput;
   createManyGuildContribution: AffectedRowsOutput;
+  createManyGuildContributionVerificationStatus: AffectedRowsOutput;
   createManyGuildImport: AffectedRowsOutput;
   createManyGuildImportStatus: AffectedRowsOutput;
   createManyGuildMembershipStatus: AffectedRowsOutput;
@@ -11104,6 +11389,7 @@ export type Mutation = {
   createOneGuild: Guild;
   createOneGuildActivityType: GuildActivityType;
   createOneGuildContribution: GuildContribution;
+  createOneGuildContributionVerificationStatus: GuildContributionVerificationStatus;
   createOneGuildImport: GuildImport;
   createOneGuildImportStatus: GuildImportStatus;
   createOneGuildMembershipStatus: GuildMembershipStatus;
@@ -11141,6 +11427,7 @@ export type Mutation = {
   deleteManyGuild: AffectedRowsOutput;
   deleteManyGuildActivityType: AffectedRowsOutput;
   deleteManyGuildContribution: AffectedRowsOutput;
+  deleteManyGuildContributionVerificationStatus: AffectedRowsOutput;
   deleteManyGuildImport: AffectedRowsOutput;
   deleteManyGuildImportStatus: AffectedRowsOutput;
   deleteManyGuildMembershipStatus: AffectedRowsOutput;
@@ -11174,6 +11461,7 @@ export type Mutation = {
   deleteOneGuild?: Maybe<Guild>;
   deleteOneGuildActivityType?: Maybe<GuildActivityType>;
   deleteOneGuildContribution?: Maybe<GuildContribution>;
+  deleteOneGuildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
   deleteOneGuildImport?: Maybe<GuildImport>;
   deleteOneGuildImportStatus?: Maybe<GuildImportStatus>;
   deleteOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
@@ -11211,6 +11499,7 @@ export type Mutation = {
   updateManyGuild: AffectedRowsOutput;
   updateManyGuildActivityType: AffectedRowsOutput;
   updateManyGuildContribution: AffectedRowsOutput;
+  updateManyGuildContributionVerificationStatus: AffectedRowsOutput;
   updateManyGuildImport: AffectedRowsOutput;
   updateManyGuildImportStatus: AffectedRowsOutput;
   updateManyGuildMembershipStatus: AffectedRowsOutput;
@@ -11244,6 +11533,7 @@ export type Mutation = {
   updateOneGuild?: Maybe<Guild>;
   updateOneGuildActivityType?: Maybe<GuildActivityType>;
   updateOneGuildContribution?: Maybe<GuildContribution>;
+  updateOneGuildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
   updateOneGuildImport?: Maybe<GuildImport>;
   updateOneGuildImportStatus?: Maybe<GuildImportStatus>;
   updateOneGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
@@ -11281,6 +11571,7 @@ export type Mutation = {
   upsertOneGuild: Guild;
   upsertOneGuildActivityType: GuildActivityType;
   upsertOneGuildContribution: GuildContribution;
+  upsertOneGuildContributionVerificationStatus: GuildContributionVerificationStatus;
   upsertOneGuildImport: GuildImport;
   upsertOneGuildImportStatus: GuildImportStatus;
   upsertOneGuildMembershipStatus: GuildMembershipStatus;
@@ -11388,6 +11679,12 @@ export type MutationCreateManyGuildActivityTypeArgs = {
 
 export type MutationCreateManyGuildContributionArgs = {
   data: Array<GuildContributionCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyGuildContributionVerificationStatusArgs = {
+  data: Array<GuildContributionVerificationStatusCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -11581,6 +11878,11 @@ export type MutationCreateOneGuildContributionArgs = {
 };
 
 
+export type MutationCreateOneGuildContributionVerificationStatusArgs = {
+  data: GuildContributionVerificationStatusCreateInput;
+};
+
+
 export type MutationCreateOneGuildImportArgs = {
   data: GuildImportCreateInput;
 };
@@ -11766,6 +12068,11 @@ export type MutationDeleteManyGuildContributionArgs = {
 };
 
 
+export type MutationDeleteManyGuildContributionVerificationStatusArgs = {
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+
 export type MutationDeleteManyGuildImportArgs = {
   where?: InputMaybe<GuildImportWhereInput>;
 };
@@ -11928,6 +12235,11 @@ export type MutationDeleteOneGuildActivityTypeArgs = {
 
 export type MutationDeleteOneGuildContributionArgs = {
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneGuildContributionVerificationStatusArgs = {
+  where: GuildContributionVerificationStatusWhereUniqueInput;
 };
 
 
@@ -12131,6 +12443,12 @@ export type MutationUpdateManyGuildContributionArgs = {
 };
 
 
+export type MutationUpdateManyGuildContributionVerificationStatusArgs = {
+  data: GuildContributionVerificationStatusUpdateManyMutationInput;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+
 export type MutationUpdateManyGuildImportArgs = {
   data: GuildImportUpdateManyMutationInput;
   where?: InputMaybe<GuildImportWhereInput>;
@@ -12326,6 +12644,12 @@ export type MutationUpdateOneGuildActivityTypeArgs = {
 export type MutationUpdateOneGuildContributionArgs = {
   data: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneGuildContributionVerificationStatusArgs = {
+  data: GuildContributionVerificationStatusUpdateInput;
+  where: GuildContributionVerificationStatusWhereUniqueInput;
 };
 
 
@@ -12563,6 +12887,13 @@ export type MutationUpsertOneGuildContributionArgs = {
   create: GuildContributionCreateInput;
   update: GuildContributionUpdateInput;
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneGuildContributionVerificationStatusArgs = {
+  create: GuildContributionVerificationStatusCreateInput;
+  update: GuildContributionVerificationStatusUpdateInput;
+  where: GuildContributionVerificationStatusWhereUniqueInput;
 };
 
 
@@ -13331,6 +13662,7 @@ export type Query = {
   aggregateGuild: AggregateGuild;
   aggregateGuildActivityType: AggregateGuildActivityType;
   aggregateGuildContribution: AggregateGuildContribution;
+  aggregateGuildContributionVerificationStatus: AggregateGuildContributionVerificationStatus;
   aggregateGuildImport: AggregateGuildImport;
   aggregateGuildImportStatus: AggregateGuildImportStatus;
   aggregateGuildMembershipStatus: AggregateGuildMembershipStatus;
@@ -13397,6 +13729,8 @@ export type Query = {
   findFirstGuildActivityTypeOrThrow?: Maybe<GuildActivityType>;
   findFirstGuildContribution?: Maybe<GuildContribution>;
   findFirstGuildContributionOrThrow?: Maybe<GuildContribution>;
+  findFirstGuildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
+  findFirstGuildContributionVerificationStatusOrThrow?: Maybe<GuildContributionVerificationStatus>;
   findFirstGuildImport?: Maybe<GuildImport>;
   findFirstGuildImportOrThrow?: Maybe<GuildImport>;
   findFirstGuildImportStatus?: Maybe<GuildImportStatus>;
@@ -13458,6 +13792,7 @@ export type Query = {
   getGuild?: Maybe<Guild>;
   getGuildActivityType?: Maybe<GuildActivityType>;
   getGuildContribution?: Maybe<GuildContribution>;
+  getGuildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
   getGuildImport?: Maybe<GuildImport>;
   getGuildImportStatus?: Maybe<GuildImportStatus>;
   getGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
@@ -13490,6 +13825,7 @@ export type Query = {
   groupByGuild: Array<GuildGroupBy>;
   groupByGuildActivityType: Array<GuildActivityTypeGroupBy>;
   groupByGuildContribution: Array<GuildContributionGroupBy>;
+  groupByGuildContributionVerificationStatus: Array<GuildContributionVerificationStatusGroupBy>;
   groupByGuildImport: Array<GuildImportGroupBy>;
   groupByGuildImportStatus: Array<GuildImportStatusGroupBy>;
   groupByGuildMembershipStatus: Array<GuildMembershipStatusGroupBy>;
@@ -13513,6 +13849,8 @@ export type Query = {
   guildActivityType?: Maybe<GuildActivityType>;
   guildActivityTypes: Array<GuildActivityType>;
   guildContribution?: Maybe<GuildContribution>;
+  guildContributionVerificationStatus?: Maybe<GuildContributionVerificationStatus>;
+  guildContributionVerificationStatuses: Array<GuildContributionVerificationStatus>;
   guildContributions: Array<GuildContribution>;
   guildImport?: Maybe<GuildImport>;
   guildImportStatus?: Maybe<GuildImportStatus>;
@@ -13694,6 +14032,15 @@ export type QueryAggregateGuildContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GuildContributionWhereInput>;
+};
+
+
+export type QueryAggregateGuildContributionVerificationStatusArgs = {
+  cursor?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
 };
 
 
@@ -14288,6 +14635,26 @@ export type QueryFindFirstGuildContributionOrThrowArgs = {
 };
 
 
+export type QueryFindFirstGuildContributionVerificationStatusArgs = {
+  cursor?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionVerificationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+
+export type QueryFindFirstGuildContributionVerificationStatusOrThrowArgs = {
+  cursor?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionVerificationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+
 export type QueryFindFirstGuildImportArgs = {
   cursor?: InputMaybe<GuildImportWhereUniqueInput>;
   distinct?: InputMaybe<Array<GuildImportScalarFieldEnum>>;
@@ -14793,6 +15160,11 @@ export type QueryGetGuildContributionArgs = {
 };
 
 
+export type QueryGetGuildContributionVerificationStatusArgs = {
+  where: GuildContributionVerificationStatusWhereUniqueInput;
+};
+
+
 export type QueryGetGuildImportArgs = {
   where: GuildImportWhereUniqueInput;
 };
@@ -15023,6 +15395,16 @@ export type QueryGroupByGuildContributionArgs = {
 };
 
 
+export type QueryGroupByGuildContributionVerificationStatusArgs = {
+  by: Array<GuildContributionVerificationStatusScalarFieldEnum>;
+  having?: InputMaybe<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
+};
+
+
 export type QueryGroupByGuildImportArgs = {
   by: Array<GuildImportScalarFieldEnum>;
   having?: InputMaybe<GuildImportScalarWhereWithAggregatesInput>;
@@ -15235,6 +15617,21 @@ export type QueryGuildActivityTypesArgs = {
 
 export type QueryGuildContributionArgs = {
   where: GuildContributionWhereUniqueInput;
+};
+
+
+export type QueryGuildContributionVerificationStatusArgs = {
+  where: GuildContributionVerificationStatusWhereUniqueInput;
+};
+
+
+export type QueryGuildContributionVerificationStatusesArgs = {
+  cursor?: InputMaybe<GuildContributionVerificationStatusWhereUniqueInput>;
+  distinct?: InputMaybe<Array<GuildContributionVerificationStatusScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<GuildContributionVerificationStatusOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<GuildContributionVerificationStatusWhereInput>;
 };
 
 
@@ -18833,9 +19230,9 @@ export type ListGuildImportsQueryVariables = Exact<{
 
 export type ListGuildImportsQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, guild_id: number, integration_type_id: number, authentication_token: string, guild: { id: number, name?: string | null }, integration_type: { id: number, name: string }, import_status: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string }, users: Array<{ user_id: number }> }> };
 
-export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } }> };
+export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } }> };
 
-export type TwitterTweetContributionFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type TwitterTweetContributionFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type BulkCreateTwitterTweetMutationVariables = Exact<{
   data: Array<TwitterTweetCreateManyInput> | TwitterTweetCreateManyInput;
@@ -18930,14 +19327,14 @@ export type CreateUserCustomMutationVariables = Exact<{
 
 export type CreateUserCustomMutation = { createUserCustom: { address: string, active: boolean, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date, chain_type: { id: number, name: string, createdAt: string | Date, updatedAt: string | Date }, discord_users: Array<{ id: number, active_token: boolean }>, linear_users: Array<{ id: number, active_token?: boolean | null }>, guild_users: Array<{ id: number, user_id: number, guild_id: number, favorite: boolean, guild: { id: number, name?: string | null }, membershipStatus: { name: string } }> } };
 
-export type ContributionFragmentFragment = { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> };
+export type ContributionFragmentFragment = { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> };
 
 export type GetContributionQueryVariables = Exact<{
   where: ContributionWhereUniqueInput;
 }>;
 
 
-export type GetContributionQuery = { result?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+export type GetContributionQuery = { result?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
 
 export type ListContributionsQueryVariables = Exact<{
   where?: ContributionWhereInput;
@@ -18947,7 +19344,7 @@ export type ListContributionsQueryVariables = Exact<{
 }>;
 
 
-export type ListContributionsQuery = { result: Array<{ date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> }> };
+export type ListContributionsQuery = { result: Array<{ date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> }> };
 
 export type GetContributionCountByDateForUserInRangeQueryVariables = Exact<{
   where: GetUserContributionCountInput;
@@ -18982,21 +19379,21 @@ export type CreateContributionMutationVariables = Exact<{
 }>;
 
 
-export type CreateContributionMutation = { createOneContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type CreateContributionMutation = { createOneContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type CreateUserContributionMutationVariables = Exact<{
   data: UserContributionCreateInput;
 }>;
 
 
-export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type CreateUserContributionMutation = { createUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type CreateOnChainUserContributionMutationVariables = Exact<{
   data: UserOnChainContributionCreateInput;
 }>;
 
 
-export type CreateOnChainUserContributionMutation = { createOnChainUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type CreateOnChainUserContributionMutation = { createOnChainUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type DeleteUserContributionMutationVariables = Exact<{
   where: UserContributionDeleteInput;
@@ -19017,7 +19414,7 @@ export type UpdateUserContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserContributionMutation = { updateUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type UpdateUserContributionMutation = { updateUserContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type UpdateUserOnChainContributionMutationVariables = Exact<{
   id: Scalars['Float'];
@@ -19027,7 +19424,7 @@ export type UpdateUserOnChainContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserOnChainContributionMutation = { updateUserOnChainContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type UpdateUserOnChainContributionMutation = { updateUserOnChainContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type BulkCreateContributionMutationVariables = Exact<{
   data: Array<ContributionCreateManyInput> | ContributionCreateManyInput;
@@ -19043,7 +19440,7 @@ export type UpdateContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContributionMutation = { updateOneContribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
+export type UpdateContributionMutation = { updateOneContribution?: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } | null };
 
 export type UpsertContributionMutationVariables = Exact<{
   where: ContributionWhereUniqueInput;
@@ -19052,7 +19449,7 @@ export type UpsertContributionMutationVariables = Exact<{
 }>;
 
 
-export type UpsertContributionMutation = { upsertOneContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, date_of_attestation: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
+export type UpsertContributionMutation = { upsertOneContribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, guild: { id: number, name?: string | null } }> } };
 
 export type GetContributionStatusQueryVariables = Exact<{
   name: Scalars['String'];
@@ -19120,21 +19517,21 @@ export type ListAttestationsQueryVariables = Exact<{
 }>;
 
 
-export type ListAttestationsQuery = { result: Array<{ date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } }> };
+export type ListAttestationsQuery = { result: Array<{ id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } }> };
 
 export type CreateAttestationMutationVariables = Exact<{
   data: AttestationCreateInput;
 }>;
 
 
-export type CreateAttestationMutation = { createOneAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type CreateAttestationMutation = { createOneAttestation: { id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type CreateUserOnChainAttestationMutationVariables = Exact<{
   data: AttestationUserOnChainCreateInput;
 }>;
 
 
-export type CreateUserOnChainAttestationMutation = { createUserOnChainAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type CreateUserOnChainAttestationMutation = { createUserOnChainAttestation: { id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type UpdateUserOnChainAttestationMutationVariables = Exact<{
   id: Scalars['Float'];
@@ -19143,7 +19540,7 @@ export type UpdateUserOnChainAttestationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserOnChainAttestationMutation = { updateUserOnChainAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type UpdateUserOnChainAttestationMutation = { updateUserOnChainAttestation: { id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type BulkCreateAttestationMutationVariables = Exact<{
   data: Array<AttestationCreateManyInput> | AttestationCreateManyInput;
@@ -19159,7 +19556,7 @@ export type UpdateAttestationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateAttestationMutation = { updateOneAttestation?: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } | null };
+export type UpdateAttestationMutation = { updateOneAttestation?: { id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } | null };
 
 export type UpsertAttestationMutationVariables = Exact<{
   where: AttestationWhereUniqueInput;
@@ -19168,7 +19565,7 @@ export type UpsertAttestationMutationVariables = Exact<{
 }>;
 
 
-export type UpsertAttestationMutation = { upsertOneAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type UpsertAttestationMutation = { upsertOneAttestation: { id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type PartnerFragmentFragment = { createdAt: string | Date, updatedAt: string | Date, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number }, user: { name?: string | null, address: string, id: number } };
 
@@ -19182,14 +19579,14 @@ export type ListPartnersQueryVariables = Exact<{
 
 export type ListPartnersQuery = { result: Array<{ createdAt: string | Date, updatedAt: string | Date, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number }, user: { name?: string | null, address: string, id: number } }> };
 
-export type AttestationFragmentFragment = { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } };
+export type AttestationFragmentFragment = { id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } };
 
 export type CreateUserAttestationMutationVariables = Exact<{
   data: AttestationUserCreateInput;
 }>;
 
 
-export type CreateUserAttestationMutation = { createUserAttestation: { date_of_attestation: string | Date, id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
+export type CreateUserAttestationMutation = { createUserAttestation: { id: number, updatedAt: string | Date, confidence?: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date } | null, contribution: { activity_type_id: number, date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, status_id: number, updatedAt: string | Date, user_id: number, on_chain_id?: number | null }, user: { name?: string | null, address: string, id: number } } };
 
 export type ChainFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, name: string, chain_id: string };
 
@@ -19346,7 +19743,7 @@ export const ContributionFragmentFragmentDoc = gql`
   attestations {
     id
     user_id
-    date_of_attestation
+    createdAt
     attestation_status {
       id
       name
@@ -19534,7 +19931,6 @@ export const AttestationFragmentFragmentDoc = gql`
     user_id
     on_chain_id
   }
-  date_of_attestation
   id
   updatedAt
   user {

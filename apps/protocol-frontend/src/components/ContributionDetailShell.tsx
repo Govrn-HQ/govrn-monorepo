@@ -142,7 +142,7 @@ const ContributionDetailShell = ({
                             color="subtle"
                             fontWeight="medium"
                           >
-                            {formatDate(attestation.date_of_attestation)}
+                            {formatDate(attestation.createdAt)}
                           </Text>
                         </HStack>
                       </HStack>
