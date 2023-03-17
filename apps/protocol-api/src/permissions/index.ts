@@ -230,6 +230,7 @@ export const permissions = shield(
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
       guildActivityTypes: or(isAuthenticated, hasToken),
+      findUniqueVerificationSettings: or(isAuthenticated, hasToken),
       ...JOB_ONLY_QUERIES,
     },
     ContributionCountByUser: or(isAuthenticated, hasToken),

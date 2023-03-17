@@ -955,7 +955,7 @@ fragment VerificationSettingFragment on VerificationSettings {
 }
 
 query getVerificationSetting($where: VerificationSettingsWhereUniqueInput!) {
-  result: verificationSettings(where: $where) {
+  result: findUniqueVerificationSettings(where: $where) {
     ...VerificationSettingFragment
   }
 }

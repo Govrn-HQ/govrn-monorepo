@@ -5704,7 +5704,7 @@ export type GuildContributionUpsertWithWhereUniqueWithoutVerificationStatusInput
 
 export type GuildContributionVerificationStatus = {
   _count?: Maybe<GuildContributionVerificationStatusCount>;
-  attestationThreshold: Scalars['Int'];
+  attestation_threshold: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   guild_contributions: Array<GuildContribution>;
   id: Scalars['Int'];
@@ -5724,12 +5724,12 @@ export type GuildContributionVerificationStatusGuild_ContributionsArgs = {
 };
 
 export type GuildContributionVerificationStatusAvgAggregate = {
-  attestationThreshold?: Maybe<Scalars['Float']>;
+  attestation_threshold?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 export type GuildContributionVerificationStatusAvgOrderByAggregateInput = {
-  attestationThreshold?: InputMaybe<SortOrder>;
+  attestation_threshold?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
 
@@ -5739,7 +5739,7 @@ export type GuildContributionVerificationStatusCount = {
 
 export type GuildContributionVerificationStatusCountAggregate = {
   _all: Scalars['Int'];
-  attestationThreshold: Scalars['Int'];
+  attestation_threshold: Scalars['Int'];
   createdAt: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['Int'];
@@ -5748,7 +5748,7 @@ export type GuildContributionVerificationStatusCountAggregate = {
 };
 
 export type GuildContributionVerificationStatusCountOrderByAggregateInput = {
-  attestationThreshold?: InputMaybe<SortOrder>;
+  attestation_threshold?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -5757,7 +5757,7 @@ export type GuildContributionVerificationStatusCountOrderByAggregateInput = {
 };
 
 export type GuildContributionVerificationStatusCreateInput = {
-  attestationThreshold: Scalars['Int'];
+  attestation_threshold: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   guild_contributions?: InputMaybe<GuildContributionCreateNestedManyWithoutVerificationStatusInput>;
   name: Scalars['String'];
@@ -5766,7 +5766,7 @@ export type GuildContributionVerificationStatusCreateInput = {
 };
 
 export type GuildContributionVerificationStatusCreateManyInput = {
-  attestationThreshold: Scalars['Int'];
+  attestation_threshold: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
@@ -5786,7 +5786,7 @@ export type GuildContributionVerificationStatusCreateOrConnectWithoutGuild_Contr
 };
 
 export type GuildContributionVerificationStatusCreateWithoutGuild_ContributionsInput = {
-  attestationThreshold: Scalars['Int'];
+  attestation_threshold: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -5799,7 +5799,7 @@ export type GuildContributionVerificationStatusGroupBy = {
   _max?: Maybe<GuildContributionVerificationStatusMaxAggregate>;
   _min?: Maybe<GuildContributionVerificationStatusMinAggregate>;
   _sum?: Maybe<GuildContributionVerificationStatusSumAggregate>;
-  attestationThreshold: Scalars['Int'];
+  attestation_threshold: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -5808,7 +5808,7 @@ export type GuildContributionVerificationStatusGroupBy = {
 };
 
 export type GuildContributionVerificationStatusMaxAggregate = {
-  attestationThreshold?: Maybe<Scalars['Int']>;
+  attestation_threshold?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -5817,7 +5817,7 @@ export type GuildContributionVerificationStatusMaxAggregate = {
 };
 
 export type GuildContributionVerificationStatusMaxOrderByAggregateInput = {
-  attestationThreshold?: InputMaybe<SortOrder>;
+  attestation_threshold?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -5826,7 +5826,7 @@ export type GuildContributionVerificationStatusMaxOrderByAggregateInput = {
 };
 
 export type GuildContributionVerificationStatusMinAggregate = {
-  attestationThreshold?: Maybe<Scalars['Int']>;
+  attestation_threshold?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -5835,7 +5835,7 @@ export type GuildContributionVerificationStatusMinAggregate = {
 };
 
 export type GuildContributionVerificationStatusMinOrderByAggregateInput = {
-  attestationThreshold?: InputMaybe<SortOrder>;
+  attestation_threshold?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -5849,7 +5849,7 @@ export type GuildContributionVerificationStatusOrderByWithAggregationInput = {
   _max?: InputMaybe<GuildContributionVerificationStatusMaxOrderByAggregateInput>;
   _min?: InputMaybe<GuildContributionVerificationStatusMinOrderByAggregateInput>;
   _sum?: InputMaybe<GuildContributionVerificationStatusSumOrderByAggregateInput>;
-  attestationThreshold?: InputMaybe<SortOrder>;
+  attestation_threshold?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -5858,7 +5858,7 @@ export type GuildContributionVerificationStatusOrderByWithAggregationInput = {
 };
 
 export type GuildContributionVerificationStatusOrderByWithRelationInput = {
-  attestationThreshold?: InputMaybe<SortOrder>;
+  attestation_threshold?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   guild_contributions?: InputMaybe<GuildContributionOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
@@ -5873,7 +5873,7 @@ export type GuildContributionVerificationStatusRelationFilter = {
 };
 
 export enum GuildContributionVerificationStatusScalarFieldEnum {
-  AttestationThreshold = 'attestationThreshold',
+  AttestationThreshold = 'attestation_threshold',
   CreatedAt = 'createdAt',
   Id = 'id',
   Name = 'name',
@@ -5885,7 +5885,7 @@ export type GuildContributionVerificationStatusScalarWhereWithAggregatesInput = 
   AND?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
   NOT?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<GuildContributionVerificationStatusScalarWhereWithAggregatesInput>>;
-  attestationThreshold?: InputMaybe<IntWithAggregatesFilter>;
+  attestation_threshold?: InputMaybe<IntWithAggregatesFilter>;
   createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
@@ -5894,17 +5894,17 @@ export type GuildContributionVerificationStatusScalarWhereWithAggregatesInput = 
 };
 
 export type GuildContributionVerificationStatusSumAggregate = {
-  attestationThreshold?: Maybe<Scalars['Int']>;
+  attestation_threshold?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildContributionVerificationStatusSumOrderByAggregateInput = {
-  attestationThreshold?: InputMaybe<SortOrder>;
+  attestation_threshold?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
 };
 
 export type GuildContributionVerificationStatusUpdateInput = {
-  attestationThreshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  attestation_threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   guild_contributions?: InputMaybe<GuildContributionUpdateManyWithoutVerificationStatusNestedInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -5913,7 +5913,7 @@ export type GuildContributionVerificationStatusUpdateInput = {
 };
 
 export type GuildContributionVerificationStatusUpdateManyMutationInput = {
-  attestationThreshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  attestation_threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -5931,7 +5931,7 @@ export type GuildContributionVerificationStatusUpdateOneWithoutGuild_Contributio
 };
 
 export type GuildContributionVerificationStatusUpdateWithoutGuild_ContributionsInput = {
-  attestationThreshold?: InputMaybe<IntFieldUpdateOperationsInput>;
+  attestation_threshold?: InputMaybe<IntFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
@@ -5947,7 +5947,7 @@ export type GuildContributionVerificationStatusWhereInput = {
   AND?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
   NOT?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
   OR?: InputMaybe<Array<GuildContributionVerificationStatusWhereInput>>;
-  attestationThreshold?: InputMaybe<IntFilter>;
+  attestation_threshold?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   guild_contributions?: InputMaybe<GuildContributionListRelationFilter>;
   id?: InputMaybe<IntFilter>;
@@ -8127,10 +8127,6 @@ export type GuildUserWhereInput = {
 export type GuildUserWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
   user_id_guild_id?: InputMaybe<GuildUserUser_IdGuild_IdCompoundUniqueInput>;
-};
-
-export type GuildVerificationSettingsUpdateInput = {
-  num_of_attestations: Scalars['Int'];
 };
 
 export type GuildWhereInput = {
@@ -11519,7 +11515,6 @@ export type Mutation = {
   getOrCreateActivityType: ActivityType;
   updateGuildCustom: Guild;
   updateGuildUserCustom: GuildUser;
-  updateGuildVerificationSettings: VerificationSettings;
   updateManyActivityType: AffectedRowsOutput;
   updateManyAttestation: AffectedRowsOutput;
   updateManyAttestationConfidence: AffectedRowsOutput;
@@ -12391,12 +12386,6 @@ export type MutationUpdateGuildCustomArgs = {
 
 export type MutationUpdateGuildUserCustomArgs = {
   data: GuildUserUpdateCustomInput;
-};
-
-
-export type MutationUpdateGuildVerificationSettingsArgs = {
-  data: GuildVerificationSettingsUpdateInput;
-  where: GuildCustomWhereInput;
 };
 
 
@@ -13838,7 +13827,6 @@ export type Query = {
   getGuildImportStatus?: Maybe<GuildImportStatus>;
   getGuildMembershipStatus?: Maybe<GuildMembershipStatus>;
   getGuildUser?: Maybe<GuildUser>;
-  getGuildVerificationSettings: VerificationSettings;
   getIntegrationType?: Maybe<IntegrationType>;
   getJobRun?: Maybe<JobRun>;
   getLinearCycle?: Maybe<LinearCycle>;
@@ -15224,11 +15212,6 @@ export type QueryGetGuildMembershipStatusArgs = {
 
 export type QueryGetGuildUserArgs = {
   where: GuildUserWhereUniqueInput;
-};
-
-
-export type QueryGetGuildVerificationSettingsArgs = {
-  where: GuildCustomWhereInput;
 };
 
 
@@ -19632,20 +19615,27 @@ export type GetChainQuery = { result?: { id: number, createdAt: string | Date, u
 
 export type VerificationSettingFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number };
 
-export type GetGuildVerificationSettingsQueryVariables = Exact<{
-  where: GuildCustomWhereInput;
+export type GetVerificationSettingQueryVariables = Exact<{
+  where: VerificationSettingsWhereUniqueInput;
 }>;
 
 
-export type GetGuildVerificationSettingsQuery = { result: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number } };
+export type GetVerificationSettingQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number } | null };
 
-export type UpdateGuildVerificationSettingsMutationVariables = Exact<{
-  where: GuildCustomWhereInput;
-  data: GuildVerificationSettingsUpdateInput;
+export type CreateVerificationSettingMutationVariables = Exact<{
+  data: VerificationSettingsCreateInput;
 }>;
 
 
-export type UpdateGuildVerificationSettingsMutation = { result: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number } };
+export type CreateVerificationSettingMutation = { result: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number } };
+
+export type UpdateVerificationSettingMutationVariables = Exact<{
+  where: VerificationSettingsWhereUniqueInput;
+  data: VerificationSettingsUpdateInput;
+}>;
+
+
+export type UpdateVerificationSettingMutation = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, guild_id?: number | null, num_of_attestations: number } | null };
 
 export const JobFieldsFragmentFragmentDoc = gql`
     fragment JobFieldsFragment on JobRun {
@@ -20517,16 +20507,23 @@ export const GetChainDocument = gql`
   }
 }
     ${ChainFragmentFragmentDoc}`;
-export const GetGuildVerificationSettingsDocument = gql`
-    query getGuildVerificationSettings($where: GuildCustomWhereInput!) {
-  result: getGuildVerificationSettings(where: $where) {
+export const GetVerificationSettingDocument = gql`
+    query getVerificationSetting($where: VerificationSettingsWhereUniqueInput!) {
+  result: findUniqueVerificationSettings(where: $where) {
     ...VerificationSettingFragment
   }
 }
     ${VerificationSettingFragmentFragmentDoc}`;
-export const UpdateGuildVerificationSettingsDocument = gql`
-    mutation updateGuildVerificationSettings($where: GuildCustomWhereInput!, $data: GuildVerificationSettingsUpdateInput!) {
-  result: updateGuildVerificationSettings(where: $where, data: $data) {
+export const CreateVerificationSettingDocument = gql`
+    mutation createVerificationSetting($data: VerificationSettingsCreateInput!) {
+  result: createOneVerificationSettings(data: $data) {
+    ...VerificationSettingFragment
+  }
+}
+    ${VerificationSettingFragmentFragmentDoc}`;
+export const UpdateVerificationSettingDocument = gql`
+    mutation updateVerificationSetting($where: VerificationSettingsWhereUniqueInput!, $data: VerificationSettingsUpdateInput!) {
+  result: updateOneVerificationSettings(where: $where, data: $data) {
     ...VerificationSettingFragment
   }
 }
@@ -20731,11 +20728,14 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getChain(variables: GetChainQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetChainQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetChainQuery>(GetChainDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getChain', 'query');
     },
-    getGuildVerificationSettings(variables: GetGuildVerificationSettingsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildVerificationSettingsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildVerificationSettingsQuery>(GetGuildVerificationSettingsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuildVerificationSettings', 'query');
+    getVerificationSetting(variables: GetVerificationSettingQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetVerificationSettingQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetVerificationSettingQuery>(GetVerificationSettingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getVerificationSetting', 'query');
     },
-    updateGuildVerificationSettings(variables: UpdateGuildVerificationSettingsMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildVerificationSettingsMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildVerificationSettingsMutation>(UpdateGuildVerificationSettingsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildVerificationSettings', 'mutation');
+    createVerificationSetting(variables: CreateVerificationSettingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateVerificationSettingMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateVerificationSettingMutation>(CreateVerificationSettingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createVerificationSetting', 'mutation');
+    },
+    updateVerificationSetting(variables: UpdateVerificationSettingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateVerificationSettingMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateVerificationSettingMutation>(UpdateVerificationSettingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateVerificationSetting', 'mutation');
     }
   };
 }
