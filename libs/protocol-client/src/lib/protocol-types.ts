@@ -19402,6 +19402,13 @@ export type DeleteUserContributionMutationVariables = Exact<{
 
 export type DeleteUserContributionMutation = { deleteUserContribution: { id: number } };
 
+export type DeleteContributionMutationVariables = Exact<{
+  where: ContributionWhereUniqueInput;
+}>;
+
+
+export type DeleteContributionMutation = { deleteOneContribution?: { id: number } | null };
+
 export type UpdateUserContributionMutationVariables = Exact<{
   data: UserContributionUpdateInput;
 }>;
@@ -19476,6 +19483,13 @@ export type CreateActivityTypeMutationVariables = Exact<{
 
 
 export type CreateActivityTypeMutation = { createOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
+
+export type GetOrCreateActivityTypeMutationVariables = Exact<{
+  data: GetOrCreateActivityTypeInput;
+}>;
+
+
+export type GetOrCreateActivityTypeMutation = { getOrCreateActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
 export type UpsertActivityTypeMutationVariables = Exact<{
   create: ActivityTypeCreateInput;
@@ -20279,6 +20293,13 @@ export const DeleteUserContributionDocument = gql`
   }
 }
     `;
+export const DeleteContributionDocument = gql`
+    mutation deleteContribution($where: ContributionWhereUniqueInput!) {
+  deleteOneContribution(where: $where) {
+    id
+  }
+}
+    `;
 export const UpdateUserContributionDocument = gql`
     mutation updateUserContribution($data: UserContributionUpdateInput!) {
   updateUserContribution(data: $data) {
@@ -20349,6 +20370,13 @@ export const ListActivityTypesByUserDocument = gql`
 export const CreateActivityTypeDocument = gql`
     mutation createActivityType($data: ActivityTypeCreateInput!) {
   createOneActivityType(data: $data) {
+    ...ActivityTypeFragment
+  }
+}
+    ${ActivityTypeFragmentFragmentDoc}`;
+export const GetOrCreateActivityTypeDocument = gql`
+    mutation getOrCreateActivityType($data: GetOrCreateActivityTypeInput!) {
+  getOrCreateActivityType(data: $data) {
     ...ActivityTypeFragment
   }
 }
@@ -20579,6 +20607,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     deleteUserContribution(variables: DeleteUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserContributionMutation>(DeleteUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteUserContribution', 'mutation');
     },
+    deleteContribution(variables: DeleteContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteContributionMutation>(DeleteContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteContribution', 'mutation');
+    },
     updateUserContribution(variables: UpdateUserContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserContributionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserContributionMutation>(UpdateUserContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserContribution', 'mutation');
     },
@@ -20605,6 +20636,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createActivityType(variables: CreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateActivityTypeMutation>(CreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createActivityType', 'mutation');
+    },
+    getOrCreateActivityType(variables: GetOrCreateActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetOrCreateActivityTypeMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetOrCreateActivityTypeMutation>(GetOrCreateActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getOrCreateActivityType', 'mutation');
     },
     upsertActivityType(variables: UpsertActivityTypeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertActivityTypeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertActivityTypeMutation>(UpsertActivityTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertActivityType', 'mutation');
