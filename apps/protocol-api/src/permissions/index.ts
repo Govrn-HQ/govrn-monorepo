@@ -230,7 +230,6 @@ export const permissions = shield(
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
       guildActivityTypes: or(isAuthenticated, hasToken),
-      verificationSettings: or(isAuthenticated, hasToken),
       ...JOB_ONLY_QUERIES,
     },
     ContributionCountByUser: or(isAuthenticated, hasToken),
@@ -440,7 +439,7 @@ export const permissions = shield(
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       verified: or(isAuthenticated, hasToken),
-      attestationThreshold: or(isAuthenticated, hasToken),
+      attestation_threshold: or(isAuthenticated, hasToken),
       guild_contributions: or(isAuthenticated, hasToken),
     },
     GuildMembershipStatus: {
