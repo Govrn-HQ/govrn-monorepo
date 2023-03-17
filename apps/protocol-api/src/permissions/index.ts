@@ -171,20 +171,25 @@ const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
         address: ctx.req.session.siwe.data.address,
       },
     });
-    const guildUser = await ctx.prisma.guildUser.findFirst({
+    const guildUsers = await ctx.prisma.guildUser.findMany({
       where: {
         guild_id: { equals: guildId },
         membershipStatus: {
           is: { name: { equals: 'Admin' } },
         },
       },
+      take: 1000, // Assume no more than 1000 admins
     });
 
-    const isUser = user.id === guildUser.user_id;
-    if (!isUser) {
+    const foundUser = guildUsers.find(
+      guildUser => guildUser.user_id === user.id,
+    );
+    console.log(foundUser);
+    console.log(guildUsers);
+    if (!foundUser) {
       return new Error(`User is not guild admin of guild ${guildId}`);
     }
-    return isUser;
+    return Boolean(foundUser);
   } catch (e) {
     console.error(e);
     return false;
