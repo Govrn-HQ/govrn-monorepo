@@ -36,9 +36,4 @@ export class AttestationCreateManyAttestation_statusInput {
     nullable: false
   })
   contribution_id!: number;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  date_of_attestation?: Date | undefined;
 }

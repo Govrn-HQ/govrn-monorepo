@@ -7,7 +7,6 @@ export enum AttestationScalarFieldEnum {
   confidence_id = "confidence_id",
   user_id = "user_id",
   contribution_id = "contribution_id",
-  date_of_attestation = "date_of_attestation",
   attestation_status_id = "attestation_status_id"
 }
 TypeGraphQL.registerEnumType(AttestationScalarFieldEnum, {

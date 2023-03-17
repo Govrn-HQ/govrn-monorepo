@@ -350,7 +350,6 @@ export const permissions = shield(
       user: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
-      date_of_attestation: or(isAuthenticated, hasToken),
       user_id: or(isAuthenticated, hasToken),
       attestation_status: or(isAuthenticated, hasToken),
     },

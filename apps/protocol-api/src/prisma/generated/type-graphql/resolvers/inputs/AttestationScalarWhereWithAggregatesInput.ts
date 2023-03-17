@@ -55,11 +55,6 @@ export class AttestationScalarWhereWithAggregatesInput {
   })
   contribution_id?: IntWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
-  })
-  date_of_attestation?: DateTimeWithAggregatesFilter | undefined;
-
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })

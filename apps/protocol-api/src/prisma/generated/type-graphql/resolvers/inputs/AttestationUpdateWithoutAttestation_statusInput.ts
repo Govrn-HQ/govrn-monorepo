@@ -35,9 +35,4 @@ export class AttestationUpdateWithoutAttestation_statusInput {
     nullable: true
   })
   contribution?: ContributionUpdateOneRequiredWithoutAttestationsNestedInput | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  date_of_attestation?: DateTimeFieldUpdateOperationsInput | undefined;
 }
