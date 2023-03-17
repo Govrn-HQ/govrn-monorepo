@@ -553,6 +553,7 @@ fragment ContributionFragment on Contribution {
   attestations {
     id
     user_id
+    createdAt
     attestation_status {
       id
       name
