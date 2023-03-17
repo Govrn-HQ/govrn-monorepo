@@ -112,7 +112,6 @@ export class AttestationResolver {
             },
           },
         },
-        date_of_attestation: new Date(Date.now()).toISOString(),
         contribution: {
           connect: {
             id: args.data.contributionId,

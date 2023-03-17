@@ -251,7 +251,6 @@ model Attestation {
   user                  User                   @relation(fields: [user_id], references: [id])
   contribution_id       Int
   contribution          Contribution           @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
-  date_of_attestation   DateTime               @default(now())
   // Make required
   attestation_status_id Int?
   attestation_status    AttestationStatus?     @relation(fields: [attestation_status_id], references: [id])
