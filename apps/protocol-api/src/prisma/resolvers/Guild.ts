@@ -199,19 +199,6 @@ export class GuildCustomResolver {
     return result[0].avg;
   }
 
-  @TypeGraphQL.Query(_returns => VerificationSettings)
-  async getGuildVerificationSettings(
-    @TypeGraphQL.Ctx() { prisma }: Context,
-    @TypeGraphQL.Args() args: GetGuildVerificationSettingsArgs,
-  ) {
-    const verificationSettings = await prisma.verificationSettings.findFirst({
-      where: {
-        guild_id: args.where.guildId,
-      },
-    });
-    return verificationSettings;
-  }
-
   @TypeGraphQL.Mutation(_returns => Guild, {
     nullable: false,
   })
@@ -234,46 +221,5 @@ export class GuildCustomResolver {
         id: args.where.guildId,
       },
     });
-  }
-
-  @TypeGraphQL.Mutation(_returns => VerificationSettings, {
-    nullable: false,
-  })
-  async updateGuildVerificationSettings(
-    @TypeGraphQL.Ctx() { prisma, req }: Context,
-    @TypeGraphQL.Args() args: UpdateGuildVerificationSettingsArgs,
-  ) {
-    await this.isAuthorized({ prisma, req }, args.where.guildId);
-
-    // schema supports >1 verification settings, but for now only allow 1
-    const guildVerificationSettings =
-      await prisma.verificationSettings.findMany({
-        where: {
-          guild_id: args.where.guildId,
-        },
-      });
-
-    let verificationSettings: VerificationSettings;
-    // create new verification settings for guild
-    if (guildVerificationSettings.length == 0) {
-      verificationSettings = await prisma.verificationSettings.create({
-        data: {
-          guild_id: args.where.guildId,
-          num_of_attestations: args.data.num_of_attestations,
-        },
-      });
-    } else {
-      // update existing verification settings for guild
-      verificationSettings = await prisma.verificationSettings.update({
-        where: {
-          id: verificationSettings[0].id,
-        },
-        data: {
-          num_of_attestations: args.data.num_of_attestations,
-        },
-      });
-    }
-
-    return verificationSettings;
   }
 }

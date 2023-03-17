@@ -54,5 +54,5 @@ export class GuildContributionVerificationStatusScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true
   })
-  attestationThreshold?: IntWithAggregatesFilter | undefined;
+  attestation_threshold?: IntWithAggregatesFilter | undefined;
 }

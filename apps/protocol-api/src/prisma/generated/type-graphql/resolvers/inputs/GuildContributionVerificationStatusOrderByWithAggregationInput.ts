@@ -41,7 +41,7 @@ export class GuildContributionVerificationStatusOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  attestationThreshold?: "asc" | "desc" | undefined;
+  attestation_threshold?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => GuildContributionVerificationStatusCountOrderByAggregateInput, {
     nullable: true

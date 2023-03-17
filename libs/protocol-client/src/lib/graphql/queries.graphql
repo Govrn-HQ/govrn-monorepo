@@ -954,17 +954,23 @@ fragment VerificationSettingFragment on VerificationSettings {
   num_of_attestations
 }
 
-query getGuildVerificationSettings($where: GuildCustomWhereInput!) {
-  result: getGuildVerificationSettings(where: $where) {
+query getVerificationSetting($where: VerificationSettingsWhereUniqueInput!) {
+  result: verificationSettings(where: $where) {
     ...VerificationSettingFragment
   }
 }
 
-mutation updateGuildVerificationSettings(
-  $where: GuildCustomWhereInput!
-  $data: GuildVerificationSettingsUpdateInput!
+mutation createVerificationSetting($data: VerificationSettingsCreateInput!) {
+  result: createOneVerificationSettings(data: $data) {
+    ...VerificationSettingFragment
+  }
+}
+
+mutation updateVerificationSetting(
+  $where: VerificationSettingsWhereUniqueInput!
+  $data: VerificationSettingsUpdateInput!
 ) {
-  result: updateGuildVerificationSettings(where: $where, data: $data) {
+  result: updateOneVerificationSettings(where: $where, data: $data) {
     ...VerificationSettingFragment
   }
 }

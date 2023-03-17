@@ -55,7 +55,7 @@ export class GuildContributionVerificationStatusWhereInput {
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  attestationThreshold?: IntFilter | undefined;
+  attestation_threshold?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => GuildContributionListRelationFilter, {
     nullable: true

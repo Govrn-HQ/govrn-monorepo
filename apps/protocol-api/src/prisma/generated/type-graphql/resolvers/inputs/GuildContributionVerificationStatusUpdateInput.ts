@@ -35,7 +35,7 @@ export class GuildContributionVerificationStatusUpdateInput {
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true
   })
-  attestationThreshold?: IntFieldUpdateOperationsInput | undefined;
+  attestation_threshold?: IntFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => GuildContributionUpdateManyWithoutVerificationStatusNestedInput, {
     nullable: true
