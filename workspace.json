@@ -6,6 +6,7 @@
     "govrn-contract-client": "libs/govrn-contract-client",
     "govrn-contract-subgraph": "apps/govrn-contract-subgraph",
     "govrn-subgraph-client": "libs/govrn-subgraph-client",
+    "jobs-contribution-verification": "apps/jobs/contribution-verification",
     "kevin-malone": "apps/kevin-malone",
     "linear-sync-job": "apps/linear-sync-job",
     "protocol-api": "apps/protocol-api",
