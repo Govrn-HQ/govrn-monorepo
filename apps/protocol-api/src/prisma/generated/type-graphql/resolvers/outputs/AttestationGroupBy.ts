@@ -42,11 +42,6 @@ export class AttestationGroupBy {
   })
   contribution_id!: number;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  date_of_attestation!: Date;
-
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

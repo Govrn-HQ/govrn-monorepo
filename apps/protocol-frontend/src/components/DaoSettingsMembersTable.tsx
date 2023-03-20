@@ -33,6 +33,7 @@ import { RowSelectionState } from '@tanstack/table-core';
 import { SortOrder } from '@govrn/protocol-client';
 import GovrnTable from './GovrnTable';
 import { displayAddress } from '../utils/web3';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 
 interface DaoSettingsMembersTableProps {
   daoId: number;
@@ -66,7 +67,11 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
     hasNextPage,
     fetchNextPage,
   } = useDaoUsersInfiniteList({
-    where: { guild_id: { equals: daoId } },
+    where: {
+      guild_id: { equals: daoId },
+      membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
+    },
+
     orderBy: [
       { membershipStatus: { name: SortOrder.Asc } },
       { user: { display_name: SortOrder.Asc } },
@@ -85,6 +90,10 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   const [selectedRows, setSelectedRows] = useState<UIGuildUsers[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [addingMembers, setAddingMembers] = useState(false);
+
+  const deselectAll = () => {
+    setRowSelection({});
+  };
 
   const handleSetAdmins = async () => {
     setAddingMembers(true);
@@ -120,6 +129,7 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
         return true;
       });
       setAddingMembers(false);
+      deselectAll();
     }
   };
 

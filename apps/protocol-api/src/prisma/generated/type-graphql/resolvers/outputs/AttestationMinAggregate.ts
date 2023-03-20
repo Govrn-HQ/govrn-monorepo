@@ -37,11 +37,6 @@ export class AttestationMinAggregate {
   })
   contribution_id!: number | null;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  date_of_attestation!: Date | null;
-
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

@@ -142,11 +142,6 @@ const main = async () => {
   const { results: attestations } = await batch(
     attestationEvents,
     async event => {
-      const attestation = await govrnContract.attestations({
-        tokenId: event.contribution.id,
-        address: event.attestor,
-      });
-
       console.log(
         `:: Processing Attestation of contribution: ${Number(
           event.contribution.id,
@@ -164,7 +159,6 @@ const main = async () => {
         confidence_id: 1, // TODO: insert the manually.
         user_id: userId,
         contribution_id: contributionId,
-        date_of_attestation: new Date(attestation.dateOfSubmission.toNumber()),
       };
     },
     BATCH_SIZE,
