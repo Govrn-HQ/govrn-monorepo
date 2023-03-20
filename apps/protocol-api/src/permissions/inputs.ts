@@ -197,6 +197,23 @@ export const createGuildUserRecruitCustomInput = inputRule()(
   { abortEarly: false },
 );
 
+export const createGuildUserZeroCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        guildId: yup.number().max(0).min(0).required(),
+        guildName: yup.string(),
+        membershipStatus: yup
+          .string()
+          .matches(/(Admin)/, { excludeEmptyString: true })
+          .required(),
+        userAddress: yup.string(),
+        userId: yup.string().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
 export const updateGuildCustomInput = inputRule()(
   yup =>
     yup.object({

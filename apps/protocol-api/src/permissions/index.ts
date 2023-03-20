@@ -12,6 +12,7 @@ import {
   updateUserOnChainContributionInput,
   updateGuildCustomInput,
   createGuildUserCustomInput,
+  createGuildUserZeroCustomInput,
   createGuildUserRecruitCustomInput,
   updateGuildUserCustomInput,
   updateGuildUserRecruitCustomInput,
@@ -43,13 +44,13 @@ const byString = function (o, s) {
       if (k in o) {
         o = o[k];
       } else {
-        return;
+        return null;
       }
     }
     return o;
   } catch (e) {
     console.error(e);
-    return;
+    return null;
   }
 };
 
@@ -96,7 +97,7 @@ const isUsers = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUsers rule');
   }
 });
 
@@ -129,7 +130,7 @@ const isUsersContribution = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUserContribution');
   }
 });
 
@@ -160,13 +161,14 @@ const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUsersAttestationMapping');
   }
 });
 
 const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
+  ['createGuildUserCustom', 'data.guildId'],
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
@@ -196,7 +198,7 @@ const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
     return Boolean(foundUser);
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error(`Error in isGuildAdmin`);
   }
 });
 
@@ -285,6 +287,7 @@ export const permissions = shield(
         isAuthenticated,
         or(
           and(isGuildAdmin, createGuildUserCustomInput),
+          and(createGuildUserZeroCustomInput, isUsers),
           and(createGuildUserRecruitCustomInput, isUsers),
         ),
       ), // only admin or user with status recruit
