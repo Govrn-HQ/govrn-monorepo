@@ -34,18 +34,23 @@ const BACKEND_TOKENS = [
 // Rule is member of passed in dao
 //
 const byString = function (o, s) {
-  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-  s = s.replace(/^\./, ''); // strip a leading dot
-  const a = s.split('.');
-  for (let i = 0, n = a.length; i < n; ++i) {
-    const k = a[i];
-    if (k in o) {
-      o = o[k];
-    } else {
-      return;
+  try {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, ''); // strip a leading dot
+    const a = s.split('.');
+    for (let i = 0, n = a.length; i < n; ++i) {
+      const k = a[i];
+      if (k in o) {
+        o = o[k];
+      } else {
+        return;
+      }
     }
+    return o;
+  } catch (e) {
+    console.error(e);
+    return;
   }
-  return o;
 };
 
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
@@ -184,8 +189,6 @@ const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
     const foundUser = guildUsers.find(
       guildUser => guildUser.user_id === user.id,
     );
-    console.log(foundUser);
-    console.log(guildUsers);
     if (!foundUser) {
       return new Error(`User is not guild admin of guild ${guildId}`);
     }
