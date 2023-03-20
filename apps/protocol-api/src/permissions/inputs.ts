@@ -239,7 +239,7 @@ export const updateGuildUserRecruitCustomInput = inputRule()(
         memberId: yup.number(),
         membershipStatus: yup
           .string()
-          .matches(/(Recruit)/, { excludeEmptyString: true })
+          .matches(/(Recruit|Left)/, { excludeEmptyString: true })
           .required(),
         userAddress: yup.string(),
         userId: yup.number(),

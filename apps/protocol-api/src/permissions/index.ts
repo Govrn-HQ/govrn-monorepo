@@ -78,6 +78,7 @@ const isUsersMapping = new Map([
   ['createGuildUserCustom', 'data.userId'],
   ['updateGuildUserRecruitCustomInput', 'data.userId'],
   ['getOrCreateActivityType', 'data.userId'],
+  ['updateGuildUserCustom', 'data.userId'],
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   try {
@@ -322,8 +323,8 @@ export const permissions = shield(
       updateGuildUserCustom: and(
         isAuthenticated,
         or(
-          and(updateGuildUserCustomInput, isGuildAdmin),
           and(isUsers, updateGuildUserRecruitCustomInput),
+          and(updateGuildUserCustomInput, isGuildAdmin),
         ),
       ), //  can only be done by user and admin of guild
 
