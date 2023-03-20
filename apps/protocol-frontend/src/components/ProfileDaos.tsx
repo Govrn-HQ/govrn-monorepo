@@ -152,8 +152,6 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     );
   }, [daoUsersData]);
 
-  console.log('data', data);
-
   if (joinableDaosListLoading) return <GovrnSpinner />;
 
   return (
