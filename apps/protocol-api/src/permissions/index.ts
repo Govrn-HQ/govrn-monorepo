@@ -12,6 +12,7 @@ import {
   updateUserOnChainContributionInput,
   updateGuildCustomInput,
   createGuildUserCustomInput,
+  createGuildUserZeroCustomInput,
   createGuildUserRecruitCustomInput,
   updateGuildUserCustomInput,
   updateGuildUserRecruitCustomInput,
@@ -34,18 +35,23 @@ const BACKEND_TOKENS = [
 // Rule is member of passed in dao
 //
 const byString = function (o, s) {
-  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-  s = s.replace(/^\./, ''); // strip a leading dot
-  const a = s.split('.');
-  for (let i = 0, n = a.length; i < n; ++i) {
-    const k = a[i];
-    if (k in o) {
-      o = o[k];
-    } else {
-      return;
+  try {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, ''); // strip a leading dot
+    const a = s.split('.');
+    for (let i = 0, n = a.length; i < n; ++i) {
+      const k = a[i];
+      if (k in o) {
+        o = o[k];
+      } else {
+        return null;
+      }
     }
+    return o;
+  } catch (e) {
+    console.error(e);
+    return null;
   }
-  return o;
 };
 
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
@@ -73,6 +79,7 @@ const isUsersMapping = new Map([
   ['createGuildUserCustom', 'data.userId'],
   ['updateGuildUserRecruitCustomInput', 'data.userId'],
   ['getOrCreateActivityType', 'data.userId'],
+  ['updateGuildUserCustom', 'data.userId'],
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   try {
@@ -90,7 +97,7 @@ const isUsers = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUsers rule');
   }
 });
 
@@ -123,7 +130,7 @@ const isUsersContribution = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUserContribution');
   }
 });
 
@@ -154,13 +161,14 @@ const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUsersAttestationMapping');
   }
 });
 
 const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
+  ['createGuildUserCustom', 'data.guildId'],
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
@@ -184,15 +192,13 @@ const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
     const foundUser = guildUsers.find(
       guildUser => guildUser.user_id === user.id,
     );
-    console.log(foundUser);
-    console.log(guildUsers);
     if (!foundUser) {
       return new Error(`User is not guild admin of guild ${guildId}`);
     }
     return Boolean(foundUser);
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error(`Error in isGuildAdmin`);
   }
 });
 
@@ -281,6 +287,7 @@ export const permissions = shield(
         isAuthenticated,
         or(
           and(isGuildAdmin, createGuildUserCustomInput),
+          and(createGuildUserZeroCustomInput, isUsers),
           and(createGuildUserRecruitCustomInput, isUsers),
         ),
       ), // only admin or user with status recruit
@@ -319,8 +326,8 @@ export const permissions = shield(
       updateGuildUserCustom: and(
         isAuthenticated,
         or(
-          and(updateGuildUserCustomInput, isGuildAdmin),
           and(isUsers, updateGuildUserRecruitCustomInput),
+          and(updateGuildUserCustomInput, isGuildAdmin),
         ),
       ), //  can only be done by user and admin of guild
 
