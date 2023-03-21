@@ -65,7 +65,6 @@ const DaoSettingsMemberUpdateForm = ({
     }
   };
 
-  console.log('is validating', isValidating);
   return (
     <Flex direction="column" width="100%" color="gray.800">
       <form onSubmit={handleSubmit(daoMembersUpdateHandler)}>

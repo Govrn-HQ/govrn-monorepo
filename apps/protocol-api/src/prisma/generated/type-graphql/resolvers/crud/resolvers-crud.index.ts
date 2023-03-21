@@ -31,4 +31,4 @@ export { TwitterTweetContributionCrudResolver } from "./TwitterTweetContribution
 export { TwitterUserCrudResolver } from "./TwitterUser/TwitterUserCrudResolver";
 export { UserCrudResolver } from "./User/UserCrudResolver";
 export { UserActivityCrudResolver } from "./UserActivity/UserActivityCrudResolver";
-export { VerificationSettingsCrudResolver } from "./VerificationSettings/VerificationSettingsCrudResolver";
+export { VerificationSettingCrudResolver } from "./VerificationSetting/VerificationSettingCrudResolver";

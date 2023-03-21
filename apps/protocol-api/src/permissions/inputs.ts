@@ -197,6 +197,23 @@ export const createGuildUserRecruitCustomInput = inputRule()(
   { abortEarly: false },
 );
 
+export const createGuildUserZeroCustomInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        guildId: yup.number().max(0).min(0).required(),
+        guildName: yup.string(),
+        membershipStatus: yup
+          .string()
+          .matches(/(Admin)/, { excludeEmptyString: true })
+          .required(),
+        userAddress: yup.string(),
+        userId: yup.string().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
 export const updateGuildCustomInput = inputRule()(
   yup =>
     yup.object({
@@ -239,7 +256,7 @@ export const updateGuildUserRecruitCustomInput = inputRule()(
         memberId: yup.number(),
         membershipStatus: yup
           .string()
-          .matches(/(Recruit)/, { excludeEmptyString: true })
+          .matches(/(Recruit|Left)/, { excludeEmptyString: true })
           .required(),
         userAddress: yup.string(),
         userId: yup.number(),
@@ -254,6 +271,45 @@ export const getOrCreateActivityTypeInput = inputRule()(
       data: yup.object({
         activityTypeName: yup.string().required(),
         userId: yup.number().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const createOneVerificationSettingInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        num_of_attestations: yup.number().required(),
+        guild: yup.object({
+          connect: yup
+            .object({
+              discord_id: yup.string(),
+              id: yup.string().required(),
+            })
+            .required(),
+        }),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const updateOneVerificationSettingInput = inputRule()(
+  yup =>
+    yup.object({
+      where: yup.object({
+        id: yup.number(),
+      }),
+      data: yup.object({
+        num_of_attestations: yup.number().required(),
+        guild: yup.object({
+          connect: yup
+            .object({
+              discord_id: yup.string(),
+              id: yup.string().required(),
+            })
+            .required(),
+        }),
       }),
     }),
   { abortEarly: false },

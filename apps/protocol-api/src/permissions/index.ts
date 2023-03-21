@@ -5,6 +5,8 @@ import {
   createUserContributionInput,
   createUserCustomInput,
   createUserOnChainAttestationInput,
+  createOneVerificationSettingInput,
+  updateOneVerificationSettingInput,
   deleteUserContributionInput,
   updateUserContributionInput,
   updateUserCustomInput,
@@ -12,6 +14,7 @@ import {
   updateUserOnChainContributionInput,
   updateGuildCustomInput,
   createGuildUserCustomInput,
+  createGuildUserZeroCustomInput,
   createGuildUserRecruitCustomInput,
   updateGuildUserCustomInput,
   updateGuildUserRecruitCustomInput,
@@ -34,18 +37,23 @@ const BACKEND_TOKENS = [
 // Rule is member of passed in dao
 //
 const byString = function (o, s) {
-  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-  s = s.replace(/^\./, ''); // strip a leading dot
-  const a = s.split('.');
-  for (let i = 0, n = a.length; i < n; ++i) {
-    const k = a[i];
-    if (k in o) {
-      o = o[k];
-    } else {
-      return;
+  try {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, ''); // strip a leading dot
+    const a = s.split('.');
+    for (let i = 0, n = a.length; i < n; ++i) {
+      const k = a[i];
+      if (k in o) {
+        o = o[k];
+      } else {
+        return null;
+      }
     }
+    return o;
+  } catch (e) {
+    console.error(e);
+    return null;
   }
-  return o;
 };
 
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
@@ -73,6 +81,7 @@ const isUsersMapping = new Map([
   ['createGuildUserCustom', 'data.userId'],
   ['updateGuildUserRecruitCustomInput', 'data.userId'],
   ['getOrCreateActivityType', 'data.userId'],
+  ['updateGuildUserCustom', 'data.userId'],
 ]);
 const isUsers = rule()(async (parent, args, ctx, info) => {
   try {
@@ -90,7 +99,7 @@ const isUsers = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUsers rule');
   }
 });
 
@@ -123,7 +132,7 @@ const isUsersContribution = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUserContribution');
   }
 });
 
@@ -154,13 +163,16 @@ const isUsersAttestation = rule()(async (parent, args, ctx, info) => {
     return isUser;
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error('Error in isUsersAttestationMapping');
   }
 });
 
 const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
+  ['createGuildUserCustom', 'data.guildId'],
+  ['updateOneVerificationSetting', 'data.guild.id'],
+  ['createOneVerificationSetting', 'data.guild.id'],
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
@@ -184,15 +196,13 @@ const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
     const foundUser = guildUsers.find(
       guildUser => guildUser.user_id === user.id,
     );
-    console.log(foundUser);
-    console.log(guildUsers);
     if (!foundUser) {
       return new Error(`User is not guild admin of guild ${guildId}`);
     }
     return Boolean(foundUser);
   } catch (e) {
     console.error(e);
-    return false;
+    return new Error(`Error in isGuildAdmin`);
   }
 });
 
@@ -250,6 +260,7 @@ export const permissions = shield(
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
       guildActivityTypes: or(isAuthenticated, hasToken),
+      verificationSetting: or(isAuthenticated, hasToken),
       ...JOB_ONLY_QUERIES,
     },
     ContributionCountByUser: or(isAuthenticated, hasToken),
@@ -281,9 +292,22 @@ export const permissions = shield(
         isAuthenticated,
         or(
           and(isGuildAdmin, createGuildUserCustomInput),
+          and(createGuildUserZeroCustomInput, isUsers),
           and(createGuildUserRecruitCustomInput, isUsers),
         ),
       ), // only admin or user with status recruit
+
+      createOneVerificationSetting: and(
+        isAuthenticated,
+        isGuildAdmin,
+        createOneVerificationSettingInput,
+      ), // only admin can create verification settings
+
+      updateOneVerificationSetting: and(
+        isAuthenticated,
+        isGuildAdmin,
+        updateOneVerificationSettingInput,
+      ), // only admin can update verification settings
 
       createUserOnChainAttestation: and(
         isAuthenticated,
@@ -319,8 +343,8 @@ export const permissions = shield(
       updateGuildUserCustom: and(
         isAuthenticated,
         or(
-          and(updateGuildUserCustomInput, isGuildAdmin),
           and(isUsers, updateGuildUserRecruitCustomInput),
+          and(updateGuildUserCustomInput, isGuildAdmin),
         ),
       ), //  can only be done by user and admin of guild
 
@@ -437,6 +461,7 @@ export const permissions = shield(
       users: or(isAuthenticated, hasToken),
       contribution_reporting_channel: or(hasToken, isAuthenticated),
       status: or(hasToken, isAuthenticated),
+      verificationSettings: or(hasToken, isAuthenticated),
     },
     GuildActivityType: {
       id: isAuthenticated,
@@ -448,6 +473,15 @@ export const permissions = shield(
       contribution_id: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
+      verification_status_id: or(isAuthenticated, hasToken),
+      verified: or(isAuthenticated, hasToken),
+      attestation_threshold: or(isAuthenticated, hasToken),
+    },
+    GuildContributionVerificationStatus: {
+      id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
+      guild_contributions: or(isAuthenticated, hasToken),
     },
     GuildMembershipStatus: {
       id: or(isAuthenticated, hasToken),
@@ -589,6 +623,14 @@ export const permissions = shield(
       access_token: hasToken,
       active_token: or(isAuthenticated, hasToken),
       user_id: hasToken,
+    },
+    VerificationSetting: {
+      id: or(isAuthenticated, hasToken),
+      guild_id: or(isAuthenticated, hasToken),
+      guild: or(isAuthenticated, hasToken),
+      num_of_attestations: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
     },
   },
   {

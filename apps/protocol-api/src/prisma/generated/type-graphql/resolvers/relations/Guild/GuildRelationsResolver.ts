@@ -5,7 +5,7 @@ import { GuildContribution } from "../../../models/GuildContribution";
 import { GuildImport } from "../../../models/GuildImport";
 import { GuildUser } from "../../../models/GuildUser";
 import { TwitterAccount } from "../../../models/TwitterAccount";
-import { VerificationSettings } from "../../../models/VerificationSettings";
+import { VerificationSetting } from "../../../models/VerificationSetting";
 import { GuildActivity_typeArgs } from "./args/GuildActivity_typeArgs";
 import { GuildContributionsArgs } from "./args/GuildContributionsArgs";
 import { GuildGuild_importsArgs } from "./args/GuildGuild_importsArgs";
@@ -71,14 +71,14 @@ export class GuildRelationsResolver {
     }).guild_imports(args);
   }
 
-  @TypeGraphQL.FieldResolver(_type => [VerificationSettings], {
+  @TypeGraphQL.FieldResolver(_type => [VerificationSetting], {
     nullable: false
   })
-  async VerificationSettings(@TypeGraphQL.Root() guild: Guild, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: GuildVerificationSettingsArgs): Promise<VerificationSettings[]> {
+  async verificationSettings(@TypeGraphQL.Root() guild: Guild, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: GuildVerificationSettingsArgs): Promise<VerificationSetting[]> {
     return getPrismaFromContext(ctx).guild.findUnique({
       where: {
         id: guild.id,
       },
-    }).VerificationSettings(args);
+    }).verificationSettings(args);
   }
 }
