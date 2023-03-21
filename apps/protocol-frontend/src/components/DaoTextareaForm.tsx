@@ -40,10 +40,10 @@ const DaoTextareaForm = () => {
       const uniqueParsedDaoMemberAddresses = [
         ...new Set(parsedDaoMemberAddresses),
       ];
-
       await createDaoUser({
         newDaoUser: {
           userId: userData?.id,
+          guildId: 0,
           guildName: values.guildName,
           userAddress: userData?.address,
           membershipStatus: 'Admin',
