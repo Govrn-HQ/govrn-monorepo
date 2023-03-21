@@ -62,7 +62,9 @@ const CreateDaoLayout = () => {
         localOverlay={localOverlay}
         size="3xl"
         content={
-          <DaoTextareaForm onSuccess={daoId => navigate(`/dao/${daoId}`)} />
+          <DaoTextareaForm
+            onSuccess={daoId => navigate(`/dao/${daoId}/settings`)}
+          />
         }
       />
     </>
