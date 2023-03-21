@@ -31,4 +31,4 @@ export * from "./TwitterTweetContribution/args";
 export * from "./TwitterUser/args";
 export * from "./User/args";
 export * from "./UserActivity/args";
-export * from "./VerificationSettings/args";
+export * from "./VerificationSetting/args";

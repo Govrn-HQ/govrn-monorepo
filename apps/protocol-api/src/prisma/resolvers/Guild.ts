@@ -6,7 +6,6 @@ import {
   UserCreateInput,
   UserUpdateInput,
   UserWhereUniqueInput,
-  VerificationSettings,
 } from '../generated/type-graphql';
 import { Int } from 'type-graphql';
 

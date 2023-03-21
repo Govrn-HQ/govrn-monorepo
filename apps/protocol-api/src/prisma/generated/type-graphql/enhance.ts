@@ -42,7 +42,7 @@ const crudResolversMap = {
   TwitterTweet: crudResolvers.TwitterTweetCrudResolver,
   TwitterAccount: crudResolvers.TwitterAccountCrudResolver,
   TwitterTweetContribution: crudResolvers.TwitterTweetContributionCrudResolver,
-  VerificationSettings: crudResolvers.VerificationSettingsCrudResolver
+  VerificationSetting: crudResolvers.VerificationSettingCrudResolver
 };
 const actionResolversMap = {
   User: {
@@ -573,21 +573,21 @@ const actionResolversMap = {
     updateOneTwitterTweetContribution: actionResolvers.UpdateOneTwitterTweetContributionResolver,
     upsertOneTwitterTweetContribution: actionResolvers.UpsertOneTwitterTweetContributionResolver
   },
-  VerificationSettings: {
-    aggregateVerificationSettings: actionResolvers.AggregateVerificationSettingsResolver,
-    createManyVerificationSettings: actionResolvers.CreateManyVerificationSettingsResolver,
-    createOneVerificationSettings: actionResolvers.CreateOneVerificationSettingsResolver,
-    deleteManyVerificationSettings: actionResolvers.DeleteManyVerificationSettingsResolver,
-    deleteOneVerificationSettings: actionResolvers.DeleteOneVerificationSettingsResolver,
-    findFirstVerificationSettings: actionResolvers.FindFirstVerificationSettingsResolver,
-    findFirstVerificationSettingsOrThrow: actionResolvers.FindFirstVerificationSettingsOrThrowResolver,
-    findManyVerificationSettings: actionResolvers.FindManyVerificationSettingsResolver,
-    findUniqueVerificationSettings: actionResolvers.FindUniqueVerificationSettingsResolver,
-    findUniqueVerificationSettingsOrThrow: actionResolvers.FindUniqueVerificationSettingsOrThrowResolver,
-    groupByVerificationSettings: actionResolvers.GroupByVerificationSettingsResolver,
-    updateManyVerificationSettings: actionResolvers.UpdateManyVerificationSettingsResolver,
-    updateOneVerificationSettings: actionResolvers.UpdateOneVerificationSettingsResolver,
-    upsertOneVerificationSettings: actionResolvers.UpsertOneVerificationSettingsResolver
+  VerificationSetting: {
+    aggregateVerificationSetting: actionResolvers.AggregateVerificationSettingResolver,
+    createManyVerificationSetting: actionResolvers.CreateManyVerificationSettingResolver,
+    createOneVerificationSetting: actionResolvers.CreateOneVerificationSettingResolver,
+    deleteManyVerificationSetting: actionResolvers.DeleteManyVerificationSettingResolver,
+    deleteOneVerificationSetting: actionResolvers.DeleteOneVerificationSettingResolver,
+    findFirstVerificationSetting: actionResolvers.FindFirstVerificationSettingResolver,
+    findFirstVerificationSettingOrThrow: actionResolvers.FindFirstVerificationSettingOrThrowResolver,
+    verificationSettings: actionResolvers.FindManyVerificationSettingResolver,
+    verificationSetting: actionResolvers.FindUniqueVerificationSettingResolver,
+    getVerificationSetting: actionResolvers.FindUniqueVerificationSettingOrThrowResolver,
+    groupByVerificationSetting: actionResolvers.GroupByVerificationSettingResolver,
+    updateManyVerificationSetting: actionResolvers.UpdateManyVerificationSettingResolver,
+    updateOneVerificationSetting: actionResolvers.UpdateOneVerificationSettingResolver,
+    upsertOneVerificationSetting: actionResolvers.UpsertOneVerificationSettingResolver
   }
 };
 const crudResolversInfo = {
@@ -624,7 +624,7 @@ const crudResolversInfo = {
   TwitterTweet: ["aggregateTwitterTweet", "createManyTwitterTweet", "createOneTwitterTweet", "deleteManyTwitterTweet", "deleteOneTwitterTweet", "findFirstTwitterTweet", "findFirstTwitterTweetOrThrow", "twitterTweets", "twitterTweet", "getTwitterTweet", "groupByTwitterTweet", "updateManyTwitterTweet", "updateOneTwitterTweet", "upsertOneTwitterTweet"],
   TwitterAccount: ["aggregateTwitterAccount", "createManyTwitterAccount", "createOneTwitterAccount", "deleteManyTwitterAccount", "deleteOneTwitterAccount", "findFirstTwitterAccount", "findFirstTwitterAccountOrThrow", "twitterAccounts", "twitterAccount", "getTwitterAccount", "groupByTwitterAccount", "updateManyTwitterAccount", "updateOneTwitterAccount", "upsertOneTwitterAccount"],
   TwitterTweetContribution: ["aggregateTwitterTweetContribution", "createManyTwitterTweetContribution", "createOneTwitterTweetContribution", "deleteManyTwitterTweetContribution", "deleteOneTwitterTweetContribution", "findFirstTwitterTweetContribution", "findFirstTwitterTweetContributionOrThrow", "twitterTweetContributions", "twitterTweetContribution", "getTwitterTweetContribution", "groupByTwitterTweetContribution", "updateManyTwitterTweetContribution", "updateOneTwitterTweetContribution", "upsertOneTwitterTweetContribution"],
-  VerificationSettings: ["aggregateVerificationSettings", "createManyVerificationSettings", "createOneVerificationSettings", "deleteManyVerificationSettings", "deleteOneVerificationSettings", "findFirstVerificationSettings", "findFirstVerificationSettingsOrThrow", "findManyVerificationSettings", "findUniqueVerificationSettings", "findUniqueVerificationSettingsOrThrow", "groupByVerificationSettings", "updateManyVerificationSettings", "updateOneVerificationSettings", "upsertOneVerificationSettings"]
+  VerificationSetting: ["aggregateVerificationSetting", "createManyVerificationSetting", "createOneVerificationSetting", "deleteManyVerificationSetting", "deleteOneVerificationSetting", "findFirstVerificationSetting", "findFirstVerificationSettingOrThrow", "verificationSettings", "verificationSetting", "getVerificationSetting", "groupByVerificationSetting", "updateManyVerificationSetting", "updateOneVerificationSetting", "upsertOneVerificationSetting"]
 };
 const argsInfo = {
   AggregateUserArgs: ["where", "orderBy", "cursor", "take", "skip"],
@@ -1089,20 +1089,20 @@ const argsInfo = {
   UpdateManyTwitterTweetContributionArgs: ["data", "where"],
   UpdateOneTwitterTweetContributionArgs: ["data", "where"],
   UpsertOneTwitterTweetContributionArgs: ["where", "create", "update"],
-  AggregateVerificationSettingsArgs: ["where", "orderBy", "cursor", "take", "skip"],
-  CreateManyVerificationSettingsArgs: ["data", "skipDuplicates"],
-  CreateOneVerificationSettingsArgs: ["data"],
-  DeleteManyVerificationSettingsArgs: ["where"],
-  DeleteOneVerificationSettingsArgs: ["where"],
-  FindFirstVerificationSettingsArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
-  FindFirstVerificationSettingsOrThrowArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
-  FindManyVerificationSettingsArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
-  FindUniqueVerificationSettingsArgs: ["where"],
-  FindUniqueVerificationSettingsOrThrowArgs: ["where"],
-  GroupByVerificationSettingsArgs: ["where", "orderBy", "by", "having", "take", "skip"],
-  UpdateManyVerificationSettingsArgs: ["data", "where"],
-  UpdateOneVerificationSettingsArgs: ["data", "where"],
-  UpsertOneVerificationSettingsArgs: ["where", "create", "update"]
+  AggregateVerificationSettingArgs: ["where", "orderBy", "cursor", "take", "skip"],
+  CreateManyVerificationSettingArgs: ["data", "skipDuplicates"],
+  CreateOneVerificationSettingArgs: ["data"],
+  DeleteManyVerificationSettingArgs: ["where"],
+  DeleteOneVerificationSettingArgs: ["where"],
+  FindFirstVerificationSettingArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  FindFirstVerificationSettingOrThrowArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  FindManyVerificationSettingArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  FindUniqueVerificationSettingArgs: ["where"],
+  FindUniqueVerificationSettingOrThrowArgs: ["where"],
+  GroupByVerificationSettingArgs: ["where", "orderBy", "by", "having", "take", "skip"],
+  UpdateManyVerificationSettingArgs: ["data", "where"],
+  UpdateOneVerificationSettingArgs: ["data", "where"],
+  UpsertOneVerificationSettingArgs: ["where", "create", "update"]
 };
 
 type ResolverModelNames = keyof typeof crudResolversMap;
@@ -1224,7 +1224,7 @@ const relationResolversMap = {
   TwitterTweet: relationResolvers.TwitterTweetRelationsResolver,
   TwitterAccount: relationResolvers.TwitterAccountRelationsResolver,
   TwitterTweetContribution: relationResolvers.TwitterTweetContributionRelationsResolver,
-  VerificationSettings: relationResolvers.VerificationSettingsRelationsResolver
+  VerificationSetting: relationResolvers.VerificationSettingRelationsResolver
 };
 const relationResolversInfo = {
   User: ["chain_type", "activities", "attestations", "contributionPartners", "contributions", "linear_users", "guild_users", "twitter_user", "discord_users"],
@@ -1259,7 +1259,7 @@ const relationResolversInfo = {
   TwitterTweet: ["twitter_user", "twitter_tweet_contributions"],
   TwitterAccount: ["guild"],
   TwitterTweetContribution: ["twitter_tweet", "contribution"],
-  VerificationSettings: ["guild"]
+  VerificationSetting: ["guild"]
 };
 
 type RelationResolverModelNames = keyof typeof relationResolversMap;
@@ -1373,7 +1373,7 @@ const modelsInfo = {
   TwitterTweet: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "text", "twitter_user_id", "twitter_tweet_contribution_ids"],
   TwitterAccount: ["id", "createdAt", "updatedAt", "account_name", "guild_id"],
   TwitterTweetContribution: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id"],
-  VerificationSettings: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"]
+  VerificationSetting: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"]
 };
 
 type ModelNames = keyof typeof models;
@@ -1478,8 +1478,8 @@ const outputsInfo = {
   TwitterAccountGroupBy: ["id", "createdAt", "updatedAt", "account_name", "guild_id", "_count", "_avg", "_sum", "_min", "_max"],
   AggregateTwitterTweetContribution: ["_count", "_avg", "_sum", "_min", "_max"],
   TwitterTweetContributionGroupBy: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id", "_count", "_avg", "_sum", "_min", "_max"],
-  AggregateVerificationSettings: ["_count", "_avg", "_sum", "_min", "_max"],
-  VerificationSettingsGroupBy: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt", "_count", "_avg", "_sum", "_min", "_max"],
+  AggregateVerificationSetting: ["_count", "_avg", "_sum", "_min", "_max"],
+  VerificationSettingGroupBy: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt", "_count", "_avg", "_sum", "_min", "_max"],
   AffectedRowsOutput: ["count"],
   UserCount: ["activities", "attestations", "contributionPartners", "contributions", "linear_users", "guild_users", "discord_users"],
   UserCountAggregate: ["id", "createdAt", "updatedAt", "name", "display_name", "address", "chain_type_id", "full_name", "active", "email", "_all"],
@@ -1667,11 +1667,11 @@ const outputsInfo = {
   TwitterTweetContributionSumAggregate: ["id", "twitter_tweet_id", "contribution_id"],
   TwitterTweetContributionMinAggregate: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id"],
   TwitterTweetContributionMaxAggregate: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id"],
-  VerificationSettingsCountAggregate: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt", "_all"],
-  VerificationSettingsAvgAggregate: ["id", "guild_id", "num_of_attestations"],
-  VerificationSettingsSumAggregate: ["id", "guild_id", "num_of_attestations"],
-  VerificationSettingsMinAggregate: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsMaxAggregate: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"]
+  VerificationSettingCountAggregate: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt", "_all"],
+  VerificationSettingAvgAggregate: ["id", "guild_id", "num_of_attestations"],
+  VerificationSettingSumAggregate: ["id", "guild_id", "num_of_attestations"],
+  VerificationSettingMinAggregate: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingMaxAggregate: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"]
 };
 
 type OutputTypesNames = keyof typeof outputTypes;
@@ -1877,11 +1877,11 @@ const inputsInfo = {
   TwitterTweetContributionWhereUniqueInput: ["id"],
   TwitterTweetContributionOrderByWithAggregationInput: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id", "_count", "_avg", "_max", "_min", "_sum"],
   TwitterTweetContributionScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id"],
-  VerificationSettingsWhereInput: ["AND", "OR", "NOT", "id", "guild_id", "guild", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsOrderByWithRelationInput: ["id", "guild_id", "guild", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsWhereUniqueInput: ["id"],
-  VerificationSettingsOrderByWithAggregationInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt", "_count", "_avg", "_max", "_min", "_sum"],
-  VerificationSettingsScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingWhereInput: ["AND", "OR", "NOT", "id", "guild_id", "guild", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingOrderByWithRelationInput: ["id", "guild_id", "guild", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingWhereUniqueInput: ["id"],
+  VerificationSettingOrderByWithAggregationInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt", "_count", "_avg", "_max", "_min", "_sum"],
+  VerificationSettingScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
   UserCreateInput: ["createdAt", "updatedAt", "name", "display_name", "address", "chain_type", "full_name", "active", "email", "activities", "attestations", "contributionPartners", "contributions", "linear_users", "guild_users", "twitter_user", "discord_users"],
   UserUpdateInput: ["createdAt", "updatedAt", "name", "display_name", "address", "chain_type", "full_name", "active", "email", "activities", "attestations", "contributionPartners", "contributions", "linear_users", "guild_users", "twitter_user", "discord_users"],
   UserCreateManyInput: ["id", "createdAt", "updatedAt", "name", "display_name", "address", "chain_type_id", "full_name", "active", "email"],
@@ -2014,10 +2014,10 @@ const inputsInfo = {
   TwitterTweetContributionUpdateInput: ["createdAt", "updatedAt", "twitter_tweet", "contribution"],
   TwitterTweetContributionCreateManyInput: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id"],
   TwitterTweetContributionUpdateManyMutationInput: ["createdAt", "updatedAt"],
-  VerificationSettingsCreateInput: ["guild", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsUpdateInput: ["guild", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsCreateManyInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsUpdateManyMutationInput: ["num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingCreateInput: ["guild", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingUpdateInput: ["guild", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingCreateManyInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingUpdateManyMutationInput: ["num_of_attestations", "createdAt", "updatedAt"],
   IntFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
   DateTimeFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
   StringNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "mode", "not"],
@@ -2062,12 +2062,12 @@ const inputsInfo = {
   TwitterAccountListRelationFilter: ["every", "some", "none"],
   GuildActivityTypeListRelationFilter: ["every", "some", "none"],
   GuildImportListRelationFilter: ["every", "some", "none"],
-  VerificationSettingsListRelationFilter: ["every", "some", "none"],
+  VerificationSettingListRelationFilter: ["every", "some", "none"],
   GuildContributionOrderByRelationAggregateInput: ["_count"],
   TwitterAccountOrderByRelationAggregateInput: ["_count"],
   GuildActivityTypeOrderByRelationAggregateInput: ["_count"],
   GuildImportOrderByRelationAggregateInput: ["_count"],
-  VerificationSettingsOrderByRelationAggregateInput: ["_count"],
+  VerificationSettingOrderByRelationAggregateInput: ["_count"],
   GuildCountOrderByAggregateInput: ["id", "createdAt", "updatedAt", "discord_id", "name", "congrats_channel", "logo", "status", "contribution_reporting_channel"],
   GuildAvgOrderByAggregateInput: ["id"],
   GuildMaxOrderByAggregateInput: ["id", "createdAt", "updatedAt", "discord_id", "name", "congrats_channel", "logo", "status", "contribution_reporting_channel"],
@@ -2268,11 +2268,11 @@ const inputsInfo = {
   TwitterTweetContributionMaxOrderByAggregateInput: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id"],
   TwitterTweetContributionMinOrderByAggregateInput: ["id", "createdAt", "updatedAt", "twitter_tweet_id", "contribution_id"],
   TwitterTweetContributionSumOrderByAggregateInput: ["id", "twitter_tweet_id", "contribution_id"],
-  VerificationSettingsCountOrderByAggregateInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsAvgOrderByAggregateInput: ["id", "guild_id", "num_of_attestations"],
-  VerificationSettingsMaxOrderByAggregateInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsMinOrderByAggregateInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsSumOrderByAggregateInput: ["id", "guild_id", "num_of_attestations"],
+  VerificationSettingCountOrderByAggregateInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingAvgOrderByAggregateInput: ["id", "guild_id", "num_of_attestations"],
+  VerificationSettingMaxOrderByAggregateInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingMinOrderByAggregateInput: ["id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingSumOrderByAggregateInput: ["id", "guild_id", "num_of_attestations"],
   ChainTypeCreateNestedOneWithoutUsersInput: ["create", "connectOrCreate", "connect"],
   UserActivityCreateNestedManyWithoutUserInput: ["create", "connectOrCreate", "createMany", "connect"],
   AttestationCreateNestedManyWithoutUserInput: ["create", "connectOrCreate", "createMany", "connect"],
@@ -2304,14 +2304,14 @@ const inputsInfo = {
   TwitterAccountCreateNestedManyWithoutGuildInput: ["create", "connectOrCreate", "createMany", "connect"],
   GuildActivityTypeCreateNestedManyWithoutGuildInput: ["create", "connectOrCreate", "createMany", "connect"],
   GuildImportCreateNestedManyWithoutGuildInput: ["create", "connectOrCreate", "createMany", "connect"],
-  VerificationSettingsCreateNestedManyWithoutGuildInput: ["create", "connectOrCreate", "createMany", "connect"],
+  VerificationSettingCreateNestedManyWithoutGuildInput: ["create", "connectOrCreate", "createMany", "connect"],
   EnumGuildStatusFieldUpdateOperationsInput: ["set"],
   GuildContributionUpdateManyWithoutGuildNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
   GuildUserUpdateManyWithoutGuildNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
   TwitterAccountUpdateManyWithoutGuildNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
   GuildActivityTypeUpdateManyWithoutGuildNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
   GuildImportUpdateManyWithoutGuildNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
-  VerificationSettingsUpdateManyWithoutGuildNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
+  VerificationSettingUpdateManyWithoutGuildNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
   GuildUserCreateNestedManyWithoutMembershipStatusInput: ["create", "connectOrCreate", "createMany", "connect"],
   GuildUserUpdateManyWithoutMembershipStatusNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
   UserCreateNestedOneWithoutGuild_usersInput: ["create", "connectOrCreate", "connect"],
@@ -2546,9 +2546,9 @@ const inputsInfo = {
   GuildImportCreateWithoutGuildInput: ["createdAt", "updatedAt", "authentication_token", "integration_type", "import_status", "users"],
   GuildImportCreateOrConnectWithoutGuildInput: ["where", "create"],
   GuildImportCreateManyGuildInputEnvelope: ["data", "skipDuplicates"],
-  VerificationSettingsCreateWithoutGuildInput: ["num_of_attestations", "createdAt", "updatedAt"],
-  VerificationSettingsCreateOrConnectWithoutGuildInput: ["where", "create"],
-  VerificationSettingsCreateManyGuildInputEnvelope: ["data", "skipDuplicates"],
+  VerificationSettingCreateWithoutGuildInput: ["num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingCreateOrConnectWithoutGuildInput: ["where", "create"],
+  VerificationSettingCreateManyGuildInputEnvelope: ["data", "skipDuplicates"],
   GuildContributionUpsertWithWhereUniqueWithoutGuildInput: ["where", "update", "create"],
   GuildContributionUpdateWithWhereUniqueWithoutGuildInput: ["where", "data"],
   GuildContributionUpdateManyWithWhereWithoutGuildInput: ["where", "data"],
@@ -2568,10 +2568,10 @@ const inputsInfo = {
   GuildImportUpdateWithWhereUniqueWithoutGuildInput: ["where", "data"],
   GuildImportUpdateManyWithWhereWithoutGuildInput: ["where", "data"],
   GuildImportScalarWhereInput: ["AND", "OR", "NOT", "id", "createdAt", "updatedAt", "authentication_token", "guild_id", "integration_type_id", "import_status_id"],
-  VerificationSettingsUpsertWithWhereUniqueWithoutGuildInput: ["where", "update", "create"],
-  VerificationSettingsUpdateWithWhereUniqueWithoutGuildInput: ["where", "data"],
-  VerificationSettingsUpdateManyWithWhereWithoutGuildInput: ["where", "data"],
-  VerificationSettingsScalarWhereInput: ["AND", "OR", "NOT", "id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingUpsertWithWhereUniqueWithoutGuildInput: ["where", "update", "create"],
+  VerificationSettingUpdateWithWhereUniqueWithoutGuildInput: ["where", "data"],
+  VerificationSettingUpdateManyWithWhereWithoutGuildInput: ["where", "data"],
+  VerificationSettingScalarWhereInput: ["AND", "OR", "NOT", "id", "guild_id", "num_of_attestations", "createdAt", "updatedAt"],
   GuildUserCreateWithoutMembershipStatusInput: ["createdAt", "updatedAt", "user", "guild", "favorite", "guild_import"],
   GuildUserCreateOrConnectWithoutMembershipStatusInput: ["where", "create"],
   GuildUserCreateManyMembershipStatusInputEnvelope: ["data", "skipDuplicates"],
@@ -2912,13 +2912,13 @@ const inputsInfo = {
   TwitterAccountCreateManyGuildInput: ["id", "createdAt", "updatedAt", "account_name"],
   GuildActivityTypeCreateManyGuildInput: ["id", "createdAt", "updatedAt", "activity_type_id"],
   GuildImportCreateManyGuildInput: ["id", "createdAt", "updatedAt", "authentication_token", "integration_type_id", "import_status_id"],
-  VerificationSettingsCreateManyGuildInput: ["id", "num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingCreateManyGuildInput: ["id", "num_of_attestations", "createdAt", "updatedAt"],
   GuildContributionUpdateWithoutGuildInput: ["createdAt", "updatedAt", "contribution", "verified", "attestation_threshold", "verificationStatus"],
   GuildUserUpdateWithoutGuildInput: ["createdAt", "updatedAt", "user", "membershipStatus", "favorite", "guild_import"],
   TwitterAccountUpdateWithoutGuildInput: ["createdAt", "updatedAt", "account_name"],
   GuildActivityTypeUpdateWithoutGuildInput: ["createdAt", "updatedAt", "activity_type"],
   GuildImportUpdateWithoutGuildInput: ["createdAt", "updatedAt", "authentication_token", "integration_type", "import_status", "users"],
-  VerificationSettingsUpdateWithoutGuildInput: ["num_of_attestations", "createdAt", "updatedAt"],
+  VerificationSettingUpdateWithoutGuildInput: ["num_of_attestations", "createdAt", "updatedAt"],
   GuildUserCreateManyMembershipStatusInput: ["id", "createdAt", "updatedAt", "user_id", "guild_id", "favorite", "guild_import_id"],
   GuildUserUpdateWithoutMembershipStatusInput: ["createdAt", "updatedAt", "user", "guild", "favorite", "guild_import"],
   GuildContributionCreateManyVerificationStatusInput: ["id", "createdAt", "updatedAt", "guild_id", "contribution_id", "verified", "attestation_threshold"],

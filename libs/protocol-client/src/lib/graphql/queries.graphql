@@ -985,7 +985,7 @@ query getChain($where: ChainWhereUniqueInput!) {
 }
 
 # Verification settings
-fragment VerificationSettingFragment on VerificationSettings {
+fragment VerificationSettingFragment on VerificationSetting {
   id
   createdAt
   updatedAt
@@ -993,23 +993,23 @@ fragment VerificationSettingFragment on VerificationSettings {
   num_of_attestations
 }
 
-query getVerificationSetting($where: VerificationSettingsWhereUniqueInput!) {
-  result: verificationSettings(where: $where) {
+query getVerificationSetting($where: VerificationSettingWhereUniqueInput!) {
+  result: verificationSetting(where: $where) {
     ...VerificationSettingFragment
   }
 }
 
-mutation createVerificationSetting($data: VerificationSettingsCreateInput!) {
-  result: createOneVerificationSettings(data: $data) {
+mutation createVerificationSetting($data: VerificationSettingCreateInput!) {
+  result: createOneVerificationSetting(data: $data) {
     ...VerificationSettingFragment
   }
 }
 
 mutation updateVerificationSetting(
-  $where: VerificationSettingsWhereUniqueInput!
-  $data: VerificationSettingsUpdateInput!
+  $where: VerificationSettingWhereUniqueInput!
+  $data: VerificationSettingUpdateInput!
 ) {
-  result: updateOneVerificationSettings(where: $where, data: $data) {
+  result: updateOneVerificationSetting(where: $where, data: $data) {
     ...VerificationSettingFragment
   }
 }

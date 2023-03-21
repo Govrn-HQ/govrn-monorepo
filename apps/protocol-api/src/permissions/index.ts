@@ -250,7 +250,7 @@ export const permissions = shield(
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
       guildActivityTypes: or(isAuthenticated, hasToken),
-      findUniqueVerificationSettings: or(isAuthenticated, hasToken),
+      verificationSetting: or(isAuthenticated, hasToken),
       ...JOB_ONLY_QUERIES,
     },
     ContributionCountByUser: or(isAuthenticated, hasToken),
@@ -286,9 +286,9 @@ export const permissions = shield(
         ),
       ), // only admin or user with status recruit
 
-      createOneVerificationSettings: and(isAuthenticated, isGuildAdmin), // only admin can create verification settings
+      createOneVerificationSetting: and(isAuthenticated, isGuildAdmin), // only admin can create verification settings
 
-      updateOneVerificationSettings: and(isAuthenticated, isGuildAdmin), // only admin can update verification settings
+      updateOneVerificationSetting: and(isAuthenticated, isGuildAdmin), // only admin can update verification settings
 
       createUserOnChainAttestation: and(
         isAuthenticated,
@@ -605,7 +605,7 @@ export const permissions = shield(
       active_token: or(isAuthenticated, hasToken),
       user_id: hasToken,
     },
-    VerificationSettings: {
+    VerificationSetting: {
       id: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),

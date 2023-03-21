@@ -6,7 +6,7 @@ import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/Gu
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildImportCreateNestedManyWithoutGuildInput } from "../inputs/GuildImportCreateNestedManyWithoutGuildInput";
 import { TwitterAccountCreateNestedManyWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedManyWithoutGuildInput";
-import { VerificationSettingsCreateNestedManyWithoutGuildInput } from "../inputs/VerificationSettingsCreateNestedManyWithoutGuildInput";
+import { VerificationSettingCreateNestedManyWithoutGuildInput } from "../inputs/VerificationSettingCreateNestedManyWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
 
 @TypeGraphQL.InputType("GuildCreateWithoutUsersInput", {
@@ -73,8 +73,8 @@ export class GuildCreateWithoutUsersInput {
   })
   guild_imports?: GuildImportCreateNestedManyWithoutGuildInput | undefined;
 
-  @TypeGraphQL.Field(_type => VerificationSettingsCreateNestedManyWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => VerificationSettingCreateNestedManyWithoutGuildInput, {
     nullable: true
   })
-  verificationSettings?: VerificationSettingsCreateNestedManyWithoutGuildInput | undefined;
+  verificationSettings?: VerificationSettingCreateNestedManyWithoutGuildInput | undefined;
 }
