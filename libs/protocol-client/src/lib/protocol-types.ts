@@ -19719,6 +19719,7 @@ export const GuildContributionFragmentFragmentDoc = gql`
     name
   }
   attestation_threshold
+  verified
   verificationStatus {
     id
     name
