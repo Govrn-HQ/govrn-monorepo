@@ -29,7 +29,7 @@ const GovrnShowcase = ({ copy, emoji, children }: GovrnShowcaseProps) => (
         fontWeight="600"
         fontSize="xl"
         width="100%"
-        flexBasis="30%"
+        flexBasis="40%"
       >
         <Text>{copy}</Text>
       </Flex>
@@ -39,7 +39,7 @@ const GovrnShowcase = ({ copy, emoji, children }: GovrnShowcaseProps) => (
           alignItems="center"
           justifyContent="center"
           width="100%"
-          flexBasis="30%"
+          flexBasis="20%"
         >
           <Text
             as="span"
@@ -56,7 +56,7 @@ const GovrnShowcase = ({ copy, emoji, children }: GovrnShowcaseProps) => (
         alignItems="flex-start"
         justifyContent="center"
         width="100%"
-        flexBasis="30%"
+        flexBasis="40%"
         gap={10}
       >
         {children}

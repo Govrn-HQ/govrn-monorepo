@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Select, SelectProps } from '../..';
+import { Select, BaseSelectProps } from '../..';
 
 export default {
   title: 'Components/Molecules/Select',
@@ -13,7 +13,7 @@ const sampleOptions = [
   { value: 'DAO 3', label: 'DAO 3' },
 ];
 
-const Single = (args: SelectProps) => {
+const Single = (args: BaseSelectProps) => {
   const localForm = useForm();
   return (
     <form>
@@ -22,7 +22,7 @@ const Single = (args: SelectProps) => {
   );
 };
 
-const Multi = (args: SelectProps) => {
+const Multi = (args: BaseSelectProps) => {
   const localForm = useForm();
   return (
     <form>
@@ -31,7 +31,7 @@ const Multi = (args: SelectProps) => {
   );
 };
 
-const WithTip = (args: SelectProps) => {
+const WithTip = (args: BaseSelectProps) => {
   const localForm = useForm();
   return (
     <form>

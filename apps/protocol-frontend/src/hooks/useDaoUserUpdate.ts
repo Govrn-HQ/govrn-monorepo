@@ -10,6 +10,7 @@ interface DaoUserUpdateProps {
   membershipStatusId?: number;
   memberId?: number;
   membershipStatus?: string;
+  rejoining?: boolean;
 }
 
 export const useDaoUserUpdate = () => {
@@ -24,6 +25,7 @@ export const useDaoUserUpdate = () => {
       membershipStatusId,
       memberId,
       membershipStatus,
+      rejoining = false,
     }: DaoUserUpdateProps) => {
       const mutationData = await govrn.guild.user.update({
         userId: userId,
@@ -36,11 +38,13 @@ export const useDaoUserUpdate = () => {
       return { mutationData };
     },
     {
-      onSuccess: (_, { userId, favorite, membershipStatus }) => {
-        queryClient.invalidateQueries(['userDaos', userId]);
+      onSuccess: (data, { userId, favorite, membershipStatus, rejoining }) => {
+        const { address } = data.mutationData.user;
+        queryClient.invalidateQueries({ queryKey: ['userDaos'] });
         queryClient.invalidateQueries(['userGet', userId]);
-        queryClient.invalidateQueries(['daoUsersList']);
-        queryClient.invalidateQueries(['daoUsersInfiniteList']);
+        queryClient.invalidateQueries({ queryKey: ['daoUsersList'] });
+        queryClient.invalidateQueries({ queryKey: ['daoUsersInfiniteList'] });
+        queryClient.invalidateQueries(['userByAddressGet', address]); // to invalidate the dependent queries that have deeply nested args the contribution infinite lists
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
@@ -48,7 +52,15 @@ export const useDaoUserUpdate = () => {
             toast.success({
               id: toastSuccessId,
               title: 'Leaving DAO',
-              description: 'You have left successfully.',
+              description: 'You have successfully left the DAO.',
+            });
+            return;
+          }
+          if (rejoining === true) {
+            toast.success({
+              id: toastSuccessId,
+              title: 'Successfully Added to DAO',
+              description: `Successfully added to the DAO as a ${membershipStatus}.`,
             });
             return;
           }
@@ -76,6 +88,7 @@ export const useDaoUserUpdate = () => {
                 ? 'Favorite status update failed.'
                 : 'DAO update failed.',
             description: `Something went wrong. Please try again: ${error}`,
+            isClosable: true,
           });
         }
       },

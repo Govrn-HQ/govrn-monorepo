@@ -1,49 +1,19 @@
 import React from 'react';
-import ReactSelect, { components } from 'react-select';
+import ReactSelect from 'react-select';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { FormControl, Stack, Box } from '@chakra-ui/react';
 import FormLabel from '../../atoms/FormLabel';
 import HelperText from '../../atoms/HelperText';
 import ErrorMessage from '../../atoms/ErrorMessage';
+import { BaseSelectProps, ValueType } from './types';
 
-export function SelectContainer(props: any) {
-  return (
-    <components.SelectContainer
-      {...props}
-      innerProps={Object.assign({}, props.innerProps, {
-        'data-cy': 'daoSelect-testing',
-      })}
-    />
-  );
-}
-type Option =
-  | {
-      label: string | number;
-      value: string | number;
-    }
-  | { value: number | null; label: string }
-  | { value: number; label: string | null | undefined }
-  | { value: null; label: string };
-
-export interface SelectProps {
+export interface SelectProps<Type extends ValueType = ValueType>
+  extends BaseSelectProps<Type> {
   name: string;
-  label?: string;
-  placeholder?: string;
-  defaultValue?: Option | Option[];
-  id?: string;
-  tip?: string | React.ReactNode;
-  options: Option[];
-  isRequired?: boolean;
   localForm: Pick<UseFormReturn, 'control' | 'formState'>;
-  isMulti?: boolean;
-  isClearable?: boolean;
-  onChange?: (option: Option) => void;
-  isDisabled?: boolean;
-  variant?: 'outline' | 'filled';
-  value?: any;
 }
 
-const Select: React.FC<SelectProps> = ({
+export const Select: React.FC<SelectProps> = ({
   label,
   name,
   tip,
@@ -52,6 +22,7 @@ const Select: React.FC<SelectProps> = ({
   options,
   isMulti,
   isClearable,
+  isSearchable,
   onChange,
   isDisabled,
   value,
@@ -80,11 +51,11 @@ const Select: React.FC<SelectProps> = ({
                 defaultValue={defaultValue}
                 placeholder={placeholder}
                 isClearable={isClearable}
+                isSearchable={isSearchable}
                 isMulti={isMulti}
                 onChange={onChange}
                 isDisabled={isDisabled}
                 value={value}
-                components={{ SelectContainer }}
                 styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
               />
             )}
@@ -99,5 +70,3 @@ const Select: React.FC<SelectProps> = ({
     </FormControl>
   );
 };
-
-export default Select;

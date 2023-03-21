@@ -7,6 +7,7 @@ import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildC
 import { GuildImportOrderByRelationAggregateInput } from "../inputs/GuildImportOrderByRelationAggregateInput";
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
 import { TwitterAccountOrderByRelationAggregateInput } from "../inputs/TwitterAccountOrderByRelationAggregateInput";
+import { VerificationSettingOrderByRelationAggregateInput } from "../inputs/VerificationSettingOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("GuildOrderByWithRelationInput", {
@@ -82,4 +83,9 @@ export class GuildOrderByWithRelationInput {
     nullable: true
   })
   guild_imports?: GuildImportOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => VerificationSettingOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  verificationSettings?: VerificationSettingOrderByRelationAggregateInput | undefined;
 }

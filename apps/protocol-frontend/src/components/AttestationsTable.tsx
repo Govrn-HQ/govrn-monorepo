@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Flex, Stack, Button, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Box, Flex, Link, Stack, Button, Text } from '@chakra-ui/react';
+import { HiOutlineExternalLink } from 'react-icons/hi';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -14,7 +15,7 @@ import {
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
-import { GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
 import ModalWrapper from './ModalWrapper';
@@ -85,7 +86,7 @@ const AttestationsTable = ({
         }) => {
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>
-              <Link to={`/contributions/${row.original.id}`}>
+              <RouterLink to={`/contributions/${row.original.id}`}>
                 <Text
                   whiteSpace="normal"
                   flex="1 0 0"
@@ -101,7 +102,7 @@ const AttestationsTable = ({
                   {' '}
                   {getValue()}
                 </Text>
-              </Link>
+              </RouterLink>
             </Flex>
           );
         },
@@ -149,6 +150,13 @@ const AttestationsTable = ({
         header: 'DAO',
         accessorFn: contribution =>
           contribution.guilds[0]?.guild?.name ?? '---',
+        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          return (
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
+              <Text whiteSpace="normal">{getValue()}</Text>
+            </Flex>
+          );
+        },
       },
     ];
   }, [userData?.id]);
@@ -188,15 +196,78 @@ const AttestationsTable = ({
     }
   }, [selectedRows, setModals]);
 
-  let component = (
-    <Box
-      paddingX={{ base: '4', md: '6' }}
-      paddingBottom={{ base: '4', md: '6' }}
-    >
-      <Text fontSize="sm" fontWeight="bolder">
-        None found!
+  const CopyChildren = () => (
+    <Flex direction="column" alignItems="center" justifyContent="center">
+      <Text>
+        You'll need other collaborators to be part of a DAO! There are no
+        contributions for you to attest to yet.
       </Text>
-    </Box>
+      <Text>
+        Make sure you're part of a DAO and attest to other people's minted
+        contributions.
+      </Text>
+    </Flex>
+  );
+
+  const ButtonChildren = () => (
+    <>
+      <Link
+        as={RouterLink}
+        to="/profile"
+        state={{ targetId: 'myDaos' }}
+        _hover={{
+          textDecoration: 'none',
+        }}
+      >
+        <Button
+          variant="primary"
+          size="md"
+          width={{ base: '100%', lg: 'auto' }}
+        >
+          Join a DAO From Your Profile
+        </Button>
+      </Link>
+      <Link
+        as={RouterLink}
+        to="/contributions"
+        _hover={{
+          textDecoration: 'none',
+        }}
+      >
+        <Button
+          variant="secondary"
+          size="md"
+          width={{ base: '100%', lg: 'auto' }}
+        >
+          Mint Your Contributions
+        </Button>
+      </Link>
+      <Link
+        href="https://govrn.gitbook.io/govrn-docs/attestations/attestations"
+        isExternal
+        textDecoration="none"
+        _hover={{
+          textDecoration: 'none',
+        }}
+      >
+        <Button
+          variant="tertiary"
+          size="md"
+          leftIcon={<HiOutlineExternalLink />}
+        >
+          Learn More About Attestations
+        </Button>
+      </Link>
+    </>
+  );
+
+  let component = (
+    <GovrnCta
+      heading={`You aren't in any DAOs yet`}
+      emoji="🙏"
+      copy={<CopyChildren />}
+      children={<ButtonChildren />}
+    />
   );
   if (data.length) {
     component = (

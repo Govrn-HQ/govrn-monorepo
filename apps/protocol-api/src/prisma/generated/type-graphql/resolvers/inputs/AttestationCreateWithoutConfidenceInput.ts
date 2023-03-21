@@ -30,11 +30,6 @@ export class AttestationCreateWithoutConfidenceInput {
   })
   contribution!: ContributionCreateNestedOneWithoutAttestationsInput;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  date_of_attestation?: Date | undefined;
-
   @TypeGraphQL.Field(_type => AttestationStatusCreateNestedOneWithoutAttestationInput, {
     nullable: true
   })

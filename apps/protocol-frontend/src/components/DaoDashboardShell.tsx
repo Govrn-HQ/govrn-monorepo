@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Box, Button, Flex, Stack } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import {
   ControlledSelect,
@@ -32,6 +32,8 @@ import {
   DEFAULT_DATE_RANGES,
 } from '../utils/constants';
 
+const CUSTOM_VALUE = 0;
+
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
@@ -60,23 +62,18 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
 
   const dateRangeOptions = [
     {
-      value: 'Custom',
+      value: CUSTOM_VALUE,
       label: 'Custom',
     },
     ...DEFAULT_DATE_RANGES,
   ];
 
-  const dateChangeHandler = (selectedDateOffset: number | string) => {
-    if (selectedDateOffset === 'Custom') {
+  const dateChangeHandler = (selectedDateOffset: number) => {
+    if (selectedDateOffset === CUSTOM_VALUE) {
       setShowCustomDatePicker(true);
     }
     setEndDate(TODAY_DATE);
-    setStartDate(
-      subWeeks(
-        TODAY_DATE,
-        typeof selectedDateOffset === 'number' ? selectedDateOffset : 0,
-      ),
-    );
+    setStartDate(subWeeks(TODAY_DATE, selectedDateOffset));
   };
 
   const handleLeavingDao = async () => {
@@ -131,6 +128,24 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
     </Link>
   );
 
+  const LeaveDaoDialogCopy = () => {
+    return (
+      <Stack direction="column">
+        <Text>
+          Are you sure you want to leave{' '}
+          <Text as="span" fontWeight="bolder">
+            {daoName}
+          </Text>
+          ?
+        </Text>
+        <Text>
+          If you're the only DAO admin, we recommend adding another admin before
+          leaving.
+        </Text>
+      </Stack>
+    );
+  };
+
   return (
     <Stack
       paddingY={{ base: '4', md: '8' }}
@@ -160,7 +175,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
             gap={{ base: 0, lg: 2 }}
           >
             <Button
-              variant="primary"
+              variant="secondary"
               width="min-content"
               px={8}
               onClick={() => showLeavingDialog(true)}
@@ -204,8 +219,11 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
                   date => date.value === YEAR,
                 )}
                 onChange={dateRangeOffset => {
+                  if (dateRangeOffset instanceof Array) {
+                    return;
+                  }
                   setShowCustomDatePicker(false);
-                  dateChangeHandler(dateRangeOffset.value);
+                  dateChangeHandler(Number(dateRangeOffset?.value));
                 }}
                 options={dateRangeOptions}
               />
@@ -218,7 +236,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
           {daoContributions && daoContributions.length === 0 ? (
             <Box marginTop={2} marginBottom={4}>
               <GovrnShowcase
-                copy="Start adding your contributions to see your data"
+                copy="Record contributions to see your data"
                 emoji="🙌"
                 children={<ButtonChildren />}
               />
@@ -291,7 +309,7 @@ const DaoDashboardShell = ({ daoName, daoId }: DaoDashboardShellProps) => {
         </Flex>
       </Flex>
       <GovrnAlertDialog
-        title={`Are you sure you want to leave ${daoName}?`}
+        title={<LeaveDaoDialogCopy />}
         isOpen={isLeavingDialogShown}
         isLoading={isLeavingLoading}
         onConfirm={handleLeavingDao}
