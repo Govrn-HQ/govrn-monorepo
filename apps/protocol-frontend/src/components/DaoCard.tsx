@@ -57,6 +57,7 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
     await updateDaoUserFavorite({
       userId: userId,
       guildId: daoUser.guild.id,
+      membershipStatus: daoUser.membershipStatus?.name,
       favorite: !daoUser.favorite,
     });
   };
