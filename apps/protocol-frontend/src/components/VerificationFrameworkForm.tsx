@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Button, Flex } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { NumberInput, Select } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,12 +16,18 @@ const VerificationFrameworkForm = () => {
   const {
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, touchedFields },
   } = localForm;
 
+  useEffect(() => {
+    setValue('verificationFramework', 'none'); // we'll set this to be existing verificaiton framework
+  }, [setValue]);
+
   const verificationFrameworkOptions = [
+    { label: 'None', value: 'none' },
     { label: 'Number of Attestors', value: 'numberOfAttestors' },
-  ]; // will match this to the backend data structure
+  ]; // will match these to the backend data structure
 
   const verificationFrameworkHandler: SubmitHandler<
     VerificationFrameworkFormValues
@@ -63,15 +69,21 @@ const VerificationFrameworkForm = () => {
             isClearable
             localForm={localForm}
           />
-          <NumberInput
-            name="numberOfAttestors"
-            label="Choose the Number of Attestors"
-            defaultValue={1}
-            min={1}
-            max={10}
-            localForm={localForm}
-          />
-
+          {watch('verificationFramework') === 'none' ? (
+            <Text marginBottom={4}>
+              No verification framework selected. Any contribution will be
+              considered verified even with 0 attestations.
+            </Text>
+          ) : (
+            <NumberInput
+              name="numberOfAttestors"
+              label="Choose the Number of Attestors"
+              defaultValue={1}
+              min={1}
+              max={10}
+              localForm={localForm}
+            />
+          )}
           <Button
             variant="secondary"
             type="submit"

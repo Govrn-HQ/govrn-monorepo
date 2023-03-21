@@ -90,7 +90,7 @@ const MyAttestationsTable = ({
         accessorFn: contribution =>
           toDate(
             contribution.attestations.find(a => a.user_id === userData?.id)
-              ?.date_of_attestation ?? '---',
+              ?.createdAt ?? '---',
           ),
         cell: ({ getValue }: { getValue: Getter<Date> }) => {
           return <Text>{formatDate(getValue())}</Text>;

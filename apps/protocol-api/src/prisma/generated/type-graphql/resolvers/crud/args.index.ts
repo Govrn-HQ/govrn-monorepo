@@ -12,6 +12,7 @@ export * from "./DiscordUser/args";
 export * from "./Guild/args";
 export * from "./GuildActivityType/args";
 export * from "./GuildContribution/args";
+export * from "./GuildContributionVerificationStatus/args";
 export * from "./GuildImport/args";
 export * from "./GuildImportStatus/args";
 export * from "./GuildMembershipStatus/args";

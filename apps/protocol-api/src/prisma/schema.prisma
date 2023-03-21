@@ -118,17 +118,27 @@ model GuildUser {
 }
 
 model GuildContribution {
-  id              Int          @id @default(autoincrement())
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @default(now()) @updatedAt
-  guild_id        Int
-  guild           Guild        @relation(fields: [guild_id], references: [id])
-  contribution_id Int
-  contribution    Contribution @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
-  threshold       Int          @default(0)
-  verified        Boolean      @default(false)
+  id                     Int                                  @id @default(autoincrement())
+  createdAt              DateTime                             @default(now())
+  updatedAt              DateTime                             @default(now()) @updatedAt
+  guild_id               Int
+  guild                  Guild                                @relation(fields: [guild_id], references: [id])
+  contribution_id        Int
+  contribution           Contribution                         @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
+  verification_status_id Int?
+  verificationStatus     GuildContributionVerificationStatus? @relation(fields: [verification_status_id], references: [id])
 
   @@unique([guild_id, contribution_id])
+}
+
+model GuildContributionVerificationStatus {
+  id                   Int                 @id @default(autoincrement())
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @default(now()) @updatedAt
+  name                 String              @unique
+  verified             Boolean
+  attestation_threshold Int
+  guild_contributions  GuildContribution[]
 }
 
 model GuildActivityType {
@@ -241,7 +251,6 @@ model Attestation {
   user                  User                   @relation(fields: [user_id], references: [id])
   contribution_id       Int
   contribution          Contribution           @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
-  date_of_attestation   DateTime               @default(now())
   // Make required
   attestation_status_id Int?
   attestation_status    AttestationStatus?     @relation(fields: [attestation_status_id], references: [id])

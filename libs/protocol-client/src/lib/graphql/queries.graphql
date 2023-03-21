@@ -553,7 +553,7 @@ fragment ContributionFragment on Contribution {
   attestations {
     id
     user_id
-    date_of_attestation
+    createdAt
     attestation_status {
       id
       name
@@ -927,7 +927,6 @@ fragment AttestationFragment on Attestation {
     user_id
     on_chain_id
   }
-  date_of_attestation
   id
   updatedAt
   user {

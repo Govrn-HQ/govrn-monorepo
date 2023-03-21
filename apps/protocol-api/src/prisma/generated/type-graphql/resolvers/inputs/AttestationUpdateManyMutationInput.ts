@@ -17,9 +17,4 @@ export class AttestationUpdateManyMutationInput {
     nullable: true
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  date_of_attestation?: DateTimeFieldUpdateOperationsInput | undefined;
 }

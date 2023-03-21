@@ -2,10 +2,9 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { ContributionUpdateOneRequiredWithoutGuildsNestedInput } from "../inputs/ContributionUpdateOneRequiredWithoutGuildsNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
+import { GuildContributionVerificationStatusUpdateOneWithoutGuild_contributionsNestedInput } from "../inputs/GuildContributionVerificationStatusUpdateOneWithoutGuild_contributionsNestedInput";
 
 @TypeGraphQL.InputType("GuildContributionUpdateWithoutGuildInput", {
   isAbstract: true
@@ -26,13 +25,8 @@ export class GuildContributionUpdateWithoutGuildInput {
   })
   contribution?: ContributionUpdateOneRequiredWithoutGuildsNestedInput | undefined;
 
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => GuildContributionVerificationStatusUpdateOneWithoutGuild_contributionsNestedInput, {
     nullable: true
   })
-  threshold?: IntFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  verified?: BoolFieldUpdateOperationsInput | undefined;
+  verificationStatus?: GuildContributionVerificationStatusUpdateOneWithoutGuild_contributionsNestedInput | undefined;
 }

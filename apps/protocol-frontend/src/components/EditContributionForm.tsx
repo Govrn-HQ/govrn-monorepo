@@ -249,6 +249,39 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             localForm={localForm}
             dataTestId="editContributionForm-name"
           />
+          <Select
+            name="daoId"
+            label="DAO"
+            placeholder="Select a DAO to associate this Contribution with."
+            tip={
+              <>
+                Please select a DAO to associate this Contribution with.
+                <Box fontWeight={700} lineHeight={2}>
+                  This is optional. Don't see your DAO? Request to add it{' '}
+                  <ChakraLink
+                    href="https://airtable.com/shrOedOjQpH9xlg7l"
+                    isExternal
+                    textDecoration="underline"
+                  >
+                    here
+                  </ChakraLink>
+                </Box>
+              </>
+            }
+            defaultValue={{
+              value: contribution?.guilds[0]?.guild.id
+                ? contribution?.guilds[0]?.guild.id
+                : daoReset.value,
+              label: contribution?.guilds[0]?.guild.name
+                ? contribution?.guilds[0]?.guild.name
+                : daoReset.label,
+            }}
+            onChange={dao => {
+              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
+            }}
+            options={combinedDaoListOptions}
+            localForm={localForm}
+          />
           <CreatableSelect
             name="activityType"
             label="Activity Type"
@@ -324,39 +357,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               </Text>
             )}
           </Flex>
-          <Select
-            name="daoId"
-            label="DAO"
-            placeholder="Select a DAO to associate this Contribution with."
-            tip={
-              <>
-                Please select a DAO to associate this Contribution with.
-                <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Request to add it{' '}
-                  <ChakraLink
-                    href="https://airtable.com/shrOedOjQpH9xlg7l"
-                    isExternal
-                    textDecoration="underline"
-                  >
-                    here
-                  </ChakraLink>
-                </Box>
-              </>
-            }
-            defaultValue={{
-              value: contribution?.guilds[0]?.guild.id
-                ? contribution?.guilds[0]?.guild.id
-                : daoReset.value,
-              label: contribution?.guilds[0]?.guild.name
-                ? contribution?.guilds[0]?.guild.name
-                : daoReset.label,
-            }}
-            onChange={dao => {
-              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
-            }}
-            options={combinedDaoListOptions}
-            localForm={localForm}
-          />
           <DatePicker
             name="engagementDate"
             localForm={localForm}
