@@ -5,6 +5,8 @@ import {
   createUserContributionInput,
   createUserCustomInput,
   createUserOnChainAttestationInput,
+  createOneVerificationSettingInput,
+  updateOneVerificationSettingInput,
   deleteUserContributionInput,
   updateUserContributionInput,
   updateUserCustomInput,
@@ -169,6 +171,8 @@ const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
   ['createGuildUserCustom', 'data.guildId'],
+  ['updateOneVerificationSetting', 'data.guild.id'],
+  ['createOneVerificationSetting', 'data.guild.id'],
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
@@ -293,9 +297,17 @@ export const permissions = shield(
         ),
       ), // only admin or user with status recruit
 
-      createOneVerificationSetting: and(isAuthenticated, isGuildAdmin), // only admin can create verification settings
+      createOneVerificationSetting: and(
+        isAuthenticated,
+        isGuildAdmin,
+        createOneVerificationSettingInput,
+      ), // only admin can create verification settings
 
-      updateOneVerificationSetting: and(isAuthenticated, isGuildAdmin), // only admin can update verification settings
+      updateOneVerificationSetting: and(
+        isAuthenticated,
+        isGuildAdmin,
+        updateOneVerificationSettingInput,
+      ), // only admin can update verification settings
 
       createUserOnChainAttestation: and(
         isAuthenticated,
