@@ -275,3 +275,42 @@ export const getOrCreateActivityTypeInput = inputRule()(
     }),
   { abortEarly: false },
 );
+
+export const createOneVerificationSettingInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        num_of_attestations: yup.number().required(),
+        guild: yup.object({
+          connect: yup
+            .object({
+              discord_id: yup.string(),
+              id: yup.string().required(),
+            })
+            .required(),
+        }),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const updateOneVerificationSettingInput = inputRule()(
+  yup =>
+    yup.object({
+      where: yup.object({
+        id: yup.number(),
+      }),
+      data: yup.object({
+        num_of_attestations: yup.number().required(),
+        guild: yup.object({
+          connect: yup
+            .object({
+              discord_id: yup.string(),
+              id: yup.string().required(),
+            })
+            .required(),
+        }),
+      }),
+    }),
+  { abortEarly: false },
+);

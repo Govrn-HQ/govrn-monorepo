@@ -35,4 +35,4 @@ export { TwitterTweetScalarFieldEnum } from "./TwitterTweetScalarFieldEnum";
 export { TwitterUserScalarFieldEnum } from "./TwitterUserScalarFieldEnum";
 export { UserActivityScalarFieldEnum } from "./UserActivityScalarFieldEnum";
 export { UserScalarFieldEnum } from "./UserScalarFieldEnum";
-export { VerificationSettingsScalarFieldEnum } from "./VerificationSettingsScalarFieldEnum";
+export { VerificationSettingScalarFieldEnum } from "./VerificationSettingScalarFieldEnum";

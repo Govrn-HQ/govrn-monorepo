@@ -31,4 +31,4 @@ export { TwitterTweetContribution } from "./TwitterTweetContribution";
 export { TwitterUser } from "./TwitterUser";
 export { User } from "./User";
 export { UserActivity } from "./UserActivity";
-export { VerificationSettings } from "./VerificationSettings";
+export { VerificationSetting } from "./VerificationSetting";
