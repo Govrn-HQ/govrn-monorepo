@@ -11,7 +11,7 @@ import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilt
 import { IntFilter } from "../inputs/IntFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TwitterAccountListRelationFilter } from "../inputs/TwitterAccountListRelationFilter";
-import { VerificationSettingsListRelationFilter } from "../inputs/VerificationSettingsListRelationFilter";
+import { VerificationSettingListRelationFilter } from "../inputs/VerificationSettingListRelationFilter";
 
 @TypeGraphQL.InputType("GuildWhereInput", {
   isAbstract: true
@@ -102,8 +102,8 @@ export class GuildWhereInput {
   })
   guild_imports?: GuildImportListRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => VerificationSettingsListRelationFilter, {
+  @TypeGraphQL.Field(_type => VerificationSettingListRelationFilter, {
     nullable: true
   })
-  VerificationSettings?: VerificationSettingsListRelationFilter | undefined;
+  verificationSettings?: VerificationSettingListRelationFilter | undefined;
 }

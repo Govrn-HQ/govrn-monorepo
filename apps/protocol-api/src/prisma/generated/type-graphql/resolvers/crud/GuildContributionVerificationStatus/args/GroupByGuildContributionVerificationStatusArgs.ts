@@ -20,7 +20,7 @@ export class GroupByGuildContributionVerificationStatusArgs {
   @TypeGraphQL.Field(_type => [GuildContributionVerificationStatusScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "name" | "verified" | "attestation_threshold">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "name">;
 
   @TypeGraphQL.Field(_type => GuildContributionVerificationStatusScalarWhereWithAggregatesInput, {
     nullable: true

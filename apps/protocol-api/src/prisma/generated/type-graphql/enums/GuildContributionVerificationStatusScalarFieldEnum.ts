@@ -4,9 +4,7 @@ export enum GuildContributionVerificationStatusScalarFieldEnum {
   id = "id",
   createdAt = "createdAt",
   updatedAt = "updatedAt",
-  name = "name",
-  verified = "verified",
-  attestation_threshold = "attestation_threshold"
+  name = "name"
 }
 TypeGraphQL.registerEnumType(GuildContributionVerificationStatusScalarFieldEnum, {
   name: "GuildContributionVerificationStatusScalarFieldEnum",

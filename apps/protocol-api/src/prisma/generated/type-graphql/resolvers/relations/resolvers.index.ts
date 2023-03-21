@@ -30,4 +30,4 @@ export { TwitterTweetContributionRelationsResolver } from "./TwitterTweetContrib
 export { TwitterUserRelationsResolver } from "./TwitterUser/TwitterUserRelationsResolver";
 export { UserRelationsResolver } from "./User/UserRelationsResolver";
 export { UserActivityRelationsResolver } from "./UserActivity/UserActivityRelationsResolver";
-export { VerificationSettingsRelationsResolver } from "./VerificationSettings/VerificationSettingsRelationsResolver";
+export { VerificationSettingRelationsResolver } from "./VerificationSetting/VerificationSettingRelationsResolver";

@@ -7,7 +7,7 @@ import { GuildContribution } from "../models/GuildContribution";
 import { GuildImport } from "../models/GuildImport";
 import { GuildUser } from "../models/GuildUser";
 import { TwitterAccount } from "../models/TwitterAccount";
-import { VerificationSettings } from "../models/VerificationSettings";
+import { VerificationSetting } from "../models/VerificationSetting";
 import { GuildStatus } from "../enums/GuildStatus";
 import { GuildCount } from "../resolvers/outputs/GuildCount";
 
@@ -70,7 +70,7 @@ export class Guild {
 
   guild_imports?: GuildImport[];
 
-  VerificationSettings?: VerificationSettings[];
+  verificationSettings?: VerificationSetting[];
 
   @TypeGraphQL.Field(_type => GuildCount, {
     nullable: true

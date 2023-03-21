@@ -36,4 +36,14 @@ export class GuildContributionCreateManyInput {
     nullable: true
   })
   verification_status_id?: number | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  verified?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  attestation_threshold?: number | undefined;
 }

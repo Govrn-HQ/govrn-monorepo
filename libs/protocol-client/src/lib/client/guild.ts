@@ -1,7 +1,10 @@
 import { BaseClient } from './base';
 import {
   GuildUpdateCustomInput,
-  GuildUpdateCustomWhereInput,
+  GuildCustomWhereInput,
+  VerificationSettingWhereUniqueInput,
+  VerificationSettingUpdateInput,
+  VerificationSettingCreateInput,
   ListGuildActivityTypesQueryVariables,
   ListGuildImportsQueryVariables,
   ListGuildsQueryVariables,
@@ -21,12 +24,14 @@ export class Guild extends BaseClient {
   user: GuildUser;
   import: GuildImport;
   activity_type: GuildActivityType;
+  verification_setting: GuildVerificationSetting;
 
   constructor(client: GraphQLClient) {
     super(client);
     this.user = new GuildUser(this.client);
     this.import = new GuildImport(this.client);
     this.activity_type = new GuildActivityType(this.client);
+    this.verification_setting = new GuildVerificationSetting(this.client);
   }
 
   public async create(args: CreateGuildMutationVariables) {
@@ -41,7 +46,7 @@ export class Guild extends BaseClient {
 
   public async update(
     args: GuildUpdateCustomInput,
-    where: GuildUpdateCustomWhereInput,
+    where: GuildCustomWhereInput,
   ) {
     const guild = await this.sdk.updateGuildCustom({ data: args, where });
     return guild.updateGuildCustom;
@@ -69,5 +74,31 @@ export class GuildActivityType extends BaseClient {
       ListGuildActivityTypesQueryVariables,
       ListGuildActivityTypesQuery
     >(this.sdk.listGuildActivityTypes, args);
+  }
+}
+
+// GuildVerification settings
+export class GuildVerificationSetting extends BaseClient {
+  public async get(args: VerificationSettingWhereUniqueInput) {
+    const guild = await this.sdk.getVerificationSetting({ where: args });
+    return guild.result;
+  }
+
+  public async update(
+    args: VerificationSettingUpdateInput,
+    where: VerificationSettingWhereUniqueInput,
+  ) {
+    const guild = await this.sdk.updateVerificationSetting({
+      data: args,
+      where,
+    });
+    return guild.result;
+  }
+
+  public async create(args: VerificationSettingCreateInput) {
+    const guild = await this.sdk.createVerificationSetting({
+      data: args,
+    });
+    return guild.result;
   }
 }

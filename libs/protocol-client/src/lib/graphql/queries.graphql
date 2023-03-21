@@ -185,7 +185,7 @@ query getGuild($where: GuildWhereUniqueInput!) {
 
 mutation updateGuildCustom(
   $data: GuildUpdateCustomInput!
-  $where: GuildUpdateCustomWhereInput!
+  $where: GuildCustomWhereInput!
 ) {
   updateGuildCustom(data: $data, where: $where) {
     ...GuildFragment
@@ -233,6 +233,33 @@ query listGuildActivityTypes(
     orderBy: $orderBy
   ) {
     ...GuildActivityTypeFragment
+  }
+}
+# Guild Contribution
+fragment GuildContributionFragment on GuildContribution {
+  id
+  createdAt
+  updatedAt
+  verified
+  guild {
+    id
+    name
+  }
+  contribution {
+    id
+    name
+  }
+  attestation_threshold
+  verified
+  verificationStatus {
+    id
+    name
+  }
+}
+
+query getGuildContribution($where: GuildContributionWhereUniqueInput!) {
+  result: guildContribution(where: $where) {
+    ...GuildContributionFragment
   }
 }
 
@@ -953,5 +980,35 @@ fragment ChainFragment on Chain {
 query getChain($where: ChainWhereUniqueInput!) {
   result: chain(where: $where) {
     ...ChainFragment
+  }
+}
+
+# Verification settings
+fragment VerificationSettingFragment on VerificationSetting {
+  id
+  createdAt
+  updatedAt
+  guild_id
+  num_of_attestations
+}
+
+query getVerificationSetting($where: VerificationSettingWhereUniqueInput!) {
+  result: verificationSetting(where: $where) {
+    ...VerificationSettingFragment
+  }
+}
+
+mutation createVerificationSetting($data: VerificationSettingCreateInput!) {
+  result: createOneVerificationSetting(data: $data) {
+    ...VerificationSettingFragment
+  }
+}
+
+mutation updateVerificationSetting(
+  $where: VerificationSettingWhereUniqueInput!
+  $data: VerificationSettingUpdateInput!
+) {
+  result: updateOneVerificationSetting(where: $where, data: $data) {
+    ...VerificationSettingFragment
   }
 }

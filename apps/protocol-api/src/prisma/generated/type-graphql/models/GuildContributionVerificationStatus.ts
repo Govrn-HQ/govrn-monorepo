@@ -29,16 +29,6 @@ export class GuildContributionVerificationStatus {
   })
   name!: string;
 
-  @TypeGraphQL.Field(_type => Boolean, {
-    nullable: false
-  })
-  verified!: boolean;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  attestation_threshold!: number;
-
   guild_contributions?: GuildContribution[];
 
   @TypeGraphQL.Field(_type => GuildContributionVerificationStatusCount, {
