@@ -262,8 +262,6 @@ query getGuildContribution($where: GuildContributionWhereUniqueInput!) {
   }
 }
 
-
-
 # GuildUser
 fragment GuildUserFragment on GuildUser {
   id
