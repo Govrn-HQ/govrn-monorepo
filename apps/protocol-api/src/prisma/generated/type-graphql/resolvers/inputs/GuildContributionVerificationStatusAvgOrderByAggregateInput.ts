@@ -12,9 +12,4 @@ export class GuildContributionVerificationStatusAvgOrderByAggregateInput {
     nullable: true
   })
   id?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  attestation_threshold?: "asc" | "desc" | undefined;
 }

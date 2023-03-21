@@ -28,4 +28,14 @@ export class GuildContributionCreateWithoutVerificationStatusInput {
     nullable: false
   })
   contribution!: ContributionCreateNestedOneWithoutGuildsInput;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  verified?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  attestation_threshold?: number | undefined;
 }

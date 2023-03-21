@@ -23,16 +23,6 @@ export class GuildContributionVerificationStatusCreateInput {
   })
   name!: string;
 
-  @TypeGraphQL.Field(_type => Boolean, {
-    nullable: false
-  })
-  verified!: boolean;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  attestation_threshold!: number;
-
   @TypeGraphQL.Field(_type => GuildContributionCreateNestedManyWithoutVerificationStatusInput, {
     nullable: true
   })

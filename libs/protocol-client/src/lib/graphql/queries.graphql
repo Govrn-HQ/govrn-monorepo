@@ -235,6 +235,34 @@ query listGuildActivityTypes(
     ...GuildActivityTypeFragment
   }
 }
+# Guild Contribution
+fragment GuildContributionFragment on GuildContribution {
+  id
+  createdAt
+  updatedAt
+  verified
+  guild {
+    id
+    name
+  }
+  contribution {
+    id
+    name
+  }
+  attestation_threshold
+  verificationStatus {
+    id
+    name
+  }
+}
+
+query getGuildContribution($where: GuildContributionWhereUniqueInput!) {
+  result: guildContribution(where: $where) {
+    ...GuildContributionFragment
+  }
+}
+
+
 
 # GuildUser
 fragment GuildUserFragment on GuildUser {
@@ -966,7 +994,7 @@ fragment VerificationSettingFragment on VerificationSettings {
 }
 
 query getVerificationSetting($where: VerificationSettingsWhereUniqueInput!) {
-  result: findUniqueVerificationSettings(where: $where) {
+  result: verificationSettings(where: $where) {
     ...VerificationSettingFragment
   }
 }
