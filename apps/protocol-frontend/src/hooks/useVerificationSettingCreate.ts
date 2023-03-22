@@ -10,7 +10,6 @@ export const useVerificationSettingCreate = () => {
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async (createValues: { daoId: number; numberOfAttestations: number }) => {
-      console.log('update values', createValues);
       const resp = await govrn.guild.verification_setting.create({
         guild: {
           connect: {
