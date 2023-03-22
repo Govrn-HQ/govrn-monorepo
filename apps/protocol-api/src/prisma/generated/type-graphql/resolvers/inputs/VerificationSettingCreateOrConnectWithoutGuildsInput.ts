@@ -2,20 +2,20 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { VerificationSettingUpdateWithoutGuildInput } from "../inputs/VerificationSettingUpdateWithoutGuildInput";
+import { VerificationSettingCreateWithoutGuildsInput } from "../inputs/VerificationSettingCreateWithoutGuildsInput";
 import { VerificationSettingWhereUniqueInput } from "../inputs/VerificationSettingWhereUniqueInput";
 
-@TypeGraphQL.InputType("VerificationSettingUpdateWithWhereUniqueWithoutGuildInput", {
+@TypeGraphQL.InputType("VerificationSettingCreateOrConnectWithoutGuildsInput", {
   isAbstract: true
 })
-export class VerificationSettingUpdateWithWhereUniqueWithoutGuildInput {
+export class VerificationSettingCreateOrConnectWithoutGuildsInput {
   @TypeGraphQL.Field(_type => VerificationSettingWhereUniqueInput, {
     nullable: false
   })
   where!: VerificationSettingWhereUniqueInput;
 
-  @TypeGraphQL.Field(_type => VerificationSettingUpdateWithoutGuildInput, {
+  @TypeGraphQL.Field(_type => VerificationSettingCreateWithoutGuildsInput, {
     nullable: false
   })
-  data!: VerificationSettingUpdateWithoutGuildInput;
+  create!: VerificationSettingCreateWithoutGuildsInput;
 }

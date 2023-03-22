@@ -3,15 +3,10 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.InputType("VerificationSettingCreateWithoutGuildInput", {
+@TypeGraphQL.InputType("VerificationSettingCreateWithoutGuildsInput", {
   isAbstract: true
 })
-export class VerificationSettingCreateWithoutGuildInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  num_of_attestations!: number;
-
+export class VerificationSettingCreateWithoutGuildsInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
@@ -21,4 +16,9 @@ export class VerificationSettingCreateWithoutGuildInput {
     nullable: true
   })
   updatedAt?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  num_of_attestations!: number;
 }

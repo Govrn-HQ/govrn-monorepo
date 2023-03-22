@@ -58,6 +58,11 @@ export class GuildOrderByWithAggregationInput {
   })
   contribution_reporting_channel?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  verification_setting_id?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => GuildCountOrderByAggregateInput, {
     nullable: true
   })

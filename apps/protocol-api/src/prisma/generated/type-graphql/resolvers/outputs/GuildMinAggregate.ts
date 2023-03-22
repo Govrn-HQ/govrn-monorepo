@@ -52,4 +52,9 @@ export class GuildMinAggregate {
     nullable: true
   })
   contribution_reporting_channel!: string | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  verification_setting_id!: number | null;
 }
