@@ -75,21 +75,21 @@ model DiscordUser {
 }
 
 model Guild {
-  id                             Int                    @id @default(autoincrement())
-  createdAt                      DateTime               @default(now())
-  updatedAt                      DateTime               @default(now()) @updatedAt
-  discord_id                     String?                @unique // legacy
+  id                             Int                   @id @default(autoincrement())
+  createdAt                      DateTime              @default(now())
+  updatedAt                      DateTime              @default(now()) @updatedAt
+  discord_id                     String?               @unique // legacy
   name                           String? // legacy
   congrats_channel               String? // legacy
   logo                           String?
-  status                         GuildStatus            @default(INPUTTED)
+  status                         GuildStatus           @default(INPUTTED)
   contributions                  GuildContribution[]
   users                          GuildUser[]
   twitter_accounts               TwitterAccount[]
   activity_type                  GuildActivityType[]
   contribution_reporting_channel String?
   guild_imports                  GuildImport[]
-  verificationSettings          VerificationSetting[]
+  verificationSettings           VerificationSetting[]
 }
 
 model GuildMembershipStatus {
@@ -126,19 +126,19 @@ model GuildContribution {
   contribution_id        Int
   contribution           Contribution                         @relation(fields: [contribution_id], references: [id], onDelete: Cascade)
   verification_status_id Int?
-  verified              Boolean @default(false)
-  attestation_threshold Int?
+  verified               Boolean                              @default(false)
+  attestation_threshold  Int?
   verificationStatus     GuildContributionVerificationStatus? @relation(fields: [verification_status_id], references: [id])
 
   @@unique([guild_id, contribution_id])
 }
 
 model GuildContributionVerificationStatus {
-  id                    Int                 @id @default(autoincrement())
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @default(now()) @updatedAt
-  name                  String              @unique
-  guild_contributions   GuildContribution[]
+  id                  Int                 @id @default(autoincrement())
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @default(now()) @updatedAt
+  name                String              @unique
+  guild_contributions GuildContribution[]
 }
 
 model GuildActivityType {
