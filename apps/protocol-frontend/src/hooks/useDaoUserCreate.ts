@@ -17,7 +17,7 @@ export const useDaoUserCreate = () => {
       const mutationData = await govrn.guild.user.create({
         data: {
           userId: newDaoUser.userId,
-          guildId: newDaoUser.guildId ?? 0,
+          guildId: newDaoUser.guildId,
           guildName: newDaoUser.guildName,
           userAddress: newDaoUser.userAddress,
           membershipStatus: newDaoUser.membershipStatus,

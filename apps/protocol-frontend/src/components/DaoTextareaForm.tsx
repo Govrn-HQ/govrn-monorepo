@@ -48,6 +48,7 @@ const DaoTextareaForm = ({ onSuccess }: DaoTextareaFormProps) => {
       const daoId = await createDaoUser({
         newDaoUser: {
           userId: userData?.id,
+          guildId: 0,
           guildName: values.guildName,
           userAddress: userData?.address,
           membershipStatus: 'Admin',
