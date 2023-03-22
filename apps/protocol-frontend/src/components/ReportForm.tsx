@@ -33,6 +33,7 @@ import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useGuildActivityTypesList } from '../hooks/useGuildActivityTypesList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 import useUserGet from '../hooks/useUserGet';
+import useUserActivityList from '../hooks/useUserActivityList';
 import { useGovrnToast } from '@govrn/protocol-ui';
 import groupBy from 'lodash/groupBy';
 
@@ -211,23 +212,21 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     refetchOnWindowFocus: false,
   });
   // TODO: Fetch user activity types
-  //   const {
-  //   data: guildActivityTypeListData,
-  //   isError: guildActivityTypeListIsError,
-  //   isLoading: guildActivityTypeListIsLoading,
-  // } = useGuildActivityTypesList({
-  //   args: {
-  //     first: 10000,
-  //     where: {
-  //       guild: {
-  //         is: {
-  //           id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
-  //         },
-  //       },
-  //     },
-  //   },
-  //   refetchOnWindowFocus: false,
-  // });
+  const {
+    data: userActivityListData,
+    isError: userActivityListIsError,
+    isLoading: userActivityListIsLoading,
+  } = useUserActivityList({
+    args: {
+      first: 10000,
+      where: {
+        user_id: {
+          equals: userData?.id,
+        },
+      },
+    },
+    refetchOnWindowFocus: false,
+  });
 
   const combinedActivityTypeOptions = useMemo(() => {
     if (!guildActivityTypeListData) return [];
@@ -255,12 +254,20 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   }, [guildActivityTypeListData]);
 
   // the loading and fetching states from the query are true:
-  if (guildActivityTypeListIsLoading || useUserLoading) {
+  if (
+    guildActivityTypeListIsLoading ||
+    useUserLoading ||
+    userActivityListIsLoading
+  ) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
   if (guildActivityTypeListIsError) {
+    return <Text>An error occurred fetching Guild Activity Types.</Text>;
+  }
+
+  if (userActivityListIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 

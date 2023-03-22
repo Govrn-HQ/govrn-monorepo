@@ -489,8 +489,6 @@ model TwitterTweetContribution {
 
 model VerificationSetting {
   id                  Int      @id @default(autoincrement())
-  guild_id            Int?
-  guild               Guild?   @relation(fields: [guild_id], references: [id])
   num_of_attestations Int
   createdAt           DateTime @default(now())
   updatedAt           DateTime @default(now()) @updatedAt
