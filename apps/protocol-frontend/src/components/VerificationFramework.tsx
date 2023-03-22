@@ -3,7 +3,13 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import useVerificationSettingGet from '../hooks/useVerificationSettingGet';
 import VerificationFrameworkForm from './VerificationFrameworkForm';
 
-const VerificationFramework = ({ id }: { id: number }) => {
+const VerificationFramework = ({
+  id,
+  guildId,
+}: {
+  id: number;
+  guildId: number;
+}) => {
   const {
     isLoading: verificationSettingDataLoading,
     isError: verificationSettingDataError,
@@ -55,6 +61,7 @@ const VerificationFramework = ({ id }: { id: number }) => {
         </Flex>
         <VerificationFrameworkForm
           id={id ?? null}
+          daoId={guildId}
           numberOfAttestations={
             verificationSettingData?.num_of_attestations ?? null
           }

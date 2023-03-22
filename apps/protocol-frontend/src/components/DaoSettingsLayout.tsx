@@ -100,7 +100,10 @@ const DaoSettingsLayout = () => {
       </Flex>
       {isAdmin === true ? (
         <FeatureFlagWrapper>
-          <VerificationFramework id={verificationSettingsId} />
+          <VerificationFramework
+            id={verificationSettingsId}
+            daoId={parseInt(guildId ? guildId : '')}
+          />
         </FeatureFlagWrapper>
       ) : null}
     </Box>

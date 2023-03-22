@@ -5,12 +5,16 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { VerificationFrameworkFormValues } from '../types/forms';
 import { verificationFrameworkFormValidation } from '../utils/validations';
+import useVerificationSettingCreate from '../hooks/useVerificationSettingCreate';
+import useVerificationSettingUpdate from '../hooks/useVerificationSettingUpdate';
 
 const VerificationFrameworkForm = ({
   id,
+  guildId,
   numberOfAttestations,
 }: {
-  id: number | null;
+  id: number;
+  guildId: number;
   numberOfAttestations: number | null;
 }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -20,6 +24,16 @@ const VerificationFrameworkForm = ({
   });
 
   const {
+    mutateAsync: updateVerificationSetting,
+    isLoading: updateVerificationSettingLoading,
+  } = useVerificationSettingUpdate();
+
+  const {
+    mutateAsync: createVerificationSetting,
+    isLoading: createVerificationSettingLoading,
+  } = useVerificationSettingCreate();
+
+  const {
     handleSubmit,
     setValue,
     watch,
@@ -27,7 +41,6 @@ const VerificationFrameworkForm = ({
   } = localForm;
 
   useEffect(() => {
-    console.log('id', id);
     setValue(
       'verificationFramework',
       id === null ? 'none' : 'numberOfAttestors',
@@ -44,6 +57,14 @@ const VerificationFrameworkForm = ({
   > = async values => {
     setSubmitting(true);
     console.log('form values', values); // placeholder for the hook call
+    await createVerificationSetting({
+      guild: guildId,
+      numberOfAttestations: values.numberOfAttestors,
+    });
+    // await updateVerificationSetting({
+    //   id: id,
+    //   numberOfAttestations: values.numberOfAttestors,
+    // });
     setSubmitting(false); // will be on success
   };
 
