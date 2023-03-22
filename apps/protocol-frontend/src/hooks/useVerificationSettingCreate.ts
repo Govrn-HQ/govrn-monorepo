@@ -9,12 +9,12 @@ export const useVerificationSettingCreate = () => {
   const toast = useGovrnToast();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    async (createValues: { guildId: number; numberOfAttestations: number }) => {
+    async (createValues: { daoId: number; numberOfAttestations: number }) => {
       console.log('update values', createValues);
       const resp = await govrn.guild.verification_setting.create({
         guild: {
           connect: {
-            id: createValues.guildId,
+            id: createValues.daoId,
           },
         },
         num_of_attestations: createValues.numberOfAttestations,

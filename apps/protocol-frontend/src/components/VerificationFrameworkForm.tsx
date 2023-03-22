@@ -10,11 +10,11 @@ import useVerificationSettingUpdate from '../hooks/useVerificationSettingUpdate'
 
 const VerificationFrameworkForm = ({
   id,
-  guildId,
+  daoId,
   numberOfAttestations,
 }: {
   id: number;
-  guildId: number;
+  daoId: number;
   numberOfAttestations: number | null;
 }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -57,8 +57,9 @@ const VerificationFrameworkForm = ({
   > = async values => {
     setSubmitting(true);
     console.log('form values', values); // placeholder for the hook call
+    console.log('guild id', daoId);
     await createVerificationSetting({
-      guild: guildId,
+      daoId: daoId,
       numberOfAttestations: values.numberOfAttestors,
     });
     // await updateVerificationSetting({

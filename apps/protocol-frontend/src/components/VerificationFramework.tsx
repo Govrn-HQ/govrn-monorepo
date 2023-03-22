@@ -5,10 +5,10 @@ import VerificationFrameworkForm from './VerificationFrameworkForm';
 
 const VerificationFramework = ({
   id,
-  guildId,
+  daoId,
 }: {
   id: number;
-  guildId: number;
+  daoId: number;
 }) => {
   const {
     isLoading: verificationSettingDataLoading,
@@ -24,7 +24,7 @@ const VerificationFramework = ({
     return <Text>An error occurred fetching the Verification Settings.</Text>;
   }
 
-  console.log('vf data', verificationSettingData);
+  console.log('guild id', daoId);
 
   return (
     <Flex
@@ -61,7 +61,7 @@ const VerificationFramework = ({
         </Flex>
         <VerificationFrameworkForm
           id={id ?? null}
-          daoId={guildId}
+          daoId={daoId}
           numberOfAttestations={
             verificationSettingData?.num_of_attestations ?? null
           }

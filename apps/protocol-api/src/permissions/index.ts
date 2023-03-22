@@ -299,7 +299,7 @@ export const permissions = shield(
 
       createOneVerificationSetting: and(
         isAuthenticated,
-        isGuildAdmin,
+        // isGuildAdmin,
         createOneVerificationSettingInput,
       ), // only admin can create verification settings
 
