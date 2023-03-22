@@ -18,7 +18,7 @@ export const useVerificationSettingCreate = () => {
         },
         num_of_attestations: createValues.numberOfAttestations,
       });
-      console.log('resp', resp);
+
       return resp;
     },
     {

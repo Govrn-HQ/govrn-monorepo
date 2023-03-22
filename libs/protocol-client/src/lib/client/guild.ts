@@ -88,6 +88,7 @@ export class GuildVerificationSetting extends BaseClient {
     args: VerificationSettingUpdateInput,
     where: VerificationSettingWhereUniqueInput,
   ) {
+    console.log('args', args);
     const guild = await this.sdk.updateVerificationSetting({
       data: args,
       where,

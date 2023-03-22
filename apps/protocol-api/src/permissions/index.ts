@@ -171,7 +171,7 @@ const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
   ['createGuildUserCustom', 'data.guildId'],
-  ['updateOneVerificationSetting', 'data.guild.id'],
+  ['updateOneVerificationSetting', 'data.guild.connect.id'],
   ['createOneVerificationSetting', 'data.guild.connect.id'],
 ]);
 
@@ -299,13 +299,13 @@ export const permissions = shield(
 
       createOneVerificationSetting: and(
         isAuthenticated,
-        // isGuildAdmin,
+        isGuildAdmin,
         createOneVerificationSettingInput,
       ), // only admin can create verification settings
 
       updateOneVerificationSetting: and(
         isAuthenticated,
-        isGuildAdmin,
+        // isGuildAdmin,
         updateOneVerificationSettingInput,
       ), // only admin can update verification settings
 

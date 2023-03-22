@@ -45,6 +45,7 @@ const VerificationFrameworkForm = ({
       'verificationFramework',
       id === null ? 'none' : 'numberOfAttestors',
     );
+    setValue('numberOfAttestors', numberOfAttestations || '');
   }, [id, setValue]);
 
   const verificationFrameworkOptions = [
@@ -57,15 +58,16 @@ const VerificationFrameworkForm = ({
   > = async values => {
     setSubmitting(true);
     console.log('form values', values); // placeholder for the hook call
-    console.log('guild id', daoId);
-    await createVerificationSetting({
+
+    // await createVerificationSetting({
+    //   daoId: daoId,
+    //   numberOfAttestations: values.numberOfAttestors,
+    // });
+    await updateVerificationSetting({
+      id: id,
       daoId: daoId,
       numberOfAttestations: values.numberOfAttestors,
     });
-    // await updateVerificationSetting({
-    //   id: id,
-    //   numberOfAttestations: values.numberOfAttestors,
-    // });
     setSubmitting(false); // will be on success
   };
 
@@ -113,7 +115,7 @@ const VerificationFrameworkForm = ({
             <NumberInput
               name="numberOfAttestors"
               label="Choose the Number of Attestors"
-              defaultValue={1}
+              defaultValue={numberOfAttestations || 1}
               min={1}
               max={10}
               localForm={localForm}
