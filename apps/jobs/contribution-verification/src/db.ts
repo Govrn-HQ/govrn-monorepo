@@ -7,6 +7,17 @@ export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
   Authorization: TOKEN,
 });
 
+// Get all DAOs with verification settings
 export async function getDaosWithVerificationSettings() {
-  throw 'not implemented';
+  return await govrn.guild.list({
+    where: {
+      verificationSettings: {
+        some: {
+          id: {
+            not: null,
+          },
+        },
+      },
+    },
+  });
 }
