@@ -8,7 +8,7 @@ const VerificationFramework = ({ id }: { id: number }) => {
     isLoading: verificationSettingDataLoading,
     isError: verificationSettingDataError,
     data: verificationSettingData,
-  } = useVerificationSettingGet({ id: 1 });
+  } = useVerificationSettingGet({ id: id });
 
   if (verificationSettingDataLoading) {
     return <GovrnSpinner />;
@@ -53,7 +53,12 @@ const VerificationFramework = ({ id }: { id: number }) => {
             option you can always return and edit settings.
           </Text>
         </Flex>
-        <VerificationFrameworkForm id={id} />
+        <VerificationFrameworkForm
+          id={id ?? null}
+          numberOfAttestations={
+            verificationSettingData?.num_of_attestations ?? null
+          }
+        />
       </Flex>
     </Flex>
   );

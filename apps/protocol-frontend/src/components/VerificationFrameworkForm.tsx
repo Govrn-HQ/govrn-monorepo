@@ -10,8 +10,8 @@ const VerificationFrameworkForm = ({
   id,
   numberOfAttestations,
 }: {
-  id: number | undefined;
-  numberOfAttestations: number | undefined;
+  id: number | null;
+  numberOfAttestations: number | null;
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const localForm = useForm({
@@ -27,8 +27,12 @@ const VerificationFrameworkForm = ({
   } = localForm;
 
   useEffect(() => {
-    setValue('verificationFramework', 'none'); // we'll set this to be existing verificaiton framework
-  }, [setValue]);
+    console.log('id', id);
+    setValue(
+      'verificationFramework',
+      id === null ? 'none' : 'numberOfAttestors',
+    );
+  }, [id, setValue]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
@@ -69,7 +73,10 @@ const VerificationFrameworkForm = ({
               }
               setValue('verificationFramework', verificationFramework.value);
             }}
-            defaultValue={verificationFrameworkOptions[0]} // will set this to the currently selected verification framework
+            defaultValue={{
+              value: id === null ? 'none' : 'numberOfAttestors',
+              label: id === null ? 'None' : 'Number of Attestors',
+            }}
             options={verificationFrameworkOptions}
             isSearchable={false}
             isClearable
