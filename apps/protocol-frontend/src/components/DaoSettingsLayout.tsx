@@ -27,7 +27,7 @@ const DaoSettingsLayout = () => {
   } = useDaoGet({ id: parseInt(guildId ?? '') });
 
   const isAdmin =
-    useUserData?.userDaos.get(parseInt(guildId ?? '')).membershipStatus
+    useUserData?.userDaos.get(parseInt(guildId ?? ''))?.membershipStatus
       ?.name === 'Admin';
 
   if (daoLoading || useUserLoading) {
@@ -98,7 +98,7 @@ const DaoSettingsLayout = () => {
       </Flex>
       {isAdmin === true ? (
         <FeatureFlagWrapper>
-          <VerificationFramework />
+          <VerificationFramework daoId={parseInt(guildId ? guildId : '')} />
         </FeatureFlagWrapper>
       ) : null}
     </Box>
