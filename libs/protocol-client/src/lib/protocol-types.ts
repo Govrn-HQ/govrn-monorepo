@@ -19148,7 +19148,7 @@ export type CreateJobRunMutationVariables = Exact<{
 
 export type CreateJobRunMutation = { createOneJobRun: { completedDate: string | Date, startDate: string | Date, name: string } };
 
-export type GuildFragmentFragment = { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus };
+export type GuildFragmentFragment = { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verificationSettings: Array<{ id: number, num_of_attestations: number }> };
 
 export type CreateGuildMutationVariables = Exact<{
   data: GuildCreateInput;
@@ -19162,7 +19162,7 @@ export type GetGuildQueryVariables = Exact<{
 }>;
 
 
-export type GetGuildQuery = { result?: { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus } | null };
+export type GetGuildQuery = { result?: { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verificationSettings: Array<{ id: number, num_of_attestations: number }> } | null };
 
 export type UpdateGuildCustomMutationVariables = Exact<{
   data: GuildUpdateCustomInput;
@@ -19170,7 +19170,7 @@ export type UpdateGuildCustomMutationVariables = Exact<{
 }>;
 
 
-export type UpdateGuildCustomMutation = { updateGuildCustom: { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus } };
+export type UpdateGuildCustomMutation = { updateGuildCustom: { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verificationSettings: Array<{ id: number, num_of_attestations: number }> } };
 
 export type ListGuildsQueryVariables = Exact<{
   where?: GuildWhereInput;
@@ -19180,7 +19180,7 @@ export type ListGuildsQueryVariables = Exact<{
 }>;
 
 
-export type ListGuildsQuery = { result: Array<{ congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus }> };
+export type ListGuildsQuery = { result: Array<{ congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verificationSettings: Array<{ id: number, num_of_attestations: number }> }> };
 
 export type GetActiveGuildUsersAverageQueryVariables = Exact<{
   where: GetActiveUsersInput;
@@ -19689,6 +19689,10 @@ export const GuildFragmentFragmentDoc = gql`
   updatedAt
   contribution_reporting_channel
   status
+  verificationSettings {
+    id
+    num_of_attestations
+  }
 }
     `;
 export const GuildActivityTypeFragmentFragmentDoc = gql`

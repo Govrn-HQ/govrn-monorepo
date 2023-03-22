@@ -166,6 +166,10 @@ fragment GuildFragment on Guild {
   updatedAt
   contribution_reporting_channel
   status
+  verificationSettings {
+    id
+    num_of_attestations
+  }
 }
 
 mutation createGuild($data: GuildCreateInput!) {
