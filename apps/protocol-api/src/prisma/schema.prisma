@@ -82,7 +82,7 @@ model Guild {
   name                           String? // legacy
   congrats_channel               String? // legacy
   logo                           String?
-  status                         GuildStatus            @default(INPUTTED)
+  status                         GuildStatus            @default(VALIDATED)
   contributions                  GuildContribution[]
   users                          GuildUser[]
   twitter_accounts               TwitterAccount[]
