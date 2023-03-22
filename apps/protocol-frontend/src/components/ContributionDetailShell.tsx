@@ -119,7 +119,10 @@ const ContributionDetailShell = ({
           <Flex paddingY={4}>
             <Stack spacing={2} width="full">
               <Heading as="h4" fontSize="lg" fontWeight="normal">
-                {contribution?.attestations.length} Attestations
+                {contribution?.attestations.length}{' '}
+                {contribution?.attestations.length > 1
+                  ? 'Attestations'
+                  : 'Attestation'}
               </Heading>
               <List listStyleType="none">
                 {contribution?.attestations.map(attestation => (
