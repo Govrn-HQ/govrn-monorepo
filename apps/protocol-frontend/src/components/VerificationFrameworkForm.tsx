@@ -6,7 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { VerificationFrameworkFormValues } from '../types/forms';
 import { verificationFrameworkFormValidation } from '../utils/validations';
 
-const VerificationFrameworkForm = () => {
+const VerificationFrameworkForm = ({
+  id,
+  numberOfAttestations,
+}: {
+  id: number | undefined;
+  numberOfAttestations: number | undefined;
+}) => {
   const [submitting, setSubmitting] = useState(false);
   const localForm = useForm({
     mode: 'all',

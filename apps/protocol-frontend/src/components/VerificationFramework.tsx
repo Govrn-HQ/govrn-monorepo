@@ -4,21 +4,21 @@ import useVerificationSettingGet from '../hooks/useVerificationSettingGet';
 import VerificationFrameworkForm from './VerificationFrameworkForm';
 
 const VerificationFramework = ({ id }: { id: number }) => {
-  // const {
-  //   isLoading: verificationSettingDataLoading,
-  //   isError: verificationSettingDataError,
-  //   data: verificationSettingData,
-  // } = useVerificationSettingGet({ id: id });
+  const {
+    isLoading: verificationSettingDataLoading,
+    isError: verificationSettingDataError,
+    data: verificationSettingData,
+  } = useVerificationSettingGet({ id: 1 });
 
-  // if (verificationSettingDataLoading) {
-  //   return <GovrnSpinner />;
-  // }
+  if (verificationSettingDataLoading) {
+    return <GovrnSpinner />;
+  }
 
-  // if (verificationSettingDataError) {
-  //   return <Text>An error occurred fetching the Verification Settings.</Text>;
-  // }
+  if (verificationSettingDataError) {
+    return <Text>An error occurred fetching the Verification Settings.</Text>;
+  }
 
-  // console.log('vf data', verificationSettingData);
+  console.log('vf data', verificationSettingData);
 
   return (
     <Flex
@@ -53,7 +53,7 @@ const VerificationFramework = ({ id }: { id: number }) => {
             option you can always return and edit settings.
           </Text>
         </Flex>
-        <VerificationFrameworkForm />
+        <VerificationFrameworkForm id={id} />
       </Flex>
     </Flex>
   );
