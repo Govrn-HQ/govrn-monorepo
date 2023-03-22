@@ -4,19 +4,21 @@ import useVerificationSettingGet from '../hooks/useVerificationSettingGet';
 import VerificationFrameworkForm from './VerificationFrameworkForm';
 
 const VerificationFramework = ({ id }: { id: number }) => {
-  const {
-    isLoading: verificationSettingDataLoading,
-    isError: verificationSettingDataError,
-    data: verificationSettingData,
-  } = useVerificationSettingGet({ id: id });
+  // const {
+  //   isLoading: verificationSettingDataLoading,
+  //   isError: verificationSettingDataError,
+  //   data: verificationSettingData,
+  // } = useVerificationSettingGet({ id: id });
 
-  if (verificationSettingDataLoading) {
-    return <GovrnSpinner />;
-  }
+  // if (verificationSettingDataLoading) {
+  //   return <GovrnSpinner />;
+  // }
 
-  if (verificationSettingDataError) {
-    return <Text>An error occurred fetching the Verification Settings.</Text>;
-  }
+  // if (verificationSettingDataError) {
+  //   return <Text>An error occurred fetching the Verification Settings.</Text>;
+  // }
+
+  // console.log('vf data', verificationSettingData);
 
   return (
     <Flex
