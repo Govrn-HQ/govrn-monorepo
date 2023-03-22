@@ -210,6 +210,24 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     },
     refetchOnWindowFocus: false,
   });
+  // TODO: Fetch user activity types
+  //   const {
+  //   data: guildActivityTypeListData,
+  //   isError: guildActivityTypeListIsError,
+  //   isLoading: guildActivityTypeListIsLoading,
+  // } = useGuildActivityTypesList({
+  //   args: {
+  //     first: 10000,
+  //     where: {
+  //       guild: {
+  //         is: {
+  //           id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+  //         },
+  //       },
+  //     },
+  //   },
+  //   refetchOnWindowFocus: false,
+  // });
 
   const combinedActivityTypeOptions = useMemo(() => {
     if (!guildActivityTypeListData) return [];
