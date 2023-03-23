@@ -82,14 +82,15 @@ model Guild {
   name                           String? // legacy
   congrats_channel               String? // legacy
   logo                           String?
-  status                         GuildStatus            @default(INPUTTED)
+  status                         GuildStatus            @default(VALIDATED)
   contributions                  GuildContribution[]
   users                          GuildUser[]
   twitter_accounts               TwitterAccount[]
   activity_type                  GuildActivityType[]
   contribution_reporting_channel String?
   guild_imports                  GuildImport[]
-  verificationSettings          VerificationSetting[]
+  verification_setting_id        Int?
+  verification_setting           VerificationSetting? @relation(fields: [verification_setting_id], references: [id])
 }
 
 model GuildMembershipStatus {
@@ -489,9 +490,8 @@ model TwitterTweetContribution {
 
 model VerificationSetting {
   id                  Int      @id @default(autoincrement())
-  guild_id            Int?
-  guild               Guild?   @relation(fields: [guild_id], references: [id])
-  num_of_attestations Int
   createdAt           DateTime @default(now())
   updatedAt           DateTime @default(now()) @updatedAt
+  num_of_attestations Int
+  guilds               Guild[]
 }

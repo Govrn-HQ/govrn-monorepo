@@ -4,10 +4,12 @@ import PageHeading from './PageHeading';
 import DaoTextareaForm from './DaoTextareaForm';
 import DaoImportCard from './DaoImportCard';
 import ModalWrapper from './ModalWrapper';
+import { useNavigate } from 'react-router-dom';
 
 const CreateDaoLayout = () => {
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
+  const navigate = useNavigate();
 
   const createDaoModalHandler = () => {
     setModals({ createDaoModal: true });
@@ -59,7 +61,11 @@ const CreateDaoLayout = () => {
         title="Create a DAO"
         localOverlay={localOverlay}
         size="3xl"
-        content={<DaoTextareaForm />}
+        content={
+          <DaoTextareaForm
+            onSuccess={daoId => navigate(`/dao/${daoId}/settings`)}
+          />
+        }
       />
     </>
   );

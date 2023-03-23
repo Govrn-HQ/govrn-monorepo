@@ -17,16 +17,6 @@ export class VerificationSettingGroupBy {
   })
   id!: number;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  guild_id!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  num_of_attestations!: number;
-
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
@@ -36,6 +26,11 @@ export class VerificationSettingGroupBy {
     nullable: false
   })
   updatedAt!: Date;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  num_of_attestations!: number;
 
   @TypeGraphQL.Field(_type => VerificationSettingCountAggregate, {
     nullable: true

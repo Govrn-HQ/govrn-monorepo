@@ -4,10 +4,10 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType("VerificationSettingOrderByRelationAggregateInput", {
+@TypeGraphQL.InputType("GuildOrderByRelationAggregateInput", {
   isAbstract: true
 })
-export class VerificationSettingOrderByRelationAggregateInput {
+export class GuildOrderByRelationAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })

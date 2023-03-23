@@ -12,16 +12,6 @@ export class VerificationSettingCreateManyInput {
   })
   id?: number | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  guild_id?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  num_of_attestations!: number;
-
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
@@ -31,4 +21,9 @@ export class VerificationSettingCreateManyInput {
     nullable: true
   })
   updatedAt?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  num_of_attestations!: number;
 }
