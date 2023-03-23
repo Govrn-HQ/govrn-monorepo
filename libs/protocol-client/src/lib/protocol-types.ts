@@ -19210,6 +19210,16 @@ export type GetGuildContributionQueryVariables = Exact<{
 
 export type GetGuildContributionQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string }, verificationStatus?: { id: number, name: string } | null } | null };
 
+export type ListGuildContributionsQueryVariables = Exact<{
+  where: GuildContributionWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<GuildContributionOrderByWithRelationInput> | GuildContributionOrderByWithRelationInput>;
+}>;
+
+
+export type ListGuildContributionsQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string }, verificationStatus?: { id: number, name: string } | null }> };
+
 export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, display_name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } };
 
 export type CreateGuildUserCustomMutationVariables = Exact<{
@@ -20181,6 +20191,18 @@ export const GetGuildContributionDocument = gql`
   }
 }
     ${GuildContributionFragmentFragmentDoc}`;
+export const ListGuildContributionsDocument = gql`
+    query listGuildContributions($where: GuildContributionWhereInput!, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildContributionOrderByWithRelationInput!]) {
+  result: guildContributions(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildContributionFragment
+  }
+}
+    ${GuildContributionFragmentFragmentDoc}`;
 export const CreateGuildUserCustomDocument = gql`
     mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
   createGuildUserCustom(data: $data) {
@@ -20644,6 +20666,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getGuildContribution(variables: GetGuildContributionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildContributionQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetGuildContributionQuery>(GetGuildContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuildContribution', 'query');
+    },
+    listGuildContributions(variables: ListGuildContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildContributionsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildContributionsQuery>(ListGuildContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildContributions', 'query');
     },
     createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');

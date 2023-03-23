@@ -9,6 +9,7 @@ import { Twitter } from './client/twitter';
 import { User } from './client/user';
 import { GraphQLClient } from 'graphql-request';
 import { Chain } from './client/chain';
+import { GuildContribution } from './protocol-types';
 
 export { cursorPagination } from './client/pagination';
 
@@ -19,6 +20,7 @@ export class GovrnProtocol {
   custom: Custom;
   chain: Chain;
   contribution: Contribution;
+  guildContribution: GuildContribution;
   jobRun: JobRun;
   guild: Guild;
   linear: Linear;
@@ -47,6 +49,7 @@ export class GovrnProtocol {
     this.twitter = new Twitter(this.client);
     this.jobRun = new JobRun(this.client);
     this.guild = new Guild(this.client);
+    this.guildContribution = new GuildContribution(this.client);
     this.custom = new Custom(this.client);
   }
 }
