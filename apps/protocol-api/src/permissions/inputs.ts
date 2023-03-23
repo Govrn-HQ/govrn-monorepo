@@ -226,6 +226,7 @@ export const updateGuildCustomInput = inputRule()(
         discord_id: yup.string(),
         logo: yup.string(),
         name: yup.string(),
+        verification_setting_id: yup.number().nullable(),
       }),
     }),
   { abortEarly: false },
@@ -281,14 +282,16 @@ export const createOneVerificationSettingInput = inputRule()(
     yup.object({
       data: yup.object({
         num_of_attestations: yup.number().required(),
-        guild: yup.object({
-          connect: yup
-            .object({
-              discord_id: yup.string(),
-              id: yup.string().required(),
-            })
-            .required(),
-        }),
+        guilds: yup.array(
+          yup.object({
+            connect: yup
+              .object({
+                discord_id: yup.string(),
+                id: yup.string().required(),
+              })
+              .required(),
+          }),
+        ),
       }),
     }),
   { abortEarly: false },
@@ -302,13 +305,15 @@ export const updateOneVerificationSettingInput = inputRule()(
       }),
       data: yup.object({
         num_of_attestations: yup.number().required(),
-        guild: yup.object({
-          connect: yup
-            .object({
-              discord_id: yup.string(),
-              id: yup.string().required(),
-            })
-            .required(),
+        guilds: yup.object({
+          connect: yup.array(
+            yup
+              .object({
+                discord_id: yup.string(),
+                id: yup.string().required(),
+              })
+              .required(),
+          ),
         }),
       }),
     }),
