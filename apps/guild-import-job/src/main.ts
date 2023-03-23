@@ -102,41 +102,43 @@ const main = async () => {
     const membershipStatusId = membershipStatus.id;
 
     await Promise.all(
-      roles.map(async role => {
-        console.log(
-          `:: Role '${role.name}' has ${role.members.length} ${pluralize(
-            'member',
-            role.members.length,
-          )}.`,
-        );
+      roles
+        .filter(r => r !== null)
+        .map(async role => {
+          console.log(
+            `:: Role '${role.name}' has ${role.members.length} ${pluralize(
+              'member',
+              role.members.length,
+            )}.`,
+          );
 
-        await Promise.all(
-          chunk(role.members, CHUNK_SIZE).map(async members => {
-            await govrn.user.createMany({
-              data: members.map(add => ({
-                address: add,
-                chain_type_id: CHAIN_TYPE_ID,
-              })),
-              skipDuplicates: true,
-            });
+          await Promise.all(
+            chunk(role.members, CHUNK_SIZE).map(async members => {
+              await govrn.user.createMany({
+                data: members.map(add => ({
+                  address: add,
+                  chain_type_id: CHAIN_TYPE_ID,
+                })),
+                skipDuplicates: true,
+              });
 
-            const dbUsers = await govrn.user.list({
-              where: {
-                address: { in: members },
-              },
-            });
+              const dbUsers = await govrn.user.list({
+                where: {
+                  address: { in: members },
+                },
+              });
 
-            await govrn.guild.user.createMany({
-              data: dbUsers.map(u => ({
-                guild_id: guildId,
-                user_id: u.id,
-                membership_status_id: membershipStatusId,
-              })),
-              skipDuplicates: true,
-            });
-          }),
-        );
-      }),
+              await govrn.guild.user.createMany({
+                data: dbUsers.map(u => ({
+                  guild_id: guildId,
+                  user_id: u.id,
+                  membership_status_id: membershipStatusId,
+                })),
+                skipDuplicates: true,
+              });
+            }),
+          );
+        }),
     );
 
     await updateImportStatus({
