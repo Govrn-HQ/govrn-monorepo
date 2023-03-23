@@ -9,11 +9,11 @@ import useVerificationSettingCreate from '../hooks/useVerificationSettingCreate'
 import useVerificationSettingUpdate from '../hooks/useVerificationSettingUpdate';
 
 const VerificationFrameworkForm = ({
-  id,
+  verificationSettingsId,
   daoId,
   numberOfAttestations,
 }: {
-  id: number;
+  verificationSettingsId: number | null | undefined;
   daoId: number;
   numberOfAttestations: number | null;
 }) => {
@@ -43,10 +43,10 @@ const VerificationFrameworkForm = ({
   useEffect(() => {
     setValue(
       'verificationFramework',
-      id === null ? 'none' : 'numberOfAttestors',
+      verificationSettingsId === null ? 'none' : 'numberOfAttestors',
     );
     setValue('numberOfAttestors', numberOfAttestations || '');
-  }, [id, setValue]);
+  }, [verificationSettingsId, setValue]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
@@ -98,8 +98,12 @@ const VerificationFrameworkForm = ({
               setValue('verificationFramework', verificationFramework.value);
             }}
             defaultValue={{
-              value: id === null ? 'none' : 'numberOfAttestors',
-              label: id === null ? 'None' : 'Number of Attestors',
+              value:
+                verificationSettingsId === null ? 'none' : 'numberOfAttestors',
+              label:
+                verificationSettingsId === null
+                  ? 'None'
+                  : 'Number of Attestors',
             }}
             options={verificationFrameworkOptions}
             isSearchable={false}
