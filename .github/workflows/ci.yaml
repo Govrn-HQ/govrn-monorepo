@@ -131,7 +131,7 @@ jobs:
           touch ./apps/protocol-api/.env
           echo DATABASE_URL=${{ secrets.DATABASE_URL }}  >> ./apps/protocol-api/.env
       - name: Apply migration
-        run: yarn nx affected:migrateDeploy --base $BASE
+        run: yarn nx affected --target migrateDeploy --base $BASE
 
       - name: Deploy
         run: npx nx affected --target deploy --base $BASE --parallel --max-parallel=3
