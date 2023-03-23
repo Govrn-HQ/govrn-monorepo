@@ -4,17 +4,17 @@ import useVerificationSettingGet from '../hooks/useVerificationSettingGet';
 import VerificationFrameworkForm from './VerificationFrameworkForm';
 
 const VerificationFramework = ({
-  verificationSettingsId,
+  verificationSettingId,
   daoId,
 }: {
-  verificationSettingsId: number | null | undefined;
+  verificationSettingId: number | null | undefined;
   daoId: number;
 }) => {
   const {
     isLoading: verificationSettingDataLoading,
     isError: verificationSettingDataError,
     data: verificationSettingData,
-  } = useVerificationSettingGet({ id: verificationSettingsId });
+  } = useVerificationSettingGet({ id: verificationSettingId });
 
   if (verificationSettingDataLoading) {
     return <GovrnSpinner />;
@@ -58,7 +58,7 @@ const VerificationFramework = ({
           </Text>
         </Flex>
         <VerificationFrameworkForm
-          verificationSettingsId={verificationSettingsId ?? null}
+          verificationSettingId={verificationSettingId ?? null}
           daoId={daoId}
           numberOfAttestations={
             verificationSettingData?.num_of_attestations ?? null

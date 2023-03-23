@@ -9,11 +9,11 @@ import useVerificationSettingCreate from '../hooks/useVerificationSettingCreate'
 import useVerificationSettingUpdate from '../hooks/useVerificationSettingUpdate';
 
 const VerificationFrameworkForm = ({
-  verificationSettingsId,
+  verificationSettingId,
   daoId,
   numberOfAttestations,
 }: {
-  verificationSettingsId: number | null | undefined;
+  verificationSettingId: number | null | undefined;
   daoId: number;
   numberOfAttestations: number | null;
 }) => {
@@ -43,10 +43,10 @@ const VerificationFrameworkForm = ({
   useEffect(() => {
     setValue(
       'verificationFramework',
-      verificationSettingsId === null ? 'none' : 'numberOfAttestors',
+      verificationSettingId === null ? 'none' : 'numberOfAttestors',
     );
     setValue('numberOfAttestors', numberOfAttestations || '');
-  }, [verificationSettingsId, setValue]);
+  }, [verificationSettingId, setValue]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
@@ -64,7 +64,7 @@ const VerificationFrameworkForm = ({
     //   numberOfAttestations: values.numberOfAttestors,
     // });
     await updateVerificationSetting({
-      id: id,
+      id: verificationSettingId,
       daoId: daoId,
       numberOfAttestations: values.numberOfAttestors,
     });
@@ -99,11 +99,9 @@ const VerificationFrameworkForm = ({
             }}
             defaultValue={{
               value:
-                verificationSettingsId === null ? 'none' : 'numberOfAttestors',
+                verificationSettingId === null ? 'none' : 'numberOfAttestors',
               label:
-                verificationSettingsId === null
-                  ? 'None'
-                  : 'Number of Attestors',
+                verificationSettingId === null ? 'None' : 'Number of Attestors',
             }}
             options={verificationFrameworkOptions}
             isSearchable={false}

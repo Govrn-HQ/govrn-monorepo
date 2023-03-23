@@ -10,7 +10,7 @@ export const useVerificationSettingUpdate = () => {
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async (updateValues: {
-      id: number;
+      id: number | null | undefined;
       daoId: number;
       numberOfAttestations: number | null;
     }) => {
@@ -18,12 +18,7 @@ export const useVerificationSettingUpdate = () => {
       const resp = await govrn.guild.verification_setting.update(
         {
           num_of_attestations: {
-            increment: 1,
-          },
-          guild: {
-            connect: {
-              id: updateValues.daoId,
-            },
+            set: 1,
           },
         },
         {

@@ -26,7 +26,7 @@ const DaoSettingsLayout = () => {
     data: daoData,
   } = useDaoGet({ id: parseInt(guildId ?? '') });
 
-  const verificationSettingsId = daoData?.verification_setting_id;
+  const verificationSettingId = daoData?.verification_setting_id;
 
   const isAdmin =
     useUserData?.userDaos.get(parseInt(guildId ?? ''))?.membershipStatus
@@ -101,7 +101,7 @@ const DaoSettingsLayout = () => {
       {isAdmin === true ? (
         <FeatureFlagWrapper>
           <VerificationFramework
-            verificationSettingsId={verificationSettingsId}
+            verificationSettingId={verificationSettingId}
             daoId={parseInt(guildId ? guildId : '')}
           />
         </FeatureFlagWrapper>
