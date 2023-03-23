@@ -12,16 +12,6 @@ export class VerificationSettingMinAggregate {
   })
   id!: number | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  guild_id!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  num_of_attestations!: number | null;
-
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
@@ -31,4 +21,9 @@ export class VerificationSettingMinAggregate {
     nullable: true
   })
   updatedAt!: Date | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  num_of_attestations!: number | null;
 }

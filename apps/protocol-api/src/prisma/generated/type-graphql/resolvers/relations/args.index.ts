@@ -19,3 +19,4 @@ export * from "./LinearUser/args";
 export * from "./TwitterTweet/args";
 export * from "./TwitterUser/args";
 export * from "./User/args";
+export * from "./VerificationSetting/args";

@@ -9,10 +9,10 @@ import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserC
 import { TwitterAccountCreateNestedManyWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedManyWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
 
-@TypeGraphQL.InputType("GuildCreateWithoutVerificationSettingsInput", {
+@TypeGraphQL.InputType("GuildCreateWithoutVerification_settingInput", {
   isAbstract: true
 })
-export class GuildCreateWithoutVerificationSettingsInput {
+export class GuildCreateWithoutVerification_settingInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })

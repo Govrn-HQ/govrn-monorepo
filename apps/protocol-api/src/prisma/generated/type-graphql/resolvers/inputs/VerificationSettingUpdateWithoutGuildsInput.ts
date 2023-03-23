@@ -5,15 +5,10 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 
-@TypeGraphQL.InputType("VerificationSettingUpdateWithoutGuildInput", {
+@TypeGraphQL.InputType("VerificationSettingUpdateWithoutGuildsInput", {
   isAbstract: true
 })
-export class VerificationSettingUpdateWithoutGuildInput {
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  num_of_attestations?: IntFieldUpdateOperationsInput | undefined;
-
+export class VerificationSettingUpdateWithoutGuildsInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -23,4 +18,9 @@ export class VerificationSettingUpdateWithoutGuildInput {
     nullable: true
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  num_of_attestations?: IntFieldUpdateOperationsInput | undefined;
 }
