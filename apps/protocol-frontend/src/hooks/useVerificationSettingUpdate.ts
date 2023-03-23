@@ -18,7 +18,7 @@ export const useVerificationSettingUpdate = () => {
       const resp = await govrn.guild.verification_setting.update(
         {
           num_of_attestations: {
-            set: 1,
+            set: updateValues.numberOfAttestations,
           },
         },
         {

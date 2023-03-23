@@ -26,6 +26,8 @@ const DaoSettingsLayout = () => {
     data: daoData,
   } = useDaoGet({ id: parseInt(guildId ?? '') });
 
+  console.log('dao data', daoData);
+
   const verificationSettingId = daoData?.verification_setting_id;
 
   const isAdmin =

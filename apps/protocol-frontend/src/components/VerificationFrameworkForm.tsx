@@ -23,6 +23,8 @@ const VerificationFrameworkForm = ({
     resolver: yupResolver(verificationFrameworkFormValidation),
   });
 
+  console.log('verificationSettingId', verificationSettingId);
+
   const {
     mutateAsync: updateVerificationSetting,
     isLoading: updateVerificationSettingLoading,
@@ -57,7 +59,6 @@ const VerificationFrameworkForm = ({
     VerificationFrameworkFormValues
   > = async values => {
     setSubmitting(true);
-    console.log('form values', values); // placeholder for the hook call
 
     // await createVerificationSetting({
     //   daoId: daoId,
@@ -66,7 +67,7 @@ const VerificationFrameworkForm = ({
     await updateVerificationSetting({
       id: verificationSettingId,
       daoId: daoId,
-      numberOfAttestations: values.numberOfAttestors,
+      numberOfAttestations: 1,
     });
     setSubmitting(false); // will be on success
   };
@@ -126,7 +127,7 @@ const VerificationFrameworkForm = ({
           <Button
             variant="secondary"
             type="submit"
-            disabled={submitting || Object.keys(errors).length !== 0}
+            // disabled={submitting || Object.keys(errors).length !== 0}
           >
             Apply Verification Settings
           </Button>

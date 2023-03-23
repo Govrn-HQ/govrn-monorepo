@@ -289,7 +289,7 @@ export const createOneVerificationSettingInput = inputRule()(
                 discord_id: yup.string(),
                 id: yup.string().required(),
               })
-              .required(),
+              .required(), // has max length of 1. for both update and create
           }),
         ),
       }),
@@ -304,7 +304,9 @@ export const updateOneVerificationSettingInput = inputRule()(
         id: yup.number(),
       }),
       data: yup.object({
-        num_of_attestations: yup.number().required(),
+        num_of_attestations: yup.object({
+          set: yup.number().required(),
+        }),
         guilds: yup.object({
           connect: yup.array(
             yup
