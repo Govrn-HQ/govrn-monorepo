@@ -1,10 +1,12 @@
 import {
   createWaitlistFormValidation,
   profileFormValidation,
+  verificationFrameworkFormValidation,
 } from '../utils/validations';
 import type { InferType } from 'yup';
 
 // contribution forms
+
 export type ContributionFormValues = {
   name?: string;
   activityType?: string;
@@ -56,3 +58,7 @@ export type DaoUserCreateValues = {
   userAddress?: string;
   membershipStatus?: string;
 };
+
+export type VerificationFrameworkFormValues = Partial<
+  InferType<typeof verificationFrameworkFormValidation>
+>;

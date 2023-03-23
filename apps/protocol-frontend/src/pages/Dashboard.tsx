@@ -26,7 +26,7 @@ const CopyChildren = () => (
       <span role="img" aria-labelledby="pencil and paper emoji">
         📝
       </span>{' '}
-      Add a Contribution to view your Dashboard
+      Add a contribution to view your dashboard
     </Text>
     <Text as="span">
       {' '}
@@ -110,11 +110,14 @@ const Dashboard = () => {
     isLoading: userContributionsLoading,
     isFetching: userContributionsFetching,
     isError: userContributionsError,
-  } = useContributionList({
-    where: {
-      user_id: { equals: userData?.id },
+  } = useContributionList(
+    {
+      where: {
+        user_id: { equals: userData?.id },
+      },
     },
-  });
+    false,
+  );
 
   if (userContributionsLoading || userContributionsFetching) {
     return <GovrnSpinner />;

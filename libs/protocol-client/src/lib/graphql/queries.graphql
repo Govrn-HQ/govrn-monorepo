@@ -166,6 +166,7 @@ fragment GuildFragment on Guild {
   updatedAt
   contribution_reporting_channel
   status
+  verification_setting_id
 }
 
 mutation createGuild($data: GuildCreateInput!) {
@@ -182,7 +183,7 @@ query getGuild($where: GuildWhereUniqueInput!) {
 
 mutation updateGuildCustom(
   $data: GuildUpdateCustomInput!
-  $where: GuildUpdateCustomWhereInput!
+  $where: GuildCustomWhereInput!
 ) {
   updateGuildCustom(data: $data, where: $where) {
     ...GuildFragment
@@ -204,7 +205,63 @@ query getActiveGuildUsersAverage($where: GetActiveUsersInput!) {
   result: getActiveGuildUsersAverage(where: $where)
 }
 
-# GuildImport
+# GuildActivityType
+fragment GuildActivityTypeFragment on GuildActivityType {
+  id
+  guild {
+    id
+    name
+  }
+  activity_type {
+    id
+    name
+  }
+}
+
+query listGuildActivityTypes(
+  $where: GuildActivityTypeWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildActivityTypeOrderByWithRelationInput!]
+) {
+  result: guildActivityTypes(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildActivityTypeFragment
+  }
+}
+# Guild Contribution
+fragment GuildContributionFragment on GuildContribution {
+  id
+  createdAt
+  updatedAt
+  verified
+  guild {
+    id
+    name
+  }
+  contribution {
+    id
+    name
+  }
+  attestation_threshold
+  verified
+  verificationStatus {
+    id
+    name
+  }
+}
+
+query getGuildContribution($where: GuildContributionWhereUniqueInput!) {
+  result: guildContribution(where: $where) {
+    ...GuildContributionFragment
+  }
+}
+
+# GuildUser
 fragment GuildImportFragment on GuildImport {
   id
   createdAt
@@ -569,7 +626,7 @@ fragment ContributionFragment on Contribution {
   attestations {
     id
     user_id
-    date_of_attestation
+    createdAt
     attestation_status {
       id
       name
@@ -743,6 +800,12 @@ fragment ActivityTypeFragment on ActivityType {
   id
   name
   updatedAt
+  guilds {
+    guild {
+      id
+      name
+    }
+  }
 }
 
 query listActivityTypes(
@@ -763,11 +826,7 @@ query listActivityTypes(
 
 query listActivityTypesByUser($where: ListActivityTypesByUserInput!) {
   result: listActivityTypesByUser(where: $where) {
-    id
-    name
-    active
-    createdAt
-    updatedAt
+    ...ActivityTypeFragment
   }
 }
 
@@ -941,7 +1000,6 @@ fragment AttestationFragment on Attestation {
     user_id
     on_chain_id
   }
-  date_of_attestation
   id
   updatedAt
   user {
@@ -968,5 +1026,34 @@ fragment ChainFragment on Chain {
 query getChain($where: ChainWhereUniqueInput!) {
   result: chain(where: $where) {
     ...ChainFragment
+  }
+}
+
+# Verification settings
+fragment VerificationSettingFragment on VerificationSetting {
+  id
+  createdAt
+  updatedAt
+  num_of_attestations
+}
+
+query getVerificationSetting($where: VerificationSettingWhereUniqueInput!) {
+  result: verificationSetting(where: $where) {
+    ...VerificationSettingFragment
+  }
+}
+
+mutation createVerificationSetting($data: VerificationSettingCreateInput!) {
+  result: createOneVerificationSetting(data: $data) {
+    ...VerificationSettingFragment
+  }
+}
+
+mutation updateVerificationSetting(
+  $where: VerificationSettingWhereUniqueInput!
+  $data: VerificationSettingUpdateInput!
+) {
+  result: updateOneVerificationSetting(where: $where, data: $data) {
+    ...VerificationSettingFragment
   }
 }

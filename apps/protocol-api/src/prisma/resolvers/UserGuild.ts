@@ -87,7 +87,7 @@ export class GuildUserCustomResolver {
       throw new Error('Signature address does not equal requested address');
     }
 
-    if (args.data.guildId === undefined) {
+    if (args.data.guildId === 0) {
       const guildCreate = await prisma.guild.create({
         data: {
           name: args.data.guildName,

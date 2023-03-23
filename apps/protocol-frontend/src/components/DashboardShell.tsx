@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import PageHeading from './PageHeading';
-import { ControlledSelect, GovrnSpinner } from '@govrn/protocol-ui';
+import {
+  ControlledSelect,
+  GovrnSpinner,
+  SelectOption,
+} from '@govrn/protocol-ui';
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
@@ -11,6 +15,7 @@ import { useDaosList } from '../hooks/useDaosList';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
 import { DEFAULT_DATE_RANGES } from '../utils/constants';
+import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 import pluralize from 'pluralize';
 import useDisplayName from '../hooks/useDisplayName';
 
@@ -18,8 +23,8 @@ const TODAY_DATE = new Date();
 
 const unassignedContributions = [
   {
-    value: Number(null),
     label: UNASSIGNED,
+    value: Number(null),
   },
 ];
 
@@ -27,9 +32,9 @@ const DashboardShell = () => {
   const { userData } = useUser();
   const { displayName } = useDisplayName();
 
-  const [dateRange, setDateRange] = useState<{ label: string; value: number }>({
-    value: 52,
+  const [dateRange, setDateRange] = useState<SelectOption<number>>({
     label: 'Last Year',
+    value: 52,
   });
   const [selectedDaos, setSelectedDaos] = useState<
     { value: number; label: string }[]
@@ -41,13 +46,27 @@ const DashboardShell = () => {
     isError: userDaosListIsError,
     data: userDaosListData,
   } = useDaosList({
-    where: { users: { some: { user_id: { equals: userData?.id || 0 } } } }, // show only user's DAOs
+    where: {
+      users: {
+        some: {
+          AND: [
+            { user_id: { equals: userData?.id || 0 } },
+            {
+              membershipStatus: {
+                isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } },
+              },
+            },
+          ],
+        },
+      },
+    },
+    first: 1000,
   });
 
   const userDaoListOptions =
     userDaosListData?.map(dao => ({
-      value: dao.id,
       label: dao.name ?? '',
+      value: dao.id,
     })) || [];
 
   const combinedDaoListOptions = [
@@ -147,6 +166,9 @@ const DashboardShell = () => {
                   label="Choose Date Range"
                   tip="Choose the date range for your contributions."
                   onChange={date => {
+                    if (date instanceof Array || !date) {
+                      return;
+                    }
                     setDateRange(date);
                   }}
                   options={DEFAULT_DATE_RANGES}
@@ -203,7 +225,7 @@ const DashboardShell = () => {
                 color="gray.800"
                 fontWeight="normal"
               >
-                {} Contribution Bar Chart
+                Contribution Bar Chart
               </Heading>
               {contributionsCount ? (
                 <>

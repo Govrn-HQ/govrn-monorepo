@@ -1,9 +1,6 @@
 export { default as ControlledDatePicker } from './ControlledDatePicker';
 export type { ControlledDatePickerProps } from './ControlledDatePicker';
-export { default as ControlledSelect } from './ControlledSelect';
-export type { ControlledSelectProps, Option } from './ControlledSelect';
-export { default as CreatableSelect } from './CreatableSelect';
-export type { CreatableSelectProps } from './CreatableSelect';
+
 export { default as ControlledTextarea } from './ControlledTextarea';
 export type { ControlledTextareaProps } from './ControlledTextarea';
 export { default as DatePicker } from './DatePicker';
@@ -12,8 +9,9 @@ export { default as GovrnShowcase } from './GovrnShowcase';
 export type { GovrnShowcaseProps } from './GovrnShowcase';
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
-export { default as Select } from './Select';
-export type { SelectProps } from './Select';
+export { default as NumberInput } from './NumberInput';
+export type { NumberInputProps } from './NumberInput';
+export * from './Select';
 export { default as Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 export { default as Toast } from './Toast';
@@ -21,3 +19,5 @@ export type { ToastProps } from './Toast';
 export type { InputLocalFormType } from './Input';
 export { default as GovrnCta } from './GovrnCta';
 export type { GovrnCtaProps } from './GovrnCta';
+export { default as Pill } from './Pill';
+export type { PillProps } from './Pill';

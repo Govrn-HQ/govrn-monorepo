@@ -32,11 +32,6 @@ export class AttestationCreateManyConfidenceInput {
   })
   contribution_id!: number;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  date_of_attestation?: Date | undefined;
-
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { EnumGuildStatusWithAggregatesFilter } from "../inputs/EnumGuildStatusWithAggregatesFilter";
+import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
 
@@ -70,4 +71,9 @@ export class GuildScalarWhereWithAggregatesInput {
     nullable: true
   })
   contribution_reporting_channel?: StringNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  verification_setting_id?: IntNullableWithAggregatesFilter | undefined;
 }

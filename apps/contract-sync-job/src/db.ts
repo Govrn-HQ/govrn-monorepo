@@ -191,7 +191,6 @@ export const upsertAttestation = async (attestation: {
   confidence_id: number;
   user_id: number;
   contribution_id: number;
-  date_of_attestation: Date;
 }) => {
   return await govrn.attestation.upsert({
     where: {
@@ -204,11 +203,9 @@ export const upsertAttestation = async (attestation: {
       attestation_status: { connect: { name: 'attested' } },
       user: { connect: { id: attestation.user_id } },
       contribution: { connect: { id: attestation.contribution_id } },
-      date_of_attestation: attestation.date_of_attestation,
     },
     update: {
       attestation_status: { connect: { name: 'attested' } },
-      date_of_attestation: { set: attestation.date_of_attestation },
     },
   });
 };

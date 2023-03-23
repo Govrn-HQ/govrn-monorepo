@@ -6,7 +6,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
@@ -22,8 +21,11 @@ import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 const AttestationsTableShell = () => {
   const { userData } = useUser();
   const guildIds = userData?.guild_users
-    ? userData?.guild_users.map(guild => guild.guild_id)
-    : [];
+    ? userData?.guild_users
+        .filter(guild => guild?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME)
+        .map(guild => guild.guild_id)
+    : []; // filter out the daos a user has left
+
   const {
     isFetching,
     data: contributions,
@@ -35,18 +37,7 @@ const AttestationsTableShell = () => {
       status: { is: { name: { equals: 'minted' } } },
       user: {
         is: {
-          AND: [
-            { id: { not: { equals: userData?.id || 0 } } },
-            {
-              guild_users: {
-                every: {
-                  membershipStatus: {
-                    is: { name: { notIn: [LEFT_MEMBERSHIP_NAME] } },
-                  },
-                },
-              },
-            },
-          ],
+          id: { not: { equals: userData?.id || 0 } },
         },
       },
       guilds: {
@@ -140,29 +131,13 @@ const AttestationsTableShell = () => {
                 boxShadow="sm"
                 borderRadius={{ base: 'none', md: 'lg' }}
               >
-                <Stack spacing="5">
-                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
-                    <Stack direction="column" gap="2">
-                      <Text fontSize="lg" fontWeight="medium">
-                        My Attestations
-                      </Text>
-                      <Text fontSize="md" fontWeight="normal">
-                        These are contributions that you have already attested
-                        to.
-                      </Text>
-                    </Stack>
-                  </Box>
+                <Stack>
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
-                    {attestedContributions &&
-                    attestedContributions?.pages.length > 0 ? (
-                      <MyAttestationsTable
-                        data={mergePages(attestedContributions?.pages || [])}
-                        hasMoreItems={hasNextPageAttestedContributions}
-                        nextPage={fetchNextPageAttestedContributions}
-                      />
-                    ) : (
-                      <EmptyContributions />
-                    )}
+                    <MyAttestationsTable
+                      data={mergePages(attestedContributions?.pages || [])}
+                      hasMoreItems={hasNextPageAttestedContributions}
+                      nextPage={fetchNextPageAttestedContributions}
+                    />
                   </Box>
                 </Stack>
               </Box>
