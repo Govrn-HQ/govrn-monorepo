@@ -12,4 +12,9 @@ export class GuildSumOrderByAggregateInput {
     nullable: true
   })
   id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  verification_setting_id?: "asc" | "desc" | undefined;
 }

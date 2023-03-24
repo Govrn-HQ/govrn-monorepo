@@ -166,10 +166,7 @@ fragment GuildFragment on Guild {
   updatedAt
   contribution_reporting_channel
   status
-  verificationSettings {
-    id
-    num_of_attestations
-  }
+  verification_setting_id
 }
 
 mutation createGuild($data: GuildCreateInput!) {
@@ -1008,7 +1005,6 @@ fragment VerificationSettingFragment on VerificationSetting {
   id
   createdAt
   updatedAt
-  guild_id
   num_of_attestations
 }
 

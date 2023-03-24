@@ -11,10 +11,10 @@ import { GuildUserUpdateManyWithoutGuildNestedInput } from "../inputs/GuildUserU
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { TwitterAccountUpdateManyWithoutGuildNestedInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildNestedInput";
 
-@TypeGraphQL.InputType("GuildUpdateWithoutVerificationSettingsInput", {
+@TypeGraphQL.InputType("GuildUpdateWithoutVerification_settingInput", {
   isAbstract: true
 })
-export class GuildUpdateWithoutVerificationSettingsInput {
+export class GuildUpdateWithoutVerification_settingInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })

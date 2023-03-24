@@ -4,22 +4,17 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { VerificationSettingWhereInput } from "../inputs/VerificationSettingWhereInput";
 
-@TypeGraphQL.InputType("VerificationSettingListRelationFilter", {
+@TypeGraphQL.InputType("VerificationSettingRelationFilter", {
   isAbstract: true
 })
-export class VerificationSettingListRelationFilter {
+export class VerificationSettingRelationFilter {
   @TypeGraphQL.Field(_type => VerificationSettingWhereInput, {
     nullable: true
   })
-  every?: VerificationSettingWhereInput | undefined;
+  is?: VerificationSettingWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => VerificationSettingWhereInput, {
     nullable: true
   })
-  some?: VerificationSettingWhereInput | undefined;
-
-  @TypeGraphQL.Field(_type => VerificationSettingWhereInput, {
-    nullable: true
-  })
-  none?: VerificationSettingWhereInput | undefined;
+  isNot?: VerificationSettingWhereInput | undefined;
 }

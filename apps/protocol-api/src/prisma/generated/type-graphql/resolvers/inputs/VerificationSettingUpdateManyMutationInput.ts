@@ -9,11 +9,6 @@ import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperation
   isAbstract: true
 })
 export class VerificationSettingUpdateManyMutationInput {
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  num_of_attestations?: IntFieldUpdateOperationsInput | undefined;
-
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -23,4 +18,9 @@ export class VerificationSettingUpdateManyMutationInput {
     nullable: true
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  num_of_attestations?: IntFieldUpdateOperationsInput | undefined;
 }
