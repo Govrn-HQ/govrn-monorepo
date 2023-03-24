@@ -247,9 +247,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             label: item.activity_type.name,
           })),
         }
-      : {};
-    // TODO: Missing custom types in a section
-    return [
+      : null;
+    const results = [
       ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
       ...Object.keys(groupedActivityTypes).map(key => ({
         label: key,
@@ -258,8 +257,11 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           label: item.activity,
         })),
       })),
-      personalTypes,
     ];
+    if (personalTypes) {
+      results.push(personalTypes);
+    }
+    return results;
   }, [guildActivityTypeListData, userActivityListData]);
 
   // the loading and fetching states from the query are true:

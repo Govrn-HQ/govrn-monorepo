@@ -139,10 +139,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             label: item.activity_type.name,
           })),
         }
-      : {};
+      : null;
 
-    // TODO: Missing custom types in a section
-    return [
+    const results = [
       ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
       ...Object.keys(groupedActivityTypes).map(key => ({
         label: key,
@@ -151,8 +150,11 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
           label: item.activity,
         })),
       })),
-      personalTypes,
     ];
+    if (personalTypes) {
+      results.push(personalTypes);
+    }
+    return results;
   }, [guildActivityTypeListData, userActivityListData]);
 
   useEffect(() => {
