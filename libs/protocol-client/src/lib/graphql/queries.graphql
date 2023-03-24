@@ -265,7 +265,7 @@ query getGuildContribution($where: GuildContributionWhereUniqueInput!) {
 }
 
 query listGuildContributions(
-  $where: GuildContributionWhereInput!
+  $where: GuildContributionWhereInput! = {}
   $skip: Int! = 0
   $first: Int! = 10
   $orderBy: [GuildContributionOrderByWithRelationInput!]

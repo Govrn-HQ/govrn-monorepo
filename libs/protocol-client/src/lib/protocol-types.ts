@@ -19230,7 +19230,7 @@ export type GetGuildContributionQueryVariables = Exact<{
 export type GetGuildContributionQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string }, verificationStatus?: { id: number, name: string } | null } | null };
 
 export type ListGuildContributionsQueryVariables = Exact<{
-  where: GuildContributionWhereInput;
+  where?: GuildContributionWhereInput;
   skip?: Scalars['Int'];
   first?: Scalars['Int'];
   orderBy?: InputMaybe<Array<GuildContributionOrderByWithRelationInput> | GuildContributionOrderByWithRelationInput>;
@@ -20207,7 +20207,7 @@ export const GetGuildContributionDocument = gql`
 }
     ${GuildContributionFragmentFragmentDoc}`;
 export const ListGuildContributionsDocument = gql`
-    query listGuildContributions($where: GuildContributionWhereInput!, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildContributionOrderByWithRelationInput!]) {
+    query listGuildContributions($where: GuildContributionWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [GuildContributionOrderByWithRelationInput!]) {
   result: guildContributions(
     where: $where
     skip: $skip
@@ -20682,7 +20682,7 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getGuildContribution(variables: GetGuildContributionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildContributionQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetGuildContributionQuery>(GetGuildContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuildContribution', 'query');
     },
-    listGuildContributions(variables: ListGuildContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildContributionsQuery> {
+    listGuildContributions(variables?: ListGuildContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildContributionsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListGuildContributionsQuery>(ListGuildContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildContributions', 'query');
     },
     createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
