@@ -19220,14 +19220,14 @@ export type ListGuildActivityTypesQueryVariables = Exact<{
 
 export type ListGuildActivityTypesQuery = { result: Array<{ id: number, guild: { id: number, name?: string | null }, activity_type: { id: number, name: string } }> };
 
-export type GuildContributionFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string }, verificationStatus?: { id: number, name: string } | null };
+export type GuildContributionFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string, attestations: Array<{ id: number }> }, verificationStatus?: { id: number, name: string } | null };
 
 export type GetGuildContributionQueryVariables = Exact<{
   where: GuildContributionWhereUniqueInput;
 }>;
 
 
-export type GetGuildContributionQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string }, verificationStatus?: { id: number, name: string } | null } | null };
+export type GetGuildContributionQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string, attestations: Array<{ id: number }> }, verificationStatus?: { id: number, name: string } | null } | null };
 
 export type ListGuildContributionsQueryVariables = Exact<{
   where?: GuildContributionWhereInput;
@@ -19237,7 +19237,7 @@ export type ListGuildContributionsQueryVariables = Exact<{
 }>;
 
 
-export type ListGuildContributionsQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string }, verificationStatus?: { id: number, name: string } | null }> };
+export type ListGuildContributionsQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string, attestations: Array<{ id: number }> }, verificationStatus?: { id: number, name: string } | null }> };
 
 export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, display_name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } };
 
@@ -19747,6 +19747,9 @@ export const GuildContributionFragmentFragmentDoc = gql`
   contribution {
     id
     name
+    attestations {
+      id
+    }
   }
   attestation_threshold
   verified

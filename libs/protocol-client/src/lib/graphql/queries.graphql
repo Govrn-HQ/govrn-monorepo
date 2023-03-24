@@ -249,6 +249,9 @@ fragment GuildContributionFragment on GuildContribution {
   contribution {
     id
     name
+    attestations {
+      id
+    }
   }
   attestation_threshold
   verified
