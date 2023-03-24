@@ -67,7 +67,7 @@ const VerificationFrameworkForm = ({
     await updateVerificationSetting({
       id: verificationSettingId,
       daoId: daoId,
-      numberOfAttestations: 1,
+      numberOfAttestations: values.numberOfAttestors,
     });
     setSubmitting(false); // will be on success
   };

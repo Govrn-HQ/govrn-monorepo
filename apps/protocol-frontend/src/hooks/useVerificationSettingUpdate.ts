@@ -12,9 +12,8 @@ export const useVerificationSettingUpdate = () => {
     async (updateValues: {
       id: number | null | undefined;
       daoId: number;
-      numberOfAttestations: number | null;
+      numberOfAttestations: number | null | undefined;
     }) => {
-      console.log('update values', updateValues);
       const resp = await govrn.guild.verification_setting.update(
         {
           num_of_attestations: {

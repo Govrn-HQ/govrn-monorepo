@@ -171,11 +171,12 @@ const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
   ['createGuildUserCustom', 'data.guildId'],
-  ['updateOneVerificationSetting', 'data.guild.connect.id'],
-  ['createOneVerificationSetting', 'data.guilds.connect.id'], // pass the path in something such as guilds.connect.0.id
+  ['updateOneVerificationSetting', 'data.guild.connect.0.id'],
+  ['createOneVerificationSetting', 'data.guilds.connect.0.id'], // pass the path in something such as guilds.connect.0.id
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
+  console.log('args', args);
   try {
     const guildId = byString(args, isGuildAdminMapping.get(info.fieldName));
     const user = await ctx.prisma.user.findFirst({

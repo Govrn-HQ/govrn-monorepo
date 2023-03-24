@@ -13,9 +13,17 @@ export const useVerificationSettingCreate = () => {
       daoId: number | undefined;
       numberOfAttestations: number;
     }) => {
+      console.log('daoId', createValues.daoId);
       if (!createValues.daoId) return;
       const resp = await govrn.guild.verification_setting.create({
         num_of_attestations: createValues.numberOfAttestations,
+        guilds: {
+          connect: [
+            {
+              id: 4,
+            },
+          ],
+        },
       });
 
       return resp;
