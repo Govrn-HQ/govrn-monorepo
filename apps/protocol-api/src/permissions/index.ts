@@ -213,6 +213,7 @@ const JOB_ONLY_QUERIES = {
   linearIssues: hasToken,
   contributionStatuses: hasToken,
   chain: hasToken,
+  guildContributions: hasToken,
 };
 
 const JOB_ONLY_MUTATIONS = {
@@ -470,14 +471,19 @@ export const permissions = shield(
     },
     GuildContribution: {
       id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
       contribution_id: or(isAuthenticated, hasToken),
+      contribution: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
-      verification_status_id: or(isAuthenticated, hasToken),
       attestation_threshold: or(isAuthenticated, hasToken),
+      verification_status_id: or(isAuthenticated, hasToken),
+      verificationStatus: or(isAuthenticated, hasToken),
     },
     GuildContributionVerificationStatus: {
       id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       guild_contributions: or(isAuthenticated, hasToken),
