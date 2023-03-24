@@ -15,7 +15,7 @@ const VerificationFrameworkForm = ({
 }: {
   verificationSettingId: number | null | undefined;
   daoId: number;
-  numberOfAttestations: number | null;
+  numberOfAttestations: number | undefined;
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const localForm = useForm({
@@ -59,16 +59,18 @@ const VerificationFrameworkForm = ({
     VerificationFrameworkFormValues
   > = async values => {
     setSubmitting(true);
-
-    // await createVerificationSetting({
-    //   daoId: daoId,
-    //   numberOfAttestations: values.numberOfAttestors,
-    // });
-    await updateVerificationSetting({
-      id: verificationSettingId,
+    if (!values.numberOfAttestors) {
+      return;
+    }
+    await createVerificationSetting({
       daoId: daoId,
       numberOfAttestations: values.numberOfAttestors,
     });
+    // await updateVerificationSetting({
+    //   id: verificationSettingId,
+    //   daoId: daoId,
+    //   numberOfAttestations: values.numberOfAttestors,
+    // });
     setSubmitting(false); // will be on success
   };
 

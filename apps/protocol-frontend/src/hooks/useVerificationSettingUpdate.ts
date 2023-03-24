@@ -31,7 +31,7 @@ export const useVerificationSettingUpdate = () => {
           id: updateValues.id,
         },
       );
-      console.log('resp', resp);
+
       return resp;
     },
     {

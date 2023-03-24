@@ -172,7 +172,7 @@ const isGuildAdminMapping = new Map([
   ['updateGuildUserCustom', 'data.guildId'],
   ['createGuildUserCustom', 'data.guildId'],
   ['updateOneVerificationSetting', 'data.guilds.connect.0.id'],
-  ['createOneVerificationSetting', 'data.guilds.connect.0.id'], // pass the path in something such as guilds.connect.0.id
+  ['createOneVerificationSetting', 'data.guilds.connect.0.id'],
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
