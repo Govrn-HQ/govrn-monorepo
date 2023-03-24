@@ -229,6 +229,7 @@ const JOB_ONLY_MUTATIONS = {
   createOneUserActivity: hasToken,
   updateOneContribution: hasToken,
   updateOneGuild: hasToken,
+  updateOneGuildContribution: hasToken,
   updateOneUser: hasToken,
   upsertOneAttestation: hasToken,
   upsertOneActivityType: hasToken,
