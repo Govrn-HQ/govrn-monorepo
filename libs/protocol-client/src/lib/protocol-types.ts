@@ -7364,7 +7364,7 @@ export type GuildUpdateCustomInput = {
   discord_id?: InputMaybe<Scalars['String']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
-  verification_settings_id?: InputMaybe<Scalars['Float']>;
+  verification_setting_id?: InputMaybe<Scalars['Float']>;
 };
 
 export type GuildUpdateInput = {

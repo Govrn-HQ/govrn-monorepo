@@ -64,7 +64,7 @@ export class GuildUpdateCustomInput {
   @TypeGraphQL.Field(_type => Number, {
     nullable: true,
   })
-  verification_settings_id?: number;
+  verification_setting_id?: number;
 }
 
 @TypeGraphQL.InputType('GuildCustomWhereInput', {

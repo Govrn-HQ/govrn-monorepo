@@ -11,7 +11,10 @@ export const useDaoUpdate = () => {
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async (daoUpdateValues: DaoUpdateValues) => {
       const mutationData = await govrn.guild.update(
-        { name: daoUpdateValues.name },
+        {
+          name: daoUpdateValues.name,
+          verification_setting_id: daoUpdateValues.verificationSettingId,
+        },
         { guildId: daoUpdateValues.guildId },
       );
       return mutationData;
