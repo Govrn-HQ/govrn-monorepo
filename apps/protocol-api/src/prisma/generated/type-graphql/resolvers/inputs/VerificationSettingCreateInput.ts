@@ -2,22 +2,12 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { GuildCreateNestedOneWithoutVerificationSettingsInput } from "../inputs/GuildCreateNestedOneWithoutVerificationSettingsInput";
+import { GuildCreateNestedManyWithoutVerification_settingInput } from "../inputs/GuildCreateNestedManyWithoutVerification_settingInput";
 
 @TypeGraphQL.InputType("VerificationSettingCreateInput", {
   isAbstract: true
 })
 export class VerificationSettingCreateInput {
-  @TypeGraphQL.Field(_type => GuildCreateNestedOneWithoutVerificationSettingsInput, {
-    nullable: true
-  })
-  guild?: GuildCreateNestedOneWithoutVerificationSettingsInput | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  num_of_attestations!: number;
-
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
@@ -27,4 +17,14 @@ export class VerificationSettingCreateInput {
     nullable: true
   })
   updatedAt?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  num_of_attestations!: number;
+
+  @TypeGraphQL.Field(_type => GuildCreateNestedManyWithoutVerification_settingInput, {
+    nullable: true
+  })
+  guilds?: GuildCreateNestedManyWithoutVerification_settingInput | undefined;
 }

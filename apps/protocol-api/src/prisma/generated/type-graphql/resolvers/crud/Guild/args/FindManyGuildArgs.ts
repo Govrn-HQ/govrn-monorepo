@@ -35,5 +35,5 @@ export class FindManyGuildArgs {
   @TypeGraphQL.Field(_type => [GuildScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "discord_id" | "name" | "congrats_channel" | "logo" | "status" | "contribution_reporting_channel"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "discord_id" | "name" | "congrats_channel" | "logo" | "status" | "contribution_reporting_channel" | "verification_setting_id"> | undefined;
 }

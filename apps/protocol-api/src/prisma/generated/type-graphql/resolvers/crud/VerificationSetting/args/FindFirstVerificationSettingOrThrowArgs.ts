@@ -35,5 +35,5 @@ export class FindFirstVerificationSettingOrThrowArgs {
   @TypeGraphQL.Field(_type => [VerificationSettingScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "guild_id" | "num_of_attestations" | "createdAt" | "updatedAt"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "num_of_attestations"> | undefined;
 }

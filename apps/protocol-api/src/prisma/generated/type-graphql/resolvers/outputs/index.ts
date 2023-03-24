@@ -253,6 +253,7 @@ export { UserMaxAggregate } from "./UserMaxAggregate";
 export { UserMinAggregate } from "./UserMinAggregate";
 export { UserSumAggregate } from "./UserSumAggregate";
 export { VerificationSettingAvgAggregate } from "./VerificationSettingAvgAggregate";
+export { VerificationSettingCount } from "./VerificationSettingCount";
 export { VerificationSettingCountAggregate } from "./VerificationSettingCountAggregate";
 export { VerificationSettingGroupBy } from "./VerificationSettingGroupBy";
 export { VerificationSettingMaxAggregate } from "./VerificationSettingMaxAggregate";

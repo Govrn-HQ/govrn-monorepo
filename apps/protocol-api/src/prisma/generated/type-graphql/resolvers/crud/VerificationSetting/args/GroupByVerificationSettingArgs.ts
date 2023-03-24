@@ -20,7 +20,7 @@ export class GroupByVerificationSettingArgs {
   @TypeGraphQL.Field(_type => [VerificationSettingScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "guild_id" | "num_of_attestations" | "createdAt" | "updatedAt">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "num_of_attestations">;
 
   @TypeGraphQL.Field(_type => VerificationSettingScalarWhereWithAggregatesInput, {
     nullable: true
