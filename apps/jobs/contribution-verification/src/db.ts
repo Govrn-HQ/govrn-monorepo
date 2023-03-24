@@ -48,3 +48,19 @@ export async function getUnverifiedContributions(daoId: number) {
   });
   return result.result;
 }
+
+export async function upsertVerifiedGuildContribution(contributionId: number) {
+  await govrn.guildContribution.upsert({
+    where: { id: contributionId },
+    data: {
+      verificationStatus: {
+        connect: {
+          name: 'verified',
+        },
+      },
+      verified: {
+        set: true,
+      },
+    },
+  });
+}

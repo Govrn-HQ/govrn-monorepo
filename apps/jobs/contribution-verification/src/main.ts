@@ -3,6 +3,7 @@ import {
   getDaosWithVerificationSettings,
   getDaoVerificationThreshold,
   getUnverifiedContributions,
+  upsertVerifiedGuildContribution,
 } from './db';
 
 const BATCH_SIZE = 100;
@@ -10,7 +11,7 @@ const BATCH_SIZE = 100;
 const main = async () => {
   console.log('starting contribution verification');
 
-  // Check all guild contributions and compare to verifications
+  // Check all unverified guild contributions and compare to verifications
   // mark as verified if they meet the attestation threshold
   // skip daos without verification thresholds
 
