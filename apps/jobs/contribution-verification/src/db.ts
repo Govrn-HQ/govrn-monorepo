@@ -1,7 +1,7 @@
 import { GovrnProtocol } from '@govrn/protocol-client';
 
 const PROTOCOL_URL = process.env.PROTOCOL_URL;
-const TOKEN = ''; //process.env.CONTRIBUTION_VERIFICATION_TOKEN
+const TOKEN = process.env.CONTRIBUTION_VERIFICATION_TOKEN;
 
 export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
   Authorization: TOKEN,
@@ -9,6 +9,8 @@ export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
 
 // Get all DAOs with verification settings
 export async function getDaosWithVerificationSettings() {
+  console.log(PROTOCOL_URL);
+  console.log(TOKEN);
   return await govrn.guild.list({
     where: {
       verification_setting_id: {
