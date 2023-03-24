@@ -126,13 +126,6 @@ jobs:
         env:
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm install -g wrangler
-      - name: Add migration vars
-        run: |
-          touch ./apps/protocol-api/.env
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }}  >> ./apps/protocol-api/.env
-      - name: Apply migration
-        run: yarn nx affected:migrateDeploy --base $BASE
-
       - name: Deploy
         run: npx nx affected --target deploy --base $BASE --parallel --max-parallel=3
       - name: Verify
