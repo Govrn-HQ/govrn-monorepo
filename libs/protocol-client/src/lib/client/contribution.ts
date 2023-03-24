@@ -3,8 +3,11 @@ import { BaseClient } from './base';
 import {
   BulkCreateContributionMutationVariables,
   CreateContributionMutationVariables,
+  GuildContributionWhereInput,
   ListContributionsQuery,
   ListContributionsQueryVariables,
+  ListGuildContributionsQuery,
+  ListGuildContributionsQueryVariables,
   UpdateContributionMutationVariables,
   UpsertContributionMutationVariables,
 } from '../protocol-types';
@@ -409,5 +412,14 @@ export class ContributionStatus extends BaseClient {
       return contributions.contributionStatuses[0];
     }
     return { id: 0, name: '' };
+  }
+}
+
+export class GuildContribution extends BaseClient {
+  public async list(args: ListGuildContributionsQueryVariables) {
+    return paginate<
+      ListGuildContributionsQueryVariables,
+      ListGuildContributionsQuery
+    >(this.sdk.listGuildContributions, args);
   }
 }
