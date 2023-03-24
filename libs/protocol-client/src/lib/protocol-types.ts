@@ -19167,11 +19167,7 @@ export type CreateJobRunMutationVariables = Exact<{
 
 export type CreateJobRunMutation = { createOneJobRun: { completedDate: string | Date, startDate: string | Date, name: string } };
 
-<<<<<<< HEAD
-export type GuildFragmentFragment = { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verificationSettings: Array<{ id: number, num_of_attestations: number }> };
-=======
 export type GuildFragmentFragment = { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verification_setting_id?: number | null };
->>>>>>> fde9a34435f439b2b4d697944f29cf2b550710ac
 
 export type CreateGuildMutationVariables = Exact<{
   data: GuildCreateInput;
@@ -19185,11 +19181,7 @@ export type GetGuildQueryVariables = Exact<{
 }>;
 
 
-<<<<<<< HEAD
-export type GetGuildQuery = { result?: { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verificationSettings: Array<{ id: number, num_of_attestations: number }> } | null };
-=======
 export type GetGuildQuery = { result?: { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verification_setting_id?: number | null } | null };
->>>>>>> fde9a34435f439b2b4d697944f29cf2b550710ac
 
 export type UpdateGuildCustomMutationVariables = Exact<{
   data: GuildUpdateCustomInput;
@@ -19197,11 +19189,7 @@ export type UpdateGuildCustomMutationVariables = Exact<{
 }>;
 
 
-<<<<<<< HEAD
-export type UpdateGuildCustomMutation = { updateGuildCustom: { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verificationSettings: Array<{ id: number, num_of_attestations: number }> } };
-=======
 export type UpdateGuildCustomMutation = { updateGuildCustom: { congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verification_setting_id?: number | null } };
->>>>>>> fde9a34435f439b2b4d697944f29cf2b550710ac
 
 export type ListGuildsQueryVariables = Exact<{
   where?: GuildWhereInput;
@@ -19211,11 +19199,7 @@ export type ListGuildsQueryVariables = Exact<{
 }>;
 
 
-<<<<<<< HEAD
-export type ListGuildsQuery = { result: Array<{ congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verificationSettings: Array<{ id: number, num_of_attestations: number }> }> };
-=======
 export type ListGuildsQuery = { result: Array<{ congrats_channel?: string | null, createdAt: string | Date, discord_id?: string | null, id: number, logo?: string | null, name?: string | null, updatedAt: string | Date, contribution_reporting_channel?: string | null, status: GuildStatus, verification_setting_id?: number | null }> };
->>>>>>> fde9a34435f439b2b4d697944f29cf2b550710ac
 
 export type GetActiveGuildUsersAverageQueryVariables = Exact<{
   where: GetActiveUsersInput;
@@ -19734,14 +19718,7 @@ export const GuildFragmentFragmentDoc = gql`
   updatedAt
   contribution_reporting_channel
   status
-<<<<<<< HEAD
-  verificationSettings {
-    id
-    num_of_attestations
-  }
-=======
   verification_setting_id
->>>>>>> fde9a34435f439b2b4d697944f29cf2b550710ac
 }
     `;
 export const GuildActivityTypeFragmentFragmentDoc = gql`

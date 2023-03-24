@@ -1,6 +1,6 @@
 import { ActivityType } from './client/activity_type';
 import { Attestation } from './client/attestation';
-import { Contribution } from './client/contribution';
+import { Contribution, GuildContribution } from './client/contribution';
 import { Custom } from './client/custom';
 import { JobRun } from './client/jobRun';
 import { Guild } from './client/guild';
@@ -9,7 +9,6 @@ import { Twitter } from './client/twitter';
 import { User } from './client/user';
 import { GraphQLClient } from 'graphql-request';
 import { Chain } from './client/chain';
-import { GuildContribution } from './protocol-types';
 
 export { cursorPagination } from './client/pagination';
 
