@@ -240,6 +240,15 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       'guild',
     );
 
+    const personalTypes = userActivityListData
+      ? {
+          label: 'Personal',
+          options: userActivityListData.map(item => ({
+            value: item.activity_type.name,
+            label: item.activity_type.name,
+          })),
+        }
+      : {};
     // TODO: Missing custom types in a section
     return [
       ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
@@ -250,6 +259,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           label: item.activity,
         })),
       })),
+      personalTypes,
     ];
   }, [guildActivityTypeListData]);
 

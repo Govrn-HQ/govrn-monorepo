@@ -19525,14 +19525,14 @@ export type UpsertActivityTypeMutationVariables = Exact<{
 
 export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
-export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } };
+export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number, name: string }, user: { id: number } };
 
 export type CreateUserActivityMutationVariables = Exact<{
   data: UserActivityCreateInput;
 }>;
 
 
-export type CreateUserActivityMutation = { createOneUserActivity: { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } } };
+export type CreateUserActivityMutation = { createOneUserActivity: { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number, name: string }, user: { id: number } } };
 
 export type ListUserActivityQueryVariables = Exact<{
   where?: UserActivityWhereInput;
@@ -19542,7 +19542,7 @@ export type ListUserActivityQueryVariables = Exact<{
 }>;
 
 
-export type ListUserActivityQuery = { userActivities: Array<{ createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } }> };
+export type ListUserActivityQuery = { userActivities: Array<{ createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number, name: string }, user: { id: number } }> };
 
 export type ListAttestationsQueryVariables = Exact<{
   where?: AttestationWhereInput;
@@ -19959,6 +19959,7 @@ export const UserActivityFragmentFragmentDoc = gql`
     fragment UserActivityFragment on UserActivity {
   activity_type {
     id
+    name
   }
   createdAt
   id

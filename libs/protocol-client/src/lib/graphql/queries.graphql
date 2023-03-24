@@ -810,6 +810,7 @@ mutation upsertActivityType(
 fragment UserActivityFragment on UserActivity {
   activity_type {
     id
+    name
   }
   createdAt
   id
