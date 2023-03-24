@@ -283,6 +283,15 @@ query listGuildContributions(
   }
 }
 
+mutation updateGuildContribution(
+  $data: GuildContributionUpdateInput!
+  $where: GuildContributionWhereUniqueInput!
+) {
+  updateOneGuildContribution(data: $data, where: $where) {
+    ...GuildContributionFragment
+  }
+}
+
 # GuildUser
 fragment GuildUserFragment on GuildUser {
   id

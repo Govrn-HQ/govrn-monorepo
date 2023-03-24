@@ -19239,6 +19239,14 @@ export type ListGuildContributionsQueryVariables = Exact<{
 
 export type ListGuildContributionsQuery = { result: Array<{ id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string, attestations: Array<{ id: number }> }, verificationStatus?: { id: number, name: string } | null }> };
 
+export type UpdateGuildContributionMutationVariables = Exact<{
+  data: GuildContributionUpdateInput;
+  where: GuildContributionWhereUniqueInput;
+}>;
+
+
+export type UpdateGuildContributionMutation = { updateOneGuildContribution?: { id: number, createdAt: string | Date, updatedAt: string | Date, verified: boolean, attestation_threshold?: number | null, guild: { id: number, name?: string | null }, contribution: { id: number, name: string, attestations: Array<{ id: number }> }, verificationStatus?: { id: number, name: string } | null } | null };
+
 export type GuildUserFragmentFragment = { id: number, createdAt: string | Date, updatedAt: string | Date, favorite: boolean, user_id: number, user: { name?: string | null, display_name?: string | null, address: string }, guild: { id: number, name?: string | null }, membershipStatus: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } };
 
 export type CreateGuildUserCustomMutationVariables = Exact<{
@@ -20221,6 +20229,13 @@ export const ListGuildContributionsDocument = gql`
   }
 }
     ${GuildContributionFragmentFragmentDoc}`;
+export const UpdateGuildContributionDocument = gql`
+    mutation updateGuildContribution($data: GuildContributionUpdateInput!, $where: GuildContributionWhereUniqueInput!) {
+  updateOneGuildContribution(data: $data, where: $where) {
+    ...GuildContributionFragment
+  }
+}
+    ${GuildContributionFragmentFragmentDoc}`;
 export const CreateGuildUserCustomDocument = gql`
     mutation createGuildUserCustom($data: GuildUserCreateCustomInput!) {
   createGuildUserCustom(data: $data) {
@@ -20687,6 +20702,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     listGuildContributions(variables?: ListGuildContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildContributionsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListGuildContributionsQuery>(ListGuildContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildContributions', 'query');
+    },
+    updateGuildContribution(variables: UpdateGuildContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildContributionMutation>(UpdateGuildContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildContribution', 'mutation');
     },
     createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');
