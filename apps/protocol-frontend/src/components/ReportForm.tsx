@@ -260,7 +260,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       })),
       personalTypes,
     ];
-  }, [guildActivityTypeListData]);
+  }, [guildActivityTypeListData, userActivityListData]);
 
   // the loading and fetching states from the query are true:
   if (

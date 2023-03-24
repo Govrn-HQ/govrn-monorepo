@@ -153,7 +153,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       })),
       personalTypes,
     ];
-  }, [guildActivityTypeListData]);
+  }, [guildActivityTypeListData, userActivityListData]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
