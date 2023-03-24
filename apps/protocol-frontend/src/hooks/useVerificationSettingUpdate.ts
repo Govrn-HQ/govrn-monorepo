@@ -1,4 +1,4 @@
-import { GovrnProtocol, UserUpdateCustomInput } from '@govrn/protocol-client';
+import { GovrnProtocol } from '@govrn/protocol-client';
 import { PROTOCOL_URL } from '../utils/constants';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useGovrnToast } from '@govrn/protocol-ui';

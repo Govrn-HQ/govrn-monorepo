@@ -7,6 +7,7 @@ import { VerificationFrameworkFormValues } from '../types/forms';
 import { verificationFrameworkFormValidation } from '../utils/validations';
 import useVerificationSettingCreate from '../hooks/useVerificationSettingCreate';
 import useVerificationSettingUpdate from '../hooks/useVerificationSettingUpdate';
+import { useDaoUpdate } from '../hooks/useDaoUpdate';
 
 const VerificationFrameworkForm = ({
   verificationSettingId,
@@ -35,6 +36,9 @@ const VerificationFrameworkForm = ({
     isLoading: createVerificationSettingLoading,
   } = useVerificationSettingCreate();
 
+  const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
+    useDaoUpdate();
+
   const {
     handleSubmit,
     setValue,
@@ -62,15 +66,25 @@ const VerificationFrameworkForm = ({
     if (!values.numberOfAttestors) {
       return;
     }
-    await createVerificationSetting({
-      daoId: daoId,
-      numberOfAttestations: values.numberOfAttestors,
-    });
-    // await updateVerificationSetting({
-    //   id: verificationSettingId,
-    //   daoId: daoId,
-    //   numberOfAttestations: values.numberOfAttestors,
-    // });
+    if (verificationSettingId === null) {
+      await createVerificationSetting({
+        daoId: daoId,
+        numberOfAttestations: values.numberOfAttestors,
+      }).then(data => {
+        updateDao({
+          verificationSettingId: data.id,
+          guildId: daoId,
+        });
+      });
+    }
+
+    if (verificationSettingId !== null) {
+      await updateVerificationSetting({
+        id: verificationSettingId,
+        daoId: daoId,
+        numberOfAttestations: values.numberOfAttestors,
+      });
+    }
     setSubmitting(false); // will be on success
   };
 

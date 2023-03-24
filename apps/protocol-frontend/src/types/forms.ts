@@ -4,6 +4,7 @@ import {
   verificationFrameworkFormValidation,
 } from '../utils/validations';
 import type { InferType } from 'yup';
+import { VerificationSetting } from '../../../../libs/protocol-client/src/lib/protocol-types';
 
 // contribution forms
 
@@ -44,6 +45,7 @@ export type DaoCsvImportFormValues = {
 export type DaoUpdateValues = {
   userId?: number;
   guildId: number;
+  VerificationSettingId?: number;
   name?: string;
 };
 

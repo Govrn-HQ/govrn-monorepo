@@ -60,6 +60,11 @@ export class GuildUpdateCustomInput {
     nullable: true,
   })
   logo?: string;
+
+  @TypeGraphQL.Field(_type => Number, {
+    nullable: true,
+  })
+  verification_settings_id?: number;
 }
 
 @TypeGraphQL.InputType('GuildCustomWhereInput', {
