@@ -38,12 +38,6 @@ export async function getUnverifiedContributions(daoId: number) {
           name: { equals: 'unverified' },
         },
       },
-      /**
-       * TODO: is the verified field redundant?
-       * verified: {
-       *  equals: false,
-       * },
-       */
     },
   });
   return result.result;
@@ -57,9 +51,6 @@ export async function upsertVerifiedGuildContribution(contributionId: number) {
         connect: {
           name: 'verified',
         },
-      },
-      verified: {
-        set: true,
       },
     },
   });
