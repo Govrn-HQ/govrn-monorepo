@@ -241,7 +241,6 @@ fragment GuildContributionFragment on GuildContribution {
   id
   createdAt
   updatedAt
-  verified
   guild {
     id
     name
