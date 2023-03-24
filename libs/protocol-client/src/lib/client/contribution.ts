@@ -9,6 +9,7 @@ import {
   ListGuildContributionsQuery,
   ListGuildContributionsQueryVariables,
   UpdateContributionMutationVariables,
+  UpdateGuildContributionMutationVariables,
   UpsertContributionMutationVariables,
 } from '../protocol-types';
 import {
@@ -421,5 +422,9 @@ export class GuildContribution extends BaseClient {
       ListGuildContributionsQueryVariables,
       ListGuildContributionsQuery
     >(this.sdk.listGuildContributions, args);
+  }
+
+  public async upsert(args: UpdateGuildContributionMutationVariables) {
+    return await this.sdk.updateGuildContribution(args);
   }
 }
