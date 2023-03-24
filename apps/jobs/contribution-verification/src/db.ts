@@ -57,3 +57,14 @@ export async function upsertVerifiedGuildContribution(contributionId: number) {
     },
   });
 }
+
+// TODO: ENG-1019
+export const createJobRun = async (job: {
+  startDate: Date;
+  completedDate: Date;
+  name: string;
+}) => {
+  return await govrn.jobRun.create({
+    data: job,
+  });
+};
