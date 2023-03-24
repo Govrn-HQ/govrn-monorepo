@@ -50,3 +50,7 @@ const main = async () => {
     );
   }
 };
+
+main()
+  .then()
+  .catch(e => console.error(e));
