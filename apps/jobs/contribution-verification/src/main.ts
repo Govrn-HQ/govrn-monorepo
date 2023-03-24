@@ -37,9 +37,8 @@ const main = async () => {
         const contributionId = guildContribution.id;
         const attestationCount =
           guildContribution.contribution.attestations.length;
-        const verified = guildContribution.verified;
 
-        if (!verified && attestationCount >= settingThreshold) {
+        if (attestationCount >= settingThreshold) {
           console.log(
             `verifying dao: ${name} contribution: ${contributionId} attestationCount: ${attestationCount} threshold: ${settingThreshold}`,
           );
