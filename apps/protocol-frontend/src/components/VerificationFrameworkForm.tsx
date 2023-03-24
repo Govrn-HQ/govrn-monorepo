@@ -52,7 +52,7 @@ const VerificationFrameworkForm = ({
       verificationSettingId === null ? 'none' : 'numberOfAttestors',
     );
     setValue('numberOfAttestors', numberOfAttestations || '');
-  }, [verificationSettingId, setValue]);
+  }, [verificationSettingId, numberOfAttestations, setValue]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
@@ -67,6 +67,7 @@ const VerificationFrameworkForm = ({
       return;
     }
     if (verificationSettingId === null) {
+      console.log('new framework being created');
       await createVerificationSetting({
         daoId: daoId,
         numberOfAttestations: values.numberOfAttestors,
