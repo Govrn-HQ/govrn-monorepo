@@ -28,6 +28,7 @@
           "--port",
           "9230"
       ],
+      "envFile": "${workspaceFolder}/apps/jobs/contribution-verification/.env"
     },
     {
       "name": "Python: Bot",
