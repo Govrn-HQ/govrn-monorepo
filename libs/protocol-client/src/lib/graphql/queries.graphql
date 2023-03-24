@@ -254,7 +254,6 @@ fragment GuildContributionFragment on GuildContribution {
     }
   }
   attestation_threshold
-  verified
   verificationStatus {
     id
     name

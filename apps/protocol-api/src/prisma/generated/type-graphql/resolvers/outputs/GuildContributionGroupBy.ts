@@ -42,11 +42,6 @@ export class GuildContributionGroupBy {
   })
   verification_status_id!: number | null;
 
-  @TypeGraphQL.Field(_type => Boolean, {
-    nullable: false
-  })
-  verified!: boolean;
-
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
