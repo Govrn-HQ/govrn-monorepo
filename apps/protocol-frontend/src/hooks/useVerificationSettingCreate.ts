@@ -23,12 +23,11 @@ export const useVerificationSettingCreate = () => {
           ],
         },
       });
-      console.log('resp', resp);
+
       return resp;
     },
     {
       onSuccess: data => {
-        console.log('data', data);
         queryClient.invalidateQueries(['verificationSettings', data?.id]);
 
         toast.success({

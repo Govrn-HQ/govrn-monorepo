@@ -36,8 +36,7 @@ export const useVerificationSettingUpdate = () => {
     },
     {
       onSuccess: data => {
-        console.log('data', data);
-        // queryClient.invalidateQueries(['verificationSettings', data.id]);
+        queryClient.invalidateQueries(['verificationSettings', data?.id]);
 
         toast.success({
           title: 'Verification Settings Updated',
