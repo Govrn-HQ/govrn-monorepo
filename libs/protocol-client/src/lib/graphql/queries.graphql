@@ -832,14 +832,8 @@ query listUserActivity(
   $skip: Int! = 0
   $first: Int! = 10
   $orderBy: [UserActivityOrderByWithRelationInput!]
-
 ) {
-  userActivities(
-    where: $where
-    skip: $skip
-    take: $first
-    orderBy: $orderBy
-  ) {
+  userActivities(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
     ...UserActivityFragment
   }
 }
