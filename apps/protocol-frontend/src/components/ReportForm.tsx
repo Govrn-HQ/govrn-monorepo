@@ -211,7 +211,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     },
     refetchOnWindowFocus: false,
   });
-  // TODO: Fetch user activity types
   const {
     data: userActivityListData,
     isError: userActivityListIsError,
