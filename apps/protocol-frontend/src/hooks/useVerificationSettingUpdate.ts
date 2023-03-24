@@ -16,6 +16,13 @@ export const useVerificationSettingUpdate = () => {
     }) => {
       const resp = await govrn.guild.verification_setting.update(
         {
+          guilds: {
+            connect: [
+              {
+                id: updateValues.daoId,
+              },
+            ],
+          },
           num_of_attestations: {
             set: updateValues.numberOfAttestations,
           },

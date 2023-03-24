@@ -20,12 +20,12 @@ export const useVerificationSettingCreate = () => {
         guilds: {
           connect: [
             {
-              id: 4,
+              id: createValues.daoId,
             },
           ],
         },
       });
-
+      console.log('resp', resp);
       return resp;
     },
     {
