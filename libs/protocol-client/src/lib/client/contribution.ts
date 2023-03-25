@@ -3,7 +3,6 @@ import { BaseClient } from './base';
 import {
   BulkCreateContributionMutationVariables,
   CreateContributionMutationVariables,
-  GuildContributionWhereInput,
   ListContributionsQuery,
   ListContributionsQueryVariables,
   ListGuildContributionsQuery,
