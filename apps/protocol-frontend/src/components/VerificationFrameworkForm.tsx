@@ -14,9 +14,9 @@ const VerificationFrameworkForm = ({
   daoId,
   numberOfAttestations,
 }: {
-  verificationSettingId: number | null | undefined;
+  verificationSettingId?: number | null;
   daoId: number;
-  numberOfAttestations: number | null | undefined;
+  numberOfAttestations?: number | null;
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const localForm = useForm({

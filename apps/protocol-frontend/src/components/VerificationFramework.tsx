@@ -7,7 +7,7 @@ const VerificationFramework = ({
   verificationSettingId,
   daoId,
 }: {
-  verificationSettingId: number | null | undefined;
+  verificationSettingId?: number | null;
   daoId: number;
 }) => {
   const {
