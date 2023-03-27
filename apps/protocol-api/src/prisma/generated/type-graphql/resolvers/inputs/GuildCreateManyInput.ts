@@ -52,4 +52,9 @@ export class GuildCreateManyInput {
     nullable: true
   })
   contribution_reporting_channel?: string | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  verification_setting_id?: number | undefined;
 }

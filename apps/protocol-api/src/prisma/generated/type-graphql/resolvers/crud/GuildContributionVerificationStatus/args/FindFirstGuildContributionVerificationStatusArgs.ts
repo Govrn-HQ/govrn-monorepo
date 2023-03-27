@@ -35,5 +35,5 @@ export class FindFirstGuildContributionVerificationStatusArgs {
   @TypeGraphQL.Field(_type => [GuildContributionVerificationStatusScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "name" | "verified" | "attestation_threshold"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "name"> | undefined;
 }

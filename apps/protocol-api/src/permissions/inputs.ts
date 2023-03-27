@@ -226,6 +226,7 @@ export const updateGuildCustomInput = inputRule()(
         discord_id: yup.string(),
         logo: yup.string(),
         name: yup.string(),
+        verification_setting_id: yup.number().nullable(),
       }),
     }),
   { abortEarly: false },
@@ -271,6 +272,49 @@ export const getOrCreateActivityTypeInput = inputRule()(
       data: yup.object({
         activityTypeName: yup.string().required(),
         userId: yup.number().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const createOneVerificationSettingInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        num_of_attestations: yup.number().required(),
+        guilds: yup.array(
+          yup.object({
+            connect: yup
+              .object({
+                discord_id: yup.string(),
+                id: yup.string().required(),
+              })
+              .required(),
+          }),
+        ),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const updateOneVerificationSettingInput = inputRule()(
+  yup =>
+    yup.object({
+      where: yup.object({
+        id: yup.number(),
+      }),
+      data: yup.object({
+        num_of_attestations: yup.number().required(),
+        guilds: yup.object({
+          connect: yup.array(
+            yup
+              .object({
+                discord_id: yup.string(),
+                id: yup.string().required(),
+              })
+              .required(),
+          ),
+        }),
       }),
     }),
   { abortEarly: false },
