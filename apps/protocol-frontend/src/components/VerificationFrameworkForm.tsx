@@ -16,7 +16,7 @@ const VerificationFrameworkForm = ({
 }: {
   verificationSettingId: number | null | undefined;
   daoId: number;
-  numberOfAttestations: number | undefined;
+  numberOfAttestations: number | null | undefined;
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const localForm = useForm({
@@ -24,20 +24,13 @@ const VerificationFrameworkForm = ({
     resolver: yupResolver(verificationFrameworkFormValidation),
   });
 
-  console.log('verificationSettingId', verificationSettingId);
+  const { mutateAsync: updateVerificationSetting } =
+    useVerificationSettingUpdate();
 
-  const {
-    mutateAsync: updateVerificationSetting,
-    isLoading: updateVerificationSettingLoading,
-  } = useVerificationSettingUpdate();
+  const { mutateAsync: createVerificationSetting } =
+    useVerificationSettingCreate();
 
-  const {
-    mutateAsync: createVerificationSetting,
-    isLoading: createVerificationSettingLoading,
-  } = useVerificationSettingCreate();
-
-  const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
-    useDaoUpdate();
+  const { mutateAsync: updateDao } = useDaoUpdate();
 
   const {
     handleSubmit,
@@ -67,14 +60,16 @@ const VerificationFrameworkForm = ({
       return;
     }
     if (verificationSettingId === null) {
-      console.log('new framework being created');
       await createVerificationSetting({
         daoId: daoId,
         numberOfAttestations: values.numberOfAttestors,
       }).then(data => {
         updateDao({
-          verificationSettingId: data.id,
-          guildId: daoId,
+          daoUpdateValues: {
+            verificationSettingId: data.id,
+            guildId: daoId,
+          },
+          showToast: false,
         });
       });
     }
@@ -86,6 +81,20 @@ const VerificationFrameworkForm = ({
         numberOfAttestations: values.numberOfAttestors,
       });
     }
+
+    if (
+      verificationSettingId !== null &&
+      values.verificationFramework === 'none'
+    ) {
+      updateDao({
+        daoUpdateValues: {
+          verificationSettingId: null,
+          guildId: daoId,
+        },
+        showToast: false,
+      });
+    }
+
     setSubmitting(false); // will be on success
   };
 
@@ -144,7 +153,7 @@ const VerificationFrameworkForm = ({
           <Button
             variant="secondary"
             type="submit"
-            // disabled={submitting || Object.keys(errors).length !== 0}
+            disabled={submitting || Object.keys(errors).length !== 0}
           >
             Apply Verification Settings
           </Button>
