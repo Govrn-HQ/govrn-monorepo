@@ -1,5 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Flex, Link, Stack, Button, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Link,
+  Stack,
+  Button,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -15,14 +23,13 @@ import {
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
-import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnCta, GovrnSpinner, Pill } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
 import { RowSelectionState } from '@tanstack/table-core';
-import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
 import MemberDisplayName from './MemberDisplayName';
@@ -39,7 +46,6 @@ const AttestationsTable = ({
   const { userData } = useUser();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
-
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -48,6 +54,8 @@ const AttestationsTable = ({
   const deselectAll = () => {
     setRowSelection({});
   };
+
+  console.log('data', data);
 
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
@@ -110,21 +118,46 @@ const AttestationsTable = ({
       {
         header: 'Status',
         accessorFn: contribution =>
-          contribution.attestations.filter(attestation => {
-            return attestation.user.id === userData?.id;
-          })[0]?.attestation_status?.name || 'Unattested',
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          contribution.guilds[0]?.verified ? 'Verified' : 'Unverified',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
           const status = getValue();
-          return (
-            <Text textTransform="capitalize">
-              {status}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {statusEmojiSelect(status)}
-              </span>{' '}
-            </Text>
+          const guildHasVerificationFramework =
+            row.original.guilds[0].guild?.verification_setting_id !== null;
+          return guildHasVerificationFramework ? (
+            <Tooltip
+              variant="primary"
+              label="testing"
+              fontSize="sm"
+              placement="right"
+            >
+              <Box as="span">
+                <Pill
+                  status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                  icon={status === 'Verified' ? 'checkmark' : 'primaryInfo'}
+                  label={status === 'Verified' ? 'Verified' : 'Unattested'}
+                />
+              </Box>
+            </Tooltip>
+          ) : (
+            <Tooltip
+              variant="tertiary"
+              label="This contribution needs is not attributed to a DAO with a verification framework."
+              fontSize="sm"
+              placement="right"
+            >
+              <Box as="span">
+                <Pill
+                  status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                  label="Unattested"
+                />
+              </Box>
+            </Tooltip>
           );
         },
       },

@@ -462,6 +462,7 @@ export const permissions = shield(
       contribution_reporting_channel: or(hasToken, isAuthenticated),
       status: or(hasToken, isAuthenticated),
       verification_setting_id: or(hasToken, isAuthenticated),
+      verification_setting: or(hasToken, isAuthenticated),
     },
     GuildActivityType: {
       id: isAuthenticated,
