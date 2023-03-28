@@ -12,7 +12,6 @@ const VerificationHover = ({
   threshold,
   children,
 }: VerificationHoverProps) => {
-  console.log('threshold', threshold);
   const verificationPropsMap = {
     Verified: {
       label:
@@ -22,9 +21,9 @@ const VerificationHover = ({
     Unverified: {
       label:
         threshold === 1
-          ? `This contribution needs ${threshold} more attestations to be verified by your DAO.`
-          : `This contribution needs ${threshold} more attestation to be verified by your DAO!`,
-      variant: threshold === 1 ? 'secondary' : 'primary',
+          ? `This contribution only needs ${threshold} more attestation to be verified by your DAO! Be the one to push it through!`
+          : `This contribution needs ${threshold} more attestations to be verified by your DAO.`,
+      variant: threshold === 1 ? 'secondary' : 'primaryPurple',
     },
     noFramework: {
       label:

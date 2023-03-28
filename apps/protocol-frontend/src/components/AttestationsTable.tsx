@@ -56,7 +56,6 @@ const AttestationsTable = ({
     setRowSelection({});
   };
 
-  console.log('data', data);
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
       {
@@ -127,24 +126,32 @@ const AttestationsTable = ({
           row: Row<UIContribution>;
         }) => {
           const status = getValue();
-          const statusMap =
+          const statusMapHover =
             status === null
               ? 'noFramework'
               : status === 'Verified'
               ? 'Verified'
               : 'Unverified';
+
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
+
+          const pillStatusMap =
+            status === 'Verified'
+              ? 'checkmark'
+              : attestationThreshold === 1
+              ? 'secondaryInfo'
+              : 'primaryInfo';
           const guildHasVerificationFramework =
             row.original.guilds[0].guild?.verification_setting_id !== null;
           return guildHasVerificationFramework ? (
             <VerificationHover
-              status={statusMap}
+              status={statusMapHover}
               threshold={attestationThreshold}
             >
               <Pill
                 status={status === 'Verified' ? 'gradient' : 'tertiary'}
-                icon={status === 'Verified' ? 'checkmark' : 'primaryInfo'}
+                icon={pillStatusMap}
                 label={status === 'Verified' ? 'Verified' : 'Unverified'}
               />
             </VerificationHover>
