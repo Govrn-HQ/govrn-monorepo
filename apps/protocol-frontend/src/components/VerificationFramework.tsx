@@ -1,5 +1,5 @@
 import { Divider, Flex, Heading, Text } from '@chakra-ui/react';
-import { GovrnSpinner } from '@govrn/protocol-ui';
+
 import useVerificationSettingGet from '../hooks/useVerificationSettingGet';
 import VerificationFrameworkForm from './VerificationFrameworkForm';
 
@@ -11,14 +11,9 @@ const VerificationFramework = ({
   daoId: number;
 }) => {
   const {
-    isLoading: verificationSettingDataLoading,
     isError: verificationSettingDataError,
     data: verificationSettingData,
   } = useVerificationSettingGet({ id: verificationSettingId });
-
-  if (verificationSettingDataLoading) {
-    return <GovrnSpinner />;
-  }
 
   if (verificationSettingDataError) {
     return <Text>An error occurred fetching the Verification Settings.</Text>;

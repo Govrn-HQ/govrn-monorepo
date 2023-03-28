@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Flex, Text } from '@chakra-ui/react';
-import { NumberInput, Select } from '@govrn/protocol-ui';
+import { NumberInput, Select, GovrnSpinner } from '@govrn/protocol-ui';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { VerificationFrameworkFormValues } from '../types/forms';
@@ -24,13 +24,18 @@ const VerificationFrameworkForm = ({
     resolver: yupResolver(verificationFrameworkFormValidation),
   });
 
-  const { mutateAsync: updateVerificationSetting } =
-    useVerificationSettingUpdate();
+  const {
+    mutateAsync: updateVerificationSetting,
+    isLoading: updateVerificationSettingLoading,
+  } = useVerificationSettingUpdate();
 
-  const { mutateAsync: createVerificationSetting } =
-    useVerificationSettingCreate();
+  const {
+    mutateAsync: createVerificationSetting,
+    isLoading: createVerificationSettingLoading,
+  } = useVerificationSettingCreate();
 
-  const { mutateAsync: updateDao } = useDaoUpdate();
+  const { mutateAsync: updateDao, isLoading: updateDaoLoading } =
+    useDaoUpdate();
 
   const {
     handleSubmit,
