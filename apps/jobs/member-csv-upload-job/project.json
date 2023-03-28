@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/jobs/member-csv-upload-job/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/jobs/member-csv-upload-job",
+        "main": "apps/jobs/member-csv-upload-job/src/main.ts",
+        "tsConfig": "apps/jobs/member-csv-upload-job/tsconfig.app.json",
+        "assets": ["apps/jobs/member-csv-upload-job/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": []
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "options": {
+        "buildTarget": "jobs-member-csv-upload-job:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "jobs-member-csv-upload-job:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/jobs/member-csv-upload-job/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/jobs/member-csv-upload-job"],
+      "options": {
+        "jestConfig": "apps/jobs/member-csv-upload-job/jest.config.ts",
+        "passWithNoTests": true,
+        "verbose": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -17,7 +17,8 @@ export class GuildUser extends BaseClient {
   }
 
   public async create(args: CreateGuildUserCustomMutationVariables) {
-    return await this.sdk.createGuildUserCustom(args);
+    const guildUser = await this.sdk.createGuildUserCustom(args);
+    return guildUser.createGuildUserCustom;
   }
 
   public async delete(args: MutationDeleteOneGuildUserArgs) {
