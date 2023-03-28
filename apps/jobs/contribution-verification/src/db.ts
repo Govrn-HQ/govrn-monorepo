@@ -9,8 +9,6 @@ export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
 
 // Get all DAOs with verification settings
 export async function getDaosWithVerificationSettings() {
-  console.log(PROTOCOL_URL);
-  console.log(TOKEN);
   return await govrn.guild.list({
     where: {
       verification_setting_id: {
