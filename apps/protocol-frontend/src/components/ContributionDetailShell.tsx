@@ -121,8 +121,8 @@ const ContributionDetailShell = ({
               <Heading as="h4" fontSize="lg" fontWeight="normal">
                 {contribution?.attestations.length}
                 {contribution?.attestations.length > 1
-                  ? 'Attestations'
-                  : 'Attestation'}
+                  ? ' Attestations'
+                  : ' Attestation'}
               </Heading>
               <List listStyleType="none">
                 {contribution?.attestations.map(attestation => (
