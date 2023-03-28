@@ -1,13 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  Box,
-  Flex,
-  Link,
-  Stack,
-  Button,
-  Text,
-  Tooltip,
-} from '@chakra-ui/react';
+import { Box, Flex, Link, Stack, Button, Text } from '@chakra-ui/react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -132,10 +124,8 @@ const AttestationsTable = ({
               : status === 'Verified'
               ? 'Verified'
               : 'Unverified';
-
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
-
           const pillStatusMap =
             status === 'Verified'
               ? 'checkmark'
@@ -187,16 +177,32 @@ const AttestationsTable = ({
         header: 'DAO',
         accessorFn: contribution =>
           contribution.guilds[0]?.guild?.name ?? '---',
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const daoName = getValue();
+          const contributionVerifiedForDao =
+            row.original.guilds[0].guild?.verification_setting_id !== null &&
+            row.original.guilds[0]?.verified;
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>
-              <Text whiteSpace="normal">{getValue()}</Text>
+              <Pill
+                label={daoName}
+                icon={contributionVerifiedForDao === true ? 'checkmark' : null}
+                status={contributionVerifiedForDao ? 'primary' : 'tertiary'}
+              />
             </Flex>
           );
         },
       },
     ];
   }, [userData?.id]);
+
+  console.log('data', data);
 
   const table = useReactTable<UIContribution>({
     data: data,
