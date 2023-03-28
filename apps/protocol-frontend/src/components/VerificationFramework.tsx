@@ -1,5 +1,4 @@
 import { Divider, Flex, Heading, Text } from '@chakra-ui/react';
-
 import useVerificationSettingGet from '../hooks/useVerificationSettingGet';
 import VerificationFrameworkForm from './VerificationFrameworkForm';
 
