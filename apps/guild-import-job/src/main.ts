@@ -10,13 +10,15 @@ import {
   connectManyGuildUsers,
   listMatchingUsers,
 } from './helper/db';
+import { pullMessages, setupNats, writeMessages } from './nats';
+import { JsMsg, NatsConnection, StringCodec } from 'nats';
 
 const CHUNK_SIZE = 500;
 const GUILD_ID = process.env.GUILD_ID;
 
-const main = async () => {
-  console.log(`:: Fetching guild: ${GUILD_ID}`);
-  const getGuildResponse = await guild.get(GUILD_ID);
+const importGuild = async (name: string) => {
+  console.log(`:: Fetching guild: ${name}`);
+  const getGuildResponse = await guild.get(name);
 
   const discordPlatforms = getGuildResponse.guildPlatforms.filter(g => {
     return g.invite.startsWith('https://discord.gg');
@@ -27,7 +29,7 @@ const main = async () => {
   }
   const discordId = discordPlatforms[0].platformGuildId;
 
-  console.log(`:: Fetching roles of guild: ${GUILD_ID}.`);
+  console.log(`:: Fetching roles of guild: ${name}.`);
   const roles = await Promise.all(
     getGuildResponse.roles.map(async r => {
       return await role.get(r.id);
@@ -86,6 +88,45 @@ const main = async () => {
     });
     throw e;
   }
+};
+
+const handleNatsMessage = async (conn: NatsConnection, msg: JsMsg) => {
+  console.log(`:: Received message: ${msg}`);
+
+  const sc = StringCodec();
+  await importGuild(sc.decode(msg.data));
+};
+
+function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const handleNatsConnection = async (conn: NatsConnection) => {
+  // Publish the guild id to the stream.
+  await writeMessages(conn, streamName, [GUILD_ID]);
+  await delay(3_000);
+
+  // Start listening for messages.
+  await pullMessages(
+    conn,
+    streamName,
+    `${streamName}-durable`,
+    async (nc, msg) => {
+      console.log(`:: Received message: ${msg}`);
+      const sc = StringCodec();
+      await importGuild(sc.decode(msg.data));
+    },
+  );
+};
+
+const streamName = 'guild-import-job';
+const servers = [{ servers: 'localhost' }];
+
+const main = async () => {
+  await setupNats(servers, streamName, async conn => {
+    console.log(`:: Connected to NATS server.`, conn);
+    await handleNatsConnection(conn);
+  });
 };
 
 main()
