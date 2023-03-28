@@ -2,8 +2,8 @@ import { Box, Tooltip } from '@chakra-ui/react';
 import React from 'react';
 
 interface VerificationHoverProps {
-  status: 'verified' | 'unverified' | 'closeToThreshold' | 'noFramework';
-  threshold?: number;
+  status: 'Verified' | 'Unverified' | 'noFramework';
+  threshold?: number | null;
   children: React.ReactNode;
 }
 
@@ -12,19 +12,19 @@ const VerificationHover = ({
   threshold,
   children,
 }: VerificationHoverProps) => {
+  console.log('threshold', threshold);
   const verificationPropsMap = {
-    verified: {
+    Verified: {
       label:
         'Feel free to attest to this contribution! Even though it has been verified for this DAO, additional attestations is good. ',
       variant: 'tertiary',
     },
-    unverified: {
-      label: `This contribution needs ${threshold} more attestations to be verified by your DAO.`,
-      variant: 'primary',
-    },
-    closeToThreshold: {
-      label: `This contribution only needs ${threshold} more attestation to be verified by your DAO! Be the one to push it through!`,
-      variant: 'secondary',
+    Unverified: {
+      label:
+        threshold === 1
+          ? `This contribution needs ${threshold} more attestations to be verified by your DAO.`
+          : `This contribution needs ${threshold} more attestation to be verified by your DAO!`,
+      variant: threshold === 1 ? 'secondary' : 'primary',
     },
     noFramework: {
       label:

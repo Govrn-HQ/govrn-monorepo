@@ -33,6 +33,7 @@ import { RowSelectionState } from '@tanstack/table-core';
 import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
 import MemberDisplayName from './MemberDisplayName';
+import VerificationHover from './VerificationHover';
 
 const AttestationsTable = ({
   data,
@@ -56,7 +57,6 @@ const AttestationsTable = ({
   };
 
   console.log('data', data);
-
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
       {
@@ -127,37 +127,34 @@ const AttestationsTable = ({
           row: Row<UIContribution>;
         }) => {
           const status = getValue();
+          const statusMap =
+            status === null
+              ? 'noFramework'
+              : status === 'Verified'
+              ? 'Verified'
+              : 'Unverified';
+          const attestationThreshold =
+            row.original.guilds[0].attestation_threshold;
           const guildHasVerificationFramework =
             row.original.guilds[0].guild?.verification_setting_id !== null;
           return guildHasVerificationFramework ? (
-            <Tooltip
-              variant="primary"
-              label="testing"
-              fontSize="sm"
-              placement="right"
+            <VerificationHover
+              status={statusMap}
+              threshold={attestationThreshold}
             >
-              <Box as="span">
-                <Pill
-                  status={status === 'Verified' ? 'gradient' : 'tertiary'}
-                  icon={status === 'Verified' ? 'checkmark' : 'primaryInfo'}
-                  label={status === 'Verified' ? 'Verified' : 'Unverified'}
-                />
-              </Box>
-            </Tooltip>
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                icon={status === 'Verified' ? 'checkmark' : 'primaryInfo'}
+                label={status === 'Verified' ? 'Verified' : 'Unverified'}
+              />
+            </VerificationHover>
           ) : (
-            <Tooltip
-              variant="tertiary"
-              label="This contribution needs is not attributed to a DAO with a verification framework."
-              fontSize="sm"
-              placement="right"
-            >
-              <Box as="span">
-                <Pill
-                  status={status === 'Verified' ? 'gradient' : 'tertiary'}
-                  label="Unverified"
-                />
-              </Box>
-            </Tooltip>
+            <VerificationHover threshold={null} status="noFramework">
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                label="Unverified"
+              />
+            </VerificationHover>
           );
         },
       },
