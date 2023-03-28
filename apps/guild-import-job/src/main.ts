@@ -1,39 +1,18 @@
-import { guild, role } from '@guildxyz/sdk';
+import { GetGuildByIdResponse, guild, role } from '@guildxyz/sdk';
 import { chunk } from 'lodash';
 import pluralize = require('pluralize');
-import { GovrnProtocol } from '@govrn/protocol-client';
+import {
+  createManyUsers,
+  createGuildImport,
+  getMembershipStatusId,
+  getOrCreateGuild,
+  updateImportStatus,
+  connectManyGuildUsers,
+  listMatchingUsers,
+} from './helper/db';
 
-const INTEGRATION_TYPE = 'Guild';
 const CHUNK_SIZE = 500;
-
 const GUILD_ID = process.env.GUILD_ID;
-const CHAIN_TYPE_ID = Number(process.env.CHAIN_TYPE_ID);
-const PROTOCOL_URL = process.env.PROTOCOL_URL;
-const GUILD_IMPORT_TOKEN = process.env.GUILD_IMPORT_TOKEN;
-
-export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
-  Authorization: GUILD_IMPORT_TOKEN,
-});
-
-const updateImportStatus = async ({
-  importId: id,
-  status,
-}: {
-  importId: number;
-  status: 'Pending' | 'Complete' | 'Failed';
-}) => {
-  return await govrn.guild.import.update({
-    where: { id },
-    data: {
-      import_status: {
-        connectOrCreate: {
-          where: { name: status },
-          create: { name: status },
-        },
-      },
-    },
-  });
-};
 
 const main = async () => {
   console.log(`:: Fetching guild: ${GUILD_ID}`);
@@ -57,49 +36,15 @@ const main = async () => {
   console.log(`:: ${roles.length} roles fetched.`);
 
   console.log(`:: Inserting guild into database.`);
-  let dbGuild = await govrn.guild.get({
-    discord_id: discordId,
-  });
-
-  if (!dbGuild) {
-    dbGuild = await govrn.guild.create({
-      data: {
-        discord_id: discordId,
-        name: getGuildResponse.name,
-        logo: getGuildResponse.imageUrl,
-      },
-    });
-  }
+  const dbGuild = await getOrCreateGuild(discordId, getGuildResponse);
   const guildId = dbGuild.id;
 
-  const importedGuild = await govrn.guild.import.create({
-    data: {
-      guild: {
-        connect: { id: guildId },
-      },
-      import_status: {
-        connectOrCreate: {
-          where: { name: 'Pending' },
-          create: { name: 'Pending' },
-        },
-      },
-      integration_type: {
-        connectOrCreate: {
-          where: { name: INTEGRATION_TYPE },
-          create: { name: INTEGRATION_TYPE },
-        },
-      },
-      authentication_token: '',
-    },
-  });
+  const importedGuild = await createGuildImport(guildId);
   // This will be used to update the import status later.
   const importId = importedGuild.id;
 
   try {
-    const membershipStatus = await govrn.guildMembershipStatus.get({
-      where: { name: 'Member' },
-    });
-    const membershipStatusId = membershipStatus.id;
+    const membershipStatusId = await getMembershipStatusId('Member');
 
     await Promise.all(
       roles
@@ -114,28 +59,16 @@ const main = async () => {
 
           await Promise.all(
             chunk(role.members, CHUNK_SIZE).map(async members => {
-              await govrn.user.createMany({
-                data: members.map(add => ({
-                  address: add,
-                  chain_type_id: CHAIN_TYPE_ID,
-                })),
-                skipDuplicates: true,
-              });
+              await createManyUsers(members);
+              const dbUsers = await listMatchingUsers(members);
 
-              const dbUsers = await govrn.user.list({
-                where: {
-                  address: { in: members },
-                },
-              });
-
-              await govrn.guild.user.createMany({
-                data: dbUsers.map(u => ({
+              await connectManyGuildUsers(
+                dbUsers.map(u => ({
                   guild_id: guildId,
                   user_id: u.id,
                   membership_status_id: membershipStatusId,
                 })),
-                skipDuplicates: true,
-              });
+              );
             }),
           );
         }),
