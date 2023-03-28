@@ -140,7 +140,7 @@ const AttestationsTable = ({
                 <Pill
                   status={status === 'Verified' ? 'gradient' : 'tertiary'}
                   icon={status === 'Verified' ? 'checkmark' : 'primaryInfo'}
-                  label={status === 'Verified' ? 'Verified' : 'Unattested'}
+                  label={status === 'Verified' ? 'Verified' : 'Unverified'}
                 />
               </Box>
             </Tooltip>
@@ -154,7 +154,7 @@ const AttestationsTable = ({
               <Box as="span">
                 <Pill
                   status={status === 'Verified' ? 'gradient' : 'tertiary'}
-                  label="Unattested"
+                  label="Unverified"
                 />
               </Box>
             </Tooltip>
