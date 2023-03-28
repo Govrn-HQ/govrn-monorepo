@@ -2,6 +2,8 @@ import { GovrnProtocol } from '@govrn/protocol-client';
 
 const PROTOCOL_URL = process.env.PROTOCOL_URL;
 const TOKEN = process.env.CONTRIBUTION_VERIFICATION_TOKEN;
+const VERIFIED_STRING = 'Verified';
+const UNVERIFIED_STRING = 'Unverified';
 
 export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
   Authorization: TOKEN,
@@ -35,7 +37,14 @@ export async function getUnverifiedContributions(daoId: number) {
       },
       verificationStatus: {
         is: {
-          name: { equals: 'unverified' },
+          OR: [
+            {
+              name: { equals: UNVERIFIED_STRING },
+            },
+            {
+              name: { equals: null },
+            },
+          ],
         },
       },
     },
@@ -49,7 +58,7 @@ export async function upsertVerifiedGuildContribution(contributionId: number) {
     data: {
       verificationStatus: {
         connect: {
-          name: 'verified',
+          name: VERIFIED_STRING,
         },
       },
     },
