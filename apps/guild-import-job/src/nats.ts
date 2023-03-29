@@ -1,10 +1,10 @@
 import {
+  AckPolicy,
   connect,
-  NatsConnection,
   JsMsg,
+  nanos,
+  NatsConnection,
   StringCodec,
-  JetStreamClient,
-  Codec,
 } from 'nats';
 
 // TODO: How are streams created
@@ -109,25 +109,26 @@ export const pullMessages = async (
   batch = 10,
 ) => {
   console.log(`:: PULLING MESSAGES FROM ${stream} WITH DURABLE ${durable}`);
-  // create a jetstream client:
   const js = nc.jetstream();
-  // To get multiple messages in one request you can:
-  const msgs = await js.fetch(stream, durable, {
-    batch: batch,
-    expires: expires,
+
+  const subscription = await js.pullSubscribe(`${stream}.row`, {
+    mack: true,
+    config: {
+      durable_name: durable,
+      ack_policy: AckPolicy.Explicit,
+      ack_wait: nanos(4000),
+    },
   });
 
-  // the request returns an iterator that will get at most 10 messages or wait
-  // for 5000ms for messages to arrive.
-
   const done = (async () => {
-    for await (const m of msgs) {
+    await subscription.pull({ no_wait: true, batch, expires });
+    for await (const m of subscription) {
       console.log(`Received message ${m.data}`);
       await callback(nc, m);
       m.ack();
     }
   })();
-  // The iterator completed,
+
   await done;
 };
 
