@@ -81,7 +81,6 @@ const importGuild = async (name: string) => {
       status: 'Complete',
     });
   } catch (e) {
-    console.error(e);
     await updateImportStatus({
       importId: importId,
       status: 'Failed',
