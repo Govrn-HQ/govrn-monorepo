@@ -1,4 +1,4 @@
-import { GetGuildByIdResponse, guild, role } from '@guildxyz/sdk';
+import { guild, role } from '@guildxyz/sdk';
 import { chunk } from 'lodash';
 import pluralize = require('pluralize');
 import {
@@ -11,10 +11,10 @@ import {
   listMatchingUsers,
 } from './helper/db';
 import { pullMessages, setupNats, writeMessages } from './nats';
-import { JsMsg, NatsConnection, StringCodec } from 'nats';
+import { NatsConnection, StringCodec } from 'nats';
 
 const CHUNK_SIZE = 500;
-const GUILD_ID = process.env.GUILD_ID;
+// const GUILD_ID = process.env.GUILD_ID;
 
 const importGuild = async (name: string) => {
   console.log(`:: Fetching guild: ${name}`);
@@ -90,27 +90,21 @@ const importGuild = async (name: string) => {
   }
 };
 
-const handleNatsMessage = async (conn: NatsConnection, msg: JsMsg) => {
-  console.log(`:: Received message: ${msg}`);
-
-  const sc = StringCodec();
-  await importGuild(sc.decode(msg.data));
-};
-
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+const STREAM_NAME = 'guild-import-job';
+const servers = [{ servers: 'localhost' }];
 
 const handleNatsConnection = async (conn: NatsConnection) => {
   // Publish the guild id to the stream.
-  await writeMessages(conn, streamName, [GUILD_ID]);
-  await delay(3_000);
+
+  // To publish messages, use nats CLI tools instead or uncomment the following
+  // line.
+  // await writeMessages(conn, STREAM_NAME, [GUILD_ID]);
 
   // Start listening for messages.
   await pullMessages(
     conn,
-    streamName,
-    `${streamName}-durable`,
+    STREAM_NAME,
+    `${STREAM_NAME}-durable`,
     async (nc, msg) => {
       console.log(`:: Received message: ${msg}`);
       const sc = StringCodec();
@@ -119,11 +113,8 @@ const handleNatsConnection = async (conn: NatsConnection) => {
   );
 };
 
-const streamName = 'guild-import-job';
-const servers = [{ servers: 'localhost' }];
-
 const main = async () => {
-  await setupNats(servers, streamName, async conn => {
+  await setupNats(servers, STREAM_NAME, async conn => {
     console.log(`:: Connected to NATS server.`, conn);
     await handleNatsConnection(conn);
   });
