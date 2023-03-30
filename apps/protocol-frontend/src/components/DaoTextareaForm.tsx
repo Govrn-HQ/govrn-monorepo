@@ -20,15 +20,19 @@ const DaoTextareaForm = ({ onSuccess }: DaoTextareaFormProps) => {
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(daoTextareaFormValidation),
   });
 
   const {
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, touchedFields },
   } = localForm;
   const { setModals } = useOverlay();
+
+  const watchAddress = watch('daoMemberAddresses');
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
 
@@ -94,7 +98,8 @@ const DaoTextareaForm = ({ onSuccess }: DaoTextareaFormProps) => {
           localForm={localForm}
         />
         {!errors['daoMemberAddresses'] &&
-          touchedFields['daoMemberAddresses'] === true && (
+          watchAddress !== undefined &&
+          watchAddress !== '' && (
             <Flex direction="row" alignItems="center" marginY={4}>
               <Icon
                 as={AiFillCheckCircle}
