@@ -10,7 +10,7 @@ import {
   connectManyGuildUsers,
   listMatchingUsers,
 } from './helper/db';
-import { pullMessages, setupNats } from './nats';
+import { pullMessages, setupNats } from './helper/nats';
 import { NatsConnection, StringCodec } from 'nats';
 
 const CHUNK_SIZE = 500;
