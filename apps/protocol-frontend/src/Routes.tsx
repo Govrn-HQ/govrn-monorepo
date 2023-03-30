@@ -4,7 +4,6 @@ import {
   Routes as RouteContainer,
   Navigate,
   useLocation,
-  useParams,
 } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { useUser } from './contexts/UserContext';
@@ -21,7 +20,6 @@ import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import CreateDao from './pages/CreateDao';
-import ErrorView from './components/ErrorView';
 import useUserGet from './hooks/useUserGet';
 import { useAccount } from 'wagmi';
 import DiscordSignatureLayout from './components/DiscordSignatureLayout';

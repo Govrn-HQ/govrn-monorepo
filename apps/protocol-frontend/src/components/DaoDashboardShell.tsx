@@ -61,8 +61,7 @@ const DaoDashboardShell = ({
 
   const { mutateAsync: updateDaoMemberStatus, isLoading: isLeavingLoading } =
     useDaoUserUpdate();
-  const { mutateAsync: createDaoUser, isLoading: createDaoUserLoading } =
-    useDaoUserCreate();
+  const { mutateAsync: createDaoUser } = useDaoUserCreate();
   const { data, hasNextPage, fetchNextPage } = useContributionInfiniteList({
     where: {
       guilds: { some: { guild: { is: { id: { equals: daoId } } } } },
