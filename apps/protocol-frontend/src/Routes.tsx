@@ -46,27 +46,6 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   return children;
 };
 
-const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  const { guildId } = useParams();
-  const { userData } = useUser();
-  const { data } = useUserGet({ userId: userData?.id });
-  if (guildId) {
-    if (
-      (data?.userDaos && data?.userDaos.has(parseInt(guildId)) === false) ||
-      data?.userDaos.get(parseInt(guildId)).membershipStatus?.name ===
-        LEFT_MEMBERSHIP_NAME
-    ) {
-      return (
-        <ErrorView
-          errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
-          includeMotto={false}
-        />
-      );
-    }
-  }
-  return children;
-};
-
 const Routes = () => {
   const { userData } = useUser();
   const { data } = useUserGet({ userId: userData?.id });
@@ -148,9 +127,7 @@ const Routes = () => {
           path="/dao/:guildId"
           element={
             <RequireActiveUser>
-              <RequireDaoUser>
-                <DaoDashboard />
-              </RequireDaoUser>
+              <DaoDashboard />
             </RequireActiveUser>
           }
         />
