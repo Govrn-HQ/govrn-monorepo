@@ -9,15 +9,19 @@ import {
 import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
 import { GuildUser } from './guild_user';
+import { GuildMembershipStatus } from "./membership_status";
 
 export class User extends BaseClient {
   guild: GuildUser;
   activity_type: UserActivity;
+  guildMembershipStatus: GuildMembershipStatus;
+
 
   constructor(client: GraphQLClient) {
     super(client);
     this.guild = new GuildUser(this.client);
     this.activity_type = new UserActivity(this.client);
+    this.guildMembershipStatus = new GuildMembershipStatus(this.client);
   }
 
   public async get(id: number) {

@@ -22,7 +22,6 @@ export class GovrnProtocol {
   contribution: Contribution;
   jobRun: JobRun;
   guild: Guild;
-  guildMembershipStatus: GuildMembershipStatus;
   linear: Linear;
   twitter: Twitter;
   user: User;
@@ -49,7 +48,6 @@ export class GovrnProtocol {
     this.twitter = new Twitter(this.client);
     this.jobRun = new JobRun(this.client);
     this.guild = new Guild(this.client);
-    this.guildMembershipStatus = new GuildMembershipStatus(this.client);
     this.custom = new Custom(this.client);
   }
 }

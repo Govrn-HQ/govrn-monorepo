@@ -32,7 +32,7 @@ export class GuildUser extends BaseClient {
     return updatedGuildUser.updateGuildUserCustom;
   }
 
-  public async createMany(args: CreateManyGuildUserMutationVariables) {
+  public async bulkCreate(args: CreateManyGuildUserMutationVariables) {
     const guildUser = await this.sdk.createManyGuildUser(args);
     return guildUser.createManyGuildUser;
   }

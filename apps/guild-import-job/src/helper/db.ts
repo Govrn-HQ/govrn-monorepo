@@ -12,7 +12,7 @@ export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
 });
 
 export const getMembershipStatusId = async (name: 'Member') => {
-  const membershipStatus = await govrn.guildMembershipStatus.get({
+  const membershipStatus = await govrn.user.guildMembershipStatus.get({
     where: { name },
   });
   return membershipStatus.id;
@@ -107,7 +107,7 @@ export const connectManyGuildUsers = (
     membership_status_id: number;
   }[],
 ) =>
-  govrn.guild.user.createMany({
+  govrn.guild.user.bulkCreate({
     data: members,
     skipDuplicates: true,
   });
