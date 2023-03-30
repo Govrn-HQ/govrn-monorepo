@@ -7,9 +7,6 @@ import {
   StringCodec,
 } from 'nats';
 
-// TODO: How are streams created
-// TODO: How is pulling filtered
-
 /**
  * A helper function to setup a connection to NATS and create a stream to upload messages,
  * trying to connect to each server in the `servers` array.
@@ -22,7 +19,6 @@ import {
 export const setupNats = async (
   servers: { servers?: string; port?: number }[],
   streamName: string,
-  // NOTE: is async needed here?
   work: (conn: NatsConnection) => Promise<void>,
 ) => {
   for (const v of servers) {
@@ -40,14 +36,13 @@ export const setupNats = async (
       console.log(`created stream ${streamCfg}`);
 
       // this promise indicates the client closed
-      const done = nc.closed();
+      const isClosed = nc.closed();
       // do something with the connection
       await work(nc);
 
-      // close the connection
       await nc.close();
       // check if the close was OK
-      const err = await done;
+      const err = await isClosed;
       if (err) {
         console.log(`error closing:`, err);
       }
@@ -73,13 +68,8 @@ export const writeMessages = async (
 ) => {
   const js = nc.jetstream();
   const sc = StringCodec();
-  console.log(`:: GUILDDDDDD: ${messages}`);
 
   for (const m of messages) {
-    console.log(`:: GUILDDDDDD: ${m}`);
-
-    // TODO: What if the stream name/subject doesn't exist?
-    // NOTE: what is row?
     const pubAck = await js.publish(`${streamName}.row`, sc.encode(m));
     console.log(
       `Published message ${m} to ${pubAck.stream}, seq ${pubAck.seq}`,
