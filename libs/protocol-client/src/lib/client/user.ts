@@ -8,12 +8,11 @@ import {
 import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
 import { GuildUser } from './guild_user';
-import { GuildMembershipStatus } from "./membership_status";
+import { GuildMembershipStatus } from './membership_status';
 
 export class User extends BaseClient {
   guild: GuildUser;
   guildMembershipStatus: GuildMembershipStatus;
-
 
   constructor(client: GraphQLClient) {
     super(client);
