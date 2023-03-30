@@ -82,7 +82,8 @@ const DaoSettingsMemberUpdateForm = ({
         />
         {!isValidating &&
           !errors['daoMemberAddresses'] &&
-          watchAddress !== undefined && (
+          watchAddress !== undefined &&
+          watchAddress !== '' && (
             <Flex direction="row" alignItems="center" marginY={4}>
               <Icon
                 as={AiFillCheckCircle}
