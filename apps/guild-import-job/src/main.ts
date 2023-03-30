@@ -10,11 +10,10 @@ import {
   connectManyGuildUsers,
   listMatchingUsers,
 } from './helper/db';
-import { pullMessages, setupNats, writeMessages } from './nats';
+import { pullMessages, setupNats } from './nats';
 import { NatsConnection, StringCodec } from 'nats';
 
 const CHUNK_SIZE = 500;
-// const GUILD_ID = process.env.GUILD_ID;
 
 const importGuild = async (name: string) => {
   console.log(`:: Fetching guild: ${name}`);
@@ -92,14 +91,15 @@ const importGuild = async (name: string) => {
 const STREAM_NAME = 'guild-import-job';
 const servers = [{ servers: 'localhost' }];
 
+/**
+ * This function pulls messages from the stream and process them to import associated guilds.
+ *
+ * For testing purposes, you can use {@link https://github.com/nats-io/natscli nats CLI tool}
+ * to publish messages to the stream.
+ */
 const handleNatsConnection = async (conn: NatsConnection) => {
-  // Publish the guild id to the stream.
+  console.log(`:: Connected to NATS server.`, conn.info);
 
-  // To publish messages, use nats CLI tools instead or uncomment the following
-  // line.
-  // await writeMessages(conn, STREAM_NAME, [GUILD_ID]);
-
-  // Start listening for messages.
   await pullMessages(
     conn,
     STREAM_NAME,
@@ -113,10 +113,11 @@ const handleNatsConnection = async (conn: NatsConnection) => {
 };
 
 const main = async () => {
-  await setupNats(servers, STREAM_NAME, async conn => {
-    console.log(`:: Connected to NATS server.`, conn);
-    await handleNatsConnection(conn);
-  });
+  await setupNats(
+    servers,
+    STREAM_NAME,
+    async conn => await handleNatsConnection(conn),
+  );
 };
 
 main()
