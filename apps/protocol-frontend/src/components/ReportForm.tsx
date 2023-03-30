@@ -33,6 +33,7 @@ import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useGuildActivityTypesList } from '../hooks/useGuildActivityTypesList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 import useUserGet from '../hooks/useUserGet';
+import useUserActivityList from '../hooks/useUserActivityList';
 import { useGovrnToast } from '@govrn/protocol-ui';
 import groupBy from 'lodash/groupBy';
 
@@ -210,6 +211,21 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     },
     refetchOnWindowFocus: false,
   });
+  const {
+    data: userActivityListData,
+    isError: userActivityListIsError,
+    isLoading: userActivityListIsLoading,
+  } = useUserActivityList({
+    args: {
+      first: 10000,
+      where: {
+        user_id: {
+          equals: userData?.id,
+        },
+      },
+    },
+    refetchOnWindowFocus: false,
+  });
 
   const combinedActivityTypeOptions = useMemo(() => {
     if (!guildActivityTypeListData) return [];
@@ -223,8 +239,16 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       'guild',
     );
 
-    // TODO: Missing custom types in a section
-    return [
+    const personalTypes = userActivityListData
+      ? {
+          label: 'Personal',
+          options: userActivityListData.map(item => ({
+            value: item.activity_type.name,
+            label: item.activity_type.name,
+          })),
+        }
+      : null;
+    const results = [
       ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
       ...Object.keys(groupedActivityTypes).map(key => ({
         label: key,
@@ -234,15 +258,27 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         })),
       })),
     ];
-  }, [guildActivityTypeListData]);
+    if (personalTypes) {
+      results.push(personalTypes);
+    }
+    return results;
+  }, [guildActivityTypeListData, userActivityListData]);
 
   // the loading and fetching states from the query are true:
-  if (guildActivityTypeListIsLoading || useUserLoading) {
+  if (
+    guildActivityTypeListIsLoading ||
+    useUserLoading ||
+    userActivityListIsLoading
+  ) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
   if (guildActivityTypeListIsError) {
+    return <Text>An error occurred fetching Guild Activity Types.</Text>;
+  }
+
+  if (userActivityListIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
