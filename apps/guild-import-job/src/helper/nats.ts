@@ -101,6 +101,8 @@ export const pullMessages = async (
   console.log(`:: PULLING MESSAGES FROM ${stream} WITH DURABLE ${durable}`);
   const js = nc.jetstream();
 
+  // create a pull-based, durable subscription. server will remember the last message
+  // it sent and will resume from there. It's more efficient than using `fetch`.
   const subscription = await js.pullSubscribe(`${stream}.row`, {
     mack: true,
     config: {
@@ -120,4 +122,5 @@ export const pullMessages = async (
   })();
 
   await done;
+  subscription.unsubscribe();
 };
