@@ -17,6 +17,20 @@
       "port": 9229
     },
     {
+      "name": "Debug Verification Job",
+      "type": "node",
+      "request": "launch",
+      "console": "integratedTerminal",
+      "runtimeExecutable": "nx",
+      "runtimeArgs": [
+          "serve",
+          "jobs-contribution-verification",
+          "--port",
+          "9230"
+      ],
+      "envFile": "${workspaceFolder}/apps/jobs/contribution-verification/.env"
+    },
+    {
       "name": "Python: Bot",
       "type": "python",
       "request": "launch",
