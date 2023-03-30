@@ -241,7 +241,6 @@ fragment GuildContributionFragment on GuildContribution {
   id
   createdAt
   updatedAt
-  verified
   guild {
     id
     name
@@ -249,9 +248,11 @@ fragment GuildContributionFragment on GuildContribution {
   contribution {
     id
     name
+    attestations {
+      id
+    }
   }
   attestation_threshold
-  verified
   verificationStatus {
     id
     name
@@ -260,6 +261,31 @@ fragment GuildContributionFragment on GuildContribution {
 
 query getGuildContribution($where: GuildContributionWhereUniqueInput!) {
   result: guildContribution(where: $where) {
+    ...GuildContributionFragment
+  }
+}
+
+query listGuildContributions(
+  $where: GuildContributionWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildContributionOrderByWithRelationInput!]
+) {
+  result: guildContributions(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildContributionFragment
+  }
+}
+
+mutation updateGuildContribution(
+  $data: GuildContributionUpdateInput!
+  $where: GuildContributionWhereUniqueInput!
+) {
+  updateOneGuildContribution(data: $data, where: $where) {
     ...GuildContributionFragment
   }
 }

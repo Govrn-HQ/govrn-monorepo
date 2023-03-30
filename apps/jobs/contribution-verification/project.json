@@ -1,0 +1,59 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/jobs/contribution-verification/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/jobs/contribution-verification",
+        "main": "apps/jobs/contribution-verification/src/main.ts",
+        "tsConfig": "apps/jobs/contribution-verification/tsconfig.app.json",
+        "assets": ["apps/jobs/contribution-verification/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/jobs/contribution-verification/src/environments/environment.ts",
+              "with": "apps/jobs/contribution-verification/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "options": {
+        "buildTarget": "jobs-contribution-verification:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "jobs-contribution-verification:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/jobs/contribution-verification/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/jobs/contribution-verification"],
+      "options": {
+        "jestConfig": "apps/jobs/contribution-verification/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
