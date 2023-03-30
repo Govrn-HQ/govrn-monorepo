@@ -495,56 +495,76 @@ export class ContributionCustomResolver {
       });
     }
 
-    return await prisma.contribution.update({
-      data: {
-        activity_type: {
-          connectOrCreate: {
-            create: {
-              name: args.data.activityTypeName,
-            },
-            where: {
-              name: args.data.activityTypeName,
+    const guildActivityType = await prisma.guildActivityType.findFirst({
+      where: {
+        activity_type: { name: { equals: args.data.activityTypeName } },
+        guild_id: args.data.guildId,
+      },
+    });
+    if (!args.data.guildId || !guildActivityType) {
+      await prisma.userActivity.create({
+        data: {
+          user: { connect: { address: args.data.address } },
+          activity_type: {
+            connectOrCreate: {
+              create: { name: args.data.activityTypeName },
+              where: { name: args.data.activityTypeName },
             },
           },
         },
-        user: {
-          connectOrCreate: {
-            create: {
-              address: args.data.address,
-              chain_type: {
-                create: {
-                  name: args.data.chainName, //unsure about this -- TODO: check
-                },
+      });
+    }
+    if (!guildActivityType)
+      return await prisma.contribution.update({
+        data: {
+          activity_type: {
+            connectOrCreate: {
+              create: {
+                name: args.data.activityTypeName,
+              },
+              where: {
+                name: args.data.activityTypeName,
               },
             },
-            where: {
-              id: args.data.userId,
-            },
           },
-        },
-        status: {
-          connect: {
-            name: args.data.status,
-          },
-        },
-        ...(args.data.guildId !== null && {
-          guilds: {
-            create: [
-              {
-                guild: {
-                  connect: {
-                    id: args.data.guildId,
+          user: {
+            connectOrCreate: {
+              create: {
+                address: args.data.address,
+                chain_type: {
+                  create: {
+                    name: args.data.chainName, //unsure about this -- TODO: check
                   },
                 },
               },
-            ],
+              where: {
+                id: args.data.userId,
+              },
+            },
           },
-        }),
-      },
-      where: {
-        id: args.data.contributionId,
-      },
-    });
+          status: {
+            connect: {
+              name: args.data.status,
+            },
+          },
+          ...(args.data.guildId !== null && {
+            guilds: {
+              create: [
+                {
+                  guild: {
+                    connect: {
+                      id: args.data.guildId,
+                    },
+                  },
+                },
+              ],
+            },
+          }),
+        },
+        where: {
+          id: args.data.contributionId,
+        },
+      });
   }
 
   @TypeGraphQL.Mutation(_returns => Contribution, { nullable: false })
