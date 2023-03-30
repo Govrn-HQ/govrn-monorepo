@@ -621,6 +621,10 @@ fragment ContributionFragment on Contribution {
   guilds {
     id
     guild_id
+    verificationStatus {
+      id
+      name
+    }
     guild {
       id
       name

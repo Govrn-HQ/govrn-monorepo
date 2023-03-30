@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import {
   Box,
+  Button,
   Stack,
   Tab,
   TabList,
@@ -26,6 +28,7 @@ const AttestationsTableShell = () => {
         .map(guild => guild.guild_id)
     : []; // filter out the daos a user has left
 
+  const [filterByVerified, setFilterByVerified] = useState('All');
   const {
     isFetching,
     data: contributions,
@@ -35,6 +38,7 @@ const AttestationsTableShell = () => {
     orderBy: { date_of_engagement: SortOrder.Desc },
     where: {
       status: { is: { name: { equals: 'minted' } } },
+
       user: {
         is: {
           id: { not: { equals: userData?.id || 0 } },
@@ -42,9 +46,24 @@ const AttestationsTableShell = () => {
       },
       guilds: {
         some: {
-          guild_id: {
-            in: guildIds,
-          },
+          AND: [
+            {
+              guild_id: {
+                in: guildIds,
+              },
+            },
+            {
+              ...(filterByVerified === 'Verified' && {
+                verificationStatus: {
+                  is: {
+                    name: {
+                      equals: 'Verified',
+                    },
+                  },
+                },
+              }),
+            },
+          ],
         },
       },
       attestations: {
@@ -116,6 +135,9 @@ const AttestationsTableShell = () => {
                 boxShadow="sm"
                 borderRadius={{ base: 'none', md: 'lg' }}
               >
+                <Button onClick={() => setFilterByVerified('Verified')}>
+                  Test
+                </Button>
                 <Stack spacing="5">
                   <AttestationsTable
                     data={mergePages(contributions.pages)}
