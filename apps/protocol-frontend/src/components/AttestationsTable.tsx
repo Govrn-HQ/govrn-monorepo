@@ -118,20 +118,36 @@ const AttestationsTable = ({
           row: Row<UIContribution>;
         }) => {
           const status = getValue();
-          const statusMapHover =
-            status === null
-              ? 'noFramework'
-              : status === 'Verified'
-              ? 'Verified'
-              : 'Unverified';
+          let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
+          if (status === null) {
+            statusMapHover = 'noFramework';
+          }
+          if (status === 'Verified') {
+            statusMapHover = 'Verified';
+          }
+          if (status === 'Unverified') {
+            statusMapHover = 'Unverified';
+          }
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
-          const pillStatusMap =
-            status === 'Verified'
-              ? 'checkmark'
-              : attestationThreshold === 1
-              ? 'secondaryInfo'
-              : 'primaryInfo';
+
+          let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
+          if (status === 'Verified') {
+            pillStatusMap = 'checkmark';
+          }
+          if (status === 'Unverified' && attestationThreshold === 1) {
+            pillStatusMap = 'secondaryInfo';
+          }
+          if (
+            status === 'Unverified' &&
+            !!attestationThreshold &&
+            attestationThreshold > 1
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+          if (status === 'Unverified' && attestationThreshold === null) {
+            pillStatusMap = 'primaryInfo';
+          }
           const guildHasVerificationFramework =
             row.original.guilds[0].guild?.verification_setting_id !== null;
           return guildHasVerificationFramework ? (
