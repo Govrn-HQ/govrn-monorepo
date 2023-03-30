@@ -21,15 +21,19 @@ const DaoSettingsMemberUpdateForm = ({
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(daoMembersUpdateFormValidation),
   });
 
   const {
     handleSubmit,
     setValue,
+    watch,
     formState: { isValidating, errors, touchedFields },
     reset,
   } = localForm;
+
+  const watchAddress = watch('daoMemberAddresses');
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
 
@@ -78,7 +82,7 @@ const DaoSettingsMemberUpdateForm = ({
         />
         {!isValidating &&
           !errors['daoMemberAddresses'] &&
-          touchedFields['daoMemberAddresses'] === true && (
+          watchAddress !== undefined && (
             <Flex direction="row" alignItems="center" marginY={4}>
               <Icon
                 as={AiFillCheckCircle}
