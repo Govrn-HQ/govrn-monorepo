@@ -2,7 +2,6 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { BoolFilter } from "../inputs/BoolFilter";
 import { ContributionRelationFilter } from "../inputs/ContributionRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildContributionVerificationStatusRelationFilter } from "../inputs/GuildContributionVerificationStatusRelationFilter";
@@ -68,11 +67,6 @@ export class GuildContributionWhereInput {
     nullable: true
   })
   verification_status_id?: IntNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => BoolFilter, {
-    nullable: true
-  })
-  verified?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

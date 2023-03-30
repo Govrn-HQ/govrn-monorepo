@@ -1,9 +1,9 @@
 import { ActivityType } from './client/activity_type';
 import { Attestation } from './client/attestation';
-import { Contribution } from './client/contribution';
+import { Contribution, GuildContribution } from './client/contribution';
 import { Custom } from './client/custom';
 import { JobRun } from './client/jobRun';
-import { Guild } from './client/guild';
+import { Guild, GuildVerificationSetting } from './client/guild';
 import { Linear } from './client/linear';
 import { Twitter } from './client/twitter';
 import { User } from './client/user';
@@ -20,6 +20,8 @@ export class GovrnProtocol {
   custom: Custom;
   chain: Chain;
   contribution: Contribution;
+  guildContribution: GuildContribution;
+  guildVerificationSetting: GuildVerificationSetting;
   jobRun: JobRun;
   guild: Guild;
   linear: Linear;
@@ -48,6 +50,8 @@ export class GovrnProtocol {
     this.twitter = new Twitter(this.client);
     this.jobRun = new JobRun(this.client);
     this.guild = new Guild(this.client);
+    this.guildContribution = new GuildContribution(this.client);
+    this.guildVerificationSetting = new GuildVerificationSetting(this.client);
     this.custom = new Custom(this.client);
   }
 }
