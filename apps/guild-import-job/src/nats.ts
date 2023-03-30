@@ -131,18 +131,3 @@ export const pullMessages = async (
 
   await done;
 };
-
-export class Job {
-  nc = null;
-  server = null;
-
-  constructor(server: string) {
-    this.server = server;
-    // set props normally
-    // nothing async can go here
-  }
-
-  public async run() {
-    // this.nc = await setupNats(this.server);
-  }
-}
