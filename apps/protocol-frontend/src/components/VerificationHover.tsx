@@ -12,6 +12,16 @@ const VerificationHover = ({
   threshold,
   children,
 }: VerificationHoverProps) => {
+  let thresholdLabel;
+  if (threshold === 1) {
+    thresholdLabel = `This contribution only needs ${threshold} more attestation to be verified by your DAO! Be the one to push it through!`;
+  }
+  if (threshold !== null && threshold !== undefined && threshold > 1) {
+    thresholdLabel = `This contribution needs ${threshold} more attestations to be verified by your DAO.`;
+  }
+  if (threshold === null) {
+    thresholdLabel = `This contribution needs more attestations to be verified by your DAO.`;
+  }
   const verificationPropsMap = {
     Verified: {
       label:
@@ -19,10 +29,7 @@ const VerificationHover = ({
       variant: 'tertiary',
     },
     Unverified: {
-      label:
-        threshold === 1
-          ? `This contribution only needs ${threshold} more attestation to be verified by your DAO! Be the one to push it through!`
-          : `This contribution needs ${threshold} more attestations to be verified by your DAO.`,
+      label: thresholdLabel,
       variant: threshold === 1 ? 'secondary' : 'primaryPurple',
     },
     noFramework: {
