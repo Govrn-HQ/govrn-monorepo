@@ -20,15 +20,19 @@ const DaoTextareaForm = ({ onSuccess }: DaoTextareaFormProps) => {
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(daoTextareaFormValidation),
   });
 
   const {
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, touchedFields },
   } = localForm;
   const { setModals } = useOverlay();
+
+  const watchAddress = watch('daoMemberAddresses');
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
 
@@ -93,21 +97,20 @@ const DaoTextareaForm = ({ onSuccess }: DaoTextareaFormProps) => {
           onChange={addresses => setValue('daoMemberAddresses', addresses)}
           localForm={localForm}
         />
-        {!errors['daoMemberAddresses'] &&
-          touchedFields['daoMemberAddresses'] === true && (
-            <Flex direction="row" alignItems="center" marginY={4}>
-              <Icon
-                as={AiFillCheckCircle}
-                color="brand.purple"
-                width="16px"
-                height="16px"
-                marginRight={2}
-              />
-              <Text fontSize="sm" color="brand.purple">
-                Address list meets formatting requirements.
-              </Text>
-            </Flex>
-          )}
+        {!errors['daoMemberAddresses'] && watchAddress !== undefined && (
+          <Flex direction="row" alignItems="center" marginY={4}>
+            <Icon
+              as={AiFillCheckCircle}
+              color="brand.purple"
+              width="16px"
+              height="16px"
+              marginRight={2}
+            />
+            <Text fontSize="sm" color="brand.purple">
+              Address list meets formatting requirements.
+            </Text>
+          </Flex>
+        )}
         <Flex
           alignItems="flex-end"
           marginTop={
