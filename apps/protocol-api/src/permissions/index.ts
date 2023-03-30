@@ -25,12 +25,15 @@ const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
 const LINEAR_JOB_TOKEN = process.env.LINEAR_JOB_TOKEN;
 const CONTRACT_SYNC_JOB_TOKEN = process.env.CONTRACT_SYNC_JOB_TOKEN;
+const CONTRIBUTION_VERIFICATION_TOKEN =
+  process.env.CONTRIBUTION_VERIFICATION_TOKEN;
 
 const BACKEND_TOKENS = [
   AIRTABLE_API_TOKEN,
   KEVIN_MALONE_TOKEN,
   LINEAR_JOB_TOKEN,
   CONTRACT_SYNC_JOB_TOKEN,
+  CONTRIBUTION_VERIFICATION_TOKEN,
 ];
 
 // Rule is admin of passed in dao
@@ -213,6 +216,7 @@ const JOB_ONLY_QUERIES = {
   linearIssues: hasToken,
   contributionStatuses: hasToken,
   chain: hasToken,
+  guildContributions: hasToken,
 };
 
 const JOB_ONLY_MUTATIONS = {
@@ -228,6 +232,7 @@ const JOB_ONLY_MUTATIONS = {
   createOneUserActivity: hasToken,
   updateOneContribution: hasToken,
   updateOneGuild: hasToken,
+  updateOneGuildContribution: hasToken,
   updateOneUser: hasToken,
   upsertOneAttestation: hasToken,
   upsertOneActivityType: hasToken,
@@ -471,15 +476,19 @@ export const permissions = shield(
     },
     GuildContribution: {
       id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
       contribution_id: or(isAuthenticated, hasToken),
+      contribution: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
-      verification_status_id: or(isAuthenticated, hasToken),
-      verified: or(isAuthenticated, hasToken),
       attestation_threshold: or(isAuthenticated, hasToken),
+      verification_status_id: or(isAuthenticated, hasToken),
+      verificationStatus: or(isAuthenticated, hasToken),
     },
     GuildContributionVerificationStatus: {
       id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       guild_contributions: or(isAuthenticated, hasToken),

@@ -37,11 +37,6 @@ export class GuildContributionMaxAggregate {
   })
   verification_status_id!: number | null;
 
-  @TypeGraphQL.Field(_type => Boolean, {
-    nullable: true
-  })
-  verified!: boolean | null;
-
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
