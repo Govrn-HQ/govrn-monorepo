@@ -1,25 +1,157 @@
-import React from 'react';
-import { Flex, Box, Text, useBreakpointValue } from '@chakra-ui/react';
-import { ResponsiveTimeRange } from '@nivo/calendar';
-import { subWeeks } from 'date-fns';
-import { BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
+import { Flex, Box, Text, useBreakpointValue, Divider } from '@chakra-ui/react';
+import { SortOrder } from '@govrn/protocol-client';
+import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
+import { useUser } from '../contexts/UserContext';
+import { subWeeks, addDays } from 'date-fns';
+import { BRAND_COLOR_MAP_SUBSET, YEAR, LEFT_MEMBERSHIP_NAME } from '../utils/constants';
+import { useContributionList } from '../hooks/useContributionList';
 import { formatDate } from '../utils/date';
+import { TooltipWrapper } from '@nivo/tooltip';
+import { useDaosList } from '../hooks/useDaosList'
+
+import pluralize from 'pluralize';
 
 type ContributionCount = {
   date: string | Date;
   count: number;
 };
+
 interface ContributionsHeatMapProps {
   contributionsCount: ContributionCount[];
   startDateOffset?: number;
+  guildIds?: number;
 }
+
+const CustomTooltipDailyContributions = ({
+  day,
+  value,
+}: CalendarTooltipProps) => {
+  const { userData } = useUser();
+  const {
+    data: userDaosListData,
+  } = useDaosList({
+    where: {
+      users: {
+        some: {
+          AND: [
+            { user_id: { equals: userData?.id || 0 } },
+            {
+              membershipStatus: {
+                isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } },
+              },
+            },
+          ],
+        },
+      },
+    },
+    first: 1000,
+  });
+  const guildIds = userDaosListData?.map(dao => dao.id)
+  console.log('guildIds', guildIds)
+  const { data: dailyContributions } = useContributionList({
+    orderBy: { date_of_engagement: SortOrder.Desc },
+    first: 5,
+    where: {
+      date_of_engagement: {
+        gte: new Date(day),
+        lt: addDays(new Date(day), 1),
+      },
+      guilds: {
+        some: {
+          guild_id: {
+            in: guildIds,
+          },
+        },
+      },
+    },
+  });
+
+  console.log('daily tooltip', dailyContributions);
+  return (
+    <TooltipWrapper anchor="left" position={[0, 0]}>
+      <Flex
+        direction="column"
+        justifyContent="center"
+        alignItems="flex-start"
+        width={{ base: '75vw', lg: '25vw' }}
+        backgroundColor="white"
+        boxShadow="md"
+        padding={2}
+      >
+        <Text fontWeight="normal" fontSize="sm">
+          Recent {dailyContributions?.length}{' '}
+          {pluralize('Contributions', dailyContributions?.length)} on {day}
+        </Text>
+        {dailyContributions !== undefined && dailyContributions?.length > 0 && (
+          <Divider marginY={1} />
+        )}
+        {dailyContributions?.map(contribution => (
+          <Flex direction="row" key={contribution.id}>
+            <Text as="span" fontWeight="normal" fontSize="xs">
+              {contribution.name} -
+              <Text
+                as="span"
+                fontWeight="normal"
+                fontSize="xs"
+                bgGradient="linear(to-l, #7928CA, #FF0080)"
+                bgClip="text"
+              >
+                {' '}
+                {contribution.guilds[0]?.guild?.name}
+              </Text>
+            </Text>
+          </Flex>
+        ))}
+        {dailyContributions !== undefined &&
+          dailyContributions?.length > 0 &&
+          parseInt(value) > 5 && (
+            <Text as="span" fontWeight="normal" fontSize="xs">
+              ...and{' '}
+              <Text
+                as="span"
+                fontWeight="normal"
+                fontSize="xs"
+                bgGradient="linear(to-l, #7928CA, #FF0080)"
+                bgClip="text"
+              >
+                {parseInt(value) - 5}
+              </Text>
+              <Text as="span" fontWeight="normal" fontSize="xs">
+                {' '}
+                more!
+              </Text>
+            </Text>
+          )}
+      </Flex>
+    </TooltipWrapper>
+  );
+};
+
+// if (daoId === null) {
+//   return (
+//     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
+//       <Flex
+//         direction="column"
+//         paddingY={{ base: '4', lg: '4' }}
+//         paddingX={{ base: '0', lg: '4' }}
+//         color="gray.700"
+//         background="white"
+//         boxShadow="sm"
+//         borderRadius={{ base: 'none', md: 'md' }}
+//       >
+//         <Text>
+//           Error fetching Contributions because the DAO's id is null.{' '}
+//         </Text>
+//       </Flex>
+//     </Flex>
+//   );
 
 const ContributionsHeatMap = ({
   contributionsCount,
   startDateOffset,
 }: ContributionsHeatMapProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
-  const contributionsCountMap = contributionsCount.map(contribution => {
+  const contributionsCountMap = contributionsCount?.map(contribution => {
     return {
       day: formatDate(contribution.date, 'yyyy-MM-dd', true),
       value: contribution.count,
@@ -40,7 +172,7 @@ const ContributionsHeatMap = ({
             data={contributionsCountMap.filter(
               contribution => contribution.value !== 0,
             )}
-            from={subWeeks(new Date(), 52)}
+            from={subWeeks(new Date(), YEAR)}
             to={new Date()}
             weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
@@ -53,6 +185,7 @@ const ContributionsHeatMap = ({
             }
             dayBorderWidth={2}
             dayBorderColor="#ffffff"
+            tooltip={CustomTooltipDailyContributions}
           />
         )}
       </Flex>
