@@ -205,7 +205,7 @@ const AttestationsTable = ({
           const daoName = getValue();
           const contributionVerifiedForDao =
             row.original.guilds[0].guild?.verification_setting_id !== null &&
-            row.original.guilds[0]?.verified;
+            row.original.guilds[0]?.verificationStatus?.name === 'Verified';
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>
               <Pill
