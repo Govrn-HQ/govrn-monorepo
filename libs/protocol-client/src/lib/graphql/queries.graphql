@@ -621,9 +621,19 @@ fragment ContributionFragment on Contribution {
   guilds {
     id
     guild_id
+    attestation_threshold
+    verificationStatus {
+      id
+      name
+    }
     guild {
       id
       name
+      verification_setting_id
+      verification_setting {
+        num_of_attestations
+        id
+      }
     }
   }
   on_chain_id
