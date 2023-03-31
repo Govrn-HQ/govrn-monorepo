@@ -622,8 +622,10 @@ fragment ContributionFragment on Contribution {
     id
     guild_id
     attestation_threshold
-    verification_status_id
-    verified
+    verificationStatus {
+      id
+      name
+    }
     guild {
       id
       name

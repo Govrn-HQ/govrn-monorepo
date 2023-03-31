@@ -109,7 +109,9 @@ const AttestationsTable = ({
       {
         header: 'Status',
         accessorFn: contribution =>
-          contribution.guilds[0]?.verified ? 'Verified' : 'Unverified',
+          contribution.guilds[0]?.verificationStatus?.name
+            ? 'Verified'
+            : 'Unverified',
         cell: ({
           getValue,
           row,
