@@ -15,17 +15,17 @@ import {
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
-import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnCta, GovrnSpinner, Pill } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
 import { RowSelectionState } from '@tanstack/table-core';
-import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
 import MemberDisplayName from './MemberDisplayName';
+import VerificationHover from './VerificationHover';
 
 const AttestationsTable = ({
   data,
@@ -39,7 +39,6 @@ const AttestationsTable = ({
   const { userData } = useUser();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
-
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -110,21 +109,67 @@ const AttestationsTable = ({
       {
         header: 'Status',
         accessorFn: contribution =>
-          contribution.attestations.filter(attestation => {
-            return attestation.user.id === userData?.id;
-          })[0]?.attestation_status?.name || 'Unattested',
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          contribution.guilds[0]?.verificationStatus?.name
+            ? 'Verified'
+            : 'Unverified',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
           const status = getValue();
-          return (
-            <Text textTransform="capitalize">
-              {status}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {statusEmojiSelect(status)}
-              </span>{' '}
-            </Text>
+          let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
+          if (status === null) {
+            statusMapHover = 'noFramework';
+          }
+          if (status === 'Verified') {
+            statusMapHover = 'Verified';
+          }
+          if (status === 'Unverified') {
+            statusMapHover = 'Unverified';
+          }
+          const attestationThreshold =
+            row.original.guilds[0].attestation_threshold;
+
+          let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
+          if (status === 'Verified') {
+            pillStatusMap = 'checkmark';
+          }
+          if (status === 'Unverified' && attestationThreshold === 1) {
+            pillStatusMap = 'secondaryInfo';
+          }
+          if (
+            status === 'Unverified' &&
+            !!attestationThreshold &&
+            attestationThreshold > 1
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+          if (status === 'Unverified' && attestationThreshold === null) {
+            pillStatusMap = 'primaryInfo';
+          }
+          const guildHasVerificationFramework =
+            row.original.guilds[0].guild?.verification_setting_id !== null;
+          return guildHasVerificationFramework ? (
+            <VerificationHover
+              status={statusMapHover}
+              threshold={attestationThreshold}
+            >
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                icon={pillStatusMap}
+                label={status === 'Verified' ? 'Verified' : 'Unverified'}
+              />
+            </VerificationHover>
+          ) : (
+            <VerificationHover threshold={null} status="noFramework">
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                label="Unverified"
+              />
+            </VerificationHover>
           );
         },
       },
@@ -150,10 +195,24 @@ const AttestationsTable = ({
         header: 'DAO',
         accessorFn: contribution =>
           contribution.guilds[0]?.guild?.name ?? '---',
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const daoName = getValue();
+          const contributionVerifiedForDao =
+            row.original.guilds[0].guild?.verification_setting_id !== null &&
+            row.original.guilds[0]?.verificationStatus?.name === 'Verified';
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>
-              <Text whiteSpace="normal">{getValue()}</Text>
+              <Pill
+                label={daoName}
+                icon={contributionVerifiedForDao === true ? 'checkmark' : null}
+                status={contributionVerifiedForDao ? 'primary' : 'tertiary'}
+              />
             </Flex>
           );
         },
