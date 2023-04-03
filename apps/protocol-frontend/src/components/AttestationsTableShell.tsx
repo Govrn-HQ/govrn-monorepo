@@ -67,15 +67,15 @@ const AttestationsTableShell = () => {
                   },
                 },
               }),
-              // ...(filterByVerified === 'showUnverified' && {
-              //   verificationStatus: {
-              //     is: {
-              //       name: {
-              //         equals: 'Unverified',
-              //       },
-              //     },
-              //   },
-              // }),
+              ...(filterByVerified === 'showUnverified' && {
+                verificationStatus: {
+                  is: {
+                    name: {
+                      not: { equals: 'Verified' },
+                    },
+                  },
+                },
+              }),
             },
           ],
         },
