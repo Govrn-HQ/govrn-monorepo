@@ -12,7 +12,6 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { HiOutlineFilter } from 'react-icons/hi';
-import React from 'react';
 
 interface AttestationFilterProps {
   attestationFilter: (filterValue: string) => void;

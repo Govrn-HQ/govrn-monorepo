@@ -106,12 +106,33 @@ const AttestationsTableShell = () => {
       user_id: {
         not: { equals: userData?.id || 0 },
       },
+      guilds: {
+        some: {
+          ...(filterByVerified === 'showVerified' && {
+            verificationStatus: {
+              is: {
+                name: {
+                  equals: VERIFIED_CONTRIBUTION_NAME,
+                },
+              },
+            },
+          }),
+          ...(filterByVerified === 'showUnverified' && {
+            verificationStatus: {
+              is: {
+                name: {
+                  not: { equals: VERIFIED_CONTRIBUTION_NAME },
+                },
+              },
+            },
+          }),
+        },
+      },
       attestations: {
         some: {
           AND: [
             {
               user_id: { equals: userData?.id || 0 },
-
               attestation_status: { isNot: { name: { equals: 'pending' } } },
             },
           ],
@@ -151,9 +172,6 @@ const AttestationsTableShell = () => {
                 boxShadow="sm"
                 borderRadius={{ base: 'none', md: 'lg' }}
               >
-                {/* <Button onClick={() => setFilterByVerified('Verified')}>
-                  Test
-                </Button> */}
                 <Stack spacing="5">
                   <AttestationsTable
                     data={mergePages(contributions.pages)}
@@ -176,6 +194,7 @@ const AttestationsTableShell = () => {
                       data={mergePages(attestedContributions?.pages || [])}
                       hasMoreItems={hasNextPageAttestedContributions}
                       nextPage={fetchNextPageAttestedContributions}
+                      attestationFilter={handleAttestationFilter}
                     />
                   </Box>
                 </Stack>
