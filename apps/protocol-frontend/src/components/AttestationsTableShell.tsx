@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
   Box,
-  Button,
   Stack,
   Tab,
   TabList,
@@ -13,6 +12,7 @@ import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
 import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
+
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { SortOrder } from '@govrn/protocol-client';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
@@ -22,13 +22,18 @@ import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 
 const AttestationsTableShell = () => {
   const { userData } = useUser();
+  const [filterByVerified, setFilterByVerified] = useState('showAll');
   const guildIds = userData?.guild_users
     ? userData?.guild_users
         .filter(guild => guild?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME)
         .map(guild => guild.guild_id)
     : []; // filter out the daos a user has left
 
-  const [filterByVerified, setFilterByVerified] = useState('All');
+  const handleAttestationFilter = (filterValue: string) => {
+    console.log('filter changed', filterValue);
+    setFilterByVerified(filterValue);
+  };
+
   const {
     isFetching,
     data: contributions,
@@ -53,7 +58,7 @@ const AttestationsTableShell = () => {
               },
             },
             {
-              ...(filterByVerified === 'Verified' && {
+              ...(filterByVerified === 'verified' && {
                 verificationStatus: {
                   is: {
                     name: {
@@ -135,14 +140,15 @@ const AttestationsTableShell = () => {
                 boxShadow="sm"
                 borderRadius={{ base: 'none', md: 'lg' }}
               >
-                <Button onClick={() => setFilterByVerified('Verified')}>
+                {/* <Button onClick={() => setFilterByVerified('Verified')}>
                   Test
-                </Button>
+                </Button> */}
                 <Stack spacing="5">
                   <AttestationsTable
                     data={mergePages(contributions.pages)}
                     hasMoreItems={hasNextPage}
                     nextPage={fetchNextPage}
+                    attestationFilter={handleAttestationFilter}
                   />
                 </Stack>
               </Box>
