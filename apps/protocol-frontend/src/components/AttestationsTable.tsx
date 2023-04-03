@@ -114,7 +114,7 @@ const AttestationsTable = ({
       {
         header: 'Status',
         accessorFn: contribution =>
-          contribution.guilds[0]?.verificationStatus?.name
+          contribution.guilds[0]?.verificationStatus?.name === 'Verified'
             ? 'Verified'
             : 'Unverified',
         cell: ({
@@ -125,6 +125,7 @@ const AttestationsTable = ({
           row: Row<UIContribution>;
         }) => {
           const status = getValue();
+
           let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
           if (status === null) {
             statusMapHover = 'noFramework';
