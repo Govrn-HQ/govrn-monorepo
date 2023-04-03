@@ -1,6 +1,7 @@
 import {
   AckPolicy,
   connect,
+  JetStreamManager,
   JsMsg,
   nanos,
   NatsConnection,
@@ -28,12 +29,17 @@ export const setupNats = async (
 
       // create a stream to upload messages
       const jsm = await nc.jetstreamManager();
-      const subj = `${streamName}.*`;
-      const streamCfg = await jsm.streams.add({
-        name: streamName,
-        subjects: [subj],
-      });
-      console.log(`created stream ${streamCfg}`);
+
+      if (await streamExists(streamName, jsm)) {
+        console.log(`stream ${streamName} already exists`);
+      } else {
+        const subj = `${streamName}.*`;
+        const streamCfg = await jsm.streams.add({
+          name: streamName,
+          subjects: [subj],
+        });
+        console.log(`created stream ${streamCfg}`);
+      }
 
       // this promise indicates the client closed
       const isClosed = nc.closed();
@@ -50,6 +56,15 @@ export const setupNats = async (
       console.log(err);
       console.log(`error connecting to ${JSON.stringify(v)}`);
     }
+  }
+};
+
+const streamExists = async (name: string, jsm: JetStreamManager) => {
+  try {
+    await jsm.streams.info(name);
+    return true;
+  } catch (err) {
+    return false;
   }
 };
 
@@ -115,7 +130,6 @@ export const pullMessages = async (
   const done = (async () => {
     await subscription.pull({ no_wait: true, batch, expires });
     for await (const m of subscription) {
-      console.log(`Received message ${m.data}`);
       await callback(nc, m);
       m.ack();
     }
