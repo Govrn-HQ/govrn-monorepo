@@ -31,11 +31,8 @@ const DaoNameUpdateForm = ({ daoId, daoName }: DaoNameUpdateFormProps) => {
     const { daoName } = values;
     if (daoId === undefined) return;
     await updateDao({
-      daoUpdateValues: {
-        name: daoName,
-        guildId: daoId,
-      },
-      showToast: true,
+      name: daoName,
+      guildId: daoId,
     });
   };
 

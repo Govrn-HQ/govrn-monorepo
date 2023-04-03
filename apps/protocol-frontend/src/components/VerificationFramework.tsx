@@ -1,23 +1,7 @@
 import { Divider, Flex, Heading, Text } from '@chakra-ui/react';
-import useVerificationSettingGet from '../hooks/useVerificationSettingGet';
 import VerificationFrameworkForm from './VerificationFrameworkForm';
 
-const VerificationFramework = ({
-  verificationSettingId,
-  daoId,
-}: {
-  verificationSettingId?: number | null;
-  daoId: number;
-}) => {
-  const {
-    isError: verificationSettingDataError,
-    data: verificationSettingData,
-  } = useVerificationSettingGet({ id: verificationSettingId });
-
-  if (verificationSettingDataError) {
-    return <Text>An error occurred fetching the Verification Settings.</Text>;
-  }
-
+const VerificationFramework = () => {
   return (
     <Flex
       justify="space-between"
@@ -51,13 +35,7 @@ const VerificationFramework = ({
             option you can always return and edit settings.
           </Text>
         </Flex>
-        <VerificationFrameworkForm
-          verificationSettingId={verificationSettingId ?? null}
-          daoId={daoId}
-          numberOfAttestations={
-            verificationSettingData?.num_of_attestations ?? null
-          }
-        />
+        <VerificationFrameworkForm />
       </Flex>
     </Flex>
   );

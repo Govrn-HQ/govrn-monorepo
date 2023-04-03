@@ -174,8 +174,8 @@ const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
   ['createGuildUserCustom', 'data.guildId'],
-  ['updateOneVerificationSetting', 'data.guilds.connect.0.id'],
-  ['createOneVerificationSetting', 'data.guilds.connect.0.id'],
+  ['updateOneVerificationSetting', 'data.guild.id'],
+  ['createOneVerificationSetting', 'data.guild.id'],
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
@@ -265,7 +265,6 @@ export const permissions = shield(
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
       guildActivityTypes: or(isAuthenticated, hasToken),
-      userActivities: or(isAuthenticated, hasToken),
       verificationSetting: or(isAuthenticated, hasToken),
       ...JOB_ONLY_QUERIES,
     },
@@ -468,6 +467,7 @@ export const permissions = shield(
       contribution_reporting_channel: or(hasToken, isAuthenticated),
       status: or(hasToken, isAuthenticated),
       verification_setting_id: or(hasToken, isAuthenticated),
+      verification_setting: or(hasToken, isAuthenticated),
     },
     GuildActivityType: {
       id: isAuthenticated,
@@ -565,11 +565,11 @@ export const permissions = shield(
       linear_users: or(isAuthenticated, hasToken),
     },
     UserActivity: {
-      id: or(hasToken, isAuthenticated),
-      createdAt: or(hasToken, isAuthenticated),
-      updatedAt: or(hasToken, isAuthenticated),
-      activity_type: or(hasToken, isAuthenticated),
-      user: or(hasToken, isAuthenticated),
+      id: hasToken,
+      createdAt: hasToken,
+      updatedAt: hasToken,
+      activity_type: hasToken,
+      user: hasToken,
     },
     LinearIssue: {
       id: hasToken,

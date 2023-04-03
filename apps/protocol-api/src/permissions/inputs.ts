@@ -282,18 +282,16 @@ export const createOneVerificationSettingInput = inputRule()(
     yup.object({
       data: yup.object({
         num_of_attestations: yup.number().required(),
-        guilds: yup.object({
-          connect: yup
-            .array(
-              yup
-                .object({
-                  discord_id: yup.string(),
-                  id: yup.string().required(),
-                })
-                .required(),
-            )
-            .max(1),
-        }),
+        guilds: yup.array(
+          yup.object({
+            connect: yup
+              .object({
+                discord_id: yup.string(),
+                id: yup.string().required(),
+              })
+              .required(),
+          }),
+        ),
       }),
     }),
   { abortEarly: false },
@@ -306,20 +304,16 @@ export const updateOneVerificationSettingInput = inputRule()(
         id: yup.number(),
       }),
       data: yup.object({
-        num_of_attestations: yup.object({
-          set: yup.number().required(),
-        }),
+        num_of_attestations: yup.number().required(),
         guilds: yup.object({
-          connect: yup
-            .array(
-              yup
-                .object({
-                  discord_id: yup.string(),
-                  id: yup.string().required(),
-                })
-                .required(),
-            )
-            .max(1),
+          connect: yup.array(
+            yup
+              .object({
+                discord_id: yup.string(),
+                id: yup.string().required(),
+              })
+              .required(),
+          ),
         }),
       }),
     }),

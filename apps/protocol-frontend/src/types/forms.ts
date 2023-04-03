@@ -44,7 +44,6 @@ export type DaoCsvImportFormValues = {
 export type DaoUpdateValues = {
   userId?: number;
   guildId: number;
-  verificationSettingId?: number | null;
   name?: string;
 };
 

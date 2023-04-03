@@ -9,42 +9,29 @@ export const useDaoUpdate = () => {
   const queryClient = useQueryClient();
 
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
-    async ({
-      daoUpdateValues,
-      showToast = true,
-    }: {
-      daoUpdateValues: DaoUpdateValues;
-      showToast: boolean;
-    }) => {
+    async (daoUpdateValues: DaoUpdateValues) => {
       const mutationData = await govrn.guild.update(
-        {
-          name: daoUpdateValues.name,
-          verification_setting_id: daoUpdateValues.verificationSettingId,
-        },
+        { name: daoUpdateValues.name },
         { guildId: daoUpdateValues.guildId },
       );
-      return { mutationData, showToast };
+      return mutationData;
     },
     {
-      onSuccess: (data, { showToast }) => {
+      onSuccess: data => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
-        queryClient.invalidateQueries(['daoGet', { id: data.mutationData.id }]);
+        queryClient.invalidateQueries(['daoGet', { id: data.id }]);
 
-        if (showToast) {
-          toast.success({
-            title: 'Successfully Updated DAO',
-            description: 'You have successfully updated the DAO.',
-          });
-        }
+        toast.success({
+          title: 'Successfully Updated DAO',
+          description: 'You have successfully updated the DAO.',
+        });
       },
-      onError: (error, { showToast }) => {
-        if (showToast) {
-          toast.error({
-            title: 'Unable to Update DAO',
-            description: `Something went wrong. Please try again: ${error}`,
-          });
-        }
+      onError: error => {
+        toast.error({
+          title: 'Unable to Update DAO',
+          description: `Something went wrong. Please try again: ${error}`,
+        });
       },
     },
   );

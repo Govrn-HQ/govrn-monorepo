@@ -5,32 +5,13 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { VerificationFrameworkFormValues } from '../types/forms';
 import { verificationFrameworkFormValidation } from '../utils/validations';
-import useVerificationSettingCreate from '../hooks/useVerificationSettingCreate';
-import useVerificationSettingUpdate from '../hooks/useVerificationSettingUpdate';
-import { useDaoUpdate } from '../hooks/useDaoUpdate';
 
-const VerificationFrameworkForm = ({
-  verificationSettingId,
-  daoId,
-  numberOfAttestations,
-}: {
-  verificationSettingId?: number | null;
-  daoId: number;
-  numberOfAttestations?: number | null;
-}) => {
+const VerificationFrameworkForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const localForm = useForm({
     mode: 'all',
     resolver: yupResolver(verificationFrameworkFormValidation),
   });
-
-  const { mutateAsync: updateVerificationSetting } =
-    useVerificationSettingUpdate();
-
-  const { mutateAsync: createVerificationSetting } =
-    useVerificationSettingCreate();
-
-  const { mutateAsync: updateDao } = useDaoUpdate();
 
   const {
     handleSubmit,
@@ -40,12 +21,8 @@ const VerificationFrameworkForm = ({
   } = localForm;
 
   useEffect(() => {
-    setValue(
-      'verificationFramework',
-      verificationSettingId === null ? 'none' : 'numberOfAttestors',
-    );
-    setValue('numberOfAttestors', numberOfAttestations || '');
-  }, [verificationSettingId, numberOfAttestations, setValue]);
+    setValue('verificationFramework', 'none'); // we'll set this to be existing verificaiton framework
+  }, [setValue]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
@@ -56,45 +33,7 @@ const VerificationFrameworkForm = ({
     VerificationFrameworkFormValues
   > = async values => {
     setSubmitting(true);
-    if (!values.numberOfAttestors) {
-      return;
-    }
-    if (verificationSettingId === null) {
-      await createVerificationSetting({
-        daoId: daoId,
-        numberOfAttestations: values.numberOfAttestors,
-      }).then(data => {
-        updateDao({
-          daoUpdateValues: {
-            verificationSettingId: data.id,
-            guildId: daoId,
-          },
-          showToast: false,
-        });
-      });
-    }
-
-    if (verificationSettingId !== null) {
-      await updateVerificationSetting({
-        id: verificationSettingId,
-        daoId: daoId,
-        numberOfAttestations: values.numberOfAttestors,
-      });
-    }
-
-    if (
-      verificationSettingId !== null &&
-      values.verificationFramework === 'none'
-    ) {
-      updateDao({
-        daoUpdateValues: {
-          verificationSettingId: null,
-          guildId: daoId,
-        },
-        showToast: false,
-      });
-    }
-
+    console.log('form values', values); // placeholder for the hook call
     setSubmitting(false); // will be on success
   };
 
@@ -124,12 +63,7 @@ const VerificationFrameworkForm = ({
               }
               setValue('verificationFramework', verificationFramework.value);
             }}
-            defaultValue={{
-              value:
-                verificationSettingId === null ? 'none' : 'numberOfAttestors',
-              label:
-                verificationSettingId === null ? 'None' : 'Number of Attestors',
-            }}
+            defaultValue={verificationFrameworkOptions[0]} // will set this to the currently selected verification framework
             options={verificationFrameworkOptions}
             isSearchable={false}
             isClearable
@@ -144,7 +78,7 @@ const VerificationFrameworkForm = ({
             <NumberInput
               name="numberOfAttestors"
               label="Choose the Number of Attestors"
-              defaultValue={numberOfAttestations || 1}
+              defaultValue={1}
               min={1}
               max={10}
               localForm={localForm}
