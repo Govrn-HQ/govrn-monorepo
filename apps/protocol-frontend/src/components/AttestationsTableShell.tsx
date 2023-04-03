@@ -18,7 +18,10 @@ import { SortOrder } from '@govrn/protocol-client';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { mergePages } from '../utils/arrays';
 import { useUser } from '../contexts/UserContext';
-import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
+import {
+  LEFT_MEMBERSHIP_NAME,
+  VERIFIED_CONTRIBUTION_NAME,
+} from '../utils/constants';
 
 const AttestationsTableShell = () => {
   const { userData } = useUser();
@@ -30,7 +33,6 @@ const AttestationsTableShell = () => {
     : []; // filter out the daos a user has left
 
   const handleAttestationFilter = (filterValue: string) => {
-    console.log('filter changed', filterValue);
     setFilterByVerified(filterValue);
   };
 
@@ -62,7 +64,7 @@ const AttestationsTableShell = () => {
                 verificationStatus: {
                   is: {
                     name: {
-                      equals: 'Verified',
+                      equals: VERIFIED_CONTRIBUTION_NAME,
                     },
                   },
                 },
@@ -71,7 +73,7 @@ const AttestationsTableShell = () => {
                 verificationStatus: {
                   is: {
                     name: {
-                      not: { equals: 'Verified' },
+                      not: { equals: VERIFIED_CONTRIBUTION_NAME },
                     },
                   },
                 },

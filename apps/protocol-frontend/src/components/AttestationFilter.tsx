@@ -1,14 +1,10 @@
-import { useState } from 'react';
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
-  PopoverAnchor,
   Flex,
   Text,
   Radio,
