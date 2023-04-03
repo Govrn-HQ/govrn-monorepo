@@ -26,6 +26,7 @@ Each app or lib has its own readme that explains the scoped purpose & requires `
 - [Contract Sync Job](./apps/contract-sync-job)
 - [Govrn Contract Subgraph](./apps/govrn-contract-subgraph)
 - [Govrn Contract](./apps/govrn-contract)
+- [Guild Import Job](./apps/guild-import-job)
 - [Kevin Malone](./apps/kevin-malone)
 - [Linear Sync Job](./apps/linear-sync-job)
 - [Protocol API](./apps/protocol-api)
