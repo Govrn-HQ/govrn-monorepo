@@ -78,6 +78,11 @@ const AttestationsTableShell = () => {
                   },
                 },
               }),
+              ...(filterByVerified === 'showUnverified' && {
+                verificationStatus: {
+                  is: null,
+                },
+              }),
             },
           ],
         },
