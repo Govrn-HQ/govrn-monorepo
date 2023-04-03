@@ -54,12 +54,12 @@ const AttestationFilter = ({ attestationFilter }: AttestationFilterProps) => {
                   Show All
                 </Text>
               </Radio>
-              <Radio value="verified">
+              <Radio value="showVerified">
                 <Text as="span" fontSize="sm">
                   Verified
                 </Text>
               </Radio>
-              <Radio value="unverified">
+              <Radio value="showUnverified">
                 <Text as="span" fontSize="sm">
                   Unverified
                 </Text>
