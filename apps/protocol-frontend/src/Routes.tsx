@@ -4,7 +4,6 @@ import {
   Routes as RouteContainer,
   Navigate,
   useLocation,
-  useParams,
 } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { useUser } from './contexts/UserContext';
@@ -21,7 +20,6 @@ import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import CreateDao from './pages/CreateDao';
-import ErrorView from './components/ErrorView';
 import useUserGet from './hooks/useUserGet';
 import { useAccount } from 'wagmi';
 import DiscordSignatureLayout from './components/DiscordSignatureLayout';
@@ -43,27 +41,6 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  return children;
-};
-
-const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  const { guildId } = useParams();
-  const { userData } = useUser();
-  const { data } = useUserGet({ userId: userData?.id });
-  if (guildId) {
-    if (
-      (data?.userDaos && data?.userDaos.has(parseInt(guildId)) === false) ||
-      data?.userDaos.get(parseInt(guildId)).membershipStatus?.name ===
-        LEFT_MEMBERSHIP_NAME
-    ) {
-      return (
-        <ErrorView
-          errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
-          includeMotto={false}
-        />
-      );
-    }
-  }
   return children;
 };
 
@@ -148,9 +125,7 @@ const Routes = () => {
           path="/dao/:guildId"
           element={
             <RequireActiveUser>
-              <RequireDaoUser>
-                <DaoDashboard />
-              </RequireDaoUser>
+              <DaoDashboard />
             </RequireActiveUser>
           }
         />

@@ -13,7 +13,7 @@ import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 export interface PillProps extends TagProps {
   label: string;
   status: 'gradient' | 'primary' | 'secondary' | 'tertiary';
-  icon?: 'checkmark' | 'primaryInfo' | 'secondaryInfo';
+  icon?: 'checkmark' | 'primaryInfo' | 'secondaryInfo' | null;
 }
 
 const colorValues: {
