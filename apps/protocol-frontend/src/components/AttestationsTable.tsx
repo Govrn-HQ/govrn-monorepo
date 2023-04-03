@@ -224,8 +224,6 @@ const AttestationsTable = ({
     ];
   }, [userData?.id]);
 
-  console.log('data', data);
-
   const table = useReactTable<UIContribution>({
     data: data,
     columns: columnsDefs,
