@@ -10,9 +10,7 @@ import {
 } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
-import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
-
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { SortOrder } from '@govrn/protocol-client';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
