@@ -26,6 +26,8 @@ import {
 const AttestationsTableShell = () => {
   const { userData } = useUser();
   const [filterByVerified, setFilterByVerified] = useState('showAll');
+  const [filterMyAttestationsByVerified, setFilterMyAttestationsByVerified] =
+    useState('showAll');
   const guildIds = userData?.guild_users
     ? userData?.guild_users
         .filter(guild => guild?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME)
@@ -34,6 +36,10 @@ const AttestationsTableShell = () => {
 
   const handleAttestationFilter = (filterValue: string) => {
     setFilterByVerified(filterValue);
+  };
+
+  const handleMyAttestationsFilter = (filterValue: string) => {
+    setFilterMyAttestationsByVerified(filterValue);
   };
 
   const {
@@ -108,7 +114,7 @@ const AttestationsTableShell = () => {
       },
       guilds: {
         some: {
-          ...(filterByVerified === 'showVerified' && {
+          ...(filterMyAttestationsByVerified === 'showVerified' && {
             verificationStatus: {
               is: {
                 name: {
@@ -117,7 +123,7 @@ const AttestationsTableShell = () => {
               },
             },
           }),
-          ...(filterByVerified === 'showUnverified' && {
+          ...(filterMyAttestationsByVerified === 'showUnverified' && {
             verificationStatus: {
               isNot: {
                 name: {
@@ -194,7 +200,7 @@ const AttestationsTableShell = () => {
                       data={mergePages(attestedContributions?.pages || [])}
                       hasMoreItems={hasNextPageAttestedContributions}
                       nextPage={fetchNextPageAttestedContributions}
-                      attestationFilter={handleAttestationFilter}
+                      attestationFilter={handleMyAttestationsFilter}
                     />
                   </Box>
                 </Stack>
