@@ -16,11 +16,11 @@ import GlobalFilter from './GlobalFilter';
 import { formatDate, toDate } from '../utils/date';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
-import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnCta, GovrnSpinner, Pill } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
-import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import GovrnTable from './GovrnTable';
 import MemberDisplayName from './MemberDisplayName';
+import VerificationHover from './VerificationHover';
 import AttestationFilter from './AttestationFilter';
 
 const MyAttestationsTable = ({
@@ -73,18 +73,69 @@ const MyAttestationsTable = ({
       },
       {
         header: 'Status',
-        accessorFn: contr => contr.status.name,
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
-          return (
-            <Text textTransform="capitalize">
-              {getValue()}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {statusEmojiSelect(getValue())}
-              </span>{' '}
-            </Text>
+        accessorFn: contribution =>
+          contribution.guilds[0]?.verificationStatus?.name === 'Verified'
+            ? 'Verified'
+            : 'Unverified',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const status = getValue();
+
+          let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
+          if (status === null) {
+            statusMapHover = 'noFramework';
+          }
+          if (status === 'Verified') {
+            statusMapHover = 'Verified';
+          }
+          if (status === 'Unverified') {
+            statusMapHover = 'Unverified';
+          }
+          const attestationThreshold =
+            row.original.guilds[0].attestation_threshold;
+
+          let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
+          if (status === 'Verified') {
+            pillStatusMap = 'checkmark';
+          }
+          if (status === 'Unverified' && attestationThreshold === 1) {
+            pillStatusMap = 'secondaryInfo';
+          }
+          if (
+            status === 'Unverified' &&
+            !!attestationThreshold &&
+            attestationThreshold > 1
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+          if (status === 'Unverified' && attestationThreshold === null) {
+            pillStatusMap = 'primaryInfo';
+          }
+          const guildHasVerificationFramework =
+            row.original.guilds[0].guild?.verification_setting_id !== null;
+          return guildHasVerificationFramework ? (
+            <VerificationHover
+              status={statusMapHover}
+              threshold={attestationThreshold}
+            >
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                icon={pillStatusMap}
+                label={status === 'Verified' ? 'Verified' : 'Unverified'}
+              />
+            </VerificationHover>
+          ) : (
+            <VerificationHover threshold={null} status="noFramework">
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                label="Unverified"
+              />
+            </VerificationHover>
           );
         },
       },
@@ -108,6 +159,32 @@ const MyAttestationsTable = ({
         cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
           const value = getValue();
           return <MemberDisplayName memberValue={value} />;
+        },
+      },
+      {
+        header: 'DAO',
+        accessorFn: contribution =>
+          contribution.guilds[0]?.guild?.name ?? '---',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const daoName = getValue();
+          const contributionVerifiedForDao =
+            row.original.guilds[0].guild?.verification_setting_id !== null &&
+            row.original.guilds[0]?.verificationStatus?.name === 'Verified';
+          return (
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
+              <Pill
+                label={daoName}
+                icon={contributionVerifiedForDao === true ? 'checkmark' : null}
+                status={contributionVerifiedForDao ? 'primary' : 'tertiary'}
+              />
+            </Flex>
+          );
         },
       },
     ];
