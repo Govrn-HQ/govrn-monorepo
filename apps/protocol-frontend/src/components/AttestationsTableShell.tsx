@@ -209,7 +209,7 @@ const AttestationsTableShell = () => {
           </TabPanels>
         </Tabs>
       ) : (
-        <EmptyContributions />
+        <GovrnSpinner />
       )}
     </Box>
   );
