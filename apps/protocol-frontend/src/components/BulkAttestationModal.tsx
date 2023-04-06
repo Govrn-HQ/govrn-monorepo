@@ -23,6 +23,13 @@ export const AttestationModal = ({
   const { displayName } = useDisplayName();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
     useAttestationMint();
+  console.log('contributions', contribution);
+  const attestationThreshold = contribution.guilds[0]?.attestation_threshold;
+  console.log(
+    'celebration',
+    attestationThreshold === 1 ? 'celebration' : 'not yet',
+  );
+
   const { setModals } = useOverlay();
 
   const createAttestationsHandler = async (contributions: UIContribution) => {
