@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@govrn-monorepo/govrn-nats": ["libs/govrn-nats/src/index.ts"],
       "@govrn/govrn-contract-client": [
         "libs/govrn-contract-client/src/index.ts"
       ],
