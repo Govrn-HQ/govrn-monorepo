@@ -206,7 +206,6 @@ class Bot(metaclass=YAMLGetter):
     prefix: str
     token: str
     govrn_guild_id: str
-    logfile: str
 
 
 class BotTasks(metaclass=YAMLGetter):
