@@ -1,5 +1,5 @@
 import discord
-import logging
+from bot.common.logging import get_logger
 from web3 import Web3
 import bot.common.graphql as gql
 from bot.config import (
@@ -32,7 +32,7 @@ DISPLAY_NAME_CACHE_KEY = "display_name"
 TWITTER_HANDLE_CACHE_KEY = "twitter_handle"
 REQUESTED_TWEET_CACHE_KEY = "requested_tweet"
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def _handle_skip_emoji(raw_reaction, guild_id):

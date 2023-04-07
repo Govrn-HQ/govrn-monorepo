@@ -1,5 +1,5 @@
 from discord.commands import Option
-import logging
+from bot.common.logging import get_logger
 import discord
 
 from bot.common.bot.bot import bot
@@ -31,7 +31,7 @@ from discord import errors
 from bot.exceptions import NotGuildException, ErrorHandler
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @bot.slash_command(
