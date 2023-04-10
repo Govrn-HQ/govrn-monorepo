@@ -18,6 +18,23 @@ import cors = require('cors');
 console.log('Starting');
 const prisma = new PrismaClient();
 
+prisma.$use(async (params, next) => {
+  if ((params.model == 'Attestation', params.action === 'create')) {
+    console.log('middleware', params, next);
+  }
+  // Handle
+  // create
+  // createMany
+  // delete
+  // deleteMany
+  // update
+  // upsert
+  if (params.model == 'Attestation' && params.action == 'delete') {
+    // Logic only runs for delete action and Post model
+  }
+  return next(params);
+});
+
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;
