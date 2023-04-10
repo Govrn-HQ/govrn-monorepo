@@ -26,15 +26,18 @@ import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
 import MemberDisplayName from './MemberDisplayName';
 import VerificationHover from './VerificationHover';
+import AttestationFilter from './AttestationFilter';
 
 const AttestationsTable = ({
   data,
   hasMoreItems,
   nextPage,
+  attestationFilter,
 }: {
   data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
+  attestationFilter: (filterValue: string) => void;
 }) => {
   const { userData } = useUser();
   const { setModals } = useOverlay();
@@ -109,7 +112,7 @@ const AttestationsTable = ({
       {
         header: 'Status',
         accessorFn: contribution =>
-          contribution.guilds[0]?.verificationStatus?.name
+          contribution.guilds[0]?.verificationStatus?.name === 'Verified'
             ? 'Verified'
             : 'Unverified',
         cell: ({
@@ -120,6 +123,7 @@ const AttestationsTable = ({
           row: Row<UIContribution>;
         }) => {
           const status = getValue();
+
           let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
           if (status === null) {
             statusMapHover = 'noFramework';
@@ -359,12 +363,17 @@ const AttestationsTable = ({
         </Box>
 
         <Stack>
-          <Flex alignItems="center">
+          <Flex
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+          >
             <GlobalFilter
               preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
             />
+            <AttestationFilter attestationFilter={attestationFilter} />
           </Flex>
           <Box width="100%" maxWidth="100vw" overflowX="auto">
             <InfiniteScroll
