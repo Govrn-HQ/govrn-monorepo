@@ -137,6 +137,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
+    console.log('values', values);
     if (selectedFile && fileError === null && !ipfsError) {
       try {
         await uploadFileIpfs(selectedFile, false);
