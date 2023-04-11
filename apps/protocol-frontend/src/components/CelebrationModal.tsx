@@ -10,17 +10,26 @@ const CelebrationModal = () => {
       color="white"
       background="brand.gradientBackgroundModal"
     >
-      <Text paddingBottom={2} fontWeight="bold">
-        Amazing!
-      </Text>
-      <Text>
-        Your attestation has officially
-        <Text as="span" fontWeight="bold">
-          verified this contribution
-        </Text>{' '}
-        for your DAO.
-      </Text>
-
+      <Flex direction="column" alignItems="center" textAlign="center">
+        <Text paddingBottom={2} fontWeight="bold">
+          Amazing!
+        </Text>
+        <Flex
+          direction="row"
+          alignItems="center"
+          textAlign="center"
+          wrap="wrap"
+          maxW="md"
+        >
+          <Text>
+            Your attestation has officially{' '}
+            <Text as="span" fontWeight="bold">
+              verified this contribution
+            </Text>{' '}
+            for your DAO.
+          </Text>
+        </Flex>
+      </Flex>
       {/* <TextList
         items={[
           {
