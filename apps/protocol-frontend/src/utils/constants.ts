@@ -38,6 +38,12 @@ export const DEFAULT_ACTIVITY_TYPES_OPTIONS = DEFAULT_ACTIVITY_TYPES.map(
 );
 export const ADDRESS_IMPORT_MAX = 1000;
 
+export const ATTESTATION_VERIFIED_FILTER_OPTIONS = [
+  'showAll',
+  'showVerified',
+  'showUnverified',
+];
+
 const primaryBrandColorsFromTheme: string[] = Object.values(
   GovrnTheme.colors.brand.primary,
 ); // can change this to be primary or secondary, or use to map any color specrum in theme
@@ -69,3 +75,4 @@ export const DOCS_LINK =
   'https://govrn.gitbook.io/govrn-docs/overview/welcome-to-govrn';
 
 export const LEFT_MEMBERSHIP_NAME = 'Left';
+export const VERIFIED_CONTRIBUTION_NAME = 'Verified';

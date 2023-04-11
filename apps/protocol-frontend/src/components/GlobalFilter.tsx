@@ -36,7 +36,7 @@ const GlobalFilter = <T,>({
         <Input
           background="gray.50"
           border="none"
-          borderRadius="1rem"
+          borderRadius="md"
           placeholder={`Search ${rowCount} ${
             rowCount === 1 ? 'contribution' : 'contributions'
           }`}
