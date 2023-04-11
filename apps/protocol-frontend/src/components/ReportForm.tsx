@@ -137,7 +137,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   const createContributionHandler: SubmitHandler<
     ContributionFormValues
   > = async values => {
-    console.log('values', values);
     if (selectedFile && fileError === null && !ipfsError) {
       try {
         await uploadFileIpfs(selectedFile, false);
@@ -195,7 +194,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   }, [setValue, daoListOptions, daoIdParam]);
 
   useEffect(() => {
-    console.log('date changed', engagementDateValue);
     setValue('engagementDate', engagementDateValue);
   }, [engagementDateValue, setValue]);
 
