@@ -12,6 +12,7 @@ export type GovrnModals = {
   createDaoModal: boolean;
   guildImportModal: boolean;
   csvImportModal: boolean;
+  verifiedCelebrationModal: boolean;
 };
 const defaults: GovrnModals = {
   addAttestationFormModal: false,
@@ -25,6 +26,7 @@ const defaults: GovrnModals = {
   createDaoModal: false,
   guildImportModal: false,
   csvImportModal: false,
+  verifiedCelebrationModal: false,
 };
 
 export type OverlayContextType = {
