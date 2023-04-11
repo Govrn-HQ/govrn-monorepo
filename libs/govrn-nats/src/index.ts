@@ -1,1 +1,1 @@
-export * from './lib/govrn-nats';
+export * from './lib/SubjectConsumer';
