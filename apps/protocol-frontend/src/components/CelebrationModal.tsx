@@ -1,15 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { TextList } from './TextList';
 import pluralize from 'pluralize';
 import { useReward } from 'react-rewards';
 
 const CelebrationModal = () => {
-  const { reward } = useReward('rewardId', 'confetti');
+  const [celebrating, setCelebrating] = useState(true);
+  const { reward } = useReward('rewardId', 'confetti', {
+    colors: ['#86135B', '#5100E4', '#DF1F97', '#F2A5D5'],
+    onAnimationComplete: () => setCelebrating(false),
+  });
 
   useEffect(() => {
-    reward();
-  }, [reward]);
+    if (celebrating) {
+      reward();
+    }
+  }, [reward, celebrating]);
 
   return (
     <Stack
