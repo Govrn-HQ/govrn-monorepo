@@ -18,9 +18,46 @@ import cors = require('cors');
 console.log('Starting');
 const prisma = new PrismaClient();
 
+const addAttestationThreshold = async ({
+  on_chain_id,
+  chain_id,
+}: {
+  on_chain_id: number;
+  chain_id: number;
+}) => {
+  const contribution = await prisma.contribution.findFirst({
+    where: {
+      chain_id: { equals: chain_id },
+      on_chain_id: { equals: on_chain_id },
+    },
+  });
+
+	prisma.contribution.
+  const guildContribution = await prisma.guildContribution.findMany({
+    where: {
+      contribution_id: { equals: contribution.id },
+    },
+  });
+	// Create custom resolver to handle this query
+  console.log(guildContribution);
+  // From the contribution is it in a dao?
+  // - no return
+  // Does the dao have a verification framework?
+  // - no return
+  // Is the contribution verified?
+  // - yes return
+  console.log(JSON.stringify(contribution));
+};
+
 prisma.$use(async (params, next) => {
   if ((params.model == 'Attestation', params.action === 'create')) {
-    console.log('middleware', params, next);
+    const contributionParams =
+      params.args.data.contribution.connect.chain_id_on_chain_id;
+    console.log('middleware', JSON.stringify(params.args.data), next);
+    await addAttestationThreshold({
+      on_chain_id: contributionParams.on_chain_id,
+      chain_id: contributionParams.chain_id,
+    });
   }
   // Handle
   // create

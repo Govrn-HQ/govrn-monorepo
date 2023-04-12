@@ -17,7 +17,7 @@ const middlwareHandle = () => {
  }
 }
 async (params, next) => {
-  console.log('middleware', params, next);
+  console.log('middleware', JSON.stringify(params.args.data), next);
 	// Handle
 	// create
 	// createMany
@@ -27,6 +27,7 @@ async (params, next) => {
 	// upsert
   if (params.model == 'Attestation' && params.action == 'delete') {
     // Logic only runs for delete action and Post model
+		console.log("here")
   }
   return next(params);
 }
