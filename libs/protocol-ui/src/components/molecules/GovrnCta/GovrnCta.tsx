@@ -1,4 +1,4 @@
-import { Box, Heading, Divider, Flex, Text } from '@chakra-ui/react';
+import { Heading, Divider, Flex, Text } from '@chakra-ui/react';
 
 export interface GovrnCtaProps {
   heading: string;
@@ -37,9 +37,9 @@ const GovrnCta = ({ heading, emoji, copy, children }: GovrnCtaProps) => (
         {heading}
       </Heading>
     </Flex>
-    <Box paddingBottom={8} fontSize="md" paddingX={{ base: 8, lg: 0 }}>
+    <Text paddingBottom={8} fontSize="md" paddingX={{ base: 8, lg: 0 }}>
       {copy}
-    </Box>
+    </Text>
     {children ? (
       <Flex
         direction="column"
