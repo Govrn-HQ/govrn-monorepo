@@ -49,6 +49,7 @@ const AttestationsTable = ({
     setRowSelection({});
   };
 
+  console.log('data', data);
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
       {

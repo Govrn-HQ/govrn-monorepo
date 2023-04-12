@@ -43,6 +43,9 @@ export const AttestationModal = ({
       });
       setModals({ attestationModal: false });
       if (onFinish) onFinish();
+      if (attestationThreshold === 1) {
+        setModals({ verifiedCelebrationModal: true });
+      }
     } catch (e) {
       console.error(e);
     }

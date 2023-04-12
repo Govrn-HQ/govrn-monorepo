@@ -1,8 +1,16 @@
-import { Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { TextList } from './TextList';
 import pluralize from 'pluralize';
+import { useReward } from 'react-rewards';
 
 const CelebrationModal = () => {
+  const { reward } = useReward('rewardId', 'confetti');
+
+  useEffect(() => {
+    reward();
+  }, [reward]);
+
   return (
     <Stack
       spacing="4"
@@ -16,6 +24,7 @@ const CelebrationModal = () => {
         </Text>
         <Flex
           direction="row"
+          minH="8rem"
           alignItems="center"
           textAlign="center"
           wrap="wrap"
@@ -29,7 +38,9 @@ const CelebrationModal = () => {
             for your DAO.
           </Text>
         </Flex>
+        <Box as="span" id="rewardId" />
       </Flex>
+
       {/* <TextList
         items={[
           {
