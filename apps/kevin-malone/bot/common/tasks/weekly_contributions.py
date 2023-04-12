@@ -1,7 +1,7 @@
 import asyncio
 import os
 import io
-import logging
+from bot.common.logging import get_logger
 from typing import Dict, Union
 import pandas as pd
 from datetime import datetime, timedelta
@@ -16,7 +16,7 @@ from bot.common.graphql import (
 from bot import constants
 from bot.config import INFO_EMBED_COLOR
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 async def save_weekly_contribution_reports():
