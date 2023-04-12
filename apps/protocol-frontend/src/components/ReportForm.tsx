@@ -189,13 +189,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
 
   useEffect(() => {
     const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
-
-    setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
-  }, [setValue, daoListOptions, daoIdParam]);
-
-  useEffect(() => {
     setValue('engagementDate', engagementDateValue);
-  }, [engagementDateValue, setValue]);
+    setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
+  }, [engagementDateValue, setValue, daoListOptions, daoIdParam]);
 
   const {
     data: guildActivityTypeListData,
