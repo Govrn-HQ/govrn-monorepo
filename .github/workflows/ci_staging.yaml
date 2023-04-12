@@ -64,6 +64,13 @@ jobs:
           echo WEEKLY_REPORT_ENABLE= >> .env
       - run: yarn nx affected --target format --base $BASE
       - run: yarn nx affected:lint --base $BASE
+      - name: Install NATS server
+        run: |
+          wget https://github.com/nats-io/nats-server/releases/download/v2.9.15/nats-server-v2.9.15-amd64.deb
+          sudo dpkg -i nats-server-v2.9.15-amd64.deb
+      - name: Start NATS server
+        run: |
+          nats-server --jetstream & echo $! > nats-server.pid
       - name: Test
         run: yarn nx affected:test --base $BASE
       - name: Add frontend env vars
