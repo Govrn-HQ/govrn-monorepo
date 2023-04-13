@@ -23,7 +23,6 @@
     "alwaysStrict": true,
     "noImplicitAny": true,
     "strict": true,
-    // "strict": true,
     "types": ["vite/client", "@nxext/react/client"]
   },
   "files": [],
