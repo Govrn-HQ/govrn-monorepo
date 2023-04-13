@@ -1,5 +1,6 @@
 import { BaseClient } from './base';
 import {
+  CreateGuildImportMutationVariables,
   GuildUpdateCustomInput,
   GuildCustomWhereInput,
   VerificationSettingWhereUniqueInput,
@@ -8,26 +9,28 @@ import {
   ListGuildActivityTypesQueryVariables,
   ListGuildImportsQueryVariables,
   ListGuildsQueryVariables,
+  UpdateGuildImportMutationVariables,
   ListGuildActivityTypesQuery,
 } from '../protocol-types';
 import {
   CreateGuildMutationVariables,
   GuildWhereUniqueInput,
 } from '../protocol-types';
-import { paginate } from '../utils/paginate';
 import { GuildUser } from './guild_user';
 import { GraphQLClient } from 'graphql-request';
 import { ListGuildImportsQuery } from '../protocol-types';
+import { paginate } from '../utils/paginate';
 
 // TODO: Add users query
 export class Guild extends BaseClient {
-  user: GuildUser;
   import: GuildImport;
   activity_type: GuildActivityType;
   verification_setting: GuildVerificationSetting;
+  user: GuildUser;
 
   constructor(client: GraphQLClient) {
     super(client);
+    this.import = new GuildImport(this.client);
     this.user = new GuildUser(this.client);
     this.import = new GuildImport(this.client);
     this.activity_type = new GuildActivityType(this.client);
@@ -59,6 +62,16 @@ export class Guild extends BaseClient {
 }
 
 export class GuildImport extends BaseClient {
+  public async create(args: CreateGuildImportMutationVariables) {
+    const guildImport = await this.sdk.createGuildImport(args);
+    return guildImport.createOneGuildImport;
+  }
+
+  public async update(args: UpdateGuildImportMutationVariables) {
+    const guildImport = await this.sdk.updateGuildImport(args);
+    return guildImport.updateOneGuildImport;
+  }
+
   public async list(args: ListGuildImportsQueryVariables) {
     return paginate<ListGuildImportsQueryVariables, ListGuildImportsQuery>(
       this.sdk.listGuildImports,
