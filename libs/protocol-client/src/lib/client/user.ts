@@ -1,5 +1,6 @@
 import {
   ListUserActivityQueryVariables,
+  CreateManyUsersMutationVariables,
   ListUsersQueryVariables,
   UserCreateCustomInput,
   UserUpdateInput,
@@ -8,15 +9,18 @@ import {
 import { BaseClient } from './base';
 import { GraphQLClient } from 'graphql-request';
 import { GuildUser } from './guild_user';
+import { GuildMembershipStatus } from './membership_status';
 
 export class User extends BaseClient {
   guild: GuildUser;
   activity_type: UserActivity;
+  guildMembershipStatus: GuildMembershipStatus;
 
   constructor(client: GraphQLClient) {
     super(client);
     this.guild = new GuildUser(this.client);
     this.activity_type = new UserActivity(this.client);
+    this.guildMembershipStatus = new GuildMembershipStatus(this.client);
   }
 
   public async get(id: number) {
@@ -37,6 +41,11 @@ export class User extends BaseClient {
   public async create(args: UserCreateCustomInput) {
     const contributions = await this.sdk.createUserCustom({ data: args });
     return contributions.createUserCustom;
+  }
+
+  public async createMany(args: CreateManyUsersMutationVariables) {
+    const contributions = await this.sdk.createManyUsers(args);
+    return contributions.createManyUser;
   }
 }
 
