@@ -4,10 +4,11 @@ import sys
 from bot.common.bot.bot import bot
 from bot.common.tasks.tasks import init_bot_tasks
 from bot.config import Redis
+from bot.common.logging import get_logger
 import constants
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 logger.info("Starting...")
 
 

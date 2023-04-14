@@ -174,8 +174,8 @@ const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
   ['createGuildUserCustom', 'data.guildId'],
-  ['updateOneVerificationSetting', 'data.guild.id'],
-  ['createOneVerificationSetting', 'data.guild.id'],
+  ['updateOneVerificationSetting', 'data.guilds.connect.0.id'],
+  ['createOneVerificationSetting', 'data.guilds.connect.0.id'],
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
@@ -210,32 +210,37 @@ const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
 });
 
 const JOB_ONLY_QUERIES = {
-  users: hasToken,
-  jobRuns: hasToken,
-  linearUsers: hasToken,
-  linearIssues: hasToken,
-  contributionStatuses: hasToken,
   chain: hasToken,
+  contributionStatuses: hasToken,
+  guildMembershipStatus: hasToken,
+  jobRuns: hasToken,
+  linearIssues: hasToken,
+  linearUsers: hasToken,
+  users: hasToken,
   guildContributions: hasToken,
 };
 
 const JOB_ONLY_MUTATIONS = {
+  createManyAttestation: hasToken,
+  createManyContribution: hasToken,
+  createManyGuildUser: hasToken,
+  createManyLinearIssue: hasToken,
+  createManyUser: hasToken,
   createOneActivityType: hasToken,
   createOneContribution: hasToken,
   createOneGuild: hasToken,
+  createOneGuildImport: hasToken,
   createOneGuildUser: hasToken,
   createOneJobRun: hasToken,
   createOneUser: hasToken,
-  createManyAttestation: hasToken,
-  createManyContribution: hasToken,
-  createManyLinearIssue: hasToken,
   createOneUserActivity: hasToken,
   updateOneContribution: hasToken,
   updateOneGuild: hasToken,
   updateOneGuildContribution: hasToken,
+  updateOneGuildImport: hasToken,
   updateOneUser: hasToken,
-  upsertOneAttestation: hasToken,
   upsertOneActivityType: hasToken,
+  upsertOneAttestation: hasToken,
   upsertOneContribution: hasToken,
   upsertOneLinearCycle: hasToken,
   upsertOneLinearIssue: hasToken,
