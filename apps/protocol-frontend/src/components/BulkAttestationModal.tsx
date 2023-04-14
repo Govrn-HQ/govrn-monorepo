@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
@@ -11,6 +12,7 @@ import { UIContribution } from '@govrn/ui-types';
 interface BulkAttestationModalProps {
   contributions: UIContribution[];
   onFinish?: (() => void) | undefined;
+  setVerifiedContributions: (contributions: UIContribution[]) => void;
 }
 
 export const AttestationModal = ({
@@ -23,12 +25,7 @@ export const AttestationModal = ({
   const { displayName } = useDisplayName();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
     useAttestationMint();
-  console.log('contributions', contribution);
   const attestationThreshold = contribution.guilds[0]?.attestation_threshold;
-  console.log(
-    'celebration',
-    attestationThreshold === 1 ? 'celebration' : 'not yet',
-  );
 
   const { setModals } = useOverlay();
 
@@ -86,6 +83,7 @@ export const AttestationModal = ({
 export const BulkAttestationModal = ({
   contributions,
   onFinish,
+  setVerifiedContributions,
 }: BulkAttestationModalProps) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: bulkMintAttestation } =
@@ -94,11 +92,16 @@ export const BulkAttestationModal = ({
 
   const createAttestationsHandler = async (contributions: UIContribution[]) => {
     try {
-      console.log('contributions', contributions);
       const attestationInput = [];
+      const verifiedContributions = [];
       for (const c of contributions) {
         if (!c.on_chain_id) {
           continue;
+        }
+        const attestationThreshold = c.guilds[0]?.attestation_threshold;
+        if (attestationThreshold === 1) {
+          verifiedContributions.push(c);
+          setVerifiedContributions(verifiedContributions);
         }
         attestationInput.push({
           name: c.name,
@@ -107,6 +110,7 @@ export const BulkAttestationModal = ({
       }
       await bulkMintAttestation(attestationInput);
       setModals({ bulkAttestationModal: false });
+      setModals({ bulkVerifiedCelebrationModal: true });
       if (onFinish) onFinish();
     } catch (e) {
       console.error(e);

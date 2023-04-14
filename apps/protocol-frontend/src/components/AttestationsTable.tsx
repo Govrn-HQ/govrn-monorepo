@@ -50,12 +50,14 @@ const AttestationsTable = ({
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [verifiedContributions, setVerifiedContributions] = useState<
+    UIContribution[]
+  >([]);
 
   const deselectAll = () => {
     setRowSelection({});
   };
 
-  console.log('data', data);
   const columnsDefs = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
       {
@@ -416,6 +418,7 @@ const AttestationsTable = ({
         content={
           <BulkAttestationModal
             contributions={selectedRows}
+            setVerifiedContributions={setVerifiedContributions}
             onFinish={deselectAll}
           />
         }
@@ -450,7 +453,11 @@ const AttestationsTable = ({
         size="3xl"
         bgColor="brand.gradientBackgroundModal"
         closeButtonColor="white"
-        content={<BulkVerifiedCelebrationModal />}
+        content={
+          <BulkVerifiedCelebrationModal
+            verifiedContributions={verifiedContributions}
+          />
+        }
       />
     </>
   );
