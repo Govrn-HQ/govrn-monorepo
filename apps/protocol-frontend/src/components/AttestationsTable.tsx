@@ -391,7 +391,9 @@ const AttestationsTable = ({
               loader={<GovrnSpinner />}
             >
               <Button
-                onClick={() => setModals({ verifiedCelebrationModal: true })}
+                onClick={() =>
+                  setModals({ bulkVerifiedCelebrationModal: true })
+                }
               >
                 Modal test
               </Button>
@@ -455,7 +457,11 @@ const AttestationsTable = ({
         closeButtonColor="white"
         content={
           <BulkVerifiedCelebrationModal
-            verifiedContributions={verifiedContributions}
+            verifiedContributions={
+              verifiedContributions.length !== 0
+                ? verifiedContributions
+                : selectedRows
+            }
           />
         }
       />

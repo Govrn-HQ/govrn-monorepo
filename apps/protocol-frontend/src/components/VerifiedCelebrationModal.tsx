@@ -90,7 +90,7 @@ export const BulkVerifiedCelebrationModal = ({
         </Text>
         <Flex
           direction="row"
-          minH="8rem"
+          minH="4rem"
           alignItems="center"
           textAlign="center"
           wrap="wrap"
@@ -99,14 +99,13 @@ export const BulkVerifiedCelebrationModal = ({
           <Text>
             Your attestation has officially{' '}
             <Text as="span" fontWeight="bold">
-              verified this contribution
+              verified these contributions
             </Text>{' '}
-            for your DAO.
+            for your DAOs:
           </Text>
         </Flex>
         <Box as="span" id="rewardId" />
       </Flex>
-
       <TextList
         items={verifiedContributions.map(verifiedContribution => ({
           id: String(verifiedContribution.id),
