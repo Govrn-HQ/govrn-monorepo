@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text } from '@chakra-ui/react';
 import { TextList } from './TextList';
-import pluralize from 'pluralize';
 import { useReward } from 'react-rewards';
 import { UIContribution } from '@govrn/ui-types';
 
@@ -47,15 +46,6 @@ export const VerifiedCelebrationModal = () => {
         </Flex>
         <Box as="span" id="rewardId" />
       </Flex>
-
-      {/* <TextList
-        items={[
-          {
-            id: String(contribution.id),
-            text: contribution.name,
-          },
-        ]}
-      /> */}
     </Stack>
   );
 };
@@ -97,7 +87,7 @@ export const BulkVerifiedCelebrationModal = ({
           maxW="md"
         >
           <Text>
-            Your attestation has officially{' '}
+            Your attestations have officially{' '}
             <Text as="span" fontWeight="bold">
               verified these contributions
             </Text>{' '}

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useUser } from '../contexts/UserContext';
 import { useOverlay } from '../contexts/OverlayContext';
@@ -110,8 +109,8 @@ export const BulkAttestationModal = ({
       }
       await bulkMintAttestation(attestationInput);
       setModals({ bulkAttestationModal: false });
-      setModals({ bulkVerifiedCelebrationModal: true });
       if (onFinish) onFinish();
+      setModals({ bulkVerifiedCelebrationModal: true });
     } catch (e) {
       console.error(e);
     }

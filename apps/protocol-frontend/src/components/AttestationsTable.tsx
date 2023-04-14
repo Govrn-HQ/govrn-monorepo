@@ -390,13 +390,6 @@ const AttestationsTable = ({
               hasMore={hasMoreItems}
               loader={<GovrnSpinner />}
             >
-              <Button
-                onClick={() =>
-                  setModals({ bulkVerifiedCelebrationModal: true })
-                }
-              >
-                Modal test
-              </Button>
               <GovrnTable
                 controller={table}
                 maxWidth="100vw"
