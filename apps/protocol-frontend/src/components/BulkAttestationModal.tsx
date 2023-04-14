@@ -94,6 +94,7 @@ export const BulkAttestationModal = ({
 
   const createAttestationsHandler = async (contributions: UIContribution[]) => {
     try {
+      console.log('contributions', contributions);
       const attestationInput = [];
       for (const c of contributions) {
         if (!c.on_chain_id) {

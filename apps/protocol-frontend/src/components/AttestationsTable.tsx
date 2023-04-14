@@ -18,7 +18,10 @@ import { UIContribution } from '@govrn/ui-types';
 import { GovrnCta, GovrnSpinner, Pill } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
-import CelebrationModal from './CelebrationModal';
+import {
+  VerifiedCelebrationModal,
+  BulkVerifiedCelebrationModal,
+} from './VerifiedCelebrationModal';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
@@ -438,7 +441,16 @@ const AttestationsTable = ({
         size="3xl"
         bgColor="brand.gradientBackgroundModal"
         closeButtonColor="white"
-        content={<CelebrationModal />}
+        content={<VerifiedCelebrationModal />}
+      />
+      <ModalWrapper
+        name="bulkVerifiedCelebrationModal"
+        title=""
+        localOverlay={localOverlay}
+        size="3xl"
+        bgColor="brand.gradientBackgroundModal"
+        closeButtonColor="white"
+        content={<BulkVerifiedCelebrationModal />}
       />
     </>
   );
