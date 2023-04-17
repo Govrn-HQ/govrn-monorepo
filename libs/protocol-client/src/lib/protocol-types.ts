@@ -19577,14 +19577,24 @@ export type UpsertActivityTypeMutationVariables = Exact<{
 
 export type UpsertActivityTypeMutation = { upsertOneActivityType: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date, guilds: Array<{ guild: { id: number, name?: string | null } }> } };
 
-export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } };
+export type UserActivityFragmentFragment = { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number, name: string }, user: { id: number } };
 
 export type CreateUserActivityMutationVariables = Exact<{
   data: UserActivityCreateInput;
 }>;
 
 
-export type CreateUserActivityMutation = { createOneUserActivity: { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number }, user: { id: number } } };
+export type CreateUserActivityMutation = { createOneUserActivity: { createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number, name: string }, user: { id: number } } };
+
+export type ListUserActivityQueryVariables = Exact<{
+  where?: UserActivityWhereInput;
+  skip?: Scalars['Int'];
+  first?: Scalars['Int'];
+  orderBy?: InputMaybe<Array<UserActivityOrderByWithRelationInput> | UserActivityOrderByWithRelationInput>;
+}>;
+
+
+export type ListUserActivityQuery = { userActivities: Array<{ createdAt: string | Date, id: number, updatedAt: string | Date, activity_type: { id: number, name: string }, user: { id: number } }> };
 
 export type ListAttestationsQueryVariables = Exact<{
   where?: AttestationWhereInput;
@@ -20021,6 +20031,7 @@ export const UserActivityFragmentFragmentDoc = gql`
     fragment UserActivityFragment on UserActivity {
   activity_type {
     id
+    name
   }
   createdAt
   id
@@ -20605,6 +20616,13 @@ export const CreateUserActivityDocument = gql`
   }
 }
     ${UserActivityFragmentFragmentDoc}`;
+export const ListUserActivityDocument = gql`
+    query listUserActivity($where: UserActivityWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [UserActivityOrderByWithRelationInput!]) {
+  userActivities(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
+    ...UserActivityFragment
+  }
+}
+    ${UserActivityFragmentFragmentDoc}`;
 export const ListAttestationsDocument = gql`
     query listAttestations($where: AttestationWhereInput! = {}, $skip: Int! = 0, $first: Int! = 10, $orderBy: [AttestationOrderByWithRelationInput!]) {
   result: attestations(
@@ -20900,6 +20918,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createUserActivity(variables: CreateUserActivityMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserActivityMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserActivityMutation>(CreateUserActivityDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserActivity', 'mutation');
+    },
+    listUserActivity(variables?: ListUserActivityQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListUserActivityQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListUserActivityQuery>(ListUserActivityDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listUserActivity', 'query');
     },
     listAttestations(variables?: ListAttestationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListAttestationsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListAttestationsQuery>(ListAttestationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listAttestations', 'query');
