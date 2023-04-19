@@ -41,7 +41,7 @@ export const useGuildXYZListGuilds = () => {
             .map(async guild => await fetchGuild(guild.guildId)),
         );
       } catch (error) {
-        throw new Error('Failed to get guilds info');
+        throw new Error('Failed to get joined guilds info');
       }
 
       return guilds;

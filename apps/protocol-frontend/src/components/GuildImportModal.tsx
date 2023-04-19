@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Stack } from '@chakra-ui/react';
+import { Box, Button, Heading, Spinner, Stack } from '@chakra-ui/react';
 import { ControlledSelect, SelectOption as Option } from '@govrn/protocol-ui';
 import { useMemo, useState } from 'react';
 import { useGuildXYZListGuilds } from '../hooks/useGuildXYZListGuilds';
@@ -8,6 +8,25 @@ interface GuildImportProps {
   onSuccess: (guildId: number) => void;
 }
 
+const GuildImportTitle = ({ title }: { title: string }) => {
+  return (
+    <Heading as="h5" size="sm" width="80%">
+      {title}
+    </Heading>
+  );
+};
+
+const GuildImportModalError = ({ message }: { message: string }) => {
+  return (
+    <Stack direction="column" width="100%" height="100%" spacing={8} py={8}>
+      <GuildImportTitle title="Oops!" />
+      <Box width="80%">
+        <p>{message}</p>
+      </Box>
+    </Stack>
+  );
+};
+
 export const GuildImportModal = ({ onSuccess }: GuildImportProps) => {
   const { setModals } = useOverlay();
 
@@ -15,8 +34,12 @@ export const GuildImportModal = ({ onSuccess }: GuildImportProps) => {
     null,
   );
 
-  const { data: guildList, isLoading: isGuildListLoading } =
-    useGuildXYZListGuilds();
+  const {
+    data: guildList,
+    isLoading: isGuildListLoading,
+    isError,
+    error,
+  } = useGuildXYZListGuilds();
 
   const daoListOptions = useMemo(() => {
     return (
@@ -38,11 +61,36 @@ export const GuildImportModal = ({ onSuccess }: GuildImportProps) => {
     setModals({});
   }
 
+  if (isGuildListLoading) {
+    return (
+      <Stack direction="column" width="100%" height="100%" spacing={8} py={8}>
+        <GuildImportTitle
+          title={'Connecting to Guild.xyz to load joined Guilds...'}
+        />
+        <Spinner alignContent="center" alignSelf="center" />
+      </Stack>
+    );
+  }
+
+  if (isError && error instanceof Error) {
+    return (
+      <GuildImportModalError
+        message={error?.message ?? 'Failed to load joined guilds.'}
+      />
+    );
+  }
+
+  if (guildList?.length === 0) {
+    return (
+      <GuildImportModalError
+        message={'You have not joined any guilds on Guild.xyz.'}
+      />
+    );
+  }
+
   return (
     <Stack direction="column" width="100%" height="100%" spacing={8} py={8}>
-      <Heading as="h5" size="sm" width="80%">
-        {'Success! You are connected to Guild.xyz and can import your DAO here'}
-      </Heading>
+      <GuildImportTitle title="Success! You are connected to Guild.xyz and can import your DAO here" />
       <Box width="50%" height="100%">
         <ControlledSelect
           isDisabled={isGuildListLoading}
