@@ -495,6 +495,25 @@ export class ContributionCustomResolver {
       });
     }
 
+    const guildActivityType = await prisma.guildActivityType.findFirst({
+      where: {
+        activity_type: { name: { equals: args.data.activityTypeName } },
+        guild_id: args.data.guildId || undefined,
+      },
+    });
+    if (!args.data.guildId && !guildActivityType) {
+      await prisma.userActivity.create({
+        data: {
+          user: { connect: { address: args.data.address } },
+          activity_type: {
+            connectOrCreate: {
+              create: { name: args.data.activityTypeName },
+              where: { name: args.data.activityTypeName },
+            },
+          },
+        },
+      });
+    }
     return await prisma.contribution.update({
       data: {
         activity_type: {
