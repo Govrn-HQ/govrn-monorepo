@@ -20,9 +20,6 @@ import ProfileDaos from './ProfileDaos';
 import { CgLinear, SiDiscord } from 'react-icons/all';
 import useDiscordUserDisconnect from '../hooks/useDiscordUserDisconnect';
 import { UIUser } from '@govrn/ui-types';
-import ModalWrapper from './ModalWrapper';
-import { useOverlay } from '../contexts/OverlayContext';
-import { GuildImportModal } from './GuildImportModal';
 
 const isDiscordConnected = (userData?: UIUser | null) =>
   userData?.discord_users?.length && userData.discord_users[0].active_token;
@@ -31,7 +28,6 @@ const isLinearConnected = (userData?: UIUser | null) =>
   userData?.linear_users?.length && userData.linear_users[0].active_token;
 
 const ProfileForm = () => {
-  const localOverlay = useOverlay();
   const { userData } = useUser();
 
   const { mutateAsync: disconnectLinearUser } = useLinearUserDisconnect();
@@ -44,10 +40,6 @@ const ProfileForm = () => {
     resolver: yupResolver(profileFormValidation),
   });
   const { handleSubmit, setValue } = localForm;
-
-  const showGuildImportModal = () => {
-    localOverlay.setModals({ guildImportModal: true });
-  };
 
   useEffect(() => {
     setValue('name', userData?.name ?? '');
@@ -148,17 +140,7 @@ const ProfileForm = () => {
           </Flex>
         </Flex>
       </form>
-      <ProfileDaos userId={userData?.id} userAddress={userData?.address} />
-
-      <Button
-        variant="primary"
-        onClick={() => {
-          showGuildImportModal();
-        }}
-      >
-        Guild Import
-      </Button>
-
+      <ProfileDaos userId={userData?.id} userAddress={userData?.address} />;
       <form>
         <Flex
           justify="space-between"
@@ -267,21 +249,6 @@ const ProfileForm = () => {
           </Flex>
         </Flex>
       </form>
-      <ModalWrapper
-        name="guildImportModal"
-        title=""
-        localOverlay={localOverlay}
-        size="3xl"
-        content={
-          <GuildImportModal
-            onSuccess={guildId => {
-              // TODO: publish guild id to backend to import.
-              // TODO: maybe move this to the modal, and only reflect success here
-              console.log('TODO: publish guild id to backend to import');
-            }}
-          />
-        }
-      />
     </>
   );
 };
