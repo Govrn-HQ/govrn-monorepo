@@ -37,7 +37,6 @@ const addAttestationThreshold = async ({
       contribution_id: { equals: contribution.id },
     },
   });
-  console.log('guildContributions', guildContributions);
   if (guildContributions.length === 0) {
     return;
   }
@@ -49,14 +48,9 @@ const addAttestationThreshold = async ({
         },
       })
       .guild({});
-    console.log('verification_setting_id', guild.verification_setting_id);
     if (!guild.verification_setting_id) {
       return;
     }
-    console.log(
-      'verification_status_id',
-      guildContribution.verification_status_id,
-    );
     if (
       guildContribution.verification_status_id != 1 &&
       guildContribution.verification_status_id !== null
@@ -65,7 +59,6 @@ const addAttestationThreshold = async ({
     }
 
     let threshold = guildContribution.attestation_threshold;
-    console.log('threshold', threshold);
     if (threshold === 0) {
       return;
     }
