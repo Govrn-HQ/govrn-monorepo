@@ -245,7 +245,7 @@ export class Contribution extends BaseClient {
       );
     }
     const contract = new GovrnContract(networkConfig, signer);
-    // const transaction = await contract.attest(args);
+    const transaction = await contract.attest(args);
 
     const createdAttestation = await this.sdk.createUserOnChainAttestation({
       data: {
@@ -262,7 +262,7 @@ export class Contribution extends BaseClient {
       data: {},
     });
 
-    // await transaction.wait();
+    await transaction.wait();
     await this.sdk.updateUserOnChainAttestation({
       id: createdAttestation.createUserOnChainAttestation.id,
       status: 'attested',
