@@ -25,7 +25,7 @@ import { mergeMemberPages } from '../utils/arrays';
 import { UIGuildUsers } from '@govrn/ui-types';
 import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 import useUserGet from '../hooks/useUserGet';
-import { GiCastle, SiDiscord, TbBuildingCastle } from 'react-icons/all';
+import { GiCastle } from 'react-icons/all';
 import ModalWrapper from './ModalWrapper';
 import { GuildImportModal } from './GuildImportModal';
 import { useOverlay } from '../contexts/OverlayContext';
