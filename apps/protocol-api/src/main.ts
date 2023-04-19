@@ -37,6 +37,7 @@ const addAttestationThreshold = async ({
       contribution_id: { equals: contribution.id },
     },
   });
+  console.log('guildContributions', guildContributions);
   if (guildContributions.length === 0) {
     return;
   }
@@ -48,14 +49,23 @@ const addAttestationThreshold = async ({
         },
       })
       .guild({});
+    console.log('verification_setting_id', guild.verification_setting_id);
     if (!guild.verification_setting_id) {
       return;
     }
-    if (guildContribution.verification_status_id != 1) {
+    console.log(
+      'verification_status_id',
+      guildContribution.verification_status_id,
+    );
+    if (
+      guildContribution.verification_status_id != 1 &&
+      guildContribution.verification_status_id !== null
+    ) {
       return;
     }
 
     let threshold = guildContribution.attestation_threshold;
+    console.log('threshold', threshold);
     if (threshold === 0) {
       return;
     }
@@ -67,9 +77,12 @@ const addAttestationThreshold = async ({
       });
       threshold = verficationNum.num_of_attestations;
     }
+    const new_threshold = threshold - 1;
+    const verification_status_id = new_threshold === 0 ? 1 : 2;
     await prisma.guildContribution.update({
       data: {
-        attestation_threshold: threshold - 1,
+        attestation_threshold: new_threshold,
+        verification_status_id: verification_status_id,
       },
       where: {
         id: guildContribution.id,
