@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Contribution } from "../models/Contribution";
 import { Guild } from "../models/Guild";
+import { GuildContributionVerificationStatus } from "../models/GuildContributionVerificationStatus";
 
 @TypeGraphQL.ObjectType("GuildContribution", {
   isAbstract: true
@@ -37,4 +38,16 @@ export class GuildContribution {
   contribution_id!: number;
 
   contribution?: Contribution;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  verification_status_id?: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  attestation_threshold?: number | null;
+
+  verificationStatus?: GuildContributionVerificationStatus | null;
 }

@@ -1,4 +1,4 @@
-import logging
+from bot.common.logging import get_logger
 
 from bot.common.threads.thread_builder import (
     BaseThread,
@@ -18,7 +18,7 @@ from bot.exceptions import ThreadTerminatingException
 # set_thread_and_send
 # )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class AddDaoPromptIdStep(BaseStep):

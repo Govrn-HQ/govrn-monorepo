@@ -9,6 +9,7 @@ import { GuildContributionUpdateManyWithoutGuildNestedInput } from "../inputs/Gu
 import { GuildImportUpdateManyWithoutGuildNestedInput } from "../inputs/GuildImportUpdateManyWithoutGuildNestedInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { TwitterAccountUpdateManyWithoutGuildNestedInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildNestedInput";
+import { VerificationSettingUpdateOneWithoutGuildsNestedInput } from "../inputs/VerificationSettingUpdateOneWithoutGuildsNestedInput";
 
 @TypeGraphQL.InputType("GuildUpdateWithoutUsersInput", {
   isAbstract: true
@@ -73,4 +74,9 @@ export class GuildUpdateWithoutUsersInput {
     nullable: true
   })
   guild_imports?: GuildImportUpdateManyWithoutGuildNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => VerificationSettingUpdateOneWithoutGuildsNestedInput, {
+    nullable: true
+  })
+  verification_setting?: VerificationSettingUpdateOneWithoutGuildsNestedInput | undefined;
 }

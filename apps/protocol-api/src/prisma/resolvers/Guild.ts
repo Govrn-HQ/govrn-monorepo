@@ -60,14 +60,48 @@ export class GuildUpdateCustomInput {
     nullable: true,
   })
   logo?: string;
+
+  @TypeGraphQL.Field(_type => Number, {
+    nullable: true,
+  })
+  verification_setting_id?: number;
 }
 
-@TypeGraphQL.InputType('GuildUpdateCustomWhereInput', {
+@TypeGraphQL.InputType('GuildCustomWhereInput', {
   isAbstract: true,
 })
-export class GuildUpdateCustomWhereInput {
+export class GuildCustomWhereInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   guildId: number;
+}
+
+@TypeGraphQL.InputType('GuildVerificationSettingsUpdateInput', {
+  isAbstract: true,
+})
+export class GuildVerificationSettingsUpdateInput {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int)
+  num_of_attestations: number;
+}
+
+@TypeGraphQL.ArgsType()
+export class GetGuildVerificationSettingsArgs {
+  @TypeGraphQL.Field(_type => GuildCustomWhereInput, {
+    nullable: false,
+  })
+  where!: GuildCustomWhereInput;
+}
+
+@TypeGraphQL.ArgsType()
+export class UpdateGuildVerificationSettingsArgs {
+  @TypeGraphQL.Field(_type => GuildVerificationSettingsUpdateInput, {
+    nullable: false,
+  })
+  data!: GuildVerificationSettingsUpdateInput;
+
+  @TypeGraphQL.Field(_type => GuildCustomWhereInput, {
+    nullable: false,
+  })
+  where!: GuildCustomWhereInput;
 }
 
 @TypeGraphQL.ArgsType()
@@ -77,10 +111,10 @@ export class UpdateGuildCustomArgs {
   })
   data!: GuildUpdateCustomInput;
 
-  @TypeGraphQL.Field(_type => GuildUpdateCustomWhereInput, {
+  @TypeGraphQL.Field(_type => GuildCustomWhereInput, {
     nullable: false,
   })
-  where!: GuildUpdateCustomWhereInput;
+  where!: GuildCustomWhereInput;
 }
 
 @TypeGraphQL.ArgsType()
@@ -103,6 +137,24 @@ export class UpsertOneUserArgs {
 
 @TypeGraphQL.Resolver(_of => Guild)
 export class GuildCustomResolver {
+  async isAuthorized({ prisma, req }: Context, guildId: number) {
+    const address = req.session.siwe.data.address;
+
+    const guildUserWithMembershipStatus = await prisma.guildUser.findFirst({
+      where: {
+        user: { address },
+        guild: {
+          id: guildId,
+        },
+      },
+      include: { membershipStatus: true },
+    });
+
+    if (guildUserWithMembershipStatus.membershipStatus.name !== 'Admin') {
+      throw new Error("You don't have permission for this");
+    }
+  }
+
   @TypeGraphQL.Query(_returns => Number)
   async getActiveGuildUsersAverage(
     @TypeGraphQL.Ctx() { prisma }: Context,
@@ -158,21 +210,7 @@ export class GuildCustomResolver {
     @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: UpdateGuildCustomArgs,
   ) {
-    const address = req.session.siwe.data.address;
-
-    const guildUserWithMembershipStatus = await prisma.guildUser.findFirst({
-      where: {
-        user: { address },
-        guild: {
-          id: args.where.guildId,
-        },
-      },
-      include: { membershipStatus: true },
-    });
-
-    if (guildUserWithMembershipStatus.membershipStatus.name !== 'Admin') {
-      throw new Error("You don't have permission for this");
-    }
+    await this.isAuthorized({ prisma, req }, args.where.guildId);
 
     const data = {};
     for (const key of Object.keys(args.data)) {

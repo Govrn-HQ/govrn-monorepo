@@ -1,4 +1,4 @@
-<p align="center"><img src="./apps/protocol-frontend/src/assets/govrn-logo.png" width="350"></p>
+<p align="center"><img src="./apps/protocol-frontend/src/assets/govrn-logo.png" width="350" alt="Govrn Logo"></p>
 
 # Govrn Monorepo
 
@@ -19,13 +19,15 @@ Our monorepo uses [Nx](https://nx.dev/getting-started/intro) as a build system a
 
 ## Monorepo Structure
 
-Each app or lib has its own readme that explains the scoped purpose & required `.env` variables to operates. You have to create a `.env` file in each module root and provide the required variables mentioned in its README.
+Each app or lib has its own readme that explains the scoped purpose & requires `.env` variables to operate.
 
 ### Apps
 
 - [Contract Sync Job](./apps/contract-sync-job)
-- [Govrn Contract](./apps/govrn-contract)
 - [Govrn Contract Subgraph](./apps/govrn-contract-subgraph)
+- [Govrn Contract](./apps/govrn-contract)
+- [Guild Import Job](./apps/guild-import-job)
+- [Kevin Malone](./apps/kevin-malone)
 - [Linear Sync Job](./apps/linear-sync-job)
 - [Protocol API](./apps/protocol-api)
 - [Protocol Frontend](./apps/protocol-frontend)

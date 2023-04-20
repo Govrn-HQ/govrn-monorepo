@@ -4,7 +4,6 @@ import {
   Routes as RouteContainer,
   Navigate,
   useLocation,
-  useParams,
 } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { useUser } from './contexts/UserContext';
@@ -21,12 +20,13 @@ import FourOFour from './pages/404';
 import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import CreateDao from './pages/CreateDao';
-import ErrorView from './components/ErrorView';
 import useUserGet from './hooks/useUserGet';
 import { useAccount } from 'wagmi';
+import DiscordSignatureLayout from './components/DiscordSignatureLayout';
 import {
   CONTRIBUTION_NEW_DOMAIN,
   CONTRIBUTION_NEW_STAGING_DOMAIN,
+  LEFT_MEMBERSHIP_NAME,
 } from './utils/constants';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
@@ -44,28 +44,17 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   return children;
 };
 
-const RequireDaoUser = ({ children }: { children: JSX.Element }) => {
-  const { guildId } = useParams();
-  const { userData } = useUser();
-  const { data } = useUserGet({ userId: userData?.id });
-  if (guildId) {
-    if (data?.userDaos && data?.userDaos.has(parseInt(guildId)) === false) {
-      return (
-        <ErrorView
-          errorMessage="You have to be a member of this DAO to view the DAO Dashboard."
-          includeMotto={false}
-        />
-      );
-    }
-  }
-  return children;
-};
-
 const Routes = () => {
   const { userData } = useUser();
   const { data } = useUserGet({ userId: userData?.id });
   const userDaos = data?.userDaos;
   const url = new URL(window.location.href);
+  const userDaosFilter = new Map();
+  userDaos?.forEach(dao => {
+    if (dao?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME) {
+      userDaosFilter.set(dao.guild_id, dao);
+    }
+  });
 
   return (
     <HashRouter>
@@ -82,6 +71,7 @@ const Routes = () => {
             )
           }
         />
+        <Route path="/signature" element={<DiscordSignatureLayout />} />
         <Route
           path="/profile"
           element={
@@ -119,10 +109,10 @@ const Routes = () => {
         <Route
           path="/dao"
           element={
-            userDaos && userDaos?.size > 0 ? (
+            userDaosFilter && userDaosFilter?.size > 0 ? (
               <Navigate
                 replace
-                to={`/dao/${userDaos?.values().next().value}`}
+                to={`/dao/${userDaosFilter?.values().next().value?.guild_id}`}
               />
             ) : (
               <RequireActiveUser>
@@ -135,9 +125,7 @@ const Routes = () => {
           path="/dao/:guildId"
           element={
             <RequireActiveUser>
-              <RequireDaoUser>
-                <DaoDashboard />
-              </RequireDaoUser>
+              <DaoDashboard />
             </RequireActiveUser>
           }
         />

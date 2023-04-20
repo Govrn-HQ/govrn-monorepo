@@ -21,15 +21,19 @@ const DaoSettingsMemberUpdateForm = ({
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(daoMembersUpdateFormValidation),
   });
 
   const {
     handleSubmit,
     setValue,
-    formState: { errors, touchedFields },
+    watch,
+    formState: { isValidating, errors, touchedFields },
     reset,
   } = localForm;
+
+  const watchAddress = watch('daoMemberAddresses');
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
 
@@ -60,6 +64,7 @@ const DaoSettingsMemberUpdateForm = ({
         return true;
       });
       setImporting(false);
+
       reset();
     }
   };
@@ -75,8 +80,10 @@ const DaoSettingsMemberUpdateForm = ({
           onChange={addresses => setValue('daoMemberAddresses', addresses)}
           localForm={localForm}
         />
-        {!errors['daoMemberAddresses'] &&
-          touchedFields['daoMemberAddresses'] === true && (
+        {!isValidating &&
+          !errors['daoMemberAddresses'] &&
+          watchAddress !== undefined &&
+          watchAddress !== '' && (
             <Flex direction="row" alignItems="center" marginY={4}>
               <Icon
                 as={AiFillCheckCircle}
@@ -102,7 +109,11 @@ const DaoSettingsMemberUpdateForm = ({
           <Button
             variant="secondary"
             type="submit"
-            disabled={importing || errors['daoMemberAddresses'] !== undefined}
+            disabled={
+              importing ||
+              isValidating ||
+              errors['daoMemberAddresses'] !== undefined
+            }
           >
             Add
           </Button>

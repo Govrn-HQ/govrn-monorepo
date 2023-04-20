@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -7,22 +7,46 @@ import {
   SortingState,
   getSortedRowModel,
   Getter,
+  Row,
 } from '@tanstack/react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link } from 'react-router-dom';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { formatDate, toDate } from '../utils/date';
-import { mergePages } from '../utils/arrays';
 import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
 
 const columnsDef: ColumnDef<UIContribution>[] = [
   {
     header: 'Name',
     accessorKey: 'name',
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
+    cell: ({
+      row,
+      getValue,
+    }: {
+      row: Row<UIContribution>;
+      getValue: Getter<string>;
+    }) => {
       return (
-        <Flex direction="column" wrap="wrap">
-          <Text whiteSpace="normal">{getValue()}</Text>
+        <Flex direction="column" wrap="wrap" paddingRight={1}>
+          <Link to={`/contributions/${row.original.id}`}>
+            <Text
+              paddingRight={8}
+              flex="1 0 0"
+              maxW="15rem"
+              whiteSpace="normal"
+              bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
+              bgClip="text"
+              transition="all 100ms ease-in-out"
+              _hover={{
+                fontWeight: 'bolder',
+                bgGradient: 'linear(to-l, #7928CA, #FF0080)',
+              }}
+            >
+              {getValue()}
+            </Text>
+          </Link>
         </Flex>
       );
     },
@@ -31,7 +55,13 @@ const columnsDef: ColumnDef<UIContribution>[] = [
     header: 'Type',
     accessorFn: contribution => contribution.activity_type.name,
     cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return <Text>{getValue()} </Text>;
+      return (
+        <Flex direction="column" wrap="wrap">
+          <Text whiteSpace="normal" flex="1 0 0">
+            {getValue()}
+          </Text>
+        </Flex>
+      );
     },
   },
   {
@@ -45,27 +75,25 @@ const columnsDef: ColumnDef<UIContribution>[] = [
   },
   {
     header: 'Contributor',
-    accessorFn: contribution => contribution.user.name,
-    cell: ({ getValue }: { getValue: Getter<string> }) => {
-      return <Text>{getValue()} </Text>;
+    accessorKey: 'user',
+
+    cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+      const value = getValue();
+      return <MemberDisplayName memberValue={value} />;
     },
   },
 ];
 
 const RecentContributionsTable = ({
-  contributionsData,
+  data,
   hasMoreItems,
   nextPage,
 }: {
-  contributionsData: UIContribution[][];
+  data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  const data = useMemo<UIContribution[]>(() => {
-    return mergePages(contributionsData);
-  }, [contributionsData]);
 
   const table = useReactTable({
     data,

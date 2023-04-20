@@ -5,6 +5,7 @@ from bot import constants
 GUILD_IDS = [747131845317230695, 799328534988193793]
 
 IS_DEV = constants.Bot.is_dev
+FRONTEND_URL = constants.Bot.frontend_url
 REDIS_URL = constants.Bot.redis_tls_url
 if IS_DEV:
     REDIS_URL = constants.Bot.redis_url
@@ -26,6 +27,9 @@ COLLISION_EMOJI = "\U0001F4A5"
 MECHANICAL_ARM_EMOJI = "\U0001F9BE"
 
 REPORTING_FORM_FMT = "https://govrn.app/#/report?daoId=%s"
+
+FEEDBACK_MSG_FMT = "We love your feedback! Please use this form and share improvements for the Govrn ecosystem.\n %s"
+FEEDBACK_FORM_LINK = "https://forms.gle/uE8w3FgjAcWyqAN58"
 
 REQUESTED_TWEET_FMT = "Kevin Malone told me to tweet this number %s"
 TWITTER_URL_REGEXP = r"^https://twitter.com/(.+)/status/([0-9]+)"

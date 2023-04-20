@@ -1,12 +1,16 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
-import { MAX_FILE_UPLOAD_SIZE } from '../utils/constants';
+import { Link as RouterLink } from 'react-router-dom';
+import {
+  DEFAULT_ACTIVITY_TYPES_OPTIONS,
+  MAX_FILE_UPLOAD_SIZE,
+} from '../utils/constants';
 import {
   Box,
   Button,
   Flex,
   IconButton,
-  Link as ChakraLink,
+  Link,
   Stack,
   Text,
 } from '@chakra-ui/react';
@@ -18,7 +22,6 @@ import {
   Select,
   Textarea,
 } from '@govrn/protocol-ui';
-import { DEFAULT_ACTIVITY_TYPES } from '../utils/constants';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
@@ -26,10 +29,12 @@ import { editContributionFormValidation } from '../utils/validations';
 import { UIContribution } from '@govrn/ui-types';
 import { ContributionFormValues } from '../types/forms';
 import { HiOutlinePaperClip } from 'react-icons/hi';
-import { useUserActivityTypesList } from '../hooks/useUserActivityTypesList';
 import useUserGet from '../hooks/useUserGet';
 import { useContributionUpdate } from '../hooks/useContributionUpdate';
+import { useGuildActivityTypesList } from '../hooks/useGuildActivityTypesList';
 import { useGovrnToast } from '@govrn/protocol-ui';
+import groupBy from 'lodash/groupBy';
+import useUserActivityList from '../hooks/useUserActivityList';
 
 interface EditContributionFormProps {
   contribution: UIContribution;
@@ -61,13 +66,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     }
   };
 
-  // renaming these on destructuring incase we have parallel queries:
-  const {
-    isLoading: userActivityTypesIsLoading,
-    isError: userActivityTypesIsError,
-    data: userActivityTypesData,
-  } = useUserActivityTypesList();
-
   const {
     data: useUserData,
     isError: useUserError,
@@ -76,34 +74,89 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
     userId: userData?.id,
   });
 
-  const daoListOptions =
-    useUserData?.guild_users.map(dao => ({
-      value: dao.guild.id,
-      label: dao.guild.name ?? '',
-    })) || [];
-
-  const daoReset = [
-    {
-      value: null,
-      label: 'No DAO',
+  const {
+    data: guildActivityTypeListData,
+    isError: guildActivityTypeListIsError,
+    isLoading: guildActivityTypeListIsLoading,
+  } = useGuildActivityTypesList({
+    args: {
+      first: 10000,
+      where: {
+        guild: {
+          is: {
+            id: { in: userData?.guild_users.map(g => g.guild_id) || [] },
+          },
+        },
+      },
     },
-  ];
+    refetchOnWindowFocus: false,
+  });
 
-  const combinedDaoListOptions = [...new Set([...daoReset, ...daoListOptions])];
+  const daoReset = useMemo(() => ({ label: 'No DAO', value: 0 }), []);
 
-  const combinedActivityTypesList = [
-    ...new Set([
-      ...(userActivityTypesData?.map(activity => activity.name) || []), // type guard since this could be undefined
-      ...DEFAULT_ACTIVITY_TYPES,
-    ]),
-  ];
+  const {
+    data: userActivityListData,
+    isError: userActivityListIsError,
+    isLoading: userActivityListIsLoading,
+  } = useUserActivityList({
+    args: {
+      first: 10000,
+      where: {
+        user_id: {
+          equals: userData?.id,
+        },
+      },
+    },
+    refetchOnWindowFocus: false,
+  });
 
-  const combinedActivityTypeOptions = combinedActivityTypesList.map(
-    activity => ({
-      value: activity,
-      label: activity,
-    }),
-  );
+  const combinedDaoListOptions = useMemo(() => {
+    const daoListOptions =
+      useUserData?.guild_users.map(dao => ({
+        value: dao.guild.id,
+        label: dao.guild.name ?? '',
+      })) || [];
+
+    return [daoReset, ...daoListOptions];
+  }, [useUserData, daoReset]);
+
+  const combinedActivityTypeOptions = useMemo(() => {
+    if (!guildActivityTypeListData) return [];
+    const groupedActivityTypes = groupBy(
+      guildActivityTypeListData.result.map(guildActivity => {
+        return {
+          activity: guildActivity.activity_type.name,
+          guild: guildActivity.guild.name,
+        };
+      }),
+      'guild',
+    );
+
+    const personalTypes = userActivityListData
+      ? {
+          label: 'Personal',
+          options: userActivityListData.map(item => ({
+            value: item.activity_type.name,
+            label: item.activity_type.name,
+          })),
+        }
+      : null;
+
+    const results = [
+      ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+      ...Object.keys(groupedActivityTypes).map(key => ({
+        label: key,
+        options: groupedActivityTypes[key].map(item => ({
+          value: item.activity,
+          label: item.activity,
+        })),
+      })),
+    ];
+    if (personalTypes) {
+      results.push(personalTypes);
+    }
+    return results;
+  }, [guildActivityTypeListData, userActivityListData]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -115,9 +168,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       'daoId',
       contribution?.guilds[0]?.guild.id
         ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
+        : daoReset.value,
     );
-  }, [contribution]);
+  }, [contribution, daoReset.value]);
 
   useEffect(() => {
     setValue('name', contribution?.name);
@@ -129,9 +182,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       'daoId',
       contribution?.guilds[0]?.guild.id
         ? contribution?.guilds[0]?.guild.id
-        : daoReset[0].value,
+        : daoReset.value,
     );
-  }, [contribution]);
+  }, [contribution, daoReset.value]);
 
   const handleImageSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -200,12 +253,20 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
   };
 
   // the loading and fetching states from the query are true:
-  if (userActivityTypesIsLoading || useUserLoading) {
+  if (
+    guildActivityTypeListIsLoading ||
+    useUserLoading ||
+    userActivityListIsLoading
+  ) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
-  if (userActivityTypesIsError) {
+  if (guildActivityTypeListIsError) {
+    return <Text>An error occurred fetching User Activity Types.</Text>;
+  }
+
+  if (userActivityListIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
@@ -227,6 +288,42 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             localForm={localForm}
             dataTestId="editContributionForm-name"
           />
+          <Select
+            name="daoId"
+            label="DAO"
+            placeholder="Select a DAO to associate this Contribution with."
+            tip={
+              <>
+                Please select a DAO to associate this contribution with.
+                <Box fontWeight={700} lineHeight={2}>
+                  This is optional. Don't see your DAO? Join or create one{' '}
+                  <Link
+                    as={RouterLink}
+                    to="/profile"
+                    state={{ targetId: 'myDaos' }}
+                    textDecoration="underline"
+                  >
+                    on your Profile.
+                  </Link>
+                </Box>
+                Note: Clicking the link will navigate to your Profile and clear
+                the form!
+              </>
+            }
+            defaultValue={{
+              value: contribution?.guilds[0]?.guild.id
+                ? contribution?.guilds[0]?.guild.id
+                : daoReset.value,
+              label: contribution?.guilds[0]?.guild.name
+                ? contribution?.guilds[0]?.guild.name
+                : daoReset.label,
+            }}
+            onChange={dao => {
+              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
+            }}
+            options={combinedDaoListOptions}
+            localForm={localForm}
+          />
           <CreatableSelect
             name="activityType"
             label="Activity Type"
@@ -235,6 +332,9 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               label: contribution?.activity_type?.name,
             }}
             onChange={activity => {
+              if (activity instanceof Array || !activity) {
+                return;
+              }
               setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}
@@ -299,39 +399,6 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
               </Text>
             )}
           </Flex>
-          <Select
-            name="daoId"
-            label="DAO"
-            placeholder="Select a DAO to associate this Contribution with."
-            tip={
-              <>
-                Please select a DAO to associate this Contribution with.
-                <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Request to add it{' '}
-                  <ChakraLink
-                    href="https://airtable.com/shrOedOjQpH9xlg7l"
-                    isExternal
-                    textDecoration="underline"
-                  >
-                    here
-                  </ChakraLink>
-                </Box>
-              </>
-            }
-            defaultValue={{
-              value: contribution?.guilds[0]?.guild.id
-                ? contribution?.guilds[0]?.guild.id
-                : daoReset[0].value,
-              label: contribution?.guilds[0]?.guild.name
-                ? contribution?.guilds[0]?.guild.name
-                : daoReset[0].label,
-            }}
-            onChange={dao => {
-              setValue('daoId', (Array.isArray(dao) ? dao[0] : dao)?.value);
-            }}
-            options={combinedDaoListOptions}
-            localForm={localForm}
-          />
           <DatePicker
             name="engagementDate"
             localForm={localForm}

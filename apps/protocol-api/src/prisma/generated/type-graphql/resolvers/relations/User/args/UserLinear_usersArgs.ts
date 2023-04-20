@@ -35,5 +35,5 @@ export class UserLinear_usersArgs {
   @TypeGraphQL.Field(_type => [LinearUserScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "active" | "createdAt" | "displayName" | "email" | "linear_id" | "name" | "url" | "user_id" | "access_token" | "active_token"> | undefined;
+  distinct?: Array<"id" | "active" | "createdAt" | "displayName" | "email" | "linear_id" | "name" | "url" | "access_token" | "active_token" | "user_id"> | undefined;
 }

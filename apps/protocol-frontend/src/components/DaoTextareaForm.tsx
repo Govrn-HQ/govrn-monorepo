@@ -11,20 +11,28 @@ import { useDaoUserCreate } from '../hooks/useDaoUserCreate';
 import { useOverlay } from '../contexts/OverlayContext';
 import { useUser } from '../contexts/UserContext';
 
-const DaoTextareaForm = () => {
+interface DaoTextareaFormProps {
+  onSuccess: (daoId: number) => void;
+}
+
+const DaoTextareaForm = ({ onSuccess }: DaoTextareaFormProps) => {
   const { userData } = useUser();
   const [importing, setImporting] = useState(false);
   const localForm = useForm({
     mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(daoTextareaFormValidation),
   });
 
   const {
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, touchedFields },
   } = localForm;
   const { setModals } = useOverlay();
+
+  const watchAddress = watch('daoMemberAddresses');
 
   const { mutateAsync: createDaoUser } = useDaoUserCreate();
 
@@ -41,28 +49,32 @@ const DaoTextareaForm = () => {
         ...new Set(parsedDaoMemberAddresses),
       ];
 
-      await createDaoUser({
+      const daoId = await createDaoUser({
         newDaoUser: {
           userId: userData?.id,
+          guildId: 0,
           guildName: values.guildName,
           userAddress: userData?.address,
           membershipStatus: 'Admin',
         },
         creatingNewDao: true,
-      }).then(data =>
-        uniqueParsedDaoMemberAddresses.map(address => {
+      }).then(data => {
+        uniqueParsedDaoMemberAddresses.forEach(address => {
           createDaoUser({
             newDaoUser: {
               userId: userData?.id, // summoner's userId still needed for the resolver -- it still creates new users with a unique ID
+              guildId: data.mutationData.createGuildUserCustom.guild_id,
               guildName: values.guildName,
               userAddress: address,
-              guildId: data.mutationData.createGuildUserCustom.guild_id,
               membershipStatus: 'Member',
             },
           });
-          return true;
-        }),
-      );
+        });
+
+        return data.mutationData.createGuildUserCustom.guild_id;
+      });
+
+      onSuccess(daoId);
       setImporting(false);
       setModals({ createDaoModal: false });
     }
@@ -86,7 +98,8 @@ const DaoTextareaForm = () => {
           localForm={localForm}
         />
         {!errors['daoMemberAddresses'] &&
-          touchedFields['daoMemberAddresses'] === true && (
+          watchAddress !== undefined &&
+          watchAddress !== '' && (
             <Flex direction="row" alignItems="center" marginY={4}>
               <Icon
                 as={AiFillCheckCircle}

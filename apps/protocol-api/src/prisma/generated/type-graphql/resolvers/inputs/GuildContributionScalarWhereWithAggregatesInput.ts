@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 
 @TypeGraphQL.InputType("GuildContributionScalarWhereWithAggregatesInput", {
@@ -48,4 +49,14 @@ export class GuildContributionScalarWhereWithAggregatesInput {
     nullable: true
   })
   contribution_id?: IntWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  verification_status_id?: IntNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  attestation_threshold?: IntNullableWithAggregatesFilter | undefined;
 }

@@ -69,11 +69,6 @@ export class LinearUserScalarWhereWithAggregatesInput {
   })
   url?: StringNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
-  })
-  user_id?: IntNullableWithAggregatesFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })
@@ -83,4 +78,9 @@ export class LinearUserScalarWhereWithAggregatesInput {
     nullable: true
   })
   active_token?: BoolNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  user_id?: IntNullableWithAggregatesFilter | undefined;
 }

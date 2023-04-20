@@ -31,4 +31,14 @@ export class GuildContributionMaxAggregate {
     nullable: true
   })
   contribution_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  verification_status_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  attestation_threshold!: number | null;
 }

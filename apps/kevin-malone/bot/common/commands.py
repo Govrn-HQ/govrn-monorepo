@@ -1,5 +1,5 @@
 from discord.commands import Option
-import logging
+from bot.common.logging import get_logger
 import discord
 
 from bot.common.bot.bot import bot
@@ -22,6 +22,8 @@ from bot.common.threads.utils import get_thread
 from bot.config import (
     GUILD_IDS,
     INFO_EMBED_COLOR,
+    FEEDBACK_MSG_FMT,
+    FEEDBACK_FORM_LINK,
     Redis,
     get_list_of_emojis,
 )
@@ -29,7 +31,7 @@ from discord import errors
 from bot.exceptions import NotGuildException, ErrorHandler
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @bot.slash_command(
@@ -91,8 +93,9 @@ async def join(ctx: discord.ApplicationContext):
     guild = await get_guild_by_discord_id(guild_discord_id)
     guild_id = guild["id"]
 
+    # and guild_user["membershipStatus"]["name"] is not "Left") for guild_user in user["guild_users"]
     if user is not None and any(
-        guild_user["guild_id"] == guild_id for guild_user in user["guild_users"]
+        (guild_user["guild_id"] == guild_id for guild_user in user["guild_users"])
     ):
         # Send welcome message and
         # And ask what journey they are
@@ -108,7 +111,6 @@ async def join(ctx: discord.ApplicationContext):
                 embed.add_field(
                     name=f"/ {cmd.name}", value=cmd.description, inline=False
                 )
-        print(embed)
         await ctx.followup.send(embed=embed, ephemeral=True)
         return
 
@@ -310,6 +312,18 @@ async def add_dao(ctx: discord.ApplicationContext):
     logger.info(f"Key: {cache_value}")
     await Redis.set(ctx.author.id, cache_value)
     await thread.send(sent_message)
+
+
+@bot.slash_command(
+    guild_id=GUILD_IDS,
+    description="Report feedback for Kevin Malone or other parts of the Govrn platform",
+)
+async def feedback(ctx):
+    feedback_msg = FEEDBACK_MSG_FMT % FEEDBACK_FORM_LINK
+    feedback_embed = discord.Embed(
+        colour=INFO_EMBED_COLOR, title="Feedback", description=feedback_msg
+    )
+    await ctx.respond(embed=feedback_embed)
 
 
 # if bool(strtobool(constants.Bot.is_dev)):

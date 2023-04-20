@@ -7,5 +7,6 @@ declare module 'express-session' {
     siwe: SiweResponse;
     nonce?: string;
     linearNonce?: string;
+    discordNonce?: string;
   }
 }

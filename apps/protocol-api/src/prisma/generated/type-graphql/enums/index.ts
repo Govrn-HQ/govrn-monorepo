@@ -11,6 +11,7 @@ export { ContributionStatusScalarFieldEnum } from "./ContributionStatusScalarFie
 export { DiscordUserScalarFieldEnum } from "./DiscordUserScalarFieldEnum";
 export { GuildActivityTypeScalarFieldEnum } from "./GuildActivityTypeScalarFieldEnum";
 export { GuildContributionScalarFieldEnum } from "./GuildContributionScalarFieldEnum";
+export { GuildContributionVerificationStatusScalarFieldEnum } from "./GuildContributionVerificationStatusScalarFieldEnum";
 export { GuildImportScalarFieldEnum } from "./GuildImportScalarFieldEnum";
 export { GuildImportStatusScalarFieldEnum } from "./GuildImportStatusScalarFieldEnum";
 export { GuildMembershipStatusScalarFieldEnum } from "./GuildMembershipStatusScalarFieldEnum";
@@ -34,3 +35,4 @@ export { TwitterTweetScalarFieldEnum } from "./TwitterTweetScalarFieldEnum";
 export { TwitterUserScalarFieldEnum } from "./TwitterUserScalarFieldEnum";
 export { UserActivityScalarFieldEnum } from "./UserActivityScalarFieldEnum";
 export { UserScalarFieldEnum } from "./UserScalarFieldEnum";
+export { VerificationSettingScalarFieldEnum } from "./VerificationSettingScalarFieldEnum";

@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("GuildContributionUpdateManyMutationInput", {
   isAbstract: true
@@ -17,4 +18,9 @@ export class GuildContributionUpdateManyMutationInput {
     nullable: true
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  attestation_threshold?: NullableIntFieldUpdateOperationsInput | undefined;
 }

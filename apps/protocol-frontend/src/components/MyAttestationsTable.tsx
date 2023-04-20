@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
-import { Box, Flex, Stack, Text } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
+import { Box, Flex, Link, Stack, Button, Text } from '@chakra-ui/react';
+import { HiOutlineExternalLink } from 'react-icons/hi';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -14,20 +16,23 @@ import GlobalFilter from './GlobalFilter';
 import { formatDate, toDate } from '../utils/date';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { UIContribution } from '@govrn/ui-types';
-import { GovrnSpinner } from '@govrn/protocol-ui';
-import { Link } from 'react-router-dom';
+import { GovrnCta, GovrnSpinner, Pill } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
-import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import GovrnTable from './GovrnTable';
+import MemberDisplayName from './MemberDisplayName';
+import VerificationHover from './VerificationHover';
+import AttestationFilter from './AttestationFilter';
 
 const MyAttestationsTable = ({
   data,
   hasMoreItems,
   nextPage,
+  attestationFilter,
 }: {
   data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
+  attestationFilter: (filterValue: string) => void;
 }) => {
   const { userData } = useUser();
 
@@ -48,27 +53,89 @@ const MyAttestationsTable = ({
         }) => {
           return (
             <Flex direction="column" wrap="wrap">
-              <Link to={`/contributions/${row.original.id}`}>
-                <Text whiteSpace="normal">{getValue()}</Text>
-              </Link>
+              <RouterLink to={`/contributions/${row.original.id}`}>
+                <Text
+                  whiteSpace="normal"
+                  bgGradient="linear-gradient(100deg, #1a202c 0%, #1a202c 100%)"
+                  bgClip="text"
+                  transition="all 100ms ease-in-out"
+                  _hover={{
+                    fontWeight: 'bolder',
+                    bgGradient: 'linear(to-l, #7928CA, #FF0080)',
+                  }}
+                >
+                  {getValue()}
+                </Text>
+              </RouterLink>
             </Flex>
           );
         },
       },
       {
         header: 'Status',
-        accessorFn: contr => contr.status.name,
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
-          return (
-            <Text textTransform="capitalize">
-              {getValue()}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating Contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {statusEmojiSelect(getValue())}
-              </span>{' '}
-            </Text>
+        accessorFn: contribution =>
+          contribution.guilds[0]?.verificationStatus?.name === 'Verified'
+            ? 'Verified'
+            : 'Unverified',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const status = getValue();
+
+          let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
+          if (status === null) {
+            statusMapHover = 'noFramework';
+          }
+          if (status === 'Verified') {
+            statusMapHover = 'Verified';
+          }
+          if (status === 'Unverified') {
+            statusMapHover = 'Unverified';
+          }
+          const attestationThreshold =
+            row.original.guilds[0].attestation_threshold;
+
+          let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
+          if (status === 'Verified') {
+            pillStatusMap = 'checkmark';
+          }
+          if (status === 'Unverified' && attestationThreshold === 1) {
+            pillStatusMap = 'secondaryInfo';
+          }
+          if (
+            status === 'Unverified' &&
+            !!attestationThreshold &&
+            attestationThreshold > 1
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+          if (status === 'Unverified' && attestationThreshold === null) {
+            pillStatusMap = 'primaryInfo';
+          }
+          const guildHasVerificationFramework =
+            row.original.guilds[0].guild?.verification_setting_id !== null;
+          return guildHasVerificationFramework ? (
+            <VerificationHover
+              status={statusMapHover}
+              threshold={attestationThreshold}
+            >
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                icon={pillStatusMap}
+                label={status === 'Verified' ? 'Verified' : 'Unverified'}
+              />
+            </VerificationHover>
+          ) : (
+            <VerificationHover threshold={null} status="noFramework">
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                label="Unverified"
+              />
+            </VerificationHover>
           );
         },
       },
@@ -77,7 +144,7 @@ const MyAttestationsTable = ({
         accessorFn: contribution =>
           toDate(
             contribution.attestations.find(a => a.user_id === userData?.id)
-              ?.date_of_attestation ?? '---',
+              ?.createdAt ?? '---',
           ),
         cell: ({ getValue }: { getValue: Getter<Date> }) => {
           return <Text>{formatDate(getValue())}</Text>;
@@ -87,7 +154,38 @@ const MyAttestationsTable = ({
       },
       {
         header: 'Contributor',
-        accessorFn: contribution => contribution.user.name,
+        accessorKey: 'user',
+
+        cell: ({ getValue }: { getValue: Getter<UIContribution['user']> }) => {
+          const value = getValue();
+          return <MemberDisplayName memberValue={value} />;
+        },
+      },
+      {
+        header: 'DAO',
+        accessorFn: contribution =>
+          contribution.guilds[0]?.guild?.name ?? '---',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const daoName = getValue();
+          const contributionVerifiedForDao =
+            row.original.guilds[0].guild?.verification_setting_id !== null &&
+            row.original.guilds[0]?.verificationStatus?.name === 'Verified';
+          return (
+            <Flex direction="column" wrap="wrap" paddingRight={1}>
+              <Pill
+                label={daoName}
+                icon={contributionVerifiedForDao === true ? 'checkmark' : null}
+                status={contributionVerifiedForDao ? 'primary' : 'tertiary'}
+              />
+            </Flex>
+          );
+        },
       },
     ];
   }, [userData?.id]);
@@ -106,26 +204,118 @@ const MyAttestationsTable = ({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  return (
-    <Stack>
-      <GlobalFilter
-        preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
-      <Box width="100%" maxWidth="100vw" overflowX="auto">
-        <InfiniteScroll
-          dataLength={table.getRowModel().rows.length}
-          next={nextPage}
-          scrollThreshold={0.8}
-          hasMore={hasMoreItems}
-          loader={<GovrnSpinner />}
-        >
-          <GovrnTable controller={table} maxWidth="100vw" overflowX="auto" />
-        </InfiniteScroll>
-      </Box>
-    </Stack>
+  const CopyChildren = () => (
+    <Flex direction="column" alignItems="center" justifyContent="center">
+      <Text>
+        You'll need other collaborators to be part of a DAO! There are no
+        contributions for you to attest to yet.
+      </Text>
+      <Text>
+        Make sure you're part of a DAO and attest to other people's minted
+        contributions.
+      </Text>
+    </Flex>
   );
+
+  const ButtonChildren = () => (
+    <>
+      <Link
+        as={RouterLink}
+        to="/profile"
+        state={{ targetId: 'myDaos' }}
+        _hover={{
+          textDecoration: 'none',
+        }}
+      >
+        <Button
+          variant="primary"
+          size="md"
+          width={{ base: '100%', lg: 'auto' }}
+        >
+          Join a DAO From Your Profile
+        </Button>
+      </Link>
+      <Link
+        href="https://govrn.gitbook.io/govrn-docs/attestations/attestations"
+        isExternal
+        textDecoration="none"
+        _hover={{
+          textDecoration: 'none',
+        }}
+      >
+        <Button
+          variant="secondary"
+          size="md"
+          leftIcon={<HiOutlineExternalLink />}
+        >
+          Learn More About Attestations
+        </Button>
+      </Link>
+    </>
+  );
+
+  let component = (
+    <GovrnCta
+      heading={`You haven't attested yet`}
+      emoji="🙏"
+      copy={<CopyChildren />}
+      children={<ButtonChildren />}
+    />
+  );
+
+  if (data.length) {
+    component = (
+      <>
+        <Box paddingX={{ base: '4', md: '6' }} paddingTop="5" paddingBottom="3">
+          <Stack
+            direction={{ base: 'column', md: 'row' }}
+            justify="space-between"
+            alignItems="bottom"
+          >
+            <Stack direction="column" gap="2">
+              <Text fontSize="lg" fontWeight="medium">
+                My Contributions
+              </Text>
+              <Text fontSize="md" fontWeight="normal">
+                These are contributions that you have already attested to.
+              </Text>
+            </Stack>
+          </Stack>
+        </Box>
+
+        <Stack marginTop="5">
+          <Flex
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+          >
+            <GlobalFilter
+              preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
+            <AttestationFilter attestationFilter={attestationFilter} />
+          </Flex>
+          <Box width="100%" maxWidth="100vw" overflowX="auto">
+            <InfiniteScroll
+              dataLength={table.getRowModel().rows.length}
+              next={nextPage}
+              scrollThreshold={0.8}
+              hasMore={hasMoreItems}
+              loader={<GovrnSpinner />}
+            >
+              <GovrnTable
+                controller={table}
+                maxWidth="100vw"
+                overflowX="auto"
+              />
+            </InfiniteScroll>
+          </Box>
+        </Stack>
+      </>
+    );
+  }
+  return component;
 };
 
 export default MyAttestationsTable;

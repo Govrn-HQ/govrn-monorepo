@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   Stack,
@@ -6,23 +7,39 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from '@chakra-ui/react';
 import PageHeading from './PageHeading';
 import AttestationsTable from './AttestationsTable';
-import EmptyContributions from './EmptyContributions';
 import MyAttestationsTable from './MyAttestationsTable';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import { SortOrder } from '@govrn/protocol-client';
 import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { mergePages } from '../utils/arrays';
 import { useUser } from '../contexts/UserContext';
+import {
+  LEFT_MEMBERSHIP_NAME,
+  VERIFIED_CONTRIBUTION_NAME,
+} from '../utils/constants';
 
 const AttestationsTableShell = () => {
   const { userData } = useUser();
+  const [filterByVerified, setFilterByVerified] = useState('showAll');
+  const [filterMyAttestationsByVerified, setFilterMyAttestationsByVerified] =
+    useState('showAll');
   const guildIds = userData?.guild_users
-    ? userData?.guild_users.map(guild => guild.guild_id)
-    : [];
+    ? userData?.guild_users
+        .filter(guild => guild?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME)
+        .map(guild => guild.guild_id)
+    : []; // filter out the daos a user has left
+
+  const handleAttestationFilter = (filterValue: string) => {
+    setFilterByVerified(filterValue);
+  };
+
+  const handleMyAttestationsFilter = (filterValue: string) => {
+    setFilterMyAttestationsByVerified(filterValue);
+  };
+
   const {
     isFetching,
     data: contributions,
@@ -32,14 +49,41 @@ const AttestationsTableShell = () => {
     orderBy: { date_of_engagement: SortOrder.Desc },
     where: {
       status: { is: { name: { equals: 'minted' } } },
-      user_id: {
-        not: { equals: userData?.id || 0 },
+
+      user: {
+        is: {
+          id: { not: { equals: userData?.id || 0 } },
+        },
       },
       guilds: {
         some: {
-          guild_id: {
-            in: guildIds,
-          },
+          AND: [
+            {
+              guild_id: {
+                in: guildIds,
+              },
+            },
+            {
+              ...(filterByVerified === 'showVerified' && {
+                verificationStatus: {
+                  is: {
+                    name: {
+                      equals: VERIFIED_CONTRIBUTION_NAME,
+                    },
+                  },
+                },
+              }),
+              ...(filterByVerified === 'showUnverified' && {
+                verificationStatus: {
+                  isNot: {
+                    name: {
+                      equals: VERIFIED_CONTRIBUTION_NAME,
+                    },
+                  },
+                },
+              }),
+            },
+          ],
         },
       },
       attestations: {
@@ -66,12 +110,33 @@ const AttestationsTableShell = () => {
       user_id: {
         not: { equals: userData?.id || 0 },
       },
+      guilds: {
+        some: {
+          ...(filterMyAttestationsByVerified === 'showVerified' && {
+            verificationStatus: {
+              is: {
+                name: {
+                  equals: VERIFIED_CONTRIBUTION_NAME,
+                },
+              },
+            },
+          }),
+          ...(filterMyAttestationsByVerified === 'showUnverified' && {
+            verificationStatus: {
+              isNot: {
+                name: {
+                  equals: VERIFIED_CONTRIBUTION_NAME,
+                },
+              },
+            },
+          }),
+        },
+      },
       attestations: {
         some: {
           AND: [
             {
               user_id: { equals: userData?.id || 0 },
-
               attestation_status: { isNot: { name: { equals: 'pending' } } },
             },
           ],
@@ -116,6 +181,7 @@ const AttestationsTableShell = () => {
                     data={mergePages(contributions.pages)}
                     hasMoreItems={hasNextPage}
                     nextPage={fetchNextPage}
+                    attestationFilter={handleAttestationFilter}
                   />
                 </Stack>
               </Box>
@@ -126,29 +192,14 @@ const AttestationsTableShell = () => {
                 boxShadow="sm"
                 borderRadius={{ base: 'none', md: 'lg' }}
               >
-                <Stack spacing="5">
-                  <Box paddingX={{ base: '4', md: '6' }} paddingTop={4}>
-                    <Stack direction="column" gap="2">
-                      <Text fontSize="lg" fontWeight="medium">
-                        My Attestations
-                      </Text>
-                      <Text fontSize="md" fontWeight="normal">
-                        These are contributions that you have already attested
-                        to.
-                      </Text>
-                    </Stack>
-                  </Box>
+                <Stack>
                   <Box width="100%" maxWidth="100vw" overflowX="auto">
-                    {attestedContributions &&
-                    attestedContributions?.pages.length > 0 ? (
-                      <MyAttestationsTable
-                        data={mergePages(attestedContributions?.pages || [])}
-                        hasMoreItems={hasNextPageAttestedContributions}
-                        nextPage={fetchNextPageAttestedContributions}
-                      />
-                    ) : (
-                      <EmptyContributions />
-                    )}
+                    <MyAttestationsTable
+                      data={mergePages(attestedContributions?.pages || [])}
+                      hasMoreItems={hasNextPageAttestedContributions}
+                      nextPage={fetchNextPageAttestedContributions}
+                      attestationFilter={handleMyAttestationsFilter}
+                    />
                   </Box>
                 </Stack>
               </Box>
@@ -156,7 +207,7 @@ const AttestationsTableShell = () => {
           </TabPanels>
         </Tabs>
       ) : (
-        <EmptyContributions />
+        <GovrnSpinner />
       )}
     </Box>
   );

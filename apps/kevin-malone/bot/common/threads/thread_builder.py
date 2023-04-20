@@ -1,8 +1,8 @@
 import copy
 import json
 import hashlib
-import logging
 
+from bot.common.logging import get_logger
 from bot.common.bot.bot import bot
 from bot.common.cache import RedisCache
 from bot.exceptions import ThreadTerminatingException
@@ -11,7 +11,7 @@ from typing import Dict, Optional
 
 from dataclasses import dataclass, field
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def build_cache_value(thread, step, guild_id, message_id="", **kwargs):
@@ -75,6 +75,7 @@ class StepKeys(Enum):
     CREATE_USER = "create_user"
     ONBOARDING_CONGRATS = "onboarding_congrats"
     PROMPT_USER_WALLET_ADDRESS = "prompt_user_wallet_address"
+    PROMPT_USER_CONNECT_WALLET = "prompt_user_connect_wallet"
     ADD_USER_DISCOURSE = "add_user_discourse"
     SELECT_GUILD_EMOJI = "select_guild_emoji"
     USER_UPDATE_FIELD_SELECT = "user_update_select"
