@@ -14,7 +14,6 @@ const useAttestationMint = () => {
   const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     ['MintAttestation'],
     async (data: { contributionId: number; onChainId: number }) => {
-      console.log('data', data);
       if (!data?.onChainId) {
         throw new Error('No onChainId for contribution');
       }
