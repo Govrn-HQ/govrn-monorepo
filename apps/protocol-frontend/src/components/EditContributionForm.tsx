@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useMemo } from 'react';
 import { uploadFileIpfs } from '../libs/ipfs';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   DEFAULT_ACTIVITY_TYPES_OPTIONS,
   MAX_FILE_UPLOAD_SIZE,
@@ -9,7 +10,7 @@ import {
   Button,
   Flex,
   IconButton,
-  Link as ChakraLink,
+  Link,
   Stack,
   Text,
 } from '@chakra-ui/react';
@@ -293,17 +294,20 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
             placeholder="Select a DAO to associate this Contribution with."
             tip={
               <>
-                Please select a DAO to associate this Contribution with.
+                Please select a DAO to associate this contribution with.
                 <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Request to add it{' '}
-                  <ChakraLink
-                    href="https://airtable.com/shrOedOjQpH9xlg7l"
-                    isExternal
+                  This is optional. Don't see your DAO? Join or create one{' '}
+                  <Link
+                    as={RouterLink}
+                    to="/profile"
+                    state={{ targetId: 'myDaos' }}
                     textDecoration="underline"
                   >
-                    here
-                  </ChakraLink>
+                    on your Profile.
+                  </Link>
                 </Box>
+                Note: Clicking the link will navigate to your Profile and clear
+                the form!
               </>
             }
             defaultValue={{
