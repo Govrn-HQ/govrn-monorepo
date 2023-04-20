@@ -308,6 +308,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Select
             name="daoId"
             label="DAO"
+            isClearable={true}
+            backspaceRemovesValue={true}
             tip={
               <>
                 Please select a DAO to associate this contribution with.

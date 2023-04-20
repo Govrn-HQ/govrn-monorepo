@@ -23,6 +23,7 @@ export const CreatableSelect = <T extends ValueType>({
   tip,
   placeholder,
   defaultValue,
+  backspaceRemovesValue,
   options,
   isMulti,
   isClearable,
@@ -55,6 +56,7 @@ export const CreatableSelect = <T extends ValueType>({
                 defaultValue={defaultValue}
                 placeholder={placeholder}
                 isClearable={isClearable}
+                backspaceRemovesValue={backspaceRemovesValue}
                 isMulti={isMulti}
                 onChange={onChange}
                 isDisabled={isDisabled}
