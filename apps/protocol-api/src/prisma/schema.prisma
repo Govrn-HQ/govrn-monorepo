@@ -143,15 +143,16 @@ model GuildContributionVerificationStatus {
 }
 
 model GuildActivityType {
-  id               Int           @id @default(autoincrement())
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @default(now()) @updatedAt
-  guild_id         Int
-  guild            Guild         @relation(fields: [guild_id], references: [id])
-  activity_type_id Int
-  activity_type    ActivityType  @relation(name: "activity_type", fields: [activity_type_id], references: [id])
-  migrated_from_id Int?
-  migrated_from    ActivityType? @relation(name: "migrated_from", fields: [migrated_from_id], references: [id])
+  id                         Int                          @id @default(autoincrement())
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @default(now()) @updatedAt
+  guild_id                   Int
+  guild                      Guild                        @relation(fields: [guild_id], references: [id])
+  activity_type_id           Int
+  activity_type              ActivityType                 @relation(name: "guilds", fields: [activity_type_id], references: [id])
+  migrated_from_id           Int?
+  migrated_from              ActivityType?                @relation(name: "migrated_from", fields: [migrated_from_id], references: [id])
+  CanonicalGuildActivityType CanonicalGuildActivityType[]
 
   @@unique([guild_id, activity_type_id])
 }
@@ -301,18 +302,17 @@ model ContributionStatus {
 // There should be a mapping
 // activity to user
 model ActivityType {
-  id                Int                    @id @default(autoincrement())
-  createdAt         DateTime               @default(now())
-  updatedAt         DateTime               @default(now()) @updatedAt
-  name              String                 @unique
-  active            Boolean                @default(true)
-  default           Boolean                @default(false)
-  users             UserActivity[]
-  contributions     Contribution[]
-  categoryActivity  CategoryActivityType[]
-  guilds            GuildActivityType[]
-  GuildActivityType GuildActivityType[]
-  GuildActivityType GuildActivityType[]
+  id               Int                    @id @default(autoincrement())
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @default(now()) @updatedAt
+  name             String                 @unique
+  active           Boolean                @default(true)
+  default          Boolean                @default(false)
+  users            UserActivity[]
+  contributions    Contribution[]
+  categoryActivity CategoryActivityType[]
+  guilds           GuildActivityType[]    @relation(name: "guilds")
+  migrated_from    GuildActivityType[]    @relation(name: "migrated_from")
 }
 
 model UserActivity {
