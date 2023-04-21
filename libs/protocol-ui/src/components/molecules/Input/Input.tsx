@@ -28,6 +28,7 @@ export interface InputProps extends ChakraInputProps {
   localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'outline' | 'filled';
   dataTestId?: string;
+  isRequired: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -42,6 +43,7 @@ const Input: React.FC<InputProps> = ({
   localForm,
   isDisabled = false,
   variant = 'outline',
+  isRequired = false,
   dataTestId = '',
   onChange,
   ...props
@@ -52,7 +54,11 @@ const Input: React.FC<InputProps> = ({
   } = localForm;
 
   return (
-    <FormControl mb={4} isInvalid={errors[name] !== undefined}>
+    <FormControl
+      mb={4}
+      isInvalid={errors[name] !== undefined}
+      isRequired={isRequired}
+    >
       <Stack spacing={2}>
         {label && <FormLabel label={label} />}
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}
