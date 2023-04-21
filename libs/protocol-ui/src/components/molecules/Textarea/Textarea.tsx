@@ -24,6 +24,7 @@ export interface TextareaProps extends ChakraTextareaProps {
   includeIcon?: boolean;
   localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'filled' | 'outline' | 'flushed' | 'unstyled';
+  isRequired?: boolean;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -34,6 +35,7 @@ const Textarea: React.FC<TextareaProps> = ({
   defaultValue,
   localForm,
   includeIcon = false,
+  isRequired = false,
   variant = 'outline',
 }: TextareaProps) => {
   const {
@@ -45,7 +47,7 @@ const Textarea: React.FC<TextareaProps> = ({
   });
 
   return (
-    <FormControl isInvalid={errors[name] !== undefined}>
+    <FormControl isInvalid={errors[name] !== undefined} isRequired={isRequired}>
       <Stack spacing={2}>
         {label && <FormLabel label={label} />}
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}

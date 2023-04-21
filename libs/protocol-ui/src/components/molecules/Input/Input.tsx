@@ -28,7 +28,7 @@ export interface InputProps extends ChakraInputProps {
   localForm: Pick<UseFormReturn, 'formState' | 'register'>;
   variant?: 'outline' | 'filled';
   dataTestId?: string;
-  isRequired: boolean;
+  isRequired?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
