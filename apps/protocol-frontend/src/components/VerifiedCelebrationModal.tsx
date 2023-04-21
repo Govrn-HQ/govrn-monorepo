@@ -1,10 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Box, Flex, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Stack,
+  List,
+  ListIcon,
+  ListItem,
+  HStack,
+  Text,
+} from '@chakra-ui/react';
 import { TextList } from './TextList';
+import { MdCheckCircle } from 'react-icons/md';
 import { useReward } from 'react-rewards';
 import { UIContribution } from '@govrn/ui-types';
 
-export const VerifiedCelebrationModal = () => {
+export const VerifiedCelebrationModal = ({
+  verifiedContribution,
+}: {
+  verifiedContribution: UIContribution;
+}) => {
   const [celebrating, setCelebrating] = useState(true);
   const { reward } = useReward('rewardId', 'confetti', {
     colors: ['#86135B', '#5100E4', '#DF1F97', '#F2A5D5'],
@@ -30,7 +44,7 @@ export const VerifiedCelebrationModal = () => {
         </Text>
         <Flex
           direction="row"
-          minH="8rem"
+          minH="4rem"
           alignItems="center"
           textAlign="center"
           wrap="wrap"
@@ -41,11 +55,19 @@ export const VerifiedCelebrationModal = () => {
             <Text as="span" fontWeight="bold">
               verified this contribution
             </Text>{' '}
-            for your DAO.
+            for your DAO:
           </Text>
         </Flex>
         <Box as="span" id="rewardId" />
       </Flex>
+      <List variant="primary" paddingBottom={3} spacing={2}>
+        <ListItem>
+          <HStack>
+            <ListIcon as={MdCheckCircle} color="brand.magenta" />
+            <Text as="span">{verifiedContribution.name}</Text>
+          </HStack>
+        </ListItem>
+      </List>
     </Stack>
   );
 };

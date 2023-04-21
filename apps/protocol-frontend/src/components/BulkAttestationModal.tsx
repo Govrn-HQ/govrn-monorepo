@@ -17,9 +17,11 @@ interface BulkAttestationModalProps {
 export const AttestationModal = ({
   contribution,
   onFinish,
+  setVerifiedContribution,
 }: {
   contribution: UIContribution;
   onFinish?: (() => void) | undefined;
+  setVerifiedContribution: (contribution: UIContribution) => void;
 }) => {
   const { displayName } = useDisplayName();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
@@ -40,6 +42,7 @@ export const AttestationModal = ({
       setModals({ attestationModal: false });
       if (onFinish) onFinish();
       if (attestationThreshold === 1) {
+        setVerifiedContribution(contribution);
         setModals({ verifiedCelebrationModal: true });
       }
     } catch (e) {

@@ -50,6 +50,8 @@ const AttestationsTable = ({
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [verifiedContribution, setVerifiedContribution] =
+    useState<UIContribution | null>(null);
   const [verifiedContributions, setVerifiedContributions] = useState<
     UIContribution[]
   >([]);
@@ -427,20 +429,27 @@ const AttestationsTable = ({
           content={
             <AttestationModal
               contribution={selectedRows[0]}
+              setVerifiedContribution={setVerifiedContribution}
               onFinish={deselectAll}
             />
           }
         />
       )}
-      <ModalWrapper
-        name="verifiedCelebrationModal"
-        title=""
-        localOverlay={localOverlay}
-        size="3xl"
-        bgColor="brand.gradientBackgroundModal"
-        closeButtonColor="white"
-        content={<VerifiedCelebrationModal />}
-      />
+      {verifiedContribution !== null && (
+        <ModalWrapper
+          name="verifiedCelebrationModal"
+          title=""
+          localOverlay={localOverlay}
+          size="3xl"
+          bgColor="brand.gradientBackgroundModal"
+          closeButtonColor="white"
+          content={
+            <VerifiedCelebrationModal
+              verifiedContribution={verifiedContribution}
+            />
+          }
+        />
+      )}
       <ModalWrapper
         name="bulkVerifiedCelebrationModal"
         title=""
