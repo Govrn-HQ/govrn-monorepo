@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
@@ -11,7 +12,7 @@ import {
   Flex,
   FormLabel,
   IconButton,
-  Link as ChakraLink,
+  Link,
   Button,
   Text,
   Switch,
@@ -311,15 +312,18 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               <>
                 Please select a DAO to associate this contribution with.
                 <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Request to add it{' '}
-                  <ChakraLink
-                    href="https://airtable.com/shrOedOjQpH9xlg7l"
-                    isExternal
+                  This is optional. Don't see your DAO? Join or create one{' '}
+                  <Link
+                    as={RouterLink}
+                    to="/profile"
+                    state={{ targetId: 'myDaos' }}
                     textDecoration="underline"
                   >
-                    here
-                  </ChakraLink>
+                    on your Profile.
+                  </Link>
                 </Box>
+                Note: Clicking the link will navigate to your Profile and clear
+                the form!
               </>
             }
             placeholder="Select a DAO to associate this contribution with."
