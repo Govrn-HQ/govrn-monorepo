@@ -85,7 +85,7 @@ const addAttestationThreshold = async ({
 };
 
 prisma.$use(async (params, next) => {
-  if ((params.model == 'Attestation', params.action === 'create')) {
+  if (params.model == 'Attestation' && params.action === 'create') {
     const contributionParams =
       params.args.data.contribution.connect.chain_id_on_chain_id;
     await addAttestationThreshold({
