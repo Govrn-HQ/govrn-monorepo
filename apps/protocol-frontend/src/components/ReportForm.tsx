@@ -162,6 +162,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           proof: '',
           activityType: values.activityType,
           date_of_engagement: values.engagementDate,
+          daoId: values.daoId,
         });
         if (!isUserCreatingMore) onFinish();
       }
