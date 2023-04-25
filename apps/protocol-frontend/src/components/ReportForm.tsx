@@ -197,7 +197,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   }, [setValue, daoListOptions, daoIdParam]);
 
   useEffect(() => {
-    console.log('date changed', engagementDateValue);
     setValue('engagementDate', engagementDateValue);
   }, [engagementDateValue, setValue]);
 
@@ -347,6 +346,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
               if (activity instanceof Array || !activity) {
                 return;
               }
+
               setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}
