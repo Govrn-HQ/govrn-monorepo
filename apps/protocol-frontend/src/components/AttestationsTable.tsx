@@ -18,6 +18,10 @@ import { UIContribution } from '@govrn/ui-types';
 import { GovrnCta, GovrnSpinner, Pill } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
+import {
+  VerifiedCelebrationModal,
+  BulkVerifiedCelebrationModal,
+} from './VerifiedCelebrationModal';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
@@ -46,6 +50,11 @@ const AttestationsTable = ({
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [verifiedContribution, setVerifiedContribution] =
+    useState<UIContribution | null>(null);
+  const [verifiedContributions, setVerifiedContributions] = useState<
+    UIContribution[]
+  >([]);
 
   const deselectAll = () => {
     setRowSelection({});
@@ -406,6 +415,7 @@ const AttestationsTable = ({
         content={
           <BulkAttestationModal
             contributions={selectedRows}
+            setVerifiedContributions={setVerifiedContributions}
             onFinish={deselectAll}
           />
         }
@@ -419,11 +429,44 @@ const AttestationsTable = ({
           content={
             <AttestationModal
               contribution={selectedRows[0]}
+              setVerifiedContribution={setVerifiedContribution}
               onFinish={deselectAll}
             />
           }
         />
       )}
+      {verifiedContribution !== null && (
+        <ModalWrapper
+          name="verifiedCelebrationModal"
+          title=""
+          localOverlay={localOverlay}
+          size="3xl"
+          bgColor="brand.gradientBackgroundModal"
+          closeButtonColor="white"
+          content={
+            <VerifiedCelebrationModal
+              verifiedContribution={verifiedContribution}
+            />
+          }
+        />
+      )}
+      <ModalWrapper
+        name="bulkVerifiedCelebrationModal"
+        title=""
+        localOverlay={localOverlay}
+        size="3xl"
+        bgColor="brand.gradientBackgroundModal"
+        closeButtonColor="white"
+        content={
+          <BulkVerifiedCelebrationModal
+            verifiedContributions={
+              verifiedContributions.length !== 0
+                ? verifiedContributions
+                : selectedRows
+            }
+          />
+        }
+      />
     </>
   );
 };

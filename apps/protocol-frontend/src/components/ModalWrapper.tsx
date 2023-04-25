@@ -16,6 +16,7 @@ export interface ModalWrapperProps extends BoxProps {
   content: React.ReactNode;
   titleColor?: string;
   bgColor?: string;
+  closeButtonColor?: string;
   size?: string;
   localOverlay: OverlayContextType;
   isOpen?: boolean;
@@ -45,17 +46,14 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
       size={size || '2xl'}
     >
       <ModalOverlay />
-      <ModalContent
-        background={props.bgColor ? props.bgColor : 'white'}
-        minWidth="20vw"
-      >
+      <ModalContent background={props.bgColor ?? 'white'} minWidth="20vw">
         <ModalHeader
           paddingBottom={0}
           color={props.color ? props.color : 'gray.800'}
         >
           {title}
         </ModalHeader>
-        <ModalCloseButton color="gray.800" />
+        <ModalCloseButton color={props.closeButtonColor ?? 'gray.800'} />
         <ModalBody paddingBottom={8}>{content}</ModalBody>
       </ModalContent>
     </Modal>
