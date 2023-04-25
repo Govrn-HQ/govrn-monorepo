@@ -144,6 +144,7 @@ const VerificationFrameworkForm = ({
             <NumberInput
               name="numberOfAttestors"
               label="Choose the Number of Attestors"
+              isRequired={watch('verificationFramework') !== 'none'}
               defaultValue={numberOfAttestations || 1}
               min={1}
               max={10}

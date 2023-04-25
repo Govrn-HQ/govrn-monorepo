@@ -20781,6 +20781,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getGuildContribution(variables: GetGuildContributionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildContributionQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetGuildContributionQuery>(GetGuildContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGuildContribution', 'query');
     },
+    listGuildContributions(variables?: ListGuildContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildContributionsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildContributionsQuery>(ListGuildContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildContributions', 'query');
+    },
+    updateGuildContribution(variables: UpdateGuildContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildContributionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildContributionMutation>(UpdateGuildContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildContribution', 'mutation');
+    },
     listGuildUsers(variables?: ListGuildUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildUsersQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ListGuildUsersQuery>(ListGuildUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildUsers', 'query');
     },
@@ -20792,12 +20798,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createManyGuildUser(variables: CreateManyGuildUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateManyGuildUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateManyGuildUserMutation>(CreateManyGuildUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createManyGuildUser', 'mutation');
-    },
-    listGuildContributions(variables?: ListGuildContributionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ListGuildContributionsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ListGuildContributionsQuery>(ListGuildContributionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'listGuildContributions', 'query');
-    },
-    updateGuildContribution(variables: UpdateGuildContributionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildContributionMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildContributionMutation>(UpdateGuildContributionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateGuildContribution', 'mutation');
     },
     createGuildUserCustom(variables: CreateGuildUserCustomMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildUserCustomMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildUserCustomMutation>(CreateGuildUserCustomDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createGuildUserCustom', 'mutation');

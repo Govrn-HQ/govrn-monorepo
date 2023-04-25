@@ -301,6 +301,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             name="name"
             label="Name of Contribution"
             tip="Please add the name of your contribution."
+            isRequired
             placeholder="Govrn Protocol Pull Request"
             localForm={localForm}
             dataTestId="reportForm-name"
@@ -308,6 +309,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Select
             name="daoId"
             label="DAO"
+            isClearable={true}
+            backspaceRemovesValue={true}
             tip={
               <>
                 Please select a DAO to associate this contribution with.
@@ -337,6 +340,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <CreatableSelect
             name="activityType"
             label="Activity Type"
+            isRequired
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
               if (activity instanceof Array || !activity) {
