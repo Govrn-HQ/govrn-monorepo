@@ -132,18 +132,20 @@ const AttestationsTable = ({
           row: Row<UIContribution>;
         }) => {
           const status = getValue();
+          console.log('data', data);
 
           const guildHasVerificationFramework =
             row.original.guilds[0].guild?.verification_setting_id !== null;
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
+          const currentAttestations = row.original.attestations?.length;
           const frameworkSettingThreshold =
             row.original.guilds[0].guild.verification_setting
               ?.num_of_attestations;
           let pillUnverifiedLabel!: string;
           if (attestationThreshold && frameworkSettingThreshold) {
             pillUnverifiedLabel = `${
-              frameworkSettingThreshold - attestationThreshold
+              frameworkSettingThreshold - currentAttestations
             }/${frameworkSettingThreshold}`;
           }
           const daoName = row.original.guilds[0].guild?.name;

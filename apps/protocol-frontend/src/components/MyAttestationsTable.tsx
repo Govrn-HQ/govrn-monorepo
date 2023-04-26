@@ -90,11 +90,16 @@ const MyAttestationsTable = ({
             row.original.guilds[0].guild?.verification_setting_id !== null;
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
-
+          const currentAttestations = row.original.attestations?.length;
           const frameworkSettingThreshold =
             row.original.guilds[0].guild.verification_setting
               ?.num_of_attestations;
-          const pillUnverifiedLabel = `${attestationThreshold}/${frameworkSettingThreshold}`;
+          let pillUnverifiedLabel!: string;
+          if (attestationThreshold && frameworkSettingThreshold) {
+            pillUnverifiedLabel = `${
+              frameworkSettingThreshold - currentAttestations
+            }/${frameworkSettingThreshold}`;
+          }
           const daoName = row.original.guilds[0].guild?.name;
 
           let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
