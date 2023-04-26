@@ -53,9 +53,7 @@ const VerificationFramework = ({
         <VerificationFrameworkForm
           verificationSettingId={verificationSettingId ?? null}
           daoId={daoId}
-          numberOfAttestations={
-            verificationSettingData?.num_of_attestations ?? null
-          }
+          numberOfAttestations={verificationSettingData?.num_of_attestations}
         />
       </Flex>
     </Flex>

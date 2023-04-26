@@ -137,18 +137,23 @@ const AttestationsTable = ({
             row.original.guilds[0].guild?.verification_setting_id !== null;
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
-
           const frameworkSettingThreshold =
             row.original.guilds[0].guild.verification_setting
               ?.num_of_attestations;
-          const pillUnverifiedLabel = `${attestationThreshold}/${frameworkSettingThreshold}`;
+          let pillUnverifiedLabel!: string;
+          if (attestationThreshold && frameworkSettingThreshold) {
+            pillUnverifiedLabel = `${
+              frameworkSettingThreshold - attestationThreshold
+            }/${frameworkSettingThreshold}`;
+          }
           const daoName = row.original.guilds[0].guild?.name;
 
           let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
           if (status === null) {
             statusMapHover = 'noFramework';
           }
-          if (status === 'Verified') {
+
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
             statusMapHover = 'Verified';
           }
           if (status === 'Unverified') {
@@ -156,7 +161,7 @@ const AttestationsTable = ({
           }
 
           let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
-          if (status === 'Verified') {
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
             pillStatusMap = 'checkmark';
           }
           if (status === 'Unverified' && attestationThreshold === 1) {
@@ -173,8 +178,6 @@ const AttestationsTable = ({
             pillStatusMap = 'primaryInfo';
           }
 
-          console.log('data', data);
-
           return guildHasVerificationFramework ? (
             <VerificationHover
               daoName={daoName}
@@ -182,9 +185,17 @@ const AttestationsTable = ({
               currentThreshold={attestationThreshold}
             >
               <Pill
-                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                status={
+                  status === 'Verified' || frameworkSettingThreshold === 0
+                    ? 'gradient'
+                    : 'tertiary'
+                }
                 icon={pillStatusMap}
-                label={status === 'Verified' ? 'Verified' : pillUnverifiedLabel}
+                label={
+                  status === 'Verified' || frameworkSettingThreshold === 0
+                    ? 'Verified'
+                    : pillUnverifiedLabel
+                }
               />
             </VerificationHover>
           ) : (
@@ -232,8 +243,11 @@ const AttestationsTable = ({
         }) => {
           const daoName = getValue();
           const contributionVerifiedForDao =
-            row.original.guilds[0].guild?.verification_setting_id !== null &&
-            row.original.guilds[0]?.verificationStatus?.name === 'Verified';
+            (row.original.guilds[0].guild?.verification_setting_id !== null &&
+              row.original.guilds[0]?.verificationStatus?.name ===
+                'Verified') ||
+            row.original.guilds[0].guild.verification_setting
+              ?.num_of_attestations === 0;
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>
               <Pill

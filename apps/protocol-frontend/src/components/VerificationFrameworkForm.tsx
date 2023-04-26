@@ -44,7 +44,7 @@ const VerificationFrameworkForm = ({
       'verificationFramework',
       verificationSettingId === null ? 'none' : 'numberOfAttestors',
     );
-    setValue('numberOfAttestors', numberOfAttestations || '');
+    setValue('numberOfAttestors', numberOfAttestations);
   }, [verificationSettingId, numberOfAttestations, setValue]);
 
   const verificationFrameworkOptions = [
@@ -55,7 +55,6 @@ const VerificationFrameworkForm = ({
   const verificationFrameworkHandler: SubmitHandler<
     VerificationFrameworkFormValues
   > = async values => {
-    console.log('values', values);
     setSubmitting(true);
     if (
       values.numberOfAttestors === null ||

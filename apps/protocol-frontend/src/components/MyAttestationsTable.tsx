@@ -38,7 +38,6 @@ const MyAttestationsTable = ({
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
-  console.log('data', data);
 
   const columnsDef = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [
@@ -102,7 +101,7 @@ const MyAttestationsTable = ({
           if (status === null) {
             statusMapHover = 'noFramework';
           }
-          if (status === 'Verified') {
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
             statusMapHover = 'Verified';
           }
           if (status === 'Unverified') {
@@ -110,7 +109,7 @@ const MyAttestationsTable = ({
           }
 
           let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
-          if (status === 'Verified') {
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
             pillStatusMap = 'checkmark';
           }
           if (status === 'Unverified' && attestationThreshold === 1) {
@@ -134,7 +133,11 @@ const MyAttestationsTable = ({
               currentThreshold={attestationThreshold}
             >
               <Pill
-                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                status={
+                  status === 'Verified' || frameworkSettingThreshold === 0
+                    ? 'gradient'
+                    : 'tertiary'
+                }
                 icon={pillStatusMap}
                 label={status === 'Verified' ? 'Verified' : pillUnverifiedLabel}
               />
@@ -146,7 +149,11 @@ const MyAttestationsTable = ({
               status="noFramework"
             >
               <Pill
-                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                status={
+                  status === 'Verified' || frameworkSettingThreshold === 0
+                    ? 'gradient'
+                    : 'tertiary'
+                }
                 label="Unset"
               />
             </VerificationHover>
