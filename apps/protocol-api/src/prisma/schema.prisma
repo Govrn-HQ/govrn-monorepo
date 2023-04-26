@@ -143,16 +143,16 @@ model GuildContributionVerificationStatus {
 }
 
 model GuildActivityType {
-  id                         Int                          @id @default(autoincrement())
-  createdAt                  DateTime                     @default(now())
-  updatedAt                  DateTime                     @default(now()) @updatedAt
+  id                         Int                         @id @default(autoincrement())
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @default(now()) @updatedAt
   guild_id                   Int
-  guild                      Guild                        @relation(fields: [guild_id], references: [id])
+  guild                      Guild                       @relation(fields: [guild_id], references: [id])
   activity_type_id           Int
-  activity_type              ActivityType                 @relation(name: "guilds", fields: [activity_type_id], references: [id])
+  activity_type              ActivityType                @relation(name: "guilds", fields: [activity_type_id], references: [id])
   migrated_from_id           Int?
-  migrated_from              ActivityType?                @relation(name: "migrated_from", fields: [migrated_from_id], references: [id])
-  CanonicalGuildActivityType CanonicalGuildActivityType[]
+  migrated_from              ActivityType?               @relation(name: "migrated_from", fields: [migrated_from_id], references: [id])
+  CanonicalGuildActivityType CanonicalGuildActivityType?
 
   @@unique([guild_id, activity_type_id])
 }
@@ -167,7 +167,7 @@ model CanonicalGuildActivityType {
   guild_activity_type_id Int
   guild_activity_type    GuildActivityType @relation(fields: [guild_activity_type_id], references: [id])
 
-  @@unique([guild_id, guild_activity_type_id])
+  @@unique([guild_activity_type_id])
 }
 
 model IntegrationType {
