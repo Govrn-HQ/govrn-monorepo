@@ -132,7 +132,6 @@ const AttestationsTable = ({
           row: Row<UIContribution>;
         }) => {
           const status = getValue();
-          console.log('data', data);
 
           const guildHasVerificationFramework =
             row.original.guilds[0].guild?.verification_setting_id !== null;
