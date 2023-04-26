@@ -163,12 +163,18 @@ const AttestationsTable = ({
           if (status === 'Unverified' && attestationThreshold === null) {
             pillStatusMap = 'primaryInfo';
           }
+
+          console.log('data', data);
+
           const guildHasVerificationFramework =
             row.original.guilds[0].guild?.verification_setting_id !== null;
+          const daoName = row.original.guilds[0].guild?.name;
+
           return guildHasVerificationFramework ? (
             <VerificationHover
+              daoName={daoName}
               status={statusMapHover}
-              threshold={attestationThreshold}
+              currentThreshold={attestationThreshold}
             >
               <Pill
                 status={status === 'Verified' ? 'gradient' : 'tertiary'}
@@ -177,10 +183,14 @@ const AttestationsTable = ({
               />
             </VerificationHover>
           ) : (
-            <VerificationHover threshold={null} status="noFramework">
+            <VerificationHover
+              daoName={daoName}
+              currentThreshold={null}
+              status="noFramework"
+            >
               <Pill
                 status={status === 'Verified' ? 'gradient' : 'tertiary'}
-                label="Unverified"
+                label="Unset"
               />
             </VerificationHover>
           );
