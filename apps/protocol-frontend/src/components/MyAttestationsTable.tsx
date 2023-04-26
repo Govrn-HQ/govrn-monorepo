@@ -38,6 +38,7 @@ const MyAttestationsTable = ({
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  console.log('data', data);
 
   const columnsDef = useMemo<ColumnDef<UIContribution>[]>(() => {
     return [

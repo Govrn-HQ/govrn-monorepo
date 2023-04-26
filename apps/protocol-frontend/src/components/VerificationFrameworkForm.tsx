@@ -55,8 +55,12 @@ const VerificationFrameworkForm = ({
   const verificationFrameworkHandler: SubmitHandler<
     VerificationFrameworkFormValues
   > = async values => {
+    console.log('values', values);
     setSubmitting(true);
-    if (!values.numberOfAttestors) {
+    if (
+      values.numberOfAttestors === null ||
+      values.numberOfAttestors === undefined
+    ) {
       return;
     }
     if (verificationSettingId === null) {
@@ -145,8 +149,8 @@ const VerificationFrameworkForm = ({
               name="numberOfAttestors"
               label="Choose the Number of Attestors"
               isRequired={watch('verificationFramework') !== 'none'}
-              defaultValue={numberOfAttestations || 1}
-              min={1}
+              defaultValue={numberOfAttestations || 0}
+              min={0}
               max={10}
               localForm={localForm}
             />
