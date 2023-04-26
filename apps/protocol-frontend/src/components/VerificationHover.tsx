@@ -17,21 +17,21 @@ const VerificationHover = ({
 }: VerificationHoverProps) => {
   let thresholdLabel;
   if (currentThreshold === 1) {
-    thresholdLabel = `This contribution only needs ${currentThreshold} more attestation to be verified by the DAO! `;
+    thresholdLabel = `This contribution only needs ${currentThreshold} more attestation to be verified by ${daoName}!`;
   }
   if (
     currentThreshold !== null &&
     currentThreshold !== undefined &&
     currentThreshold > 1
   ) {
-    thresholdLabel = `This contribution needs ${currentThreshold} more attestations to be verified by the DAO.`;
+    thresholdLabel = `This contribution needs ${currentThreshold} more attestations to be verified by ${daoName}.`;
   }
   if (currentThreshold === null) {
-    thresholdLabel = `This contribution needs more attestations to be verified by the DAO.`;
+    thresholdLabel = `This contribution needs more attestations to be verified by ${daoName}.`;
   }
   const verificationPropsMap = {
     Verified: {
-      label: 'This contribution has been verified by the DAO!',
+      label: `This contribution has been verified by ${daoName}!`,
       variant: 'tertiary',
     },
     Unverified: {
