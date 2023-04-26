@@ -72,7 +72,7 @@ const MyAttestationsTable = ({
         },
       },
       {
-        header: 'Status',
+        header: 'Verification',
         accessorFn: contribution =>
           contribution.guilds[0]?.verificationStatus?.name === 'Verified'
             ? 'Verified'
@@ -86,6 +86,17 @@ const MyAttestationsTable = ({
         }) => {
           const status = getValue();
 
+          const guildHasVerificationFramework =
+            row.original.guilds[0].guild?.verification_setting_id !== null;
+          const attestationThreshold =
+            row.original.guilds[0].attestation_threshold;
+
+          const frameworkSettingThreshold =
+            row.original.guilds[0].guild.verification_setting
+              ?.num_of_attestations;
+          const pillUnverifiedLabel = `${attestationThreshold}/${frameworkSettingThreshold}`;
+          const daoName = row.original.guilds[0].guild?.name;
+
           let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
           if (status === null) {
             statusMapHover = 'noFramework';
@@ -96,8 +107,6 @@ const MyAttestationsTable = ({
           if (status === 'Unverified') {
             statusMapHover = 'Unverified';
           }
-          const attestationThreshold =
-            row.original.guilds[0].attestation_threshold;
 
           let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
           if (status === 'Verified') {
@@ -116,9 +125,7 @@ const MyAttestationsTable = ({
           if (status === 'Unverified' && attestationThreshold === null) {
             pillStatusMap = 'primaryInfo';
           }
-          const guildHasVerificationFramework =
-            row.original.guilds[0].guild?.verification_setting_id !== null;
-          const daoName = row.original.guilds[0].guild?.name;
+
           return guildHasVerificationFramework ? (
             <VerificationHover
               daoName={daoName}
@@ -128,7 +135,7 @@ const MyAttestationsTable = ({
               <Pill
                 status={status === 'Verified' ? 'gradient' : 'tertiary'}
                 icon={pillStatusMap}
-                label={status === 'Verified' ? 'Verified' : 'Unverified'}
+                label={status === 'Verified' ? 'Verified' : pillUnverifiedLabel}
               />
             </VerificationHover>
           ) : (
@@ -139,7 +146,7 @@ const MyAttestationsTable = ({
             >
               <Pill
                 status={status === 'Verified' ? 'gradient' : 'tertiary'}
-                label="Unverified"
+                label="Unset"
               />
             </VerificationHover>
           );
