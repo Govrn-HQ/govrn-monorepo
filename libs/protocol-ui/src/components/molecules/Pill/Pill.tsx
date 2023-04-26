@@ -49,7 +49,6 @@ const icons: {
 };
 
 const Pill = ({ label, status, icon }: PillProps) => {
-  console.log('label', label);
   return (
     <HStack spacing={4}>
       <Tag bg={colorValues[status].bg}>
