@@ -5,6 +5,7 @@ import {
   getDaoVerificationThreshold,
   getUnverifiedContributions,
   upsertVerifiedGuildContribution,
+  upsertGuildContributionAttestationThreshold,
 } from './db';
 
 const JOB_NAME = 'contribution-verification';
@@ -42,6 +43,12 @@ const main = async () => {
         const attestationCount =
           guildContribution.contribution.attestations.length;
 
+        // this will update the threshold if it has changed on guild contributions, but
+        // will not un-verify contributions if the threshold has been raised
+        await upsertGuildContributionAttestationThreshold(
+          contributionId,
+          settingThreshold,
+        );
         if (attestationCount >= settingThreshold) {
           console.log(
             `verifying dao: ${name} contribution: ${contributionId} attestationCount: ${attestationCount} threshold: ${settingThreshold}`,

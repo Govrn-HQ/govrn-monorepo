@@ -1,6 +1,7 @@
 import { BaseClient } from './base';
 import {
   CreateGuildUserCustomMutationVariables,
+  CreateManyGuildUserMutationVariables,
   GuildUserUpdateCustomInput,
   ListGuildUsersQuery,
   ListGuildUsersQueryVariables,
@@ -29,5 +30,10 @@ export class GuildUser extends BaseClient {
       data: args,
     });
     return updatedGuildUser.updateGuildUserCustom;
+  }
+
+  public async bulkCreate(args: CreateManyGuildUserMutationVariables) {
+    const guildUser = await this.sdk.createManyGuildUser(args);
+    return guildUser.createManyGuildUser;
   }
 }

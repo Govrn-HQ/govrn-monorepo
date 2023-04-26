@@ -1,4 +1,4 @@
-import logging
+from bot.common.logging import get_logger
 import asyncio
 import discord
 
@@ -10,7 +10,7 @@ from bot.common.tasks.weekly_contributions import send_weekly_contribution_repor
 from bot.common.cache import Cache
 from bot.constants import BotTasks as TaskConstants
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # TODO: tz?
 DATETIME_CACHE_FMT = "%m/%d/%Y, %H:%M:%S"

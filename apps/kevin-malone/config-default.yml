@@ -16,6 +16,7 @@ bot:
     weekly_report_enable: !ENV "WEEKLY_REPORT_ENABLE"
     weekly_report_weekday: !ENV "WEEKLY_REPORT_WEEKDAY"
     weekly_report_time: !ENV "WEEKLY_REPORT_TIME"
+  logfile: !ENV "LOGFILE_PATH"
 
 tests:
   test_channel: !ENV "TEST_CHANNEL"

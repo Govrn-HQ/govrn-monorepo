@@ -1,5 +1,5 @@
 import json
-import logging
+from bot.common.logging import get_logger
 import csv
 import io
 import discord
@@ -24,7 +24,7 @@ from bot.config import (
 )
 from texttable import Texttable
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def build_table(header, rows):

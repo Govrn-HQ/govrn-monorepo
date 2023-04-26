@@ -1,5 +1,5 @@
 import datetime
-import logging
+from bot.common.logging import get_logger
 from bot.common.threads.thread_builder import (
     BaseThread,
     ThreadKeys,
@@ -11,7 +11,7 @@ from bot.config import REPORTING_FORM_FMT
 import bot.common.graphql as gql
 from bot.common.cache import build_congrats_key
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class ReportStep(BaseStep):
