@@ -19,7 +19,7 @@ spec:
                     secretKeyRef:
                       name: contribution-verification-job
                       key: protocol_url
-                - name: PROTOCOL_API_TOKEN
+                - name: CONTRIBUTION_VERIFICATION_TOKEN
                   valueFrom:
                     secretKeyRef:
                       name: contribution-verification-job
