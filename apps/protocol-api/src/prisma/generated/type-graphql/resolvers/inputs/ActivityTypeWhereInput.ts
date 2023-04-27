@@ -79,4 +79,9 @@ export class ActivityTypeWhereInput {
     nullable: true
   })
   guilds?: GuildActivityTypeListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeListRelationFilter, {
+    nullable: true
+  })
+  migrated_from?: GuildActivityTypeListRelationFilter | undefined;
 }
