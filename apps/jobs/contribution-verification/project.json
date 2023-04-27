@@ -12,7 +12,8 @@
         "outputPath": "dist/apps/jobs/contribution-verification",
         "main": "apps/jobs/contribution-verification/src/main.ts",
         "tsConfig": "apps/jobs/contribution-verification/tsconfig.app.json",
-        "assets": ["apps/jobs/contribution-verification/src/assets"]
+        "assets": [],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
