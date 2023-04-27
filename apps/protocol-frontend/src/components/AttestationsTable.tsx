@@ -152,9 +152,9 @@ const AttestationsTable = ({
 
           const daoName = row.original.guilds[0].guild?.name;
 
-          let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
+          let statusMapHover!: 'Verified' | 'Unverified' | 'No Framework';
           if (status === null) {
-            statusMapHover = 'noFramework';
+            statusMapHover = 'No Framework';
           }
 
           if (status === 'Verified' || frameworkSettingThreshold === 0) {
@@ -237,7 +237,7 @@ const AttestationsTable = ({
               daoName={daoName}
               currentThreshold={null}
               frameworkThreshold={frameworkSettingThreshold}
-              status="noFramework"
+              status="No Framework"
             >
               <Pill
                 status={status === 'Verified' ? 'gradient' : 'tertiary'}
