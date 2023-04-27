@@ -91,7 +91,7 @@ model Guild {
   guild_imports                  GuildImport[]
   verification_setting_id        Int?
   verification_setting           VerificationSetting?         @relation(fields: [verification_setting_id], references: [id])
-  CanonicalGuildActivityType     CanonicalGuildActivityType[]
+  canonical_guild_activity_type  CanonicalGuildActivityType[]
 }
 
 model GuildMembershipStatus {
@@ -149,7 +149,7 @@ model GuildActivityType {
   guild_id                   Int
   guild                      Guild                       @relation(fields: [guild_id], references: [id])
   activity_type_id           Int
-  activity_type              ActivityType                @relation(name: "guilds", fields: [activity_type_id], references: [id])
+  activity_type              ActivityType                @relation(name: "guild_activity_type", fields: [activity_type_id], references: [id])
   migrated_from_id           Int?
   migrated_from              ActivityType?               @relation(name: "migrated_from", fields: [migrated_from_id], references: [id])
   CanonicalGuildActivityType CanonicalGuildActivityType?
@@ -311,7 +311,7 @@ model ActivityType {
   users            UserActivity[]
   contributions    Contribution[]
   categoryActivity CategoryActivityType[]
-  guilds           GuildActivityType[]    @relation(name: "guilds")
+  guilds           GuildActivityType[]    @relation(name: "guild_activity_type")
   migrated_from    GuildActivityType[]    @relation(name: "migrated_from")
 }
 
