@@ -135,6 +135,7 @@ const AttestationsTable = ({
 
           const guildHasVerificationFramework =
             row.original.guilds[0].guild?.verification_setting_id !== null;
+          const currentAttestations = row.original.attestations?.length;
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
           const frameworkSettingThreshold =
@@ -142,9 +143,7 @@ const AttestationsTable = ({
               ?.num_of_attestations;
           let pillUnverifiedLabel!: string;
           if (attestationThreshold && frameworkSettingThreshold) {
-            pillUnverifiedLabel = `${
-              frameworkSettingThreshold - attestationThreshold
-            }/${frameworkSettingThreshold}`;
+            pillUnverifiedLabel = `${currentAttestations}/${frameworkSettingThreshold}`;
           }
 
           if (status === 'Unverified' && attestationThreshold === null) {
