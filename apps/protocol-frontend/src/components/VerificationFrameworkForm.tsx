@@ -45,7 +45,11 @@ const VerificationFrameworkForm = ({
       verificationSettingId === null ? 'none' : 'numberOfAttestors',
     );
     setValue('numberOfAttestors', numberOfAttestations);
-  }, [verificationSettingId, numberOfAttestations, setValue]);
+    setValue(
+      'numberOfAttestors',
+      watch('verificationFramework') !== 'none' ? numberOfAttestations : 0,
+    );
+  }, [verificationSettingId, numberOfAttestations, setValue, watch]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
