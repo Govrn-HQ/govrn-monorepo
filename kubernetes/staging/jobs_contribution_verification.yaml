@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: contribution-verification-job
+  name: jobs-contribution-verification
 spec:
   schedule: '*/15 * * * *'
   jobTemplate:
@@ -17,11 +17,11 @@ spec:
                 - name: PROTOCOL_URL
                   valueFrom:
                     secretKeyRef:
-                      name: contribution-verification-job
+                      name: jobs-contribution-verification-secret
                       key: protocol_url
                 - name: CONTRIBUTION_VERIFICATION_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      name: contribution-verification-job
+                      name: jobs-contribution-verification-secret
                       key: protocol_api_token
           restartPolicy: OnFailure
