@@ -162,8 +162,8 @@ const AttestationsTable = ({
           }
 
           if (
-            frameworkSettingThreshold === 0 &&
-            attestationThreshold === null
+            attestationThreshold === null &&
+            frameworkSettingThreshold === 0
           ) {
             statusMapHover = 'Verified';
           }
