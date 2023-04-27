@@ -3,9 +3,11 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeRelationFilter } from "../inputs/ActivityTypeRelationFilter";
+import { CanonicalGuildActivityTypeRelationFilter } from "../inputs/CanonicalGuildActivityTypeRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildRelationFilter } from "../inputs/GuildRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 
 @TypeGraphQL.InputType("GuildActivityTypeWhereInput", {
   isAbstract: true
@@ -60,4 +62,19 @@ export class GuildActivityTypeWhereInput {
     nullable: true
   })
   activity_type?: ActivityTypeRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  migrated_from_id?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => ActivityTypeRelationFilter, {
+    nullable: true
+  })
+  migrated_from?: ActivityTypeRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CanonicalGuildActivityTypeRelationFilter, {
+    nullable: true
+  })
+  CanonicalGuildActivityType?: CanonicalGuildActivityTypeRelationFilter | undefined;
 }
