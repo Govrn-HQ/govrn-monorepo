@@ -21,6 +21,7 @@ import { HiOutlineLink } from 'react-icons/hi';
 import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { useNavigate } from 'react-router-dom';
+import { ipfsToHttp } from '../utils/ipfs';
 
 interface ContributionDetailShellProps {
   contribution: UIContribution;
@@ -99,7 +100,7 @@ const ContributionDetailShell = ({
           {contribution?.details && <Text>{contribution?.details}</Text>}
           <Stack marginBottom={4} fontSize="sm" fontWeight="bolder">
             {contribution?.proof && (
-              <ChakraLink href={contribution?.proof} isExternal>
+              <ChakraLink href={ipfsToHttp(contribution?.proof)} isExternal>
                 View Proof <ExternalLinkIcon mx="2px" />
               </ChakraLink>
             )}
