@@ -65,22 +65,42 @@ const AttestationsTableShell = () => {
             },
             {
               ...(filterByVerified === 'showVerified' && {
-                verificationStatus: {
-                  is: {
-                    name: {
-                      equals: VERIFIED_CONTRIBUTION_NAME,
+                OR: [
+                  {
+                    attestation_threshold: {
+                      equals: 0,
                     },
                   },
-                },
+                  {
+                    verificationStatus: {
+                      is: {
+                        name: {
+                          equals: VERIFIED_CONTRIBUTION_NAME,
+                        },
+                      },
+                    },
+                  },
+                ],
               }),
               ...(filterByVerified === 'showUnverified' && {
-                verificationStatus: {
-                  isNot: {
-                    name: {
-                      equals: VERIFIED_CONTRIBUTION_NAME,
+                AND: [
+                  {
+                    attestation_threshold: {
+                      not: {
+                        equals: 0,
+                      },
                     },
                   },
-                },
+                  {
+                    verificationStatus: {
+                      isNot: {
+                        name: {
+                          equals: VERIFIED_CONTRIBUTION_NAME,
+                        },
+                      },
+                    },
+                  },
+                ],
               }),
             },
           ],
