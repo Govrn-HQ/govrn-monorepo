@@ -113,7 +113,9 @@ export const BulkAttestationModal = ({
       await bulkMintAttestation(attestationInput);
       setModals({ bulkAttestationModal: false });
       if (onFinish) onFinish();
-      setModals({ bulkVerifiedCelebrationModal: true });
+      if (verifiedContributions && verifiedContributions.length > 0) {
+        setModals({ bulkVerifiedCelebrationModal: true });
+      }
     } catch (e) {
       console.error(e);
     }

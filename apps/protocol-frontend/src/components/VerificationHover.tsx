@@ -13,6 +13,7 @@ const VerificationHover = ({
   status,
   daoName,
   currentThreshold,
+  frameworkThreshold,
   children,
 }: VerificationHoverProps) => {
   let thresholdLabel;
@@ -29,6 +30,12 @@ const VerificationHover = ({
   if (currentThreshold === null) {
     thresholdLabel = `This contribution needs more attestations to be verified by ${daoName}.`;
   }
+  if (currentThreshold === null && frameworkThreshold === 0) {
+    thresholdLabel = `This contribution has been verified by ${daoName}!`;
+  }
+  if (frameworkThreshold === 0) {
+    thresholdLabel = `This contribution has been verified by ${daoName}!`;
+  }
   const verificationPropsMap = {
     Verified: {
       label: `This contribution has been verified by ${daoName}!`,
@@ -39,7 +46,7 @@ const VerificationHover = ({
       variant: currentThreshold === 1 ? 'secondary' : 'primaryPurple',
     },
     noFramework: {
-      label: `${daoName} hasn't setup a Verification Framework yet.`,
+      label: `${daoName} hasn't set up a Verification Framework yet.`,
       variant: 'tertiary',
     },
   };

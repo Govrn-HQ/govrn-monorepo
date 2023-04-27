@@ -30,6 +30,9 @@ export const useDaoUpdate = () => {
         queryClient.invalidateQueries(['userDaos']);
         queryClient.invalidateQueries(['daoUsersList']);
         queryClient.invalidateQueries(['daoGet', { id: data.mutationData.id }]);
+        queryClient.invalidateQueries({
+          queryKey: ['contributionInfiniteList'],
+        }); // invalidate this query key regardless of the args
 
         if (showToast) {
           toast.success({
