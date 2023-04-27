@@ -35,5 +35,5 @@ export class FindManyGuildActivityTypeArgs {
   @TypeGraphQL.Field(_type => [GuildActivityTypeScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "guild_id" | "activity_type_id"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "guild_id" | "activity_type_id" | "migrated_from_id"> | undefined;
 }
