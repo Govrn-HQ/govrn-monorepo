@@ -90,14 +90,13 @@ const MyAttestationsTable = ({
             row.original.guilds[0].guild?.verification_setting_id !== null;
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
-          const currentAttestations = row.original.attestations?.length;
           const frameworkSettingThreshold =
             row.original.guilds[0].guild.verification_setting
               ?.num_of_attestations;
           let pillUnverifiedLabel!: string;
           if (attestationThreshold && frameworkSettingThreshold) {
             pillUnverifiedLabel = `${
-              frameworkSettingThreshold - currentAttestations
+              frameworkSettingThreshold - attestationThreshold
             }/${frameworkSettingThreshold}`;
           }
           const daoName = row.original.guilds[0].guild?.name;
@@ -106,28 +105,52 @@ const MyAttestationsTable = ({
           if (status === null) {
             statusMapHover = 'noFramework';
           }
+
           if (status === 'Verified' || frameworkSettingThreshold === 0) {
             statusMapHover = 'Verified';
           }
+
+          if (
+            frameworkSettingThreshold === 0 &&
+            attestationThreshold === null
+          ) {
+            statusMapHover = 'Verified';
+          }
+
           if (status === 'Unverified') {
             statusMapHover = 'Unverified';
           }
 
           let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
+
           if (status === 'Verified' || frameworkSettingThreshold === 0) {
             pillStatusMap = 'checkmark';
           }
+
+          if (
+            attestationThreshold === null &&
+            frameworkSettingThreshold === 0
+          ) {
+            pillStatusMap = 'checkmark';
+          }
+
           if (status === 'Unverified' && attestationThreshold === 1) {
             pillStatusMap = 'secondaryInfo';
           }
+
+          if (
+            status === 'Unverified' &&
+            attestationThreshold === null &&
+            frameworkSettingThreshold !== 0
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+
           if (
             status === 'Unverified' &&
             !!attestationThreshold &&
             attestationThreshold > 1
           ) {
-            pillStatusMap = 'primaryInfo';
-          }
-          if (status === 'Unverified' && attestationThreshold === null) {
             pillStatusMap = 'primaryInfo';
           }
 
@@ -139,7 +162,10 @@ const MyAttestationsTable = ({
             >
               <Pill
                 status={
-                  status === 'Verified' || frameworkSettingThreshold === 0
+                  status === 'Verified' ||
+                  frameworkSettingThreshold === 0 ||
+                  (attestationThreshold === null &&
+                    frameworkSettingThreshold === 0)
                     ? 'gradient'
                     : 'tertiary'
                 }
@@ -155,7 +181,10 @@ const MyAttestationsTable = ({
             >
               <Pill
                 status={
-                  status === 'Verified' || frameworkSettingThreshold === 0
+                  status === 'Verified' ||
+                  frameworkSettingThreshold === 0 ||
+                  (attestationThreshold === null &&
+                    frameworkSettingThreshold === 0)
                     ? 'gradient'
                     : 'tertiary'
                 }

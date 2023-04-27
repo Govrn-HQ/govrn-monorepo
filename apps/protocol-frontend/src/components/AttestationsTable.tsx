@@ -137,7 +137,6 @@ const AttestationsTable = ({
             row.original.guilds[0].guild?.verification_setting_id !== null;
           const attestationThreshold =
             row.original.guilds[0].attestation_threshold;
-          // const currentAttestations = row.original.attestations?.length;
           const frameworkSettingThreshold =
             row.original.guilds[0].guild.verification_setting
               ?.num_of_attestations;
@@ -175,6 +174,7 @@ const AttestationsTable = ({
           }
 
           let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
+
           if (status === 'Verified' || frameworkSettingThreshold === 0) {
             pillStatusMap = 'checkmark';
           }
