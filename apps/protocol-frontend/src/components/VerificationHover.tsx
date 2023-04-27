@@ -39,7 +39,7 @@ const VerificationHover = ({
       variant: currentThreshold === 1 ? 'secondary' : 'primaryPurple',
     },
     noFramework: {
-      label: `${daoName} hasn't setup a Verification Framework yet.`,
+      label: `${daoName} hasn't set up a Verification Framework yet.`,
       variant: 'tertiary',
     },
   };

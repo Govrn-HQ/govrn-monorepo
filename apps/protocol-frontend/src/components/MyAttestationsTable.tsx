@@ -159,7 +159,7 @@ const MyAttestationsTable = ({
                     ? 'gradient'
                     : 'tertiary'
                 }
-                label="Unset"
+                label="Not Set"
               />
             </VerificationHover>
           );

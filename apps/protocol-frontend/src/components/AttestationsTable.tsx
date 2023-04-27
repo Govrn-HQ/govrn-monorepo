@@ -207,7 +207,7 @@ const AttestationsTable = ({
             >
               <Pill
                 status={status === 'Verified' ? 'gradient' : 'tertiary'}
-                label="Unset"
+                label="Not Set"
               />
             </VerificationHover>
           );
