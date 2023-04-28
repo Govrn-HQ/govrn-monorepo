@@ -26,4 +26,9 @@ export class GuildActivityTypeCreateManyGuildInput {
     nullable: false
   })
   activity_type_id!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  migrated_from_id?: number | undefined;
 }

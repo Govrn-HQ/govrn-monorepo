@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 
 @TypeGraphQL.InputType("GuildActivityTypeScalarWhereInput", {
   isAbstract: true
@@ -48,4 +49,9 @@ export class GuildActivityTypeScalarWhereInput {
     nullable: true
   })
   activity_type_id?: IntFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  migrated_from_id?: IntNullableFilter | undefined;
 }

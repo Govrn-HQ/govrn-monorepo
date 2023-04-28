@@ -2,7 +2,7 @@ import { Box, Tooltip } from '@chakra-ui/react';
 import React from 'react';
 
 interface VerificationHoverProps {
-  status: 'Verified' | 'Unverified' | 'noFramework';
+  status: 'Verified' | 'Unverified' | 'No Framework';
   daoName: string | null | undefined;
   currentThreshold?: number | null;
   frameworkThreshold?: number | null;
@@ -45,7 +45,7 @@ const VerificationHover = ({
       label: thresholdLabel,
       variant: currentThreshold === 1 ? 'secondary' : 'primaryPurple',
     },
-    noFramework: {
+    'No Framework': {
       label: `${daoName} hasn't set up a Verification Framework yet.`,
       variant: 'tertiary',
     },

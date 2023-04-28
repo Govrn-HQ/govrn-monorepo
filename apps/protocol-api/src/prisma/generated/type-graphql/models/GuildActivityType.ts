@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { ActivityType } from "../models/ActivityType";
+import { CanonicalGuildActivityType } from "../models/CanonicalGuildActivityType";
 import { Guild } from "../models/Guild";
 
 @TypeGraphQL.ObjectType("GuildActivityType", {
@@ -37,4 +38,13 @@ export class GuildActivityType {
   activity_type_id!: number;
 
   activity_type?: ActivityType;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  migrated_from_id?: number | null;
+
+  migrated_from?: ActivityType | null;
+
+  CanonicalGuildActivityType?: CanonicalGuildActivityType | null;
 }

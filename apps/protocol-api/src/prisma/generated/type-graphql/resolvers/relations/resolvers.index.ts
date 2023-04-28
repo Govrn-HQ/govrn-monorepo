@@ -2,6 +2,7 @@ export { ActivityTypeRelationsResolver } from "./ActivityType/ActivityTypeRelati
 export { AttestationRelationsResolver } from "./Attestation/AttestationRelationsResolver";
 export { AttestationConfidenceRelationsResolver } from "./AttestationConfidence/AttestationConfidenceRelationsResolver";
 export { AttestationStatusRelationsResolver } from "./AttestationStatus/AttestationStatusRelationsResolver";
+export { CanonicalGuildActivityTypeRelationsResolver } from "./CanonicalGuildActivityType/CanonicalGuildActivityTypeRelationsResolver";
 export { CategoryActivityRelationsResolver } from "./CategoryActivity/CategoryActivityRelationsResolver";
 export { CategoryActivityTypeRelationsResolver } from "./CategoryActivityType/CategoryActivityTypeRelationsResolver";
 export { ChainRelationsResolver } from "./Chain/ChainRelationsResolver";
