@@ -35,14 +35,7 @@ export async function getUnverifiedContributions(daoId: number) {
       guild_id: {
         equals: daoId,
       },
-      OR: [
-        {
-          verificationStatus: { is: { name: { equals: UNVERIFIED_STRING } } },
-        },
-        {
-          verificationStatus: { is: { name: { equals: null } } },
-        },
-      ],
+      verificationStatus: { isNot: { name: { equals: VERIFIED_STRING } } },
     },
   });
   return result.result;
