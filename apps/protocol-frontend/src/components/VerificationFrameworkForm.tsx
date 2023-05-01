@@ -93,10 +93,9 @@ const VerificationFrameworkForm = ({
       verificationSettingId !== null &&
       values.verificationFramework === 'none'
     ) {
-      console.log('updating to 0');
       updateDao({
         daoUpdateValues: {
-          verificationSettingId: 0,
+          verificationSettingId: null,
           guildId: daoId,
         },
         showToast: false,
