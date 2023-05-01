@@ -31,6 +31,92 @@ import GovrnTable from './GovrnTable';
 import MemberDisplayName from './MemberDisplayName';
 import VerificationHover from './VerificationHover';
 import AttestationFilter from './AttestationFilter';
+import useUserGet from '../hooks/useUserGet';
+
+const AttestationsLearnMoreButton = () => (
+  <Link
+    href="https://govrn.gitbook.io/govrn-docs/attestations/attestations"
+    isExternal
+    textDecoration="none"
+    _hover={{
+      textDecoration: 'none',
+    }}
+  >
+    <Button variant="tertiary" size="md" leftIcon={<HiOutlineExternalLink />}>
+      Learn More About Attestations
+    </Button>
+  </Link>
+);
+const NoDAOsJoinedCta = () => (
+  <GovrnCta
+    heading={"You aren't in any DAOs yet"}
+    emoji="🙏"
+    copy={
+      <Flex direction="column" alignItems="center" justifyContent="center">
+        <Text>
+          You'll need other collaborators to be part of a DAO! There are no
+          contributions for you to attest to yet.
+        </Text>
+        <Text>
+          Make sure you're part of a DAO and attest to other people's minted
+          contributions.
+        </Text>
+      </Flex>
+    }
+    children={
+      <>
+        <Link
+          as={RouterLink}
+          to="/profile"
+          state={{ targetId: 'myDaos' }}
+          _hover={{
+            textDecoration: 'none',
+          }}
+        >
+          <Button
+            variant="primary"
+            size="md"
+            width={{ base: '100%', lg: 'auto' }}
+          >
+            Join a DAO From Your Profile
+          </Button>
+        </Link>
+        <Link
+          as={RouterLink}
+          to="/contributions"
+          _hover={{
+            textDecoration: 'none',
+          }}
+        >
+          <Button
+            variant="secondary"
+            size="md"
+            width={{ base: '100%', lg: 'auto' }}
+          >
+            Mint Your Contributions
+          </Button>
+        </Link>
+        <AttestationsLearnMoreButton />
+      </>
+    }
+  />
+);
+
+const NoContributionsToAttestCta = () => (
+  <GovrnCta
+    heading={'You are a super attestor'}
+    emoji="🎉"
+    copy={
+      <Flex direction="column" alignItems="center" justifyContent="center">
+        <Text>
+          You'll need other collaborators to be part of a DAO! There are no
+          contributions for you to attest to yet.
+        </Text>
+      </Flex>
+    }
+    children={<AttestationsLearnMoreButton />}
+  />
+);
 
 const AttestationsTable = ({
   data,
@@ -44,6 +130,14 @@ const AttestationsTable = ({
   attestationFilter: (filterValue: string) => void;
 }) => {
   const { userData } = useUser();
+  const { data: userGuildsData } = useUserGet({
+    userId: userData?.id,
+  });
+
+  const [hasUserJoinedAnyDao] = useState(
+    0 < (userGuildsData?.guild_users?.length ?? 0),
+  );
+
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -287,7 +381,7 @@ const AttestationsTable = ({
             <Flex direction="column" wrap="wrap" paddingRight={1}>
               <Pill
                 label={daoName}
-                icon={contributionVerifiedForDao === true ? 'checkmark' : null}
+                icon={contributionVerifiedForDao ? 'checkmark' : null}
                 status={contributionVerifiedForDao ? 'primary' : 'tertiary'}
               />
             </Flex>
@@ -332,79 +426,12 @@ const AttestationsTable = ({
     }
   }, [selectedRows, setModals]);
 
-  const CopyChildren = () => (
-    <Flex direction="column" alignItems="center" justifyContent="center">
-      <Text>
-        You'll need other collaborators to be part of a DAO! There are no
-        contributions for you to attest to yet.
-      </Text>
-      <Text>
-        Make sure you're part of a DAO and attest to other people's minted
-        contributions.
-      </Text>
-    </Flex>
+  let component = hasUserJoinedAnyDao ? (
+    <NoContributionsToAttestCta />
+  ) : (
+    <NoDAOsJoinedCta />
   );
 
-  const ButtonChildren = () => (
-    <>
-      <Link
-        as={RouterLink}
-        to="/profile"
-        state={{ targetId: 'myDaos' }}
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Button
-          variant="primary"
-          size="md"
-          width={{ base: '100%', lg: 'auto' }}
-        >
-          Join a DAO From Your Profile
-        </Button>
-      </Link>
-      <Link
-        as={RouterLink}
-        to="/contributions"
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Button
-          variant="secondary"
-          size="md"
-          width={{ base: '100%', lg: 'auto' }}
-        >
-          Mint Your Contributions
-        </Button>
-      </Link>
-      <Link
-        href="https://govrn.gitbook.io/govrn-docs/attestations/attestations"
-        isExternal
-        textDecoration="none"
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Button
-          variant="tertiary"
-          size="md"
-          leftIcon={<HiOutlineExternalLink />}
-        >
-          Learn More About Attestations
-        </Button>
-      </Link>
-    </>
-  );
-
-  let component = (
-    <GovrnCta
-      heading={`You aren't in any DAOs yet`}
-      emoji="🙏"
-      copy={<CopyChildren />}
-      children={<ButtonChildren />}
-    />
-  );
   if (data.length) {
     component = (
       <>
