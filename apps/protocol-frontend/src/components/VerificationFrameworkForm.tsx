@@ -93,9 +93,10 @@ const VerificationFrameworkForm = ({
       verificationSettingId !== null &&
       values.verificationFramework === 'none'
     ) {
+      console.log('updating to 0');
       updateDao({
         daoUpdateValues: {
-          verificationSettingId: null,
+          verificationSettingId: 0,
           guildId: daoId,
         },
         showToast: false,
@@ -143,10 +144,7 @@ const VerificationFrameworkForm = ({
             localForm={localForm}
           />
           {watch('verificationFramework') === 'none' ? (
-            <Text marginBottom={4}>
-              No verification framework selected. Any contribution will be
-              considered verified even with 0 attestations.
-            </Text>
+            <Text marginBottom={4}>No verification framework selected.</Text>
           ) : (
             <NumberInput
               name="numberOfAttestors"
