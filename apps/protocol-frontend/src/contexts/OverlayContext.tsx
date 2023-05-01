@@ -5,6 +5,7 @@ export type GovrnModals = {
   attestationModal: boolean;
   bulkAttestationModal: boolean;
   bulkDaoAttributeModal: boolean;
+  bulkVerifiedCelebrationModal: boolean;
   createDaoModal: boolean;
   csvImportModal: boolean;
   editContributionFormModal: boolean;
@@ -13,6 +14,7 @@ export type GovrnModals = {
   mintModal: boolean;
   reportingFormModal: boolean;
   storybookModal: boolean;
+  verifiedCelebrationModal: boolean;
 };
 
 const defaults: GovrnModals = {
@@ -20,6 +22,7 @@ const defaults: GovrnModals = {
   attestationModal: false,
   bulkAttestationModal: false,
   bulkDaoAttributeModal: false,
+  bulkVerifiedCelebrationModal: false,
   createDaoModal: false,
   csvImportModal: false,
   editContributionFormModal: false,
@@ -28,6 +31,7 @@ const defaults: GovrnModals = {
   mintModal: false,
   reportingFormModal: false,
   storybookModal: false,
+  verifiedCelebrationModal: false,
 };
 
 export type OverlayContextType = {

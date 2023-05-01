@@ -7,6 +7,7 @@ import { UserActivity } from "../../../models/UserActivity";
 import { ActivityTypeCategoryActivityArgs } from "./args/ActivityTypeCategoryActivityArgs";
 import { ActivityTypeContributionsArgs } from "./args/ActivityTypeContributionsArgs";
 import { ActivityTypeGuildsArgs } from "./args/ActivityTypeGuildsArgs";
+import { ActivityTypeMigrated_fromArgs } from "./args/ActivityTypeMigrated_fromArgs";
 import { ActivityTypeUsersArgs } from "./args/ActivityTypeUsersArgs";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
@@ -54,5 +55,16 @@ export class ActivityTypeRelationsResolver {
         id: activityType.id,
       },
     }).guilds(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [GuildActivityType], {
+    nullable: false
+  })
+  async migrated_from(@TypeGraphQL.Root() activityType: ActivityType, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: ActivityTypeMigrated_fromArgs): Promise<GuildActivityType[]> {
+    return getPrismaFromContext(ctx).activityType.findUnique({
+      where: {
+        id: activityType.id,
+      },
+    }).migrated_from(args);
   }
 }

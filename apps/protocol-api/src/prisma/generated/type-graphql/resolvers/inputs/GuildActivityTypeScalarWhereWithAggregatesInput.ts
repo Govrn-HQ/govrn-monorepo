@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 
 @TypeGraphQL.InputType("GuildActivityTypeScalarWhereWithAggregatesInput", {
@@ -48,4 +49,9 @@ export class GuildActivityTypeScalarWhereWithAggregatesInput {
     nullable: true
   })
   activity_type_id?: IntWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  migrated_from_id?: IntNullableWithAggregatesFilter | undefined;
 }

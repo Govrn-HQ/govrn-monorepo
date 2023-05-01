@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { GovrnSpinner, Select } from '@govrn/protocol-ui';
-import { Stack, Button, Text, Progress } from '@chakra-ui/react';
+import { Stack, Box, Link, Button, Text, Progress } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUser } from '../contexts/UserContext';
@@ -96,16 +97,20 @@ const BulkDaoAttributeModal = ({
           label="DAO"
           tip={
             <>
-              Please select a DAO to attribute to. This is optional. Dont see
-              your DAO? Request to add it{' '}
-              <a
-                href="https://airtable.com/shrOedOjQpH9xlg7l"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: 'underline' }}
-              >
-                here
-              </a>
+              Please select a DAO to associate this contribution with.
+              <Box fontWeight={700} lineHeight={2}>
+                This is optional. Don't see your DAO? Join or create one{' '}
+                <Link
+                  as={RouterLink}
+                  to="/profile"
+                  state={{ targetId: 'myDaos' }}
+                  textDecoration="underline"
+                >
+                  on your Profile.
+                </Link>
+              </Box>
+              Note: Clicking the link will navigate to your Profile and clear
+              your selection!
             </>
           }
           placeholder="Select a DAO to attribute to."

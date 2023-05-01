@@ -29,6 +29,7 @@ export interface NumberInputProps extends ChakraNumberInputProps {
   id?: string;
   defaultValue?: string | number;
   isDisabled?: boolean;
+  isRequired?: boolean;
   localForm: Pick<UseFormReturn, 'formState' | 'control'>;
 
   dataTestId?: string;
@@ -45,6 +46,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   defaultValue,
   localForm,
   isDisabled = false,
+  isRequired = false,
   onChange,
   ...props
 }: NumberInputProps) => {
@@ -54,7 +56,11 @@ const NumberInput: React.FC<NumberInputProps> = ({
   } = localForm;
 
   return (
-    <FormControl mb={4} isInvalid={errors[name] !== undefined}>
+    <FormControl
+      mb={4}
+      isInvalid={errors[name] !== undefined}
+      isRequired={isRequired}
+    >
       <Stack spacing={2}>
         {label && <FormLabel label={label} />}
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}

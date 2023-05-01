@@ -11,18 +11,23 @@ import { UIContribution } from '@govrn/ui-types';
 interface BulkAttestationModalProps {
   contributions: UIContribution[];
   onFinish?: (() => void) | undefined;
+  setVerifiedContributions: (contributions: UIContribution[]) => void;
 }
 
 export const AttestationModal = ({
   contribution,
   onFinish,
+  setVerifiedContribution,
 }: {
   contribution: UIContribution;
   onFinish?: (() => void) | undefined;
+  setVerifiedContribution: (contribution: UIContribution) => void;
 }) => {
   const { displayName } = useDisplayName();
   const { isLoading: attesting, mutateAsync: mintAttestation } =
     useAttestationMint();
+  const attestationThreshold = contribution.guilds[0]?.attestation_threshold;
+
   const { setModals } = useOverlay();
 
   const createAttestationsHandler = async (contributions: UIContribution) => {
@@ -36,6 +41,10 @@ export const AttestationModal = ({
       });
       setModals({ attestationModal: false });
       if (onFinish) onFinish();
+      if (attestationThreshold === 1) {
+        setVerifiedContribution(contribution);
+        setModals({ verifiedCelebrationModal: true });
+      }
     } catch (e) {
       console.error(e);
     }
@@ -76,6 +85,7 @@ export const AttestationModal = ({
 export const BulkAttestationModal = ({
   contributions,
   onFinish,
+  setVerifiedContributions,
 }: BulkAttestationModalProps) => {
   const { userData } = useUser();
   const { isLoading: attesting, mutateAsync: bulkMintAttestation } =
@@ -85,9 +95,15 @@ export const BulkAttestationModal = ({
   const createAttestationsHandler = async (contributions: UIContribution[]) => {
     try {
       const attestationInput = [];
+      const verifiedContributions = [];
       for (const c of contributions) {
         if (!c.on_chain_id) {
           continue;
+        }
+        const attestationThreshold = c.guilds[0]?.attestation_threshold;
+        if (attestationThreshold === 1) {
+          verifiedContributions.push(c);
+          setVerifiedContributions(verifiedContributions);
         }
         attestationInput.push({
           name: c.name,
@@ -97,6 +113,9 @@ export const BulkAttestationModal = ({
       await bulkMintAttestation(attestationInput);
       setModals({ bulkAttestationModal: false });
       if (onFinish) onFinish();
+      if (verifiedContributions && verifiedContributions.length > 0) {
+        setModals({ bulkVerifiedCelebrationModal: true });
+      }
     } catch (e) {
       console.error(e);
     }

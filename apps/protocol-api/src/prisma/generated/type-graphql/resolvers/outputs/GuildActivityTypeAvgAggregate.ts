@@ -21,4 +21,9 @@ export class GuildActivityTypeAvgAggregate {
     nullable: true
   })
   activity_type_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  migrated_from_id!: number | null;
 }

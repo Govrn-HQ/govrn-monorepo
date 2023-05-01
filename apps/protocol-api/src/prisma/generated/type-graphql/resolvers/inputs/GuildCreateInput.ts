@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { CanonicalGuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/CanonicalGuildActivityTypeCreateNestedManyWithoutGuildInput";
 import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutGuildInput";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildImportCreateNestedManyWithoutGuildInput } from "../inputs/GuildImportCreateNestedManyWithoutGuildInput";
@@ -83,4 +84,9 @@ export class GuildCreateInput {
     nullable: true
   })
   verification_setting?: VerificationSettingCreateNestedOneWithoutGuildsInput | undefined;
+
+  @TypeGraphQL.Field(_type => CanonicalGuildActivityTypeCreateNestedManyWithoutGuildInput, {
+    nullable: true
+  })
+  canonical_guild_activity_type?: CanonicalGuildActivityTypeCreateNestedManyWithoutGuildInput | undefined;
 }

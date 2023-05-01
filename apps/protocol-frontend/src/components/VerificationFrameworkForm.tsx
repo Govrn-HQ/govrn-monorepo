@@ -44,8 +44,12 @@ const VerificationFrameworkForm = ({
       'verificationFramework',
       verificationSettingId === null ? 'none' : 'numberOfAttestors',
     );
-    setValue('numberOfAttestors', numberOfAttestations || '');
-  }, [verificationSettingId, numberOfAttestations, setValue]);
+    setValue('numberOfAttestors', numberOfAttestations);
+    setValue(
+      'numberOfAttestors',
+      watch('verificationFramework') !== 'none' ? numberOfAttestations : 0,
+    );
+  }, [verificationSettingId, numberOfAttestations, setValue, watch]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
@@ -56,7 +60,10 @@ const VerificationFrameworkForm = ({
     VerificationFrameworkFormValues
   > = async values => {
     setSubmitting(true);
-    if (!values.numberOfAttestors) {
+    if (
+      values.numberOfAttestors === null ||
+      values.numberOfAttestors === undefined
+    ) {
       return;
     }
     if (verificationSettingId === null) {
@@ -144,8 +151,9 @@ const VerificationFrameworkForm = ({
             <NumberInput
               name="numberOfAttestors"
               label="Choose the Number of Attestors"
-              defaultValue={numberOfAttestations || 1}
-              min={1}
+              isRequired={watch('verificationFramework') !== 'none'}
+              defaultValue={numberOfAttestations || 0}
+              min={0}
               max={10}
               localForm={localForm}
             />
