@@ -153,7 +153,7 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
       })),
     ];
     if (personalTypes) {
-      results.push(personalTypes);
+      return [personalTypes, ...results];
     }
     return results;
   }, [guildActivityTypeListData, userActivityListData]);

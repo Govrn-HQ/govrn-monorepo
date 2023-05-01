@@ -265,8 +265,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       })),
     ];
     if (personalTypes) {
-      results.push(personalTypes);
+      return [personalTypes, ...results];
     }
+
     return results;
   }, [guildActivityTypeListData, userActivityListData]);
 
