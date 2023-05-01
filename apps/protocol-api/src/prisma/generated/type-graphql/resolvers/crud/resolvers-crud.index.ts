@@ -2,6 +2,7 @@ export { ActivityTypeCrudResolver } from "./ActivityType/ActivityTypeCrudResolve
 export { AttestationCrudResolver } from "./Attestation/AttestationCrudResolver";
 export { AttestationConfidenceCrudResolver } from "./AttestationConfidence/AttestationConfidenceCrudResolver";
 export { AttestationStatusCrudResolver } from "./AttestationStatus/AttestationStatusCrudResolver";
+export { CanonicalGuildActivityTypeCrudResolver } from "./CanonicalGuildActivityType/CanonicalGuildActivityTypeCrudResolver";
 export { CategoryActivityCrudResolver } from "./CategoryActivity/CategoryActivityCrudResolver";
 export { CategoryActivityTypeCrudResolver } from "./CategoryActivityType/CategoryActivityTypeCrudResolver";
 export { ChainCrudResolver } from "./Chain/ChainCrudResolver";

@@ -37,6 +37,11 @@ export class GuildActivityTypeGroupBy {
   })
   activity_type_id!: number;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  migrated_from_id!: number | null;
+
   @TypeGraphQL.Field(_type => GuildActivityTypeCountAggregate, {
     nullable: true
   })

@@ -6,6 +6,7 @@ import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperati
 import { CategoryActivityTypeUpdateManyWithoutActivity_typeNestedInput } from "../inputs/CategoryActivityTypeUpdateManyWithoutActivity_typeNestedInput";
 import { ContributionUpdateManyWithoutActivity_typeNestedInput } from "../inputs/ContributionUpdateManyWithoutActivity_typeNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { GuildActivityTypeUpdateManyWithoutMigrated_fromNestedInput } from "../inputs/GuildActivityTypeUpdateManyWithoutMigrated_fromNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { UserActivityUpdateManyWithoutActivity_typeNestedInput } from "../inputs/UserActivityUpdateManyWithoutActivity_typeNestedInput";
 
@@ -52,4 +53,9 @@ export class ActivityTypeUpdateWithoutGuildsInput {
     nullable: true
   })
   categoryActivity?: CategoryActivityTypeUpdateManyWithoutActivity_typeNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeUpdateManyWithoutMigrated_fromNestedInput, {
+    nullable: true
+  })
+  migrated_from?: GuildActivityTypeUpdateManyWithoutMigrated_fromNestedInput | undefined;
 }
