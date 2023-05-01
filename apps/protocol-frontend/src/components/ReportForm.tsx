@@ -255,7 +255,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         }
       : null;
     const results = [
-      ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+      DEFAULT_ACTIVITY_TYPES_OPTIONS,
       ...Object.keys(groupedActivityTypes).map(key => ({
         label: key,
         options: groupedActivityTypes[key].map(item => ({
