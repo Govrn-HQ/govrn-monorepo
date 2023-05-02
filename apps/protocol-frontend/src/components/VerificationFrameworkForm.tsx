@@ -8,7 +8,6 @@ import { verificationFrameworkFormValidation } from '../utils/validations';
 import useVerificationSettingCreate from '../hooks/useVerificationSettingCreate';
 import useVerificationSettingUpdate from '../hooks/useVerificationSettingUpdate';
 import { useDaoUpdate } from '../hooks/useDaoUpdate';
-import { VerificationSetting } from '../../../../libs/protocol-client/src/lib/protocol-types';
 
 const VerificationFrameworkForm = ({
   verificationSettingId,
