@@ -75,4 +75,7 @@ export const DOCS_LINK =
   'https://govrn.gitbook.io/govrn-docs/overview/welcome-to-govrn';
 
 export const LEFT_MEMBERSHIP_NAME = 'Left';
+export const ADMIN_MEMBERSHIP_NAME = 'Admin';
+export const MEMBER_MEMBERSHIP_NAME = 'Member';
+
 export const VERIFIED_CONTRIBUTION_NAME = 'Verified';
