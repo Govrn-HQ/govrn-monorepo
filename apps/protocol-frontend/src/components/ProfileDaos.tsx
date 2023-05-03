@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   Divider,
   Grid,
   Text,
+  Stack,
 } from '@chakra-ui/react';
 import {
   ControlledSelect,
@@ -24,6 +25,10 @@ import { mergeMemberPages } from '../utils/arrays';
 import { UIGuildUsers } from '@govrn/ui-types';
 import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 import useUserGet from '../hooks/useUserGet';
+import { GiCastle } from 'react-icons/all';
+import ModalWrapper from './ModalWrapper';
+import { GuildImportModal } from './GuildImportModal';
+import { useOverlay } from '../contexts/OverlayContext';
 
 interface ProfileDaoProps {
   userId: number | undefined;
@@ -31,10 +36,15 @@ interface ProfileDaoProps {
 }
 
 const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
+  const localOverlay = useOverlay();
   const [selectedDao, setSelectedDao] = useState<Option<number> | null>(null);
 
   const { state } = useLocation();
   const { targetId } = state || {};
+
+  const showGuildImportModal = () => {
+    localOverlay.setModals({ guildImportModal: true });
+  };
 
   useEffect(() => {
     const el = document.getElementById(targetId);
@@ -155,129 +165,171 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
   if (joinableDaosListLoading) return <GovrnSpinner />;
 
   return (
-    <Flex
-      justify="space-between"
-      direction="column"
-      wrap="wrap"
-      width="100%"
-      paddingX={4}
-      paddingY={8}
-      background="white"
-      boxShadow="sm"
-      marginBottom={4}
-    >
+    <>
       <Flex
-        justifyContent="space-between"
+        justify="space-between"
         direction="column"
         wrap="wrap"
-        id="myDaos"
+        width="100%"
+        paddingX={4}
+        paddingY={8}
+        background="white"
+        boxShadow="sm"
+        marginBottom={4}
       >
-        <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
-          My DAOs
-        </Heading>
-        {data && data.length === 0 ? (
-          <Flex
-            direction="column"
-            maxWidth={{ base: '100%', xl: '50%' }}
-            fontSize="md"
-          >
-            <Text>You'll need other collaborators to be part of a DAO!</Text>
-            <Text>
-              Select a DAO to join below or press create DAO and make your own.
-            </Text>
-          </Flex>
-        ) : null}
-        <Divider marginY={{ base: 4, lg: 4 }} bgColor="gray.300" />
         <Flex
+          justifyContent="space-between"
           direction="column"
-          justifyContent="space-apart"
-          gap={8}
-          width="100%"
+          wrap="wrap"
+          id="myDaos"
         >
-          <Flex
-            direction={{ base: 'column', lg: 'row' }}
-            alignItems={{ base: 'flex-start', lg: 'flex-end' }}
-            gap={4}
-          >
+          <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
+            My DAOs
+          </Heading>
+          {data && data.length === 0 ? (
             <Flex
               direction="column"
-              alignSelf="flex-start"
-              width={{ base: '100%', lg: '40%' }}
+              maxWidth={{ base: '100%', xl: '50%' }}
+              fontSize="md"
             >
-              <ControlledSelect
-                label="Select a DAO to Join"
-                isMulti={false}
-                onChange={dao => {
-                  if (dao instanceof Array || !dao) {
-                    return;
-                  }
-                  setSelectedDao(dao);
-                }}
-                value={selectedDao ?? null}
-                options={daoListOptions}
-                isSearchable={false}
-                isClearable
-              />
+              <Text>You'll need other collaborators to be part of a DAO!</Text>
+              <Text>
+                Select a DAO to join below or press create DAO and make your
+                own.
+              </Text>
             </Flex>
-            <Button
-              variant="primary"
-              onClick={handleDaoJoin}
-              disabled={createDaoUserLoading || updateDaoMemberLoading}
-              width={{ base: '100%', lg: 'auto' }}
+          ) : null}
+          <Divider marginY={{ base: 4, lg: 4 }} bgColor="gray.300" />
+          <Flex
+            direction="column"
+            justifyContent="space-apart"
+            gap={8}
+            width="100%"
+          >
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              alignItems={{ base: 'flex-start', lg: 'flex-end' }}
+              gap={4}
             >
-              Join
-            </Button>
-
-            <Link
-              as={RouterLink}
-              to="/dao/create"
-              width={{ base: '100%', lg: 'auto' }}
-              textDecoration="none"
-              _hover={{
-                textDecoration: 'none',
-              }}
-            >
+              <Flex
+                direction="column"
+                alignSelf="flex-start"
+                width={{ base: '100%', lg: '40%' }}
+              >
+                <ControlledSelect
+                  label="Select a DAO to Join"
+                  isMulti={false}
+                  onChange={dao => {
+                    if (dao instanceof Array || !dao) {
+                      return;
+                    }
+                    setSelectedDao(dao);
+                  }}
+                  value={selectedDao ?? null}
+                  options={daoListOptions}
+                  isSearchable={false}
+                  isClearable
+                />
+              </Flex>
               <Button
-                variant="secondary"
-                disabled={createDaoUserLoading}
+                variant="primary"
+                onClick={handleDaoJoin}
+                disabled={createDaoUserLoading || updateDaoMemberLoading}
                 width={{ base: '100%', lg: 'auto' }}
               >
-                Create DAO
+                Join
               </Button>
-            </Link>
-          </Flex>
-          <Grid
-            templateColumns={{
-              base: 'repeat(1, 1fr)',
-              md: 'repeat(2, 1fr)',
-              lg: 'repeat(3, 1fr)',
-              xl: 'repeat(4, 1fr)',
-            }}
-            gap={4}
-            justifyContent="space-between"
-          >
-            {data?.map(daoUser => (
-              <DaoCard userId={userId} daoUser={daoUser} key={daoUser.id} />
-            ))}
-          </Grid>
-          {hasNextPage && (
-            <Flex direction="column" alignItems="flex-start">
-              <Button
-                variant="secondary"
-                onClick={() => fetchNextPage()}
-                disabled={!hasNextPage || isFetchingNextPage}
+
+              <Link
+                as={RouterLink}
+                to="/dao/create"
+                width={{ base: '100%', lg: 'auto' }}
+                textDecoration="none"
+                _hover={{
+                  textDecoration: 'none',
+                }}
               >
-                {isFetchingNextPage
-                  ? 'Loading more...'
-                  : hasNextPage
-                  ? 'Load More'
-                  : 'Nothing more to load'}
-              </Button>
+                <Button
+                  variant="secondary"
+                  disabled={createDaoUserLoading}
+                  width={{ base: '100%', lg: 'auto' }}
+                >
+                  Create DAO
+                </Button>
+              </Link>
             </Flex>
-          )}
+            <Grid
+              templateColumns={{
+                base: 'repeat(1, 1fr)',
+                md: 'repeat(2, 1fr)',
+                lg: 'repeat(3, 1fr)',
+                xl: 'repeat(4, 1fr)',
+              }}
+              gap={4}
+              justifyContent="space-between"
+            >
+              {data?.map(daoUser => (
+                <DaoCard userId={userId} daoUser={daoUser} key={daoUser.id} />
+              ))}
+            </Grid>
+            {hasNextPage && (
+              <Flex direction="column" alignItems="flex-start">
+                <Button
+                  variant="secondary"
+                  onClick={() => fetchNextPage()}
+                  disabled={!hasNextPage || isFetchingNextPage}
+                >
+                  {isFetchingNextPage
+                    ? 'Loading more...'
+                    : hasNextPage
+                    ? 'Load More'
+                    : 'Nothing more to load'}
+                </Button>
+              </Flex>
+            )}
+          </Flex>
+          <Divider />
+          <Stack direction="column" spacing={4} width="100%" py={4}>
+            <Heading as="h5" size="sm" fontWeight="medium" color="gray.700">
+              Guild.xyz Import
+            </Heading>
+            <Text>
+              With <a href="https://guild.xyz">Guild.xyz</a>, effortlessly
+              import the guilds you've joined using
+              <br /> your associated signed-in address.
+            </Text>{' '}
+            <Button
+              leftIcon={<GiCastle />}
+              variant="primary"
+              width="min-content"
+              onClick={() => {
+                showGuildImportModal();
+              }}
+            >
+              Import from Guild.xyz
+            </Button>
+          </Stack>
         </Flex>
       </Flex>
-    </Flex>
+      <ModalWrapper
+        name="guildImportModal"
+        title=""
+        localOverlay={localOverlay}
+        size="3xl"
+        content={
+          <GuildImportModal
+            onSuccess={guildId => {
+              // TODO: publish guild id to backend to import.
+              // TODO: maybe move this to the modal, and only reflect success here
+              console.log(
+                `TODO: publish guild id to backend to import`,
+                guildId,
+              );
+            }}
+          />
+        }
+      />
+    </>
   );
 };
 

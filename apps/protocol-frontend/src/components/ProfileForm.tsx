@@ -29,6 +29,7 @@ const isLinearConnected = (userData?: UIUser | null) =>
 
 const ProfileForm = () => {
   const { userData } = useUser();
+
   const { mutateAsync: disconnectLinearUser } = useLinearUserDisconnect();
   const { mutateAsync: disconnectDiscordUser } = useDiscordUserDisconnect();
   const { displayName } = useDisplayName();
@@ -139,7 +140,7 @@ const ProfileForm = () => {
           </Flex>
         </Flex>
       </form>
-      <ProfileDaos userId={userData?.id} userAddress={userData?.address} />
+      <ProfileDaos userId={userData?.id} userAddress={userData?.address} />;
       <form>
         <Flex
           justify="space-between"

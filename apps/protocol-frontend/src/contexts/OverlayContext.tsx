@@ -1,34 +1,37 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 export type GovrnModals = {
-  bulkAttestationModal: boolean;
-  attestationModal: boolean;
-  bulkDaoAttributeModal: boolean;
-  mintModal: boolean;
-  editContributionFormModal: boolean;
   addAttestationFormModal: boolean;
-  storybookModal: boolean;
-  reportingFormModal: boolean;
-  createDaoModal: boolean;
-  guildImportModal: boolean;
-  csvImportModal: boolean;
-  verifiedCelebrationModal: boolean;
+  attestationModal: boolean;
+  bulkAttestationModal: boolean;
+  bulkDaoAttributeModal: boolean;
   bulkVerifiedCelebrationModal: boolean;
+  createDaoModal: boolean;
+  csvImportModal: boolean;
+  editContributionFormModal: boolean;
+  guildImportModal: boolean;
+  importGuildModal: boolean;
+  mintModal: boolean;
+  reportingFormModal: boolean;
+  storybookModal: boolean;
+  verifiedCelebrationModal: boolean;
 };
+
 const defaults: GovrnModals = {
   addAttestationFormModal: false,
   attestationModal: false,
   bulkAttestationModal: false,
   bulkDaoAttributeModal: false,
+  bulkVerifiedCelebrationModal: false,
+  createDaoModal: false,
+  csvImportModal: false,
   editContributionFormModal: false,
+  guildImportModal: false,
+  importGuildModal: false,
   mintModal: false,
   reportingFormModal: false,
   storybookModal: false,
-  createDaoModal: false,
-  guildImportModal: false,
-  csvImportModal: false,
   verifiedCelebrationModal: false,
-  bulkVerifiedCelebrationModal: false,
 };
 
 export type OverlayContextType = {
