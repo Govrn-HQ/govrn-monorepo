@@ -15,35 +15,46 @@ import {
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
-import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnCta, GovrnSpinner, Pill } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useOverlay } from '../contexts/OverlayContext';
+import {
+  VerifiedCelebrationModal,
+  BulkVerifiedCelebrationModal,
+} from './VerifiedCelebrationModal';
 import ModalWrapper from './ModalWrapper';
 import { BulkAttestationModal, AttestationModal } from './BulkAttestationModal';
 import { useUser } from '../contexts/UserContext';
 import { RowSelectionState } from '@tanstack/table-core';
-import { statusEmojiSelect } from '../utils/statusEmojiSelect';
 import { formatDate, toDate } from '../utils/date';
 import GovrnTable from './GovrnTable';
 import MemberDisplayName from './MemberDisplayName';
+import VerificationHover from './VerificationHover';
+import AttestationFilter from './AttestationFilter';
 
 const AttestationsTable = ({
   data,
   hasMoreItems,
   nextPage,
+  attestationFilter,
 }: {
   data: UIContribution[];
   hasMoreItems: boolean;
   nextPage: () => void;
+  attestationFilter: (filterValue: string) => void;
 }) => {
   const { userData } = useUser();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
-
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [selectedRows, setSelectedRows] = useState<UIContribution[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [verifiedContribution, setVerifiedContribution] =
+    useState<UIContribution | null>(null);
+  const [verifiedContributions, setVerifiedContributions] = useState<
+    UIContribution[]
+  >([]);
 
   const deselectAll = () => {
     setRowSelection({});
@@ -108,23 +119,131 @@ const AttestationsTable = ({
         },
       },
       {
-        header: 'Status',
+        header: 'Verification',
         accessorFn: contribution =>
-          contribution.attestations.filter(attestation => {
-            return attestation.user.id === userData?.id;
-          })[0]?.attestation_status?.name || 'Unattested',
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          contribution.guilds[0]?.verificationStatus?.name === 'Verified'
+            ? 'Verified'
+            : 'Unverified',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
           const status = getValue();
-          return (
-            <Text textTransform="capitalize">
-              {status}{' '}
-              <span
-                role="img"
-                aria-labelledby="Emoji indicating contribution status: Sun emoji for minted and Eyes emoji for staging."
-              >
-                {statusEmojiSelect(status)}
-              </span>{' '}
-            </Text>
+
+          const guildHasVerificationFramework =
+            row.original.guilds[0].guild?.verification_setting_id !== null;
+          const currentAttestations = row.original.attestations?.length;
+          const attestationThreshold =
+            row.original.guilds[0].attestation_threshold;
+          const frameworkSettingThreshold =
+            row.original.guilds[0].guild.verification_setting
+              ?.num_of_attestations;
+          let pillUnverifiedLabel!: string;
+          if (attestationThreshold && frameworkSettingThreshold) {
+            pillUnverifiedLabel = `${currentAttestations}/${frameworkSettingThreshold}`;
+          }
+
+          if (status === 'Unverified' && attestationThreshold === null) {
+            pillUnverifiedLabel = 'Initializing';
+          }
+
+          const daoName = row.original.guilds[0].guild?.name;
+
+          let statusMapHover!: 'Verified' | 'Unverified' | 'No Framework';
+          if (status === null) {
+            statusMapHover = 'No Framework';
+          }
+
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
+            statusMapHover = 'Verified';
+          }
+
+          if (
+            attestationThreshold === null &&
+            frameworkSettingThreshold === 0
+          ) {
+            statusMapHover = 'Verified';
+          }
+
+          if (status === 'Unverified') {
+            statusMapHover = 'Unverified';
+          }
+
+          let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
+
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
+            pillStatusMap = 'checkmark';
+          }
+
+          if (
+            attestationThreshold === null &&
+            frameworkSettingThreshold === 0
+          ) {
+            pillStatusMap = 'checkmark';
+          }
+
+          if (status === 'Unverified' && attestationThreshold === 1) {
+            pillStatusMap = 'secondaryInfo';
+          }
+
+          if (
+            status === 'Unverified' &&
+            attestationThreshold === null &&
+            frameworkSettingThreshold !== 0
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+
+          if (
+            status === 'Unverified' &&
+            !!attestationThreshold &&
+            attestationThreshold > 1
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+
+          return guildHasVerificationFramework ? (
+            <VerificationHover
+              daoName={daoName}
+              status={statusMapHover}
+              currentThreshold={attestationThreshold}
+              frameworkThreshold={frameworkSettingThreshold}
+            >
+              <Pill
+                status={
+                  status === 'Verified' ||
+                  frameworkSettingThreshold === 0 ||
+                  (attestationThreshold === null &&
+                    frameworkSettingThreshold === 0)
+                    ? 'gradient'
+                    : 'tertiary'
+                }
+                icon={pillStatusMap}
+                label={
+                  status === 'Verified' ||
+                  frameworkSettingThreshold === 0 ||
+                  (attestationThreshold === null &&
+                    frameworkSettingThreshold === 0)
+                    ? 'Verified'
+                    : pillUnverifiedLabel
+                }
+              />
+            </VerificationHover>
+          ) : (
+            <VerificationHover
+              daoName={daoName}
+              currentThreshold={null}
+              frameworkThreshold={frameworkSettingThreshold}
+              status="No Framework"
+            >
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                label="Not Set"
+              />
+            </VerificationHover>
           );
         },
       },
@@ -150,10 +269,27 @@ const AttestationsTable = ({
         header: 'DAO',
         accessorFn: contribution =>
           contribution.guilds[0]?.guild?.name ?? '---',
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const daoName = getValue();
+          const contributionVerifiedForDao =
+            (row.original.guilds[0].guild?.verification_setting_id !== null &&
+              row.original.guilds[0]?.verificationStatus?.name ===
+                'Verified') ||
+            row.original.guilds[0].guild.verification_setting
+              ?.num_of_attestations === 0;
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>
-              <Text whiteSpace="normal">{getValue()}</Text>
+              <Pill
+                label={daoName}
+                icon={contributionVerifiedForDao === true ? 'checkmark' : null}
+                status={contributionVerifiedForDao ? 'primary' : 'tertiary'}
+              />
             </Flex>
           );
         },
@@ -300,12 +436,17 @@ const AttestationsTable = ({
         </Box>
 
         <Stack>
-          <Flex alignItems="center">
+          <Flex
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+          >
             <GlobalFilter
               preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
             />
+            <AttestationFilter attestationFilter={attestationFilter} />
           </Flex>
           <Box width="100%" maxWidth="100vw" overflowX="auto">
             <InfiniteScroll
@@ -338,6 +479,7 @@ const AttestationsTable = ({
         content={
           <BulkAttestationModal
             contributions={selectedRows}
+            setVerifiedContributions={setVerifiedContributions}
             onFinish={deselectAll}
           />
         }
@@ -351,11 +493,44 @@ const AttestationsTable = ({
           content={
             <AttestationModal
               contribution={selectedRows[0]}
+              setVerifiedContribution={setVerifiedContribution}
               onFinish={deselectAll}
             />
           }
         />
       )}
+      {verifiedContribution !== null && (
+        <ModalWrapper
+          name="verifiedCelebrationModal"
+          title=""
+          localOverlay={localOverlay}
+          size="3xl"
+          bgColor="brand.gradientBackgroundModal"
+          closeButtonColor="white"
+          content={
+            <VerifiedCelebrationModal
+              verifiedContribution={verifiedContribution}
+            />
+          }
+        />
+      )}
+      <ModalWrapper
+        name="bulkVerifiedCelebrationModal"
+        title=""
+        localOverlay={localOverlay}
+        size="3xl"
+        bgColor="brand.gradientBackgroundModal"
+        closeButtonColor="white"
+        content={
+          <BulkVerifiedCelebrationModal
+            verifiedContributions={
+              verifiedContributions.length !== 0
+                ? verifiedContributions
+                : selectedRows
+            }
+          />
+        }
+      />
     </>
   );
 };

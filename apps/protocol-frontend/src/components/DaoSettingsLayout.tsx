@@ -9,7 +9,6 @@ import DaoNameUpdateForm from './DaoNameUpdateForm';
 import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 import ErrorView from './ErrorView';
-import FeatureFlagWrapper from './FeatureFlagWrapper';
 import VerificationFramework from './VerificationFramework';
 
 const DaoSettingsLayout = () => {
@@ -25,6 +24,8 @@ const DaoSettingsLayout = () => {
     isError: daoError,
     data: daoData,
   } = useDaoGet({ id: parseInt(guildId ?? '') });
+
+  const verificationSettingId = daoData?.verification_setting_id;
 
   const isAdmin =
     useUserData?.userDaos.get(parseInt(guildId ?? ''))?.membershipStatus
@@ -97,9 +98,10 @@ const DaoSettingsLayout = () => {
         </Flex>
       </Flex>
       {isAdmin === true ? (
-        <FeatureFlagWrapper>
-          <VerificationFramework />
-        </FeatureFlagWrapper>
+        <VerificationFramework
+          verificationSettingId={verificationSettingId}
+          daoId={parseInt(guildId ? guildId : '')}
+        />
       ) : null}
     </Box>
   );

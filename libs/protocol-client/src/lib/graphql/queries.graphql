@@ -171,10 +171,7 @@ fragment GuildFragment on Guild {
 
 mutation createGuild($data: GuildCreateInput!) {
   createOneGuild(data: $data) {
-    congrats_channel
-    discord_id
-    logo
-    name
+    ...GuildFragment
   }
 }
 
@@ -241,7 +238,6 @@ fragment GuildContributionFragment on GuildContribution {
   id
   createdAt
   updatedAt
-  verified
   guild {
     id
     name
@@ -249,9 +245,11 @@ fragment GuildContributionFragment on GuildContribution {
   contribution {
     id
     name
+    attestations {
+      id
+    }
   }
   attestation_threshold
-  verified
   verificationStatus {
     id
     name
@@ -261,6 +259,99 @@ fragment GuildContributionFragment on GuildContribution {
 query getGuildContribution($where: GuildContributionWhereUniqueInput!) {
   result: guildContribution(where: $where) {
     ...GuildContributionFragment
+  }
+}
+
+query listGuildContributions(
+  $where: GuildContributionWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildContributionOrderByWithRelationInput!]
+) {
+  result: guildContributions(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildContributionFragment
+  }
+}
+
+mutation updateGuildContribution(
+  $data: GuildContributionUpdateInput!
+  $where: GuildContributionWhereUniqueInput!
+) {
+  updateOneGuildContribution(data: $data, where: $where) {
+    ...GuildContributionFragment
+  }
+}
+
+# GuildUser
+fragment GuildImportFragment on GuildImport {
+  id
+  createdAt
+  updatedAt
+  guild_id
+  guild {
+    id
+    name
+  }
+  integration_type_id
+  integration_type {
+    id
+    name
+  }
+  authentication_token
+  import_status {
+    id
+    createdAt
+    updatedAt
+    name
+  }
+  users {
+    user_id
+  }
+}
+
+query listGuildUsers(
+  $where: GuildUserWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [GuildUserOrderByWithRelationInput!]
+) {
+  result: guildUsers(
+    where: $where
+    skip: $skip
+    take: $first
+    orderBy: $orderBy
+  ) {
+    ...GuildUserFragment
+  }
+}
+
+mutation createGuildImport($data: GuildImportCreateInput!) {
+  createOneGuildImport(data: $data) {
+    ...GuildImportFragment
+  }
+}
+
+mutation updateGuildImport(
+  $data: GuildImportUpdateInput!
+  $where: GuildImportWhereUniqueInput!
+) {
+  updateOneGuildImport(data: $data, where: $where) {
+    ...GuildImportFragment
+  }
+}
+
+# GuildUser
+mutation createManyGuildUser(
+  $data: [GuildUserCreateManyInput!]!
+  $skipDuplicates: Boolean!
+) {
+  createManyGuildUser(data: $data, skipDuplicates: $skipDuplicates) {
+    count
   }
 }
 
@@ -301,52 +392,9 @@ mutation deleteGuildUser($where: GuildUserWhereUniqueInput!) {
   }
 }
 
-query listGuildUsers(
-  $where: GuildUserWhereInput! = {}
-  $skip: Int! = 0
-  $first: Int! = 10
-  $orderBy: [GuildUserOrderByWithRelationInput!]
-) {
-  result: guildUsers(
-    where: $where
-    skip: $skip
-    take: $first
-    orderBy: $orderBy
-  ) {
-    ...GuildUserFragment
-  }
-}
-
 mutation updateGuildUserCustom($data: GuildUserUpdateCustomInput!) {
   updateGuildUserCustom(data: $data) {
     ...GuildUserFragment
-  }
-}
-
-# GuildImport
-fragment GuildImportFragment on GuildImport {
-  id
-  createdAt
-  updatedAt
-  guild_id
-  guild {
-    id
-    name
-  }
-  integration_type_id
-  integration_type {
-    id
-    name
-  }
-  authentication_token
-  import_status {
-    id
-    createdAt
-    updatedAt
-    name
-  }
-  users {
-    user_id
   }
 }
 
@@ -363,6 +411,20 @@ query listGuildImports(
     orderBy: $orderBy
   ) {
     ...GuildImportFragment
+  }
+}
+
+# MembershipStatus
+fragment MembershipStatusFragment on GuildMembershipStatus {
+  id
+  createdAt
+  updatedAt
+  name
+}
+
+query guildMembershipStatus($where: GuildMembershipStatusWhereUniqueInput!) {
+  result: guildMembershipStatus(where: $where) {
+    ...MembershipStatusFragment
   }
 }
 
@@ -538,6 +600,15 @@ mutation createUser($data: UserCreateInput!) {
   }
 }
 
+mutation createManyUsers(
+  $data: [UserCreateManyInput!]!
+  $skipDuplicates: Boolean!
+) {
+  createManyUser(data: $data, skipDuplicates: $skipDuplicates) {
+    count
+  }
+}
+
 mutation createUserCustom($data: UserCreateCustomInput!) {
   createUserCustom(data: $data) {
     ...UserFragment
@@ -595,9 +666,19 @@ fragment ContributionFragment on Contribution {
   guilds {
     id
     guild_id
+    attestation_threshold
+    verificationStatus {
+      id
+      name
+    }
     guild {
       id
       name
+      verification_setting_id
+      verification_setting {
+        num_of_attestations
+        id
+      }
     }
   }
   on_chain_id
@@ -811,6 +892,7 @@ mutation upsertActivityType(
 fragment UserActivityFragment on UserActivity {
   activity_type {
     id
+    name
   }
   createdAt
   id
@@ -822,6 +904,17 @@ fragment UserActivityFragment on UserActivity {
 
 mutation createUserActivity($data: UserActivityCreateInput!) {
   createOneUserActivity(data: $data) {
+    ...UserActivityFragment
+  }
+}
+
+query listUserActivity(
+  $where: UserActivityWhereInput! = {}
+  $skip: Int! = 0
+  $first: Int! = 10
+  $orderBy: [UserActivityOrderByWithRelationInput!]
+) {
+  userActivities(where: $where, skip: $skip, take: $first, orderBy: $orderBy) {
     ...UserActivityFragment
   }
 }

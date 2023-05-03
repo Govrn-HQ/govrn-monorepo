@@ -9,6 +9,8 @@ the custom configuration. Any settings left
 out in the custom user configuration will stay
 their default values from `config-default.yml`.
 """
+import yaml
+from dotenv import load_dotenv
 import os
 from collections.abc import Mapping
 from enum import Enum
@@ -18,8 +20,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from dotenv import load_dotenv
-import yaml
 
 basepath = Path()
 basedir = str(basepath.cwd())

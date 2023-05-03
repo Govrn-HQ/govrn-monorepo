@@ -25,12 +25,15 @@ const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
 const KEVIN_MALONE_TOKEN = process.env.KEVIN_MALONE_TOKEN;
 const LINEAR_JOB_TOKEN = process.env.LINEAR_JOB_TOKEN;
 const CONTRACT_SYNC_JOB_TOKEN = process.env.CONTRACT_SYNC_JOB_TOKEN;
+const CONTRIBUTION_VERIFICATION_TOKEN =
+  process.env.CONTRIBUTION_VERIFICATION_TOKEN;
 
 const BACKEND_TOKENS = [
   AIRTABLE_API_TOKEN,
   KEVIN_MALONE_TOKEN,
   LINEAR_JOB_TOKEN,
   CONTRACT_SYNC_JOB_TOKEN,
+  CONTRIBUTION_VERIFICATION_TOKEN,
 ];
 
 // Rule is admin of passed in dao
@@ -171,8 +174,8 @@ const isGuildAdminMapping = new Map([
   ['updateGuildCustom', 'where.guildId'],
   ['updateGuildUserCustom', 'data.guildId'],
   ['createGuildUserCustom', 'data.guildId'],
-  ['updateOneVerificationSetting', 'data.guild.id'],
-  ['createOneVerificationSetting', 'data.guild.id'],
+  ['updateOneVerificationSetting', 'data.guilds.connect.0.id'],
+  ['createOneVerificationSetting', 'data.guilds.connect.0.id'],
 ]);
 
 const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
@@ -207,30 +210,37 @@ const isGuildAdmin = rule()(async (parent, args, ctx, info) => {
 });
 
 const JOB_ONLY_QUERIES = {
-  users: hasToken,
-  jobRuns: hasToken,
-  linearUsers: hasToken,
-  linearIssues: hasToken,
-  contributionStatuses: hasToken,
   chain: hasToken,
+  contributionStatuses: hasToken,
+  guildMembershipStatus: hasToken,
+  jobRuns: hasToken,
+  linearIssues: hasToken,
+  linearUsers: hasToken,
+  users: hasToken,
+  guildContributions: hasToken,
 };
 
 const JOB_ONLY_MUTATIONS = {
+  createManyAttestation: hasToken,
+  createManyContribution: hasToken,
+  createManyGuildUser: hasToken,
+  createManyLinearIssue: hasToken,
+  createManyUser: hasToken,
   createOneActivityType: hasToken,
   createOneContribution: hasToken,
   createOneGuild: hasToken,
+  createOneGuildImport: hasToken,
   createOneGuildUser: hasToken,
   createOneJobRun: hasToken,
   createOneUser: hasToken,
-  createManyAttestation: hasToken,
-  createManyContribution: hasToken,
-  createManyLinearIssue: hasToken,
   createOneUserActivity: hasToken,
   updateOneContribution: hasToken,
   updateOneGuild: hasToken,
+  updateOneGuildContribution: hasToken,
+  updateOneGuildImport: hasToken,
   updateOneUser: hasToken,
-  upsertOneAttestation: hasToken,
   upsertOneActivityType: hasToken,
+  upsertOneAttestation: hasToken,
   upsertOneContribution: hasToken,
   upsertOneLinearCycle: hasToken,
   upsertOneLinearIssue: hasToken,
@@ -260,6 +270,7 @@ export const permissions = shield(
       getContributionCountByActivityType: or(isAuthenticated, hasToken),
       getActiveGuildUsersAverage: or(isAuthenticated, hasToken),
       guildActivityTypes: or(isAuthenticated, hasToken),
+      userActivities: or(isAuthenticated, hasToken),
       verificationSetting: or(isAuthenticated, hasToken),
       ...JOB_ONLY_QUERIES,
     },
@@ -462,6 +473,7 @@ export const permissions = shield(
       contribution_reporting_channel: or(hasToken, isAuthenticated),
       status: or(hasToken, isAuthenticated),
       verification_setting_id: or(hasToken, isAuthenticated),
+      verification_setting: or(hasToken, isAuthenticated),
     },
     GuildActivityType: {
       id: isAuthenticated,
@@ -470,15 +482,19 @@ export const permissions = shield(
     },
     GuildContribution: {
       id: or(isAuthenticated, hasToken),
+      createdAt: or(isAuthenticated, hasToken),
+      updatedAt: or(isAuthenticated, hasToken),
       contribution_id: or(isAuthenticated, hasToken),
+      contribution: or(isAuthenticated, hasToken),
       guild_id: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
-      verification_status_id: or(isAuthenticated, hasToken),
-      verified: or(isAuthenticated, hasToken),
       attestation_threshold: or(isAuthenticated, hasToken),
+      verification_status_id: or(isAuthenticated, hasToken),
+      verificationStatus: or(isAuthenticated, hasToken),
     },
     GuildContributionVerificationStatus: {
       id: or(isAuthenticated, hasToken),
+      name: or(isAuthenticated, hasToken),
       createdAt: or(isAuthenticated, hasToken),
       updatedAt: or(isAuthenticated, hasToken),
       guild_contributions: or(isAuthenticated, hasToken),
@@ -555,11 +571,11 @@ export const permissions = shield(
       linear_users: or(isAuthenticated, hasToken),
     },
     UserActivity: {
-      id: hasToken,
-      createdAt: hasToken,
-      updatedAt: hasToken,
-      activity_type: hasToken,
-      user: hasToken,
+      id: or(hasToken, isAuthenticated),
+      createdAt: or(hasToken, isAuthenticated),
+      updatedAt: or(hasToken, isAuthenticated),
+      activity_type: or(hasToken, isAuthenticated),
+      user: or(hasToken, isAuthenticated),
     },
     LinearIssue: {
       id: hasToken,

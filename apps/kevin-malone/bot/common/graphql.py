@@ -1,4 +1,4 @@
-import logging
+from bot.common.logging import get_logger
 
 from bot import constants
 from gql import Client, gql
@@ -10,7 +10,7 @@ from bot.exceptions import (
     UserWithTwitterHandleAlreadyExists,
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def get_async_transport(url):

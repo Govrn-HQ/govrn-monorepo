@@ -84,6 +84,11 @@ spec:
               value: '897920137653534780'
             - name: DISCORD_REDIRECT_URI
               value: 'https://api.govrn.app/discord/oauth'
+            - name: CONTRIBUTION_VERIFICATION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: protocol-api
+                  key: contribution_verification_token
           resources:
             requests:
               memory: 300Mi

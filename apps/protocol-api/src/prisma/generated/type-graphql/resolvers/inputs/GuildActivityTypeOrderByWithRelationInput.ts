@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeOrderByWithRelationInput } from "../inputs/ActivityTypeOrderByWithRelationInput";
+import { CanonicalGuildActivityTypeOrderByWithRelationInput } from "../inputs/CanonicalGuildActivityTypeOrderByWithRelationInput";
 import { GuildOrderByWithRelationInput } from "../inputs/GuildOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -44,4 +45,19 @@ export class GuildActivityTypeOrderByWithRelationInput {
     nullable: true
   })
   activity_type?: ActivityTypeOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  migrated_from_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => ActivityTypeOrderByWithRelationInput, {
+    nullable: true
+  })
+  migrated_from?: ActivityTypeOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => CanonicalGuildActivityTypeOrderByWithRelationInput, {
+    nullable: true
+  })
+  CanonicalGuildActivityType?: CanonicalGuildActivityTypeOrderByWithRelationInput | undefined;
 }

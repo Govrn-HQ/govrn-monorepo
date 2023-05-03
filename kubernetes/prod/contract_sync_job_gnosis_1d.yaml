@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: contract-sync-job-goerli
+  name: contract-sync-job-gnosis-1d
 spec:
   schedule: '0 0 * * *'
   jobTemplate:
@@ -15,17 +15,19 @@ spec:
               imagePullPolicy: IfNotPresent
               env:
                 - name: CHAIN_NAME
-                  value: 'goerli'
+                  value: 'gnosis'
                 - name: CHAIN_ID
-                  value: '5'
+                  value: '100'
                 - name: CONTRACT_ADDRESS
-                  value: '0x44fa8E6588e7a9ad869837d09621Cc663539D753'
+                  value: '0x8a33e6288d155aDB1d368838CB91E01d30C66eC1'
                 - name: CHAIN_URL
-                  value: 'https://goerli.infura.io/v3/a8e70ebbf06e4ab8b7f020e3abe204ec'
+                  value: 'https://rpc.gnosischain.com/'
                 - name: PROTOCOL_URL
-                  value: 'https://api-staging.govrn.app/graphql'
+                  value: 'https://api.govrn.app/graphql'
                 - name: SUBGRAPH_URL
-                  value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-goerli'
+                  value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
+                - name: OFFSET_DATE
+                  value: '24000'
                 - name: INFURA_SUBDOMAIN
                   valueFrom:
                     secretKeyRef:

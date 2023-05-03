@@ -23,11 +23,13 @@ export const CreatableSelect = <T extends ValueType>({
   tip,
   placeholder,
   defaultValue,
+  backspaceRemovesValue,
   options,
   isMulti,
   isClearable,
   onChange,
   isDisabled,
+  isRequired = false,
   value,
   localForm,
   components,
@@ -38,7 +40,11 @@ export const CreatableSelect = <T extends ValueType>({
   } = localForm;
 
   return (
-    <FormControl mb={4} isInvalid={errors && errors[name] !== undefined}>
+    <FormControl
+      mb={4}
+      isInvalid={errors && errors[name] !== undefined}
+      isRequired={isRequired}
+    >
       <Stack spacing={2}>
         {label && <FormLabel label={label} />}
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}
@@ -55,6 +61,7 @@ export const CreatableSelect = <T extends ValueType>({
                 defaultValue={defaultValue}
                 placeholder={placeholder}
                 isClearable={isClearable}
+                backspaceRemovesValue={backspaceRemovesValue}
                 isMulti={isMulti}
                 onChange={onChange}
                 isDisabled={isDisabled}

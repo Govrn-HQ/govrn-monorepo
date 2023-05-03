@@ -14,7 +14,7 @@ const TextListItem = ({
   id,
   text,
   icon = MdCheckCircle,
-  iconColor = 'green.500',
+  iconColor = 'brand.magenta',
 }: TextListItemProps) => {
   return (
     <ListItem key={id}>

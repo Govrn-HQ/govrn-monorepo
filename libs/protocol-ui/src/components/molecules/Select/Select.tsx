@@ -23,6 +23,7 @@ export const Select: React.FC<SelectProps> = ({
   isMulti,
   isClearable,
   isSearchable,
+  backspaceRemovesValue,
   onChange,
   isDisabled,
   value,
@@ -51,6 +52,7 @@ export const Select: React.FC<SelectProps> = ({
                 defaultValue={defaultValue}
                 placeholder={placeholder}
                 isClearable={isClearable}
+                backspaceRemovesValue={backspaceRemovesValue}
                 isSearchable={isSearchable}
                 isMulti={isMulti}
                 onChange={onChange}

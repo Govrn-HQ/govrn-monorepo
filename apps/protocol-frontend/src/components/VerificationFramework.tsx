@@ -1,7 +1,23 @@
 import { Divider, Flex, Heading, Text } from '@chakra-ui/react';
+import useVerificationSettingGet from '../hooks/useVerificationSettingGet';
 import VerificationFrameworkForm from './VerificationFrameworkForm';
 
-const VerificationFramework = () => {
+const VerificationFramework = ({
+  verificationSettingId,
+  daoId,
+}: {
+  verificationSettingId?: number | null;
+  daoId: number;
+}) => {
+  const {
+    isError: verificationSettingDataError,
+    data: verificationSettingData,
+  } = useVerificationSettingGet({ id: verificationSettingId });
+
+  if (verificationSettingDataError) {
+    return <Text>An error occurred fetching the Verification Settings.</Text>;
+  }
+
   return (
     <Flex
       justify="space-between"
@@ -26,16 +42,19 @@ const VerificationFramework = () => {
         >
           <Text>
             Setting a Verification Framework means accepting contributions into
-            your DAO. Acceptance has two options: a number of DAO members and
-            admin approval.
+            your DAO.
           </Text>
           <br />
           <Text>
-            Contributions must be attributed for verification. Once you set this
-            option you can always return and edit settings.
+            A contribution becomes Verified by the DAO when it receives a
+            minimum number of attestations from members.
           </Text>
         </Flex>
-        <VerificationFrameworkForm />
+        <VerificationFrameworkForm
+          verificationSettingId={verificationSettingId ?? null}
+          daoId={daoId}
+          numberOfAttestations={verificationSettingData?.num_of_attestations}
+        />
       </Flex>
     </Flex>
   );
