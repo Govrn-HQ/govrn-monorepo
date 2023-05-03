@@ -2,8 +2,8 @@ import {
   TWITTER_LINK,
   DISCORD_LINK,
   FEEDBACK_LINK,
-  LEFT_MEMBERSHIP_NAME,
   DOCS_LINK,
+  MembershipStatusesNames,
 } from '../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -49,7 +49,7 @@ const Sidebar = () => {
   const { data: daosUsersListData } = useDaoUsersList({
     where: {
       user_id: { equals: userData?.id },
-      membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
+      membershipStatus: { isNot: { name: { equals: MembershipStatusesNames.Left } } },
     },
     orderBy: [{ membershipStatus: { name: 'asc' } }, { favorite: 'desc' }],
   });

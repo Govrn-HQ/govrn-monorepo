@@ -5,10 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
 import useUserGet from '../hooks/useUserGet';
 import DaoDashboardShell from '../components/DaoDashboardShell';
-import {
-  ADMIN_MEMBERSHIP_NAME,
-  MEMBER_MEMBERSHIP_NAME,
-} from '../utils/constants';
+import { MembershipStatusesNames } from '../utils/constants';
 import { useMemo } from 'react';
 
 const DaoDashboard = () => {
@@ -23,8 +20,8 @@ const DaoDashboard = () => {
 
   const isDaoMember = useMemo(() => {
     return (
-      currentDao?.membershipStatus?.name === MEMBER_MEMBERSHIP_NAME ||
-      currentDao?.membershipStatus?.name === ADMIN_MEMBERSHIP_NAME
+      currentDao?.membershipStatus?.name === MembershipStatusesNames.Member ||
+      currentDao?.membershipStatus?.name === MembershipStatusesNames.Admin
     );
   }, [currentDao]);
 
