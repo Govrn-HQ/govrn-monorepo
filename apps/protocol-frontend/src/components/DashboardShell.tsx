@@ -10,7 +10,7 @@ import {
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
-import { MembershipStatusesNames, UNASSIGNED } from "../utils/constants";
+import { MembershipStatusesNames, UNASSIGNED } from '../utils/constants';
 import { useDaosList } from '../hooks/useDaosList';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';

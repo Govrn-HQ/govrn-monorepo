@@ -28,7 +28,10 @@ const AttestationsTableShell = () => {
     useState('showAll');
   const guildIds = userData?.guild_users
     ? userData?.guild_users
-        .filter(guild => guild?.membershipStatus.name !== MembershipStatusesNames.Left)
+        .filter(
+          guild =>
+            guild?.membershipStatus.name !== MembershipStatusesNames.Left,
+        )
         .map(guild => guild.guild_id)
     : []; // filter out the daos a user has left
 

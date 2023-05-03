@@ -90,7 +90,9 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     {
       where: {
         user_id: { equals: userId },
-        membershipStatus: { isNot: { name: { equals: MembershipStatusesNames.Left } } },
+        membershipStatus: {
+          isNot: { name: { equals: MembershipStatusesNames.Left } },
+        },
       },
 
       orderBy: [

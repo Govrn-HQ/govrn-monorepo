@@ -33,7 +33,7 @@ import { RowSelectionState } from '@tanstack/table-core';
 import { SortOrder } from '@govrn/protocol-client';
 import GovrnTable from './GovrnTable';
 import { displayAddress } from '../utils/web3';
-import { MembershipStatusesNames } from "../utils/constants";
+import { MembershipStatusesNames } from '../utils/constants';
 
 interface DaoSettingsMembersTableProps {
   daoId: number;
@@ -69,7 +69,9 @@ const DaoSettingsMembersTable = ({ daoId }: DaoSettingsMembersTableProps) => {
   } = useDaoUsersInfiniteList({
     where: {
       guild_id: { equals: daoId },
-      membershipStatus: { isNot: { name: { equals: MembershipStatusesNames.Left } } },
+      membershipStatus: {
+        isNot: { name: { equals: MembershipStatusesNames.Left } },
+      },
     },
 
     orderBy: [
