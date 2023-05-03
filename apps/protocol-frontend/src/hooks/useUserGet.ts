@@ -1,6 +1,9 @@
 import { GovrnProtocol } from '@govrn/protocol-client';
 import { useQuery } from '@tanstack/react-query';
 import { PROTOCOL_URL } from '../utils/constants';
+import { UIUser } from '@govrn/ui-types';
+
+type Guild = UIUser['guild_users'][number];
 
 export const useUserGet = ({
   userId,
@@ -18,7 +21,7 @@ export const useUserGet = ({
         return null;
       }
       const resp = await govrn.user.get(userId);
-      const userDaos = new Map();
+      const userDaos = new Map<number, Guild>();
       if (resp?.guild_users) {
         resp?.guild_users.forEach(guildUser => {
           userDaos.set(guildUser.guild_id, guildUser);
