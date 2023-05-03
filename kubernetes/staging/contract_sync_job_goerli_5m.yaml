@@ -27,7 +27,7 @@ spec:
                 - name: SUBGRAPH_URL
                   value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-goerli'
                 - name: OFFSET_DATE
-                  value: 1
+                  value: '1'
                 - name: INFURA_SUBDOMAIN
                   valueFrom:
                     secretKeyRef:
