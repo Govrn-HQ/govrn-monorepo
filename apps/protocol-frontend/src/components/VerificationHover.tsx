@@ -18,14 +18,14 @@ const VerificationHover = ({
 }: VerificationHoverProps) => {
   let thresholdLabel;
   if (currentThreshold === 1) {
-    thresholdLabel = `This contribution only needs ${currentThreshold} more attestation to be verified by ${daoName}!`;
+    thresholdLabel = `This contribution needs more attestations to be verified by ${daoName}.`;
   }
   if (
     currentThreshold !== null &&
     currentThreshold !== undefined &&
     currentThreshold > 1
   ) {
-    thresholdLabel = `This contribution needs ${currentThreshold} more attestations to be verified by ${daoName}.`;
+    thresholdLabel = `This contribution needs more attestations to be verified by ${daoName}.`;
   }
   if (currentThreshold === null) {
     thresholdLabel = `This contribution needs more attestations to be verified by ${daoName}.`;
