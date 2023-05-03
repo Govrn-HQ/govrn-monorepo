@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: contract-sync-job-gnosis
+  name: contract-sync-job-gnosis-5m
 spec:
-  schedule: '0 0 * * *'
+  schedule: '*/5 * * * *'
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 100
@@ -26,6 +26,8 @@ spec:
                   value: 'https://api-staging.govrn.app/graphql'
                 - name: SUBGRAPH_URL
                   value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
+                - name: OFFSET_DATE
+                  value: 1
                 - name: INFURA_SUBDOMAIN
                   valueFrom:
                     secretKeyRef:
