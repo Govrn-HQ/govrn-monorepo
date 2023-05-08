@@ -93,7 +93,7 @@ prisma.$use(async (params, next) => {
       chain_id: contributionParams.chain_id,
     });
   }
-  if ((params.model == 'Attestation', params.action === 'createMany')) {
+  if (params.model == 'Attestation' && params.action === 'createMany') {
     throw new Error('Create many not supported for threshold');
   }
   return next(params);

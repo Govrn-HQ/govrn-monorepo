@@ -66,7 +66,10 @@ const VerificationFrameworkForm = ({
     ) {
       return;
     }
-    if (verificationSettingId === null) {
+    if (
+      verificationSettingId === null &&
+      values.verificationFramework !== 'none'
+    ) {
       await createVerificationSetting({
         daoId: daoId,
         numberOfAttestations: values.numberOfAttestors,
@@ -104,6 +107,9 @@ const VerificationFrameworkForm = ({
 
     setSubmitting(false); // will be on success
   };
+
+  const noFrameworkSet =
+    verificationSettingId === null && watch('verificationFramework') === 'none';
 
   return (
     <Flex direction="column" width="100%" color="gray.800">
@@ -143,10 +149,19 @@ const VerificationFrameworkForm = ({
             localForm={localForm}
           />
           {watch('verificationFramework') === 'none' ? (
-            <Text marginBottom={4}>
-              No verification framework selected. Any contribution will be
-              considered verified even with 0 attestations.
-            </Text>
+            <>
+              {noFrameworkSet ? (
+                <Text>
+                  Select a framework and then click{' '}
+                  <Text as="i">Apply Verification Settings</Text> button to
+                  select.
+                </Text>
+              ) : null}
+              <Text marginBottom={4}>
+                This setting is optional, and the default is{' '}
+                <Text as="i">None</Text>.
+              </Text>
+            </>
           ) : (
             <NumberInput
               name="numberOfAttestors"
@@ -161,7 +176,9 @@ const VerificationFrameworkForm = ({
           <Button
             variant="secondary"
             type="submit"
-            disabled={submitting || Object.keys(errors).length !== 0}
+            disabled={
+              submitting || Object.keys(errors).length !== 0 || noFrameworkSet
+            }
           >
             Apply Verification Settings
           </Button>
