@@ -27,7 +27,7 @@ spec:
                 - name: SUBGRAPH_URL
                   value: 'https://api.thegraph.com/subgraphs/name/govrn-hq/govrn-protocol-gnosis'
                 - name: OFFSET_DATE
-                  value: 24000
+                  value: '24000'
                 - name: INFURA_SUBDOMAIN
                   valueFrom:
                     secretKeyRef:
