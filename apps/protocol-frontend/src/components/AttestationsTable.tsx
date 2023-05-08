@@ -109,8 +109,7 @@ const NoContributionsToAttestCta = () => (
     copy={
       <Flex direction="column" alignItems="center" justifyContent="center">
         <Text>
-          You'll need other collaborators to be part of a DAO! There are no
-          contributions for you to attest to yet.
+          Waiting for more minted contributions from your fellow DAO members.
         </Text>
       </Flex>
     }
