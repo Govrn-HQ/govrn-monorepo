@@ -1,4 +1,5 @@
 import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
+import { logger } from './main';
 
 export type ContributionData = {
   contribution_id?: number;
