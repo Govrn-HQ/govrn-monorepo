@@ -113,6 +113,7 @@
     "vite-plugin-externals": "^0.5.0",
     "vite-tsconfig-paths": "^3.4.1",
     "wagmi": "^0.6.2",
+    "winston": "^3.8.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
