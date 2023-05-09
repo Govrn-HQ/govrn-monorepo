@@ -217,7 +217,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
                 }}
                 value={selectedDao ?? null}
                 options={daoListOptions}
-                isSearchable={false}
+                isSearchable={true}
                 isClearable
               />
             </Flex>
