@@ -10,12 +10,11 @@ import {
 import { subWeeks } from 'date-fns';
 import ContributionsHeatMap from './ContributionsHeatMap';
 import ContributionsBarChart from './ContributionsBarChart';
-import { UNASSIGNED } from '../utils/constants';
+import { MembershipStatusesNames, UNASSIGNED } from '../utils/constants';
 import { useDaosList } from '../hooks/useDaosList';
 import useContributionCountInRange from '../hooks/useContributionCount';
 import { endOfDay, startOfDay } from 'date-fns';
 import { DEFAULT_DATE_RANGES } from '../utils/constants';
-import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
 import pluralize from 'pluralize';
 import useDisplayName from '../hooks/useDisplayName';
 
@@ -53,7 +52,7 @@ const DashboardShell = () => {
             { user_id: { equals: userData?.id || 0 } },
             {
               membershipStatus: {
-                isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } },
+                isNot: { name: { equals: MembershipStatusesNames.Left } },
               },
             },
           ],
