@@ -28,14 +28,16 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Other',
 ];
 
-export const DEFAULT_ACTIVITY_TYPES_OPTIONS = DEFAULT_ACTIVITY_TYPES.map(
-  activity => {
+export const DEFAULT_ACTIVITY_TYPES_OPTIONS = {
+  label: 'Default',
+  options: DEFAULT_ACTIVITY_TYPES.map(activity => {
     return {
       label: activity,
       value: activity,
     };
-  },
-);
+  }),
+};
+
 export const ADDRESS_IMPORT_MAX = 1000;
 
 export const ATTESTATION_VERIFIED_FILTER_OPTIONS = [
