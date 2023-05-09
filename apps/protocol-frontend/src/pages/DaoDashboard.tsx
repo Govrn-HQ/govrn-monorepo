@@ -5,7 +5,8 @@ import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
 import useUserGet from '../hooks/useUserGet';
 import DaoDashboardShell from '../components/DaoDashboardShell';
-import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
+import { MembershipStatusesNames } from '../utils/constants';
+import { useMemo } from 'react';
 
 const DaoDashboard = () => {
   const { isConnected } = useAccount();
@@ -15,13 +16,14 @@ const DaoDashboard = () => {
   const userDaos = data?.userDaos;
 
   const { guildId } = useParams();
-
   const currentDao = userDaos?.get(parseInt(guildId ? guildId : ''));
 
-  const isDaoMember =
-    userDaos?.has(parseInt(guildId ?? '')) === true &&
-    userDaos?.get(parseInt(guildId ?? ''))?.membershipStatus?.name !==
-      LEFT_MEMBERSHIP_NAME;
+  const isDaoMember = useMemo(() => {
+    return (
+      currentDao?.membershipStatus?.name === MembershipStatusesNames.Member ||
+      currentDao?.membershipStatus?.name === MembershipStatusesNames.Admin
+    );
+  }, [currentDao]);
 
   return (
     <SiteLayout>

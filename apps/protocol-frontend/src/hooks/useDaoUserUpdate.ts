@@ -1,7 +1,7 @@
 import { useUser } from '../contexts/UserContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useGovrnToast } from '@govrn/protocol-ui';
-import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
+import { MembershipStatusesNames } from '../utils/constants';
 
 interface DaoUserUpdateProps {
   userId: number;
@@ -48,7 +48,7 @@ export const useDaoUserUpdate = () => {
 
         const toastSuccessId = 'dao-user-create-success';
         if (!toast.isActive(toastSuccessId)) {
-          if (membershipStatus === LEFT_MEMBERSHIP_NAME) {
+          if (membershipStatus === MembershipStatusesNames.Left) {
             toast.success({
               id: toastSuccessId,
               title: 'Leaving DAO',
