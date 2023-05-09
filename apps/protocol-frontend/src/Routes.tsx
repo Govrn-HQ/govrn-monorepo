@@ -26,7 +26,7 @@ import DiscordSignatureLayout from './components/DiscordSignatureLayout';
 import {
   CONTRIBUTION_NEW_DOMAIN,
   CONTRIBUTION_NEW_STAGING_DOMAIN,
-  LEFT_MEMBERSHIP_NAME,
+  MembershipStatusesNames,
 } from './utils/constants';
 
 const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
@@ -51,7 +51,7 @@ const Routes = () => {
   const url = new URL(window.location.href);
   const userDaosFilter = new Map();
   userDaos?.forEach(dao => {
-    if (dao?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME) {
+    if (dao?.membershipStatus.name !== MembershipStatusesNames.Left) {
       userDaosFilter.set(dao.guild_id, dao);
     }
   });
