@@ -1,4 +1,5 @@
 import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
+import { logger } from './main';
 
 export type ContributionData = {
   contribution_id?: number;
@@ -89,7 +90,7 @@ const getIdOfChain = async (chainId: number) => {
 };
 
 export const upsertContribution = async (contribution: ContributionData) => {
-  console.log(
+  logger.info(
     `:: Upsert Contribution with on chain id ${contribution.on_chain_id} and/or id ${contribution.contribution_id}`,
   );
   const existingContribution = await govrn.contribution.list({
