@@ -76,5 +76,15 @@ export const FEEDBACK_LINK = 'https://forms.gle/uE8w3FgjAcWyqAN58';
 export const DOCS_LINK =
   'https://govrn.gitbook.io/govrn-docs/overview/welcome-to-govrn';
 
-export const LEFT_MEMBERSHIP_NAME = 'Left';
+/**
+ * Membership Names that represents different membership statuses in a DAO.
+ */
+export enum MembershipStatusesNames {
+  // Indicates that the user has left the DAO.
+  Left = 'Left',
+  Admin = 'Admin',
+  // Indicates that the user is a regular member of the DAO.v
+  Member = 'Member',
+}
+
 export const VERIFIED_CONTRIBUTION_NAME = 'Verified';

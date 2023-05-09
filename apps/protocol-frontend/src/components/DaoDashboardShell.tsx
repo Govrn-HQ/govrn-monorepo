@@ -30,9 +30,9 @@ import useUserGet from '../hooks/useUserGet';
 import GovrnAlertDialog from './GovrnAlertDialog';
 import {
   TODAY_DATE,
-  LEFT_MEMBERSHIP_NAME,
   YEAR,
   DEFAULT_DATE_RANGES,
+  MembershipStatusesNames,
 } from '../utils/constants';
 
 const CUSTOM_VALUE = 0;
@@ -121,7 +121,7 @@ const DaoDashboardShell = ({
     await updateDaoMemberStatus({
       userId: userData?.id ?? -1,
       guildId: daoId,
-      membershipStatus: LEFT_MEMBERSHIP_NAME,
+      membershipStatus: MembershipStatusesNames.Left,
     });
 
     navigate('/dashboard');

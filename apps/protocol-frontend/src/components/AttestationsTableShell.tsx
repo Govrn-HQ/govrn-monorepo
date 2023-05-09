@@ -17,7 +17,7 @@ import { useContributionInfiniteList } from '../hooks/useContributionList';
 import { mergePages } from '../utils/arrays';
 import { useUser } from '../contexts/UserContext';
 import {
-  LEFT_MEMBERSHIP_NAME,
+  MembershipStatusesNames,
   VERIFIED_CONTRIBUTION_NAME,
 } from '../utils/constants';
 
@@ -28,7 +28,10 @@ const AttestationsTableShell = () => {
     useState('showAll');
   const guildIds = userData?.guild_users
     ? userData?.guild_users
-        .filter(guild => guild?.membershipStatus.name !== LEFT_MEMBERSHIP_NAME)
+        .filter(
+          guild =>
+            guild?.membershipStatus.name !== MembershipStatusesNames.Left,
+        )
         .map(guild => guild.guild_id)
     : []; // filter out the daos a user has left
 
