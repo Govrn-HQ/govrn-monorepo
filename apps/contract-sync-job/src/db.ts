@@ -1,5 +1,6 @@
 import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
 import { logger } from './main';
+import { format } from 'util';
 
 export type ContributionData = {
   contribution_id?: number;
@@ -28,43 +29,61 @@ export const govrn = new GovrnProtocol(PROTOCOL_URL, null, {
 export const getOrInsertUser = async (data: {
   address: string;
 }): Promise<number> => {
-  // Query existing user.
-  const user = await govrn.user.list({
-    where: {
-      address: { equals: data.address },
-    },
-    first: 1,
-  });
+  try {
+    // Query existing user.
+    const user = await govrn.user.list({
+      where: {
+        address: { equals: data.address },
+      },
+      first: 1,
+    });
 
-  // Returns the id, if user exists.
-  if (user.length === 1) {
-    return user[0]?.id;
+    // Returns the id, if user exists.
+    if (user.length === 1) {
+      return user[0]?.id;
+    }
+
+    // Insert new user into db, if user doesn't exist.
+    const newUser = await govrn.user.create({
+      address: data.address,
+      username: data.address,
+    });
+
+    return newUser.id;
+  } catch (error) {
+    const err = format(
+      'Error getting or inserting user %s: %s',
+      data.address,
+      error,
+    );
+    throw err;
   }
-
-  // Insert new user into db, if user doesn't exist.
-  const newUser = await govrn.user.create({
-    address: data.address,
-    username: data.address,
-  });
-
-  return newUser.id;
 };
 
 export const getOrInsertActivityType = async (data: {
   name: string;
 }): Promise<number> => {
-  // Check for an existing activity types.
-  const activityTypeId = await govrn.activity_type.list({
-    where: { name: { equals: data.name } },
-    first: 1,
-  });
-  if (activityTypeId.length > 0) return activityTypeId[0].id;
+  try {
+    // Check for an existing activity types.
+    const activityTypeId = await govrn.activity_type.list({
+      where: { name: { equals: data.name } },
+      first: 1,
+    });
+    if (activityTypeId.length > 0) return activityTypeId[0].id;
 
-  // if there are no activity type, create new one.
-  const activityTypeCreate = await govrn.activity_type.create({
-    data: { name: data.name },
-  });
-  return activityTypeCreate.id;
+    // if there are no activity type, create new one.
+    const activityTypeCreate = await govrn.activity_type.create({
+      data: { name: data.name },
+    });
+    return activityTypeCreate.id;
+  } catch (error) {
+    const err = format(
+      'Error getting or inserting activity type %s: %s',
+      data.name,
+      error,
+    );
+    throw err;
+  }
 };
 
 export async function getContribution(data: { tokenId: number }) {
@@ -79,113 +98,132 @@ export async function getContribution(data: { tokenId: number }) {
     if (contrs.length != 0) return contrs[0].id;
     throw new Error('Contribution must exist for this attestation!');
   } catch (error) {
-    console.error(error);
-    throw error;
+    const err = format(
+      'Error getting contribution id %s: %s',
+      data.tokenId,
+      error,
+    );
+    throw err;
   }
 }
 
 const getIdOfChain = async (chainId: number) => {
-  const chain = await govrn.chain.get({ where: { chain_id: `${chainId}` } });
-  return chain.id;
+  try {
+    const chain = await govrn.chain.get({ where: { chain_id: `${chainId}` } });
+    return chain.id;
+  } catch (error) {
+    const err = format('Error getting chain id %s: %s', chainId, error);
+    throw err;
+  }
 };
 
 export const upsertContribution = async (contribution: ContributionData) => {
   logger.info(
     `:: Upsert Contribution with on chain id ${contribution.on_chain_id} and/or id ${contribution.contribution_id}`,
   );
-  const existingContribution = await govrn.contribution.list({
-    where: {
-      details: { equals: contribution.details },
-      name: { equals: contribution.name },
-      proof: { equals: contribution.proof },
-      status: { is: { name: { equals: 'pending' } } },
-      user_id: { equals: contribution.user_id },
-      on_chain_id: { equals: null },
-    },
-  });
 
-  if (existingContribution.result.length > 0) {
-    for (const result of existingContribution.result) {
-      const existingContributionInDB = await govrn.contribution.list({
-        where: {
-          AND: [
-            {
-              on_chain_id: { equals: contribution.on_chain_id },
-              chain: {
-                is: { chain_id: { equals: `${contribution.chain_id}` } },
+  try {
+    const existingContribution = await govrn.contribution.list({
+      where: {
+        details: { equals: contribution.details },
+        name: { equals: contribution.name },
+        proof: { equals: contribution.proof },
+        status: { is: { name: { equals: 'pending' } } },
+        user_id: { equals: contribution.user_id },
+        on_chain_id: { equals: null },
+      },
+    });
+
+    if (existingContribution.result.length > 0) {
+      for (const result of existingContribution.result) {
+        const existingContributionInDB = await govrn.contribution.list({
+          where: {
+            AND: [
+              {
+                on_chain_id: { equals: contribution.on_chain_id },
+                chain: {
+                  is: { chain_id: { equals: `${contribution.chain_id}` } },
+                },
+              },
+            ],
+          },
+        });
+        if (existingContributionInDB.result.length > 0) {
+          await govrn.contribution.deleteStaging(
+            existingContributionInDB.result[0].id,
+          );
+          continue;
+        }
+
+        await govrn.contribution.update({
+          data: {
+            date_of_engagement: { set: contribution.date_of_engagement },
+            activity_type: {
+              connectOrCreate: {
+                create: { name: contribution.activity_type_name },
+                where: { name: contribution.activity_type_name },
               },
             },
-          ],
-        },
-      });
-      if (existingContributionInDB.result.length > 0) {
-        await govrn.contribution.deleteStaging(
-          existingContributionInDB.result[0].id,
-        );
-        continue;
-      }
-
-      await govrn.contribution.update({
-        data: {
-          date_of_engagement: { set: contribution.date_of_engagement },
-          activity_type: {
-            connectOrCreate: {
-              create: { name: contribution.activity_type_name },
-              where: { name: contribution.activity_type_name },
+            status: {
+              connect: { name: 'minted' },
             },
+            on_chain_id: { set: contribution.on_chain_id },
+            chain: { connect: { chain_id: `${CHAIN_ID}` } },
+            tx_hash: { set: contribution.txHash },
           },
-          status: {
-            connect: { name: 'minted' },
+          where: {
+            id: result.id,
           },
-          on_chain_id: { set: contribution.on_chain_id },
-          chain: { connect: { chain_id: `${CHAIN_ID}` } },
-          tx_hash: { set: contribution.txHash },
-        },
-        where: {
-          id: result.id,
-        },
-      });
+        });
+      }
+      return existingContribution.result.length;
     }
-    return existingContribution.result.length;
-  }
 
-  return await govrn.contribution.upsert({
-    where: {
-      chain_id_on_chain_id: {
-        chain_id: await getIdOfChain(contribution.chain_id),
-        on_chain_id: contribution.on_chain_id,
-      },
-    },
-    create: {
-      name: contribution.name,
-      proof: contribution.proof,
-      details: contribution.details,
-      date_of_engagement: contribution.date_of_engagement,
-      user: { connect: { id: contribution.user_id } },
-      activity_type: {
-        connectOrCreate: {
-          create: { name: contribution.activity_type_name },
-          where: { name: contribution.activity_type_name },
+    return await govrn.contribution.upsert({
+      where: {
+        chain_id_on_chain_id: {
+          chain_id: await getIdOfChain(contribution.chain_id),
+          on_chain_id: contribution.on_chain_id,
         },
       },
+      create: {
+        name: contribution.name,
+        proof: contribution.proof,
+        details: contribution.details,
+        date_of_engagement: contribution.date_of_engagement,
+        user: { connect: { id: contribution.user_id } },
+        activity_type: {
+          connectOrCreate: {
+            create: { name: contribution.activity_type_name },
+            where: { name: contribution.activity_type_name },
+          },
+        },
 
-      status: {
-        connect: { name: 'minted' },
+        status: {
+          connect: { name: 'minted' },
+        },
+        on_chain_id: contribution.on_chain_id,
+        chain: { connect: { chain_id: `${CHAIN_ID}` } },
+        tx_hash: contribution.txHash,
       },
-      on_chain_id: contribution.on_chain_id,
-      chain: { connect: { chain_id: `${CHAIN_ID}` } },
-      tx_hash: contribution.txHash,
-    },
-    update: {
-      name: { set: contribution.name },
-      on_chain_id: { set: contribution.on_chain_id },
-      proof: { set: contribution.proof ?? null },
-      details: { set: contribution.details ?? null },
-      chain: { connect: { chain_id: `${CHAIN_ID}` } },
-      status: { connect: { name: contribution.status_name } },
-      tx_hash: { set: contribution.txHash },
-    },
-  });
+      update: {
+        name: { set: contribution.name },
+        on_chain_id: { set: contribution.on_chain_id },
+        proof: { set: contribution.proof ?? null },
+        details: { set: contribution.details ?? null },
+        chain: { connect: { chain_id: `${CHAIN_ID}` } },
+        status: { connect: { name: contribution.status_name } },
+        tx_hash: { set: contribution.txHash },
+      },
+    });
+  } catch (error) {
+    const err = format(
+      'Error upserting contribution token id %s: %s',
+      contribution.on_chain_id,
+      error,
+    );
+    throw err;
+  }
 };
 
 export const upsertAttestation = async (attestation: {
@@ -193,22 +231,31 @@ export const upsertAttestation = async (attestation: {
   user_id: number;
   contribution_id: number;
 }) => {
-  return await govrn.attestation.upsert({
-    where: {
-      user_id_contribution_id: {
-        user_id: attestation.user_id,
-        contribution_id: attestation.contribution_id,
+  try {
+    return await govrn.attestation.upsert({
+      where: {
+        user_id_contribution_id: {
+          user_id: attestation.user_id,
+          contribution_id: attestation.contribution_id,
+        },
       },
-    },
-    create: {
-      attestation_status: { connect: { name: 'attested' } },
-      user: { connect: { id: attestation.user_id } },
-      contribution: { connect: { id: attestation.contribution_id } },
-    },
-    update: {
-      attestation_status: { connect: { name: 'attested' } },
-    },
-  });
+      create: {
+        attestation_status: { connect: { name: 'attested' } },
+        user: { connect: { id: attestation.user_id } },
+        contribution: { connect: { id: attestation.contribution_id } },
+      },
+      update: {
+        attestation_status: { connect: { name: 'attested' } },
+      },
+    });
+  } catch (error) {
+    const err = format(
+      'Error upserting attestation for contribution id %s: %s',
+      attestation.contribution_id,
+      error,
+    );
+    throw err;
+  }
 };
 
 export const createJobRun = async (job: {
