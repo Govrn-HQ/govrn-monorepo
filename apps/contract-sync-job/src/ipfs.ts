@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { logger } from './main';
 
 const INFURA_SUBDOMAIN = process.env.INFURA_SUBDOMAIN;
 
@@ -23,7 +24,7 @@ export const fetchIPFS = async <T>(ipfsHash: string): Promise<T> => {
   try {
     return JSON.parse(text);
   } catch (e) {
-    console.error(':: Failed to parse:', text, ipfsHash);
+    logger.error(':: Failed to parse: %s %s', text, ipfsHash);
     throw e;
   }
 };

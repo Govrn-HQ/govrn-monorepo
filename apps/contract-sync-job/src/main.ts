@@ -113,7 +113,12 @@ const main = async () => {
           chain_id: CHAIN_ID,
           txHash: event.txHash,
         };
-      } catch {
+      } catch (error) {
+        logger.error(
+          ':: Error fetching contribution details for contribution %s: %s',
+          event.contributionId,
+          error,
+        );
         return null;
       }
     },
@@ -126,7 +131,7 @@ const main = async () => {
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
-    logger.error(':: BATCH CONTRIBUTION ERRORS', errors);
+    logger.error(':: BATCH CONTRIBUTION ERRORS %s', errors);
 
     const upsertedCount = inserted.length;
     if (upsertedCount > 0) {
@@ -180,7 +185,7 @@ const main = async () => {
     async attestation => await upsertAttestation(attestation),
     BATCH_SIZE,
   );
-  logger.error(':: BATCH ATTEST ERRORS', insertedErrors);
+  logger.error(':: BATCH ATTEST ERRORS %s', insertedErrors);
 
   logger.info(`:: Inserting ${insertedAttestations.length} Attestations`);
   logger.info(
