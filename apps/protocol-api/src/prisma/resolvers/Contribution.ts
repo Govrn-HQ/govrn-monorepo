@@ -41,6 +41,9 @@ export class UserContributionCreateInput {
 
   @TypeGraphQL.Field(_type => Number, { nullable: true })
   chainId?: number;
+
+  @TypeGraphQL.Field(_type => Number, { nullable: true })
+  verificationSettingId?: number;
 }
 
 @TypeGraphQL.ArgsType()
@@ -492,6 +495,25 @@ export class ContributionCustomResolver {
       });
     }
 
+    const guildActivityType = await prisma.guildActivityType.findFirst({
+      where: {
+        activity_type: { name: { equals: args.data.activityTypeName } },
+        guild_id: args.data.guildId || undefined,
+      },
+    });
+    if (!args.data.guildId && !guildActivityType) {
+      await prisma.userActivity.create({
+        data: {
+          user: { connect: { address: args.data.address } },
+          activity_type: {
+            connectOrCreate: {
+              create: { name: args.data.activityTypeName },
+              where: { name: args.data.activityTypeName },
+            },
+          },
+        },
+      });
+    }
     return await prisma.contribution.update({
       data: {
         activity_type: {
@@ -651,7 +673,7 @@ export class ContributionCustomResolver {
 
     const result = await prisma.$queryRaw<[ContributionCountByDate]>`
       WITH guild_contributions AS (
-          SELECT 
+          SELECT
       	    c.id,
       	    c.date_of_engagement,
       	    c.user_id,
@@ -704,13 +726,13 @@ export class ContributionCustomResolver {
              a.name as activity_name,
              count(c.id)::integer as count
       FROM
-        "GuildContribution" gc 
-        LEFT JOIN "Contribution" as c 
+        "GuildContribution" gc
+        LEFT JOIN "Contribution" as c
           ON gc."contribution_id" = c."id"
         LEFT JOIN "ActivityType" as a
           ON a."id" = c."activity_type_id"
       WHERE (
-        gc."createdAt"::date BETWEEN ${start} AND ${end} 
+        gc."createdAt"::date BETWEEN ${start} AND ${end}
         AND gc."guild_id" = ${daoId}
       ) GROUP BY a.name, c.activity_type_id
       ORDER BY count;`;
@@ -760,13 +782,13 @@ export class ContributionCustomResolver {
               u.display_name as "display_name",
               u.address as "address"
       FROM
-          "GuildContribution" as gc 
+          "GuildContribution" as gc
           LEFT JOIN "Contribution" as c
             ON gc."contribution_id" = c."id"
-          LEFT JOIN "User" as u 
+          LEFT JOIN "User" as u
             ON u."id" = c."user_id"
       WHERE (
-        gc."createdAt"::date BETWEEN ${start} AND ${end} 
+        gc."createdAt"::date BETWEEN ${start} AND ${end}
         AND gc."guild_id" = ${guildId}
       ) GROUP BY u.display_name, u.id
       ORDER BY count;`;

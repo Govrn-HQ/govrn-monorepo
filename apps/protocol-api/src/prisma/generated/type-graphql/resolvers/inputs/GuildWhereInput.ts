@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { CanonicalGuildActivityTypeListRelationFilter } from "../inputs/CanonicalGuildActivityTypeListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumGuildStatusFilter } from "../inputs/EnumGuildStatusFilter";
 import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
@@ -112,4 +113,9 @@ export class GuildWhereInput {
     nullable: true
   })
   verification_setting?: VerificationSettingRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CanonicalGuildActivityTypeListRelationFilter, {
+    nullable: true
+  })
+  canonical_guild_activity_type?: CanonicalGuildActivityTypeListRelationFilter | undefined;
 }

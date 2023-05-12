@@ -2,6 +2,7 @@ export { ActivityTypeScalarFieldEnum } from "./ActivityTypeScalarFieldEnum";
 export { AttestationConfidenceScalarFieldEnum } from "./AttestationConfidenceScalarFieldEnum";
 export { AttestationScalarFieldEnum } from "./AttestationScalarFieldEnum";
 export { AttestationStatusScalarFieldEnum } from "./AttestationStatusScalarFieldEnum";
+export { CanonicalGuildActivityTypeScalarFieldEnum } from "./CanonicalGuildActivityTypeScalarFieldEnum";
 export { CategoryActivityScalarFieldEnum } from "./CategoryActivityScalarFieldEnum";
 export { CategoryActivityTypeScalarFieldEnum } from "./CategoryActivityTypeScalarFieldEnum";
 export { ChainScalarFieldEnum } from "./ChainScalarFieldEnum";

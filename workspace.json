@@ -6,6 +6,7 @@
     "govrn-contract-client": "libs/govrn-contract-client",
     "govrn-contract-subgraph": "apps/govrn-contract-subgraph",
     "govrn-subgraph-client": "libs/govrn-subgraph-client",
+    "guild-import-job": "apps/guild-import-job",
     "jobs-contribution-verification": "apps/jobs/contribution-verification",
     "kevin-malone": "apps/kevin-malone",
     "linear-sync-job": "apps/linear-sync-job",
@@ -16,6 +17,7 @@
     "protocol-ui": "libs/protocol-ui",
     "twitter-contribution-job": "apps/twitter-contribution-job",
     "ui-types": "libs/ui-types",
+    "utils": "libs/utils",
     "voyager-identity-api": "apps/voyager-identity-api"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"

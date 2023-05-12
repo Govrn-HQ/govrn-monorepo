@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput } from "../inputs/CategoryActivityTypeCreateNestedManyWithoutActivity_typeInput";
 import { ContributionCreateNestedManyWithoutActivity_typeInput } from "../inputs/ContributionCreateNestedManyWithoutActivity_typeInput";
 import { GuildActivityTypeCreateNestedManyWithoutActivity_typeInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutActivity_typeInput";
+import { GuildActivityTypeCreateNestedManyWithoutMigrated_fromInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutMigrated_fromInput";
 
 @TypeGraphQL.InputType("ActivityTypeCreateWithoutUsersInput", {
   isAbstract: true
@@ -49,4 +50,9 @@ export class ActivityTypeCreateWithoutUsersInput {
     nullable: true
   })
   guilds?: GuildActivityTypeCreateNestedManyWithoutActivity_typeInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeCreateNestedManyWithoutMigrated_fromInput, {
+    nullable: true
+  })
+  migrated_from?: GuildActivityTypeCreateNestedManyWithoutMigrated_fromInput | undefined;
 }

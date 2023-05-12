@@ -1,13 +1,13 @@
 import asyncio
 import discord
 import json
-import logging
 import random
 import re
 import snscrape.modules.twitter as sntwitter
 import string
 import eth_account
 
+from bot.common.logging import get_logger
 from bot.config import (
     Redis,
     REQUESTED_TWEET_FMT,
@@ -37,7 +37,7 @@ TWEET_VERIFIED_CACHE_KEY = "tweet_verified"
 WALLET_CACHE_KEY = "user_wallet_address"
 WALLET_VERIFICATION_MESSAGE_CACHE_KEY = "wallet_verification_message"
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class SelectGuildEmojiStep(BaseStep):

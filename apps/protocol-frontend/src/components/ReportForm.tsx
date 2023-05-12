@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { uploadFileIpfs } from '../libs/ipfs';
@@ -11,7 +12,7 @@ import {
   Flex,
   FormLabel,
   IconButton,
-  Link as ChakraLink,
+  Link,
   Button,
   Text,
   Switch,
@@ -33,6 +34,7 @@ import { HiOutlinePaperClip } from 'react-icons/hi';
 import { useGuildActivityTypesList } from '../hooks/useGuildActivityTypesList';
 import { useContributionCreate } from '../hooks/useContributionCreate';
 import useUserGet from '../hooks/useUserGet';
+import useUserActivityList from '../hooks/useUserActivityList';
 import { useGovrnToast } from '@govrn/protocol-ui';
 import groupBy from 'lodash/groupBy';
 
@@ -160,6 +162,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           proof: '',
           activityType: values.activityType,
           date_of_engagement: values.engagementDate,
+          daoId: values.daoId,
         });
         if (!isUserCreatingMore) onFinish();
       }
@@ -189,9 +192,13 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
 
   useEffect(() => {
     const matchedDao = daoListOptions.find(dao => dao.value === daoIdParam);
-    setValue('engagementDate', engagementDateValue);
+
     setValue('daoId', matchedDao?.value ?? null); // allows user to submit contribution with a preset daoId query param without needing to touch the field
-  }, [engagementDateValue, setValue, daoListOptions, daoIdParam]);
+  }, [setValue, daoListOptions, daoIdParam]);
+
+  useEffect(() => {
+    setValue('engagementDate', engagementDateValue);
+  }, [engagementDateValue, setValue]);
 
   const {
     data: guildActivityTypeListData,
@@ -210,6 +217,21 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
     },
     refetchOnWindowFocus: false,
   });
+  const {
+    data: userActivityListData,
+    isError: userActivityListIsError,
+    isLoading: userActivityListIsLoading,
+  } = useUserActivityList({
+    args: {
+      first: 10000,
+      where: {
+        user_id: {
+          equals: userData?.id,
+        },
+      },
+    },
+    refetchOnWindowFocus: false,
+  });
 
   const combinedActivityTypeOptions = useMemo(() => {
     if (!guildActivityTypeListData) return [];
@@ -223,9 +245,17 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       'guild',
     );
 
-    // TODO: Missing custom types in a section
-    return [
-      ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+    const personalTypes = userActivityListData
+      ? {
+          label: 'Personal',
+          options: userActivityListData.map(item => ({
+            value: item.activity_type.name,
+            label: item.activity_type.name,
+          })),
+        }
+      : null;
+    const results = [
+      DEFAULT_ACTIVITY_TYPES_OPTIONS,
       ...Object.keys(groupedActivityTypes).map(key => ({
         label: key,
         options: groupedActivityTypes[key].map(item => ({
@@ -234,15 +264,28 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         })),
       })),
     ];
-  }, [guildActivityTypeListData]);
+    if (personalTypes) {
+      return [personalTypes, ...results];
+    }
+
+    return results;
+  }, [guildActivityTypeListData, userActivityListData]);
 
   // the loading and fetching states from the query are true:
-  if (guildActivityTypeListIsLoading || useUserLoading) {
+  if (
+    guildActivityTypeListIsLoading ||
+    useUserLoading ||
+    userActivityListIsLoading
+  ) {
     return <GovrnSpinner />;
   }
 
   // there is an error with the query:
   if (guildActivityTypeListIsError) {
+    return <Text>An error occurred fetching Guild Activity Types.</Text>;
+  }
+
+  if (userActivityListIsError) {
     return <Text>An error occurred fetching User Activity Types.</Text>;
   }
 
@@ -259,6 +302,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             name="name"
             label="Name of Contribution"
             tip="Please add the name of your contribution."
+            isRequired
             placeholder="Govrn Protocol Pull Request"
             localForm={localForm}
             dataTestId="reportForm-name"
@@ -266,19 +310,24 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Select
             name="daoId"
             label="DAO"
+            isClearable={true}
+            backspaceRemovesValue={true}
             tip={
               <>
                 Please select a DAO to associate this contribution with.
                 <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Request to add it{' '}
-                  <ChakraLink
-                    href="https://airtable.com/shrOedOjQpH9xlg7l"
-                    isExternal
+                  This is optional. Don't see your DAO? Join or create one{' '}
+                  <Link
+                    as={RouterLink}
+                    to="/profile"
+                    state={{ targetId: 'myDaos' }}
                     textDecoration="underline"
                   >
-                    here
-                  </ChakraLink>
+                    on your Profile.
+                  </Link>
                 </Box>
+                Note: Clicking the link will navigate to your Profile and clear
+                the form!
               </>
             }
             placeholder="Select a DAO to associate this contribution with."
@@ -292,11 +341,13 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <CreatableSelect
             name="activityType"
             label="Activity Type"
+            isRequired
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
               if (activity instanceof Array || !activity) {
                 return;
               }
+
               setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}

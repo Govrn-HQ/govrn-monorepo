@@ -32,4 +32,9 @@ export class GuildActivityTypeMinOrderByAggregateInput {
     nullable: true
   })
   activity_type_id?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  migrated_from_id?: "asc" | "desc" | undefined;
 }

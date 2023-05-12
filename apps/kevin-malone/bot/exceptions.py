@@ -1,8 +1,8 @@
-import logging
+from bot.common.logging import get_logger
 
 from discord import errors
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class NotGuildException(errors.ApplicationCommandError):

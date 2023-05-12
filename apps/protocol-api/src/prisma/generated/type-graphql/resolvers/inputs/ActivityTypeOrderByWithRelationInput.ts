@@ -61,4 +61,9 @@ export class ActivityTypeOrderByWithRelationInput {
     nullable: true
   })
   guilds?: GuildActivityTypeOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildActivityTypeOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  migrated_from?: GuildActivityTypeOrderByRelationAggregateInput | undefined;
 }

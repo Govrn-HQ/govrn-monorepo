@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import { CanonicalGuildActivityType } from "../../../models/CanonicalGuildActivityType";
 import { Guild } from "../../../models/Guild";
 import { GuildActivityType } from "../../../models/GuildActivityType";
 import { GuildContribution } from "../../../models/GuildContribution";
@@ -7,6 +8,7 @@ import { GuildUser } from "../../../models/GuildUser";
 import { TwitterAccount } from "../../../models/TwitterAccount";
 import { VerificationSetting } from "../../../models/VerificationSetting";
 import { GuildActivity_typeArgs } from "./args/GuildActivity_typeArgs";
+import { GuildCanonical_guild_activity_typeArgs } from "./args/GuildCanonical_guild_activity_typeArgs";
 import { GuildContributionsArgs } from "./args/GuildContributionsArgs";
 import { GuildGuild_importsArgs } from "./args/GuildGuild_importsArgs";
 import { GuildTwitter_accountsArgs } from "./args/GuildTwitter_accountsArgs";
@@ -79,5 +81,16 @@ export class GuildRelationsResolver {
         id: guild.id,
       },
     }).verification_setting({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [CanonicalGuildActivityType], {
+    nullable: false
+  })
+  async canonical_guild_activity_type(@TypeGraphQL.Root() guild: Guild, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: GuildCanonical_guild_activity_typeArgs): Promise<CanonicalGuildActivityType[]> {
+    return getPrismaFromContext(ctx).guild.findUnique({
+      where: {
+        id: guild.id,
+      },
+    }).canonical_guild_activity_type(args);
   }
 }

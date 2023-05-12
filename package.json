@@ -32,6 +32,7 @@
     "@graphql-codegen/typescript-graphql-request": "^4.4.5",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@graphql-codegen/typescript-urql": "^3.5.7",
+    "@guildxyz/sdk": "^1.1.1",
     "@hookform/resolvers": "^2.8.8",
     "@linear/sdk": "^1.22.0",
     "@material-ui/core": "^4.12.3",
@@ -86,6 +87,7 @@
     "graphql-tag": "^2.12.6",
     "ipfs-http-client": "56.0.0",
     "lodash": "^4.17.21",
+    "nats": "^2.10.2",
     "notistack": "^1.0.10",
     "nx": "14.7.13",
     "pg": "^8.8.0",
@@ -97,6 +99,7 @@
     "react-icons": "^4.3.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-is": "18.0.0",
+    "react-rewards": "^2.0.4",
     "react-router-dom": "6.4.1",
     "react-select": "^5.3.2",
     "reflect-metadata": "^0.1.13",
@@ -110,6 +113,7 @@
     "vite-plugin-externals": "^0.5.0",
     "vite-tsconfig-paths": "^3.4.1",
     "wagmi": "^0.6.2",
+    "winston": "^3.8.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

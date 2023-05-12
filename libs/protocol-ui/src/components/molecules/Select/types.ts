@@ -64,6 +64,8 @@ export interface BaseSelectProps<T extends ValueType> {
 
   isSearchable?: boolean;
 
+  backspaceRemovesValue?: boolean;
+
   /**
    * Whether the select allows multiple options to be selected.
    */
