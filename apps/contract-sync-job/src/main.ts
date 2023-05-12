@@ -45,7 +45,7 @@ const main = async () => {
       ? new Date(lastRun[0].completedDate)
       : new Date(267285020000);
   const lookbackWindowStart = Math.ceil(
-    startDate.getTime() - OFFSET_DATE * 60 * 60,
+    startDate.getTime() / 1000 - OFFSET_DATE * 60 * 60,
   );
 
   logger.info(":: Last run's completed date: " + startDate.toISOString());
