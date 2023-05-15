@@ -30,7 +30,7 @@ import useUserGet from '../hooks/useUserGet';
 import GovrnAlertDialog from './GovrnAlertDialog';
 import {
   TODAY_DATE,
-  YEAR,
+  YEAR_WEEKS,
   DEFAULT_DATE_RANGES,
   MembershipStatusesNames,
 } from '../utils/constants';
@@ -74,7 +74,9 @@ const DaoDashboardShell = ({
   }, [data]);
 
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
-  const [startDate, setStartDate] = useState<Date>(subWeeks(TODAY_DATE, YEAR));
+  const [startDate, setStartDate] = useState<Date>(
+    subWeeks(TODAY_DATE, YEAR_WEEKS),
+  );
   const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
   const [isLeavingDialogShown, showLeavingDialog] = useState(false);
 
@@ -324,7 +326,7 @@ const DaoDashboardShell = ({
               <ControlledSelect
                 isSearchable={false}
                 defaultValue={dateRangeOptions.find(
-                  date => date.value === YEAR,
+                  date => date.value === YEAR_WEEKS,
                 )}
                 onChange={dateRangeOffset => {
                   if (dateRangeOffset instanceof Array) {
