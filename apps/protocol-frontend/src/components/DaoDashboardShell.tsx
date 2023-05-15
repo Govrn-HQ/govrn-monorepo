@@ -74,7 +74,9 @@ const DaoDashboardShell = ({
   }, [data]);
 
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
-  const [startDate, setStartDate] = useState<Date>(subWeeks(TODAY_DATE, YEAR));
+  const [startDate, setStartDate] = useState<Date>(
+    subWeeks(TODAY_DATE, YEAR_WEEKS),
+  );
   const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
   const [isLeavingDialogShown, showLeavingDialog] = useState(false);
 
