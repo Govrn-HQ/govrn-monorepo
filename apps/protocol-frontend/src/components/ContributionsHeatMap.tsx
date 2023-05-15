@@ -58,17 +58,9 @@ const CustomTooltipDailyContributions = ({
         gte: new Date(day),
         lt: addDays(new Date(day), 1),
       },
-      guilds: {
-        some: {
-          guild_id: {
-            in: guildIds,
-          },
-        },
-      },
     },
   });
 
-  console.log('daily tooltip', dailyContributions);
   return (
     <TooltipWrapper anchor="left" position={[0, 0]}>
       <Flex
@@ -99,7 +91,7 @@ const CustomTooltipDailyContributions = ({
                 bgClip="text"
               >
                 {' '}
-                {contribution.guilds[0]?.guild?.name}
+                {contribution.guilds[0]?.guild?.name ?? 'Unassigned'}
               </Text>
             </Text>
           </Flex>
