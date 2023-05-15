@@ -78,7 +78,7 @@ const DashboardShell = () => {
 
   const guildIds =
     selectedDaos.length === 0 &&
-      !selectedDaos.some(dao => dao.label === UNASSIGNED)
+    !selectedDaos.some(dao => dao.label === UNASSIGNED)
       ? combinedDaoListOptions.map(dao => dao.value).filter(dao => dao !== 0)
       : selectedDaos.map(dao => dao.value).filter(dao => dao !== 0);
 
