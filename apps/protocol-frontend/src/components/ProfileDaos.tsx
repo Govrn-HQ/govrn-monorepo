@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
-  Box,
   Button,
   Flex,
   Heading,
@@ -9,12 +8,7 @@ import {
   Divider,
   Grid,
   Text,
-  Tooltip,
-  HStack,
-  Icon,
 } from '@chakra-ui/react';
-
-import { HiOutlineExternalLink } from 'react-icons/hi';
 import {
   ControlledSelect,
   GovrnSpinner,
@@ -227,7 +221,6 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
                 isClearable
               />
             </Flex>
-
             <Button
               variant="primary"
               onClick={handleDaoJoin}
@@ -236,6 +229,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
             >
               Join
             </Button>
+
             <Link
               as={RouterLink}
               to="/dao/create"
@@ -253,33 +247,6 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
                 Create DAO
               </Button>
             </Link>
-            <Tooltip
-              variant="primary"
-              placement="bottom"
-              label={`Learn more about Kevin Malone, our friendly Discord bot for DAOs.`}
-              fontSize="sm"
-            >
-              <Link
-                href="https://govrn.gitbook.io/govrn-docs/lets-party/kevin-malone"
-                isExternal
-                color="brand.purple"
-                fontWeight="semibold"
-                textDecoration="none"
-                _hover={{
-                  textDecoration: 'none',
-                  opacity: 0.7,
-                }}
-                _focus={{
-                  color: 'brand.purple',
-                  background: 'barnd.secondary.100',
-                }}
-              >
-                <HStack justifySelf="center">
-                  <HiOutlineExternalLink />
-                  <Text>Kevin Malone</Text>
-                </HStack>
-              </Link>
-            </Tooltip>
           </Flex>
           <Grid
             templateColumns={{
