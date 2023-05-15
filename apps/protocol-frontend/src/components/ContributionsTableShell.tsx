@@ -186,7 +186,10 @@ const ContributionsTableShell = () => {
                       <Text fontSize="lg" fontWeight="medium">
                         My Contributions
                       </Text>
-                      <SelectedContributions />
+                      {nonMintedContributions &&
+                      nonMintedContributions.length > 0 ? (
+                        <SelectedContributions />
+                      ) : null}
                     </Stack>
                   </Box>
                 ) : null}

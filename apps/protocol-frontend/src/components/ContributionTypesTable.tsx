@@ -165,7 +165,7 @@ const ContributionTypesTable = ({
       }}
     >
       <Button variant="primary" size="md" width={{ base: '100%', lg: 'auto' }}>
-        Report Your First Contribution
+        Report a Contribution
       </Button>
     </ChakraLink>
   );
