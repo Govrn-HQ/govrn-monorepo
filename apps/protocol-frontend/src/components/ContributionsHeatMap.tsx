@@ -1,17 +1,11 @@
 import { Flex, Box, Text, useBreakpointValue, Divider } from '@chakra-ui/react';
 import { SortOrder } from '@govrn/protocol-client';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
-import { useUser } from '../contexts/UserContext';
 import { subWeeks, addDays } from 'date-fns';
-import {
-  BRAND_COLOR_MAP_SUBSET,
-  YEAR,
-  MembershipStatusesNames,
-} from '../utils/constants';
+import { BRAND_COLOR_MAP_SUBSET, YEAR } from '../utils/constants';
 import { useContributionList } from '../hooks/useContributionList';
 import { formatDate } from '../utils/date';
 import { TooltipWrapper } from '@nivo/tooltip';
-import { useDaosList } from '../hooks/useDaosList';
 
 import pluralize from 'pluralize';
 
@@ -30,26 +24,6 @@ const CustomTooltipDailyContributions = ({
   day,
   value,
 }: CalendarTooltipProps) => {
-  const { userData } = useUser();
-  const { data: userDaosListData } = useDaosList({
-    where: {
-      users: {
-        some: {
-          AND: [
-            { user_id: { equals: userData?.id || 0 } },
-            {
-              membershipStatus: {
-                isNot: { name: { equals: MembershipStatusesNames.Left } },
-              },
-            },
-          ],
-        },
-      },
-    },
-    first: 1000,
-  });
-  const guildIds = userDaosListData?.map(dao => dao.id);
-
   const { data: dailyContributions } = useContributionList({
     orderBy: { date_of_engagement: SortOrder.Desc },
     first: 5,
@@ -120,25 +94,6 @@ const CustomTooltipDailyContributions = ({
     </TooltipWrapper>
   );
 };
-
-// if (daoId === null) {
-//   return (
-//     <Flex direction="column" paddingBottom={4} paddingX={{ base: 4, lg: 0 }}>
-//       <Flex
-//         direction="column"
-//         paddingY={{ base: '4', lg: '4' }}
-//         paddingX={{ base: '0', lg: '4' }}
-//         color="gray.700"
-//         background="white"
-//         boxShadow="sm"
-//         borderRadius={{ base: 'none', md: 'md' }}
-//       >
-//         <Text>
-//           Error fetching Contributions because the DAO's id is null.{' '}
-//         </Text>
-//       </Flex>
-//     </Flex>
-//   );
 
 const ContributionsHeatMap = ({
   contributionsCount,
