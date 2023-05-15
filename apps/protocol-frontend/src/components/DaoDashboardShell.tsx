@@ -30,7 +30,7 @@ import useUserGet from '../hooks/useUserGet';
 import GovrnAlertDialog from './GovrnAlertDialog';
 import {
   TODAY_DATE,
-  YEAR,
+  YEAR_WEEKS,
   DEFAULT_DATE_RANGES,
   MembershipStatusesNames,
 } from '../utils/constants';
@@ -324,7 +324,7 @@ const DaoDashboardShell = ({
               <ControlledSelect
                 isSearchable={false}
                 defaultValue={dateRangeOptions.find(
-                  date => date.value === YEAR,
+                  date => date.value === YEAR_WEEKS,
                 )}
                 onChange={dateRangeOffset => {
                   if (dateRangeOffset instanceof Array) {

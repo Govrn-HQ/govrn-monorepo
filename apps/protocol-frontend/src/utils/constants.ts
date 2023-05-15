@@ -60,12 +60,12 @@ export const TODAY_DATE = new Date();
 export const WEEK = 1;
 export const MONTH = 4;
 export const QUARTER = 12;
-export const YEAR = 52;
+export const YEAR_WEEKS = 52;
 export const DEFAULT_DATE_RANGES = [
   { label: 'Last Week', value: WEEK },
   { label: 'Last Month', value: MONTH },
   { label: 'Last Quarter', value: QUARTER },
-  { label: 'Last Year', value: YEAR },
+  { label: 'Last Year', value: YEAR_WEEKS },
 ];
 
 /* Social Media Links */

@@ -2,7 +2,7 @@ import { Flex, Box, Text, useBreakpointValue, Divider } from '@chakra-ui/react';
 import { SortOrder } from '@govrn/protocol-client';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { subWeeks, addDays } from 'date-fns';
-import { BRAND_COLOR_MAP_SUBSET, YEAR } from '../utils/constants';
+import { BRAND_COLOR_MAP_SUBSET, YEAR_WEEKS } from '../utils/constants';
 import { useContributionList } from '../hooks/useContributionList';
 import { formatDate } from '../utils/date';
 import { TooltipWrapper } from '@nivo/tooltip';
@@ -121,7 +121,7 @@ const ContributionsHeatMap = ({
             data={contributionsCountMap.filter(
               contribution => contribution.value !== 0,
             )}
-            from={subWeeks(new Date(), YEAR)}
+            from={subWeeks(new Date(), YEAR_WEEKS)}
             to={new Date()}
             weekdayTicks={isMobile ? [] : [1, 3, 5]}
             emptyColor="#eeeeee"
