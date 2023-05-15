@@ -3,11 +3,15 @@ import { SortOrder } from '@govrn/protocol-client';
 import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { useUser } from '../contexts/UserContext';
 import { subWeeks, addDays } from 'date-fns';
-import { BRAND_COLOR_MAP_SUBSET, YEAR, LEFT_MEMBERSHIP_NAME } from '../utils/constants';
+import {
+  BRAND_COLOR_MAP_SUBSET,
+  YEAR,
+  MembershipStatusesNames,
+} from '../utils/constants';
 import { useContributionList } from '../hooks/useContributionList';
 import { formatDate } from '../utils/date';
 import { TooltipWrapper } from '@nivo/tooltip';
-import { useDaosList } from '../hooks/useDaosList'
+import { useDaosList } from '../hooks/useDaosList';
 
 import pluralize from 'pluralize';
 
@@ -27,9 +31,7 @@ const CustomTooltipDailyContributions = ({
   value,
 }: CalendarTooltipProps) => {
   const { userData } = useUser();
-  const {
-    data: userDaosListData,
-  } = useDaosList({
+  const { data: userDaosListData } = useDaosList({
     where: {
       users: {
         some: {
@@ -37,7 +39,7 @@ const CustomTooltipDailyContributions = ({
             { user_id: { equals: userData?.id || 0 } },
             {
               membershipStatus: {
-                isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } },
+                isNot: { name: { equals: MembershipStatusesNames.Left } },
               },
             },
           ],
@@ -46,8 +48,8 @@ const CustomTooltipDailyContributions = ({
     },
     first: 1000,
   });
-  const guildIds = userDaosListData?.map(dao => dao.id)
-  console.log('guildIds', guildIds)
+  const guildIds = userDaosListData?.map(dao => dao.id);
+
   const { data: dailyContributions } = useContributionList({
     orderBy: { date_of_engagement: SortOrder.Desc },
     first: 5,
