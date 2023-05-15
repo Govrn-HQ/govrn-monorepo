@@ -18,6 +18,87 @@ import cors = require('cors');
 console.log('Starting');
 const prisma = new PrismaClient();
 
+const addAttestationThreshold = async ({
+  on_chain_id,
+  chain_id,
+}: {
+  on_chain_id: number;
+  chain_id: number;
+}) => {
+  const contribution = await prisma.contribution.findFirst({
+    where: {
+      chain_id: { equals: chain_id },
+      on_chain_id: { equals: on_chain_id },
+    },
+  });
+
+  const guildContributions = await prisma.guildContribution.findMany({
+    where: {
+      contribution_id: { equals: contribution.id },
+    },
+  });
+  if (guildContributions.length === 0) {
+    return;
+  }
+  for (const guildContribution of guildContributions) {
+    const guild = await prisma.guildContribution
+      .findUnique({
+        where: {
+          id: guildContribution.id,
+        },
+      })
+      .guild({});
+    if (!guild.verification_setting_id) {
+      return;
+    }
+    if (
+      guildContribution.verification_status_id != 1 &&
+      guildContribution.verification_status_id !== null
+    ) {
+      return;
+    }
+
+    let threshold = guildContribution.attestation_threshold;
+    if (threshold === 0) {
+      return;
+    }
+    if (threshold === null) {
+      const verficationNum = await prisma.verificationSetting.findUnique({
+        where: {
+          id: guild.verification_setting_id,
+        },
+      });
+      threshold = verficationNum.num_of_attestations;
+    }
+    const new_threshold = threshold - 1;
+    const verification_status_id = new_threshold === 0 ? 1 : 2;
+    await prisma.guildContribution.update({
+      data: {
+        attestation_threshold: new_threshold,
+        verification_status_id: verification_status_id,
+      },
+      where: {
+        id: guildContribution.id,
+      },
+    });
+  }
+};
+
+prisma.$use(async (params, next) => {
+  if (params.model == 'Attestation' && params.action === 'create') {
+    const contributionParams =
+      params.args.data.contribution.connect.chain_id_on_chain_id;
+    await addAttestationThreshold({
+      on_chain_id: contributionParams.on_chain_id,
+      chain_id: contributionParams.chain_id,
+    });
+  }
+  if (params.model == 'Attestation' && params.action === 'createMany') {
+    throw new Error('Create many not supported for threshold');
+  }
+  return next(params);
+});
+
 const LINEAR_TOKEN_URL = 'https://api.linear.app/oauth/token';
 const LINEAR_REDIRECT_URI = process.env.LINEAR_REDIRECT_URI;
 const LINEAR_CLIENT_ID = process.env.LINEAR_CLIENT_ID;

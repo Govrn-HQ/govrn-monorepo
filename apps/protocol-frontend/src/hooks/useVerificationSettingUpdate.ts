@@ -37,6 +37,9 @@ export const useVerificationSettingUpdate = () => {
     {
       onSuccess: data => {
         queryClient.invalidateQueries(['verificationSettings', data?.id]);
+        queryClient.invalidateQueries({
+          queryKey: ['contributionInfiniteList'],
+        }); // invalidate this query key regardless of the args
 
         toast.success({
           title: 'Verification Settings Updated',

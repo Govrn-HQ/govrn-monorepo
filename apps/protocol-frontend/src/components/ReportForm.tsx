@@ -162,6 +162,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           proof: '',
           activityType: values.activityType,
           date_of_engagement: values.engagementDate,
+          daoId: values.daoId,
         });
         if (!isUserCreatingMore) onFinish();
       }
@@ -196,7 +197,6 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
   }, [setValue, daoListOptions, daoIdParam]);
 
   useEffect(() => {
-    console.log('date changed', engagementDateValue);
     setValue('engagementDate', engagementDateValue);
   }, [engagementDateValue, setValue]);
 
@@ -255,7 +255,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
         }
       : null;
     const results = [
-      ...DEFAULT_ACTIVITY_TYPES_OPTIONS,
+      DEFAULT_ACTIVITY_TYPES_OPTIONS,
       ...Object.keys(groupedActivityTypes).map(key => ({
         label: key,
         options: groupedActivityTypes[key].map(item => ({
@@ -265,8 +265,9 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
       })),
     ];
     if (personalTypes) {
-      results.push(personalTypes);
+      return [personalTypes, ...results];
     }
+
     return results;
   }, [guildActivityTypeListData, userActivityListData]);
 
@@ -301,6 +302,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             name="name"
             label="Name of Contribution"
             tip="Please add the name of your contribution."
+            isRequired
             placeholder="Govrn Protocol Pull Request"
             localForm={localForm}
             dataTestId="reportForm-name"
@@ -308,6 +310,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Select
             name="daoId"
             label="DAO"
+            isClearable={true}
+            backspaceRemovesValue={true}
             tip={
               <>
                 Please select a DAO to associate this contribution with.
@@ -337,11 +341,13 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <CreatableSelect
             name="activityType"
             label="Activity Type"
+            isRequired
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
               if (activity instanceof Array || !activity) {
                 return;
               }
+
               setValue('activityType', activity.value);
             }}
             options={combinedActivityTypeOptions}

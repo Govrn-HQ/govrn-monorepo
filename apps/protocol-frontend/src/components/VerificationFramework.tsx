@@ -42,21 +42,18 @@ const VerificationFramework = ({
         >
           <Text>
             Setting a Verification Framework means accepting contributions into
-            your DAO. Acceptance has two options: a number of DAO members and
-            admin approval.
+            your DAO.
           </Text>
           <br />
           <Text>
-            Contributions must be attributed for verification. Once you set this
-            option you can always return and edit settings.
+            A contribution becomes Verified by the DAO when it receives a
+            minimum number of attestations from members.
           </Text>
         </Flex>
         <VerificationFrameworkForm
           verificationSettingId={verificationSettingId ?? null}
           daoId={daoId}
-          numberOfAttestations={
-            verificationSettingData?.num_of_attestations ?? null
-          }
+          numberOfAttestations={verificationSettingData?.num_of_attestations}
         />
       </Flex>
     </Flex>

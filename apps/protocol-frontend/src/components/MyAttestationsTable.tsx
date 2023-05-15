@@ -72,7 +72,7 @@ const MyAttestationsTable = ({
         },
       },
       {
-        header: 'Status',
+        header: 'Verification',
         accessorFn: contribution =>
           contribution.guilds[0]?.verificationStatus?.name === 'Verified'
             ? 'Verified'
@@ -86,26 +86,70 @@ const MyAttestationsTable = ({
         }) => {
           const status = getValue();
 
-          let statusMapHover!: 'Verified' | 'Unverified' | 'noFramework';
-          if (status === null) {
-            statusMapHover = 'noFramework';
+          const guildHasVerificationFramework =
+            row.original.guilds[0].guild?.verification_setting_id !== null;
+          const currentAttestations = row.original.attestations?.length;
+          const attestationThreshold =
+            row.original.guilds[0].attestation_threshold;
+          const frameworkSettingThreshold =
+            row.original.guilds[0].guild.verification_setting
+              ?.num_of_attestations;
+          let pillUnverifiedLabel!: string;
+          if (attestationThreshold && frameworkSettingThreshold) {
+            pillUnverifiedLabel = `${currentAttestations}/${frameworkSettingThreshold}`;
           }
-          if (status === 'Verified') {
+
+          if (status === 'Unverified' && attestationThreshold === null) {
+            pillUnverifiedLabel = 'Initializing';
+          }
+
+          const daoName = row.original.guilds[0].guild?.name;
+
+          let statusMapHover!: 'Verified' | 'Unverified' | 'No Framework';
+          if (status === null) {
+            statusMapHover = 'No Framework';
+          }
+
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
             statusMapHover = 'Verified';
           }
+
+          if (
+            frameworkSettingThreshold === 0 &&
+            attestationThreshold === null
+          ) {
+            statusMapHover = 'Verified';
+          }
+
           if (status === 'Unverified') {
             statusMapHover = 'Unverified';
           }
-          const attestationThreshold =
-            row.original.guilds[0].attestation_threshold;
 
           let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
-          if (status === 'Verified') {
+
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
             pillStatusMap = 'checkmark';
           }
+
+          if (
+            attestationThreshold === null &&
+            frameworkSettingThreshold === 0
+          ) {
+            pillStatusMap = 'checkmark';
+          }
+
           if (status === 'Unverified' && attestationThreshold === 1) {
             pillStatusMap = 'secondaryInfo';
           }
+
+          if (
+            status === 'Unverified' &&
+            attestationThreshold === null &&
+            frameworkSettingThreshold !== 0
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+
           if (
             status === 'Unverified' &&
             !!attestationThreshold &&
@@ -113,27 +157,42 @@ const MyAttestationsTable = ({
           ) {
             pillStatusMap = 'primaryInfo';
           }
-          if (status === 'Unverified' && attestationThreshold === null) {
-            pillStatusMap = 'primaryInfo';
-          }
-          const guildHasVerificationFramework =
-            row.original.guilds[0].guild?.verification_setting_id !== null;
+
           return guildHasVerificationFramework ? (
             <VerificationHover
+              daoName={daoName}
               status={statusMapHover}
-              threshold={attestationThreshold}
+              currentThreshold={attestationThreshold}
             >
               <Pill
-                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                status={
+                  status === 'Verified' ||
+                  frameworkSettingThreshold === 0 ||
+                  (attestationThreshold === null &&
+                    frameworkSettingThreshold === 0)
+                    ? 'gradient'
+                    : 'tertiary'
+                }
                 icon={pillStatusMap}
-                label={status === 'Verified' ? 'Verified' : 'Unverified'}
+                label={status === 'Verified' ? 'Verified' : pillUnverifiedLabel}
               />
             </VerificationHover>
           ) : (
-            <VerificationHover threshold={null} status="noFramework">
+            <VerificationHover
+              daoName={daoName}
+              currentThreshold={null}
+              status="No Framework"
+            >
               <Pill
-                status={status === 'Verified' ? 'gradient' : 'tertiary'}
-                label="Unverified"
+                status={
+                  status === 'Verified' ||
+                  frameworkSettingThreshold === 0 ||
+                  (attestationThreshold === null &&
+                    frameworkSettingThreshold === 0)
+                    ? 'gradient'
+                    : 'tertiary'
+                }
+                label="Not Set"
               />
             </VerificationHover>
           );

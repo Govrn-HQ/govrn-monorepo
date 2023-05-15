@@ -35,21 +35,22 @@ export async function getUnverifiedContributions(daoId: number) {
       guild_id: {
         equals: daoId,
       },
-      verificationStatus: {
-        is: {
-          OR: [
-            {
-              name: { equals: UNVERIFIED_STRING },
-            },
-            {
-              name: { equals: null },
-            },
-          ],
-        },
-      },
+      verificationStatus: { isNot: { name: { equals: VERIFIED_STRING } } },
     },
   });
   return result.result;
+}
+
+export async function upsertGuildContributionAttestationThreshold(
+  contributionId: number,
+  threshold: number,
+) {
+  await govrn.guildContribution.upsert({
+    where: { id: contributionId },
+    data: {
+      attestation_threshold: { set: threshold },
+    },
+  });
 }
 
 export async function upsertVerifiedGuildContribution(contributionId: number) {

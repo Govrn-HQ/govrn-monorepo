@@ -9,7 +9,6 @@ import DaoNameUpdateForm from './DaoNameUpdateForm';
 import DaoSettingsMemberUpdateForm from './DaoSettingsMemberUpdateForm';
 import DaoSettingsMembersTable from './DaoSettingsMembersTable';
 import ErrorView from './ErrorView';
-import FeatureFlagWrapper from './FeatureFlagWrapper';
 import VerificationFramework from './VerificationFramework';
 
 const DaoSettingsLayout = () => {
@@ -99,12 +98,10 @@ const DaoSettingsLayout = () => {
         </Flex>
       </Flex>
       {isAdmin === true ? (
-        <FeatureFlagWrapper>
-          <VerificationFramework
-            verificationSettingId={verificationSettingId}
-            daoId={parseInt(guildId ? guildId : '')}
-          />
-        </FeatureFlagWrapper>
+        <VerificationFramework
+          verificationSettingId={verificationSettingId}
+          daoId={parseInt(guildId ? guildId : '')}
+        />
       ) : null}
     </Box>
   );

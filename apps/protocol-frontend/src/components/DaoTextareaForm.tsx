@@ -87,6 +87,7 @@ const DaoTextareaForm = ({ onSuccess }: DaoTextareaFormProps) => {
           name="guildName"
           label="DAO Name"
           placeholder="YourDAO"
+          isRequired
           localForm={localForm}
         />
         <Textarea
@@ -95,6 +96,7 @@ const DaoTextareaForm = ({ onSuccess }: DaoTextareaFormProps) => {
           tip='Enter a comma-separated list of Ethereum addresses. For example: "0x..., 0x...'
           placeholder="0x..., 0x..."
           onChange={addresses => setValue('daoMemberAddresses', addresses)}
+          isRequired
           localForm={localForm}
         />
         {!errors['daoMemberAddresses'] &&

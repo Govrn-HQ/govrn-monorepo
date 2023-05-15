@@ -12,6 +12,7 @@ import {
   upsertAttestation,
 } from './db';
 import { batch, MintedContributionSchemaV1 } from '@govrn/protocol-client';
+import { getLogger } from '@govrn/utils';
 
 const CHAIN_NAME = process.env.CHAIN_NAME;
 const JOB_NAME = `contract-sync-job-${CHAIN_NAME}`;
@@ -30,9 +31,10 @@ const networkConfig: NetworkConfig = {
 
 const provider = new ethers.providers.JsonRpcProvider(CHAIN_URL);
 const govrnContract = new GovrnContract(networkConfig, provider);
+export const logger = getLogger('contract-sync-job', CHAIN_NAME);
 
 const main = async () => {
-  console.log(':: Starting to Process Contribution(s)');
+  logger.info(':: Starting to Process Contribution(s)');
 
   const client = new GovrnGraphClient(CHAIN_ID);
 
@@ -42,19 +44,28 @@ const main = async () => {
     lastRun.length > 0
       ? new Date(lastRun[0].completedDate)
       : new Date(267285020000);
-  const lastRunTime = Math.ceil(
+  const lookbackWindowStart = Math.ceil(
     startDate.getTime() / 1000 - OFFSET_DATE * 60 * 60,
   );
 
+  logger.info(":: Last run's completed date: " + startDate.toISOString());
+  const lookbackWindowStartStr = new Date(lookbackWindowStart).toISOString();
+  logger.info(
+    ':: Lookback window start time: ' +
+      lookbackWindowStartStr +
+      ' (' +
+      lookbackWindowStart +
+      ')',
+  );
   const contributionsEvents = (
     await client.listContributions({
-      where: { createdAt_gte: lastRunTime },
+      where: { createdAt_gte: lookbackWindowStart },
     })
   ).contributions;
   const contributionActivityTypeId = await getOrInsertActivityType({
     name: 'Contribution',
   });
-  console.log(
+  logger.info(
     `:: Processing ${contributionsEvents.length} Contribution Event(s)`,
   );
 
@@ -102,7 +113,12 @@ const main = async () => {
           chain_id: CHAIN_ID,
           txHash: event.txHash,
         };
-      } catch {
+      } catch (error) {
+        logger.error(
+          ':: Error fetching contribution details for contribution %s: %s',
+          event.contributionId,
+          error,
+        );
         return null;
       }
     },
@@ -115,34 +131,34 @@ const main = async () => {
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
-    console.error('batch Contribution errors', errors);
+    logger.error(':: BATCH CONTRIBUTION ERRORS %s', errors);
 
     const upsertedCount = inserted.length;
     if (upsertedCount > 0) {
-      console.log(`:: Inserted ${upsertedCount} Contribution(s)`);
+      logger.info(`:: Inserted ${upsertedCount} Contribution(s)`);
     }
 
     const failedCount = contributionsEvents.length - upsertedCount;
     if (failedCount > 0) {
-      console.log(`:: Failed to Insert ${failedCount} Contribution(s)`);
+      logger.error(`:: Failed to Insert ${failedCount} Contribution(s)`);
     }
 
-    console.log(`:: Finished Processing Contribution Events`);
+    logger.info(`:: Finished Processing Contribution Events`);
   }
 
-  console.log(':: Starting to Process Attestations');
+  logger.info(':: Starting to Process Attestations');
 
   const attestationEvents = (
     await client.listAttestations({
-      where: { createdAt_gte: lastRunTime },
+      where: { createdAt_gte: lookbackWindowStart },
     })
   ).attestations;
-  console.log(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
+  logger.info(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
 
   const { results: attestations } = await batch(
     attestationEvents,
     async event => {
-      console.log(
+      logger.info(
         `:: Processing Attestation of contribution: ${Number(
           event.contribution.id,
         )}`,
@@ -169,10 +185,10 @@ const main = async () => {
     async attestation => await upsertAttestation(attestation),
     BATCH_SIZE,
   );
-  console.error('Batch attest errors', insertedErrors);
+  logger.error(':: BATCH ATTEST ERRORS %s', insertedErrors);
 
-  console.log(`:: Inserting ${insertedAttestations.length} Attestations`);
-  console.log(
+  logger.info(`:: Inserting ${insertedAttestations.length} Attestations`);
+  logger.info(
     `:: ${
       attestations.length - insertedAttestations.length
     } of attestations already existing`,
@@ -183,9 +199,9 @@ const main = async () => {
     completedDate: new Date(),
     name: JOB_NAME,
   });
-  console.log(`:: Finished processing Contributions`);
+  logger.info(`:: Finished processing Contributions`);
 };
 
 main()
   .then()
-  .catch(e => console.error(e));
+  .catch(e => logger.error(e));

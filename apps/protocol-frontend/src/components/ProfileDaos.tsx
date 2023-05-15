@@ -28,7 +28,7 @@ import DaoCard from './DaoCard';
 import { SortOrder } from '@govrn/protocol-client';
 import { mergeMemberPages } from '../utils/arrays';
 import { UIGuildUsers } from '@govrn/ui-types';
-import { LEFT_MEMBERSHIP_NAME } from '../utils/constants';
+import { MembershipStatusesNames } from '../utils/constants';
 import useUserGet from '../hooks/useUserGet';
 
 interface ProfileDaoProps {
@@ -71,7 +71,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
                   },
                   {
                     membershipStatus: {
-                      is: { name: { equals: LEFT_MEMBERSHIP_NAME } },
+                      is: { name: { equals: MembershipStatusesNames.Left } },
                     },
                   },
                 ],
@@ -96,7 +96,9 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
     {
       where: {
         user_id: { equals: userId },
-        membershipStatus: { isNot: { name: { equals: LEFT_MEMBERSHIP_NAME } } },
+        membershipStatus: {
+          isNot: { name: { equals: MembershipStatusesNames.Left } },
+        },
       },
 
       orderBy: [
@@ -221,7 +223,7 @@ const ProfileDaos = ({ userId, userAddress }: ProfileDaoProps) => {
                 }}
                 value={selectedDao ?? null}
                 options={daoListOptions}
-                isSearchable={false}
+                isSearchable={true}
                 isClearable
               />
             </Flex>

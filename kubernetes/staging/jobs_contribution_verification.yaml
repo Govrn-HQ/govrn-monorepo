@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: jobs-contribution-verification
+spec:
+  schedule: '*/15 * * * *'
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        spec:
+          containers:
+            - name: job
+              image: <IMAGE>
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: PROTOCOL_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: jobs-contribution-verification-secret
+                      key: protocol_url
+                - name: CONTRIBUTION_VERIFICATION_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: jobs-contribution-verification-secret
+                      key: protocol_api_token
+          restartPolicy: OnFailure

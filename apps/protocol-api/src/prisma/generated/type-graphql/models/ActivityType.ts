@@ -50,6 +50,8 @@ export class ActivityType {
 
   guilds?: GuildActivityType[];
 
+  migrated_from?: GuildActivityType[];
+
   @TypeGraphQL.Field(_type => ActivityTypeCount, {
     nullable: true
   })

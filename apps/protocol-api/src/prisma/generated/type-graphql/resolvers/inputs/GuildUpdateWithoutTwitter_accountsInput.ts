@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { CanonicalGuildActivityTypeUpdateManyWithoutGuildNestedInput } from "../inputs/CanonicalGuildActivityTypeUpdateManyWithoutGuildNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildStatusFieldUpdateOperationsInput";
 import { GuildActivityTypeUpdateManyWithoutGuildNestedInput } from "../inputs/GuildActivityTypeUpdateManyWithoutGuildNestedInput";
@@ -79,4 +80,9 @@ export class GuildUpdateWithoutTwitter_accountsInput {
     nullable: true
   })
   verification_setting?: VerificationSettingUpdateOneWithoutGuildsNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => CanonicalGuildActivityTypeUpdateManyWithoutGuildNestedInput, {
+    nullable: true
+  })
+  canonical_guild_activity_type?: CanonicalGuildActivityTypeUpdateManyWithoutGuildNestedInput | undefined;
 }

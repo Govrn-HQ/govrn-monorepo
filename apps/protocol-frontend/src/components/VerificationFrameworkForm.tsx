@@ -44,8 +44,12 @@ const VerificationFrameworkForm = ({
       'verificationFramework',
       verificationSettingId === null ? 'none' : 'numberOfAttestors',
     );
-    setValue('numberOfAttestors', numberOfAttestations || '');
-  }, [verificationSettingId, numberOfAttestations, setValue]);
+    setValue('numberOfAttestors', numberOfAttestations);
+    setValue(
+      'numberOfAttestors',
+      watch('verificationFramework') !== 'none' ? numberOfAttestations : 0,
+    );
+  }, [verificationSettingId, numberOfAttestations, setValue, watch]);
 
   const verificationFrameworkOptions = [
     { label: 'None', value: 'none' },
@@ -56,10 +60,16 @@ const VerificationFrameworkForm = ({
     VerificationFrameworkFormValues
   > = async values => {
     setSubmitting(true);
-    if (!values.numberOfAttestors) {
+    if (
+      values.numberOfAttestors === null ||
+      values.numberOfAttestors === undefined
+    ) {
       return;
     }
-    if (verificationSettingId === null) {
+    if (
+      verificationSettingId === null &&
+      values.verificationFramework !== 'none'
+    ) {
       await createVerificationSetting({
         daoId: daoId,
         numberOfAttestations: values.numberOfAttestors,
@@ -97,6 +107,9 @@ const VerificationFrameworkForm = ({
 
     setSubmitting(false); // will be on success
   };
+
+  const noFrameworkSet =
+    verificationSettingId === null && watch('verificationFramework') === 'none';
 
   return (
     <Flex direction="column" width="100%" color="gray.800">
@@ -136,16 +149,26 @@ const VerificationFrameworkForm = ({
             localForm={localForm}
           />
           {watch('verificationFramework') === 'none' ? (
-            <Text marginBottom={4}>
-              No verification framework selected. Any contribution will be
-              considered verified even with 0 attestations.
-            </Text>
+            <>
+              {noFrameworkSet ? (
+                <Text>
+                  Select a framework and then click{' '}
+                  <Text as="i">Apply Verification Settings</Text> button to
+                  select.
+                </Text>
+              ) : null}
+              <Text marginBottom={4}>
+                This setting is optional, and the default is{' '}
+                <Text as="i">None</Text>.
+              </Text>
+            </>
           ) : (
             <NumberInput
               name="numberOfAttestors"
               label="Choose the Number of Attestors"
-              defaultValue={numberOfAttestations || 1}
-              min={1}
+              isRequired={watch('verificationFramework') !== 'none'}
+              defaultValue={numberOfAttestations || 0}
+              min={0}
               max={10}
               localForm={localForm}
             />
@@ -153,7 +176,9 @@ const VerificationFrameworkForm = ({
           <Button
             variant="secondary"
             type="submit"
-            disabled={submitting || Object.keys(errors).length !== 0}
+            disabled={
+              submitting || Object.keys(errors).length !== 0 || noFrameworkSet
+            }
           >
             Apply Verification Settings
           </Button>

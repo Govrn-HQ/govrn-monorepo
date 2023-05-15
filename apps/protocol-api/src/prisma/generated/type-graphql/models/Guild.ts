@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
+import { CanonicalGuildActivityType } from "../models/CanonicalGuildActivityType";
 import { GuildActivityType } from "../models/GuildActivityType";
 import { GuildContribution } from "../models/GuildContribution";
 import { GuildImport } from "../models/GuildImport";
@@ -76,6 +77,8 @@ export class Guild {
   verification_setting_id?: number | null;
 
   verification_setting?: VerificationSetting | null;
+
+  canonical_guild_activity_type?: CanonicalGuildActivityType[];
 
   @TypeGraphQL.Field(_type => GuildCount, {
     nullable: true
