@@ -14,7 +14,6 @@ import {
 import { GovrnCta } from '@govrn/protocol-ui';
 import SiteLayout from '../components/SiteLayout';
 import NewUserView from '../components/NewUserView';
-import { HiOutlineExternalLink } from 'react-icons/hi';
 import { GOVRN_MOTTO } from '../utils/constants';
 
 const UserView = () => {

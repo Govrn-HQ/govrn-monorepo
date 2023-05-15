@@ -7,7 +7,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { HiOutlineExternalLink } from 'react-icons/hi';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
