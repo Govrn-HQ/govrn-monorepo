@@ -82,9 +82,12 @@ export const DOCS_LINK =
 export enum MembershipStatusesNames {
   // Indicates that the user has left the DAO.
   Left = 'Left',
+  // Indicates that the user is an Admin of the DAO.
   Admin = 'Admin',
-  // Indicates that the user is a regular member of the DAO.v
+  // Indicates that the user is a Member of the DAO.
   Member = 'Member',
+  // Indicates that the user is a Recruit of the DAO.
+  Recruit = 'Recruit',
 }
 
 export const VERIFIED_CONTRIBUTION_NAME = 'Verified';

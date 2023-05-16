@@ -5,7 +5,6 @@ import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
 import useUserGet from '../hooks/useUserGet';
 import DaoDashboardShell from '../components/DaoDashboardShell';
-import { MembershipStatusesNames } from '../utils/constants';
 import { useMemo } from 'react';
 
 const DaoDashboard = () => {
@@ -18,11 +17,8 @@ const DaoDashboard = () => {
   const { guildId } = useParams();
   const currentDao = userDaos?.get(parseInt(guildId ? guildId : ''));
 
-  const isDaoMember = useMemo(() => {
-    return (
-      currentDao?.membershipStatus?.name === MembershipStatusesNames.Member ||
-      currentDao?.membershipStatus?.name === MembershipStatusesNames.Admin
-    );
+  const daoMembershipStatus = useMemo(() => {
+    return currentDao?.membershipStatus?.name;
   }, [currentDao]);
 
   return (
@@ -31,7 +27,7 @@ const DaoDashboard = () => {
         <DaoDashboardShell
           daoName={currentDao?.guild.name ?? ''}
           daoId={parseInt(guildId ? guildId : '')}
-          daoMember={isDaoMember}
+          daoMembershipStatus={daoMembershipStatus}
         />
       )}
     </SiteLayout>
