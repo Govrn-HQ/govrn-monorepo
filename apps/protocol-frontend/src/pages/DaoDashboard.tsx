@@ -5,7 +5,6 @@ import { useAuth } from '../contexts/AuthContext';
 import SiteLayout from '../components/SiteLayout';
 import useUserGet from '../hooks/useUserGet';
 import DaoDashboardShell from '../components/DaoDashboardShell';
-import { MembershipStatusesNames } from '../utils/constants';
 import { useMemo } from 'react';
 
 const DaoDashboard = () => {
