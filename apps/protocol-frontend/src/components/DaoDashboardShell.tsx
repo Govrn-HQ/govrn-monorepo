@@ -315,7 +315,7 @@ const DaoDashboardShell = ({
         </Flex>
         <GovrnCta
           heading={`Recruits are unable to view the dashboard`}
-          emoji="👀"
+          emoji="😭"
           copy={<CopyChildrenRecruit />}
         />
         <GovrnAlertDialog
