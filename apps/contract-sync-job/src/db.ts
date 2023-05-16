@@ -123,6 +123,8 @@ export const upsertContribution = async (contribution: ContributionData) => {
   );
 
   try {
+    // retrieve any existing pending contributions, i.e. contributions staged through
+    // the UI but not yet minted
     const existingContribution = await govrn.contribution.list({
       where: {
         details: { equals: contribution.details },
@@ -134,6 +136,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
       },
     });
 
+    // update all existing contributions status which have been minted on chain
     if (existingContribution.result.length > 0) {
       for (const result of existingContribution.result) {
         const existingContributionInDB = await govrn.contribution.list({
@@ -179,6 +182,8 @@ export const upsertContribution = async (contribution: ContributionData) => {
       return existingContribution.result.length;
     }
 
+    // create new db contribution if the supplied contribution was minted
+    // directly through the contract
     return await govrn.contribution.upsert({
       where: {
         chain_id_on_chain_id: {
