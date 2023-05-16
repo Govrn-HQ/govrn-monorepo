@@ -22,20 +22,12 @@ const DaoDashboard = () => {
     return currentDao?.membershipStatus?.name;
   }, [currentDao]);
 
-  const isDaoMember = useMemo(() => {
-    return (
-      currentDao?.membershipStatus?.name === MembershipStatusesNames.Member ||
-      currentDao?.membershipStatus?.name === MembershipStatusesNames.Admin
-    );
-  }, [currentDao]);
-
   return (
     <SiteLayout>
       {isConnected && isAuthenticated && (
         <DaoDashboardShell
           daoName={currentDao?.guild.name ?? ''}
           daoId={parseInt(guildId ? guildId : '')}
-          daoMember={isDaoMember}
           daoMembershipStatus={daoMembershipStatus}
         />
       )}

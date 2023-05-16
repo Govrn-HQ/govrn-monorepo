@@ -40,14 +40,12 @@ const CUSTOM_VALUE = 0;
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
-  daoMember: boolean;
   daoMembershipStatus?: string;
 }
 
 const DaoDashboardShell = ({
   daoName,
   daoId,
-  daoMember,
   daoMembershipStatus,
 }: DaoDashboardShellProps) => {
   const navigate = useNavigate();
@@ -57,6 +55,9 @@ const DaoDashboardShell = ({
   const userDaos = userDaosData?.userDaos;
 
   const daoRecruit = daoMembershipStatus === MembershipStatusesNames.Recruit;
+  const daoMember =
+    daoMembershipStatus === MembershipStatusesNames.Member ||
+    daoMembershipStatus === MembershipStatusesNames.Admin;
 
   const userDaoIds = new Map();
   userDaos?.forEach(dao => {
