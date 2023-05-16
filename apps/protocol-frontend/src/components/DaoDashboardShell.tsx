@@ -41,18 +41,25 @@ interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
   daoMember: boolean;
+  daoMembershipStatus?: string;
 }
 
 const DaoDashboardShell = ({
   daoName,
   daoId,
   daoMember,
+  daoMembershipStatus,
 }: DaoDashboardShellProps) => {
   const navigate = useNavigate();
   const { userData } = useUser();
 
   const { data: userDaosData } = useUserGet({ userId: userData?.id });
   const userDaos = userDaosData?.userDaos;
+
+  console.log('dao member', daoMember);
+  console.log('dao membership status', daoMembershipStatus);
+
+  const daoRecruit = daoMembershipStatus === MembershipStatusesNames.Recruit;
 
   const userDaoIds = new Map();
   userDaos?.forEach(dao => {
@@ -182,6 +189,18 @@ const DaoDashboardShell = ({
     </Flex>
   );
 
+  const CopyChildrenRecruit = () => (
+    <Flex direction="column" alignItems="center" justifyContent="center">
+      <Text as="span">
+        {' '}
+        <span role="img" aria-labelledby="pointing up emoji">
+          🌱
+        </span>{' '}
+        Reach out to the DAO Admin to become a Member.
+      </Text>
+    </Flex>
+  );
+
   const ButtonChildren = () => (
     <Link to="/report">
       <Button variant="primary" size="md">
@@ -208,7 +227,7 @@ const DaoDashboardShell = ({
     );
   };
 
-  if (daoMember === false)
+  if (daoMember === false && !daoRecruit)
     return (
       <Stack
         paddingY={{ base: '4', md: '8' }}
@@ -252,6 +271,29 @@ const DaoDashboardShell = ({
           heading={`Click "Join DAO" to join ${daoName}`}
           emoji="🙌"
           copy={<CopyChildrenNotMember />}
+        />
+      </Stack>
+    );
+
+  if (daoRecruit)
+    return (
+      <Stack
+        paddingY={{ base: '4', md: '8' }}
+        paddingX={{ base: '4', md: '8' }}
+        color="gray.700"
+        width="100%"
+      >
+        <Flex
+          direction={{ base: 'column', lg: 'row' }}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <PageHeading>{daoName}</PageHeading>
+        </Flex>
+        <GovrnCta
+          heading={`Click "Join DAO" to join ${daoName}`}
+          emoji="👀"
+          copy={<CopyChildrenRecruit />}
         />
       </Stack>
     );

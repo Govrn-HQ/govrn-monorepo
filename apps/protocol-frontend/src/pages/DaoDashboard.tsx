@@ -18,6 +18,10 @@ const DaoDashboard = () => {
   const { guildId } = useParams();
   const currentDao = userDaos?.get(parseInt(guildId ? guildId : ''));
 
+  const daoMembershipStatus = useMemo(() => {
+    return currentDao?.membershipStatus?.name;
+  }, [currentDao]);
+
   const isDaoMember = useMemo(() => {
     return (
       currentDao?.membershipStatus?.name === MembershipStatusesNames.Member ||
@@ -32,6 +36,7 @@ const DaoDashboard = () => {
           daoName={currentDao?.guild.name ?? ''}
           daoId={parseInt(guildId ? guildId : '')}
           daoMember={isDaoMember}
+          daoMembershipStatus={daoMembershipStatus}
         />
       )}
     </SiteLayout>
