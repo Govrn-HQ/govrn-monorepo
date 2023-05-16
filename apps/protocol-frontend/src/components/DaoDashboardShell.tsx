@@ -56,9 +56,6 @@ const DaoDashboardShell = ({
   const { data: userDaosData } = useUserGet({ userId: userData?.id });
   const userDaos = userDaosData?.userDaos;
 
-  console.log('dao member', daoMember);
-  console.log('dao membership status', daoMembershipStatus);
-
   const daoRecruit = daoMembershipStatus === MembershipStatusesNames.Recruit;
 
   const userDaoIds = new Map();
@@ -193,10 +190,10 @@ const DaoDashboardShell = ({
     <Flex direction="column" alignItems="center" justifyContent="center">
       <Text as="span">
         {' '}
-        <span role="img" aria-labelledby="pointing up emoji">
-          🌱
+        <span role="img" aria-labelledby="handshake emoji">
+          🤝
         </span>{' '}
-        Reach out to the DAO Admin to become a Member.
+        Reach out to the DAO Admin to become a Member of {daoName}.
       </Text>
     </Flex>
   );
@@ -289,11 +286,43 @@ const DaoDashboardShell = ({
           alignItems="center"
         >
           <PageHeading>{daoName}</PageHeading>
+          <Flex
+            flexBasis={{ base: '100%', lg: '60%' }}
+            direction={{ base: 'column', lg: 'row' }}
+            alignItems="center"
+            justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
+            gap={2}
+            width={{ base: '100%', lg: 'auto' }}
+          >
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              alignItems="center"
+              justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
+              width="auto"
+              gap={{ base: 0, lg: 2 }}
+            >
+              <Button
+                variant="secondary"
+                width="min-content"
+                px={8}
+                onClick={() => showLeavingDialog(true)}
+              >
+                Leave
+              </Button>
+            </Flex>
+          </Flex>
         </Flex>
         <GovrnCta
-          heading={`Click "Join DAO" to join ${daoName}`}
+          heading={`Recruits are unable to view the dashboard`}
           emoji="👀"
           copy={<CopyChildrenRecruit />}
+        />
+        <GovrnAlertDialog
+          title={<LeaveDaoDialogCopy />}
+          isOpen={isLeavingDialogShown}
+          isLoading={isLeavingLoading}
+          onConfirm={handleLeavingDao}
+          onCancel={() => showLeavingDialog(false)}
         />
       </Stack>
     );
