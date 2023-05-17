@@ -7,8 +7,15 @@
     {
       "name": "Debug Contract Sync",
       "type": "node",
-      "request": "attach",
-      "port": 55362
+      "request": "launch",
+      "console": "integratedTerminal",
+      "runtimeExecutable": "nx",
+      "runtimeArgs": [
+          "serve",
+          "contract-sync-job",
+          "--port",
+          "9220"
+      ],
     },
     {
       "name": "Protocol server",

@@ -11,7 +11,11 @@ import { ResponsiveTimeRange, CalendarTooltipProps } from '@nivo/calendar';
 import { TooltipWrapper } from '@nivo/tooltip';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import pluralize from 'pluralize';
-import { TODAY_DATE, YEAR, BRAND_COLOR_MAP_SUBSET } from '../utils/constants';
+import {
+  TODAY_DATE,
+  YEAR_WEEKS,
+  BRAND_COLOR_MAP_SUBSET,
+} from '../utils/constants';
 import { endOfDay, subWeeks, addDays } from 'date-fns';
 import { useContributionList } from '../hooks/useContributionList';
 import { formatDate } from '../utils/date';
@@ -186,7 +190,7 @@ const ContributionsByDateChart = ({
                 data={contributionsCountMap?.filter(
                   contribution => contribution.value !== 0,
                 )}
-                from={subWeeks(new Date(), YEAR)}
+                from={subWeeks(new Date(), YEAR_WEEKS)}
                 to={endOfDay(TODAY_DATE)} // inclusive of current day
                 emptyColor="#eeeeee"
                 weekdayTicks={isMobile ? [] : [1, 3, 5]}
