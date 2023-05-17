@@ -78,6 +78,16 @@ const main = async () => {
         tokenId: event.contributionId,
       });
 
+      // if owner == 0, the contribution has been burned
+      // skip for now
+      if (Number(contr[0]) == 0) {
+        logger.info(
+          ':: contribution %s has been burned - skipping',
+          event.contributionId,
+        );
+        return null;
+      }
+
       const userId = await getOrInsertUser({
         address: event.address,
       });
@@ -129,7 +139,7 @@ const main = async () => {
 
   if (contributions.length > 0) {
     const { results: inserted, errors } = await batch(
-      contributions,
+      contributions.filter(contribution => contribution !== null),
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
