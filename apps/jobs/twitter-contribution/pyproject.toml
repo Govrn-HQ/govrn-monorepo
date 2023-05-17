@@ -1,0 +1,30 @@
+[tool.coverage.run]
+branch = true
+source = [ "govrn_monorepo" ]
+
+[tool.coverage.report]
+exclude_lines = ['if TYPE_CHECKING:']
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-fail-under=100 --cov-report html:'../../../coverage/apps/jobs/twitter-contribution/html' --cov-report xml:'../../../coverage/apps/jobs/twitter-contribution/coverage.xml' --junitxml='../../../reports/apps/jobs/twitter-contribution/unittests/junit.xml' --html='../../../reports/apps/jobs/twitter-contribution/unittests/html/index.html'"
+
+[tool.poetry]
+name = "govrn-monorepo"
+version = "1.0.0"
+description = "Twitter contribution staging job"
+authors = [ ]
+license = 'Proprietary'
+readme = 'README.md'
+
+  [[tool.poetry.packages]]
+  include = "govrn_monorepo"
+
+  [tool.poetry.dependencies]
+  python = ">=3.8,<3.11"
+
+  
+
+[build-system]
+requires = ["poetry-core==1.1.0"]
+build-backend = "poetry.core.masonry.api"
