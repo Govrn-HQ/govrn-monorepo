@@ -23,6 +23,7 @@ const CHAIN_ID = Number(process.env.CHAIN_ID);
 const OFFSET_DATE = Number(process.env.OFFSET_DATE);
 
 const BATCH_SIZE = 100;
+const MAX_SUBGRAPH_RESPONSE = 1000;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
@@ -59,11 +60,36 @@ const main = async () => {
       lookbackWindowStart +
       ')',
   );
-  const contributionsEvents = (
-    await client.listContributions({
-      where: { createdAt_gte: lookbackWindowStart },
-    })
-  ).contributions;
+
+  // loop until all events in the time window have been processed
+  let batchNum = 0;
+  const contributionsEvents = [];
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const contributionsEventsBatch = (
+      await client.listContributions({
+        where: { createdAt_gte: lookbackWindowStart },
+        first: MAX_SUBGRAPH_RESPONSE,
+        skip: batchNum * MAX_SUBGRAPH_RESPONSE,
+      })
+    ).contributions;
+    batchNum++;
+
+    if (contributionsEventsBatch.length === 0) {
+      logger.info(':: No more contribution events to process');
+      break;
+    }
+
+    contributionsEvents.push(...contributionsEventsBatch);
+
+    if (contributionsEventsBatch.length !== MAX_SUBGRAPH_RESPONSE) {
+      logger.info(
+        `:: Retrieved all ${contributionsEvents.length} contribution events`,
+      );
+      break;
+    }
+  }
+
   const contributionActivityTypeId = await getOrInsertActivityType({
     name: 'Contribution',
   });
@@ -165,11 +191,35 @@ const main = async () => {
 
   logger.info(':: Starting to Process Attestations');
 
-  const attestationEvents = (
-    await client.listAttestations({
-      where: { createdAt_gte: lookbackWindowStart },
-    })
-  ).attestations;
+  // loop until all events in the time window have been processed
+  batchNum = 0;
+  const attestationEvents = [];
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const attestationEventsBatch = (
+      await client.listContributions({
+        where: { createdAt_gte: lookbackWindowStart },
+        first: MAX_SUBGRAPH_RESPONSE,
+        skip: batchNum * MAX_SUBGRAPH_RESPONSE,
+      })
+    ).contributions;
+    batchNum++;
+
+    if (attestationEventsBatch.length === 0) {
+      logger.info(':: No more attestation events to process');
+      break;
+    }
+
+    attestationEvents.push(...attestationEventsBatch);
+
+    if (attestationEventsBatch.length !== MAX_SUBGRAPH_RESPONSE) {
+      logger.info(
+        `:: Retrieved all ${contributionsEvents.length} attestation events`,
+      );
+      break;
+    }
+  }
+
   logger.info(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
 
   const { results: attestations } = await batch(
