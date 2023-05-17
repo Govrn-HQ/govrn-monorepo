@@ -14,7 +14,6 @@ import {
 import { GovrnCta } from '@govrn/protocol-ui';
 import SiteLayout from '../components/SiteLayout';
 import NewUserView from '../components/NewUserView';
-import { HiOutlineExternalLink } from 'react-icons/hi';
 import { GOVRN_MOTTO } from '../utils/constants';
 
 const UserView = () => {
@@ -45,51 +44,22 @@ const DaoLandingPage = () => {
         </span>{' '}
         Head to your profile to join or create a DAO
       </Text>
-      <Text as="span">
-        {' '}
-        <span role="img" aria-labelledby="robot emoji">
-          🤖
-        </span>{' '}
-        Learn more about Kevin Malone, our friendly Discord bot for DAOs
-      </Text>
     </Flex>
   );
 
   const ButtonChildren = () => (
-    <>
-      <Link
-        as={RouterLink}
-        to="/profile"
-        state={{ targetId: 'myDaos' }}
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Button
-          variant="primary"
-          size="md"
-          width={{ base: '100%', lg: 'auto' }}
-        >
-          Join a DAO From Your Profile
-        </Button>
-      </Link>
-      <Link
-        href="https://govrn.gitbook.io/govrn-docs/lets-party/kevin-malone"
-        isExternal
-        textDecoration="none"
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Button
-          variant="secondary"
-          size="md"
-          leftIcon={<HiOutlineExternalLink />}
-        >
-          Learn More About Kevin Malone
-        </Button>
-      </Link>
-    </>
+    <Link
+      as={RouterLink}
+      to="/profile"
+      state={{ targetId: 'myDaos' }}
+      _hover={{
+        textDecoration: 'none',
+      }}
+    >
+      <Button variant="primary" size="md" width={{ base: '100%', lg: 'auto' }}>
+        Join a DAO From Your Profile
+      </Button>
+    </Link>
   );
 
   return (

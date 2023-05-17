@@ -1,6 +1,6 @@
 import useContributionCountInRange from '../hooks/useContributionCount';
 import ContributionsByDateChart from './ContributionsByDateChart';
-import { TODAY_DATE, YEAR } from '../utils/constants';
+import { TODAY_DATE, YEAR_WEEKS } from '../utils/constants';
 import { subWeeks, startOfDay, endOfDay } from 'date-fns';
 
 interface ContributionByDateShellProps {
@@ -17,7 +17,7 @@ const ContributionByDateShell = ({
   } = useContributionCountInRange(
     {
       id: null,
-      startDate: subWeeks(startOfDay(TODAY_DATE), YEAR),
+      startDate: subWeeks(startOfDay(TODAY_DATE), YEAR_WEEKS),
       endDate: endOfDay(TODAY_DATE),
       guildIds,
       excludeUnassigned: true,

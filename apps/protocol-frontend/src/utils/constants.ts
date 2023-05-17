@@ -28,14 +28,16 @@ export const DEFAULT_ACTIVITY_TYPES = [
   'Other',
 ];
 
-export const DEFAULT_ACTIVITY_TYPES_OPTIONS = DEFAULT_ACTIVITY_TYPES.map(
-  activity => {
+export const DEFAULT_ACTIVITY_TYPES_OPTIONS = {
+  label: 'Default',
+  options: DEFAULT_ACTIVITY_TYPES.map(activity => {
     return {
       label: activity,
       value: activity,
     };
-  },
-);
+  }),
+};
+
 export const ADDRESS_IMPORT_MAX = 1000;
 
 export const ATTESTATION_VERIFIED_FILTER_OPTIONS = [
@@ -58,12 +60,12 @@ export const TODAY_DATE = new Date();
 export const WEEK = 1;
 export const MONTH = 4;
 export const QUARTER = 12;
-export const YEAR = 52;
+export const YEAR_WEEKS = 52;
 export const DEFAULT_DATE_RANGES = [
   { label: 'Last Week', value: WEEK },
   { label: 'Last Month', value: MONTH },
   { label: 'Last Quarter', value: QUARTER },
-  { label: 'Last Year', value: YEAR },
+  { label: 'Last Year', value: YEAR_WEEKS },
 ];
 
 /* Social Media Links */
@@ -74,5 +76,18 @@ export const FEEDBACK_LINK = 'https://forms.gle/uE8w3FgjAcWyqAN58';
 export const DOCS_LINK =
   'https://govrn.gitbook.io/govrn-docs/overview/welcome-to-govrn';
 
-export const LEFT_MEMBERSHIP_NAME = 'Left';
+/**
+ * Membership Names that represents different membership statuses in a DAO.
+ */
+export enum MembershipStatusesNames {
+  // Indicates that the user has left the DAO.
+  Left = 'Left',
+  // Indicates that the user is an Admin of the DAO.
+  Admin = 'Admin',
+  // Indicates that the user is a Member of the DAO.
+  Member = 'Member',
+  // Indicates that the user is a Recruit of the DAO.
+  Recruit = 'Recruit',
+}
+
 export const VERIFIED_CONTRIBUTION_NAME = 'Verified';

@@ -30,9 +30,9 @@ import useUserGet from '../hooks/useUserGet';
 import GovrnAlertDialog from './GovrnAlertDialog';
 import {
   TODAY_DATE,
-  LEFT_MEMBERSHIP_NAME,
-  YEAR,
+  YEAR_WEEKS,
   DEFAULT_DATE_RANGES,
+  MembershipStatusesNames,
 } from '../utils/constants';
 
 const CUSTOM_VALUE = 0;
@@ -40,19 +40,24 @@ const CUSTOM_VALUE = 0;
 interface DaoDashboardShellProps {
   daoName: string;
   daoId: number;
-  daoMember: boolean;
+  daoMembershipStatus?: string;
 }
 
 const DaoDashboardShell = ({
   daoName,
   daoId,
-  daoMember,
+  daoMembershipStatus,
 }: DaoDashboardShellProps) => {
   const navigate = useNavigate();
   const { userData } = useUser();
 
   const { data: userDaosData } = useUserGet({ userId: userData?.id });
   const userDaos = userDaosData?.userDaos;
+
+  const daoRecruit = daoMembershipStatus === MembershipStatusesNames.Recruit;
+  const daoMember =
+    daoMembershipStatus === MembershipStatusesNames.Member ||
+    daoMembershipStatus === MembershipStatusesNames.Admin;
 
   const userDaoIds = new Map();
   userDaos?.forEach(dao => {
@@ -74,7 +79,9 @@ const DaoDashboardShell = ({
   }, [data]);
 
   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
-  const [startDate, setStartDate] = useState<Date>(subWeeks(TODAY_DATE, YEAR));
+  const [startDate, setStartDate] = useState<Date>(
+    subWeeks(TODAY_DATE, YEAR_WEEKS),
+  );
   const [endDate, setEndDate] = useState<Date>(new Date(TODAY_DATE));
   const [isLeavingDialogShown, showLeavingDialog] = useState(false);
 
@@ -121,7 +128,7 @@ const DaoDashboardShell = ({
     await updateDaoMemberStatus({
       userId: userData?.id ?? -1,
       guildId: daoId,
-      membershipStatus: LEFT_MEMBERSHIP_NAME,
+      membershipStatus: MembershipStatusesNames.Left,
     });
 
     navigate('/dashboard');
@@ -180,6 +187,18 @@ const DaoDashboardShell = ({
     </Flex>
   );
 
+  const CopyChildrenRecruit = () => (
+    <Flex direction="column" alignItems="center" justifyContent="center">
+      <Text as="span">
+        {' '}
+        <span role="img" aria-labelledby="handshake emoji">
+          🤝
+        </span>{' '}
+        Reach out to the DAO Admin to become a Member of {daoName}.
+      </Text>
+    </Flex>
+  );
+
   const ButtonChildren = () => (
     <Link to="/report">
       <Button variant="primary" size="md">
@@ -206,7 +225,7 @@ const DaoDashboardShell = ({
     );
   };
 
-  if (daoMember === false)
+  if (daoMember === false && !daoRecruit)
     return (
       <Stack
         paddingY={{ base: '4', md: '8' }}
@@ -250,6 +269,61 @@ const DaoDashboardShell = ({
           heading={`Click "Join DAO" to join ${daoName}`}
           emoji="🙌"
           copy={<CopyChildrenNotMember />}
+        />
+      </Stack>
+    );
+
+  if (daoRecruit)
+    return (
+      <Stack
+        paddingY={{ base: '4', md: '8' }}
+        paddingX={{ base: '4', md: '8' }}
+        color="gray.700"
+        width="100%"
+      >
+        <Flex
+          direction={{ base: 'column', lg: 'row' }}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <PageHeading>{daoName}</PageHeading>
+          <Flex
+            flexBasis={{ base: '100%', lg: '60%' }}
+            direction={{ base: 'column', lg: 'row' }}
+            alignItems="center"
+            justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
+            gap={2}
+            width={{ base: '100%', lg: 'auto' }}
+          >
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              alignItems="center"
+              justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
+              width="auto"
+              gap={{ base: 0, lg: 2 }}
+            >
+              <Button
+                variant="secondary"
+                width="min-content"
+                px={8}
+                onClick={() => showLeavingDialog(true)}
+              >
+                Leave
+              </Button>
+            </Flex>
+          </Flex>
+        </Flex>
+        <GovrnCta
+          heading={`Recruits are unable to view the dashboard`}
+          emoji="😭"
+          copy={<CopyChildrenRecruit />}
+        />
+        <GovrnAlertDialog
+          title={<LeaveDaoDialogCopy />}
+          isOpen={isLeavingDialogShown}
+          isLoading={isLeavingLoading}
+          onConfirm={handleLeavingDao}
+          onCancel={() => showLeavingDialog(false)}
         />
       </Stack>
     );
@@ -324,7 +398,7 @@ const DaoDashboardShell = ({
               <ControlledSelect
                 isSearchable={false}
                 defaultValue={dateRangeOptions.find(
-                  date => date.value === YEAR,
+                  date => date.value === YEAR_WEEKS,
                 )}
                 onChange={dateRangeOffset => {
                   if (dateRangeOffset instanceof Array) {
