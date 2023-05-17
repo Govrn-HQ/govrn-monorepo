@@ -1,4 +1,8 @@
-import { GovrnProtocol, SortOrder } from '@govrn/protocol-client';
+import {
+  ActivityTypeCreateNestedOneWithoutContributionsInput,
+  GovrnProtocol,
+  SortOrder,
+} from '@govrn/protocol-client';
 import { logger } from './main';
 import { format } from 'util';
 
@@ -7,6 +11,7 @@ export type ContributionData = {
   name: string;
   status_name: string;
   activity_type_name?: string;
+  activity_type_id?: number;
   user_id: number;
   date_of_engagement: Date;
   date_of_submission: Date;
@@ -123,6 +128,8 @@ export const upsertContribution = async (contribution: ContributionData) => {
   );
 
   try {
+    // retrieve any existing pending contributions, i.e. contributions staged through
+    // the UI but not yet minted
     const existingContribution = await govrn.contribution.list({
       where: {
         details: { equals: contribution.details },
@@ -134,6 +141,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
       },
     });
 
+    // update all existing contributions status which have been minted on chain
     if (existingContribution.result.length > 0) {
       for (const result of existingContribution.result) {
         const existingContributionInDB = await govrn.contribution.list({
@@ -179,6 +187,27 @@ export const upsertContribution = async (contribution: ContributionData) => {
       return existingContribution.result.length;
     }
 
+    // activity_type_name is nullable; if not supplied, use id
+    let connectOrCreateActivityType: ActivityTypeCreateNestedOneWithoutContributionsInput;
+    if (!contribution.activity_type_name) {
+      connectOrCreateActivityType = {
+        connect: { id: contribution.activity_type_id },
+      };
+    } else if (contribution.activity_type_name) {
+      connectOrCreateActivityType = {
+        connectOrCreate: {
+          create: { name: contribution.activity_type_name },
+          where: { name: contribution.activity_type_name },
+        },
+      };
+    } else {
+      throw new Error(
+        'neither activity_type_name nor activity_type_id supplied',
+      );
+    }
+
+    // create new db contribution if the supplied contribution was minted
+    // directly through the contract
     return await govrn.contribution.upsert({
       where: {
         chain_id_on_chain_id: {
@@ -193,10 +222,7 @@ export const upsertContribution = async (contribution: ContributionData) => {
         date_of_engagement: contribution.date_of_engagement,
         user: { connect: { id: contribution.user_id } },
         activity_type: {
-          connectOrCreate: {
-            create: { name: contribution.activity_type_name },
-            where: { name: contribution.activity_type_name },
-          },
+          ...connectOrCreateActivityType,
         },
 
         status: {

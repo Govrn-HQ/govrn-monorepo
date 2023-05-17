@@ -20,9 +20,10 @@ const JOB_NAME = `contract-sync-job-${CHAIN_NAME}`;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const CHAIN_URL = process.env.CHAIN_URL;
 const CHAIN_ID = Number(process.env.CHAIN_ID);
-const OFFSET_DATE = Number(process.env.OFFSET_DATE) | 24;
+const OFFSET_DATE = Number(process.env.OFFSET_DATE);
 
 const BATCH_SIZE = 100;
+const MAX_SUBGRAPH_RESPONSE = 1000;
 
 const networkConfig: NetworkConfig = {
   address: CONTRACT_ADDRESS,
@@ -37,19 +38,21 @@ const main = async () => {
   logger.info(':: Starting to Process Contribution(s)');
 
   const client = new GovrnGraphClient(CHAIN_ID);
-
   const lastRun = await getJobRun({ name: JOB_NAME });
 
   const startDate =
     lastRun.length > 0
       ? new Date(lastRun[0].completedDate)
       : new Date(267285020000);
+  const windowSizeSeconds = OFFSET_DATE * 60 * 60;
   const lookbackWindowStart = Math.ceil(
-    startDate.getTime() / 1000 - OFFSET_DATE * 60 * 60,
+    startDate.getTime() / 1000 - windowSizeSeconds,
   );
 
   logger.info(":: Last run's completed date: " + startDate.toISOString());
-  const lookbackWindowStartStr = new Date(lookbackWindowStart).toISOString();
+  const lookbackWindowStartStr = new Date(
+    lookbackWindowStart * 1000,
+  ).toISOString();
   logger.info(
     ':: Lookback window start time: ' +
       lookbackWindowStartStr +
@@ -57,11 +60,36 @@ const main = async () => {
       lookbackWindowStart +
       ')',
   );
-  const contributionsEvents = (
-    await client.listContributions({
-      where: { createdAt_gte: lookbackWindowStart },
-    })
-  ).contributions;
+
+  // loop until all events in the time window have been processed
+  let batchNum = 0;
+  const contributionsEvents = [];
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const contributionsEventsBatch = (
+      await client.listContributions({
+        where: { createdAt_gte: lookbackWindowStart },
+        first: MAX_SUBGRAPH_RESPONSE,
+        skip: batchNum * MAX_SUBGRAPH_RESPONSE,
+      })
+    ).contributions;
+    batchNum++;
+
+    if (contributionsEventsBatch.length === 0) {
+      logger.info(':: No more contribution events to process');
+      break;
+    }
+
+    contributionsEvents.push(...contributionsEventsBatch);
+
+    if (contributionsEventsBatch.length !== MAX_SUBGRAPH_RESPONSE) {
+      logger.info(
+        `:: Retrieved all ${contributionsEvents.length} contribution events`,
+      );
+      break;
+    }
+  }
+
   const contributionActivityTypeId = await getOrInsertActivityType({
     name: 'Contribution',
   });
@@ -75,6 +103,16 @@ const main = async () => {
       const contr = await govrnContract.contributions({
         tokenId: event.contributionId,
       });
+
+      // if owner == 0, the contribution has been burned
+      // skip for now
+      if (Number(contr[0]) == 0) {
+        logger.info(
+          ':: contribution %s has been burned - skipping',
+          event.contributionId,
+        );
+        return null;
+      }
 
       const userId = await getOrInsertUser({
         address: event.address,
@@ -127,11 +165,16 @@ const main = async () => {
 
   if (contributions.length > 0) {
     const { results: inserted, errors } = await batch(
-      contributions,
+      contributions.filter(contribution => contribution !== null),
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
-    logger.error(':: BATCH CONTRIBUTION ERRORS %s', errors);
+    if (errors?.length > 0) {
+      logger.error(':: %s Error(s) Upserting Contribution(s): ', errors.length);
+      for (const err of errors) {
+        logger.error('[ %s ]', err.message);
+      }
+    }
 
     const upsertedCount = inserted.length;
     if (upsertedCount > 0) {
@@ -148,11 +191,35 @@ const main = async () => {
 
   logger.info(':: Starting to Process Attestations');
 
-  const attestationEvents = (
-    await client.listAttestations({
-      where: { createdAt_gte: lookbackWindowStart },
-    })
-  ).attestations;
+  // loop until all events in the time window have been processed
+  batchNum = 0;
+  const attestationEvents = [];
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const attestationEventsBatch = (
+      await client.listContributions({
+        where: { createdAt_gte: lookbackWindowStart },
+        first: MAX_SUBGRAPH_RESPONSE,
+        skip: batchNum * MAX_SUBGRAPH_RESPONSE,
+      })
+    ).contributions;
+    batchNum++;
+
+    if (attestationEventsBatch.length === 0) {
+      logger.info(':: No more attestation events to process');
+      break;
+    }
+
+    attestationEvents.push(...attestationEventsBatch);
+
+    if (attestationEventsBatch.length !== MAX_SUBGRAPH_RESPONSE) {
+      logger.info(
+        `:: Retrieved all ${contributionsEvents.length} attestation events`,
+      );
+      break;
+    }
+  }
+
   logger.info(`:: Processing ${attestationEvents.length} Attestation Event(s)`);
 
   const { results: attestations } = await batch(
@@ -185,8 +252,15 @@ const main = async () => {
     async attestation => await upsertAttestation(attestation),
     BATCH_SIZE,
   );
-  logger.error(':: BATCH ATTEST ERRORS %s', insertedErrors);
-
+  if (insertedErrors?.length > 0) {
+    logger.error(
+      ':: %s Error(s) Upserting Attestations(s): ',
+      insertedErrors.length,
+    );
+    for (const err of insertedErrors) {
+      logger.error('[ %s ]', err.message);
+    }
+  }
   logger.info(`:: Inserting ${insertedAttestations.length} Attestations`);
   logger.info(
     `:: ${

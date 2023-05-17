@@ -6,7 +6,7 @@ const { timestamp, json, splat } = format;
 export const getLogger = (source: string, tag: string) => {
   const logger = createLogger({
     level: 'info',
-    format: format.combine(timestamp(), json(), splat()),
+    format: format.combine(splat(), timestamp(), json()),
     defaultMeta: { source: source, tag: tag },
     transports: [new transports.Console()],
   });
