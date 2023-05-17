@@ -1,6 +1,6 @@
 [tool.coverage.run]
 branch = true
-source = [ "govrn_monorepo" ]
+source = [ "twitter_contribution" ]
 
 [tool.coverage.report]
 exclude_lines = ['if TYPE_CHECKING:']
@@ -18,7 +18,7 @@ license = 'Proprietary'
 readme = 'README.md'
 
   [[tool.poetry.packages]]
-  include = "govrn_monorepo"
+  include = "twitter_contribution"
 
   [tool.poetry.dependencies]
   python = ">=3.8,<3.11"

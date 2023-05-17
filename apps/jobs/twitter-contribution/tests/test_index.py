@@ -1,4 +1,4 @@
-from govrn_monorepo import index
+from twitter_contribution import index
 
 
 def test_index():

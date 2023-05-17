@@ -1,12 +1,12 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/jobs/twitter-contribution/govrn_monorepo",
+  "sourceRoot": "apps/jobs/twitter-contribution/twitter_contribution",
   "targets": {
     "docs": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pydoc-markdown -p govrn_monorepo --render-toc > docs/source/api.md",
+        "command": "pydoc-markdown -p twitter_contribution --render-toc > docs/source/api.md",
         "cwd": "apps/jobs/twitter-contribution"
       }
     },
