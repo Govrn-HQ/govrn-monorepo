@@ -143,7 +143,12 @@ const main = async () => {
       async contribution => await upsertContribution(contribution),
       BATCH_SIZE,
     );
-    logger.error(':: BATCH CONTRIBUTION ERRORS %s', errors);
+    if (errors?.length > 0) {
+      logger.error(':: %s Error(s) Upserting Contribution(s): ', errors.length);
+      for (const err of errors) {
+        logger.error('[ %s ]', err.message);
+      }
+    }
 
     const upsertedCount = inserted.length;
     if (upsertedCount > 0) {
@@ -197,8 +202,15 @@ const main = async () => {
     async attestation => await upsertAttestation(attestation),
     BATCH_SIZE,
   );
-  logger.error(':: BATCH ATTEST ERRORS %s', insertedErrors);
-
+  if (insertedErrors?.length > 0) {
+    logger.error(
+      ':: %s Error(s) Upserting Attestations(s): ',
+      insertedErrors.length,
+    );
+    for (const err of insertedErrors) {
+      logger.error('[ %s ]', err.message);
+    }
+  }
   logger.info(`:: Inserting ${insertedAttestations.length} Attestations`);
   logger.info(
     `:: ${
