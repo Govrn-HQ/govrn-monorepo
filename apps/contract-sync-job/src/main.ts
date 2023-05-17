@@ -37,19 +37,21 @@ const main = async () => {
   logger.info(':: Starting to Process Contribution(s)');
 
   const client = new GovrnGraphClient(CHAIN_ID);
-
   const lastRun = await getJobRun({ name: JOB_NAME });
 
   const startDate =
     lastRun.length > 0
       ? new Date(lastRun[0].completedDate)
       : new Date(267285020000);
+  const windowSizeSeconds = OFFSET_DATE * 60 * 60;
   const lookbackWindowStart = Math.ceil(
-    startDate.getTime() / 1000 - OFFSET_DATE * 60 * 60,
+    startDate.getTime() / 1000 - windowSizeSeconds,
   );
 
   logger.info(":: Last run's completed date: " + startDate.toISOString());
-  const lookbackWindowStartStr = new Date(lookbackWindowStart).toISOString();
+  const lookbackWindowStartStr = new Date(
+    lookbackWindowStart * 1000,
+  ).toISOString();
   logger.info(
     ':: Lookback window start time: ' +
       lookbackWindowStartStr +
