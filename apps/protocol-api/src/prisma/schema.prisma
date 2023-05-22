@@ -164,7 +164,7 @@ model GuildTwitterIntegration {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   guild_id  Int      @unique
-  Guild     Guild    @relation(fields: [guild_id], references: [id])
+  guild     Guild    @relation(fields: [guild_id], references: [id])
   hashtag   String   @unique
 }
 

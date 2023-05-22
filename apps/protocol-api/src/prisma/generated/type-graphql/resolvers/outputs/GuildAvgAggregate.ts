@@ -16,4 +16,9 @@ export class GuildAvgAggregate {
     nullable: true
   })
   verification_setting_id!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  twitter_integration_id!: number | null;
 }

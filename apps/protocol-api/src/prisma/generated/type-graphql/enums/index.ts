@@ -18,6 +18,7 @@ export { GuildImportStatusScalarFieldEnum } from "./GuildImportStatusScalarField
 export { GuildMembershipStatusScalarFieldEnum } from "./GuildMembershipStatusScalarFieldEnum";
 export { GuildScalarFieldEnum } from "./GuildScalarFieldEnum";
 export { GuildStatus } from "./GuildStatus";
+export { GuildTwitterIntegrationScalarFieldEnum } from "./GuildTwitterIntegrationScalarFieldEnum";
 export { GuildUserScalarFieldEnum } from "./GuildUserScalarFieldEnum";
 export { IntegrationTypeScalarFieldEnum } from "./IntegrationTypeScalarFieldEnum";
 export { JobRunScalarFieldEnum } from "./JobRunScalarFieldEnum";

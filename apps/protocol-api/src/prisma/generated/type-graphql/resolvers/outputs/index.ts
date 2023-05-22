@@ -25,6 +25,7 @@ export { AggregateGuildContributionVerificationStatus } from "./AggregateGuildCo
 export { AggregateGuildImport } from "./AggregateGuildImport";
 export { AggregateGuildImportStatus } from "./AggregateGuildImportStatus";
 export { AggregateGuildMembershipStatus } from "./AggregateGuildMembershipStatus";
+export { AggregateGuildTwitterIntegration } from "./AggregateGuildTwitterIntegration";
 export { AggregateGuildUser } from "./AggregateGuildUser";
 export { AggregateIntegrationType } from "./AggregateIntegrationType";
 export { AggregateJobRun } from "./AggregateJobRun";
@@ -161,6 +162,12 @@ export { GuildMembershipStatusMinAggregate } from "./GuildMembershipStatusMinAgg
 export { GuildMembershipStatusSumAggregate } from "./GuildMembershipStatusSumAggregate";
 export { GuildMinAggregate } from "./GuildMinAggregate";
 export { GuildSumAggregate } from "./GuildSumAggregate";
+export { GuildTwitterIntegrationAvgAggregate } from "./GuildTwitterIntegrationAvgAggregate";
+export { GuildTwitterIntegrationCountAggregate } from "./GuildTwitterIntegrationCountAggregate";
+export { GuildTwitterIntegrationGroupBy } from "./GuildTwitterIntegrationGroupBy";
+export { GuildTwitterIntegrationMaxAggregate } from "./GuildTwitterIntegrationMaxAggregate";
+export { GuildTwitterIntegrationMinAggregate } from "./GuildTwitterIntegrationMinAggregate";
+export { GuildTwitterIntegrationSumAggregate } from "./GuildTwitterIntegrationSumAggregate";
 export { GuildUserAvgAggregate } from "./GuildUserAvgAggregate";
 export { GuildUserCountAggregate } from "./GuildUserCountAggregate";
 export { GuildUserGroupBy } from "./GuildUserGroupBy";
