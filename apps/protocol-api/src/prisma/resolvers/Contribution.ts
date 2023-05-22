@@ -445,6 +445,7 @@ export class ContributionCustomResolver {
     if (args.data.status !== 'staging') {
       throw new Error('You can only edit Contributions with a Staging status.');
     }
+
     const res = await prisma.contribution.updateMany({
       data: {
         name: {
@@ -495,13 +496,25 @@ export class ContributionCustomResolver {
       });
     }
 
+    // This looks for existing guild activity type, associated with guild id arg.
     const guildActivityType = await prisma.guildActivityType.findFirst({
       where: {
         activity_type: { name: { equals: args.data.activityTypeName } },
         guild_id: args.data.guildId || undefined,
       },
     });
-    if (!args.data.guildId && !guildActivityType) {
+
+    // This looks for existing user activity types, associated with user address arg.
+    const userActivityType = await prisma.userActivity.findFirst({
+      where: {
+        activity_type: { name: { equals: args.data.activityTypeName } },
+        user: { address: { equals: args.data.address } },
+      },
+    });
+
+    // If there are no guild or user activity types, create new one.
+    // The newly created activity type will be connected to the contribution.
+    if (!args.data.guildId && !guildActivityType && !userActivityType) {
       await prisma.userActivity.create({
         data: {
           user: { connect: { address: args.data.address } },
