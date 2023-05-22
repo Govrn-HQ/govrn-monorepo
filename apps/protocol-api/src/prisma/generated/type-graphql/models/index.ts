@@ -17,6 +17,7 @@ export { GuildContributionVerificationStatus } from "./GuildContributionVerifica
 export { GuildImport } from "./GuildImport";
 export { GuildImportStatus } from "./GuildImportStatus";
 export { GuildMembershipStatus } from "./GuildMembershipStatus";
+export { GuildTwitterIntegration } from "./GuildTwitterIntegration";
 export { GuildUser } from "./GuildUser";
 export { IntegrationType } from "./IntegrationType";
 export { JobRun } from "./JobRun";
