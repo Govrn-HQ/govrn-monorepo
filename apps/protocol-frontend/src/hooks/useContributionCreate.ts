@@ -30,6 +30,7 @@ export const useContributionCreate = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['activityTypes']); // invalidate the activity types query -- covers all args
+        queryClient.invalidateQueries({ queryKey: ['userActivityList'] }); // invalidate the activity types
         queryClient.invalidateQueries(['userDaos']); // invalidate the userDaos query -- covers all args
         queryClient.invalidateQueries(['contributionList']);
         queryClient.invalidateQueries(['contributionInfiniteList']);
