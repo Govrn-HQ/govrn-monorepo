@@ -8,6 +8,7 @@ import { EnumGuildStatusFilter } from "../inputs/EnumGuildStatusFilter";
 import { GuildActivityTypeListRelationFilter } from "../inputs/GuildActivityTypeListRelationFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
 import { GuildImportListRelationFilter } from "../inputs/GuildImportListRelationFilter";
+import { GuildTwitterIntegrationRelationFilter } from "../inputs/GuildTwitterIntegrationRelationFilter";
 import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
@@ -118,4 +119,14 @@ export class GuildWhereInput {
     nullable: true
   })
   canonical_guild_activity_type?: CanonicalGuildActivityTypeListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  twitter_integration_id?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => GuildTwitterIntegrationRelationFilter, {
+    nullable: true
+  })
+  twitter_integration?: GuildTwitterIntegrationRelationFilter | undefined;
 }

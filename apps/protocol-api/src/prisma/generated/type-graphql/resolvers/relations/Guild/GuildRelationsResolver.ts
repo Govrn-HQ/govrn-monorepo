@@ -4,6 +4,7 @@ import { Guild } from "../../../models/Guild";
 import { GuildActivityType } from "../../../models/GuildActivityType";
 import { GuildContribution } from "../../../models/GuildContribution";
 import { GuildImport } from "../../../models/GuildImport";
+import { GuildTwitterIntegration } from "../../../models/GuildTwitterIntegration";
 import { GuildUser } from "../../../models/GuildUser";
 import { TwitterAccount } from "../../../models/TwitterAccount";
 import { VerificationSetting } from "../../../models/VerificationSetting";
@@ -92,5 +93,16 @@ export class GuildRelationsResolver {
         id: guild.id,
       },
     }).canonical_guild_activity_type(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => GuildTwitterIntegration, {
+    nullable: true
+  })
+  async twitter_integration(@TypeGraphQL.Root() guild: Guild, @TypeGraphQL.Ctx() ctx: any): Promise<GuildTwitterIntegration | null> {
+    return getPrismaFromContext(ctx).guild.findUnique({
+      where: {
+        id: guild.id,
+      },
+    }).twitter_integration({});
   }
 }
