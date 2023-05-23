@@ -22,6 +22,7 @@ readme = 'README.md'
 
   [tool.poetry.dependencies]
   python = ">=3.8,<3.11"
+  snscrape = "0.4.3.20220106"
 
   
 
