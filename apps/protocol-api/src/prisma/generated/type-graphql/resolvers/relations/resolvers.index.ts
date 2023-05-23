@@ -17,6 +17,7 @@ export { GuildContributionVerificationStatusRelationsResolver } from "./GuildCon
 export { GuildImportRelationsResolver } from "./GuildImport/GuildImportRelationsResolver";
 export { GuildImportStatusRelationsResolver } from "./GuildImportStatus/GuildImportStatusRelationsResolver";
 export { GuildMembershipStatusRelationsResolver } from "./GuildMembershipStatus/GuildMembershipStatusRelationsResolver";
+export { GuildTwitterIntegrationRelationsResolver } from "./GuildTwitterIntegration/GuildTwitterIntegrationRelationsResolver";
 export { GuildUserRelationsResolver } from "./GuildUser/GuildUserRelationsResolver";
 export { IntegrationTypeRelationsResolver } from "./IntegrationType/IntegrationTypeRelationsResolver";
 export { LinearCycleRelationsResolver } from "./LinearCycle/LinearCycleRelationsResolver";

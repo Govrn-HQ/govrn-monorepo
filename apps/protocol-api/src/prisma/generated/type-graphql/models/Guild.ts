@@ -6,6 +6,7 @@ import { CanonicalGuildActivityType } from "../models/CanonicalGuildActivityType
 import { GuildActivityType } from "../models/GuildActivityType";
 import { GuildContribution } from "../models/GuildContribution";
 import { GuildImport } from "../models/GuildImport";
+import { GuildTwitterIntegration } from "../models/GuildTwitterIntegration";
 import { GuildUser } from "../models/GuildUser";
 import { TwitterAccount } from "../models/TwitterAccount";
 import { VerificationSetting } from "../models/VerificationSetting";
@@ -79,6 +80,13 @@ export class Guild {
   verification_setting?: VerificationSetting | null;
 
   canonical_guild_activity_type?: CanonicalGuildActivityType[];
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  twitter_integration_id?: number | null;
+
+  twitter_integration?: GuildTwitterIntegration | null;
 
   @TypeGraphQL.Field(_type => GuildCount, {
     nullable: true
