@@ -23,6 +23,9 @@ readme = 'README.md'
   [tool.poetry.dependencies]
   python = ">=3.8,<3.11"
   snscrape = "0.4.3.20220106"
+  JSON-log-formatter = "0.5.2"
+  gql = "3.3.0"
+  python-dotenv = "^1.0.0"
 
   
 
