@@ -1,15 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
-import { useAuth } from '../contexts/AuthContext';
-import SiteLayout from '../components/SiteLayout';
 import useUserGet from '../hooks/useUserGet';
 import DaoDashboardShell from '../components/DaoDashboardShell';
 import { useMemo } from 'react';
+import { RequireAuth } from '../utils/requireAuth';
 
 const DaoDashboard = () => {
-  const { isConnected } = useAccount();
-  const { isAuthenticated } = useAuth();
   const { userData } = useUser();
   const { data } = useUserGet({ userId: userData?.id });
   const userDaos = data?.userDaos;
@@ -22,15 +18,13 @@ const DaoDashboard = () => {
   }, [currentDao]);
 
   return (
-    <SiteLayout>
-      {isConnected && isAuthenticated && (
-        <DaoDashboardShell
-          daoName={currentDao?.guild.name ?? ''}
-          daoId={parseInt(guildId ? guildId : '')}
-          daoMembershipStatus={daoMembershipStatus}
-        />
-      )}
-    </SiteLayout>
+    <RequireAuth>
+      <DaoDashboardShell
+        daoName={currentDao?.guild.name ?? ''}
+        daoId={parseInt(guildId ? guildId : '')}
+        daoMembershipStatus={daoMembershipStatus}
+      />
+    </RequireAuth>
   );
 };
 

@@ -1,22 +1,12 @@
-import {
-  Container,
-  Box,
-  Button,
-  Link as ChakraLink,
-  Flex,
-  Text,
-} from '@chakra-ui/react';
+import { Button, Link as ChakraLink, Flex, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
-import { useAuth } from '../contexts/AuthContext';
 import { useContributionList } from '../hooks/useContributionList';
-import SiteLayout from '../components/SiteLayout';
 import DashboardShell from '../components/DashboardShell';
-import NewUserView from '../components/NewUserView';
 import ErrorView from '../components/ErrorView';
 
 import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
+import { RequireAuth } from '../utils/requireAuth';
 
 const CopyChildren = () => (
   <Flex direction="column" alignItems="center" justifyContent="center">
@@ -82,8 +72,6 @@ const EmptyContributionsView = () => {
 };
 
 const Dashboard = () => {
-  const { isConnected } = useAccount();
-  const { isAuthenticated } = useAuth();
   const { userData } = useUser();
   const {
     data: userContributions,
@@ -115,33 +103,13 @@ const Dashboard = () => {
   }
 
   return (
-    <SiteLayout>
-      {isConnected &&
-      isAuthenticated &&
-      userContributions !== undefined &&
-      userContributions?.length ? (
+    <RequireAuth>
+      {userContributions !== undefined && userContributions?.length ? (
         <DashboardShell />
       ) : (
-        <Container
-          paddingY={{ base: '4', md: '8' }}
-          paddingX={{ base: '0', md: '8' }}
-          color="gray.700"
-          maxWidth="1200px"
-        >
-          <Box
-            background="white"
-            boxShadow="sm"
-            borderRadius={{ base: 'none', md: 'lg' }}
-          >
-            {isConnected && isAuthenticated && userData ? (
-              <EmptyContributionsView />
-            ) : (
-              <NewUserView />
-            )}
-          </Box>
-        </Container>
+        <EmptyContributionsView />
       )}
-    </SiteLayout>
+    </RequireAuth>
   );
 };
 
