@@ -26,10 +26,8 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
   const { isConnected } = useAccount();
   const { userData } = useUser();
   const { isAuthenticated } = useAuth();
-  console.log({ isConnected, isAuthenticated, userData });
   // If the user is connected and authenticated, render the children.
   if (isConnected && isAuthenticated) {
-    console.log('User is connected and authenticated');
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
