@@ -108,6 +108,7 @@ fragment GuildFragment on Guild {
 }
 """
 
+
 TWITTER_TWEET_FRAGMENT = """
 fragment TwitterTweetFragment on TwitterTweet {
   id
@@ -133,6 +134,7 @@ fragment TwitterTweetFragment on TwitterTweet {
 }
 """
 
+
 async def get_tweet_contribution(tweet_id):
     query = (
         TWITTER_TWEET_FRAGMENT
@@ -144,9 +146,9 @@ query getTweetContribution($where: TwitterTweetWhereInput!) {
         ...TwitterTweetFragment
     }
 }
-        """  
-    )  
-    
+        """
+    )
+
     result = await execute_query(
         query, {"where": {"twitter_tweet_id": {"is": tweet_id}}}
     )
@@ -158,6 +160,7 @@ query getTweetContribution($where: TwitterTweetWhereInput!) {
             return res[0]
         return None
     return result
+
 
 async def get_user_by_twitter(twitter_handle):
     query = (
@@ -323,9 +326,23 @@ mutation createStagedContribution($input: ContributionCreateInput!) {
                 "user": {"connect": {"id": user_id}},
                 "date_of_submission": now(),
                 "date_of_engagement": tweet.date,
-                "details": tweet.content,
+                "details": f"Tweet to contribute: {tweet.content}",
                 "proof": tweet.url,
-                # link with twitter tweet
+                "twitter_tweet_contribution": {
+                    "create": {
+                        "twitter_tweet": {
+                            "create": {
+                                "twitter_tweet_id": tweet.id,
+                                "text": tweet.content,
+                                "twitter_user": {
+                                    "connect": {
+                                        "username": tweet.profile_handle,
+                                    }
+                                },
+                            }
+                        }
+                    }
+                },
             }
         },
     )
