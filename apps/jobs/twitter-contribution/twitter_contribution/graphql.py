@@ -1,20 +1,15 @@
+from twitter_contribution.data import Tweet
+from twitter_contribution.utils import now
+from twitter_contribution.logging import get_logger
+import twitter_contribution.constants as constants
+
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
 from gql.transport.exceptions import TransportQueryError
 
-import constants
 import datetime
-from twitter_contribution.logging import get_logger
 
 logger = get_logger(__name__)
-
-
-class Tweet:
-    id: int
-    content: str
-    profile_handle: str
-    date: datetime.datetime
-    url: str
 
 
 def get_async_transport(url):
@@ -113,6 +108,56 @@ fragment GuildFragment on Guild {
 }
 """
 
+TWITTER_TWEET_FRAGMENT = """
+fragment TwitterTweetFragment on TwitterTweet {
+  id
+  createdAt
+  text
+  twitter_tweet_id
+  twitter_user {
+    id
+    username
+  }
+  twitter_tweet_contribution {
+    id 
+    createdAt
+    contribution {
+      name 
+      user {
+        id
+        name
+        display_name
+      }
+    }
+  }
+}
+"""
+
+async def get_tweet_contribution(tweet_id):
+    query = (
+        TWITTER_TWEET_FRAGMENT
+        + """
+query getTweetContribution($where: TwitterTweetWhereInput!) {
+    result: twitterTweets(
+        where: $where
+    ) {
+        ...TwitterTweetFragment
+    }
+}
+        """  
+    )  
+    
+    result = await execute_query(
+        query, {"where": {"twitter_tweet_id": {"is": tweet_id}}}
+    )
+    if result:
+        res = result.get("result")
+        # unclear when this would actually return >1 result, but there
+        # is no uniqueness constraint on twitter_tweet_id
+        if len(res):
+            return res[0]
+        return None
+    return result
 
 async def get_user_by_twitter(twitter_handle):
     query = (
@@ -120,10 +165,10 @@ async def get_user_by_twitter(twitter_handle):
         + """
 query getUser($where: UserWhereInput!) {
     result: users(
-        where: $where
-    ) {
-        ...UserFragment
-    }
+        }
+    
+       
+   
 }
         """
     )
@@ -240,11 +285,7 @@ query listGuilds(
     return result
 
 
-def now():
-    return datetime.datetime.utcnow().isoformat()
-
-
-async def create_job_run(name, created_date):
+async def create_job_run(name, start, end):
     mutation = """
 mutation createJobRun($input: JobRunCreateInput!) {
     result: createOneJobRun(input: $input) {
@@ -254,7 +295,7 @@ mutation createJobRun($input: JobRunCreateInput!) {
     """
     result = await execute_query(
         mutation,
-        {"input": {"name": name, "completedDate": now(), "startDate": created_date}},
+        {"input": {"name": name, "completedDate": end, "startDate": start}},
     )
     if result:
         return result.get("result")
