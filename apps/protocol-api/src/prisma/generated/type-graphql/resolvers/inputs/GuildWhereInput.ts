@@ -120,11 +120,6 @@ export class GuildWhereInput {
   })
   canonical_guild_activity_type?: CanonicalGuildActivityTypeListRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  twitter_integration_id?: IntNullableFilter | undefined;
-
   @TypeGraphQL.Field(_type => GuildTwitterIntegrationRelationFilter, {
     nullable: true
   })

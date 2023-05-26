@@ -76,9 +76,4 @@ export class GuildScalarWhereInput {
     nullable: true
   })
   verification_setting_id?: IntNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  twitter_integration_id?: IntNullableFilter | undefined;
 }

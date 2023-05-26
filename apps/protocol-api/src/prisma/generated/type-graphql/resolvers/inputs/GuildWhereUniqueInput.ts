@@ -16,9 +16,4 @@ export class GuildWhereUniqueInput {
     nullable: true
   })
   discord_id?: string | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  twitter_integration_id?: number | undefined;
 }
