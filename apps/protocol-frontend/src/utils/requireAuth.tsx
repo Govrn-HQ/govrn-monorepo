@@ -1,30 +1,40 @@
 import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
-import { GOVRN_MOTTO } from './constants';
 import React from 'react';
 import { useAccount } from 'wagmi';
-import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
+import { GovrnCta } from '@govrn/protocol-ui';
 
 type RequireAuthProps = {
   children: React.ReactNode;
 };
 
-const NewUserView = () => {
+const NonAuthenticatedView = () => {
   return (
-    <Stack spacing="4" justify="center" align="center">
-      <Text>{GOVRN_MOTTO}</Text>
-      <Text fontSize="lg" fontWeight="medium">
-        Welcome to Govrn! You'll need to create a Username to get started.
-      </Text>
-      <ConnectWallet />
-    </Stack>
+    <GovrnCta
+      heading={'Welcome to Govrn'}
+      emoji={'🫡'}
+      copy={
+        <Stack>
+          <Text fontSize="lg" fontWeight="medium" align="center" mx={32} mb={4}>
+            {' '}
+            You'll need to connect your wallet to get started with Govrn. After
+            connecting you should be redirected to whatever page you’re looking
+            for.{' '}
+          </Text>
+          <Text fontSize="lg" fontWeight="medium" align="center" mx={32}>
+            You’ll be able to Join a DAO, attest to other people’s
+            contributions, and create contributions of your own.
+          </Text>
+        </Stack>
+      }
+      children={<ConnectWallet variant="primary" />}
+    />
   );
 };
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
   const { isConnected } = useAccount();
-  const { userData } = useUser();
   const { isAuthenticated } = useAuth();
   // If the user is connected and authenticated, render the children.
   if (isConnected && isAuthenticated) {
@@ -44,7 +54,7 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
         boxShadow="sm"
         borderRadius={{ base: 'none', md: 'lg' }}
       >
-        <NewUserView />
+        <NonAuthenticatedView />
       </Box>
     </Container>
   );
