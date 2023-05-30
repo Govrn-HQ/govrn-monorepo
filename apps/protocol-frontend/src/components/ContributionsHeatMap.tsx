@@ -6,6 +6,7 @@ import { BRAND_COLOR_MAP_SUBSET, YEAR_WEEKS } from '../utils/constants';
 import { useContributionList } from '../hooks/useContributionList';
 import { formatDate } from '../utils/date';
 import { TooltipWrapper } from '@nivo/tooltip';
+import { useUser } from '../contexts/UserContext';
 
 import pluralize from 'pluralize';
 
@@ -24,10 +25,12 @@ const CustomTooltipDailyContributions = ({
   day,
   value,
 }: CalendarTooltipProps) => {
+  const { userData } = useUser();
   const { data: dailyContributions } = useContributionList({
     orderBy: { date_of_engagement: SortOrder.Desc },
     first: 5,
     where: {
+      user_id: { equals: userData?.id },
       date_of_engagement: {
         gte: new Date(day),
         lt: addDays(new Date(day), 1),
