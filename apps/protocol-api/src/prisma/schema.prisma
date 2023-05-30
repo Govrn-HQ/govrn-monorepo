@@ -92,7 +92,6 @@ model Guild {
   verification_setting_id        Int?
   verification_setting           VerificationSetting?         @relation(fields: [verification_setting_id], references: [id])
   canonical_guild_activity_type  CanonicalGuildActivityType[]
-  twitter_integration_id         Int?                         @unique
   twitter_integration            GuildTwitterIntegration?
 }
 

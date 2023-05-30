@@ -85,11 +85,6 @@ export class GuildCreateWithoutCanonical_guild_activity_typeInput {
   })
   verification_setting?: VerificationSettingCreateNestedOneWithoutGuildsInput | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  twitter_integration_id?: number | undefined;
-
   @TypeGraphQL.Field(_type => GuildTwitterIntegrationCreateNestedOneWithoutGuildInput, {
     nullable: true
   })

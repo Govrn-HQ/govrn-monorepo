@@ -101,11 +101,6 @@ export class GuildOrderByWithRelationInput {
   })
   canonical_guild_activity_type?: CanonicalGuildActivityTypeOrderByRelationAggregateInput | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  twitter_integration_id?: "asc" | "desc" | undefined;
-
   @TypeGraphQL.Field(_type => GuildTwitterIntegrationOrderByWithRelationInput, {
     nullable: true
   })
