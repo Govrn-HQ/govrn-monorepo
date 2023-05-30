@@ -1,11 +1,14 @@
 import ProfileShell from '../components/ProfileShell';
 import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const Profile = () => {
   return (
-    <RequireAuth>
-      <ProfileShell />
-    </RequireAuth>
+    <SiteLayout>
+      <RequireAuth>
+        <ProfileShell />
+      </RequireAuth>
+    </SiteLayout>
   );
 };
 

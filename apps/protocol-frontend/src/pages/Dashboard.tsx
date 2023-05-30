@@ -7,6 +7,7 @@ import ErrorView from '../components/ErrorView';
 
 import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
 import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const CopyChildren = () => (
   <Flex direction="column" alignItems="center" justifyContent="center">
@@ -103,13 +104,15 @@ const Dashboard = () => {
   }
 
   return (
-    <RequireAuth>
-      {userContributions !== undefined && userContributions?.length ? (
-        <DashboardShell />
-      ) : (
-        <EmptyContributionsView />
-      )}
-    </RequireAuth>
+    <SiteLayout>
+      <RequireAuth>
+        {userContributions !== undefined && userContributions?.length ? (
+          <DashboardShell />
+        ) : (
+          <EmptyContributionsView />
+        )}
+      </RequireAuth>
+    </SiteLayout>
   );
 };
 

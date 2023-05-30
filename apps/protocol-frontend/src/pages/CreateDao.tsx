@@ -1,11 +1,14 @@
 import CreateDaoLayout from '../components/CreateDaoLayout';
 import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const CreateDao = () => {
   return (
-    <RequireAuth>
-      <CreateDaoLayout />
-    </RequireAuth>
+    <SiteLayout>
+      <RequireAuth>
+        <CreateDaoLayout />
+      </RequireAuth>
+    </SiteLayout>
   );
 };
 

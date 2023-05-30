@@ -1,13 +1,15 @@
 import React from 'react';
 import AttestationsTableShell from '../components/AttestationsTableShell';
 import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
-// Force
 const Attestations = () => {
   return (
-    <RequireAuth>
-      <AttestationsTableShell />
-    </RequireAuth>
+    <SiteLayout>
+      <RequireAuth>
+        <AttestationsTableShell />
+      </RequireAuth>
+    </SiteLayout>
   );
 };
 

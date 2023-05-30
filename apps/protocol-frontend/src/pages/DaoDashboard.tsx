@@ -4,6 +4,7 @@ import useUserGet from '../hooks/useUserGet';
 import DaoDashboardShell from '../components/DaoDashboardShell';
 import { useMemo } from 'react';
 import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const DaoDashboard = () => {
   const { userData } = useUser();
@@ -18,13 +19,15 @@ const DaoDashboard = () => {
   }, [currentDao]);
 
   return (
-    <RequireAuth>
-      <DaoDashboardShell
-        daoName={currentDao?.guild.name ?? ''}
-        daoId={parseInt(guildId ? guildId : '')}
-        daoMembershipStatus={daoMembershipStatus}
-      />
-    </RequireAuth>
+    <SiteLayout>
+      <RequireAuth>
+        <DaoDashboardShell
+          daoName={currentDao?.guild.name ?? ''}
+          daoId={parseInt(guildId ? guildId : '')}
+          daoMembershipStatus={daoMembershipStatus}
+        />
+      </RequireAuth>
+    </SiteLayout>
   );
 };
 

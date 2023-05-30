@@ -2,6 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, Flex, Link, Text } from '@chakra-ui/react';
 import { GovrnCta } from '@govrn/protocol-ui';
 import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const DaoLandingPage = () => {
   const CopyChildren = () => (
@@ -32,22 +33,24 @@ const DaoLandingPage = () => {
   );
 
   return (
-    <RequireAuth>
-      <Box
-        background="white"
-        boxShadow="sm"
-        borderRadius={{ base: 'none', md: 'lg' }}
-        marginX={{ base: 4, lg: 0 }}
-        marginTop={{ base: 8, lg: 0 }}
-      >
-        <GovrnCta
-          heading={`You aren't in any DAOs yet`}
-          emoji="👀"
-          copy={<CopyChildren />}
-          children={<ButtonChildren />}
-        />
-      </Box>
-    </RequireAuth>
+    <SiteLayout>
+      <RequireAuth>
+        <Box
+          background="white"
+          boxShadow="sm"
+          borderRadius={{ base: 'none', md: 'lg' }}
+          marginX={{ base: 4, lg: 0 }}
+          marginTop={{ base: 8, lg: 0 }}
+        >
+          <GovrnCta
+            heading={`You aren't in any DAOs yet`}
+            emoji="👀"
+            copy={<CopyChildren />}
+            children={<ButtonChildren />}
+          />
+        </Box>
+      </RequireAuth>
+    </SiteLayout>
   );
 };
 

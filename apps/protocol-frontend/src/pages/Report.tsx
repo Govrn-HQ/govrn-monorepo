@@ -1,12 +1,15 @@
 import React from 'react';
 import ReportShell from '../components/ReportShell';
 import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const Report = () => {
   return (
-    <RequireAuth>
-      <ReportShell />
-    </RequireAuth>
+    <SiteLayout>
+      <RequireAuth>
+        <ReportShell />
+      </RequireAuth>
+    </SiteLayout>
   );
 };
 
