@@ -242,27 +242,6 @@ query listContributions($where: ContributionWhereInput! = {},
     return None
 
 
-async def get_guild_by_id(id):
-    query = (
-        GqlFragments.GUILD_FRAGMENT
-        + """
-query getGuild($where: GuildWhereUniqueInput!) {
-    result: guild(
-        where: $where,
-    ) {
-      ...GuildFragment
-    }
-}
-    """
-    )
-    result = await execute_query(query, {"where": {"id": id}})
-    logger.info("Get guild")
-    logger.info(result)
-    if result:
-        return result.get("result")
-    return result
-
-
 async def get_guilds_with_twitter_integration():
     query = (
         GqlFragments.GUILD_FRAGMENT
