@@ -327,6 +327,8 @@ const EditContributionForm = ({ contribution }: EditContributionFormProps) => {
           <CreatableSelect
             name="activityType"
             label="Activity Type"
+            isClearable={true}
+            backspaceRemovesValue={true}
             defaultValue={{
               value: contribution?.activity_type?.name,
               label: contribution?.activity_type?.name,

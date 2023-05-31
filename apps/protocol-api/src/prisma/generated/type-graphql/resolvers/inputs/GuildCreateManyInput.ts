@@ -57,9 +57,4 @@ export class GuildCreateManyInput {
     nullable: true
   })
   verification_setting_id?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  twitter_integration_id?: number | undefined;
 }

@@ -474,7 +474,6 @@ export const permissions = shield(
       status: or(hasToken, isAuthenticated),
       verification_setting_id: or(hasToken, isAuthenticated),
       verification_setting: or(hasToken, isAuthenticated),
-      twitter_integration_id: or(hasToken, isAuthenticated),
       twitter_integration: or(hasToken, isAuthenticated),
     },
     GuildActivityType: {

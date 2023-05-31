@@ -341,6 +341,8 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <CreatableSelect
             name="activityType"
             label="Activity Type"
+            isClearable={true}
+            backspaceRemovesValue={true}
             isRequired
             placeholder="Select an activity type or add a new one"
             onChange={activity => {
