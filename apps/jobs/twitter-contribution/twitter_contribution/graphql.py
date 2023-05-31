@@ -5,15 +5,12 @@ import twitter_contribution.constants as constants
 
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
-from gql.transport.exceptions import TransportQueryError
-
-import datetime
 
 logger = get_logger(__name__)
 
 
 def get_async_transport(url):
-    return gql.AIOHTTPTransport(
+    return AIOHTTPTransport(
         url=url, headers={"Authorization": constants.PROTOCOL_TOKEN}
     )
 
@@ -258,7 +255,7 @@ query listGuilds(
     """
     )
     result = await execute_query(
-        query, {"where": {"twitter_integration": {"is_not": None}}}
+        query, {"where": {"twitter_integration": {"isNot": None}}}
     )
     logger.info("list guilds")
     logger.info(result)
@@ -269,15 +266,15 @@ query listGuilds(
 
 async def create_job_run(name, start, end):
     mutation = """
-mutation createJobRun($input: JobRunCreateInput!) {
-    result: createOneJobRun(input: $input) {
+mutation createJobRun($data: JobRunCreateInput!) {
+    result: createOneJobRun(data: $data) {
         id
     }    
 }
     """
     result = await execute_query(
         mutation,
-        {"input": {"name": name, "completedDate": end, "startDate": start}},
+        {"data": {"name": name, "completedDate": end, "startDate": start}},
     )
     if result:
         return result.get("result")
@@ -288,17 +285,18 @@ async def create_twitter_hashtag_contribution(
     tweet: Tweet, user_id: int, user_name: str, hashtag: str
 ):
     mutation = """
-mutation createStagedContribution($input: ContributionCreateInput!) {
-    result: createOneContribution(input: $input) {
+mutation createStagedContribution($data: ContributionCreateInput!) {
+    result: createOneContribution(data: $data) {
         id
     }
+}
     """
     contribution_name = f"{user_name} tweet contribution: {hashtag}"
     logger.info(f"Creating {contribution_name}")
     result = await execute_query(
         mutation,
         {
-            "input": {
+            "data": {
                 "name": contribution_name,
                 "status": {"connect": {"name": "staged"}},
                 "activity_type": {"connect": {"name": "tweet"}},
@@ -307,7 +305,7 @@ mutation createStagedContribution($input: ContributionCreateInput!) {
                 "date_of_engagement": tweet.date,
                 "details": f"Tweet to contribute: {tweet.content}",
                 "proof": tweet.url,
-                "twitter_tweet_contribution": {
+                "twitter_tweet_contributions": {
                     "create": {
                         "twitter_tweet": {
                             "create": {
@@ -325,3 +323,6 @@ mutation createStagedContribution($input: ContributionCreateInput!) {
             }
         },
     )
+    if result:
+        return result.get("result")
+    return result
