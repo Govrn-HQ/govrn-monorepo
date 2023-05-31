@@ -81,11 +81,6 @@ export class Guild {
 
   canonical_guild_activity_type?: CanonicalGuildActivityType[];
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  twitter_integration_id?: number | null;
-
   twitter_integration?: GuildTwitterIntegration | null;
 
   @TypeGraphQL.Field(_type => GuildCount, {

@@ -9,7 +9,6 @@ import { GuildActivityTypeUpdateManyWithoutGuildNestedInput } from "../inputs/Gu
 import { GuildContributionUpdateManyWithoutGuildNestedInput } from "../inputs/GuildContributionUpdateManyWithoutGuildNestedInput";
 import { GuildImportUpdateManyWithoutGuildNestedInput } from "../inputs/GuildImportUpdateManyWithoutGuildNestedInput";
 import { GuildUserUpdateManyWithoutGuildNestedInput } from "../inputs/GuildUserUpdateManyWithoutGuildNestedInput";
-import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { TwitterAccountUpdateManyWithoutGuildNestedInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildNestedInput";
 import { VerificationSettingUpdateOneWithoutGuildsNestedInput } from "../inputs/VerificationSettingUpdateOneWithoutGuildsNestedInput";
@@ -92,9 +91,4 @@ export class GuildUpdateWithoutTwitter_integrationInput {
     nullable: true
   })
   canonical_guild_activity_type?: CanonicalGuildActivityTypeUpdateManyWithoutGuildNestedInput | undefined;
-
-  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  twitter_integration_id?: NullableIntFieldUpdateOperationsInput | undefined;
 }

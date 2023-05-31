@@ -89,9 +89,4 @@ export class GuildCreateWithoutTwitter_integrationInput {
     nullable: true
   })
   canonical_guild_activity_type?: CanonicalGuildActivityTypeCreateNestedManyWithoutGuildInput | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  twitter_integration_id?: number | undefined;
 }

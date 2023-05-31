@@ -4,7 +4,6 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildStatusFieldUpdateOperationsInput";
-import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("GuildUpdateManyMutationInput", {
@@ -50,9 +49,4 @@ export class GuildUpdateManyMutationInput {
     nullable: true
   })
   contribution_reporting_channel?: NullableStringFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  twitter_integration_id?: NullableIntFieldUpdateOperationsInput | undefined;
 }
