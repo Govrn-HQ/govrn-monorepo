@@ -11,6 +11,7 @@ from twitter_contribution import data
 
 
 ## TODO: check in sample db backup
+## this is expecting at least 1 twitter integration in the db
 @pytest.mark.asyncio
 async def test_get_guilds_with_twitter_integration():
     guilds = await graphql.get_guilds_with_twitter_integration()
