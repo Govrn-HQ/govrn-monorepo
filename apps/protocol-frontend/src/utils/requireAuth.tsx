@@ -13,7 +13,7 @@ const NonAuthenticatedView = () => {
   return (
     <GovrnCta
       heading={'Welcome to Govrn'}
-      emoji={'🫡'}
+      emoji={'👋'}
       copy={
         <Stack>
           <Text fontSize="lg" fontWeight="medium" align="center" mx={32} mb={4}>
