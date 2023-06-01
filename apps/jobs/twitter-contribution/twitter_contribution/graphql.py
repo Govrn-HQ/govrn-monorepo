@@ -8,6 +8,8 @@ from gql.transport.aiohttp import AIOHTTPTransport
 
 logger = get_logger(__name__)
 
+T2C_ACTIVITY_TYPE_NAME = "Tweet to contribute"
+
 
 def get_async_transport(url):
     return AIOHTTPTransport(
@@ -293,13 +295,20 @@ mutation createStagedContribution($data: ContributionCreateInput!) {
     """
     contribution_name = f"{user_name} tweet contribution: {hashtag}"
     logger.info(f"Creating {contribution_name}")
+
+    # TODO: connect the twitter user from the user profile
     result = await execute_query(
         mutation,
         {
             "data": {
                 "name": contribution_name,
-                "status": {"connect": {"name": "staged"}},
-                "activity_type": {"connect": {"name": "tweet"}},
+                "status": {"connect": {"name": "staging"}},
+                "activity_type": {
+                    "connectOrCreate": {
+                        "where": {"name": T2C_ACTIVITY_TYPE_NAME},
+                        "create": {"name": T2C_ACTIVITY_TYPE_NAME},
+                    }
+                },
                 "user": {"connect": {"id": user_id}},
                 "date_of_submission": now(),
                 "date_of_engagement": tweet.date,
