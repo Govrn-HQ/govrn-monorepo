@@ -1,12 +1,14 @@
+import datetime
 import snscrape.modules.twitter as sntwitter
 import asyncio
 
+import twitter_contribution.data as data
 from twitter_contribution.logging import get_logger
 
 logger = get_logger(__name__)
 
 
-async def retrieve_tweets(hashtag, since):
+async def retrieve_tweets(hashtag, since: datetime.datetime):
     loop = asyncio.get_event_loop()
     scraper = sntwitter.TwitterHashtagScraper(hashtag=hashtag)
     generator = scraper.get_items()
@@ -21,10 +23,10 @@ async def retrieve_tweets(hashtag, since):
     return tweets
 
 
-def enumerate_tweets(generator, since):
+def enumerate_tweets(generator, since: datetime.datetime):
     tweets = []
     for i, item in enumerate(generator, start=1):
         if since is not None and item.date < since:
             break
-        tweets.append(item)
+        tweets.append(data.Tweet.from_scraped_tweet(item))
     return tweets
