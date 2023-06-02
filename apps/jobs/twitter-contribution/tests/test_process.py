@@ -1,5 +1,7 @@
-# from twitter_contribution import process_tweets
+import pytest
+from twitter_contribution import process
 
 
-def test_process_tweets():
-    pass
+@pytest.mark.asyncio
+async def test_process_guild_integrations(tests_setup_and_teardown):
+    await process.process_guild_integrations()
