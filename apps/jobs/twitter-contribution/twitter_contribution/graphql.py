@@ -167,15 +167,16 @@ async def get_user_by_twitter(twitter_handle):
         + """
 query getUser($where: UserWhereInput!) {
     result: users(
-        }
-    
-       
-   
+        where: $where,
+    ) {
+        ...UserFragment 
+    }      
 }
         """
     )
     result = await execute_query(
-        query, {"where": {"twitter_user": {"is": {"username": twitter_handle}}}}
+        query,
+        {"where": {"twitter_user": {"is": {"username": {"equals": twitter_handle}}}}},
     )
     if result:
         res = result.get("result")
@@ -310,7 +311,7 @@ mutation createStagedContribution($data: ContributionCreateInput!) {
                     }
                 },
                 "user": {"connect": {"id": user_id}},
-                "date_of_submission": now(),
+                "date_of_submission": now().isoformat(),
                 "date_of_engagement": tweet.date,
                 "details": f"Tweet to contribute: {tweet.content}",
                 "proof": tweet.url,
