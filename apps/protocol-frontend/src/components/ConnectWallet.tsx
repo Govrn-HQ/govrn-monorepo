@@ -12,16 +12,20 @@ import {
   HStack,
   Box,
   Flex,
+  ButtonProps,
 } from '@chakra-ui/react';
 import { FiKey, FiChevronDown, FiXCircle } from 'react-icons/fi';
 import { useEnsNameEthers } from '../hooks/useEnsNameEthers';
 import { displayAddress } from '../utils/web3';
 
-interface ConnectWalletProps {
+interface ConnectWalletProps extends ButtonProps {
   showNetwork?: boolean;
 }
 
-const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
+const ConnectWallet: React.FC<ConnectWalletProps> = ({
+  showNetwork,
+  ...props
+}) => {
   const { address, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
 
@@ -57,6 +61,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                     disabled={isConnecting}
                     onClick={openConnectModal}
                     data-cy="connect-wallet"
+                    {...props}
                   >
                     Connect Wallet
                   </Button>
@@ -69,6 +74,8 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                     variant="tertiary"
                     leftIcon={<FiKey />}
                     onClick={openChainModal}
+                    data-cy="connect-wallet"
+                    {...props}
                   >
                     Wrong network
                   </Button>
@@ -93,6 +100,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ showNetwork }) => {
                       _active={{
                         backgroundColor: 'brand.secondary.200',
                       }}
+                      {...props}
                     >
                       <Image
                         alt={chain.name ?? 'Chain icon'}
