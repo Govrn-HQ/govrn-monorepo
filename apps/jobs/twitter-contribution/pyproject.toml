@@ -22,7 +22,8 @@ readme = 'README.md'
 
   [tool.poetry.dependencies]
   python = ">=3.9,<3.11"
-  snscrape = "0.4.3.20220106"
+  # api surface change workaround
+  snscrape = { git = "https://github.com/JustAnotherArchivist/snscrape.git" }
   JSON-log-formatter = "0.5.2"
   gql = "3.3.0"
   python-dotenv = "^1.0.0"

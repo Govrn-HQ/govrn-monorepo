@@ -369,11 +369,12 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "snscrape"
-version = "0.4.3.20220106"
+version = "0.6.2.20230321.dev30+gfdbd741"
 description = "A social networking service scraper"
 category = "main"
 optional = false
 python-versions = "~=3.8"
+develop = false
 
 [package.dependencies]
 beautifulsoup4 = "*"
@@ -381,8 +382,11 @@ filelock = "*"
 lxml = "*"
 requests = {version = "*", extras = ["socks"]}
 
-[package.extras]
-test = ["coverage"]
+[package.source]
+type = "git"
+url = "https://github.com/JustAnotherArchivist/snscrape.git"
+reference = "master"
+resolved_reference = "fdbd741126144236b6b7db822db5ddc8096e449a"
 
 [[package]]
 name = "soupsieve"
@@ -429,7 +433,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
   python-versions = ">=3.9,<3.11"
-content-hash = "09e2e9ded6bdcf6eeab758f79627c3e54b1e303ac6f0df5c624d405ec6d12f35"
+content-hash = "27bb7077620feee7ce88a1048197191b889331191fdd6966e8c9e64b50f5e7ef"
 
 [metadata.files]
 aiohttp = []
