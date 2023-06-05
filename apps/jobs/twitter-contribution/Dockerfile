@@ -17,27 +17,32 @@ ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
 # builder-base is used to build dependencies
 FROM python-base as builder-base
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
+RUN apt update \
+    && apt install --no-install-recommends -y \
     curl \
-    build-essential
+    build-essential \
+    make \
+    git \
+    gcc
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 ENV POETRY_VERSION=1.0.5
-RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python3.9
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # We copy our Python requirements here to cache them
-# and install only runtime deps using poetry
+# Workaround for snscrape not being in poetry
 WORKDIR $PYSETUP_PATH
-COPY ./apps/jobs/twitter-contribution/poetry.lock ./apps/jobs/twitter-contribution/pyproject.toml ./
-RUN poetry install --no-dev  # respects 
+COPY apps/jobs/twitter-contribution/poetry.lock apps/jobs/twitter-contribution/pyproject.toml ./
+RUN poetry install --no-dev && \
+    poetry run pip install git+https://github.com/JustAnotherArchivist/snscrape.git
+
 
 # 'production' stage uses the clean 'python-base' stage and copyies
 # in only our runtime deps that were installed in the 'builder-base'
 FROM python-base as production
 
 COPY --from=builder-base $VENV_PATH $VENV_PATH
-COPY ./apps/jobs/twitter-contribution/twitter_contribution /app
+COPY apps/jobs/twitter-contribution/twitter_contribution .
 
 WORKDIR /app
 
