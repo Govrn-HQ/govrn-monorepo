@@ -48,4 +48,4 @@ COPY apps/jobs/twitter-contribution/pyproject.toml .
 COPY apps/jobs/twitter-contribution/poetry.lock .
 COPY apps/jobs/twitter-contribution/twitter_contribution ./twitter_contribution
 
-CMD ["poetry", "run", "python", "__main__.py"]
+CMD ["poetry", "run", "python", "twitter_contribution"]
