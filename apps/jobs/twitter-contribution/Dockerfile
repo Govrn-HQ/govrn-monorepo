@@ -27,23 +27,25 @@ RUN apt update \
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 ENV POETRY_VERSION=1.0.5
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN curl -sSL https://install.python-poetry.org | python3 --
 
 # We copy our Python requirements here to cache them
 # Workaround for snscrape not being in poetry
 WORKDIR $PYSETUP_PATH
 COPY apps/jobs/twitter-contribution/poetry.lock apps/jobs/twitter-contribution/pyproject.toml ./
-RUN poetry install --no-dev && \
+RUN poetry install --no-dev --no-root && \
     poetry run pip install git+https://github.com/JustAnotherArchivist/snscrape.git
 
-
-# 'production' stage uses the clean 'python-base' stage and copyies
+# 'production' stage uses the clean 'python-base' stage and copies
 # in only our runtime deps that were installed in the 'builder-base'
 FROM python-base as production
 
+COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $VENV_PATH $VENV_PATH
-COPY apps/jobs/twitter-contribution/twitter_contribution .
 
 WORKDIR /app
+COPY apps/jobs/twitter-contribution/pyproject.toml .
+COPY apps/jobs/twitter-contribution/poetry.lock .
+COPY apps/jobs/twitter-contribution/twitter_contribution ./twitter_contribution
 
 CMD ["poetry", "run", "python", "__main__.py"]
