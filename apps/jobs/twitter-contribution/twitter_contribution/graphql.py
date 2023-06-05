@@ -1,6 +1,5 @@
 from twitter_contribution.data import Tweet
-from twitter_contribution.utils import now
-from twitter_contribution.logging import get_logger
+from twitter_contribution.utils import now, get_logger
 import twitter_contribution.constants as constants
 
 from gql import gql, Client

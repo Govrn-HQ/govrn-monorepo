@@ -3,7 +3,7 @@ import snscrape.modules.twitter as sntwitter
 import asyncio
 
 import twitter_contribution.data as data
-from twitter_contribution.logging import get_logger
+from twitter_contribution.utils import get_logger
 
 logger = get_logger(__name__)
 

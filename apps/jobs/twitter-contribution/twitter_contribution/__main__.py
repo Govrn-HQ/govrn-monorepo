@@ -1,8 +1,8 @@
 import asyncio
-from logging import getLogger
+from utils import get_logger
 from process import process_guild_integrations
 
-logger = getLogger(__name__)
+logger = get_logger(__name__)
 
 
 async def main():
