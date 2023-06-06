@@ -4,6 +4,7 @@
 /.husky
 
 apps/kevin-malone
+apps/jobs/twitter-contribution
 apps/govrn-contract/out
 apps/govrn-contract/cache
 apps/govrn-contract/lib
