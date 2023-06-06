@@ -52,12 +52,17 @@
       }
     },
     "lint": {
-      "executor": "@nxlv/python:flake8",
-      "outputs": [
-        "{workspaceRoot}/reports/apps/jobs/twitter-contribution/pylint.txt"
-      ],
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "outputFile": "reports/apps/jobs/twitter-contribution/pylint.txt"
+        "command": "poetry run make lint",
+        "cwd": "apps/jobs/twitter-contribution"
+      }
+    },
+    "format": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "poetry run make format",
+        "cwd": "apps/jobs/twitter-contribution"
       }
     },
     "test": {
