@@ -6,9 +6,6 @@ source = [ "twitter_contribution" ]
 exclude_lines = ['if TYPE_CHECKING:']
 show_missing = true
 
-[tool.pytest.ini_options]
-addopts = "--cov --cov-fail-under=100 --cov-report html:'../../../coverage/apps/jobs/twitter-contribution/html' --cov-report xml:'../../../coverage/apps/jobs/twitter-contribution/coverage.xml' --junitxml='../../../reports/apps/jobs/twitter-contribution/unittests/junit.xml' --html='../../../reports/apps/jobs/twitter-contribution/unittests/html/index.html'"
-
 [tool.poetry]
 name = "govrn-monorepo"
 version = "1.0.0"
