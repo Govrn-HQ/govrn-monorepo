@@ -5,9 +5,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/webpack:webpack",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/twitter-contribution-job",
         "main": "apps/twitter-contribution-job/src/main.ts",
@@ -39,21 +37,15 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/twitter-contribution-job/**/*.ts"
-        ],
+        "lintFilePatterns": ["apps/twitter-contribution-job/**/*.ts"],
         "maxWarnings": 0
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/twitter-contribution-job"
-      ],
+      "outputs": ["coverage/apps/twitter-contribution-job"],
       "options": {
         "jestConfig": "apps/twitter-contribution-job/jest.config.ts",
         "passWithNoTests": true
@@ -67,9 +59,7 @@
             "registry.digitalocean.com/govrn-protocol/twitter_contribution_job"
           ],
           "load": true,
-          "tags": [
-            "type=sha"
-          ]
+          "tags": ["type=sha"]
         }
       }
     },
@@ -81,18 +71,14 @@
           "images": [
             "registry.digitalocean.com/govrn-protocol/twitter_contribution_job"
           ],
-          "tags": [
-            "type=sha"
-          ]
+          "tags": ["type=sha"]
         }
       }
     },
     "docker-login": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": [
-          "doctl registry login --expiry-seconds 1200"
-        ],
+        "commands": ["doctl registry login --expiry-seconds 1200"],
         "parallel": false
       }
     }

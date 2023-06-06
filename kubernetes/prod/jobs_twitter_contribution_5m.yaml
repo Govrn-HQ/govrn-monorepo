@@ -19,14 +19,14 @@ spec:
                     secretKeyRef:
                       name: jobs-twitter-contribution-secret
                       key: protocol_url
-                - name: PROTOCOL_TOKEN 
+                - name: PROTOCOL_TOKEN
                   valueFrom:
                     secretKeyRef:
                       name: jobs-twitter-contribution-secret
                       key: protocol_token
                 - name: IS_DEV
-                  value: "false"
+                  value: 'false'
                 - name: LOOKBACK_SECONDS
                   # 1 hour
-                  value: "43200"
+                  value: '43200'
           restartPolicy: OnFailure
