@@ -1,1 +1,1 @@
-"""Twitter contribution staging job"""
+"""Twitter contribution staging job -- integration tests"""
