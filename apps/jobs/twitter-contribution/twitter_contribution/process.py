@@ -42,11 +42,7 @@ async def process_guild_integrations():
 
     end = now()
     logger.info(f"Completed in {end - start} seconds")
-<<<<<<< HEAD
     await create_job_run(constants.JOB_NAME, start.isoformat(), end.isoformat())
-=======
-    await create_job_run(constants.JOB_NAME, start, end)
->>>>>>> 238db706119bbbed085b59f4b5c8c8629076af0a
 
 
 # TODO: parallelize
