@@ -2,8 +2,8 @@ import datetime
 import snscrape.modules.twitter as sntwitter
 import asyncio
 
-import twitter_contribution.data as data
-from twitter_contribution.utils import get_logger
+from . import data
+from .utils import get_logger
 
 logger = get_logger(__name__)
 

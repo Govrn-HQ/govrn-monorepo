@@ -1,6 +1,6 @@
 import asyncio
-from utils import get_logger
-from process import process_guild_integrations
+from .utils import get_logger
+from .process import process_guild_integrations
 
 logger = get_logger(__name__)
 

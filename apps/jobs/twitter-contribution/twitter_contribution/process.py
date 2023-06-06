@@ -1,17 +1,17 @@
 import asyncio
 
-import twitter_contribution.constants as constants
+from . import constants
 
-from twitter_contribution.graphql import (
+from .graphql import (
     create_job_run,
     create_twitter_hashtag_contribution,
     get_guilds_with_twitter_integration,
     get_tweet_contribution,
     get_user_by_twitter,
 )
-from twitter_contribution.data import Tweet
-from twitter_contribution.scrape import retrieve_tweets
-from twitter_contribution.utils import now, get_lookback_window, get_logger
+from .data import Tweet
+from .scrape import retrieve_tweets
+from .utils import now, get_lookback_window, get_logger
 
 logger = get_logger(__name__)
 

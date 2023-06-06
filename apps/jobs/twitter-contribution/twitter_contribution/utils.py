@@ -1,7 +1,7 @@
 import logging
 import json_log_formatter
 from datetime import datetime, timedelta, timezone
-from twitter_contribution.constants import LOOKBACK_SECONDS
+from .constants import LOOKBACK_SECONDS
 
 
 def get_lookback_window() -> datetime:
