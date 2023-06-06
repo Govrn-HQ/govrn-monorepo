@@ -42,7 +42,7 @@ async def process_guild_integrations():
 
     end = now()
     logger.info(f"Completed in {end - start} seconds")
-    create_job_run(constants.JOB_NAME, start, end)
+    await create_job_run(constants.JOB_NAME, start, end)
 
 
 # TODO: parallelize
@@ -70,7 +70,7 @@ async def process_tweets(guild_integration, tweets: list[Tweet]):
             continue
 
         # check if contribution already exists
-        tweet_contribution = get_tweet_contribution(tweet.id)
+        tweet_contribution = await get_tweet_contribution(tweet.id)
         if tweet_contribution is not None:
             logger.info(
                 f"Skipping tweet {tweet.id} by user {tweet.profile_handle} already contributed"
