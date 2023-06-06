@@ -56,7 +56,7 @@
       "options": {
         "metadata": {
           "images": [
-            "registry.digitalocean.com/govrn-protocol/linear_sync_job"
+            "registry.digitalocean.com/govrn-protocol/twitter_contribution_job"
           ],
           "load": true,
           "tags": ["type=sha"]

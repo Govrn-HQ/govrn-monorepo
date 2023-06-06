@@ -1,0 +1,151 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/jobs/twitter-contribution/twitter_contribution",
+  "targets": {
+    "docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pydoc-markdown -p twitter_contribution --render-toc > docs/source/api.md",
+        "cwd": "apps/jobs/twitter-contribution"
+      }
+    },
+    "lock": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "poetry lock --no-update",
+        "cwd": "apps/jobs/twitter-contribution"
+      }
+    },
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "update": {
+      "executor": "@nxlv/python:update",
+      "options": {}
+    },
+    "remove": {
+      "executor": "@nxlv/python:remove",
+      "options": {}
+    },
+    "build": {
+      "executor": "@nxlv/python:build",
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "options": {
+        "outputPath": "apps/jobs/twitter-contribution/dist",
+        "publish": true,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      }
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "cacheDir": ".cache/pypoetry",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "poetry run make lint",
+        "cwd": "apps/jobs/twitter-contribution"
+      }
+    },
+    "format": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "poetry run make format",
+        "cwd": "apps/jobs/twitter-contribution"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/apps/jobs/twitter-contribution/unittests",
+        "{workspaceRoot}/coverage/apps/jobs/twitter-contribution"
+      ],
+      "options": {
+        "command": "poetry run pytest tests/",
+        "cwd": "apps/jobs/twitter-contribution"
+      }
+    },
+    "tox": {
+      "executor": "@nxlv/python:tox",
+      "outputs": [
+        "{workspaceRoot}/reports/apps/jobs/twitter-contribution/unittests",
+        "{workspaceRoot}/coverage/apps/jobs/twitter-contribution"
+      ],
+      "options": {
+        "silent": false,
+        "args": ""
+      }
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/jobs-twitter-contribution"
+          ],
+          "load": true,
+          "tags": [
+            "type=sha"
+          ]
+        }
+      }
+    },
+    "docker-push": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "metadata": {
+          "images": [
+            "registry.digitalocean.com/govrn-protocol/jobs-twitter-contribution"
+          ],
+          "tags": [
+            "type=sha"
+          ]
+        }
+      }
+    },
+    "docker-login": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "doctl registry login --expiry-seconds 1200"
+        ],
+        "parallel": false
+      }
+    },
+    "deployStaging": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/jobs-twitter-contribution:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/jobs_twitter_contribution_5m.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/jobs_twitter_contribution_5m.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/jobs-twitter-contribution:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/jobs_twitter_contribution_5m.yaml",
+          "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/jobs_twitter_contribution_5m.yaml"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": []
+}
