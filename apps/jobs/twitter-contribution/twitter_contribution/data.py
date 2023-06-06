@@ -1,4 +1,3 @@
-import datetime
 import snscrape.modules.twitter as snscrape
 
 

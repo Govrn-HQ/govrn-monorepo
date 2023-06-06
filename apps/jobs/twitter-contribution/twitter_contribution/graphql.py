@@ -118,10 +118,10 @@ fragment TwitterTweetFragment on TwitterTweet {
     username
   }
   twitter_tweet_contribution {
-    id 
+    id
     createdAt
     contribution {
-      name 
+      name
       user {
         id
         name
@@ -168,8 +168,8 @@ query getUser($where: UserWhereInput!) {
     result: users(
         where: $where,
     ) {
-        ...UserFragment 
-    }      
+        ...UserFragment
+    }
 }
         """
     )
@@ -271,7 +271,7 @@ async def create_job_run(name, start, end):
 mutation createJobRun($data: JobRunCreateInput!) {
     result: createOneJobRun(data: $data) {
         id
-    }    
+    }
 }
     """
     result = await execute_query(

@@ -1,5 +1,3 @@
-import asyncio
-
 from . import constants
 
 from .graphql import (

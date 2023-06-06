@@ -4,14 +4,14 @@ import datetime
 from twitter_contribution import graphql
 from twitter_contribution import data
 
-### Integration tests; intended to be run with a local instance of postgresql running
-### along with the the protocol api.
+# Integration tests; intended to be run with a local instance of postgresql running
+# along with the the protocol api.
 
-## PROTOCOL_TOKEN PROTOCOL_URL must be configured in tandem with protocol-api
+# PROTOCOL_TOKEN PROTOCOL_URL must be configured in tandem with protocol-api
 
 
-## TODO: check in sample db backup
-## this is expecting at least 1 twitter integration in the db
+# TODO: check in sample db backup
+# this is expecting at least 1 twitter integration in the db
 @pytest.mark.asyncio
 async def test_get_guilds_with_twitter_integration():
     guilds = await graphql.get_guilds_with_twitter_integration()
