@@ -34,6 +34,7 @@ readme = 'README.md'
   pytest-asyncio = "^0.16.0"
   pytest-mock = "^3.6.1"
   black = "^23.3.0"
+  flake8 = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core==1.1.0"]
