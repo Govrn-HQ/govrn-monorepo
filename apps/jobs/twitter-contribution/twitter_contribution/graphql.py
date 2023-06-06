@@ -266,7 +266,7 @@ query listGuilds(
     return result
 
 
-async def create_job_run(name, start, end):
+async def create_job_run(name: str, start: str, end: str):
     mutation = """
 mutation createJobRun($data: JobRunCreateInput!) {
     result: createOneJobRun(data: $data) {
