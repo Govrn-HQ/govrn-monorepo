@@ -15,10 +15,10 @@ import {
 } from '@chakra-ui/react';
 import { formatDate } from '../utils/date';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { Pill } from '@govrn/protocol-ui';
 import { UIContribution } from '@govrn/ui-types';
 import { FiArrowLeft } from 'react-icons/fi';
 import { HiOutlineLink } from 'react-icons/hi';
-import PageHeading from './PageHeading';
 import { BLOCK_EXPLORER_URLS } from '../utils/constants';
 import { useNavigate } from 'react-router-dom';
 import { ipfsToHttp } from '../utils/ipfs';
@@ -31,6 +31,8 @@ const ContributionDetailShell = ({
   contribution,
 }: ContributionDetailShellProps) => {
   const navigate = useNavigate();
+  console.log('contribution', contribution);
+
   return (
     <Box
       paddingY={{ base: '4', md: '8' }}
@@ -39,7 +41,6 @@ const ContributionDetailShell = ({
       maxWidth="900px"
       width="100%"
     >
-      <PageHeading>Contribution Details</PageHeading>
       <Flex direction="column" paddingBottom={4}>
         <Box>
           <Button
@@ -66,35 +67,53 @@ const ContributionDetailShell = ({
       >
         <Flex direction="column" gap={4}>
           <Flex direction={{ base: 'column' }} gap={2}>
-            <Heading as="h3" size="md" fontWeight="medium" color="gray.700">
+            <Heading
+              as="h2"
+              size={{ base: 'lg', lg: 'xl' }}
+              fontWeight="medium"
+              color="gray.700"
+            >
               {contribution?.name}
             </Heading>
-            <Flex
-              direction="row"
-              justifyContent={{ base: 'space-between' }}
-              flexBasis={{ base: '100%', lg: '50%' }}
-            >
-              <Badge colorScheme="gray" variant="subtle" padding={1}>
-                {contribution?.status?.name === 'minted'
-                  ? `${contribution?.status.name} 🌞`
-                  : `${contribution?.status.name} 👀`}
-              </Badge>
+            <Flex direction="column" gap={2}>
               <Text fontSize="sm" color="gray.600">
                 {`${contribution?.date_of_engagement}`}
               </Text>
-            </Flex>
-            <Flex>
-              {contribution?.guilds.length > 0 &&
-                contribution?.guilds.map(guild => (
-                  <Badge
-                    colorScheme="cyan"
-                    variant="outline"
-                    padding={1}
-                    key={guild.guild.id}
-                  >
-                    {guild.guild.name}
-                  </Badge>
-                ))}
+              <Flex direction="row" gap={2}>
+                {contribution?.guilds.length > 0 &&
+                  contribution?.guilds.map(guild => (
+                    <Pill
+                      label={guild.guild.name}
+                      icon={
+                        (guild.guild.verification_setting !== null &&
+                          guild.verificationStatus?.name === 'Verified') ||
+                        guild.guild.verification_setting
+                          ?.num_of_attestations === 0
+                          ? 'checkmark'
+                          : null
+                      }
+                      status={
+                        (guild.guild.verification_setting !== null &&
+                          guild.verificationStatus?.name === 'Verified') ||
+                        guild.guild.verification_setting
+                          ?.num_of_attestations === 0
+                          ? 'primary'
+                          : 'tertiary'
+                      }
+                    />
+                  ))}
+                <Pill
+                  status={
+                    contribution?.status.name === 'minted'
+                      ? 'secondary'
+                      : 'tertiary'
+                  }
+                  label={
+                    contribution?.status.name.charAt(0).toUpperCase() +
+                    contribution?.status.name.slice(1)
+                  }
+                />
+              </Flex>
             </Flex>
           </Flex>
           {contribution?.details && <Text>{contribution?.details}</Text>}
