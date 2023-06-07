@@ -116,7 +116,9 @@ const ContributionDetailShell = ({
               </Flex>
             </Flex>
           </Flex>
-          {contribution?.details && <Text>{contribution?.details}</Text>}
+          {contribution?.details && (
+            <Text maxW={{ base: '40ch' }}>{contribution?.details}</Text>
+          )}
           <Stack marginBottom={4} fontSize="sm" fontWeight="bolder">
             {contribution?.proof && (
               <ChakraLink href={ipfsToHttp(contribution?.proof)} isExternal>
