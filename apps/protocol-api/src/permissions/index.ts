@@ -258,7 +258,7 @@ export const permissions = shield(
       activityTypes: or(isAuthenticated, hasToken),
       attestations: isAuthenticated,
       listActivityTypesByUser: isAuthenticated,
-      getUser: isAuthenticated,
+      getUser: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),
       guildUsers: or(isAuthenticated, hasToken),
