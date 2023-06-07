@@ -28,8 +28,6 @@ export const AttestationModal = ({
     useAttestationMint();
   const attestationThreshold = contribution.guilds[0]?.attestation_threshold;
 
-  console.log('contribution in attestation modal', contribution);
-
   const { setModals } = useOverlay();
 
   const createAttestationsHandler = async (contributions: UIContribution) => {

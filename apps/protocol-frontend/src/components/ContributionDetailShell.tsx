@@ -7,7 +7,6 @@ import {
   ListItem,
   Stack,
   HStack,
-  Badge,
   Heading,
   Text,
   Link as ChakraLink,
@@ -150,18 +149,17 @@ const ContributionDetailShell = ({
             </Stack>
           </Flex>
           <Divider />
+          {contribution?.status?.name === 'minted' ? (
+            <Stack spacing={2} width="full" maxW="20ch" paddingTop={4}>
+              <Button variant="primary" onClick={attestationsModalHandler}>
+                Attest
+              </Button>
+            </Stack>
+          ) : null}
           {contribution?.attestations.length > 0 && (
             <Flex paddingY={4}>
               <Stack spacing={2} width="full" maxW="20ch">
                 <Flex direction="column" gap={2}>
-                  {contribution?.status?.name === 'minted' ? (
-                    <Button
-                      variant="primary"
-                      onClick={attestationsModalHandler}
-                    >
-                      Attest
-                    </Button>
-                  ) : null}
                   <Heading as="h3" fontSize="lg" fontWeight="normal">
                     {contribution?.attestations.length}
                     {contribution?.attestations.length > 1
