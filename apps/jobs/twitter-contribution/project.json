@@ -128,9 +128,9 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/jobs-twitter-contribution:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/jobs_twitter_contribution_5m.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/jobs-twitter-contribution:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/staging/jobs_twitter_contribution.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 staging-do-1-nyc3-1656080503829",
-          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/jobs_twitter_contribution_5m.yaml"
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/staging/jobs_twitter_contribution.yaml"
         ],
         "parallel": false
       }
@@ -139,9 +139,9 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/jobs-twitter-contribution:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/jobs_twitter_contribution_5m.yaml",
+          "TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/govrn-protocol/jobs-twitter-contribution:sha-'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/prod/jobs_twitter_contribution.yaml",
           "doctl kubernetes cluster kubeconfig save --expiry-seconds 600 protocol-production-nyc3-1650036584083",
-          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/jobs_twitter_contribution_5m.yaml"
+          "kubectl apply -f $GITHUB_WORKSPACE/kubernetes/prod/jobs_twitter_contribution.yaml"
         ],
         "parallel": false
       }
