@@ -44,5 +44,6 @@ async def test_create_twitter_hashtag_contribution():
 
 @pytest.mark.asyncio
 async def test_retrieve_twitter_tweet_contribution():
-    test_tweet_id = 1666699511597596700
-    await graphql.get_tweet_contribution(1666699511597596700)
+    test_tweet_url = "test"
+    contribution = await graphql.get_tweet_contribution(test_tweet_url)
+    assert contribution is not None
