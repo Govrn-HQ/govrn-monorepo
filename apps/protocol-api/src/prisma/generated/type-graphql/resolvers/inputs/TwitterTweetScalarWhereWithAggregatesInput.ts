@@ -42,10 +42,10 @@ export class TwitterTweetScalarWhereWithAggregatesInput {
   })
   updatedAt?: DateTimeWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  twitter_tweet_id?: IntWithAggregatesFilter | undefined;
+  twitter_tweet_url?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true

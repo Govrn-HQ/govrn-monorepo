@@ -15,11 +15,6 @@ export class TwitterTweetAvgAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
-  twitter_tweet_id!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
-  })
   twitter_user_id!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
