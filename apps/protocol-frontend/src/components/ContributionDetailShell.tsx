@@ -25,6 +25,7 @@ import { ipfsToHttp } from '../utils/ipfs';
 import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationModal } from './BulkAttestationModal';
 import ModalWrapper from './ModalWrapper';
+import { VerifiedCelebrationModal } from './VerifiedCelebrationModal';
 
 interface ContributionDetailShellProps {
   contribution: UIContribution;
@@ -213,6 +214,21 @@ const ContributionDetailShell = ({
           />
         }
       />
+      {verifiedContribution !== null && (
+        <ModalWrapper
+          name="verifiedCelebrationModal"
+          title=""
+          localOverlay={localOverlay}
+          size="3xl"
+          bgColor="brand.gradientBackgroundModal"
+          closeButtonColor="white"
+          content={
+            <VerifiedCelebrationModal
+              verifiedContribution={verifiedContribution}
+            />
+          }
+        />
+      )}
     </>
   );
 };
