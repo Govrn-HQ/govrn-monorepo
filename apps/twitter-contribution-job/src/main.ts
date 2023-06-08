@@ -86,7 +86,7 @@ const main = async () => {
     for (const tweet of tweets) {
       createItems.push({
         text: tweet.text,
-        twitter_tweet_id: tweet.id,
+        twitter_tweet_url: tweet.url,
         twitter_user_id: authorMapping[tweet.author_id] || null,
       });
     }
