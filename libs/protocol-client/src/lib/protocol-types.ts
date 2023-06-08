@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  BigInt: any;
   DateTime: string | Date;
 };
 
@@ -1819,6 +1820,41 @@ export type AttestationWhereInput = {
 export type AttestationWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
   user_id_contribution_id?: InputMaybe<AttestationUser_IdContribution_IdCompoundUniqueInput>;
+};
+
+export type BigIntFieldUpdateOperationsInput = {
+  decrement?: InputMaybe<Scalars['BigInt']>;
+  divide?: InputMaybe<Scalars['BigInt']>;
+  increment?: InputMaybe<Scalars['BigInt']>;
+  multiply?: InputMaybe<Scalars['BigInt']>;
+  set?: InputMaybe<Scalars['BigInt']>;
+};
+
+export type BigIntFilter = {
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type BigIntWithAggregatesFilter = {
+  _avg?: InputMaybe<NestedFloatFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedBigIntFilter>;
+  _min?: InputMaybe<NestedBigIntFilter>;
+  _sum?: InputMaybe<NestedBigIntFilter>;
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
 };
 
 export type BoolFieldUpdateOperationsInput = {
@@ -5267,7 +5303,6 @@ export type Guild = {
   status: GuildStatus;
   twitter_accounts: Array<TwitterAccount>;
   twitter_integration?: Maybe<GuildTwitterIntegration>;
-  twitter_integration_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
   users: Array<GuildUser>;
   verification_setting?: Maybe<VerificationSetting>;
@@ -5832,13 +5867,11 @@ export type GuildActivityTypeWhereUniqueInput = {
 
 export type GuildAvgAggregate = {
   id?: Maybe<Scalars['Float']>;
-  twitter_integration_id?: Maybe<Scalars['Float']>;
   verification_setting_id?: Maybe<Scalars['Float']>;
 };
 
 export type GuildAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
-  twitter_integration_id?: InputMaybe<SortOrder>;
   verification_setting_id?: InputMaybe<SortOrder>;
 };
 
@@ -6549,7 +6582,6 @@ export type GuildCountAggregate = {
   logo: Scalars['Int'];
   name: Scalars['Int'];
   status: Scalars['Int'];
-  twitter_integration_id: Scalars['Int'];
   updatedAt: Scalars['Int'];
   verification_setting_id: Scalars['Int'];
 };
@@ -6563,7 +6595,6 @@ export type GuildCountOrderByAggregateInput = {
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
-  twitter_integration_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   verification_setting_id?: InputMaybe<SortOrder>;
 };
@@ -6582,7 +6613,6 @@ export type GuildCreateInput = {
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationCreateNestedOneWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
   verification_setting?: InputMaybe<VerificationSettingCreateNestedOneWithoutGuildsInput>;
@@ -6597,7 +6627,6 @@ export type GuildCreateManyInput = {
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<GuildStatus>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   verification_setting_id?: InputMaybe<Scalars['Int']>;
 };
@@ -6611,7 +6640,6 @@ export type GuildCreateManyVerification_SettingInput = {
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<GuildStatus>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -6722,7 +6750,6 @@ export type GuildCreateWithoutActivity_TypeInput = {
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationCreateNestedOneWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
   verification_setting?: InputMaybe<VerificationSettingCreateNestedOneWithoutGuildsInput>;
@@ -6741,7 +6768,6 @@ export type GuildCreateWithoutCanonical_Guild_Activity_TypeInput = {
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationCreateNestedOneWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
   verification_setting?: InputMaybe<VerificationSettingCreateNestedOneWithoutGuildsInput>;
@@ -6760,7 +6786,6 @@ export type GuildCreateWithoutContributionsInput = {
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationCreateNestedOneWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
   verification_setting?: InputMaybe<VerificationSettingCreateNestedOneWithoutGuildsInput>;
@@ -6779,7 +6804,6 @@ export type GuildCreateWithoutGuild_ImportsInput = {
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationCreateNestedOneWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
   verification_setting?: InputMaybe<VerificationSettingCreateNestedOneWithoutGuildsInput>;
@@ -6798,7 +6822,6 @@ export type GuildCreateWithoutTwitter_AccountsInput = {
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<GuildStatus>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationCreateNestedOneWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
   verification_setting?: InputMaybe<VerificationSettingCreateNestedOneWithoutGuildsInput>;
@@ -6817,7 +6840,6 @@ export type GuildCreateWithoutTwitter_IntegrationInput = {
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
   verification_setting?: InputMaybe<VerificationSettingCreateNestedOneWithoutGuildsInput>;
@@ -6837,7 +6859,6 @@ export type GuildCreateWithoutUsersInput = {
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationCreateNestedOneWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   verification_setting?: InputMaybe<VerificationSettingCreateNestedOneWithoutGuildsInput>;
 };
@@ -6856,7 +6877,6 @@ export type GuildCreateWithoutVerification_SettingInput = {
   status?: InputMaybe<GuildStatus>;
   twitter_accounts?: InputMaybe<TwitterAccountCreateNestedManyWithoutGuildInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationCreateNestedOneWithoutGuildInput>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   users?: InputMaybe<GuildUserCreateNestedManyWithoutGuildInput>;
 };
@@ -6879,7 +6899,6 @@ export type GuildGroupBy = {
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   status: GuildStatus;
-  twitter_integration_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
   verification_setting_id?: Maybe<Scalars['Int']>;
 };
@@ -7650,7 +7669,6 @@ export type GuildMaxAggregate = {
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   status?: Maybe<GuildStatus>;
-  twitter_integration_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   verification_setting_id?: Maybe<Scalars['Int']>;
 };
@@ -7664,7 +7682,6 @@ export type GuildMaxOrderByAggregateInput = {
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
-  twitter_integration_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   verification_setting_id?: InputMaybe<SortOrder>;
 };
@@ -7893,7 +7910,6 @@ export type GuildMinAggregate = {
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   status?: Maybe<GuildStatus>;
-  twitter_integration_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   verification_setting_id?: Maybe<Scalars['Int']>;
 };
@@ -7907,7 +7923,6 @@ export type GuildMinOrderByAggregateInput = {
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
-  twitter_integration_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   verification_setting_id?: InputMaybe<SortOrder>;
 };
@@ -7930,7 +7945,6 @@ export type GuildOrderByWithAggregationInput = {
   logo?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
-  twitter_integration_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   verification_setting_id?: InputMaybe<SortOrder>;
 };
@@ -7950,7 +7964,6 @@ export type GuildOrderByWithRelationInput = {
   status?: InputMaybe<SortOrder>;
   twitter_accounts?: InputMaybe<TwitterAccountOrderByRelationAggregateInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationOrderByWithRelationInput>;
-  twitter_integration_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   users?: InputMaybe<GuildUserOrderByRelationAggregateInput>;
   verification_setting?: InputMaybe<VerificationSettingOrderByWithRelationInput>;
@@ -7971,7 +7984,6 @@ export enum GuildScalarFieldEnum {
   Logo = 'logo',
   Name = 'name',
   Status = 'status',
-  TwitterIntegrationId = 'twitter_integration_id',
   UpdatedAt = 'updatedAt',
   VerificationSettingId = 'verification_setting_id'
 }
@@ -7988,7 +8000,6 @@ export type GuildScalarWhereInput = {
   logo?: InputMaybe<StringNullableFilter>;
   name?: InputMaybe<StringNullableFilter>;
   status?: InputMaybe<EnumGuildStatusFilter>;
-  twitter_integration_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   verification_setting_id?: InputMaybe<IntNullableFilter>;
 };
@@ -8005,7 +8016,6 @@ export type GuildScalarWhereWithAggregatesInput = {
   logo?: InputMaybe<StringNullableWithAggregatesFilter>;
   name?: InputMaybe<StringNullableWithAggregatesFilter>;
   status?: InputMaybe<EnumGuildStatusWithAggregatesFilter>;
-  twitter_integration_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   verification_setting_id?: InputMaybe<IntNullableWithAggregatesFilter>;
 };
@@ -8018,13 +8028,11 @@ export enum GuildStatus {
 
 export type GuildSumAggregate = {
   id?: Maybe<Scalars['Int']>;
-  twitter_integration_id?: Maybe<Scalars['Int']>;
   verification_setting_id?: Maybe<Scalars['Int']>;
 };
 
 export type GuildSumOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
-  twitter_integration_id?: InputMaybe<SortOrder>;
   verification_setting_id?: InputMaybe<SortOrder>;
 };
 
@@ -8272,7 +8280,6 @@ export type GuildUpdateInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
   verification_setting?: InputMaybe<VerificationSettingUpdateOneWithoutGuildsNestedInput>;
@@ -8286,7 +8293,6 @@ export type GuildUpdateManyMutationInput = {
   logo?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -8385,7 +8391,6 @@ export type GuildUpdateWithoutActivity_TypeInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
   verification_setting?: InputMaybe<VerificationSettingUpdateOneWithoutGuildsNestedInput>;
@@ -8404,7 +8409,6 @@ export type GuildUpdateWithoutCanonical_Guild_Activity_TypeInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
   verification_setting?: InputMaybe<VerificationSettingUpdateOneWithoutGuildsNestedInput>;
@@ -8423,7 +8427,6 @@ export type GuildUpdateWithoutContributionsInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
   verification_setting?: InputMaybe<VerificationSettingUpdateOneWithoutGuildsNestedInput>;
@@ -8442,7 +8445,6 @@ export type GuildUpdateWithoutGuild_ImportsInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
   verification_setting?: InputMaybe<VerificationSettingUpdateOneWithoutGuildsNestedInput>;
@@ -8461,7 +8463,6 @@ export type GuildUpdateWithoutTwitter_AccountsInput = {
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
   verification_setting?: InputMaybe<VerificationSettingUpdateOneWithoutGuildsNestedInput>;
@@ -8480,7 +8481,6 @@ export type GuildUpdateWithoutTwitter_IntegrationInput = {
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
   verification_setting?: InputMaybe<VerificationSettingUpdateOneWithoutGuildsNestedInput>;
@@ -8500,7 +8500,6 @@ export type GuildUpdateWithoutUsersInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   verification_setting?: InputMaybe<VerificationSettingUpdateOneWithoutGuildsNestedInput>;
 };
@@ -8519,7 +8518,6 @@ export type GuildUpdateWithoutVerification_SettingInput = {
   status?: InputMaybe<EnumGuildStatusFieldUpdateOperationsInput>;
   twitter_accounts?: InputMaybe<TwitterAccountUpdateManyWithoutGuildNestedInput>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput>;
-  twitter_integration_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   users?: InputMaybe<GuildUserUpdateManyWithoutGuildNestedInput>;
 };
@@ -9176,7 +9174,6 @@ export type GuildWhereInput = {
   status?: InputMaybe<EnumGuildStatusFilter>;
   twitter_accounts?: InputMaybe<TwitterAccountListRelationFilter>;
   twitter_integration?: InputMaybe<GuildTwitterIntegrationRelationFilter>;
-  twitter_integration_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   users?: InputMaybe<GuildUserListRelationFilter>;
   verification_setting?: InputMaybe<VerificationSettingRelationFilter>;
@@ -9186,7 +9183,6 @@ export type GuildWhereInput = {
 export type GuildWhereUniqueInput = {
   discord_id?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
-  twitter_integration_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type IntFieldUpdateOperationsInput = {
@@ -14187,6 +14183,33 @@ export type MutationUpsertOneVerificationSettingArgs = {
   where: VerificationSettingWhereUniqueInput;
 };
 
+export type NestedBigIntFilter = {
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type NestedBigIntWithAggregatesFilter = {
+  _avg?: InputMaybe<NestedFloatFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedBigIntFilter>;
+  _min?: InputMaybe<NestedBigIntFilter>;
+  _sum?: InputMaybe<NestedBigIntFilter>;
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
 export type NestedBoolFilter = {
   equals?: InputMaybe<Scalars['Boolean']>;
   not?: InputMaybe<NestedBoolFilter>;
@@ -17575,7 +17598,7 @@ export type TwitterTweet = {
   text: Scalars['String'];
   twitter_tweet_contribution_ids: Array<Scalars['Int']>;
   twitter_tweet_contributions: Array<TwitterTweetContribution>;
-  twitter_tweet_id: Scalars['Int'];
+  twitter_tweet_id: Scalars['BigInt'];
   twitter_user?: Maybe<TwitterUser>;
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
@@ -17970,7 +17993,7 @@ export type TwitterTweetCreateInput = {
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutTwitter_TweetInput>;
-  twitter_tweet_id: Scalars['Int'];
+  twitter_tweet_id: Scalars['BigInt'];
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutTweetsInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -17980,7 +18003,7 @@ export type TwitterTweetCreateManyInput = {
   id?: InputMaybe<Scalars['Int']>;
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id: Scalars['Int'];
+  twitter_tweet_id: Scalars['BigInt'];
   twitter_user_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -17990,7 +18013,7 @@ export type TwitterTweetCreateManyTwitter_UserInput = {
   id?: InputMaybe<Scalars['Int']>;
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id: Scalars['Int'];
+  twitter_tweet_id: Scalars['BigInt'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -18026,7 +18049,7 @@ export type TwitterTweetCreateWithoutTwitter_Tweet_ContributionsInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id: Scalars['Int'];
+  twitter_tweet_id: Scalars['BigInt'];
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutTweetsInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -18036,7 +18059,7 @@ export type TwitterTweetCreateWithoutTwitter_UserInput = {
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutTwitter_TweetInput>;
-  twitter_tweet_id: Scalars['Int'];
+  twitter_tweet_id: Scalars['BigInt'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -18054,7 +18077,7 @@ export type TwitterTweetGroupBy = {
   id: Scalars['Int'];
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: Maybe<Array<Scalars['Int']>>;
-  twitter_tweet_id: Scalars['Int'];
+  twitter_tweet_id: Scalars['BigInt'];
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
 };
@@ -18069,7 +18092,7 @@ export type TwitterTweetMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   text?: Maybe<Scalars['String']>;
-  twitter_tweet_id?: Maybe<Scalars['Int']>;
+  twitter_tweet_id?: Maybe<Scalars['BigInt']>;
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -18087,7 +18110,7 @@ export type TwitterTweetMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   text?: Maybe<Scalars['String']>;
-  twitter_tweet_id?: Maybe<Scalars['Int']>;
+  twitter_tweet_id?: Maybe<Scalars['BigInt']>;
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -18155,7 +18178,7 @@ export type TwitterTweetScalarWhereInput = {
   id?: InputMaybe<IntFilter>;
   text?: InputMaybe<StringFilter>;
   twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
-  twitter_tweet_id?: InputMaybe<IntFilter>;
+  twitter_tweet_id?: InputMaybe<BigIntFilter>;
   twitter_user_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
@@ -18168,7 +18191,7 @@ export type TwitterTweetScalarWhereWithAggregatesInput = {
   id?: InputMaybe<IntWithAggregatesFilter>;
   text?: InputMaybe<StringWithAggregatesFilter>;
   twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
-  twitter_tweet_id?: InputMaybe<IntWithAggregatesFilter>;
+  twitter_tweet_id?: InputMaybe<BigIntWithAggregatesFilter>;
   twitter_user_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
 };
@@ -18176,7 +18199,7 @@ export type TwitterTweetScalarWhereWithAggregatesInput = {
 export type TwitterTweetSumAggregate = {
   id?: Maybe<Scalars['Int']>;
   twitter_tweet_contribution_ids?: Maybe<Array<Scalars['Int']>>;
-  twitter_tweet_id?: Maybe<Scalars['Int']>;
+  twitter_tweet_id?: Maybe<Scalars['BigInt']>;
   twitter_user_id?: Maybe<Scalars['Int']>;
 };
 
@@ -18192,7 +18215,7 @@ export type TwitterTweetUpdateInput = {
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetNestedInput>;
-  twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  twitter_tweet_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -18201,7 +18224,7 @@ export type TwitterTweetUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  twitter_tweet_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -18241,7 +18264,7 @@ export type TwitterTweetUpdateWithoutTwitter_Tweet_ContributionsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  twitter_tweet_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -18251,7 +18274,7 @@ export type TwitterTweetUpdateWithoutTwitter_UserInput = {
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetNestedInput>;
-  twitter_tweet_id?: InputMaybe<IntFieldUpdateOperationsInput>;
+  twitter_tweet_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -18280,7 +18303,7 @@ export type TwitterTweetWhereInput = {
   text?: InputMaybe<StringFilter>;
   twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionListRelationFilter>;
-  twitter_tweet_id?: InputMaybe<IntFilter>;
+  twitter_tweet_id?: InputMaybe<BigIntFilter>;
   twitter_user?: InputMaybe<TwitterUserRelationFilter>;
   twitter_user_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -18288,7 +18311,7 @@ export type TwitterTweetWhereInput = {
 
 export type TwitterTweetWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
-  twitter_tweet_id?: InputMaybe<Scalars['Int']>;
+  twitter_tweet_id?: InputMaybe<Scalars['BigInt']>;
 };
 
 export type TwitterUser = {
@@ -20533,7 +20556,7 @@ export type GuildMembershipStatusQueryVariables = Exact<{
 
 export type GuildMembershipStatusQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
 
-export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: number, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, attestation_threshold?: number | null, verificationStatus?: { id: number, name: string } | null, guild: { id: number, name?: string | null, verification_setting_id?: number | null, verification_setting?: { num_of_attestations: number, id: number } | null } }> } }> };
+export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: any, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, attestation_threshold?: number | null, verificationStatus?: { id: number, name: string } | null, guild: { id: number, name?: string | null, verification_setting_id?: number | null, verification_setting?: { num_of_attestations: number, id: number } | null } }> } }> };
 
 export type TwitterTweetContributionFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, attestation_threshold?: number | null, verificationStatus?: { id: number, name: string } | null, guild: { id: number, name?: string | null, verification_setting_id?: number | null, verification_setting?: { num_of_attestations: number, id: number } | null } }> } };
 

@@ -2,8 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BigIntFieldUpdateOperationsInput } from "../inputs/BigIntFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TwitterTweetContributionUpdateManyWithoutTwitter_tweetNestedInput } from "../inputs/TwitterTweetContributionUpdateManyWithoutTwitter_tweetNestedInput";
 import { TwitterTweetUpdatetwitter_tweet_contribution_idsInput } from "../inputs/TwitterTweetUpdatetwitter_tweet_contribution_idsInput";
@@ -23,10 +23,10 @@ export class TwitterTweetUpdateInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => BigIntFieldUpdateOperationsInput, {
     nullable: true
   })
-  twitter_tweet_id?: IntFieldUpdateOperationsInput | undefined;
+  twitter_tweet_id?: BigIntFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true

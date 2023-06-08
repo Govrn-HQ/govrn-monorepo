@@ -27,10 +27,10 @@ export class TwitterTweetGroupBy {
   })
   updatedAt!: Date;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
     nullable: false
   })
-  twitter_tweet_id!: number;
+  twitter_tweet_id!: bigint;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

@@ -22,10 +22,10 @@ export class TwitterTweetMinAggregate {
   })
   updatedAt!: Date | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
     nullable: true
   })
-  twitter_tweet_id!: number | null;
+  twitter_tweet_id!: bigint | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
