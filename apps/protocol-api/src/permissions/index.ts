@@ -216,6 +216,7 @@ const JOB_ONLY_QUERIES = {
   jobRuns: hasToken,
   linearIssues: hasToken,
   linearUsers: hasToken,
+  twitterTweets: hasToken,
   users: hasToken,
   guildContributions: hasToken,
 };
@@ -432,6 +433,12 @@ export const permissions = shield(
       '*': or(isAuthenticated, hasToken),
     },
     IntegrationType: {
+      '*': or(isAuthenticated, hasToken),
+    },
+    TwitterTweet: {
+      '*': or(isAuthenticated, hasToken),
+    },
+    TwitterTweetContribution: {
       '*': or(isAuthenticated, hasToken),
     },
     TwitterUser: {

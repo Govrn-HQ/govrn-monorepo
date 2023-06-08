@@ -28,7 +28,7 @@ export class TwitterTweetOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  twitter_tweet_id?: "asc" | "desc" | undefined;
+  twitter_tweet_url?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

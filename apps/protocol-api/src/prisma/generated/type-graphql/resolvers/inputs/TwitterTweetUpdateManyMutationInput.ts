@@ -3,7 +3,6 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TwitterTweetUpdatetwitter_tweet_contribution_idsInput } from "../inputs/TwitterTweetUpdatetwitter_tweet_contribution_idsInput";
 
@@ -21,10 +20,10 @@ export class TwitterTweetUpdateManyMutationInput {
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  twitter_tweet_id?: IntFieldUpdateOperationsInput | undefined;
+  twitter_tweet_url?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true

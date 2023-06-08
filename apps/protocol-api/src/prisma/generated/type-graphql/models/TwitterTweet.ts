@@ -25,10 +25,10 @@ export class TwitterTweet {
   })
   updatedAt!: Date;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  twitter_tweet_id!: number;
+  twitter_tweet_url!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

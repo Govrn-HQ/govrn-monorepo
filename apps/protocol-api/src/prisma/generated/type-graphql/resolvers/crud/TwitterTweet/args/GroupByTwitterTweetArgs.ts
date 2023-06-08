@@ -20,7 +20,7 @@ export class GroupByTwitterTweetArgs {
   @TypeGraphQL.Field(_type => [TwitterTweetScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"id" | "createdAt" | "updatedAt" | "twitter_tweet_id" | "text" | "twitter_user_id" | "twitter_tweet_contribution_ids">;
+  by!: Array<"id" | "createdAt" | "updatedAt" | "twitter_tweet_url" | "text" | "twitter_user_id" | "twitter_tweet_contribution_ids">;
 
   @TypeGraphQL.Field(_type => TwitterTweetScalarWhereWithAggregatesInput, {
     nullable: true

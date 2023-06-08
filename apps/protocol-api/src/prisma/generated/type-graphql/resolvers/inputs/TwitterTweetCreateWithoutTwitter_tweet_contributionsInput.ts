@@ -19,10 +19,10 @@ export class TwitterTweetCreateWithoutTwitter_tweet_contributionsInput {
   })
   updatedAt?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  twitter_tweet_id!: number;
+  twitter_tweet_url!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
