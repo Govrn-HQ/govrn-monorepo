@@ -249,7 +249,6 @@ const JOB_ONLY_MUTATIONS = {
   upsertOneLinearUser: hasToken,
 };
 
-// TODO: remove all of this. this has wasted more time than it has saved
 export const permissions = shield(
   {
     Query: {
