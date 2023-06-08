@@ -117,7 +117,7 @@ fragment TwitterTweetFragment on TwitterTweet {
     id
     username
   }
-  twitter_tweet_contribution {
+  twitter_tweet_contributions {
     id
     createdAt
     contribution {
