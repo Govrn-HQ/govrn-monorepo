@@ -29,7 +29,8 @@ async def test_create_job_run():
 @pytest.mark.asyncio
 async def test_create_twitter_hashtag_contribution():
     tweet: data.Tweet = data.Tweet()
-    tweet.id = 1
+    tweet.id = 9223372036854775807
+
     tweet.content = "test"
     tweet.profile_handle = "test"
     tweet.date = datetime.datetime.now().isoformat()
@@ -39,3 +40,9 @@ async def test_create_twitter_hashtag_contribution():
     )
     assert contribution is not None
     assert contribution.get("id") is not None
+
+
+@pytest.mark.asyncio
+async def test_retrieve_twitter_tweet_contribution():
+    test_tweet_id = 1666699511597596700
+    await graphql.get_tweet_contribution(1666699511597596700)

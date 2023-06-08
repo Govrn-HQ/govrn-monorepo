@@ -483,14 +483,14 @@ model TwitterTweet {
   id                             Int                        @id @default(autoincrement())
   createdAt                      DateTime                   @default(now())
   updatedAt                      DateTime                   @default(now()) @updatedAt
-  twitter_tweet_id               BigInt
+  twitter_tweet_url              String
   text                           String
   twitter_user_id                Int?
   twitter_user                   TwitterUser?               @relation(fields: [twitter_user_id], references: [id])
   twitter_tweet_contribution_ids Int[]
   twitter_tweet_contributions    TwitterTweetContribution[]
 
-  @@unique([twitter_tweet_id])
+  @@unique([twitter_tweet_url])
 }
 
 model TwitterAccount {

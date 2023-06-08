@@ -133,7 +133,7 @@ fragment TwitterTweetFragment on TwitterTweet {
 """
 
 
-async def get_tweet_contribution(tweet_id):
+async def get_tweet_contribution(tweet_url):
     query = (
         TWITTER_TWEET_FRAGMENT
         + """
@@ -148,12 +148,10 @@ query getTweetContribution($where: TwitterTweetWhereInput!) {
     )
 
     result = await execute_query(
-        query, {"where": {"twitter_tweet_id": {"equals": tweet_id}}}
+        query, {"where": {"twitter_tweet_url": {"equals": tweet_url}}}
     )
     if result:
         res = result.get("result")
-        # unclear when this would actually return >1 result, but there
-        # is no uniqueness constraint on twitter_tweet_id
         if len(res):
             return res[0]
         return None
@@ -318,7 +316,7 @@ mutation createStagedContribution($data: ContributionCreateInput!) {
                     "create": {
                         "twitter_tweet": {
                             "create": {
-                                "twitter_tweet_id": tweet.id,
+                                "twitter_tweet_url": tweet.url,
                                 "text": tweet.content,
                                 "twitter_user": {
                                     "connect": {
