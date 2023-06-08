@@ -39,7 +39,6 @@ const ContributionDetailShell = ({
   const navigate = useNavigate();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
-  console.log('contribution', contribution);
 
   const attestationsModalHandler = () => {
     setModals({ attestationModal: true });
