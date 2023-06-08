@@ -13,7 +13,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  BigInt: any;
   DateTime: string | Date;
 };
 
@@ -1820,41 +1819,6 @@ export type AttestationWhereInput = {
 export type AttestationWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
   user_id_contribution_id?: InputMaybe<AttestationUser_IdContribution_IdCompoundUniqueInput>;
-};
-
-export type BigIntFieldUpdateOperationsInput = {
-  decrement?: InputMaybe<Scalars['BigInt']>;
-  divide?: InputMaybe<Scalars['BigInt']>;
-  increment?: InputMaybe<Scalars['BigInt']>;
-  multiply?: InputMaybe<Scalars['BigInt']>;
-  set?: InputMaybe<Scalars['BigInt']>;
-};
-
-export type BigIntFilter = {
-  equals?: InputMaybe<Scalars['BigInt']>;
-  gt?: InputMaybe<Scalars['BigInt']>;
-  gte?: InputMaybe<Scalars['BigInt']>;
-  in?: InputMaybe<Array<Scalars['BigInt']>>;
-  lt?: InputMaybe<Scalars['BigInt']>;
-  lte?: InputMaybe<Scalars['BigInt']>;
-  not?: InputMaybe<NestedBigIntFilter>;
-  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
-};
-
-export type BigIntWithAggregatesFilter = {
-  _avg?: InputMaybe<NestedFloatFilter>;
-  _count?: InputMaybe<NestedIntFilter>;
-  _max?: InputMaybe<NestedBigIntFilter>;
-  _min?: InputMaybe<NestedBigIntFilter>;
-  _sum?: InputMaybe<NestedBigIntFilter>;
-  equals?: InputMaybe<Scalars['BigInt']>;
-  gt?: InputMaybe<Scalars['BigInt']>;
-  gte?: InputMaybe<Scalars['BigInt']>;
-  in?: InputMaybe<Array<Scalars['BigInt']>>;
-  lt?: InputMaybe<Scalars['BigInt']>;
-  lte?: InputMaybe<Scalars['BigInt']>;
-  not?: InputMaybe<NestedBigIntWithAggregatesFilter>;
-  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
 };
 
 export type BoolFieldUpdateOperationsInput = {
@@ -14183,33 +14147,6 @@ export type MutationUpsertOneVerificationSettingArgs = {
   where: VerificationSettingWhereUniqueInput;
 };
 
-export type NestedBigIntFilter = {
-  equals?: InputMaybe<Scalars['BigInt']>;
-  gt?: InputMaybe<Scalars['BigInt']>;
-  gte?: InputMaybe<Scalars['BigInt']>;
-  in?: InputMaybe<Array<Scalars['BigInt']>>;
-  lt?: InputMaybe<Scalars['BigInt']>;
-  lte?: InputMaybe<Scalars['BigInt']>;
-  not?: InputMaybe<NestedBigIntFilter>;
-  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
-};
-
-export type NestedBigIntWithAggregatesFilter = {
-  _avg?: InputMaybe<NestedFloatFilter>;
-  _count?: InputMaybe<NestedIntFilter>;
-  _max?: InputMaybe<NestedBigIntFilter>;
-  _min?: InputMaybe<NestedBigIntFilter>;
-  _sum?: InputMaybe<NestedBigIntFilter>;
-  equals?: InputMaybe<Scalars['BigInt']>;
-  gt?: InputMaybe<Scalars['BigInt']>;
-  gte?: InputMaybe<Scalars['BigInt']>;
-  in?: InputMaybe<Array<Scalars['BigInt']>>;
-  lt?: InputMaybe<Scalars['BigInt']>;
-  lte?: InputMaybe<Scalars['BigInt']>;
-  not?: InputMaybe<NestedBigIntWithAggregatesFilter>;
-  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
-};
-
 export type NestedBoolFilter = {
   equals?: InputMaybe<Scalars['Boolean']>;
   not?: InputMaybe<NestedBoolFilter>;
@@ -17598,7 +17535,7 @@ export type TwitterTweet = {
   text: Scalars['String'];
   twitter_tweet_contribution_ids: Array<Scalars['Int']>;
   twitter_tweet_contributions: Array<TwitterTweetContribution>;
-  twitter_tweet_id: Scalars['BigInt'];
+  twitter_tweet_url: Scalars['String'];
   twitter_user?: Maybe<TwitterUser>;
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
@@ -17617,14 +17554,12 @@ export type TwitterTweetTwitter_Tweet_ContributionsArgs = {
 export type TwitterTweetAvgAggregate = {
   id?: Maybe<Scalars['Float']>;
   twitter_tweet_contribution_ids?: Maybe<Scalars['Float']>;
-  twitter_tweet_id?: Maybe<Scalars['Float']>;
   twitter_user_id?: Maybe<Scalars['Float']>;
 };
 
 export type TwitterTweetAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
-  twitter_tweet_id?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
 };
 
@@ -17973,7 +17908,7 @@ export type TwitterTweetCountAggregate = {
   id: Scalars['Int'];
   text: Scalars['Int'];
   twitter_tweet_contribution_ids: Scalars['Int'];
-  twitter_tweet_id: Scalars['Int'];
+  twitter_tweet_url: Scalars['Int'];
   twitter_user_id: Scalars['Int'];
   updatedAt: Scalars['Int'];
 };
@@ -17983,7 +17918,7 @@ export type TwitterTweetCountOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
   twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
-  twitter_tweet_id?: InputMaybe<SortOrder>;
+  twitter_tweet_url?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -17993,7 +17928,7 @@ export type TwitterTweetCreateInput = {
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutTwitter_TweetInput>;
-  twitter_tweet_id: Scalars['BigInt'];
+  twitter_tweet_url: Scalars['String'];
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutTweetsInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -18003,7 +17938,7 @@ export type TwitterTweetCreateManyInput = {
   id?: InputMaybe<Scalars['Int']>;
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id: Scalars['BigInt'];
+  twitter_tweet_url: Scalars['String'];
   twitter_user_id?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -18013,7 +17948,7 @@ export type TwitterTweetCreateManyTwitter_UserInput = {
   id?: InputMaybe<Scalars['Int']>;
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id: Scalars['BigInt'];
+  twitter_tweet_url: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -18049,7 +17984,7 @@ export type TwitterTweetCreateWithoutTwitter_Tweet_ContributionsInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id: Scalars['BigInt'];
+  twitter_tweet_url: Scalars['String'];
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutTweetsInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -18059,7 +17994,7 @@ export type TwitterTweetCreateWithoutTwitter_UserInput = {
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetCreatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutTwitter_TweetInput>;
-  twitter_tweet_id: Scalars['BigInt'];
+  twitter_tweet_url: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -18077,7 +18012,7 @@ export type TwitterTweetGroupBy = {
   id: Scalars['Int'];
   text: Scalars['String'];
   twitter_tweet_contribution_ids?: Maybe<Array<Scalars['Int']>>;
-  twitter_tweet_id: Scalars['BigInt'];
+  twitter_tweet_url: Scalars['String'];
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt: Scalars['DateTime'];
 };
@@ -18092,7 +18027,7 @@ export type TwitterTweetMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   text?: Maybe<Scalars['String']>;
-  twitter_tweet_id?: Maybe<Scalars['BigInt']>;
+  twitter_tweet_url?: Maybe<Scalars['String']>;
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -18101,7 +18036,7 @@ export type TwitterTweetMaxOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
-  twitter_tweet_id?: InputMaybe<SortOrder>;
+  twitter_tweet_url?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -18110,7 +18045,7 @@ export type TwitterTweetMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Int']>;
   text?: Maybe<Scalars['String']>;
-  twitter_tweet_id?: Maybe<Scalars['BigInt']>;
+  twitter_tweet_url?: Maybe<Scalars['String']>;
   twitter_user_id?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -18119,7 +18054,7 @@ export type TwitterTweetMinOrderByAggregateInput = {
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
-  twitter_tweet_id?: InputMaybe<SortOrder>;
+  twitter_tweet_url?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -18138,7 +18073,7 @@ export type TwitterTweetOrderByWithAggregationInput = {
   id?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
   twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
-  twitter_tweet_id?: InputMaybe<SortOrder>;
+  twitter_tweet_url?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -18149,7 +18084,7 @@ export type TwitterTweetOrderByWithRelationInput = {
   text?: InputMaybe<SortOrder>;
   twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionOrderByRelationAggregateInput>;
-  twitter_tweet_id?: InputMaybe<SortOrder>;
+  twitter_tweet_url?: InputMaybe<SortOrder>;
   twitter_user?: InputMaybe<TwitterUserOrderByWithRelationInput>;
   twitter_user_id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -18165,7 +18100,7 @@ export enum TwitterTweetScalarFieldEnum {
   Id = 'id',
   Text = 'text',
   TwitterTweetContributionIds = 'twitter_tweet_contribution_ids',
-  TwitterTweetId = 'twitter_tweet_id',
+  TwitterTweetUrl = 'twitter_tweet_url',
   TwitterUserId = 'twitter_user_id',
   UpdatedAt = 'updatedAt'
 }
@@ -18178,7 +18113,7 @@ export type TwitterTweetScalarWhereInput = {
   id?: InputMaybe<IntFilter>;
   text?: InputMaybe<StringFilter>;
   twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
-  twitter_tweet_id?: InputMaybe<BigIntFilter>;
+  twitter_tweet_url?: InputMaybe<StringFilter>;
   twitter_user_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
@@ -18191,7 +18126,7 @@ export type TwitterTweetScalarWhereWithAggregatesInput = {
   id?: InputMaybe<IntWithAggregatesFilter>;
   text?: InputMaybe<StringWithAggregatesFilter>;
   twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
-  twitter_tweet_id?: InputMaybe<BigIntWithAggregatesFilter>;
+  twitter_tweet_url?: InputMaybe<StringWithAggregatesFilter>;
   twitter_user_id?: InputMaybe<IntNullableWithAggregatesFilter>;
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
 };
@@ -18199,14 +18134,12 @@ export type TwitterTweetScalarWhereWithAggregatesInput = {
 export type TwitterTweetSumAggregate = {
   id?: Maybe<Scalars['Int']>;
   twitter_tweet_contribution_ids?: Maybe<Array<Scalars['Int']>>;
-  twitter_tweet_id?: Maybe<Scalars['BigInt']>;
   twitter_user_id?: Maybe<Scalars['Int']>;
 };
 
 export type TwitterTweetSumOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   twitter_tweet_contribution_ids?: InputMaybe<SortOrder>;
-  twitter_tweet_id?: InputMaybe<SortOrder>;
   twitter_user_id?: InputMaybe<SortOrder>;
 };
 
@@ -18215,7 +18148,7 @@ export type TwitterTweetUpdateInput = {
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetNestedInput>;
-  twitter_tweet_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  twitter_tweet_url?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -18224,7 +18157,7 @@ export type TwitterTweetUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  twitter_tweet_url?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -18264,7 +18197,7 @@ export type TwitterTweetUpdateWithoutTwitter_Tweet_ContributionsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
-  twitter_tweet_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  twitter_tweet_url?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutTweetsNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -18274,7 +18207,7 @@ export type TwitterTweetUpdateWithoutTwitter_UserInput = {
   text?: InputMaybe<StringFieldUpdateOperationsInput>;
   twitter_tweet_contribution_ids?: InputMaybe<TwitterTweetUpdatetwitter_Tweet_Contribution_IdsInput>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutTwitter_TweetNestedInput>;
-  twitter_tweet_id?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  twitter_tweet_url?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -18303,7 +18236,7 @@ export type TwitterTweetWhereInput = {
   text?: InputMaybe<StringFilter>;
   twitter_tweet_contribution_ids?: InputMaybe<IntNullableListFilter>;
   twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionListRelationFilter>;
-  twitter_tweet_id?: InputMaybe<BigIntFilter>;
+  twitter_tweet_url?: InputMaybe<StringFilter>;
   twitter_user?: InputMaybe<TwitterUserRelationFilter>;
   twitter_user_id?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -18311,7 +18244,7 @@ export type TwitterTweetWhereInput = {
 
 export type TwitterTweetWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
-  twitter_tweet_id?: InputMaybe<Scalars['BigInt']>;
+  twitter_tweet_url?: InputMaybe<Scalars['String']>;
 };
 
 export type TwitterUser = {
@@ -20556,7 +20489,7 @@ export type GuildMembershipStatusQueryVariables = Exact<{
 
 export type GuildMembershipStatusQuery = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, name: string } | null };
 
-export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_id: any, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, attestation_threshold?: number | null, verificationStatus?: { id: number, name: string } | null, guild: { id: number, name?: string | null, verification_setting_id?: number | null, verification_setting?: { num_of_attestations: number, id: number } | null } }> } }> };
+export type TwitterTweetFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, text: string, twitter_tweet_url: string, twitter_user?: { id: number, name?: string | null, createdAt: string | Date, updatedAt: string | Date, username: string } | null, twitter_tweet_contributions: Array<{ id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, attestation_threshold?: number | null, verificationStatus?: { id: number, name: string } | null, guild: { id: number, name?: string | null, verification_setting_id?: number | null, verification_setting?: { num_of_attestations: number, id: number } | null } }> } }> };
 
 export type TwitterTweetContributionFragmentFragment = { id: number, updatedAt: string | Date, createdAt: string | Date, contribution: { date_of_engagement: string | Date, date_of_submission: string | Date, details?: string | null, id: number, name: string, proof?: string | null, updatedAt: string | Date, on_chain_id?: number | null, tx_hash?: string | null, activity_type: { active: boolean, createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, chain?: { chain_id: string } | null, status: { createdAt: string | Date, id: number, name: string, updatedAt: string | Date }, user: { address: string, createdAt: string | Date, display_name?: string | null, full_name?: string | null, id: number, name?: string | null, updatedAt: string | Date }, attestations: Array<{ id: number, user_id: number, createdAt: string | Date, attestation_status?: { id: number, name: string } | null, user: { name?: string | null, address: string, id: number } }>, guilds: Array<{ id: number, guild_id: number, attestation_threshold?: number | null, verificationStatus?: { id: number, name: string } | null, guild: { id: number, name?: string | null, verification_setting_id?: number | null, verification_setting?: { num_of_attestations: number, id: number } | null } }> } };
 
@@ -21192,7 +21125,7 @@ export const TwitterTweetFragmentFragmentDoc = gql`
   updatedAt
   createdAt
   text
-  twitter_tweet_id
+  twitter_tweet_url
   twitter_user {
     id
     name

@@ -12,8 +12,8 @@ export class TwitterTweetWhereUniqueInput {
   })
   id?: number | undefined;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  twitter_tweet_id?: bigint | undefined;
+  twitter_tweet_url?: string | undefined;
 }

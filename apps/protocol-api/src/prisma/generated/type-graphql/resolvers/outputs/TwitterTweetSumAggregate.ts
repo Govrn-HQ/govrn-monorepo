@@ -12,11 +12,6 @@ export class TwitterTweetSumAggregate {
   })
   id!: number | null;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
-    nullable: true
-  })
-  twitter_tweet_id!: bigint | null;
-
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

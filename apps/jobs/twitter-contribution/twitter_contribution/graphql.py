@@ -112,7 +112,7 @@ fragment TwitterTweetFragment on TwitterTweet {
   id
   createdAt
   text
-  twitter_tweet_id
+  twitter_tweet_url
   twitter_user {
     id
     username

@@ -143,9 +143,6 @@ export { AttestationUpsertWithWhereUniqueWithoutUserInput } from "./AttestationU
 export { AttestationUser_idContribution_idCompoundUniqueInput } from "./AttestationUser_idContribution_idCompoundUniqueInput";
 export { AttestationWhereInput } from "./AttestationWhereInput";
 export { AttestationWhereUniqueInput } from "./AttestationWhereUniqueInput";
-export { BigIntFieldUpdateOperationsInput } from "./BigIntFieldUpdateOperationsInput";
-export { BigIntFilter } from "./BigIntFilter";
-export { BigIntWithAggregatesFilter } from "./BigIntWithAggregatesFilter";
 export { BoolFieldUpdateOperationsInput } from "./BoolFieldUpdateOperationsInput";
 export { BoolFilter } from "./BoolFilter";
 export { BoolNullableFilter } from "./BoolNullableFilter";
@@ -1020,8 +1017,6 @@ export { LinearUserUpsertWithoutAssigned_issuesInput } from "./LinearUserUpsertW
 export { LinearUserUpsertWithoutCreated_issuesInput } from "./LinearUserUpsertWithoutCreated_issuesInput";
 export { LinearUserWhereInput } from "./LinearUserWhereInput";
 export { LinearUserWhereUniqueInput } from "./LinearUserWhereUniqueInput";
-export { NestedBigIntFilter } from "./NestedBigIntFilter";
-export { NestedBigIntWithAggregatesFilter } from "./NestedBigIntWithAggregatesFilter";
 export { NestedBoolFilter } from "./NestedBoolFilter";
 export { NestedBoolNullableFilter } from "./NestedBoolNullableFilter";
 export { NestedBoolNullableWithAggregatesFilter } from "./NestedBoolNullableWithAggregatesFilter";

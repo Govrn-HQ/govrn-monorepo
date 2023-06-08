@@ -22,10 +22,10 @@ export class TwitterTweetMaxAggregate {
   })
   updatedAt!: Date | null;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  twitter_tweet_id!: bigint | null;
+  twitter_tweet_url!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

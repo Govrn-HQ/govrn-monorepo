@@ -23,10 +23,10 @@ export class TwitterTweetCreateManyInput {
   })
   updatedAt?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  twitter_tweet_id!: bigint;
+  twitter_tweet_url!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
