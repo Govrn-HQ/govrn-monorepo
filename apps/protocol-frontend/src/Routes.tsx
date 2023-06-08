@@ -33,11 +33,12 @@ const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
   const { isAuthenticated, checkExistingCreds } = useAuth();
   const { isConnected } = useAccount();
+  const { userDataByAddress } = useUser();
 
   if (!isAuthenticated && checkExistingCreds) {
     return <Navigate to="/authenticate" state={{ from: location }} replace />;
   }
-  if (!isConnected) {
+  if (!isConnected || !userDataByAddress) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
