@@ -148,7 +148,7 @@ query getTweetContribution($where: TwitterTweetWhereInput!) {
     )
 
     result = await execute_query(
-        query, {"where": {"twitter_tweet_id": {"is": tweet_id}}}
+        query, {"where": {"twitter_tweet_id": {"equals": tweet_id}}}
     )
     if result:
         res = result.get("result")
