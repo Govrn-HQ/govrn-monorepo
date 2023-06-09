@@ -6,6 +6,7 @@ import ContributionDetailShell from '../components/ContributionDetailShell';
 import { useContributionGet } from '../hooks/useContributionGet';
 import { useNavigate } from 'react-router-dom';
 import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const ContributionDetails = () => {
   const { id } = useParams();
@@ -76,9 +77,11 @@ const ContributionDetails = () => {
   }
 
   return (
-    <RequireAuth>
-      <DetailComponent />
-    </RequireAuth>
+    <SiteLayout>
+      <RequireAuth>
+        <DetailComponent />
+      </RequireAuth>
+    </SiteLayout>
   );
 };
 
