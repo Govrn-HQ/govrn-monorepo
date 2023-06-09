@@ -15,16 +15,18 @@ const NonAuthenticatedView = () => {
       heading={'Welcome to Govrn'}
       emoji={'👋'}
       copy={
-        <Stack>
-          <Text fontSize="lg" fontWeight="medium" align="center" mx={32} mb={4}>
-            {' '}
-            You'll need to connect your wallet to get started with Govrn. After
-            connecting you should be redirected to whatever page you’re looking
-            for.{' '}
+        <Stack fontSize="lg" fontWeight="medium" mx={{ base: 4, lg: 32 }}>
+          <Text>
+            You'll need to connect your wallet to get started with Govrn. If
+            you're a new user we'll create an account for you with your address.
           </Text>
-          <Text fontSize="lg" fontWeight="medium" align="center" mx={32}>
+          <Text>
             You’ll be able to Join a DAO, attest to other people’s
             contributions, and create contributions of your own.
+          </Text>
+          <Text>
+            After connecting you should be redirected to whatever page you’re
+            looking for.
           </Text>
         </Stack>
       }
