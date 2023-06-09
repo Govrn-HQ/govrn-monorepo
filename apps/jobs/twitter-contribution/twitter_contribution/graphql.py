@@ -133,7 +133,7 @@ fragment TwitterTweetFragment on TwitterTweet {
 """
 
 
-async def get_tweet_contribution(tweet_url):
+async def get_tweet_contribution(tweet_url: str):
     query = (
         TWITTER_TWEET_FRAGMENT
         + """
