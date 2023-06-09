@@ -2,6 +2,7 @@ import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
 import React from 'react';
 import { useAccount } from 'wagmi';
+import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import { GovrnCta } from '@govrn/protocol-ui';
 
@@ -15,7 +16,7 @@ const NonAuthenticatedView = () => {
       heading={'Welcome to Govrn'}
       emoji={'👋'}
       copy={
-        <Stack fontSize="lg" fontWeight="medium" mx={{ base: 4, lg: 32 }}>
+        <Stack fontSize="lg" fontWeight="regular" mx={{ base: 4, lg: 32 }}>
           <Text>
             You'll need to connect your wallet to get started with Govrn. If
             you're a new user we'll create an account for you with your address.
@@ -38,8 +39,14 @@ const NonAuthenticatedView = () => {
 export const RequireAuth = ({ children }: RequireAuthProps) => {
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
+  const { userDataByAddress, isUserLoading } = useUser();
   // If the user is connected and authenticated, render the children.
-  if (isConnected && isAuthenticated) {
+  if (
+    isConnected &&
+    isAuthenticated &&
+    !isUserLoading &&
+    userDataByAddress !== undefined
+  ) {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
