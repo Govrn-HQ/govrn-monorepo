@@ -25,7 +25,7 @@ export class TwitterTweetCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  twitter_tweet_id!: number;
+  twitter_tweet_url!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
