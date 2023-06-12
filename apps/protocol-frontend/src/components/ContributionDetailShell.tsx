@@ -150,7 +150,13 @@ const ContributionDetailShell = ({
           </Flex>
           <Divider />
           {contribution?.status?.name === 'minted' ? (
-            <Stack spacing={2} width="full" maxW="20ch" paddingTop={4}>
+            <Stack
+              spacing={2}
+              width="full"
+              maxW="20ch"
+              paddingTop={4}
+              paddingBottom={contribution?.attestations.length === 0 ? 4 : 0}
+            >
               <Button variant="primary" onClick={attestationsModalHandler}>
                 Attest
               </Button>
