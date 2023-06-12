@@ -33,12 +33,12 @@ const App = () => {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <QueryClientProvider client={queryClient}>
-          <UserContextProvider>
-            <AuthContextProvider>
+          <AuthContextProvider>
+            <UserContextProvider>
               <ReactQueryDevtools initialIsOpen={false} />
               <Routes />
-            </AuthContextProvider>
-          </UserContextProvider>
+            </UserContextProvider>
+          </AuthContextProvider>
         </QueryClientProvider>
       </RainbowKitProvider>
     </WagmiConfig>

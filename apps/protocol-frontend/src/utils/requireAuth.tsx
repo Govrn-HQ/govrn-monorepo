@@ -1,9 +1,10 @@
 import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
+import useUserCreate from '../hooks/useUserCreate';
 import { GovrnCta } from '@govrn/protocol-ui';
 
 type RequireAuthProps = {
@@ -22,7 +23,7 @@ const NonAuthenticatedView = () => {
             you're a new user we'll create an account for you with your address.
           </Text>
           <Text>
-            You’ll be able to Join a DAO, attest to other people’s
+            You’ll be able to join a DAO, attest to other people’s
             contributions, and create contributions of your own.
           </Text>
           <Text>
@@ -37,9 +38,24 @@ const NonAuthenticatedView = () => {
 };
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { isAuthenticated } = useAuth();
   const { userDataByAddress, isUserLoading } = useUser();
+  const { mutateAsync: createUser } = useUserCreate();
+
+  const createNewUser = useCallback(async () => {
+    if (!address || !isConnected || !isAuthenticated) {
+      return;
+    }
+    await createUser({
+      newUser: {
+        username: address ?? '',
+        address: address,
+      },
+      showToast: true,
+    });
+  }, [address, createUser, isConnected, isAuthenticated, userDataByAddress]);
+
   // If the user is connected and authenticated, render the children.
   if (
     isConnected &&
@@ -50,6 +66,26 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
+
+  // useEffect(() => {
+  //   if (
+  //     isConnected &&
+  //     isAuthenticated &&
+  //     userDataByAddress === undefined &&
+  //     isUserLoading === false
+  //   ) {
+  //     console.log('userDataByAddress', userDataByAddress);
+  //     createNewUser();
+  //     console.log('new user being created');
+  //   }
+  // }, [
+  //   isConnected,
+  //   isAuthenticated,
+  //   userDataByAddress,
+  //   isUserLoading,
+  //   createNewUser,
+  //   address,
+  // ]);
 
   return (
     <Container

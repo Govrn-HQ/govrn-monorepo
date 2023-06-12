@@ -119,38 +119,38 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
     }
   }, [isConnected, isAuthenticated, authFlow]);
 
-  const createNewUser = useCallback(async () => {
-    if (!address || !isConnected || !isAuthenticated) {
-      return;
-    }
-    await createUser({
-      newUser: {
-        username: address ?? '',
-        address: address,
-      },
-      showToast: true,
-    });
-  }, [address, createUser, isConnected, isAuthenticated, userDataByAddress]);
+  // const createNewUser = useCallback(async () => {
+  //   if (!address || !isConnected || !isAuthenticated) {
+  //     return;
+  //   }
+  //   await createUser({
+  //     newUser: {
+  //       username: address ?? '',
+  //       address: address,
+  //     },
+  //     showToast: true,
+  //   });
+  // }, [address, createUser, isConnected, isAuthenticated, userDataByAddress]);
 
-  useEffect(() => {
-    if (
-      isConnected &&
-      isAuthenticated &&
-      userDataByAddress === undefined &&
-      isUserLoading === false
-    ) {
-      console.log('userDataByAddress', userDataByAddress);
-      createNewUser();
-      console.log('new user being created');
-    }
-  }, [
-    isConnected,
-    isAuthenticated,
-    userDataByAddress,
-    isUserLoading,
-    createNewUser,
-    address,
-  ]);
+  // useEffect(() => {
+  //   if (
+  //     isConnected &&
+  //     isAuthenticated &&
+  //     userDataByAddress === undefined &&
+  //     isUserLoading === false
+  //   ) {
+  //     console.log('userDataByAddress', userDataByAddress);
+  //     createNewUser();
+  //     console.log('new user being created');
+  //   }
+  // }, [
+  //   isConnected,
+  //   isAuthenticated,
+  //   userDataByAddress,
+  //   isUserLoading,
+  //   createNewUser,
+  //   address,
+  // ]);
 
   // Add account and chain listeners
   useEffect(() => {
