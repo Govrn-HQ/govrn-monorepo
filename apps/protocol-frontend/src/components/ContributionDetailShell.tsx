@@ -44,6 +44,8 @@ const ContributionDetailShell = ({
     setModals({ attestationModal: true });
   };
 
+  console.log('attestations', contribution?.attestations);
+
   return (
     <>
       <Box
