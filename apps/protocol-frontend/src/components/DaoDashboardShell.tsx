@@ -34,6 +34,7 @@ import {
   DEFAULT_DATE_RANGES,
   MembershipStatusesNames,
 } from '../utils/constants';
+import { useDaoGet } from '../hooks/useDaoGet';
 
 const CUSTOM_VALUE = 0;
 
@@ -53,6 +54,14 @@ const DaoDashboardShell = ({
 
   const { data: userDaosData } = useUserGet({ userId: userData?.id });
   const userDaos = userDaosData?.userDaos;
+
+  const {
+    isLoading: daoLoading,
+    isError: daoError,
+    data: daoData,
+  } = useDaoGet({ id: daoId });
+
+  console.log('dao data', daoData);
 
   const daoRecruit = daoMembershipStatus === MembershipStatusesNames.Recruit;
   const daoMember =
