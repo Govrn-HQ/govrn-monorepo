@@ -70,7 +70,7 @@ async def process_tweets(guild_integration, tweets: list[Tweet]):
             continue
 
         # check if contribution already exists
-        tweet_contribution = await get_tweet_contribution(tweet.id)
+        tweet_contribution = await get_tweet_contribution(tweet.url)
         if tweet_contribution is not None:
             logger.info(
                 f"Skipping tweet {tweet.id} by user {tweet.profile_handle} already contributed"
