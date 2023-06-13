@@ -67,7 +67,6 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
   ]);
 
   // If the user is connected and authenticated, but not an active user, create a new user.
-
   useEffect(() => {
     if (
       isConnected &&
