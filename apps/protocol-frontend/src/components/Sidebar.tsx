@@ -126,7 +126,7 @@ const Sidebar = () => {
                 active={location.pathname.includes('/profile')}
               />
             </Link>
-            {isConnected && isAuthenticated && (
+            {isConnected && isAuthenticated && userData !== undefined && (
               <Stack>
                 {daosUsersListData !== undefined &&
                 daosUsersListData.length > 0 ? (
