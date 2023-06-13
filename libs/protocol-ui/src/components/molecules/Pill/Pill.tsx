@@ -11,7 +11,7 @@ import {
 import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 
 export interface PillProps extends TagProps {
-  label: string;
+  label: string | undefined | null;
   status: 'gradient' | 'primary' | 'secondary' | 'tertiary';
   icon?: 'checkmark' | 'primaryInfo' | 'secondaryInfo' | null;
 }
