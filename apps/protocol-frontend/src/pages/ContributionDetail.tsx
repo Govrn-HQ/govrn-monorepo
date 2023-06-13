@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Flex, Text, Button, Heading } from '@chakra-ui/react';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -11,7 +12,15 @@ import SiteLayout from '../components/SiteLayout';
 const ContributionDetails = () => {
   const { id } = useParams();
   const { data: contribution } = useContributionGet(parseInt(id || '0'));
+
+  console.log('contribution', contribution);
   const navigate = useNavigate();
+
+  // const memorizedContributionData = useMemo(() => {
+  //   if (id) {
+  //     return contribution;
+  //   }
+  // }, [contribution]);
 
   let DetailComponent = () => (
     <Box
@@ -76,10 +85,14 @@ const ContributionDetails = () => {
     );
   }
 
+  if (contribution === undefined || contribution === null) {
+    return <div>Error</div>;
+  }
   return (
     <SiteLayout>
       <RequireAuth>
-        <DetailComponent />
+        {/* <DetailComponent /> */}
+        <ContributionDetailShell contribution={contribution} />
       </RequireAuth>
     </SiteLayout>
   );

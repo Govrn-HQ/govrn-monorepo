@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Box,
   Button,
@@ -42,16 +42,13 @@ const ContributionDetailShell = ({
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
 
-  const attestationsModalHandler = () => {
+  const attestationsModalHandler = useCallback(() => {
     setModals({ attestationModal: true });
-  };
+  }, [setModals]);
 
-  console.log('attestations', contribution?.attestations);
   const userHasAttested = contribution?.attestations.some(
     attestation => attestation.user.id === userData?.id,
   );
-
-  console.log('userHasAttested', userHasAttested);
 
   return (
     <>
@@ -171,7 +168,12 @@ const ContributionDetailShell = ({
                   Attest
                 </Button>
               ) : (
-                <Stack direction="row">
+                <Stack
+                  direction="row"
+                  paddingBottom={
+                    contribution?.attestations.length === 0 ? 4 : 0
+                  }
+                >
                   <Text
                     as="span"
                     bgGradient="linear(to-l, #7928CA, #FF0080)"
@@ -243,6 +245,7 @@ const ContributionDetailShell = ({
           <AttestationModal
             contribution={contribution}
             setVerifiedContribution={setVerifiedContribution}
+            onFinish={() => console.log('finished')}
           />
         }
       />
