@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Box,
   Button,
@@ -26,6 +26,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import { AttestationModal } from './BulkAttestationModal';
 import ModalWrapper from './ModalWrapper';
 import { VerifiedCelebrationModal } from './VerifiedCelebrationModal';
+import { useUser } from '../contexts/UserContext';
 
 interface ContributionDetailShellProps {
   contribution: UIContribution;
@@ -37,12 +38,17 @@ const ContributionDetailShell = ({
   const [verifiedContribution, setVerifiedContribution] =
     useState<UIContribution | null>(null);
   const navigate = useNavigate();
+  const { userData } = useUser();
   const { setModals } = useOverlay();
   const localOverlay = useOverlay();
 
-  const attestationsModalHandler = () => {
+  const attestationsModalHandler = useCallback(() => {
     setModals({ attestationModal: true });
-  };
+  }, [setModals]);
+
+  const userHasAttested = contribution?.attestations.some(
+    attestation => attestation.user.id === userData?.id,
+  );
 
   return (
     <>
@@ -150,10 +156,39 @@ const ContributionDetailShell = ({
           </Flex>
           <Divider />
           {contribution?.status?.name === 'minted' ? (
-            <Stack spacing={2} width="full" maxW="20ch" paddingTop={4}>
-              <Button variant="primary" onClick={attestationsModalHandler}>
-                Attest
-              </Button>
+            <Stack
+              spacing={2}
+              width="full"
+              maxW={userHasAttested === false ? '20ch' : '40ch'}
+              paddingTop={4}
+              paddingBottom={contribution?.attestations.length === 0 ? 4 : 0}
+            >
+              {userHasAttested === false ? (
+                <Button variant="primary" onClick={attestationsModalHandler}>
+                  Attest
+                </Button>
+              ) : (
+                <Stack
+                  direction="row"
+                  paddingBottom={
+                    contribution?.attestations.length === 0 ? 4 : 0
+                  }
+                >
+                  <Text
+                    as="span"
+                    bgGradient="linear(to-l, #7928CA, #FF0080)"
+                    bgClip="text"
+                  >
+                    You've attested to this contribution!{' '}
+                  </Text>
+                  <span
+                    role="img"
+                    aria-labelledby="celebration emoji showcasing that the user has already attested to this contribution"
+                  >
+                    🎉
+                  </span>
+                </Stack>
+              )}
             </Stack>
           ) : null}
           {contribution?.attestations.length > 0 && (

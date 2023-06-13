@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Box, Flex, Text, Button, Heading } from '@chakra-ui/react';
 import { FiArrowLeft } from 'react-icons/fi';
-
 import ContributionDetailShell from '../components/ContributionDetailShell';
 import { useContributionGet } from '../hooks/useContributionGet';
 import { useNavigate } from 'react-router-dom';
@@ -11,9 +10,10 @@ import SiteLayout from '../components/SiteLayout';
 const ContributionDetails = () => {
   const { id } = useParams();
   const { data: contribution } = useContributionGet(parseInt(id || '0'));
+
   const navigate = useNavigate();
 
-  let DetailComponent = () => (
+  let detailComponent = (
     <Box
       marginY={{ base: 10, md: 0 }}
       paddingY={{ base: '8', md: '8' }}
@@ -71,16 +71,12 @@ const ContributionDetails = () => {
   );
 
   if (contribution !== undefined && contribution !== null) {
-    DetailComponent = () => (
-      <ContributionDetailShell contribution={contribution} />
-    );
+    detailComponent = <ContributionDetailShell contribution={contribution} />;
   }
 
   return (
     <SiteLayout>
-      <RequireAuth>
-        <DetailComponent />
-      </RequireAuth>
+      <RequireAuth>{detailComponent}</RequireAuth>
     </SiteLayout>
   );
 };
