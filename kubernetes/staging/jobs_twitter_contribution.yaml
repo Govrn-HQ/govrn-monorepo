@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: jobs-twitter-contribution
 spec:
-  schedule: '*/5 * * * *'
+  schedule: '*/15 * * * *'
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 100
