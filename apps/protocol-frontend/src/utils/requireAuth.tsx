@@ -1,6 +1,6 @@
+import React, { useCallback, useEffect } from 'react';
 import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
-import React, { useCallback, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -47,6 +47,9 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
     if (!address || !isConnected || !isAuthenticated) {
       return;
     }
+    if (isConnected && isAuthenticated && isUserLoading && userDataByAddress) {
+      return;
+    }
     await createUser({
       newUser: {
         username: address ?? '',
@@ -54,7 +57,33 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
       },
       showToast: true,
     });
-  }, [address, createUser, isConnected, isAuthenticated, userDataByAddress]);
+  }, [
+    address,
+    isConnected,
+    isAuthenticated,
+    isUserLoading,
+    userDataByAddress,
+    createUser,
+  ]);
+
+  // If the user is connected and authenticated, but not an active user, create a new user.
+
+  useEffect(() => {
+    if (
+      isConnected &&
+      isAuthenticated &&
+      !isUserLoading &&
+      userDataByAddress === undefined
+    ) {
+      createNewUser();
+    }
+  }, [
+    createNewUser,
+    isConnected,
+    isAuthenticated,
+    isUserLoading,
+    userDataByAddress,
+  ]);
 
   // If the user is connected and authenticated, render the children.
   if (
@@ -66,26 +95,6 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
-
-  // useEffect(() => {
-  //   if (
-  //     isConnected &&
-  //     isAuthenticated &&
-  //     userDataByAddress === undefined &&
-  //     isUserLoading === false
-  //   ) {
-  //     console.log('userDataByAddress', userDataByAddress);
-  //     createNewUser();
-  //     console.log('new user being created');
-  //   }
-  // }, [
-  //   isConnected,
-  //   isAuthenticated,
-  //   userDataByAddress,
-  //   isUserLoading,
-  //   createNewUser,
-  //   address,
-  // ]);
 
   return (
     <Container
