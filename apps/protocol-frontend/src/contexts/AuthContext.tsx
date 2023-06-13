@@ -6,10 +6,8 @@ import React, {
   useState,
 } from 'react';
 import useLogout from '../hooks/useLogout';
-import { useUser } from '../contexts/UserContext';
 import { useAccount, useSignMessage, useNetwork, Connector } from 'wagmi';
 import { createSiweMessage } from '../utils/siwe';
-import useUserCreate from '../hooks/useUserCreate';
 import { VERIFY_URL, SIWE_ACTIVE_URL } from '../utils/constants';
 
 export type AuthContextType = {
@@ -42,8 +40,6 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [checkExistingCreds, setCheckExistingCreds] = useState(false);
-  const { userDataByAddress, isUserLoading } = useUser();
-  const { mutateAsync: createUser } = useUserCreate();
 
   const { isConnected, address, connector } = useAccount();
   const { signMessageAsync } = useSignMessage();
@@ -118,39 +114,6 @@ export const AuthContextProvider = ({ children }: ProviderProps) => {
       authFlow();
     }
   }, [isConnected, isAuthenticated, authFlow]);
-
-  // const createNewUser = useCallback(async () => {
-  //   if (!address || !isConnected || !isAuthenticated) {
-  //     return;
-  //   }
-  //   await createUser({
-  //     newUser: {
-  //       username: address ?? '',
-  //       address: address,
-  //     },
-  //     showToast: true,
-  //   });
-  // }, [address, createUser, isConnected, isAuthenticated, userDataByAddress]);
-
-  // useEffect(() => {
-  //   if (
-  //     isConnected &&
-  //     isAuthenticated &&
-  //     userDataByAddress === undefined &&
-  //     isUserLoading === false
-  //   ) {
-  //     console.log('userDataByAddress', userDataByAddress);
-  //     createNewUser();
-  //     console.log('new user being created');
-  //   }
-  // }, [
-  //   isConnected,
-  //   isAuthenticated,
-  //   userDataByAddress,
-  //   isUserLoading,
-  //   createNewUser,
-  //   address,
-  // ]);
 
   // Add account and chain listeners
   useEffect(() => {
