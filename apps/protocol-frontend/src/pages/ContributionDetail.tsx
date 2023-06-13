@@ -1,8 +1,6 @@
-import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Flex, Text, Button, Heading } from '@chakra-ui/react';
 import { FiArrowLeft } from 'react-icons/fi';
-
 import ContributionDetailShell from '../components/ContributionDetailShell';
 import { useContributionGet } from '../hooks/useContributionGet';
 import { useNavigate } from 'react-router-dom';
@@ -13,16 +11,9 @@ const ContributionDetails = () => {
   const { id } = useParams();
   const { data: contribution } = useContributionGet(parseInt(id || '0'));
 
-  console.log('contribution', contribution);
   const navigate = useNavigate();
 
-  // const memorizedContributionData = useMemo(() => {
-  //   if (id) {
-  //     return contribution;
-  //   }
-  // }, [contribution]);
-
-  let DetailComponent = () => (
+  let detailComponent = (
     <Box
       marginY={{ base: 10, md: 0 }}
       paddingY={{ base: '8', md: '8' }}
@@ -80,20 +71,12 @@ const ContributionDetails = () => {
   );
 
   if (contribution !== undefined && contribution !== null) {
-    DetailComponent = () => (
-      <ContributionDetailShell contribution={contribution} />
-    );
+    detailComponent = <ContributionDetailShell contribution={contribution} />;
   }
 
-  if (contribution === undefined || contribution === null) {
-    return <div>Error</div>;
-  }
   return (
     <SiteLayout>
-      <RequireAuth>
-        {/* <DetailComponent /> */}
-        <ContributionDetailShell contribution={contribution} />
-      </RequireAuth>
+      <RequireAuth>{detailComponent}</RequireAuth>
     </SiteLayout>
   );
 };

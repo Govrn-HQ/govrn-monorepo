@@ -245,7 +245,6 @@ const ContributionDetailShell = ({
           <AttestationModal
             contribution={contribution}
             setVerifiedContribution={setVerifiedContribution}
-            onFinish={() => console.log('finished')}
           />
         }
       />
