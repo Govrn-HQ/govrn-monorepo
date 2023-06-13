@@ -177,6 +177,19 @@ const DaoDashboardShell = ({
     );
   }
 
+  const CopyChildrenNoDao = () => (
+    <Flex direction="column" alignItems="center" justifyContent="center">
+      <Text as="span">
+        {' '}
+        <span role="img" aria-labelledby="pointing up emoji">
+          👆
+        </span>{' '}
+        Oops, this DAO doesn't exist! Try looking for your DAO on the Profile
+        page.
+      </Text>
+    </Flex>
+  );
+
   const CopyChildrenNotMember = () => (
     <Flex direction="column" alignItems="center" justifyContent="center">
       <Text as="span">
@@ -233,6 +246,45 @@ const DaoDashboardShell = ({
       </Stack>
     );
   };
+
+  if (!daoData) {
+    return (
+      <Stack
+        paddingY={{ base: '4', md: '8' }}
+        paddingX={{ base: '4', md: '8' }}
+        color="gray.700"
+        width="100%"
+      >
+        <Flex
+          direction={{ base: 'column', lg: 'row' }}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Flex
+            flexBasis={{ base: '100%', lg: '60%' }}
+            direction={{ base: 'column', lg: 'row' }}
+            alignItems="center"
+            justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
+            gap={2}
+            width={{ base: '100%', lg: 'auto' }}
+          >
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              alignItems="center"
+              justifyContent={{ base: 'flex-start', lg: 'flex-end' }}
+              width="auto"
+              gap={{ base: 0, lg: 2 }}
+            ></Flex>
+          </Flex>
+        </Flex>
+        <GovrnCta
+          heading={`DAO Doesn't Exist`}
+          emoji="🔎"
+          copy={<CopyChildrenNoDao />}
+        />
+      </Stack>
+    );
+  }
 
   if (daoMember === false && !daoRecruit)
     return (
