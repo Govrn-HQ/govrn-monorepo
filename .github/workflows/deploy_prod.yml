@@ -1,7 +1,6 @@
 name: Deploy prod
 run-name: Deploy to prod by @${{ github.actor }}
-on:
-  workflow_dispatch
+on: workflow_dispatch
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
   SKYNET_API_KEY: ${{ secrets.SKYNET_API_KEY }}
@@ -54,7 +53,7 @@ jobs:
           echo WEEKLY_REPORT_TIME= >> .env
           echo WEEKLY_REPORT_ENABLE= >> .env
       - run: yarn nx affected --all --target format
-      - run: npx nx affected --all --target lint 
+      - run: npx nx affected --all --target lint
       - name: Test
         run: npx nx affected --all --target test
       - name: Delete env
