@@ -26,6 +26,25 @@ import {
   MembershipStatusesNames,
 } from './utils/constants';
 
+<<<<<<< HEAD
+=======
+const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
+  const location = useLocation();
+  const { isAuthenticated, checkExistingCreds } = useAuth();
+  const { isConnected } = useAccount();
+  const { userDataByAddress } = useUser();
+
+  if (!isAuthenticated && checkExistingCreds) {
+    return <Navigate to="/authenticate" state={{ from: location }} replace />;
+  }
+  if (!isConnected || !userDataByAddress) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
+>>>>>>> master
 const Routes = () => {
   const { userData } = useUser();
   const { data } = useUserGet({ userId: userData?.id });
