@@ -11,9 +11,9 @@ foundryup # install Foundry
 
 #### Setting up local environment
 
-Create .env with env.sample and get the appropriate values. The private key can be taken from an existing anvil account.
+Create .env with env.sample and get the appropriate values. The private key can be taken from an existing Anvil account.
 
-Run local node with anvil with the below command
+Run local node with Anvil with the below command
 
 ```
 anvil

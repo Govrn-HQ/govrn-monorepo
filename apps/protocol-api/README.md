@@ -79,6 +79,6 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 - `LINEAR_JOB_TOKEN`: Authorization for GraphQL requests for linear sync job
 
 [^1]: uses [`@nx-tools/nx-prisma`](https://github.com/nx-tools/nx-tools/tree/main/packages/nx-prisma) builder that provides a wrapper around the Prisma CLI.
-[^2]: As example it used at [contract-sync-job](../../apps/contract-sync-job/) app, check `CONTRACT_SYNC_TOKEN` env.
+[^2]: As example it used at [contract-sync-job](../../apps/contract-sync-job/) app, check `CONTRACT_SYNC_TOKEN` env
 
 [tables-diagram]: https://i.imgur.com/gETbxIF.png

@@ -2,7 +2,7 @@
 
 ## Summary
 
-This Job retrieves all [Linear](https://linear.app) issues and updated all Linear-related Tables. The Job is using Linear [SDK](https://developers.linear.app/docs/sdk/getting-started)
+This Job retrieves all [Linear](https://linear.app) issues and updated all Linear-related Tables. The Job is using Linear [SDK](https://developers.linear.app/docs/sdk/getting-started).
 
 ## Nx Plugin
 

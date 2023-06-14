@@ -16,7 +16,7 @@ This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/n
 
 - first add new query to [`queries.graphql`](./src/lib/graphql/queries.graphql) file.
 - run `yarn nx run protocol-api:serve`, to be able to load GraphQl Schema.
-- run `yarn nx run protocol-client:generate-gql`, [`protocol-types.ts`](./src/lib/protocol-types.ts) will be updated with new modifications.
+- run `yarn nx run protocol-client:generate-gql`, [`protocol-types.ts`](./src/lib/protocol-types.ts) will be updated with new modifications
 
 ## `.env` Variables
 

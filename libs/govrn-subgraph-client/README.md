@@ -4,7 +4,7 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Building
 
-Run `nx build govrn-subgraph-client` to build the library.
+Run `nx build govrn-subgraph-client` to build the library
 
 ## Running unit tests
 
