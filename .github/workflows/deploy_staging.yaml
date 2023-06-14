@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 name: Deploy staging
 run-name: Deploy to staging by @${{ github.actor }}
-=======
-name: Ci branch
-run-name: Deploy to prod by @${{ github.actor }}
->>>>>>> 951b9ab7ee4607980b87496d1d55985cca511fec
 on: workflow_dispatch
 
 env:
