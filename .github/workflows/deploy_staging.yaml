@@ -3,7 +3,6 @@ run-name: Deploy to prod by @${{ github.actor }}
 on: workflow_dispatch
 
 env:
-  BASE: ${{ github.ref == 'refs/heads/staging' && 'origin/master' || 'origin/staging' }}
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
   SKYNET_API_KEY: ${{ secrets.SKYNET_API_KEY }}
   PROTOCOL_FRONTEND_STAGING_SEED: ${{ secrets.PROTOCOL_FRONTEND_STAGING_SEED }}
