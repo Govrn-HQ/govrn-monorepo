@@ -1,5 +1,5 @@
-name: Ci branch
-run-name: Deploy to prod by @${{ github.actor }}
+name: Deploy staging
+run-name: Deploy to staging by @${{ github.actor }}
 on: workflow_dispatch
 
 env:
