@@ -1,48 +1,19 @@
 import { useParams } from 'react-router-dom';
-import {
-  Container,
-  Box,
-  Flex,
-  Stack,
-  Text,
-  Button,
-  Heading,
-} from '@chakra-ui/react';
-import { useAccount } from 'wagmi';
-import { useUser } from '../contexts/UserContext';
-import { useAuth } from '../contexts/AuthContext';
+import { Box, Flex, Text, Button, Heading } from '@chakra-ui/react';
 import { FiArrowLeft } from 'react-icons/fi';
-import SiteLayout from '../components/SiteLayout';
-
 import ContributionDetailShell from '../components/ContributionDetailShell';
-import NewUserView from '../components/NewUserView';
-import { GOVRN_MOTTO } from '../utils/constants';
 import { useContributionGet } from '../hooks/useContributionGet';
 import { useNavigate } from 'react-router-dom';
-
-const UserView = () => {
-  return (
-    <Stack spacing="4" justify="center" align="center" minHeight="50vh">
-      <Text>{GOVRN_MOTTO}</Text>
-      <Text fontSize="lg" fontWeight="medium">
-        Welcome back! Connect your wallet to see your Contribution Details{' '}
-        <span role="img" aria-labelledby="eye emoji looking at Contributions">
-          👀
-        </span>
-      </Text>
-    </Stack>
-  );
-};
+import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const ContributionDetails = () => {
-  const { isConnected } = useAccount();
   const { id } = useParams();
-  const { userData } = useUser();
   const { data: contribution } = useContributionGet(parseInt(id || '0'));
-  const { isAuthenticated } = useAuth();
+
   const navigate = useNavigate();
 
-  let DetailComponent = () => (
+  let detailComponent = (
     <Box
       marginY={{ base: 10, md: 0 }}
       paddingY={{ base: '8', md: '8' }}
@@ -100,35 +71,12 @@ const ContributionDetails = () => {
   );
 
   if (contribution !== undefined && contribution !== null) {
-    DetailComponent = () => (
-      <ContributionDetailShell contribution={contribution} />
-    );
+    detailComponent = <ContributionDetailShell contribution={contribution} />;
   }
 
   return (
     <SiteLayout>
-      {isConnected && isAuthenticated && contribution?.status ? (
-        <DetailComponent />
-      ) : (
-        <Container
-          paddingY={{ base: '4', md: '8' }}
-          paddingX={{ base: '0', md: '8' }}
-          color="gray.700"
-          maxWidth="1200px"
-        >
-          <Box
-            background="white"
-            boxShadow="sm"
-            borderRadius={{ base: 'none', md: 'lg' }}
-          >
-            {isConnected && isAuthenticated && userData ? (
-              <UserView />
-            ) : (
-              <NewUserView />
-            )}
-          </Box>
-        </Container>
-      )}
+      <RequireAuth>{detailComponent}</RequireAuth>
     </SiteLayout>
   );
 };

@@ -338,4 +338,5 @@ app.get('/discord/oauth', async function (req, res) {
 });
 
 console.log('listening');
+console.log(process.env.NODE_ENV);
 app.listen(4000);

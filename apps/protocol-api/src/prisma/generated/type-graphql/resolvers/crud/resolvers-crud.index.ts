@@ -17,6 +17,7 @@ export { GuildContributionVerificationStatusCrudResolver } from "./GuildContribu
 export { GuildImportCrudResolver } from "./GuildImport/GuildImportCrudResolver";
 export { GuildImportStatusCrudResolver } from "./GuildImportStatus/GuildImportStatusCrudResolver";
 export { GuildMembershipStatusCrudResolver } from "./GuildMembershipStatus/GuildMembershipStatusCrudResolver";
+export { GuildTwitterIntegrationCrudResolver } from "./GuildTwitterIntegration/GuildTwitterIntegrationCrudResolver";
 export { GuildUserCrudResolver } from "./GuildUser/GuildUserCrudResolver";
 export { IntegrationTypeCrudResolver } from "./IntegrationType/IntegrationTypeCrudResolver";
 export { JobRunCrudResolver } from "./JobRun/JobRunCrudResolver";

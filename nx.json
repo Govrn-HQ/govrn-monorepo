@@ -57,5 +57,6 @@
     "build": {
       "dependsOn": ["^build"]
     }
-  }
+  },
+  "plugins": ["@nxlv/python"]
 }

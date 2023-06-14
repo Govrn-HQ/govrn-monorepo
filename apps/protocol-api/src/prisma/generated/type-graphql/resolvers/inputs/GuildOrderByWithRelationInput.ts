@@ -6,6 +6,7 @@ import { CanonicalGuildActivityTypeOrderByRelationAggregateInput } from "../inpu
 import { GuildActivityTypeOrderByRelationAggregateInput } from "../inputs/GuildActivityTypeOrderByRelationAggregateInput";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
 import { GuildImportOrderByRelationAggregateInput } from "../inputs/GuildImportOrderByRelationAggregateInput";
+import { GuildTwitterIntegrationOrderByWithRelationInput } from "../inputs/GuildTwitterIntegrationOrderByWithRelationInput";
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
 import { TwitterAccountOrderByRelationAggregateInput } from "../inputs/TwitterAccountOrderByRelationAggregateInput";
 import { VerificationSettingOrderByWithRelationInput } from "../inputs/VerificationSettingOrderByWithRelationInput";
@@ -99,4 +100,9 @@ export class GuildOrderByWithRelationInput {
     nullable: true
   })
   canonical_guild_activity_type?: CanonicalGuildActivityTypeOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildTwitterIntegrationOrderByWithRelationInput, {
+    nullable: true
+  })
+  twitter_integration?: GuildTwitterIntegrationOrderByWithRelationInput | undefined;
 }

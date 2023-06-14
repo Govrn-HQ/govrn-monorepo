@@ -127,7 +127,7 @@ async def get_user_by_discord_id(discord_id):
     query = (
         GqlFragments.USER_FRAGMENT
         + """
-query getUser($where: UserWhereInput!,) {
+query getUser($where: UserWhereInput!) {
     result: users(
         where: $where,
     ) {

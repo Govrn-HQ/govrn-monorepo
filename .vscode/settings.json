@@ -22,5 +22,10 @@
   },
   "cSpell.words": [
     "govrn"
-  ]
+  ],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.formatting.provider": "none",
+  "python.analysis.fixAll": []
 }

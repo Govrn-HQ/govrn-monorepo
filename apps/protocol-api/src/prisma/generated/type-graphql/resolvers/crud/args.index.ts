@@ -17,6 +17,7 @@ export * from "./GuildContributionVerificationStatus/args";
 export * from "./GuildImport/args";
 export * from "./GuildImportStatus/args";
 export * from "./GuildMembershipStatus/args";
+export * from "./GuildTwitterIntegration/args";
 export * from "./GuildUser/args";
 export * from "./IntegrationType/args";
 export * from "./JobRun/args";

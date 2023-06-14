@@ -6,6 +6,7 @@ import { CanonicalGuildActivityTypeCreateNestedManyWithoutGuildInput } from "../
 import { GuildActivityTypeCreateNestedManyWithoutGuildInput } from "../inputs/GuildActivityTypeCreateNestedManyWithoutGuildInput";
 import { GuildContributionCreateNestedManyWithoutGuildInput } from "../inputs/GuildContributionCreateNestedManyWithoutGuildInput";
 import { GuildImportCreateNestedManyWithoutGuildInput } from "../inputs/GuildImportCreateNestedManyWithoutGuildInput";
+import { GuildTwitterIntegrationCreateNestedOneWithoutGuildInput } from "../inputs/GuildTwitterIntegrationCreateNestedOneWithoutGuildInput";
 import { GuildUserCreateNestedManyWithoutGuildInput } from "../inputs/GuildUserCreateNestedManyWithoutGuildInput";
 import { TwitterAccountCreateNestedManyWithoutGuildInput } from "../inputs/TwitterAccountCreateNestedManyWithoutGuildInput";
 import { GuildStatus } from "../../enums/GuildStatus";
@@ -83,4 +84,9 @@ export class GuildCreateWithoutVerification_settingInput {
     nullable: true
   })
   canonical_guild_activity_type?: CanonicalGuildActivityTypeCreateNestedManyWithoutGuildInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildTwitterIntegrationCreateNestedOneWithoutGuildInput, {
+    nullable: true
+  })
+  twitter_integration?: GuildTwitterIntegrationCreateNestedOneWithoutGuildInput | undefined;
 }

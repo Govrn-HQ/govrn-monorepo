@@ -1,15 +1,13 @@
-import { useAccount } from 'wagmi';
-import { useAuth } from '../contexts/AuthContext';
-import SiteLayout from '../components/SiteLayout';
 import DaoSettingsLayout from '../components/DaoSettingsLayout';
+import { RequireAuth } from '../utils/requireAuth';
+import SiteLayout from '../components/SiteLayout';
 
 const DaoSettings = () => {
-  const { isConnected } = useAccount();
-  const { isAuthenticated } = useAuth();
-
   return (
     <SiteLayout>
-      {isConnected && isAuthenticated && <DaoSettingsLayout />}
+      <RequireAuth>
+        <DaoSettingsLayout />
+      </RequireAuth>
     </SiteLayout>
   );
 };

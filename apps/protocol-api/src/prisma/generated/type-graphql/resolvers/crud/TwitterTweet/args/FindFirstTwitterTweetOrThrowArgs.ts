@@ -35,5 +35,5 @@ export class FindFirstTwitterTweetOrThrowArgs {
   @TypeGraphQL.Field(_type => [TwitterTweetScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "createdAt" | "updatedAt" | "twitter_tweet_id" | "text" | "twitter_user_id" | "twitter_tweet_contribution_ids"> | undefined;
+  distinct?: Array<"id" | "createdAt" | "updatedAt" | "twitter_tweet_url" | "text" | "twitter_user_id" | "twitter_tweet_contribution_ids"> | undefined;
 }

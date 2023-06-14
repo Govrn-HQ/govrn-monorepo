@@ -92,6 +92,7 @@ model Guild {
   verification_setting_id        Int?
   verification_setting           VerificationSetting?         @relation(fields: [verification_setting_id], references: [id])
   canonical_guild_activity_type  CanonicalGuildActivityType[]
+  twitter_integration            GuildTwitterIntegration?
 }
 
 model GuildMembershipStatus {
@@ -155,6 +156,15 @@ model GuildActivityType {
   CanonicalGuildActivityType CanonicalGuildActivityType?
 
   @@unique([guild_id, activity_type_id])
+}
+
+model GuildTwitterIntegration {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  guild_id  Int      @unique
+  guild     Guild    @relation(fields: [guild_id], references: [id])
+  hashtag   String   @unique
 }
 
 model CanonicalGuildActivityType {
@@ -473,14 +483,14 @@ model TwitterTweet {
   id                             Int                        @id @default(autoincrement())
   createdAt                      DateTime                   @default(now())
   updatedAt                      DateTime                   @default(now()) @updatedAt
-  twitter_tweet_id               Int
+  twitter_tweet_url              String
   text                           String
   twitter_user_id                Int?
   twitter_user                   TwitterUser?               @relation(fields: [twitter_user_id], references: [id])
   twitter_tweet_contribution_ids Int[]
   twitter_tweet_contributions    TwitterTweetContribution[]
 
-  @@unique([twitter_tweet_id])
+  @@unique([twitter_tweet_url])
 }
 
 model TwitterAccount {

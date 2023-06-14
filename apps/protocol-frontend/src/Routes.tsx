@@ -3,9 +3,7 @@ import {
   Route,
   Routes as RouteContainer,
   Navigate,
-  useLocation,
 } from 'react-router-dom';
-import { useAuth } from './contexts/AuthContext';
 import { useUser } from './contexts/UserContext';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -21,29 +19,12 @@ import RedirectHome from './pages/Redirect';
 import ContributionDetail from './pages/ContributionDetail';
 import CreateDao from './pages/CreateDao';
 import useUserGet from './hooks/useUserGet';
-import { useAccount } from 'wagmi';
 import DiscordSignatureLayout from './components/DiscordSignatureLayout';
 import {
   CONTRIBUTION_NEW_DOMAIN,
   CONTRIBUTION_NEW_STAGING_DOMAIN,
   MembershipStatusesNames,
 } from './utils/constants';
-
-const RequireActiveUser = ({ children }: { children: JSX.Element }) => {
-  const location = useLocation();
-  const { isAuthenticated, checkExistingCreds } = useAuth();
-  const { isConnected } = useAccount();
-  const { userDataByAddress } = useUser();
-
-  if (!isAuthenticated && checkExistingCreds) {
-    return <Navigate to="/authenticate" state={{ from: location }} replace />;
-  }
-  if (!isConnected || !userDataByAddress) {
-    return <Navigate to="/" state={{ from: location }} replace />;
-  }
-
-  return children;
-};
 
 const Routes = () => {
   const { userData } = useUser();
@@ -73,40 +54,12 @@ const Routes = () => {
           }
         />
         <Route path="/signature" element={<DiscordSignatureLayout />} />
-        <Route
-          path="/profile"
-          element={
-            <RequireActiveUser>
-              <Profile />
-            </RequireActiveUser>
-          }
-        />
-        <Route
-          path="/contributions"
-          element={
-            <RequireActiveUser>
-              <Contributions />
-            </RequireActiveUser>
-          }
-        />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/contributions" element={<Contributions />} />
         <Route path="/contributions/:id" element={<ContributionDetail />} />
-        <Route
-          path="/attestations"
-          element={
-            <RequireActiveUser>
-              <Attestations />
-            </RequireActiveUser>
-          }
-        />
+        <Route path="/attestations" element={<Attestations />} />
         <Route path="/report" element={<Report />} />
-        <Route
-          path="/dashboard"
-          element={
-            <RequireActiveUser>
-              <Dashboard />
-            </RequireActiveUser>
-          }
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route
           path="/dao"
           element={
@@ -116,36 +69,13 @@ const Routes = () => {
                 to={`/dao/${userDaosFilter?.values().next().value?.guild_id}`}
               />
             ) : (
-              <RequireActiveUser>
-                <DaoLandingPage />
-              </RequireActiveUser>
+              <DaoLandingPage />
             )
           }
         />
-        <Route
-          path="/dao/:guildId"
-          element={
-            <RequireActiveUser>
-              <DaoDashboard />
-            </RequireActiveUser>
-          }
-        />
-        <Route
-          path="/dao/:guildId/settings"
-          element={
-            <RequireActiveUser>
-              <DaoSettings />
-            </RequireActiveUser>
-          }
-        />
-        <Route
-          path="/dao/create"
-          element={
-            <RequireActiveUser>
-              <CreateDao />
-            </RequireActiveUser>
-          }
-        />
+        <Route path="/dao/:guildId" element={<DaoDashboard />} />
+        <Route path="/dao/:guildId/settings" element={<DaoSettings />} />
+        <Route path="/dao/create" element={<CreateDao />} />
         <Route path="*" element={<FourOFour />} />
       </RouteContainer>
     </HashRouter>

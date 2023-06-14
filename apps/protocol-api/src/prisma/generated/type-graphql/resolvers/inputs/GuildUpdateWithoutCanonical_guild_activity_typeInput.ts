@@ -7,6 +7,7 @@ import { EnumGuildStatusFieldUpdateOperationsInput } from "../inputs/EnumGuildSt
 import { GuildActivityTypeUpdateManyWithoutGuildNestedInput } from "../inputs/GuildActivityTypeUpdateManyWithoutGuildNestedInput";
 import { GuildContributionUpdateManyWithoutGuildNestedInput } from "../inputs/GuildContributionUpdateManyWithoutGuildNestedInput";
 import { GuildImportUpdateManyWithoutGuildNestedInput } from "../inputs/GuildImportUpdateManyWithoutGuildNestedInput";
+import { GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput } from "../inputs/GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput";
 import { GuildUserUpdateManyWithoutGuildNestedInput } from "../inputs/GuildUserUpdateManyWithoutGuildNestedInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { TwitterAccountUpdateManyWithoutGuildNestedInput } from "../inputs/TwitterAccountUpdateManyWithoutGuildNestedInput";
@@ -85,4 +86,9 @@ export class GuildUpdateWithoutCanonical_guild_activity_typeInput {
     nullable: true
   })
   verification_setting?: VerificationSettingUpdateOneWithoutGuildsNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput, {
+    nullable: true
+  })
+  twitter_integration?: GuildTwitterIntegrationUpdateOneWithoutGuildNestedInput | undefined;
 }
