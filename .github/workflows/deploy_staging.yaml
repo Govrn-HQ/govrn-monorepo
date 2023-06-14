@@ -86,7 +86,6 @@ jobs:
           key: ${{ github.sha }}
 
   docker-build:
-    if: ${{ github.ref == 'refs/heads/staging' }}
     needs: build
     runs-on: ubuntu-latest
     steps:
