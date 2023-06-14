@@ -25,9 +25,7 @@ A self reporting bot for the movement model
   directly in cmd.
 - In your .env file, set the **redis url** to your local instance `REDIS_URL=redis://localhost`
 
-There are available GUI alternative e.g. [DBngin](https://dbngin.com/); It’s a hassle-free way to manage the local Redis
-database
-servers.
+There are available GUI alternative e.g. [DBngin](https://dbngin.com/); It’s a hassle-free way to manage the local Redis database servers.
 
 #### Protocol API
 
