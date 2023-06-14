@@ -1,0 +1,133 @@
+name: Ci branch
+run-name: Deploy to prod by @${{ github.actor }}
+on: workflow_dispatch
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
+  SKYNET_API_KEY: ${{ secrets.SKYNET_API_KEY }}
+  PROTOCOL_FRONTEND_STAGING_SEED: ${{ secrets.PROTOCOL_FRONTEND_STAGING_SEED }}
+  CONTRIBUTION_REPORT_STAGING_SEED: ${{ secrets.CONTRIBUTION_REPORT_STAGING_SEED }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          submodules: recursive
+      - name: Install Foundry
+        uses: onbjerg/foundry-toolchain@v1
+        with:
+          version: nightly
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 'pypy3.8'
+      - name: Frozen lock
+        run: yarn install --frozen-lockfile # optional, --immutable
+      - run: npm install -g @graphprotocol/graph-cli
+      - name: Install poetry
+        run: pip install poetry
+      - name: Install deps
+        run: yarn nx affected --all --target install
+      - name: Check Prettier
+        run: yarn check-prettier
+      - name: Create env file
+        run: |
+          touch .env
+          echo API_TOKEN= >> .env
+          echo CLIENT_ID= >> .env
+          echo BOT_DEBUG=true >> .env
+          echo REDIS_URL=redis://0.0.0.0:6379 >> .env
+          echo IS_DEV=True >> .env
+          echo GOVRN_GUILD_ID= >> .env
+          echo PROTOCOL_URL=http://localhost:4000/graphql >> .env
+          echo PROTOCOL_TOKEN= >> .env
+          echo TEST_CHANNEL= >> .env
+          echo TASK_WAKEUP_PERIOD_MINUTES= >> .env
+          echo WEEKLY_REPORT_MINIMUM_TIME_BETWEEN_LOOP_SECONDS= >> .env
+          echo WEEKLY_REPORT_WEEKDAY= >> .env
+          echo WEEKLY_REPORT_TIME= >> .env
+          echo WEEKLY_REPORT_ENABLE= >> .env
+      - run: yarn nx affected --all --target format
+      - run: yarn nx affected --all --target lint
+      - name: Test
+        run: yarn nx affected --all --target test
+      - name: Add frontend env vars
+        run: |
+          echo VITE_PROTOCOL_BASE_URL=https://api-staging.govrn.app  >> .env
+          echo VITE_PROTOCOL_URL=https://api-staging.govrn.app/graphql  >> .env
+          echo VITE_URL=${{secrets.VITE_URL_STAGING}} >> .env
+          echo VITE_INFURA_PROJECT_ID=${{secrets.VITE_INFURA_PROJECT_ID_STAGING}}  >> .env
+          echo VITE_INFURA_PROJECT_SECRET=${{secrets.VITE_INFURA_PROJECT_SECRET_STAGING}} >> .env
+          echo VITE_LINEAR_REDIRECT_URI=https://api-staging.govrn.app/linear/oauth  >> .env
+          echo VITE_LINEAR_CLIENT_ID=0cc73e0a21f8cd7087d78634a9e4e0ce >> .env
+          echo VITE_INFURA_SUBDOMAIN=https://govrn-staging.infura-ipfs.io >> .env
+          echo VITE_PUBLIC_ALCHEMY_KEY=${{ secrets.PUBLIC_ALCHEMY_KEY }} >> .env
+          echo VITE_STAGING_MODE=false >> .env
+          echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
+          echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
+          echo VITE_DISCORD_CLIENT_ID=${{secrets.DISCORD_CLIENT_ID}} >> .env
+          echo VITE_DISCORD_CLIENT_ID=${{secrets.DISCORD_STAGING_CLIENT_ID}} >> .env
+          echo VITE_DISCORD_REDIRECT_URI=https://api-staging.govrn.app/discord/oauth >> .env
+          echo VITE_BUILD_ENV=production >> .env
+      - name: Build
+        run: yarn nx affected --all --target build --configuration production
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: ./*
+          key: ${{ github.sha }}
+
+  docker-build:
+    if: ${{ github.ref == 'refs/heads/staging' }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Install Foundry
+        uses: onbjerg/foundry-toolchain@v1
+        with:
+          version: nightly
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+      - run: npm install -g @graphprotocol/graph-cli
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: ./*
+          key: ${{ github.sha }}
+      - name: Docker Build
+        run: yarn nx affected --all --target docker-build --parallel --max-parallel=3
+        env:
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Docker Login
+        run: yarn nx affected --all --target docker-login --parallel --max-parallel=3
+      - name: Docker Push
+        run: yarn nx affected --all --target docker-push --parallel --max-parallel=3
+        env:
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm install -g wrangler
+      - name: Deploy
+        run: yarn nx affected --all --target deployStaging --parallel --max-parallel=3
+      - name: Verify
+        run: yarn nx affected --all --target verify --parallel --max-parallel=3
