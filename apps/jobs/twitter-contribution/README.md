@@ -2,7 +2,7 @@
 
 ## About
 
-Project description here.
+Project description.
 
 [API Documentation](docs/source/api.md)
 

@@ -24,7 +24,7 @@ You can check the available commands in the `project.json` file in the frontend 
 
 ## Structure
 
-`main.tsx` is the entry point into the app.
+`main.tsx` is the entry point into the frontend app.
 
 The frontend file structure should be familiar to React devs. The core folders are:
 

@@ -22,7 +22,7 @@ import { GovrnTheme } from '@govrn/protocol-ui';
 </ChakraProvider>;
 ```
 
-Wrapping the app and passing in `GovrnTheme` provides access to the custom component styles leveraged in the library.
+Wrapping the app and passing in `GovrnTheme` provides access to the custom component styles leveraged in the library
 
 ### Importing Components
 
