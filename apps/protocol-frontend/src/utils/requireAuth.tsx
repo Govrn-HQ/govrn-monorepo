@@ -4,6 +4,7 @@ import React from 'react';
 import { useAccount } from 'wagmi';
 import { useAuth } from '../contexts/AuthContext';
 import { GovrnCta } from '@govrn/protocol-ui';
+import { useUser } from '../contexts/UserContext';
 
 type RequireAuthProps = {
   children: React.ReactNode;
@@ -34,10 +35,11 @@ const NonAuthenticatedView = () => {
 };
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
+  const { userDataByAddress } = useUser();
   const { isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
   // If the user is connected and authenticated, render the children.
-  if (isConnected && isAuthenticated) {
+  if (isConnected && isAuthenticated && userDataByAddress !== undefined) {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }

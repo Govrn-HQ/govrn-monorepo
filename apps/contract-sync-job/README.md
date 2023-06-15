@@ -2,7 +2,7 @@
 
 ## Summary
 
-The main purpose of this script is to sync the database with the Contract's events. The Contract's events and mappings are the main source of truth; hence, all events overwrite the existing records in database
+The main purpose of this script is to sync the database with the Contract's events. The Contract's events and mappings are the main source of truth; hence, all events overwrite the existing records in database.
 
 ## Nx Plugin
 
