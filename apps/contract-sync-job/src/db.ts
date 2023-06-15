@@ -179,7 +179,7 @@ export const upsertContribution = async (
           },
         });
       }
-      return stagedContributionInDB.result.length;
+      return stagedContributionInDB.result;
     }
 
     // if the contribution has already been minted, return
@@ -187,7 +187,7 @@ export const upsertContribution = async (
       logger.info(
         `:: Skipping ${mintedContributionInDB.result[0].id} since it's already minted`,
       );
-      return mintedContributionInDB.result.length;
+      return null;
     }
 
     // activity_type_name is nullable; if not supplied, use id
