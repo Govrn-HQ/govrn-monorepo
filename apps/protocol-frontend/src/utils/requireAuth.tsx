@@ -6,7 +6,6 @@ import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import useUserCreate from '../hooks/useUserCreate';
 import { GovrnCta } from '@govrn/protocol-ui';
-import { useUser } from '../contexts/UserContext';
 
 type RequireAuthProps = {
   children: React.ReactNode;
