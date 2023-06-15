@@ -21,4 +21,4 @@ targets at [`project.json`](./project.json)
 - `BEARER_TOKEN`: Twitter's API bearer Token.
 - `PROTOCOL_URL`: link to gql [endpoint](../protocol-api/README.md#express): `http://localhost:4000/graphql`
 
-[^1]: How to prepare `postgres` and get `DATABASE_URL` go to [`protocol-api`](../protocol-api/README.md#postgres).
+[^1]: How to prepare `postgres` and get `DATABASE_URL` go to [`protocol-api`](../protocol-api/README.md#postgres)

@@ -10,7 +10,7 @@ This primarily will help:
 2. Process guild contributions that were attested to via the deployed contracts but not via the webapp
 3. Process existing guild contributions that we submitted before the guild in question adopted verification criteria
 
-## Nx Plugin
+## nx Plugin
 
 This App is generated using [`@nrwl/node:application`](https://nx.dev/packages/node/generators/application). Check all targets at [`project.json`](./project.json)
 

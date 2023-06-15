@@ -1,15 +1,7 @@
-name: Ci branch
-
-on:
-  pull_request:
-    branches:
-      - 'master'
-  push:
-    branches:
-      - 'master'
-
+name: Deploy prod
+run-name: Deploy to prod by @${{ github.actor }}
+on: workflow_dispatch
 env:
-  BASE: ${{ github.ref == 'refs/heads/master' && 'origin/master~1' || 'origin/master' }}
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
   SKYNET_API_KEY: ${{ secrets.SKYNET_API_KEY }}
   PROTOCOL_FRONTEND_SEED: ${{ secrets.PROTOCOL_FRONTEND_SEED }}
@@ -40,7 +32,7 @@ jobs:
       - name: Install poetry
         run: pip install poetry
       - name: Install deps
-        run: yarn nx affected --target install --base $BASE
+        run: yarn nx affected --all --target install
       - name: Check Prettier
         run: yarn check-prettier
       - name: Create env file
@@ -60,17 +52,16 @@ jobs:
           echo WEEKLY_REPORT_WEEKDAY= >> .env
           echo WEEKLY_REPORT_TIME= >> .env
           echo WEEKLY_REPORT_ENABLE= >> .env
-      - run: yarn nx affected --target format --base $BASE
-      - run: npx nx affected:lint --base $BASE
+      - run: yarn nx affected --all --target format
+      - run: npx nx affected --all --target lint
       - name: Test
-        run: npx nx affected:test --base $BASE
+        run: npx nx affected --all --target test
       - name: Delete env
         run: rm .env
       - name: Build
-        run: npx nx affected:build --base $BASE
+        run: npx nx affected --all --target build
 
   docker-build:
-    if: ${{ github.ref == 'refs/heads/master' }}
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -116,19 +107,19 @@ jobs:
           echo VITE_DISCORD_CLIENT_ID=${{secrets.DISCORD_CLIENT_ID}} >> .env
           echo VITE_DISCORD_REDIRECT_URI=https://api.govrn.app/discord/oauth >> .env
       - name: Build
-        run: npx nx affected:build --configuration production --base $BASE
+        run: npx nx affected --all --target build --configuration production
       - name: Docker Build
-        run: npx nx affected --target docker-build --base $BASE --parallel --max-parallel=3
+        run: npx nx affected --all --target docker-build --parallel --max-parallel=3
         env:
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker Login
-        run: npx nx affected --target docker-login --base $BASE --parallel --max-parallel=3
+        run: npx nx affected --all --target docker-login --parallel --max-parallel=3
       - name: Docker Push
-        run: npx nx affected --target docker-push --base $BASE --parallel --max-parallel=3
+        run: npx nx affected --all --target docker-push --parallel --max-parallel=3
         env:
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm install -g wrangler
       - name: Deploy
-        run: npx nx affected --target deploy --base $BASE --parallel --max-parallel=3
+        run: npx nx affected --all --target deploy --parallel --max-parallel=3
       - name: Verify
-        run: npx nx affected --target verify --base $BASE --parallel --max-parallel=3
+        run: npx nx affected --all --target verify --parallel --max-parallel=3

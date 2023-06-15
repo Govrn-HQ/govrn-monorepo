@@ -21,5 +21,5 @@ To fetch a guild named `our-guild` from the NATS server stream named `guild-impo
 
 Unfortunately, `nats-server` doesn't include a built-in logging or debugging mode. However, nats CLI provide a convenient ways to interact with the server's state using `nats stream help`, accessing various functionalities and insights about nats server.
 
-Here's a Loom screencast to prepare nats-server for testing:
+Here's a Loom screencast to prepare `nats-server` for testing:
 https://www.loom.com/share/18fad924307f4c14a87fdd0b0ef1458c
