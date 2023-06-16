@@ -64,9 +64,9 @@ const HomeNew = () => {
 
   const connectedNoUser = !isUserLoading && userDataByAddress === undefined;
 
-  useEffect(() => {
-    connectedExistingUser && navigate('/dashboard');
-  }, [connectedExistingUser, navigate]);
+  // useEffect(() => {
+  //   connectedExistingUser && navigate('/dashboard');
+  // }, [connectedExistingUser, navigate]);
 
   let homeComponent;
   if (connectedNoUser) {
