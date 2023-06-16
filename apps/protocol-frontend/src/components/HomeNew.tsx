@@ -10,6 +10,7 @@ import { GovrnSpinner } from '@govrn/protocol-ui';
 import GovrnTextLogo from './GovrnTextLogo';
 import useDisplayName from '../hooks/useDisplayName';
 import useUserCreate from '../hooks/useUserCreate';
+import { connected } from 'process';
 
 const HomeNew = () => {
   const { isConnected, address } = useAccount();
@@ -62,31 +63,24 @@ const HomeNew = () => {
   const connectedExistingUser =
     isConnected && isAuthenticated && !isUserLoading && userDataByAddress;
 
-  const connectedNewUser =
-    isConnected &&
-    isAuthenticated &&
-    !isUserLoading &&
-    userDataByAddress === undefined;
+  const connectedNewUser = !isUserLoading && userDataByAddress === undefined;
 
   let homeComponent;
   if (connectedNewUser) {
     homeComponent = (
-      <>
-        <Flex
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          color="white"
-          fontSize={{ base: 'lg', lg: 'xl' }}
-          fontWeight="400"
-          maxW={{ base: '60%', lg: '70%' }}
-        >
-          <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
-            To get started, connect your wallet to Gnosis Chain.
-          </Text>
-          <ConnectWallet />
-        </Flex>
-      </>
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        color="white"
+        fontSize={{ base: 'lg', lg: 'xl' }}
+        fontWeight="400"
+        maxW={{ base: '60%', lg: '70%' }}
+      >
+        <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
+          To get started, connect your wallet to Gnosis Chain.
+        </Text>
+      </Flex>
     );
   }
 
@@ -99,25 +93,13 @@ const HomeNew = () => {
         textAlign="center"
         color="white"
       >
-        <>
-          <Text paddingBottom={8}>
-            Welcome back,{' '}
-            <Text as="span" fontWeight="bolder">
-              {displayName}
-            </Text>
-            .
+        <Text>
+          Welcome{' '}
+          <Text as="span" fontWeight="bolder">
+            {displayName}
           </Text>
-          <Link to="/dashboard">
-            <Button
-              variant="tertiary"
-              marginTop={4}
-              width="100%"
-              data-cy="myDashboards-btn"
-            >
-              My Dashboard
-            </Button>
-          </Link>
-        </>
+          .
+        </Text>
       </Flex>
     );
   }
@@ -166,6 +148,16 @@ const HomeNew = () => {
           </span>
         </Flex>
         {homeComponent}
+        {isUserLoading ? <GovrnSpinner /> : null}
+        {connectedExistingUser ? (
+          <Link to="/dashboard">
+            <Button variant="tertiary" width="100%" data-cy="myDashboards-btn">
+              My Dashboard
+            </Button>
+          </Link>
+        ) : (
+          <ConnectWallet />
+        )}
       </Flex>
     </Flex>
   );
