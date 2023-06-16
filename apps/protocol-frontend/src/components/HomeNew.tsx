@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
@@ -14,10 +14,6 @@ import useUserCreate from '../hooks/useUserCreate';
 const HomeNew = () => {
   const { isConnected, address } = useAccount();
   const { isAuthenticated } = useAuth();
-  const [createProfileSteps, setCreateProfileSteps] = useState<number | null>(
-    null,
-  );
-
   const { userDataByAddress, isUserLoading } = useUser();
   const { displayName } = useDisplayName();
   const { mutateAsync: createUser } = useUserCreate();
@@ -63,6 +59,69 @@ const HomeNew = () => {
     userDataByAddress,
   ]);
 
+  const connectedExistingUser =
+    isConnected && isAuthenticated && !isUserLoading && userDataByAddress;
+
+  const connectedNewUser =
+    isConnected &&
+    isAuthenticated &&
+    !isUserLoading &&
+    userDataByAddress === undefined;
+
+  let homeComponent;
+  if (connectedNewUser) {
+    homeComponent = (
+      <>
+        <Flex
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          color="white"
+          fontSize={{ base: 'lg', lg: 'xl' }}
+          fontWeight="400"
+          maxW={{ base: '60%', lg: '70%' }}
+        >
+          <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
+            To get started, connect your wallet to Gnosis Chain.
+          </Text>
+          <ConnectWallet />
+        </Flex>
+      </>
+    );
+  }
+
+  if (connectedExistingUser) {
+    homeComponent = (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+        color="white"
+      >
+        <>
+          <Text paddingBottom={8}>
+            Welcome back,{' '}
+            <Text as="span" fontWeight="bolder">
+              {displayName}
+            </Text>
+            .
+          </Text>
+          <Link to="/dashboard">
+            <Button
+              variant="tertiary"
+              marginTop={4}
+              width="100%"
+              data-cy="myDashboards-btn"
+            >
+              My Dashboard
+            </Button>
+          </Link>
+        </>
+      </Flex>
+    );
+  }
+
   return (
     <Flex
       direction="column"
@@ -106,20 +165,7 @@ const HomeNew = () => {
             🤝
           </span>
         </Flex>
-        <Flex
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          color="white"
-          fontSize={{ base: 'lg', lg: 'xl' }}
-          fontWeight="400"
-          maxW={{ base: '60%', lg: '70%' }}
-        >
-          <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
-            To get started, connect your wallet to Gnosis Chain.
-          </Text>
-          <ConnectWallet />
-        </Flex>
+        {homeComponent}
       </Flex>
     </Flex>
   );
