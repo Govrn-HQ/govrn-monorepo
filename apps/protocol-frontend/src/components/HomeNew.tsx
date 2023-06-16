@@ -1,16 +1,14 @@
 import { useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
-import CreateUserForm from './CreateUserForm';
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
 import { GovrnSpinner } from '@govrn/protocol-ui';
 import GovrnTextLogo from './GovrnTextLogo';
 import useDisplayName from '../hooks/useDisplayName';
 import useUserCreate from '../hooks/useUserCreate';
-import { connected } from 'process';
 
 const HomeNew = () => {
   const { isConnected, address } = useAccount();
@@ -18,6 +16,7 @@ const HomeNew = () => {
   const { userDataByAddress, isUserLoading } = useUser();
   const { displayName } = useDisplayName();
   const { mutateAsync: createUser } = useUserCreate();
+  const navigate = useNavigate();
 
   const createNewUser = useCallback(async () => {
     if (!address || !isConnected || !isAuthenticated) {
@@ -63,10 +62,14 @@ const HomeNew = () => {
   const connectedExistingUser =
     isConnected && isAuthenticated && !isUserLoading && userDataByAddress;
 
-  const connectedNewUser = !isUserLoading && userDataByAddress === undefined;
+  const connectedNoUser = !isUserLoading && userDataByAddress === undefined;
+
+  useEffect(() => {
+    connectedExistingUser && navigate('/dashboard');
+  }, [connectedExistingUser, navigate]);
 
   let homeComponent;
-  if (connectedNewUser) {
+  if (connectedNoUser) {
     homeComponent = (
       <Flex
         direction="column"
