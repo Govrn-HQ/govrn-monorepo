@@ -173,7 +173,8 @@ const ContributionsTable = ({
       {
         header: 'DAO',
         accessorFn: contribution =>
-          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
+          contribution.guilds?.map(guildObj => guildObj?.guild?.name)[0] ??
+          '---',
         cell: ({ getValue }: { getValue: Getter<string> }) => {
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>

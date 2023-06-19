@@ -176,7 +176,7 @@ const main = async () => {
       }
     }
 
-    const upsertedCount = inserted.length;
+    const upsertedCount = inserted.filter(c => c != null).length;
     if (upsertedCount > 0) {
       logger.info(`:: Inserted ${upsertedCount} Contribution(s)`);
     }

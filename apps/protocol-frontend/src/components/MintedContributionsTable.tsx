@@ -113,12 +113,12 @@ const MintedContributionsTable = ({
           const status = getValue();
 
           const guildHasVerificationFramework =
-            row.original.guilds[0].guild?.verification_setting_id !== null;
+            row.original.guilds[0]?.guild?.verification_setting_id !== null;
           const currentAttestations = row.original.attestations?.length;
           const attestationThreshold =
-            row.original.guilds[0].attestation_threshold;
+            row.original.guilds[0]?.attestation_threshold;
           const frameworkSettingThreshold =
-            row.original.guilds[0].guild.verification_setting
+            row.original.guilds[0]?.guild?.verification_setting
               ?.num_of_attestations;
           let pillUnverifiedLabel!: string;
           if (attestationThreshold && frameworkSettingThreshold) {
@@ -129,7 +129,7 @@ const MintedContributionsTable = ({
             pillUnverifiedLabel = 'Initializing';
           }
 
-          const daoName = row.original.guilds[0].guild?.name;
+          const daoName = row.original.guilds[0]?.guild?.name;
 
           let statusMapHover!: 'Verified' | 'Unverified' | 'No Framework';
           if (status === null) {
@@ -255,10 +255,10 @@ const MintedContributionsTable = ({
         }) => {
           const daoName = getValue();
           const contributionVerifiedForDao =
-            (row.original.guilds[0].guild?.verification_setting_id !== null &&
+            (row.original.guilds[0]?.guild?.verification_setting_id !== null &&
               row.original.guilds[0]?.verificationStatus?.name ===
                 'Verified') ||
-            row.original.guilds[0].guild.verification_setting
+            row.original.guilds[0]?.guild.verification_setting
               ?.num_of_attestations === 0;
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>

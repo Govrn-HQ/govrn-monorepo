@@ -103,7 +103,7 @@ const MyAttestationsTable = ({
             pillUnverifiedLabel = 'Initializing';
           }
 
-          const daoName = row.original.guilds[0].guild?.name;
+          const daoName = row.original.guilds[0]?.guild?.name;
 
           let statusMapHover!: 'Verified' | 'Unverified' | 'No Framework';
           if (status === null) {

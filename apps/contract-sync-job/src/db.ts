@@ -112,92 +112,95 @@ export async function getContribution(data: { tokenId: number }) {
   }
 }
 
-const getIdOfChain = async (chainId: number) => {
-  try {
-    const chain = await govrn.chain.get({ where: { chain_id: `${chainId}` } });
-    return chain.id;
-  } catch (error) {
-    const err = format('Error getting chain id %s: %s', chainId, error);
-    throw err;
-  }
-};
-
-export const upsertContribution = async (contribution: ContributionData) => {
+export const upsertContribution = async (
+  contributionEvent: ContributionData,
+) => {
   logger.info(
-    `:: Upsert Contribution with on chain id ${contribution.on_chain_id} and/or id ${contribution.contribution_id}`,
+    `:: Upsert Contribution with on chain id ${contributionEvent.on_chain_id} and/or id ${contributionEvent.contribution_id}`,
   );
 
   try {
     // retrieve any existing pending contributions, i.e. contributions staged through
     // the UI but not yet minted
-    const existingContribution = await govrn.contribution.list({
+    const stagedContributionInDB = await govrn.contribution.list({
       where: {
-        details: { equals: contribution.details },
-        name: { equals: contribution.name },
-        proof: { equals: contribution.proof },
+        details: { equals: contributionEvent.details },
+        name: { equals: contributionEvent.name },
+        proof: { equals: contributionEvent.proof },
         status: { is: { name: { equals: 'pending' } } },
-        user_id: { equals: contribution.user_id },
+        user_id: { equals: contributionEvent.user_id },
         on_chain_id: { equals: null },
       },
     });
+    const mintedContributionInDB = await govrn.contribution.list({
+      where: {
+        on_chain_id: { equals: contributionEvent.on_chain_id },
+        chain: {
+          is: { chain_id: { equals: `${contributionEvent.chain_id}` } },
+        },
+      },
+    });
 
-    // update all existing contributions status which have been minted on chain
-    if (existingContribution.result.length > 0) {
-      for (const result of existingContribution.result) {
-        const existingContributionInDB = await govrn.contribution.list({
-          where: {
-            AND: [
-              {
-                on_chain_id: { equals: contribution.on_chain_id },
-                chain: {
-                  is: { chain_id: { equals: `${contribution.chain_id}` } },
-                },
-              },
-            ],
-          },
-        });
-        if (existingContributionInDB.result.length > 0) {
+    // remove staging contributions for those that have been minted in the db
+    if (stagedContributionInDB.result.length > 0) {
+      for (const result of stagedContributionInDB.result) {
+        if (mintedContributionInDB.result.length > 0) {
+          // DEV: this matches based on details, name, proof, status, user_id, and on_chain_id
+          logger.info(
+            `:: Removing staged contribution ${result.id} since matching contribution 
+            ${mintedContributionInDB.result[0].id} is minted`,
+          );
           await govrn.contribution.deleteStaging(
-            existingContributionInDB.result[0].id,
+            mintedContributionInDB.result[0].id,
           );
           continue;
         }
 
+        // update staged contributions to minted
+        logger.info(`:: Updating staged contribution ${result.id} to minted`);
         await govrn.contribution.update({
           data: {
-            date_of_engagement: { set: contribution.date_of_engagement },
+            date_of_engagement: { set: contributionEvent.date_of_engagement },
             activity_type: {
               connectOrCreate: {
-                create: { name: contribution.activity_type_name },
-                where: { name: contribution.activity_type_name },
+                create: { name: contributionEvent.activity_type_name },
+                where: { name: contributionEvent.activity_type_name },
               },
             },
             status: {
               connect: { name: 'minted' },
             },
-            on_chain_id: { set: contribution.on_chain_id },
+            on_chain_id: { set: contributionEvent.on_chain_id },
             chain: { connect: { chain_id: `${CHAIN_ID}` } },
-            tx_hash: { set: contribution.txHash },
+            tx_hash: { set: contributionEvent.txHash },
           },
           where: {
             id: result.id,
           },
         });
       }
-      return existingContribution.result.length;
+      return stagedContributionInDB.result;
+    }
+
+    // if the contribution has already been minted, return
+    if (mintedContributionInDB.result.length > 0) {
+      logger.info(
+        `:: Skipping ${mintedContributionInDB.result[0].id} since it's already minted`,
+      );
+      return null;
     }
 
     // activity_type_name is nullable; if not supplied, use id
     let connectOrCreateActivityType: ActivityTypeCreateNestedOneWithoutContributionsInput;
-    if (!contribution.activity_type_name) {
+    if (!contributionEvent.activity_type_name) {
       connectOrCreateActivityType = {
-        connect: { id: contribution.activity_type_id },
+        connect: { id: contributionEvent.activity_type_id },
       };
-    } else if (contribution.activity_type_name) {
+    } else if (contributionEvent.activity_type_name) {
       connectOrCreateActivityType = {
         connectOrCreate: {
-          create: { name: contribution.activity_type_name },
-          where: { name: contribution.activity_type_name },
+          create: { name: contributionEvent.activity_type_name },
+          where: { name: contributionEvent.activity_type_name },
         },
       };
     } else {
@@ -208,44 +211,34 @@ export const upsertContribution = async (contribution: ContributionData) => {
 
     // create new db contribution if the supplied contribution was minted
     // directly through the contract
-    return await govrn.contribution.upsert({
-      where: {
-        chain_id_on_chain_id: {
-          chain_id: await getIdOfChain(contribution.chain_id),
-          on_chain_id: contribution.on_chain_id,
-        },
-      },
-      create: {
-        name: contribution.name,
-        proof: contribution.proof,
-        details: contribution.details,
-        date_of_engagement: contribution.date_of_engagement,
-        user: { connect: { id: contribution.user_id } },
+    const newMintedContributionInDB = await govrn.contribution.create({
+      data: {
+        name: contributionEvent.name,
+        proof: contributionEvent.proof,
+        details: contributionEvent.details,
+        date_of_engagement: contributionEvent.date_of_engagement,
+        user: { connect: { id: contributionEvent.user_id } },
         activity_type: {
           ...connectOrCreateActivityType,
         },
-
         status: {
           connect: { name: 'minted' },
         },
-        on_chain_id: contribution.on_chain_id,
+        on_chain_id: contributionEvent.on_chain_id,
         chain: { connect: { chain_id: `${CHAIN_ID}` } },
-        tx_hash: contribution.txHash,
-      },
-      update: {
-        name: { set: contribution.name },
-        on_chain_id: { set: contribution.on_chain_id },
-        proof: { set: contribution.proof ?? null },
-        details: { set: contribution.details ?? null },
-        chain: { connect: { chain_id: `${CHAIN_ID}` } },
-        status: { connect: { name: contribution.status_name } },
-        tx_hash: { set: contribution.txHash },
+        tx_hash: contributionEvent.txHash,
       },
     });
+
+    logger.info(
+      `:: Created new contribution ${newMintedContributionInDB.id} for on 
+      chain id ${contributionEvent.on_chain_id}`,
+    );
+    return newMintedContributionInDB;
   } catch (error) {
     const err = format(
       'Error upserting contribution token id %s: %s',
-      contribution.on_chain_id,
+      contributionEvent.on_chain_id,
       error,
     );
     throw err;
