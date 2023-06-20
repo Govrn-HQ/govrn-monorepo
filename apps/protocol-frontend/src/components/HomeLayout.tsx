@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
 import ConnectWallet from './ConnectWallet';
@@ -16,7 +16,6 @@ const HomeNew = () => {
   const { userDataByAddress, isUserLoading } = useUser();
   const { displayName } = useDisplayName();
   const { mutateAsync: createUser } = useUserCreate();
-  // const navigate = useNavigate();
 
   const createNewUser = useCallback(async () => {
     if (!address || !isConnected || !isAuthenticated) {
@@ -63,10 +62,6 @@ const HomeNew = () => {
     isConnected && isAuthenticated && !isUserLoading && userDataByAddress;
 
   const connectedNoUser = !isUserLoading && userDataByAddress === undefined;
-
-  // useEffect(() => {
-  //   connectedExistingUser && navigate('/dashboard');
-  // }, [connectedExistingUser, navigate]);
 
   let homeComponent;
   if (connectedNoUser) {
