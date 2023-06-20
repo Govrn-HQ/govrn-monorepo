@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Flex, Button, Text, VisuallyHidden, Heading } from '@chakra-ui/react';
-import ConnectWallet from '../components/ConnectWallet';
+import ConnectWallet from './ConnectWallet';
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
 import { GovrnSpinner } from '@govrn/protocol-ui';
@@ -16,7 +16,7 @@ const HomeNew = () => {
   const { userDataByAddress, isUserLoading } = useUser();
   const { displayName } = useDisplayName();
   const { mutateAsync: createUser } = useUserCreate();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const createNewUser = useCallback(async () => {
     if (!address || !isConnected || !isAuthenticated) {
