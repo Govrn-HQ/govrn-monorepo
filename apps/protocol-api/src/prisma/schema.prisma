@@ -39,21 +39,31 @@ model User {
   twitter_user         TwitterUser?
   discord_users        DiscordUser[]
   split_contracts      UserSplitContract[]
-  split_payments       SplitPayment[]
 }
 
 model UserSplitContract {
-  id             Int            @id @default(autoincrement())
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @default(now()) @updatedAt
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @default(now()) @updatedAt
   user_id        Int
-  user           User           @relation(fields: [user_id], references: [id])
-  chain_id       Int
-  chain          Chain          @relation(fields: [chain_id], references: [id])
-  address        String
-  tx_hash        String         @db.Citext
+  user           User            @relation(fields: [user_id], references: [id])
   enabled        Boolean
-  split_payments SplitPayment[]
+  split_contract SplitContract[]
+}
+
+model SplitContract {
+  id                     Int                @id @default(autoincrement())
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @default(now()) @updatedAt
+  chain_id               Int
+  chain                  Chain              @relation(fields: [chain_id], references: [id])
+  address                String             @db.Citext
+  tx_hash                String             @db.Citext
+  enabled                Boolean
+  split_payments         SplitPayment[]
+  // This is optional in order to support generalization to e.g. guilds
+  user_split_contract_id Int?
+  user_split_contract    UserSplitContract? @relation(fields: [user_split_contract_id], references: [id])
 }
 
 model DiscordUser {
@@ -237,13 +247,13 @@ model ChainType {
 
 // EthereumChain
 model Chain {
-  id                   Int                 @id @default(autoincrement())
-  createdAt            DateTime            @default(now())
-  updatedAt            DateTime            @default(now()) @updatedAt
-  name                 String              @unique
-  chain_id             String              @unique
-  contributions        Contribution[]
-  user_split_contracts UserSplitContract[]
+  id              Int             @id @default(autoincrement())
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now()) @updatedAt
+  name            String          @unique
+  chain_id        String          @unique
+  contributions   Contribution[]
+  split_contracts SplitContract[]
 }
 
 model Contribution {
@@ -480,15 +490,14 @@ model JobRun {
 ////
 
 model SplitPayment {
-  id                Int               @id @default(autoincrement())
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  amount            Float
-  tx_hash           String            @db.Citext
-  user_id           Int?
-  user              User?             @relation(fields: [user_id], references: [id])
+  id                Int            @id @default(autoincrement())
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  token_address     String         @db.Citext
+  amount            BigInt
+  tx_hash           String         @db.Citext
   split_contract_id Int
-  split_contract    UserSplitContract @relation(fields: [split_contract_id], references: [id])
+  split_contract    SplitContract? @relation(fields: [split_contract_id], references: [id])
 }
 
 ////
