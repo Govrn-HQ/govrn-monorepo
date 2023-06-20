@@ -52,6 +52,7 @@ model UserSplitContract {
   chain     Chain?   @relation(fields: [chain_id], references: [id])
   address   String
   tx_hash   String   @db.Citext
+  enabled   Boolean
   Tip       Tip[]
 }
 
