@@ -39,6 +39,7 @@ model User {
   twitter_user         TwitterUser?
   discord_users        DiscordUser[]
   split_contracts      UserSplitContract[]
+  sent_split_payments  SplitPayment[]
 }
 
 model UserSplitContract {
@@ -49,6 +50,10 @@ model UserSplitContract {
   user           User            @relation(fields: [user_id], references: [id])
   enabled        Boolean
   split_contract SplitContract[]
+
+  // Add this explicitly for now, we can remove later if necessary to support >1
+  // split contract per user
+  @@unique([user_id])
 }
 
 model SplitContract {
@@ -57,9 +62,15 @@ model SplitContract {
   updatedAt              DateTime           @default(now()) @updatedAt
   chain_id               Int
   chain                  Chain              @relation(fields: [chain_id], references: [id])
+  // Several fields on the split contract will need to be sourced from the on-chain contract,
+  // e.g. payment splits. For now, the contract address is the only field that will be stored.
+  // Information about the split contract can be retrieved from the on-chain contract.
+  // Payment splits are simple enough for now that we don't need to have them in the data model.
+  // For tipping, the split will always be 95% user, 5% govrn.
   address                String             @db.Citext
   tx_hash                String             @db.Citext
   enabled                Boolean
+  // payments into this split contract
   split_payments         SplitPayment[]
   // This is optional in order to support generalization to e.g. guilds
   user_split_contract_id Int?
@@ -493,9 +504,17 @@ model SplitPayment {
   id                Int           @id @default(autoincrement())
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
+  // address, amount, sender, recipient can all be retrieved on-chain, but it's 
+  // immutable anyway, so there's no reason to not store it here 
   token_address     String        @db.Citext
   amount            BigInt
   tx_hash           String        @db.Citext
+  sender_address    String        @db.Citext
+  recipient_address String        @db.Citext
+  // optional to support anon tips
+  sender_user_id    Int?
+  sender_user       User?         @relation(fields: [sender_user_id], references: [id])
+  // paid to split
   split_contract_id Int
   split_contract    SplitContract @relation(fields: [split_contract_id], references: [id])
 }
