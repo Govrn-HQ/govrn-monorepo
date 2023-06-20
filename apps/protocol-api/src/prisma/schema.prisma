@@ -38,22 +38,22 @@ model User {
   guild_users          GuildUser[]
   twitter_user         TwitterUser?
   discord_users        DiscordUser[]
-  tips                 Tip[]
   split_contracts      UserSplitContract[]
+  split_payments       SplitPayment[]
 }
 
 model UserSplitContract {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  user_id   Int
-  user      User     @relation(fields: [user_id], references: [id])
-  chain_id  Int?
-  chain     Chain?   @relation(fields: [chain_id], references: [id])
-  address   String
-  tx_hash   String   @db.Citext
-  enabled   Boolean
-  Tip       Tip[]
+  id             Int            @id @default(autoincrement())
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @default(now()) @updatedAt
+  user_id        Int
+  user           User           @relation(fields: [user_id], references: [id])
+  chain_id       Int
+  chain          Chain          @relation(fields: [chain_id], references: [id])
+  address        String
+  tx_hash        String         @db.Citext
+  enabled        Boolean
+  split_payments SplitPayment[]
 }
 
 model DiscordUser {
@@ -479,7 +479,7 @@ model JobRun {
 // Tips model
 ////
 
-model Tip {
+model SplitPayment {
   id                Int               @id @default(autoincrement())
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
