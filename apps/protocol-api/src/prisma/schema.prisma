@@ -19,16 +19,16 @@ enum GuildStatus {
 }
 
 model User {
-  id                   Int            @id @default(autoincrement())
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @default(now()) @updatedAt
+  id                   Int                 @id @default(autoincrement())
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @default(now()) @updatedAt
   name                 String?
   display_name         String?
-  address              String         @unique @db.Citext
+  address              String              @unique @db.Citext
   chain_type_id        Int
-  chain_type           ChainType      @relation(fields: [chain_type_id], references: [id])
+  chain_type           ChainType           @relation(fields: [chain_type_id], references: [id])
   full_name            String?
-  active               Boolean        @default(false)
+  active               Boolean             @default(false)
   email                String?
   activities           UserActivity[]
   attestations         Attestation[]
@@ -38,6 +38,21 @@ model User {
   guild_users          GuildUser[]
   twitter_user         TwitterUser?
   discord_users        DiscordUser[]
+  tips                 Tip[]
+  split_contracts      UserSplitContract[]
+}
+
+model UserSplitContract {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id])
+  chain_id  Int?
+  chain     Chain?   @relation(fields: [chain_id], references: [id])
+  address   String
+  tx_hash   String   @db.Citext
+  Tip       Tip[]
 }
 
 model DiscordUser {
@@ -221,12 +236,13 @@ model ChainType {
 
 // EthereumChain
 model Chain {
-  id            Int            @id @default(autoincrement())
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @default(now()) @updatedAt
-  name          String         @unique
-  chain_id      String         @unique
-  contributions Contribution[]
+  id                   Int                 @id @default(autoincrement())
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @default(now()) @updatedAt
+  name                 String              @unique
+  chain_id             String              @unique
+  contributions        Contribution[]
+  user_split_contracts UserSplitContract[]
 }
 
 model Contribution {
@@ -456,6 +472,22 @@ model JobRun {
   completedDate DateTime
   startDate     DateTime
   name          String
+}
+
+////
+// Tips model
+////
+
+model Tip {
+  id                Int               @id @default(autoincrement())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  amount            Float
+  tx_hash           String            @db.Citext
+  user_id           Int?
+  user              User?             @relation(fields: [user_id], references: [id])
+  split_contract_id Int
+  split_contract    UserSplitContract @relation(fields: [split_contract_id], references: [id])
 }
 
 ////
