@@ -490,14 +490,14 @@ model JobRun {
 ////
 
 model SplitPayment {
-  id                Int            @id @default(autoincrement())
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
-  token_address     String         @db.Citext
+  id                Int           @id @default(autoincrement())
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  token_address     String        @db.Citext
   amount            BigInt
-  tx_hash           String         @db.Citext
+  tx_hash           String        @db.Citext
   split_contract_id Int
-  split_contract    SplitContract? @relation(fields: [split_contract_id], references: [id])
+  split_contract    SplitContract @relation(fields: [split_contract_id], references: [id])
 }
 
 ////
