@@ -282,7 +282,7 @@ mutation createJobRun($data: JobRunCreateInput!) {
 
 
 async def create_twitter_hashtag_contribution(
-    tweet: Tweet, user_id: int, user_name: str, hashtag: str
+    tweet: Tweet, user_id: int, user_name: str, hashtag: str, guild_id: int
 ):
     mutation = """
 mutation createStagedContribution($data: ContributionCreateInput!) {
@@ -323,6 +323,15 @@ mutation createStagedContribution($data: ContributionCreateInput!) {
                                         "username": tweet.profile_handle,
                                     }
                                 },
+                            }
+                        }
+                    }
+                },
+                "guilds": {
+                    "create": {
+                        "guild": {
+                            "connect": {
+                                "id": guild_id,
                             }
                         }
                     }
