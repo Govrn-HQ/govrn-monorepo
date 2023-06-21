@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ContributionUpdateManyWithoutChainNestedInput } from "../inputs/ContributionUpdateManyWithoutChainNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { SplitContractUpdateManyWithoutChainNestedInput } from "../inputs/SplitContractUpdateManyWithoutChainNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("ChainUpdateInput", {
@@ -34,4 +35,9 @@ export class ChainUpdateInput {
     nullable: true
   })
   contributions?: ContributionUpdateManyWithoutChainNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => SplitContractUpdateManyWithoutChainNestedInput, {
+    nullable: true
+  })
+  split_contracts?: SplitContractUpdateManyWithoutChainNestedInput | undefined;
 }

@@ -27,10 +27,13 @@ export { LinearProjectCrudResolver } from "./LinearProject/LinearProjectCrudReso
 export { LinearTeamCrudResolver } from "./LinearTeam/LinearTeamCrudResolver";
 export { LinearUserCrudResolver } from "./LinearUser/LinearUserCrudResolver";
 export { PartnerCrudResolver } from "./Partner/PartnerCrudResolver";
+export { SplitContractCrudResolver } from "./SplitContract/SplitContractCrudResolver";
+export { SplitPaymentCrudResolver } from "./SplitPayment/SplitPaymentCrudResolver";
 export { TwitterAccountCrudResolver } from "./TwitterAccount/TwitterAccountCrudResolver";
 export { TwitterTweetCrudResolver } from "./TwitterTweet/TwitterTweetCrudResolver";
 export { TwitterTweetContributionCrudResolver } from "./TwitterTweetContribution/TwitterTweetContributionCrudResolver";
 export { TwitterUserCrudResolver } from "./TwitterUser/TwitterUserCrudResolver";
 export { UserCrudResolver } from "./User/UserCrudResolver";
 export { UserActivityCrudResolver } from "./UserActivity/UserActivityCrudResolver";
+export { UserSplitContractCrudResolver } from "./UserSplitContract/UserSplitContractCrudResolver";
 export { VerificationSettingCrudResolver } from "./VerificationSetting/VerificationSettingCrudResolver";

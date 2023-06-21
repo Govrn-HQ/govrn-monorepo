@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { SplitContractUpdateManyWithoutChainNestedInput } from "../inputs/SplitContractUpdateManyWithoutChainNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("ChainUpdateWithoutContributionsInput", {
@@ -28,4 +29,9 @@ export class ChainUpdateWithoutContributionsInput {
     nullable: true
   })
   chain_id?: StringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => SplitContractUpdateManyWithoutChainNestedInput, {
+    nullable: true
+  })
+  split_contracts?: SplitContractUpdateManyWithoutChainNestedInput | undefined;
 }

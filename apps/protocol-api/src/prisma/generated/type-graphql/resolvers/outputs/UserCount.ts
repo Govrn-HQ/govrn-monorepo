@@ -41,4 +41,14 @@ export class UserCount {
     nullable: false
   })
   discord_users!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  split_contracts!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  sent_split_payments!: number;
 }

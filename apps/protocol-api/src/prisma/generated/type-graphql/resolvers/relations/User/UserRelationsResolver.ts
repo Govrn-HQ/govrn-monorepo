@@ -6,9 +6,11 @@ import { DiscordUser } from "../../../models/DiscordUser";
 import { GuildUser } from "../../../models/GuildUser";
 import { LinearUser } from "../../../models/LinearUser";
 import { Partner } from "../../../models/Partner";
+import { SplitPayment } from "../../../models/SplitPayment";
 import { TwitterUser } from "../../../models/TwitterUser";
 import { User } from "../../../models/User";
 import { UserActivity } from "../../../models/UserActivity";
+import { UserSplitContract } from "../../../models/UserSplitContract";
 import { UserActivitiesArgs } from "./args/UserActivitiesArgs";
 import { UserAttestationsArgs } from "./args/UserAttestationsArgs";
 import { UserContributionPartnersArgs } from "./args/UserContributionPartnersArgs";
@@ -16,6 +18,8 @@ import { UserContributionsArgs } from "./args/UserContributionsArgs";
 import { UserDiscord_usersArgs } from "./args/UserDiscord_usersArgs";
 import { UserGuild_usersArgs } from "./args/UserGuild_usersArgs";
 import { UserLinear_usersArgs } from "./args/UserLinear_usersArgs";
+import { UserSent_split_paymentsArgs } from "./args/UserSent_split_paymentsArgs";
+import { UserSplit_contractsArgs } from "./args/UserSplit_contractsArgs";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => User)
@@ -117,5 +121,27 @@ export class UserRelationsResolver {
         id: user.id,
       },
     }).discord_users(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [UserSplitContract], {
+    nullable: false
+  })
+  async split_contracts(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserSplit_contractsArgs): Promise<UserSplitContract[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        id: user.id,
+      },
+    }).split_contracts(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [SplitPayment], {
+    nullable: false
+  })
+  async sent_split_payments(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserSent_split_paymentsArgs): Promise<SplitPayment[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        id: user.id,
+      },
+    }).sent_split_payments(args);
   }
 }

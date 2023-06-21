@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ContributionCreateNestedManyWithoutChainInput } from "../inputs/ContributionCreateNestedManyWithoutChainInput";
+import { SplitContractCreateNestedManyWithoutChainInput } from "../inputs/SplitContractCreateNestedManyWithoutChainInput";
 
 @TypeGraphQL.InputType("ChainCreateInput", {
   isAbstract: true
@@ -32,4 +33,9 @@ export class ChainCreateInput {
     nullable: true
   })
   contributions?: ContributionCreateNestedManyWithoutChainInput | undefined;
+
+  @TypeGraphQL.Field(_type => SplitContractCreateNestedManyWithoutChainInput, {
+    nullable: true
+  })
+  split_contracts?: SplitContractCreateNestedManyWithoutChainInput | undefined;
 }
