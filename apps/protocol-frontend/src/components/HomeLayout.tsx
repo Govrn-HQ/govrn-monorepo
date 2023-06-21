@@ -61,10 +61,10 @@ const HomeNew = () => {
   const connectedExistingUser =
     isConnected && isAuthenticated && !isUserLoading && userDataByAddress;
 
-  const connectedNoUser = !isUserLoading && userDataByAddress === undefined;
+  const notConnectedNoUser = !isUserLoading && userDataByAddress === undefined;
 
   let homeComponent;
-  if (connectedNoUser) {
+  if (notConnectedNoUser) {
     homeComponent = (
       <Flex
         direction="column"
@@ -75,7 +75,7 @@ const HomeNew = () => {
         fontWeight="400"
         maxW={{ base: '60%', lg: '70%' }}
       >
-        <Text marginBottom={{ base: 10, lg: 16 }} textAlign="center">
+        <Text marginBottom={{ base: 8, lg: 0 }} textAlign="center">
           To get started, connect your wallet to Gnosis Chain.
         </Text>
       </Flex>
@@ -134,7 +134,7 @@ const HomeNew = () => {
           color="white"
           fontSize={{ base: 'lg', lg: '2xl' }}
           fontWeight="400"
-          marginBottom={{ base: 40, lg: 0 }}
+          marginBottom={{ base: 16, lg: 0 }}
           gap={1}
           maxW={{ base: '70%', lg: '60%' }}
         >
