@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  BigInt: any;
   DateTime: string | Date;
 };
 
@@ -771,6 +772,22 @@ export type AggregatePartner = {
   _sum?: Maybe<PartnerSumAggregate>;
 };
 
+export type AggregateSplitContract = {
+  _avg?: Maybe<SplitContractAvgAggregate>;
+  _count?: Maybe<SplitContractCountAggregate>;
+  _max?: Maybe<SplitContractMaxAggregate>;
+  _min?: Maybe<SplitContractMinAggregate>;
+  _sum?: Maybe<SplitContractSumAggregate>;
+};
+
+export type AggregateSplitPayment = {
+  _avg?: Maybe<SplitPaymentAvgAggregate>;
+  _count?: Maybe<SplitPaymentCountAggregate>;
+  _max?: Maybe<SplitPaymentMaxAggregate>;
+  _min?: Maybe<SplitPaymentMinAggregate>;
+  _sum?: Maybe<SplitPaymentSumAggregate>;
+};
+
 export type AggregateTwitterAccount = {
   _avg?: Maybe<TwitterAccountAvgAggregate>;
   _count?: Maybe<TwitterAccountCountAggregate>;
@@ -817,6 +834,14 @@ export type AggregateUserActivity = {
   _max?: Maybe<UserActivityMaxAggregate>;
   _min?: Maybe<UserActivityMinAggregate>;
   _sum?: Maybe<UserActivitySumAggregate>;
+};
+
+export type AggregateUserSplitContract = {
+  _avg?: Maybe<UserSplitContractAvgAggregate>;
+  _count?: Maybe<UserSplitContractCountAggregate>;
+  _max?: Maybe<UserSplitContractMaxAggregate>;
+  _min?: Maybe<UserSplitContractMinAggregate>;
+  _sum?: Maybe<UserSplitContractSumAggregate>;
 };
 
 export type AggregateVerificationSetting = {
@@ -1821,6 +1846,41 @@ export type AttestationWhereUniqueInput = {
   user_id_contribution_id?: InputMaybe<AttestationUser_IdContribution_IdCompoundUniqueInput>;
 };
 
+export type BigIntFieldUpdateOperationsInput = {
+  decrement?: InputMaybe<Scalars['BigInt']>;
+  divide?: InputMaybe<Scalars['BigInt']>;
+  increment?: InputMaybe<Scalars['BigInt']>;
+  multiply?: InputMaybe<Scalars['BigInt']>;
+  set?: InputMaybe<Scalars['BigInt']>;
+};
+
+export type BigIntFilter = {
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type BigIntWithAggregatesFilter = {
+  _avg?: InputMaybe<NestedFloatFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedBigIntFilter>;
+  _min?: InputMaybe<NestedBigIntFilter>;
+  _sum?: InputMaybe<NestedBigIntFilter>;
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
 export type BoolFieldUpdateOperationsInput = {
   set?: InputMaybe<Scalars['Boolean']>;
 };
@@ -2751,6 +2811,7 @@ export type Chain = {
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  split_contracts: Array<SplitContract>;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -2764,6 +2825,16 @@ export type ChainContributionsArgs = {
   where?: InputMaybe<ContributionWhereInput>;
 };
 
+
+export type ChainSplit_ContractsArgs = {
+  cursor?: InputMaybe<SplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
 export type ChainAvgAggregate = {
   id?: Maybe<Scalars['Float']>;
 };
@@ -2774,6 +2845,7 @@ export type ChainAvgOrderByAggregateInput = {
 
 export type ChainCount = {
   contributions: Scalars['Int'];
+  split_contracts: Scalars['Int'];
 };
 
 export type ChainCountAggregate = {
@@ -2798,6 +2870,7 @@ export type ChainCreateInput = {
   contributions?: InputMaybe<ContributionCreateNestedManyWithoutChainInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
+  split_contracts?: InputMaybe<SplitContractCreateNestedManyWithoutChainInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -2815,13 +2888,33 @@ export type ChainCreateNestedOneWithoutContributionsInput = {
   create?: InputMaybe<ChainCreateWithoutContributionsInput>;
 };
 
+export type ChainCreateNestedOneWithoutSplit_ContractsInput = {
+  connect?: InputMaybe<ChainWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ChainCreateOrConnectWithoutSplit_ContractsInput>;
+  create?: InputMaybe<ChainCreateWithoutSplit_ContractsInput>;
+};
+
 export type ChainCreateOrConnectWithoutContributionsInput = {
   create: ChainCreateWithoutContributionsInput;
   where: ChainWhereUniqueInput;
 };
 
+export type ChainCreateOrConnectWithoutSplit_ContractsInput = {
+  create: ChainCreateWithoutSplit_ContractsInput;
+  where: ChainWhereUniqueInput;
+};
+
 export type ChainCreateWithoutContributionsInput = {
   chain_id: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  split_contracts?: InputMaybe<SplitContractCreateNestedManyWithoutChainInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type ChainCreateWithoutSplit_ContractsInput = {
+  chain_id: Scalars['String'];
+  contributions?: InputMaybe<ContributionCreateNestedManyWithoutChainInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2891,6 +2984,7 @@ export type ChainOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  split_contracts?: InputMaybe<SplitContractOrderByRelationAggregateInput>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -3146,6 +3240,7 @@ export type ChainUpdateInput = {
   contributions?: InputMaybe<ContributionUpdateManyWithoutChainNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  split_contracts?: InputMaybe<SplitContractUpdateManyWithoutChainNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -3154,6 +3249,14 @@ export type ChainUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ChainUpdateOneRequiredWithoutSplit_ContractsNestedInput = {
+  connect?: InputMaybe<ChainWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ChainCreateOrConnectWithoutSplit_ContractsInput>;
+  create?: InputMaybe<ChainCreateWithoutSplit_ContractsInput>;
+  update?: InputMaybe<ChainUpdateWithoutSplit_ContractsInput>;
+  upsert?: InputMaybe<ChainUpsertWithoutSplit_ContractsInput>;
 };
 
 export type ChainUpdateOneWithoutContributionsNestedInput = {
@@ -3170,12 +3273,26 @@ export type ChainUpdateWithoutContributionsInput = {
   chain_id?: InputMaybe<StringFieldUpdateOperationsInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  split_contracts?: InputMaybe<SplitContractUpdateManyWithoutChainNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ChainUpdateWithoutSplit_ContractsInput = {
+  chain_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutChainNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ChainUpsertWithoutContributionsInput = {
   create: ChainCreateWithoutContributionsInput;
   update: ChainUpdateWithoutContributionsInput;
+};
+
+export type ChainUpsertWithoutSplit_ContractsInput = {
+  create: ChainCreateWithoutSplit_ContractsInput;
+  update: ChainUpdateWithoutSplit_ContractsInput;
 };
 
 export type ChainWhereInput = {
@@ -3187,6 +3304,7 @@ export type ChainWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
+  split_contracts?: InputMaybe<SplitContractListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -12393,12 +12511,15 @@ export type Mutation = {
   createManyLinearTeam: AffectedRowsOutput;
   createManyLinearUser: AffectedRowsOutput;
   createManyPartner: AffectedRowsOutput;
+  createManySplitContract: AffectedRowsOutput;
+  createManySplitPayment: AffectedRowsOutput;
   createManyTwitterAccount: AffectedRowsOutput;
   createManyTwitterTweet: AffectedRowsOutput;
   createManyTwitterTweetContribution: AffectedRowsOutput;
   createManyTwitterUser: AffectedRowsOutput;
   createManyUser: AffectedRowsOutput;
   createManyUserActivity: AffectedRowsOutput;
+  createManyUserSplitContract: AffectedRowsOutput;
   createManyVerificationSetting: AffectedRowsOutput;
   createOnChainUserContribution: Contribution;
   createOneActivityType: ActivityType;
@@ -12430,12 +12551,15 @@ export type Mutation = {
   createOneLinearTeam: LinearTeam;
   createOneLinearUser: LinearUser;
   createOnePartner: Partner;
+  createOneSplitContract: SplitContract;
+  createOneSplitPayment: SplitPayment;
   createOneTwitterAccount: TwitterAccount;
   createOneTwitterTweet: TwitterTweet;
   createOneTwitterTweetContribution: TwitterTweetContribution;
   createOneTwitterUser: TwitterUser;
   createOneUser: User;
   createOneUserActivity: UserActivity;
+  createOneUserSplitContract: UserSplitContract;
   createOneVerificationSetting: VerificationSetting;
   createUserAttestation: Attestation;
   createUserContribution: Contribution;
@@ -12470,12 +12594,15 @@ export type Mutation = {
   deleteManyLinearTeam: AffectedRowsOutput;
   deleteManyLinearUser: AffectedRowsOutput;
   deleteManyPartner: AffectedRowsOutput;
+  deleteManySplitContract: AffectedRowsOutput;
+  deleteManySplitPayment: AffectedRowsOutput;
   deleteManyTwitterAccount: AffectedRowsOutput;
   deleteManyTwitterTweet: AffectedRowsOutput;
   deleteManyTwitterTweetContribution: AffectedRowsOutput;
   deleteManyTwitterUser: AffectedRowsOutput;
   deleteManyUser: AffectedRowsOutput;
   deleteManyUserActivity: AffectedRowsOutput;
+  deleteManyUserSplitContract: AffectedRowsOutput;
   deleteManyVerificationSetting: AffectedRowsOutput;
   deleteOneActivityType?: Maybe<ActivityType>;
   deleteOneAttestation?: Maybe<Attestation>;
@@ -12506,12 +12633,15 @@ export type Mutation = {
   deleteOneLinearTeam?: Maybe<LinearTeam>;
   deleteOneLinearUser?: Maybe<LinearUser>;
   deleteOnePartner?: Maybe<Partner>;
+  deleteOneSplitContract?: Maybe<SplitContract>;
+  deleteOneSplitPayment?: Maybe<SplitPayment>;
   deleteOneTwitterAccount?: Maybe<TwitterAccount>;
   deleteOneTwitterTweet?: Maybe<TwitterTweet>;
   deleteOneTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
   deleteOneTwitterUser?: Maybe<TwitterUser>;
   deleteOneUser?: Maybe<User>;
   deleteOneUserActivity?: Maybe<UserActivity>;
+  deleteOneUserSplitContract?: Maybe<UserSplitContract>;
   deleteOneVerificationSetting?: Maybe<VerificationSetting>;
   deleteUserContribution: Contribution;
   getOrCreateActivityType: ActivityType;
@@ -12546,12 +12676,15 @@ export type Mutation = {
   updateManyLinearTeam: AffectedRowsOutput;
   updateManyLinearUser: AffectedRowsOutput;
   updateManyPartner: AffectedRowsOutput;
+  updateManySplitContract: AffectedRowsOutput;
+  updateManySplitPayment: AffectedRowsOutput;
   updateManyTwitterAccount: AffectedRowsOutput;
   updateManyTwitterTweet: AffectedRowsOutput;
   updateManyTwitterTweetContribution: AffectedRowsOutput;
   updateManyTwitterUser: AffectedRowsOutput;
   updateManyUser: AffectedRowsOutput;
   updateManyUserActivity: AffectedRowsOutput;
+  updateManyUserSplitContract: AffectedRowsOutput;
   updateManyVerificationSetting: AffectedRowsOutput;
   updateOneActivityType?: Maybe<ActivityType>;
   updateOneAttestation?: Maybe<Attestation>;
@@ -12582,12 +12715,15 @@ export type Mutation = {
   updateOneLinearTeam?: Maybe<LinearTeam>;
   updateOneLinearUser?: Maybe<LinearUser>;
   updateOnePartner?: Maybe<Partner>;
+  updateOneSplitContract?: Maybe<SplitContract>;
+  updateOneSplitPayment?: Maybe<SplitPayment>;
   updateOneTwitterAccount?: Maybe<TwitterAccount>;
   updateOneTwitterTweet?: Maybe<TwitterTweet>;
   updateOneTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
   updateOneTwitterUser?: Maybe<TwitterUser>;
   updateOneUser?: Maybe<User>;
   updateOneUserActivity?: Maybe<UserActivity>;
+  updateOneUserSplitContract?: Maybe<UserSplitContract>;
   updateOneVerificationSetting?: Maybe<VerificationSetting>;
   updateUserContribution: Contribution;
   updateUserCustom: User;
@@ -12622,12 +12758,15 @@ export type Mutation = {
   upsertOneLinearTeam: LinearTeam;
   upsertOneLinearUser: LinearUser;
   upsertOnePartner: Partner;
+  upsertOneSplitContract: SplitContract;
+  upsertOneSplitPayment: SplitPayment;
   upsertOneTwitterAccount: TwitterAccount;
   upsertOneTwitterTweet: TwitterTweet;
   upsertOneTwitterTweetContribution: TwitterTweetContribution;
   upsertOneTwitterUser: TwitterUser;
   upsertOneUser: User;
   upsertOneUserActivity: UserActivity;
+  upsertOneUserSplitContract: UserSplitContract;
   upsertOneVerificationSetting: VerificationSetting;
 };
 
@@ -12811,6 +12950,18 @@ export type MutationCreateManyPartnerArgs = {
 };
 
 
+export type MutationCreateManySplitContractArgs = {
+  data: Array<SplitContractCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManySplitPaymentArgs = {
+  data: Array<SplitPaymentCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
 export type MutationCreateManyTwitterAccountArgs = {
   data: Array<TwitterAccountCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
@@ -12843,6 +12994,12 @@ export type MutationCreateManyUserArgs = {
 
 export type MutationCreateManyUserActivityArgs = {
   data: Array<UserActivityCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyUserSplitContractArgs = {
+  data: Array<UserSplitContractCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -13003,6 +13160,16 @@ export type MutationCreateOnePartnerArgs = {
 };
 
 
+export type MutationCreateOneSplitContractArgs = {
+  data: SplitContractCreateInput;
+};
+
+
+export type MutationCreateOneSplitPaymentArgs = {
+  data: SplitPaymentCreateInput;
+};
+
+
 export type MutationCreateOneTwitterAccountArgs = {
   data: TwitterAccountCreateInput;
 };
@@ -13030,6 +13197,11 @@ export type MutationCreateOneUserArgs = {
 
 export type MutationCreateOneUserActivityArgs = {
   data: UserActivityCreateInput;
+};
+
+
+export type MutationCreateOneUserSplitContractArgs = {
+  data: UserSplitContractCreateInput;
 };
 
 
@@ -13203,6 +13375,16 @@ export type MutationDeleteManyPartnerArgs = {
 };
 
 
+export type MutationDeleteManySplitContractArgs = {
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
+
+export type MutationDeleteManySplitPaymentArgs = {
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+
 export type MutationDeleteManyTwitterAccountArgs = {
   where?: InputMaybe<TwitterAccountWhereInput>;
 };
@@ -13230,6 +13412,11 @@ export type MutationDeleteManyUserArgs = {
 
 export type MutationDeleteManyUserActivityArgs = {
   where?: InputMaybe<UserActivityWhereInput>;
+};
+
+
+export type MutationDeleteManyUserSplitContractArgs = {
+  where?: InputMaybe<UserSplitContractWhereInput>;
 };
 
 
@@ -13383,6 +13570,16 @@ export type MutationDeleteOnePartnerArgs = {
 };
 
 
+export type MutationDeleteOneSplitContractArgs = {
+  where: SplitContractWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneSplitPaymentArgs = {
+  where: SplitPaymentWhereUniqueInput;
+};
+
+
 export type MutationDeleteOneTwitterAccountArgs = {
   where: TwitterAccountWhereUniqueInput;
 };
@@ -13410,6 +13607,11 @@ export type MutationDeleteOneUserArgs = {
 
 export type MutationDeleteOneUserActivityArgs = {
   where: UserActivityWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneUserSplitContractArgs = {
+  where: UserSplitContractWhereUniqueInput;
 };
 
 
@@ -13613,6 +13815,18 @@ export type MutationUpdateManyPartnerArgs = {
 };
 
 
+export type MutationUpdateManySplitContractArgs = {
+  data: SplitContractUpdateManyMutationInput;
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
+
+export type MutationUpdateManySplitPaymentArgs = {
+  data: SplitPaymentUpdateManyMutationInput;
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+
 export type MutationUpdateManyTwitterAccountArgs = {
   data: TwitterAccountUpdateManyMutationInput;
   where?: InputMaybe<TwitterAccountWhereInput>;
@@ -13646,6 +13860,12 @@ export type MutationUpdateManyUserArgs = {
 export type MutationUpdateManyUserActivityArgs = {
   data: UserActivityUpdateManyMutationInput;
   where?: InputMaybe<UserActivityWhereInput>;
+};
+
+
+export type MutationUpdateManyUserSplitContractArgs = {
+  data: UserSplitContractUpdateManyMutationInput;
+  where?: InputMaybe<UserSplitContractWhereInput>;
 };
 
 
@@ -13829,6 +14049,18 @@ export type MutationUpdateOnePartnerArgs = {
 };
 
 
+export type MutationUpdateOneSplitContractArgs = {
+  data: SplitContractUpdateInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneSplitPaymentArgs = {
+  data: SplitPaymentUpdateInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
+
 export type MutationUpdateOneTwitterAccountArgs = {
   data: TwitterAccountUpdateInput;
   where: TwitterAccountWhereUniqueInput;
@@ -13862,6 +14094,12 @@ export type MutationUpdateOneUserArgs = {
 export type MutationUpdateOneUserActivityArgs = {
   data: UserActivityUpdateInput;
   where: UserActivityWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneUserSplitContractArgs = {
+  data: UserSplitContractUpdateInput;
+  where: UserSplitContractWhereUniqueInput;
 };
 
 
@@ -14099,6 +14337,20 @@ export type MutationUpsertOnePartnerArgs = {
 };
 
 
+export type MutationUpsertOneSplitContractArgs = {
+  create: SplitContractCreateInput;
+  update: SplitContractUpdateInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneSplitPaymentArgs = {
+  create: SplitPaymentCreateInput;
+  update: SplitPaymentUpdateInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
+
 export type MutationUpsertOneTwitterAccountArgs = {
   create: TwitterAccountCreateInput;
   update: TwitterAccountUpdateInput;
@@ -14141,10 +14393,44 @@ export type MutationUpsertOneUserActivityArgs = {
 };
 
 
+export type MutationUpsertOneUserSplitContractArgs = {
+  create: UserSplitContractCreateInput;
+  update: UserSplitContractUpdateInput;
+  where: UserSplitContractWhereUniqueInput;
+};
+
+
 export type MutationUpsertOneVerificationSettingArgs = {
   create: VerificationSettingCreateInput;
   update: VerificationSettingUpdateInput;
   where: VerificationSettingWhereUniqueInput;
+};
+
+export type NestedBigIntFilter = {
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export type NestedBigIntWithAggregatesFilter = {
+  _avg?: InputMaybe<NestedFloatFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedBigIntFilter>;
+  _min?: InputMaybe<NestedBigIntFilter>;
+  _sum?: InputMaybe<NestedBigIntFilter>;
+  equals?: InputMaybe<Scalars['BigInt']>;
+  gt?: InputMaybe<Scalars['BigInt']>;
+  gte?: InputMaybe<Scalars['BigInt']>;
+  in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lt?: InputMaybe<Scalars['BigInt']>;
+  lte?: InputMaybe<Scalars['BigInt']>;
+  not?: InputMaybe<NestedBigIntWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']>>;
 };
 
 export type NestedBoolFilter = {
@@ -14795,12 +15081,15 @@ export type Query = {
   aggregateLinearTeam: AggregateLinearTeam;
   aggregateLinearUser: AggregateLinearUser;
   aggregatePartner: AggregatePartner;
+  aggregateSplitContract: AggregateSplitContract;
+  aggregateSplitPayment: AggregateSplitPayment;
   aggregateTwitterAccount: AggregateTwitterAccount;
   aggregateTwitterTweet: AggregateTwitterTweet;
   aggregateTwitterTweetContribution: AggregateTwitterTweetContribution;
   aggregateTwitterUser: AggregateTwitterUser;
   aggregateUser: AggregateUser;
   aggregateUserActivity: AggregateUserActivity;
+  aggregateUserSplitContract: AggregateUserSplitContract;
   aggregateVerificationSetting: AggregateVerificationSetting;
   attestation?: Maybe<Attestation>;
   attestationConfidence?: Maybe<AttestationConfidence>;
@@ -14882,6 +15171,10 @@ export type Query = {
   findFirstLinearUserOrThrow?: Maybe<LinearUser>;
   findFirstPartner?: Maybe<Partner>;
   findFirstPartnerOrThrow?: Maybe<Partner>;
+  findFirstSplitContract?: Maybe<SplitContract>;
+  findFirstSplitContractOrThrow?: Maybe<SplitContract>;
+  findFirstSplitPayment?: Maybe<SplitPayment>;
+  findFirstSplitPaymentOrThrow?: Maybe<SplitPayment>;
   findFirstTwitterAccount?: Maybe<TwitterAccount>;
   findFirstTwitterAccountOrThrow?: Maybe<TwitterAccount>;
   findFirstTwitterTweet?: Maybe<TwitterTweet>;
@@ -14894,6 +15187,8 @@ export type Query = {
   findFirstUserActivity?: Maybe<UserActivity>;
   findFirstUserActivityOrThrow?: Maybe<UserActivity>;
   findFirstUserOrThrow?: Maybe<User>;
+  findFirstUserSplitContract?: Maybe<UserSplitContract>;
+  findFirstUserSplitContractOrThrow?: Maybe<UserSplitContract>;
   findFirstVerificationSetting?: Maybe<VerificationSetting>;
   findFirstVerificationSettingOrThrow?: Maybe<VerificationSetting>;
   getActiveGuildUsersAverage: Scalars['Float'];
@@ -14930,12 +15225,15 @@ export type Query = {
   getLinearTeam?: Maybe<LinearTeam>;
   getLinearUser?: Maybe<LinearUser>;
   getPartner?: Maybe<Partner>;
+  getSplitContract?: Maybe<SplitContract>;
+  getSplitPayment?: Maybe<SplitPayment>;
   getTwitterAccount?: Maybe<TwitterAccount>;
   getTwitterTweet?: Maybe<TwitterTweet>;
   getTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
   getTwitterUser?: Maybe<TwitterUser>;
   getUser: User;
   getUserActivity?: Maybe<UserActivity>;
+  getUserSplitContract?: Maybe<UserSplitContract>;
   getVerificationSetting?: Maybe<VerificationSetting>;
   groupByActivityType: Array<ActivityTypeGroupBy>;
   groupByAttestation: Array<AttestationGroupBy>;
@@ -14966,12 +15264,15 @@ export type Query = {
   groupByLinearTeam: Array<LinearTeamGroupBy>;
   groupByLinearUser: Array<LinearUserGroupBy>;
   groupByPartner: Array<PartnerGroupBy>;
+  groupBySplitContract: Array<SplitContractGroupBy>;
+  groupBySplitPayment: Array<SplitPaymentGroupBy>;
   groupByTwitterAccount: Array<TwitterAccountGroupBy>;
   groupByTwitterTweet: Array<TwitterTweetGroupBy>;
   groupByTwitterTweetContribution: Array<TwitterTweetContributionGroupBy>;
   groupByTwitterUser: Array<TwitterUserGroupBy>;
   groupByUser: Array<UserGroupBy>;
   groupByUserActivity: Array<UserActivityGroupBy>;
+  groupByUserSplitContract: Array<UserSplitContractGroupBy>;
   groupByVerificationSetting: Array<VerificationSettingGroupBy>;
   guild?: Maybe<Guild>;
   guildActivityType?: Maybe<GuildActivityType>;
@@ -15009,6 +15310,10 @@ export type Query = {
   listUserByAddress: Array<User>;
   partner?: Maybe<Partner>;
   partners: Array<Partner>;
+  splitContract?: Maybe<SplitContract>;
+  splitContracts: Array<SplitContract>;
+  splitPayment?: Maybe<SplitPayment>;
+  splitPayments: Array<SplitPayment>;
   twitterAccount?: Maybe<TwitterAccount>;
   twitterAccounts: Array<TwitterAccount>;
   twitterTweet?: Maybe<TwitterTweet>;
@@ -15020,6 +15325,8 @@ export type Query = {
   user?: Maybe<User>;
   userActivities: Array<UserActivity>;
   userActivity?: Maybe<UserActivity>;
+  userSplitContract?: Maybe<UserSplitContract>;
+  userSplitContracts: Array<UserSplitContract>;
   users: Array<User>;
   verificationSetting?: Maybe<VerificationSetting>;
   verificationSettings: Array<VerificationSetting>;
@@ -15302,6 +15609,24 @@ export type QueryAggregatePartnerArgs = {
 };
 
 
+export type QueryAggregateSplitContractArgs = {
+  cursor?: InputMaybe<SplitContractWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<SplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
+
+export type QueryAggregateSplitPaymentArgs = {
+  cursor?: InputMaybe<SplitPaymentWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<SplitPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+
 export type QueryAggregateTwitterAccountArgs = {
   cursor?: InputMaybe<TwitterAccountWhereUniqueInput>;
   orderBy?: InputMaybe<Array<TwitterAccountOrderByWithRelationInput>>;
@@ -15353,6 +15678,15 @@ export type QueryAggregateUserActivityArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserActivityWhereInput>;
+};
+
+
+export type QueryAggregateUserSplitContractArgs = {
+  cursor?: InputMaybe<UserSplitContractWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<UserSplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserSplitContractWhereInput>;
 };
 
 
@@ -16110,6 +16444,46 @@ export type QueryFindFirstPartnerOrThrowArgs = {
 };
 
 
+export type QueryFindFirstSplitContractArgs = {
+  cursor?: InputMaybe<SplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
+
+export type QueryFindFirstSplitContractOrThrowArgs = {
+  cursor?: InputMaybe<SplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
+
+export type QueryFindFirstSplitPaymentArgs = {
+  cursor?: InputMaybe<SplitPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+
+export type QueryFindFirstSplitPaymentOrThrowArgs = {
+  cursor?: InputMaybe<SplitPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+
 export type QueryFindFirstTwitterAccountArgs = {
   cursor?: InputMaybe<TwitterAccountWhereUniqueInput>;
   distinct?: InputMaybe<Array<TwitterAccountScalarFieldEnum>>;
@@ -16227,6 +16601,26 @@ export type QueryFindFirstUserOrThrowArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserWhereInput>;
+};
+
+
+export type QueryFindFirstUserSplitContractArgs = {
+  cursor?: InputMaybe<UserSplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<UserSplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<UserSplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserSplitContractWhereInput>;
+};
+
+
+export type QueryFindFirstUserSplitContractOrThrowArgs = {
+  cursor?: InputMaybe<UserSplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<UserSplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<UserSplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserSplitContractWhereInput>;
 };
 
 
@@ -16420,6 +16814,16 @@ export type QueryGetPartnerArgs = {
 };
 
 
+export type QueryGetSplitContractArgs = {
+  where: SplitContractWhereUniqueInput;
+};
+
+
+export type QueryGetSplitPaymentArgs = {
+  where: SplitPaymentWhereUniqueInput;
+};
+
+
 export type QueryGetTwitterAccountArgs = {
   where: TwitterAccountWhereUniqueInput;
 };
@@ -16447,6 +16851,11 @@ export type QueryGetUserArgs = {
 
 export type QueryGetUserActivityArgs = {
   where: UserActivityWhereUniqueInput;
+};
+
+
+export type QueryGetUserSplitContractArgs = {
+  where: UserSplitContractWhereUniqueInput;
 };
 
 
@@ -16745,6 +17154,26 @@ export type QueryGroupByPartnerArgs = {
 };
 
 
+export type QueryGroupBySplitContractArgs = {
+  by: Array<SplitContractScalarFieldEnum>;
+  having?: InputMaybe<SplitContractScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<SplitContractOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
+
+export type QueryGroupBySplitPaymentArgs = {
+  by: Array<SplitPaymentScalarFieldEnum>;
+  having?: InputMaybe<SplitPaymentScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<SplitPaymentOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+
 export type QueryGroupByTwitterAccountArgs = {
   by: Array<TwitterAccountScalarFieldEnum>;
   having?: InputMaybe<TwitterAccountScalarWhereWithAggregatesInput>;
@@ -16802,6 +17231,16 @@ export type QueryGroupByUserActivityArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserActivityWhereInput>;
+};
+
+
+export type QueryGroupByUserSplitContractArgs = {
+  by: Array<UserSplitContractScalarFieldEnum>;
+  having?: InputMaybe<UserSplitContractScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<UserSplitContractOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserSplitContractWhereInput>;
 };
 
 
@@ -17080,6 +17519,36 @@ export type QueryPartnersArgs = {
 };
 
 
+export type QuerySplitContractArgs = {
+  where: SplitContractWhereUniqueInput;
+};
+
+
+export type QuerySplitContractsArgs = {
+  cursor?: InputMaybe<SplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
+
+export type QuerySplitPaymentArgs = {
+  where: SplitPaymentWhereUniqueInput;
+};
+
+
+export type QuerySplitPaymentsArgs = {
+  cursor?: InputMaybe<SplitPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+
 export type QueryTwitterAccountArgs = {
   where: TwitterAccountWhereUniqueInput;
 };
@@ -17160,6 +17629,21 @@ export type QueryUserActivityArgs = {
 };
 
 
+export type QueryUserSplitContractArgs = {
+  where: UserSplitContractWhereUniqueInput;
+};
+
+
+export type QueryUserSplitContractsArgs = {
+  cursor?: InputMaybe<UserSplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<UserSplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<UserSplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserSplitContractWhereInput>;
+};
+
+
 export type QueryUsersArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
   distinct?: InputMaybe<Array<UserScalarFieldEnum>>;
@@ -17193,6 +17677,945 @@ export enum SortOrder {
   Asc = 'asc',
   Desc = 'desc'
 }
+
+export type SplitContract = {
+  _count?: Maybe<SplitContractCount>;
+  address: Scalars['String'];
+  chain: Chain;
+  chain_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  enabled: Scalars['Boolean'];
+  id: Scalars['Int'];
+  split_payments: Array<SplitPayment>;
+  tx_hash: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  user_split_contract?: Maybe<UserSplitContract>;
+  user_split_contract_id?: Maybe<Scalars['Int']>;
+};
+
+
+export type SplitContractSplit_PaymentsArgs = {
+  cursor?: InputMaybe<SplitPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+export type SplitContractAvgAggregate = {
+  chain_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  user_split_contract_id?: Maybe<Scalars['Float']>;
+};
+
+export type SplitContractAvgOrderByAggregateInput = {
+  chain_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  user_split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitContractCount = {
+  split_payments: Scalars['Int'];
+};
+
+export type SplitContractCountAggregate = {
+  _all: Scalars['Int'];
+  address: Scalars['Int'];
+  chain_id: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  enabled: Scalars['Int'];
+  id: Scalars['Int'];
+  tx_hash: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  user_split_contract_id: Scalars['Int'];
+};
+
+export type SplitContractCountOrderByAggregateInput = {
+  address?: InputMaybe<SortOrder>;
+  chain_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitContractCreateInput = {
+  address: Scalars['String'];
+  chain: ChainCreateNestedOneWithoutSplit_ContractsInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSplit_ContractInput>;
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_split_contract?: InputMaybe<UserSplitContractCreateNestedOneWithoutSplit_ContractInput>;
+};
+
+export type SplitContractCreateManyChainInput = {
+  address: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  id?: InputMaybe<Scalars['Int']>;
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_split_contract_id?: InputMaybe<Scalars['Int']>;
+};
+
+export type SplitContractCreateManyChainInputEnvelope = {
+  data: Array<SplitContractCreateManyChainInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SplitContractCreateManyInput = {
+  address: Scalars['String'];
+  chain_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  id?: InputMaybe<Scalars['Int']>;
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_split_contract_id?: InputMaybe<Scalars['Int']>;
+};
+
+export type SplitContractCreateManyUser_Split_ContractInput = {
+  address: Scalars['String'];
+  chain_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  id?: InputMaybe<Scalars['Int']>;
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SplitContractCreateManyUser_Split_ContractInputEnvelope = {
+  data: Array<SplitContractCreateManyUser_Split_ContractInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SplitContractCreateNestedManyWithoutChainInput = {
+  connect?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<SplitContractCreateOrConnectWithoutChainInput>>;
+  create?: InputMaybe<Array<SplitContractCreateWithoutChainInput>>;
+  createMany?: InputMaybe<SplitContractCreateManyChainInputEnvelope>;
+};
+
+export type SplitContractCreateNestedManyWithoutUser_Split_ContractInput = {
+  connect?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<SplitContractCreateOrConnectWithoutUser_Split_ContractInput>>;
+  create?: InputMaybe<Array<SplitContractCreateWithoutUser_Split_ContractInput>>;
+  createMany?: InputMaybe<SplitContractCreateManyUser_Split_ContractInputEnvelope>;
+};
+
+export type SplitContractCreateNestedOneWithoutSplit_PaymentsInput = {
+  connect?: InputMaybe<SplitContractWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<SplitContractCreateOrConnectWithoutSplit_PaymentsInput>;
+  create?: InputMaybe<SplitContractCreateWithoutSplit_PaymentsInput>;
+};
+
+export type SplitContractCreateOrConnectWithoutChainInput = {
+  create: SplitContractCreateWithoutChainInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+export type SplitContractCreateOrConnectWithoutSplit_PaymentsInput = {
+  create: SplitContractCreateWithoutSplit_PaymentsInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+export type SplitContractCreateOrConnectWithoutUser_Split_ContractInput = {
+  create: SplitContractCreateWithoutUser_Split_ContractInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+export type SplitContractCreateWithoutChainInput = {
+  address: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSplit_ContractInput>;
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_split_contract?: InputMaybe<UserSplitContractCreateNestedOneWithoutSplit_ContractInput>;
+};
+
+export type SplitContractCreateWithoutSplit_PaymentsInput = {
+  address: Scalars['String'];
+  chain: ChainCreateNestedOneWithoutSplit_ContractsInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_split_contract?: InputMaybe<UserSplitContractCreateNestedOneWithoutSplit_ContractInput>;
+};
+
+export type SplitContractCreateWithoutUser_Split_ContractInput = {
+  address: Scalars['String'];
+  chain: ChainCreateNestedOneWithoutSplit_ContractsInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSplit_ContractInput>;
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SplitContractGroupBy = {
+  _avg?: Maybe<SplitContractAvgAggregate>;
+  _count?: Maybe<SplitContractCountAggregate>;
+  _max?: Maybe<SplitContractMaxAggregate>;
+  _min?: Maybe<SplitContractMinAggregate>;
+  _sum?: Maybe<SplitContractSumAggregate>;
+  address: Scalars['String'];
+  chain_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  enabled: Scalars['Boolean'];
+  id: Scalars['Int'];
+  tx_hash: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  user_split_contract_id?: Maybe<Scalars['Int']>;
+};
+
+export type SplitContractListRelationFilter = {
+  every?: InputMaybe<SplitContractWhereInput>;
+  none?: InputMaybe<SplitContractWhereInput>;
+  some?: InputMaybe<SplitContractWhereInput>;
+};
+
+export type SplitContractMaxAggregate = {
+  address?: Maybe<Scalars['String']>;
+  chain_id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  enabled?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Int']>;
+  tx_hash?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user_split_contract_id?: Maybe<Scalars['Int']>;
+};
+
+export type SplitContractMaxOrderByAggregateInput = {
+  address?: InputMaybe<SortOrder>;
+  chain_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitContractMinAggregate = {
+  address?: Maybe<Scalars['String']>;
+  chain_id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  enabled?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Int']>;
+  tx_hash?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user_split_contract_id?: Maybe<Scalars['Int']>;
+};
+
+export type SplitContractMinOrderByAggregateInput = {
+  address?: InputMaybe<SortOrder>;
+  chain_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitContractOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type SplitContractOrderByWithAggregationInput = {
+  _avg?: InputMaybe<SplitContractAvgOrderByAggregateInput>;
+  _count?: InputMaybe<SplitContractCountOrderByAggregateInput>;
+  _max?: InputMaybe<SplitContractMaxOrderByAggregateInput>;
+  _min?: InputMaybe<SplitContractMinOrderByAggregateInput>;
+  _sum?: InputMaybe<SplitContractSumOrderByAggregateInput>;
+  address?: InputMaybe<SortOrder>;
+  chain_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitContractOrderByWithRelationInput = {
+  address?: InputMaybe<SortOrder>;
+  chain?: InputMaybe<ChainOrderByWithRelationInput>;
+  chain_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_payments?: InputMaybe<SplitPaymentOrderByRelationAggregateInput>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_split_contract?: InputMaybe<UserSplitContractOrderByWithRelationInput>;
+  user_split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitContractRelationFilter = {
+  is?: InputMaybe<SplitContractWhereInput>;
+  isNot?: InputMaybe<SplitContractWhereInput>;
+};
+
+export enum SplitContractScalarFieldEnum {
+  Address = 'address',
+  ChainId = 'chain_id',
+  CreatedAt = 'createdAt',
+  Enabled = 'enabled',
+  Id = 'id',
+  TxHash = 'tx_hash',
+  UpdatedAt = 'updatedAt',
+  UserSplitContractId = 'user_split_contract_id'
+}
+
+export type SplitContractScalarWhereInput = {
+  AND?: InputMaybe<Array<SplitContractScalarWhereInput>>;
+  NOT?: InputMaybe<Array<SplitContractScalarWhereInput>>;
+  OR?: InputMaybe<Array<SplitContractScalarWhereInput>>;
+  address?: InputMaybe<StringFilter>;
+  chain_id?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  enabled?: InputMaybe<BoolFilter>;
+  id?: InputMaybe<IntFilter>;
+  tx_hash?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user_split_contract_id?: InputMaybe<IntNullableFilter>;
+};
+
+export type SplitContractScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<SplitContractScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<SplitContractScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<SplitContractScalarWhereWithAggregatesInput>>;
+  address?: InputMaybe<StringWithAggregatesFilter>;
+  chain_id?: InputMaybe<IntWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  enabled?: InputMaybe<BoolWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  tx_hash?: InputMaybe<StringWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  user_split_contract_id?: InputMaybe<IntNullableWithAggregatesFilter>;
+};
+
+export type SplitContractSumAggregate = {
+  chain_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  user_split_contract_id?: Maybe<Scalars['Int']>;
+};
+
+export type SplitContractSumOrderByAggregateInput = {
+  chain_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  user_split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitContractUpdateInput = {
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  chain?: InputMaybe<ChainUpdateOneRequiredWithoutSplit_ContractsNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSplit_ContractNestedInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user_split_contract?: InputMaybe<UserSplitContractUpdateOneWithoutSplit_ContractNestedInput>;
+};
+
+export type SplitContractUpdateManyMutationInput = {
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type SplitContractUpdateManyWithWhereWithoutChainInput = {
+  data: SplitContractUpdateManyMutationInput;
+  where: SplitContractScalarWhereInput;
+};
+
+export type SplitContractUpdateManyWithWhereWithoutUser_Split_ContractInput = {
+  data: SplitContractUpdateManyMutationInput;
+  where: SplitContractScalarWhereInput;
+};
+
+export type SplitContractUpdateManyWithoutChainNestedInput = {
+  connect?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<SplitContractCreateOrConnectWithoutChainInput>>;
+  create?: InputMaybe<Array<SplitContractCreateWithoutChainInput>>;
+  createMany?: InputMaybe<SplitContractCreateManyChainInputEnvelope>;
+  delete?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<SplitContractScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  set?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  update?: InputMaybe<Array<SplitContractUpdateWithWhereUniqueWithoutChainInput>>;
+  updateMany?: InputMaybe<Array<SplitContractUpdateManyWithWhereWithoutChainInput>>;
+  upsert?: InputMaybe<Array<SplitContractUpsertWithWhereUniqueWithoutChainInput>>;
+};
+
+export type SplitContractUpdateManyWithoutUser_Split_ContractNestedInput = {
+  connect?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<SplitContractCreateOrConnectWithoutUser_Split_ContractInput>>;
+  create?: InputMaybe<Array<SplitContractCreateWithoutUser_Split_ContractInput>>;
+  createMany?: InputMaybe<SplitContractCreateManyUser_Split_ContractInputEnvelope>;
+  delete?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<SplitContractScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  set?: InputMaybe<Array<SplitContractWhereUniqueInput>>;
+  update?: InputMaybe<Array<SplitContractUpdateWithWhereUniqueWithoutUser_Split_ContractInput>>;
+  updateMany?: InputMaybe<Array<SplitContractUpdateManyWithWhereWithoutUser_Split_ContractInput>>;
+  upsert?: InputMaybe<Array<SplitContractUpsertWithWhereUniqueWithoutUser_Split_ContractInput>>;
+};
+
+export type SplitContractUpdateOneRequiredWithoutSplit_PaymentsNestedInput = {
+  connect?: InputMaybe<SplitContractWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<SplitContractCreateOrConnectWithoutSplit_PaymentsInput>;
+  create?: InputMaybe<SplitContractCreateWithoutSplit_PaymentsInput>;
+  update?: InputMaybe<SplitContractUpdateWithoutSplit_PaymentsInput>;
+  upsert?: InputMaybe<SplitContractUpsertWithoutSplit_PaymentsInput>;
+};
+
+export type SplitContractUpdateWithWhereUniqueWithoutChainInput = {
+  data: SplitContractUpdateWithoutChainInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+export type SplitContractUpdateWithWhereUniqueWithoutUser_Split_ContractInput = {
+  data: SplitContractUpdateWithoutUser_Split_ContractInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+export type SplitContractUpdateWithoutChainInput = {
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSplit_ContractNestedInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user_split_contract?: InputMaybe<UserSplitContractUpdateOneWithoutSplit_ContractNestedInput>;
+};
+
+export type SplitContractUpdateWithoutSplit_PaymentsInput = {
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  chain?: InputMaybe<ChainUpdateOneRequiredWithoutSplit_ContractsNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user_split_contract?: InputMaybe<UserSplitContractUpdateOneWithoutSplit_ContractNestedInput>;
+};
+
+export type SplitContractUpdateWithoutUser_Split_ContractInput = {
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  chain?: InputMaybe<ChainUpdateOneRequiredWithoutSplit_ContractsNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSplit_ContractNestedInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type SplitContractUpsertWithWhereUniqueWithoutChainInput = {
+  create: SplitContractCreateWithoutChainInput;
+  update: SplitContractUpdateWithoutChainInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+export type SplitContractUpsertWithWhereUniqueWithoutUser_Split_ContractInput = {
+  create: SplitContractCreateWithoutUser_Split_ContractInput;
+  update: SplitContractUpdateWithoutUser_Split_ContractInput;
+  where: SplitContractWhereUniqueInput;
+};
+
+export type SplitContractUpsertWithoutSplit_PaymentsInput = {
+  create: SplitContractCreateWithoutSplit_PaymentsInput;
+  update: SplitContractUpdateWithoutSplit_PaymentsInput;
+};
+
+export type SplitContractWhereInput = {
+  AND?: InputMaybe<Array<SplitContractWhereInput>>;
+  NOT?: InputMaybe<Array<SplitContractWhereInput>>;
+  OR?: InputMaybe<Array<SplitContractWhereInput>>;
+  address?: InputMaybe<StringFilter>;
+  chain?: InputMaybe<ChainRelationFilter>;
+  chain_id?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  enabled?: InputMaybe<BoolFilter>;
+  id?: InputMaybe<IntFilter>;
+  split_payments?: InputMaybe<SplitPaymentListRelationFilter>;
+  tx_hash?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user_split_contract?: InputMaybe<UserSplitContractRelationFilter>;
+  user_split_contract_id?: InputMaybe<IntNullableFilter>;
+};
+
+export type SplitContractWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+export type SplitPayment = {
+  amount: Scalars['BigInt'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  sender_user?: Maybe<User>;
+  sender_user_id?: Maybe<Scalars['Int']>;
+  split_contract: SplitContract;
+  split_contract_id: Scalars['Int'];
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type SplitPaymentAvgAggregate = {
+  amount?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  sender_user_id?: Maybe<Scalars['Float']>;
+  split_contract_id?: Maybe<Scalars['Float']>;
+};
+
+export type SplitPaymentAvgOrderByAggregateInput = {
+  amount?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  sender_user_id?: InputMaybe<SortOrder>;
+  split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentCountAggregate = {
+  _all: Scalars['Int'];
+  amount: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  recipient_address: Scalars['Int'];
+  sender_address: Scalars['Int'];
+  sender_user_id: Scalars['Int'];
+  split_contract_id: Scalars['Int'];
+  token_address: Scalars['Int'];
+  tx_hash: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type SplitPaymentCountOrderByAggregateInput = {
+  amount?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  recipient_address?: InputMaybe<SortOrder>;
+  sender_address?: InputMaybe<SortOrder>;
+  sender_user_id?: InputMaybe<SortOrder>;
+  split_contract_id?: InputMaybe<SortOrder>;
+  token_address?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentCreateInput = {
+  amount: Scalars['BigInt'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  sender_user?: InputMaybe<UserCreateNestedOneWithoutSent_Split_PaymentsInput>;
+  split_contract: SplitContractCreateNestedOneWithoutSplit_PaymentsInput;
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SplitPaymentCreateManyInput = {
+  amount: Scalars['BigInt'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  sender_user_id?: InputMaybe<Scalars['Int']>;
+  split_contract_id: Scalars['Int'];
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SplitPaymentCreateManySender_UserInput = {
+  amount: Scalars['BigInt'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  split_contract_id: Scalars['Int'];
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SplitPaymentCreateManySender_UserInputEnvelope = {
+  data: Array<SplitPaymentCreateManySender_UserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SplitPaymentCreateManySplit_ContractInput = {
+  amount: Scalars['BigInt'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  sender_user_id?: InputMaybe<Scalars['Int']>;
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SplitPaymentCreateManySplit_ContractInputEnvelope = {
+  data: Array<SplitPaymentCreateManySplit_ContractInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SplitPaymentCreateNestedManyWithoutSender_UserInput = {
+  connect?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<SplitPaymentCreateOrConnectWithoutSender_UserInput>>;
+  create?: InputMaybe<Array<SplitPaymentCreateWithoutSender_UserInput>>;
+  createMany?: InputMaybe<SplitPaymentCreateManySender_UserInputEnvelope>;
+};
+
+export type SplitPaymentCreateNestedManyWithoutSplit_ContractInput = {
+  connect?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<SplitPaymentCreateOrConnectWithoutSplit_ContractInput>>;
+  create?: InputMaybe<Array<SplitPaymentCreateWithoutSplit_ContractInput>>;
+  createMany?: InputMaybe<SplitPaymentCreateManySplit_ContractInputEnvelope>;
+};
+
+export type SplitPaymentCreateOrConnectWithoutSender_UserInput = {
+  create: SplitPaymentCreateWithoutSender_UserInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
+export type SplitPaymentCreateOrConnectWithoutSplit_ContractInput = {
+  create: SplitPaymentCreateWithoutSplit_ContractInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
+export type SplitPaymentCreateWithoutSender_UserInput = {
+  amount: Scalars['BigInt'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  split_contract: SplitContractCreateNestedOneWithoutSplit_PaymentsInput;
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SplitPaymentCreateWithoutSplit_ContractInput = {
+  amount: Scalars['BigInt'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  sender_user?: InputMaybe<UserCreateNestedOneWithoutSent_Split_PaymentsInput>;
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SplitPaymentGroupBy = {
+  _avg?: Maybe<SplitPaymentAvgAggregate>;
+  _count?: Maybe<SplitPaymentCountAggregate>;
+  _max?: Maybe<SplitPaymentMaxAggregate>;
+  _min?: Maybe<SplitPaymentMinAggregate>;
+  _sum?: Maybe<SplitPaymentSumAggregate>;
+  amount: Scalars['BigInt'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  sender_user_id?: Maybe<Scalars['Int']>;
+  split_contract_id: Scalars['Int'];
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type SplitPaymentListRelationFilter = {
+  every?: InputMaybe<SplitPaymentWhereInput>;
+  none?: InputMaybe<SplitPaymentWhereInput>;
+  some?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+export type SplitPaymentMaxAggregate = {
+  amount?: Maybe<Scalars['BigInt']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  recipient_address?: Maybe<Scalars['String']>;
+  sender_address?: Maybe<Scalars['String']>;
+  sender_user_id?: Maybe<Scalars['Int']>;
+  split_contract_id?: Maybe<Scalars['Int']>;
+  token_address?: Maybe<Scalars['String']>;
+  tx_hash?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type SplitPaymentMaxOrderByAggregateInput = {
+  amount?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  recipient_address?: InputMaybe<SortOrder>;
+  sender_address?: InputMaybe<SortOrder>;
+  sender_user_id?: InputMaybe<SortOrder>;
+  split_contract_id?: InputMaybe<SortOrder>;
+  token_address?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentMinAggregate = {
+  amount?: Maybe<Scalars['BigInt']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  recipient_address?: Maybe<Scalars['String']>;
+  sender_address?: Maybe<Scalars['String']>;
+  sender_user_id?: Maybe<Scalars['Int']>;
+  split_contract_id?: Maybe<Scalars['Int']>;
+  token_address?: Maybe<Scalars['String']>;
+  tx_hash?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type SplitPaymentMinOrderByAggregateInput = {
+  amount?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  recipient_address?: InputMaybe<SortOrder>;
+  sender_address?: InputMaybe<SortOrder>;
+  sender_user_id?: InputMaybe<SortOrder>;
+  split_contract_id?: InputMaybe<SortOrder>;
+  token_address?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentOrderByWithAggregationInput = {
+  _avg?: InputMaybe<SplitPaymentAvgOrderByAggregateInput>;
+  _count?: InputMaybe<SplitPaymentCountOrderByAggregateInput>;
+  _max?: InputMaybe<SplitPaymentMaxOrderByAggregateInput>;
+  _min?: InputMaybe<SplitPaymentMinOrderByAggregateInput>;
+  _sum?: InputMaybe<SplitPaymentSumOrderByAggregateInput>;
+  amount?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  recipient_address?: InputMaybe<SortOrder>;
+  sender_address?: InputMaybe<SortOrder>;
+  sender_user_id?: InputMaybe<SortOrder>;
+  split_contract_id?: InputMaybe<SortOrder>;
+  token_address?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentOrderByWithRelationInput = {
+  amount?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  recipient_address?: InputMaybe<SortOrder>;
+  sender_address?: InputMaybe<SortOrder>;
+  sender_user?: InputMaybe<UserOrderByWithRelationInput>;
+  sender_user_id?: InputMaybe<SortOrder>;
+  split_contract?: InputMaybe<SplitContractOrderByWithRelationInput>;
+  split_contract_id?: InputMaybe<SortOrder>;
+  token_address?: InputMaybe<SortOrder>;
+  tx_hash?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export enum SplitPaymentScalarFieldEnum {
+  Amount = 'amount',
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  RecipientAddress = 'recipient_address',
+  SenderAddress = 'sender_address',
+  SenderUserId = 'sender_user_id',
+  SplitContractId = 'split_contract_id',
+  TokenAddress = 'token_address',
+  TxHash = 'tx_hash',
+  UpdatedAt = 'updatedAt'
+}
+
+export type SplitPaymentScalarWhereInput = {
+  AND?: InputMaybe<Array<SplitPaymentScalarWhereInput>>;
+  NOT?: InputMaybe<Array<SplitPaymentScalarWhereInput>>;
+  OR?: InputMaybe<Array<SplitPaymentScalarWhereInput>>;
+  amount?: InputMaybe<BigIntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  recipient_address?: InputMaybe<StringFilter>;
+  sender_address?: InputMaybe<StringFilter>;
+  sender_user_id?: InputMaybe<IntNullableFilter>;
+  split_contract_id?: InputMaybe<IntFilter>;
+  token_address?: InputMaybe<StringFilter>;
+  tx_hash?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type SplitPaymentScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<SplitPaymentScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<SplitPaymentScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<SplitPaymentScalarWhereWithAggregatesInput>>;
+  amount?: InputMaybe<BigIntWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  recipient_address?: InputMaybe<StringWithAggregatesFilter>;
+  sender_address?: InputMaybe<StringWithAggregatesFilter>;
+  sender_user_id?: InputMaybe<IntNullableWithAggregatesFilter>;
+  split_contract_id?: InputMaybe<IntWithAggregatesFilter>;
+  token_address?: InputMaybe<StringWithAggregatesFilter>;
+  tx_hash?: InputMaybe<StringWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type SplitPaymentSumAggregate = {
+  amount?: Maybe<Scalars['BigInt']>;
+  id?: Maybe<Scalars['Int']>;
+  sender_user_id?: Maybe<Scalars['Int']>;
+  split_contract_id?: Maybe<Scalars['Int']>;
+};
+
+export type SplitPaymentSumOrderByAggregateInput = {
+  amount?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  sender_user_id?: InputMaybe<SortOrder>;
+  split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentUpdateInput = {
+  amount?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  recipient_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender_user?: InputMaybe<UserUpdateOneWithoutSent_Split_PaymentsNestedInput>;
+  split_contract?: InputMaybe<SplitContractUpdateOneRequiredWithoutSplit_PaymentsNestedInput>;
+  token_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type SplitPaymentUpdateManyMutationInput = {
+  amount?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  recipient_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  token_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type SplitPaymentUpdateManyWithWhereWithoutSender_UserInput = {
+  data: SplitPaymentUpdateManyMutationInput;
+  where: SplitPaymentScalarWhereInput;
+};
+
+export type SplitPaymentUpdateManyWithWhereWithoutSplit_ContractInput = {
+  data: SplitPaymentUpdateManyMutationInput;
+  where: SplitPaymentScalarWhereInput;
+};
+
+export type SplitPaymentUpdateManyWithoutSender_UserNestedInput = {
+  connect?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<SplitPaymentCreateOrConnectWithoutSender_UserInput>>;
+  create?: InputMaybe<Array<SplitPaymentCreateWithoutSender_UserInput>>;
+  createMany?: InputMaybe<SplitPaymentCreateManySender_UserInputEnvelope>;
+  delete?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<SplitPaymentScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  set?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  update?: InputMaybe<Array<SplitPaymentUpdateWithWhereUniqueWithoutSender_UserInput>>;
+  updateMany?: InputMaybe<Array<SplitPaymentUpdateManyWithWhereWithoutSender_UserInput>>;
+  upsert?: InputMaybe<Array<SplitPaymentUpsertWithWhereUniqueWithoutSender_UserInput>>;
+};
+
+export type SplitPaymentUpdateManyWithoutSplit_ContractNestedInput = {
+  connect?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<SplitPaymentCreateOrConnectWithoutSplit_ContractInput>>;
+  create?: InputMaybe<Array<SplitPaymentCreateWithoutSplit_ContractInput>>;
+  createMany?: InputMaybe<SplitPaymentCreateManySplit_ContractInputEnvelope>;
+  delete?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<SplitPaymentScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  set?: InputMaybe<Array<SplitPaymentWhereUniqueInput>>;
+  update?: InputMaybe<Array<SplitPaymentUpdateWithWhereUniqueWithoutSplit_ContractInput>>;
+  updateMany?: InputMaybe<Array<SplitPaymentUpdateManyWithWhereWithoutSplit_ContractInput>>;
+  upsert?: InputMaybe<Array<SplitPaymentUpsertWithWhereUniqueWithoutSplit_ContractInput>>;
+};
+
+export type SplitPaymentUpdateWithWhereUniqueWithoutSender_UserInput = {
+  data: SplitPaymentUpdateWithoutSender_UserInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
+export type SplitPaymentUpdateWithWhereUniqueWithoutSplit_ContractInput = {
+  data: SplitPaymentUpdateWithoutSplit_ContractInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
+export type SplitPaymentUpdateWithoutSender_UserInput = {
+  amount?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  recipient_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  split_contract?: InputMaybe<SplitContractUpdateOneRequiredWithoutSplit_PaymentsNestedInput>;
+  token_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type SplitPaymentUpdateWithoutSplit_ContractInput = {
+  amount?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  recipient_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender_user?: InputMaybe<UserUpdateOneWithoutSent_Split_PaymentsNestedInput>;
+  token_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type SplitPaymentUpsertWithWhereUniqueWithoutSender_UserInput = {
+  create: SplitPaymentCreateWithoutSender_UserInput;
+  update: SplitPaymentUpdateWithoutSender_UserInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
+export type SplitPaymentUpsertWithWhereUniqueWithoutSplit_ContractInput = {
+  create: SplitPaymentCreateWithoutSplit_ContractInput;
+  update: SplitPaymentUpdateWithoutSplit_ContractInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
+export type SplitPaymentWhereInput = {
+  AND?: InputMaybe<Array<SplitPaymentWhereInput>>;
+  NOT?: InputMaybe<Array<SplitPaymentWhereInput>>;
+  OR?: InputMaybe<Array<SplitPaymentWhereInput>>;
+  amount?: InputMaybe<BigIntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  recipient_address?: InputMaybe<StringFilter>;
+  sender_address?: InputMaybe<StringFilter>;
+  sender_user?: InputMaybe<UserRelationFilter>;
+  sender_user_id?: InputMaybe<IntNullableFilter>;
+  split_contract?: InputMaybe<SplitContractRelationFilter>;
+  split_contract_id?: InputMaybe<IntFilter>;
+  token_address?: InputMaybe<StringFilter>;
+  tx_hash?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type SplitPaymentWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+};
 
 export type StringFieldUpdateOperationsInput = {
   set?: InputMaybe<Scalars['String']>;
@@ -18613,6 +20036,8 @@ export type User = {
   id: Scalars['Int'];
   linear_users: Array<LinearUser>;
   name?: Maybe<Scalars['String']>;
+  sent_split_payments: Array<SplitPayment>;
+  split_contracts: Array<UserSplitContract>;
   twitter_user?: Maybe<TwitterUser>;
   updatedAt: Scalars['DateTime'];
 };
@@ -18685,6 +20110,26 @@ export type UserLinear_UsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LinearUserWhereInput>;
+};
+
+
+export type UserSent_Split_PaymentsArgs = {
+  cursor?: InputMaybe<SplitPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitPaymentWhereInput>;
+};
+
+
+export type UserSplit_ContractsArgs = {
+  cursor?: InputMaybe<UserSplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<UserSplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<UserSplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserSplitContractWhereInput>;
 };
 
 export type UserActivity = {
@@ -19081,6 +20526,8 @@ export type UserCount = {
   discord_users: Scalars['Int'];
   guild_users: Scalars['Int'];
   linear_users: Scalars['Int'];
+  sent_split_payments: Scalars['Int'];
+  split_contracts: Scalars['Int'];
 };
 
 export type UserCountAggregate = {
@@ -19132,6 +20579,8 @@ export type UserCreateInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19215,6 +20664,18 @@ export type UserCreateNestedOneWithoutLinear_UsersInput = {
   create?: InputMaybe<UserCreateWithoutLinear_UsersInput>;
 };
 
+export type UserCreateNestedOneWithoutSent_Split_PaymentsInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutSent_Split_PaymentsInput>;
+  create?: InputMaybe<UserCreateWithoutSent_Split_PaymentsInput>;
+};
+
+export type UserCreateNestedOneWithoutSplit_ContractsInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutSplit_ContractsInput>;
+  create?: InputMaybe<UserCreateWithoutSplit_ContractsInput>;
+};
+
 export type UserCreateNestedOneWithoutTwitter_UserInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutTwitter_UserInput>;
@@ -19261,6 +20722,16 @@ export type UserCreateOrConnectWithoutLinear_UsersInput = {
   where: UserWhereUniqueInput;
 };
 
+export type UserCreateOrConnectWithoutSent_Split_PaymentsInput = {
+  create: UserCreateWithoutSent_Split_PaymentsInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserCreateOrConnectWithoutSplit_ContractsInput = {
+  create: UserCreateWithoutSplit_ContractsInput;
+  where: UserWhereUniqueInput;
+};
+
 export type UserCreateOrConnectWithoutTwitter_UserInput = {
   create: UserCreateWithoutTwitter_UserInput;
   where: UserWhereUniqueInput;
@@ -19281,6 +20752,8 @@ export type UserCreateWithoutActivitiesInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19300,6 +20773,8 @@ export type UserCreateWithoutAttestationsInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19319,6 +20794,8 @@ export type UserCreateWithoutChain_TypeInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19338,6 +20815,8 @@ export type UserCreateWithoutContributionPartnersInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19357,6 +20836,8 @@ export type UserCreateWithoutContributionsInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19376,6 +20857,8 @@ export type UserCreateWithoutDiscord_UsersInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19395,6 +20878,8 @@ export type UserCreateWithoutGuild_UsersInput = {
   full_name?: InputMaybe<Scalars['String']>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19414,6 +20899,50 @@ export type UserCreateWithoutLinear_UsersInput = {
   full_name?: InputMaybe<Scalars['String']>;
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserCreateWithoutSent_Split_PaymentsInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
+  address: Scalars['String'];
+  attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
+  chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
+  contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
+  contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
+  display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
+  linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
+  name?: InputMaybe<Scalars['String']>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
+  twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserCreateWithoutSplit_ContractsInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  activities?: InputMaybe<UserActivityCreateNestedManyWithoutUserInput>;
+  address: Scalars['String'];
+  attestations?: InputMaybe<AttestationCreateNestedManyWithoutUserInput>;
+  chain_type: ChainTypeCreateNestedOneWithoutUsersInput;
+  contributionPartners?: InputMaybe<PartnerCreateNestedManyWithoutUserInput>;
+  contributions?: InputMaybe<ContributionCreateNestedManyWithoutUserInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  discord_users?: InputMaybe<DiscordUserCreateNestedManyWithoutUserInput>;
+  display_name?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  full_name?: InputMaybe<Scalars['String']>;
+  guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
+  linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
+  name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
   twitter_user?: InputMaybe<TwitterUserCreateNestedOneWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -19434,6 +20963,8 @@ export type UserCreateWithoutTwitter_UserInput = {
   guild_users?: InputMaybe<GuildUserCreateNestedManyWithoutUserInput>;
   linear_users?: InputMaybe<LinearUserCreateNestedManyWithoutUserInput>;
   name?: InputMaybe<Scalars['String']>;
+  sent_split_payments?: InputMaybe<SplitPaymentCreateNestedManyWithoutSender_UserInput>;
+  split_contracts?: InputMaybe<UserSplitContractCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -19567,6 +21098,8 @@ export type UserOrderByWithRelationInput = {
   id?: InputMaybe<SortOrder>;
   linear_users?: InputMaybe<LinearUserOrderByRelationAggregateInput>;
   name?: InputMaybe<SortOrder>;
+  sent_split_payments?: InputMaybe<SplitPaymentOrderByRelationAggregateInput>;
+  split_contracts?: InputMaybe<UserSplitContractOrderByRelationAggregateInput>;
   twitter_user?: InputMaybe<TwitterUserOrderByWithRelationInput>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -19621,6 +21154,337 @@ export type UserScalarWhereWithAggregatesInput = {
   updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
 };
 
+export type UserSplitContract = {
+  _count?: Maybe<UserSplitContractCount>;
+  createdAt: Scalars['DateTime'];
+  enabled: Scalars['Boolean'];
+  id: Scalars['Int'];
+  split_contract: Array<SplitContract>;
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  user_id: Scalars['Int'];
+};
+
+
+export type UserSplitContractSplit_ContractArgs = {
+  cursor?: InputMaybe<SplitContractWhereUniqueInput>;
+  distinct?: InputMaybe<Array<SplitContractScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<SplitContractOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SplitContractWhereInput>;
+};
+
+export type UserSplitContractAvgAggregate = {
+  id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+export type UserSplitContractAvgOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type UserSplitContractCount = {
+  split_contract: Scalars['Int'];
+};
+
+export type UserSplitContractCountAggregate = {
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  enabled: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  user_id: Scalars['Int'];
+};
+
+export type UserSplitContractCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type UserSplitContractCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  split_contract?: InputMaybe<SplitContractCreateNestedManyWithoutUser_Split_ContractInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutSplit_ContractsInput;
+};
+
+export type UserSplitContractCreateManyInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user_id: Scalars['Int'];
+};
+
+export type UserSplitContractCreateManyUserInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  id?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserSplitContractCreateManyUserInputEnvelope = {
+  data: Array<UserSplitContractCreateManyUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type UserSplitContractCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<UserSplitContractWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserSplitContractCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<UserSplitContractCreateWithoutUserInput>>;
+  createMany?: InputMaybe<UserSplitContractCreateManyUserInputEnvelope>;
+};
+
+export type UserSplitContractCreateNestedOneWithoutSplit_ContractInput = {
+  connect?: InputMaybe<UserSplitContractWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserSplitContractCreateOrConnectWithoutSplit_ContractInput>;
+  create?: InputMaybe<UserSplitContractCreateWithoutSplit_ContractInput>;
+};
+
+export type UserSplitContractCreateOrConnectWithoutSplit_ContractInput = {
+  create: UserSplitContractCreateWithoutSplit_ContractInput;
+  where: UserSplitContractWhereUniqueInput;
+};
+
+export type UserSplitContractCreateOrConnectWithoutUserInput = {
+  create: UserSplitContractCreateWithoutUserInput;
+  where: UserSplitContractWhereUniqueInput;
+};
+
+export type UserSplitContractCreateWithoutSplit_ContractInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutSplit_ContractsInput;
+};
+
+export type UserSplitContractCreateWithoutUserInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  enabled: Scalars['Boolean'];
+  split_contract?: InputMaybe<SplitContractCreateNestedManyWithoutUser_Split_ContractInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserSplitContractGroupBy = {
+  _avg?: Maybe<UserSplitContractAvgAggregate>;
+  _count?: Maybe<UserSplitContractCountAggregate>;
+  _max?: Maybe<UserSplitContractMaxAggregate>;
+  _min?: Maybe<UserSplitContractMinAggregate>;
+  _sum?: Maybe<UserSplitContractSumAggregate>;
+  createdAt: Scalars['DateTime'];
+  enabled: Scalars['Boolean'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  user_id: Scalars['Int'];
+};
+
+export type UserSplitContractListRelationFilter = {
+  every?: InputMaybe<UserSplitContractWhereInput>;
+  none?: InputMaybe<UserSplitContractWhereInput>;
+  some?: InputMaybe<UserSplitContractWhereInput>;
+};
+
+export type UserSplitContractMaxAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  enabled?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type UserSplitContractMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type UserSplitContractMinAggregate = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  enabled?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type UserSplitContractMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type UserSplitContractOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type UserSplitContractOrderByWithAggregationInput = {
+  _avg?: InputMaybe<UserSplitContractAvgOrderByAggregateInput>;
+  _count?: InputMaybe<UserSplitContractCountOrderByAggregateInput>;
+  _max?: InputMaybe<UserSplitContractMaxOrderByAggregateInput>;
+  _min?: InputMaybe<UserSplitContractMinOrderByAggregateInput>;
+  _sum?: InputMaybe<UserSplitContractSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type UserSplitContractOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  enabled?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_contract?: InputMaybe<SplitContractOrderByRelationAggregateInput>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type UserSplitContractRelationFilter = {
+  is?: InputMaybe<UserSplitContractWhereInput>;
+  isNot?: InputMaybe<UserSplitContractWhereInput>;
+};
+
+export enum UserSplitContractScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  Enabled = 'enabled',
+  Id = 'id',
+  UpdatedAt = 'updatedAt',
+  UserId = 'user_id'
+}
+
+export type UserSplitContractScalarWhereInput = {
+  AND?: InputMaybe<Array<UserSplitContractScalarWhereInput>>;
+  NOT?: InputMaybe<Array<UserSplitContractScalarWhereInput>>;
+  OR?: InputMaybe<Array<UserSplitContractScalarWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  enabled?: InputMaybe<BoolFilter>;
+  id?: InputMaybe<IntFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user_id?: InputMaybe<IntFilter>;
+};
+
+export type UserSplitContractScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<UserSplitContractScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<UserSplitContractScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<UserSplitContractScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  enabled?: InputMaybe<BoolWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  user_id?: InputMaybe<IntWithAggregatesFilter>;
+};
+
+export type UserSplitContractSumAggregate = {
+  id?: Maybe<Scalars['Int']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+export type UserSplitContractSumOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+  user_id?: InputMaybe<SortOrder>;
+};
+
+export type UserSplitContractUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  split_contract?: InputMaybe<SplitContractUpdateManyWithoutUser_Split_ContractNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutSplit_ContractsNestedInput>;
+};
+
+export type UserSplitContractUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type UserSplitContractUpdateManyWithWhereWithoutUserInput = {
+  data: UserSplitContractUpdateManyMutationInput;
+  where: UserSplitContractScalarWhereInput;
+};
+
+export type UserSplitContractUpdateManyWithoutUserNestedInput = {
+  connect?: InputMaybe<Array<UserSplitContractWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserSplitContractCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<UserSplitContractCreateWithoutUserInput>>;
+  createMany?: InputMaybe<UserSplitContractCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<UserSplitContractWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<UserSplitContractScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<UserSplitContractWhereUniqueInput>>;
+  set?: InputMaybe<Array<UserSplitContractWhereUniqueInput>>;
+  update?: InputMaybe<Array<UserSplitContractUpdateWithWhereUniqueWithoutUserInput>>;
+  updateMany?: InputMaybe<Array<UserSplitContractUpdateManyWithWhereWithoutUserInput>>;
+  upsert?: InputMaybe<Array<UserSplitContractUpsertWithWhereUniqueWithoutUserInput>>;
+};
+
+export type UserSplitContractUpdateOneWithoutSplit_ContractNestedInput = {
+  connect?: InputMaybe<UserSplitContractWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserSplitContractCreateOrConnectWithoutSplit_ContractInput>;
+  create?: InputMaybe<UserSplitContractCreateWithoutSplit_ContractInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<UserSplitContractUpdateWithoutSplit_ContractInput>;
+  upsert?: InputMaybe<UserSplitContractUpsertWithoutSplit_ContractInput>;
+};
+
+export type UserSplitContractUpdateWithWhereUniqueWithoutUserInput = {
+  data: UserSplitContractUpdateWithoutUserInput;
+  where: UserSplitContractWhereUniqueInput;
+};
+
+export type UserSplitContractUpdateWithoutSplit_ContractInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutSplit_ContractsNestedInput>;
+};
+
+export type UserSplitContractUpdateWithoutUserInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  split_contract?: InputMaybe<SplitContractUpdateManyWithoutUser_Split_ContractNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type UserSplitContractUpsertWithWhereUniqueWithoutUserInput = {
+  create: UserSplitContractCreateWithoutUserInput;
+  update: UserSplitContractUpdateWithoutUserInput;
+  where: UserSplitContractWhereUniqueInput;
+};
+
+export type UserSplitContractUpsertWithoutSplit_ContractInput = {
+  create: UserSplitContractCreateWithoutSplit_ContractInput;
+  update: UserSplitContractUpdateWithoutSplit_ContractInput;
+};
+
+export type UserSplitContractWhereInput = {
+  AND?: InputMaybe<Array<UserSplitContractWhereInput>>;
+  NOT?: InputMaybe<Array<UserSplitContractWhereInput>>;
+  OR?: InputMaybe<Array<UserSplitContractWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  enabled?: InputMaybe<BoolFilter>;
+  id?: InputMaybe<IntFilter>;
+  split_contract?: InputMaybe<SplitContractListRelationFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  user_id?: InputMaybe<IntFilter>;
+};
+
+export type UserSplitContractWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  user_id?: InputMaybe<Scalars['Int']>;
+};
+
 export type UserSumAggregate = {
   chain_type_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -19654,6 +21518,8 @@ export type UserUpdateInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19728,6 +21594,14 @@ export type UserUpdateOneRequiredWithoutGuild_UsersNestedInput = {
   upsert?: InputMaybe<UserUpsertWithoutGuild_UsersInput>;
 };
 
+export type UserUpdateOneRequiredWithoutSplit_ContractsNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutSplit_ContractsInput>;
+  create?: InputMaybe<UserCreateWithoutSplit_ContractsInput>;
+  update?: InputMaybe<UserUpdateWithoutSplit_ContractsInput>;
+  upsert?: InputMaybe<UserUpsertWithoutSplit_ContractsInput>;
+};
+
 export type UserUpdateOneWithoutDiscord_UsersNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutDiscord_UsersInput>;
@@ -19746,6 +21620,16 @@ export type UserUpdateOneWithoutLinear_UsersNestedInput = {
   disconnect?: InputMaybe<Scalars['Boolean']>;
   update?: InputMaybe<UserUpdateWithoutLinear_UsersInput>;
   upsert?: InputMaybe<UserUpsertWithoutLinear_UsersInput>;
+};
+
+export type UserUpdateOneWithoutSent_Split_PaymentsNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutSent_Split_PaymentsInput>;
+  create?: InputMaybe<UserCreateWithoutSent_Split_PaymentsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<UserUpdateWithoutSent_Split_PaymentsInput>;
+  upsert?: InputMaybe<UserUpsertWithoutSent_Split_PaymentsInput>;
 };
 
 export type UserUpdateOneWithoutTwitter_UserNestedInput = {
@@ -19778,6 +21662,8 @@ export type UserUpdateWithoutActivitiesInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19797,6 +21683,8 @@ export type UserUpdateWithoutAttestationsInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19816,6 +21704,8 @@ export type UserUpdateWithoutChain_TypeInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19835,6 +21725,8 @@ export type UserUpdateWithoutContributionPartnersInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19854,6 +21746,8 @@ export type UserUpdateWithoutContributionsInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19873,6 +21767,8 @@ export type UserUpdateWithoutDiscord_UsersInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19892,6 +21788,8 @@ export type UserUpdateWithoutGuild_UsersInput = {
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19911,6 +21809,50 @@ export type UserUpdateWithoutLinear_UsersInput = {
   full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutSent_Split_PaymentsInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
+  twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutSplit_ContractsInput = {
+  active?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  activities?: InputMaybe<UserActivityUpdateManyWithoutUserNestedInput>;
+  address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutUserNestedInput>;
+  chain_type?: InputMaybe<ChainTypeUpdateOneRequiredWithoutUsersNestedInput>;
+  contributionPartners?: InputMaybe<PartnerUpdateManyWithoutUserNestedInput>;
+  contributions?: InputMaybe<ContributionUpdateManyWithoutUserNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  discord_users?: InputMaybe<DiscordUserUpdateManyWithoutUserNestedInput>;
+  display_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  full_name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
+  linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
   twitter_user?: InputMaybe<TwitterUserUpdateOneWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
@@ -19931,6 +21873,8 @@ export type UserUpdateWithoutTwitter_UserInput = {
   guild_users?: InputMaybe<GuildUserUpdateManyWithoutUserNestedInput>;
   linear_users?: InputMaybe<LinearUserUpdateManyWithoutUserNestedInput>;
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  sent_split_payments?: InputMaybe<SplitPaymentUpdateManyWithoutSender_UserNestedInput>;
+  split_contracts?: InputMaybe<UserSplitContractUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
@@ -19975,6 +21919,16 @@ export type UserUpsertWithoutLinear_UsersInput = {
   update: UserUpdateWithoutLinear_UsersInput;
 };
 
+export type UserUpsertWithoutSent_Split_PaymentsInput = {
+  create: UserCreateWithoutSent_Split_PaymentsInput;
+  update: UserUpdateWithoutSent_Split_PaymentsInput;
+};
+
+export type UserUpsertWithoutSplit_ContractsInput = {
+  create: UserCreateWithoutSplit_ContractsInput;
+  update: UserUpdateWithoutSplit_ContractsInput;
+};
+
 export type UserUpsertWithoutTwitter_UserInput = {
   create: UserCreateWithoutTwitter_UserInput;
   update: UserUpdateWithoutTwitter_UserInput;
@@ -20001,6 +21955,8 @@ export type UserWhereInput = {
   id?: InputMaybe<IntFilter>;
   linear_users?: InputMaybe<LinearUserListRelationFilter>;
   name?: InputMaybe<StringNullableFilter>;
+  sent_split_payments?: InputMaybe<SplitPaymentListRelationFilter>;
+  split_contracts?: InputMaybe<UserSplitContractListRelationFilter>;
   twitter_user?: InputMaybe<TwitterUserRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
