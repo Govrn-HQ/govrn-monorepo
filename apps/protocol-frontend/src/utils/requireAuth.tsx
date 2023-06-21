@@ -1,10 +1,11 @@
+import React, { useCallback, useEffect } from 'react';
 import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import ConnectWallet from '../components/ConnectWallet';
-import React from 'react';
 import { useAccount } from 'wagmi';
-import { useAuth } from '../contexts/AuthContext';
-import { GovrnCta } from '@govrn/protocol-ui';
 import { useUser } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
+import useUserCreate from '../hooks/useUserCreate';
+import { GovrnCta } from '@govrn/protocol-ui';
 
 type RequireAuthProps = {
   children: React.ReactNode;
@@ -16,16 +17,18 @@ const NonAuthenticatedView = () => {
       heading={'Welcome to Govrn'}
       emoji={'👋'}
       copy={
-        <Stack>
-          <Text fontSize="lg" fontWeight="medium" align="center" mx={32} mb={4}>
-            {' '}
-            You'll need to connect your wallet to get started with Govrn. After
-            connecting you should be redirected to whatever page you’re looking
-            for.{' '}
+        <Stack fontSize="lg" fontWeight="regular" mx={{ base: 4, lg: 32 }}>
+          <Text>
+            You'll need to connect your wallet to get started with Govrn. If
+            you're a new user we'll create an account for you with your address.
           </Text>
-          <Text fontSize="lg" fontWeight="medium" align="center" mx={32}>
-            You’ll be able to Join a DAO, attest to other people’s
+          <Text>
+            You’ll be able to join a DAO, attest to other people’s
             contributions, and create contributions of your own.
+          </Text>
+          <Text>
+            After connecting you should be redirected to whatever page you’re
+            looking for.
           </Text>
         </Stack>
       }
@@ -35,11 +38,59 @@ const NonAuthenticatedView = () => {
 };
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
-  const { userDataByAddress } = useUser();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { isAuthenticated } = useAuth();
+  const { userDataByAddress, isUserLoading } = useUser();
+  const { mutateAsync: createUser } = useUserCreate();
+
+  const createNewUser = useCallback(async () => {
+    if (!address || !isConnected || !isAuthenticated) {
+      return;
+    }
+    if (isConnected && isAuthenticated && isUserLoading && userDataByAddress) {
+      return;
+    }
+    await createUser({
+      newUser: {
+        username: address ?? '',
+        address: address,
+      },
+      showToast: true,
+    });
+  }, [
+    address,
+    isConnected,
+    isAuthenticated,
+    isUserLoading,
+    userDataByAddress,
+    createUser,
+  ]);
+
+  // If the user is connected and authenticated, but not an active user, create a new user.
+  useEffect(() => {
+    if (
+      isConnected &&
+      isAuthenticated &&
+      !isUserLoading &&
+      userDataByAddress === undefined
+    ) {
+      createNewUser();
+    }
+  }, [
+    createNewUser,
+    isConnected,
+    isAuthenticated,
+    isUserLoading,
+    userDataByAddress,
+  ]);
+
   // If the user is connected and authenticated, render the children.
-  if (isConnected && isAuthenticated && userDataByAddress !== undefined) {
+  if (
+    isConnected &&
+    isAuthenticated &&
+    !isUserLoading &&
+    userDataByAddress !== undefined
+  ) {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
