@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { ContributionListRelationFilter } from "../inputs/ContributionListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { SplitContractListRelationFilter } from "../inputs/SplitContractListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 
 @TypeGraphQL.InputType("ChainWhereInput", {
@@ -55,4 +56,9 @@ export class ChainWhereInput {
     nullable: true
   })
   contributions?: ContributionListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => SplitContractListRelationFilter, {
+    nullable: true
+  })
+  split_contracts?: SplitContractListRelationFilter | undefined;
 }

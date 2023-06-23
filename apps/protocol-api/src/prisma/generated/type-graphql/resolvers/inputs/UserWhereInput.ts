@@ -12,10 +12,12 @@ import { GuildUserListRelationFilter } from "../inputs/GuildUserListRelationFilt
 import { IntFilter } from "../inputs/IntFilter";
 import { LinearUserListRelationFilter } from "../inputs/LinearUserListRelationFilter";
 import { PartnerListRelationFilter } from "../inputs/PartnerListRelationFilter";
+import { SplitPaymentListRelationFilter } from "../inputs/SplitPaymentListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TwitterUserRelationFilter } from "../inputs/TwitterUserRelationFilter";
 import { UserActivityListRelationFilter } from "../inputs/UserActivityListRelationFilter";
+import { UserSplitContractListRelationFilter } from "../inputs/UserSplitContractListRelationFilter";
 
 @TypeGraphQL.InputType("UserWhereInput", {
   isAbstract: true
@@ -130,4 +132,14 @@ export class UserWhereInput {
     nullable: true
   })
   discord_users?: DiscordUserListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => UserSplitContractListRelationFilter, {
+    nullable: true
+  })
+  split_contracts?: UserSplitContractListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => SplitPaymentListRelationFilter, {
+    nullable: true
+  })
+  sent_split_payments?: SplitPaymentListRelationFilter | undefined;
 }

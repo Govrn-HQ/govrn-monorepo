@@ -8,8 +8,10 @@ import { ContributionCreateNestedManyWithoutUserInput } from "../inputs/Contribu
 import { DiscordUserCreateNestedManyWithoutUserInput } from "../inputs/DiscordUserCreateNestedManyWithoutUserInput";
 import { GuildUserCreateNestedManyWithoutUserInput } from "../inputs/GuildUserCreateNestedManyWithoutUserInput";
 import { PartnerCreateNestedManyWithoutUserInput } from "../inputs/PartnerCreateNestedManyWithoutUserInput";
+import { SplitPaymentCreateNestedManyWithoutSender_userInput } from "../inputs/SplitPaymentCreateNestedManyWithoutSender_userInput";
 import { TwitterUserCreateNestedOneWithoutUserInput } from "../inputs/TwitterUserCreateNestedOneWithoutUserInput";
 import { UserActivityCreateNestedManyWithoutUserInput } from "../inputs/UserActivityCreateNestedManyWithoutUserInput";
+import { UserSplitContractCreateNestedManyWithoutUserInput } from "../inputs/UserSplitContractCreateNestedManyWithoutUserInput";
 
 @TypeGraphQL.InputType("UserCreateWithoutLinear_usersInput", {
   isAbstract: true
@@ -94,4 +96,14 @@ export class UserCreateWithoutLinear_usersInput {
     nullable: true
   })
   discord_users?: DiscordUserCreateNestedManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserSplitContractCreateNestedManyWithoutUserInput, {
+    nullable: true
+  })
+  split_contracts?: UserSplitContractCreateNestedManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => SplitPaymentCreateNestedManyWithoutSender_userInput, {
+    nullable: true
+  })
+  sent_split_payments?: SplitPaymentCreateNestedManyWithoutSender_userInput | undefined;
 }

@@ -9,8 +9,10 @@ import { DiscordUser } from "../models/DiscordUser";
 import { GuildUser } from "../models/GuildUser";
 import { LinearUser } from "../models/LinearUser";
 import { Partner } from "../models/Partner";
+import { SplitPayment } from "../models/SplitPayment";
 import { TwitterUser } from "../models/TwitterUser";
 import { UserActivity } from "../models/UserActivity";
+import { UserSplitContract } from "../models/UserSplitContract";
 import { UserCount } from "../resolvers/outputs/UserCount";
 
 @TypeGraphQL.ObjectType("User", {
@@ -84,6 +86,10 @@ export class User {
   twitter_user?: TwitterUser | null;
 
   discord_users?: DiscordUser[];
+
+  split_contracts?: UserSplitContract[];
+
+  sent_split_payments?: SplitPayment[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

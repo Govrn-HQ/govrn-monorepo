@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Contribution } from "../models/Contribution";
+import { SplitContract } from "../models/SplitContract";
 import { ChainCount } from "../resolvers/outputs/ChainCount";
 
 @TypeGraphQL.ObjectType("Chain", {
@@ -35,6 +36,8 @@ export class Chain {
   chain_id!: string;
 
   contributions?: Contribution[];
+
+  split_contracts?: SplitContract[];
 
   @TypeGraphQL.Field(_type => ChainCount, {
     nullable: true

@@ -26,10 +26,13 @@ export { LinearProjectRelationsResolver } from "./LinearProject/LinearProjectRel
 export { LinearTeamRelationsResolver } from "./LinearTeam/LinearTeamRelationsResolver";
 export { LinearUserRelationsResolver } from "./LinearUser/LinearUserRelationsResolver";
 export { PartnerRelationsResolver } from "./Partner/PartnerRelationsResolver";
+export { SplitContractRelationsResolver } from "./SplitContract/SplitContractRelationsResolver";
+export { SplitPaymentRelationsResolver } from "./SplitPayment/SplitPaymentRelationsResolver";
 export { TwitterAccountRelationsResolver } from "./TwitterAccount/TwitterAccountRelationsResolver";
 export { TwitterTweetRelationsResolver } from "./TwitterTweet/TwitterTweetRelationsResolver";
 export { TwitterTweetContributionRelationsResolver } from "./TwitterTweetContribution/TwitterTweetContributionRelationsResolver";
 export { TwitterUserRelationsResolver } from "./TwitterUser/TwitterUserRelationsResolver";
 export { UserRelationsResolver } from "./User/UserRelationsResolver";
 export { UserActivityRelationsResolver } from "./UserActivity/UserActivityRelationsResolver";
+export { UserSplitContractRelationsResolver } from "./UserSplitContract/UserSplitContractRelationsResolver";
 export { VerificationSettingRelationsResolver } from "./VerificationSetting/VerificationSettingRelationsResolver";

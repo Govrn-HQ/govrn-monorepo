@@ -5,3 +5,5 @@ export { UserContributionsArgs } from "./UserContributionsArgs";
 export { UserDiscord_usersArgs } from "./UserDiscord_usersArgs";
 export { UserGuild_usersArgs } from "./UserGuild_usersArgs";
 export { UserLinear_usersArgs } from "./UserLinear_usersArgs";
+export { UserSent_split_paymentsArgs } from "./UserSent_split_paymentsArgs";
+export { UserSplit_contractsArgs } from "./UserSplit_contractsArgs";

@@ -12,9 +12,11 @@ import { GuildUserUpdateManyWithoutUserNestedInput } from "../inputs/GuildUserUp
 import { LinearUserUpdateManyWithoutUserNestedInput } from "../inputs/LinearUserUpdateManyWithoutUserNestedInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PartnerUpdateManyWithoutUserNestedInput } from "../inputs/PartnerUpdateManyWithoutUserNestedInput";
+import { SplitPaymentUpdateManyWithoutSender_userNestedInput } from "../inputs/SplitPaymentUpdateManyWithoutSender_userNestedInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TwitterUserUpdateOneWithoutUserNestedInput } from "../inputs/TwitterUserUpdateOneWithoutUserNestedInput";
 import { UserActivityUpdateManyWithoutUserNestedInput } from "../inputs/UserActivityUpdateManyWithoutUserNestedInput";
+import { UserSplitContractUpdateManyWithoutUserNestedInput } from "../inputs/UserSplitContractUpdateManyWithoutUserNestedInput";
 
 @TypeGraphQL.InputType("UserUpdateInput", {
   isAbstract: true
@@ -104,4 +106,14 @@ export class UserUpdateInput {
     nullable: true
   })
   discord_users?: DiscordUserUpdateManyWithoutUserNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserSplitContractUpdateManyWithoutUserNestedInput, {
+    nullable: true
+  })
+  split_contracts?: UserSplitContractUpdateManyWithoutUserNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => SplitPaymentUpdateManyWithoutSender_userNestedInput, {
+    nullable: true
+  })
+  sent_split_payments?: SplitPaymentUpdateManyWithoutSender_userNestedInput | undefined;
 }
