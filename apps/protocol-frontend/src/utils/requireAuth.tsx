@@ -19,16 +19,13 @@ const NonAuthenticatedView = () => {
       copy={
         <Stack fontSize="lg" fontWeight="regular" mx={{ base: 4, lg: 32 }}>
           <Text>
-            You'll need to connect your wallet to get started with Govrn. If
-            you're a new user we'll create an account for you with your address.
+            Connect your wallet to get started! If you're a new user, we'll
+            create an account for you and then you'll be redirected to the page
+            you're looking for.
           </Text>
           <Text>
-            You’ll be able to join a DAO, attest to other people’s
-            contributions, and create contributions of your own.
-          </Text>
-          <Text>
-            After connecting you should be redirected to whatever page you’re
-            looking for.
+            You'll be able to join a DAO, attest to others' contributions, and
+            create contributions of your own.
           </Text>
         </Stack>
       }
