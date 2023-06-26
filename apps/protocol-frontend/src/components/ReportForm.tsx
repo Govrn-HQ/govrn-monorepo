@@ -313,22 +313,17 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             isClearable={true}
             backspaceRemovesValue={true}
             tip={
-              <>
-                Please select a DAO to associate this contribution with.
-                <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Join or create one{' '}
-                  <Link
-                    as={RouterLink}
-                    to="/profile"
-                    state={{ targetId: 'myDaos' }}
-                    textDecoration="underline"
-                  >
-                    on your Profile.
-                  </Link>
-                </Box>
-                Note: Clicking the link will navigate to your Profile and clear
-                the form!
-              </>
+              <Box lineHeight={2}>
+                This is optional. Don't see your DAO? Join or create one{' '}
+                <Link
+                  as={RouterLink}
+                  to="/profile"
+                  state={{ targetId: 'myDaos' }}
+                  textDecoration="underline"
+                >
+                  on your Profile.
+                </Link>
+              </Box>
             }
             placeholder="Select a DAO to associate this contribution with."
             onChange={dao => {
