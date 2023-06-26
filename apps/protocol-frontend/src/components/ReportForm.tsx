@@ -358,7 +358,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Textarea
             name="details"
             label="Details"
-            tip="Briefly describe your contribution"
+            tip="Briefly describe your contribution."
             placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
             variant="outline"
             localForm={localForm}
