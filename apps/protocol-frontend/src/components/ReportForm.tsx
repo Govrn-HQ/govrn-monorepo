@@ -344,7 +344,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             isClearable={true}
             backspaceRemovesValue={true}
             isRequired
-            placeholder="Select an activity type or add a new one"
+            placeholder="Select existing or type in a new one"
             onChange={activity => {
               if (activity instanceof Array || !activity) {
                 return;
