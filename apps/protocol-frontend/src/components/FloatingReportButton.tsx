@@ -25,7 +25,7 @@ const FloatingReportButton = () => {
 
   return (
     <Box position="fixed" bottom="40px" right={['16px', '84px']} zIndex={1}>
-      <Tooltip variant="primary" label="Report Contribution" fontSize="md">
+      <Tooltip variant="primary" label="Report a Contribution" fontSize="md">
         <IconButton
           aria-label="Add Contribution Activity Report Button"
           background="brand.gradient"
@@ -49,7 +49,7 @@ const FloatingReportButton = () => {
       </Tooltip>
       <ModalWrapper
         name="reportingFormModal"
-        title="Report Contribution Activity"
+        title="Report a Contribution"
         localOverlay={localOverlay}
         content={<ReportForm onFinish={() => closeForm()} />}
       />
