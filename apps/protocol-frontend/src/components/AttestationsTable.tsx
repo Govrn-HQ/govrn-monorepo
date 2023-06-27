@@ -445,8 +445,8 @@ const AttestationsTable = ({
                 DAO Contributions
               </Text>
               <Text fontSize="md" fontWeight="normal">
-                These are minted contributions that you haven't already attested
-                to.
+                These are minted contributions from your peers that you can give
+                attestations to.
               </Text>
             </Stack>
             <Button
