@@ -333,10 +333,10 @@ const MyAttestationsTable = ({
           >
             <Stack direction="column" gap="2">
               <Text fontSize="lg" fontWeight="medium">
-                My Contributions
+                Attestations Given
               </Text>
               <Text fontSize="md" fontWeight="normal">
-                These are contributions that you have already attested to.
+                These are peer contributions that you have already attested to.
               </Text>
             </Stack>
           </Stack>
