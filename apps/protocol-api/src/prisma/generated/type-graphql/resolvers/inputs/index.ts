@@ -1093,6 +1093,7 @@ export { PartnerUser_idContribution_idCompoundUniqueInput } from "./PartnerUser_
 export { PartnerWhereInput } from "./PartnerWhereInput";
 export { PartnerWhereUniqueInput } from "./PartnerWhereUniqueInput";
 export { SplitContractAvgOrderByAggregateInput } from "./SplitContractAvgOrderByAggregateInput";
+export { SplitContractChain_idUser_split_contract_idCompoundUniqueInput } from "./SplitContractChain_idUser_split_contract_idCompoundUniqueInput";
 export { SplitContractCountOrderByAggregateInput } from "./SplitContractCountOrderByAggregateInput";
 export { SplitContractCreateInput } from "./SplitContractCreateInput";
 export { SplitContractCreateManyChainInput } from "./SplitContractCreateManyChainInput";

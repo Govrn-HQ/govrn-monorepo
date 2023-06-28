@@ -50,10 +50,6 @@ model UserSplitContract {
   user           User            @relation(fields: [user_id], references: [id])
   enabled        Boolean
   split_contract SplitContract[]
-
-  // Add this explicitly for now, we can remove later if necessary to support >1
-  // split contract per user
-  @@unique([user_id])
 }
 
 model SplitContract {
@@ -75,6 +71,14 @@ model SplitContract {
   // This is optional in order to support generalization to e.g. guilds
   user_split_contract_id Int?
   user_split_contract    UserSplitContract? @relation(fields: [user_split_contract_id], references: [id])
+
+  // We want 1 user split contract per chain for now; this does not preclude having guild
+  // split contracts since the below constraint only prevents multiple SplitContracts
+  // where both chain_id and user_split_contract_id are duplicated. That is, the below
+  // constraint does not prevent (chain id 1, user_split_contract_id NULL) and 
+  // (chain id 12, user_split_contract_id NULL) and 
+  // (chain id 1, user_split_contract_id 1) from existing simultaneously.
+  @@unique([chain_id, user_split_contract_id])
 }
 
 model DiscordUser {
