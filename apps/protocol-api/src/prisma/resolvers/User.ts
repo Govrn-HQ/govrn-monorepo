@@ -65,8 +65,8 @@ export class ListUserArgs {
   address: string;
 }
 
-@TypeGraphQL.ObjectType('SplitPayment', { isAbstract: true })
-export class SplitPayment {
+@TypeGraphQL.ObjectType('UserSplitPayment', { isAbstract: true })
+export class UserSplitPayment {
   @TypeGraphQL.Field(_type => Number)
   amount: number;
 
@@ -177,7 +177,7 @@ export class UserCustomResolver {
     });
   }
 
-  @TypeGraphQL.Query(_returns => [SplitPayment], { nullable: false })
+  @TypeGraphQL.Query(_returns => [UserSplitPayment], { nullable: false })
   async getTotalUserTipsSent(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: GetUserArgs,
@@ -253,7 +253,7 @@ export class UserCustomResolver {
     return reduced_payments_array;
   }
 
-  @TypeGraphQL.Query(_returns => [SplitPayment], { nullable: false })
+  @TypeGraphQL.Query(_returns => [UserSplitPayment], { nullable: false })
   async getTotalUserTipsReceived(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: GetUserArgs,
