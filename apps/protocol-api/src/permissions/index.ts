@@ -19,6 +19,9 @@ import {
   updateGuildUserCustomInput,
   updateGuildUserRecruitCustomInput,
   getOrCreateActivityTypeInput,
+  createUserSplitContractInput,
+  updateUserSplitContractInput,
+  createSplitPaymentInput,
 } from './inputs';
 
 const AIRTABLE_API_TOKEN = process.env.AIRTABlE_API_TOKEN;
@@ -260,6 +263,8 @@ export const permissions = shield(
       attestations: isAuthenticated,
       listActivityTypesByUser: isAuthenticated,
       getUser: or(isAuthenticated, hasToken),
+      getTotalUserTipsSent: or(isAuthenticated, hasToken),
+      getTotalUserTipsReceived: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),
       guildUsers: or(isAuthenticated, hasToken),
@@ -365,6 +370,17 @@ export const permissions = shield(
         updateUserOnChainAttestationInput,
         isUsersAttestation,
       ), // user can only make their own attestations
+
+      // TODO: bring up split validations
+      createUserSplitContract: and(
+        isAuthenticated,
+        createUserSplitContractInput,
+      ), // user can make their own split contract
+      updateUserSplitContract: and(
+        isAuthenticated,
+        updateUserSplitContractInput,
+      ), // user can only update their own split contract
+      createSplitContractPayment: and(isAuthenticated, createSplitPaymentInput), // any user or non-user can make a payment to a split contract
       updateUserOnChainContribution: and(
         isAuthenticated,
         updateUserOnChainContributionInput,
@@ -525,6 +541,15 @@ export const permissions = shield(
       user_id: hasToken,
     },
     VerificationSetting: {
+      '*': or(isAuthenticated, hasToken),
+    },
+    SplitContract: {
+      '*': or(isAuthenticated, hasToken),
+    },
+    UserSplitContract: {
+      '*': or(isAuthenticated, hasToken),
+    },
+    SplitPayment: {
       '*': or(isAuthenticated, hasToken),
     },
   },
