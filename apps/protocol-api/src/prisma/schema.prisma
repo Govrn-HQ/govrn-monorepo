@@ -506,10 +506,12 @@ model SplitPayment {
   updatedAt         DateTime      @updatedAt
   // address, amount, sender, recipient can all be retrieved on-chain, but it's 
   // immutable anyway, so there's no reason to not store it here 
+  // TODO: proper ERC20 data structure/table
   token_address     String        @db.Citext
   amount            BigInt
   tx_hash           String        @db.Citext
   sender_address    String        @db.Citext
+  // deprecated; split_contract is associated with the recipient user and address
   recipient_address String        @db.Citext
   // optional to support anon tips
   sender_user_id    Int?
