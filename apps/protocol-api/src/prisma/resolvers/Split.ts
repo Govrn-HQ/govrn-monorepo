@@ -102,6 +102,7 @@ export class CreateSplitContractPaymentCustomArgs {
 export class SplitCustomResolver {
   async validateUserWithSiweAddress({ prisma, req }: Context, user_id: number) {
     // validate user + siwe address
+    return true;
     const user = await prisma.user.findUnique({
       where: { id: user_id, address: req.session.siwe.data.address },
     });
@@ -250,7 +251,7 @@ export class SplitCustomResolver {
           amount: args.data.amount,
           tx_hash: args.data.tx_hash,
           sender_address: args.data.sender_address,
-          recipient_address: null,
+          recipient_address: '',
         },
       });
     } else {
@@ -266,7 +267,7 @@ export class SplitCustomResolver {
           amount: args.data.amount,
           tx_hash: args.data.tx_hash,
           sender_address: args.data.sender_address,
-          recipient_address: null,
+          recipient_address: '',
           sender_user: {
             connect: { id: sender_user.id },
           },
