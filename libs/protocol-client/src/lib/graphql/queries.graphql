@@ -1105,3 +1105,53 @@ mutation updateVerificationSetting(
     ...VerificationSettingFragment
   }
 }
+
+# Splits
+fragment SplitPaymentFragment on UserSplitPayment {
+  amount
+  erc20_address
+  chain_id
+  split_address
+}
+
+query getTotalSentSplitPaymentsForUser($id: Float!) {
+  result: getTotalUserSplitPaymentsSent(id: $id) {
+    ...SplitPaymentFragment
+  }
+}
+
+query getTotalReceivedSplitPaymentsForUser($id: Float!) {
+  result: getTotalUserSplitPaymentsReceived(id: $id) {
+    ...SplitPaymentFragment
+  }
+}
+
+mutation createUserSplitContract($data: UserSplitContractCreateCustomInput!) {
+  result: createUserSplitContract(data: $data) {
+    id
+    chain_id
+    address
+    user_split_contract_id
+  }
+}
+
+mutation updateUserSplitContract(
+  $where: UserSplitContractWhereCustomInput!
+  $data: UserSplitContractUpdateCustomInput!
+) {
+  result: updateUserSplitContract(where: $where, data: $data) {
+    id
+    user_id
+    enabled
+  }
+}
+
+mutation createSplitPayment($data: SplitContractPaymentCreateCustomInput!) {
+  result: createSplitContractPayment(data: $data) {
+    id
+    split_contract_id
+    sender_address
+    token_address
+    amount
+  }
+}

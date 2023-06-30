@@ -12561,10 +12561,12 @@ export type Mutation = {
   createOneUserActivity: UserActivity;
   createOneUserSplitContract: UserSplitContract;
   createOneVerificationSetting: VerificationSetting;
+  createSplitContractPayment: SplitPayment;
   createUserAttestation: Attestation;
   createUserContribution: Contribution;
   createUserCustom: User;
   createUserOnChainAttestation: Attestation;
+  createUserSplitContract: SplitContract;
   deleteManyActivityType: AffectedRowsOutput;
   deleteManyAttestation: AffectedRowsOutput;
   deleteManyAttestationConfidence: AffectedRowsOutput;
@@ -12729,6 +12731,7 @@ export type Mutation = {
   updateUserCustom: User;
   updateUserOnChainAttestation: Attestation;
   updateUserOnChainContribution: Contribution;
+  updateUserSplitContract: UserSplitContract;
   upsertOneActivityType: ActivityType;
   upsertOneAttestation: Attestation;
   upsertOneAttestationConfidence: AttestationConfidence;
@@ -13210,6 +13213,11 @@ export type MutationCreateOneVerificationSettingArgs = {
 };
 
 
+export type MutationCreateSplitContractPaymentArgs = {
+  data: SplitContractPaymentCreateCustomInput;
+};
+
+
 export type MutationCreateUserAttestationArgs = {
   data: AttestationUserCreateInput;
 };
@@ -13227,6 +13235,11 @@ export type MutationCreateUserCustomArgs = {
 
 export type MutationCreateUserOnChainAttestationArgs = {
   data: AttestationUserOnChainCreateInput;
+};
+
+
+export type MutationCreateUserSplitContractArgs = {
+  data: UserSplitContractCreateCustomInput;
 };
 
 
@@ -14131,6 +14144,12 @@ export type MutationUpdateUserOnChainContributionArgs = {
   data: ContributionUpdateManyMutationInput;
   id: Scalars['Float'];
   status?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateUserSplitContractArgs = {
+  data: UserSplitContractUpdateCustomInput;
+  where: UserSplitContractWhereCustomInput;
 };
 
 
@@ -15227,6 +15246,8 @@ export type Query = {
   getPartner?: Maybe<Partner>;
   getSplitContract?: Maybe<SplitContract>;
   getSplitPayment?: Maybe<SplitPayment>;
+  getTotalUserSplitPaymentsReceived: Array<UserSplitPayment>;
+  getTotalUserSplitPaymentsSent: Array<UserSplitPayment>;
   getTwitterAccount?: Maybe<TwitterAccount>;
   getTwitterTweet?: Maybe<TwitterTweet>;
   getTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
@@ -16824,6 +16845,16 @@ export type QueryGetSplitPaymentArgs = {
 };
 
 
+export type QueryGetTotalUserSplitPaymentsReceivedArgs = {
+  id: Scalars['Float'];
+};
+
+
+export type QueryGetTotalUserSplitPaymentsSentArgs = {
+  id: Scalars['Float'];
+};
+
+
 export type QueryGetTwitterAccountArgs = {
   where: TwitterAccountWhereUniqueInput;
 };
@@ -17715,6 +17746,11 @@ export type SplitContractAvgOrderByAggregateInput = {
   user_split_contract_id?: InputMaybe<SortOrder>;
 };
 
+export type SplitContractChain_IdUser_Split_Contract_IdCompoundUniqueInput = {
+  chain_id: Scalars['Int'];
+  user_split_contract_id: Scalars['Int'];
+};
+
 export type SplitContractCount = {
   split_payments: Scalars['Int'];
 };
@@ -17959,6 +17995,16 @@ export type SplitContractOrderByWithRelationInput = {
   user_split_contract_id?: InputMaybe<SortOrder>;
 };
 
+export type SplitContractPaymentCreateCustomInput = {
+  amount: Scalars['Float'];
+  recipient_split_contract_id: Scalars['Int'];
+  recipient_user_id: Scalars['Int'];
+  sender_address: Scalars['String'];
+  sender_user_id?: InputMaybe<Scalars['Int']>;
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+};
+
 export type SplitContractRelationFilter = {
   is?: InputMaybe<SplitContractWhereInput>;
   isNot?: InputMaybe<SplitContractWhereInput>;
@@ -18155,6 +18201,7 @@ export type SplitContractWhereInput = {
 };
 
 export type SplitContractWhereUniqueInput = {
+  chain_id_user_split_contract_id?: InputMaybe<SplitContractChain_IdUser_Split_Contract_IdCompoundUniqueInput>;
   id?: InputMaybe<Scalars['Int']>;
 };
 
@@ -21206,6 +21253,13 @@ export type UserSplitContractCountOrderByAggregateInput = {
   user_id?: InputMaybe<SortOrder>;
 };
 
+export type UserSplitContractCreateCustomInput = {
+  chain_db_id: Scalars['Int'];
+  split_contract_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  user_id: Scalars['Int'];
+};
+
 export type UserSplitContractCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   enabled: Scalars['Boolean'];
@@ -21394,6 +21448,10 @@ export type UserSplitContractSumOrderByAggregateInput = {
   user_id?: InputMaybe<SortOrder>;
 };
 
+export type UserSplitContractUpdateCustomInput = {
+  enabled: Scalars['Boolean'];
+};
+
 export type UserSplitContractUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
@@ -21467,6 +21525,11 @@ export type UserSplitContractUpsertWithoutSplit_ContractInput = {
   update: UserSplitContractUpdateWithoutSplit_ContractInput;
 };
 
+export type UserSplitContractWhereCustomInput = {
+  user_id: Scalars['Int'];
+  user_split_contract_id: Scalars['Int'];
+};
+
 export type UserSplitContractWhereInput = {
   AND?: InputMaybe<Array<UserSplitContractWhereInput>>;
   NOT?: InputMaybe<Array<UserSplitContractWhereInput>>;
@@ -21482,7 +21545,13 @@ export type UserSplitContractWhereInput = {
 
 export type UserSplitContractWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
-  user_id?: InputMaybe<Scalars['Int']>;
+};
+
+export type UserSplitPayment = {
+  amount: Scalars['Float'];
+  chain_id: Scalars['String'];
+  erc20_address: Scalars['String'];
+  split_address: Scalars['String'];
 };
 
 export type UserSumAggregate = {
@@ -22854,6 +22923,44 @@ export type UpdateVerificationSettingMutationVariables = Exact<{
 
 export type UpdateVerificationSettingMutation = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, num_of_attestations: number } | null };
 
+export type SplitPaymentFragmentFragment = { amount: number, erc20_address: string, chain_id: string, split_address: string };
+
+export type GetTotalSentSplitPaymentsForUserQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type GetTotalSentSplitPaymentsForUserQuery = { result: Array<{ amount: number, erc20_address: string, chain_id: string, split_address: string }> };
+
+export type GetTotalReceivedSplitPaymentsForUserQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type GetTotalReceivedSplitPaymentsForUserQuery = { result: Array<{ amount: number, erc20_address: string, chain_id: string, split_address: string }> };
+
+export type CreateUserSplitContractMutationVariables = Exact<{
+  data: UserSplitContractCreateCustomInput;
+}>;
+
+
+export type CreateUserSplitContractMutation = { result: { id: number, chain_id: number, address: string, user_split_contract_id?: number | null } };
+
+export type UpdateUserSplitContractMutationVariables = Exact<{
+  where: UserSplitContractWhereCustomInput;
+  data: UserSplitContractUpdateCustomInput;
+}>;
+
+
+export type UpdateUserSplitContractMutation = { result: { id: number, user_id: number, enabled: boolean } };
+
+export type CreateSplitPaymentMutationVariables = Exact<{
+  data: SplitContractPaymentCreateCustomInput;
+}>;
+
+
+export type CreateSplitPaymentMutation = { result: { id: number, split_contract_id: number, sender_address: string, token_address: string, amount: any } };
+
 export const JobFieldsFragmentFragmentDoc = gql`
     fragment JobFieldsFragment on JobRun {
   id
@@ -23255,6 +23362,14 @@ export const VerificationSettingFragmentFragmentDoc = gql`
   createdAt
   updatedAt
   num_of_attestations
+}
+    `;
+export const SplitPaymentFragmentFragmentDoc = gql`
+    fragment SplitPaymentFragment on UserSplitPayment {
+  amount
+  erc20_address
+  chain_id
+  split_address
 }
     `;
 export const ListJobRunsDocument = gql`
@@ -23865,6 +23980,50 @@ export const UpdateVerificationSettingDocument = gql`
   }
 }
     ${VerificationSettingFragmentFragmentDoc}`;
+export const GetTotalSentSplitPaymentsForUserDocument = gql`
+    query getTotalSentSplitPaymentsForUser($id: Float!) {
+  result: getTotalUserSplitPaymentsSent(id: $id) {
+    ...SplitPaymentFragment
+  }
+}
+    ${SplitPaymentFragmentFragmentDoc}`;
+export const GetTotalReceivedSplitPaymentsForUserDocument = gql`
+    query getTotalReceivedSplitPaymentsForUser($id: Float!) {
+  result: getTotalUserSplitPaymentsReceived(id: $id) {
+    ...SplitPaymentFragment
+  }
+}
+    ${SplitPaymentFragmentFragmentDoc}`;
+export const CreateUserSplitContractDocument = gql`
+    mutation createUserSplitContract($data: UserSplitContractCreateCustomInput!) {
+  result: createUserSplitContract(data: $data) {
+    id
+    chain_id
+    address
+    user_split_contract_id
+  }
+}
+    `;
+export const UpdateUserSplitContractDocument = gql`
+    mutation updateUserSplitContract($where: UserSplitContractWhereCustomInput!, $data: UserSplitContractUpdateCustomInput!) {
+  result: updateUserSplitContract(where: $where, data: $data) {
+    id
+    user_id
+    enabled
+  }
+}
+    `;
+export const CreateSplitPaymentDocument = gql`
+    mutation createSplitPayment($data: SplitContractPaymentCreateCustomInput!) {
+  result: createSplitContractPayment(data: $data) {
+    id
+    split_contract_id
+    sender_address
+    token_address
+    amount
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -24106,6 +24265,21 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateVerificationSetting(variables: UpdateVerificationSettingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateVerificationSettingMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateVerificationSettingMutation>(UpdateVerificationSettingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateVerificationSetting', 'mutation');
+    },
+    getTotalSentSplitPaymentsForUser(variables: GetTotalSentSplitPaymentsForUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTotalSentSplitPaymentsForUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTotalSentSplitPaymentsForUserQuery>(GetTotalSentSplitPaymentsForUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTotalSentSplitPaymentsForUser', 'query');
+    },
+    getTotalReceivedSplitPaymentsForUser(variables: GetTotalReceivedSplitPaymentsForUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTotalReceivedSplitPaymentsForUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTotalReceivedSplitPaymentsForUserQuery>(GetTotalReceivedSplitPaymentsForUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTotalReceivedSplitPaymentsForUser', 'query');
+    },
+    createUserSplitContract(variables: CreateUserSplitContractMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserSplitContractMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserSplitContractMutation>(CreateUserSplitContractDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserSplitContract', 'mutation');
+    },
+    updateUserSplitContract(variables: UpdateUserSplitContractMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserSplitContractMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserSplitContractMutation>(UpdateUserSplitContractDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserSplitContract', 'mutation');
+    },
+    createSplitPayment(variables: CreateSplitPaymentMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateSplitPaymentMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateSplitPaymentMutation>(CreateSplitPaymentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createSplitPayment', 'mutation');
     }
   };
 }
