@@ -100,22 +100,6 @@ export class CreateSplitContractPaymentCustomArgs {
 
 @TypeGraphQL.Resolver(_of => SplitContract)
 export class SplitCustomResolver {
-  async validateUserWithSiweAddress({ prisma, req }: Context, user_id: number) {
-    // validate user + siwe address
-    return true;
-    const user = await prisma.user.findUnique({
-      where: { id: user_id, address: req.session.siwe.data.address },
-    });
-    if (!user) {
-      throw new Error(
-        'User not found for id: ' +
-          user_id +
-          ' and address: ' +
-          req.siweAddress,
-      );
-    }
-  }
-
   // validates the split contract id belongs to the supplied user id and is enabled
   async validateUserSplitContract(
     { prisma }: Context,
@@ -190,8 +174,6 @@ export class SplitCustomResolver {
       throw new Error('Chain not found for id: ' + args.data.chain_db_id);
     }
 
-    await this.validateUserWithSiweAddress({ prisma, req }, args.data.user_id);
-
     // create UserSplitContract; SplitContract
     const splitContract = await prisma.splitContract.create({
       data: {
@@ -215,9 +197,6 @@ export class SplitCustomResolver {
     @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: UpdateUserSplitContractCustomArgs,
   ) {
-    // validate permissions; user split contract
-    await this.validateUserWithSiweAddress({ prisma, req }, args.where.user_id);
-
     // update UserSplitContract enabled
     const user_split_contract = await prisma.userSplitContract.update({
       where: { id: args.where.user_split_contract_id },

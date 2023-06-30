@@ -178,7 +178,7 @@ export class UserCustomResolver {
   }
 
   @TypeGraphQL.Query(_returns => [UserSplitPayment], { nullable: false })
-  async getTotalUserTipsSent(
+  async getTotalUserSplitPaymentsSent(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: GetUserArgs,
   ) {
@@ -254,7 +254,7 @@ export class UserCustomResolver {
   }
 
   @TypeGraphQL.Query(_returns => [UserSplitPayment], { nullable: false })
-  async getTotalUserTipsReceived(
+  async getTotalUserSplitPaymentsReceived(
     @TypeGraphQL.Ctx() { prisma, req }: Context,
     @TypeGraphQL.Args() args: GetUserArgs,
   ) {

@@ -264,8 +264,8 @@ export const permissions = shield(
       attestations: isAuthenticated,
       listActivityTypesByUser: isAuthenticated,
       getUser: or(isAuthenticated, hasToken),
-      getTotalUserTipsSent: or(isAuthenticated, hasToken),
-      getTotalUserTipsReceived: or(isAuthenticated, hasToken),
+      getTotalUserSplitPaymentsSent: or(isAuthenticated, hasToken),
+      getTotalUserSplitPaymentsReceived: or(isAuthenticated, hasToken),
       guild: or(isAuthenticated, hasToken),
       guilds: or(isAuthenticated, hasToken),
       guildUsers: or(isAuthenticated, hasToken),
@@ -376,10 +376,12 @@ export const permissions = shield(
       createUserSplitContract: and(
         isAuthenticated,
         createUserSplitContractInput,
+        isUsers,
       ), // user can make their own split contract
       updateUserSplitContract: and(
         isAuthenticated,
         updateUserSplitContractInput,
+        isUsers,
       ), // user can only update their own split contract
       createSplitContractPayment: and(isAuthenticated, createSplitPaymentInput), // any user or non-user can make a payment to a split contract
       updateUserOnChainContribution: and(
