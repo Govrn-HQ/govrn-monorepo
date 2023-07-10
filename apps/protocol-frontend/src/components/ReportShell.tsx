@@ -14,7 +14,7 @@ const ReportShell = () => {
       color="gray.700"
       maxWidth="1200px"
     >
-      <PageHeading>Report an Activity Contribution</PageHeading>
+      <PageHeading>Report a Contribution</PageHeading>
       <Flex
         justify="space-between"
         direction="column"

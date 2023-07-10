@@ -139,7 +139,7 @@ const HomeNew = () => {
           maxW={{ base: '70%', lg: '60%' }}
         >
           <Text textAlign="center">
-            Track and record your DAO Contributions
+            Track and Record your DAO Contributions
           </Text>
           <span role="img" aria-labelledby="Govrn motto handshake emoji">
             🤝

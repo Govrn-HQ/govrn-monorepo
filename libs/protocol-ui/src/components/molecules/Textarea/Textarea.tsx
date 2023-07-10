@@ -47,7 +47,11 @@ const Textarea: React.FC<TextareaProps> = ({
   });
 
   return (
-    <FormControl isInvalid={errors[name] !== undefined} isRequired={isRequired}>
+    <FormControl
+      isInvalid={errors[name] !== undefined}
+      isRequired={isRequired}
+      mb={4}
+    >
       <Stack spacing={2}>
         {label && <FormLabel label={label} />}
         {tip && <HelperText tipText={tip} fontSize="xs" color="gray.700" />}
