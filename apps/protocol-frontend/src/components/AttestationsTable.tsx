@@ -243,7 +243,7 @@ const AttestationsTable = ({
             pillUnverifiedLabel = 'Initializing';
           }
 
-          const daoName = row.original.guilds[0].guild?.name;
+          const daoName = row.original.guilds[0]?.guild?.name;
 
           let statusMapHover!: 'Verified' | 'Unverified' | 'No Framework';
           if (status === null) {
@@ -445,8 +445,8 @@ const AttestationsTable = ({
                 DAO Contributions
               </Text>
               <Text fontSize="md" fontWeight="normal">
-                These are minted contributions that you haven't already attested
-                to.
+                These are minted contributions from your peers that you can give
+                attestations to.
               </Text>
             </Stack>
             <Button

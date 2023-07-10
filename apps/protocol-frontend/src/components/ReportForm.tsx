@@ -313,22 +313,17 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             isClearable={true}
             backspaceRemovesValue={true}
             tip={
-              <>
-                Please select a DAO to associate this contribution with.
-                <Box fontWeight={700} lineHeight={2}>
-                  This is optional. Don't see your DAO? Join or create one{' '}
-                  <Link
-                    as={RouterLink}
-                    to="/profile"
-                    state={{ targetId: 'myDaos' }}
-                    textDecoration="underline"
-                  >
-                    on your Profile.
-                  </Link>
-                </Box>
-                Note: Clicking the link will navigate to your Profile and clear
-                the form!
-              </>
+              <Box lineHeight={2}>
+                This is optional. Don't see your DAO? Join or create one{' '}
+                <Link
+                  as={RouterLink}
+                  to="/profile"
+                  state={{ targetId: 'myDaos' }}
+                  textDecoration="underline"
+                >
+                  on your Profile.
+                </Link>
+              </Box>
             }
             placeholder="Select a DAO to associate this contribution with."
             onChange={dao => {
@@ -344,7 +339,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
             isClearable={true}
             backspaceRemovesValue={true}
             isRequired
-            placeholder="Select an activity type or add a new one"
+            placeholder="Select existing or type in a new one"
             onChange={activity => {
               if (activity instanceof Array || !activity) {
                 return;
@@ -358,7 +353,7 @@ const ReportForm = ({ onFinish }: { onFinish: () => void }) => {
           <Textarea
             name="details"
             label="Details"
-            tip="Briefly describe your contribution"
+            tip="Briefly describe your contribution."
             placeholder="I added a section to our onboarding documentation that provides an overview of our Discord channels."
             variant="outline"
             localForm={localForm}

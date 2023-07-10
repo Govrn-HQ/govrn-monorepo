@@ -138,10 +138,9 @@ const DaoCard = ({ userId, daoUser }: DaoCardProps) => {
               <Link to={`/dao/${daoUser.guild.id}/settings`}>
                 <IconButton
                   aria-label="Click on the gear icon to open this DAO's settings."
-                  bg="transparent"
-                  _hover={{ bg: 'transparent' }}
-                  _active={{ bg: 'transparent' }}
-                  icon={<HiOutlineCog color="#5100E4" size={24} />}
+                  variant="ghost"
+                  colorScheme="brand.secondary"
+                  icon={<HiOutlineCog size={24} />}
                 />
               </Link>
             ) : (

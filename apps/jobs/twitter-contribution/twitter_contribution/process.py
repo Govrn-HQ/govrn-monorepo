@@ -36,7 +36,7 @@ async def process_guild_integrations():
         logger.info(f"Processing tweets for hashtag {hashtag} since {since}")
         tweets = await retrieve_tweets(hashtag, since)
         logger.info(f"Retrieved {len(tweets)} tweets for hashtag {hashtag}")
-        await process_tweets(integration, tweets)
+        await process_tweets(integration, tweets, guild["id"])
         # TODO: err handling
         logger.info(f"Processed {len(tweets)} tweets for hashtag {hashtag}")
 
@@ -46,7 +46,7 @@ async def process_guild_integrations():
 
 
 # TODO: parallelize
-async def process_tweets(guild_integration, tweets: list[Tweet]):
+async def process_tweets(guild_integration, tweets: list[Tweet], guild_id: int):
     for tweet in tweets:
         # check if user has profile and linked twitter account
         user = await get_user_by_twitter(tweet.profile_handle)
@@ -82,5 +82,5 @@ async def process_tweets(guild_integration, tweets: list[Tweet]):
             f"Creating contribution for tweet {tweet.id} by user {tweet.profile_handle}"
         )
         await create_twitter_hashtag_contribution(
-            tweet, user["id"], user["name"], guild_integration["hashtag"]
+            tweet, user["id"], user["name"], guild_integration["hashtag"], guild_id
         )

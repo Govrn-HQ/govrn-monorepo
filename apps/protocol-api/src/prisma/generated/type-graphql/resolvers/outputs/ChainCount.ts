@@ -11,4 +11,9 @@ export class ChainCount {
     nullable: false
   })
   contributions!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  split_contracts!: number;
 }

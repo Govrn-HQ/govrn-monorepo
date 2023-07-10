@@ -9,8 +9,10 @@ import { DiscordUserOrderByRelationAggregateInput } from "../inputs/DiscordUserO
 import { GuildUserOrderByRelationAggregateInput } from "../inputs/GuildUserOrderByRelationAggregateInput";
 import { LinearUserOrderByRelationAggregateInput } from "../inputs/LinearUserOrderByRelationAggregateInput";
 import { PartnerOrderByRelationAggregateInput } from "../inputs/PartnerOrderByRelationAggregateInput";
+import { SplitPaymentOrderByRelationAggregateInput } from "../inputs/SplitPaymentOrderByRelationAggregateInput";
 import { TwitterUserOrderByWithRelationInput } from "../inputs/TwitterUserOrderByWithRelationInput";
 import { UserActivityOrderByRelationAggregateInput } from "../inputs/UserActivityOrderByRelationAggregateInput";
+import { UserSplitContractOrderByRelationAggregateInput } from "../inputs/UserSplitContractOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("UserOrderByWithRelationInput", {
@@ -111,4 +113,14 @@ export class UserOrderByWithRelationInput {
     nullable: true
   })
   discord_users?: DiscordUserOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserSplitContractOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  split_contracts?: UserSplitContractOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => SplitPaymentOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  sent_split_payments?: SplitPaymentOrderByRelationAggregateInput | undefined;
 }

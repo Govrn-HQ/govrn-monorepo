@@ -15,11 +15,12 @@ import { Link } from 'react-router-dom';
 import GlobalFilter from './GlobalFilter';
 import { UIContribution } from '@govrn/ui-types';
 import DeleteContributionDialog from './DeleteContributionDialog';
-import { GovrnCta, GovrnSpinner } from '@govrn/protocol-ui';
+import { GovrnCta, GovrnSpinner, Pill } from '@govrn/protocol-ui';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { formatDate, toDate } from '../utils/date';
 import { FiTrash2 } from 'react-icons/fi';
 import GovrnTable from './GovrnTable';
+import VerificationHover from './VerificationHover';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -97,6 +98,135 @@ const MintedContributionsTable = ({
         },
       },
       {
+        header: 'Verification',
+        accessorFn: contribution =>
+          contribution.guilds[0]?.verificationStatus?.name === 'Verified'
+            ? 'Verified'
+            : 'Unverified',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const status = getValue();
+
+          const guildHasVerificationFramework =
+            row.original.guilds[0]?.guild?.verification_setting_id !== null;
+          const currentAttestations = row.original.attestations?.length;
+          const attestationThreshold =
+            row.original.guilds[0]?.attestation_threshold;
+          const frameworkSettingThreshold =
+            row.original.guilds[0]?.guild?.verification_setting
+              ?.num_of_attestations;
+          let pillUnverifiedLabel!: string;
+          if (attestationThreshold && frameworkSettingThreshold) {
+            pillUnverifiedLabel = `${currentAttestations}/${frameworkSettingThreshold}`;
+          }
+
+          if (status === 'Unverified' && attestationThreshold === null) {
+            pillUnverifiedLabel = 'Initializing';
+          }
+
+          const daoName = row.original.guilds[0]?.guild?.name;
+
+          let statusMapHover!: 'Verified' | 'Unverified' | 'No Framework';
+          if (status === null) {
+            statusMapHover = 'No Framework';
+          }
+
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
+            statusMapHover = 'Verified';
+          }
+
+          if (
+            attestationThreshold === null &&
+            frameworkSettingThreshold === 0
+          ) {
+            statusMapHover = 'Verified';
+          }
+
+          if (status === 'Unverified') {
+            statusMapHover = 'Unverified';
+          }
+
+          let pillStatusMap!: 'checkmark' | 'secondaryInfo' | 'primaryInfo';
+
+          if (status === 'Verified' || frameworkSettingThreshold === 0) {
+            pillStatusMap = 'checkmark';
+          }
+
+          if (
+            attestationThreshold === null &&
+            frameworkSettingThreshold === 0
+          ) {
+            pillStatusMap = 'checkmark';
+          }
+
+          if (status === 'Unverified' && attestationThreshold === 1) {
+            pillStatusMap = 'secondaryInfo';
+          }
+
+          if (
+            status === 'Unverified' &&
+            attestationThreshold === null &&
+            frameworkSettingThreshold !== 0
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+
+          if (
+            status === 'Unverified' &&
+            !!attestationThreshold &&
+            attestationThreshold > 1
+          ) {
+            pillStatusMap = 'primaryInfo';
+          }
+
+          return guildHasVerificationFramework ? (
+            <VerificationHover
+              daoName={daoName}
+              status={statusMapHover}
+              currentThreshold={attestationThreshold}
+              frameworkThreshold={frameworkSettingThreshold}
+            >
+              <Pill
+                status={
+                  status === 'Verified' ||
+                  frameworkSettingThreshold === 0 ||
+                  (attestationThreshold === null &&
+                    frameworkSettingThreshold === 0)
+                    ? 'gradient'
+                    : 'tertiary'
+                }
+                icon={pillStatusMap}
+                label={
+                  status === 'Verified' ||
+                  frameworkSettingThreshold === 0 ||
+                  (attestationThreshold === null &&
+                    frameworkSettingThreshold === 0)
+                    ? 'Verified'
+                    : pillUnverifiedLabel
+                }
+              />
+            </VerificationHover>
+          ) : (
+            <VerificationHover
+              daoName={daoName}
+              currentThreshold={null}
+              frameworkThreshold={frameworkSettingThreshold}
+              status="No Framework"
+            >
+              <Pill
+                status={status === 'Verified' ? 'gradient' : 'tertiary'}
+                label="Not Set"
+              />
+            </VerificationHover>
+          );
+        },
+      },
+      {
         header: 'Engagement Date',
         accessorFn: contribution => toDate(contribution.date_of_engagement),
         cell: ({ getValue }: { getValue: Getter<Date> }) => {
@@ -115,15 +245,31 @@ const MintedContributionsTable = ({
       {
         header: 'DAO',
         accessorFn: contribution =>
-          contribution.guilds.map(guildObj => guildObj.guild.name)[0] ?? '---',
-        cell: ({ getValue }: { getValue: Getter<string> }) => {
+          contribution.guilds[0]?.guild?.name ?? '---',
+        cell: ({
+          getValue,
+          row,
+        }: {
+          getValue: Getter<string>;
+          row: Row<UIContribution>;
+        }) => {
+          const daoName = getValue();
+          const contributionVerifiedForDao =
+            (row.original.guilds[0]?.guild?.verification_setting_id !== null &&
+              row.original.guilds[0]?.verificationStatus?.name ===
+                'Verified') ||
+            row.original.guilds[0]?.guild.verification_setting
+              ?.num_of_attestations === 0;
           return (
             <Flex direction="column" wrap="wrap" paddingRight={1}>
-              <Text whiteSpace="normal">{getValue()}</Text>
+              <Pill
+                label={daoName}
+                icon={contributionVerifiedForDao ? 'checkmark' : null}
+                status={contributionVerifiedForDao ? 'primary' : 'tertiary'}
+              />
             </Flex>
           );
         },
-        invertSorting: true,
       },
       {
         id: 'actions',

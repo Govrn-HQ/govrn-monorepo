@@ -123,6 +123,7 @@ const ContributionsTableShell = () => {
             🌞
           </span>{' '}
           Please select at least one contribution to attribute to a DAO or mint.
+          Minting allows others to view and attest to your contributions!
         </AlertDescription>
       </Alert>
     ) : (
@@ -184,7 +185,7 @@ const ContributionsTableShell = () => {
                       maxWidth="100vw"
                     >
                       <Text fontSize="lg" fontWeight="medium">
-                        My Contributions
+                        Manage My Contributions
                       </Text>
                       {nonMintedContributions &&
                       nonMintedContributions.length > 0 ? (

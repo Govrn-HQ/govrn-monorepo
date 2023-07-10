@@ -46,8 +46,8 @@ const VerificationFramework = ({
           </Text>
           <br />
           <Text>
-            A contribution becomes Verified by the DAO when it receives a
-            minimum number of attestations from members.
+            A contribution becomes <Text as="i">verified</Text> by the DAO when
+            it receives a minimum number of attestations from members.
           </Text>
         </Flex>
         <VerificationFrameworkForm
