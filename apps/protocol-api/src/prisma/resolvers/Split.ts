@@ -6,6 +6,7 @@ import { UserSplitContract } from '../generated/type-graphql/models/UserSplitCon
 import { SplitContract } from '../generated/type-graphql/models/SplitContract';
 import { SplitPayment } from '../generated/type-graphql/models/SplitPayment';
 import { Int } from 'type-graphql';
+import { link } from 'fs';
 
 @TypeGraphQL.InputType('UserSplitContractCreateCustomInput', {
   isAbstract: true,
@@ -68,6 +69,10 @@ export class UpdateUserSplitContractCustomArgs {
   isAbstract: true,
 })
 export class SplitContractPaymentCreateCustomInput {
+  // Contribution id can be null if tipping a user directly
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  contribution_id?: number;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int)
   recipient_user_id: number;
 
@@ -105,6 +110,7 @@ export class SplitCustomResolver {
     { prisma }: Context,
     user_id: number,
     split_contract_id: number,
+    contribution_id?: number,
   ) {
     // validate user split contract exists
     const split_contract = await prisma.splitContract.findUnique({
@@ -156,6 +162,24 @@ export class SplitCustomResolver {
       throw new Error(
         'Split contract id: ' + split_contract_id + ' is disabled',
       );
+    }
+
+    // validate the contribution id belongs to the user
+    if (contribution_id) {
+      const contribution = await prisma.contribution.findUnique({
+        where: { id: contribution_id },
+      });
+      if (!contribution) {
+        throw new Error('Contribution not found for id: ' + contribution_id);
+      }
+      if (contribution.user_id !== user_id) {
+        throw new Error(
+          'Contribution id: ' +
+            contribution_id +
+            ' does not belong to user id: ' +
+            user_id,
+        );
+      }
     }
 
     return split_contract;
@@ -215,11 +239,28 @@ export class SplitCustomResolver {
       { prisma, req },
       args.data.recipient_user_id,
       args.data.recipient_split_contract_id,
+      args.data.contribution_id,
     );
 
     let split_payment = {} as SplitPayment;
-    const sender_address = req?.session?.siwe?.data?.address;
-    if (!sender_address) {
+    const sender_address = args.data.sender_address;
+    const linkContribution = async (
+      split_payment_id: number,
+      contribution_id: number,
+    ) => {
+      await prisma.contributionPayment.create({
+        data: {
+          split_payment: {
+            connect: { id: split_payment_id },
+          },
+          contribution: {
+            connect: { id: contribution_id },
+          },
+          type: 'TIP',
+        },
+      });
+    };
+    if (!args.data.sender_user_id) {
       // anon payment, create split payment without user connect
       split_payment = await prisma.splitPayment.create({
         data: {
@@ -233,10 +274,21 @@ export class SplitCustomResolver {
           recipient_address: '',
         },
       });
+      if (args.data.contribution_id) {
+        await linkContribution(split_payment.id, args.data.contribution_id);
+      }
     } else {
       const sender_user = await prisma.user.findUnique({
         where: { address: sender_address },
       });
+      if (!sender_user || sender_user.id !== args.data.sender_user_id) {
+        throw new Error(
+          'Sender user id: ' +
+            args.data.sender_user_id +
+            ' does not match sender address: ' +
+            sender_address,
+        );
+      }
       split_payment = await prisma.splitPayment.create({
         data: {
           split_contract: {
@@ -248,10 +300,13 @@ export class SplitCustomResolver {
           sender_address: args.data.sender_address,
           recipient_address: '',
           sender_user: {
-            connect: { id: sender_user.id },
+            connect: { id: args.data.sender_user_id },
           },
         },
       });
+      if (args.data.contribution_id) {
+        await linkContribution(split_payment.id, args.data.contribution_id);
+      }
     }
 
     return split_payment;
