@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { ContributionPaymentOrderByRelationAggregateInput } from "../inputs/ContributionPaymentOrderByRelationAggregateInput";
 import { SplitContractOrderByWithRelationInput } from "../inputs/SplitContractOrderByWithRelationInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -69,4 +70,9 @@ export class SplitPaymentOrderByWithRelationInput {
     nullable: true
   })
   split_contract?: SplitContractOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  contribution_payments?: ContributionPaymentOrderByRelationAggregateInput | undefined;
 }

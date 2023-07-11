@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeRelationFilter } from "../inputs/ActivityTypeRelationFilter";
 import { AttestationListRelationFilter } from "../inputs/AttestationListRelationFilter";
 import { ChainRelationFilter } from "../inputs/ChainRelationFilter";
+import { ContributionPaymentListRelationFilter } from "../inputs/ContributionPaymentListRelationFilter";
 import { ContributionStatusRelationFilter } from "../inputs/ContributionStatusRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { GuildContributionListRelationFilter } from "../inputs/GuildContributionListRelationFilter";
@@ -145,4 +146,9 @@ export class ContributionWhereInput {
     nullable: true
   })
   tx_hash?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentListRelationFilter, {
+    nullable: true
+  })
+  contribution_tip?: ContributionPaymentListRelationFilter | undefined;
 }

@@ -26,4 +26,9 @@ export class ContributionCount {
     nullable: false
   })
   twitter_tweet_contributions!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  contribution_tip!: number;
 }

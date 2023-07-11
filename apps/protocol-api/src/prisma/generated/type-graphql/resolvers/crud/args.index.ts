@@ -8,6 +8,7 @@ export * from "./CategoryActivityType/args";
 export * from "./Chain/args";
 export * from "./ChainType/args";
 export * from "./Contribution/args";
+export * from "./ContributionPayment/args";
 export * from "./ContributionStatus/args";
 export * from "./DiscordUser/args";
 export * from "./Guild/args";

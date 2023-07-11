@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput";
 import { AttestationUpdateManyWithoutContributionNestedInput } from "../inputs/AttestationUpdateManyWithoutContributionNestedInput";
 import { ChainUpdateOneWithoutContributionsNestedInput } from "../inputs/ChainUpdateOneWithoutContributionsNestedInput";
+import { ContributionPaymentUpdateManyWithoutContributionNestedInput } from "../inputs/ContributionPaymentUpdateManyWithoutContributionNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { GuildContributionUpdateManyWithoutContributionNestedInput } from "../inputs/GuildContributionUpdateManyWithoutContributionNestedInput";
 import { LinearIssueUpdateOneWithoutContributionNestedInput } from "../inputs/LinearIssueUpdateOneWithoutContributionNestedInput";
@@ -98,4 +99,9 @@ export class ContributionUpdateWithoutStatusInput {
     nullable: true
   })
   tx_hash?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentUpdateManyWithoutContributionNestedInput, {
+    nullable: true
+  })
+  contribution_tip?: ContributionPaymentUpdateManyWithoutContributionNestedInput | undefined;
 }

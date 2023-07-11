@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { ContributionPaymentCreateNestedManyWithoutSplit_paymentInput } from "../inputs/ContributionPaymentCreateNestedManyWithoutSplit_paymentInput";
 import { UserCreateNestedOneWithoutSent_split_paymentsInput } from "../inputs/UserCreateNestedOneWithoutSent_split_paymentsInput";
 
 @TypeGraphQL.InputType("SplitPaymentCreateWithoutSplit_contractInput", {
@@ -47,4 +48,9 @@ export class SplitPaymentCreateWithoutSplit_contractInput {
     nullable: true
   })
   sender_user?: UserCreateNestedOneWithoutSent_split_paymentsInput | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentCreateNestedManyWithoutSplit_paymentInput, {
+    nullable: true
+  })
+  contribution_payments?: ContributionPaymentCreateNestedManyWithoutSplit_paymentInput | undefined;
 }

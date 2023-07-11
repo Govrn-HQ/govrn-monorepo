@@ -2,8 +2,10 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
+import { ContributionPayment } from "../models/ContributionPayment";
 import { SplitContract } from "../models/SplitContract";
 import { User } from "../models/User";
+import { SplitPaymentCount } from "../resolvers/outputs/SplitPaymentCount";
 
 @TypeGraphQL.ObjectType("SplitPayment", {
   isAbstract: true
@@ -62,4 +64,11 @@ export class SplitPayment {
   split_contract_id!: number;
 
   split_contract?: SplitContract;
+
+  contribution_payments?: ContributionPayment[];
+
+  @TypeGraphQL.Field(_type => SplitPaymentCount, {
+    nullable: true
+  })
+  _count?: SplitPaymentCount | null;
 }

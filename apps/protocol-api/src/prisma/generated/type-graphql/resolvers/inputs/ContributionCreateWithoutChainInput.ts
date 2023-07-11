@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeCreateNestedOneWithoutContributionsInput } from "../inputs/ActivityTypeCreateNestedOneWithoutContributionsInput";
 import { AttestationCreateNestedManyWithoutContributionInput } from "../inputs/AttestationCreateNestedManyWithoutContributionInput";
+import { ContributionPaymentCreateNestedManyWithoutContributionInput } from "../inputs/ContributionPaymentCreateNestedManyWithoutContributionInput";
 import { ContributionStatusCreateNestedOneWithoutContributionsInput } from "../inputs/ContributionStatusCreateNestedOneWithoutContributionsInput";
 import { GuildContributionCreateNestedManyWithoutContributionInput } from "../inputs/GuildContributionCreateNestedManyWithoutContributionInput";
 import { LinearIssueCreateNestedOneWithoutContributionInput } from "../inputs/LinearIssueCreateNestedOneWithoutContributionInput";
@@ -94,4 +95,9 @@ export class ContributionCreateWithoutChainInput {
     nullable: true
   })
   tx_hash?: string | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentCreateNestedManyWithoutContributionInput, {
+    nullable: true
+  })
+  contribution_tip?: ContributionPaymentCreateNestedManyWithoutContributionInput | undefined;
 }
