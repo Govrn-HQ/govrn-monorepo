@@ -63,7 +63,6 @@ const byString = function (o, s) {
 };
 
 const isAuthenticated = rule()(async (parent, args, ctx, info) => {
-  return true;
   if (!ctx.req.session.siwe) {
     return false;
   }
@@ -550,6 +549,9 @@ export const permissions = shield(
       '*': or(isAuthenticated, hasToken),
     },
     UserSplitContract: {
+      '*': or(isAuthenticated, hasToken),
+    },
+    UserSplitPayment: {
       '*': or(isAuthenticated, hasToken),
     },
     SplitPayment: {
