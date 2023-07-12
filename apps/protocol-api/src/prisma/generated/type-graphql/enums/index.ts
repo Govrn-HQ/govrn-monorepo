@@ -7,6 +7,8 @@ export { CategoryActivityScalarFieldEnum } from "./CategoryActivityScalarFieldEn
 export { CategoryActivityTypeScalarFieldEnum } from "./CategoryActivityTypeScalarFieldEnum";
 export { ChainScalarFieldEnum } from "./ChainScalarFieldEnum";
 export { ChainTypeScalarFieldEnum } from "./ChainTypeScalarFieldEnum";
+export { ContributionPaymentScalarFieldEnum } from "./ContributionPaymentScalarFieldEnum";
+export { ContributionPaymentType } from "./ContributionPaymentType";
 export { ContributionScalarFieldEnum } from "./ContributionScalarFieldEnum";
 export { ContributionStatusScalarFieldEnum } from "./ContributionStatusScalarFieldEnum";
 export { DiscordUserScalarFieldEnum } from "./DiscordUserScalarFieldEnum";

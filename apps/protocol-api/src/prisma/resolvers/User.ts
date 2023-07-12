@@ -65,6 +65,21 @@ export class ListUserArgs {
   address: string;
 }
 
+@TypeGraphQL.ObjectType('UserSplitPayment', { isAbstract: true })
+export class UserSplitPayment {
+  @TypeGraphQL.Field(_type => Number)
+  amount: number;
+
+  @TypeGraphQL.Field(_type => String)
+  erc20_address: string;
+
+  @TypeGraphQL.Field(_type => String)
+  chain_id: string;
+
+  @TypeGraphQL.Field(_type => String)
+  split_address: string;
+}
+
 @TypeGraphQL.Resolver(_of => User)
 export class UserCustomResolver {
   @TypeGraphQL.Query(_returns => User, { nullable: false })
@@ -160,5 +175,150 @@ export class UserCustomResolver {
     return await prisma.user.findMany({
       where: { address: { equals: address } },
     });
+  }
+
+  @TypeGraphQL.Query(_returns => [UserSplitPayment], { nullable: false })
+  async getTotalUserSplitPaymentsSent(
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
+    @TypeGraphQL.Args() args: GetUserArgs,
+  ) {
+    // could also search for address in user table; but this will make 'anon'
+    // payments show up as well
+    const payments_from_user = await prisma.splitPayment.findMany({
+      where: { sender_user_id: { equals: args.id } },
+      select: {
+        amount: true,
+        token_address: true,
+        split_contract: {
+          select: {
+            address: true,
+            chain: {
+              select: {
+                chain_id: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    // TODO: move this into a native query
+    const reduced_payments = payments_from_user.reduce(
+      (acc, cur) => {
+        const chain_id = cur.split_contract.chain.chain_id;
+        const split_contract_address = cur.split_contract.address;
+        const erc20_address = cur.token_address;
+        const amount = cur.amount;
+        if (!acc[chain_id]) {
+          acc[chain_id] = {};
+        }
+        if (!acc[chain_id][split_contract_address]) {
+          acc[chain_id][split_contract_address] = {};
+        }
+        if (!acc[chain_id][split_contract_address][erc20_address]) {
+          acc[chain_id][split_contract_address][erc20_address] = 0;
+        }
+        acc[chain_id][split_contract_address][erc20_address] += Number(amount);
+        return acc;
+      },
+      {} as {
+        [chain_id: string]: {
+          [split_contract_address: string]: {
+            [erc20_address: string]: number;
+          };
+        };
+      },
+    );
+
+    // flatten reduced_payments into an array of SplitPayment objects
+    // TODO: DRY
+    const reduced_payments_array = Object.entries(reduced_payments).flatMap(
+      ([chain_id, split_contract_address_map]) => {
+        return Object.entries(split_contract_address_map).flatMap(
+          ([split_contract_address, erc20_address_map]) => {
+            return Object.entries(erc20_address_map).map(
+              ([erc20_address, amount]) => {
+                return {
+                  amount,
+                  erc20_address,
+                  chain_id: chain_id,
+                  split_address: split_contract_address,
+                };
+              },
+            );
+          },
+        );
+      },
+    );
+
+    return reduced_payments_array;
+  }
+
+  @TypeGraphQL.Query(_returns => [UserSplitPayment], { nullable: false })
+  async getTotalUserSplitPaymentsReceived(
+    @TypeGraphQL.Ctx() { prisma, req }: Context,
+    @TypeGraphQL.Args() args: GetUserArgs,
+  ) {
+    const user = await prisma.user.findUnique({
+      where: { id: args.id },
+      include: {
+        split_contracts: {
+          include: {
+            split_contract: { include: { split_payments: true, chain: true } },
+          },
+        },
+      },
+    });
+
+    let user_payments = {} as {
+      [chain_id: string]: {
+        [split_contract_address: string]: {
+          [erc20_address: string]: number;
+        };
+      };
+    };
+    // TODO: move this into a native query
+    // TODO: DRY
+    for (const user_split_contract of user.split_contracts) {
+      for (const split_contract of user_split_contract.split_contract) {
+        const chain_id = split_contract.chain.chain_id;
+        const split_contract_address = split_contract.address;
+        for (const split_payment of split_contract.split_payments) {
+          const erc20_address = split_payment.token_address;
+          if (!user_payments[chain_id]) {
+            user_payments[chain_id] = {};
+          }
+          if (!user_payments[chain_id][split_contract_address]) {
+            user_payments[chain_id][split_contract_address] = {};
+          }
+          if (!user_payments[chain_id][split_contract_address][erc20_address]) {
+            user_payments[chain_id][split_contract_address][erc20_address] = 0;
+          }
+          user_payments[chain_id][split_contract_address][erc20_address] +=
+            Number(split_payment.amount);
+        }
+      }
+    }
+
+    // flatten user_payments into an array of SplitPayment objects
+    const user_payments_array = Object.entries(user_payments).flatMap(
+      ([chain_id, split_contract_address_map]) => {
+        return Object.entries(split_contract_address_map).flatMap(
+          ([split_contract_address, erc20_address_map]) => {
+            return Object.entries(erc20_address_map).map(
+              ([erc20_address, amount]) => {
+                return {
+                  amount,
+                  erc20_address,
+                  chain_id: chain_id,
+                  split_address: split_contract_address,
+                };
+              },
+            );
+          },
+        );
+      },
+    );
+
+    return user_payments_array;
   }
 }

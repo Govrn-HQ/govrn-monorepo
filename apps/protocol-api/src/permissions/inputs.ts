@@ -325,3 +325,46 @@ export const updateOneVerificationSettingInput = inputRule()(
     }),
   { abortEarly: false },
 );
+
+export const createUserSplitContractInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        user_id: yup.number().required(),
+        split_contract_address: yup.string().required(),
+        chain_db_id: yup.number().required(),
+        tx_hash: yup.string().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const updateUserSplitContractInput = inputRule()(
+  yup =>
+    yup.object({
+      where: yup.object({
+        user_id: yup.number().required(),
+        user_split_contract_id: yup.number().required(),
+      }),
+      data: yup.object({
+        enabled: yup.boolean().required(),
+      }),
+    }),
+  { abortEarly: false },
+);
+
+export const createSplitPaymentInput = inputRule()(
+  yup =>
+    yup.object({
+      data: yup.object({
+        recipient_user_id: yup.number().required(),
+        recipient_split_contract_id: yup.number().required(),
+        token_address: yup.string().required(),
+        amount: yup.number().required(),
+        tx_hash: yup.string().required(),
+        sender_address: yup.string().required(),
+        sender_user_id: yup.number(),
+      }),
+    }),
+  { abortEarly: false },
+);

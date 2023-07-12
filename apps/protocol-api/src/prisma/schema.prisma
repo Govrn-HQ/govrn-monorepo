@@ -50,10 +50,6 @@ model UserSplitContract {
   user           User            @relation(fields: [user_id], references: [id])
   enabled        Boolean
   split_contract SplitContract[]
-
-  // Add this explicitly for now, we can remove later if necessary to support >1
-  // split contract per user
-  @@unique([user_id])
 }
 
 model SplitContract {
@@ -75,6 +71,14 @@ model SplitContract {
   // This is optional in order to support generalization to e.g. guilds
   user_split_contract_id Int?
   user_split_contract    UserSplitContract? @relation(fields: [user_split_contract_id], references: [id])
+
+  // We want 1 user split contract per chain for now; this does not preclude having guild
+  // split contracts since the below constraint only prevents multiple SplitContracts
+  // where both chain_id and user_split_contract_id are duplicated. That is, the below
+  // constraint does not prevent (chain id 1, user_split_contract_id NULL) and 
+  // (chain id 12, user_split_contract_id NULL) and 
+  // (chain id 1, user_split_contract_id 1) from existing simultaneously.
+  @@unique([chain_id, user_split_contract_id])
 }
 
 model DiscordUser {
@@ -290,6 +294,7 @@ model Contribution {
   chain                       Chain?                     @relation(fields: [chain_id], references: [id])
   on_chain_id                 Int?
   tx_hash                     String?                    @db.Citext
+  contribution_tip            ContributionPayment[]
 
   @@unique([chain_id, on_chain_id])
 }
@@ -501,22 +506,47 @@ model JobRun {
 ////
 
 model SplitPayment {
-  id                Int           @id @default(autoincrement())
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
+  id                    Int                   @id @default(autoincrement())
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
   // address, amount, sender, recipient can all be retrieved on-chain, but it's 
   // immutable anyway, so there's no reason to not store it here 
-  token_address     String        @db.Citext
-  amount            BigInt
-  tx_hash           String        @db.Citext
-  sender_address    String        @db.Citext
-  recipient_address String        @db.Citext
+  // TODO: proper ERC20 data structure/table
+  token_address         String                @db.Citext
+  amount                BigInt
+  tx_hash               String                @db.Citext
+  sender_address        String                @db.Citext
+  // deprecated; split_contract is associated with the recipient user and address
+  recipient_address     String                @db.Citext
   // optional to support anon tips
-  sender_user_id    Int?
-  sender_user       User?         @relation(fields: [sender_user_id], references: [id])
+  sender_user_id        Int?
+  sender_user           User?                 @relation(fields: [sender_user_id], references: [id])
   // paid to split
-  split_contract_id Int
-  split_contract    SplitContract @relation(fields: [split_contract_id], references: [id])
+  split_contract_id     Int
+  split_contract        SplitContract         @relation(fields: [split_contract_id], references: [id])
+  // links a split payment to a contribution, e.g. for tipping, or if a user 
+  // reports a split payment as a contribution
+  contribution_payments ContributionPayment[]
+}
+
+// Links split payment to a contribution
+model ContributionPayment {
+  id               Int                     @id @default(autoincrement())
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+  contribution_id  Int
+  contribution     Contribution            @relation(fields: [contribution_id], references: [id])
+  split_payment_id Int
+  split_payment    SplitPayment            @relation(fields: [split_payment_id], references: [id])
+  type             ContributionPaymentType
+
+  // disallows: duplicate reporting of a payment as >1 contribution; 
+  @@unique([contribution_id, split_payment_id])
+}
+
+enum ContributionPaymentType {
+  TIP
+  REPORT
 }
 
 ////

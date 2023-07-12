@@ -620,6 +620,14 @@ export type AggregateContribution = {
   _sum?: Maybe<ContributionSumAggregate>;
 };
 
+export type AggregateContributionPayment = {
+  _avg?: Maybe<ContributionPaymentAvgAggregate>;
+  _count?: Maybe<ContributionPaymentCountAggregate>;
+  _max?: Maybe<ContributionPaymentMaxAggregate>;
+  _min?: Maybe<ContributionPaymentMinAggregate>;
+  _sum?: Maybe<ContributionPaymentSumAggregate>;
+};
+
 export type AggregateContributionStatus = {
   _avg?: Maybe<ContributionStatusAvgAggregate>;
   _count?: Maybe<ContributionStatusCountAggregate>;
@@ -3321,6 +3329,7 @@ export type Contribution = {
   attestations: Array<Attestation>;
   chain?: Maybe<Chain>;
   chain_id?: Maybe<Scalars['Int']>;
+  contribution_tip: Array<ContributionPayment>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission: Scalars['DateTime'];
   details?: Maybe<Scalars['String']>;
@@ -3348,6 +3357,16 @@ export type ContributionAttestationsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AttestationWhereInput>;
+};
+
+
+export type ContributionContribution_TipArgs = {
+  cursor?: InputMaybe<ContributionPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ContributionPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ContributionPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionPaymentWhereInput>;
 };
 
 
@@ -3405,6 +3424,7 @@ export type ContributionChain_IdOn_Chain_IdCompoundUniqueInput = {
 
 export type ContributionCount = {
   attestations: Scalars['Int'];
+  contribution_tip: Scalars['Int'];
   guilds: Scalars['Int'];
   partners: Scalars['Int'];
   twitter_tweet_contributions: Scalars['Int'];
@@ -3467,6 +3487,7 @@ export type ContributionCreateInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3613,6 +3634,12 @@ export type ContributionCreateNestedOneWithoutAttestationsInput = {
   create?: InputMaybe<ContributionCreateWithoutAttestationsInput>;
 };
 
+export type ContributionCreateNestedOneWithoutContribution_TipInput = {
+  connect?: InputMaybe<ContributionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutContribution_TipInput>;
+  create?: InputMaybe<ContributionCreateWithoutContribution_TipInput>;
+};
+
 export type ContributionCreateNestedOneWithoutGuildsInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutGuildsInput>;
@@ -3652,6 +3679,11 @@ export type ContributionCreateOrConnectWithoutChainInput = {
   where: ContributionWhereUniqueInput;
 };
 
+export type ContributionCreateOrConnectWithoutContribution_TipInput = {
+  create: ContributionCreateWithoutContribution_TipInput;
+  where: ContributionWhereUniqueInput;
+};
+
 export type ContributionCreateOrConnectWithoutGuildsInput = {
   create: ContributionCreateWithoutGuildsInput;
   where: ContributionWhereUniqueInput;
@@ -3685,6 +3717,7 @@ export type ContributionCreateOrConnectWithoutUserInput = {
 export type ContributionCreateWithoutActivity_TypeInput = {
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3704,6 +3737,7 @@ export type ContributionCreateWithoutActivity_TypeInput = {
 export type ContributionCreateWithoutAttestationsInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3723,6 +3757,27 @@ export type ContributionCreateWithoutAttestationsInput = {
 export type ContributionCreateWithoutChainInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
+  date_of_engagement: Scalars['DateTime'];
+  date_of_submission?: InputMaybe<Scalars['DateTime']>;
+  details?: InputMaybe<Scalars['String']>;
+  guilds?: InputMaybe<GuildContributionCreateNestedManyWithoutContributionInput>;
+  linear_issue?: InputMaybe<LinearIssueCreateNestedOneWithoutContributionInput>;
+  name: Scalars['String'];
+  on_chain_id?: InputMaybe<Scalars['Int']>;
+  partners?: InputMaybe<PartnerCreateNestedManyWithoutContributionInput>;
+  proof?: InputMaybe<Scalars['String']>;
+  status: ContributionStatusCreateNestedOneWithoutContributionsInput;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionCreateNestedManyWithoutContributionInput>;
+  tx_hash?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutContributionsInput;
+};
+
+export type ContributionCreateWithoutContribution_TipInput = {
+  activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
+  attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
+  chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3743,6 +3798,7 @@ export type ContributionCreateWithoutGuildsInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3762,6 +3818,7 @@ export type ContributionCreateWithoutLinear_IssueInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3781,6 +3838,7 @@ export type ContributionCreateWithoutPartnersInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3800,6 +3858,7 @@ export type ContributionCreateWithoutStatusInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3819,6 +3878,7 @@ export type ContributionCreateWithoutTwitter_Tweet_ContributionsInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3838,6 +3898,7 @@ export type ContributionCreateWithoutUserInput = {
   activity_type: ActivityTypeCreateNestedOneWithoutContributionsInput;
   attestations?: InputMaybe<AttestationCreateNestedManyWithoutContributionInput>;
   chain?: InputMaybe<ChainCreateNestedOneWithoutContributionsInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentCreateNestedManyWithoutContributionInput>;
   date_of_engagement: Scalars['DateTime'];
   date_of_submission?: InputMaybe<Scalars['DateTime']>;
   details?: InputMaybe<Scalars['String']>;
@@ -3975,6 +4036,7 @@ export type ContributionOrderByWithRelationInput = {
   attestations?: InputMaybe<AttestationOrderByRelationAggregateInput>;
   chain?: InputMaybe<ChainOrderByWithRelationInput>;
   chain_id?: InputMaybe<SortOrder>;
+  contribution_tip?: InputMaybe<ContributionPaymentOrderByRelationAggregateInput>;
   date_of_engagement?: InputMaybe<SortOrder>;
   date_of_submission?: InputMaybe<SortOrder>;
   details?: InputMaybe<SortOrder>;
@@ -3992,6 +4054,376 @@ export type ContributionOrderByWithRelationInput = {
   updatedAt?: InputMaybe<SortOrder>;
   user?: InputMaybe<UserOrderByWithRelationInput>;
   user_id?: InputMaybe<SortOrder>;
+};
+
+export type ContributionPayment = {
+  contribution: Contribution;
+  contribution_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  split_payment: SplitPayment;
+  split_payment_id: Scalars['Int'];
+  type: ContributionPaymentType;
+  updatedAt: Scalars['DateTime'];
+};
+
+export type ContributionPaymentAvgAggregate = {
+  contribution_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  split_payment_id?: Maybe<Scalars['Float']>;
+};
+
+export type ContributionPaymentAvgOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_payment_id?: InputMaybe<SortOrder>;
+};
+
+export type ContributionPaymentContribution_IdSplit_Payment_IdCompoundUniqueInput = {
+  contribution_id: Scalars['Int'];
+  split_payment_id: Scalars['Int'];
+};
+
+export type ContributionPaymentCountAggregate = {
+  _all: Scalars['Int'];
+  contribution_id: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  split_payment_id: Scalars['Int'];
+  type: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+};
+
+export type ContributionPaymentCountOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_payment_id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type ContributionPaymentCreateInput = {
+  contribution: ContributionCreateNestedOneWithoutContribution_TipInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  split_payment: SplitPaymentCreateNestedOneWithoutContribution_PaymentsInput;
+  type: ContributionPaymentType;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type ContributionPaymentCreateManyContributionInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  split_payment_id: Scalars['Int'];
+  type: ContributionPaymentType;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type ContributionPaymentCreateManyContributionInputEnvelope = {
+  data: Array<ContributionPaymentCreateManyContributionInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type ContributionPaymentCreateManyInput = {
+  contribution_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  split_payment_id: Scalars['Int'];
+  type: ContributionPaymentType;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type ContributionPaymentCreateManySplit_PaymentInput = {
+  contribution_id: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  type: ContributionPaymentType;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type ContributionPaymentCreateManySplit_PaymentInputEnvelope = {
+  data: Array<ContributionPaymentCreateManySplit_PaymentInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type ContributionPaymentCreateNestedManyWithoutContributionInput = {
+  connect?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ContributionPaymentCreateOrConnectWithoutContributionInput>>;
+  create?: InputMaybe<Array<ContributionPaymentCreateWithoutContributionInput>>;
+  createMany?: InputMaybe<ContributionPaymentCreateManyContributionInputEnvelope>;
+};
+
+export type ContributionPaymentCreateNestedManyWithoutSplit_PaymentInput = {
+  connect?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ContributionPaymentCreateOrConnectWithoutSplit_PaymentInput>>;
+  create?: InputMaybe<Array<ContributionPaymentCreateWithoutSplit_PaymentInput>>;
+  createMany?: InputMaybe<ContributionPaymentCreateManySplit_PaymentInputEnvelope>;
+};
+
+export type ContributionPaymentCreateOrConnectWithoutContributionInput = {
+  create: ContributionPaymentCreateWithoutContributionInput;
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+export type ContributionPaymentCreateOrConnectWithoutSplit_PaymentInput = {
+  create: ContributionPaymentCreateWithoutSplit_PaymentInput;
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+export type ContributionPaymentCreateWithoutContributionInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  split_payment: SplitPaymentCreateNestedOneWithoutContribution_PaymentsInput;
+  type: ContributionPaymentType;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type ContributionPaymentCreateWithoutSplit_PaymentInput = {
+  contribution: ContributionCreateNestedOneWithoutContribution_TipInput;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  type: ContributionPaymentType;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type ContributionPaymentGroupBy = {
+  _avg?: Maybe<ContributionPaymentAvgAggregate>;
+  _count?: Maybe<ContributionPaymentCountAggregate>;
+  _max?: Maybe<ContributionPaymentMaxAggregate>;
+  _min?: Maybe<ContributionPaymentMinAggregate>;
+  _sum?: Maybe<ContributionPaymentSumAggregate>;
+  contribution_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  split_payment_id: Scalars['Int'];
+  type: ContributionPaymentType;
+  updatedAt: Scalars['DateTime'];
+};
+
+export type ContributionPaymentListRelationFilter = {
+  every?: InputMaybe<ContributionPaymentWhereInput>;
+  none?: InputMaybe<ContributionPaymentWhereInput>;
+  some?: InputMaybe<ContributionPaymentWhereInput>;
+};
+
+export type ContributionPaymentMaxAggregate = {
+  contribution_id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  split_payment_id?: Maybe<Scalars['Int']>;
+  type?: Maybe<ContributionPaymentType>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ContributionPaymentMaxOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_payment_id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type ContributionPaymentMinAggregate = {
+  contribution_id?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
+  split_payment_id?: Maybe<Scalars['Int']>;
+  type?: Maybe<ContributionPaymentType>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ContributionPaymentMinOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_payment_id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type ContributionPaymentOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type ContributionPaymentOrderByWithAggregationInput = {
+  _avg?: InputMaybe<ContributionPaymentAvgOrderByAggregateInput>;
+  _count?: InputMaybe<ContributionPaymentCountOrderByAggregateInput>;
+  _max?: InputMaybe<ContributionPaymentMaxOrderByAggregateInput>;
+  _min?: InputMaybe<ContributionPaymentMinOrderByAggregateInput>;
+  _sum?: InputMaybe<ContributionPaymentSumOrderByAggregateInput>;
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_payment_id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type ContributionPaymentOrderByWithRelationInput = {
+  contribution?: InputMaybe<ContributionOrderByWithRelationInput>;
+  contribution_id?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_payment?: InputMaybe<SplitPaymentOrderByWithRelationInput>;
+  split_payment_id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export enum ContributionPaymentScalarFieldEnum {
+  ContributionId = 'contribution_id',
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  SplitPaymentId = 'split_payment_id',
+  Type = 'type',
+  UpdatedAt = 'updatedAt'
+}
+
+export type ContributionPaymentScalarWhereInput = {
+  AND?: InputMaybe<Array<ContributionPaymentScalarWhereInput>>;
+  NOT?: InputMaybe<Array<ContributionPaymentScalarWhereInput>>;
+  OR?: InputMaybe<Array<ContributionPaymentScalarWhereInput>>;
+  contribution_id?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  split_payment_id?: InputMaybe<IntFilter>;
+  type?: InputMaybe<EnumContributionPaymentTypeFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type ContributionPaymentScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<ContributionPaymentScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<ContributionPaymentScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<ContributionPaymentScalarWhereWithAggregatesInput>>;
+  contribution_id?: InputMaybe<IntWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  split_payment_id?: InputMaybe<IntWithAggregatesFilter>;
+  type?: InputMaybe<EnumContributionPaymentTypeWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+};
+
+export type ContributionPaymentSumAggregate = {
+  contribution_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  split_payment_id?: Maybe<Scalars['Int']>;
+};
+
+export type ContributionPaymentSumOrderByAggregateInput = {
+  contribution_id?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  split_payment_id?: InputMaybe<SortOrder>;
+};
+
+export enum ContributionPaymentType {
+  Report = 'REPORT',
+  Tip = 'TIP'
+}
+
+export type ContributionPaymentUpdateInput = {
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutContribution_TipNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  split_payment?: InputMaybe<SplitPaymentUpdateOneRequiredWithoutContribution_PaymentsNestedInput>;
+  type?: InputMaybe<EnumContributionPaymentTypeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ContributionPaymentUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  type?: InputMaybe<EnumContributionPaymentTypeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ContributionPaymentUpdateManyWithWhereWithoutContributionInput = {
+  data: ContributionPaymentUpdateManyMutationInput;
+  where: ContributionPaymentScalarWhereInput;
+};
+
+export type ContributionPaymentUpdateManyWithWhereWithoutSplit_PaymentInput = {
+  data: ContributionPaymentUpdateManyMutationInput;
+  where: ContributionPaymentScalarWhereInput;
+};
+
+export type ContributionPaymentUpdateManyWithoutContributionNestedInput = {
+  connect?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ContributionPaymentCreateOrConnectWithoutContributionInput>>;
+  create?: InputMaybe<Array<ContributionPaymentCreateWithoutContributionInput>>;
+  createMany?: InputMaybe<ContributionPaymentCreateManyContributionInputEnvelope>;
+  delete?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<ContributionPaymentScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  set?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  update?: InputMaybe<Array<ContributionPaymentUpdateWithWhereUniqueWithoutContributionInput>>;
+  updateMany?: InputMaybe<Array<ContributionPaymentUpdateManyWithWhereWithoutContributionInput>>;
+  upsert?: InputMaybe<Array<ContributionPaymentUpsertWithWhereUniqueWithoutContributionInput>>;
+};
+
+export type ContributionPaymentUpdateManyWithoutSplit_PaymentNestedInput = {
+  connect?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ContributionPaymentCreateOrConnectWithoutSplit_PaymentInput>>;
+  create?: InputMaybe<Array<ContributionPaymentCreateWithoutSplit_PaymentInput>>;
+  createMany?: InputMaybe<ContributionPaymentCreateManySplit_PaymentInputEnvelope>;
+  delete?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<ContributionPaymentScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  set?: InputMaybe<Array<ContributionPaymentWhereUniqueInput>>;
+  update?: InputMaybe<Array<ContributionPaymentUpdateWithWhereUniqueWithoutSplit_PaymentInput>>;
+  updateMany?: InputMaybe<Array<ContributionPaymentUpdateManyWithWhereWithoutSplit_PaymentInput>>;
+  upsert?: InputMaybe<Array<ContributionPaymentUpsertWithWhereUniqueWithoutSplit_PaymentInput>>;
+};
+
+export type ContributionPaymentUpdateWithWhereUniqueWithoutContributionInput = {
+  data: ContributionPaymentUpdateWithoutContributionInput;
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+export type ContributionPaymentUpdateWithWhereUniqueWithoutSplit_PaymentInput = {
+  data: ContributionPaymentUpdateWithoutSplit_PaymentInput;
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+export type ContributionPaymentUpdateWithoutContributionInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  split_payment?: InputMaybe<SplitPaymentUpdateOneRequiredWithoutContribution_PaymentsNestedInput>;
+  type?: InputMaybe<EnumContributionPaymentTypeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ContributionPaymentUpdateWithoutSplit_PaymentInput = {
+  contribution?: InputMaybe<ContributionUpdateOneRequiredWithoutContribution_TipNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  type?: InputMaybe<EnumContributionPaymentTypeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ContributionPaymentUpsertWithWhereUniqueWithoutContributionInput = {
+  create: ContributionPaymentCreateWithoutContributionInput;
+  update: ContributionPaymentUpdateWithoutContributionInput;
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+export type ContributionPaymentUpsertWithWhereUniqueWithoutSplit_PaymentInput = {
+  create: ContributionPaymentCreateWithoutSplit_PaymentInput;
+  update: ContributionPaymentUpdateWithoutSplit_PaymentInput;
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+export type ContributionPaymentWhereInput = {
+  AND?: InputMaybe<Array<ContributionPaymentWhereInput>>;
+  NOT?: InputMaybe<Array<ContributionPaymentWhereInput>>;
+  OR?: InputMaybe<Array<ContributionPaymentWhereInput>>;
+  contribution?: InputMaybe<ContributionRelationFilter>;
+  contribution_id?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<IntFilter>;
+  split_payment?: InputMaybe<SplitPaymentRelationFilter>;
+  split_payment_id?: InputMaybe<IntFilter>;
+  type?: InputMaybe<EnumContributionPaymentTypeFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type ContributionPaymentWhereUniqueInput = {
+  contribution_id_split_payment_id?: InputMaybe<ContributionPaymentContribution_IdSplit_Payment_IdCompoundUniqueInput>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type ContributionRelationFilter = {
@@ -4290,6 +4722,7 @@ export type ContributionUpdateInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4401,6 +4834,14 @@ export type ContributionUpdateOneRequiredWithoutAttestationsNestedInput = {
   upsert?: InputMaybe<ContributionUpsertWithoutAttestationsInput>;
 };
 
+export type ContributionUpdateOneRequiredWithoutContribution_TipNestedInput = {
+  connect?: InputMaybe<ContributionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutContribution_TipInput>;
+  create?: InputMaybe<ContributionCreateWithoutContribution_TipInput>;
+  update?: InputMaybe<ContributionUpdateWithoutContribution_TipInput>;
+  upsert?: InputMaybe<ContributionUpsertWithoutContribution_TipInput>;
+};
+
 export type ContributionUpdateOneRequiredWithoutGuildsNestedInput = {
   connect?: InputMaybe<ContributionWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ContributionCreateOrConnectWithoutGuildsInput>;
@@ -4458,6 +4899,7 @@ export type ContributionUpdateWithWhereUniqueWithoutUserInput = {
 export type ContributionUpdateWithoutActivity_TypeInput = {
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4477,6 +4919,7 @@ export type ContributionUpdateWithoutActivity_TypeInput = {
 export type ContributionUpdateWithoutAttestationsInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4496,6 +4939,27 @@ export type ContributionUpdateWithoutAttestationsInput = {
 export type ContributionUpdateWithoutChainInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
+  date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  guilds?: InputMaybe<GuildContributionUpdateManyWithoutContributionNestedInput>;
+  linear_issue?: InputMaybe<LinearIssueUpdateOneWithoutContributionNestedInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  on_chain_id?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  partners?: InputMaybe<PartnerUpdateManyWithoutContributionNestedInput>;
+  proof?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  status?: InputMaybe<ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput>;
+  twitter_tweet_contributions?: InputMaybe<TwitterTweetContributionUpdateManyWithoutContributionNestedInput>;
+  tx_hash?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutContributionsNestedInput>;
+};
+
+export type ContributionUpdateWithoutContribution_TipInput = {
+  activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
+  attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
+  chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4516,6 +4980,7 @@ export type ContributionUpdateWithoutGuildsInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4535,6 +5000,7 @@ export type ContributionUpdateWithoutLinear_IssueInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4554,6 +5020,7 @@ export type ContributionUpdateWithoutPartnersInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4573,6 +5040,7 @@ export type ContributionUpdateWithoutStatusInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4592,6 +5060,7 @@ export type ContributionUpdateWithoutTwitter_Tweet_ContributionsInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4611,6 +5080,7 @@ export type ContributionUpdateWithoutUserInput = {
   activity_type?: InputMaybe<ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput>;
   attestations?: InputMaybe<AttestationUpdateManyWithoutContributionNestedInput>;
   chain?: InputMaybe<ChainUpdateOneWithoutContributionsNestedInput>;
+  contribution_tip?: InputMaybe<ContributionPaymentUpdateManyWithoutContributionNestedInput>;
   date_of_engagement?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   date_of_submission?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   details?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -4655,6 +5125,11 @@ export type ContributionUpsertWithoutAttestationsInput = {
   update: ContributionUpdateWithoutAttestationsInput;
 };
 
+export type ContributionUpsertWithoutContribution_TipInput = {
+  create: ContributionCreateWithoutContribution_TipInput;
+  update: ContributionUpdateWithoutContribution_TipInput;
+};
+
 export type ContributionUpsertWithoutGuildsInput = {
   create: ContributionCreateWithoutGuildsInput;
   update: ContributionUpdateWithoutGuildsInput;
@@ -4684,6 +5159,7 @@ export type ContributionWhereInput = {
   attestations?: InputMaybe<AttestationListRelationFilter>;
   chain?: InputMaybe<ChainRelationFilter>;
   chain_id?: InputMaybe<IntNullableFilter>;
+  contribution_tip?: InputMaybe<ContributionPaymentListRelationFilter>;
   date_of_engagement?: InputMaybe<DateTimeFilter>;
   date_of_submission?: InputMaybe<DateTimeFilter>;
   details?: InputMaybe<StringNullableFilter>;
@@ -5292,6 +5768,27 @@ export type DiscordUserWhereInput = {
 export type DiscordUserWhereUniqueInput = {
   discord_id?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+};
+
+export type EnumContributionPaymentTypeFieldUpdateOperationsInput = {
+  set?: InputMaybe<ContributionPaymentType>;
+};
+
+export type EnumContributionPaymentTypeFilter = {
+  equals?: InputMaybe<ContributionPaymentType>;
+  in?: InputMaybe<Array<ContributionPaymentType>>;
+  not?: InputMaybe<NestedEnumContributionPaymentTypeFilter>;
+  notIn?: InputMaybe<Array<ContributionPaymentType>>;
+};
+
+export type EnumContributionPaymentTypeWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumContributionPaymentTypeFilter>;
+  _min?: InputMaybe<NestedEnumContributionPaymentTypeFilter>;
+  equals?: InputMaybe<ContributionPaymentType>;
+  in?: InputMaybe<Array<ContributionPaymentType>>;
+  not?: InputMaybe<NestedEnumContributionPaymentTypeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<ContributionPaymentType>>;
 };
 
 export type EnumGuildStatusFieldUpdateOperationsInput = {
@@ -12492,6 +12989,7 @@ export type Mutation = {
   createManyChain: AffectedRowsOutput;
   createManyChainType: AffectedRowsOutput;
   createManyContribution: AffectedRowsOutput;
+  createManyContributionPayment: AffectedRowsOutput;
   createManyContributionStatus: AffectedRowsOutput;
   createManyDiscordUser: AffectedRowsOutput;
   createManyGuild: AffectedRowsOutput;
@@ -12532,6 +13030,7 @@ export type Mutation = {
   createOneChain: Chain;
   createOneChainType: ChainType;
   createOneContribution: Contribution;
+  createOneContributionPayment: ContributionPayment;
   createOneContributionStatus: ContributionStatus;
   createOneDiscordUser: DiscordUser;
   createOneGuild: Guild;
@@ -12561,10 +13060,12 @@ export type Mutation = {
   createOneUserActivity: UserActivity;
   createOneUserSplitContract: UserSplitContract;
   createOneVerificationSetting: VerificationSetting;
+  createSplitContractPayment: SplitPayment;
   createUserAttestation: Attestation;
   createUserContribution: Contribution;
   createUserCustom: User;
   createUserOnChainAttestation: Attestation;
+  createUserSplitContract: SplitContract;
   deleteManyActivityType: AffectedRowsOutput;
   deleteManyAttestation: AffectedRowsOutput;
   deleteManyAttestationConfidence: AffectedRowsOutput;
@@ -12575,6 +13076,7 @@ export type Mutation = {
   deleteManyChain: AffectedRowsOutput;
   deleteManyChainType: AffectedRowsOutput;
   deleteManyContribution: AffectedRowsOutput;
+  deleteManyContributionPayment: AffectedRowsOutput;
   deleteManyContributionStatus: AffectedRowsOutput;
   deleteManyDiscordUser: AffectedRowsOutput;
   deleteManyGuild: AffectedRowsOutput;
@@ -12614,6 +13116,7 @@ export type Mutation = {
   deleteOneChain?: Maybe<Chain>;
   deleteOneChainType?: Maybe<ChainType>;
   deleteOneContribution?: Maybe<Contribution>;
+  deleteOneContributionPayment?: Maybe<ContributionPayment>;
   deleteOneContributionStatus?: Maybe<ContributionStatus>;
   deleteOneDiscordUser?: Maybe<DiscordUser>;
   deleteOneGuild?: Maybe<Guild>;
@@ -12657,6 +13160,7 @@ export type Mutation = {
   updateManyChain: AffectedRowsOutput;
   updateManyChainType: AffectedRowsOutput;
   updateManyContribution: AffectedRowsOutput;
+  updateManyContributionPayment: AffectedRowsOutput;
   updateManyContributionStatus: AffectedRowsOutput;
   updateManyDiscordUser: AffectedRowsOutput;
   updateManyGuild: AffectedRowsOutput;
@@ -12696,6 +13200,7 @@ export type Mutation = {
   updateOneChain?: Maybe<Chain>;
   updateOneChainType?: Maybe<ChainType>;
   updateOneContribution?: Maybe<Contribution>;
+  updateOneContributionPayment?: Maybe<ContributionPayment>;
   updateOneContributionStatus?: Maybe<ContributionStatus>;
   updateOneDiscordUser?: Maybe<DiscordUser>;
   updateOneGuild?: Maybe<Guild>;
@@ -12729,6 +13234,7 @@ export type Mutation = {
   updateUserCustom: User;
   updateUserOnChainAttestation: Attestation;
   updateUserOnChainContribution: Contribution;
+  updateUserSplitContract: UserSplitContract;
   upsertOneActivityType: ActivityType;
   upsertOneAttestation: Attestation;
   upsertOneAttestationConfidence: AttestationConfidence;
@@ -12739,6 +13245,7 @@ export type Mutation = {
   upsertOneChain: Chain;
   upsertOneChainType: ChainType;
   upsertOneContribution: Contribution;
+  upsertOneContributionPayment: ContributionPayment;
   upsertOneContributionStatus: ContributionStatus;
   upsertOneDiscordUser: DiscordUser;
   upsertOneGuild: Guild;
@@ -12832,6 +13339,12 @@ export type MutationCreateManyChainTypeArgs = {
 
 export type MutationCreateManyContributionArgs = {
   data: Array<ContributionCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyContributionPaymentArgs = {
+  data: Array<ContributionPaymentCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -13065,6 +13578,11 @@ export type MutationCreateOneContributionArgs = {
 };
 
 
+export type MutationCreateOneContributionPaymentArgs = {
+  data: ContributionPaymentCreateInput;
+};
+
+
 export type MutationCreateOneContributionStatusArgs = {
   data: ContributionStatusCreateInput;
 };
@@ -13210,6 +13728,11 @@ export type MutationCreateOneVerificationSettingArgs = {
 };
 
 
+export type MutationCreateSplitContractPaymentArgs = {
+  data: SplitContractPaymentCreateCustomInput;
+};
+
+
 export type MutationCreateUserAttestationArgs = {
   data: AttestationUserCreateInput;
 };
@@ -13227,6 +13750,11 @@ export type MutationCreateUserCustomArgs = {
 
 export type MutationCreateUserOnChainAttestationArgs = {
   data: AttestationUserOnChainCreateInput;
+};
+
+
+export type MutationCreateUserSplitContractArgs = {
+  data: UserSplitContractCreateCustomInput;
 };
 
 
@@ -13277,6 +13805,11 @@ export type MutationDeleteManyChainTypeArgs = {
 
 export type MutationDeleteManyContributionArgs = {
   where?: InputMaybe<ContributionWhereInput>;
+};
+
+
+export type MutationDeleteManyContributionPaymentArgs = {
+  where?: InputMaybe<ContributionPaymentWhereInput>;
 };
 
 
@@ -13472,6 +14005,11 @@ export type MutationDeleteOneChainTypeArgs = {
 
 export type MutationDeleteOneContributionArgs = {
   where: ContributionWhereUniqueInput;
+};
+
+
+export type MutationDeleteOneContributionPaymentArgs = {
+  where: ContributionPaymentWhereUniqueInput;
 };
 
 
@@ -13698,6 +14236,12 @@ export type MutationUpdateManyChainTypeArgs = {
 export type MutationUpdateManyContributionArgs = {
   data: ContributionUpdateManyMutationInput;
   where?: InputMaybe<ContributionWhereInput>;
+};
+
+
+export type MutationUpdateManyContributionPaymentArgs = {
+  data: ContributionPaymentUpdateManyMutationInput;
+  where?: InputMaybe<ContributionPaymentWhereInput>;
 };
 
 
@@ -13935,6 +14479,12 @@ export type MutationUpdateOneContributionArgs = {
 };
 
 
+export type MutationUpdateOneContributionPaymentArgs = {
+  data: ContributionPaymentUpdateInput;
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+
 export type MutationUpdateOneContributionStatusArgs = {
   data: ContributionStatusUpdateInput;
   where: ContributionStatusWhereUniqueInput;
@@ -14134,6 +14684,12 @@ export type MutationUpdateUserOnChainContributionArgs = {
 };
 
 
+export type MutationUpdateUserSplitContractArgs = {
+  data: UserSplitContractUpdateCustomInput;
+  where: UserSplitContractWhereCustomInput;
+};
+
+
 export type MutationUpsertOneActivityTypeArgs = {
   create: ActivityTypeCreateInput;
   update: ActivityTypeUpdateInput;
@@ -14201,6 +14757,13 @@ export type MutationUpsertOneContributionArgs = {
   create: ContributionCreateInput;
   update: ContributionUpdateInput;
   where: ContributionWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneContributionPaymentArgs = {
+  create: ContributionPaymentCreateInput;
+  update: ContributionPaymentUpdateInput;
+  where: ContributionPaymentWhereUniqueInput;
 };
 
 
@@ -14507,6 +15070,23 @@ export type NestedDateTimeWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<NestedDateTimeWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
+export type NestedEnumContributionPaymentTypeFilter = {
+  equals?: InputMaybe<ContributionPaymentType>;
+  in?: InputMaybe<Array<ContributionPaymentType>>;
+  not?: InputMaybe<NestedEnumContributionPaymentTypeFilter>;
+  notIn?: InputMaybe<Array<ContributionPaymentType>>;
+};
+
+export type NestedEnumContributionPaymentTypeWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumContributionPaymentTypeFilter>;
+  _min?: InputMaybe<NestedEnumContributionPaymentTypeFilter>;
+  equals?: InputMaybe<ContributionPaymentType>;
+  in?: InputMaybe<Array<ContributionPaymentType>>;
+  not?: InputMaybe<NestedEnumContributionPaymentTypeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<ContributionPaymentType>>;
 };
 
 export type NestedEnumGuildStatusFilter = {
@@ -15062,6 +15642,7 @@ export type Query = {
   aggregateChain: AggregateChain;
   aggregateChainType: AggregateChainType;
   aggregateContribution: AggregateContribution;
+  aggregateContributionPayment: AggregateContributionPayment;
   aggregateContributionStatus: AggregateContributionStatus;
   aggregateDiscordUser: AggregateDiscordUser;
   aggregateGuild: AggregateGuild;
@@ -15108,6 +15689,8 @@ export type Query = {
   chainTypes: Array<ChainType>;
   chains: Array<Chain>;
   contribution?: Maybe<Contribution>;
+  contributionPayment?: Maybe<ContributionPayment>;
+  contributionPayments: Array<ContributionPayment>;
   contributionStatus?: Maybe<ContributionStatus>;
   contributionStatuses: Array<ContributionStatus>;
   contributions: Array<Contribution>;
@@ -15133,6 +15716,8 @@ export type Query = {
   findFirstChainTypeOrThrow?: Maybe<ChainType>;
   findFirstContribution?: Maybe<Contribution>;
   findFirstContributionOrThrow?: Maybe<Contribution>;
+  findFirstContributionPayment?: Maybe<ContributionPayment>;
+  findFirstContributionPaymentOrThrow?: Maybe<ContributionPayment>;
   findFirstContributionStatus?: Maybe<ContributionStatus>;
   findFirstContributionStatusOrThrow?: Maybe<ContributionStatus>;
   findFirstDiscordUser?: Maybe<DiscordUser>;
@@ -15204,6 +15789,7 @@ export type Query = {
   getContribution?: Maybe<Contribution>;
   getContributionCountByActivityType: Array<ContributionCountByActivityType>;
   getContributionCountByDateForUserInRange: Array<ContributionCountByDate>;
+  getContributionPayment?: Maybe<ContributionPayment>;
   getContributionStatus?: Maybe<ContributionStatus>;
   getDaoContributionCount: Scalars['Int'];
   getDaoContributionCountByUser: Array<ContributionCountByUser>;
@@ -15227,6 +15813,8 @@ export type Query = {
   getPartner?: Maybe<Partner>;
   getSplitContract?: Maybe<SplitContract>;
   getSplitPayment?: Maybe<SplitPayment>;
+  getTotalUserSplitPaymentsReceived: Array<UserSplitPayment>;
+  getTotalUserSplitPaymentsSent: Array<UserSplitPayment>;
   getTwitterAccount?: Maybe<TwitterAccount>;
   getTwitterTweet?: Maybe<TwitterTweet>;
   getTwitterTweetContribution?: Maybe<TwitterTweetContribution>;
@@ -15245,6 +15833,7 @@ export type Query = {
   groupByChain: Array<ChainGroupBy>;
   groupByChainType: Array<ChainTypeGroupBy>;
   groupByContribution: Array<ContributionGroupBy>;
+  groupByContributionPayment: Array<ContributionPaymentGroupBy>;
   groupByContributionStatus: Array<ContributionStatusGroupBy>;
   groupByDiscordUser: Array<DiscordUserGroupBy>;
   groupByGuild: Array<GuildGroupBy>;
@@ -15435,6 +16024,15 @@ export type QueryAggregateContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionWhereInput>;
+};
+
+
+export type QueryAggregateContributionPaymentArgs = {
+  cursor?: InputMaybe<ContributionPaymentWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<ContributionPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionPaymentWhereInput>;
 };
 
 
@@ -15824,6 +16422,21 @@ export type QueryContributionArgs = {
 };
 
 
+export type QueryContributionPaymentArgs = {
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+
+export type QueryContributionPaymentsArgs = {
+  cursor?: InputMaybe<ContributionPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ContributionPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ContributionPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionPaymentWhereInput>;
+};
+
+
 export type QueryContributionStatusArgs = {
   where: ContributionStatusWhereUniqueInput;
 };
@@ -16061,6 +16674,26 @@ export type QueryFindFirstContributionOrThrowArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionWhereInput>;
+};
+
+
+export type QueryFindFirstContributionPaymentArgs = {
+  cursor?: InputMaybe<ContributionPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ContributionPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ContributionPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionPaymentWhereInput>;
+};
+
+
+export type QueryFindFirstContributionPaymentOrThrowArgs = {
+  cursor?: InputMaybe<ContributionPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ContributionPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ContributionPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionPaymentWhereInput>;
 };
 
 
@@ -16709,6 +17342,11 @@ export type QueryGetContributionCountByDateForUserInRangeArgs = {
 };
 
 
+export type QueryGetContributionPaymentArgs = {
+  where: ContributionPaymentWhereUniqueInput;
+};
+
+
 export type QueryGetContributionStatusArgs = {
   where: ContributionStatusWhereUniqueInput;
 };
@@ -16821,6 +17459,16 @@ export type QueryGetSplitContractArgs = {
 
 export type QueryGetSplitPaymentArgs = {
   where: SplitPaymentWhereUniqueInput;
+};
+
+
+export type QueryGetTotalUserSplitPaymentsReceivedArgs = {
+  id: Scalars['Float'];
+};
+
+
+export type QueryGetTotalUserSplitPaymentsSentArgs = {
+  id: Scalars['Float'];
 };
 
 
@@ -16961,6 +17609,16 @@ export type QueryGroupByContributionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ContributionWhereInput>;
+};
+
+
+export type QueryGroupByContributionPaymentArgs = {
+  by: Array<ContributionPaymentScalarFieldEnum>;
+  having?: InputMaybe<ContributionPaymentScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<ContributionPaymentOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionPaymentWhereInput>;
 };
 
 
@@ -17715,6 +18373,11 @@ export type SplitContractAvgOrderByAggregateInput = {
   user_split_contract_id?: InputMaybe<SortOrder>;
 };
 
+export type SplitContractChain_IdUser_Split_Contract_IdCompoundUniqueInput = {
+  chain_id: Scalars['Int'];
+  user_split_contract_id: Scalars['Int'];
+};
+
 export type SplitContractCount = {
   split_payments: Scalars['Int'];
 };
@@ -17959,6 +18622,16 @@ export type SplitContractOrderByWithRelationInput = {
   user_split_contract_id?: InputMaybe<SortOrder>;
 };
 
+export type SplitContractPaymentCreateCustomInput = {
+  amount: Scalars['Float'];
+  recipient_split_contract_id: Scalars['Int'];
+  recipient_user_id: Scalars['Int'];
+  sender_address: Scalars['String'];
+  sender_user_id?: InputMaybe<Scalars['Int']>;
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+};
+
 export type SplitContractRelationFilter = {
   is?: InputMaybe<SplitContractWhereInput>;
   isNot?: InputMaybe<SplitContractWhereInput>;
@@ -18155,11 +18828,14 @@ export type SplitContractWhereInput = {
 };
 
 export type SplitContractWhereUniqueInput = {
+  chain_id_user_split_contract_id?: InputMaybe<SplitContractChain_IdUser_Split_Contract_IdCompoundUniqueInput>;
   id?: InputMaybe<Scalars['Int']>;
 };
 
 export type SplitPayment = {
+  _count?: Maybe<SplitPaymentCount>;
   amount: Scalars['BigInt'];
+  contribution_payments: Array<ContributionPayment>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   recipient_address: Scalars['String'];
@@ -18171,6 +18847,16 @@ export type SplitPayment = {
   token_address: Scalars['String'];
   tx_hash: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+};
+
+
+export type SplitPaymentContribution_PaymentsArgs = {
+  cursor?: InputMaybe<ContributionPaymentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ContributionPaymentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ContributionPaymentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributionPaymentWhereInput>;
 };
 
 export type SplitPaymentAvgAggregate = {
@@ -18185,6 +18871,10 @@ export type SplitPaymentAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
   sender_user_id?: InputMaybe<SortOrder>;
   split_contract_id?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentCount = {
+  contribution_payments: Scalars['Int'];
 };
 
 export type SplitPaymentCountAggregate = {
@@ -18216,6 +18906,7 @@ export type SplitPaymentCountOrderByAggregateInput = {
 
 export type SplitPaymentCreateInput = {
   amount: Scalars['BigInt'];
+  contribution_payments?: InputMaybe<ContributionPaymentCreateNestedManyWithoutSplit_PaymentInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   recipient_address: Scalars['String'];
   sender_address: Scalars['String'];
@@ -18287,6 +18978,17 @@ export type SplitPaymentCreateNestedManyWithoutSplit_ContractInput = {
   createMany?: InputMaybe<SplitPaymentCreateManySplit_ContractInputEnvelope>;
 };
 
+export type SplitPaymentCreateNestedOneWithoutContribution_PaymentsInput = {
+  connect?: InputMaybe<SplitPaymentWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<SplitPaymentCreateOrConnectWithoutContribution_PaymentsInput>;
+  create?: InputMaybe<SplitPaymentCreateWithoutContribution_PaymentsInput>;
+};
+
+export type SplitPaymentCreateOrConnectWithoutContribution_PaymentsInput = {
+  create: SplitPaymentCreateWithoutContribution_PaymentsInput;
+  where: SplitPaymentWhereUniqueInput;
+};
+
 export type SplitPaymentCreateOrConnectWithoutSender_UserInput = {
   create: SplitPaymentCreateWithoutSender_UserInput;
   where: SplitPaymentWhereUniqueInput;
@@ -18297,8 +18999,21 @@ export type SplitPaymentCreateOrConnectWithoutSplit_ContractInput = {
   where: SplitPaymentWhereUniqueInput;
 };
 
+export type SplitPaymentCreateWithoutContribution_PaymentsInput = {
+  amount: Scalars['BigInt'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  recipient_address: Scalars['String'];
+  sender_address: Scalars['String'];
+  sender_user?: InputMaybe<UserCreateNestedOneWithoutSent_Split_PaymentsInput>;
+  split_contract: SplitContractCreateNestedOneWithoutSplit_PaymentsInput;
+  token_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type SplitPaymentCreateWithoutSender_UserInput = {
   amount: Scalars['BigInt'];
+  contribution_payments?: InputMaybe<ContributionPaymentCreateNestedManyWithoutSplit_PaymentInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   recipient_address: Scalars['String'];
   sender_address: Scalars['String'];
@@ -18310,6 +19025,7 @@ export type SplitPaymentCreateWithoutSender_UserInput = {
 
 export type SplitPaymentCreateWithoutSplit_ContractInput = {
   amount: Scalars['BigInt'];
+  contribution_payments?: InputMaybe<ContributionPaymentCreateNestedManyWithoutSplit_PaymentInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   recipient_address: Scalars['String'];
   sender_address: Scalars['String'];
@@ -18419,6 +19135,7 @@ export type SplitPaymentOrderByWithAggregationInput = {
 
 export type SplitPaymentOrderByWithRelationInput = {
   amount?: InputMaybe<SortOrder>;
+  contribution_payments?: InputMaybe<ContributionPaymentOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   recipient_address?: InputMaybe<SortOrder>;
@@ -18430,6 +19147,11 @@ export type SplitPaymentOrderByWithRelationInput = {
   token_address?: InputMaybe<SortOrder>;
   tx_hash?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type SplitPaymentRelationFilter = {
+  is?: InputMaybe<SplitPaymentWhereInput>;
+  isNot?: InputMaybe<SplitPaymentWhereInput>;
 };
 
 export enum SplitPaymentScalarFieldEnum {
@@ -18493,6 +19215,7 @@ export type SplitPaymentSumOrderByAggregateInput = {
 
 export type SplitPaymentUpdateInput = {
   amount?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  contribution_payments?: InputMaybe<ContributionPaymentUpdateManyWithoutSplit_PaymentNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   recipient_address?: InputMaybe<StringFieldUpdateOperationsInput>;
   sender_address?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -18551,6 +19274,14 @@ export type SplitPaymentUpdateManyWithoutSplit_ContractNestedInput = {
   upsert?: InputMaybe<Array<SplitPaymentUpsertWithWhereUniqueWithoutSplit_ContractInput>>;
 };
 
+export type SplitPaymentUpdateOneRequiredWithoutContribution_PaymentsNestedInput = {
+  connect?: InputMaybe<SplitPaymentWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<SplitPaymentCreateOrConnectWithoutContribution_PaymentsInput>;
+  create?: InputMaybe<SplitPaymentCreateWithoutContribution_PaymentsInput>;
+  update?: InputMaybe<SplitPaymentUpdateWithoutContribution_PaymentsInput>;
+  upsert?: InputMaybe<SplitPaymentUpsertWithoutContribution_PaymentsInput>;
+};
+
 export type SplitPaymentUpdateWithWhereUniqueWithoutSender_UserInput = {
   data: SplitPaymentUpdateWithoutSender_UserInput;
   where: SplitPaymentWhereUniqueInput;
@@ -18561,8 +19292,21 @@ export type SplitPaymentUpdateWithWhereUniqueWithoutSplit_ContractInput = {
   where: SplitPaymentWhereUniqueInput;
 };
 
+export type SplitPaymentUpdateWithoutContribution_PaymentsInput = {
+  amount?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  recipient_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender_user?: InputMaybe<UserUpdateOneWithoutSent_Split_PaymentsNestedInput>;
+  split_contract?: InputMaybe<SplitContractUpdateOneRequiredWithoutSplit_PaymentsNestedInput>;
+  token_address?: InputMaybe<StringFieldUpdateOperationsInput>;
+  tx_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
 export type SplitPaymentUpdateWithoutSender_UserInput = {
   amount?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  contribution_payments?: InputMaybe<ContributionPaymentUpdateManyWithoutSplit_PaymentNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   recipient_address?: InputMaybe<StringFieldUpdateOperationsInput>;
   sender_address?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -18574,6 +19318,7 @@ export type SplitPaymentUpdateWithoutSender_UserInput = {
 
 export type SplitPaymentUpdateWithoutSplit_ContractInput = {
   amount?: InputMaybe<BigIntFieldUpdateOperationsInput>;
+  contribution_payments?: InputMaybe<ContributionPaymentUpdateManyWithoutSplit_PaymentNestedInput>;
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   recipient_address?: InputMaybe<StringFieldUpdateOperationsInput>;
   sender_address?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -18595,11 +19340,17 @@ export type SplitPaymentUpsertWithWhereUniqueWithoutSplit_ContractInput = {
   where: SplitPaymentWhereUniqueInput;
 };
 
+export type SplitPaymentUpsertWithoutContribution_PaymentsInput = {
+  create: SplitPaymentCreateWithoutContribution_PaymentsInput;
+  update: SplitPaymentUpdateWithoutContribution_PaymentsInput;
+};
+
 export type SplitPaymentWhereInput = {
   AND?: InputMaybe<Array<SplitPaymentWhereInput>>;
   NOT?: InputMaybe<Array<SplitPaymentWhereInput>>;
   OR?: InputMaybe<Array<SplitPaymentWhereInput>>;
   amount?: InputMaybe<BigIntFilter>;
+  contribution_payments?: InputMaybe<ContributionPaymentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<IntFilter>;
   recipient_address?: InputMaybe<StringFilter>;
@@ -21206,6 +21957,13 @@ export type UserSplitContractCountOrderByAggregateInput = {
   user_id?: InputMaybe<SortOrder>;
 };
 
+export type UserSplitContractCreateCustomInput = {
+  chain_db_id: Scalars['Int'];
+  split_contract_address: Scalars['String'];
+  tx_hash: Scalars['String'];
+  user_id: Scalars['Int'];
+};
+
 export type UserSplitContractCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   enabled: Scalars['Boolean'];
@@ -21394,6 +22152,10 @@ export type UserSplitContractSumOrderByAggregateInput = {
   user_id?: InputMaybe<SortOrder>;
 };
 
+export type UserSplitContractUpdateCustomInput = {
+  enabled: Scalars['Boolean'];
+};
+
 export type UserSplitContractUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   enabled?: InputMaybe<BoolFieldUpdateOperationsInput>;
@@ -21467,6 +22229,11 @@ export type UserSplitContractUpsertWithoutSplit_ContractInput = {
   update: UserSplitContractUpdateWithoutSplit_ContractInput;
 };
 
+export type UserSplitContractWhereCustomInput = {
+  user_id: Scalars['Int'];
+  user_split_contract_id: Scalars['Int'];
+};
+
 export type UserSplitContractWhereInput = {
   AND?: InputMaybe<Array<UserSplitContractWhereInput>>;
   NOT?: InputMaybe<Array<UserSplitContractWhereInput>>;
@@ -21482,7 +22249,13 @@ export type UserSplitContractWhereInput = {
 
 export type UserSplitContractWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
-  user_id?: InputMaybe<Scalars['Int']>;
+};
+
+export type UserSplitPayment = {
+  amount: Scalars['Float'];
+  chain_id: Scalars['String'];
+  erc20_address: Scalars['String'];
+  split_address: Scalars['String'];
 };
 
 export type UserSumAggregate = {
@@ -22854,6 +23627,44 @@ export type UpdateVerificationSettingMutationVariables = Exact<{
 
 export type UpdateVerificationSettingMutation = { result?: { id: number, createdAt: string | Date, updatedAt: string | Date, num_of_attestations: number } | null };
 
+export type SplitPaymentFragmentFragment = { amount: number, erc20_address: string, chain_id: string, split_address: string };
+
+export type GetTotalSentSplitPaymentsForUserQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type GetTotalSentSplitPaymentsForUserQuery = { result: Array<{ amount: number, erc20_address: string, chain_id: string, split_address: string }> };
+
+export type GetTotalReceivedSplitPaymentsForUserQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type GetTotalReceivedSplitPaymentsForUserQuery = { result: Array<{ amount: number, erc20_address: string, chain_id: string, split_address: string }> };
+
+export type CreateUserSplitContractMutationVariables = Exact<{
+  data: UserSplitContractCreateCustomInput;
+}>;
+
+
+export type CreateUserSplitContractMutation = { result: { id: number, chain_id: number, address: string, user_split_contract_id?: number | null } };
+
+export type UpdateUserSplitContractMutationVariables = Exact<{
+  where: UserSplitContractWhereCustomInput;
+  data: UserSplitContractUpdateCustomInput;
+}>;
+
+
+export type UpdateUserSplitContractMutation = { result: { id: number, user_id: number, enabled: boolean } };
+
+export type CreateSplitPaymentMutationVariables = Exact<{
+  data: SplitContractPaymentCreateCustomInput;
+}>;
+
+
+export type CreateSplitPaymentMutation = { result: { id: number, split_contract_id: number, sender_address: string, token_address: string, amount: any } };
+
 export const JobFieldsFragmentFragmentDoc = gql`
     fragment JobFieldsFragment on JobRun {
   id
@@ -23255,6 +24066,14 @@ export const VerificationSettingFragmentFragmentDoc = gql`
   createdAt
   updatedAt
   num_of_attestations
+}
+    `;
+export const SplitPaymentFragmentFragmentDoc = gql`
+    fragment SplitPaymentFragment on UserSplitPayment {
+  amount
+  erc20_address
+  chain_id
+  split_address
 }
     `;
 export const ListJobRunsDocument = gql`
@@ -23865,6 +24684,50 @@ export const UpdateVerificationSettingDocument = gql`
   }
 }
     ${VerificationSettingFragmentFragmentDoc}`;
+export const GetTotalSentSplitPaymentsForUserDocument = gql`
+    query getTotalSentSplitPaymentsForUser($id: Float!) {
+  result: getTotalUserSplitPaymentsSent(id: $id) {
+    ...SplitPaymentFragment
+  }
+}
+    ${SplitPaymentFragmentFragmentDoc}`;
+export const GetTotalReceivedSplitPaymentsForUserDocument = gql`
+    query getTotalReceivedSplitPaymentsForUser($id: Float!) {
+  result: getTotalUserSplitPaymentsReceived(id: $id) {
+    ...SplitPaymentFragment
+  }
+}
+    ${SplitPaymentFragmentFragmentDoc}`;
+export const CreateUserSplitContractDocument = gql`
+    mutation createUserSplitContract($data: UserSplitContractCreateCustomInput!) {
+  result: createUserSplitContract(data: $data) {
+    id
+    chain_id
+    address
+    user_split_contract_id
+  }
+}
+    `;
+export const UpdateUserSplitContractDocument = gql`
+    mutation updateUserSplitContract($where: UserSplitContractWhereCustomInput!, $data: UserSplitContractUpdateCustomInput!) {
+  result: updateUserSplitContract(where: $where, data: $data) {
+    id
+    user_id
+    enabled
+  }
+}
+    `;
+export const CreateSplitPaymentDocument = gql`
+    mutation createSplitPayment($data: SplitContractPaymentCreateCustomInput!) {
+  result: createSplitContractPayment(data: $data) {
+    id
+    split_contract_id
+    sender_address
+    token_address
+    amount
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -24106,6 +24969,21 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateVerificationSetting(variables: UpdateVerificationSettingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateVerificationSettingMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateVerificationSettingMutation>(UpdateVerificationSettingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateVerificationSetting', 'mutation');
+    },
+    getTotalSentSplitPaymentsForUser(variables: GetTotalSentSplitPaymentsForUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTotalSentSplitPaymentsForUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTotalSentSplitPaymentsForUserQuery>(GetTotalSentSplitPaymentsForUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTotalSentSplitPaymentsForUser', 'query');
+    },
+    getTotalReceivedSplitPaymentsForUser(variables: GetTotalReceivedSplitPaymentsForUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTotalReceivedSplitPaymentsForUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTotalReceivedSplitPaymentsForUserQuery>(GetTotalReceivedSplitPaymentsForUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTotalReceivedSplitPaymentsForUser', 'query');
+    },
+    createUserSplitContract(variables: CreateUserSplitContractMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserSplitContractMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserSplitContractMutation>(CreateUserSplitContractDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUserSplitContract', 'mutation');
+    },
+    updateUserSplitContract(variables: UpdateUserSplitContractMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserSplitContractMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserSplitContractMutation>(UpdateUserSplitContractDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUserSplitContract', 'mutation');
+    },
+    createSplitPayment(variables: CreateSplitPaymentMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateSplitPaymentMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateSplitPaymentMutation>(CreateSplitPaymentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createSplitPayment', 'mutation');
     }
   };
 }

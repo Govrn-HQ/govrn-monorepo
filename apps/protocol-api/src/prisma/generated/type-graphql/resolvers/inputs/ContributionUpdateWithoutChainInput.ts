@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput } from "../inputs/ActivityTypeUpdateOneRequiredWithoutContributionsNestedInput";
 import { AttestationUpdateManyWithoutContributionNestedInput } from "../inputs/AttestationUpdateManyWithoutContributionNestedInput";
+import { ContributionPaymentUpdateManyWithoutContributionNestedInput } from "../inputs/ContributionPaymentUpdateManyWithoutContributionNestedInput";
 import { ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput } from "../inputs/ContributionStatusUpdateOneRequiredWithoutContributionsNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { GuildContributionUpdateManyWithoutContributionNestedInput } from "../inputs/GuildContributionUpdateManyWithoutContributionNestedInput";
@@ -98,4 +99,9 @@ export class ContributionUpdateWithoutChainInput {
     nullable: true
   })
   tx_hash?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentUpdateManyWithoutContributionNestedInput, {
+    nullable: true
+  })
+  contribution_tip?: ContributionPaymentUpdateManyWithoutContributionNestedInput | undefined;
 }

@@ -11,9 +11,4 @@ export class UserSplitContractWhereUniqueInput {
     nullable: true
   })
   id?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  user_id?: number | undefined;
 }

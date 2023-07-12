@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../scalars";
 import { ActivityType } from "../models/ActivityType";
 import { Attestation } from "../models/Attestation";
 import { Chain } from "../models/Chain";
+import { ContributionPayment } from "../models/ContributionPayment";
 import { ContributionStatus } from "../models/ContributionStatus";
 import { GuildContribution } from "../models/GuildContribution";
 import { LinearIssue } from "../models/LinearIssue";
@@ -99,6 +100,8 @@ export class Contribution {
     nullable: true
   })
   tx_hash?: string | null;
+
+  contribution_tip?: ContributionPayment[];
 
   @TypeGraphQL.Field(_type => ContributionCount, {
     nullable: true

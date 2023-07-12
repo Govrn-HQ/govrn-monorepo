@@ -63,19 +63,9 @@
       "request": "launch",
       "python": "${workspaceFolder}/apps/jobs/twitter-contribution/.venv/bin/python3.9",
       "cwd": "${workspaceFolder}/apps/jobs/twitter-contribution/",
-      "program": "${workspaceFolder}/apps/jobs/twitter-contribution/bot/common/tasks/weekly_contributions.py",
+      "program": "${workspaceFolder}/apps/jobs/twitter-contribution/twitter_contribution/__main__.py",
       "console": "integratedTerminal",
       "envFile": "${workspaceFolder}/apps/jobs/twitter-contribution/.env"
     },
-    {
-      "name": "Python: run twitter job tests",
-      "type": "python",
-      "request": "launch",
-      "python": "${workspaceFolder}/apps/kevin-malone/.venv/bin/python3",
-      "cwd": "${workspaceFolder}/apps/kevin-malone/",
-      "program": "${workspaceFolder}/apps/kevin-malone/bot/common/tasks/weekly_contributions.py",
-      "console": "integratedTerminal",
-      "envFile": "${workspaceFolder}/apps/kevin-malone/.env"
-    }
   ]
 }

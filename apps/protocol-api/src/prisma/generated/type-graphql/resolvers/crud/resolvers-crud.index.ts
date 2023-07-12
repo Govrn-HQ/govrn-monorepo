@@ -8,6 +8,7 @@ export { CategoryActivityTypeCrudResolver } from "./CategoryActivityType/Categor
 export { ChainCrudResolver } from "./Chain/ChainCrudResolver";
 export { ChainTypeCrudResolver } from "./ChainType/ChainTypeCrudResolver";
 export { ContributionCrudResolver } from "./Contribution/ContributionCrudResolver";
+export { ContributionPaymentCrudResolver } from "./ContributionPayment/ContributionPaymentCrudResolver";
 export { ContributionStatusCrudResolver } from "./ContributionStatus/ContributionStatusCrudResolver";
 export { DiscordUserCrudResolver } from "./DiscordUser/DiscordUserCrudResolver";
 export { GuildCrudResolver } from "./Guild/GuildCrudResolver";

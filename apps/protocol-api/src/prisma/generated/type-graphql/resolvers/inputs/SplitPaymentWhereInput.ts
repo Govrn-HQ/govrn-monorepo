@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BigIntFilter } from "../inputs/BigIntFilter";
+import { ContributionPaymentListRelationFilter } from "../inputs/ContributionPaymentListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
@@ -88,4 +89,9 @@ export class SplitPaymentWhereInput {
     nullable: true
   })
   split_contract?: SplitContractRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentListRelationFilter, {
+    nullable: true
+  })
+  contribution_payments?: ContributionPaymentListRelationFilter | undefined;
 }

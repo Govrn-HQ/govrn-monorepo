@@ -3,6 +3,7 @@ import { ActivityType } from "../../../models/ActivityType";
 import { Attestation } from "../../../models/Attestation";
 import { Chain } from "../../../models/Chain";
 import { Contribution } from "../../../models/Contribution";
+import { ContributionPayment } from "../../../models/ContributionPayment";
 import { ContributionStatus } from "../../../models/ContributionStatus";
 import { GuildContribution } from "../../../models/GuildContribution";
 import { LinearIssue } from "../../../models/LinearIssue";
@@ -10,6 +11,7 @@ import { Partner } from "../../../models/Partner";
 import { TwitterTweetContribution } from "../../../models/TwitterTweetContribution";
 import { User } from "../../../models/User";
 import { ContributionAttestationsArgs } from "./args/ContributionAttestationsArgs";
+import { ContributionContribution_tipArgs } from "./args/ContributionContribution_tipArgs";
 import { ContributionGuildsArgs } from "./args/ContributionGuildsArgs";
 import { ContributionPartnersArgs } from "./args/ContributionPartnersArgs";
 import { ContributionTwitter_tweet_contributionsArgs } from "./args/ContributionTwitter_tweet_contributionsArgs";
@@ -114,5 +116,16 @@ export class ContributionRelationsResolver {
         id: contribution.id,
       },
     }).chain({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [ContributionPayment], {
+    nullable: false
+  })
+  async contribution_tip(@TypeGraphQL.Root() contribution: Contribution, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: ContributionContribution_tipArgs): Promise<ContributionPayment[]> {
+    return getPrismaFromContext(ctx).contribution.findUnique({
+      where: {
+        id: contribution.id,
+      },
+    }).contribution_tip(args);
   }
 }

@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BigIntFieldUpdateOperationsInput } from "../inputs/BigIntFieldUpdateOperationsInput";
+import { ContributionPaymentUpdateManyWithoutSplit_paymentNestedInput } from "../inputs/ContributionPaymentUpdateManyWithoutSplit_paymentNestedInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { UserUpdateOneWithoutSent_split_paymentsNestedInput } from "../inputs/UserUpdateOneWithoutSent_split_paymentsNestedInput";
@@ -50,4 +51,9 @@ export class SplitPaymentUpdateWithoutSplit_contractInput {
     nullable: true
   })
   sender_user?: UserUpdateOneWithoutSent_split_paymentsNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentUpdateManyWithoutSplit_paymentNestedInput, {
+    nullable: true
+  })
+  contribution_payments?: ContributionPaymentUpdateManyWithoutSplit_paymentNestedInput | undefined;
 }

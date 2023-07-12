@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeCreateNestedOneWithoutContributionsInput } from "../inputs/ActivityTypeCreateNestedOneWithoutContributionsInput";
 import { AttestationCreateNestedManyWithoutContributionInput } from "../inputs/AttestationCreateNestedManyWithoutContributionInput";
 import { ChainCreateNestedOneWithoutContributionsInput } from "../inputs/ChainCreateNestedOneWithoutContributionsInput";
+import { ContributionPaymentCreateNestedManyWithoutContributionInput } from "../inputs/ContributionPaymentCreateNestedManyWithoutContributionInput";
 import { GuildContributionCreateNestedManyWithoutContributionInput } from "../inputs/GuildContributionCreateNestedManyWithoutContributionInput";
 import { LinearIssueCreateNestedOneWithoutContributionInput } from "../inputs/LinearIssueCreateNestedOneWithoutContributionInput";
 import { PartnerCreateNestedManyWithoutContributionInput } from "../inputs/PartnerCreateNestedManyWithoutContributionInput";
@@ -94,4 +95,9 @@ export class ContributionCreateWithoutStatusInput {
     nullable: true
   })
   tx_hash?: string | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentCreateNestedManyWithoutContributionInput, {
+    nullable: true
+  })
+  contribution_tip?: ContributionPaymentCreateNestedManyWithoutContributionInput | undefined;
 }

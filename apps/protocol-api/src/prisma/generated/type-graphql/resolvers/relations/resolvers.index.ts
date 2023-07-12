@@ -8,6 +8,7 @@ export { CategoryActivityTypeRelationsResolver } from "./CategoryActivityType/Ca
 export { ChainRelationsResolver } from "./Chain/ChainRelationsResolver";
 export { ChainTypeRelationsResolver } from "./ChainType/ChainTypeRelationsResolver";
 export { ContributionRelationsResolver } from "./Contribution/ContributionRelationsResolver";
+export { ContributionPaymentRelationsResolver } from "./ContributionPayment/ContributionPaymentRelationsResolver";
 export { ContributionStatusRelationsResolver } from "./ContributionStatus/ContributionStatusRelationsResolver";
 export { DiscordUserRelationsResolver } from "./DiscordUser/DiscordUserRelationsResolver";
 export { GuildRelationsResolver } from "./Guild/GuildRelationsResolver";

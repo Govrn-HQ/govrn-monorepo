@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { ActivityTypeOrderByWithRelationInput } from "../inputs/ActivityTypeOrderByWithRelationInput";
 import { AttestationOrderByRelationAggregateInput } from "../inputs/AttestationOrderByRelationAggregateInput";
 import { ChainOrderByWithRelationInput } from "../inputs/ChainOrderByWithRelationInput";
+import { ContributionPaymentOrderByRelationAggregateInput } from "../inputs/ContributionPaymentOrderByRelationAggregateInput";
 import { ContributionStatusOrderByWithRelationInput } from "../inputs/ContributionStatusOrderByWithRelationInput";
 import { GuildContributionOrderByRelationAggregateInput } from "../inputs/GuildContributionOrderByRelationAggregateInput";
 import { LinearIssueOrderByWithRelationInput } from "../inputs/LinearIssueOrderByWithRelationInput";
@@ -126,4 +127,9 @@ export class ContributionOrderByWithRelationInput {
     nullable: true
   })
   tx_hash?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => ContributionPaymentOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  contribution_tip?: ContributionPaymentOrderByRelationAggregateInput | undefined;
 }
